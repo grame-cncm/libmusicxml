@@ -3021,14 +3021,14 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
   S_msrVoice
     voice =
       fCurrentMeasureClone->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ();
+        getMeasureSegmentUpLink ()->
+          getSegmentVoiceUpLink ();
 
   // fetch the part measure position high tide
   rational
     partActualMeasureWholeNotesHighTide = // JMI
       fCurrentMeasureClone->
-        fetchMeasurePartUplink ()->
+        fetchMeasurePartUpLink ()->
           getPartActualMeasureWholeNotesHighTide ();
 
   // get the measure number
@@ -3158,7 +3158,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' in voice \"" <<
           elt->
-            fetchMeasureVoiceUplink ()->
+            fetchMeasureVoiceUpLink ()->
               getVoiceName () <<
           "\" is of unknown kind";
 
@@ -3319,7 +3319,7 @@ void msr2BsrTranslator::visitStart (S_msrSyllable& elt)
   else if (fOnGoingNote) { // JMI
     // visiting a syllable as attached to the current non-grace note
     fCurrentSyllableClone->
-      appendSyllableToNoteAndSetItsNoteUplink (
+      appendSyllableToNoteAndSetItsNoteUpLink (
         fCurrentNonGraceNoteClone);
 
     if (gBsrOptions->fAddWordsFromTheLyrics) {
@@ -4324,14 +4324,14 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   S_msrNote
     noteNotesGroupIsAttachedTo =
       elt->
-        getGraceNotesGroupNoteUplink ();
+        getGraceNotesGroupNoteUpLink ();
 
   if (! noteNotesGroupIsAttachedTo) {
     stringstream s;
 
     s <<
       "grace notes group '" << elt->asShortString () <<
-      "' has an empty note uplink";
+      "' has an empty note upLink";
 
     msrInternalError (
       gGeneralOptions->fInputSourceName,
@@ -5743,7 +5743,7 @@ void msr2BsrTranslator::visitStart (S_msrRepeat& elt)
       ", line " << inputLineNumber <<
       ", in voice \"" <<
       elt->
-        getRepeatVoiceUplink ()->
+        getRepeatVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
       endl;
@@ -5885,7 +5885,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     createRepeatUponItsEndAndAppendItToVoiceClone ( // JMI
       inputLineNumber,
       elt->
-        getRepeatCommonPartRepeatUplink ()->
+        getRepeatCommonPartRepeatUpLink ()->
           getRepeatTimes ());
 }
 
@@ -6019,10 +6019,10 @@ void msr2BsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 
   gIndenter--;
 
-  // get the measures repeat uplink
+  // get the measures repeat upLink
   S_msrMeasuresRepeat
     measuresRepeat =
-      elt->getMeasuresRepeatUplink ();
+      elt->getMeasuresRepeatUpLink ();
 
   // create a measures repeat and append it to voice clone
 #ifdef TRACE_OPTIONS

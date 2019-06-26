@@ -30,14 +30,14 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
   int                    inputLineNumber,
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
-  S_msrVoice             graceNotesGroupVoiceUplink)
+  S_msrVoice             graceNotesGroupVoiceUpLink)
 {
   msrGraceNotesGroup* o =
     new msrGraceNotesGroup (
       inputLineNumber,
       graceNotesGroupKind,
       graceNotesGroupIsSlashed,
-      graceNotesGroupVoiceUplink);
+      graceNotesGroupVoiceUpLink);
   assert(o!=0);
 
   return o;
@@ -47,16 +47,16 @@ msrGraceNotesGroup::msrGraceNotesGroup (
   int                    inputLineNumber,
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
-  S_msrVoice             graceNotesGroupVoiceUplink)
+  S_msrVoice             graceNotesGroupVoiceUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    graceNotesGroupVoiceUplink != nullptr,
-    "graceNotesGroupVoiceUplink is null");
+    graceNotesGroupVoiceUpLink != nullptr,
+    "graceNotesGroupVoiceUpLink is null");
 
-  fGraceNotesGroupVoiceUplink =
-    graceNotesGroupVoiceUplink;    
+  fGraceNotesGroupVoiceUpLink =
+    graceNotesGroupVoiceUpLink;    
 
   fGraceNotesGroupKind = graceNotesGroupKind;
   
@@ -107,11 +107,11 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
   return newbornClone;
 }
 
-S_msrPart msrGraceNotesGroup::fetchGraceNotesGroupPartUplink () const
+S_msrPart msrGraceNotesGroup::fetchGraceNotesGroupPartUpLink () const
 {
   return
-    fGraceNotesGroupVoiceUplink->
-      fetchVoicePartUplink ();
+    fGraceNotesGroupVoiceUpLink->
+      fetchVoicePartUpLink ();
 }
 
 string msrGraceNotesGroup::graceNotesGroupKindAsString (
@@ -237,7 +237,7 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
       "' to grace notes group" <<
       asShortString () <<
       " in voice \"" <<
-      fGraceNotesGroupVoiceUplink->getVoiceName () <<
+      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -245,9 +245,9 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 
   fGraceNotesGroupElementsList.push_back (note);
 
-  // register note's grace notes groups uplink
+  // register note's grace notes groups upLink
   note->
-    setNoteGraceNotesGroupUplink (this);
+    setNoteGraceNotesGroupUpLink (this);
 
   // is this grace note tied?
   if (note->getNoteTie ()) {
@@ -265,7 +265,7 @@ void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
       "' to grace notes group '" <<
       asShortString () <<
       "' in voice \"" <<
-      fGraceNotesGroupVoiceUplink->getVoiceName () <<
+      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -283,7 +283,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
       "Removing last note from grace notes group '" <<
       asShortString () <<
       "' in voice \"" <<
-      fGraceNotesGroupVoiceUplink->getVoiceName () <<
+      fGraceNotesGroupVoiceUpLink->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -464,10 +464,10 @@ void msrGraceNotesGroup::print (ostream& os)
   
   os <<
     setw (fieldWidth) <<
-    "graceNotesGroupVoiceUplink" << " : ";
-    if (fGraceNotesGroupVoiceUplink) {
+    "graceNotesGroupVoiceUpLink" << " : ";
+    if (fGraceNotesGroupVoiceUpLink) {
       os <<
-        fGraceNotesGroupVoiceUplink->asShortString ();
+        fGraceNotesGroupVoiceUpLink->asShortString ();
     }
     else {
       os <<
@@ -477,10 +477,10 @@ void msrGraceNotesGroup::print (ostream& os)
     
   os <<
     setw (fieldWidth) <<
-    "graceNotesGroupNoteUplink" << " : ";
-    if (fGraceNotesGroupNoteUplink) {
+    "graceNotesGroupNoteUpLink" << " : ";
+    if (fGraceNotesGroupNoteUpLink) {
       os <<
-        fGraceNotesGroupNoteUplink->asShortString ();
+        fGraceNotesGroupNoteUpLink->asShortString ();
     }
     else {
       os <<

@@ -262,9 +262,9 @@ void msrTuplet::addNoteToTuplet (
 
   fTupletElementsList.push_back (note);
 
-  // register note's tuplet uplink
+  // register note's tuplet upLink
   note->
-    setNoteTupletUplink (this);
+    setNoteTupletUpLink (this);
 
   // account for note duration
   fTupletSoundingWholeNotes +=
@@ -495,9 +495,9 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       note <<
       " from tuplet " << asString () <<
       "' in voice \"" <<
-      fTupletMeasureUplink->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
+      fTupletMeasureUpLink->
+        getMeasureSegmentUpLink ()->
+          getSegmentVoiceUpLink ()->
             getVoiceName () <<
       "\"," <<
       " since it has not been found";
@@ -516,9 +516,9 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
     s <<
       "cannot remove the first note of an empty tuplet " <<
       "' in voice \"" <<
-      fTupletMeasureUplink->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
+      fTupletMeasureUpLink->
+        getMeasureSegmentUpLink ()->
+          getSegmentVoiceUpLink ()->
             getVoiceName () <<
       "\"";
 
@@ -587,9 +587,9 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
     s <<
       "cannot remove the last note of an empty tuplet " <<
       "' in voice \"" <<
-      fTupletMeasureUplink->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
+      fTupletMeasureUpLink->
+        getMeasureSegmentUpLink ()->
+          getSegmentVoiceUpLink ()->
             getVoiceName () <<
       "\"";
 
@@ -652,7 +652,8 @@ rational msrTuplet::setTupletPositionInMeasure (
     ) {
       // note
       note->
-        setNotePositionInMeasure (currentPosition);
+        setNotePositionInMeasure (
+          currentPosition);
 
       currentPosition +=
         note->
@@ -664,7 +665,8 @@ rational msrTuplet::setTupletPositionInMeasure (
     ) {
       // chord
       chord->
-        setChordPositionInMeasure (currentPosition);
+        setChordPositionInMeasure (
+          currentPosition);
 
       currentPosition +=
         chord->

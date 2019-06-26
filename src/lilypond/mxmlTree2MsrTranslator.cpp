@@ -651,7 +651,8 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   string partID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
+// JMI  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partID << "\"" <<
@@ -5114,7 +5115,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
       break;
 
     case msrLigature::kLigatureStop:
-      // set spanner two-way sidelinks
+      // set spanner two-way sideLinks
       // between both ends of the ligature spanner
 
       switch (fCurrentDirectionPlacementKind) {
@@ -5136,7 +5137,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
           }
           else {
             ligature->
-              setLigatureOtherEndSidelink (
+              setLigatureOtherEndSideLink (
                 fCurrentLigatureStartAbove);
           }
 
@@ -5159,7 +5160,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
           }
           else {
             ligature->
-              setLigatureOtherEndSidelink (
+              setLigatureOtherEndSideLink (
                 fCurrentLigatureStartBelow);
           }
 
@@ -5893,7 +5894,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   // don't forget about fCurrentLyricTextsList here,
   // this will be done in visitStart ( S_syllabic& )
 
-  // appendSyllableToNoteAndSetItsNoteUplink()
+  // appendSyllableToNoteAndSetItsNoteUpLink()
   // will be called in handleLyrics(),
   // after the note has been created
 
@@ -5990,7 +5991,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   }
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+// JMI  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << fCurrentMeasureNumber <<
@@ -10912,7 +10914,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
       break;
 
     case kSpannerTypeStop:
-      // set spanner two-way sidelinks
+      // set spanner two-way sideLinks
       // between both ends of the wavy line spanner
       if (! fCurrentWavyLineSpannerStart) {
         stringstream s;
@@ -10929,7 +10931,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         fCurrentSpannersList.push_back (spanner);
 
         spanner->
-          setSpannerOtherEndSidelink (
+          setSpannerOtherEndSideLink (
             fCurrentWavyLineSpannerStart);
 
         // forget about this wavy line spanner start
@@ -13563,11 +13565,11 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   copyNoteElementsToChord (
     chordFirstNote, chord);
 
-  // get chordFirstNote's measure uplink
+  // get chordFirstNote's measure upLink
   S_msrMeasure
-    chordFirstNoteMeasureUplink =
+    chordFirstNoteMeasureUpLink =
       chordFirstNote->
-        getNoteMeasureUplink ();
+        getNoteMeasureUpLink ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes || gMsrOptions->fDisplayMsrDetails) {
@@ -13582,9 +13584,9 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
       "+++++++++++++++++" <<
       endl <<
       endl <<
-      "++++++++++++++++ chordFirstNote->getNoteMeasureUplink () =";
+      "++++++++++++++++ chordFirstNote->getNoteMeasureUpLink () =";
 
-    if (chordFirstNoteMeasureUplink) {
+    if (chordFirstNoteMeasureUpLink) {
       fLogOutputStream <<
         endl <<
         endl;
@@ -13601,10 +13603,10 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   if (! chordFirstNote->getNoteIsAGraceNote ()) { // JMI
     // register the chord as non cross staff
     fCurrentChordStaffNumber =
-      chordFirstNoteMeasureUplink->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
-            getVoiceStaffUplink ()->
+      chordFirstNoteMeasureUpLink->
+        getMeasureSegmentUpLink ()->
+          getSegmentVoiceUpLink ()->
+            getVoiceStaffUpLink ()->
               getStaffNumber ();
   }
     */
@@ -13635,7 +13637,7 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
  // fVoicesCurrentChordMap [voice] = chord;
   fVoicesCurrentChordMap [
     make_pair (
-      voice->getVoiceStaffUplink ()->getStaffNumber (),
+      voice->getVoiceStaffUpLink ()->getStaffNumber (),
       voice->getVoiceNumber ())] =
       chord;
 
@@ -14643,7 +14645,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    // only after addNoteToTuplet() has set the note's tuplet uplink
+    // only after addNoteToTuplet() has set the note's tuplet upLink
     fLogOutputStream <<
       "Adding first note " <<
       firstNote->
@@ -15140,9 +15142,9 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
         note->
           appendSpannerToNote (spanner);
 
-        // set spanner note uplink
+        // set spanner note upLink
         spanner->
-          setSpannerNoteUplink (note);
+          setSpannerNoteUpLink (note);
 
         // forget about this spanner
         fCurrentSpannersList.pop_front ();
@@ -15999,9 +16001,9 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
         S_msrVoice
           noteVoice =
             note->
-              getNoteMeasureUplink ()->
-                getMeasureSegmentUplink ()->
-                  getSegmentVoiceUplink ();
+              getNoteMeasureUpLink ()->
+                getMeasureSegmentUpLink ()->
+                  getSegmentVoiceUpLink ();
 
         // handle ligature placement kind
         switch (ligaturePlacementKind) {
@@ -17539,21 +17541,10 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
   int pendingHarmoniesNumber =
     fPendingHarmoniesList.size ();
 
-  if (pendingHarmoniesNumber > 1) {
-    // sort the pending harmonies in increasing whole notes offsets,
-    // necessary both for MSR and code generation
-    // and the detection of multi-occurrence whole notes offsets
-    fPendingHarmoniesList.sort (
-      msrHarmony::compareHarmoniesByIncreasingOffset);
-  }
-
   rational
     newNoteSoundingWholeNotes =
       newNote->
         getNoteSoundingWholeNotes ();
-
-  rational previousHarmonyWhoseNotesOffset =
-    rational (-1000, 1);
 
   while (fPendingHarmoniesList.size ()) { // recompute at each iteration
     S_msrHarmony
@@ -17566,29 +17557,20 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
         harmony->
           getHarmonyWholeNotesOffset ();
 
-    // MusicXML harmonies don't have a duration,
-    // and MSR could follow this line,
-    // but LilyPond needs one...
-    // bold choice:
-    //   all pending harmonies with offset <= 0 take an equal share
-    //   of the note's sounding whole notes
+    /*
+       MusicXML harmonies don't have a duration,
+       and MSR could follow this line, but LilyPond needs one...
+       So:
+         - we register all harmonies with the duration of the next note
+         - they will be sorted by position in the measure in finalizeMeasure(),
+           at which time their duration may then be shortened
+           so that the offsets values are enforced
+    */
 
-    // set the harmony's souding whole notes
-    if (harmonyWholeNotesOffset.getNumerator () > 0) {
-      // decrement the harmony's duration as much
+    // set the harmony's sounding whole notes
       harmony->
         setHarmonySoundingWholeNotes (
-          newNoteSoundingWholeNotes
-            -
-          harmonyWholeNotesOffset);
-    }
-    else {
-      harmony->
-        setHarmonySoundingWholeNotes (
-          fCurrentNoteSoundingWholeNotes
-            /
-          pendingHarmoniesNumber);
-    }
+          newNoteSoundingWholeNotes);
 
     // set the harmony's display whole notes
     harmony->
@@ -17606,65 +17588,23 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     S_msrVoice
       voiceHarmonyVoice =
         voiceToInsertInto->
-          getHarmonyVoiceForRegularVoice ();
+          getHarmonyVoiceForRegularVoiceForwardLink ();
 
-    // set the harmony's voice uplink
+    // set the harmony's voice upLink
     // only now that we know which harmony voice will contain it
     harmony->
-      setHarmonyVoiceUplink (
+      setHarmonyVoiceUpLink (
  // JMI       voiceToInsertInto);
         voiceHarmonyVoice);
 
-    // has the harmony whole notes offset already been used
-    // at the same point in time?
-    if (harmonyWholeNotesOffset == previousHarmonyWhoseNotesOffset) {
-      stringstream s;
+    // attach the harmony to the note
+    newNote->
+      setNoteHarmony (harmony);
 
-      s <<
-        "harmonyWholeNotesOffset '" <<
-        harmonyWholeNotesOffset <<
-        "' already occured in that same point in time, ignoring it";
-
-      msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-//        __FILE__, __LINE__,
-        s.str ());
-    }
-
-    else {
-      // attach the harmony to the note
-      newNote->
-        setNoteHarmony (harmony);
-
-      // append the harmony to the harmony voice for the current voice,
-      // unless newNote is a tuplet or chord note,
-      // in which case that will be done after the tuplet or chord
-      // is appended to its own voice,
-      // to ensure the harmony's position in measure can be determined
-      switch (newNote->getNoteKind ()) {
-        case msrNote::k_NoNoteKind:
-        case msrNote::kRestNote:
-        case msrNote::kSkipNote:
-        case msrNote::kUnpitchedNote:
-        case msrNote::kStandaloneNote:
-        case msrNote::kDoubleTremoloMemberNote:
-        case msrNote::kGraceNote:
-          voiceHarmonyVoice->
-            appendHarmonyToVoice (
-              harmony);
-          break;
-
-        case msrNote::kGraceChordMemberNote:
-        case msrNote::kChordMemberNote:
-        case msrNote::kTupletMemberNote:
-        case msrNote::kGraceTupletMemberNote:
-        case msrNote::kTupletMemberUnpitchedNote:
-          break;
-      } // switch
-
-      previousHarmonyWhoseNotesOffset = harmonyWholeNotesOffset;
-    }
+    // append the harmony to the harmony voice for the current voice
+    voiceHarmonyVoice->
+      appendHarmonyToVoice (
+        harmony);
 
     // remove it from the list
     fPendingHarmoniesList.pop_front ();
@@ -17681,9 +17621,9 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
       figuredBass =
         fPendingFiguredBassesList.front ();
 
-    // set the figured bass's voice uplink
+    // set the figured bass's voice upLink
     figuredBass->
-      setFiguredBassVoiceUplink (
+      setFiguredBassVoiceUpLink (
         voiceToInsertInto);
 
     // set the figured bass's whole notes
@@ -17706,7 +17646,7 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
     S_msrVoice
       voiceFiguredBassVoice =
         voiceToInsertInto->
-          getFiguredBassVoiceForRegularVoice ();
+          getFiguredBassVoiceForRegularVoiceForwardLink ();
 
     voiceFiguredBassVoice->
       appendFiguredBassToVoice (
@@ -18173,9 +18113,9 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       S_msrSyllable
         syllable = (*i);
 
-      // set syllable note uplink to newNote
+      // set syllable note upLink to newNote
       syllable->
-        appendSyllableToNoteAndSetItsNoteUplink (
+        appendSyllableToNoteAndSetItsNoteUpLink (
           newNote);
     } // for
 
@@ -18241,9 +18181,9 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
                   fCurrentNoteNormalNotes),
                 stanza);
 
-          // set syllable note uplink to newNote
+          // set syllable note upLink to newNote
           syllable->
-            appendSyllableToNoteAndSetItsNoteUplink (
+            appendSyllableToNoteAndSetItsNoteUpLink (
               newNote);
 
           // append syllable to stanza
@@ -20683,7 +20623,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
     harmony =
       msrHarmony::create (
         fCurrentHarmonyInputLineNumber,
-        // no harmonyVoiceUplink yet
+        // no harmonyVoiceUpLink yet
 
         fCurrentHarmonyRootQuarterTonesPitchKind,
 
@@ -20720,9 +20660,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
         harmonyDegree =
           fCurrentHarmonyDegreesList.front ();
 
-      // set harmony degree harmony uplink
+      // set harmony degree harmony upLink
       harmonyDegree->
-        setHarmonyDegreeHarmonyUplink (
+        setHarmonyDegreeHarmonyUpLink (
           harmony);
 
       // append it to harmony's degrees list

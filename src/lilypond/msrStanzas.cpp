@@ -24,20 +24,20 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 S_msrStanza msrStanza::create (
   int           inputLineNumber,
   string        stanzaNumber,
-  S_msrVoice    stanzaVoiceUplink)
+  S_msrVoice    stanzaVoiceUpLink)
 {
   msrStanza* o =
     new msrStanza (
       inputLineNumber,
       stanzaNumber,
-      stanzaVoiceUplink);
+      stanzaVoiceUpLink);
   assert(o!=0);
 
   return o;
@@ -46,7 +46,7 @@ S_msrStanza msrStanza::create (
 msrStanza::msrStanza (
   int           inputLineNumber,
   string        stanzaNumber,
-  S_msrVoice    stanzaVoiceUplink)
+  S_msrVoice    stanzaVoiceUpLink)
     : msrElement (inputLineNumber)
 {
   // set stanza number and kind
@@ -54,13 +54,13 @@ msrStanza::msrStanza (
 
   // sanity check
   msrAssert(
-    stanzaVoiceUplink != nullptr,
-    "stanzaVoiceUplink is null");
+    stanzaVoiceUpLink != nullptr,
+    "stanzaVoiceUpLink is null");
 
-  // set stanza's voice uplink
-  fStanzaVoiceUplink =
-    stanzaVoiceUplink;
-  
+  // set stanza's voice upLink
+  fStanzaVoiceUpLink =
+    stanzaVoiceUpLink;
+
   // do other initializations
   initializeStanza ();
 }
@@ -68,12 +68,12 @@ msrStanza::msrStanza (
 void msrStanza::initializeStanza ()
 {
   fStanzaName =
-    fStanzaVoiceUplink->getVoiceName () +
-    "_Stanza_" + 
+    fStanzaVoiceUpLink->getVoiceName () +
+    "_Stanza_" +
       stringNumbersToEnglishWords (
         makeSingleWordFromString (
           fStanzaNumber));
- 
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
     glogIOstream <<
@@ -109,7 +109,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrStanza
     newbornClone =
       msrStanza::create (
@@ -129,10 +129,10 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
   newbornClone->fStanzaTextPresent =
     fStanzaTextPresent;
 
-  // uplinks
-  newbornClone->fStanzaVoiceUplink =
+  // upLinks
+  newbornClone->fStanzaVoiceUpLink =
     containingVoice;
-  
+
   return newbornClone;
 }
 
@@ -155,7 +155,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrStanza
     stanzaDeepCopy =
       msrStanza::create (
@@ -178,16 +178,16 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
       fSyllables [i]->
         createSyllableDeepCopy (
           containingVoice->
-            fetchVoicePartUplink ()));
+            fetchVoicePartUpLink ()));
   } // for
 
   stanzaDeepCopy->fStanzaTextPresent =
     fStanzaTextPresent;
 
-  // uplinks
-  stanzaDeepCopy->fStanzaVoiceUplink =
+  // upLinks
+  stanzaDeepCopy->fStanzaVoiceUpLink =
     containingVoice;
-  
+
   return stanzaDeepCopy;
 }
 
@@ -202,13 +202,13 @@ void msrStanza::appendSyllableToStanza (
       endl;
   }
 #endif
-      
+
   // append the syllable to this stanza
   fSyllables.push_back (syllable);
 
   // does this stanza contain text?
   switch (syllable->getSyllableKind ()) {
-    
+
     case msrSyllable::kSyllableSingle:
     case msrSyllable::kSyllableBegin:
     case msrSyllable::kSyllableMiddle:
@@ -217,13 +217,13 @@ void msrStanza::appendSyllableToStanza (
       // from LPSR for example
       fStanzaTextPresent = true;
       break;
-      
+
     case msrSyllable::kSyllableSkip:
     case msrSyllable::kSyllableMeasureEnd:
     case msrSyllable::kSyllableLineBreak:
     case msrSyllable::kSyllablePageBreak:
       break;
-      
+
     case msrSyllable::kSyllableNone:
       msrInternalError (
         gGeneralOptions->fInputSourceName,
@@ -238,7 +238,7 @@ void msrStanza::appendSyllableToStanza (
   rational
     syllableSoundingWholeNotes =
       syllable->
-        getSyllableNoteUplink ()->
+        getSyllableNoteUpLink ()->
           getNoteSoundingWholeNotes ();
 
   // update the stanza's current measure whole notes
@@ -262,7 +262,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
 #endif
 
   gIndenter++;
-  
+
   // create stanza rest syllable
   S_msrSyllable
     syllable =
@@ -278,7 +278,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   appendSyllableToStanza (syllable);
 
   gIndenter--;
-  
+
   // and return it
   return syllable;
 }
@@ -299,7 +299,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 #endif
 
   gIndenter++;
-  
+
   // create stanza skip syllable
   S_msrSyllable
     syllable =
@@ -315,7 +315,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   appendSyllableToStanza (syllable);
 
   gIndenter--;
-  
+
   // and return it
   return syllable;
 }
@@ -334,7 +334,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
 #endif
 
   gIndenter++;
-  
+
   // create stanza skip syllable
   S_msrSyllable
     syllable =
@@ -353,7 +353,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   fStanzaActualMeasureWholeNotes = rational (0, 1);
 
   gIndenter--;
-  
+
   // and return it
   return syllable;
 }
@@ -378,7 +378,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
 #endif
 
   gIndenter++;
-  
+
   // create stanza melisma syllable
   S_msrSyllable
     syllable =
@@ -394,7 +394,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   appendSyllableToStanza (syllable);
 
   gIndenter--;
-  
+
   // and return it
   return syllable;
 }
@@ -413,7 +413,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
 #endif
 
   gIndenter++;
-  
+
   // create stanza line break syllable
   S_msrSyllable
     syllable =
@@ -429,7 +429,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   appendSyllableToStanza (syllable);
 
   gIndenter--;
-  
+
   // and return it
   return syllable;
 }
@@ -449,7 +449,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
 #endif
 
   gIndenter++;
-  
+
   // create stanza break syllable
   S_msrSyllable
     syllable =
@@ -461,12 +461,12 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
         0, // whole notes
         msrTupletFactor (),
         this);
-        
+
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
   gIndenter--;
-  
+
   // and return it
   return syllable;
 }
@@ -486,7 +486,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
 #endif
 
   gIndenter++;
-  
+
   // create stanza break syllable
   S_msrSyllable
     syllable =
@@ -498,12 +498,12 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
         0, // whole notes
         msrTupletFactor (),
         this);
-        
+
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
   gIndenter--;
-  
+
   // and return it
   return syllable;
 }
@@ -527,7 +527,7 @@ void msrStanza::appendPaddingNoteToStanza (
       " divisions in stanza \"" <<
       fStanzaName <<
       "\" in voice \"" <<
-      fStanzaVoiceUplink->getVoiceName () <<
+      fStanzaVoiceUpLink->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
   }
@@ -536,7 +536,7 @@ void msrStanza::appendPaddingNoteToStanza (
   gIndenter++;
 
   // JMI TO DO ???
-  
+
   gIndenter--;
 }
 
@@ -547,12 +547,12 @@ void msrStanza::acceptIn (basevisitor* v)
       "% ==> msrStanza::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrStanza>*
     p =
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           glogIOstream <<
             "% ==> Launching msrStanza::visitStart ()" <<
@@ -574,7 +574,7 @@ void msrStanza::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           glogIOstream <<
             "% ==> Launching msrStanza::visitEnd ()" <<
@@ -593,7 +593,7 @@ void msrStanza::browseData (basevisitor* v)
   }
 
   gIndenter++;
-  
+
   // browse the syllables
   int n = fSyllables.size ();
   for (int i = 0; i < n; i++) {
@@ -620,7 +620,7 @@ void msrStanza::print (ostream& os)
     "\", " <<
     fSyllables.size () << " syllables)" <<
     endl;
-    
+
   gIndenter++;
 
   if (! fStanzaTextPresent) {
@@ -635,7 +635,7 @@ void msrStanza::print (ostream& os)
         iBegin = fSyllables.begin (),
         iEnd   = fSyllables.end (),
         i      = iBegin;
-        
+
       for ( ; ; ) {
         os << (*i);
         if (++i == iEnd) break;

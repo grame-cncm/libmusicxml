@@ -70,16 +70,16 @@ msrHarmonyDegree::msrHarmonyDegree (
 msrHarmonyDegree::~msrHarmonyDegree ()
 {}
 
-void msrHarmonyDegree::setHarmonyDegreeHarmonyUplink (
-  S_msrHarmony harmonyUplink)
+void msrHarmonyDegree::setHarmonyDegreeHarmonyUpLink (
+  S_msrHarmony harmonyUpLink)
 {
   // sanity check
   msrAssert(
-    harmonyUplink != nullptr,
-     "harmonyUplink is null");
+    harmonyUpLink != nullptr,
+     "harmonyUpLink is null");
 
-  fHarmonyDegreeHarmonyUplink =
-    harmonyUplink;
+  fHarmonyDegreeHarmonyUpLink =
+    harmonyUpLink;
 }
 
 int msrHarmonyDegree::harmonyDegreeAsSemitones () const
@@ -259,7 +259,7 @@ ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt)
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                      inputLineNumber,
-  // no harmonyVoiceUplink yet
+  // no harmonyVoiceUpLink yet
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
   msrHarmonyKind           harmonyKind,
   string                   harmonyKindText,
@@ -292,7 +292,7 @@ S_msrHarmony msrHarmony::create (
 
 S_msrHarmony msrHarmony::create (
   int                      inputLineNumber,
-  S_msrVoice               harmonyVoiceUplink,
+  S_msrVoice               harmonyVoiceUpLink,
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
   msrHarmonyKind           harmonyKind,
   string                   harmonyKindText,
@@ -307,7 +307,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
-      harmonyVoiceUplink,
+      harmonyVoiceUpLink,
       harmonyRootQuarterTonesPitchKind,
       harmonyKind,
       harmonyKindText,
@@ -325,7 +325,7 @@ S_msrHarmony msrHarmony::create (
 
 msrHarmony::msrHarmony (
   int                      inputLineNumber,
-  S_msrVoice               harmonyVoiceUplink,
+  S_msrVoice               harmonyVoiceUpLink,
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
   msrHarmonyKind           harmonyKind,
   string                   harmonyKindText,
@@ -342,13 +342,13 @@ msrHarmony::msrHarmony (
   /* JMI
   // sanity check
   msrAssert(
-    harmonyVoiceUplink != nullptr,
-     "harmonyVoiceUplink is null");
+    harmonyVoiceUpLink != nullptr,
+     "harmonyVoiceUpLink is null");
      */
 
-  // set harmony's voice uplink
-  fHarmonyVoiceUplink =
-    harmonyVoiceUplink;
+  // set harmony's voice upLink
+  fHarmonyVoiceUpLink =
+    harmonyVoiceUpLink;
 
   fHarmonyRootQuarterTonesPitchKind =
     harmonyRootQuarterTonesPitchKind;
@@ -517,14 +517,21 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 
-bool msrHarmony::compareHarmoniesByIncreasingOffset (
-  const SMARTP<msrHarmony>& first,
-  const SMARTP<msrHarmony>& second)
+void msrHarmony::setHarmonyPositionInMeasure (
+  rational positionInMeasure)
 {
-  return
-    first->getHarmonyWholeNotesOffset ()
-      <
-    second->getHarmonyWholeNotesOffset ();
+  // set the harmony position in measure, taking it's offset into account
+
+  // get the note uplink's position in measure
+  rational
+    noteUpLinkPositionInMeasure =
+      fHarmonyNoteUpLink->
+        getPositionInMeasure ();
+
+  // the offset can negative, merely add it
+  // this overwrites it with the same value if fHarmonyWholeNotesOffset is null JMI
+  fPositionInMeasure =
+    noteUpLinkPositionInMeasure + fHarmonyWholeNotesOffset;
 }
 
 void msrHarmony::acceptIn (basevisitor* v)
@@ -681,9 +688,9 @@ void msrHarmony::print (ostream& os)
 
   os <<
     setw (fieldWidth) <<
-    "harmonyNoteUplink" << " : ";
-  if (fHarmonyNoteUplink) {
-    os << fHarmonyNoteUplink->asString ();
+    "harmonyNoteUpLink" << " : ";
+  if (fHarmonyNoteUpLink) {
+    os << fHarmonyNoteUpLink->asString ();
   }
   else {
     os << "none";

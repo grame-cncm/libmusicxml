@@ -97,7 +97,7 @@ S_msrVoice msrVoice::create (
   int          voiceNumber,
   msrVoiceCreateInitialLastSegmentKind
                voiceCreateInitialLastSegmentKind,
-  S_msrStaff   voiceStaffUplink)
+  S_msrStaff   voiceStaffUpLink)
 {
   msrVoice* o =
     new msrVoice (
@@ -105,7 +105,7 @@ S_msrVoice msrVoice::create (
       voiceKind,
       voiceNumber,
       voiceCreateInitialLastSegmentKind,
-      voiceStaffUplink);
+      voiceStaffUpLink);
   assert(o!=0);
 
   return o;
@@ -117,16 +117,16 @@ msrVoice::msrVoice (
   int          voiceNumber,
   msrVoiceCreateInitialLastSegmentKind
                voiceCreateInitialLastSegmentKind,
-  S_msrStaff   voiceStaffUplink)
+  S_msrStaff   voiceStaffUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    voiceStaffUplink != nullptr,
-    "voiceStaffUplink is null");
+    voiceStaffUpLink != nullptr,
+    "voiceStaffUpLink is null");
 
-  // set voice staff uplink
-  fVoiceStaffUplink = voiceStaffUplink;
+  // set voice staff upLink
+  fVoiceStaffUpLink = voiceStaffUpLink;
 
   // set voice kind
   fVoiceKind = voiceKind;
@@ -150,11 +150,11 @@ msrVoice::msrVoice (
 msrVoice::~msrVoice ()
 {}
 
-S_msrPart msrVoice::fetchVoicePartUplink () const
+S_msrPart msrVoice::fetchVoicePartUpLink () const
 {
  return
-  fVoiceStaffUplink->
-    getStaffPartUplink ();
+  fVoiceStaffUpLink->
+    getStaffPartUpLink ();
 }
 
 void msrVoice::setVoiceNameFromNumber (
@@ -176,14 +176,14 @@ void msrVoice::setVoiceNameFromNumber (
   switch (fVoiceKind) {
     case msrVoice::kVoiceRegular:
       fVoiceName =
-        fVoiceStaffUplink->getStaffName () +
+        fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (voiceNumber);
       break;
 
     case msrVoice::kVoiceHarmony:
       fVoiceName =
-        fVoiceStaffUplink->getStaffName () +
+        fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (
           voiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER) +
@@ -192,7 +192,7 @@ void msrVoice::setVoiceNameFromNumber (
 
     case msrVoice::kVoiceFiguredBass:
       fVoiceName =
-        fVoiceStaffUplink->getStaffName () +
+        fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (
           voiceNumber - K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER) +
@@ -349,7 +349,7 @@ void msrVoice::initializeVoice (
 
     case msrVoice::kVoiceFiguredBass:
       fVoiceName =
-        fVoiceStaffUplink->getStaffName () +
+        fVoiceStaffUpLink->getStaffName () +
         "_FIGURED_BASS_Voice";
       break;
   } // switch
@@ -359,7 +359,7 @@ void msrVoice::initializeVoice (
     glogIOstream <<
       "Initializing voice \"" << fVoiceName <<
       "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
+      fVoiceStaffUpLink->getStaffName () <<
       "\"" <<
       endl;
   }
@@ -416,7 +416,7 @@ void msrVoice::initializeVoice (
 
   // set voice number
   fVoiceCurrentMeasureNumber = // JMI "??";
-    fetchVoicePartUplink ()->
+    fetchVoicePartUpLink ()->
       getPartCurrentMeasureNumber ();
 
   // set voice current measure purist number
@@ -454,7 +454,7 @@ void msrVoice::initializeVoice (
     glogIOstream <<
       "Initial contents of voice \"" << fVoiceName <<
       "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
+      fVoiceStaffUpLink->getStaffName () <<
       "\":" <<
       endl;
 
@@ -766,8 +766,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
             voiceDeepCopy));
   } // for
 
-  // uplinks
-  voiceDeepCopy->fVoiceStaffUplink =
+  // upLinks
+  voiceDeepCopy->fVoiceStaffUpLink =
     containingStaff;
 
 #ifdef TRACE_OPTIONS
@@ -1087,16 +1087,16 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
       break;
     case msrVoice::kVoiceRegular:
       // append new measure with given number to voice harmony voice if any
-      if (fHarmonyVoiceForRegularVoice) {
-        fHarmonyVoiceForRegularVoice->
+      if (fHarmonyVoiceForRegularVoiceForwardLink) {
+        fHarmonyVoiceForRegularVoiceForwardLink->
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
             measureImplicitKind);
       }
       // append new measure with given number to voice figured bass voice if any
-      if (fFiguredBassVoiceForRegularVoice) {
-        fFiguredBassVoiceForRegularVoice->
+      if (fFiguredBassVoiceForRegularVoiceForwardLink) {
+        fFiguredBassVoiceForRegularVoiceForwardLink->
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
@@ -1124,7 +1124,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
 {
-  if (fHarmonyVoiceForRegularVoice) {
+  if (fHarmonyVoiceForRegularVoiceForwardLink) {
     stringstream s;
 
     s <<
@@ -1155,32 +1155,32 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
   }
 #endif
 
-  fHarmonyVoiceForRegularVoice =
+  fHarmonyVoiceForRegularVoiceForwardLink =
     msrVoice::create (
       inputLineNumber,
       msrVoice::kVoiceHarmony,
       harmonyVoiceForRegularVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
-      fVoiceStaffUplink);
+      fVoiceStaffUpLink);
 
   // register it in the staff
-  fVoiceStaffUplink->
+  fVoiceStaffUpLink->
     registerVoiceInStaff (
       inputLineNumber,
-      fHarmonyVoiceForRegularVoice);
+      fHarmonyVoiceForRegularVoiceForwardLink);
 
-  // set back link
-  fHarmonyVoiceForRegularVoice->
-    fRegularVoiceForHarmonyVoice = this;
+  // set backward link
+  fHarmonyVoiceForRegularVoiceForwardLink->
+    fRegularVoiceForHarmonyVoiceBackwardLink = this;
 
-  return fHarmonyVoiceForRegularVoice;
+  return fHarmonyVoiceForRegularVoiceForwardLink;
 }
 
 S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
 {
-  if (fFiguredBassVoiceForRegularVoice) {
+  if (fFiguredBassVoiceForRegularVoiceForwardLink) {
     stringstream s;
 
     s <<
@@ -1216,25 +1216,25 @@ S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
   }
 #endif
 
-  fFiguredBassVoiceForRegularVoice =
+  fFiguredBassVoiceForRegularVoiceForwardLink =
     msrVoice::create (
       inputLineNumber,
       msrVoice::kVoiceFiguredBass,
       figuredBassVoiceForRegularVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
-      fVoiceStaffUplink);
+      fVoiceStaffUpLink);
 
   // register it in the staff
-  fVoiceStaffUplink->
+  fVoiceStaffUpLink->
     registerVoiceInStaff (
       inputLineNumber,
-      fFiguredBassVoiceForRegularVoice);
+      fFiguredBassVoiceForRegularVoiceForwardLink);
 
-  // set back link
-  fFiguredBassVoiceForRegularVoice->
-    fRegularVoiceForFiguredBassVoice = this;
+  // set backward link
+  fFiguredBassVoiceForRegularVoiceForwardLink->
+    fRegularVoiceForFiguredBassVoiceBackwardLink = this;
 
-  return fFiguredBassVoiceForRegularVoice;
+  return fFiguredBassVoiceForRegularVoiceForwardLink;
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
@@ -1732,34 +1732,36 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   }
 #endif
 
+/* JMI
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
+/*
   if (false) { // JMI
     // skip to harmony note position in the voice
     padUpToActualMeasureWholeNotesInVoice (
       inputLineNumber,
       harmony->
-        getHarmonyNoteUplink ()->
+        getHarmonyNoteUpLink ()->
           getPositionInMeasure ());
   }
 
-  // get the harmony note uplink
+  // get the harmony note upLink
   S_msrNote
-    harmonyNoteUplink =
+    harmonyNoteUpLink =
       harmony->
-        getHarmonyNoteUplink ();
+        getHarmonyNoteUpLink ();
 
-  // get the harmony note uplink sounding whole notes
+  // get the harmony note upLink sounding whole notes
   rational
-    harmonyNoteUplinkSoundingWholeNotes =
+    harmonyNoteUpLinkSoundingWholeNotes =
       harmony->
         getHarmonySoundingWholeNotes ();
 
-  // get the harmony' note uplink position in measure
+  // get the harmony' note upLink position in measure
   rational
-    harmonyNoteUplinkPositionInMeasure =
-      harmonyNoteUplink->
+    harmonyNoteUpLinkPositionInMeasure =
+      harmonyNoteUpLink->
         getPositionInMeasure ();
 
   // get the harmony whole notes offset
@@ -1771,15 +1773,6 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   // get the harmony whole notes offset numerator
   int harmonyWholeNotesOffsetNumerator =
     harmonyWholeNotesOffset.getNumerator ();
-
-/* JMI
-  // get the staff whole notes high tide
-  rational
-    partActualMeasureWholeNotesHighTide =
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->
-          getPartActualMeasureWholeNotesHighTide ();
-*/
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
@@ -1803,13 +1796,13 @@ void msrVoice::appendHarmonyToHarmonyVoice (
         endl <<
         "appendHarmonyToHarmonyVoice() 2" << // JMI
         endl <<
-        "harmonyNoteUplink:" <<
+        "harmonyNoteUpLink:" <<
         endl;
 
       gIndenter++;
 
       glogIOstream <<
-        harmonyNoteUplink <<
+        harmonyNoteUpLink <<
         endl <<
         endl;
 
@@ -1817,12 +1810,12 @@ void msrVoice::appendHarmonyToHarmonyVoice (
 
       glogIOstream <<
         "appendHarmonyToHarmonyVoice() 3" <<
-        ", harmonyNoteUplinkSoundingWholeNotes = '" <<
-        harmonyNoteUplinkSoundingWholeNotes <<
+        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
+        harmonyNoteUpLinkSoundingWholeNotes <<
         ", harmonyWholeNotesOffset = '" <<
         harmonyWholeNotesOffset <<
-        "', harmonyNoteUplinkPositionInMeasure = '" <<
-        harmonyNoteUplinkPositionInMeasure <<
+        "', harmonyNoteUpLinkPositionInMeasure = '" <<
+        harmonyNoteUpLinkPositionInMeasure <<
         "' in voice " <<
         getVoiceName () <<
         ", line " << inputLineNumber <<
@@ -1838,8 +1831,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     /* JMI SIMONE
     padUpToActualMeasureWholeNotesInVoice (
       inputLineNumber,
-      harmonyNoteUplinkPositionInMeasure);
-      */
+      harmonyNoteUpLinkPositionInMeasure);
   }
 
   else if (harmonyWholeNotesOffsetNumerator < 0) {
@@ -1848,10 +1840,10 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     // --------------------------------------------
 
     // determine the harmony measure position as
-    // 'abs (harmonyWholeNotesOffset)' backward from the note uplink
+    // 'abs (harmonyWholeNotesOffset)' backward from the note upLink
     rational
       harmonyPositionInMeasure =
-        harmonyNoteUplinkPositionInMeasure
+        harmonyNoteUpLinkPositionInMeasure
           -
         harmony->getHarmonySoundingWholeNotes ()
           + // it is negative!
@@ -1863,18 +1855,18 @@ void msrVoice::appendHarmonyToHarmonyVoice (
       glogIOstream <<
         endl <<
         endl <<
-        harmonyNoteUplink <<
+        harmonyNoteUpLink <<
         endl <<
         endl;
 
       glogIOstream <<
         "Handling harmony negative offset" <<
-        ", harmonyNoteUplinkSoundingWholeNotes = '" <<
-        harmonyNoteUplinkSoundingWholeNotes <<
+        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
+        harmonyNoteUpLinkSoundingWholeNotes <<
         ", harmonyWholeNotesOffset = '" <<
         harmonyWholeNotesOffset <<
-        "', harmonyNoteUplinkPositionInMeasure = '" <<
-        harmonyNoteUplinkPositionInMeasure <<
+        "', harmonyNoteUpLinkPositionInMeasure = '" <<
+        harmonyNoteUpLinkPositionInMeasure <<
         "', harmonyPositionInMeasure = '" <<
         harmonyPositionInMeasure <<
         "' in voice " <<
@@ -1895,10 +1887,10 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     // --------------------------------------------
 
     // determine the harmony measure position as
-    // 'harmonyWholeNotesOffset' forward from the note uplink
+    // 'harmonyWholeNotesOffset' forward from the note upLink
     rational
       harmonyPositionInMeasure =
-        harmonyNoteUplinkPositionInMeasure
+        harmonyNoteUpLinkPositionInMeasure
           +
         harmonyWholeNotesOffset;
     harmonyPositionInMeasure.rationalise ();
@@ -1907,12 +1899,12 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       glogIOstream <<
         "Handling harmony positive offset" <<
-        ", harmonyNoteUplinkSoundingWholeNotes = '" <<
-        harmonyNoteUplinkSoundingWholeNotes <<
+        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
+        harmonyNoteUpLinkSoundingWholeNotes <<
         ", harmonyWholeNotesOffset = '" <<
         harmonyWholeNotesOffset <<
-        "', harmonyNoteUplinkPositionInMeasure = '" <<
-        harmonyNoteUplinkPositionInMeasure <<
+        "', harmonyNoteUpLinkPositionInMeasure = '" <<
+        harmonyNoteUpLinkPositionInMeasure <<
         "', harmonyPositionInMeasure = '" <<
         harmonyPositionInMeasure <<
         "' in voice " <<
@@ -1931,16 +1923,17 @@ void msrVoice::appendHarmonyToHarmonyVoice (
       // decrement the harmony's duration as much
       harmony->
         setHarmonySoundingWholeNotes (
-          harmonyNoteUplinkSoundingWholeNotes
+          harmonyNoteUpLinkSoundingWholeNotes
             -
           harmonyWholeNotesOffset);
       harmony->
         setHarmonyDisplayWholeNotes (
-          harmonyNoteUplinkSoundingWholeNotes
+          harmonyNoteUpLinkSoundingWholeNotes
             -
           harmonyWholeNotesOffset);
     }
   }
+      */
 
   // append the harmony to the voice last segment
   fVoiceLastSegment->
@@ -2018,7 +2011,7 @@ void msrVoice::appendFiguredBassToVoice (
       padUpToActualMeasureWholeNotesInVoice (
         inputLineNumber,
         figuredBass->
-          getFiguredBassNoteUplink ()->
+          getFiguredBassNoteUpLink ()->
             getPositionInMeasure ());
 
       // append the figured bass to the voice last segment
@@ -2201,8 +2194,8 @@ void msrVoice:: handleBackup (
   // get the fPartActualMeasureWholeNotesHighTide
   rational
     partActualMeasureWholeNotesHighTide =
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->
+      fVoiceStaffUpLink->
+        getStaffPartUpLink ()->
           getPartActualMeasureWholeNotesHighTide ();
 
   // determine the measure position 'divisions' backward
@@ -2769,13 +2762,13 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
     voiceFirstNote =
       fetchVoiceFirstNonGraceNote (); // JMI
 
-  // get the voice first note's chord uplink
+  // get the voice first note's chord upLink
   S_msrChord
-    firstNoteChordUplink =
+    firstNoteChordUpLink =
       voiceFirstNote->
-        getNoteChordUplink ();
+        getNoteChordUpLink ();
 
-  if (firstNoteChordUplink) {
+  if (firstNoteChordUpLink) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceChords) {
       glogIOstream <<
@@ -2783,13 +2776,13 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
         graceNotesGroup->asString () <<
         "' to the first chord of voice \"" << getVoiceName () <<
         "\", i.e. '" <<
-        firstNoteChordUplink->asShortString () <<
+        firstNoteChordUpLink->asShortString () <<
         "'" <<
         endl;
     }
 #endif
 
-    firstNoteChordUplink->
+    firstNoteChordUpLink->
       setChordGraceNotesGroupBefore (
         graceNotesGroup);
   }
@@ -8808,7 +8801,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
     glogIOstream << left <<
       setw (fieldWidth) <<
       "partActualMeasureWholeNotesHighTide" << " = " <<
-      fetchVoicePartUplink ()->
+      fetchVoicePartUpLink ()->
         getPartActualMeasureWholeNotesHighTide () <<
       endl;
 
@@ -8857,15 +8850,15 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       }
 
       // handle the harmony voice if any
-      if (fHarmonyVoiceForRegularVoice) {
-        fHarmonyVoiceForRegularVoice->
+      if (fHarmonyVoiceForRegularVoiceForwardLink) {
+        fHarmonyVoiceForRegularVoiceForwardLink->
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
       }
 
       // handle the figuredBass voice if any
-      if (fFiguredBassVoiceForRegularVoice) {
-        fFiguredBassVoiceForRegularVoice->
+      if (fFiguredBassVoiceForRegularVoiceForwardLink) {
+        fFiguredBassVoiceForRegularVoiceForwardLink->
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
       }
@@ -9043,14 +9036,14 @@ void msrVoice::finalizeVoice (
 
 /* JMI
   // finalize the harmony voice if any
-  if (fHarmonyVoiceForRegularVoice) {
-    fHarmonyVoiceForRegularVoice->finalizeVoice (
+  if (fHarmonyVoiceForRegularVoiceForwardLink) {
+    fHarmonyVoiceForRegularVoiceForwardLink->finalizeVoice (
       inputLineNumber);
   }
 
   // finalize the figured bass voice if any
-  if (fFiguredBassVoiceForRegularVoice) {
-    fFiguredBassVoiceForRegularVoice->finalizeVoice (
+  if (fFiguredBassVoiceForRegularVoiceForwardLink) {
+    fFiguredBassVoiceForRegularVoiceForwardLink->finalizeVoice (
       inputLineNumber);
   }
   */
@@ -9354,8 +9347,8 @@ void msrVoice::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "staffUplink" << " : " <<
-    fVoiceStaffUplink->getStaffName () <<
+    "staffUpLink" << " : " <<
+    fVoiceStaffUpLink->getStaffName () <<
     endl <<
 
     setw (fieldWidth) <<
@@ -9433,9 +9426,9 @@ void msrVoice::print (ostream& os)
   // print the harmony voice name if any
   os << left <<
     setw (fieldWidth) << "harmonyVoiceForRegularVoice" << " : ";
-  if (fHarmonyVoiceForRegularVoice) {
+  if (fHarmonyVoiceForRegularVoiceForwardLink) {
     os <<
-      fHarmonyVoiceForRegularVoice->getVoiceName ();
+      fHarmonyVoiceForRegularVoiceForwardLink->getVoiceName ();
   }
   else {
     os <<
@@ -9446,9 +9439,9 @@ void msrVoice::print (ostream& os)
   // print the figured bass voice name if any
   os << left <<
     setw (fieldWidth) << "figuredBassVoiceForRegularVoice" << " : ";
-  if (fFiguredBassVoiceForRegularVoice) {
+  if (fFiguredBassVoiceForRegularVoiceForwardLink) {
     os <<
-      fFiguredBassVoiceForRegularVoice->getVoiceName ();
+      fFiguredBassVoiceForRegularVoiceForwardLink->getVoiceName ();
   }
   else {
     os <<

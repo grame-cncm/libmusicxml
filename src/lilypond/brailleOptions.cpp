@@ -461,10 +461,10 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
       brailleOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
   // code generation JMI ???
   // --------------------------------------
@@ -936,7 +936,7 @@ R"(Set 'copyright' to STRING in the \header.)",
 
     fCompressMultiMeasureRests = boolOptionsInitialValue;
 
-    fNoteInputLineNumbers = boolOptionsInitialValue;
+    fNotesInputLineNumbers = boolOptionsInitialValue;
 
     S_optionsSubGroup
       notesSubGroup =
@@ -994,7 +994,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging xml2brl.)",
           "noteInputLineNumbers",
-          fNoteInputLineNumbers));
+          fNotesInputLineNumbers));
   }
 
 

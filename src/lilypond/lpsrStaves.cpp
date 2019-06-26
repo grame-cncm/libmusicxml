@@ -336,7 +336,7 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
       lpsrNewLyricsBlock::create (
         fInputLineNumber,
         stanza,
-        stanza->getStanzaVoiceUplink ());
+        stanza->getStanzaVoiceUpLink ());
 
   fStaffBlockElements.push_back (newLyricsCommand);
 }

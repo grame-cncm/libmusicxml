@@ -32,7 +32,7 @@ S_msrSyllable msrSyllable::create (
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   msrTupletFactor       syllableTupletFactor,
-  S_msrStanza           syllableStanzaUplink)
+  S_msrStanza           syllableStanzaUpLink)
 {
   msrSyllable* o =
     new msrSyllable (
@@ -41,7 +41,7 @@ S_msrSyllable msrSyllable::create (
       syllableExtendKind,
       syllableWholeNotes,
       syllableTupletFactor,
-      syllableStanzaUplink);
+      syllableStanzaUpLink);
   assert(o!=0);
 
   return o;
@@ -53,24 +53,24 @@ msrSyllable::msrSyllable (
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
   msrTupletFactor       syllableTupletFactor,
-  S_msrStanza           syllableStanzaUplink)
-    : msrElement (inputLineNumber)
+  S_msrStanza           syllableStanzaUpLink)
+    : msrMeasureElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    syllableStanzaUplink != nullptr,
-    "syllableStanzaUplink is null");
+    syllableStanzaUpLink != nullptr,
+    "syllableStanzaUpLink is null");
 
-  // set syllable's stanza uplink
-  fSyllableStanzaUplink =
-    syllableStanzaUplink;
+  // set syllable's stanza upLink
+  fSyllableStanzaUpLink =
+    syllableStanzaUpLink;
 
   fSyllableKind = syllableKind;
 
   fSyllableExtendKind = syllableExtendKind;
 
-  // fSyllableNoteUplink will be set
-  // by appendSyllableToNoteAndSetItsNoteUplink () later
+  // fSyllableNoteUpLink will be set
+  // by appendSyllableToNoteAndSetItsNoteUpLink () later
 
   fSyllableWholeNotes = syllableWholeNotes;
 
@@ -120,7 +120,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableTupletFactor,
-        fSyllableStanzaUplink);
+        fSyllableStanzaUpLink);
 
   // append the lyric texts to the syllable clone
   for (
@@ -132,12 +132,12 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
       appendLyricTextToSyllable ((*i));
   } // for
 
-  // dont't set 'newbornClone->fSyllableStanzaUplink'
-  // nor 'newbornClone->fSyllableNoteUplink',
+  // dont't set 'newbornClone->fSyllableStanzaUpLink'
+  // nor 'newbornClone->fSyllableNoteUpLink',
   // this will be done by the caller
 
-  newbornClone->fSyllableNoteUplink =
-    fSyllableNoteUplink; // TEMP
+  newbornClone->fSyllableNoteUpLink =
+    fSyllableNoteUpLink; // TEMP
 
   return newbornClone;
 }
@@ -168,7 +168,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fSyllableExtendKind,
         fSyllableWholeNotes,
         fSyllableTupletFactor,
-        fSyllableStanzaUplink);
+        fSyllableStanzaUpLink);
 
   // append the lyric texts to the syllable deep copy
   for (
@@ -180,12 +180,12 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
       appendLyricTextToSyllable ((*i));
   } // for
 
-  // dont't set 'newbornClone->fSyllableStanzaUplink'
-  // nor 'newbornClone->fSyllableNoteUplink',
+  // dont't set 'newbornClone->fSyllableStanzaUpLink'
+  // nor 'newbornClone->fSyllableNoteUpLink',
   // this will be done by the caller
 
-  syllableDeepCopy->fSyllableNoteUplink =
-    fSyllableNoteUplink; // TEMP
+  syllableDeepCopy->fSyllableNoteUpLink =
+    fSyllableNoteUpLink; // TEMP
 
   return syllableDeepCopy;
 }
@@ -208,7 +208,7 @@ void msrSyllable::appendLyricTextToSyllable (string text)
     text);
 }
 
-void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
+void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
   S_msrNote note)
 {
   // sanity check
@@ -216,7 +216,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
     note != nullptr,
     "note is empty");
 
-  fSyllableNoteUplink = note;
+  fSyllableNoteUpLink = note;
 
 /*
   // sanity check JMI ???
@@ -229,11 +229,11 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
   note->
     appendSyllableToNote (this);
 
-  // set it uplink to note
+  // set it upLink to note
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
     glogIOstream <<
-      "Setting syllable note uplink for:" <<
+      "Setting syllable note upLink for:" <<
       endl;
 
     gIndenter++;
@@ -300,8 +300,8 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
 {
   string result;
 
-  if (fSyllableNoteUplink) { // JMI
-    switch (fSyllableNoteUplink->getNoteKind ()) {
+  if (fSyllableNoteUpLink) { // JMI
+    switch (fSyllableNoteUpLink->getNoteKind ()) {
       case msrNote::k_NoNoteKind:
       case msrNote::kRestNote:
       case msrNote::kUnpitchedNote:
@@ -324,7 +324,7 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
           stringstream s;
 
           s <<
-            fSyllableNoteUplink->
+            fSyllableNoteUpLink->
       // JMI        noteSoundingWholeNotesAsMsrString () <<
               noteDisplayWholeNotesAsMsrString () <<
             "*" <<
@@ -427,12 +427,12 @@ string msrSyllable::syllableExtendKindAsString () const
   return syllableExtendKindAsString (fSyllableExtendKind);
 }
 
-string msrSyllable::syllableNoteUplinkAsString () const
+string msrSyllable::syllableNoteUpLinkAsString () const
 {
   string result;
 
-  if (fSyllableNoteUplink) {
-    result = fSyllableNoteUplink->asString ();
+  if (fSyllableNoteUpLink) {
+    result = fSyllableNoteUpLink->asString ();
   }
   else {
     result = "none";
@@ -505,7 +505,7 @@ string msrSyllable::asString () const
 
   s <<
     ", " <<
-    syllableNoteUplinkAsString ();
+    syllableNoteUpLinkAsString ();
 
   switch (fSyllableKind) {
     case msrSyllable::kSyllableSingle:
@@ -556,7 +556,7 @@ string msrSyllable::asString () const
 
   s <<
     ", in stanza " <<
-    fSyllableStanzaUplink->getStanzaName ();
+    fSyllableStanzaUpLink->getStanzaName ();
 
   return s.str ();
 }
@@ -575,12 +575,12 @@ void msrSyllable::print (ostream& os)
   const int fieldWidth = 21;
   os << left <<
     setw (fieldWidth) <<
-    "syllableStanzaUplink" << " : " <<
-    fSyllableStanzaUplink->getStanzaName () <<
+    "syllableStanzaUpLink" << " : " <<
+    fSyllableStanzaUpLink->getStanzaName () <<
     endl <<
     setw (fieldWidth) <<
-    "syllableNoteUplink" << " : " <<
-    syllableNoteUplinkAsString () <<
+    "syllableNoteUpLink" << " : " <<
+    syllableNoteUpLinkAsString () <<
     endl <<
     setw (fieldWidth) <<
     "syllableExtendKind" << " : " <<

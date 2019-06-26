@@ -89,7 +89,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
         <
       secondChordNamesContext->
         getContextVoice ()->
-          getVoiceStaffUplink ()->getStaffNumber ();
+          getVoiceStaffUpLink ()->getStaffNumber ();
   }
 
   else if (
@@ -154,7 +154,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
     int
       chordNamesContextStaffNumber =
         chordNamesVoice->
-          getVoiceStaffUplink ()->
+          getVoiceStaffUpLink ()->
             getStaffNumber (),
       secondStaffBlockStaffNumber =
         secondStaffBlock->
@@ -189,11 +189,11 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
     int
       chordNamesContextStaffNumber =
         chordNamesVoice->
-          getVoiceStaffUplink ()->
+          getVoiceStaffUpLink ()->
             getStaffNumber (),
       secondChordNamesContextStaffNumber =
         secondChordNamesVoice->
-          getVoiceStaffUplink ()->
+          getVoiceStaffUpLink ()->
             getStaffNumber ();
 
     if (chordNamesContextStaffNumber == secondChordNamesContextStaffNumber) {

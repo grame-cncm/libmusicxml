@@ -16,7 +16,7 @@
 #include "msrElements.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -49,7 +49,7 @@ class msrVoiceElement : public msrElement
                                 fVoiceNumber =
                                   positionInVoice;
                               }
-                      
+
     string                getVoiceNumber ()
                               { return fVoiceNumber; }
 
@@ -59,7 +59,7 @@ class msrVoiceElement : public msrElement
                                 fPositionInVoice =
                                   positionInVoice;
                               }
-                      
+
     rational              getPositionInVoice ()
                               { return fPositionInVoice; }
 
@@ -82,14 +82,14 @@ class msrVoiceElement : public msrElement
     // ------------------------------------------------------
 
     virtual std::string   asShortString () const;
-    virtual std::string   asString () const;    
+    virtual std::string   asString () const;
 
     virtual void          print (std::ostream& os);
 
     virtual void          printSummary (std::ostream& os) {}
-    
+
   protected:
-     
+
     // fields
     // ------------------------------------------------------
 

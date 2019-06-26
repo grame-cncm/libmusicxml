@@ -28,12 +28,12 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::create (
   int        inputLineNumber,
-  S_msrVoice afterGraceNotesGroupContentsVoiceUplink)
+  S_msrVoice afterGraceNotesGroupContentsVoiceUpLink)
 {
   msrAfterGraceNotesGroupContents* o =
     new msrAfterGraceNotesGroupContents (
       inputLineNumber,
-      afterGraceNotesGroupContentsVoiceUplink);
+      afterGraceNotesGroupContentsVoiceUpLink);
   assert(o!=0);
 
   return o;
@@ -41,27 +41,27 @@ S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::create (
 
 msrAfterGraceNotesGroupContents::msrAfterGraceNotesGroupContents (
   int        inputLineNumber,
-  S_msrVoice afterGraceNotesGroupContentsVoiceUplink)
+  S_msrVoice afterGraceNotesGroupContentsVoiceUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    afterGraceNotesGroupContentsVoiceUplink != nullptr,
-    "afterGraceNotesGroupContentsVoiceUplink is null");
+    afterGraceNotesGroupContentsVoiceUpLink != nullptr,
+    "afterGraceNotesGroupContentsVoiceUpLink is null");
   
-  // set after notes contents's voice uplink
-  fAfterGraceNotesGroupContentsVoiceUplink =
-    afterGraceNotesGroupContentsVoiceUplink;
+  // set after notes contents's voice upLink
+  fAfterGraceNotesGroupContentsVoiceUpLink =
+    afterGraceNotesGroupContentsVoiceUpLink;
 }
 
 msrAfterGraceNotesGroupContents::~msrAfterGraceNotesGroupContents ()
 {}
 
-S_msrPart msrAfterGraceNotesGroupContents::fetchAfterGraceNotesGroupContentsPartUplink () const
+S_msrPart msrAfterGraceNotesGroupContents::fetchAfterGraceNotesGroupContentsPartUpLink () const
 {
   return
-    fAfterGraceNotesGroupContentsVoiceUplink->
-      fetchVoicePartUplink ();
+    fAfterGraceNotesGroupContentsVoiceUpLink->
+      fetchVoicePartUpLink ();
 }
 
 S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGraceNotesGroupContentsNewbornClone (
@@ -226,14 +226,14 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::create (
   int          inputLineNumber,
   S_msrElement afterGraceNotesGroupElement,
   bool         afterGraceNotesGroupIsSlashed,
-  S_msrVoice   afterGraceNotesGroupVoiceUplink)
+  S_msrVoice   afterGraceNotesGroupVoiceUpLink)
 {
   msrAfterGraceNotesGroup* o =
     new msrAfterGraceNotesGroup (
       inputLineNumber,
       afterGraceNotesGroupElement,
       afterGraceNotesGroupIsSlashed,
-      afterGraceNotesGroupVoiceUplink);
+      afterGraceNotesGroupVoiceUpLink);
   assert(o!=0);
 
   return o;
@@ -243,17 +243,17 @@ msrAfterGraceNotesGroup::msrAfterGraceNotesGroup (
   int          inputLineNumber,
   S_msrElement afterGraceNotesGroupElement,
   bool         afterGraceNotesGroupIsSlashed,
-  S_msrVoice   afterGraceNotesGroupVoiceUplink)
+  S_msrVoice   afterGraceNotesGroupVoiceUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    afterGraceNotesGroupVoiceUplink != nullptr,
-    "afterGraceNotesGroupVoiceUplink is null");
+    afterGraceNotesGroupVoiceUpLink != nullptr,
+    "afterGraceNotesGroupVoiceUpLink is null");
   
-  // set after gracenotes group voice uplink
-  fAfterGraceNotesGroupVoiceUplink =
-    afterGraceNotesGroupVoiceUplink;
+  // set after gracenotes group voice upLink
+  fAfterGraceNotesGroupVoiceUpLink =
+    afterGraceNotesGroupVoiceUpLink;
 
   // pupulate this after grace notes group
   fAfterGraceNotesGroupElement =
@@ -266,17 +266,17 @@ msrAfterGraceNotesGroup::msrAfterGraceNotesGroup (
   fAfterGraceNotesGroupContents =
     msrAfterGraceNotesGroupContents::create (
       inputLineNumber,
-      afterGraceNotesGroupVoiceUplink);
+      afterGraceNotesGroupVoiceUpLink);
 }
 
 msrAfterGraceNotesGroup::~msrAfterGraceNotesGroup ()
 {}
 
-S_msrPart msrAfterGraceNotesGroup::fetchAfterGraceNotesGroupPartUplink () const
+S_msrPart msrAfterGraceNotesGroup::fetchAfterGraceNotesGroupPartUpLink () const
 {
   return
-    fAfterGraceNotesGroupVoiceUplink->
-      fetchVoicePartUplink ();
+    fAfterGraceNotesGroupVoiceUpLink->
+      fetchVoicePartUpLink ();
 }
 
 S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNewbornClone (

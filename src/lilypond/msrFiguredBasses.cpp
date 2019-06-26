@@ -28,7 +28,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_msrFigure msrFigure::create (
   int                 inputLineNumber,
-  S_msrPart           figurePartUplink,
+  S_msrPart           figurePartUpLink,
   msrFigurePrefixKind figurePrefixKind,
   int                 figureNumber,
   msrFigureSuffixKind figureSuffixKind)
@@ -36,7 +36,7 @@ S_msrFigure msrFigure::create (
   msrFigure* o =
     new msrFigure (
       inputLineNumber,
-      figurePartUplink,
+      figurePartUpLink,
       figurePrefixKind,
       figureNumber,
       figureSuffixKind);
@@ -47,7 +47,7 @@ S_msrFigure msrFigure::create (
 
 msrFigure::msrFigure (
   int                 inputLineNumber,
-  S_msrPart           figurePartUplink,
+  S_msrPart           figurePartUpLink,
   msrFigurePrefixKind figurePrefixKind,
   int                 figureNumber,
   msrFigureSuffixKind figureSuffixKind)
@@ -55,12 +55,12 @@ msrFigure::msrFigure (
 {
   // sanity check
   msrAssert(
-    figurePartUplink != nullptr,
-    "figurePartUplink is null");
+    figurePartUpLink != nullptr,
+    "figurePartUpLink is null");
 
-  // set figured's part uplink
-  fFigurePartUplink =
-    figurePartUplink;
+  // set figured's part upLink
+  fFigurePartUpLink =
+    figurePartUpLink;
 
   fFigurePrefixKind = figurePrefixKind;
   fFigureNumber     = figureNumber;
@@ -228,7 +228,7 @@ string msrFigure::asString () const
       fFigureSuffixKind);
 
 /* JMI
-  if (fFigurePartUplink) { // JMI ???
+  if (fFigurePartUpLink) { // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
@@ -310,14 +310,14 @@ ostream& operator<< (ostream& os, const S_msrFigure& elt)
 
 //______________________________________________________________________________
 S_msrFiguredBass msrFiguredBass::create (
-  // no figuredBassVoiceUplink yet
+  // no figuredBassVoiceUpLink yet
   int       inputLineNumber) // ,
-// JMI  S_msrPart figuredBassPartUplink)
+// JMI  S_msrPart figuredBassPartUpLink)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-//    figuredBassPartUplink,
+//    figuredBassPartUpLink,
       rational (0, 1),           // figuredBassSoundingWholeNotes
       rational (0, 1),           // figuredBassDisplayWholeNotes
       kFiguredBassParenthesesNo,
@@ -329,7 +329,7 @@ S_msrFiguredBass msrFiguredBass::create (
 
 S_msrFiguredBass msrFiguredBass::create (
   int                           inputLineNumber,
-//   S_msrPart                     figuredBassPartUplink,
+//   S_msrPart                     figuredBassPartUpLink,
   rational                      figuredBassSoundingWholeNotes,
   rational                      figuredBassDisplayWholeNotes,
   msrFiguredBassParenthesesKind figuredBassParenthesesKind,
@@ -338,7 +338,7 @@ S_msrFiguredBass msrFiguredBass::create (
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
- //     figuredBassPartUplink,
+ //     figuredBassPartUpLink,
       figuredBassSoundingWholeNotes,
       figuredBassDisplayWholeNotes,
       figuredBassParenthesesKind,
@@ -350,7 +350,7 @@ S_msrFiguredBass msrFiguredBass::create (
 
 msrFiguredBass::msrFiguredBass (
   int                           inputLineNumber,
-//   S_msrPart                     figuredBassPartUplink,
+//   S_msrPart                     figuredBassPartUpLink,
   rational                      figuredBassSoundingWholeNotes,
   rational                      figuredBassDisplayWholeNotes,
   msrFiguredBassParenthesesKind figuredBassParenthesesKind,
@@ -361,12 +361,12 @@ msrFiguredBass::msrFiguredBass (
   /* JMI
   // sanity check
   msrAssert(
-    figuredBassPartUplink != nullptr,
-    "figuredBassPartUplink is null");
+    figuredBassPartUpLink != nullptr,
+    "figuredBassPartUpLink is null");
 
-  // set figuredBass's part uplink
-  fFiguredBassPartUplink =
-    figuredBassPartUplink;
+  // set figuredBass's part upLink
+  fFiguredBassPartUpLink =
+    figuredBassPartUpLink;
     */
 
   fFiguredBassSoundingWholeNotes =
@@ -586,7 +586,7 @@ string msrFiguredBass::asString () const
     ", positionInMeasure" << fPositionInMeasure;
 
 /* JMI
-  if (fFiguredBassPartUplink) { // JMI ???
+  if (fFiguredBassPartUpLink) { // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
@@ -611,9 +611,9 @@ void msrFiguredBass::print (ostream& os)
 
   os <<
     setw (fieldWidth) <<
-    "figuredBassNoteUplink" << " : ";
-  if (fFiguredBassNoteUplink) {
-    os << fFiguredBassNoteUplink->asString ();
+    "figuredBassNoteUpLink" << " : ";
+  if (fFiguredBassNoteUpLink) {
+    os << fFiguredBassNoteUpLink->asString ();
   }
   else {
     os << "none";
@@ -622,8 +622,8 @@ void msrFiguredBass::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "figuredBassNoteUplink" << " : " <<
-    fFiguredBassNoteUplink->asString () <<
+    "figuredBassNoteUpLink" << " : " <<
+    fFiguredBassNoteUpLink->asString () <<
     endl <<
 
     "figuredBassSoundingWholeNotes" << " : " <<

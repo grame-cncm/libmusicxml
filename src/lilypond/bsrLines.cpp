@@ -76,15 +76,15 @@ S_bsrLineContents bsrLineContents::createLineNewbornClone ()
 }
 
 /*
-void bsrLineContents::setBsrLineUplink (
-S_bsrLine bsrLineUplink)
+void bsrLineContents::setBsrLineUpLink (
+S_bsrLine bsrLineUpLink)
 {
-  fBsrLineUplink = bsrLineUplink;
+  fBsrLineUpLink = bsrLineUpLink;
 }
 
-S_bsrLine bsrLineContents::getBsrLineUplink () const
+S_bsrLine bsrLineContents::getBsrLineUpLink () const
 {
-  return fBsrLineUplink;
+  return fBsrLineUpLink;
 }
 */
 

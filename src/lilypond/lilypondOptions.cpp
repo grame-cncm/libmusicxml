@@ -1098,7 +1098,7 @@ By default, this command is commented.)",
 
   // input line numbers
 
-  fNoteInputLineNumbers = boolOptionsInitialValue;
+  fNotesInputLineNumbers = boolOptionsInitialValue;
 
   notesSubGroup->
     appendOptionsItem (
@@ -1108,7 +1108,21 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging xml2ly.)",
         "noteInputLineNumbers",
-        fNoteInputLineNumbers));
+        fNotesInputLineNumbers));
+
+  // positions in the measures
+
+  fNotesPositionsInMeasures = boolOptionsInitialValue;
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "npim", "note-positions-in-measures",
+R"(Generate after each note and barline a comment containing
+its position in the measure.
+This is useful when debugging xml2ly.)",
+        "notesPositionsInMeasures",
+        fNotesPositionsInMeasures));
 }
 
 void lilypondOptions::initializeBarsOptions (
@@ -1805,10 +1819,10 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
       lilypondOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
 
   // identification
@@ -1890,7 +1904,9 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fCompressRestMeasures =
     fCompressRestMeasures;
 
-  clone->fNoteInputLineNumbers =
+  clone->fNotesInputLineNumbers =
+    true;
+  clone->fNotesPositionsInMeasures =
     true;
 
 
@@ -2258,8 +2274,12 @@ void lilypondOptions::printOptionsValues (
       booleanAsString (fCompressRestMeasures) <<
       endl <<
 
-    setw (valueFieldWidth) << "noteInputLineNumbers" << " : " <<
-      booleanAsString (fNoteInputLineNumbers) <<
+    setw (valueFieldWidth) << "notesInputLineNumbers" << " : " <<
+      booleanAsString (fNotesInputLineNumbers) <<
+      endl <<
+
+    setw (valueFieldWidth) << "notesPositionsInMeasures" << " : " <<
+      booleanAsString (fNotesPositionsInMeasures) <<
       endl;
 
   gIndenter--;
@@ -2718,8 +2738,12 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       booleanAsString (fCompressRestMeasures) <<
       endl <<
 
-    setw (fieldWidth) << "inputLineNumbers" << " : " <<
-      booleanAsString (fNoteInputLineNumbers) <<
+    setw (fieldWidth) << "notesInputLineNumbers" << " : " <<
+      booleanAsString (fNotesInputLineNumbers) <<
+      endl <<
+
+    setw (fieldWidth) << "notesPositionsInMeasures" << " : " <<
+      booleanAsString (fNotesPositionsInMeasures) <<
       endl;
 
   gIndenter--;
@@ -3349,7 +3373,7 @@ void lilypondOptions::handleOptionsChordsDisplayItemValue (
     printSpecificSubGroupHelp (
       os,
       chordsDisplayItem->
-        getOptionsSubGroupUplink ());
+        getOptionsSubGroupUpLink ());
 
     exit (4);
   }
@@ -3442,7 +3466,7 @@ void lilypondOptions::handleOptionsMidiTempoItemValue (
     printSpecificSubGroupHelp (
       os,
       midiTempoItem->
-        getOptionsSubGroupUplink ());
+        getOptionsSubGroupUpLink ());
 
     exit (4);
   }

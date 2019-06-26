@@ -615,10 +615,10 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
       bsrOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
 
   // display

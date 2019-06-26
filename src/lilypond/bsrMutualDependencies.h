@@ -94,10 +94,10 @@ class bsrLineElement : public bsrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setBsrLineUplink (
-                            S_bsrLine bsrLineUplink);
+    void                  setBsrLineUpLink (
+                            S_bsrLine bsrLineUpLink);
 
-    S_bsrLine             getBsrLineUplink () const;
+    S_bsrLine             getBsrLineUpLink () const;
 
 
     void                  setSpacesBefore (int value)
@@ -143,7 +143,7 @@ class bsrLineElement : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    S_bsrLine             fBsrLineUplink;
+    S_bsrLine             fBsrLineUpLink;
 
     int                   fSpacesBefore;
 };
@@ -178,10 +178,10 @@ class bsrPageElement : public bsrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setBsrPageUplink (
-                            S_bsrPage bsrPageUplink);
+    void                  setBsrPageUpLink (
+                            S_bsrPage bsrPageUpLink);
 
-    S_bsrPage             getBsrPageUplink () const;
+    S_bsrPage             getBsrPageUpLink () const;
 
     void                  setSpacesBefore (int value)
                               { fSpacesBefore = value; };
@@ -228,7 +228,7 @@ class bsrPageElement : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    S_bsrPage             fBsrPageUplink;
+    S_bsrPage             fBsrPageUpLink;
 
     int                   fSpacesBefore;
  // JMI   int                   fSpacesAfter;
@@ -278,10 +278,10 @@ class bsrLineContents : public bsrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setBsrLineUplink (
-                            S_bsrLine bsrLineUplink);
+    void                  setBsrLineUpLink (
+                            S_bsrLine bsrLineUpLink);
 
-    S_bsrLine             getBsrLineUplink () const;
+    S_bsrLine             getBsrLineUpLink () const;
 
     bsrLineContentsKind   getLineContentsKind () const
                               { return fLineContentsKind; }
@@ -329,7 +329,7 @@ class bsrLineContents : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    S_bsrLine             fBsrLineUplink;
+    S_bsrLine             fBsrLineUpLink;
 
     bsrLineContentsKind   fLineContentsKind;
 

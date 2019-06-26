@@ -70,7 +70,7 @@
 #include "msrSlurs.h"
 #include "msrLigatures.h"
 
-#include "msrTremolos.h"
+#include "msrSingleTremolos.h"
 
 #include "msrSlashes.h"
 
@@ -84,7 +84,7 @@
 #include "generalOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

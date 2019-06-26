@@ -553,10 +553,10 @@ S_extraOptions extraOptions::createCloneWithDetailedTrace ()
       extraOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
 
   // chord intervals
@@ -848,7 +848,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
     printSpecificSubGroupHelp (
       os,
       showChordDetailsItem->
-        getOptionsSubGroupUplink ());
+        getOptionsSubGroupUpLink ());
 
     exit (4);
   }
@@ -1025,7 +1025,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
     printSpecificSubGroupHelp (
       os,
       showChordAnalysisItem->
-        getOptionsSubGroupUplink ());
+        getOptionsSubGroupUpLink ());
 */
     exit (4);
   }

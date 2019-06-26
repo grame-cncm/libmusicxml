@@ -179,11 +179,11 @@ class optionsItem : public optionsElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsSubGroupUplink (
+    void                  setOptionsSubGroupUpLink (
                             S_optionsSubGroup optionsSubGroup);
 
-    S_optionsSubGroup     getOptionsSubGroupUplink () const
-                              { return fOptionsSubGroupUplink; }
+    S_optionsSubGroup     getOptionsSubGroupUpLink () const
+                              { return fOptionsSubGroupUpLink; }
 
     // services
     // ------------------------------------------------------
@@ -205,7 +205,7 @@ class optionsItem : public optionsElement
     // fields
     // ------------------------------------------------------
 
-    S_optionsSubGroup     fOptionsSubGroupUplink;
+    S_optionsSubGroup     fOptionsSubGroupUpLink;
 };
 typedef SMARTP<optionsItem> S_optionsItem;
 EXP ostream& operator<< (ostream& os, const S_optionsItem& elt);
@@ -1183,7 +1183,7 @@ class optionsSubGroup : public optionsElement
       optionsSubGroupDescriptionVisibilityKind
              optionsSubGroupDescriptionVisibilityKind,
       S_optionsGroup
-             optionsGroupUplink);
+             optionsGroupUpLink);
 
   protected:
 
@@ -1198,7 +1198,7 @@ class optionsSubGroup : public optionsElement
       optionsSubGroupDescriptionVisibilityKind
              optionsSubGroupDescriptionVisibilityKind,
       S_optionsGroup
-             optionsGroupUplink);
+             optionsGroupUpLink);
 
     virtual ~optionsSubGroup ();
 
@@ -1207,15 +1207,15 @@ class optionsSubGroup : public optionsElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsGroupUplink (
+    void                  setOptionsGroupUpLink (
                             S_optionsGroup optionsGroup)
                               {
-                                fOptionsGroupUplink =
+                                fOptionsGroupUpLink =
                                   optionsGroup;
                               }
 
-    S_optionsGroup        getOptionsGroupUplink () const
-                              { return fOptionsGroupUplink; }
+    S_optionsGroup        getOptionsGroupUpLink () const
+                              { return fOptionsGroupUpLink; }
 
     string                getOptionsSubGroupHelpHeader () const
                               { return fOptionsSubGroupHelpHeader; }
@@ -1271,7 +1271,7 @@ class optionsSubGroup : public optionsElement
     // fields
     // ------------------------------------------------------
 
-    S_optionsGroup        fOptionsGroupUplink;
+    S_optionsGroup        fOptionsGroupUpLink;
 
     string                fOptionsSubGroupHelpHeader;
 
@@ -1298,7 +1298,7 @@ class optionsGroup : public optionsElement
       string optionGroupLongName,
       string optionGroupDescription,
       S_optionsHandler
-             optionsHandlerUplink);
+             optionsHandlerUpLink);
 
   protected:
 
@@ -1311,7 +1311,7 @@ class optionsGroup : public optionsElement
       string optionGroupLongName,
       string optionGroupDescription,
       S_optionsHandler
-             optionsHandlerUplink);
+             optionsHandlerUpLink);
 
     virtual ~optionsGroup ();
 
@@ -1320,11 +1320,11 @@ class optionsGroup : public optionsElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsHandlerUplink (
+    void                  setOptionsHandlerUpLink (
                             S_optionsHandler optionsHandler);
 
-    S_optionsHandler      getOptionsHandlerUplink () const
-                              { return fOptionsHandlerUplink; }
+    S_optionsHandler      getOptionsHandlerUpLink () const
+                              { return fOptionsHandlerUpLink; }
 
     string                getOptionsGroupHelpHeader () const
                               { return fOptionsGroupHelpHeader; }
@@ -1390,10 +1390,10 @@ class optionsGroup : public optionsElement
 
   protected:
 
-    // uplink
+    // upLink
     // ------------------------------------------------------
 
-    S_optionsHandler      fOptionsHandlerUplink;
+    S_optionsHandler      fOptionsHandlerUpLink;
 
   private:
 

@@ -334,10 +334,10 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
       musicXMLOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
 
   // clefs, keys, times

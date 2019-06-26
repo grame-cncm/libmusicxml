@@ -40,8 +40,8 @@ S_msrPartGroup msrPartGroup::create (
   msrPartGroupSymbolKind   partGroupSymbolKind,
   int                      partGroupSymbolDefaultX,
   msrPartGroupBarlineKind  partGroupBarlineKind,
-  S_msrPartGroup           partGroupPartGroupUplink,
-  S_msrScore               partGroupScoreUplink)
+  S_msrPartGroup           partGroupPartGroupUpLink,
+  S_msrScore               partGroupScoreUpLink)
 {
   msrPartGroup* o =
     new msrPartGroup (
@@ -56,8 +56,8 @@ S_msrPartGroup msrPartGroup::create (
       partGroupSymbolDefaultX,
       msrPartGroup::kPartGroupImplicitNo,
       partGroupBarlineKind,
-      partGroupPartGroupUplink,
-      partGroupScoreUplink);
+      partGroupPartGroupUpLink,
+      partGroupScoreUpLink);
   assert(o!=0);
   return o;
 }
@@ -70,7 +70,7 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
   string                   partGroupAccidentalText,
   string                   partGroupAbbreviation,
   msrPartGroupBarlineKind  partGroupBarlineKind,
-  S_msrScore               partGroupScoreUplink)
+  S_msrScore               partGroupScoreUpLink)
 {
   msrPartGroup* o =
     new msrPartGroup (
@@ -85,14 +85,14 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
       0,                                  // partGroupSymbolDefaultX,
       msrPartGroup::kPartGroupImplicitYes,
       partGroupBarlineKind,
-      0,                                  // partGroupPartGroupUplink,
+      0,                                  // partGroupPartGroupUpLink,
                                           // will be set below
-      partGroupScoreUplink);
+      partGroupScoreUpLink);
   assert(o!=0);
 
   // the implicit part group it the top-most one:
-  // set its group uplink points to itself
-  o->fPartGroupPartGroupUplink = o;
+  // set its group upLink points to itself
+  o->fPartGroupPartGroupUpLink = o;
   
   return o;
 }
@@ -109,23 +109,23 @@ msrPartGroup::msrPartGroup (
   int                      partGroupSymbolDefaultX,
   msrPartGroupImplicitKind partGroupImplicitKind,
   msrPartGroupBarlineKind  partGroupBarlineKind,
-  S_msrPartGroup           partGroupPartGroupUplink,
-  S_msrScore               partGroupScoreUplink)
+  S_msrPartGroup           partGroupPartGroupUpLink,
+  S_msrScore               partGroupScoreUpLink)
     : msrPartGroupElement (inputLineNumber)
 {
-  // no sanity check on partGroupPartGroupUplink here,
+  // no sanity check on partGroupPartGroupUpLink here,
   // it will be set after all 'real' (i.e. not implicit)
   // part groups and part have been analyzed
-  fPartGroupPartGroupUplink = partGroupPartGroupUplink;
+  fPartGroupPartGroupUpLink = partGroupPartGroupUpLink;
 
 /* JMI
   // sanity check
   msrAssert (
-    fPartGroupScoreUplink != nullptr,
-    "fPartGroupScoreUplink is null");
+    fPartGroupScoreUpLink != nullptr,
+    "fPartGroupScoreUpLink is null");
     */
     
-  fPartGroupScoreUplink     = partGroupScoreUplink;
+  fPartGroupScoreUpLink     = partGroupScoreUpLink;
 
   // other fields
   fPartGroupNumber          = partGroupNumber;
@@ -139,9 +139,9 @@ msrPartGroup::msrPartGroup (
   if (
     partGroupNameLength
       >
-    fPartGroupScoreUplink->getScorePartGroupNamesMaxLength ()
+    fPartGroupScoreUpLink->getScorePartGroupNamesMaxLength ()
   ) {  // JMI sanity check ???
-    fPartGroupScoreUplink->
+    fPartGroupScoreUpLink->
       setScorePartGroupNamesMaxLength (
         partGroupNameLength);
   }
@@ -248,7 +248,7 @@ void msrPartGroup::setPartGroupInstrumentName (
 
   S_msrScore
     score =
-      fPartGroupScoreUplink;
+      fPartGroupScoreUpLink;
         
   int partGroupInstrumentNameLength = fPartGroupInstrumentName.size ();
   
@@ -381,8 +381,8 @@ void msrPartGroup::appendPartToPartGroup (S_msrPart part)
   fPartGroupPartsMap [part->getPartID ()] = part;
   fPartGroupElements.push_back (part);
 
-  // set part's partgroup uplink
-  part->setPartPartGroupUplink (this);
+  // set part's partgroup upLink
+  part->setPartPartGroupUpLink (this);
 }
 
 void msrPartGroup::removePartFromPartGroup (
@@ -877,12 +877,12 @@ void msrPartGroup::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "partGroupPartGroupUplink" << " : ";
+    "partGroupPartGroupUpLink" << " : ";
 
-  if (fPartGroupPartGroupUplink) {
+  if (fPartGroupPartGroupUpLink) {
     // it may be empty
     os <<
-      fPartGroupPartGroupUplink->
+      fPartGroupPartGroupUpLink->
         getPartGroupCombinedName ();
   }
   else {
@@ -900,11 +900,11 @@ void msrPartGroup::print (ostream& os)
 
    os << left <<
     setw (fieldWidth) <<
-    "partGroupPartGroupUplink" << " : ";
-  if (fPartGroupPartGroupUplink) {
+    "partGroupPartGroupUpLink" << " : ";
+  if (fPartGroupPartGroupUpLink) {
     os <<
       "\"" <<
-      fPartGroupPartGroupUplink->
+      fPartGroupPartGroupUpLink->
         getPartGroupCombinedName () <<
       "\"";
   }

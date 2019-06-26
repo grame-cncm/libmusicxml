@@ -858,7 +858,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 
   // create a partGroup clone
   // current partGroup clone, i.e. the top of the stack,
-  // is the uplink of the new one if it exists
+  // is the upLink of the new one if it exists
   S_msrPartGroup
     partGroupClone =
       elt->createPartGroupNewbornClone (
@@ -1575,7 +1575,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             elt->getVoiceName ();
 
           string partCombinedName =
-            elt->fetchVoicePartUplink ()->
+            elt->fetchVoicePartUpLink ()->
               getPartCombinedName ();
 
 #ifdef TRACE_OPTIONS
@@ -1593,7 +1593,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
                 voiceName,
-                elt->getRegularVoiceForHarmonyVoice ());
+                elt->getRegularVoiceForHarmonyVoiceBackwardLink ());
 
           // append it to the current part block
 #ifdef TRACE_OPTIONS
@@ -1645,7 +1645,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             elt->getVoiceName ();
 
           string partCombinedName =
-            elt->fetchVoicePartUplink ()->
+            elt->fetchVoicePartUpLink ()->
               getPartCombinedName ();
 
 #ifdef TRACE_OPTIONS
@@ -1663,7 +1663,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
                 voiceName,
-                elt-> getVoiceStaffUplink ());
+                elt-> getVoiceStaffUpLink ());
 
           // append it to the current part block
 #ifdef TRACE_OPTIONS
@@ -2121,7 +2121,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' in voice \"" <<
           elt->
-            fetchMeasureVoiceUplink ()->
+            fetchMeasureVoiceUpLink ()->
               getVoiceName () <<
           "\" is of unknown kind";
 
@@ -2292,7 +2292,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   else if (fOnGoingNote) { // JMI
     // visiting a syllable as attached to the current non-grace note
     fCurrentSyllableClone->
-      appendSyllableToNoteAndSetItsNoteUplink (
+      appendSyllableToNoteAndSetItsNoteUpLink (
         fCurrentNonGraceNoteClone);
 
     if (gLpsrOptions->fAddWordsFromTheLyrics) {
@@ -3485,14 +3485,14 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   S_msrNote
     noteNotesGroupIsAttachedTo =
       elt->
-        getGraceNotesGroupNoteUplink ();
+        getGraceNotesGroupNoteUpLink ();
 
   if (! noteNotesGroupIsAttachedTo) {
     stringstream s;
 
     s <<
       "grace notes group '" << elt->asShortString () <<
-      "' has an empty note uplink";
+      "' has an empty note upLink";
 
     msrInternalError (
       gGeneralOptions->fInputSourceName,

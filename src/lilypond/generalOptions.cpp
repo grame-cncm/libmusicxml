@@ -241,10 +241,10 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
         nullptr);
       // nullptr not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
 
   // command line

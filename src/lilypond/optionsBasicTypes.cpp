@@ -55,12 +55,12 @@ Basics:
   - an optionsHandler contains optionsGroup's, each handled in a pair or .h/.cpp files,
     such as msrOptions.h and msrOptions.cpp, and a list of options prefixes.
 
-  - an optionsGroup contains optionsSubGroup's and an uplink to the containing optionsHandler.
+  - an optionsGroup contains optionsSubGroup's and an upLink to the containing optionsHandler.
 
-  - an optionsSubGroup contains optionsItem's and an uplink to the containing optionsGroup.
+  - an optionsSubGroup contains optionsItem's and an upLink to the containing optionsGroup.
 
   - each optionsItem is an atomic option to the executable and its corresponding help,
-    and an uplink to the containing optionsSubGroup.
+    and an upLink to the containing optionsSubGroup.
 
 Features:
   - partial help to be obtained, i.e. help about any group, subgroup or item,
@@ -318,8 +318,8 @@ void optionsElement::printHelp (ostream& os) const
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 
-  // register help print action in options handler uplink JMI ???
-//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink JMI ???
+//  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 ostream& operator<< (ostream& os, const S_optionsElement& elt)
@@ -356,7 +356,7 @@ optionsItem::optionsItem (
 optionsItem::~optionsItem ()
 {}
 
-void optionsItem::setOptionsSubGroupUplink (
+void optionsItem::setOptionsSubGroupUpLink (
   S_optionsSubGroup optionsSubGroup)
 {
   // sanity check
@@ -364,8 +364,8 @@ void optionsItem::setOptionsSubGroupUplink (
     optionsSubGroup != nullptr,
     "optionsSubGroup is null");
 
-  // set the uplink
-  fOptionsSubGroupUplink =
+  // set the upLink
+  fOptionsSubGroupUpLink =
     optionsSubGroup;
 }
 
@@ -1000,9 +1000,9 @@ void optionsCombinedBooleanItemsItem::appendOptionsItemToCombinedBooleanItemsLis
   // get the options handler
   S_optionsHandler
     optionsHandler =
-      getOptionsSubGroupUplink ()->
-        getOptionsGroupUplink ()->
-          getOptionsHandlerUplink ();
+      getOptionsSubGroupUpLink ()->
+        getOptionsGroupUpLink ()->
+          getOptionsHandlerUpLink ();
 
   // sanity check
   msrAssert (
@@ -1190,8 +1190,8 @@ void optionsCombinedBooleanItemsItem::printHelp (ostream& os) const
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 
-  // register help print action in options handler uplink
-//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+//  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsCombinedBooleanItemsItem::printOptionsValues (
@@ -1362,8 +1362,8 @@ void optionsValuedItem::printHelp (ostream& os) const
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 
-  // register help print action in options handler uplink
-//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+//  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsValuedItem::printOptionsValues (
@@ -1929,7 +1929,7 @@ S_optionsSubGroup optionsSubGroup::create (
   optionsSubGroupDescriptionVisibilityKind
          optionsSubGroupDescriptionVisibilityKind,
   S_optionsGroup
-         optionsGroupUplink)
+         optionsGroupUpLink)
 {
   optionsSubGroup* o = new
     optionsSubGroup (
@@ -1938,7 +1938,7 @@ S_optionsSubGroup optionsSubGroup::create (
       optionsSubGroupLongName,
       optionsSubGroupDescription,
       optionsSubGroupDescriptionVisibilityKind,
-      optionsGroupUplink);
+      optionsGroupUpLink);
   assert(o!=0);
   return o;
 }
@@ -1951,14 +1951,14 @@ optionsSubGroup::optionsSubGroup (
   optionsSubGroupDescriptionVisibilityKind
          optionsSubGroupDescriptionVisibilityKind,
   S_optionsGroup
-         optionsGroupUplink)
+         optionsGroupUpLink)
   : optionsElement (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
 {
-  fOptionsGroupUplink =
-    optionsGroupUplink;
+  fOptionsGroupUpLink =
+    optionsGroupUpLink;
 
   fOptionsSubGroupHelpHeader =
     optionsSubGroupHelpHeader;
@@ -2031,9 +2031,9 @@ void optionsSubGroup::appendOptionsItem (
   fOptionsSubGroupItemsList.push_back (
     optionsItem);
 
-  // set options item subgroup uplink
+  // set options item subgroup upLink
   optionsItem->
-    setOptionsSubGroupUplink (this);
+    setOptionsSubGroupUpLink (this);
 }
 
 S_optionsElement optionsSubGroup::fetchOptionElement (
@@ -2179,9 +2179,9 @@ void optionsSubGroup::printHelp (ostream& os) const
       break;
   } // switch
 
-  // register help print action in options groups's options handler uplink
-  fOptionsGroupUplink->
-    getOptionsHandlerUplink ()->
+  // register help print action in options groups's options handler upLink
+  fOptionsGroupUpLink->
+    getOptionsHandlerUpLink ()->
       setOptionsHandlerFoundAHelpItem ();
 }
 
@@ -2240,9 +2240,9 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
 
   os << endl;
 
-  // register help print action in options groups's options handler uplink
-  fOptionsGroupUplink->
-    getOptionsHandlerUplink ()->
+  // register help print action in options groups's options handler upLink
+  fOptionsGroupUpLink->
+    getOptionsHandlerUpLink ()->
       setOptionsHandlerFoundAHelpItem ();
 }
 
@@ -2251,14 +2251,14 @@ void optionsSubGroup::printHelpSummary (
 {
   // fetch maximum subgroups help headers size
   int maximumSubGroupsHelpHeadersSize =
-    getOptionsGroupUplink ()->
-      getOptionsHandlerUplink ()->
+    getOptionsGroupUpLink ()->
+      getOptionsHandlerUpLink ()->
         getMaximumSubGroupsHelpHeadersSize ();
 
   // fetch maximum short name width
   int maximumShortNameWidth =
-    getOptionsGroupUplink ()->
-      getOptionsHandlerUplink ()->
+    getOptionsGroupUpLink ()->
+      getOptionsHandlerUpLink ()->
         getMaximumShortNameWidth ();
 
   // print the summary
@@ -2291,9 +2291,9 @@ void optionsSubGroup::printHelpSummary (
     gIndenter--;
   }
 
-  // register help print action in options groups's options handler uplink
-  fOptionsGroupUplink->
-    getOptionsHandlerUplink ()->
+  // register help print action in options groups's options handler upLink
+  fOptionsGroupUpLink->
+    getOptionsHandlerUpLink ()->
       setOptionsHandlerFoundAHelpItem ();
 }
 
@@ -2358,9 +2358,9 @@ void optionsSubGroup::printOptionsItemForcedHelp (
     gIndenter--;
   }
 
-  // register help print action in options groups's options handler uplink
-  fOptionsGroupUplink->
-    getOptionsHandlerUplink ()->
+  // register help print action in options groups's options handler upLink
+  fOptionsGroupUpLink->
+    getOptionsHandlerUpLink ()->
       setOptionsHandlerFoundAHelpItem ();
 }
 
@@ -2413,7 +2413,7 @@ S_optionsGroup optionsGroup::create (
   string optionGroupLongName,
   string optionGroupDescription,
   S_optionsHandler
-         optionsHandlerUplink)
+         optionsHandlerUpLink)
 {
   optionsGroup* o = new
     optionsGroup (
@@ -2421,7 +2421,7 @@ S_optionsGroup optionsGroup::create (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription,
-      optionsHandlerUplink);
+      optionsHandlerUpLink);
   assert(o!=0);
   return o;
 }
@@ -2432,13 +2432,13 @@ optionsGroup::optionsGroup (
   string optionGroupLongName,
   string optionGroupDescription,
   S_optionsHandler
-         optionsHandlerUplink)
+         optionsHandlerUpLink)
   : optionsElement (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription)
 {
-  fOptionsHandlerUplink = optionsHandlerUplink;
+  fOptionsHandlerUpLink = optionsHandlerUpLink;
 
   fOptionsGroupHelpHeader = optionsGroupHelpHeader;
 }
@@ -2446,7 +2446,7 @@ optionsGroup::optionsGroup (
 optionsGroup::~optionsGroup ()
 {}
 
-void optionsGroup::setOptionsHandlerUplink (
+void optionsGroup::setOptionsHandlerUpLink (
   S_optionsHandler optionsHandler)
 {
   // sanity check
@@ -2454,8 +2454,8 @@ void optionsGroup::setOptionsHandlerUplink (
     optionsHandler != nullptr,
     "optionsHandler is null");
 
-  // set the uplink
-  fOptionsHandlerUplink =
+  // set the upLink
+  fOptionsHandlerUpLink =
     optionsHandler;
 }
 
@@ -2478,8 +2478,8 @@ void optionsGroup::registerOptionsGroupInHandler (
     optionsHandler != nullptr,
     "optionsHandler is null");
 
-  // set options handler uplink
-  setOptionsHandlerUplink (optionsHandler);
+  // set options handler upLink
+  setOptionsHandlerUpLink (optionsHandler);
 
   // register options group in options handler
   optionsHandler->
@@ -2510,9 +2510,9 @@ void  optionsGroup::appendOptionsSubGroup (
   fOptionsGroupSubGroupsList.push_back (
     optionsSubGroup);
 
-  // set options subgroup group uplink
+  // set options subgroup group upLink
   optionsSubGroup->
-    setOptionsGroupUplink (this);
+    setOptionsGroupUpLink (this);
 }
 
 S_optionsElement optionsGroup::fetchOptionElement (
@@ -2653,8 +2653,8 @@ void optionsGroup::printHelp (ostream& os) const
     gIndenter--;
   }
 
-  // register help print action in options handler uplink
-  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printOptionsSubGroupForcedHelp (
@@ -2771,8 +2771,8 @@ void optionsGroup::printOptionsItemForcedHelp (
     gIndenter--;
   }
 
-  // register help print action in options handler uplink
-  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printHelpSummary (ostream& os) const
@@ -2817,8 +2817,8 @@ void optionsGroup::printHelpSummary (ostream& os) const
     gIndenter--;
   }
 
-  // register help print action in options handler uplink
-  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printSpecificSubGroupHelp (
@@ -2866,8 +2866,8 @@ void optionsGroup::printSpecificSubGroupHelp (
     gIndenter--;
   }
 
-  // register help print action in options handler uplink
-  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printOptionsValues (
@@ -3085,8 +3085,8 @@ void optionsPrefix::printHelp (ostream& os) const
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 
-  // register help print action in options handler uplink
-//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+//  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 ostream& operator<< (ostream& os, const S_optionsPrefix& elt)
@@ -3527,8 +3527,8 @@ void optionsHandler::printHelp (ostream& os) const
     gIndenter--;
   }
 
-  // register help print action in options handler uplink
-//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
+  // register help print action in options handler upLink
+//  fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsHandler::printHelpSummary (ostream& os) const
@@ -3692,11 +3692,11 @@ void optionsHandler::printSpecificItemHelp (
         subGroup =
           dynamic_cast<optionsSubGroup*>(&(*optionsElement))
       ) {
-      // get the options group uplink
+      // get the options group upLink
       S_optionsGroup
         group =
           subGroup->
-            getOptionsGroupUplink ();
+            getOptionsGroupUpLink ();
 
       // print the help
       fOptionsHandlerlogIOstream <<
@@ -3726,17 +3726,17 @@ void optionsHandler::printSpecificItemHelp (
         item =
           dynamic_cast<optionsItem*>(&(*optionsElement))
       ) {
-      // get the options subgroup uplink
+      // get the options subgroup upLink
       S_optionsSubGroup
         subGroup =
           item->
-            getOptionsSubGroupUplink ();
+            getOptionsSubGroupUpLink ();
 
-      // get the options group uplink
+      // get the options group upLink
       S_optionsGroup
         group =
           subGroup->
-            getOptionsGroupUplink ();
+            getOptionsGroupUpLink ();
 
       // print the help
       fOptionsHandlerlogIOstream <<
@@ -3863,9 +3863,9 @@ void optionsHandler::appendOptionsGroupToHandler (
   fOptionsHandlerOptionsGroupsList.push_back (
     optionsGroup);
 
-  // set the uplink
+  // set the upLink
   optionsGroup->
-    setOptionsHandlerUplink (this);
+    setOptionsHandlerUpLink (this);
 }
 
 void optionsHandler::printKnownOptionsPrefixes () const
@@ -4380,11 +4380,11 @@ void optionsHandler::handleOptionsSubGroupItemName (
   }
 #endif
 
-  // get the options group uplink
+  // get the options group upLink
   S_optionsGroup
     group =
       subGroup->
-        getOptionsGroupUplink ();
+        getOptionsGroupUpLink ();
 
   // print the help
   fOptionsHandlerlogIOstream <<
@@ -4771,8 +4771,8 @@ void optionsHandler::handleOptionsItemItemName (
     S_optionsGroup
       group =
         item->
-          getOptionsSubGroupUplink ()->
-            getOptionsGroupUplink ();
+          getOptionsSubGroupUpLink ()->
+            getOptionsGroupUpLink ();
 
     fPendingOptionsItem =
       group->
@@ -5027,7 +5027,7 @@ void optionsHandler::handleOptionsItemRationalValue (
     printSpecificSubGroupHelp (
       fOptionsHandlerlogIOstream,
       rationalItem->
-        getOptionsSubGroupUplink ());
+        getOptionsSubGroupUpLink ());
 
     exit (4);
   }
@@ -5206,8 +5206,8 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       S_optionsGroup
         group =
           fPendingOptionsItem->
-            getOptionsSubGroupUplink ()->
-              getOptionsGroupUplink ();
+            getOptionsSubGroupUpLink ()->
+              getOptionsGroupUpLink ();
 
       group->
         handleOptionsItemValue (

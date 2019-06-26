@@ -766,7 +766,8 @@ class lilypondOptions : public optionsGroup
 
     bool                  fCompressRestMeasures;
 
-    bool                  fNoteInputLineNumbers;
+    bool                  fNotesInputLineNumbers;
+    bool                  fNotesPositionsInMeasures;
 
 
     // bars

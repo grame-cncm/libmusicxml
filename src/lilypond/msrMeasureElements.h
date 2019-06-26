@@ -57,13 +57,20 @@ class msrMeasureElement : public msrElement
                               { return fMeasureNumber; }
 
     void                  setPositionInMeasure (
-                            rational positionInMeasure);
+                            rational positionInMeasure,
+                            string   context);
 
     rational              getPositionInMeasure ()
                               { return fPositionInMeasure; }
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+    static bool           compareMeasureElementsByIncreasingPositionInMeasure (
+                            const SMARTP<msrMeasureElement>& first,
+                            const SMARTP<msrMeasureElement>& second);
 
   public:
 

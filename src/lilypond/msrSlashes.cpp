@@ -140,7 +140,7 @@ void msrSlash::print (ostream& os)
 
   const int fieldWidth = 18;
 
-  // print the voice uplink
+  // print the voice upLink
   os << left <<
     setw (fieldWidth) <<
     "slashTypeKind" << " : " <<

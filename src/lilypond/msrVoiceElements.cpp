@@ -43,12 +43,12 @@ void msrVoiceElement::acceptIn (basevisitor* v)
       "% ==> msrVoiceElement::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrVoiceElement>*
     p =
       dynamic_cast<visitor<S_msrVoiceElement>*> (v)) {
         S_msrVoiceElement elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           glogIOstream <<
             "% ==> Launching msrVoiceElement::visitStart ()" <<
@@ -70,7 +70,7 @@ void msrVoiceElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrVoiceElement>*> (v)) {
         S_msrVoiceElement elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           glogIOstream <<
             "% ==> Launching msrVoiceElement::visitEnd ()" <<

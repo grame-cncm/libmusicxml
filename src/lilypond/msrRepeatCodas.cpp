@@ -29,13 +29,13 @@ namespace MusicXML2
 S_msrRepeatCoda msrRepeatCoda::create (
   int                 inputLineNumber,
   S_msrSegment        repeatCodaSegment,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
 {
   msrRepeatCoda* o =
     new msrRepeatCoda (
       inputLineNumber,
       repeatCodaSegment,
-      repeatUplink);
+      repeatUpLink);
   assert(o!=0);
   return o;
 }
@@ -43,7 +43,7 @@ S_msrRepeatCoda msrRepeatCoda::create (
 msrRepeatCoda::msrRepeatCoda (
   int                 inputLineNumber,
   S_msrSegment        repeatCodaSegment,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
@@ -55,10 +55,10 @@ msrRepeatCoda::msrRepeatCoda (
   
   // sanity check
   msrAssert (
-    repeatUplink != nullptr,
-    "repeatUplink is null");
+    repeatUpLink != nullptr,
+    "repeatUpLink is null");
     
-  fRepeatCodaRepeatUplink = repeatUplink;
+  fRepeatCodaRepeatUpLink = repeatUpLink;
 }
 
 msrRepeatCoda::~msrRepeatCoda ()
@@ -94,7 +94,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
       
   // segment
 
-  // uplinks
+  // upLinks
 
   return newbornClone;
 }
@@ -131,11 +131,11 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   repeatCodaDeepCopy->fRepeatCodaSegment =
     fRepeatCodaSegment->
       createSegmentDeepCopy (
-        fRepeatCodaRepeatUplink->
-          getRepeatVoiceUplink ());
+        fRepeatCodaRepeatUpLink->
+          getRepeatVoiceUpLink ());
     
-  // uplinks
-  repeatCodaDeepCopy->fRepeatCodaRepeatUplink =
+  // upLinks
+  repeatCodaDeepCopy->fRepeatCodaRepeatUpLink =
     containingRepeat;
 
   return repeatCodaDeepCopy;

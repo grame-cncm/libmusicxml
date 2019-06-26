@@ -158,7 +158,7 @@ void msrChord::setChordPositionInMeasure (
   rational positionInMeasure)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTracePositionsInMeasures) {
     glogIOstream <<
       "Setting chord position in measure of '" << asString () <<
       "' to '" <<
@@ -169,7 +169,8 @@ void msrChord::setChordPositionInMeasure (
 #endif
 
   msrMeasureElement::setPositionInMeasure (
-    positionInMeasure);
+    positionInMeasure,
+    "setChordPositionInMeasure()");
 
   // set the chord's elements' position in measure
   if (fChordNotesVector.size ()) {
@@ -182,7 +183,8 @@ void msrChord::setChordPositionInMeasure (
         note = (*i);
 
       note->
-        setNotePositionInMeasure (positionInMeasure);
+        setNotePositionInMeasure (
+          positionInMeasure);
 
       if (++i == iEnd) break;
     } // for
@@ -208,9 +210,9 @@ void msrChord::addFirstNoteToChord (
   // append note to chord notes
   fChordNotesVector.push_back (note);
 
-  // register note's chord uplink
+  // register note's chord upLink
   note->
-    setNoteChordUplink (this);
+    setNoteChordUpLink (this);
 
   // mark note as belonging to a chord
   note->setNoteBelongsToAChord ();
@@ -255,9 +257,9 @@ void msrChord::addAnotherNoteToChord (
 
   fChordNotesVector.push_back (note);
 
-  // register note's chord uplink
+  // register note's chord upLink
   note->
-    setNoteChordUplink (this);
+    setNoteChordUpLink (this);
 
   // mark note as belonging to a chord
   note->setNoteBelongsToAChord ();
@@ -279,8 +281,11 @@ void msrChord::setChordFirstNotePositionInMeasure (
   rational positionInMeasure)
 {
   if (fChordNotesVector.size ()) { // JMI
+  /* JMI
     fChordNotesVector.front ()->
-      setNotePositionInMeasure (positionInMeasure);
+      setNotePositionInMeasure (
+        positionInMeasure);
+        */
   }
   else {
     // exit (44); JMI
@@ -987,9 +992,9 @@ void msrChord::print (ostream& os)
 {
   rational
     chordMeasureFullLength =
-      fChordMeasureUplink
+      fChordMeasureUpLink
         ?
-          fChordMeasureUplink->
+          fChordMeasureUpLink->
             getFullMeasureWholeNotes ()
         : rational (0, 1); // JMI
 
@@ -1022,8 +1027,8 @@ void msrChord::print (ostream& os)
     endl;
 
   // print simplified position in measure if relevant
-// JMI  if (fChordMeasureUplink) {
-    // the chord measure uplink may not have been set yet
+// JMI  if (fChordMeasureUpLink) {
+    // the chord measure upLink may not have been set yet
     rational
       chordPositionBis =
         fPositionInMeasure;

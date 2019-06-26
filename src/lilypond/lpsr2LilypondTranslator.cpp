@@ -1173,9 +1173,9 @@ void lpsr2LilypondTranslator::generateNoteLigatures (
             S_msrVoice
               noteVoice =
                 note->
-                  getNoteMeasureUplink ()->
-                    getMeasureSegmentUplink ()->
-                      getSegmentVoiceUplink ();
+                  getNoteMeasureUpLink ()->
+                    getMeasureSegmentUpLink ()->
+                      getSegmentVoiceUpLink ();
 
             // determine vertical flipping factor
             int ligatureVerticalFlippingFactor = 0;
@@ -1242,7 +1242,7 @@ void lpsr2LilypondTranslator::generateNoteLigatures (
             S_msrLigature
               ligatureOtherEnd =
                 ligature->
-                  getLigatureOtherEndSidelink ();
+                  getLigatureOtherEndSideLink ();
 
             // compute ligature end edge height
             float ligatureEndEdgeHeight = 0.0;
@@ -1362,10 +1362,10 @@ void lpsr2LilypondTranslator::generateNoteStem (
           S_msrStaff
             noteStaff =
               note->
-                getNoteMeasureUplink ()->
-                  getMeasureSegmentUplink ()->
-                    getSegmentVoiceUplink ()->
-                      getVoiceStaffUplink ();
+                getNoteMeasureUpLink ()->
+                  getMeasureSegmentUpLink ()->
+                    getSegmentVoiceUpLink ()->
+                      getVoiceStaffUpLink ();
 
           switch (noteStaff->getStaffKind ()) {
             case msrStaff::kStaffTablature:
@@ -1447,10 +1447,10 @@ void lpsr2LilypondTranslator::generateNoteStem (
           S_msrStaff
             noteStaff =
               note->
-                getNoteMeasureUplink ()->
-                  getMeasureSegmentUplink ()->
-                    getSegmentVoiceUplink ()->
-                      getVoiceStaffUplink ();
+                getNoteMeasureUpLink ()->
+                  getMeasureSegmentUpLink ()->
+                    getSegmentVoiceUpLink ()->
+                      getVoiceStaffUpLink ();
 
           switch (noteStaff->getStaffKind ()) {
             case msrStaff::kStaffTablature:
@@ -2734,18 +2734,18 @@ void lpsr2LilypondTranslator::generateOrnament (
   S_msrOrnament ornament)
 {
   S_msrNote
-    ornamentNoteUplink =
+    ornamentNoteUpLink =
       ornament->
-        getOrnamentNoteUplink ();
+        getOrnamentNoteUpLink ();
 
   string
-    noteUplinkDuration =
-      ornamentNoteUplink->
+    noteUpLinkDuration =
+      ornamentNoteUpLink->
         noteSoundingWholeNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kOrnamentTrill:
-      if (! ornamentNoteUplink->getNoteWavyLineSpannerStart ()) {
+      if (! ornamentNoteUpLink->getNoteWavyLineSpannerStart ()) {
         fLilypondCodeIOstream <<
           "\\trill ";
       }
@@ -2756,7 +2756,7 @@ void lpsr2LilypondTranslator::generateOrnament (
       break;
 
     case msrOrnament::kOrnamentDashes:
-      if (! ornamentNoteUplink->getNoteWavyLineSpannerStart ()) {
+      if (! ornamentNoteUpLink->getNoteWavyLineSpannerStart ()) {
         fLilypondCodeIOstream <<
           "%{\\dashes%} ";
       }
@@ -2789,7 +2789,7 @@ void lpsr2LilypondTranslator::generateOrnament (
 
         fLilypondCodeIOstream <<
           "s" <<
-          noteUplinkDuration <<
+          noteUpLinkDuration <<
           "*" <<
             denominator
             -
@@ -2822,7 +2822,7 @@ void lpsr2LilypondTranslator::generateOrnament (
 
         fLilypondCodeIOstream <<
           "s" <<
-          noteUplinkDuration <<
+          noteUpLinkDuration <<
           "*1/3" "\\reverseturn ";
       }
       break;
@@ -2943,7 +2943,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerBeforeNote (
     case msrSpanner::kSpannerWavyLine:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
             // don't generate anything, the trill will display the wavy line
             fOnGoingTrillSpanner = true;
           }
@@ -3012,7 +3012,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
     case msrSpanner::kSpannerWavyLine:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
             // don't generate anything, the trill will display the wavy line
             fOnGoingTrillSpanner = true;
           }
@@ -3028,7 +3028,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
             S_msrSpanner
               spannerStartEnd =
                 spanner->
-                  getSpannerOtherEndSidelink ();
+                  getSpannerOtherEndSideLink ();
 
             // sanity check
             msrAssert (
@@ -3036,7 +3036,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
               "spannerStartEnd is null");
 
             // has the start end a trill ornament?
-            if (spannerStartEnd->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+            if (spannerStartEnd->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
               fLilypondCodeIOstream <<
                 "\\stopTrillSpan ";
             }
@@ -3170,9 +3170,9 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
 
 /* JMI
   S_msrNote
-    singleTremoloNoteUplink =
+    singleTremoloNoteUpLink =
       singleTremolo->
-        getSingleTremoloNoteUplink ();
+        getSingleTremoloNoteUpLink ();
 */
 
   msrDurationKind
@@ -3180,7 +3180,7 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
       singleTremolo->
         getSingleTremoloGraphicDurationKind ();
     /*
-      singleTremoloNoteUplink->
+      singleTremoloNoteUpLink->
         getNoteGraphicDurationKind ();
     */
 
@@ -3784,6 +3784,28 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
     "\" } ";
 
   return s.str ();
+}
+
+void lpsr2LilypondTranslator::generateInputLineNumberAndOrPositionInMeasureAsAComment (
+  S_msrMeasureElement measureElement)
+{
+  fLilypondCodeIOstream <<
+    "%{ ";
+
+  if (gLilypondOptions->fNotesInputLineNumbers) {
+    // print the input line number as a comment
+    fLilypondCodeIOstream <<
+      "line: " << measureElement->getInputLineNumber () << " ";
+  }
+
+  if (gLilypondOptions->fNotesPositionsInMeasures) {
+    // print the position in measure as a comment
+    fLilypondCodeIOstream <<
+       "pim: " << measureElement->getPositionInMeasure () << " ";
+  }
+
+  fLilypondCodeIOstream <<
+    "%} ";
 }
 
 //________________________________________________________________________
@@ -5775,22 +5797,22 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   gIndenter++;
 
-  // fetch part uplink
+  // fetch part upLink
   S_msrPart
-    staffPartUplink =
-      staff->getStaffPartUplink ();
+    staffPartUpLink =
+      staff->getStaffPartUpLink ();
 
   // don't generate instrument names in the staves
   // if the containing part contains several of them
-  if (staffPartUplink ->getPartStavesMap ().size () == 1) {
-    // get the part uplink name to be used
+  if (staffPartUpLink ->getPartStavesMap ().size () == 1) {
+    // get the part upLink name to be used
     string partName =
-      staffPartUplink->
+      staffPartUpLink->
         getPartNameDisplayText ();
 
     if (partName.size () == 0) {
       partName =
-        staffPartUplink->
+        staffPartUpLink->
           getPartName ();
     }
 
@@ -5824,14 +5846,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       }
     }
 
-    // get the part uplink abbreviation display text to be used
+    // get the part upLink abbreviation display text to be used
     string partAbbreviation =
-      staffPartUplink->
+      staffPartUpLink->
         getPartAbbreviationDisplayText ();
 
     if (partAbbreviation.size () == 0) {
       partAbbreviation =
-        staffPartUplink->
+        staffPartUpLink->
           getPartAbbreviation ();
     }
 
@@ -6067,7 +6089,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     voice = elt->getVoice ();
 
   S_msrStaff
-    staff = voice-> getVoiceStaffUplink ();
+    staff = voice-> getVoiceStaffUpLink ();
 
   msrStaff::msrStaffKind
     staffKind = staff->getStaffKind ();
@@ -6997,10 +7019,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     elt->getStaffToChangeTo ()->getStaffName () <<
     "\"";
 
-  if (gLilypondOptions->fNoteInputLineNumbers) { // JMI
-    // print the staff change line number as a comment
-    fLilypondCodeIOstream <<
-      "%{ " << elt->getInputLineNumber () << " %} ";
+  if (
+    gLilypondOptions->fNotesInputLineNumbers
+      ||
+    gLilypondOptions->fNotesPositionsInMeasures
+  ) {
+    generateInputLineNumberAndOrPositionInMeasureAsAComment (
+      elt);
   }
 
   fLilypondCodeIOstream << endl;
@@ -7041,10 +7066,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       harmonyAsLilypondString (elt) <<
       ' ';
 
-    if (gLilypondOptions->fNoteInputLineNumbers) {
-      // print the harmony line number as a comment
-      fLilypondCodeIOstream <<
-        "%{ " << elt->getInputLineNumber () << " %} ";
+    if (
+      gLilypondOptions->fNotesInputLineNumbers
+        ||
+      gLilypondOptions->fNotesPositionsInMeasures
+    ) {
+      generateInputLineNumberAndOrPositionInMeasureAsAComment (
+        elt);
     }
   }
 
@@ -7119,10 +7147,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
     fLilypondCodeIOstream <<
       "<";
 
-    if (gLilypondOptions->fNoteInputLineNumbers) {
-      // print the figured bass line number as a comment
-      fLilypondCodeIOstream <<
-        " %{ " << fCurrentFiguredBass->getInputLineNumber () << " %} ";
+    if (
+      gLilypondOptions->fNotesInputLineNumbers
+        ||
+      gLilypondOptions->fNotesPositionsInMeasures
+    ) {
+      generateInputLineNumberAndOrPositionInMeasureAsAComment (
+        fCurrentFiguredBass);
     }
   }
 
@@ -7958,7 +7989,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableMeasureEnd:
       // JMI      "| " <<
-          if (gLilypondOptions->fNoteInputLineNumbers) {
+          if (gLilypondOptions->fNotesInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeIOstream <<
               "%{ measure end, line " <<
@@ -7970,7 +8001,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllableLineBreak:
-          if (gLilypondOptions->fNoteInputLineNumbers) {
+          if (gLilypondOptions->fNotesInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeIOstream <<
               "%{ line break, line " <<
@@ -7982,7 +8013,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllablePageBreak:
-          if (gLilypondOptions->fNoteInputLineNumbers) {
+          if (gLilypondOptions->fNotesInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeIOstream <<
               "%{ page break, line " <<
@@ -8046,10 +8077,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
       } // switch
 
-      if (gLilypondOptions->fNoteInputLineNumbers) {
-        // print the note line number as a comment
-        fLilypondCodeIOstream <<
-          "%{ " << elt->getInputLineNumber () << " %} ";
+    if (
+      gLilypondOptions->fNotesInputLineNumbers
+        ||
+      gLilypondOptions->fNotesPositionsInMeasures
+    ) {
+      generateInputLineNumberAndOrPositionInMeasureAsAComment (
+        elt);
       }
     }
   }
@@ -8963,7 +8997,7 @@ If the double element is present, it indicates that the music is doubled one oct
       / * JMI
       getStaffName () <<
       "\" in part " <<
-      fStaffPartUplink->getPartCombinedName () <<
+      fStaffPartUpLink->getPartCombinedName () <<
       * /
       endl <<
       ", transpositionPitch: " <<
@@ -10549,7 +10583,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       break;
 
     case msrNote::kSkipNote:
-      if (elt->getNoteGraceNotesGroupUplink ()) {
+      if (elt->getNoteGraceNotesGroupUpLink ()) {
 #ifdef TRACE_OPTIONS
         if (
           gMsrOptions->fTraceMsrVisitors
@@ -10653,10 +10687,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 
       fLilypondCodeIOstream <<
         "\\new Staff \\with { alignAboveContext = \"" <<
-        elt->getNoteMeasureUplink ()->
-          getMeasureSegmentUplink ()->
-            getSegmentVoiceUplink ()->
-              getVoiceStaffUplink ()->
+        elt->getNoteMeasureUpLink ()->
+          getMeasureSegmentUpLink ()->
+            getSegmentVoiceUpLink ()->
+              getVoiceStaffUpLink ()->
                 getStaffName () <<
         "\" } {" <<
         endl;
@@ -11127,7 +11161,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         case msrSpanner::kSpannerDashes:
           break;
         case msrSpanner::kSpannerWavyLine:
-          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
             // don't generate anything, the trill will display the wavy line
             doGenerateSpannerCode = false;
           }
@@ -11271,11 +11305,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   // print things after the note
   generateCodeAfterNote (elt);
 
-  if (gLilypondOptions->fNoteInputLineNumbers) {
-    // print the note line number as a comment
-    fLilypondCodeIOstream <<
-      "%{ " << elt->getInputLineNumber () << " %} " <<
-      endl; // JMI
+  if (
+    gLilypondOptions->fNotesInputLineNumbers
+      ||
+    gLilypondOptions->fNotesPositionsInMeasures
+  ) {
+    generateInputLineNumberAndOrPositionInMeasureAsAComment (
+      elt);
   }
 
   fOnGoingNote = true;
@@ -11333,7 +11369,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kSkipNote:
-      if (elt->getNoteGraceNotesGroupUplink ()) {
+      if (elt->getNoteGraceNotesGroupUpLink ()) {
 #ifdef TRACE_OPTIONS
         if (
           gMsrOptions->fTraceMsrVisitors
@@ -12076,7 +12112,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrSpanner::kSpannerDashes:
           break;
         case msrSpanner::kSpannerWavyLine:
-          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
             // don't generate anything, the trill will display the wavy line
             doGenerateSpannerCode = false;
           }
@@ -13801,7 +13837,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           */
       } // switch
 
-      if (gLilypondOptions->fNoteInputLineNumbers) {
+      if (gLilypondOptions->fNotesInputLineNumbers) {
         // print the barline line number as a comment
         fLilypondCodeIOstream <<
           "%{ " << inputLineNumber << " %} ";
@@ -13865,7 +13901,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       break;
   } // switch
 
-  if (gLilypondOptions->fNoteInputLineNumbers) {
+  if (gLilypondOptions->fNotesInputLineNumbers) {
     fLilypondCodeIOstream <<
       " %{ " << inputLineNumber << " %}";
   }
@@ -14051,10 +14087,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 // JMI    fRepeatDescrsStack.back ()->getRepeatEndingsNumber () <<
     " {";
 
-  if (gLilypondOptions->fNoteInputLineNumbers) {
-    s <<
-      " %{ " << elt->getInputLineNumber () << " %}";
+/* JMI ???
+  if (
+    gLilypondOptions->fNotesInputLineNumbers
+      ||
+    gLilypondOptions->fNotesPositionsInMeasures
+  ) {
+    generateInputLineNumberAndOrPositionInMeasureAsAComment (
+      elt);
   }
+*/
 
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
@@ -14742,7 +14784,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
       restMeasuresNumber;
   }
 
-  if (gLilypondOptions->fNoteInputLineNumbers) {
+  if (gLilypondOptions->fNotesInputLineNumbers) {
     // print the rest measures line number as a comment
     fLilypondCodeIOstream <<
       " %{ " << inputLineNumber << " %} ";

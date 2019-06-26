@@ -136,7 +136,8 @@ R"(Write the contents of the options handler to standard error.)",
       optionsSubGroup::create (
         "Low level trace",
         "hllt", "help-low-level-trace",
-R"(  Note: the options in this group imply '-t, -trace-passes'.)",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this group imply '-t, -trace-passes'.)",
       optionsSubGroup::kHideDescriptionByDefault,
       this);
 
@@ -1141,10 +1142,10 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
       traceOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
 
   // specific trace

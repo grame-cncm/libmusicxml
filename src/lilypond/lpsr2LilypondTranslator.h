@@ -660,6 +660,10 @@ class lpsr2LilypondTranslator :
     // whole notes
     // JMI
 
+    // comments
+    void                  generateInputLineNumberAndOrPositionInMeasureAsAComment (
+                            S_msrMeasureElement measureElement);
+
     // names
 
     string                generateMultilineName (string theString);

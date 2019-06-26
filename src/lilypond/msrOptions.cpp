@@ -1064,10 +1064,10 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
       msrOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler uplink
+  // set the options handler upLink
   clone->
-    setOptionsHandlerUplink (
-      fOptionsHandlerUplink);
+    setOptionsHandlerUpLink (
+      fOptionsHandlerUpLink);
 
 
   // trace and display
@@ -1626,7 +1626,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
     printSpecificSubGroupHelp (
       os,
       partRenameItem->
-        getOptionsSubGroupUplink ());
+        getOptionsSubGroupUpLink ());
 
     exit (4);
   }
@@ -1737,7 +1737,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
     printSpecificSubGroupHelp (
       os,
       partTransposeItem->
-        getOptionsSubGroupUplink ());
+        getOptionsSubGroupUpLink ());
 
     exit (4);
   }

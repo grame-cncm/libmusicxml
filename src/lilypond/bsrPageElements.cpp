@@ -48,15 +48,15 @@ bsrPageElement::~bsrPageElement ()
 {}
 
 /*
-void bsrPageElement::setBsrLineUplink (
-S_bsrLine bsrLineUplink)
+void bsrPageElement::setBsrLineUpLink (
+S_bsrLine bsrLineUpLink)
 {
-  fBsrLineUplink = bsrLineUplink;
+  fBsrLineUpLink = bsrLineUpLink;
 }
 
-S_bsrLine bsrPageElement::getBsrLineUplink () const
+S_bsrLine bsrPageElement::getBsrLineUpLink () const
 {
-  return fBsrLineUplink;
+  return fBsrLineUpLink;
 }
 */
 

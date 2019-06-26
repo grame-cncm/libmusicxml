@@ -27,7 +27,7 @@ S_msrSpanner msrSpanner::create (
   msrSpannerKind     spannerKind,
   msrSpannerTypeKind spannerTypeKind,
   msrPlacementKind   spannerPlacementKind,
-  S_msrNote          spannerNoteUplink)
+  S_msrNote          spannerNoteUpLink)
 {
   msrSpanner* o =
     new msrSpanner (
@@ -36,7 +36,7 @@ S_msrSpanner msrSpanner::create (
       spannerKind,
       spannerTypeKind,
       spannerPlacementKind,
-      spannerNoteUplink);
+      spannerNoteUpLink);
   assert (o!=0);
   return o;
 }
@@ -47,10 +47,10 @@ msrSpanner::msrSpanner (
   msrSpannerKind     spannerKind,
   msrSpannerTypeKind spannerTypeKind,
   msrPlacementKind   spannerPlacementKind,
-  S_msrNote          spannerNoteUplink)
+  S_msrNote          spannerNoteUpLink)
     : msrElement (inputLineNumber)
 {
-  fSpannerNoteUplink = spannerNoteUplink;
+  fSpannerNoteUpLink = spannerNoteUpLink;
 
   fSpannerNumber = spannerNumber;
   
@@ -64,7 +64,7 @@ msrSpanner::msrSpanner (
 msrSpanner::~msrSpanner ()
 {}
 
-void msrSpanner::setSpannerOtherEndSidelink (
+void msrSpanner::setSpannerOtherEndSideLink (
   S_msrSpanner otherEndSideLink)
 {
   // sanity check
@@ -72,11 +72,11 @@ void msrSpanner::setSpannerOtherEndSidelink (
     otherEndSideLink != nullptr,
     "otherEndSideLink is null");
     
-  // set the two-way sidelink between both ends of the spanner
-  fSpannerOtherEndSidelink =
+  // set the two-way sideLink between both ends of the spanner
+  fSpannerOtherEndSideLink =
     otherEndSideLink;
     
-  otherEndSideLink->fSpannerOtherEndSidelink =
+  otherEndSideLink->fSpannerOtherEndSideLink =
     this;
 }
 
@@ -205,22 +205,22 @@ void msrSpanner::print (ostream& os)
     spannerTypeKindAsString () <<
     endl <<
     setw (fieldWidth) <<
-    "spannerNoteUplink" << " : " <<
+    "spannerNoteUpLink" << " : " <<
     endl;
 
   gIndenter++;
     os <<
-      fSpannerNoteUplink->asString () <<
+      fSpannerNoteUpLink->asString () <<
       endl;
   gIndenter--;
 
   os << left <<
     setw (fieldWidth) <<
-    "spannerOtherEndSidelink";
-  if (fSpannerOtherEndSidelink) {
+    "spannerOtherEndSideLink";
+  if (fSpannerOtherEndSideLink) {
     os <<
       endl <<
-      fSpannerOtherEndSidelink->asShortString ();
+      fSpannerOtherEndSideLink->asShortString ();
   }
   else {
     os <<

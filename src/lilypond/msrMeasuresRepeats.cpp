@@ -29,27 +29,27 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_msrMeasuresRepeatElement msrMeasuresRepeatElement::create (
   int                 inputLineNumber,
-  S_msrMeasuresRepeat measuresRepeatUplink)
+  S_msrMeasuresRepeat measuresRepeatUpLink)
 {
   msrMeasuresRepeatElement* o =
     new msrMeasuresRepeatElement (
       inputLineNumber,
-      measuresRepeatUplink);
+      measuresRepeatUpLink);
   assert(o!=0);
   return o;
 }
 
 msrMeasuresRepeatElement::msrMeasuresRepeatElement (
   int                 inputLineNumber,
-  S_msrMeasuresRepeat measuresRepeatUplink)
+  S_msrMeasuresRepeat measuresRepeatUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert (
-    measuresRepeatUplink != nullptr,
-    "measuresRepeatUplink is null");
+    measuresRepeatUpLink != nullptr,
+    "measuresRepeatUpLink is null");
 
-  fMeasuresRepeatElementMeasuresRepeatUplink = measuresRepeatUplink;
+  fMeasuresRepeatElementMeasuresRepeatUpLink = measuresRepeatUpLink;
 }
 
 msrMeasuresRepeatElement::~msrMeasuresRepeatElement ()
@@ -274,8 +274,8 @@ string msrMeasuresRepeatElement::asString () const
 
   s <<
     "MeasuresRepeatElement" <<
-    ", measuresRepeat uplink: '" <<
-    fMeasuresRepeatElementMeasuresRepeatUplink->
+    ", measuresRepeat upLink: '" <<
+    fMeasuresRepeatElementMeasuresRepeatUpLink->
       asShortString () <<
     "', line " << fInputLineNumber <<
     endl;
@@ -293,8 +293,8 @@ void msrMeasuresRepeatElement::print (ostream& os)
   gIndenter++;
 
   os <<
-    "measuresRepeat uplink: '" <<
-    fMeasuresRepeatElementMeasuresRepeatUplink->
+    "measuresRepeat upLink: '" <<
+    fMeasuresRepeatElementMeasuresRepeatUpLink->
       asShortString () <<
       "'" <<
     endl <<
@@ -352,8 +352,8 @@ void msrMeasuresRepeatElement::shortPrint (ostream& os)
 
 / / * JMI
   os <<
-    "measuresRepeat uplink: '" <<
-    fMeasuresRepeatElementMeasuresRepeatUplink->
+    "measuresRepeat upLink: '" <<
+    fMeasuresRepeatElementMeasuresRepeatUpLink->
       asShortString () <<
       "'" <<
     endl;
@@ -410,27 +410,27 @@ ostream& operator<< (ostream& os, const S_msrMeasuresRepeatElement& elt)
 //______________________________________________________________________________
 S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::create (
   int                 inputLineNumber,
-  S_msrMeasuresRepeat measuresRepeatUplink)
+  S_msrMeasuresRepeat measuresRepeatUpLink)
 {
   msrMeasuresRepeatPattern* o =
     new msrMeasuresRepeatPattern (
       inputLineNumber,
-      measuresRepeatUplink);
+      measuresRepeatUpLink);
   assert(o!=0);
   return o;
 }
 
 msrMeasuresRepeatPattern::msrMeasuresRepeatPattern (
   int                 inputLineNumber,
-  S_msrMeasuresRepeat measuresRepeatUplink)
+  S_msrMeasuresRepeat measuresRepeatUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert (
-    measuresRepeatUplink != nullptr,
-    "measuresRepeatUplink is null");
+    measuresRepeatUpLink != nullptr,
+    "measuresRepeatUpLink is null");
 
-  fMeasuresRepeatUplink = measuresRepeatUplink;
+  fMeasuresRepeatUpLink = measuresRepeatUpLink;
 }
 
 msrMeasuresRepeatPattern::~msrMeasuresRepeatPattern ()
@@ -595,27 +595,27 @@ ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt)
 //______________________________________________________________________________
 S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::create (
   int                 inputLineNumber,
-  S_msrMeasuresRepeat measuresRepeatUplink)
+  S_msrMeasuresRepeat measuresRepeatUpLink)
 {
   msrMeasuresRepeatReplicas* o =
     new msrMeasuresRepeatReplicas (
       inputLineNumber,
-      measuresRepeatUplink);
+      measuresRepeatUpLink);
   assert(o!=0);
   return o;
 }
 
 msrMeasuresRepeatReplicas::msrMeasuresRepeatReplicas (
   int                 inputLineNumber,
-  S_msrMeasuresRepeat measuresRepeatUplink)
+  S_msrMeasuresRepeat measuresRepeatUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert (
-    measuresRepeatUplink != nullptr,
-    "measuresRepeatUplink is null");
+    measuresRepeatUpLink != nullptr,
+    "measuresRepeatUpLink is null");
 
-  fMeasuresRepeatUplink = measuresRepeatUplink;
+  fMeasuresRepeatUpLink = measuresRepeatUpLink;
 }
 
 msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas ()
@@ -782,14 +782,14 @@ S_msrMeasuresRepeat msrMeasuresRepeat::create (
   int        inputLineNumber,
   int        measuresRepeatMeasuresNumber,
   int        measuresRepeatSlashesNumber,
-  S_msrVoice voiceUplink)
+  S_msrVoice voiceUpLink)
 {
   msrMeasuresRepeat* o =
     new msrMeasuresRepeat (
       inputLineNumber,
       measuresRepeatMeasuresNumber,
       measuresRepeatSlashesNumber,
-      voiceUplink);
+      voiceUpLink);
   assert(o!=0);
   return o;
 }
@@ -798,7 +798,7 @@ msrMeasuresRepeat::msrMeasuresRepeat (
   int        inputLineNumber,
   int        measuresRepeatMeasuresNumber,
   int        measuresRepeatSlashesNumber,
-  S_msrVoice voiceUplink)
+  S_msrVoice voiceUpLink)
     : msrVoiceElement (inputLineNumber)
 {
   // sanity check
@@ -815,7 +815,7 @@ msrMeasuresRepeat::msrMeasuresRepeat (
 
   fMeasuresRepeatSlashesNumber  = measuresRepeatSlashesNumber;
 
-  fMeasuresRepeatVoiceUplink = voiceUplink;
+  fMeasuresRepeatVoiceUpLink = voiceUpLink;
 
   // measures repeat build phase
   fCurrentMeasuresRepeatBuildPhaseKind =
@@ -987,10 +987,10 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
   // fetch the score
   S_msrScore
     score =
-      fMeasuresRepeatVoiceUplink->
-        fetchVoicePartUplink ()->
-          getPartPartGroupUplink ()->
-            getPartGroupScoreUplink ();
+      fMeasuresRepeatVoiceUpLink->
+        fetchVoicePartUpLink ()->
+          getPartPartGroupUpLink ()->
+            getPartGroupScoreUpLink ();
 
   bool inhibitMeasuresRepeatReplicasBrowsing =
     score->getInhibitMeasuresRepeatReplicasBrowsing ();
@@ -1075,7 +1075,7 @@ void msrMeasuresRepeat::displayMeasuresRepeat (
     fMeasuresRepeatSlashesNumber <<
     "', voice:" <<
     endl <<
-    fMeasuresRepeatVoiceUplink->getVoiceName () <<
+    fMeasuresRepeatVoiceUpLink->getVoiceName () <<
     " (" << context << ")" <<
     ", line " << inputLineNumber <<
     " contains:" <<

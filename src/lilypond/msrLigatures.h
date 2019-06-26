@@ -78,12 +78,12 @@ class msrLigature : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    // sidelinks
-    void                  setLigatureOtherEndSidelink (
+    // sideLinks
+    void                  setLigatureOtherEndSideLink (
                             S_msrLigature otherEndSideLink);
       
-    S_msrLigature         getLigatureOtherEndSidelink () const
-                              { return fLigatureOtherEndSidelink; }
+    S_msrLigature         getLigatureOtherEndSideLink () const
+                              { return fLigatureOtherEndSideLink; }
 
     int                   getLigatureNumber () const
                               { return fLigatureNumber; }
@@ -125,9 +125,9 @@ class msrLigature : public msrElement
 
   private:
 
-    // sidelinks
+    // sideLinks
     // ------------------------------------------------------
-    S_msrLigature         fLigatureOtherEndSidelink; // two-way
+    S_msrLigature         fLigatureOtherEndSideLink; // two-way
 
     // fields
     // ------------------------------------------------------

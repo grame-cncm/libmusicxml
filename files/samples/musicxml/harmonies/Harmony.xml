@@ -58,6 +58,7 @@
         </midi-instrument>
       </score-part>
     </part-list>
+  <!--=========================================================-->
   <part id="P1">
     <measure number="1" width="620.15">
       <print>
@@ -163,6 +164,7 @@
         <stem>up</stem>
         </note>
       </measure>
+  <!--=========================================================-->
     <measure number="2" width="457.34">
       <harmony print-frame="no">
         <root>

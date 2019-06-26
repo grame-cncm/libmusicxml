@@ -33,13 +33,13 @@ int msrPart::gPartsCounter = 0;
 S_msrPart msrPart::create (
   int            inputLineNumber,
   string         partID,
-  S_msrPartGroup partPartGroupUplink)
+  S_msrPartGroup partPartGroupUpLink)
 {
   msrPart* o =
     new msrPart (
       inputLineNumber,
       partID,
-      partPartGroupUplink);
+      partPartGroupUpLink);
   assert(o!=0);
   return o;
 }
@@ -47,7 +47,7 @@ S_msrPart msrPart::create (
 msrPart::msrPart (
   int            inputLineNumber,
   string         partID,
-  S_msrPartGroup partPartGroupUplink)
+  S_msrPartGroup partPartGroupUpLink)
     : msrPartGroupElement (inputLineNumber)
 {
   // replace spaces in partID to set fPartID
@@ -59,15 +59,15 @@ msrPart::msrPart (
 /* JMI
   // sanity check
   msrAssert(
-    partPartGroupUplink != nullptr,
-    "partPartGroupUplink is null");
+    partPartGroupUpLink != nullptr,
+    "partPartGroupUpLink is null");
     */
 
   // set part number
   fPartAbsoluteNumber = ++gPartsCounter;
 
-  // set part's part group uplink
-  fPartPartGroupUplink = partPartGroupUplink;
+  // set part's part group upLink
+  fPartPartGroupUpLink = partPartGroupUpLink;
 
   // do other initializations
   initializePart ();
@@ -1574,8 +1574,8 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
 {
   S_msrScore
     score =
-      fPartPartGroupUplink->
-        getPartGroupScoreUplink ();
+      fPartPartGroupUpLink->
+        getPartGroupScoreUpLink ();
 
   int partInstrumentNameLength =
     fPartInstrumentName.size ();
@@ -1780,11 +1780,11 @@ void msrPart::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "partGroupUplink" << " : ";
-  if (fPartPartGroupUplink) {
+    "partGroupUpLink" << " : ";
+  if (fPartPartGroupUpLink) {
     // it may be empty
     os <<
-      fPartPartGroupUplink->getPartGroupCombinedName ();
+      fPartPartGroupUpLink->getPartGroupCombinedName ();
   }
   else {
     os << "none";

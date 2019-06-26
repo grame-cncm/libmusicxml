@@ -45,7 +45,7 @@ msrRestMeasuresContents::msrRestMeasuresContents (
   S_msrRestMeasures restMeasures)
     : msrElement (inputLineNumber)
 {
-  fRestMeasuresContentsRestMeasuresUplink =
+  fRestMeasuresContentsRestMeasuresUpLink =
     restMeasures;
 }
 
@@ -239,14 +239,14 @@ S_msrRestMeasures msrRestMeasures::create (
   int        inputLineNumber,
   rational   restMeasuresMeasureSoundingNotes,
   int        restMeasuresNumber,
-  S_msrVoice voiceUplink)
+  S_msrVoice voiceUpLink)
 {
   msrRestMeasures* o =
     new msrRestMeasures (
       inputLineNumber,
       restMeasuresMeasureSoundingNotes,
       restMeasuresNumber,
-      voiceUplink);
+      voiceUpLink);
   assert(o!=0);
   return o;
 }
@@ -255,10 +255,10 @@ msrRestMeasures::msrRestMeasures (
   int        inputLineNumber,
   rational   restMeasuresMeasureSoundingNotes,
   int        restMeasuresNumber,
-  S_msrVoice voiceUplink)
+  S_msrVoice voiceUpLink)
     : msrVoiceElement (inputLineNumber)
 {
-  fRestMeasuresVoiceUplink = voiceUplink;
+  fRestMeasuresVoiceUpLink = voiceUpLink;
 
   fRestMeasuresMeasureSoundingNotes = restMeasuresMeasureSoundingNotes;
   
@@ -462,26 +462,26 @@ void msrRestMeasures::browseData (basevisitor* v)
   }
 
 /* JMI
-  // get the part uplink
+  // get the part upLink
   S_msrPart
-    partUplink =
-      fRestMeasuresVoiceUplink->
-        fetchVoicePartUplink ();
+    partUpLink =
+      fRestMeasuresVoiceUpLink->
+        fetchVoicePartUpLink ();
 
-  // get the part group uplink
+  // get the part group upLink
   S_msrPartGroup
-    partGroupUplink =
-      partUplink->
-        getPartPartGroupUplink ();
+    partGroupUpLink =
+      partUpLink->
+        getPartPartGroupUpLink ();
 
-  // get the score uplink
+  // get the score upLink
   S_msrScore
-    scoreUplink =
-      partGroupUplink->
-        getPartGroupScoreUplink ();
+    scoreUpLink =
+      partGroupUpLink->
+        getPartGroupScoreUpLink ();
 
   bool inhibitRestMeasuresBrowsing =
-    scoreUplink->
+    scoreUpLink->
       getInhibitRestMeasuresBrowsing ();
 
   if (inhibitRestMeasuresBrowsing) {
@@ -579,12 +579,12 @@ void msrRestMeasures::print (ostream& os)
     "'" <<
     endl;
   
-  // print the voice uplink
+  // print the voice upLink
   os << left <<
     setw (fieldWidth) <<
-    "restMeasuresVoiceUplink" << " : " <<
+    "restMeasuresVoiceUpLink" << " : " <<
     "\"" <<
-    fRestMeasuresVoiceUplink->getVoiceName () <<
+    fRestMeasuresVoiceUpLink->getVoiceName () <<
     "\"" <<
     endl;
     

@@ -217,8 +217,8 @@ void msrOrnament::print (ostream& os)
     ornamentAccidentalMarkAsString () <<
     endl <<
     setw (fieldWidth) <<
-    "noteUplink" << " : " <<
-    fOrnamentNoteUplink->asShortString () <<
+    "noteUpLink" << " : " <<
+    fOrnamentNoteUpLink->asShortString () <<
     endl;
 
   gIndenter--;

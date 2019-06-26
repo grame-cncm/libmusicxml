@@ -48,27 +48,27 @@ namespace MusicXML2
 /* JMI
 S_msrRepeatElement msrRepeatElement::create (
   int                 inputLineNumber,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
 {
   msrRepeatElement* o =
     new msrRepeatElement (
       inputLineNumber,
-      repeatUplink);
+      repeatUpLink);
   assert(o!=0);
   return o;
 }
 
 msrRepeatElement::msrRepeatElement (
   int                 inputLineNumber,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert (
-    repeatUplink != nullptr,
-    "repeatUplink is null");
+    repeatUpLink != nullptr,
+    "repeatUpLink is null");
 
-  fRepeatElementRepeatUplink = repeatUplink;
+  fRepeatElementRepeatUpLink = repeatUpLink;
 }
 
 msrRepeatElement::~msrRepeatElement ()
@@ -293,8 +293,8 @@ string msrRepeatElement::asString () const
 
   s <<
     "RepeatElement" <<
-    ", repeat uplink: '" <<
-    fRepeatElementRepeatUplink->
+    ", repeat upLink: '" <<
+    fRepeatElementRepeatUpLink->
       asShortString () <<
     "', line " << fInputLineNumber <<
     endl;
@@ -312,8 +312,8 @@ void msrRepeatElement::print (ostream& os)
   gIndenter++;
 
   os <<
-    "repeat uplink: '" <<
-    fRepeatElementRepeatUplink->
+    "repeat upLink: '" <<
+    fRepeatElementRepeatUpLink->
       asShortString () <<
       "'" <<
     endl <<
@@ -371,8 +371,8 @@ void msrRepeatElement::shortPrint (ostream& os)
 
 / * JMI
   os <<
-    "repeat uplink: '" <<
-    fRepeatElementRepeatUplink->
+    "repeat upLink: '" <<
+    fRepeatElementRepeatUpLink->
       asShortString () <<
       "'" <<
     endl;
@@ -429,27 +429,27 @@ ostream& operator<< (ostream& os, const S_msrRepeatElement& elt)
 //______________________________________________________________________________
 S_msrRepeatCommonPart msrRepeatCommonPart::create (
   int                 inputLineNumber,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
 {
   msrRepeatCommonPart* o =
     new msrRepeatCommonPart (
       inputLineNumber,
-      repeatUplink);
+      repeatUpLink);
   assert(o!=0);
   return o;
 }
 
 msrRepeatCommonPart::msrRepeatCommonPart (
   int                 inputLineNumber,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert (
-    repeatUplink != nullptr,
-    "repeatUplink is null");
+    repeatUpLink != nullptr,
+    "repeatUpLink is null");
 
-  fRepeatCommonPartRepeatUplink = repeatUplink;
+  fRepeatCommonPartRepeatUpLink = repeatUpLink;
 }
 
 msrRepeatCommonPart::~msrRepeatCommonPart ()
@@ -728,8 +728,8 @@ string msrRepeatCommonPart::asString () const
 
   s <<
     "RepeatCommonPart" <<
-    ", repeat uplink: '" <<
-    fRepeatCommonPartRepeatUplink->
+    ", repeat upLink: '" <<
+    fRepeatCommonPartRepeatUpLink->
       asShortString () <<
     "', line " << fInputLineNumber <<
     endl;
@@ -747,8 +747,8 @@ void msrRepeatCommonPart::print (ostream& os)
   gIndenter++;
 
   os <<
-    "repeat uplink: '" <<
-    fRepeatCommonPartRepeatUplink->
+    "repeat upLink: '" <<
+    fRepeatCommonPartRepeatUpLink->
       asShortString () <<
       "'" <<
     endl <<
@@ -806,8 +806,8 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
 
 /* JMI
   os <<
-    "repeat uplink: '" <<
-    fRepeatCommonPartRepeatUplink->
+    "repeat upLink: '" <<
+    fRepeatCommonPartRepeatUpLink->
       asShortString () <<
       "'" <<
     endl;
@@ -865,14 +865,14 @@ S_msrRepeatEnding msrRepeatEnding::create (
   int                 inputLineNumber,
   string              repeatEndingNumber, // may be "1, 2"
   msrRepeatEndingKind repeatEndingKind,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
 {
   msrRepeatEnding* o =
     new msrRepeatEnding (
       inputLineNumber,
       repeatEndingNumber,
       repeatEndingKind,
-      repeatUplink);
+      repeatUpLink);
   assert(o!=0);
   return o;
 }
@@ -881,7 +881,7 @@ msrRepeatEnding::msrRepeatEnding (
   int                 inputLineNumber,
   string              repeatEndingNumber, // may be "1, 2"
   msrRepeatEndingKind repeatEndingKind,
-  S_msrRepeat         repeatUplink)
+  S_msrRepeat         repeatUpLink)
     : msrElement (inputLineNumber)
 {
   fRepeatEndingNumber = repeatEndingNumber;
@@ -891,7 +891,7 @@ msrRepeatEnding::msrRepeatEnding (
 
   fRepeatEndingKind = repeatEndingKind;
 
-  fRepeatEndingRepeatUplink = repeatUplink;
+  fRepeatEndingRepeatUpLink = repeatUpLink;
 }
 
 msrRepeatEnding::~msrRepeatEnding ()
@@ -1105,11 +1105,11 @@ string msrRepeatEnding::asString () const
     ", " <<
     repeatEndingKindAsString (
       fRepeatEndingKind) <<
-    ", repeatEndingRepeatUplink: '";
+    ", repeatEndingRepeatUpLink: '";
 
-  if (fRepeatEndingRepeatUplink) {
+  if (fRepeatEndingRepeatUpLink) {
     s <<
-      fRepeatEndingRepeatUplink->
+      fRepeatEndingRepeatUpLink->
         asShortString ();
   }
   else {
@@ -1141,8 +1141,8 @@ void msrRepeatEnding::print (ostream& os)
 
 /* JMI
   os <<
-    "repeat uplink: '" <<
-    fRepeatEndingRepeatUplink->
+    "repeat upLink: '" <<
+    fRepeatEndingRepeatUpLink->
       asShortString () <<
       "'" <<
     endl;
@@ -1158,8 +1158,8 @@ void msrRepeatEnding::print (ostream& os)
     "repeatEndingInternalNumber" <<  " : " <<fRepeatEndingInternalNumber <<
     endl <<
     setw (fieldWidth) <<
-    "repeat uplink" << " : '" <<
-    fRepeatEndingRepeatUplink->
+    "repeat upLink" << " : '" <<
+    fRepeatEndingRepeatUpLink->
       asShortString () <<
     "'" <<
     endl <<
@@ -1231,8 +1231,8 @@ void msrRepeatEnding::shortPrint (ostream& os)
     "repeatEndingInternalNumber" <<  " : " <<fRepeatEndingInternalNumber <<
     endl <<
     setw (fieldWidth) <<
-    "repeat uplink: " << " : '" <<
-    fRepeatEndingRepeatUplink->
+    "repeat upLink: " << " : '" <<
+    fRepeatEndingRepeatUpLink->
       asShortString () <<
     "'" <<
     endl <<
@@ -1241,8 +1241,8 @@ void msrRepeatEnding::shortPrint (ostream& os)
 
 /* JMI
   os <<
-    "repeat uplink: '" <<
-    fRepeatEndingRepeatUplink->
+    "repeat upLink: '" <<
+    fRepeatEndingRepeatUpLink->
       asShortString () <<
       "'" <<
     endl;
@@ -1299,13 +1299,13 @@ ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt)
 S_msrRepeat msrRepeat::create (
   int        inputLineNumber,
   int        repeatTimes,
-  S_msrVoice voiceUplink)
+  S_msrVoice voiceUpLink)
 {
   msrRepeat* o =
     new msrRepeat (
       inputLineNumber,
       repeatTimes,
-      voiceUplink);
+      voiceUpLink);
   assert(o!=0);
   return o;
 }
@@ -1313,17 +1313,17 @@ S_msrRepeat msrRepeat::create (
 msrRepeat::msrRepeat (
   int        inputLineNumber,
   int        repeatTimes,
-  S_msrVoice voiceUplink)
+  S_msrVoice voiceUpLink)
     : msrVoiceElement (inputLineNumber)
 {
   fRepeatEndingsInternalCounter = 0;
 
   // sanity check
   msrAssert(
-    voiceUplink != nullptr,
-    "voiceUplink is null");
+    voiceUpLink != nullptr,
+    "voiceUpLink is null");
 
-  fRepeatVoiceUplink = voiceUplink;
+  fRepeatVoiceUpLink = voiceUpLink;
 
   fRepeatTimes = repeatTimes;
 

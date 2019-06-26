@@ -21,6 +21,8 @@
 
 #include "msrOptions.h"
 
+#include "messagesHandling.h"
+
 
 using namespace std;
 
@@ -40,8 +42,14 @@ msrMeasureElement::~msrMeasureElement ()
 {}
 
 void msrMeasureElement::setPositionInMeasure (
-  rational positionInMeasure)
+  rational positionInMeasure,
+  string   context)
 {
+  // sanity check
+  msrAssert (
+    positionInMeasure != K_NO_POSITION_MEASURE_NUMBER,
+    "positionInMeasure == K_NO_POSITION_MEASURE_NUMBER");
+
   fPositionInMeasure =
     positionInMeasure;
 
@@ -53,14 +61,35 @@ void msrMeasureElement::setPositionInMeasure (
       "' in measure to '" << fPositionInMeasure <<
       "' in measure '" <<
       fMeasureNumber <<
-      "'" <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
       endl;
   }
 #endif
 
-  if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
-    abort (); // JMI
+/* JMI
+  if (
+    // boolean item?
+    S_msrNote
+      note =
+        dynamic_cast<msrNote*>(&(*this))
+  ) {
+    if (positionInMeasure == rational (1, 1)) {
+      abort (); // JMI
+    }
   }
+  */
+}
+
+bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (
+  const SMARTP<msrMeasureElement>& first,
+  const SMARTP<msrMeasureElement>& second)
+{
+  return
+    first->getPositionInMeasure ()
+      <
+    second->getPositionInMeasure ();
 }
 
 void msrMeasureElement::acceptIn (basevisitor* v)

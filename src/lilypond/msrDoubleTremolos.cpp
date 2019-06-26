@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -56,7 +56,7 @@ msrDoubleTremolo::msrDoubleTremolo (
   fDoubleTremoloTypeKind      = doubleTremoloTypeKind;
   fDoubleTremoloMarksNumber   = doubleTremoloMarksNumber;
   fDoubleTremoloPlacementKind = doubleTremoloPlacementKind;
-  
+
   fDoubleTremoloSoundingWholeNotes =
     rational (-1, 1); // will be set later
 
@@ -74,7 +74,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     doubleTremoloFirstElement != nullptr,
@@ -82,7 +82,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   msrAssert(
     doubleTremoloSecondElement != nullptr,
     "doubleTremoloSecondElement is null");
-    
+
   S_msrDoubleTremolo
     newbornClone =
       msrDoubleTremolo::create (
@@ -96,19 +96,19 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
     doubleTremoloFirstElement;
   newbornClone->fDoubleTremoloSecondElement =
     doubleTremoloSecondElement;
-    
+
   newbornClone->fDoubleTremoloSoundingWholeNotes =
     fDoubleTremoloSoundingWholeNotes;
-        
+
   newbornClone->fDoubleTremoloElementsDuration =
     fDoubleTremoloElementsDuration;
-        
+
   newbornClone->fDoubleTremoloNumberOfRepeats =
     fDoubleTremoloNumberOfRepeats;
-        
+
   newbornClone->fDoubleTremoloPlacementKind =
     fDoubleTremoloPlacementKind;
-        
+
   return newbornClone;
 }
 
@@ -129,7 +129,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 
   int inputLineNumber =
     note->getInputLineNumber ();
-    
+
   // register note as first element of this double tremolo
   fDoubleTremoloFirstElement = note;
 
@@ -142,7 +142,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
     noteDisplayWholeNotes =
       note->
         getNoteDisplayWholeNotes ();
-  
+
   // set double tremolo sounding whole notes
   // to the note's display whole notes,
    // i.e. the duration of each of the two notes
@@ -178,7 +178,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
         /
       2; // there are two repeated notes
   numberOfRepeatsAsRational.rationalise ();
-      
+
   if (numberOfRepeatsAsRational.getDenominator () != 1) {
     stringstream s;
 
@@ -202,10 +202,10 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
       __FILE__, __LINE__,
       s.str ());
   }
-    
+
   fDoubleTremoloNumberOfRepeats =
     numberOfRepeatsAsRational.getNumerator ();
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos) {
     glogIOstream <<
@@ -236,7 +236,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
 
   int inputLineNumber =
     note->getInputLineNumber ();
-    
+
   // register note as second element of this double tremolo
   fDoubleTremoloSecondElement = note;
 
@@ -255,7 +255,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
     expectedDoubleTremoloSoundingWholeNotes =
       noteDisplayWholeNotes;
   expectedDoubleTremoloSoundingWholeNotes.rationalise ();
-        
+
   // check that expected double tremolo sounding whole notes
   // match the known double tremolo sounding whole notes
 #ifdef TRACE_OPTIONS
@@ -292,16 +292,16 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
     s <<
       note <<
       endl;
-    
+
     gIndenter--;
-      
+
     msrInternalError (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
-  
+
   // set note's sounding whole notes
   note->
     setNoteSoundingWholeNotes (
@@ -339,7 +339,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
     expectedDoubleTremoloSoundingWholeNotes =
       chordDisplayWholeNotes * 2;
   expectedDoubleTremoloSoundingWholeNotes.rationalise ();
-    
+
   // set double tremolo whole notes to the chords's displayed whole notes
   if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
     if (
@@ -361,9 +361,9 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
       s <<
         chord <<
         endl;
-      
+
       gIndenter--;
-                
+
       msrInternalError (
         gGeneralOptions->fInputSourceName,
         chord->getInputLineNumber (),
@@ -401,7 +401,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
     chordDisplayWholeNotes =
       chord->
         getChordDisplayWholeNotes ();
-    
+
   // set double tremolo whole notes to the chords's displayed whole notes
   if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
     if (chordDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
@@ -420,9 +420,9 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
       s <<
         chord <<
         endl;
-      
+
       gIndenter--;
-        
+
       msrInternalError (
         gGeneralOptions->fInputSourceName,
         chord->getInputLineNumber (),
@@ -430,35 +430,19 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
         s.str ());
     }
   }
-  
+
   else {
     fDoubleTremoloSoundingWholeNotes =
       chordDisplayWholeNotes;
   }
 }
 
-string msrDoubleTremolo::msrDoubleTremoloKindAsString (
-  msrDoubleTremolo::msrDoubleTremoloKind doubleTremolotKind)
+void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
+  rational positionInMeasure)
 {
-  string result;
-  
-  switch (doubleTremolotKind) {
-    case msrDoubleTremolo::kNotesDoubleTremolo:
-      result = "Notes";
-      break;
-    case msrDoubleTremolo::kChordsDoubleTremolo:
-      result = "Chords";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fDoubleTremoloPlacementKind);
+  msrMeasureElement::setPositionInMeasure (
+    positionInMeasure,
+    "setDoubleTremoloPositionInMeasure()");
 }
 
 void msrDoubleTremolo::acceptIn (basevisitor* v)
@@ -468,12 +452,12 @@ void msrDoubleTremolo::acceptIn (basevisitor* v)
       "% ==> msrDoubleTremolo::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrDoubleTremolo>*
     p =
       dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
         S_msrDoubleTremolo elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           glogIOstream <<
             "% ==> Launching msrDoubleTremolo::visitStart ()" <<
@@ -495,7 +479,7 @@ void msrDoubleTremolo::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
         S_msrDoubleTremolo elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           glogIOstream <<
             "% ==> Launching msrDoubleTremolo::visitEnd ()" <<
@@ -520,10 +504,34 @@ void msrDoubleTremolo::browseData (basevisitor* v)
   }
 }
 
+string msrDoubleTremolo::msrDoubleTremoloKindAsString (
+  msrDoubleTremolo::msrDoubleTremoloKind doubleTremolotKind)
+{
+  string result;
+
+  switch (doubleTremolotKind) {
+    case msrDoubleTremolo::kNotesDoubleTremolo:
+      result = "Notes";
+      break;
+    case msrDoubleTremolo::kChordsDoubleTremolo:
+      result = "Chords";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
+{
+  return
+    msrPlacementKindAsString (
+      fDoubleTremoloPlacementKind);
+}
+
 string msrDoubleTremolo::asShortString () const
 {
   stringstream s;
-  
+
   s <<
     "DoubleTremolo"<<
     ", " << msrTremoloTypeKindAsString (fDoubleTremoloTypeKind) <<
@@ -539,7 +547,7 @@ string msrDoubleTremolo::asShortString () const
 string msrDoubleTremolo::asString () const
 {
   stringstream s;
-  
+
   s <<
     "DoubleTremolo" " " <<
     ", " << msrTremoloTypeKindAsString (fDoubleTremoloTypeKind) <<
@@ -551,14 +559,14 @@ string msrDoubleTremolo::asString () const
   if (fDoubleTremoloFirstElement) { // it may not be set yet
     s <<
       ", first element " << " = ";
-      
+
     switch (fDoubleTremoloKind) {
       case msrDoubleTremolo::kNotesDoubleTremolo:
         if (
           S_msrNote
             note =
               dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
-          ) {    
+          ) {
           note->asShortString ();
         }
         else {
@@ -569,7 +577,7 @@ string msrDoubleTremolo::asString () const
             "notes double tremolo first element should be a note");
         }
         break;
-        
+
       case msrDoubleTremolo::kChordsDoubleTremolo:
         if (
           S_msrChord
@@ -588,18 +596,18 @@ string msrDoubleTremolo::asString () const
         break;
     } // switch
   }
-      
+
   if (fDoubleTremoloSecondElement) { // it may not be set yet
     s <<
       ", second element " << " = ";
-      
+
     switch (fDoubleTremoloKind) {
       case msrDoubleTremolo::kNotesDoubleTremolo:
         if (
           S_msrNote
             note =
               dynamic_cast<msrNote*>(&(*fDoubleTremoloSecondElement))
-          ) {    
+          ) {
           note->asShortString ();
         }
         else {
@@ -610,7 +618,7 @@ string msrDoubleTremolo::asString () const
             "notes double tremolo second element should be a note");
         }
         break;
-        
+
       case msrDoubleTremolo::kChordsDoubleTremolo:
         if (
           S_msrChord
@@ -645,28 +653,28 @@ void msrDoubleTremolo::print (ostream& os)
   const int fieldWidth = 32;
 
   gIndenter++;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "doubleTremoloSoundingWholeNotes" << " : " <<
     fDoubleTremoloSoundingWholeNotes <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "doubleTremoloMarksNumber" << " : " <<
     fDoubleTremoloMarksNumber <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "doubleTremoloElementsDuration" << " : " <<
     fDoubleTremoloElementsDuration <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "numberOfRepeats" << " : " <<
     fDoubleTremoloNumberOfRepeats <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "placement" << " : " <<
     doubleTremoloPlacementKindAsString () <<
@@ -676,7 +684,7 @@ void msrDoubleTremolo::print (ostream& os)
     "First element:";
   if (fDoubleTremoloFirstElement) { // it may not yet be set
     os << endl;
-      
+
     gIndenter++;
     os <<
       fDoubleTremoloFirstElement;
@@ -687,7 +695,7 @@ void msrDoubleTremolo::print (ostream& os)
       " none" <<
       endl;
   }
-      
+
   os <<
     "Second element:";
   if (fDoubleTremoloSecondElement) { // it may not yet be set

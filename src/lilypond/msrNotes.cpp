@@ -690,13 +690,13 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->fNoteColor =
     fNoteColor;
 
-  // uplinks
+  // upLinks
   // ------------------------------------------------------
 
   /* JMI
-    S_msrTuplet           fNoteTupletUplink;
+    S_msrTuplet           fNoteTupletUpLink;
 
-    S_msrMeasure          fNoteMeasureUplink;
+    S_msrMeasure          fNoteMeasureUpLink;
 */
 
   return newbornClone;
@@ -1170,7 +1170,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     noteDeepCopy->fNoteFiguredBass =
       fNoteFiguredBass->
         createFiguredBassDeepCopy ();
-     //     containingVoice->fetchVoicePartUplink ()); // JMI
+     //     containingVoice->fetchVoicePartUpLink ()); // JMI
   }
 
   // note measure information
@@ -1225,18 +1225,18 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->fNoteColor =
     fNoteColor;
 
-  // uplinks
+  // upLinks
   // ------------------------------------------------------
 
   /* JMI
 
-    S_msrTuplet           fNoteChordUplink;
+    S_msrTuplet           fNoteChordUpLink;
 
-    S_msrGraceNotesGroup  fNoteGraceNoteGroupUplink;
+    S_msrGraceNotesGroup  fNoteGraceNoteGroupUpLink;
 
-    S_msrTuplet           fNoteTupletUplink;
+    S_msrTuplet           fNoteTupletUpLink;
 
-    S_msrMeasure          fNoteMeasureUplink;
+    S_msrMeasure          fNoteMeasureUpLink;
 */
 
   return noteDeepCopy;
@@ -1418,7 +1418,7 @@ void msrNote::setNotePositionInMeasure (
   rational positionInMeasure)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
     glogIOstream <<
       "Setting note position in measure of '" << asString () <<
       "' to '" <<
@@ -1428,8 +1428,20 @@ void msrNote::setNotePositionInMeasure (
   }
 #endif
 
+  if (positionInMeasure == rational (1, 1)) { // K_NO_POSITION_MEASURE_NUMBER
+    abort (); // JMI
+  }
+
   msrMeasureElement::setPositionInMeasure (
-    positionInMeasure);
+    positionInMeasure,
+    "setNotePositionInMeasure()");
+
+  if (fNoteHarmony) {
+    // set the harmony position in measure, taking it's offset into account
+    fNoteHarmony->
+      setHarmonyPositionInMeasure (
+        positionInMeasure);
+  }
 }
 
 void msrNote::setNoteOccupiesAFullMeasure ()
@@ -1438,7 +1450,7 @@ void msrNote::setNoteOccupiesAFullMeasure ()
 
   if (fNoteIsARest) {
     // the measure it belongs to is a single-measure rest
-    fNoteMeasureUplink->
+    fNoteMeasureUpLink->
       setMeasureIsASingleMeasureRest ();
   }
 }
@@ -2131,9 +2143,9 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
       {}
   } // switch
 
-  // set ornament's note uplink
+  // set ornament's note upLink
   ornament->
-    setOrnamentNoteUplink (this);
+    setOrnamentNoteUpLink (this);
 }
 
 void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
@@ -2190,9 +2202,9 @@ void msrNote::setNoteGraceNotesGroupBefore (
   // register the before grace notes group in the note
   fNoteGraceNotesGroupBefore = graceNotesGroupBefore;
 
-  // setup the grace notes group's note uplink
+  // setup the grace notes group's note upLink
   graceNotesGroupBefore->
-    setGraceNotesGroupNoteUplink (
+    setGraceNotesGroupNoteUpLink (
       this);
 }
 
@@ -2214,9 +2226,9 @@ void msrNote::setNoteGraceNotesGroupAfter (
   // register the after grace notes group in the note
   fNoteGraceNotesGroupAfter = graceNotesGroupAfter;
 
-  // setup the grace notes group's note uplink
+  // setup the grace notes group's note upLink
   graceNotesGroupAfter->
-    setGraceNotesGroupNoteUplink (
+    setGraceNotesGroupNoteUpLink (
       this);
 }
 
@@ -2535,9 +2547,9 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 
   fNoteHarmony = harmony;
 
-  // register this note as the harmony uplink
+  // register this note as the harmony upLink
   harmony->
-    setHarmonyNoteUplink (this);
+    setHarmonyNoteUpLink (this);
 }
 
 void msrNote::setNoteFrame (S_msrFrame frame)
@@ -2567,9 +2579,9 @@ void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 
   fNoteFiguredBass = figuredBass;
 
-  // register this note as the figured bass uplink
+  // register this note as the figured bass upLink
   figuredBass->
-    setFiguredBassNoteUplink (this);
+    setFiguredBassNoteUpLink (this);
 }
 
 void msrNote::acceptIn (basevisitor* v)
@@ -3314,12 +3326,12 @@ string msrNote::asShortString () const
         fNoteDisplayWholeNotes <<
         " display";
         /* JMI
-        notePartUplink ()->
+        notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
-            fNoteTupletUplink->getTupletActualNotes (),
-            fNoteTupletUplink->getTupletNormalNotes ());
+            fNoteTupletUpLink->getTupletActualNotes (),
+            fNoteTupletUpLink->getTupletNormalNotes ());
             */
 
       if (! fNoteIsARest) {
@@ -3338,12 +3350,12 @@ string msrNote::asShortString () const
         fNoteDisplayWholeNotes <<
         " display";
         /* JMI
-        notePartUplink ()->
+        notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
-            fNoteTupletUplink->getTupletActualNotes (),
-            fNoteTupletUplink->getTupletNormalNotes ());
+            fNoteTupletUpLink->getTupletActualNotes (),
+            fNoteTupletUpLink->getTupletNormalNotes ());
             */
 
       if (! fNoteIsARest) {
@@ -3361,12 +3373,12 @@ string msrNote::asShortString () const
         fNoteDisplayWholeNotes <<
         " displayed";
         /* JMI
-        notePartUplink ()->
+        notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
-            fNoteTupletUplink->getTupletActualNotes (),
-            fNoteTupletUplink->getTupletNormalNotes ());
+            fNoteTupletUpLink->getTupletActualNotes (),
+            fNoteTupletUpLink->getTupletNormalNotes ());
             */
       break;
   } // switch
@@ -3504,12 +3516,12 @@ string msrNote::asString () const
         fNoteDisplayWholeNotes <<
         " displayed";
 /* JMI
-        notePartUplink ()->
+        notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
-            fNoteTupletUplink->getTupletActualNotes (),
-            fNoteTupletUplink->getTupletNormalNotes ())
+            fNoteTupletUpLink->getTupletActualNotes (),
+            fNoteTupletUpLink->getTupletNormalNotes ())
             */
 
       if (! fNoteIsARest) {
@@ -3527,12 +3539,12 @@ string msrNote::asString () const
         fNoteDisplayWholeNotes <<
         " displayed";
 /* JMI
-        notePartUplink ()->
+        notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
-            fNoteTupletUplink->getTupletActualNotes (),
-            fNoteTupletUplink->getTupletNormalNotes ())
+            fNoteTupletUpLink->getTupletActualNotes (),
+            fNoteTupletUpLink->getTupletNormalNotes ())
             */
 
       if (! fNoteIsARest) {
@@ -3550,12 +3562,12 @@ string msrNote::asString () const
         fNoteDisplayWholeNotes <<
         " displayed";
 /* JMI
-        notePartUplink ()->
+        notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes,
-            fNoteTupletUplink->getTupletActualNotes (),
-            fNoteTupletUplink->getTupletNormalNotes ())
+            fNoteTupletUpLink->getTupletActualNotes (),
+            fNoteTupletUpLink->getTupletNormalNotes ())
             */
       break;
   } // switch
@@ -3629,9 +3641,9 @@ void msrNote::print (ostream& os)
 {
   rational
     measureFullLength =
-      fNoteMeasureUplink
+      fNoteMeasureUpLink
         ?
-          fNoteMeasureUplink->
+          fNoteMeasureUpLink->
             getFullMeasureWholeNotes ()
         : rational (0, 1); // JMI
 
@@ -3644,18 +3656,18 @@ void msrNote::print (ostream& os)
 
   const int fieldWidth = 34;
 
-  if (fNoteMeasureUplink || gMsrOptions->fDisplayMsrDetails) {
+  if (fNoteMeasureUpLink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteMeasureUplink" << " : ";
+      "noteMeasureUpLink" << " : ";
 
-    if (fNoteMeasureUplink) {
+    if (fNoteMeasureUpLink) {
       os << endl;
 
       gIndenter++;
 
       os <<
-        fNoteMeasureUplink->asShortString () <<
+        fNoteMeasureUpLink->asShortString () <<
         endl;
 
       gIndenter--;
@@ -3668,14 +3680,14 @@ void msrNote::print (ostream& os)
     os << endl;
   }
 
-  if (fNoteChordUplink || gMsrOptions->fDisplayMsrDetails) {
+  if (fNoteChordUpLink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteChordUplink" << " : ";
+      "noteChordUpLink" << " : ";
 
-    if (fNoteChordUplink) {
+    if (fNoteChordUpLink) {
       os <<
-        fNoteChordUplink->asShortString ();
+        fNoteChordUpLink->asShortString ();
     }
     else {
       os <<
@@ -3685,14 +3697,14 @@ void msrNote::print (ostream& os)
     os << endl;
   }
 
-  if (fNoteGraceNotesGroupUplink || gMsrOptions->fDisplayMsrDetails) {
+  if (fNoteGraceNotesGroupUpLink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteGraceNoteGroupUplink" << " : ";
+      "noteGraceNoteGroupUpLink" << " : ";
 
-    if (fNoteGraceNotesGroupUplink) {
+    if (fNoteGraceNotesGroupUpLink) {
       os <<
-        fNoteGraceNotesGroupUplink->asShortString ();
+        fNoteGraceNotesGroupUpLink->asShortString ();
     }
     else {
       os <<
@@ -3702,14 +3714,14 @@ void msrNote::print (ostream& os)
     os << endl;
   }
 
-  if (fNoteTupletUplink || gMsrOptions->fDisplayMsrDetails) {
+  if (fNoteTupletUpLink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteTupletUplink" << " : ";
+      "noteTupletUpLink" << " : ";
 
-    if (fNoteTupletUplink) {
+    if (fNoteTupletUpLink) {
       os <<
-        fNoteTupletUplink->asShortString ();
+        fNoteTupletUpLink->asShortString ();
     }
     else {
       os <<
@@ -3764,11 +3776,11 @@ void msrNote::print (ostream& os)
           setw (fieldWidth) <<
           "tupletSoundingWholeNotes" << " : ";
 
-          if (fNoteTupletUplink) {
+          if (fNoteTupletUpLink) {
             os <<
               wholeNotesAsMsrString (
                 fInputLineNumber,
-                getNoteTupletUplink ()->
+                getNoteTupletUpLink ()->
                   getTupletSoundingWholeNotes ());
           }
           else {
@@ -4143,12 +4155,12 @@ void msrNote::print (ostream& os)
             "noteTupletNoteSoundingWholeNotesAsMsrString" << " : ";
               */
 
-          if (fNoteTupletUplink) {
+          if (fNoteTupletUpLink) {
             os <<
               "\"" <<
               wholeNotesAsMsrString (
                 fInputLineNumber,
-                getNoteTupletUplink ()->
+                getNoteTupletUpLink ()->
                   getTupletSoundingWholeNotes ()) <<
               "\"";
           }
@@ -5153,12 +5165,12 @@ void msrNote::print (ostream& os)
         os <<
           ", stanza " <<
           syllable->
-            getSyllableStanzaUplink ()->
+            getSyllableStanzaUpLink ()->
               getStanzaNumber () <<
           ", line " << syllable->getInputLineNumber () <<
           ", noteUpLink: " <<
           syllable->
-            getSyllableNoteUplink ()->
+            getSyllableNoteUpLink ()->
               asShortString ();
   */
 
