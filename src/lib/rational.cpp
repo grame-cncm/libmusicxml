@@ -19,25 +19,25 @@
 //______________________________________________________________________________
 rational::rational (const string &str)
 {
-    const char *cstr;
-    cstr = str.c_str();
-    const char *denom;
-    denom = strstr(cstr,"/");
-    if (denom) ++denom;
-    fNumerator = atol(cstr);
-    if (denom) fDenominator = atol(denom);
+  const char *cstr;
+  cstr = str.c_str();
+  const char *denom;
+  denom = strstr(cstr,"/");
+  if (denom) ++denom;
+  fNumerator = atol(cstr);
+  if (denom) fDenominator = atol(denom);
 }
 
 rational::rational(long int num, long int denom) : fNumerator(num), fDenominator(denom)
 {
-    // don't allow zero denominators!
-    if (fDenominator == 0) fDenominator = 1;
+  // don't allow zero denominators!
+  if (fDenominator == 0) fDenominator = 1;
 }
 
 rational::rational(const rational& d)
 {
-    fNumerator = d.fNumerator;
-    fDenominator = d.fDenominator;
+  fNumerator   = d.fNumerator;
+  fDenominator = d.fDenominator;
 }
 
 //______________________________________________________________________________
@@ -195,15 +195,14 @@ rational::operator int () const
 }
 
 //______________________________________________________________________________
+void rational::print (ostream& os) const
+{
+  os << fNumerator << "/" << fDenominator;
+}
+
+//______________________________________________________________________________
 ostream& operator<< (ostream& os, const rational& rat)
 {
   rat.print (os);
   return os;
 }
-
-//______________________________________________________________________________
-void rational::print (ostream& os) const
-{
-  os << string(*this);
-}
-

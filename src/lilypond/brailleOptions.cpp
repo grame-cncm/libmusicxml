@@ -490,7 +490,7 @@ void brailleOptions::checkOptionsConsistency ()
 
 void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The Braille options are:" <<
     endl;
 
@@ -500,13 +500,13 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   // code generation
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Braille code generation:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "UTFKind" << " : " <<
       bsrUTFKindAsString (fUTFKind) <<
       endl <<
@@ -723,7 +723,7 @@ void initializeBrailleOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing Braille options handling" <<
       endl;
   }
@@ -936,7 +936,7 @@ R"(Set 'copyright' to STRING in the \header.)",
 
     fCompressMultiMeasureRests = boolOptionsInitialValue;
 
-    fNotesInputLineNumbers = boolOptionsInitialValue;
+    fInputLineNumbers = boolOptionsInitialValue;
 
     S_optionsSubGroup
       notesSubGroup =
@@ -990,11 +990,14 @@ to prevent Braille from using open strings.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "niln", "note-input-line-numbers",
+          replaceSubstringInString (
 R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
-This is useful when debugging xml2brl.)",
+This is useful when debugging EXECUTABLE.)",
+            "EXECUTABLE",
+            gGeneralOptions->fExecutableName),
           "noteInputLineNumbers",
-          fNotesInputLineNumbers));
+          fInputLineNumbers));
   }
 
 

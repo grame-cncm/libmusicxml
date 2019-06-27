@@ -84,13 +84,13 @@ msrTuplet::msrTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating tuplet:" <<
       endl;
 
     gIndenter++;
 
-    this->print (glogIOstream);
+    this->print (gLogIOstream);
 
     gIndenter--;
   }
@@ -104,7 +104,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of tuplet '" <<
       asString () <<
       "'" <<
@@ -249,7 +249,7 @@ void msrTuplet::addNoteToTuplet (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding note '" <<
       note->asShortString () <<
       // the information is missing to display it the normal way
@@ -287,7 +287,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding chord '" <<
       chord->asString () <<
       "' to tuplet '" <<
@@ -311,9 +311,11 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
     chord->getChordDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
 
+/* too early JMI
   // populate chord's measure number
   chord->setChordMeasureNumber (
     fMeasureNumber);
+*/
 
 /* too early JMI
   // populate chord's position in measure
@@ -326,7 +328,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->asString () <<
       "' to tuplet '" <<
@@ -362,7 +364,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->asString () <<
       "' to tuplet '" <<
@@ -430,7 +432,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing first note from tuplet '" <<
       asString () <<
       "'" <<
@@ -452,7 +454,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 
     else {
       if (true) {
-        this->print (glogIOstream);
+        this->print (gLogIOstream);
       }
 
       msrInternalError (
@@ -539,7 +541,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing last note from tuplet '" <<
       asString () <<
       "'" <<
@@ -570,7 +572,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
     else {
       if (true) { // JMI
-        this->print (glogIOstream);
+        this->print (gLogIOstream);
       }
 
       msrInternalError (
@@ -602,7 +604,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "This last note from tuplet '" <<
       asString () <<
       "' turns out to be '" <<
@@ -615,18 +617,13 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   return result;
 }
 
-void msrTuplet::setTupletMeasureNumber (string measureNumber)
-{
-  fMeasureNumber = measureNumber;
-}
-
-rational msrTuplet::setTupletPositionInMeasure (
+rational msrTuplet::setTupletMembersPositionInMeasure (
   rational positionInMeasure)
   // returns the position in measure after the tuplet
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting tuplet position in measure of '" << asString () <<
       "' to '" <<
       positionInMeasure <<
@@ -665,7 +662,7 @@ rational msrTuplet::setTupletPositionInMeasure (
     ) {
       // chord
       chord->
-        setChordPositionInMeasure (
+        setChordMembersPositionInMeasure (
           currentPosition);
 
       currentPosition +=
@@ -679,7 +676,8 @@ rational msrTuplet::setTupletPositionInMeasure (
       // nested tuplet
       currentPosition =
         tuplet->
-          setTupletPositionInMeasure (currentPosition);
+          setTupletMembersPositionInMeasure (
+            currentPosition);
     }
 
     else {
@@ -704,13 +702,13 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    glogIOstream <<
+    gLogIOstream <<
       "unapplySoundingFactorToTupletMembers ()" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       "% fTupletFactor = " << fTupletFactor.asString () <<
       endl <<
       "% containingTupletFactor = " << containingTupletFactor.asString () <<
@@ -737,10 +735,28 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
   */
 }
 
+void msrTuplet::finalizeTuplet (
+  int inputLineNumber)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChords) {
+    gLogIOstream <<
+      "Finalizing tuplet '" <<
+      asString () <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // we can now set the position in measures for all the chord members
+  setTupletMembersPositionInMeasure (
+    fPositionInMeasure);
+}
+
 void msrTuplet::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTuplet::acceptIn ()" <<
       endl;
   }
@@ -751,7 +767,7 @@ void msrTuplet::acceptIn (basevisitor* v)
         S_msrTuplet elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTuplet::visitStart ()" <<
             endl;
         }
@@ -762,7 +778,7 @@ void msrTuplet::acceptIn (basevisitor* v)
 void msrTuplet::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTuplet::acceptOut ()" <<
       endl;
   }
@@ -773,7 +789,7 @@ void msrTuplet::acceptOut (basevisitor* v)
         S_msrTuplet elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTuplet::visitEnd ()" <<
             endl;
         }

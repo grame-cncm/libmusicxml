@@ -3526,11 +3526,6 @@ class msrNote : public msrTupletElement
     // note measure information
     // -------------------------------
 
-    // measure number
-    void                  setNoteMeasureNumber (
-                            string measureNumber)
-                              { fMeasureNumber = measureNumber; }
-
     // position in measure
     void                  setNotePositionInMeasure (
                             rational positionInMeasure);
@@ -4253,13 +4248,8 @@ class msrChord : public msrTupletElement
     S_msrMeasure          getChordMeasureUpLink () const
                             { return fChordMeasureUpLink; }
 
-    // measure number
-    void                  setChordMeasureNumber (
-                            string measureNumber)
-                              { fMeasureNumber = measureNumber; }
-
-    // position in measure
-    void                  setChordPositionInMeasure (
+    // positions in measures
+    void                  setChordMembersPositionInMeasure (
                             rational positionInMeasure);
 
     // services
@@ -4374,6 +4364,10 @@ class msrChord : public msrTupletElement
     // position in measure
     void                  setChordFirstNotePositionInMeasure (
                             rational position);
+
+    // finalization
+    void                  finalizeChord (
+                            int inputLineNumber);
 
   public:
 
@@ -4589,6 +4583,27 @@ class msrTuplet : public msrTupletElement
     // set and get
     // ------------------------------------------------------
 
+    // tuplet uplink
+    void                  setTupletTupletUpLink (
+                            const S_msrTuplet& tuplet)
+                              { fTupletTupletUpLink = tuplet; }
+
+    S_msrTuplet           getTupletTupletUpLink () const
+                              { return fTupletTupletUpLink; }
+
+    // measure upLink
+    void                  setTupletMeasureUpLink (
+                            const S_msrMeasure& measure)
+                              { fTupletMeasureUpLink = measure; }
+
+    S_msrMeasure          getTupletMeasureUpLink () const
+                              { return fTupletMeasureUpLink; }
+
+    // positions in measures
+    rational              setTupletMembersPositionInMeasure (
+                            rational position);
+                              // returns the position after the tuplet JMI ???
+
     int                   getTupletNumber () const
                               { return fTupletNumber; }
 
@@ -4627,23 +4642,6 @@ class msrTuplet : public msrTupletElement
     rational              getTupletDisplayWholeNotes () const
                               { return fTupletDisplayWholeNotes; }
 
-    // measure upLink
-    void                  setTupletMeasureUpLink (
-                            const S_msrMeasure& measure)
-                              { fTupletMeasureUpLink = measure; }
-
-    S_msrMeasure          getTupletMeasureUpLink () const
-                              { return fTupletMeasureUpLink; }
-
-    // measure number
-    void                  setTupletMeasureNumber (string measureNumber);
-
-
-    // position in measure
-    rational              setTupletPositionInMeasure (
-                            rational position);
-                              // returns the position after the tuplet
-
     // services
     // ------------------------------------------------------
 
@@ -4668,6 +4666,10 @@ class msrTuplet : public msrTupletElement
 
     void                  unapplySoundingFactorToTupletMembers (
                             const msrTupletFactor& containingTupletFactor);
+
+    // finalization
+    void                  finalizeTuplet (
+                            int inputLineNumber);
 
   public:
 
@@ -4697,6 +4699,7 @@ class msrTuplet : public msrTupletElement
 
     // upLink
     S_msrMeasure          fTupletMeasureUpLink;
+    S_msrTuplet           fTupletTupletUpLink;
 
     int                   fTupletNumber;
 

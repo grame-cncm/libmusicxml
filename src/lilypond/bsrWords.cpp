@@ -219,7 +219,7 @@ void bsrWords::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrWords::acceptIn ()" <<
       endl;
   }
@@ -232,7 +232,7 @@ void bsrWords::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrWords::visitStart ()" <<
             endl;
         }
@@ -250,7 +250,7 @@ void bsrWords::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrWords::acceptOut ()" <<
       endl;
   }
@@ -263,7 +263,7 @@ void bsrWords::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrWords::visitEnd ()" <<
             endl;
         }

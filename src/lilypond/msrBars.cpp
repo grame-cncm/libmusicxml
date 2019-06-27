@@ -57,7 +57,7 @@ msrBarCheck::msrBarCheck (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a bar check without next bar number" <<
       endl;
   }
@@ -73,7 +73,7 @@ msrBarCheck::msrBarCheck (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a bar check with next bar number '" <<
       fNextBarPuristNumber <<
       "'" <<
@@ -89,7 +89,7 @@ void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting bar check next bar number to '" <<
       puristNumber <<
       "'" <<
@@ -103,7 +103,7 @@ void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 void msrBarCheck::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBarCheck::acceptIn ()" <<
       endl;
   }
@@ -114,7 +114,7 @@ void msrBarCheck::acceptIn (basevisitor* v)
         S_msrBarCheck elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBarCheck::visitStart ()" <<
             endl;
         }
@@ -125,7 +125,7 @@ void msrBarCheck::acceptIn (basevisitor* v)
 void msrBarCheck::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBarCheck::acceptOut ()" <<
       endl;
   }
@@ -136,7 +136,7 @@ void msrBarCheck::acceptOut (basevisitor* v)
         S_msrBarCheck elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBarCheck::visitEnd ()" <<
             endl;
         }
@@ -198,7 +198,7 @@ msrBarNumberCheck::~msrBarNumberCheck ()
 void msrBarNumberCheck::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBarNumberCheck::acceptIn ()" <<
       endl;
   }
@@ -209,7 +209,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
         S_msrBarNumberCheck elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitStart ()" <<
             endl;
         }
@@ -220,7 +220,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
 void msrBarNumberCheck::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBarNumberCheck::acceptOut ()" <<
       endl;
   }
@@ -231,7 +231,7 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
         S_msrBarNumberCheck elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitEnd ()" <<
             endl;
         }
@@ -325,7 +325,7 @@ msrBarline::msrBarline (
 
   fBarlineTimes = barlineTimes;
 
-  // JMI glogIOstream << "fEndingNumber = " << fEndingNumber << endl;
+  // JMI gLogIOstream << "fEndingNumber = " << fEndingNumber << endl;
 
   // extract individual numbers from fEndingNumber
   // that may contain "1, 2"
@@ -340,7 +340,7 @@ msrBarline::~msrBarline ()
 void msrBarline::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBarline::acceptIn ()" <<
       endl;
   }
@@ -351,7 +351,7 @@ void msrBarline::acceptIn (basevisitor* v)
         S_msrBarline elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBarline::visitStart ()" <<
             endl;
         }
@@ -362,7 +362,7 @@ void msrBarline::acceptIn (basevisitor* v)
 void msrBarline::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBarline::acceptOut ()" <<
       endl;
   }
@@ -373,7 +373,7 @@ void msrBarline::acceptOut (basevisitor* v)
         S_msrBarline elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBarline::visitEnd ()" <<
             endl;
         }

@@ -116,7 +116,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
   }
 
 /* JMI
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
     endl <<
@@ -234,7 +234,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
   }
 
 /* JMI
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
     endl <<
@@ -325,7 +325,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   // sort the list if necessary
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Sorting the voices in part block for part \"" <<
       fPart->getPartCombinedName () << "\"" <<
       ", line " << inputLineNumber <<
@@ -334,7 +334,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
 #endif
 
 /* JMI
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     endl <<
     "@@@@@@@@@@@@@@@@ fPartBlockElementsList contains initially:" <<
@@ -349,11 +349,11 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
     S_msrElement
       element = (*i);
 
-    glogIOstream <<
+    gLogIOstream <<
       element->asShortString () <<
       endl;
   } // for
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     endl;
 */
@@ -366,7 +366,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   }
 
 /* JMI
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     endl <<
     "@@@@@@@@@@@@@@@@ fPartBlockElementsList contains after sort:" <<
@@ -381,11 +381,11 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
     S_msrElement
       element = (*i);
 
-    glogIOstream <<
+    gLogIOstream <<
       element->asShortString () <<
       endl;
   } // for
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     endl;
 */
@@ -400,7 +400,7 @@ void lpsrPartBlock::appendFiguredBassContextToPartBlock (
 void lpsrPartBlock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrPartBlock::acceptIn ()" <<
       endl;
   }
@@ -411,7 +411,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v)
         S_lpsrPartBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitStart ()" <<
             endl;
         }
@@ -422,7 +422,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v)
 void lpsrPartBlock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrPartBlock::acceptOut ()" <<
       endl;
   }
@@ -433,7 +433,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v)
         S_lpsrPartBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitEnd ()" <<
             endl;
         }
@@ -444,7 +444,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v)
 void lpsrPartBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrPartBlock::browseData ()" <<
       endl;
   }
@@ -460,7 +460,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
   } // for
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== lpsrPartBlock::browseData ()" <<
       endl;
   }

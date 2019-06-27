@@ -29,7 +29,7 @@ void msrAssert (
   string messageIfFalse)
 {
   if (! condition) {
-    glogIOstream <<
+    gLogIOstream <<
       "#### msrAssert failure: " << messageIfFalse <<
       ", aborting." <<
       endl;
@@ -46,7 +46,7 @@ void msrWarning (
   string message)
 {
   if (! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "*** " << context << " warning *** " <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl;
@@ -105,13 +105,13 @@ void msrError (
 {
   if (! gGeneralOptions->fQuiet) {
     if (gGeneralOptions->fDisplaySourceCodePosition) {
-      glogIOstream <<
+      gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
     if (! gGeneralOptions->fDontShowErrors) {
-      glogIOstream <<
+      gLogIOstream <<
         "### " << context << " ERROR ### " <<
         inputSourceName << ":" << inputLineNumber << ": " << message <<
         endl;
@@ -196,12 +196,12 @@ void msrLimitation (
 {
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
     if (gGeneralOptions->fDisplaySourceCodePosition) {
-      glogIOstream <<
+      gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    glogIOstream <<
+    gLogIOstream <<
       "### MSR LIMITATION ### " <<
       inputSourceName << ":" << inputLineNumber << ": " << message <<
       endl;
@@ -219,12 +219,12 @@ void msrStreamsError (
 {
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
     if (gGeneralOptions->fDisplaySourceCodePosition) {
-      glogIOstream <<
+      gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    glogIOstream <<
+    gLogIOstream <<
       "### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
       endl;
@@ -241,12 +241,12 @@ void msrStreamsWarning (
 {
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
     if (gGeneralOptions->fDisplaySourceCodePosition) {
-      glogIOstream <<
+      gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    glogIOstream <<
+    gLogIOstream <<
       "*** " << "MSR STREAMS" << " warning *** " <<
       " ### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
@@ -266,7 +266,7 @@ void displayWarningsAndErrorsInputLineNumbers ()
     gWarningsInputLineNumbers.size ();
     
   if (warningsInputLineNumbersSize && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
         warningsInputLineNumbersSize, "line", "lines") <<
@@ -277,19 +277,19 @@ void displayWarningsAndErrorsInputLineNumbers ()
       iEnd   = gWarningsInputLineNumbers.end (),
       i      = iBegin;
     for ( ; ; ) {
-      glogIOstream << (*i);
+      gLogIOstream << (*i);
       if (++i == iEnd) break;
-      glogIOstream << ", ";
+      gLogIOstream << ", ";
     } // for
 
-    glogIOstream << endl;
+    gLogIOstream << endl;
   }
   
   int errorsInputLineNumbersSize =
     gErrorsInputLineNumbers.size ();
 
   if (errorsInputLineNumbersSize) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Error message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
@@ -301,12 +301,12 @@ void displayWarningsAndErrorsInputLineNumbers ()
       iEnd   = gErrorsInputLineNumbers.end (),
       i      = iBegin;
     for ( ; ; ) {
-      glogIOstream << (*i);
+      gLogIOstream << (*i);
       if (++i == iEnd) break;
-      glogIOstream << ", ";
+      gLogIOstream << ", ";
     } // for
 
-    glogIOstream << endl;
+    gLogIOstream << endl;
   }
 }
 

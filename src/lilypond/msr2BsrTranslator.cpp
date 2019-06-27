@@ -243,7 +243,9 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
     transcriptionNotesElement =
       bsrTranscriptionNotesElement::create (
         inputLineNumber,
-        "This braille music data created by xml2brl");
+        "This braille music data created by "
+          +
+        gGeneralOptions->fExecutableName);
 
   fBsrScore->
     getTranscriptionNotes ()->
@@ -5813,7 +5815,7 @@ void msr2BsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Upon visitStart (S_msrRepeatCommonPart&(), voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5824,7 +5826,7 @@ void msr2BsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       fCurrentVoiceClone;
 
     gIndenter--;
@@ -5852,7 +5854,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Upon visitEnd (S_msrRepeatCommonPart&(), voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5863,7 +5865,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       fCurrentVoiceClone;
 
     gIndenter--;
@@ -5927,7 +5929,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatEnding& elt)
   }
 
   if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "*********>> msrRepeatEnding HHH " <<
       ", line " << inputLineNumber <<
@@ -6128,7 +6130,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Upon I visitStart (S_msrMultipleRest&(), voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6139,7 +6141,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       fCurrentVoiceClone;
 
     gIndenter--;
@@ -6156,7 +6158,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Upon II visitStart (S_msrMultipleRest&(), voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6167,7 +6169,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       fCurrentVoiceClone;
 
     gIndenter--;
@@ -6262,7 +6264,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Upon visitEnd (S_msrMultipleRest&(), voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6273,7 +6275,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       fCurrentVoiceClone;
 
     gIndenter--;
@@ -6304,7 +6306,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRestContents& elt)
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Upon visitStart (S_msrMultipleRestContents&(), voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6315,7 +6317,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRestContents& elt)
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       fCurrentVoiceClone;
 
     gIndenter--;
@@ -6366,7 +6368,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Upon visitEnd (S_msrMultipleRestContents&(), voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6377,7 +6379,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       fCurrentVoiceClone;
 
     gIndenter--;

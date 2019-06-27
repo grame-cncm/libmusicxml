@@ -67,7 +67,7 @@ lpsrSchemeVariable::~lpsrSchemeVariable ()
 void lpsrSchemeVariable::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrSchemeVariable::acceptIn ()" <<
       endl;
   }
@@ -78,7 +78,7 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
         S_lpsrSchemeVariable elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
             endl;
         }
@@ -89,7 +89,7 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
 void lpsrSchemeVariable::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrSchemeVariable::acceptOut ()" <<
       endl;
   }
@@ -100,7 +100,7 @@ void lpsrSchemeVariable::acceptOut (basevisitor* v)
         S_lpsrSchemeVariable elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
             endl;
         }
@@ -238,7 +238,7 @@ lpsrSchemeFunction::~lpsrSchemeFunction ()
 void lpsrSchemeFunction::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrSchemeFunction::acceptIn ()" <<
       endl;
   }
@@ -249,7 +249,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
         S_lpsrSchemeFunction elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
             endl;
         }
@@ -260,7 +260,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
 void lpsrSchemeFunction::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrSchemeFunction::acceptOut ()" <<
       endl;
   }
@@ -271,7 +271,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
         S_lpsrSchemeFunction elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<
             endl;
         }

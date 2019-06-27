@@ -48,10 +48,7 @@ class msrMeasureElement : public msrElement
 
     void                  setMeasureNumber (
                             string positionInMeasure)
-                              {
-                                fMeasureNumber =
-                                  positionInMeasure;
-                              }
+                              { fMeasureNumber = positionInMeasure; }
 
     string                getMeasureNumber ()
                               { return fMeasureNumber; }

@@ -1098,31 +1098,37 @@ By default, this command is commented.)",
 
   // input line numbers
 
-  fNotesInputLineNumbers = boolOptionsInitialValue;
+  fInputLineNumbers = boolOptionsInitialValue;
 
   notesSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
-        "niln", "note-input-line-numbers",
+        "iln", "input-line-numbers",
+        replaceSubstringInString (
 R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
-This is useful when debugging xml2ly.)",
-        "noteInputLineNumbers",
-        fNotesInputLineNumbers));
+This is useful when debugging EXECUTABLE.)",
+          "EXECUTABLE",
+          gGeneralOptions->fExecutableName),
+        "inputLineNumbers",
+        fInputLineNumbers));
 
   // positions in the measures
 
-  fNotesPositionsInMeasures = boolOptionsInitialValue;
+  fPositionsInMeasures = boolOptionsInitialValue;
 
   notesSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
-        "npim", "note-positions-in-measures",
+        "pim", "positions-in-measures",
+        replaceSubstringInString (
 R"(Generate after each note and barline a comment containing
 its position in the measure.
-This is useful when debugging xml2ly.)",
-        "notesPositionsInMeasures",
-        fNotesPositionsInMeasures));
+This is useful when debugging EXECUTABLE.)",
+          "EXECUTABLE",
+          gGeneralOptions->fExecutableName),
+        "positionsInMeasures",
+        fPositionsInMeasures));
 }
 
 void lilypondOptions::initializeBarsOptions (
@@ -1692,6 +1698,7 @@ R"()",
       optionsMidiTempoItem::create (
         "midi-tempo", "",
         replaceSubstringInString (
+          replaceSubstringInString (
 R"(Generate a '\tempo' command in the \midi block.
 MIDI_TEMPO_SPEC can be:
 'DURATION = PER_SECOND'
@@ -1702,8 +1709,10 @@ The single or double quotes are used to allow spaces around the '=' sign,
 otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
 PER_SECOND=66
-xml2ly -midiTempo "8. ${PER_SECOND}" .
+EXECUTABLE -midiTempo "8. ${PER_SECOND}" .
 The default is 'DEFAULT_VALUE'.)",
+            "EXECUTABLE",
+            gGeneralOptions->fExecutableName),
           "DEFAULT_VALUE",
           midiTempoDefaultValue),
         "MIDI_TEMPO_SPEC",
@@ -1904,9 +1913,9 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fCompressRestMeasures =
     fCompressRestMeasures;
 
-  clone->fNotesInputLineNumbers =
+  clone->fInputLineNumbers =
     true;
-  clone->fNotesPositionsInMeasures =
+  clone->fPositionsInMeasures =
     true;
 
 
@@ -2274,12 +2283,12 @@ void lilypondOptions::printOptionsValues (
       booleanAsString (fCompressRestMeasures) <<
       endl <<
 
-    setw (valueFieldWidth) << "notesInputLineNumbers" << " : " <<
-      booleanAsString (fNotesInputLineNumbers) <<
+    setw (valueFieldWidth) << "inputLineNumbers" << " : " <<
+      booleanAsString (fInputLineNumbers) <<
       endl <<
 
-    setw (valueFieldWidth) << "notesPositionsInMeasures" << " : " <<
-      booleanAsString (fNotesPositionsInMeasures) <<
+    setw (valueFieldWidth) << "positionsInMeasures" << " : " <<
+      booleanAsString (fPositionsInMeasures) <<
       endl;
 
   gIndenter--;
@@ -2591,7 +2600,7 @@ void lilypondOptions::printOptionsValues (
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The LilyPond options are:" <<
     endl;
 
@@ -2599,14 +2608,14 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // identification
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Identification:" <<
     endl;
 
   gIndenter++;
 
   // MusicXML informations
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "rights" << " : " <<
       fRights <<
       endl <<
@@ -2669,13 +2678,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // engravers
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Engravers:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "ambitusEngraver" << " : " <<
       booleanAsString (fAmbitusEngraver) <<
       endl;
@@ -2685,13 +2694,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // time
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Time:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "numericalTime" << " : " <<
       booleanAsString (fNumericalTime) <<
       endl;
@@ -2701,13 +2710,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // notes
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Notes:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "octaveEntryKind" << " : " <<
       lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
       endl <<
@@ -2738,12 +2747,12 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       booleanAsString (fCompressRestMeasures) <<
       endl <<
 
-    setw (fieldWidth) << "notesInputLineNumbers" << " : " <<
-      booleanAsString (fNotesInputLineNumbers) <<
+    setw (fieldWidth) << "inputLineNumbers" << " : " <<
+      booleanAsString (fInputLineNumbers) <<
       endl <<
 
     setw (fieldWidth) << "notesPositionsInMeasures" << " : " <<
-      booleanAsString (fNotesPositionsInMeasures) <<
+      booleanAsString (fPositionsInMeasures) <<
       endl;
 
   gIndenter--;
@@ -2751,13 +2760,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // bars
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Bars:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "showAllBarNumbers" << " : " <<
     booleanAsString (fShowAllBarNumbers) <<
     endl;
@@ -2767,13 +2776,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // line breaks
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Line breaks:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
       booleanAsString (fIgnoreLineBreaks) <<
       endl <<
@@ -2791,13 +2800,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // page breaks
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Page breaks:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "ignorePageBreaks" << " : " <<
     booleanAsString (fIgnorePageBreaks) <<
     endl;
@@ -2807,13 +2816,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // staves
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Staves:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "modernTab" << " : " <<
     booleanAsString (fModernTab) <<
     endl;
@@ -2824,13 +2833,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // chords
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Chords:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "connectArpeggios" << " : " <<
     booleanAsString (fConnectArpeggios) <<
     endl;
@@ -2841,13 +2850,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // tuplets
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Tuplets:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "indentTuplets" << " : " <<
     booleanAsString (fIndentTuplets) <<
     endl;
@@ -2858,13 +2867,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // repeats
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Repeats:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "keepRepeatBarlines" << " : " <<
     booleanAsString (fKeepRepeatBarlines) <<
     endl <<
@@ -2881,13 +2890,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // ornaments
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Ornaments:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
     fDelayedOrnamentsFraction <<
     endl;
@@ -2898,13 +2907,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // chords display
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Chords display:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "jazzChordsDisplay" << " : " <<
     booleanAsString (fJazzChordsDisplay) <<
     endl <<
@@ -2918,13 +2927,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // fonts
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Fonts:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "jazzFonts" << " : " <<
     booleanAsString (fJazzFonts) <<
     endl;
@@ -2935,13 +2944,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // code generation
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "LilyPond code generation:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "xml2lyInfos" << " : " <<
       booleanAsString (fXml2lyInfos) <<
       endl <<
@@ -2984,13 +2993,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // score notation
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Score notation:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "fJianpu" << " : " <<
       booleanAsString (fJianpu) <<
       endl;
@@ -3000,13 +3009,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // midi
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Midi:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "fMidiTempo" << " : " <<
       fMidiTempo.first << " = " << fMidiTempo.second <<
       endl <<
@@ -3576,7 +3585,7 @@ void initializeLilypondOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing LilyPond options handling" <<
       endl;
   }

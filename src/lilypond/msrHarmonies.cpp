@@ -58,7 +58,7 @@ msrHarmonyDegree::msrHarmonyDegree (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating harmony degree '" <<
       asString () <<
       "', line " << inputLineNumber <<
@@ -144,7 +144,7 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
 void msrHarmonyDegree::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrHarmonyDegree::acceptIn ()" <<
       endl;
   }
@@ -155,7 +155,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
         S_msrHarmonyDegree elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitStart ()" <<
             endl;
         }
@@ -166,7 +166,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
 void msrHarmonyDegree::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrHarmonyDegree::acceptOut ()" <<
       endl;
   }
@@ -177,7 +177,7 @@ void msrHarmonyDegree::acceptOut (basevisitor* v)
         S_msrHarmonyDegree elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitEnd ()" <<
             endl;
         }
@@ -432,7 +432,7 @@ msrHarmony::msrHarmony (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating harmony '" <<
       asString () <<
       "'" <<
@@ -449,7 +449,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
       "', line " << fInputLineNumber <<
@@ -486,7 +486,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a deep copy of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
       "', line " << fInputLineNumber <<
@@ -537,7 +537,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
 void msrHarmony::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrHarmony::acceptIn ()" <<
       endl;
   }
@@ -548,7 +548,7 @@ void msrHarmony::acceptIn (basevisitor* v)
         S_msrHarmony elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrHarmony::visitStart ()" <<
             endl;
         }
@@ -559,7 +559,7 @@ void msrHarmony::acceptIn (basevisitor* v)
 void msrHarmony::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrHarmony::acceptOut ()" <<
       endl;
   }
@@ -570,7 +570,7 @@ void msrHarmony::acceptOut (basevisitor* v)
         S_msrHarmony elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrHarmony::visitEnd ()" <<
             endl;
         }
@@ -607,7 +607,6 @@ string msrHarmony::asString () const
       fHarmonyRootQuarterTonesPitchKind) <<
     ", harmonyKind: " <<
     msrHarmonyKindAsShortString (fHarmonyKind) <<
-    " (" << fHarmonyKind << ")" <<
 
     ", harmonySoundingWholeNotes: " <<
     fHarmonySoundingWholeNotes <<

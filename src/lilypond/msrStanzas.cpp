@@ -76,7 +76,7 @@ void msrStanza::initializeStanza ()
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing stanza " << getStanzaName () <<
       endl;
   }
@@ -95,7 +95,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
@@ -141,7 +141,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a deep copy of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
@@ -196,7 +196,7 @@ void msrStanza::appendSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending syllable '" << syllable->asString () <<
       "' to stanza " << getStanzaName () <<
       endl;
@@ -252,7 +252,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -289,7 +289,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -325,7 +325,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending 'Measure end' syllable " <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -366,7 +366,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending '" <<
       msrSyllable::syllableKindAsString (syllableKind) <<
       "' syllable" <<
@@ -404,7 +404,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending 'line break' syllable" <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -440,7 +440,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -477,7 +477,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending a 'PageBreak' syllable" <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -522,7 +522,7 @@ void msrStanza::appendPaddingNoteToStanza (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Apending padding note of " << divisions <<
       " divisions in stanza \"" <<
       fStanzaName <<
@@ -543,7 +543,7 @@ void msrStanza::appendPaddingNoteToStanza (
 void msrStanza::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrStanza::acceptIn ()" <<
       endl;
   }
@@ -554,7 +554,7 @@ void msrStanza::acceptIn (basevisitor* v)
         S_msrStanza elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrStanza::visitStart ()" <<
             endl;
         }
@@ -565,7 +565,7 @@ void msrStanza::acceptIn (basevisitor* v)
 void msrStanza::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrStanza::acceptOut ()" <<
       endl;
   }
@@ -576,7 +576,7 @@ void msrStanza::acceptOut (basevisitor* v)
         S_msrStanza elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrStanza::visitEnd ()" <<
             endl;
         }
@@ -587,7 +587,7 @@ void msrStanza::acceptOut (basevisitor* v)
 void msrStanza::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrStanza::browseData ()" <<
       endl;
   }
@@ -605,7 +605,7 @@ void msrStanza::browseData (basevisitor* v)
   gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== msrStanza::browseData ()" <<
       endl;
   }

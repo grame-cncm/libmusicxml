@@ -43,7 +43,7 @@ lpsrPartGroupBlock::~lpsrPartGroupBlock ()
 void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrPartGroupBlock::acceptIn ()" <<
       endl;
   }
@@ -54,7 +54,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
         S_lpsrPartGroupBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitStart ()" <<
             endl;
         }
@@ -65,7 +65,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrPartGroupBlock::acceptOut ()" <<
       endl;
   }
@@ -76,7 +76,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
         S_lpsrPartGroupBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd ()" <<
             endl;
         }
@@ -87,7 +87,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrPartGroupBlock::browseData ()" <<
       endl;
   }
@@ -103,7 +103,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
   } // for
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== lpsrPartGroupBlock::browseData ()" <<
       endl;
   }

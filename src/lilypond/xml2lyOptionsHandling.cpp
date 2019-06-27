@@ -623,7 +623,7 @@ void xml2lyOptions::enforceQuietness ()
 //______________________________________________________________________________
 void xml2lyOptions::checkOptionsConsistency ()
 {
-  glogIOstream <<
+  gLogIOstream <<
     "xml2lyOptions::checkOptionsConsistency ()" <<
     endl;
 
@@ -875,7 +875,7 @@ or adding '.ly' if none is present.)",
 
 void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The xml2ly options are:" <<
     endl;
 
@@ -884,13 +884,13 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
   // output file
   // --------------------------------------
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "Output file:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
@@ -990,7 +990,7 @@ void initializeXml2lyOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing xml2ly options handling" <<
       endl;
   }

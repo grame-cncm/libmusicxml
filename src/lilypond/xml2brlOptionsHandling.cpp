@@ -676,7 +676,7 @@ void xml2brlOptions::enforceQuietness ()
 //______________________________________________________________________________
 void xml2brlOptions::checkOptionsConsistency ()
 {
-  glogIOstream <<
+  gLogIOstream <<
     "xml2brlOptions::checkOptionsConsistency ()" <<
     endl;
 
@@ -927,7 +927,7 @@ or adding '.brl' if none is present.)",
 
 void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The xml2brl options are:" <<
     endl;
 
@@ -936,13 +936,13 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
   // output file
   // --------------------------------------
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "Output file:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
@@ -1042,7 +1042,7 @@ void initializeXml2brlOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing xml2brl options handling" <<
       endl;
   }

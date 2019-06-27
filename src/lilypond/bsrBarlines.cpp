@@ -54,7 +54,7 @@ bsrBarline::bsrBarline (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBarLines) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating bsrBarline '" <<
       asString () <<
       "', line " <<
@@ -115,7 +115,7 @@ void bsrBarline::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrBarline::acceptIn ()" <<
       endl;
   }
@@ -128,7 +128,7 @@ void bsrBarline::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrBarline::visitStart ()" <<
             endl;
         }
@@ -141,7 +141,7 @@ void bsrBarline::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrBarline::acceptOut ()" <<
       endl;
   }
@@ -154,7 +154,7 @@ void bsrBarline::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrBarline::visitEnd ()" <<
             endl;
         }

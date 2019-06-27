@@ -204,17 +204,17 @@ void msrNote::initializeNote ()
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Initializing a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
-      glogIOstream <<
+      gLogIOstream <<
         "not yet known";
     else
-      glogIOstream <<
+      gLogIOstream <<
         noteKindAsString (fNoteKind);
-    glogIOstream <<
+    gLogIOstream <<
       ", line " << fInputLineNumber << ":" <<
       endl;
 
@@ -222,7 +222,7 @@ void msrNote::initializeNote ()
 
     const int fieldWidth = 30;
 
-    glogIOstream <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteQuarterTonesPitch" << " = " <<
@@ -231,21 +231,21 @@ void msrNote::initializeNote ()
           fNoteQuarterTonesPitchKind) <<
         endl;
 
-    glogIOstream <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
         endl;
 
-    glogIOstream <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl;
 
-    glogIOstream <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteDotsNumber" << " = " <<
@@ -256,15 +256,15 @@ void msrNote::initializeNote ()
         setw (fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
       if (fNoteGraphicDurationKind != k_NoDuration) {
-        glogIOstream <<
+        gLogIOstream <<
           msrDurationKindAsString (
             fNoteGraphicDurationKind);
       }
       else {
-        glogIOstream << "none";
+        gLogIOstream << "none";
       }
 
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
 
       left <<
@@ -412,7 +412,7 @@ void msrNote::setNoteKind (msrNoteKind noteKind)
       ||
     gTraceOptions->fTraceGraceNotes
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting the kind of note '" <<
       asString () <<
       "' to '" <<
@@ -456,7 +456,7 @@ S_msrNote msrNote::createNoteNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of note '" <<
       asString () <<
       "' in part " <<
@@ -707,7 +707,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a deep copy of note " <<
       asString () <<
       /* JMI
@@ -1287,7 +1287,7 @@ S_msrNote msrNote::createRestNote (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRestNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating rest note '" <<
       o->asShortString () <<
       ", line " << inputLineNumber <<
@@ -1343,7 +1343,7 @@ S_msrNote msrNote::createSkipNote (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSkipNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating skip note '" <<
       o->asShortString () <<
       ", line " << inputLineNumber <<
@@ -1401,7 +1401,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesOctaveEntry) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating note '" <<
       o->asShortString () <<
       "' from semitones pitch and octave '" <<
@@ -1419,7 +1419,7 @@ void msrNote::setNotePositionInMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting note position in measure of '" << asString () <<
       "' to '" <<
       positionInMeasure <<
@@ -1887,7 +1887,7 @@ void msrNote::setNoteBelongsToAChord ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting note '" <<
       asShortString () <<
       "' to belong to a chord"
@@ -1926,7 +1926,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
       asShortString () <<
@@ -1949,7 +1949,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "The result is: '" <<
       asShortString () <<
       endl;
@@ -1961,7 +1961,7 @@ void msrNote::appendBeamToNote (S_msrBeam beam)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding beam '" <<
       beam->asShortString () <<
       "' to note '" <<
@@ -1978,7 +1978,7 @@ void msrNote::appendArticulationToNote (S_msrArticulation art)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceArticulations || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding articulation '" <<
       art->asShortString () <<
       "' to note '" <<
@@ -1995,7 +1995,7 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding spanner '" <<
       spanner->spannerKindAsString () <<
       "' to note '" <<
@@ -2035,7 +2035,7 @@ void msrNote::appendTechnicalToNote (S_msrTechnical technical)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding technical '" <<
       technical->asString () <<
       "' to note '" << asShortString () <<
@@ -2053,7 +2053,7 @@ void msrNote::appendTechnicalWithIntegerToNote (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding technical with integer '" <<
       technicalWithInteger->asString () <<
       "' to note '" << asShortString () <<
@@ -2072,7 +2072,7 @@ void msrNote::appendTechnicalWithFloatToNote (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding technical with float '" <<
       technicalWithFloat->asString () <<
       "' to note '" << asShortString () <<
@@ -2091,7 +2091,7 @@ void msrNote::appendTechnicalWithStringToNote (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding technical with string'" <<
       technicalWithString->asString () <<
       "' to note '" << asShortString () <<
@@ -2109,7 +2109,7 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOrnaments || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding ornament '" <<
       ornament->asShortString () <<
       "' to note '" <<
@@ -2152,7 +2152,7 @@ void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGlissandos || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding glissando '" <<
       glissando->asShortString () <<
       "' to note '" <<
@@ -2170,7 +2170,7 @@ void msrNote::appendSlideToNote (S_msrSlide slide)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSlides || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding slide '" <<
       slide->asShortString () <<
       "' to note '" <<
@@ -2189,7 +2189,7 @@ void msrNote::setNoteGraceNotesGroupBefore (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Attaching grace notes group '" <<
       graceNotesGroupBefore->asString () <<
       "' before note '" <<
@@ -2213,7 +2213,7 @@ void msrNote::setNoteGraceNotesGroupAfter (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Attaching grace notes group '" <<
       graceNotesGroupAfter->asString () <<
       "' after note '" <<
@@ -2237,7 +2237,7 @@ void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesG
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Attaching afterGraceNotesGroup '" << afterGraceNotesGroup->asString () <<
       "' to note '" << asShortString () <<
       "', line " << afterGraceNotesGroup->getInputLineNumber () <<
@@ -2254,7 +2254,7 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding singleTremolo '" << trem->asString () <<
       "' to note '" << asShortString () <<
       "', line " << trem->getInputLineNumber () <<
@@ -2270,7 +2270,7 @@ void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Attaching dynamics '" <<
       dynamics->asString () <<
       "' to note '" <<
@@ -2296,7 +2296,7 @@ void msrNote::appendSlurToNote (S_msrSlur slur)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSlurs || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding slur '" << slur <<
       "' to note '" << asString () << "'" <<
       endl;
@@ -2310,7 +2310,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLigatures || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending ligature " << ligature << " to note " << asString () <<
        endl;
   }
@@ -2343,7 +2343,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
       // remove 'ligature start'
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceLigatures) {
-        glogIOstream <<
+        gLogIOstream <<
           "Removing last ligature (start) for note '" <<
           asShortString () <<
           "'" <<
@@ -2368,7 +2368,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePedals || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending pedal " << pedal << " to note " << asString () <<
        endl;
   }
@@ -2399,7 +2399,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
       // rmeove 'pedal start'
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePedals) {
-        glogIOstream <<
+        gLogIOstream <<
           "Removing last pedal (start) for note '" <<
           asShortString () <<
           "'" <<
@@ -2423,7 +2423,7 @@ void msrNote::appendSlashToNote (S_msrSlash slash)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSlashes || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending slash '" <<
       slash <<
       "' to note '" <<
@@ -2475,7 +2475,7 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing first dynamics from note '" <<
       asShortString () <<
       "'" <<
@@ -2498,7 +2498,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing first wedge from note '" <<
       asShortString () <<
       endl;
@@ -2519,7 +2519,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending syllable '" <<
       syllable->asString () <<
       "' to note '" << asString () <<
@@ -2535,7 +2535,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " harmony to '" << harmony->asString () << "'" <<
       ", line " << fInputLineNumber <<
@@ -2556,7 +2556,7 @@ void msrNote::setNoteFrame (S_msrFrame frame)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " frame to '" << frame->asString () << "'" <<
       endl;
@@ -2570,7 +2570,7 @@ void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " figured bass to '" << figuredBass->asString () << "'" <<
       endl;
@@ -2587,7 +2587,7 @@ void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 void msrNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrNote::acceptIn ()" <<
       endl;
   }
@@ -2598,7 +2598,7 @@ void msrNote::acceptIn (basevisitor* v)
         S_msrNote elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrNote::visitStart ()" <<
             endl;
         }
@@ -2609,7 +2609,7 @@ void msrNote::acceptIn (basevisitor* v)
 void msrNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrNote::acceptOut ()" <<
       endl;
   }
@@ -2620,7 +2620,7 @@ void msrNote::acceptOut (basevisitor* v)
         S_msrNote elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrNote::visitEnd ()" <<
             endl;
         }

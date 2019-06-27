@@ -69,7 +69,7 @@ S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGr
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of after grace notes group" <<
       endl;
   }
@@ -104,7 +104,7 @@ void msrAfterGraceNotesGroupContents::appendNoteToAfterGraceNotesGroupContents (
 void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrAfterGraceNotesGroupContents::acceptIn ()" <<
       endl;
   }
@@ -115,7 +115,7 @@ void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
         S_msrAfterGraceNotesGroupContents elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrAfterGraceNotesGroupContents::visitStart ()" <<
             endl;
         }
@@ -126,7 +126,7 @@ void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
 void msrAfterGraceNotesGroupContents::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrAfterGraceNotesGroupContents::acceptOut ()" <<
       endl;
   }
@@ -137,7 +137,7 @@ void msrAfterGraceNotesGroupContents::acceptOut (basevisitor* v)
         S_msrAfterGraceNotesGroupContents elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrAfterGraceNotesGroupContents::visitEnd ()" <<
             endl;
         }
@@ -285,7 +285,7 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNew
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of after grace notes group '" <<
       asShortString () <<
       "'" <<
@@ -325,7 +325,7 @@ void msrAfterGraceNotesGroup::appendNoteToAfterGraceNotesGroupContents (
 void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrAfterGraceNotesGroup::acceptIn ()" <<
       endl;
   }
@@ -336,7 +336,7 @@ void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
         S_msrAfterGraceNotesGroup elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrAfterGraceNotesGroup::visitStart ()" <<
             endl;
         }
@@ -347,7 +347,7 @@ void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
 void msrAfterGraceNotesGroup::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrAfterGraceNotesGroup::acceptOut ()" <<
       endl;
   }
@@ -358,7 +358,7 @@ void msrAfterGraceNotesGroup::acceptOut (basevisitor* v)
         S_msrAfterGraceNotesGroup elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrAfterGraceNotesGroup::visitEnd ()" <<
             endl;
         }

@@ -59,7 +59,7 @@ void bsrScore::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrScore::acceptIn ()" <<
       endl;
   }
@@ -72,7 +72,7 @@ void bsrScore::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrScore::visitStart ()" <<
             endl;
         }
@@ -85,7 +85,7 @@ void bsrScore::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrScore::acceptOut ()" <<
       endl;
   }
@@ -98,7 +98,7 @@ void bsrScore::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrScore::visitEnd ()" <<
             endl;
         }
@@ -111,7 +111,7 @@ void bsrScore::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
@@ -136,7 +136,7 @@ void bsrScore::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }

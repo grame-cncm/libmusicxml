@@ -49,7 +49,7 @@ bsrPage::bsrPage (
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTracePages) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating bsrPage '" <<
       asString () <<
       "', line " <<
@@ -66,7 +66,7 @@ S_bsrPage bsrPage::createPageNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTracePages) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of page " <<
       asString () <<
       endl;
@@ -105,7 +105,7 @@ void bsrPage::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrPage::acceptIn ()" <<
       endl;
   }
@@ -118,7 +118,7 @@ void bsrPage::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrPage::visitStart ()" <<
             endl;
         }
@@ -131,7 +131,7 @@ void bsrPage::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrPage::acceptOut ()" <<
       endl;
   }
@@ -144,7 +144,7 @@ void bsrPage::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrPage::visitEnd ()" <<
             endl;
         }

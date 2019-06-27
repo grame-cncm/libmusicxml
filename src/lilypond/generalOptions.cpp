@@ -315,7 +315,7 @@ void generalOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The general options are:" <<
     endl;
 
@@ -324,11 +324,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // command line
   // --------------------------------------
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "input source name" << " : " <<
     fInputSourceName <<
     endl <<
@@ -342,13 +342,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // warning and error handling
   // --------------------------------------
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "Warning and error handling:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream <<
+  gLogIOstream <<
     setw (fieldWidth) << "quiet" << " : " <<
     booleanAsString (fQuiet) <<
     endl <<
@@ -368,13 +368,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // CPU usage
   // --------------------------------------
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "CPU usage:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream <<
+  gLogIOstream <<
     setw (fieldWidth) << "displayCPUusage" << " : " <<
     booleanAsString (fDisplayCPUusage) <<
     endl;
@@ -406,7 +406,7 @@ void initializeGeneralOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing general options handling" <<
       endl;
   }

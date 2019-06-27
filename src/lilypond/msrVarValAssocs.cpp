@@ -60,7 +60,7 @@ void msrVarValAssoc::setVariableValue (string value)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting the value of marVarValAssoc \"" <<
       varValAssocKindAsString (fVarValAssocKind) <<
       "\" to '" <<
@@ -76,7 +76,7 @@ void msrVarValAssoc::setVariableValue (string value)
 void msrVarValAssoc::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrVarValAssoc::acceptIn ()" <<
       endl;
   }
@@ -87,7 +87,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v)
         S_msrVarValAssoc elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitStart ()" <<
             endl;
         }
@@ -98,7 +98,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v)
 void msrVarValAssoc::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrVarValAssoc::acceptOut ()" <<
       endl;
   }
@@ -109,7 +109,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v)
         S_msrVarValAssoc elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitEnd ()" <<
             endl;
         }
@@ -215,7 +215,7 @@ msrVarValsListAssoc::~msrVarValsListAssoc ()
 void msrVarValsListAssoc::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
@@ -226,7 +226,7 @@ void msrVarValsListAssoc::acceptIn (basevisitor* v)
         S_msrVarValsListAssoc elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrVarValsListAssoc::visitStart ()" <<
             endl;
         }
@@ -237,7 +237,7 @@ void msrVarValsListAssoc::acceptIn (basevisitor* v)
 void msrVarValsListAssoc::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrVarValsListAssoc::acceptOut ()" <<
       endl;
   }
@@ -248,7 +248,7 @@ void msrVarValsListAssoc::acceptOut (basevisitor* v)
         S_msrVarValsListAssoc elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrVarValsListAssoc::visitEnd ()" <<
             endl;
         }

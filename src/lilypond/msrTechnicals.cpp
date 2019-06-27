@@ -139,7 +139,7 @@ string msrTechnical::technicalAccidentalMarkKindAsString () const
 void msrTechnical::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnical::acceptIn ()" <<
       endl;
   }
@@ -150,7 +150,7 @@ void msrTechnical::acceptIn (basevisitor* v)
         S_msrTechnical elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnical::visitStart ()" <<
             endl;
         }
@@ -161,7 +161,7 @@ void msrTechnical::acceptIn (basevisitor* v)
 void msrTechnical::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnical::acceptOut ()" <<
       endl;
   }
@@ -172,7 +172,7 @@ void msrTechnical::acceptOut (basevisitor* v)
         S_msrTechnical elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnical::visitEnd ()" <<
             endl;
         }
@@ -269,7 +269,7 @@ string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () con
 void msrTechnicalWithInteger::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithInteger::acceptIn ()" <<
       endl;
   }
@@ -280,7 +280,7 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v)
         S_msrTechnicalWithInteger elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitStart ()" <<
             endl;
         }
@@ -291,7 +291,7 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v)
 void msrTechnicalWithInteger::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithInteger::acceptOut ()" <<
       endl;
   }
@@ -302,7 +302,7 @@ void msrTechnicalWithInteger::acceptOut (basevisitor* v)
         S_msrTechnicalWithInteger elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitEnd ()" <<
             endl;
         }
@@ -419,7 +419,7 @@ string msrTechnicalWithFloat::technicalWithFloatPlacementKindAsString () const
 void msrTechnicalWithFloat::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithFloat::acceptIn ()" <<
       endl;
   }
@@ -430,7 +430,7 @@ void msrTechnicalWithFloat::acceptIn (basevisitor* v)
         S_msrTechnicalWithFloat elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithFloat::visitStart ()" <<
             endl;
         }
@@ -441,7 +441,7 @@ void msrTechnicalWithFloat::acceptIn (basevisitor* v)
 void msrTechnicalWithFloat::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithFloat::acceptOut ()" <<
       endl;
   }
@@ -452,7 +452,7 @@ void msrTechnicalWithFloat::acceptOut (basevisitor* v)
         S_msrTechnicalWithFloat elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithFloat::visitEnd ()" <<
             endl;
         }
@@ -596,7 +596,7 @@ string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
 void msrTechnicalWithString::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithString::acceptIn ()" <<
       endl;
   }
@@ -607,7 +607,7 @@ void msrTechnicalWithString::acceptIn (basevisitor* v)
         S_msrTechnicalWithString elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithString::visitStart ()" <<
             endl;
         }
@@ -618,7 +618,7 @@ void msrTechnicalWithString::acceptIn (basevisitor* v)
 void msrTechnicalWithString::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithString::acceptOut ()" <<
       endl;
   }
@@ -629,7 +629,7 @@ void msrTechnicalWithString::acceptOut (basevisitor* v)
         S_msrTechnicalWithString elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithString::visitEnd ()" <<
             endl;
         }

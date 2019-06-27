@@ -61,7 +61,7 @@ msrOctaveShift::~msrOctaveShift ()
 void msrOctaveShift::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrOctaveShift::acceptIn ()" <<
       endl;
   }
@@ -72,7 +72,7 @@ void msrOctaveShift::acceptIn (basevisitor* v)
         S_msrOctaveShift elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitStart ()" <<
             endl;
         }
@@ -83,7 +83,7 @@ void msrOctaveShift::acceptIn (basevisitor* v)
 void msrOctaveShift::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrOctaveShift::acceptOut ()" <<
       endl;
   }
@@ -94,7 +94,7 @@ void msrOctaveShift::acceptOut (basevisitor* v)
         S_msrOctaveShift elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitEnd ()" <<
             endl;
         }
@@ -197,7 +197,7 @@ msrTranspose::msrTranspose (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTranspositions) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating transpose '" <<
       asString () <<
       "'" <<
@@ -232,7 +232,7 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
 void msrTranspose::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTranspose::acceptIn ()" <<
       endl;
   }
@@ -243,7 +243,7 @@ void msrTranspose::acceptIn (basevisitor* v)
         S_msrTranspose elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTranspose::visitStart ()" <<
             endl;
         }
@@ -254,7 +254,7 @@ void msrTranspose::acceptIn (basevisitor* v)
 void msrTranspose::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTranspose::acceptOut ()" <<
       endl;
   }
@@ -265,7 +265,7 @@ void msrTranspose::acceptOut (basevisitor* v)
         S_msrTranspose elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTranspose::visitEnd ()" <<
             endl;
         }

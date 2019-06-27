@@ -84,7 +84,7 @@ S_msrScore msrScore::createScoreNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceScore) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of a score" <<
       endl;
   }
@@ -154,7 +154,7 @@ void msrScore::appendCreditToScore (S_msrCredit credit)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceCredits) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending credit '" <<
       credit->asString () <<
       "' to score" <<
@@ -173,7 +173,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroupsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
 
@@ -184,7 +184,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
         i != fPartGroupsList.end ();
         i++
       ) {
-      glogIOstream <<
+      gLogIOstream <<
         (*i)->getPartGroupCombinedName () <<
         ", " <<
         (*i)->getPartGroupName () <<
@@ -193,7 +193,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 
     gIndenter--;
 
-    glogIOstream <<
+    gLogIOstream <<
       "<=- fetchPartFromScoreByItsPartID(" << partID << ")" <<
       endl <<
       endl;
@@ -299,7 +299,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                 case 1:
 #ifdef TRACE_OPTIONS
                   if (gTraceOptions->fTraceCredits) {
-                    glogIOstream <<
+                    gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
                       "' as score title" <<
@@ -316,7 +316,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                 case 2:
 #ifdef TRACE_OPTIONS
                   if (gTraceOptions->fTraceCredits) {
-                    glogIOstream <<
+                    gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
                       "' as movement title" <<
@@ -345,7 +345,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                 case 1:
 #ifdef TRACE_OPTIONS
                   if (gTraceOptions->fTraceCredits) {
-                    glogIOstream <<
+                    gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
                       "' as composer" <<
@@ -362,7 +362,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                 case 2:
 #ifdef TRACE_OPTIONS
                   if (gTraceOptions->fTraceCredits) {
-                    glogIOstream <<
+                    gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
                       "' as poet" <<
@@ -448,7 +448,7 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
 void msrScore::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrScore::acceptIn ()" <<
       endl;
   }
@@ -459,7 +459,7 @@ void msrScore::acceptIn (basevisitor* v)
         S_msrScore elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrScore::visitStart ()" <<
             endl;
         }
@@ -470,7 +470,7 @@ void msrScore::acceptIn (basevisitor* v)
 void msrScore::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrScore::acceptOut ()" <<
       endl;
   }
@@ -481,7 +481,7 @@ void msrScore::acceptOut (basevisitor* v)
         S_msrScore elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrScore::visitEnd ()" <<
             endl;
         }
@@ -492,7 +492,7 @@ void msrScore::acceptOut (basevisitor* v)
 void msrScore::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrScore::browseData ()" <<
       endl;
   }
@@ -530,7 +530,7 @@ void msrScore::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== msrScore::browseData ()" <<
       endl;
   }

@@ -3792,16 +3792,16 @@ void lpsr2LilypondTranslator::generateInputLineNumberAndOrPositionInMeasureAsACo
   fLilypondCodeIOstream <<
     "%{ ";
 
-  if (gLilypondOptions->fNotesInputLineNumbers) {
+  if (gLilypondOptions->fInputLineNumbers) {
     // print the input line number as a comment
     fLilypondCodeIOstream <<
-      "line: " << measureElement->getInputLineNumber () << " ";
+      "iln: " << measureElement->getInputLineNumber () << " ";
   }
 
-  if (gLilypondOptions->fNotesPositionsInMeasures) {
+  if (gLilypondOptions->fPositionsInMeasures) {
     // print the position in measure as a comment
     fLilypondCodeIOstream <<
-       "pim: " << measureElement->getPositionInMeasure () << " ";
+      "pim: " << measureElement->getPositionInMeasure () << " ";
   }
 
   fLilypondCodeIOstream <<
@@ -7020,9 +7020,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     "\"";
 
   if (
-    gLilypondOptions->fNotesInputLineNumbers
+    gLilypondOptions->fInputLineNumbers
       ||
-    gLilypondOptions->fNotesPositionsInMeasures
+    gLilypondOptions->fPositionsInMeasures
   ) {
     generateInputLineNumberAndOrPositionInMeasureAsAComment (
       elt);
@@ -7067,9 +7067,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       ' ';
 
     if (
-      gLilypondOptions->fNotesInputLineNumbers
+      gLilypondOptions->fInputLineNumbers
         ||
-      gLilypondOptions->fNotesPositionsInMeasures
+      gLilypondOptions->fPositionsInMeasures
     ) {
       generateInputLineNumberAndOrPositionInMeasureAsAComment (
         elt);
@@ -7148,9 +7148,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
       "<";
 
     if (
-      gLilypondOptions->fNotesInputLineNumbers
+      gLilypondOptions->fInputLineNumbers
         ||
-      gLilypondOptions->fNotesPositionsInMeasures
+      gLilypondOptions->fPositionsInMeasures
     ) {
       generateInputLineNumberAndOrPositionInMeasureAsAComment (
         fCurrentFiguredBass);
@@ -7989,7 +7989,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableMeasureEnd:
       // JMI      "| " <<
-          if (gLilypondOptions->fNotesInputLineNumbers) {
+          if (gLilypondOptions->fInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeIOstream <<
               "%{ measure end, line " <<
@@ -8001,7 +8001,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllableLineBreak:
-          if (gLilypondOptions->fNotesInputLineNumbers) {
+          if (gLilypondOptions->fInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeIOstream <<
               "%{ line break, line " <<
@@ -8013,7 +8013,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllablePageBreak:
-          if (gLilypondOptions->fNotesInputLineNumbers) {
+          if (gLilypondOptions->fInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeIOstream <<
               "%{ page break, line " <<
@@ -8078,9 +8078,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       } // switch
 
     if (
-      gLilypondOptions->fNotesInputLineNumbers
+      gLilypondOptions->fInputLineNumbers
         ||
-      gLilypondOptions->fNotesPositionsInMeasures
+      gLilypondOptions->fPositionsInMeasures
     ) {
       generateInputLineNumberAndOrPositionInMeasureAsAComment (
         elt);
@@ -10548,14 +10548,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               gMsrOptions->fTraceMsrVisitors
                 ||
               gGeneralOptions->ffTraceRestMeasures) {
-              glogIOstream <<
+              gLogIOstream <<
                 "% ==> visiting rest measures is ignored" <<
                 endl;
             }
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> returning from visitStart (S_msrNote&)" <<
     endl;
   }
@@ -10572,7 +10572,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             ||
           gTraceOptions->fTraceRestMeasures
         ) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> start visiting rest measures is ignored" <<
             endl;
         }
@@ -10590,7 +10590,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             ||
           gTraceOptions->fTraceNotes
         ) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> start visiting skip notes is ignored" <<
             endl;
         }
@@ -10607,7 +10607,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             ||
           gTraceOptions->fTraceGraceNotes
         ) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> start visiting grace notes is ignored" <<
             endl;
         }
@@ -10623,7 +10623,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             ||
           gTraceOptions->fTraceGraceNotes
         ) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> start visiting chord grace notes is ignored" <<
             endl;
         }
@@ -11306,9 +11306,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   generateCodeAfterNote (elt);
 
   if (
-    gLilypondOptions->fNotesInputLineNumbers
+    gLilypondOptions->fInputLineNumbers
       ||
-    gLilypondOptions->fNotesPositionsInMeasures
+    gLilypondOptions->fPositionsInMeasures
   ) {
     generateInputLineNumberAndOrPositionInMeasureAsAComment (
       elt);
@@ -11348,7 +11348,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                 ||
               gTraceOptions->fTraceRestMeasures
             ) {
-              glogIOstream <<
+              gLogIOstream <<
                 "% ==> end visiting rest measures is ignored" <<
                 endl;
             }
@@ -11356,7 +11356,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> returning from visitEnd (S_msrNote&)" <<
       endl;
   }
@@ -11376,7 +11376,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             ||
           gTraceOptions->fTraceNotes
         ) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> end visiting skip notes is ignored" <<
             endl;
         }
@@ -11392,7 +11392,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           gMsrOptions->fTraceMsrVisitors
             ||
           gTraceOptions->fTraceGraceNotes) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> end visiting grace notes is ignored" <<
             endl;
         }
@@ -12402,17 +12402,17 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
       chord->getChordGraceNotesGroupBefore ();
 
 /* JMI
-  glogIOstream <<
+  gLogIOstream <<
     "% chordGraceNotesGroupBefore = ";
   if (chordGraceNotesGroupBefore) {
-    glogIOstream <<
+    gLogIOstream <<
       chordGraceNotesGroupBefore;
   }
   else {
-    glogIOstream <<
+    gLogIOstream <<
       "nullptr";
   }
-  glogIOstream << endl;
+  gLogIOstream << endl;
 */
 
   if (chordGraceNotesGroupBefore) {
@@ -13837,7 +13837,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           */
       } // switch
 
-      if (gLilypondOptions->fNotesInputLineNumbers) {
+      if (gLilypondOptions->fInputLineNumbers) {
         // print the barline line number as a comment
         fLilypondCodeIOstream <<
           "%{ " << inputLineNumber << " %} ";
@@ -13901,7 +13901,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       break;
   } // switch
 
-  if (gLilypondOptions->fNotesInputLineNumbers) {
+  if (gLilypondOptions->fInputLineNumbers) {
     fLilypondCodeIOstream <<
       " %{ " << inputLineNumber << " %}";
   }
@@ -14089,9 +14089,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 
 /* JMI ???
   if (
-    gLilypondOptions->fNotesInputLineNumbers
+    gLilypondOptions->fInputLineNumbers
       ||
-    gLilypondOptions->fNotesPositionsInMeasures
+    gLilypondOptions->fPositionsInMeasures
   ) {
     generateInputLineNumberAndOrPositionInMeasureAsAComment (
       elt);
@@ -14784,7 +14784,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
       restMeasuresNumber;
   }
 
-  if (gLilypondOptions->fNotesInputLineNumbers) {
+  if (gLilypondOptions->fInputLineNumbers) {
     // print the rest measures line number as a comment
     fLilypondCodeIOstream <<
       " %{ " << inputLineNumber << " %} ";

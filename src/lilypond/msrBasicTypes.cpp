@@ -8810,7 +8810,7 @@ void initializeChordStructuresMap ()
 
 void printChordStructuresMap ()
 {
-  glogIOstream <<
+  gLogIOstream <<
     "Harmonies chords structures:" <<
     " (" << gChordStructuresMap.size () << ")" <<
     endl;
@@ -8822,7 +8822,7 @@ void printChordStructuresMap ()
       harmonyKind =
         msrHarmonyKind (i);
 
-    glogIOstream <<
+    gLogIOstream <<
 // JMI      "i:" << i << " " <<
       msrHarmonyKindAsString (harmonyKind) << ":" <<
       endl;
@@ -8834,24 +8834,24 @@ void printChordStructuresMap ()
         gChordStructuresMap [harmonyKind];
 
     if (chordStructure) {
-      glogIOstream <<
+      gLogIOstream <<
         chordStructure <<
         endl;
     }
     else {
-      glogIOstream <<
+      gLogIOstream <<
         "no intervals" <<
         endl;
     }
 
     gIndenter--;
 
-    glogIOstream << endl;
+    gLogIOstream << endl;
   } // for
 
   gIndenter--;
 
-  glogIOstream << endl;
+  gLogIOstream << endl;
 }
 
 // notes names languages
@@ -12700,7 +12700,7 @@ string wholeNotesAsMsrString (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> wholeNotes: " << wholeNotes <<
       ", line " << inputLineNumber <<
       endl;
@@ -12713,7 +12713,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> numerator:   " << numerator <<
       endl <<
       "--> denominator: " << denominator <<
@@ -12735,7 +12735,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
   }
@@ -12755,7 +12755,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
         rationalHasBeenSimplified) <<
@@ -12783,7 +12783,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
       endl;
@@ -12870,7 +12870,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
       endl <<
@@ -12885,7 +12885,7 @@ string wholeNotesAsMsrString (
     // 6/1 thus becomes 3 \breve, hence '\longa.'
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      glogIOstream <<
+      gLogIOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
         endl;
@@ -12898,7 +12898,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceWholeNotes) {
-        glogIOstream <<
+        gLogIOstream <<
           "--> numerator" << " : " <<
           numerator <<
           endl <<
@@ -12916,7 +12916,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> numerator" << " : " <<
       numerator <<
       endl <<
@@ -12937,7 +12937,7 @@ string wholeNotesAsMsrString (
     // take the dots into account
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      glogIOstream <<
+      gLogIOstream <<
         "--> taking the dots into account" <<
         endl;
     }
@@ -12947,7 +12947,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      glogIOstream <<
+      gLogIOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -12962,7 +12962,7 @@ string wholeNotesAsMsrString (
     // set the multiplying factor
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      glogIOstream <<
+      gLogIOstream <<
         "--> setting the multiplying factor" <<
         endl;
     }
@@ -12978,7 +12978,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      glogIOstream <<
+      gLogIOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -12998,7 +12998,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceWholeNotes) {
-        glogIOstream <<
+        gLogIOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
           endl <<
@@ -13014,7 +13014,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> numerator " << " : " <<
       numerator <<
       endl <<
@@ -13075,7 +13075,7 @@ string wholeNotesAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> return:" <<
       endl <<
       "  --> s.str ()     " << " : \"" << s.str () << "\"" <<
@@ -13318,7 +13318,7 @@ msrChordInterval::msrChordInterval (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChordsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> Creating chord item '" <<
       chordIntervalAsString () <<
       "'" <<
@@ -13396,7 +13396,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "--> computing intervalDifference betwwen '" <<
       asShortString () <<
@@ -13423,7 +13423,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> normalized operands are '" <<
       operand1->asShortString () <<
       "' and '" <<
@@ -13482,7 +13482,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> permuteRelativeOctaves = " <<
       booleanAsString (permuteRelativeOctaves) <<
       ", invertInterval = " <<
@@ -14660,7 +14660,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> base resultIntervalKind = '" <<
       msrIntervalKindAsString (resultIntervalKind) <<
       "'" <<
@@ -14693,7 +14693,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
-    glogIOstream <<
+    gLogIOstream <<
       "--> result = '" <<
       result->asShortString () <<
       "'" <<
@@ -15844,7 +15844,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
 /* JMI
 void msrChordInterval::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrChordInterval::acceptIn ()" <<
       endl;
   }
@@ -15855,7 +15855,7 @@ void msrChordInterval::acceptIn (basevisitor* v) {
         S_msrChordInterval elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrChordInterval::visitStart ()" <<
              endl;
         p->visitStart (elem);
@@ -15864,7 +15864,7 @@ void msrChordInterval::acceptIn (basevisitor* v) {
 
 void msrChordInterval::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrChordInterval::acceptOut ()" <<
       endl;
   }
@@ -15875,7 +15875,7 @@ void msrChordInterval::acceptOut (basevisitor* v) {
         S_msrChordInterval elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrChordInterval::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
@@ -15985,7 +15985,7 @@ msrChordStructure::msrChordStructure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChordsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> Creating chord intervals '" <<
       chordStructureAsString () <<
       "'" <<
@@ -16883,7 +16883,7 @@ void msrChordStructure::appendChordIntervalToChordStructure (
 /* JMI
 void msrChordStructure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrChordStructure::acceptIn ()" <<
       endl;
   }
@@ -16894,7 +16894,7 @@ void msrChordStructure::acceptIn (basevisitor* v) {
         S_msrChordStructure elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrChordStructure::visitStart ()" <<
              endl;
         p->visitStart (elem);
@@ -16903,7 +16903,7 @@ void msrChordStructure::acceptIn (basevisitor* v) {
 
 void msrChordStructure::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrChordStructure::acceptOut ()" <<
       endl;
   }
@@ -16914,7 +16914,7 @@ void msrChordStructure::acceptOut (basevisitor* v) {
         S_msrChordStructure elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrChordStructure::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
@@ -16977,7 +16977,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChordsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> invertChordStructure (), inversion = " << inversion <<
       ", original chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
       endl;
@@ -16994,11 +16994,11 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceChordsDetails) {
-        glogIOstream <<
+        gLogIOstream <<
           "--> adding first item to result:" <<
           endl;
         gIndenter++;
-        glogIOstream <<
+        gLogIOstream <<
           chordIntervalClone <<
           endl;
         gIndenter--;
@@ -17011,12 +17011,12 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceChordsDetails) {
-        glogIOstream <<
+        gLogIOstream <<
           "==> result chord structure after adding first item :" <<
           endl;
 
         gIndenter++;
-        glogIOstream <<
+        gLogIOstream <<
           result <<
           endl;
         gIndenter--;
@@ -17036,11 +17036,11 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceChordsDetails) {
-        glogIOstream <<
+        gLogIOstream <<
           "--> adding last item to resultlast item :" <<
           endl;
         gIndenter++;
-        glogIOstream <<
+        gLogIOstream <<
           chordIntervalClone <<
           endl;
         gIndenter--;
@@ -17053,12 +17053,12 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceChordsDetails) {
-        glogIOstream <<
+        gLogIOstream <<
           "==> result chord structure after  after adding last item:" <<
           endl;
 
         gIndenter++;
-        glogIOstream <<
+        gLogIOstream <<
           result <<
           endl;
         gIndenter--;
@@ -17117,7 +17117,7 @@ void msrChordStructure::print (ostream& os)
 {
   os <<
     "ChordStructure" <<
-    ", harmonyKind: " <<
+    ", chordStructureHarmonyKind: " <<
     msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
     ", " <<
     singularOrPlural (
@@ -17139,7 +17139,7 @@ void msrChordStructure::print (ostream& os)
       S_msrChordInterval
         chordInterval = (*i);
 
-      glogIOstream <<
+      gLogIOstream <<
         chordInterval->chordIntervalAsShortString () <<
         endl;
 
@@ -17147,7 +17147,7 @@ void msrChordStructure::print (ostream& os)
     } // for
   }
   else {
-    glogIOstream <<
+    gLogIOstream <<
       "no intervals" <<
       endl;
   }
@@ -17214,7 +17214,7 @@ msrSemiTonesPitchAndAbsoluteOctave::msrSemiTonesPitchAndAbsoluteOctave (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChordsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> Creating chord item '" <<
       asString () <<
       "'" <<
@@ -17305,7 +17305,7 @@ msrSemiTonesPitchAndRelativeOctave::msrSemiTonesPitchAndRelativeOctave (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChordsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> Creating chord item '" <<
       asString () <<
       "'" <<
@@ -17408,7 +17408,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
-    glogIOstream <<
+    gLogIOstream <<
       "There are " << smSize << " matches" <<
       " for transposition string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -17417,11 +17417,11 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       smSize << " elements: ";
 
       for (unsigned i = 0; i < smSize; ++i) {
-        glogIOstream <<
+        gLogIOstream <<
           "[" << sm [i] << "] ";
       } // for
 
-      glogIOstream << endl;
+      gLogIOstream << endl;
     }
 #endif
 
@@ -17434,7 +17434,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
-      glogIOstream <<
+      gLogIOstream <<
         "--> pitch = \"" << pitch << "\", " <<
         "--> octaveIndication = \"" << octaveIndication << "\"" <<
         endl;
@@ -17492,7 +17492,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
-      glogIOstream <<
+      gLogIOstream <<
         "--> semiTonesPitchKind = \"" <<
           msrSemiTonesPitchKindAsString (
             semiTonesPitchKind) << "\", " <<
@@ -17535,7 +17535,7 @@ msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChordsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> Creating pitch and octave '" <<
       asString () <<
       "'" <<
@@ -17629,7 +17629,7 @@ msrChordContents::msrChordContents (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChordsDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> Creating chordContents '" <<
       chordContentsAsString () <<
       "'" <<
@@ -17854,7 +17854,7 @@ void msrChordContents::printAllChordsContents (
 /* JMI
 void msrChordContents::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrChordContents::acceptIn ()" <<
       endl;
   }
@@ -17865,7 +17865,7 @@ void msrChordContents::acceptIn (basevisitor* v) {
         S_msrChordContents elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrChordContents::visitStart ()" <<
              endl;
         p->visitStart (elem);
@@ -17874,7 +17874,7 @@ void msrChordContents::acceptIn (basevisitor* v) {
 
 void msrChordContents::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrChordContents::acceptOut ()" <<
       endl;
   }
@@ -17885,7 +17885,7 @@ void msrChordContents::acceptOut (basevisitor* v) {
         S_msrChordContents elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrChordContents::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
@@ -18551,7 +18551,7 @@ void initializeMSRBasicTypes ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing MSR basic types handling" <<
       endl;
   }

@@ -49,7 +49,7 @@ msrTie::~msrTie ()
 void msrTie::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTie::acceptIn ()" <<
       endl;
   }
@@ -60,7 +60,7 @@ void msrTie::acceptIn (basevisitor* v)
         S_msrTie elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTie::visitStart ()" <<
             endl;
         }
@@ -71,7 +71,7 @@ void msrTie::acceptIn (basevisitor* v)
 void msrTie::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTie::acceptOut ()" <<
       endl;
   }
@@ -82,7 +82,7 @@ void msrTie::acceptOut (basevisitor* v)
         S_msrTie elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTie::visitEnd ()" <<
             endl;
         }

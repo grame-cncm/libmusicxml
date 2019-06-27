@@ -52,7 +52,7 @@ msrTimeItem::msrTimeItem (
   
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -100,7 +100,7 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending beat number '" <<
       beatsNumber <<
       "' to time item '" <<
@@ -119,7 +119,7 @@ void msrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
       "' in time item '" <<
@@ -147,7 +147,7 @@ int msrTimeItem::getTimeBeatsNumber () const
 void msrTimeItem::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTimeItem::acceptIn ()" <<
       endl;
   }
@@ -158,7 +158,7 @@ void msrTimeItem::acceptIn (basevisitor* v)
         S_msrTimeItem elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTimeItem::visitStart ()" <<
             endl;
         }
@@ -169,7 +169,7 @@ void msrTimeItem::acceptIn (basevisitor* v)
 void msrTimeItem::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTimeItem::acceptOut ()" <<
       endl;
   }
@@ -180,7 +180,7 @@ void msrTimeItem::acceptOut (basevisitor* v)
         S_msrTimeItem elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTimeItem::visitEnd ()" <<
             endl;
         }
@@ -347,7 +347,7 @@ void msrTime::appendTimeItem (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    glogIOstream <<
+    gLogIOstream <<
       "Append item '" <<
       timeItem->asString () <<
       "' to time '" <<
@@ -395,7 +395,7 @@ rational msrTime::wholeNotesPerMeasure () const
 */
 
 /* JMI
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       endl <<
       "result1 = " <<
@@ -414,7 +414,7 @@ rational msrTime::wholeNotesPerMeasure () const
           fTimeItemsVector [i]->getTimeBeatValue ());
 
 /* JMI
-      glogIOstream <<
+      gLogIOstream <<
         endl <<
         endl <<
         "result2 = " <<
@@ -446,7 +446,7 @@ rational msrTime::wholeNotesPerMeasure () const
 void msrTime::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTime::acceptIn ()" <<
       endl;
   }
@@ -457,7 +457,7 @@ void msrTime::acceptIn (basevisitor* v)
         S_msrTime elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTime::visitStart ()" <<
             endl;
         }
@@ -468,7 +468,7 @@ void msrTime::acceptIn (basevisitor* v)
 void msrTime::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTime::acceptOut ()" <<
       endl;
   }
@@ -479,7 +479,7 @@ void msrTime::acceptOut (basevisitor* v)
         S_msrTime elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTime::visitEnd ()" <<
             endl;
         }

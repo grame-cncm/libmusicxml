@@ -77,7 +77,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
       musicXMLFd2mxmlTree (
         stdin,
         gMusicXMLOptions,
-        glogIOstream);
+        gLogIOstream);
   }
 
   else {
@@ -110,7 +110,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
         gMusicXMLOptions,
-        glogIOstream);
+        gLogIOstream);
   }
 
   return mxmlTree;
@@ -125,7 +125,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
       buildMsrSkeletonFromElementsTree (
         gMsrOptions,
         mxmlTree,
-        glogIOstream);
+        gLogIOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -145,7 +145,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
   }
 
   if (! mScore) {
-    glogIOstream <<
+    gLogIOstream <<
       "### Conversion from MusicCML to an MSR skeleton failed ###" <<
       endl <<
       endl;
@@ -165,7 +165,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
     gMsrOptions,
     mxmlTree,
     scoreSkeleton,
-    glogIOstream);
+    gLogIOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -194,7 +194,7 @@ void displayMsrScore_OptionalPass (
   displayMSRPopulatedScore (
     msrOpts,
     mScore,
-    glogIOstream);
+    gLogIOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -225,7 +225,7 @@ void displayBsrFirstScore_OptionalPass (
     bScore,
     msrOpts,
     bsrOpts,
-    glogIOstream);
+    gLogIOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -256,7 +256,7 @@ void displayBsrFinalizedScore_OptionalPass (
     bScore,
     msrOpts,
     bsrOpts,
-    glogIOstream);
+    gLogIOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -288,7 +288,7 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
         mScore,
         gMsrOptions,
         gBsrOptions,
-        glogIOstream);
+        gLogIOstream);
   }
 
   if (gIndenter != 0) {
@@ -309,7 +309,7 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
   }
 
   if (! bScore) {
-    glogIOstream <<
+    gLogIOstream <<
       "### Conversion from MSR to BSR failed ###" <<
       endl <<
       endl;
@@ -331,7 +331,7 @@ void displayFinalizedBsrScore_OptionalPass (
     bScore,
     msrOpts,
     bsrOpts,
-    glogIOstream);
+    gLogIOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -362,7 +362,7 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
       generateFinalizedBsrScoreFromBsrScore (
         bScore,
         gBsrOptions,
-        glogIOstream);
+        gLogIOstream);
   }
 
   if (gIndenter != 0) {
@@ -383,7 +383,7 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
   }
 
   if (! finalizedBsrScore) {
-    glogIOstream <<
+    gLogIOstream <<
       "### Conversion from first BSR to finalized BSR failed ###" <<
       endl <<
       endl;
@@ -410,7 +410,7 @@ void convertBsrScoreToBrailleText_Pass4 (
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
-        glogIOstream <<
+        gLogIOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
       }
@@ -421,7 +421,7 @@ void convertBsrScoreToBrailleText_Pass4 (
         ofstream::out);
 
       if (! brailleCodeFileOutputStream.is_open ()) {
-        glogIOstream <<
+        gLogIOstream <<
           "Could not open braille music output file \"" <<
           outputFileName <<
           "\" for writing, exiting" <<
@@ -443,14 +443,14 @@ void convertBsrScoreToBrailleText_Pass4 (
       generateBrailleCodeFromBsrScore (
         bScore,
         gBsrOptions,
-        glogIOstream,
+        gLogIOstream,
         brailleCodeFileOutputStream);
     }
 
     else {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
-        glogIOstream <<
+        gLogIOstream <<
           endl <<
           "Braille music will be written to standard output" <<
           endl;
@@ -468,14 +468,14 @@ void convertBsrScoreToBrailleText_Pass4 (
       generateBrailleCodeFromBsrScore (
         bScore,
         gBsrOptions,
-        glogIOstream,
+        gLogIOstream,
         brailleCodeCoutOutputStream);
     }
 
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
-        glogIOstream <<
+        gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
           endl;
@@ -527,7 +527,7 @@ void convertMusicXMLToBraille (
         mxmlTree);
 
   if (gMsrOptions->fExit2a) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
       endl;
@@ -543,7 +543,7 @@ void convertMusicXMLToBraille (
     mScore);
 
   if (gMsrOptions->fExit2b) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Existing after pass 2b as requested" <<
       endl;
@@ -569,7 +569,7 @@ void convertMusicXMLToBraille (
     displayMSRPopulatedScoreSummary (
       gMsrOptions,
       mScore,
-      glogIOstream);
+      gLogIOstream);
 
     exit (444);
   }
@@ -583,7 +583,7 @@ void convertMusicXMLToBraille (
     displayMSRPopulatedScoreNames (
       gMsrOptions,
       mScore,
-      glogIOstream);
+      gLogIOstream);
 
     exit (555);
   }
@@ -598,7 +598,7 @@ void convertMusicXMLToBraille (
         mScore);
 
   if (gBsrOptions->fExit3a) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Existing after pass 3a as requested" <<
       endl;
@@ -625,7 +625,7 @@ void convertMusicXMLToBraille (
         firstBsrScore);
 
   if (gBsrOptions->fExit3b) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "Existing after pass 3b as requested" <<
       endl;
@@ -672,13 +672,13 @@ int main (int argc, char *argv[])
       handleOptionsAndArguments (
         optionsHandler,
         argc, argv,
-        glogIOstream);
+        gLogIOstream);
 
 /* JMI
   // print the resulting options
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fDisplayOptionsHandler) {
-    glogIOstream <<
+    gLogIOstream <<
       optionsHandler <<
       endl <<
       endl;
@@ -712,61 +712,61 @@ int main (int argc, char *argv[])
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
-    glogIOstream <<
+    gLogIOstream <<
       "This is xml2brl " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    glogIOstream <<
+    gLogIOstream <<
       "Launching conversion of ";
 
     if (inputSourceName == "-")
-      glogIOstream <<
+      gLogIOstream <<
         "standard input";
     else
-      glogIOstream <<
+      gLogIOstream <<
         "\"" << inputSourceName << "\"";
 
-    glogIOstream <<
+    gLogIOstream <<
       " to Braille music" <<
       endl;
 
-    glogIOstream <<
+    gLogIOstream <<
       "Time is " << gGeneralOptions->fTranslationDate <<
       endl;
 
-    glogIOstream <<
+    gLogIOstream <<
       "Braille music will be written to ";
     if (outputFileNameSize) {
-      glogIOstream <<
+      gLogIOstream <<
         outputFileName;
     }
     else {
-      glogIOstream <<
+      gLogIOstream <<
         "standard output";
     }
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       endl;
 
-    glogIOstream <<
+    gLogIOstream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       optionsHandler->
         getCommandLineWithLongOptions () <<
       endl;
 
     gIndenter--;
-    glogIOstream <<
+    gLogIOstream <<
       "or:" <<
       endl;
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       optionsHandler->
         getCommandLineWithShortOptions () <<
       endl <<
@@ -783,9 +783,9 @@ int main (int argc, char *argv[])
   if (gTraceOptions->fDisplayOptionsValues) {
     optionsHandler->
       printAllOptionsValues (
-        glogIOstream);
+        gLogIOstream);
 
-    glogIOstream << endl;
+    gLogIOstream << endl;
   }
 #endif
 
@@ -794,7 +794,7 @@ int main (int argc, char *argv[])
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
-    glogIOstream <<
+    gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
   }
@@ -817,11 +817,11 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fDisplayCPUusage)
     timing::gTiming.print (
-      glogIOstream);
+      gLogIOstream);
 
   // check indentation
   if (gIndenter != 0) {
-    glogIOstream <<
+    gLogIOstream <<
       "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
       endl <<
       endl;
@@ -833,7 +833,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (! true) { // JMI
-    glogIOstream <<
+    gLogIOstream <<
       "### Conversion from BSR to Braille music failed ###" <<
       endl <<
       endl;

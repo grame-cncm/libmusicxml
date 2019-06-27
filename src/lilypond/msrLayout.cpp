@@ -45,7 +45,7 @@ msrLayout::~msrLayout ()
 void msrLayout::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrLayout::acceptIn ()" <<
       endl;
   }
@@ -56,7 +56,7 @@ void msrLayout::acceptIn (basevisitor* v)
         S_msrLayout elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrLayout::visitStart ()" <<
             endl;
         }
@@ -67,7 +67,7 @@ void msrLayout::acceptIn (basevisitor* v)
 void msrLayout::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrLayout::acceptOut ()" <<
       endl;
   }
@@ -78,7 +78,7 @@ void msrLayout::acceptOut (basevisitor* v)
         S_msrLayout elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrLayout::visitEnd ()" <<
             endl;
         }

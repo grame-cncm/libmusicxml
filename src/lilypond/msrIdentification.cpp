@@ -55,7 +55,7 @@ void msrIdentification::setWorkNumber (
   {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting workNumber to \"" << val << "\"" <<
       endl;
   }
@@ -73,7 +73,7 @@ void msrIdentification::setWorkTitle (
   {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
   }
@@ -91,7 +91,7 @@ void msrIdentification::setMovementNumber (
   {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting movementNumber to \"" << val << "\"" <<
       endl;
   }
@@ -109,7 +109,7 @@ void msrIdentification::setMovementTitle (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting movementTitle to \"" << val << "\"" <<
       endl;
   }
@@ -127,7 +127,7 @@ void msrIdentification::setEncodingDate (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting encodingDate to \"" << val << "\"" <<
       endl;
   }
@@ -145,7 +145,7 @@ void msrIdentification::setScoreInstrument (
 {
  #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting scoreInstrument to \"" << val << "\"" <<
       endl;
   }
@@ -163,7 +163,7 @@ void msrIdentification::setMiscellaneousField (
 {
  #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
   }
@@ -181,7 +181,7 @@ void msrIdentification::addRights (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding right \"" << value << "\"" <<
       endl;
   }
@@ -204,7 +204,7 @@ void msrIdentification::addComposer (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding composer \"" << value << "\"" <<
       endl;
   }
@@ -227,7 +227,7 @@ void msrIdentification::addArranger (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding arranger \"" << value << "\"" <<
       endl;
   }
@@ -250,7 +250,7 @@ void msrIdentification::addLyricist (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding lyricist \"" << value << "\"" <<
       endl;
   }
@@ -273,7 +273,7 @@ void msrIdentification::addPoet (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding poet \"" << value << "\"" <<
       endl;
   }
@@ -296,7 +296,7 @@ void msrIdentification::addTranslator (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding translator \"" << value << "\"" <<
       endl;
   }
@@ -319,7 +319,7 @@ void msrIdentification::addArtist (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding artist \"" << value << "\"" <<
       endl;
   }
@@ -342,7 +342,7 @@ void msrIdentification::addSoftware (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding software \"" << value << "\"" <<
       endl;
   }
@@ -362,7 +362,7 @@ void msrIdentification::addSoftware (
 void msrIdentification::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrIdentification::acceptIn ()" <<
       endl;
   }
@@ -373,7 +373,7 @@ void msrIdentification::acceptIn (basevisitor* v)
         S_msrIdentification elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrIdentification::visitStart ()" <<
             endl;
         }
@@ -384,7 +384,7 @@ void msrIdentification::acceptIn (basevisitor* v)
 void msrIdentification::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrIdentification::acceptOut ()" <<
       endl;
   }
@@ -395,7 +395,7 @@ void msrIdentification::acceptOut (basevisitor* v)
         S_msrIdentification elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrIdentification::visitEnd ()" <<
             endl;
         }

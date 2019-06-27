@@ -38,7 +38,7 @@ msrPartGroupElement::~msrPartGroupElement ()
 void msrPartGroupElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrPartGroupElement::acceptIn ()" <<
       endl;
   }
@@ -49,7 +49,7 @@ void msrPartGroupElement::acceptIn (basevisitor* v)
         S_msrPartGroupElement elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrPartGroupElement::visitStart ()" <<
             endl;
         }
@@ -60,7 +60,7 @@ void msrPartGroupElement::acceptIn (basevisitor* v)
 void msrPartGroupElement::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrPartGroupElement::acceptOut ()" <<
       endl;
   }
@@ -71,7 +71,7 @@ void msrPartGroupElement::acceptOut (basevisitor* v)
         S_msrPartGroupElement elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrPartGroupElement::visitEnd ()" <<
             endl;
         }

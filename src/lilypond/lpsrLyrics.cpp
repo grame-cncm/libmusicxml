@@ -50,7 +50,7 @@ lpsrNewLyricsBlock::~lpsrNewLyricsBlock ()
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewLyricsBlock::acceptIn ()" <<
       endl;
   }
@@ -61,7 +61,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
         S_lpsrNewLyricsBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitStart ()" <<
             endl;
         }
@@ -72,7 +72,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewLyricsBlock::acceptOut ()" <<
       endl;
   }
@@ -83,7 +83,7 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
         S_lpsrNewLyricsBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitEnd ()" <<
             endl;
         }

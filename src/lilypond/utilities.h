@@ -267,7 +267,7 @@ Usage:
 
 // useful shortcut macros
 #define gOutputIOstream indentedOstream::gOutputIndentedOstream
-#define glogIOstream    indentedOstream::gLogIndentedOstream
+#define gLogIOstream    indentedOstream::gLogIndentedOstream
 #define gNullIOstream   indentedOstream::gNullIndentedOstream
 
 //______________________________________________________________________________

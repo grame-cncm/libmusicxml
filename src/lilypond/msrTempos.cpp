@@ -71,7 +71,7 @@ void msrTempoNote::appendBeamToTempoNote (S_msrBeam beam)
 void msrTempoNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempoNote::acceptIn ()" <<
       endl;
   }
@@ -82,7 +82,7 @@ void msrTempoNote::acceptIn (basevisitor* v)
         S_msrTempoNote elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempoNote::visitStart ()" <<
             endl;
         }
@@ -93,7 +93,7 @@ void msrTempoNote::acceptIn (basevisitor* v)
 void msrTempoNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempoNote::acceptOut ()" <<
       endl;
   }
@@ -104,7 +104,7 @@ void msrTempoNote::acceptOut (basevisitor* v)
         S_msrTempoNote elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempoNote::visitEnd ()" <<
             endl;
         }
@@ -239,7 +239,7 @@ msrTempoTuplet::msrTempoTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos){
-    glogIOstream <<
+    gLogIOstream <<
       "Creating tempo tuplet '" <<
       this->asString () <<
       "'" <<
@@ -312,7 +312,7 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding tempoNote '" <<
       tempoNote->asShortString () <<
       // the information is missing to display it the normal way JMI ???
@@ -342,7 +342,7 @@ void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
-    glogIOstream <<
+    gLogIOstream <<
       "Adding tempoTuplet '" <<
       tempoTuplet->asString () <<
       "' to tempoTuplet '" <<
@@ -366,7 +366,7 @@ void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
     * /
 
   // don't populate tempoTuplet's measure number nor position in measure,
-  // this will be done in setTupletMeasureNumber ()
+  // this will be done in setTupletMembersMeasureNumber ()
   / * JMI
   tempoTuplet->setTempoTupletMeasureNumber (
     fTempoTupletMeasureNumber);
@@ -383,7 +383,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing first tempoNote '" <<
       tempoNote->asShortString () <<
       "' from tempoTuplet '" <<
@@ -457,13 +457,13 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> applyDisplayFactorToTempoTupletMembers ()" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       "% fTempoTupletActualNotes = " <<
       fTempoTupletActualNotes <<
       ", fTempoTupletNormalNotes = " <<
@@ -482,13 +482,13 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
-    glogIOstream <<
+    gLogIOstream <<
       "unapplySoundingFactorToTempoTupletMembers ()" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       "% fTempoTupletActualNotes = " <<
       fTempoTupletActualNotes <<
       ", fTempoTupletNormalNotes = " <<
@@ -515,7 +515,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
 void msrTempoTuplet::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempoTuplet::acceptIn ()" <<
       endl;
   }
@@ -526,7 +526,7 @@ void msrTempoTuplet::acceptIn (basevisitor* v)
         S_msrTempoTuplet elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempoTuplet::visitStart ()" <<
             endl;
         }
@@ -537,7 +537,7 @@ void msrTempoTuplet::acceptIn (basevisitor* v)
 void msrTempoTuplet::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempoTuplet::acceptOut ()" <<
       endl;
   }
@@ -548,7 +548,7 @@ void msrTempoTuplet::acceptOut (basevisitor* v)
         S_msrTempoTuplet elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempoTuplet::visitEnd ()" <<
             endl;
         }
@@ -801,7 +801,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos){
-    glogIOstream <<
+    gLogIOstream <<
       "Adding element '" <<
       element->asString () <<
       "' to tempo relationship" <<
@@ -815,7 +815,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
 void msrTempoRelationshipElements::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempoRelationshipElements::acceptIn ()" <<
       endl;
   }
@@ -826,7 +826,7 @@ void msrTempoRelationshipElements::acceptIn (basevisitor* v)
         S_msrTempoRelationshipElements elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempoRelationshipElements::visitStart ()" <<
             endl;
         }
@@ -837,7 +837,7 @@ void msrTempoRelationshipElements::acceptIn (basevisitor* v)
 void msrTempoRelationshipElements::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempoRelationshipElements::acceptOut ()" <<
       endl;
   }
@@ -848,7 +848,7 @@ void msrTempoRelationshipElements::acceptOut (basevisitor* v)
         S_msrTempoRelationshipElements elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempoRelationshipElements::visitEnd ()" <<
             endl;
         }
@@ -1086,7 +1086,7 @@ msrTempo::~msrTempo ()
 void msrTempo::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempo::acceptIn ()" <<
       endl;
   }
@@ -1097,7 +1097,7 @@ void msrTempo::acceptIn (basevisitor* v)
         S_msrTempo elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempo::visitStart ()" <<
             endl;
         }
@@ -1108,7 +1108,7 @@ void msrTempo::acceptIn (basevisitor* v)
 void msrTempo::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTempo::acceptOut ()" <<
       endl;
   }
@@ -1119,7 +1119,7 @@ void msrTempo::acceptOut (basevisitor* v)
         S_msrTempo elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTempo::visitEnd ()" <<
             endl;
         }

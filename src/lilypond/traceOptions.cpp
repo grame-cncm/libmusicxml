@@ -2025,19 +2025,19 @@ void traceOptions::printOptionsValues (
 
 void traceOptions::printTraceOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The trace options are:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "Trace:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     // options
     setw (fieldWidth) << "traceOptions" << " : " <<
     booleanAsString (fTraceOptions) <<
@@ -2114,7 +2114,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     booleanAsString (fTracePositionsInMeasures) <<
     endl;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "traceDetailedMeasureNumbersSet" << " : " <<
     endl;
 
@@ -2127,7 +2127,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     gIndenter++;
 
     for ( ; ; ) {
-      glogIOstream << "v " << (*i);
+      gLogIOstream << "v " << (*i);
       if (++i == iEnd) break;
       // no endl here
     } // for
@@ -2135,13 +2135,13 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     gIndenter--;
   }
   else {
-    glogIOstream <<
+    gLogIOstream <<
       "none";
   }
-  glogIOstream << endl;
+  gLogIOstream << endl;
 
     // segments
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "traceSegments" << " : " <<
     booleanAsString (fTraceSegments) <<
     endl <<
@@ -2467,7 +2467,7 @@ void initializeTraceOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (false && ! gGeneralOptions->fQuiet) { // JMI
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing trace options handling" <<
       endl;
   }

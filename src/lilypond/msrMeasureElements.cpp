@@ -55,7 +55,7 @@ void msrMeasureElement::setPositionInMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting position of measure element '" <<
       asString () <<
       "' in measure to '" << fPositionInMeasure <<
@@ -96,7 +96,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrMeasureElement::acceptIn ()" <<
       endl;
   }
@@ -109,7 +109,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureElement::visitStart ()" <<
             endl;
         }
@@ -122,7 +122,7 @@ void msrMeasureElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrMeasureElement::acceptOut ()" <<
       endl;
   }
@@ -135,7 +135,7 @@ void msrMeasureElement::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureElement::visitEnd ()" <<
             endl;
         }

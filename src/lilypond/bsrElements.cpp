@@ -43,7 +43,7 @@ void bsrElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrElement::acceptIn ()" <<
       endl;
   }
@@ -56,7 +56,7 @@ void bsrElement::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrElement::visitStart ()" <<
             endl;
         }
@@ -69,7 +69,7 @@ void bsrElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrElement::acceptOut ()" <<
       endl;
   }
@@ -82,7 +82,7 @@ void bsrElement::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrElement::visitEnd ()" <<
             endl;
         }

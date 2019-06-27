@@ -71,7 +71,7 @@ void msrSegment::initializeSegment ()
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing new segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -86,7 +86,7 @@ void msrSegment::initializeSegment ()
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
     if (false && fSegmentDebugNumber == 3) { // JMI
-      glogIOstream <<
+      gLogIOstream <<
         endl <<
         "======================= initializeSegment()" <<
         endl <<
@@ -115,7 +115,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of segment " <<
       asString () <<
       endl;
@@ -147,7 +147,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a deep copy of segment " <<
       asString () <<
       endl;
@@ -178,7 +178,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   if (numberOfSegmentMeasures) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceVoices) {
-      glogIOstream <<
+      gLogIOstream <<
         "There are " <<
         numberOfSegmentMeasures <<
         " measures in segment to be deep copied" <<
@@ -202,7 +202,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   else {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceSegments) {
-      glogIOstream <<
+      gLogIOstream <<
         "There are no measures in segment to be deep copied" <<
         endl;
     }
@@ -224,7 +224,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating and appending a measure '" << measureNumber <<
       "', to segment '" << asString () <<
       "' in voice \"" <<
@@ -255,7 +255,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   // create a measure
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating measure '" << measureNumber <<
       "' in segment " << asString () <<
       ", in voice \"" <<
@@ -290,7 +290,7 @@ void msrSegment::setNextMeasureNumberInSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting next measure number to '" << nextMeasureNumber <<
       "' in segment '" << asString () <<
       "' in voice \"" <<
@@ -306,7 +306,7 @@ void msrSegment::setNextMeasureNumberInSegment (
   if (fSegmentMeasuresList.size ()) { // JMI ???
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-      glogIOstream <<
+      gLogIOstream <<
         "Setting next measure number to '" << nextMeasureNumber <<
         "' in segment '" << asString () <<
         "'s last measure " <<
@@ -330,7 +330,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending clef '" << clef->asString () <<
       "' to segment " << asString () <<
       ", in voice \"" <<
@@ -356,11 +356,11 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
 
-    glogIOstream <<
+    gLogIOstream <<
       "SegmentVoiceUpLink:" <<
       endl;
     gIndenter++;
-    glogIOstream <<
+    gLogIOstream <<
       fSegmentVoiceUpLink <<
       endl;
     gIndenter--;
@@ -383,7 +383,7 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Prepending clef '" << clef->asString () <<
       "' to segment " << asString () <<
       ", in voice \"" <<
@@ -409,11 +409,11 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
 
-    glogIOstream <<
+    gLogIOstream <<
       "SegmentVoiceUpLink:" <<
       endl;
     gIndenter++;
-    glogIOstream <<
+    gLogIOstream <<
       fSegmentVoiceUpLink <<
       endl;
     gIndenter--;
@@ -436,7 +436,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending key '" << key->asString () <<
       "' to segment " << asString () <<
     ", in voice \"" <<
@@ -464,18 +464,18 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       time;
 
     gIndenter--;
 
-    glogIOstream <<
+    gLogIOstream <<
       "to segment " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
@@ -502,18 +502,18 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       time;
 
     gIndenter--;
 
-    glogIOstream <<
+    gLogIOstream <<
       "to segment clone " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
@@ -540,7 +540,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending harmony " << harmony->asString () <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -568,7 +568,7 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending harmony " << harmony->asString () <<
       " to segment clone " << asString () <<
       "' in voice clone \"" <<
@@ -597,7 +597,7 @@ void msrSegment::appendFiguredBassToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -626,7 +626,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to segment clone " << asString () <<
       "' in voice clone \"" <<
@@ -654,7 +654,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegnos || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending segno " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -682,7 +682,7 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceCodas || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending coda " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -711,7 +711,7 @@ void msrSegment::appendEyeGlassesToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEyeGlasses || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending eyeGlasses " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -739,7 +739,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePedals || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending pedal " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -767,7 +767,7 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDamps || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending damp " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -795,7 +795,7 @@ void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDampAlls || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending damp all " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -824,7 +824,7 @@ void msrSegment::appendTransposeToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending transpose " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -853,7 +853,7 @@ void msrSegment::appendPartNameDisplayToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending part name display " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -882,7 +882,7 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending part abbreviation display " <<
 
       " to segment " << asString () <<
@@ -920,7 +920,7 @@ void msrSegment::appendStaffDetailsToSegment (
       ||
     gTraceOptions->fTraceSegments
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->asShortString () <<
       "' to segment " << asString () <<
@@ -975,7 +975,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLineBreaks || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending break '" <<
       lineBreak->asShortString () <<
       "' to segment " << asString () <<
@@ -1004,7 +1004,7 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePageBreaks || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending break " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1033,7 +1033,7 @@ void msrSegment::appendBarNumberCheckToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (/* JMI gTraceOptions->fTraceBarNumberChecks || */ gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending bar number check " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1062,7 +1062,7 @@ void msrSegment::appendTempoToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending tempo " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1091,7 +1091,7 @@ void msrSegment::appendRehearsalToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (/* JMI gTraceOptions->fTraceRehearsals || */ gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending rehearsal " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1120,7 +1120,7 @@ void msrSegment::appendOctaveShiftToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOctaveShifts || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
       "' to segment " << asString () <<
@@ -1150,7 +1150,7 @@ void msrSegment::appendScordaturaToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceScordaturas || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending scordatura '" <<
   // JMI ???    scordatura->octaveShiftKindAsString () <<
       "' to segment " << asString () <<
@@ -1181,7 +1181,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
       "' to segment " << asString () <<
@@ -1213,7 +1213,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending staff pedals tuning '" <<
       harpPedalsTuning->asString () <<
       "' to segment " << asString () <<
@@ -1251,7 +1251,7 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
       ||
     gMusicXMLOptions->fTraceBackup
   ) {
-    glogIOstream <<
+    gLogIOstream <<
       "Padding up to actual whole notes '" << wholeNotes <<
       "' in segment '" <<
       fSegmentAbsoluteNumber <<
@@ -1277,20 +1277,20 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
 
-    glogIOstream <<
+    gLogIOstream <<
       "SegmentVoiceUpLink:" <<
       endl;
     gIndenter++;
-    glogIOstream <<
+    gLogIOstream <<
       fSegmentVoiceUpLink <<
       endl;
     gIndenter--;
 
-    glogIOstream <<
+    gLogIOstream <<
       "Part:" <<
       endl;
     gIndenter++;
-    glogIOstream <<
+    gLogIOstream <<
       fSegmentVoiceUpLink->fetchVoicePartUpLink () <<
       endl;
     gIndenter--;
@@ -1318,7 +1318,7 @@ void msrSegment::appendPaddingNoteToSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appendding padding tote of " << divisions <<
       " divisions to segment '" <<
       fSegmentAbsoluteNumber <<
@@ -1363,18 +1363,18 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending measure '" << measureNumber <<
       "' to segment " << asString ();
 
     if (fSegmentMeasuresList.size () == 0)
-      glogIOstream <<
+      gLogIOstream <<
         ", as first measure";
     else
-      glogIOstream <<
+      gLogIOstream <<
       ", after measure number '" << currentMeasureNumber << "'";
 
-    glogIOstream <<
+    gLogIOstream <<
       "' in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<
@@ -1443,22 +1443,22 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Prepending measure " << measureNumber <<
       " to segment " << asString ();
 
     if (segmentMeasuresListSize == 0) {
-      glogIOstream <<
+      gLogIOstream <<
         ", as first measure FOO"; // JMI
     }
 
 /* JMI
     else
-      glogIOstream <<
+      gLogIOstream <<
       ", after measure number '" << currentMeasureNumber << "'";
 */
 
-    glogIOstream <<
+    gLogIOstream <<
       " in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"," <<
@@ -1492,7 +1492,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Prepending barline '" << barline->asString () <<
       "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
@@ -1520,7 +1520,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending barline '" << barline->asString () <<
       "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
@@ -1563,7 +1563,7 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending bar check '" << barCheck->asString () <<
       "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
@@ -1592,7 +1592,7 @@ void msrSegment::appendVoiceStaffChangeToSegment (
     gTraceOptions->fTraceStaves
       ||
     gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending voice staff change '" <<
       voiceStaffChange->asString () <<
       "' to segment \"" << asString () << "\"" <<
@@ -1647,7 +1647,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // JMI
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Appending double tremolo " <<
       doubleTremolo->asShortString () <<
       " to segment '" << asString () << "'" <<
@@ -1795,7 +1795,7 @@ void msrSegment::removeNoteFromSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing note '" <<
       note->asString () <<
       "'from segment '" <<
@@ -1841,7 +1841,7 @@ void msrSegment::removeElementFromSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing element '" <<
       element->asString () <<
       "'from segment '" <<
@@ -1883,7 +1883,7 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Fetching last measure from segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -1920,14 +1920,14 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "The fetched measure contains:" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       result <<
       endl;
 
@@ -1944,7 +1944,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -1986,14 +1986,14 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       endl <<
       "The removed measure contains:" <<
       endl;
 
     gIndenter++;
 
-    glogIOstream <<
+    gLogIOstream <<
       result <<
       endl;
 
@@ -2020,7 +2020,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 void msrSegment::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrSegment::acceptIn ()" <<
       endl;
   }
@@ -2031,7 +2031,7 @@ void msrSegment::acceptIn (basevisitor* v)
         S_msrSegment elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrSegment::visitStart ()" <<
             endl;
         }
@@ -2042,7 +2042,7 @@ void msrSegment::acceptIn (basevisitor* v)
 void msrSegment::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrSegment::acceptOut ()" <<
       endl;
   }
@@ -2053,7 +2053,7 @@ void msrSegment::acceptOut (basevisitor* v)
         S_msrSegment elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrSegment::visitEnd ()" <<
             endl;
         }
@@ -2064,13 +2064,13 @@ void msrSegment::acceptOut (basevisitor* v)
 void msrSegment::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrSegment::browseData ()" <<
       endl;
   }
 
 /* JMI
-  glogIOstream <<
+  gLogIOstream <<
     gTab <<
     "==========>>> " <<
     fSegmentMeasuresList.size () << " measures" << endl;
@@ -2087,7 +2087,7 @@ void msrSegment::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== msrSegment::browseData ()" <<
       endl;
   }
@@ -2154,7 +2154,7 @@ void msrSegment::displaySegment (
   int    inputLineNumber,
   string context)
 {
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     "*********>> Segment '" <<
     fSegmentAbsoluteNumber <<
@@ -2178,10 +2178,10 @@ void msrSegment::displaySegment (
     endl;
 
   gIndenter++;
-  print (glogIOstream);
+  print (gLogIOstream);
   gIndenter--;
 
-  glogIOstream <<
+  gLogIOstream <<
     "<<*********" <<
     endl <<
     endl;
@@ -2324,7 +2324,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
             gTraceOptions->fTraceRepeats) {
             stringstream s;
 
-            glogIOstream <<
+            gLogIOstream <<
               "Removing empty measure '" <<
               lastMeasure->getMeasureNumber () <<
               "' in segment '" <<
@@ -2360,7 +2360,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
             gTraceOptions->fTraceRepeats) {
             stringstream s;
 
-            glogIOstream <<
+            gLogIOstream <<
               "Removing empty measure '" <<
               lastMeasure->getMeasureNumber () <<
               "' that was created for a repeat (" <<

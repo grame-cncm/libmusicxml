@@ -49,7 +49,7 @@ msrStem::~msrStem ()
 void msrStem::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrStem::acceptIn ()" <<
       endl;
   }
@@ -60,7 +60,7 @@ void msrStem::acceptIn (basevisitor* v)
         S_msrStem elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrStem::visitStart ()" <<
             endl;
         }
@@ -71,7 +71,7 @@ void msrStem::acceptIn (basevisitor* v)
 void msrStem::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrStem::acceptOut ()" <<
       endl;
   }
@@ -82,7 +82,7 @@ void msrStem::acceptOut (basevisitor* v)
         S_msrStem elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrStem::visitEnd ()" <<
             endl;
         }

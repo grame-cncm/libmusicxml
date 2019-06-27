@@ -83,7 +83,7 @@ bool msrClef::isEqualTo (S_msrClef otherClef) const
 void msrClef::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrClef::acceptIn ()" <<
       endl;
   }
@@ -94,7 +94,7 @@ void msrClef::acceptIn (basevisitor* v)
         S_msrClef elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrClef::visitStart ()" <<
             endl;
         }
@@ -105,7 +105,7 @@ void msrClef::acceptIn (basevisitor* v)
 void msrClef::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrClef::acceptOut ()" <<
       endl;
   }
@@ -116,7 +116,7 @@ void msrClef::acceptOut (basevisitor* v)
         S_msrClef elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrClef::visitEnd ()" <<
             endl;
         }

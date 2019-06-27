@@ -106,7 +106,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrPageHeading::acceptIn ()" <<
       endl;
   }
@@ -119,7 +119,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitStart ()" <<
             endl;
         }
@@ -132,7 +132,7 @@ void bsrPageHeading::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrPageHeading::acceptOut ()" <<
       endl;
   }
@@ -145,7 +145,7 @@ void bsrPageHeading::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitEnd ()" <<
             endl;
         }
@@ -158,7 +158,7 @@ void bsrPageHeading::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
@@ -172,7 +172,7 @@ void bsrPageHeading::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }

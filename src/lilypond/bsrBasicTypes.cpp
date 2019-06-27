@@ -347,7 +347,7 @@ void initializeBSRBasicTypes ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing BSR basic types handling" <<
       endl;
   }

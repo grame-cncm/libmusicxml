@@ -675,7 +675,7 @@ void bsrOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void bsrOptions::printBsrOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The BSR options are:" <<
     endl;
 
@@ -683,13 +683,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
 
   // display
   // --------------------------------------
-  glogIOstream <<
+  gLogIOstream <<
     "Display:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "displayBsr" << " : " <<
     booleanAsString (fDisplayBsr) <<
     endl <<
@@ -703,13 +703,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // exit after some passes
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Exit after some passes:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "exit3a" << " : " <<
     booleanAsString (fExit3a) <<
     endl <<
@@ -722,13 +722,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // miscellaneous
   // --------------------------------------
 
-  glogIOstream <<
+  gLogIOstream <<
     "Miscellaneous:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "noBrailleLyrics" << " : " <<
       booleanAsString (fNoBrailleLyrics) <<
       endl <<
@@ -748,13 +748,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // --------------------------------------
 
 #ifdef TRACE_OPTIONS
-  glogIOstream <<
+  gLogIOstream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  glogIOstream << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "traceBsr" << " : " <<
     booleanAsString (fTraceBsr) <<
     endl <<
@@ -847,7 +847,7 @@ void initializeBsrOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing BSR options handling" <<
       endl;
   }

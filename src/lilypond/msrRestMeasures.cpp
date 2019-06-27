@@ -57,7 +57,7 @@ S_msrRestMeasuresContents msrRestMeasuresContents::createRestMeasuresContentsNew
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRestMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of a rest measures contents" <<
       endl;
   }
@@ -83,7 +83,7 @@ void msrRestMeasuresContents::setRestMeasuresContentsSegment (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRestMeasures || gTraceOptions->fTraceSegments) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting rest measures contents segment containing " <<
       singularOrPlural (
         restMeasuresContentsMeasuresNumber (),
@@ -122,7 +122,7 @@ int msrRestMeasuresContents::restMeasuresContentsMeasuresNumber () const
 void msrRestMeasuresContents::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrRestMeasuresContents::acceptIn ()" <<
       endl;
   }
@@ -133,7 +133,7 @@ void msrRestMeasuresContents::acceptIn (basevisitor* v)
         S_msrRestMeasuresContents elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrRestMeasuresContents::visitStart ()" <<
             endl;
         }
@@ -144,7 +144,7 @@ void msrRestMeasuresContents::acceptIn (basevisitor* v)
 void msrRestMeasuresContents::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrRestMeasuresContents::acceptOut ()" <<
       endl;
   }
@@ -155,7 +155,7 @@ void msrRestMeasuresContents::acceptOut (basevisitor* v)
         S_msrRestMeasuresContents elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrRestMeasuresContents::visitEnd ()" <<
             endl;
         }
@@ -166,7 +166,7 @@ void msrRestMeasuresContents::acceptOut (basevisitor* v)
 void msrRestMeasuresContents::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrRestMeasuresContents::browseData ()" <<
       endl;
   }
@@ -275,7 +275,7 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRestMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating a newborn clone of rest measures '" <<
       asString () <<
       "'" <<
@@ -309,7 +309,7 @@ void msrRestMeasures::setRestMeasuresContents (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRestMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting rest measures contents containing " <<
       singularOrPlural (
         restMeasuresContents->
@@ -333,7 +333,7 @@ void msrRestMeasures::setRestMeasuresNextMeasureNumber (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRestMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting rest measures next measure number to '" <<
       "' " <<
       nextMeasureNumber <<
@@ -396,7 +396,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRestMeasures) {
-    glogIOstream <<
+    gLogIOstream <<
       "Setting rest measures last measure purist number to '" <<
       "' " <<
       lastMeasuresPuristNumber <<
@@ -412,7 +412,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
 void msrRestMeasures::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrRestMeasures::acceptIn ()" <<
       endl;
   }
@@ -423,7 +423,7 @@ void msrRestMeasures::acceptIn (basevisitor* v)
         S_msrRestMeasures elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrRestMeasures::visitStart ()" <<
             endl;
         }
@@ -434,7 +434,7 @@ void msrRestMeasures::acceptIn (basevisitor* v)
 void msrRestMeasures::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrRestMeasures::acceptOut ()" <<
       endl;
   }
@@ -445,7 +445,7 @@ void msrRestMeasures::acceptOut (basevisitor* v)
         S_msrRestMeasures elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrRestMeasures::visitEnd ()" <<
             endl;
         }
@@ -456,7 +456,7 @@ void msrRestMeasures::acceptOut (basevisitor* v)
 void msrRestMeasures::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrRestMeasures::browseData ()" <<
       endl;
   }
@@ -486,7 +486,7 @@ void msrRestMeasures::browseData (basevisitor* v)
 
   if (inhibitRestMeasuresBrowsing) {
     if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRestMeasures) {
-      glogIOstream <<
+      gLogIOstream <<
         "% ==> visiting rest measures is inhibited" <<
         endl;
     }
@@ -530,7 +530,7 @@ void msrRestMeasures::displayRestMeasures (
   int    inputLineNumber,
   string context)
 {
-  glogIOstream <<
+  gLogIOstream <<
     endl <<
     "*********>> Rest measures " << context << " \"" <<
  // JMI   getVoiceName () <<
@@ -540,10 +540,10 @@ void msrRestMeasures::displayRestMeasures (
     endl;
 
   gIndenter++;
-  print (glogIOstream);
+  print (gLogIOstream);
   gIndenter--;
 
-  glogIOstream <<
+  gLogIOstream <<
     "<<*********" <<
     endl <<
     endl;

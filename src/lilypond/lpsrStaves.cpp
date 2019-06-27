@@ -45,7 +45,7 @@ lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock ()
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptIn ()" <<
       endl;
   }
@@ -56,7 +56,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
         S_lpsrNewStaffgroupBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart ()" <<
             endl;
         }
@@ -67,7 +67,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptOut ()" <<
       endl;
   }
@@ -78,7 +78,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
         S_lpsrNewStaffgroupBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd ()" <<
             endl;
         }
@@ -136,7 +136,7 @@ lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock ()
 void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptIn ()" <<
       endl;
   }
@@ -147,7 +147,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
         S_lpsrNewStaffTuningBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart ()" <<
             endl;
         }
@@ -158,7 +158,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptOut ()" <<
       endl;
   }
@@ -169,7 +169,7 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
         S_lpsrNewStaffTuningBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd ()" <<
             endl;
         }
@@ -220,7 +220,7 @@ lpsrNewStaffBlock::~lpsrNewStaffBlock ()
 void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewStaffBlock::acceptIn ()" <<
       endl;
   }
@@ -231,7 +231,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v)
         S_lpsrNewStaffBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitStart ()" <<
             endl;
         }
@@ -242,7 +242,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrNewStaffBlock::acceptOut ()" <<
       endl;
   }
@@ -253,7 +253,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v)
         S_lpsrNewStaffBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd ()" <<
             endl;
         }
@@ -344,7 +344,7 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
 void lpsrStaffBlock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrStaffBlock::acceptIn ()" <<
       endl;
   }
@@ -355,7 +355,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v)
         S_lpsrStaffBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitStart ()" <<
             endl;
         }
@@ -366,7 +366,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v)
 void lpsrStaffBlock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrStaffBlock::acceptOut ()" <<
       endl;
   }
@@ -377,7 +377,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v)
         S_lpsrStaffBlock elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitEnd ()" <<
             endl;
         }
@@ -388,7 +388,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v)
 void lpsrStaffBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> lpsrStaffBlock::browseData ()" <<
       endl;
   }
@@ -404,7 +404,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
   } // for
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% <== lpsrStaffBlock::browseData ()" <<
       endl;
   }

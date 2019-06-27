@@ -5933,7 +5933,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasuresDetails) {
-    glogIOstream <<
+    gLogIOstream <<
       "==> visitStart (S_measure" <<
       ", fPartMeasuresCounter = '" <<
         fPartMeasuresCounter <<
@@ -14814,6 +14814,11 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
     currentVoice->
       appendTupletToVoice (tuplet);
 
+    // finalize the tuplet
+    tuplet->
+      finalizeTuplet (
+        inputLineNumber);
+
  // JMI BAD HERE   // the tuplet stop is not to be handled later
  //   fCurrentATupletStopIsPending = false;
   }
@@ -17460,18 +17465,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingChord) {
       // newNote is the first note after the chord in the current voice
-      // JMI ???
+
+      // finalize the current chord
+      fCurrentChord->
+        finalizeChord (
+          inputLineNumber);
+
+      // forget about the current chord
+      fCurrentChord = nullptr;
+
+      fOnGoingChord = false;
     }
 
     if (fCurrentDoubleTremolo) {
       // forget about a double tremolo containing a chord
     // JMI XXL BOFS  fCurrentDoubleTremolo = 0;
     }
-
-    // forget about the current chord
-    fCurrentChord = nullptr;
-
-    fOnGoingChord = false;
   }
 
   // register newNote as the last found note for the current voice

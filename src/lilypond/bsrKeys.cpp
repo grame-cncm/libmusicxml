@@ -75,7 +75,7 @@ bsrKey::bsrKey (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating bsrKey '" <<
       asString () <<
       "', line " <<
@@ -171,7 +171,7 @@ void bsrKey::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrKey::acceptIn ()" <<
       endl;
   }
@@ -184,7 +184,7 @@ void bsrKey::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrKey::visitStart ()" <<
             endl;
         }
@@ -197,7 +197,7 @@ void bsrKey::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> bsrKey::acceptOut ()" <<
       endl;
   }
@@ -210,7 +210,7 @@ void bsrKey::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching bsrKey::visitEnd ()" <<
             endl;
         }

@@ -582,7 +582,7 @@ void extraOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void extraOptions::printExtraOptionsValues (int fieldWidth)
 {
-  glogIOstream <<
+  gLogIOstream <<
     "The extra options are:" << // JMI
     endl;
 
@@ -1211,7 +1211,7 @@ void initializeExtraOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    glogIOstream <<
+    gLogIOstream <<
       "Initializing extra options handling" <<
       endl;
   }

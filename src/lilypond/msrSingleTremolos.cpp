@@ -60,7 +60,7 @@ string msrSingleTremolo::singleTremoloPlacementKindAsString () const
 void msrSingleTremolo::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrSingleTremolo::acceptIn ()" <<
       endl;
   }
@@ -71,7 +71,7 @@ void msrSingleTremolo::acceptIn (basevisitor* v)
         S_msrSingleTremolo elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrSingleTremolo::visitStart ()" <<
             endl;
         }
@@ -82,7 +82,7 @@ void msrSingleTremolo::acceptIn (basevisitor* v)
 void msrSingleTremolo::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrSingleTremolo::acceptOut ()" <<
       endl;
   }
@@ -93,7 +93,7 @@ void msrSingleTremolo::acceptOut (basevisitor* v)
         S_msrSingleTremolo elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrSingleTremolo::visitEnd ()" <<
             endl;
         }

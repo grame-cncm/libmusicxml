@@ -52,7 +52,7 @@ msrBeam::msrBeam (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBeams) {
-    glogIOstream <<
+    gLogIOstream <<
       "Creating beam '" <<
       this->asString () <<
       "'" <<
@@ -67,7 +67,7 @@ msrBeam::~msrBeam ()
 void msrBeam::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBeam::acceptIn ()" <<
       endl;
   }
@@ -78,7 +78,7 @@ void msrBeam::acceptIn (basevisitor* v)
         S_msrBeam elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBeam::visitStart ()" <<
             endl;
         }
@@ -89,7 +89,7 @@ void msrBeam::acceptIn (basevisitor* v)
 void msrBeam::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrBeam::acceptOut ()" <<
       endl;
   }
@@ -100,7 +100,7 @@ void msrBeam::acceptOut (basevisitor* v)
         S_msrBeam elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrBeam::visitEnd ()" <<
             endl;
         }

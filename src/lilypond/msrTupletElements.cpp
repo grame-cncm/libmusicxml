@@ -38,7 +38,7 @@ msrTupletElement::~msrTupletElement ()
 void msrTupletElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTupletElement::acceptIn ()" <<
       endl;
   }
@@ -49,7 +49,7 @@ void msrTupletElement::acceptIn (basevisitor* v)
         S_msrTupletElement elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTupletElement::visitStart ()" <<
             endl;
         }
@@ -60,7 +60,7 @@ void msrTupletElement::acceptIn (basevisitor* v)
 void msrTupletElement::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    glogIOstream <<
+    gLogIOstream <<
       "% ==> msrTupletElement::acceptOut ()" <<
       endl;
   }
@@ -71,7 +71,7 @@ void msrTupletElement::acceptOut (basevisitor* v)
         S_msrTupletElement elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          glogIOstream <<
+          gLogIOstream <<
             "% ==> Launching msrTupletElement::visitEnd ()" <<
             endl;
         }
