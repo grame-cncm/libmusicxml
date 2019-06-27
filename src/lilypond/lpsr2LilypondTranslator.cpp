@@ -7049,6 +7049,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 #endif
 
   if (fOnGoingNote) {
+  // JMI ???
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceHarmonies) {
       fLilypondCodeIOstream <<
@@ -14086,17 +14087,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     repeatTimes <<
 // JMI    fRepeatDescrsStack.back ()->getRepeatEndingsNumber () <<
     " {";
-
-/* JMI ???
-  if (
-    gLilypondOptions->fInputLineNumbers
-      ||
-    gLilypondOptions->fPositionsInMeasures
-  ) {
-    generateInputLineNumberAndOrPositionInMeasureAsAComment (
-      elt);
-  }
-*/
 
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<

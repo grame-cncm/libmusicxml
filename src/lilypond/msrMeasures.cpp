@@ -1469,13 +1469,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // append the note to the measure elements list
   appendElementToMeasure (note);
 
-  // register note position in measure
-  /* JMI
-  note->
-    setNotePositionInMeasure (
-      fActualMeasureWholeNotes);
-*/
-
   // fetch note sounding whole notes
   rational noteSoundingWholeNotes =
     note->getNoteSoundingWholeNotes ();
@@ -1689,13 +1682,6 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // if it happens to be the first note of a chord
     appendElementToMeasure (note);
 
-/*
-    // register note measure position
-    note->
-      setNotePositionInMeasure (
-        fActualMeasureWholeNotes);
-*/
-
     // fetch note sounding whole notes
     rational
       noteSoundingWholeNotes =
@@ -1775,6 +1761,9 @@ void msrMeasure::appendDoubleTremoloToMeasure (
     setDoubleTremoloPositionInMeasure (
       fActualMeasureWholeNotes);
 
+  // append the doubleTremolo to the measure elements list
+  appendElementToMeasure (doubleTremolo);
+
   // fetch doubleTremolo sounding whole notes
   rational
     doubleTremoloSoundingWholeNotes =
@@ -1795,9 +1784,6 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // determine if the doubleTremolo occupies a full measure
 // XXL  JMI  if (doubleTremoloSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
-
-  // append the doubleTremolo to the measure elements list
-  appendElementToMeasure (doubleTremolo);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -1948,6 +1934,9 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   }
 #endif
 
+  // append the harmony to the measure elements list
+  appendElementToMeasure (harmony);
+
   // fetch harmony sounding whole notes
   rational
     harmonySoundingWholeNotes =
@@ -1964,9 +1953,6 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     updatePartActualMeasureWholeNotesHighTide (
       inputLineNumber,
       fActualMeasureWholeNotes);
-
-  // append the harmony to the measure elements list
-  appendElementToMeasure (harmony);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -1999,6 +1985,9 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   }
 #endif
 
+  // append the harmony to the measure elements list
+  appendElementToMeasure (harmony);
+
   // fetch harmony sounding whole notes
   rational
     harmonySoundingWholeNotes =
@@ -2015,9 +2004,6 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
     updatePartActualMeasureWholeNotesHighTide (
       inputLineNumber,
       fActualMeasureWholeNotes);
-
-  // append the harmony to the measure elements list
-  appendElementToMeasure (harmony);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2047,6 +2033,9 @@ void msrMeasure::appendFiguredBassToMeasure (
   }
 #endif
 
+  // append the harmony to the measure elements list
+  appendElementToMeasure (figuredBass);
+
   // fetch harmony sounding whole notes
   rational
     figuredBassSoundingWholeNotes =
@@ -2063,9 +2052,6 @@ void msrMeasure::appendFiguredBassToMeasure (
     updatePartActualMeasureWholeNotesHighTide (
       inputLineNumber,
       fActualMeasureWholeNotes);
-
-  // append the harmony to the measure elements list
-  appendElementToMeasure (figuredBass);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2099,6 +2085,9 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   }
 #endif
 
+  // append the harmony to the measure elements list
+  appendElementToMeasure (figuredBass);
+
   // fetch harmony sounding whole notes
   rational
     figuredBassSoundingWholeNotes =
@@ -2116,9 +2105,6 @@ void msrMeasure::appendFiguredBassToMeasureClone (
       inputLineNumber,
       fActualMeasureWholeNotes);
 
-  // append the harmony to the measure elements list
-  appendElementToMeasure (figuredBass);
-
   // this measure contains music
   fMeasureContainsMusic = true;
 }
@@ -2129,7 +2115,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating a padding note for voice \"" <<
       voice->getVoiceName () <<
@@ -3012,7 +2998,7 @@ void msrMeasure::padUpToPositionInMeasure (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Padding up to postion '" <<
+      "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
       "' in measure '" <<
       fMeasureNumber <<
@@ -3020,7 +3006,10 @@ void msrMeasure::padUpToPositionInMeasure (
       fMeasureDebugNumber <<
       "' in segment " <<
       fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-      ", line " << inputLineNumber <<
+      " in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink () <<
+      "\", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -3116,7 +3105,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Padding up to postion '" <<
+      "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
       "' at the end of measure '" <<
       fMeasureNumber <<
@@ -3124,7 +3113,10 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
       fMeasureDebugNumber <<
       "' in segment " <<
       fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-      ", line " << inputLineNumber <<
+      " in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink () <<
+      "\", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -3257,7 +3249,7 @@ void msrMeasure::finalizeRegularMeasure (
   if (gTraceOptions->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
-      "finalizeHarmonyMeasure() 1");
+      "finalizeRegularMeasure() 1");
   }
 #endif
 
@@ -3522,21 +3514,51 @@ void msrMeasure::finalizeRegularMeasure (
   if (gTraceOptions->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
-      "finalizeHarmonyMeasure() 2");
+      "finalizeRegularMeasure() 2");
   }
 #endif
 
   gIndenter--;
 }
 
-void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization ()
+void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
+  int      inputLineNumber,
+  rational partActualMeasureWholeNotesHighTide,
+  string   context)
 {
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+    gLogIOstream <<
+      "Finalizing harmonies in harmony measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+      voice->getVoiceName () <<
+      "\" (" << context << ")" <<
+      ", partActualMeasureWholeNotesHighTide = " <<
+      partActualMeasureWholeNotesHighTide <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   if (fMeasureElementsList.size ()) {
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fMeasureSegmentUpLink->
-          getSegmentVoiceUpLink ();
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+      displayMeasure (
+        inputLineNumber,
+        "handleHarmoniesInHarmonyMeasureFinalization() 1");
+    }
+#endif
 
     // harmonies don't have their own duration and may have a non-null offset:
     // we thus have to sort them in the measure by increasing position,
@@ -3584,6 +3606,29 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization ()
           harmonyNoteUpLinkPositionInMeasure =
             harmonyNoteUpLink->getPositionInMeasure ();
 
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+            gLogIOstream <<
+              "handleHarmoniesInHarmonyMeasureFinalization () 1" <<
+              ", previousHarmony: ";
+
+            if (previousHarmony) {
+              gLogIOstream <<
+                previousHarmony->asString ();
+            }
+            else {
+              gLogIOstream << "none";
+            }
+
+            gLogIOstream <<
+              ", harmonyPositionInMeasure: " <<
+              harmonyPositionInMeasure <<
+              ", harmonyNoteUpLinkPositionInMeasure: " <<
+              harmonyNoteUpLinkPositionInMeasure <<
+              endl;
+          }
+#endif
+
         if (! previousHarmony) {
           // this the first harmony in the measure
 
@@ -3598,6 +3643,16 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization ()
               harmonyPositionInMeasure;
           }
 
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+            gLogIOstream <<
+              "handleHarmoniesInHarmonyMeasureFinalization () 2" <<
+              ", positionInMeasureToPadUpTo: " <<
+              positionInMeasureToPadUpTo <<
+              endl;
+          }
+#endif
+
           // create a padding note
           /*
           rational
@@ -3607,31 +3662,32 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization ()
               previousHarmony->getPositionInMeasure ();
           paddingNoteDuration.rationalise ();
           */
+          if (positionInMeasureToPadUpTo.getNumerator () != 0) {
+            S_msrNote
+              paddingNote =
+                createPaddingNoteForVoice (
+                  inputLineNumber,
+                  positionInMeasureToPadUpTo,
+                  voice);
 
-          S_msrNote
-            paddingNote =
-              createPaddingNoteForVoice (
-                inputLineNumber,
-                positionInMeasureToPadUpTo,
-                voice);
+            // insert paddingNote before harmony in the measure's elements list
+  #ifdef TRACE_OPTIONS
+            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+              gLogIOstream <<
+                "Inserting first padding note '" <<
+                paddingNote->asString () <<
+                "' before harmony '" <<
+                harmony->asString () <<
+                "' in voice \"" <<
+                voice->getVoiceName () <<
+                "\", line " << inputLineNumber <<
+                endl;
+            }
+  #endif
 
-          // insert paddingNote before harmony in the measure's elements list
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTracePartGroups) {
-            gLogIOstream <<
-              "Inserting first padding note '" <<
-              paddingNote->asString () <<
-              "' before harmony '" <<
-              harmony->asString () <<
-              "' in voice \"" <<
-              voice->getVoiceName () <<
-              "\", line " << inputLineNumber <<
-              endl;
+            fMeasureElementsList.insert (
+              i, paddingNote);
           }
-#endif
-
-          fMeasureElementsList.insert (
-            i, paddingNote);
         }
 
         else {
@@ -3642,36 +3698,72 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization ()
             previousHarmonyPositionInMeasure =
               previousHarmony->getPositionInMeasure ();
 
+          // get the previousHarmony's duration
+          rational
+            previousHarmonySoundingWholeNotes =
+              previousHarmony->getHarmonySoundingWholeNotes ();
+
+          // compute the position in measure following previousHarmony
+          rational
+            positionInMeasureFollowingPreviousHarmony =
+              previousHarmonyPositionInMeasure
+                +
+              previousHarmonySoundingWholeNotes;
+
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+            gLogIOstream <<
+              "handleHarmoniesInHarmonyMeasureFinalization () 3" <<
+              ", previousHarmony: ";
+
+            if (previousHarmony) {
+              gLogIOstream <<
+                "'" <<
+                previousHarmony->asString () <<
+                "'";
+            }
+            else {
+              gLogIOstream << "none";
+            }
+
+            gLogIOstream <<
+              ", harmonyPositionInMeasure: " <<
+              harmonyPositionInMeasure <<
+              ", previousHarmonyPositionInMeasure: " <<
+              previousHarmonyPositionInMeasure <<
+              ", positionInMeasureFollowingPreviousHarmony: " <<
+              positionInMeasureFollowingPreviousHarmony <<
+              endl;
+          }
+#endif
+          rational
+            positionsInMeasureDifference =
+              harmonyPositionInMeasure
+                -
+              positionInMeasureFollowingPreviousHarmony;
+            positionsInMeasureDifference.rationalise ();
+
           // is a padding note needed?
           if (
-            harmony->getPositionInMeasure ()
-              >
-            previousHarmony->getPositionInMeasure ()
+            positionsInMeasureDifference.getNumerator () > 0 // JMI < 0 ???
           ) {
             // create a padding note
-            rational
-              paddingNoteDuration =
-                measureElement->getPositionInMeasure ()
-                  -
-                previousHarmony->getPositionInMeasure ();
-            paddingNoteDuration.rationalise ();
-
             S_msrNote
               paddingNote =
                 createPaddingNoteForVoice (
                   inputLineNumber,
-                  paddingNoteDuration,
+                  positionsInMeasureDifference,
                   voice);
 
             // set its position in measure
             paddingNote->
               setPositionInMeasure (
                 fActualMeasureWholeNotes,
-                "handleHarmoniesInHarmonyMeasureFinalization()");
+                "handleHarmoniesInHarmonyMeasureFinalization() 4");
 
             // insert paddingNote before harmony in the measure's elements list
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTracePartGroups) {
+            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
               gLogIOstream <<
                 "Inserting subsequent padding note '" <<
                 paddingNote->asString () <<
@@ -3686,6 +3778,23 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization ()
 
             fMeasureElementsList.insert (
               i, paddingNote);
+          }
+
+          else if (
+              positionsInMeasureDifference.getNumerator () < 0
+          ) {
+            stringstream s;
+
+            s <<
+              "Harmony voice measure element '" <<
+              measureElement->asString () <<
+              "' is no harmony";
+
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
           }
         }
 
@@ -3711,6 +3820,14 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization ()
 
       if (++i == iEnd) break;
     } // while
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+      displayMeasure (
+        inputLineNumber,
+        "handleHarmoniesInHarmonyMeasureFinalization() 5");
+    }
+#endif
   }
 }
 
@@ -3804,7 +3921,10 @@ void msrMeasure::finalizeHarmonyMeasure (
 #endif
 
   // handle the harmonies in this measure
-  handleHarmoniesInHarmonyMeasureFinalization ();
+  handleHarmoniesInHarmonyMeasureFinalization (
+    inputLineNumber,
+    partActualMeasureWholeNotesHighTide,
+    context);
 
   // pad the measure up if it is in a harmony of figured bass voice
   switch (voice->getVoiceKind ()) {
@@ -4182,7 +4302,7 @@ string msrMeasure::measureKindAsString (
 
   switch (measureKind) {
     case msrMeasure::kMeasureKindUnknown:
-      result = "***measureUnknown***";
+      result = "***measureKindUnknown***";
       break;
     case msrMeasure::kMeasureKindRegular:
       result = "measureRegular";

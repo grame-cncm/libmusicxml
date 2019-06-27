@@ -541,8 +541,8 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending harmony " << harmony->asString () <<
-      " to segment " << asString () <<
+      "Appending harmony '" << harmony->asString () <<
+      "' to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<

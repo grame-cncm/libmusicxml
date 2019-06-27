@@ -56,9 +56,9 @@ void msrMeasureElement::setPositionInMeasure (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Setting position of measure element '" <<
+      "Setting position in measure of '" <<
       asString () <<
-      "' in measure to '" << fPositionInMeasure <<
+      "' to '" << fPositionInMeasure <<
       "' in measure '" <<
       fMeasureNumber <<
       "', context: \"" <<

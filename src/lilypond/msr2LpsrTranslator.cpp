@@ -1820,8 +1820,8 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     fCurrentNonGraceNoteClone->
       setNoteHarmony (fCurrentHarmonyClone);
 
-  // don't append the harmony to the part harmony,
-  // this has been done in pass2b // JMI ???
+    // don't append the harmony to the part harmony,
+    // this has been done in pass2b // JMI ???
   }
 
   else if (fOnGoingChord) {

@@ -1105,7 +1105,10 @@ class msrMeasure : public msrElement
                             msrMeasureRepeatContextKind measureRepeatContextKind,
                             string                      context);
 
-    void                  handleHarmoniesInHarmonyMeasureFinalization ();
+    void                  handleHarmoniesInHarmonyMeasureFinalization (
+                            int      inputLineNumber,
+                            rational partActualMeasureWholeNotesHighTide,
+                            string   context);
 
     void                  finalizeMeasureClone (
                             int          inputLineNumber,
@@ -2300,6 +2303,7 @@ class msrHarmony : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
     void                  setHarmonyNoteUpLink (
                             S_msrNote note)
                               { fHarmonyNoteUpLink = note; }
