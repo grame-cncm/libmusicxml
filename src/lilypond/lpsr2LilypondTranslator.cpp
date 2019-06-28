@@ -3795,7 +3795,7 @@ void lpsr2LilypondTranslator::generateInputLineNumberAndOrPositionInMeasureAsACo
   if (gLilypondOptions->fInputLineNumbers) {
     // print the input line number as a comment
     fLilypondCodeIOstream <<
-      "iln: " << measureElement->getInputLineNumber () << " ";
+      "line: " << measureElement->getInputLineNumber () << " ";
   }
 
   if (gLilypondOptions->fPositionsInMeasures) {

@@ -7471,7 +7471,7 @@ class msrStaff : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_STAFF_NUMBER                 -79
+    #define K_NO_STAFF_NUMBER                 -777
 
     // data types
     // ------------------------------------------------------

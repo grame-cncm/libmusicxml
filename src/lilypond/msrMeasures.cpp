@@ -878,13 +878,19 @@ void msrMeasure::setActualMeasureWholeNotes (
   rationalisedActualMeasureWholeNotes.rationalise ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gMusicXMLOptions->fTraceDivisions) {
+  if (
+    gTraceOptions->fTraceWholeNotes
+      ||
+    gTraceOptions->fTracePositionsInMeasures
+      ||
+    gMusicXMLOptions->fTraceDivisions
+  ) {
     gLogIOstream <<
-      "Setting measure '" <<
+      "Setting actual whole notes of measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
-      "' measure actual whole notes to '"  <<
+      "' to '"  <<
       rationalisedActualMeasureWholeNotes <<
       "'";
 
@@ -894,7 +900,7 @@ void msrMeasure::setActualMeasureWholeNotes (
       wholeNotes.getDenominator ()
     ) {
       gLogIOstream <<
-        " (was '" << wholeNotes << "')";
+        " (rationalised from '" << wholeNotes << "')";
     }
 
     gLogIOstream <<
@@ -2119,18 +2125,10 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
     gLogIOstream <<
       "Creating a padding note for voice \"" <<
       voice->getVoiceName () <<
-      /*
-      "\" in measure '"
-      asShortString () <<
-      */
-      "\" in measure '";
-
-    print (gLogIOstream);
-
-    gLogIOstream <<
-
       "', duration = '" <<
       duration <<
+      "\" in measure '" <<
+      asShortString () <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -2200,7 +2198,13 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
         getSegmentVoiceUpLink ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures
+      ||
+    gTraceOptions->fTraceWholeNotes
+  ) {
     this->print (gLogIOstream);
 
     gLogIOstream <<
@@ -2226,6 +2230,7 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
     rational
       missingDuration =
         wholeNotes - fActualMeasureWholeNotes;
+    missingDuration.rationalise ();
 
     // create a rest or a skip depending on measureVoice kind
     S_msrNote
@@ -2335,7 +2340,7 @@ void msrMeasure::appendPaddingNoteToMeasure (
   int divisionsPerQuarterNote)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     gLogIOstream <<
       "Appending padding note of " << divisions <<
       " divisions to measure " <<
@@ -2674,6 +2679,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       asShortString () <<
       "\" more than once";
 
+if (false)
     msrInternalError (
       gGeneralOptions->fInputSourceName,
       fInputLineNumber,
@@ -2995,8 +3001,14 @@ void msrMeasure::padUpToPositionInMeasure (
   int      inputLineNumber,
   rational positionInMeasureToPadUpTo)
 {
+  // fetch the voice
+  S_msrVoice
+    measureVoice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     gLogIOstream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
@@ -3007,15 +3019,14 @@ void msrMeasure::padUpToPositionInMeasure (
       "' in segment " <<
       fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
-      fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink () <<
+      measureVoice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
   }
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionInMeasure() 1");
@@ -3035,12 +3046,7 @@ void msrMeasure::padUpToPositionInMeasure (
     rational
       missingDuration =
         positionInMeasureToPadUpTo - fActualMeasureWholeNotes;
-
-    // fetch the voice
-    S_msrVoice
-      measureVoice =
-        fMeasureSegmentUpLink->
-          getSegmentVoiceUpLink ();
+    missingDuration.rationalise ();
 
     // create a rest or a skip depending on measureVoice kind
     S_msrNote
@@ -3103,7 +3109,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
   rational positionInMeasureToPadUpTo)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     gLogIOstream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
@@ -3122,7 +3128,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfMeasure() 1");
@@ -3140,8 +3146,9 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
   if (fActualMeasureWholeNotes < positionInMeasureToPadUpTo) {
     // appending a rest to this measure to reach positionInMeasureToPadUpTo
     rational
-      missingDuration =
+      duration =
         positionInMeasureToPadUpTo - fActualMeasureWholeNotes;
+    duration.rationalise ();
 
     // fetch the voice
     S_msrVoice
@@ -3149,12 +3156,30 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
         fMeasureSegmentUpLink->
           getSegmentVoiceUpLink ();
 
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+      gLogIOstream <<
+       "Creating a padding note '" <<
+       ", duration: " << duration <<
+       " at the end of voice \"" << measureVoice->getVoiceName () <<
+       "\", measure: '" <<
+       fMeasureNumber <<
+       "', measureDebugNumber: '" <<
+       fMeasureDebugNumber <<
+       ", fActualMeasureWholeNotes: " <<
+       fActualMeasureWholeNotes <<
+       ", partActualMeasureWholeNotesHighTide:" <<
+       partActualMeasureWholeNotesHighTide <<
+       endl;
+   }
+#endif
+
     // create a rest or a skip depending on measureVoice kind
     S_msrNote
       paddingNote =
         createPaddingNoteForVoice (
           inputLineNumber,
-          missingDuration,
+          duration,
           measureVoice);
 
 /* JMI
@@ -3165,22 +3190,19 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
         */
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
       gLogIOstream <<
        "Appending '" << paddingNote->asString () <<
-       " (" << missingDuration << " whole notes)'" <<
        " to finalize \"" << measureVoice->getVoiceName () <<
-       "\" measure: @" <<
+       "\" measure: '" <<
        fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-       ":" <<
+       "', measureDebugNumber: '" <<
+       fMeasureDebugNumber <<
+       ", fActualMeasureWholeNotes: " <<
        fActualMeasureWholeNotes <<
-       " % --> @" << fMeasureNumber << // JMI
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-       ":" << partActualMeasureWholeNotesHighTide <<
-        ", missingDuration = " << missingDuration <<
+       ", partActualMeasureWholeNotesHighTide: " <<
+       partActualMeasureWholeNotesHighTide <<
+ //  JMI       ", missingDuration = " << missingDuration <<
        endl;
    }
 #endif
@@ -3195,7 +3217,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfMeasure() 2");
@@ -3590,6 +3612,18 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             dynamic_cast<msrHarmony*>(&(*measureElement))
       ) {
         // handle the harmony
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+          gLogIOstream <<
+            "handleHarmoniesInHarmonyMeasureFinalization() 2" <<
+            ", harmony: ";
+            gIndenter++;
+            gLogIOstream <<
+              harmony->asString () <<
+              endl;
+            gIndenter--;
+        }
+#endif
 
         // it's position in the measure should take it's offset into account
         rational
@@ -3609,7 +3643,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
             gLogIOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization () 1" <<
+              "handleHarmoniesInHarmonyMeasureFinalization() 3" <<
               ", previousHarmony: ";
 
             if (previousHarmony) {
@@ -3633,7 +3667,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           // this the first harmony in the measure
 
           // the position to pad up to is the minimum
-          // of those of the harmony and harmonyNoteUpLink
+          // of those of the harmony and harmonyNoteUpLink,
+          // to keep comparison points between the regular voice and its harmony voice
           rational
             positionInMeasureToPadUpTo =
               harmonyNoteUpLinkPositionInMeasure;
@@ -3646,8 +3681,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
             gLogIOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization () 2" <<
-              ", positionInMeasureToPadUpTo: " <<
+              "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
+              ", previousHarmony is null, positionInMeasureToPadUpTo: " <<
               positionInMeasureToPadUpTo <<
               endl;
           }
@@ -3709,11 +3744,12 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               previousHarmonyPositionInMeasure
                 +
               previousHarmonySoundingWholeNotes;
+          positionInMeasureFollowingPreviousHarmony.rationalise ();
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
             gLogIOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization () 3" <<
+              "handleHarmoniesInHarmonyMeasureFinalization() 5" <<
               ", previousHarmony: ";
 
             if (previousHarmony) {
@@ -3736,17 +3772,16 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               endl;
           }
 #endif
+
+          // is a padding note needed?
           rational
             positionsInMeasureDifference =
               harmonyPositionInMeasure
                 -
               positionInMeasureFollowingPreviousHarmony;
-            positionsInMeasureDifference.rationalise ();
+          positionsInMeasureDifference.rationalise ();
 
-          // is a padding note needed?
-          if (
-            positionsInMeasureDifference.getNumerator () > 0 // JMI < 0 ???
-          ) {
+          if (positionsInMeasureDifference.getNumerator () > 0) {
             // create a padding note
             S_msrNote
               paddingNote =
@@ -3759,7 +3794,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             paddingNote->
               setPositionInMeasure (
                 fActualMeasureWholeNotes,
-                "handleHarmoniesInHarmonyMeasureFinalization() 4");
+                "handleHarmoniesInHarmonyMeasureFinalization() 6");
 
             // insert paddingNote before harmony in the measure's elements list
 #ifdef TRACE_OPTIONS
@@ -3778,6 +3813,11 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
             fMeasureElementsList.insert (
               i, paddingNote);
+
+            // account for padding note duration in measure whole notes
+            setActualMeasureWholeNotes (
+              inputLineNumber,
+              fActualMeasureWholeNotes + positionsInMeasureDifference);
           }
 
           else if (
@@ -3786,9 +3826,10 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             stringstream s;
 
             s <<
-              "Harmony voice measure element '" <<
-              measureElement->asString () <<
-              "' is no harmony";
+              "Harmony '" <<
+              previousHarmony->asString () <<
+              "' bumps into '" <<
+              harmony->asString ();
 
             msrInternalError (
               gGeneralOptions->fInputSourceName,
@@ -3801,23 +3842,6 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         previousHarmony = harmony;
       }
 
-/*
-      else {
-        stringstream s;
-
-        s <<
-          "Harmony voice measure element '" <<
-          measureElement->asString () <<
-          "' is no harmony";
-
-        msrInternalError (
-          gGeneralOptions->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
-      */
-
       if (++i == iEnd) break;
     } // while
 
@@ -3825,7 +3849,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
       displayMeasure (
         inputLineNumber,
-        "handleHarmoniesInHarmonyMeasureFinalization() 5");
+        "handleHarmoniesInHarmonyMeasureFinalization() 7");
     }
 #endif
   }

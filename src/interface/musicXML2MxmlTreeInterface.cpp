@@ -569,7 +569,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "you should convert this file to " <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", for example with iconv or using a text editor; handling it as is";
+      ", for example with iconv or using a text editor - handling it as is";
 
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
@@ -693,7 +693,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       "you should convert this stream to " <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", for example with iconv or using a text editor; handling it as is";
+      ", for example with iconv or using a text editor - handling it as is";
 
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,

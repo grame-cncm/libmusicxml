@@ -685,17 +685,6 @@ void msrHarmony::print (ostream& os)
 
   const int fieldWidth = 26;
 
-  os <<
-    setw (fieldWidth) <<
-    "harmonyNoteUpLink" << " : ";
-  if (fHarmonyNoteUpLink) {
-    os << fHarmonyNoteUpLink->asString ();
-  }
-  else {
-    os << "none";
-  }
-  os << endl;
-
   os << left <<
     setw (fieldWidth) <<
     "harmonyRoot" << " : " <<
@@ -729,10 +718,23 @@ void msrHarmony::print (ostream& os)
     setw (fieldWidth) <<
     "harmonyDisplayWholeNotes" << " : " <<
     fHarmonyDisplayWholeNotes <<
-    endl <<
+    endl;
 
+  // print the harmony whole notes offset
+  os <<
     setw (fieldWidth) <<
-    "harmonyKindText" << " = \"" <<
+    "harmonyWholeNotesOffset" << " : " << fHarmonyWholeNotesOffset <<
+    endl;
+
+  // print the harmony position in measure
+  os <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " << fPositionInMeasure <<
+    endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "harmonyKindText" << " : \"" <<
     fHarmonyKindText <<
     "\"" <<
     endl <<
@@ -804,17 +806,16 @@ void msrHarmony::print (ostream& os)
     "harmonyTupletFactor" << " : " << fHarmonyTupletFactor.asString () <<
     endl;
 
-  // print the harmony whole notes offset
   os <<
     setw (fieldWidth) <<
-    "harmonyWholeNotesOffset" << " : " << fHarmonyWholeNotesOffset <<
-    endl;
-
-  // print the harmony position in measure
-  os <<
-    setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fPositionInMeasure <<
-    endl;
+    "harmonyNoteUpLink" << " : ";
+  if (fHarmonyNoteUpLink) {
+    os << fHarmonyNoteUpLink->asString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 
   gIndenter--;
 }

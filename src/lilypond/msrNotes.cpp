@@ -1428,6 +1428,10 @@ void msrNote::setNotePositionInMeasure (
   }
 #endif
 
+ // JMI if (positionInMeasure.getNumerator () == 60) abort ();
+
+  positionInMeasure.rationalise (); // TEMP ? JMI
+
   if (positionInMeasure == rational (1, 1)) { // K_NO_POSITION_MEASURE_NUMBER
     abort (); // JMI
   }
