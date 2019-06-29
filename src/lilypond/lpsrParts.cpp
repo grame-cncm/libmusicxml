@@ -399,55 +399,65 @@ void lpsrPartBlock::appendFiguredBassContextToPartBlock (
 
 void lpsrPartBlock::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartBlock::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrPartBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrPartBlock::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrPartBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrPartBlock::browseData (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartBlock::browseData ()" <<
       endl;
   }
+#endif
 
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
@@ -459,11 +469,13 @@ void lpsrPartBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrPartBlock::browseData ()" <<
       endl;
   }
+#endif
 }
 
 void lpsrPartBlock::print (ostream& os)

@@ -393,23 +393,22 @@ class msrDoubleTremolo : public msrMeasureElement
     void                  setDoubleTremoloSoundingWholeNotes (
                             rational wholeNotes)
                               {
-                                fDoubleTremoloSoundingWholeNotes =
+        // JMI                        fDoubleTremoloSoundingWholeNotes =
+                                fSoundingWholeNotes =
                                   wholeNotes;
                               }
 
     rational              getDoubleTremoloSoundingWholeNotes () const
                               {
                                 return
-                                  fDoubleTremoloSoundingWholeNotes;
+                 // JMI                 fDoubleTremoloSoundingWholeNotes;
+                                  fSoundingWholeNotes;
                               }
 
     // measure number
 
     void                  setDoubleTremoloMeasureNumber (
-                            string measureNumber)
-                              {
-                                fMeasureNumber =  measureNumber;
-                              }
+                            string measureNumber);
 
     // position in measure
 
@@ -454,8 +453,9 @@ class msrDoubleTremolo : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
-    // sounding divisions
+    // sounding whole notes
     // the same as the displayed divisions of both members
+// JMI    rational              fDoubleTremoloSoundingWholeNotes;
     rational              fDoubleTremoloSoundingWholeNotes;
 
     msrDoubleTremoloKind  fDoubleTremoloKind;
@@ -743,12 +743,12 @@ class msrMeasure : public msrElement
     rational              getFullMeasureWholeNotes () const
                               {  return fFullMeasureWholeNotes; }
 
-    void                  setActualMeasureWholeNotes (
+    void                  setCurrentMeasureWholeNotes (
                             int      inputLineNumber,
                             rational wholeNotes);
 
-    rational              getActualMeasureWholeNotes () const
-                              { return fActualMeasureWholeNotes; }
+    rational              getCurrentMeasureWholeNotes () const
+                              { return fCurrentMeasureWholeNotes; }
 
     // measure kind
 
@@ -848,14 +848,14 @@ class msrMeasure : public msrElement
 
     string                fullMeasureWholeNotesAsMSRString ();
 
-    string                actualMeasureWholeNotesAsMSRString ();
+    string                currentMeasureWholeNotesAsMSRString ();
 
     S_msrNote             createPaddingNoteForVoice (
                             int        inputLineNumber,
                             rational   duration,
                             S_msrVoice voice);
 
-    void                  padUpToActualMeasureWholeNotesInMeasure (
+    void                  padUpToCurrentMeasureWholeNotesInMeasure (
                             int      inputLineNumber,
                             rational wholeNotes);
 
@@ -1105,11 +1105,6 @@ class msrMeasure : public msrElement
                             msrMeasureRepeatContextKind measureRepeatContextKind,
                             string                      context);
 
-    void                  handleHarmoniesInHarmonyMeasureFinalization (
-                            int      inputLineNumber,
-                            rational partActualMeasureWholeNotesHighTide,
-                            string   context);
-
     void                  finalizeMeasureClone (
                             int          inputLineNumber,
                             S_msrMeasure originalMeasure,
@@ -1121,9 +1116,6 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     void                  appendElementToMeasure (
-                            S_msrMeasureElement elem);
-
-    void                  appendElementAtTheEndOfMeasure (
                             S_msrMeasureElement elem);
 
   public:
@@ -1170,7 +1162,9 @@ class msrMeasure : public msrElement
                             // when there is a time signature,
                             // but not for cadenzas
 
-    rational              fActualMeasureWholeNotes;
+    rational              fCurrentMeasureWholeNotes;
+                            // this increases when musical elements
+                            // are appended to the measure
 
     // measure numbers, shared by newborn clones and deep copies
 
@@ -1239,6 +1233,19 @@ class msrMeasure : public msrElement
 
     // private work services
     // ------------------------------------------------------
+
+    void                  handleHarmoniesInHarmonyMeasureFinalization (
+                            int      inputLineNumber,
+                            rational partCurrentMeasureWholeNotesHighTide,
+                            string   context);
+
+    void                  insertElementInMeasure (
+                            int                                 inputLineNumber,
+                            list<S_msrMeasureElement>::iterator iter,
+                            S_msrMeasureElement                 elem);
+
+    void                  appendElementAtTheEndOfMeasure (
+                            S_msrMeasureElement elem);
 
     void                  printMeasurePendingMeasureElementsList ();
 
@@ -1329,7 +1336,7 @@ class msrSegment : public msrVoiceElement
 
     // backup and padding
 
-    void                  padUpToActualMeasureWholeNotesInSegment (
+    void                  padUpToCurrentMeasureWholeNotesInSegment (
                             int      inputLineNumber,
                             rational wholeNotes);
 
@@ -2320,10 +2327,10 @@ class msrHarmony : public msrMeasureElement
 
     void                  setHarmonySoundingWholeNotes (
                             rational wholeNotes)
-                              { fHarmonySoundingWholeNotes = wholeNotes; }
+                              { fSoundingWholeNotes = wholeNotes; }
 
     rational              getHarmonySoundingWholeNotes () const
-                              { return fHarmonySoundingWholeNotes; }
+                              { return fSoundingWholeNotes; }
 
     void                  setHarmonyDisplayWholeNotes (
                             rational wholeNotes)
@@ -2411,7 +2418,6 @@ class msrHarmony : public msrMeasureElement
     S_msrNote             fHarmonyNoteUpLink;
     S_msrVoice            fHarmonyVoiceUpLink;
 
-    rational              fHarmonySoundingWholeNotes;
     rational              fHarmonyDisplayWholeNotes;
 
     msrQuarterTonesPitchKind
@@ -2627,14 +2633,16 @@ class msrFiguredBass : public msrMeasureElement
 */
 
     void                  setFiguredBassSoundingWholeNotes ( // JMI
-                            rational figuredBassSoundingWholeNotes)
+                            rational wholeNotes)
                               {
-                                fFiguredBassSoundingWholeNotes =
-                                  figuredBassSoundingWholeNotes;
+          // JMI                      fFiguredBassSoundingWholeNotes =
+                                fSoundingWholeNotes =
+                                  wholeNotes;
                               }
 
     rational              getFiguredBassSoundingWholeNotes () const
-                              { return fFiguredBassSoundingWholeNotes; }
+                    // JMI          { return fFiguredBassSoundingWholeNotes; }
+                              { return fSoundingWholeNotes; }
 
     void                  setFiguredBassDisplayWholeNotes (
                             rational wholeNotes)
@@ -2693,7 +2701,7 @@ class msrFiguredBass : public msrMeasureElement
     S_msrNote             fFiguredBassNoteUpLink;
     S_msrVoice            fFiguredBassVoiceUpLink;
 
-    rational              fFiguredBassSoundingWholeNotes;
+// JMI    rational              fFiguredBassSoundingWholeNotes;
     rational              fFiguredBassDisplayWholeNotes;
 
     msrFiguredBassParenthesesKind
@@ -3271,7 +3279,7 @@ class msrNote : public msrTupletElement
     rational              getNoteSoundingWholeNotes ()
                               {
                                 return
-                                  fNoteSoundingWholeNotes;
+                                  fSoundingWholeNotes; // JMI fNoteSoundingWholeNotes
                               }
 
     // note display
@@ -3745,7 +3753,6 @@ class msrNote : public msrTupletElement
     // fields
     // ------------------------------------------------------
 
-
     // upLinks
     // ------------------------------------------------------
 
@@ -3768,7 +3775,7 @@ class msrNote : public msrTupletElement
                           fNoteQuarterTonesPitchKind;
 
     // whole notes
-    rational              fNoteSoundingWholeNotes;
+//    rational              fNoteSoundingWholeNotes;
     rational              fNoteDisplayWholeNotes;
 
     int                   fNoteDotsNumber;
@@ -4071,16 +4078,17 @@ class msrChord : public msrTupletElement
 
      // whole notes
     void                  setChordSoundingWholeNotes (
-                            rational divisions);
+                            rational wholeNotes);
 
     rational              getChordSoundingWholeNotes () const
-                              { return fChordSoundingWholeNotes; }
+                      // JMI        { return fChordSoundingWholeNotes; }
+                              { return fSoundingWholeNotes; }
 
     void                  setChordDisplayWholeNotes (
-                            rational divisions);
+                            rational wholeNotes);
 
     rational              getChordDisplayWholeNotes () const
-                              { return fChordDisplayWholeNotes; }
+                             { return fChordDisplayWholeNotes; }
 
     // graphic duration
     msrDurationKind       getChordGraphicDurationKind () const
@@ -4365,14 +4373,6 @@ class msrChord : public msrTupletElement
                             int actualNotes, int normalNotes);
 */
 
-    // position in measure
-    void                  setChordFirstNotePositionInMeasure (
-                            rational position);
-
-    // finalization
-    void                  finalizeChord (
-                            int inputLineNumber);
-
   public:
 
     // visitors
@@ -4387,11 +4387,6 @@ class msrChord : public msrTupletElement
 
     // print
     // ------------------------------------------------------
-
-    // as MSR string
-    string                chordSoundingWholeNotesAsMsrString ();
-    string                chordDisplayWholeNotesAsMsrString ();
- // JMI   string                chordGraphicDurationAsMsrString () const;
 
     string                asStringwithRawDivisions () const;
 
@@ -4410,7 +4405,7 @@ class msrChord : public msrTupletElement
     S_msrMeasure          fChordMeasureUpLink;
 
     // sounding divisions
-    rational              fChordSoundingWholeNotes;
+// JMI    rational              fChordSoundingWholeNotes;
 
     // display divisions
     rational              fChordDisplayWholeNotes;
@@ -4641,7 +4636,8 @@ class msrTuplet : public msrTupletElement
                               */
 
     rational              getTupletSoundingWholeNotes () const
-                              { return fTupletSoundingWholeNotes; }
+                    // JMI          { return fTupletSoundingWholeNotes; }
+                              { return fSoundingWholeNotes; }
 
     rational              getTupletDisplayWholeNotes () const
                               { return fTupletDisplayWholeNotes; }
@@ -4671,9 +4667,11 @@ class msrTuplet : public msrTupletElement
     void                  unapplySoundingFactorToTupletMembers (
                             const msrTupletFactor& containingTupletFactor);
 
+/* JMI
     // finalization
     void                  finalizeTuplet (
                             int inputLineNumber);
+*/
 
   public:
 
@@ -4707,6 +4705,7 @@ class msrTuplet : public msrTupletElement
 
     int                   fTupletNumber;
 
+    // appearance
     msrTupletBracketKind  fTupletBracketKind;
 
     msrTupletLineShapeKind
@@ -4717,12 +4716,15 @@ class msrTuplet : public msrTupletElement
 
     msrTupletShowTypeKind fTupletShowTypeKind;
 
+    // factor
     msrTupletFactor       fTupletFactor;
 
+    // member notes
     rational              fMemberNotesSoundingWholeNotes;
     rational              fMemberNotesDisplayWholeNotes;
 
-    rational              fTupletSoundingWholeNotes;
+// JMI    rational              fTupletSoundingWholeNotes;
+    // display whole notes
     rational              fTupletDisplayWholeNotes;
 
     list<S_msrTupletElement>
@@ -4869,7 +4871,7 @@ class msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
-    void                  padUpToActualMeasureWholeNotesInStanza ( // JMI
+    void                  padUpToCurrentMeasureWholeNotesInStanza ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
 
@@ -4916,8 +4918,8 @@ class msrStanza : public msrElement
 
     bool                  fStanzaTextPresent;
 
-    // actual measure whole notes
-    rational              fStanzaActualMeasureWholeNotes;
+    // current measure whole notes
+    rational              fStanzaCurrentMeasureWholeNotes;
 };
 typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
@@ -6609,7 +6611,7 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
-    void                  padUpToActualMeasureWholeNotesInVoice (
+    void                  padUpToCurrentMeasureWholeNotesInVoice (
                             int      inputLineNumber,
                             rational wholeNotes);
 
@@ -7588,7 +7590,7 @@ class msrStaff : public msrElement
 
     // measures
 
-    void                  padUpToActualMeasureWholeNotesInStaff (
+    void                  padUpToCurrentMeasureWholeNotesInStaff (
                             int      inputLineNumber,
                             rational wholeNotes);
 
@@ -8085,18 +8087,18 @@ class msrPart : public msrPartGroupElement
 
     // measures
 
-    void                  setPartActualMeasureWholeNotesHighTide (
+    void                  setPartCurrentMeasureWholeNotesHighTide (
                             int      inputLineNumber,
                             rational wholeNotes);
 
-    void                  updatePartActualMeasureWholeNotesHighTide (
+    void                  updatePartCurrentMeasureWholeNotesHighTide (
                             int      inputLineNumber,
                             rational wholeNotes);
 
-    rational              getPartActualMeasureWholeNotesHighTide () const
+    rational              getPartCurrentMeasureWholeNotesHighTide () const
                               {
                                 return
-                                  fPartActualMeasureWholeNotesHighTide;
+                                  fPartCurrentMeasureWholeNotesHighTide;
                               }
 
     void                  setPartNumberOfMeasures (
@@ -8166,7 +8168,7 @@ class msrPart : public msrPartGroupElement
 
     // measures
 
-    void                  padUpToActualMeasureWholeNotesInPart (
+    void                  padUpToCurrentMeasureWholeNotesInPart (
                             int      inputLineNumber,
                             rational wholeNotes);
 
@@ -8413,7 +8415,7 @@ class msrPart : public msrPartGroupElement
 
     int                   fPartNumberOfMeasures;
 
-    rational              fPartActualMeasureWholeNotesHighTide;
+    rational              fPartCurrentMeasureWholeNotesHighTide;
 
     // clef, key, time
 

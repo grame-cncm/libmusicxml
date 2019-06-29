@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -45,44 +45,52 @@ lpsrVariableUseCommand::~lpsrVariableUseCommand()
 
 void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrVariableUseCommand>*
     p =
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrVariableUseCommand>*
     p =
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

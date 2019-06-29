@@ -132,44 +132,52 @@ void lpsrPaper::setShortIndent (float val)
 
 void lpsrPaper::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPaper::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrPaper>*
     p =
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPaper::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrPaper::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPaper::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrPaper>*
     p =
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPaper::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

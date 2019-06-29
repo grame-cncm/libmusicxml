@@ -361,7 +361,8 @@ msrHarmony::msrHarmony (
   fHarmonyBassQuarterTonesPitchKind =
     harmonyBassQuarterTonesPitchKind;
 
-  fHarmonySoundingWholeNotes =
+// JMI  fHarmonySoundingWholeNotes =
+  fSoundingWholeNotes =
     harmonySoundingWholeNotes;
   fHarmonyDisplayWholeNotes =
     harmonyDisplayWholeNotes;
@@ -433,9 +434,8 @@ msrHarmony::msrHarmony (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "Creating harmony '" <<
+      "Creating harmony " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -450,9 +450,9 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "Creating a newborn clone of harmony '" <<
-      msrHarmonyKindAsShortString (fHarmonyKind) <<
-      "', line " << fInputLineNumber <<
+      "Creating a newborn clone of harmony " <<
+      asShortString () <<
+      ", line " << fInputLineNumber <<
       endl;
   }
 #endif
@@ -472,7 +472,8 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonyKindText,
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
-        fHarmonySoundingWholeNotes,
+// JMI        fHarmonySoundingWholeNotes,
+        fSoundingWholeNotes,
         fHarmonyDisplayWholeNotes,
         fHarmonyStaffNumber,
         fHarmonyTupletFactor,
@@ -487,9 +488,9 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "Creating a deep copy of harmony '" <<
-      msrHarmonyKindAsShortString (fHarmonyKind) <<
-      "', line " << fInputLineNumber <<
+      "Creating a deep copy of harmony " <<
+      asShortString () <<
+      ", line " << fInputLineNumber <<
       endl;
   }
 #endif
@@ -508,7 +509,8 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonyKind, fHarmonyKindText,
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
-        fHarmonySoundingWholeNotes,
+// JMI        fHarmonySoundingWholeNotes,
+        fSoundingWholeNotes,
         fHarmonyDisplayWholeNotes,
         fHarmonyStaffNumber,
         fHarmonyTupletFactor,
@@ -599,6 +601,7 @@ string msrHarmony::asString () const
   stringstream s;
 
   s <<
+    "["
     "Harmony" <<
     ", harmonyRootQuarterTonesPitchKind: " <<
     msrQuarterTonesPitchKindAsString ( // JMI XXL
@@ -608,7 +611,8 @@ string msrHarmony::asString () const
     msrHarmonyKindAsShortString (fHarmonyKind) <<
 
     ", harmonySoundingWholeNotes: " <<
-    fHarmonySoundingWholeNotes <<
+// JMI    fHarmonySoundingWholeNotes <<
+    fSoundingWholeNotes <<
     ", harmonyDisplayWholeNotes: " <<
     fHarmonyDisplayWholeNotes <<
 
@@ -671,6 +675,9 @@ string msrHarmony::asString () const
   // print the harmony position in measure
   s <<
     ", positionInMeasure: " << fPositionInMeasure;
+
+  s << "]";
+
   return s.str ();
 }
 
@@ -702,7 +709,8 @@ void msrHarmony::print (ostream& os)
     "harmonySoundingWholeNotes " << " : " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fHarmonySoundingWholeNotes) <<
+// JMI     fHarmonySoundingWholeNotes) <<
+      fSoundingWholeNotes) <<
     endl <<
     setw (fieldWidth) <<
     "harmonyDisplayWholeNotes " << " : " <<
@@ -713,7 +721,8 @@ void msrHarmony::print (ostream& os)
 */
     setw (fieldWidth) <<
     "harmonySoundingWholeNotes" << " : " <<
-    fHarmonySoundingWholeNotes <<
+// JMI    fHarmonySoundingWholeNotes <<
+    fSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "harmonyDisplayWholeNotes" << " : " <<

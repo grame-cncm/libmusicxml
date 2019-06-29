@@ -44,44 +44,52 @@ lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock ()
 
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -135,44 +143,52 @@ lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock ()
 
 void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -219,44 +235,52 @@ lpsrNewStaffBlock::~lpsrNewStaffBlock ()
 
 void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffBlock::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -343,55 +367,65 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
 
 void lpsrStaffBlock::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrStaffBlock::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrStaffBlock::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrStaffBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrStaffBlock::browseData (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrStaffBlock::browseData ()" <<
       endl;
   }
+#endif
 
   for (
     list<S_msrElement>::const_iterator i = fStaffBlockElements.begin ();
@@ -403,11 +437,13 @@ void lpsrStaffBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrStaffBlock::browseData ()" <<
       endl;
   }
+#endif
 }
 
 void lpsrStaffBlock::print (ostream& os)

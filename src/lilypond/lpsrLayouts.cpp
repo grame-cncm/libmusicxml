@@ -47,44 +47,52 @@ lpsrLayout::~lpsrLayout ()
 
 void lpsrLayout::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrLayout::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrLayout>*
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrLayout::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrLayout::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrLayout::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrLayout>*
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrLayout::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

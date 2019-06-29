@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -41,44 +41,52 @@ lpsrElement::~lpsrElement ()
 
 void lpsrElement::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrElement::acceptIn ()" <<
       endl;
   }
-  
+#endif
+
   if (visitor<S_lpsrElement>*
     p =
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrElement::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrElement::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrElement::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrElement>*
     p =
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrElement::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

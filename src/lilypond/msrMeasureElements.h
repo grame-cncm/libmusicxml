@@ -27,9 +27,11 @@ class msrMeasureElement : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_MEASURE_NUMBER "unknown"
+    #define K_NO_MEASURE_NUMBER          "*unknown*"
 
-    #define K_NO_POSITION_MEASURE_NUMBER rational(-222, 1)
+    #define K_NO_POSITION_MEASURE_NUMBER rational(-222222, 1)
+
+    #define K_NO_WHOLE_NOTES             rational(-444444, 1)
 
   protected:
 
@@ -59,6 +61,13 @@ class msrMeasureElement : public msrElement
 
     rational              getPositionInMeasure ()
                               { return fPositionInMeasure; }
+
+    void                  setSoundingWholeNotes (
+                            rational wholeNotes,
+                            string   context);
+
+    rational              getSoundingWholeNotes () const
+                              { return fSoundingWholeNotes; }
 
   public:
 
@@ -98,6 +107,7 @@ class msrMeasureElement : public msrElement
 
     string                fMeasureNumber;
     rational              fPositionInMeasure;
+    rational              fSoundingWholeNotes;
 };
 typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_msrMeasureElement& elt);

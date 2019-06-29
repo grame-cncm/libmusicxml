@@ -1682,8 +1682,8 @@ void msrVoice::appendHarmonyToVoice (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "Appending harmony " << harmony->asString () <<
+      " to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -1726,8 +1726,8 @@ void msrVoice::appendHarmonyToHarmonyVoice (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->asString () <<
-      "' to harmony voice \"" << getVoiceName () << "\"" <<
+      "Appending harmony " << harmony->asString () <<
+      " to harmony voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -1739,7 +1739,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
 /*
   if (false) { // JMI
     // skip to harmony note position in the voice
-    padUpToActualMeasureWholeNotesInVoice (
+    padUpToCurrentMeasureWholeNotesInVoice (
       inputLineNumber,
       harmony->
         getHarmonyNoteUpLink ()->
@@ -1829,7 +1829,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
 
     // bring this voice to that measure position
     /* JMI SIMONE
-    padUpToActualMeasureWholeNotesInVoice (
+    padUpToCurrentMeasureWholeNotesInVoice (
       inputLineNumber,
       harmonyNoteUpLinkPositionInMeasure);
   }
@@ -1877,7 +1877,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
 #endif
 
     // bring this voice to that measure position
-    padUpToActualMeasureWholeNotesInVoice (
+    padUpToCurrentMeasureWholeNotesInVoice (
       inputLineNumber,
       harmonyPositionInMeasure);
   }
@@ -1915,7 +1915,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
 #endif
 
     // bring this voice to that measure position
-    padUpToActualMeasureWholeNotesInVoice (
+    padUpToCurrentMeasureWholeNotesInVoice (
       inputLineNumber,
       harmonyPositionInMeasure);
 
@@ -1949,8 +1949,8 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->asString () <<
-      "' to voice clone \"" << getVoiceName () << "\"" <<
+      "Appending harmony " << harmony->asString () <<
+      " to voice clone \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -2008,7 +2008,7 @@ void msrVoice::appendFiguredBassToVoice (
   switch (fVoiceKind) {
     case msrVoice::kVoiceFiguredBass:
       // skip to figured bass note position in the voice
-      padUpToActualMeasureWholeNotesInVoice (
+      padUpToCurrentMeasureWholeNotesInVoice (
         inputLineNumber,
         figuredBass->
           getFiguredBassNoteUpLink ()->
@@ -2089,7 +2089,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
   } // switch
 }
 
-void msrVoice::padUpToActualMeasureWholeNotesInVoice (
+void msrVoice::padUpToCurrentMeasureWholeNotesInVoice (
   int      inputLineNumber,
   rational wholeNotes)
 {
@@ -2102,7 +2102,7 @@ void msrVoice::padUpToActualMeasureWholeNotesInVoice (
     gMusicXMLOptions->fTraceBackup
   ) {
     gLogIOstream <<
-      "Padding up to actual measure whole notes '" << wholeNotes <<
+      "Padding up to current measure whole notes '" << wholeNotes <<
       "' in voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -2114,7 +2114,7 @@ void msrVoice::padUpToActualMeasureWholeNotesInVoice (
 
   // pad up the voice's last segment
   fVoiceLastSegment->
-    padUpToActualMeasureWholeNotesInSegment (
+    padUpToCurrentMeasureWholeNotesInSegment (
       inputLineNumber, wholeNotes);
 
   // pad up the voice's stanzas
@@ -2126,7 +2126,7 @@ void msrVoice::padUpToActualMeasureWholeNotesInVoice (
   ) {
       S_msrStanza stanza = (*i).second;
 
-      stanza->padUpToActualMeasureWholeNotesInStanza (
+      stanza->padUpToCurrentMeasureWholeNotesInStanza (
         inputLineNumber, wholeNotes);
     } // for
   }
@@ -2191,17 +2191,17 @@ void msrVoice:: handleBackup (
         divisions,
         divisionsPerQuarterNote * 4); // hence a whole note
 
-  // get the fPartActualMeasureWholeNotesHighTide
+  // get the fPartCurrentMeasureWholeNotesHighTide
   rational
-    partActualMeasureWholeNotesHighTide =
+    partCurrentMeasureWholeNotesHighTide =
       fVoiceStaffUpLink->
         getStaffPartUpLink ()->
-          getPartActualMeasureWholeNotesHighTide ();
+          getPartCurrentMeasureWholeNotesHighTide ();
 
   // determine the measure position 'divisions' backward
   rational
     positionInMeasure =
-      partActualMeasureWholeNotesHighTide - backupStepLength;
+      partCurrentMeasureWholeNotesHighTide - backupStepLength;
 
   positionInMeasure.rationalise ();
 
@@ -2214,8 +2214,8 @@ void msrVoice:: handleBackup (
       divisionsPerQuarterNote <<
       "', backupStepLength = '" <<
       backupStepLength <<
-      "', partActualMeasureWholeNotesHighTide = '" <<
-      partActualMeasureWholeNotesHighTide <<
+      "', partCurrentMeasureWholeNotesHighTide = '" <<
+      partCurrentMeasureWholeNotesHighTide <<
       "', positionInMeasure = '" <<
       positionInMeasure <<
       "' in voice " <<
@@ -2226,7 +2226,7 @@ void msrVoice:: handleBackup (
 #endif
 
   // bring the voice to that measure position
-  padUpToActualMeasureWholeNotesInVoice (
+  padUpToCurrentMeasureWholeNotesInVoice (
     inputLineNumber,
     positionInMeasure);
 }
@@ -2310,12 +2310,14 @@ void msrVoice::appendStaffDetailsToVoice (
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending tempo '" << tempo->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
+#endif
 
   fVoiceLastSegment->
     appendTempoToSegment (tempo);
@@ -2324,6 +2326,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 void msrVoice::appendOctaveShiftToVoice (
   S_msrOctaveShift octaveShift)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOctaveShifts || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending octave shift '" <<
@@ -2332,6 +2335,7 @@ void msrVoice::appendOctaveShiftToVoice (
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
+#endif
 
   fVoiceLastSegment->
     appendOctaveShiftToSegment (octaveShift);
@@ -2340,6 +2344,7 @@ void msrVoice::appendOctaveShiftToVoice (
 void msrVoice::appendScordaturaToVoice (
   S_msrScordatura scordatura)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceScordaturas || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending scordatura '" <<
@@ -2347,6 +2352,7 @@ void msrVoice::appendScordaturaToVoice (
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
+#endif
 
   fVoiceLastSegment->
     appendScordaturaToSegment (scordatura);
@@ -2693,8 +2699,8 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Appending tuplet '" << tuplet->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "Appending tuplet " << tuplet->asString () <<
+      " to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -3796,7 +3802,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
 
         // is there a measure splitting?
         if (
-          lastMeasureInLastSegment->getActualMeasureWholeNotes ()
+          lastMeasureInLastSegment->getCurrentMeasureWholeNotes ()
             == // JMI SURE ???
           lastMeasureInLastSegment->getFullMeasureWholeNotes ()
         ) {
@@ -4526,7 +4532,7 @@ void msrVoice::handleNestedRepeatEndInVoice (
 
   // is there a measure splitting?
   if (
-    voiceLastMeasure->getActualMeasureWholeNotes ()
+    voiceLastMeasure->getCurrentMeasureWholeNotes ()
       ==
     voiceLastMeasure->getFullMeasureWholeNotes ()
   ) {
@@ -8800,9 +8806,9 @@ void msrVoice::finalizeCurrentMeasureInVoice (
 
     gLogIOstream << left <<
       setw (fieldWidth) <<
-      "partActualMeasureWholeNotesHighTide" << " = " <<
+      "partCurrentMeasureWholeNotesHighTide" << " = " <<
       fetchVoicePartUpLink ()->
-        getPartActualMeasureWholeNotesHighTide () <<
+        getPartCurrentMeasureWholeNotesHighTide () <<
       endl;
 
     gIndenter--;
@@ -9553,6 +9559,7 @@ void msrVoice::print (ostream& os)
   }
   os << endl;
 
+#ifdef TRACE_OPTIONS
   // print the voice measures flat list
   int voiceMeasuresFlatListSize =
     fVoiceMeasuresFlatList.size ();
@@ -9593,6 +9600,7 @@ void msrVoice::print (ostream& os)
 
     gIndenter--;
   }
+#endif
 
   // print the voice initial elements
   int voiceInitialElementsListSize =

@@ -59,78 +59,76 @@ R"()",
 traceOptions::~traceOptions ()
 {}
 
-void traceOptions::initializeTraceOptions (
+void traceOptions::initializeOptionsHandlingTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // options
-  // --------------------------------------
-
-  {
-    S_optionsSubGroup
-      traceOptionsSubGroup =
-        optionsSubGroup::create (
-          "Options",
-          "hto", "help-trace-options",
+  S_optionsSubGroup
+    traceOptionsSubGroup =
+      optionsSubGroup::create (
+        "Options handling",
+        "htoh", "help-trace-options-handling",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
 
-    appendOptionsSubGroup (traceOptionsSubGroup);
+  appendOptionsSubGroup (traceOptionsSubGroup);
 
-    // options
+  // options
 
-     fTraceOptions = boolOptionsInitialValue;
+  fTraceOptions = boolOptionsInitialValue;
 
-      traceOptionsSubGroup->
-        appendOptionsItem (
-          optionsBooleanItem::create (
-            "topts", "trace-options",
+  traceOptionsSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "topts", "trace-options",
 R"(Write a trace of options handling to standard error.
 This option should best appear first.)",
-            "traceOptions",
-            fTraceOptions));
+        "traceOptions",
+        fTraceOptions));
 
-    // options details
+  // options details
 
-     fTraceOptionsDetails = boolOptionsInitialValue;
+  fTraceOptionsDetails = boolOptionsInitialValue;
 
-      traceOptionsSubGroup->
-        appendOptionsItem (
-          optionsBooleanItem::create (
-            "toptsd", "trace-options-details",
+  traceOptionsSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "toptsd", "trace-options-details",
 R"(Write a trace of options handling with more details to standard error.
 This option should best appear first.)",
-            "traceOptionsDetails",
-            fTraceOptionsDetails));
+        "traceOptionsDetails",
+        fTraceOptionsDetails));
 
-    // options values
+  // options values
 
-      fDisplayOptionsValues = boolOptionsInitialValue;
+  fDisplayOptionsValues = boolOptionsInitialValue;
 
-      traceOptionsSubGroup->
-        appendOptionsItem (
-          optionsBooleanItem::create (
-            "dov", "display-options-values",
+  traceOptionsSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "dov", "display-options-values",
 R"(Write the chosen options values to standard error.)",
-            "displayOptionsValues",
-            fDisplayOptionsValues));
+        "displayOptionsValues",
+        fDisplayOptionsValues));
 
-    // options handler
+  // options handler
 
-      fDisplayOptionsHandler = boolOptionsInitialValue;
+  fDisplayOptionsHandler = boolOptionsInitialValue;
 
-      traceOptionsSubGroup->
-        appendOptionsItem (
-          optionsBooleanItem::create (
-            "doh", "display-options-handler",
+  traceOptionsSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "doh", "display-options-handler",
 R"(Write the contents of the options handler to standard error.)",
-            "displayOptionsHandler",
-            fDisplayOptionsHandler));
+        "displayOptionsHandler",
+        fDisplayOptionsHandler));
 
-      // fTraceDetailedMeasureNumbersSet is empty
-  }
+  // fTraceDetailedMeasureNumbersSet is empty
+}
 
-  {
+void traceOptions::initializeLowLevelTraceOptions (
+  bool boolOptionsInitialValue)
+{
   S_optionsSubGroup
     lowLevelTraceSubGroup =
       optionsSubGroup::create (
@@ -141,998 +139,1009 @@ Note: the options in this group imply '-t, -trace-passes'.)",
       optionsSubGroup::kHideDescriptionByDefault,
       this);
 
-    appendOptionsSubGroup (lowLevelTraceSubGroup);
+  appendOptionsSubGroup (lowLevelTraceSubGroup);
 
-    // passes
+  // passes
 
-    fTracePasses = boolOptionsInitialValue;
+  fTracePasses = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "passes", "trace-passes",
-  R"(Write a trace of the passes to standard error.)",
-          "tracePasses",
-          fTracePasses));
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "passes", "trace-passes",
+R"(Write a trace of the passes to standard error.)",
+        "tracePasses",
+        fTracePasses));
 
-    // score
+  // score
 
-    fTraceScore = boolOptionsInitialValue;
+  fTraceScore = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tscore", "trace-score",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tscore", "trace-score",
 R"(Score)",
-          "traceScore",
-          fTraceScore,
-          fTracePasses));
+        "traceScore",
+        fTraceScore,
+        fTracePasses));
 
-    // varValAssocs
+  // varValAssocs
 
-    fTraceVarValAssocs = boolOptionsInitialValue;
+  fTraceVarValAssocs = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tvva", "trace-var-val-assocs",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tvva", "trace-var-val-assocs",
 R"(VarValAssocs)",
-          "traceVarValAssocs",
-          fTraceVarValAssocs,
-          fTracePasses));
+        "traceVarValAssocs",
+        fTraceVarValAssocs,
+        fTracePasses));
 
-    // credits
+  // credits
 
-    fTraceCredits = boolOptionsInitialValue;
+  fTraceCredits = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tcredits", "trace-credits",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tcredits", "trace-credits",
 R"(Credits)",
-          "traceCredits",
-          fTraceCredits,
-          fTracePasses));
+        "traceCredits",
+        fTraceCredits,
+        fTracePasses));
 
-    // geometry
+  // geometry
 
-    fTraceGeometry = boolOptionsInitialValue;
+  fTraceGeometry = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tgeom", "trace-geometry",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tgeom", "trace-geometry",
 R"(Geometry)",
-          "traceGeometry",
-          fTraceGeometry,
-          fTracePasses));
+        "traceGeometry",
+        fTraceGeometry,
+        fTracePasses));
 
-    // part groups
+  // part groups
 
-    fTracePartGroups = boolOptionsInitialValue;
-    fTracePartGroupsDetails = boolOptionsInitialValue;
+  fTracePartGroups = boolOptionsInitialValue;
+  fTracePartGroupsDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tpgroups", "trace-part-groups",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tpgroups", "trace-part-groups",
 R"(Part groups)",
-          "tracePartGroups",
-          fTracePartGroups,
-          fTracePasses));
+        "tracePartGroups",
+        fTracePartGroups,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "tpgroupsd", "trace-part-groups-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "tpgroupsd", "trace-part-groups-details",
 R"(Part groups with more details.
 This option implies '-tpgrps, -tracePartGroups'.)",
-          "tracePartGroupsDetails",
-          fTracePartGroupsDetails,
-          fTracePartGroups,
-          fTracePasses));
+        "tracePartGroupsDetails",
+        fTracePartGroupsDetails,
+        fTracePartGroups,
+        fTracePasses));
 
-    // parts
+  // parts
 
-    fTraceParts = boolOptionsInitialValue;
+  fTraceParts = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tparts", "trace-parts",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tparts", "trace-parts",
 R"(Parts)",
-          "traceParts",
-          fTraceParts,
-          fTracePasses));
+        "traceParts",
+        fTraceParts,
+        fTracePasses));
 
-    // staves
+  // staves
 
-    fTraceStaves = boolOptionsInitialValue;
+  fTraceStaves = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tstaves", "trace-staves",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tstaves", "trace-staves",
 R"(Staves)",
-          "traceStaves",
-          fTraceStaves,
-          fTracePasses));
+        "traceStaves",
+        fTraceStaves,
+        fTracePasses));
 
-    // voices
+  // voices
 
-    fTraceVoices = boolOptionsInitialValue;
-    fTraceVoicesDetails = boolOptionsInitialValue;
+  fTraceVoices = boolOptionsInitialValue;
+  fTraceVoicesDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tvoices", "trace-voices",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tvoices", "trace-voices",
 R"(Voices)",
-          "traceVoices",
-          fTraceVoices,
-          fTracePasses));
+        "traceVoices",
+        fTraceVoices,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "tvoicesd", "trace-voices-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "tvoicesd", "trace-voices-details",
 R"(Voices with more details (quite verbose)..
 This option implies '-tvdetails, -traceVoicesDetails'.)",
-          "traceVoicesDetails",
-          fTraceVoicesDetails,
-          fTraceVoices,
-          fTracePasses));
+        "traceVoicesDetails",
+        fTraceVoicesDetails,
+        fTraceVoices,
+        fTracePasses));
 
-    // measures
+  // measures
 
-    fTraceMeasures = boolOptionsInitialValue;
-    fTraceMeasuresDetails = boolOptionsInitialValue;
-    fTracePositionsInMeasures = boolOptionsInitialValue;
-    // fTraceDetailedMeasureNumbersSet is empty
+  fTraceMeasures = boolOptionsInitialValue;
+  fTraceMeasuresDetails = boolOptionsInitialValue;
+  fTracePositionsInMeasures = boolOptionsInitialValue;
+  // fTraceDetailedMeasureNumbersSet is empty
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tmeas", "trace-measures",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tmeas", "trace-measures",
 R"(Measures)",
-          "traceMeasures",
-          fTraceMeasures,
-          fTracePasses));
+        "traceMeasures",
+        fTraceMeasures,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "tmeasd", "trace-measures-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "tmeasd", "trace-measures-details",
 R"(Measures details)",
-          "traceMeasuresDetails",
-          fTraceMeasuresDetails,
-          fTraceMeasures,
-          fTracePasses));
+        "traceMeasuresDetails",
+        fTraceMeasuresDetails,
+        fTraceMeasures,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tpim", "trace-positions-in-measures",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tpim", "trace-positions-in-measures",
 R"(Positions in measures)",
-          "tracePositionsInMeasures",
-          fTracePositionsInMeasures,
-          fTracePasses));
+        "tracePositionsInMeasures",
+        fTracePositionsInMeasures,
+        fTracePasses));
 
-    // segments
+  // segments
 
-    fTraceSegments = boolOptionsInitialValue;
-    fTraceSegmentsDetails = boolOptionsInitialValue;
+  fTraceSegments = boolOptionsInitialValue;
+  fTraceSegmentsDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tsegs", "trace-segments",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tsegs", "trace-segments",
 R"(Voices segments)",
-          "traceSegments",
-          fTraceSegments,
-          fTracePasses));
+        "traceSegments",
+        fTraceSegments,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "tsegsd", "trace-segments-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "tsegsd", "trace-segments-details",
 R"(Voices segments details)",
-          "traceSegments",
-          fTraceSegmentsDetails,
-          fTraceSegments,
-          fTracePasses));
+        "traceSegments",
+        fTraceSegmentsDetails,
+        fTraceSegments,
+        fTracePasses));
 
-    // clefs
+  // clefs
 
-    fTraceClefs = boolOptionsInitialValue;
+  fTraceClefs = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tclefs", "trace-clefs",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tclefs", "trace-clefs",
 R"(Clefs)",
-          "traceClefs",
-          fTraceClefs,
-          fTracePasses));
+        "traceClefs",
+        fTraceClefs,
+        fTracePasses));
 
-    // keys
+  // keys
 
-    fTraceKeys  = boolOptionsInitialValue;
+  fTraceKeys  = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tkeys", "trace-keys",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tkeys", "trace-keys",
 R"(Keys)",
-          "traceKeys",
-          fTraceKeys,
-          fTracePasses));
+        "traceKeys",
+        fTraceKeys,
+        fTracePasses));
 
-    // times
+  // times
 
-    fTraceTimes = boolOptionsInitialValue;
+  fTraceTimes = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "ttimes", "trace-times",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "ttimes", "trace-times",
 R"(Times)",
-          "traceTimes",
-          fTraceTimes,
-          fTracePasses));
+        "traceTimes",
+        fTraceTimes,
+        fTracePasses));
 
-    // tempos
+  // tempos
 
-    fTraceTempos = boolOptionsInitialValue;
+  fTraceTempos = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "ttempos", "trace-tempos",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "ttempos", "trace-tempos",
 R"(Tempos)",
-          "traceTempos",
-          fTraceTempos,
-          fTracePasses));
+        "traceTempos",
+        fTraceTempos,
+        fTracePasses));
 
-    // rehearsals
+  // rehearsals
 
-    fTraceRehearsals = boolOptionsInitialValue;
+  fTraceRehearsals = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trehears", "trace-rehearsals",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trehears", "trace-rehearsals",
 R"(Rehearsals)",
-          "traceRehearsals",
-          fTraceRehearsals,
-          fTracePasses));
+        "traceRehearsals",
+        fTraceRehearsals,
+        fTracePasses));
 
-    // line breaks
+  // line breaks
 
-    fTraceLineBreaks = boolOptionsInitialValue;
+  fTraceLineBreaks = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tlbreaks", "trace-line-breaks",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tlbreaks", "trace-line-breaks",
 R"(Line breaks)",
-          "traceLineBreaks",
-          fTraceLineBreaks,
-          fTracePasses));
+        "traceLineBreaks",
+        fTraceLineBreaks,
+        fTracePasses));
 
-    // page breaks
+  // page breaks
 
-    fTracePageBreaks = boolOptionsInitialValue;
+  fTracePageBreaks = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tpbreaks", "trace-page-breaks",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tpbreaks", "trace-page-breaks",
 R"(Page breaks)",
-          "tracePageBreaks",
-          fTracePageBreaks,
-          fTracePasses));
+        "tracePageBreaks",
+        fTracePageBreaks,
+        fTracePasses));
 
-    // staff changes
+  // staff changes
 
-    fTraceStaffChanges = boolOptionsInitialValue;
+  fTraceStaffChanges = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tschanges", "trace-staff-changes",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tschanges", "trace-staff-changes",
 R"(Staff changes)",
-          "traceStaffChanges",
-          fTraceStaffChanges,
-          fTracePasses));
+        "traceStaffChanges",
+        fTraceStaffChanges,
+        fTracePasses));
 
-    // transpositions
+  // transpositions
 
-    fTraceTranspositions = boolOptionsInitialValue;
+  fTraceTranspositions = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "ttransps", "trace-transpositions",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "ttransps", "trace-transpositions",
 R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
-          "traceTranspositions",
-          fTraceTranspositions,
-          fTracePasses));
+        "traceTranspositions",
+        fTraceTranspositions,
+        fTracePasses));
 
-    // octave shifts
+  // octave shifts
 
-    fTraceOctaveShifts = boolOptionsInitialValue;
+  fTraceOctaveShifts = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "toshifts", "trace-octaves-shifts",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "toshifts", "trace-octaves-shifts",
 R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
-          "traceOctaveShifts",
-          fTraceOctaveShifts,
-          fTracePasses));
+        "traceOctaveShifts",
+        fTraceOctaveShifts,
+        fTracePasses));
 
-    // barlines
+  // barlines
 
-    fTraceBarLines = boolOptionsInitialValue;
-    fTraceBarLinesDetails = boolOptionsInitialValue;
+  fTraceBarLines = boolOptionsInitialValue;
+  fTraceBarLinesDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tblines", "trace-barlines",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tblines", "trace-barlines",
 R"(Barlines)",
-          "traceBarlines",
-          fTraceBarLines,
-          fTracePasses));
+        "traceBarlines",
+        fTraceBarLines,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "tbarlinesd", "trace-barlines-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "tbarlinesd", "trace-barlines-details",
 R"(Barlines details)",
-          "traceBarlinesDetails",
-          fTraceBarLinesDetails,
-          fTraceBarLines,
-          fTracePasses));
+        "traceBarlinesDetails",
+        fTraceBarLinesDetails,
+        fTraceBarLines,
+        fTracePasses));
 
-    // repeats
+  // repeats
 
-    fTraceRepeats = boolOptionsInitialValue;
-    fTraceRepeatsDetails = boolOptionsInitialValue;
+  fTraceRepeats = boolOptionsInitialValue;
+  fTraceRepeatsDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "treps", "trace-repeats",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "treps", "trace-repeats",
 R"(Repeats)",
-          "traceRepeats",
-          fTraceRepeats,
-          fTracePasses));
+        "traceRepeats",
+        fTraceRepeats,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "trepsd", "trace-repeats-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "trepsd", "trace-repeats-details",
 R"(Repeats details)",
-          "traceRepeats",
-          fTraceRepeatsDetails,
-          fTraceRepeats,
-          fTracePasses));
+        "traceRepeats",
+        fTraceRepeatsDetails,
+        fTraceRepeats,
+        fTracePasses));
 
-    // measures repeats
+  // measures repeats
 
-    fTraceMeasuresRepeats = boolOptionsInitialValue;
+  fTraceMeasuresRepeats = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tmreps", "trace-measures-repeats",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tmreps", "trace-measures-repeats",
 R"(Measures repeats)",
-          "traceMeasureRepeats",
-          fTraceMeasuresRepeats,
-          fTracePasses));
+        "traceMeasureRepeats",
+        fTraceMeasuresRepeats,
+        fTracePasses));
 
-    // rest measures
+  // rest measures
 
-    fTraceRestMeasures = boolOptionsInitialValue;
+  fTraceRestMeasures = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trmeas", "trace-rest-measures",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trmeas", "trace-rest-measures",
 R"(Multiple rests)",
-          "traceRestMeasures",
-          fTraceRestMeasures,
-          fTracePasses));
+        "traceRestMeasures",
+        fTraceRestMeasures,
+        fTracePasses));
 
-    // slashes
+  // slashes
 
-    fTraceSlashes = boolOptionsInitialValue;
+  fTraceSlashes = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tslashes", "trace-slashes",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tslashes", "trace-slashes",
 R"(Slashes)",
-          "traceSlashes",
-          fTraceSlashes,
-          fTracePasses));
+        "traceSlashes",
+        fTraceSlashes,
+        fTracePasses));
 
-    // notes
+  // notes
 
 
-    fTraceNotes = boolOptionsInitialValue;
+  fTraceNotes = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tnotes", "trace-notes",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tnotes", "trace-notes",
 R"(Notes)",
-          "traceNotes",
-          fTraceNotes,
-          fTracePasses));
+        "traceNotes",
+        fTraceNotes,
+        fTracePasses));
 
-    fTraceNotesDetails = boolOptionsInitialValue;
+  fTraceNotesDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "tnotesd", "trace-notes-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "tnotesd", "trace-notes-details",
 R"(Notes with more details, including divisions handling (quite verbose)...
 This option implies '-tnnotes, -traceNotes'.)",
-          "traceNotesDetails",
-          fTraceNotesDetails,
-          fTraceNotes,
-          fTracePasses));
+        "traceNotesDetails",
+        fTraceNotesDetails,
+        fTraceNotes,
+        fTracePasses));
 
-    fTraceWholeNotes = boolOptionsInitialValue;
+  fTraceWholeNotes = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "twn", "trace-whole-notes",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "twn", "trace-whole-notes",
 R"(Whole notes computations (quite verbose)...)",
-          "traceWholeNotes",
-          fTraceWholeNotes,
-          fTracePasses));
+        "traceWholeNotes",
+        fTraceWholeNotes,
+        fTracePasses));
 
-    fTraceRestNotes = boolOptionsInitialValue;
+  fTraceRestNotes = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trn", "trace-rest-notes",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trn", "trace-rest-notes",
 R"(Rest notes)",
-          "traceRestNotes",
-          fTraceRestNotes,
-          fTracePasses));
+        "traceRestNotes",
+        fTraceRestNotes,
+        fTracePasses));
 
-    fTraceSkipNotes = boolOptionsInitialValue;
+  fTraceSkipNotes = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tsn", "trace-skip-notes",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tsn", "trace-skip-notes",
 R"(Skip notes)",
-          "traceSkipNotes",
-          fTraceSkipNotes,
-          fTracePasses));
+        "traceSkipNotes",
+        fTraceSkipNotes,
+        fTracePasses));
 
-    fTraceNotesOctaveEntry = boolOptionsInitialValue;
+  fTraceNotesOctaveEntry = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tnoe", "trace-notes-octave-entry",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tnoe", "trace-notes-octave-entry",
 R"(Notes octave entry)",
-          "traceNotesOctaveEntry",
-          fTraceNotesOctaveEntry,
-          fTracePasses));
+        "traceNotesOctaveEntry",
+        fTraceNotesOctaveEntry,
+        fTracePasses));
 
-    // stems
+  // stems
 
-    fTraceStems = boolOptionsInitialValue;
+  fTraceStems = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tstems", "trace-stems",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tstems", "trace-stems",
 R"(Stems)",
-          "traceStems",
-          fTraceStems,
-          fTracePasses));
+        "traceStems",
+        fTraceStems,
+        fTracePasses));
 
-    // beams
+  // beams
 
-    fTraceBeams = boolOptionsInitialValue;
+  fTraceBeams = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tbeams", "trace-beams",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tbeams", "trace-beams",
 R"(Beams)",
-          "traceBeams",
-          fTraceBeams,
-          fTracePasses));
+        "traceBeams",
+        fTraceBeams,
+        fTracePasses));
 
-    // articulations
+  // articulations
 
-    fTraceArticulations = boolOptionsInitialValue;
+  fTraceArticulations = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tarts", "trace-articulations",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tarts", "trace-articulations",
 R"(Articulations)",
-          "traceArticulations",
-          fTraceArticulations,
-          fTracePasses));
+        "traceArticulations",
+        fTraceArticulations,
+        fTracePasses));
 
-    // technicals
+  // technicals
 
-    fTraceTechnicals = boolOptionsInitialValue;
+  fTraceTechnicals = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "ttechs", "trace-technicals",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "ttechs", "trace-technicals",
 R"(Technicals)",
-          "traceTechnicals",
-          fTraceTechnicals,
-          fTracePasses));
+        "traceTechnicals",
+        fTraceTechnicals,
+        fTracePasses));
 
-    // ornaments
+  // ornaments
 
-    fTraceOrnaments = boolOptionsInitialValue;
+  fTraceOrnaments = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "torns", "trace-ornaments",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "torns", "trace-ornaments",
 R"(Ornaments)",
-          "traceOrnaments",
-          fTraceOrnaments,
-          fTracePasses));
+        "traceOrnaments",
+        fTraceOrnaments,
+        fTracePasses));
 
-    // dynamics
+  // dynamics
 
-    fTraceDynamics = boolOptionsInitialValue;
+  fTraceDynamics = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tdyns", "trace-dynamics",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tdyns", "trace-dynamics",
 R"(Dynamics)",
-          "traceDynamics",
-          fTraceDynamics,
-          fTracePasses));
+        "traceDynamics",
+        fTraceDynamics,
+        fTracePasses));
 
-    // spanners
+  // spanners
 
-    fTraceSpanners = boolOptionsInitialValue;
+  fTraceSpanners = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tspans", "trace-spanners",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tspans", "trace-spanners",
 R"(Spanners)",
-          "traceSpanners",
-          fTraceSpanners,
-          fTracePasses));
+        "traceSpanners",
+        fTraceSpanners,
+        fTracePasses));
 
-    // words
+  // words
 
-    fTraceWords = boolOptionsInitialValue;
+  fTraceWords = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "twords", "trace-words",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "twords", "trace-words",
 R"(Words)",
-          "traceWords",
-          fTraceWords,
-          fTracePasses));
+        "traceWords",
+        fTraceWords,
+        fTracePasses));
 
-    // tremolos
+  // tremolos
 
-    fTraceTremolos = boolOptionsInitialValue;
+  fTraceTremolos = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "ttrems", "trace-tremolos",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "ttrems", "trace-tremolos",
 R"(Tremolos)",
-          "traceTremolos",
-          fTraceTremolos,
-          fTracePasses));
+        "traceTremolos",
+        fTraceTremolos,
+        fTracePasses));
 
-    // chords
+  // chords
 
-    fTraceChords = boolOptionsInitialValue;
-    fTraceChordsDetails = boolOptionsInitialValue;
+  fTraceChords = boolOptionsInitialValue;
+  fTraceChordsDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tchords", "trace-chords",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tchords", "trace-chords",
 R"(Chords)",
-          "traceChords",
-          fTraceChords,
-          fTracePasses));
+        "traceChords",
+        fTraceChords,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "tchordsd", "trace-chords-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "tchordsd", "trace-chords-details",
 R"(Chords details)",
-          "traceChordsDetails",
-          fTraceChordsDetails,
-          fTraceChords,
-          fTracePasses));
+        "traceChordsDetails",
+        fTraceChordsDetails,
+        fTraceChords,
+        fTracePasses));
 
-    // tuplets
+  // tuplets
 
-    fTraceTuplets = boolOptionsInitialValue;
-    fTraceTupletsDetails = boolOptionsInitialValue;
+  fTraceTuplets = boolOptionsInitialValue;
+  fTraceTupletsDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "ttups", "trace-tuplets",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "ttups", "trace-tuplets",
 R"(Tuplets)",
-          "traceTuplets",
-          fTraceTuplets,
-          fTracePasses));
+        "traceTuplets",
+        fTraceTuplets,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "ttupsd", "trace-tuplets-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "ttupsd", "trace-tuplets-details",
 R"(Tuplets details)",
-          "traceTupletsDetails",
-          fTraceTupletsDetails,
-          fTraceTuplets,
-          fTracePasses));
+        "traceTupletsDetails",
+        fTraceTupletsDetails,
+        fTraceTuplets,
+        fTracePasses));
 
-    // glissandos
+  // glissandos
 
-    fTraceGlissandos = boolOptionsInitialValue;
+  fTraceGlissandos = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tgliss", "trace-glissandos",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tgliss", "trace-glissandos",
 R"(Glissandos)",
-          "traceGlissandos",
-          fTraceGlissandos,
-          fTracePasses));
+        "traceGlissandos",
+        fTraceGlissandos,
+        fTracePasses));
 
-    // eyeglasses
+  // eyeglasses
 
-    fTraceEyeGlasses = boolOptionsInitialValue;
+  fTraceEyeGlasses = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "teyes", "trace-eyeglasses",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "teyes", "trace-eyeglasses",
 R"(Eyeglasses)",
-          "traceEyeGlasses",
-          fTraceEyeGlasses,
-          fTracePasses));
+        "traceEyeGlasses",
+        fTraceEyeGlasses,
+        fTracePasses));
 
-    // damps
+  // damps
 
-    fTraceDamps = boolOptionsInitialValue;
+  fTraceDamps = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tdamps", "trace-damps",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tdamps", "trace-damps",
 R"(Damps)",
-          "traceDamps",
-          fTraceDamps,
-          fTracePasses));
+        "traceDamps",
+        fTraceDamps,
+        fTracePasses));
 
-    // dampalls
+  // dampalls
 
-    fTraceDampAlls = boolOptionsInitialValue;
+  fTraceDampAlls = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tdampalls", "trace-dampalls",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tdampalls", "trace-dampalls",
 R"(Dampalls)",
-          "traceDampAlls",
-          fTraceDampAlls,
-          fTracePasses));
+        "traceDampAlls",
+        fTraceDampAlls,
+        fTracePasses));
 
-    // slides
+  // slides
 
-    fTraceSlides = boolOptionsInitialValue;
+  fTraceSlides = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tslides", "trace-slides",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tslides", "trace-slides",
 R"(Slides)",
-          "traceSlides",
-          fTraceSlides,
-          fTracePasses));
+        "traceSlides",
+        fTraceSlides,
+        fTracePasses));
 
-    // grace notes
+  // grace notes
 
-    fTraceGraceNotes = boolOptionsInitialValue;
+  fTraceGraceNotes = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tgraces", "trace-gracenotes",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tgraces", "trace-gracenotes",
 R"(Grace notes)",
-          "traceGraceNotes",
-          fTraceGraceNotes,
-          fTracePasses));
+        "traceGraceNotes",
+        fTraceGraceNotes,
+        fTracePasses));
 
-    // lyrics
+  // lyrics
 
-    fTraceLyrics        = boolOptionsInitialValue;
-    fTraceLyricsDetails = boolOptionsInitialValue;
+  fTraceLyrics        = boolOptionsInitialValue;
+  fTraceLyricsDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tlyrics", "trace-lyrics",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tlyrics", "trace-lyrics",
 R"(Lyrics in MusicXML, stanzas in MSR)",
-          "traceLyrics",
-          fTraceLyrics,
-          fTracePasses));
+        "traceLyrics",
+        fTraceLyrics,
+        fTracePasses));
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tlyricsd", "trace-lyrics-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tlyricsd", "trace-lyrics-details",
 R"(Lyrics in MusicXML, stanzas in MSR)",
-          "traceLyricsDetails",
-          fTraceLyricsDetails,
-          fTracePasses));
+        "traceLyricsDetails",
+        fTraceLyricsDetails,
+        fTracePasses));
 
-    // harmonies
+  // harmonies
 
-    fTraceHarmonies = boolOptionsInitialValue;
+  fTraceHarmonies = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tharms", "trace-harmonies",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tharms", "trace-harmonies",
 R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
-          "traceHarmonies",
-          fTraceHarmonies,
-          fTracePasses));
+        "traceHarmonies",
+        fTraceHarmonies,
+        fTracePasses));
 
-    // frames
+  // frames
 
-    fTraceFrames = boolOptionsInitialValue;
+  fTraceFrames = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tframes", "trace-frames",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tframes", "trace-frames",
 R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
-          "traceFrames",
-          fTraceFrames,
-          fTracePasses));
+        "traceFrames",
+        fTraceFrames,
+        fTracePasses));
 
-    // figured basses
+  // figured basses
 
-    fTraceFiguredBasses = boolOptionsInitialValue;
+  fTraceFiguredBasses = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tfigbass", "trace-figured-basses",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tfigbass", "trace-figured-basses",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
-          "traceFiguredBasses",
-          fTraceFiguredBasses,
-          fTracePasses));
+        "traceFiguredBasses",
+        fTraceFiguredBasses,
+        fTracePasses));
 
-    // ties
+  // ties
 
-    fTraceTies = boolOptionsInitialValue;
+  fTraceTies = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tties", "trace-ties",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tties", "trace-ties",
 R"(Ties)",
-          "traceTies",
-          fTraceTies,
-          fTracePasses));
+        "traceTies",
+        fTraceTies,
+        fTracePasses));
 
-    // slurs
+  // slurs
 
-    fTraceSlurs = boolOptionsInitialValue;
+  fTraceSlurs = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tslurs", "trace-slurs",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tslurs", "trace-slurs",
 R"(Slurs)",
-          "traceSlurs",
-          fTraceSlurs,
-          fTracePasses));
+        "traceSlurs",
+        fTraceSlurs,
+        fTracePasses));
 
-    // ligatures
+  // ligatures
 
-    fTraceLigatures = boolOptionsInitialValue;
+  fTraceLigatures = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tligs", "traceLigatures",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tligs", "traceLigatures",
 R"(Ligatures)",
-          "traceLigatures",
-          fTraceLigatures,
-          fTracePasses));
+        "traceLigatures",
+        fTraceLigatures,
+        fTracePasses));
 
-    // pedals
+  // pedals
 
-    fTracePedals = boolOptionsInitialValue;
+  fTracePedals = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tpedals", "trace-pedals",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tpedals", "trace-pedals",
 R"(Pedals)",
-          "tracePedals",
-          fTracePedals,
-          fTracePasses));
+        "tracePedals",
+        fTracePedals,
+        fTracePasses));
 
-    // wedges
+  // wedges
 
-    fTraceWedges = boolOptionsInitialValue;
+  fTraceWedges = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "twedges", "trace-wedges",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "twedges", "trace-wedges",
 R"(Wedges)",
-          "traceWedges",
-          fTraceWedges,
-          fTracePasses));
+        "traceWedges",
+        fTraceWedges,
+        fTracePasses));
 
-    // staff details
+  // staff details
 
-    fTraceStaffDetails = boolOptionsInitialValue;
+  fTraceStaffDetails = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tst", "trace-staff-details",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tst", "trace-staff-details",
 R"(Staff details)",
-          "traceStaffDetails",
-          fTraceStaffDetails,
-          fTracePasses));
+        "traceStaffDetails",
+        fTraceStaffDetails,
+        fTracePasses));
 
-    // scordaturas
+  // scordaturas
 
-    fTraceScordaturas = boolOptionsInitialValue;
+  fTraceScordaturas = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trace-scordaturas", "",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trace-scordaturas", "",
 R"(Scordaturas)",
-          "traceScordaturas",
-          fTraceScordaturas,
-          fTracePasses));
+        "traceScordaturas",
+        fTraceScordaturas,
+        fTracePasses));
 
-    // segnos
+  // segnos
 
-    fTraceSegnos = boolOptionsInitialValue;
+  fTraceSegnos = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trace-segnos", "",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trace-segnos", "",
 R"(Segnos)",
-          "traceSegnos",
-          fTraceSegnos,
-          fTracePasses));
+        "traceSegnos",
+        fTraceSegnos,
+        fTracePasses));
 
-    // codas
+  // codas
 
-    fTraceCodas = boolOptionsInitialValue;
+  fTraceCodas = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trace-codas", "",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trace-codas", "",
 R"(Codas)",
-          "traceCodas",
-          fTraceCodas,
-          fTracePasses));
+        "traceCodas",
+        fTraceCodas,
+        fTracePasses));
 
-    // accordion registrations
+  // accordion registrations
 
-    fTraceAccordionRegistrations = boolOptionsInitialValue;
+  fTraceAccordionRegistrations = boolOptionsInitialValue;
 
-    // accordion registrations
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trace-accordion-registrations", "",
+  // accordion registrations
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trace-accordion-registrations", "",
 R"(Accordion registrations)",
-          "traceAccordionRegistrations",
-          fTraceAccordionRegistrations,
-          fTracePasses));
+        "traceAccordionRegistrations",
+        fTraceAccordionRegistrations,
+        fTracePasses));
 
-    // harp pedals
+  // harp pedals
 
-    fTraceHarpPedals = boolOptionsInitialValue;
+  fTraceHarpPedals = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "trace-harp-pedals", "",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "trace-harp-pedals", "",
 R"(Harp pedals)",
-          "traceHarpPedals",
-          fTraceHarpPedals,
-          fTracePasses));
+        "traceHarpPedals",
+        fTraceHarpPedals,
+        fTracePasses));
 
-    // harp pedals tuning
+  // harp pedals tuning
 
-    fTraceHarpPedalsTunings = boolOptionsInitialValue;
+  fTraceHarpPedalsTunings = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "thpt", "traceHarpPedalsTunings",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "thpt", "traceHarpPedalsTunings",
 R"(Harp pedals tuning)",
-          "traceHarpPedalsTunings",
-          fTraceHarpPedalsTunings,
-          fTracePasses));
+        "traceHarpPedalsTunings",
+        fTraceHarpPedalsTunings,
+        fTracePasses));
 
-    // extra chords
+  // extra chords
 
-    fTraceExtraChords = boolOptionsInitialValue;
+  fTraceExtraChords = boolOptionsInitialValue;
 
-    lowLevelTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tec", "trace-extra-chords",
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tec", "trace-extra-chords",
 R"(Extra chords handling)",
-          "traceExtraChords",
-          fTraceExtraChords,
-          fTracePasses));
+        "traceExtraChords",
+        fTraceExtraChords,
+        fTracePasses));
 
 /* JMI
-    // MSR streams
+  // MSR streams
 
-    fTraceMsrStreams = boolOptionsInitialValue;
+  fTraceMsrStreams = boolOptionsInitialValue;
+
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tms", "traceMsrStreams",
+R"(MSR Streams API for applications)",
+        "traceMsrStreams",
+        fTraceMsrStreams,
+        fTracePasses));
+*/
+
+  // MIDI
+
+  fTraceMidi = boolOptionsInitialValue;
 
     lowLevelTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tms", "traceMsrStreams",
-R"(MSR Streams API for applications)",
-          "traceMsrStreams",
-          fTraceMsrStreams,
+          "midi", "trace-midi",
+R"(MIDI)",
+          "traceMidi",
+          fTraceMidi,
           fTracePasses));
-*/
+}
 
-    // MIDI
+void traceOptions::initializeTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  // options handling
+  initializeOptionsHandlingTraceOptions (
+    boolOptionsInitialValue);
 
-    fTraceMidi = boolOptionsInitialValue;
-
-      lowLevelTraceSubGroup->
-        appendOptionsItem (
-          optionsTwoBooleansItem::create (
-            "midi", "trace-midi",
-  R"(MIDI)",
-            "traceMidi",
-            fTraceMidi,
-            fTracePasses));
-  }
+  // low level trace
+  initializeLowLevelTraceOptions (
+    boolOptionsInitialValue);
 }
 
 S_traceOptions traceOptions::createCloneWithTrueValues ()

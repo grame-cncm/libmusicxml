@@ -1096,10 +1096,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 {
-#ifdef TRACE_OPTIONS
   int inputLineNumber =
     elt->getInputLineNumber ();
-#endif
 
   string
     partCombinedName =
@@ -1844,7 +1842,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
         skip =
           msrNote::createSkipNote (
             elt->                getInputLineNumber (),
-            "9999", // JMI elt->                getHarmonyMeasureNumber (),
+            "666", // JMI elt->                getHarmonyMeasureNumber (),
             elt->                getHarmonyDisplayWholeNotes (), // would be 0/1 otherwise JMI
             elt->                getHarmonyDisplayWholeNotes (),
             0, // JMI elt->                getHarmonyDotsNumber (),

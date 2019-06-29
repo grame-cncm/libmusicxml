@@ -4334,12 +4334,14 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors || gMusicXMLOptions->fTraceBackup) {
     fLogOutputStream <<
       "--> Start visiting S_backup" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
 /* JMI
   // handle the pending tuplets if any
@@ -4355,12 +4357,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors || gMusicXMLOptions->fTraceBackup) {
     fLogOutputStream <<
       "--> End visiting S_backup" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceBackup) {
@@ -4633,7 +4637,7 @@ void mxmlTree2MsrTranslator::displayTupletsStack (
   fLogOutputStream <<
     endl <<
     ">>++++++++++++++++ " <<
-    "The tuplets starts stack contains " << tupletsStackSize << " elements:" <<
+    "The tuplets stack contains " << tupletsStackSize << " elements:" <<
     endl;
 
   if (tupletsStackSize) {
@@ -4641,6 +4645,8 @@ void mxmlTree2MsrTranslator::displayTupletsStack (
       iBegin = fTupletsStack.begin (),
       iEnd   = fTupletsStack.end (),
       i      = iBegin;
+
+    S_msrTuplet tuplet = (*i);
 
     gIndenter++;
 
@@ -4651,7 +4657,7 @@ void mxmlTree2MsrTranslator::displayTupletsStack (
         endl;
 
       gIndenter++;
-      (*i)->printShort (fLogOutputStream);
+      tuplet->printShort (fLogOutputStream);
       gIndenter--;
 
       n--;
@@ -14657,6 +14663,13 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   }
 #endif
 
+  // set tuplet's tuplet uplink
+  if (fTupletsStack.size ()) {
+    tuplet->
+      setTupletTupletUpLink (
+        fTupletsStack.front ());
+  }
+
   // register tuplet in this visitor
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
@@ -14801,9 +14814,9 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
-        "=== adding top level tuplet '" <<
+        "Appending top level tuplet " <<
       tuplet->asString () <<
-      "' to voice \"" <<
+      " to voice \"" <<
       currentVoice->getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber <<
@@ -14814,10 +14827,12 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
     currentVoice->
       appendTupletToVoice (tuplet);
 
+/* JMI
     // finalize the tuplet
     tuplet->
       finalizeTuplet (
         inputLineNumber);
+*/
 
  // JMI BAD HERE   // the tuplet stop is not to be handled later
  //   fCurrentATupletStopIsPending = false;
@@ -17466,10 +17481,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     if (fOnGoingChord) {
       // newNote is the first note after the chord in the current voice
 
+/* JMI
       // finalize the current chord
       fCurrentChord->
         finalizeChord (
           inputLineNumber);
+*/
 
       // forget about the current chord
       fCurrentChord = nullptr;
@@ -17577,9 +17594,9 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     */
 
     // set the harmony's sounding whole notes
-      harmony->
-        setHarmonySoundingWholeNotes (
-          newNoteSoundingWholeNotes);
+    harmony->
+      setHarmonySoundingWholeNotes (
+        newNoteSoundingWholeNotes);
 
     // set the harmony's display whole notes
     harmony->

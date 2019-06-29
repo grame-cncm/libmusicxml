@@ -261,13 +261,6 @@ bsrOptions::~bsrOptions ()
 void bsrOptions::initializeBsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fDisplayBsr           = boolOptionsInitialValue;
-  fDisplayBsrDetails    = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     traceAndDisplaySubGroup =
       optionsSubGroup::create (
@@ -279,6 +272,10 @@ R"()",
 
   appendOptionsSubGroup (traceAndDisplaySubGroup);
 
+  // BSR
+
+  fDisplayBsr = boolOptionsInitialValue;
+
   traceAndDisplaySubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
@@ -286,7 +283,11 @@ R"()",
 R"(Write the contents of the BSR data to standard error.)",
         "displayBsr",
         fDisplayBsr,
-        gTraceOptions->fTracePasses));
+        gBsrOptions->fDisplayBsr));
+
+  // BSR details
+
+  fDisplayBsrDetails = boolOptionsInitialValue;
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
@@ -295,13 +296,24 @@ R"(Write the contents of the BSR data to standard error.)",
 R"(Write the contents of the BSR data with more details to standard error.)",
         "displayBsrDetails",
         fDisplayBsrDetails,
-        gTraceOptions->fTracePasses));
+        gBsrOptions->fDisplayBsrDetails));
 }
 
 void bsrOptions::initializeBsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
+  S_optionsSubGroup
+    languagesSubGroup =
+      optionsSubGroup::create (
+        "Languages",
+        "hbsrl", "help-bsr-languages",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (languagesSubGroup);
+
+  // texts language
 
   if (! setBsrTextsLanguage ("english")) {
     stringstream s;
@@ -328,19 +340,6 @@ void bsrOptions::initializeBsrLanguagesOptions (
   const bsrTextsLanguageKind
     bsrTextsLanguageKindDefaultValue =
       fBsrTextsLanguageKind;
-
-  // options
-
-  S_optionsSubGroup
-    languagesSubGroup =
-      optionsSubGroup::create (
-        "Languages",
-        "hbsrl", "help-bsr-languages",
-R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
-
-  appendOptionsSubGroup (languagesSubGroup);
 
   languagesSubGroup->
     appendOptionsItem (
@@ -370,18 +369,6 @@ The default is 'DEFAULT_VALUE'.)",
 void bsrOptions::initializeBsrMiscellaneousOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fNoBrailleLyrics      = boolOptionsInitialValue;
-
-  fBrailleCompileDate   = boolOptionsInitialValue;
-
-  fFacSimileKind        = kFacSimileNo;
-
-  fIncludeClefs         = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     miscellaneousGenerationSubGroup =
       optionsSubGroup::create (
@@ -393,6 +380,10 @@ R"()",
 
   appendOptionsSubGroup (miscellaneousGenerationSubGroup);
 
+  // braille lyrics
+
+  fNoBrailleLyrics      = boolOptionsInitialValue;
+
   miscellaneousGenerationSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -400,6 +391,10 @@ R"()",
 R"(Don't generate any lyrics in the Braille code.)",
         "noBrailleLyrics",
         fNoBrailleLyrics));
+
+  // braille compile date
+
+  fBrailleCompileDate   = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
     appendOptionsItem (
@@ -410,6 +405,10 @@ when Braille creates the score.)",
         "brailleCompileDate",
         fBrailleCompileDate));
 
+  // facsimile
+
+  fFacSimileKind        = kFacSimileNo;
+
   miscellaneousGenerationSubGroup->
     appendOptionsItem (
       optionsFacSimileKindItem::create (
@@ -419,6 +418,10 @@ By default, non-facsimile code is generated.)",
         "YES_OR_NO",
         "facSimileKind",
         fFacSimileKind));
+
+  // clefs
+
+  fIncludeClefs         = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
     appendOptionsItem (
@@ -432,13 +435,6 @@ R"(Include clefs in BSR. By default, they are not.)",
 void bsrOptions::initializeBsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fExit3a = boolOptionsInitialValue;
-  fExit3b = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     exitAfterSomePassesSubGroup =
       optionsSubGroup::create (
@@ -451,6 +447,9 @@ R"()",
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
 
   // '-exit-3a' is hidden...
+
+  fExit3a = boolOptionsInitialValue;
+
   S_optionsBooleanItem
     exit2aOptionsBooleanItem =
       optionsBooleanItem::create (
@@ -468,7 +467,10 @@ of the MSR to the first BSR score.)",
     appendOptionsItem (
       exit2aOptionsBooleanItem);
 
-  // '-exit-3b' is hidden...
+  // '-exit-3b' is hidden... JMI ???
+
+  fExit3b = boolOptionsInitialValue;
+
   S_optionsBooleanItem
     exit2bOptionsBooleanItem =
       optionsBooleanItem::create (
@@ -491,21 +493,6 @@ of the first BSR to the second BSR.)",
 void bsrOptions::initializeBsrTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fTraceBsr             = boolOptionsInitialValue;
-
-  fTracePages           = boolOptionsInitialValue;
-
-  fTraceLines           = boolOptionsInitialValue;
-
-  fTraceSpaces          = boolOptionsInitialValue;
-  fTraceNumbers         = boolOptionsInitialValue;
-
-  fTraceParallels       = boolOptionsInitialValue;
-
-  fTraceBsrVisitors     = boolOptionsInitialValue;
-
   S_optionsSubGroup
     traceSubGroup =
       optionsSubGroup::create (
@@ -518,6 +505,10 @@ R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
 
   appendOptionsSubGroup (traceSubGroup);
 
+  // BSR
+
+  fTraceBsr = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -525,6 +516,10 @@ R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
 R"(Write a trace of the BSR graphs visiting activity to standard error.)",
         "traceBsr",
         fTraceBsr));
+
+  // pages
+
+  fTracePages = boolOptionsInitialValue;
 
   traceSubGroup->
     appendOptionsItem (
@@ -535,6 +530,10 @@ R"()",
         fTracePages,
         gTraceOptions->fTracePasses));
 
+  // lines
+
+  fTraceLines = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -542,6 +541,10 @@ R"()",
 R"()",
         "traceLines",
         fTraceLines));
+
+  // spaces
+
+  fTraceSpaces = boolOptionsInitialValue;
 
   traceSubGroup->
     appendOptionsItem (
@@ -551,6 +554,10 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
         "traceSpaces",
         fTraceSpaces));
 
+  // numbers
+
+  fTraceNumbers = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -558,6 +565,11 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
 R"(Write a trace of the BSR numbers activity to standard error.)",
         "traceNumbers",
         fTraceNumbers));
+
+  // parallels
+
+  fTraceParallels = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
@@ -566,6 +578,10 @@ R"()",
         "traceParallels",
         fTraceParallels,
         gTraceOptions->fTracePasses));
+
+  // BSR visitors
+
+  fTraceBsrVisitors     = boolOptionsInitialValue;
 
   traceSubGroup->
     appendOptionsItem (

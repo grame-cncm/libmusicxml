@@ -369,8 +369,10 @@ msrFiguredBass::msrFiguredBass (
     figuredBassPartUpLink;
     */
 
-  fFiguredBassSoundingWholeNotes =
-    figuredBassSoundingWholeNotes;
+// JMI  fFiguredBassSoundingWholeNotes =
+// JMI    figuredBassSoundingWholeNotes;
+  fSoundingWholeNotes =
+    fSoundingWholeNotes;
   fFiguredBassDisplayWholeNotes =
     figuredBassDisplayWholeNotes;
 
@@ -414,7 +416,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
       msrFiguredBass::create (
         fInputLineNumber,
  //       containingPart,
-        fFiguredBassSoundingWholeNotes,
+// JMI        fFiguredBassSoundingWholeNotes,
+        fSoundingWholeNotes,
         fFiguredBassDisplayWholeNotes,
         fFiguredBassParenthesesKind,
         fFiguredBassTupletFactor);
@@ -447,7 +450,8 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
       msrFiguredBass::create (
         fInputLineNumber,
    //     containingPart,
-        fFiguredBassSoundingWholeNotes,
+// JMI        fFiguredBassSoundingWholeNotes,
+        fSoundingWholeNotes,
         fFiguredBassDisplayWholeNotes,
         fFiguredBassParenthesesKind,
         fFiguredBassTupletFactor);
@@ -555,7 +559,8 @@ string msrFiguredBass::asString () const
     ", figuredBassSoundingWholeNotes" <<
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fFiguredBassSoundingWholeNotes) <<
+// JMI      fFiguredBassSoundingWholeNotes) <<
+      fSoundingWholeNotes) <<
     ", figuredBassDisplayWholeNotes" <<
     wholeNotesAsMsrString (
       fInputLineNumber,
@@ -627,7 +632,8 @@ void msrFiguredBass::print (ostream& os)
     endl <<
 
     "figuredBassSoundingWholeNotes" << " : " <<
-    fFiguredBassSoundingWholeNotes <<
+ // JMI   fFiguredBassSoundingWholeNotes <<
+    fSoundingWholeNotes <<
     endl <<
     "figuredBassDisplayWholeNotes" << " : " <<
     fFiguredBassDisplayWholeNotes <<

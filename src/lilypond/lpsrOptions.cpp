@@ -524,12 +524,11 @@ R"()",
 
   displaySubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      optionsBooleanItem::create (
         "dlpsr", "display-lpsr",
 R"(Write the contents of the LPSR data to standard error.)",
         "displayLpsr",
-        fDisplayLpsr,
-        gTraceOptions->fTracePasses));
+        fDisplayLpsr));
 }
 
 void lpsrOptions::initializeLilypondScoreOutputOptions (

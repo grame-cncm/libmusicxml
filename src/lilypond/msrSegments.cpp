@@ -541,11 +541,8 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->asString () <<
-      "' to segment " << asString () <<
-      "' in voice \"" <<
-      fSegmentVoiceUpLink->getVoiceName () <<
-      "\"" <<
+      "Appending harmony " << harmony->asString () <<
+      " to segment " << asString () <<
       endl;
   }
 #endif
@@ -1239,7 +1236,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   gIndenter--;
 }
 
-void msrSegment::padUpToActualMeasureWholeNotesInSegment (
+void msrSegment::padUpToCurrentMeasureWholeNotesInSegment (
   int      inputLineNumber,
   rational wholeNotes)
 {
@@ -1252,7 +1249,7 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
     gMusicXMLOptions->fTraceBackup
   ) {
     gLogIOstream <<
-      "Padding up to actual whole notes '" << wholeNotes <<
+      "Padding up to current whole notes '" << wholeNotes <<
       "' in segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -1305,7 +1302,7 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
     // pad last measure up to to this actual wholes notes
     fSegmentMeasuresList.back ()->
-      padUpToActualMeasureWholeNotesInMeasure (
+      padUpToCurrentMeasureWholeNotesInMeasure (
         inputLineNumber,
         wholeNotes);
   }
@@ -2098,13 +2095,15 @@ string msrSegment::asShortString () const
   stringstream s;
 
   s <<
-   "Segment '" <<
+    "[" <<
+    "Segment '" <<
     fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
       fSegmentDebugNumber <<
     "', voice: \"" <<
     fSegmentVoiceUpLink->getVoiceName () <<
-    "\"";
+    "\"" <<
+    "]";
 
   return s.str ();
 }
@@ -2114,6 +2113,7 @@ string msrSegment::asString () const
   stringstream s;
 
   s <<
+    "[" <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -2146,6 +2146,8 @@ string msrSegment::asString () const
 
     s << "]";
   }
+
+  s << "]";
 
   return s.str ();
 }
@@ -2308,7 +2310,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
     switch (lastMeasureCreatedForARepeatKind) {
       case msrMeasure::kMeasureCreatedForARepeatNo:
         // is the last measure empty?
- //       if (lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0) { // JMI ???
+ //       if (lastMeasure->getCurrentMeasureWholeNotes ().getNumerator () == 0) { // JMI ???
    //     if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
         if (
           false && // JMI
@@ -2348,7 +2350,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
       case msrMeasure::kMeasureCreatedForARepeatBefore:
         if (
           false && // JMI
-          lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0
+          lastMeasure->getCurrentMeasureWholeNotes ().getNumerator () == 0
         ) {
           // yes, remove it
 #ifdef TRACE_OPTIONS

@@ -34,8 +34,9 @@ msrMeasureElement::msrMeasureElement (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fMeasureNumber     = K_NO_MEASURE_NUMBER;
-  fPositionInMeasure = K_NO_POSITION_MEASURE_NUMBER;
+  fMeasureNumber      = K_NO_MEASURE_NUMBER;
+  fPositionInMeasure  = K_NO_POSITION_MEASURE_NUMBER;
+  fSoundingWholeNotes = rational (0, 1); // JMI K_NO_WHOLE_NOTES ???
 }
 
 msrMeasureElement::~msrMeasureElement ()
@@ -50,15 +51,12 @@ void msrMeasureElement::setPositionInMeasure (
     positionInMeasure != K_NO_POSITION_MEASURE_NUMBER,
     "positionInMeasure == K_NO_POSITION_MEASURE_NUMBER");
 
-  fPositionInMeasure =
-    positionInMeasure;
-
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Setting position in measure of '" <<
+      "Setting position in measure of " <<
       asString () <<
-      "' to '" << fPositionInMeasure <<
+      " to '" << positionInMeasure <<
       "' in measure '" <<
       fMeasureNumber <<
       "', context: \"" <<
@@ -68,18 +66,36 @@ void msrMeasureElement::setPositionInMeasure (
   }
 #endif
 
-/* JMI
-  if (
-    // boolean item?
-    S_msrNote
-      note =
-        dynamic_cast<msrNote*>(&(*this))
-  ) {
-    if (positionInMeasure == rational (1, 1)) {
-      abort (); // JMI
-    }
+  fPositionInMeasure =
+    positionInMeasure;
+}
+
+void msrMeasureElement::setSoundingWholeNotes (
+  rational wholeNotes,
+  string   context)
+{
+  // sanity check
+  msrAssert (
+    wholeNotes != K_NO_WHOLE_NOTES,
+    "wholeNotes == K_NO_WHOLE_NOTES");
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Setting sounding whole notes of " <<
+      asString () <<
+      " to '" << wholeNotes <<
+      "' in measure '" <<
+      fMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
   }
-  */
+#endif
+
+  fSoundingWholeNotes =
+    wholeNotes;
 }
 
 bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (

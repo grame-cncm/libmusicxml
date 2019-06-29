@@ -66,44 +66,52 @@ lpsrSchemeVariable::~lpsrSchemeVariable ()
 
 void lpsrSchemeVariable::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeVariable::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrSchemeVariable>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
         S_lpsrSchemeVariable elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrSchemeVariable::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeVariable::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrSchemeVariable>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
         S_lpsrSchemeVariable elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -237,44 +245,52 @@ lpsrSchemeFunction::~lpsrSchemeFunction ()
 
 void lpsrSchemeFunction::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeFunction::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrSchemeFunction>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrSchemeFunction::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeFunction::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrSchemeFunction>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

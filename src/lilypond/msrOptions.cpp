@@ -424,7 +424,7 @@ R"()",
 
   appendOptionsSubGroup (traceSubGroup);
 
-  // trace msr
+  // MSR
 
   fTraceMsr          = boolOptionsInitialValue;
 
@@ -436,7 +436,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceMsr",
         fTraceMsr));
 
-  // trace msr visitors
+  // MSR visitors
 
   fTraceMsrVisitors  = boolOptionsInitialValue;
 
@@ -463,7 +463,7 @@ R"()",
 
   appendOptionsSubGroup (displaySubGroup);
 
-  // foo
+  // partgroups
 
   fDisplayPartGroups = boolOptionsInitialValue;
 
@@ -475,34 +475,32 @@ R"(Write the structure of the part groups to standard error.)",
         "displayPartGroups",
         fDisplayPartGroups));
 
-  // foo
+  // MSR
 
   fDisplayMsr        = boolOptionsInitialValue;
 
   displaySubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      optionsBooleanItem::create (
         "dmsr", "display-msr",
 R"(Write the contents of the MSR data to standard error.)",
         "displayMsr",
-        fDisplayMsr,
-        gTraceOptions->fTracePasses));
+        fDisplayMsr));
 
-  // foo
+  // MSR details
 
   fDisplayMsrDetails = boolOptionsInitialValue;
 
   displaySubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      optionsTwoBooleansItem::create (
         "dmsrd", "display-msr-details",
 R"(Write the contents of the MSR data with more details to standard error.)",
         "displayMsrDetails",
         fDisplayMsrDetails,
-        fDisplayMsr,
-        gTraceOptions->fTracePasses));
+        fDisplayMsr));
 
-  // foo
+  // MSR names
 
   fDisplayMsrNames   = boolOptionsInitialValue;
 
@@ -515,7 +513,7 @@ This implies that no LilyPond code is generated.)",
         "displayMsrNames",
         fDisplayMsrNames));
 
-  // foo
+  // MSR summary
 
   fDisplayMsrSummary = boolOptionsInitialValue;
 
@@ -542,7 +540,7 @@ R"()",
 
   appendOptionsSubGroup (languagesSubGroup);
 
-  // foo
+  // notes pitches
 
   if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -606,7 +604,7 @@ R"()",
 
   appendOptionsSubGroup (partsSubGroup);
 
-  // foo
+  // MSR part rename
 
   partsSubGroup->
     appendOptionsItem (
@@ -632,7 +630,7 @@ There can be several occurrences of this option.)",
         "partRename",
         fPartsRenamingMap));
 
-  // foo
+  // MSR part transpose
 
   partsSubGroup->
     appendOptionsItem (
@@ -672,7 +670,7 @@ R"()",
 
   appendOptionsSubGroup (stavesSubGroup);
 
-  // foo
+  // single line staves
 
   fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
@@ -699,7 +697,7 @@ R"()",
 
   appendOptionsSubGroup (voicesSubGroup);
 
-  // foo
+  // staff relative numbers
 
   fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
@@ -727,7 +725,7 @@ R"()",
 
   appendOptionsSubGroup (repeatsSubGroup);
 
-  // foo
+  // barlines
 
   fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
 

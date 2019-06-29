@@ -47,6 +47,12 @@ class traceOptions : public optionsGroup
     void                  initializeTraceOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeOptionsHandlingTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLowLevelTraceOptions (
+                            bool boolOptionsInitialValue);
+
   protected:
 
     // constructors/destructor

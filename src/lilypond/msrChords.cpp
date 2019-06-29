@@ -63,7 +63,9 @@ msrChord::msrChord (
   msrDurationKind chordGraphicDurationKind)
     : msrTupletElement (inputLineNumber)
 {
-  fChordSoundingWholeNotes = chordSoundingWholeNotes;
+// JMI  fChordSoundingWholeNotes = chordSoundingWholeNotes;
+  fSoundingWholeNotes = chordSoundingWholeNotes;
+
   fChordDisplayWholeNotes  = chordDisplayWholeNotes;
 
   fChordGraphicDurationKind = chordGraphicDurationKind;
@@ -97,7 +99,8 @@ S_msrChord msrChord::createChordNewbornClone (
     newbornClone =
       msrChord::create (
         fInputLineNumber,
-        fChordSoundingWholeNotes,
+  // JMI      fChordSoundingWholeNotes,
+        fSoundingWholeNotes,
         fChordDisplayWholeNotes,
         fChordGraphicDurationKind);
 
@@ -133,7 +136,8 @@ void msrChord::setChordSoundingWholeNotes (
   }
 #endif
 
-  fChordSoundingWholeNotes = wholeNotes;
+// JMI  fChordSoundingWholeNotes = wholeNotes;
+  fSoundingWholeNotes = wholeNotes;
 }
 
 void msrChord::setChordDisplayWholeNotes (
@@ -160,8 +164,8 @@ void msrChord::setChordMembersPositionInMeasure (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTracePositionsInMeasures) {
     gLogIOstream <<
-      "Setting chord members position in measure of '" << asString () <<
-      "' to '" <<
+      "Setting chord members position in measure of " << asString () <<
+      " to '" <<
       positionInMeasure <<
       "'" <<
       endl;
@@ -184,7 +188,7 @@ void msrChord::setChordMembersPositionInMeasure (
 
       note->
         setNotePositionInMeasure (
-          positionInMeasure);
+          positionInMeasure); // they all share the same one
 
       if (++i == iEnd) break;
     } // for
@@ -229,14 +233,6 @@ void msrChord::addFirstNoteToChord (
   voice->
     registerNoteAsVoiceLastAppendedNote (note);
     */
-
-  // DON'T set the note's position in measure,
-  // the chord may not have been added to a measure yet
-  /* JMI
-  note->
-    setNotePositionInMeasure (
-      fPositionInMeasure);
-      */
 }
 
 void msrChord::addAnotherNoteToChord (
@@ -269,27 +265,6 @@ void msrChord::addAnotherNoteToChord (
   voice->
     registerNoteAsVoiceLastAppendedNote (note);
     */
-
-/* DON't, too early JMI
-  // populate note's position in measure
-  note->setNotePositionInMeasure (
-    fPositionInMeasure);
-  */
-}
-
-void msrChord::setChordFirstNotePositionInMeasure (
-  rational positionInMeasure)
-{
-  if (fChordNotesVector.size ()) { // JMI
-  /* JMI
-    fChordNotesVector.front ()->
-      setNotePositionInMeasure (
-        positionInMeasure);
-        */
-  }
-  else {
-    // exit (44); JMI
- }
 }
 
 S_msrNote msrChord::fetchChordFirstNonGraceNote () const
@@ -620,6 +595,7 @@ void msrChord::appendBeamToChord (S_msrBeam beam)
   fChordBeams.push_back (beam);
 }
 
+/* JMI ???
 void msrChord::finalizeChord (
   int inputLineNumber)
 {
@@ -643,6 +619,7 @@ void msrChord::finalizeChord (
   setChordMembersPositionInMeasure (
     fPositionInMeasure);
 }
+*/
 
 void msrChord::acceptIn (basevisitor* v)
 {
@@ -880,40 +857,11 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
 #endif
 */
 
-string msrChord::chordSoundingWholeNotesAsMsrString ()
-{
-  return
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fChordSoundingWholeNotes);
-}
-
-string msrChord::chordDisplayWholeNotesAsMsrString ()
-{
-  return
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fChordDisplayWholeNotes);
-}
-
-/* JMI
-string msrChord::chordGraphicDurationAsMsrString () const
-{
-  string result;
-
-  result =
-    msrDurationAsString (
-      fChordGraphicDuration);
-
-  return result;
-}
-*/
-
 string msrChord::asStringwithRawDivisions () const
 {
   stringstream s;
 
-  s << "<";
+  s << "[<";
 
   if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator
@@ -938,7 +886,7 @@ string msrChord::asStringwithRawDivisions () const
     } // for
   }
 
-  s << ">";
+  s << ">]";
 
   return s.str ();
 }
@@ -1035,7 +983,8 @@ void msrChord::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "chordSoundingWholeNotes" << " : " << fChordSoundingWholeNotes <<
+ // JMI   "chordSoundingWholeNotes" << " : " << fChordSoundingWholeNotes <<
+    "chordSoundingWholeNotes" << " : " << fSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "chordDisplayWholeNotes" << " : " << fChordDisplayWholeNotes <<

@@ -244,12 +244,6 @@ brailleOptions::~brailleOptions ()
 void brailleOptions::initializeBrailleUTFEncodingOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fUTFKind = kUTF8; // default value
-
-  // options
-
   S_optionsSubGroup
     UTFEncodingSubGroup =
       optionsSubGroup::create (
@@ -260,6 +254,10 @@ R"()",
       this);
 
   appendOptionsSubGroup (UTFEncodingSubGroup);
+
+  // UTF encoding
+
+  fUTFKind = kUTF8; // default value
 
   UTFEncodingSubGroup->
     appendOptionsItem (
@@ -275,12 +273,6 @@ which can be one of 8 or 16. Default value is 8.)",
 void brailleOptions::initializeBrailleByteOrderingOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fByteOrderingKind = kByteOrderingNone; // default value
-
-  // options
-
   S_optionsSubGroup
     byteOrderingSubGroup =
       optionsSubGroup::create (
@@ -291,6 +283,10 @@ R"()",
       this);
 
   appendOptionsSubGroup (byteOrderingSubGroup);
+
+  // byte ordering
+
+  fByteOrderingKind = kByteOrderingNone; // default value
 
   byteOrderingSubGroup->
     appendOptionsItem (
@@ -308,12 +304,6 @@ By default, BOM is generated.)",
 void brailleOptions::initializeBrailleMusicFileNameOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fUseEncodingInFileName = false; // default value
-
-  // options
-
   S_optionsSubGroup
     musicFileNameSubGroup =
       optionsSubGroup::create (
@@ -324,6 +314,10 @@ R"()",
       this);
 
   appendOptionsSubGroup (musicFileNameSubGroup);
+
+  // encoding in file name
+
+  fUseEncodingInFileName = false; // default value
 
   musicFileNameSubGroup->
     appendOptionsItem (
@@ -338,14 +332,6 @@ and the presence of a BOM if any to the file name.)",
 void brailleOptions::initializeBraillePageParametersOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fCellsPerLine = 30;
-  fMeasuresPerLine = 7;
-  fLinesPerPage = 27;
-
-  // options
-
   S_optionsSubGroup
     codeGenerationSubGroup =
       optionsSubGroup::create (
@@ -357,6 +343,9 @@ R"()",
 
   appendOptionsSubGroup (codeGenerationSubGroup);
 
+  // cells per line
+
+  fCellsPerLine = 30;
   codeGenerationSubGroup->
     appendOptionsItem (
       optionsIntegerItem::create (
@@ -366,6 +355,10 @@ R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
         "cellsPerLine",
         fCellsPerLine));
 
+  // measures per line
+
+  fMeasuresPerLine = 7;
+
   codeGenerationSubGroup->
     appendOptionsItem (
       optionsIntegerItem::create (
@@ -374,6 +367,10 @@ R"(Set the number of Braille measures per line to N. Default is 7.)",
         "N",
         "measuresPerLine",
         fMeasuresPerLine));
+
+  // lines per page
+
+  fLinesPerPage = 27;
 
   codeGenerationSubGroup->
     appendOptionsItem (
@@ -388,14 +385,6 @@ R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
 void brailleOptions::initializeBrailleCodeGenerationOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fXml2brlInfos         = boolOptionsInitialValue;
-
-  fNoBrailleCode        = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     codeGenerationSubGroup =
       optionsSubGroup::create (
@@ -407,6 +396,10 @@ R"()",
 
   appendOptionsSubGroup (codeGenerationSubGroup);
 
+  // xml2brl infos
+
+  fXml2brlInfos         = boolOptionsInitialValue;
+
   codeGenerationSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -414,6 +407,10 @@ R"()",
 R"(Generate initial comments showing the compilation date and options.)",
         "xml2brlInfos",
         fXml2brlInfos));
+
+  // braille code
+
+  fNoBrailleCode        = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
     appendOptionsItem (

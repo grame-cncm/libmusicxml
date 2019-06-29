@@ -562,11 +562,13 @@ R"(
 #(define modTimeAsString (strftime "%d/%m/%Y - %H:%M:%S" (localtime modTime)))
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -598,11 +600,13 @@ R"(
 \pointAndClickOff
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -780,11 +784,13 @@ glissandoTextOn =
 glissandoTextOff = \revert Glissando.stencil
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -831,11 +837,13 @@ R"(
 )";
 
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -868,11 +876,13 @@ R"(
 \include "jianpu10a.ly"
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -904,11 +914,13 @@ R"(
 #(use-modules (scm accreg))
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Using Scheme modules '" << schemeModulesName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -955,11 +967,13 @@ tongue =
      script))
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1000,11 +1014,13 @@ editorialAccidental =
   #})
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1042,11 +1058,13 @@ fffff = #(make-dynamic-script "fffff")
 ffffff = #(make-dynamic-script "ffffff")
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1132,11 +1150,13 @@ tupletsCurvedBrackets = {
 }
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1176,11 +1196,13 @@ after =
    #})
 )";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1278,11 +1300,13 @@ tempoRelationship =
      #}))
 )!";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1330,11 +1354,13 @@ damp = \markup {
 }
 )!";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1376,11 +1402,13 @@ dampAll = \markup
 }
 )!";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1427,11 +1455,13 @@ whiteNoteHeads =
    )
 )!";
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1506,11 +1536,13 @@ R"(
 
   schemeFunctionCode = s.str ();
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1555,55 +1587,65 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
 
 void lpsrScore::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScore::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrScore>*
     p =
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrScore::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrScore::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScore::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrScore>*
     p =
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrScore::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrScore::browseData (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScore::browseData ()" <<
       endl;
   }
+#endif
 
   {
     // browse the score LilyPond version
@@ -1727,11 +1769,13 @@ void lpsrScore::browseData (basevisitor* v)
     } // for
   }
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrScore::browseData ()" <<
       endl;
   }
+#endif
 }
 
 void lpsrScore::print (ostream& os)

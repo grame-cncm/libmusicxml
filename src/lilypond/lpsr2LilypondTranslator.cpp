@@ -7536,7 +7536,7 @@ else
           upbeatDuration =
             wholeNotesAsLilypondString (
               inputLineNumber,
-              elt->getActualMeasureWholeNotes ());
+              elt->getCurrentMeasureWholeNotes ());
 
         fLilypondCodeIOstream <<
           "\\partial " << upbeatDuration <<
@@ -7553,17 +7553,17 @@ else
     case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       {
         rational
-          actualMeasureWholeNotes =
-            elt->getActualMeasureWholeNotes ();
+          currentMeasureWholeNotes =
+            elt->getCurrentMeasureWholeNotes ();
 
         rational
           fullMeasureWholeNotes =
             elt->getFullMeasureWholeNotes ();
 
-        // we should set the score actual measure whole notes in this case
+        // we should set the score current measure whole notes in this case
         rational
           ratioToFullMeasureWholeNotes =
-            actualMeasureWholeNotes / fullMeasureWholeNotes;
+            currentMeasureWholeNotes / fullMeasureWholeNotes;
         ratioToFullMeasureWholeNotes.rationalise ();
 
 #ifdef TRACE_OPTIONS
@@ -7571,14 +7571,14 @@ else
           const int fieldWidth = 27;
 
           fLilypondCodeIOstream << left <<
-            "% Setting the actual measure whole notes for measure " <<
+            "% Setting the current measure whole notes for measure " <<
             setw (fieldWidth) <<
             measureNumber <<
             ", line = " << inputLineNumber <<
             endl <<
             setw (fieldWidth) <<
-            "% actualMeasureWholeNotes" << " = " <<
-            actualMeasureWholeNotes <<
+            "% currentMeasureWholeNotes" << " = " <<
+            currentMeasureWholeNotes <<
             endl <<
             setw (fieldWidth) <<
             "% fullMeasureWholeNotes" << " = " <<
@@ -7611,7 +7611,7 @@ else
           /* JMI
           fLilypondCodeIOstream <<
             "\\set Score.measureLength = #(ly:make-moment " <<
-            actualMeasureWholeNotes.toString () <<
+            currentMeasureWholeNotes.toString () <<
             ")" <<
             endl;
     */

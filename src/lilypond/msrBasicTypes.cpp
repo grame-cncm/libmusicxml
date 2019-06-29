@@ -8254,7 +8254,7 @@ string msrHarmonyKindAsShortString (
     // MusicXML chords
 
     case kMajorHarmony:
-      result = "";
+      result = "M";
       break;
     case kMinorHarmony:
       result = "m";
@@ -8889,7 +8889,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
 
   // nederlands
-  gNederlandsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gNederlandsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gNederlandsPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gNederlandsPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
@@ -8963,7 +8963,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // catalan
-  gCatalanPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gCatalanPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gCatalanPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gCatalanPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
@@ -9037,7 +9037,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
 
   // deutsch
-  gDeutschPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gDeutschPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gDeutschPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gDeutschPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
@@ -9111,7 +9111,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // english
-  gEnglishPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gEnglishPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gEnglishPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gEnglishPitchNamesMap [kA_DoubleFlat_QTP]  = "aff";
@@ -9185,7 +9185,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kG_DoubleSharp_QTP] = "gx";
 
   // espanol
-  gEspanolPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gEspanolPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gEspanolPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gEspanolPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
@@ -9259,7 +9259,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kG_DoubleSharp_QTP] = "solx";
 
   // francais
-  gFrancaisPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gFrancaisPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gFrancaisPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gFrancaisPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
@@ -9333,7 +9333,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kG_DoubleSharp_QTP] = "solss";
 
   // italiano
-  gItalianoPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gItalianoPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gItalianoPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gItalianoPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
@@ -9407,7 +9407,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
 
   // norsk
-  gNorskPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gNorskPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gNorskPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gNorskPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
@@ -9481,7 +9481,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // portugues
-  gPortuguesPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gPortuguesPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gPortuguesPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gPortuguesPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
@@ -9555,7 +9555,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
 
   // suomi
-  gSuomiPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gSuomiPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gSuomiPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gSuomiPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
@@ -9629,7 +9629,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // svenska
-  gSvenskaPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gSvenskaPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gSvenskaPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gSvenskaPitchNamesMap [kA_DoubleFlat_QTP]  = "assess";
@@ -9703,7 +9703,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kG_DoubleSharp_QTP] = "gississ";
 
   // vlaams
-  gVlaamsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "none";
+  gVlaamsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQTP";
   gVlaamsPitchNamesMap [k_Rest_QTP]                 = "r";
 
   gVlaamsPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";

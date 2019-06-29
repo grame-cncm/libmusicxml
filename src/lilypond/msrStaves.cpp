@@ -973,7 +973,7 @@ void msrStaff::registerVoiceInStaff (
   } // switch
 }
 
-void msrStaff::padUpToActualMeasureWholeNotesInStaff (
+void msrStaff::padUpToCurrentMeasureWholeNotesInStaff (
   int      inputLineNumber,
   rational wholeNotes)
 {
@@ -986,7 +986,7 @@ void msrStaff::padUpToActualMeasureWholeNotesInStaff (
     gMusicXMLOptions->fTraceBackup
   ) {
     gLogIOstream <<
-      "Padding up to actual measure whole notes '" << wholeNotes <<
+      "Padding up to current measure whole notes '" << wholeNotes <<
       "' in staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
@@ -1003,7 +1003,7 @@ void msrStaff::padUpToActualMeasureWholeNotesInStaff (
     // JMI msrAssert???
 
     voice->
-      padUpToActualMeasureWholeNotesInVoice (
+      padUpToCurrentMeasureWholeNotesInVoice (
         inputLineNumber,
         wholeNotes);
   } // for
@@ -1977,9 +1977,9 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 {
 #ifdef TRACE_OPTIONS
   rational
-    partActualMeasureWholeNotesHighTide =
+    partCurrentMeasureWholeNotesHighTide =
       fStaffPartUpLink->
-        getPartActualMeasureWholeNotesHighTide ();
+        getPartCurrentMeasureWholeNotesHighTide ();
 #endif
 
 #ifdef TRACE_OPTIONS
@@ -1988,8 +1988,8 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       "Finalizing current measure in staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
-      ", partActualMeasureWholeNotesHighTide = " <<
-      partActualMeasureWholeNotesHighTide <<
+      ", partCurrentMeasureWholeNotesHighTide = " <<
+      partCurrentMeasureWholeNotesHighTide <<
       ", line " << inputLineNumber <<
       endl;
   }

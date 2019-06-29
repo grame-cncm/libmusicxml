@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -46,44 +46,52 @@ lpsrUseVoiceCommand::~lpsrUseVoiceCommand ()
 
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrUseVoiceCommand::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrUseVoiceCommand>*
     p =
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrUseVoiceCommand::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrUseVoiceCommand>*
     p =
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

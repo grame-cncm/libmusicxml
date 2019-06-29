@@ -445,6 +445,12 @@ void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
     "setDoubleTremoloPositionInMeasure()");
 }
 
+void msrDoubleTremolo::setDoubleTremoloMeasureNumber (
+  string measureNumber)
+{
+  fMeasureNumber =  measureNumber;
+}
+
 void msrDoubleTremolo::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {

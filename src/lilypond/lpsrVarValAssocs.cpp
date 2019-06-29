@@ -97,44 +97,52 @@ lpsrVarValAssoc::~lpsrVarValAssoc ()
 
 void lpsrVarValAssoc::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVarValAssoc::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrVarValAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrVarValAssoc::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVarValAssoc::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrVarValAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -451,44 +459,52 @@ lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
 
 void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrVarValsListAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrVarValsListAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

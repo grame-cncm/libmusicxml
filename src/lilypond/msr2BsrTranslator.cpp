@@ -3028,10 +3028,10 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
 
   // fetch the part measure position high tide
   rational
-    partActualMeasureWholeNotesHighTide = // JMI
+    partCurrentMeasureWholeNotesHighTide = // JMI
       fCurrentMeasureClone->
         fetchMeasurePartUpLink ()->
-          getPartActualMeasureWholeNotesHighTide ();
+          getPartCurrentMeasureWholeNotesHighTide ();
 
   // get the measure number
   string
@@ -3039,13 +3039,13 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       fCurrentMeasureClone->
         getMeasureNumber ();
 
-  // get the actual measure whole notes
+  // get the current measure whole notes
   rational
-    actualMeasureWholeNotes =
+    currentMeasureWholeNotes =
       fCurrentMeasureClone->
-        getActualMeasureWholeNotes ();
+        getCurrentMeasureWholeNotes ();
 
-  // get the full actual measure whole notes
+  // get the full current measure whole notes
   rational
     measureFullLength =
       fCurrentMeasureClone->
@@ -3058,10 +3058,10 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       "' in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl <<
-      "actualMeasureWholeNotes = " << actualMeasureWholeNotes <<
+      "currentMeasureWholeNotes = " << currentMeasureWholeNotes <<
       endl <<
-      "partActualMeasureWholeNotesHighTide = " <<
-      partActualMeasureWholeNotesHighTide <<
+      "partCurrentMeasureWholeNotesHighTide = " <<
+      partCurrentMeasureWholeNotesHighTide <<
       endl;
   }
 #endif
@@ -3071,13 +3071,13 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUnknownMeasure; // JMI
  // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
 
-  if (actualMeasureWholeNotes == measureFullLength ) {
+  if (currentMeasureWholeNotes == measureFullLength ) {
     // this measure is full
     measureKind =
       msrMeasure::kFullMeasure;
   }
 
-  else if (actualMeasureWholeNotes < measureFullLength) {
+  else if (currentMeasureWholeNotes < measureFullLength) {
     / *
     if (fSegmentMeasuresList.size () == 1) { // JMI
       // this is the first measure in the segment
@@ -3097,7 +3097,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUpbeatMeasure; // JMI
   }
 
-  else if (actualMeasureWholeNotes > measureFullLength) {
+  else if (currentMeasureWholeNotes > measureFullLength) {
     // this measure is overfull
     measureKind =
       msrMeasure::kOverfullMeasure;

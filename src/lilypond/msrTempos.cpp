@@ -629,9 +629,9 @@ string msrTempoTuplet::asString () const
     "TempoTuplet " <<
     fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
     " " << fTempoTupletSoundingWholeNotes << " sound whole notes" <<
-    " @meas "<<
+    " measure '"<<
     fTempoTupletMeasureNumber <<
-    ":";
+    "':";
 
   if (fTempoTupletPositionInMeasure.getNumerator () < 0) {
     s << "?";

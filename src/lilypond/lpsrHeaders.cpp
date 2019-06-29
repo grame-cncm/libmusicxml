@@ -963,44 +963,52 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
 
 void lpsrHeader::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrHeader::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrHeader>*
     p =
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrHeader::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrHeader::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrHeader::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrHeader>*
     p =
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrHeader::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

@@ -79,7 +79,7 @@ msrTuplet::msrTuplet (
   fMemberNotesSoundingWholeNotes = memberNotesSoundingWholeNotes;
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
 
-  fTupletSoundingWholeNotes = rational (0, 1);
+  fSoundingWholeNotes       = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
 
 #ifdef TRACE_OPTIONS
@@ -105,9 +105,8 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Creating a newborn clone of tuplet '" <<
+      "Creating a newborn clone of tuplet " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -127,8 +126,8 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
         fMemberNotesDisplayWholeNotes);
 
 /* JMI ???
-  newbornClone->fTupletSoundingWholeNotes =
-    fTupletSoundingWholeNotes;
+  newbornClone->fSoundingWholeNotes =
+    fSoundingWholeNotes;
 
   newbornClone->fTupletDisplayWholeNotes =
     fTupletDisplayWholeNotes;
@@ -250,12 +249,11 @@ void msrTuplet::addNoteToTuplet (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Adding note '" <<
+      "Adding note " <<
       note->asShortString () <<
       // the information is missing to display it the normal way
-      "' to tuplet '" <<
+      " to tuplet " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -267,20 +265,13 @@ void msrTuplet::addNoteToTuplet (
     setNoteTupletUpLink (this);
 
   // account for note duration
-  fTupletSoundingWholeNotes +=
+  fSoundingWholeNotes +=
     note->getNoteSoundingWholeNotes ();
-  fTupletSoundingWholeNotes.rationalise ();
+  fSoundingWholeNotes.rationalise ();
 
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
-
-  // DON'T set the note's position in measure,
-  // the tuplet may not have been added to a measure yet
-  /* JMI
-  note->setNotePositionInMeasure (
-    fPositionInMeasure);
-  */
 }
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)
@@ -288,11 +279,10 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Adding chord '" <<
+      "Adding chord " <<
       chord->asString () <<
-      "' to tuplet '" <<
+      " to tuplet " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -302,9 +292,9 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   // DO NOT account for the chord duration,
   // since its first note has been accounted for already
   /* JMI
-  fTupletSoundingWholeNotes +=
+  fSoundingWholeNotes +=
     chord->getChordSoundingWholeNotes ();
-  fTupletSoundingWholeNotes.rationalise ();
+  fSoundingWholeNotes.rationalise ();
 */
 
   fTupletDisplayWholeNotes += // JMI
@@ -316,12 +306,6 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   chord->setChordMeasureNumber (
     fMeasureNumber);
 */
-
-/* too early JMI
-  // populate chord's position in measure
-  chord->setChordPositionInMeasure (
-    fPositionInMeasure);
-    */
 }
 
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
@@ -329,11 +313,10 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Adding tuplet '" <<
+      "Adding tuplet " <<
       tuplet->asString () <<
-      "' to tuplet '" <<
+      " to tuplet " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -351,9 +334,9 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   fTupletElementsList.push_back (tuplet);
 
   // account for tuplet duration
-  fTupletSoundingWholeNotes +=
+  fSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
-  fTupletSoundingWholeNotes.rationalise ();
+  fSoundingWholeNotes.rationalise ();
 
   fTupletDisplayWholeNotes += // JMI
     tuplet->getTupletDisplayWholeNotes ();
@@ -365,11 +348,10 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Adding tuplet '" <<
+      "Adding tuplet " <<
       tuplet->asString () <<
-      "' to tuplet '" <<
+      " to tuplet " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -381,9 +363,9 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   fTupletElementsList.push_back (tuplet);
 
   // account for tuplet duration
-  fTupletSoundingWholeNotes +=
+  fSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
-  fTupletSoundingWholeNotes.rationalise ();
+  fSoundingWholeNotes.rationalise ();
 
   fTupletDisplayWholeNotes +=
     tuplet->getTupletDisplayWholeNotes ();
@@ -433,9 +415,8 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Removing first note from tuplet '" <<
+      "Removing first note from tuplet " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -474,9 +455,9 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
         fTupletElementsList.erase (i);
 
         // account for note duration
-        fTupletSoundingWholeNotes -=
+        fSoundingWholeNotes -=
           note->getNoteSoundingWholeNotes ();
-        fTupletSoundingWholeNotes.rationalise ();
+        fSoundingWholeNotes.rationalise ();
 
         fTupletDisplayWholeNotes -= // JMI
           note->getNoteDisplayWholeNotes ();
@@ -496,7 +477,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       "cannot remove note " <<
       note <<
       " from tuplet " << asString () <<
-      "' in voice \"" <<
+      " in voice \"" <<
       fTupletMeasureUpLink->
         getMeasureSegmentUpLink ()->
           getSegmentVoiceUpLink ()->
@@ -517,7 +498,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 
     s <<
       "cannot remove the first note of an empty tuplet " <<
-      "' in voice \"" <<
+      " in voice \"" <<
       fTupletMeasureUpLink->
         getMeasureSegmentUpLink ()->
           getSegmentVoiceUpLink ()->
@@ -542,9 +523,8 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Removing last note from tuplet '" <<
+      "Removing last note from tuplet " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -562,9 +542,9 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
 /*
       // decrement the tuplet sounding whole notes accordingly ??? JMI BAD???
-      fTupletSoundingWholeNotes +=
+      fSoundingWholeNotes +=
         note->getNoteSoundingWholeNotes ();
-      fTupletSoundingWholeNotes.rationalise ();
+      fSoundingWholeNotes.rationalise ();
 */
 
       result = note;
@@ -588,7 +568,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
     s <<
       "cannot remove the last note of an empty tuplet " <<
-      "' in voice \"" <<
+      " in voice \"" <<
       fTupletMeasureUpLink->
         getMeasureSegmentUpLink ()->
           getSegmentVoiceUpLink ()->
@@ -605,11 +585,10 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "This last note from tuplet '" <<
+      "This last note from tuplet " <<
       asString () <<
-      "' turns out to be '" <<
+      " turns out to be " <<
       result->asShortString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -622,10 +601,10 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   // returns the position in measure after the tuplet
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTracePositionsInMeasures) {
     gLogIOstream <<
-      "Setting tuplet position in measure of '" << asString () <<
-      "' to '" <<
+      "Setting tuplet position in measure of " << asString () <<
+      " to '" <<
       positionInMeasure <<
       "'" <<
       endl;
@@ -655,6 +634,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
       currentPosition +=
         note->
           getNoteSoundingWholeNotes ();
+      currentPosition.rationalise ();
     }
 
     else if (
@@ -664,10 +644,12 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
       chord->
         setChordMembersPositionInMeasure (
           currentPosition);
+      currentPosition.rationalise ();
 
       currentPosition +=
         chord->
           getChordSoundingWholeNotes ();
+      currentPosition.rationalise ();
     }
 
     else if (
@@ -676,8 +658,13 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
       // nested tuplet
       currentPosition =
         tuplet->
-          setTupletMembersPositionInMeasure (
+          setTupletMembersPositionInMeasure ( // a function JMI ???
             currentPosition);
+
+      currentPosition +=
+        tuplet->
+          getTupletSoundingWholeNotes ();
+      currentPosition.rationalise ();
     }
 
     else {
@@ -687,7 +674,6 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
         __FILE__, __LINE__,
         "tuplet member should be a note, a chord or another tuplet");
     }
-
   } // for
 
   return currentPosition;
@@ -735,23 +721,27 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
   */
 }
 
+/* JMI ???
 void msrTuplet::finalizeTuplet (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Finalizing tuplet '" <<
+      "Finalizing tuplet " <<
       asString () <<
-      "', line " << inputLineNumber <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // we can now set the position in measures for all the chord members
+/ * JMI
+  // we can now set the position in measure for all the tuplet members
   setTupletMembersPositionInMeasure (
     fPositionInMeasure);
+  * /
 }
+*/
 
 void msrTuplet::acceptIn (basevisitor* v)
 {
@@ -815,12 +805,13 @@ string msrTuplet::asString () const
   stringstream s;
 
   s <<
+    "[" <<
     "Tuplet " <<
     fTupletFactor.asString () <<
-    " " << fTupletSoundingWholeNotes << " tupletSoundingWholeNotes" <<
-    " @meas "<<
+    " " << fSoundingWholeNotes << " tupletSoundingWholeNotes" <<
+    ", measure ' "<<
     fMeasureNumber <<
-    ":";
+    "':";
 
   if (fPositionInMeasure.getNumerator () < 0) {
     s << "?";
@@ -873,7 +864,7 @@ string msrTuplet::asString () const
     } // for
   }
 
-  s << "]]";
+  s << "]]" << "]";
 
   return s.str ();
 }
@@ -889,7 +880,7 @@ void msrTuplet::print (ostream& os)
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
-    fTupletSoundingWholeNotes << " sounding, " <<
+    fSoundingWholeNotes << " sounding, " <<
     fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
     fMeasureNumber <<
@@ -933,7 +924,7 @@ void msrTuplet::print (ostream& os)
 
     setw (fieldWidth) <<
     "tupletSoundingWholeNotes" << " : " <<
-    fTupletSoundingWholeNotes <<
+    fSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "tupletDisplayWholeNotes" << " : " <<
@@ -982,6 +973,17 @@ void msrTuplet::print (ostream& os)
 
   // JMI  os << endl;
   }
+
+  os <<
+    "TupletTupletUpLink: ";
+  if (fTupletTupletUpLink) {
+    os <<
+      fTupletTupletUpLink->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 }
 
 void msrTuplet::printShort (ostream& os)
@@ -995,7 +997,7 @@ void msrTuplet::printShort (ostream& os)
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
-    fTupletSoundingWholeNotes << " sounding, " <<
+    fSoundingWholeNotes << " sounding, " <<
     fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
     fMeasureNumber <<
@@ -1039,7 +1041,7 @@ void msrTuplet::printShort (ostream& os)
 
     setw (fieldWidth) <<
     "tupletSoundingWholeNotes" << " : " <<
-    fTupletSoundingWholeNotes <<
+    fSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "tupletDisplayWholeNotes" << " : " <<
@@ -1094,6 +1096,17 @@ void msrTuplet::printShort (ostream& os)
 
   // JMI  os << endl;
   }
+
+  os <<
+    "TupletTupletUpLink: ";
+  if (fTupletTupletUpLink) {
+    os <<
+      fTupletTupletUpLink->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrTuplet& elt)

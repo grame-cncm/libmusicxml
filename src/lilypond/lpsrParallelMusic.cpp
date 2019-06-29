@@ -59,55 +59,65 @@ lpsrParallelMusicBLock::~lpsrParallelMusicBLock ()
 
 void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrParallelMusicBLock::acceptIn ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrParallelMusicBLock>*
     p =
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrParallelMusicBLock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrParallelMusicBLock>*
     p =
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
 
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrParallelMusicBLock::browseData (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrParallelMusicBLock::browseData ()" <<
       endl;
   }
+#endif
 
   for (
     list<S_lpsrPartGroupBlock>::const_iterator i =
@@ -120,11 +130,13 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrParallelMusicBLock::browseData ()" <<
       endl;
   }
+#endif
 }
 
 void lpsrParallelMusicBLock::print (ostream& os)
