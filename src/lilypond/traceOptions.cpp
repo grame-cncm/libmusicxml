@@ -153,6 +153,25 @@ R"(Write a trace of the passes to standard error.)",
         "tracePasses",
         fTracePasses));
 
+  // for tests, hidden
+
+  fTraceForTests = boolOptionsInitialValue;
+
+  S_optionsBooleanItem
+    traceForTestsOptionsBooleanItem =
+      optionsBooleanItem::create (
+        "tft", "trace-for-tests",
+R"(Write a trace for tests to standard error.)",
+        "traceForTests",
+        fTraceForTests);
+  // '-trace-for-tests' is hidden...
+  traceForTestsOptionsBooleanItem->
+    setOptionsElementIsHidden ();
+
+  lowLevelTraceSubGroup->
+    appendOptionsItem (
+      traceForTestsOptionsBooleanItem);
+
   // score
 
   fTraceScore = boolOptionsInitialValue;
@@ -1172,6 +1191,9 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // score
   clone->fTraceScore = true;
 
+  // for tests, hidden
+  clone->fTraceForTests = true;
+
   // varValAssocs
   clone->fTraceVarValAssocs = true;
 
@@ -1392,6 +1414,9 @@ void traceOptions::setAllGeneralTraceOptions (
 
   // score
   clone->fTraceScore = boolOptionsInitialValue;
+
+  // for tests, hidden
+  clone->fTraceForTests = boolOptionsInitialValue;
 
   // varValAssocs
   fTraceVarValAssocs = boolOptionsInitialValue;
@@ -1641,6 +1666,11 @@ void traceOptions::printOptionsValues (
     // passes
     setw (valueFieldWidth) << "tracePasses" << " : " <<
     booleanAsString (fTracePasses) <<
+    endl <<
+
+  // for tests, hidden
+    setw (valueFieldWidth) << "traceForTests" << " : " <<
+    booleanAsString (fTraceForTests) <<
     endl <<
 
     // score
@@ -2064,6 +2094,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // passes
     setw (fieldWidth) << "tracePasses" << " : " <<
     booleanAsString (fTracePasses) <<
+    endl <<
+
+    // for tests, hidden
+    setw (fieldWidth) << "traceForTests" << " : " <<
+    booleanAsString (fTraceForTests) <<
     endl <<
 
     // score

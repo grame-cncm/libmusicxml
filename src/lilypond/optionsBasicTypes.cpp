@@ -3624,7 +3624,7 @@ void optionsHandler::printSpecificItemHelp (
 
     s <<
       "option name '" << optionsItemName <<
-      "' is not well handled in optionsHandler::printSpecificItemHelp ()";
+      "' is unknown, cannot deliver item specific help";
 
     optionError (s.str ());
     exit (33);

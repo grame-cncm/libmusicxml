@@ -1419,7 +1419,7 @@ void msrNote::setNotePositionInMeasure (
   rational positionInMeasure)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
     gLogIOstream <<
       "Setting note position in measure of " << asString () <<
       " to '" <<

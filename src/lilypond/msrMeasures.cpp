@@ -515,7 +515,13 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+  if (
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures
+//      ||
+//    gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending element " <<
       elem->asShortString () <<
@@ -625,13 +631,19 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
   fMeasureElementsList.push_back (elem);
 }
 
-void msrMeasure::insertElementInMeasure (
+void msrMeasure::insertElementInMeasureBeforeIterator (
   int                                 inputLineNumber,
   list<S_msrMeasureElement>::iterator iter,
   S_msrMeasureElement                 elem)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+  if (
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures
+      ||
+    gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Inserting element " <<
       elem->asShortString () <<
@@ -661,7 +673,7 @@ void msrMeasure::insertElementInMeasure (
   elem->
     setPositionInMeasure (
       fCurrentMeasureWholeNotes, // rational (999/1)); // JMI fCurrentMeasureWholeNotes)
-      "insertElementInMeasure()");
+      "insertElementInMeasureBeforeIterator()");
 
   // insert elem in the measure elements list before (*iter)
   fMeasureElementsList.insert (
@@ -848,7 +860,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
   } // for
 
   // insert elem in the measure elements list before (*i)
-  insertElementInMeasure (
+  insertElementInMeasureBeforeIterator (
     inputLineNumber,
     (i).base (),
     elem);
@@ -1851,7 +1863,11 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   chord->setChordMeasureUpLink (this);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending chord '" << chord->asString () <<
       "' to measure '" <<
@@ -1901,7 +1917,11 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     tuplet->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending tuplet " << tuplet->asString () <<
       " to measure '" <<
@@ -1961,7 +1981,11 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     harmony->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending harmony " << harmony->asString () <<
       " to measure '" <<
@@ -2009,7 +2033,11 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   // regular insertion in current measure
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending harmony " << harmony->asString () <<
       " to measure clone '" <<
@@ -2058,7 +2086,11 @@ void msrMeasure::appendFiguredBassToMeasure (
     figuredBass->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
       "' to measure '" <<
@@ -2107,7 +2139,11 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   // regular insertion in current measure
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
       "' to measure clone '" <<
@@ -3561,7 +3597,13 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         getSegmentVoiceUpLink ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+  if (
+    gTraceOptions->fTraceHarmonies
+      ||
+    gTraceOptions->fTracePositionsInMeasures
+      ||
+    gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Finalizing harmonies in harmony measure '" <<
       fMeasureNumber <<
@@ -3724,7 +3766,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #endif
 
             // insert paddingNote in the measure elements list before (*i)
-            insertElementInMeasure (
+            insertElementInMeasureBeforeIterator (
               inputLineNumber,
               i,
               paddingNote);
@@ -3828,7 +3870,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #endif
 
             // insert paddingNote in the measure elements list before (*i)
-            insertElementInMeasure (
+            insertElementInMeasureBeforeIterator (
               inputLineNumber,
               i,
               paddingNote);

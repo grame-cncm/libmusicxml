@@ -601,7 +601,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   // returns the position in measure after the tuplet
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTracePositionsInMeasures) {
+  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
     gLogIOstream <<
       "Setting tuplet position in measure of " << asString () <<
       " to '" <<
@@ -611,7 +611,9 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   }
 #endif
 
-  fPositionInMeasure = positionInMeasure;
+  msrMeasureElement::setPositionInMeasure (
+    positionInMeasure,
+    "setTupletMembersPositionInMeasure()");
 
   rational currentPosition = positionInMeasure;
 

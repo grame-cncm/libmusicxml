@@ -1239,7 +1239,7 @@ class msrMeasure : public msrElement
                             rational partCurrentMeasureWholeNotesHighTide,
                             string   context);
 
-    void                  insertElementInMeasure (
+    void                  insertElementInMeasureBeforeIterator (
                             int                                 inputLineNumber,
                             list<S_msrMeasureElement>::iterator iter,
                             S_msrMeasureElement                 elem);

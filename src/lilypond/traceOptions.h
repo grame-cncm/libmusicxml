@@ -123,6 +123,10 @@ class traceOptions : public optionsGroup
     // --------------------------------------
     bool                  fTracePasses;
 
+    // for tests, not advertised
+    // --------------------------------------
+    bool                  fTraceForTests;
+
     // score
     // --------------------------------------
     bool                  fTraceScore;

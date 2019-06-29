@@ -476,23 +476,6 @@ void msrFiguredBass::appendFigureToFiguredBass (
   fFiguredBassFiguresList.push_back (figure);
 }
 
-string msrFiguredBass::figuredBassParenthesesKindAsString (
-  msrFiguredBassParenthesesKind figuredBassParenthesesKind)
-{
-  string result;
-
-  switch (figuredBassParenthesesKind) {
-    case msrFiguredBass::kFiguredBassParenthesesYes:
-      result = "figuredBassParenthesesYes";
-      break;
-    case msrFiguredBass::kFiguredBassParenthesesNo:
-      result = "figuredBassParenthesesNo";
-      break;
-  } // switch
-
-  return result;
-}
-
 void msrFiguredBass::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -548,6 +531,23 @@ void msrFiguredBass::browseData (basevisitor* v)
     msrBrowser<msrFigure> browser (v);
     browser.browse (*(*i));
   } // for
+}
+
+string msrFiguredBass::figuredBassParenthesesKindAsString (
+  msrFiguredBassParenthesesKind figuredBassParenthesesKind)
+{
+  string result;
+
+  switch (figuredBassParenthesesKind) {
+    case msrFiguredBass::kFiguredBassParenthesesYes:
+      result = "figuredBassParenthesesYes";
+      break;
+    case msrFiguredBass::kFiguredBassParenthesesNo:
+      result = "figuredBassParenthesesNo";
+      break;
+  } // switch
+
+  return result;
 }
 
 string msrFiguredBass::asString () const

@@ -948,7 +948,6 @@ R"()",
 
   fExit2a = boolOptionsInitialValue;
 
-  // '-exit-2a' is hidden...
   S_optionsBooleanItem
     exit2aOptionsBooleanItem =
       optionsBooleanItem::create (
@@ -958,19 +957,19 @@ of the MusicXML tree to an MSR skeleton.)",
         "exit2a",
         fExit2a);
         /* JMI
+  // '-exit-2a' is hidden...
   exit2aOptionsBooleanItem->
     setOptionsElementIsHidden ();
     */
-
-  // exit after pass 2b
-
-  fExit2b = boolOptionsInitialValue;
 
   exitAfterSomePassesSubGroup->
     appendOptionsItem (
       exit2aOptionsBooleanItem);
 
-  // '-exit-2b' is hidden...
+  // exit after pass 2b
+
+  fExit2b = boolOptionsInitialValue;
+
   S_optionsBooleanItem
     exit2bOptionsBooleanItem =
       optionsBooleanItem::create (
@@ -980,6 +979,7 @@ of the MusicXML tree to MSR.)",
         "exit2b",
         fExit2b);
         /* JMI
+  // '-exit-2b' is hidden...
   exit2bOptionsBooleanItem->
     setOptionsElementIsHidden ();
     */

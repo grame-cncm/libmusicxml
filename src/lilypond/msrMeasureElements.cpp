@@ -66,8 +66,7 @@ void msrMeasureElement::setPositionInMeasure (
   }
 #endif
 
-  fPositionInMeasure =
-    positionInMeasure;
+  fPositionInMeasure = positionInMeasure;
 }
 
 void msrMeasureElement::setSoundingWholeNotes (
@@ -94,8 +93,7 @@ void msrMeasureElement::setSoundingWholeNotes (
   }
 #endif
 
-  fSoundingWholeNotes =
-    wholeNotes;
+  fSoundingWholeNotes = wholeNotes;
 }
 
 bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (

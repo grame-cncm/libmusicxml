@@ -162,7 +162,7 @@ void msrChord::setChordMembersPositionInMeasure (
   rational positionInMeasure)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords || gTraceOptions->fTracePositionsInMeasures) {
+  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
     gLogIOstream <<
       "Setting chord members position in measure of " << asString () <<
       " to '" <<

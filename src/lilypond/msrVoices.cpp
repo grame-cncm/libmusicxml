@@ -1724,216 +1724,18 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
+  if (
+
+    gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+  ) {
     gLogIOstream <<
       "Appending harmony " << harmony->asString () <<
       " to harmony voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
-
-/* JMI
-  int inputLineNumber =
-    harmony->getInputLineNumber ();
-
-/*
-  if (false) { // JMI
-    // skip to harmony note position in the voice
-    padUpToCurrentMeasureWholeNotesInVoice (
-      inputLineNumber,
-      harmony->
-        getHarmonyNoteUpLink ()->
-          getPositionInMeasure ());
-  }
-
-  // get the harmony note upLink
-  S_msrNote
-    harmonyNoteUpLink =
-      harmony->
-        getHarmonyNoteUpLink ();
-
-  // get the harmony note upLink sounding whole notes
-  rational
-    harmonyNoteUpLinkSoundingWholeNotes =
-      harmony->
-        getHarmonySoundingWholeNotes ();
-
-  // get the harmony' note upLink position in measure
-  rational
-    harmonyNoteUpLinkPositionInMeasure =
-      harmonyNoteUpLink->
-        getPositionInMeasure ();
-
-  // get the harmony whole notes offset
-  rational
-    harmonyWholeNotesOffset =
-      harmony->
-        getHarmonyWholeNotesOffset ();
-
-  // get the harmony whole notes offset numerator
-  int harmonyWholeNotesOffsetNumerator =
-    harmonyWholeNotesOffset.getNumerator ();
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        endl <<
-        "appendHarmonyToHarmonyVoice() 1" << // JMI
-        endl <<
-        "harmony:" <<
-        endl;
-
-      gIndenter++;
-
-      gLogIOstream <<
-        harmony <<
-        endl <<
-        endl;
-
-      gIndenter--;
-
-      gLogIOstream <<
-        endl <<
-        "appendHarmonyToHarmonyVoice() 2" << // JMI
-        endl <<
-        "harmonyNoteUpLink:" <<
-        endl;
-
-      gIndenter++;
-
-      gLogIOstream <<
-        harmonyNoteUpLink <<
-        endl <<
-        endl;
-
-      gIndenter--;
-
-      gLogIOstream <<
-        "appendHarmonyToHarmonyVoice() 3" <<
-        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
-        harmonyNoteUpLinkSoundingWholeNotes <<
-        ", harmonyWholeNotesOffset = '" <<
-        harmonyWholeNotesOffset <<
-        "', harmonyNoteUpLinkPositionInMeasure = '" <<
-        harmonyNoteUpLinkPositionInMeasure <<
-        "' in voice " <<
-        getVoiceName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-  if (harmonyWholeNotesOffsetNumerator == 0) {
-    // handle the null offset
-    // --------------------------------------------
-
-    // bring this voice to that measure position
-    /* JMI SIMONE
-    padUpToCurrentMeasureWholeNotesInVoice (
-      inputLineNumber,
-      harmonyNoteUpLinkPositionInMeasure);
-  }
-
-  else if (harmonyWholeNotesOffsetNumerator < 0) {
-    // handle the the negative offset as a backup in this voice
-    // followed by the harmony and the skip
-    // --------------------------------------------
-
-    // determine the harmony measure position as
-    // 'abs (harmonyWholeNotesOffset)' backward from the note upLink
-    rational
-      harmonyPositionInMeasure =
-        harmonyNoteUpLinkPositionInMeasure
-          -
-        harmony->getHarmonySoundingWholeNotes ()
-          + // it is negative!
-        harmonyWholeNotesOffset;
-    harmonyPositionInMeasure.rationalise ();
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        endl <<
-        endl <<
-        harmonyNoteUpLink <<
-        endl <<
-        endl;
-
-      gLogIOstream <<
-        "Handling harmony negative offset" <<
-        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
-        harmonyNoteUpLinkSoundingWholeNotes <<
-        ", harmonyWholeNotesOffset = '" <<
-        harmonyWholeNotesOffset <<
-        "', harmonyNoteUpLinkPositionInMeasure = '" <<
-        harmonyNoteUpLinkPositionInMeasure <<
-        "', harmonyPositionInMeasure = '" <<
-        harmonyPositionInMeasure <<
-        "' in voice " <<
-        getVoiceName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    // bring this voice to that measure position
-    padUpToCurrentMeasureWholeNotesInVoice (
-      inputLineNumber,
-      harmonyPositionInMeasure);
-  }
-
-  else {
-    // handle the the positive offset with the skip before the harmony
-    // --------------------------------------------
-
-    // determine the harmony measure position as
-    // 'harmonyWholeNotesOffset' forward from the note upLink
-    rational
-      harmonyPositionInMeasure =
-        harmonyNoteUpLinkPositionInMeasure
-          +
-        harmonyWholeNotesOffset;
-    harmonyPositionInMeasure.rationalise ();
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Handling harmony positive offset" <<
-        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
-        harmonyNoteUpLinkSoundingWholeNotes <<
-        ", harmonyWholeNotesOffset = '" <<
-        harmonyWholeNotesOffset <<
-        "', harmonyNoteUpLinkPositionInMeasure = '" <<
-        harmonyNoteUpLinkPositionInMeasure <<
-        "', harmonyPositionInMeasure = '" <<
-        harmonyPositionInMeasure <<
-        "' in voice " <<
-        getVoiceName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    // bring this voice to that measure position
-    padUpToCurrentMeasureWholeNotesInVoice (
-      inputLineNumber,
-      harmonyPositionInMeasure);
-
-    if (false) { // JMI
-      // decrement the harmony's duration as much
-      harmony->
-        setHarmonySoundingWholeNotes (
-          harmonyNoteUpLinkSoundingWholeNotes
-            -
-          harmonyWholeNotesOffset);
-      harmony->
-        setHarmonyDisplayWholeNotes (
-          harmonyNoteUpLinkSoundingWholeNotes
-            -
-          harmonyWholeNotesOffset);
-    }
-  }
-      */
 
   // append the harmony to the voice last segment
   fVoiceLastSegment->
@@ -9698,3 +9500,206 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 
 
 }
+
+/* JMI
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
+/*
+  if (false) { // JMI
+    // skip to harmony note position in the voice
+    padUpToCurrentMeasureWholeNotesInVoice (
+      inputLineNumber,
+      harmony->
+        getHarmonyNoteUpLink ()->
+          getPositionInMeasure ());
+  }
+
+  // get the harmony note upLink
+  S_msrNote
+    harmonyNoteUpLink =
+      harmony->
+        getHarmonyNoteUpLink ();
+
+  // get the harmony note upLink sounding whole notes
+  rational
+    harmonyNoteUpLinkSoundingWholeNotes =
+      harmony->
+        getHarmonySoundingWholeNotes ();
+
+  // get the harmony' note upLink position in measure
+  rational
+    harmonyNoteUpLinkPositionInMeasure =
+      harmonyNoteUpLink->
+        getPositionInMeasure ();
+
+  // get the harmony whole notes offset
+  rational
+    harmonyWholeNotesOffset =
+      harmony->
+        getHarmonyWholeNotesOffset ();
+
+  // get the harmony whole notes offset numerator
+  int harmonyWholeNotesOffsetNumerator =
+    harmonyWholeNotesOffset.getNumerator ();
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        endl <<
+        "appendHarmonyToHarmonyVoice() 1" << // JMI
+        endl <<
+        "harmony:" <<
+        endl;
+
+      gIndenter++;
+
+      gLogIOstream <<
+        harmony <<
+        endl <<
+        endl;
+
+      gIndenter--;
+
+      gLogIOstream <<
+        endl <<
+        "appendHarmonyToHarmonyVoice() 2" << // JMI
+        endl <<
+        "harmonyNoteUpLink:" <<
+        endl;
+
+      gIndenter++;
+
+      gLogIOstream <<
+        harmonyNoteUpLink <<
+        endl <<
+        endl;
+
+      gIndenter--;
+
+      gLogIOstream <<
+        "appendHarmonyToHarmonyVoice() 3" <<
+        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
+        harmonyNoteUpLinkSoundingWholeNotes <<
+        ", harmonyWholeNotesOffset = '" <<
+        harmonyWholeNotesOffset <<
+        "', harmonyNoteUpLinkPositionInMeasure = '" <<
+        harmonyNoteUpLinkPositionInMeasure <<
+        "' in voice " <<
+        getVoiceName () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+  if (harmonyWholeNotesOffsetNumerator == 0) {
+    // handle the null offset
+    // --------------------------------------------
+
+    // bring this voice to that measure position
+    /* JMI SIMONE
+    padUpToCurrentMeasureWholeNotesInVoice (
+      inputLineNumber,
+      harmonyNoteUpLinkPositionInMeasure);
+  }
+
+  else if (harmonyWholeNotesOffsetNumerator < 0) {
+    // handle the the negative offset as a backup in this voice
+    // followed by the harmony and the skip
+    // --------------------------------------------
+
+    // determine the harmony measure position as
+    // 'abs (harmonyWholeNotesOffset)' backward from the note upLink
+    rational
+      harmonyPositionInMeasure =
+        harmonyNoteUpLinkPositionInMeasure
+          -
+        harmony->getHarmonySoundingWholeNotes ()
+          + // it is negative!
+        harmonyWholeNotesOffset;
+    harmonyPositionInMeasure.rationalise ();
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        endl <<
+        endl <<
+        harmonyNoteUpLink <<
+        endl <<
+        endl;
+
+      gLogIOstream <<
+        "Handling harmony negative offset" <<
+        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
+        harmonyNoteUpLinkSoundingWholeNotes <<
+        ", harmonyWholeNotesOffset = '" <<
+        harmonyWholeNotesOffset <<
+        "', harmonyNoteUpLinkPositionInMeasure = '" <<
+        harmonyNoteUpLinkPositionInMeasure <<
+        "', harmonyPositionInMeasure = '" <<
+        harmonyPositionInMeasure <<
+        "' in voice " <<
+        getVoiceName () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    // bring this voice to that measure position
+    padUpToCurrentMeasureWholeNotesInVoice (
+      inputLineNumber,
+      harmonyPositionInMeasure);
+  }
+
+  else {
+    // handle the the positive offset with the skip before the harmony
+    // --------------------------------------------
+
+    // determine the harmony measure position as
+    // 'harmonyWholeNotesOffset' forward from the note upLink
+    rational
+      harmonyPositionInMeasure =
+        harmonyNoteUpLinkPositionInMeasure
+          +
+        harmonyWholeNotesOffset;
+    harmonyPositionInMeasure.rationalise ();
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Handling harmony positive offset" <<
+        ", harmonyNoteUpLinkSoundingWholeNotes = '" <<
+        harmonyNoteUpLinkSoundingWholeNotes <<
+        ", harmonyWholeNotesOffset = '" <<
+        harmonyWholeNotesOffset <<
+        "', harmonyNoteUpLinkPositionInMeasure = '" <<
+        harmonyNoteUpLinkPositionInMeasure <<
+        "', harmonyPositionInMeasure = '" <<
+        harmonyPositionInMeasure <<
+        "' in voice " <<
+        getVoiceName () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    // bring this voice to that measure position
+    padUpToCurrentMeasureWholeNotesInVoice (
+      inputLineNumber,
+      harmonyPositionInMeasure);
+
+    if (false) { // JMI
+      // decrement the harmony's duration as much
+      harmony->
+        setHarmonySoundingWholeNotes (
+          harmonyNoteUpLinkSoundingWholeNotes
+            -
+          harmonyWholeNotesOffset);
+      harmony->
+        setHarmonyDisplayWholeNotes (
+          harmonyNoteUpLinkSoundingWholeNotes
+            -
+          harmonyWholeNotesOffset);
+    }
+  }
+      */
