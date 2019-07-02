@@ -14780,9 +14780,14 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
-      "Popping tuplet '" <<
-      tuplet->asString () <<
-      "' from tuplets stack" <<
+      "Popping tuplet:" <<
+      endl;
+    gIndenter++;
+    fLogOutputStream <<
+      tuplet;
+    gIndenter--;
+    fLogOutputStream <<
+      " from tuplets stack" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -17225,6 +17230,50 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fThereIsAPendingBackup = false;
   }
 
+  // handling the current pending harmonies if any,
+  // so that they get attached to the note right now
+  if (fPendingHarmoniesList.size ()) {
+    // handle the pending harmonies
+    handlePendingHarmonies (
+      inputLineNumber,
+      newNote,
+      voiceToInsertInto);
+
+    // reset harmony counter
+    fHarmonyVoicesCounter = 0;
+  }
+
+  // handling the current pending figured bass if any,
+  // so that it gets attached to the note right now
+  if (fPendingFiguredBassesList.size ()) {
+    // handle the pending figured basses
+    handlePendingFiguredBasses (
+      newNote,
+      voiceToInsertInto);
+
+    // reset figured bass counter
+    fFiguredBassVoicesCounter = 0;
+
+  // JMI   fPendingFiguredBass = false;
+  }
+
+  // handling the current pending frames if any,
+  // so that they get attached to the note right now
+  if (fPendingFramesList.size ()) {
+    while (fPendingFramesList.size ()) {
+      S_msrFrame
+        frame =
+          fPendingFramesList.front ();
+
+      // attach the frame to the note
+      newNote->
+        setNoteFrame (frame);
+
+      // remove it from the list
+      fPendingFramesList.pop_front ();
+    } // while
+  }
+
   // handle note
   if (fCurrentNoteBelongsToAChord) {
 
@@ -17409,50 +17458,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 #endif
 */
-
-  // handling the current pending harmonies if any,
-  // so that they get attached to the note right now
-  if (fPendingHarmoniesList.size ()) {
-    // handle the pending harmonies
-    handlePendingHarmonies (
-      inputLineNumber,
-      newNote,
-      voiceToInsertInto);
-
-    // reset harmony counter
-    fHarmonyVoicesCounter = 0;
-  }
-
-  // handling the current pending figured bass if any,
-  // so that it gets attached to the note right now
-  if (fPendingFiguredBassesList.size ()) {
-    // handle the pending figured basses
-    handlePendingFiguredBasses (
-      newNote,
-      voiceToInsertInto);
-
-    // reset figured bass counter
-    fFiguredBassVoicesCounter = 0;
-
-  // JMI   fPendingFiguredBass = false;
-  }
-
-  // handling the current pending frames if any,
-  // so that they get attached to the note right now
-  if (fPendingFramesList.size ()) {
-    while (fPendingFramesList.size ()) {
-      S_msrFrame
-        frame =
-          fPendingFramesList.front ();
-
-      // attach the frame to the note
-      newNote->
-        setNoteFrame (frame);
-
-      // remove it from the list
-      fPendingFramesList.pop_front ();
-    } // while
-  }
 
   // handling the pending grace notes group if any
   if (fPendingGraceNotesGroup && ! fCurrentNoteIsAGraceNote) {

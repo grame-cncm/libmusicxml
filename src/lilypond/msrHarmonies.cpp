@@ -831,7 +831,9 @@ void msrHarmony::print (ostream& os)
     setw (fieldWidth) <<
     "harmonyNoteUpLink" << " : ";
   if (fHarmonyNoteUpLink) {
-    os << fHarmonyNoteUpLink->asString ();
+    os <<
+      endl <<
+      gTab << fHarmonyNoteUpLink->asString ();
   }
   else {
     os << "none";

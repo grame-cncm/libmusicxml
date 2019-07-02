@@ -525,7 +525,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
     gLogIOstream <<
       "Appending element " <<
       elem->asShortString () <<
-      " in measure " <<
+      " to measure " <<
       asShortString () <<
       " in voice \"" <<
       fMeasureSegmentUpLink->
@@ -2001,8 +2001,16 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   }
 #endif
 
+  // set S_msrHarmony's measure number
+  harmony->
+    setMeasureNumber (
+      fMeasureNumber);
+
   // append the harmony to the measure elements list
-  appendElementToMeasure (harmony);
+  // DON'T call 'appendElementToMeasure (harmony)':
+  // that would override harmony's position in measure,
+  // which already has the correct value, thus:
+  fMeasureElementsList.push_back (harmony);
 
   // fetch harmony sounding whole notes
   rational

@@ -1433,9 +1433,11 @@ void msrNote::setNotePositionInMeasure (
 
   positionInMeasure.rationalise (); // TEMP ? JMI
 
+/* JMI
   if (positionInMeasure == rational (1, 1)) { // K_NO_POSITION_MEASURE_NUMBER
     abort (); // JMI
   }
+*/
 
   msrMeasureElement::setPositionInMeasure (
     positionInMeasure,
@@ -1446,6 +1448,11 @@ void msrNote::setNotePositionInMeasure (
     fNoteHarmony->
       setHarmonyPositionInMeasure (
         positionInMeasure);
+  }
+  else {
+    gLogIOstream <<
+      "FOO fNoteHarmony is null" << // JMI
+      endl;
   }
 }
 
@@ -2538,7 +2545,13 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
+  if (
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceHarmonies
+      ||
+    gTraceOptions->fTracePositionsInMeasures
+  ) {
     gLogIOstream <<
       "Setting note harmony of " << asString () <<
       " to " << harmony->asString () <<
@@ -3666,6 +3679,46 @@ void msrNote::print (ostream& os)
 
   const int fieldWidth = 34;
 
+  // print measure number
+  os << left <<
+    setw (fieldWidth) <<
+    "noteMeasureNumber" << " : ";
+  if (fMeasureNumber == K_NO_MEASURE_NUMBER) {
+    os <<
+      "unknown";
+  }
+  else if (fMeasureNumber.size ()) {
+    os <<
+      fMeasureNumber;
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "noteMeasureNumber is empty in note '" <<
+      this->asString () <<
+      "'";
+
+// JMI     msrInternalError (
+    msrInternalWarning (
+      gGeneralOptions->fInputSourceName,
+      fInputLineNumber,
+      s.str ());
+  }
+  os << endl;
+
+  // print position in measure
+  os << left <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : ";
+  if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
+    os << "unknown (" << fPositionInMeasure << ")";
+  }
+  else {
+    os << fPositionInMeasure;
+  }
+  os << endl;
+
   if (fNoteMeasureUpLink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
@@ -3741,455 +3794,409 @@ void msrNote::print (ostream& os)
     os << endl;
   }
 
-  {
-    // print sounding and displayed whole notes
-    switch (fNoteKind) {
-      case msrNote::k_NoNoteKind:
-      case msrNote::kRestNote:
-      case msrNote::kSkipNote:
-      case msrNote::kUnpitchedNote:
-      case msrNote::kStandaloneNote:
-      case msrNote::kDoubleTremoloMemberNote:
-      case msrNote::kChordMemberNote:
+  // print sounding and displayed whole notes
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+    case msrNote::kRestNote:
+    case msrNote::kSkipNote:
+    case msrNote::kUnpitchedNote:
+    case msrNote::kStandaloneNote:
+    case msrNote::kDoubleTremoloMemberNote:
+    case msrNote::kChordMemberNote:
+      os << left <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotes" << " : " <<
+        fSoundingWholeNotes <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteDisplayWholeNotes" << " : " <<
+        fNoteDisplayWholeNotes <<
+        endl;
+      break;
+
+    case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
+      os <<
+        setw (fieldWidth) <<
+        "noteDisplayWholeNotes" << " : " <<
+        fNoteDisplayWholeNotes <<
+        endl;
+      break;
+
+    case msrNote::kTupletMemberNote:
+    case msrNote::kGraceTupletMemberNote:
+    case msrNote::kTupletMemberUnpitchedNote:
+      os <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotes" << " : " <<
+        fSoundingWholeNotes <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteDisplayWholeNotes" << " : " <<
+        fNoteDisplayWholeNotes <<
+        endl <<
+        setw (fieldWidth) <<
+        "tupletSoundingWholeNotes" << " : ";
+
+        if (fNoteTupletUpLink) {
+          os <<
+            wholeNotesAsMsrString (
+              fInputLineNumber,
+              getNoteTupletUpLink ()->
+                getTupletSoundingWholeNotes ());
+        }
+        else {
+          os <<
+            "*** unknown yet ***";
+        }
+        os << endl;
+      break;
+    } // switch
+
+  // full measure whole notes,
+  // may be unknown if there is no time signature
+  os << left <<
+    setw (fieldWidth) <<
+    "measureFullLength" << " : ";
+  if (measureFullLength.getNumerator () == 0) {
+    os <<
+      "unknown, there's no time signature";
+  }
+  else {
+    os <<
+      measureFullLength;
+  }
+  os << endl;
+
+  // chord member?
+  os << left <<
+    setw (fieldWidth) <<
+    "noteBelongsToAChord" << " : " <<
+    booleanAsString (fNoteBelongsToAChord) <<
+    endl;
+
+  // tuplet member?
+  os << left <<
+    setw (fieldWidth) <<
+    "noteBelongsToATuplet" << " : " <<
+    booleanAsString (fNoteBelongsToATuplet) <<
+    endl;
+
+  // note measure information
+  // ------------------------------------------------------
+
+  os << left <<
+    setw (fieldWidth) <<
+    "noteOccupiesAFullMeasure" << " : " <<
+    booleanAsString (fNoteOccupiesAFullMeasure) <<
+    endl;
+
+  // multiple rest member?
+  os << left <<
+    setw (fieldWidth) <<
+    "noteBelongsToARestMeasures" << " : " <<
+    booleanAsString (fNoteBelongsToARestMeasures) <<
+    endl;
+  os << left <<
+    setw (fieldWidth) <<
+    "noteRestMeasuresSequenceNumber" << " : " <<
+    fNoteRestMeasuresSequenceNumber <<
+    endl;
+
+  // note print kind
+  os << left <<
+    setw (fieldWidth) <<
+   "notePrintObjectKind" << " : " <<
+    notePrintObjectKindAsString () <<
+    endl;
+
+  // note head
+  os << left <<
+    setw (fieldWidth) <<
+    "noteHeadKind" << " : " <<
+    noteHeadKindAsString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "noteHeadFilledKind" << " : " <<
+    noteHeadFilledKindAsString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "noteHeadParentheses" << " : " <<
+    noteHeadParenthesesKindAsString () <<
+    endl;
+
+  // accidentals
+  os << left <<
+    setw (fieldWidth) <<
+    "noteAccidentalKind" << " : " <<
+    noteAccidentalKindAsString (
+      fNoteAccidentalKind) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "noteEditorialAccidentalKind" << " : " <<
+    noteEditorialAccidentalKindAsString (
+      fNoteEditorialAccidentalKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "noteCautionaryAccidentalKind" << " : " <<
+    noteCautionaryAccidentalKindAsString (
+      fNoteCautionaryAccidentalKind) <<
+    endl;
+
+  // short cuts for efficiency
+  os << left <<
+    setw (fieldWidth) <<
+    "noteIsARest" << " : " <<
+    booleanAsString (fNoteIsARest) <<
+    endl <<
+    setw (fieldWidth) <<
+    "noteIsUnpitched" << " : " <<
+    booleanAsString (fNoteIsUnpitched) <<
+    endl <<
+    setw (fieldWidth) <<
+    "noteIsACueNote" << " : " <<
+    booleanAsString (fNoteIsACueNote) <<
+    endl <<
+    setw (fieldWidth) <<
+    "noteIsAGraceNote" << " : " <<
+    booleanAsString (fNoteIsAGraceNote) <<
+    endl;
+
+  // note redundant information (for speed)
+
+  stringstream s;
+
+  if (fNoteIsStemless || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteIsStemless" <<
+      " : " <<
+      booleanAsString (
+        fNoteIsStemless) <<
+      endl;
+  }
+
+  if (fNoteIsFirstNoteInADoubleTremolo || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteIsFirstNoteInADoubleTremolo" <<
+      " : " <<
+      booleanAsString (
+        fNoteIsFirstNoteInADoubleTremolo) <<
+      endl;
+  }
+  if (fNoteIsSecondNoteInADoubleTremolo || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteIsSecondNoteInADoubleTremolo" <<
+      " : " <<
+      booleanAsString (
+        fNoteIsSecondNoteInADoubleTremolo) <<
+      endl;
+  }
+
+  if (fNoteTrillOrnament || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteTrillOrnament" <<
+      " : " <<
+      booleanAsString (
+        fNoteTrillOrnament) <<
+      endl;
+  }
+
+  if (fNoteDashesOrnament || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteDashesOrnament" <<
+      " : " <<
+      booleanAsString (
+        fNoteDashesOrnament) <<
+      endl;
+  }
+
+  if (fNoteDelayedTurnOrnament || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteDelayedTurnOrnament" <<
+      " : " <<
+      booleanAsString (
+        fNoteDelayedTurnOrnament) <<
+      endl;
+  }
+  if (fNoteDelayedInvertedTurnOrnament || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteDelayedInvertedTurnOrnament" <<
+      " : " <<
+      booleanAsString (
+        fNoteDelayedInvertedTurnOrnament) <<
+      endl;
+  }
+
+  if (fNoteWavyLineSpannerStart || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteWavyLineSpannerStart" <<
+      " : " <<
+      fNoteWavyLineSpannerStart->asShortString () <<
+      endl;
+  }
+  if (fNoteWavyLineSpannerStop || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteWavyLineSpannerStop" <<
+      " : " <<
+      fNoteWavyLineSpannerStop->asShortString () <<
+      endl;
+  }
+
+  if (fNoteIsFollowedByGraceNotesGroup || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteIsFollowedByGraceNotesGroup" <<
+      " : " <<
+      booleanAsString (
+        fNoteIsFollowedByGraceNotesGroup) <<
+      endl;
+  }
+
+  // note MSR strings
+
+  // print whole notes durations as MSR string
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+      {
         os << left <<
           setw (fieldWidth) <<
-          "noteSoundingWholeNotes" << " : " <<
-          fSoundingWholeNotes <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteDisplayWholeNotes" << " : " <<
-          fNoteDisplayWholeNotes <<
+          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+          noteSoundingWholeNotesAsMsrString () <<
+          "\"" <<
           endl;
-        break;
+      }
+      break;
 
-      case msrNote::kGraceNote:
-      case msrNote::kGraceChordMemberNote:
-        os <<
+    case msrNote::kSkipNote:
+      {
+        os << left <<
           setw (fieldWidth) <<
-          "noteDisplayWholeNotes" << " : " <<
-          fNoteDisplayWholeNotes <<
+          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+          noteSoundingWholeNotesAsMsrString () <<
+          "\"" <<
           endl;
-        break;
+      }
+      break;
 
-      case msrNote::kTupletMemberNote:
-      case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletMemberUnpitchedNote:
-        os <<
+    case msrNote::kUnpitchedNote:
+      {
+        os << left <<
           setw (fieldWidth) <<
-          "noteSoundingWholeNotes" << " : " <<
-          fSoundingWholeNotes <<
+          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+          noteSoundingWholeNotesAsMsrString () <<
+          "\"" <<
           endl <<
           setw (fieldWidth) <<
-          "noteDisplayWholeNotes" << " : " <<
-          fNoteDisplayWholeNotes <<
+          "noteDisplayWholeNotesAsMsrString" << " : \"" <<
+          noteDisplayWholeNotesAsMsrString () <<
+          "\"" <<
           endl <<
           setw (fieldWidth) <<
-          "tupletSoundingWholeNotes" << " : ";
+          "noteGraphicDurationAsMsrString" << " : \"" <<
+          noteGraphicDurationAsMsrString () <<
+          "\"" <<
+          endl;
+      }
+      break;
 
-          if (fNoteTupletUpLink) {
-            os <<
-              wholeNotesAsMsrString (
-                fInputLineNumber,
-                getNoteTupletUpLink ()->
-                  getTupletSoundingWholeNotes ());
-          }
-          else {
-            os <<
-              "*** unknown yet ***";
-          }
-          os << endl;
-        break;
-      } // switch
+    case msrNote::kStandaloneNote:
+      {
+        os << left <<
+          setw (fieldWidth) <<
+          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+          noteSoundingWholeNotesAsMsrString () <<
+          "\"" <<
+          endl <<
+          setw (fieldWidth) <<
+          "noteDisplayWholeNotesAsMsrString" << " : \"" <<
+          noteDisplayWholeNotesAsMsrString () <<
+          "\"" <<
+          endl <<
+          setw (fieldWidth) <<
+          "noteGraphicDurationAsMsrString" << " : \"" <<
+          noteGraphicDurationAsMsrString () <<
+          "\"" <<
+          endl;
+      }
+      break;
 
-    // full measure whole notes,
-    // may be unknown if there is no time signature
-    os << left <<
-      setw (fieldWidth) <<
-      "measureFullLength" << " : ";
-    if (measureFullLength.getNumerator () == 0) {
-      os <<
-        "unknown, there's no time signature";
-    }
-    else {
-      os <<
-        measureFullLength;
-    }
-    os << endl;
+    case msrNote::kDoubleTremoloMemberNote:
+      {
+        // JMI
+      }
+      break;
 
-    // chord member?
-    os << left <<
-      setw (fieldWidth) <<
-      "noteBelongsToAChord" << " : " <<
-      booleanAsString (fNoteBelongsToAChord) <<
-      endl;
+    case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
+      {
+        os << left <<
+          setw (fieldWidth) <<
+          "noteGraphicDurationAsMsrString" << " : \"" <<
+          noteGraphicDurationAsMsrString () <<
+          "\"" <<
+          endl;
+      }
+      break;
 
-    // tuplet member?
-    os << left <<
-      setw (fieldWidth) <<
-      "noteBelongsToATuplet" << " : " <<
-      booleanAsString (fNoteBelongsToATuplet) <<
-      endl;
+    case msrNote::kChordMemberNote:
+      {
+        // JMI
+      }
+      break;
 
-    // note measure information
-    // ------------------------------------------------------
+    case msrNote::kTupletMemberNote:
+    case msrNote::kGraceTupletMemberNote:
+    case msrNote::kTupletMemberUnpitchedNote:
+      {
+        /* JMI
+        os << left <<
+          setw (fieldWidth) <<
+          "noteTupletNoteGraphicDurationAsMsrString" << " : \"" <<
+          fNoteTupletNoteGraphicDurationAsMsrString <<
+          "\"" <<
+          endl <<
+          setw (fieldWidth) <<
+          "noteTupletNoteSoundingWholeNotesAsMsrString" << " : ";
+            */
 
-    os << left <<
-      setw (fieldWidth) <<
-      "noteOccupiesAFullMeasure" << " : " <<
-      booleanAsString (fNoteOccupiesAFullMeasure) <<
-      endl;
-
-    // multiple rest member?
-    os << left <<
-      setw (fieldWidth) <<
-      "noteBelongsToARestMeasures" << " : " <<
-      booleanAsString (fNoteBelongsToARestMeasures) <<
-      endl;
-    os << left <<
-      setw (fieldWidth) <<
-      "noteRestMeasuresSequenceNumber" << " : " <<
-      fNoteRestMeasuresSequenceNumber <<
-      endl;
-
-    // note print kind
-    os << left <<
-      setw (fieldWidth) <<
-     "notePrintObjectKind" << " : " <<
-      notePrintObjectKindAsString () <<
-      endl;
-
-    // note head
-    os << left <<
-      setw (fieldWidth) <<
-      "noteHeadKind" << " : " <<
-      noteHeadKindAsString () <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteHeadFilledKind" << " : " <<
-      noteHeadFilledKindAsString () <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteHeadParentheses" << " : " <<
-      noteHeadParenthesesKindAsString () <<
-      endl;
-
-    // accidentals
-    os << left <<
-      setw (fieldWidth) <<
-      "noteAccidentalKind" << " : " <<
-      noteAccidentalKindAsString (
-        fNoteAccidentalKind) <<
-      endl;
-
-    os << left <<
-      setw (fieldWidth) <<
-      "noteEditorialAccidentalKind" << " : " <<
-      noteEditorialAccidentalKindAsString (
-        fNoteEditorialAccidentalKind) <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteCautionaryAccidentalKind" << " : " <<
-      noteCautionaryAccidentalKindAsString (
-        fNoteCautionaryAccidentalKind) <<
-      endl;
-
-    // print measure number
-    os << left <<
-      setw (fieldWidth) <<
-      "noteMeasureNumber" << " : ";
-    if (fMeasureNumber == K_NO_MEASURE_NUMBER) {
-      os <<
-        "unknown";
-    }
-    else if (fMeasureNumber.size ()) {
-      os <<
-        fMeasureNumber;
-    }
-    else {
-      stringstream s;
-
-      s <<
-        "noteMeasureNumber is empty in note '" <<
-        this->asString () <<
-        "'";
-
- // JMI     msrInternalError (
-      msrInternalWarning (
-        gGeneralOptions->fInputSourceName,
-        fInputLineNumber,
-        s.str ());
-    }
-    os << endl;
-
-    // print position in measure
-    os << left <<
-      setw (fieldWidth) <<
-      "positionInMeasure" << " : ";
-    if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
-      os << "unknown (" << fPositionInMeasure << ")";
-    }
-    else {
-      os << fPositionInMeasure;
-    }
-    os << endl;
-  }
-
-    // short cuts for efficiency
-    os << left <<
-      setw (fieldWidth) <<
-      "noteIsARest" << " : " <<
-      booleanAsString (fNoteIsARest) <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteIsUnpitched" << " : " <<
-      booleanAsString (fNoteIsUnpitched) <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteIsACueNote" << " : " <<
-      booleanAsString (fNoteIsACueNote) <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteIsAGraceNote" << " : " <<
-      booleanAsString (fNoteIsAGraceNote) <<
-      endl;
-
-  {
-    // note redundant information (for speed)
-
-    stringstream s;
-
-    if (fNoteIsStemless || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteIsStemless" <<
-        " : " <<
-        booleanAsString (
-          fNoteIsStemless) <<
-        endl;
-    }
-
-    if (fNoteIsFirstNoteInADoubleTremolo || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteIsFirstNoteInADoubleTremolo" <<
-        " : " <<
-        booleanAsString (
-          fNoteIsFirstNoteInADoubleTremolo) <<
-        endl;
-    }
-    if (fNoteIsSecondNoteInADoubleTremolo || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteIsSecondNoteInADoubleTremolo" <<
-        " : " <<
-        booleanAsString (
-          fNoteIsSecondNoteInADoubleTremolo) <<
-        endl;
-    }
-
-    if (fNoteTrillOrnament || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteTrillOrnament" <<
-        " : " <<
-        booleanAsString (
-          fNoteTrillOrnament) <<
-        endl;
-    }
-
-    if (fNoteDashesOrnament || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteDashesOrnament" <<
-        " : " <<
-        booleanAsString (
-          fNoteDashesOrnament) <<
-        endl;
-    }
-
-    if (fNoteDelayedTurnOrnament || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteDelayedTurnOrnament" <<
-        " : " <<
-        booleanAsString (
-          fNoteDelayedTurnOrnament) <<
-        endl;
-    }
-    if (fNoteDelayedInvertedTurnOrnament || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteDelayedInvertedTurnOrnament" <<
-        " : " <<
-        booleanAsString (
-          fNoteDelayedInvertedTurnOrnament) <<
-        endl;
-    }
-
-    if (fNoteWavyLineSpannerStart || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteWavyLineSpannerStart" <<
-        " : " <<
-        fNoteWavyLineSpannerStart->asShortString () <<
-        endl;
-    }
-    if (fNoteWavyLineSpannerStop || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteWavyLineSpannerStop" <<
-        " : " <<
-        fNoteWavyLineSpannerStop->asShortString () <<
-        endl;
-    }
-
-    if (fNoteIsFollowedByGraceNotesGroup || gMsrOptions->fDisplayMsrDetails) {
-      os <<
-        setw (fieldWidth) <<
-        "noteIsFollowedByGraceNotesGroup" <<
-        " : " <<
-        booleanAsString (
-          fNoteIsFollowedByGraceNotesGroup) <<
-        endl;
-    }
-  }
-
-  {
-    // note MSR strings
-
-    // print whole notes durations as MSR string
-    switch (fNoteKind) {
-      case msrNote::k_NoNoteKind:
-        break;
-
-      case msrNote::kRestNote:
-        {
-          os << left <<
-            setw (fieldWidth) <<
-            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-            noteSoundingWholeNotesAsMsrString () <<
-            "\"" <<
-            endl;
-        }
-        break;
-
-      case msrNote::kSkipNote:
-        {
-          os << left <<
-            setw (fieldWidth) <<
-            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-            noteSoundingWholeNotesAsMsrString () <<
-            "\"" <<
-            endl;
-        }
-        break;
-
-      case msrNote::kUnpitchedNote:
-        {
-          os << left <<
-            setw (fieldWidth) <<
-            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-            noteSoundingWholeNotesAsMsrString () <<
-            "\"" <<
-            endl <<
-            setw (fieldWidth) <<
-            "noteDisplayWholeNotesAsMsrString" << " : \"" <<
-            noteDisplayWholeNotesAsMsrString () <<
-            "\"" <<
-            endl <<
-            setw (fieldWidth) <<
-            "noteGraphicDurationAsMsrString" << " : \"" <<
-            noteGraphicDurationAsMsrString () <<
-            "\"" <<
-            endl;
-        }
-        break;
-
-      case msrNote::kStandaloneNote:
-        {
-          os << left <<
-            setw (fieldWidth) <<
-            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-            noteSoundingWholeNotesAsMsrString () <<
-            "\"" <<
-            endl <<
-            setw (fieldWidth) <<
-            "noteDisplayWholeNotesAsMsrString" << " : \"" <<
-            noteDisplayWholeNotesAsMsrString () <<
-            "\"" <<
-            endl <<
-            setw (fieldWidth) <<
-            "noteGraphicDurationAsMsrString" << " : \"" <<
-            noteGraphicDurationAsMsrString () <<
-            "\"" <<
-            endl;
-        }
-        break;
-
-      case msrNote::kDoubleTremoloMemberNote:
-        {
-          // JMI
-        }
-        break;
-
-      case msrNote::kGraceNote:
-      case msrNote::kGraceChordMemberNote:
-        {
-          os << left <<
-            setw (fieldWidth) <<
-            "noteGraphicDurationAsMsrString" << " : \"" <<
-            noteGraphicDurationAsMsrString () <<
-            "\"" <<
-            endl;
-        }
-        break;
-
-      case msrNote::kChordMemberNote:
-        {
-          // JMI
-        }
-        break;
-
-      case msrNote::kTupletMemberNote:
-      case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletMemberUnpitchedNote:
-        {
-          /* JMI
-          os << left <<
-            setw (fieldWidth) <<
-            "noteTupletNoteGraphicDurationAsMsrString" << " : \"" <<
-            fNoteTupletNoteGraphicDurationAsMsrString <<
-            "\"" <<
-            endl <<
-            setw (fieldWidth) <<
-            "noteTupletNoteSoundingWholeNotesAsMsrString" << " : ";
-              */
-
-          if (fNoteTupletUpLink) {
-            os <<
-              "\"" <<
-              wholeNotesAsMsrString (
-                fInputLineNumber,
-                getNoteTupletUpLink ()->
-                  getTupletSoundingWholeNotes ()) <<
-              "\"";
-          }
-          else {
-            os <<
-              "*** unknown yet ***";
-          }
-          os << endl;
-
+        if (fNoteTupletUpLink) {
           os <<
-            setw (fieldWidth) <<
-            "noteGraphicDurationAsMsrString" << " : \"" <<
-            noteGraphicDurationAsMsrString () <<
             "\"" <<
-            endl;
+            wholeNotesAsMsrString (
+              fInputLineNumber,
+              getNoteTupletUpLink ()->
+                getTupletSoundingWholeNotes ()) <<
+            "\"";
         }
-        break;
-    } // switch
-  }
+        else {
+          os <<
+            "*** unknown yet ***";
+        }
+        os << endl;
+
+        os <<
+          setw (fieldWidth) <<
+          "noteGraphicDurationAsMsrString" << " : \"" <<
+          noteGraphicDurationAsMsrString () <<
+          "\"" <<
+          endl;
+      }
+      break;
+  } // switch
 
   // print the octave shift if any
   if (fNoteOctaveShift || gMsrOptions->fDisplayMsrDetails) {
@@ -5071,17 +5078,15 @@ void msrNote::print (ostream& os)
   }
 
   // print the harmony if any
+  os <<
+    setw (fieldWidth) <<
+    "noteHarmony";
   if (fNoteHarmony || gMsrOptions->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteHarmony";
     if (fNoteHarmony) {
       os << endl;
-
       gIndenter++;
 
-      os <<
-        fNoteHarmony;
+      os << fNoteHarmony;
 
       gIndenter--;
     }
@@ -5093,17 +5098,15 @@ void msrNote::print (ostream& os)
   }
 
   // print the figured bass if any
+  os <<
+    setw (fieldWidth) <<
+    "noteFiguredBass";
   if (fNoteFiguredBass || gMsrOptions->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteFiguredBass";
     if (fNoteFiguredBass) {
       os << endl;
-
       gIndenter++;
 
-      os <<
-        fNoteFiguredBass <<
+      os << fNoteFiguredBass <<
         endl;
 
       gIndenter--;
@@ -5116,18 +5119,16 @@ void msrNote::print (ostream& os)
   }
 
   // print the frame if any
-  if (fNoteFrame || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteFrame";
+  if (fNoteFrame || gMsrOptions->fDisplayMsrDetails) {
     if (fNoteFrame) {
       os << endl;
 
       gIndenter++;
 
-      os <<
-        fNoteFrame <<
-        endl;
+      os << fNoteFrame;
 
       gIndenter--;
     }
