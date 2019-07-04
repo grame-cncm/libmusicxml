@@ -1035,6 +1035,27 @@ class mxmlTree2MsrTranslator :
     S_msrKey                  handleHumdrumScotKey (
                                 int inputLineNumber);
 
+    // harmonies, figured basses and frames are pending
+    // before the note itself is found in the MusicXML data
+    // ------------------------------------------------------
+    void                      attachPendingHarmoniesFiguredBassesAndOrFramesToNote (
+                                int        inputLineNumber,
+                                S_msrNote  newNote,
+                                S_msrVoice voiceToInsertInto);
+
+    S_msrNote                 createNote (
+                                int inputLineNumber);
+
+    void                      populateNote (
+                                int       inputLineNumber,
+                                S_msrNote newNote);
+
+    void                      createAStaffChangeIfNecessary (
+                                int        inputLineNumber,
+                                S_msrNote  newNote,
+                                S_msrVoice voiceToInsertInto);
+
+
     // transpose handling
     // ------------------------------------------------------
 
@@ -1060,7 +1081,7 @@ class mxmlTree2MsrTranslator :
 
     bool                      fOnGoingDirectionType;
 
-    void                      attachPendingPriorElementsToVoice (
+    void                      attachPendingVoiceLevelElementsToVoice (
                                 S_msrVoice voice);
 
 
@@ -1454,7 +1475,8 @@ class mxmlTree2MsrTranslator :
                               fVoicesLastMetNoteMap;
 
     void                      printVoicesLastMetNoteMap (
-                                int    inputLineNumber);
+                                int    inputLineNumber,
+                                string context);
 
     void                      checkStep (
                                 int    inputLineNumber,
@@ -1563,6 +1585,11 @@ class mxmlTree2MsrTranslator :
     // initialization
     void                      initializeNoteData ();
 
+    // notes
+    void                      handleNote (
+                                int        inputLineNumber,
+                                S_msrNote  newNote);
+
     // detailed notes handling
     void                      handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
                                 S_msrNote newNote);
@@ -1613,7 +1640,7 @@ class mxmlTree2MsrTranslator :
     list<S_msrWedge>          fPendingWedgesList;
     list<S_msrSlash>          fPendingSlashesList;
 
-    void                      attachPendingElementsToNote (
+    void                      attachPendingNoteLevelElementsToNote (
                                 S_msrNote note);
 
     void                      attachPendingDynamicsToNote (

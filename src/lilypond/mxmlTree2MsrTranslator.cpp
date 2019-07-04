@@ -449,7 +449,8 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::printVoicesLastMetNoteMap (
-  int    inputLineNumber)
+  int    inputLineNumber,
+  string context)
 {
   int
     voicesLastMetNoteMapSize =
@@ -460,6 +461,7 @@ void mxmlTree2MsrTranslator::printVoicesLastMetNoteMap (
     "fVoicesLastMetNoteMap contains " <<
     singularOrPlural (
       voicesLastMetNoteMapSize, "element", "elements") <<
+    ", context: " << context <<
     ", line " << inputLineNumber <<
     ":" <<
     endl;
@@ -16517,12 +16519,12 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
   }
 }
 
-void mxmlTree2MsrTranslator::attachPendingPriorElementsToVoice (
+void mxmlTree2MsrTranslator::attachPendingVoiceLevelElementsToVoice (
   S_msrVoice voice)
 {
   /* JMI
   fLogOutputStream <<
-    "attachPendingPriorElementsToVoice()" <<
+    "attachPendingVoiceLevelElementsToVoice()" <<
     ", fPendingTemposList.size () = " << fPendingTemposList.size () <<
     ", fPendingLineBreaksList.size () = " << fPendingLineBreaksList.size () <<
     ", fPendingPageBreaksList.size () = " << fPendingPageBreaksList.size () <<
@@ -16546,7 +16548,7 @@ void mxmlTree2MsrTranslator::attachPendingPriorElementsToVoice (
   attachPageBreaksToVoice (voice);
 }
 
-void mxmlTree2MsrTranslator::attachPendingElementsToNote (
+void mxmlTree2MsrTranslator::attachPendingNoteLevelElementsToNote (
   S_msrNote note)
 {
   // attach the pending eyeglasses, if any, to the note
@@ -16599,36 +16601,9 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
+S_msrNote mxmlTree2MsrTranslator::createNote (
+  int inputLineNumber)
 {
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACE_OPTIONS
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_note" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  /*
-    This is a complex method, due to the fact that
-    dynamics, wedges, chords and tuplets
-    are not ordered in the same way in MusicXML and LilyPond.
-
-    Staff number is analyzed before voice number
-    but occurs after it in the MusicXML tree.
-    That's why the treatment below has been postponed until this method
-  */
-
-  /*
-    Staff assignment is only needed for music notated on multiple staves.
-    Used by both notes and directions.
-    Staff values are numbers, with 1 referring to the top-most staff in a part.
-  */
-
   // determine quarter tones note pitch
   fCurrentNoteQuarterTonesPitchKind =
     quarterTonesPitchKindFromDiatonicPitchAndAlteration (
@@ -16827,41 +16802,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 #endif
 
-/* JMI
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) { // JMI
-    fLogOutputStream <<
-      endl <<
-      "==> BEFORE visitEnd (S_note&)" <<
-      ", line " << inputLineNumber <<
-      " we have:" <<
-      endl;
-
-    gIndenter++;
-
-    const int fieldWidth = 27;
-
-    fLogOutputStream << left <<
-      setw (fieldWidth) << "--> fCurrentMusicXMLStaffNumber" << " = " <<
-      fCurrentMusicXMLStaffNumber <<
-      endl <<
-      setw (fieldWidth) << "--> fCurrentMusicXMLVoiceNumber" << " = " <<
-      fCurrentMusicXMLVoiceNumber <<
-      endl <<
-      setw (fieldWidth) << "--> current voice" << " = \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-
-    gIndenter--;
-
-    fLogOutputStream <<
-      "<==" <<
-      endl <<
-      * endl;
-  }
-#endif
-*/
-
   if (fCurrentNoteIsAGraceNote) {
     // set current grace note display whole notes
     fCurrentNoteDisplayWholeNotes =
@@ -16988,14 +16928,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteHeadFilledKind,
         fCurrentNoteHeadParenthesesKind);
 
-  // set newNote's color if relevant
-  if (fCurrentNoteRGB.size () || fCurrentNoteAlpha.size ()) {
-    newNote->setNoteColor (
-      msrColor (
-        fCurrentNoteRGB,
-        fCurrentNoteAlpha));
-  }
-
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
     fLogOutputStream <<
@@ -17012,6 +16944,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 #endif
 
+  return newNote;
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::populateNote (
+  int       inputLineNumber,
+  S_msrNote newNote)
+{
+  // set newNote's color if relevant
+  if (fCurrentNoteRGB.size () || fCurrentNoteAlpha.size ()) {
+    newNote->setNoteColor (
+      msrColor (
+        fCurrentNoteRGB,
+        fCurrentNoteAlpha));
+  }
+
   // set note accidentals
   newNote->
     setNoteAccidentalKind (
@@ -17025,97 +16973,130 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     setNoteCautionaryAccidentalKind (
       fCurrentNoteCautionaryAccidentalKind);
 
-  // fetch current note's voice
-  S_msrVoice
-    currentNotesVoice =
-      fetchVoiceFromPart (
-        inputLineNumber,
-        fCurrentMusicXMLStaffNumber,
-        fCurrentMusicXMLVoiceNumber);
+  // check <duration/> and <type/> consistency if relevant
+  if (
+    fCurrentNoteSoundingWholeNotesFromDuration
+      !=
+    fCurrentNoteDisplayWholeNotesFromType
+      &&
+    ! fCurrentNoteHasATimeModification
+  ) {
+    switch (newNote->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        break;
 
-  // sanity check
-  msrAssert (
-    currentNotesVoice != nullptr,
-    "currentNotesVoice is null");
+      case msrNote::kTupletMemberNote:
+      case msrNote::kGraceTupletMemberNote:
+      case msrNote::kTupletMemberUnpitchedNote:
+  // JMI      break;
 
-  // the elements pending since before the note if any
-  // can now be appended to the latter's voice
-  // prior to the note itself
-  attachPendingPriorElementsToVoice (
-    currentNotesVoice);
+      case msrNote::kRestNote:
+      case msrNote::kSkipNote:
+      case msrNote::kUnpitchedNote:
+      case msrNote::kStandaloneNote:
+      case msrNote::kChordMemberNote:
+        if (! fCurrentNoteIsAGraceNote) {
+          stringstream s;
 
-  // set current staff number to insert into if needed JMI ???
-  if (fCurrentStaffNumberToInsertInto == K_NO_STAFF_NUMBER) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
-      fLogOutputStream <<
-        "==> setting fCurrentStaffNumberToInsertInto to " <<
-        fCurrentMusicXMLStaffNumber <<
-        ", in voice \"" <<
-        currentNotesVoice->getVoiceName () <<
-        "\"" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
+          s <<
+            "note duration inconsistency: divisions indicates " <<
+            fCurrentNoteSoundingWholeNotesFromDuration <<
+            " while type indicates " <<
+            fCurrentNoteDisplayWholeNotesFromType <<
+            ", using the latter";
 
-    fCurrentStaffNumberToInsertInto = fCurrentMusicXMLStaffNumber;
+          msrMusicXMLWarning (
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            s.str ());
+        }
+
+        newNote->
+          setNoteSoundingWholeNotes (
+            fCurrentNoteDisplayWholeNotesFromType);
+        break;
+
+      case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
+      case msrNote::kDoubleTremoloMemberNote:
+        break;
+    } // switch
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
-    fLogOutputStream <<
-      "==> fetching voice to insert into" <<
-      ", fCurrentStaffNumberToInsertInto = " <<
-      fCurrentStaffNumberToInsertInto <<
-      ", fPreviousNoteMusicXMLStaffNumber = " <<
-      fPreviousNoteMusicXMLStaffNumber <<
-      ", fCurrentMusicXMLStaffNumber = " <<
-      fCurrentMusicXMLStaffNumber <<
-      ", fCurrentMusicXMLVoiceNumber = " <<
-      fCurrentMusicXMLVoiceNumber <<
-      ", line " << inputLineNumber <<
-      endl;
+  // set newNote tie if any
+  if (fCurrentTie) {
+    newNote->
+      setNoteTie (fCurrentTie);
   }
-#endif
 
-  // fetch voice to insert into
-  S_msrVoice
-    voiceToInsertInto =
-      fetchVoiceFromPart (
-        inputLineNumber,
-        fCurrentStaffNumberToInsertInto,
-        fCurrentMusicXMLVoiceNumber);
-
-  // sanity check
-  msrAssert (
-    voiceToInsertInto != nullptr,
-    "voiceToInsertInto is null");
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
-    fLogOutputStream <<
-      "==> is there a staff change?" <<
-      " fCurrentStaffNumberToInsertInto = " <<
-      fCurrentStaffNumberToInsertInto <<
-      ", fPreviousNoteMusicXMLStaffNumber = " <<
-      fPreviousNoteMusicXMLStaffNumber <<
-      ", fCurrentMusicXMLStaffNumber = " <<
-      fCurrentMusicXMLStaffNumber <<
-      ", in voice \"" <<
-      voiceToInsertInto->getVoiceName() <<
-      "\"" <<
-      /* JMI
-      ", fCurrentMusicXMLStaffNumber = " << fCurrentMusicXMLStaffNumber <<
-      ", in staff \"" <<
-      staff->getStaffName() <<
-      "\"" <<
-      */
-      ", line " << inputLineNumber <<
-      endl;
+  // set its stem if any
+  if (fCurrentStem) {
+    newNote->
+      setNoteStem (fCurrentStem);
   }
-#endif
 
+  // attach the beams if any to the note
+  if (fPendingBeamsList.size ()) {
+    for (
+      list<S_msrBeam>::const_iterator i=fPendingBeamsList.begin ();
+      i!=fPendingBeamsList.end ();
+      i++
+  ) {
+      newNote->
+        appendBeamToNote ((*i));
+    } // for
+
+    fPendingBeamsList.clear ();
+  }
+
+  // attach the articulations if any to the note
+  attachCurrentArticulationsToNote (newNote);
+
+  // attach the technicals if any to the note
+  attachCurrentTechnicalsToNote (newNote);
+  attachCurrentTechnicalWithIntegersToNote (newNote);
+  attachCurrentTechnicalWithFloatsToNote (newNote);
+  attachCurrentTechnicalWithStringsToNote (newNote);
+
+  // attach the ornaments if any to the note
+  attachCurrentOrnamentsToNote (newNote);
+
+  // attach the spanners if any to the note
+  attachCurrentSpannersToNote (newNote);
+
+  // attach the singleTremolo if any to the note
+  attachCurrentSingleTremoloToNote (newNote);
+
+  // handling the pending grace notes group if any
+  if (fPendingGraceNotesGroup && ! fCurrentNoteIsAGraceNote) {
+    // this is the first note after the grace notes group
+
+    // attach the current grace notes to this note
+    switch (fPendingGraceNotesGroup->getGraceNotesGroupKind ()) {
+      case msrGraceNotesGroup::kGraceNotesGroupBefore:
+        newNote->
+          setNoteGraceNotesGroupBefore (
+            fPendingGraceNotesGroup);
+        break;
+      case msrGraceNotesGroup::kGraceNotesGroupAfter:
+        newNote->
+          setNoteGraceNotesGroupAfter (
+            fPendingGraceNotesGroup);
+        break;
+    } // switch
+
+    // forget about the pending grace notes
+    fPendingGraceNotesGroup = nullptr;
+  }
+
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
+  int        inputLineNumber,
+  S_msrNote  newNote,
+  S_msrVoice voiceToInsertInto)
+{
   // is there a staff change?
   fCurrentStaffChangeKind = k_NoStaffChange;
 
@@ -17218,6 +17199,271 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
    // JMI  BOFBOFBOF ??? fCurrentMusicXMLStaffNumber = fCurrentStaffNumberToInsertInto;
     }
   }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::handleNote (
+  int        inputLineNumber,
+  S_msrNote  newNote)
+{
+  // handle the note itself
+  if (fCurrentNoteBelongsToAChord) {
+    if (fCurrentNoteBelongsToATuplet) {
+      // note is the second, third, ..., member of a chord
+      // that is a member of a tuplet
+      handleNoteBelongingToAChordInATuplet (
+        newNote);
+    }
+
+    else if (fCurrentNoteIsAGraceNote) {
+      // note is the second, third, ..., member of a chord
+      // that is a part of grace notes
+      handleNoteBelongingToAChordInAGraceNotesGroup (
+        newNote);
+    }
+
+    else {
+      // note is the second, third, ..., member of a chord
+      // whose first member is in
+      // JMI ??? 'fLastHandledNoteInVoiceMap [currentVoice]'
+      handleNoteBelongingToAChord (
+        newNote);
+    }
+  }
+
+  else if (fCurrentNoteBelongsToATuplet) {
+    // note/rest is the first, second, third, ..., member of a tuplet
+    handleNoteBelongingToATuplet (
+      newNote);
+  }
+
+  else {
+    // note/rest is standalone or a member of grace notes
+
+    // this terminates a tuplet if any
+    handlePendingTupletStopIfAny (
+      inputLineNumber,
+      newNote);
+
+    // handle it
+    handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
+      newNote);
+  }
+
+  // handling voices current chord map if needed
+  if (! fCurrentNoteBelongsToAChord) {
+    if (fOnGoingChord) {
+      // newNote is the first note after the chord in the current voice
+
+/* JMI
+      // finalize the current chord
+      fCurrentChord->
+        finalizeChord (
+          inputLineNumber);
+*/
+
+      // forget about the current chord
+      fCurrentChord = nullptr;
+
+      fOnGoingChord = false;
+    }
+
+    if (fCurrentDoubleTremolo) {
+      // forget about a double tremolo containing a chord
+    // JMI XXL BOFS  fCurrentDoubleTremolo = 0;
+    }
+  }
+
+  // register newNote as the last found note for the current voice
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChords) {
+  /* JMI
+    fLogOutputStream <<
+      "--> STORING " <<
+      newNote->asShortString () <<
+      " as last note found in voice " <<
+      voiceToInsertInto->getVoiceName () <<
+      endl <<
+      "-->  fCurrentMusicXMLStaffNumber = " <<
+      fCurrentMusicXMLStaffNumber <<
+      endl <<
+      "--> fCurrentMusicXMLVoiceNumber  = " <<
+      fCurrentMusicXMLVoiceNumber <<
+      endl <<
+      / * JMI
+      "--> staff name  = " <<
+      staff->getStaffName () <<
+      endl <<
+      * /
+      "--> voice name  = " <<
+      voiceToInsertInto->getVoiceName () <<
+      endl;
+      */
+  }
+#endif
+
+  fVoicesLastMetNoteMap [
+    make_pair (
+      fCurrentStaffNumberToInsertInto, // JMI fCurrentSequenceStaffNumber,
+      fCurrentMusicXMLVoiceNumber)
+    ] =
+      newNote;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChords) {
+    printVoicesLastMetNoteMap (
+      inputLineNumber,
+      "handleNote()");
+  }
+#endif
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OPTIONS
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_note" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  /*
+    This is a complex method, due to the fact that
+    dynamics, wedges, chords and tuplets
+    are not ordered in the same way in MusicXML and LilyPond.
+
+    Staff number is analyzed before voice number
+    but occurs after it in the MusicXML tree.
+    That's why the treatment below has been postponed until this method
+  */
+
+  /*
+    Staff assignment is only needed for music notated on multiple staves.
+    Used by both notes and directions.
+    Staff values are numbers, with 1 referring to the top-most staff in a part.
+  */
+
+  // create the note
+  S_msrNote
+    newNote =
+      createNote (
+        inputLineNumber);
+
+  // populate newNote
+  populateNote (
+    inputLineNumber,
+    newNote);
+
+  // fetch current note's voice
+  S_msrVoice
+    currentNoteVoice =
+      fetchVoiceFromPart (
+        inputLineNumber,
+        fCurrentMusicXMLStaffNumber,
+        fCurrentMusicXMLVoiceNumber);
+
+  // sanity check
+  msrAssert (
+    currentNoteVoice != nullptr,
+    "currentNoteVoice is null");
+
+  // the elements pending since before the note if any
+  // can now be appended to the latter's voice
+  // prior to the note itself
+  attachPendingVoiceLevelElementsToVoice (
+    currentNoteVoice);
+
+  // set current staff number to insert into if needed JMI ???
+  if (fCurrentStaffNumberToInsertInto == K_NO_STAFF_NUMBER) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
+      fLogOutputStream <<
+        "==> setting fCurrentStaffNumberToInsertInto to " <<
+        fCurrentMusicXMLStaffNumber <<
+        ", in voice \"" <<
+        currentNoteVoice->getVoiceName () <<
+        "\"" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    fCurrentStaffNumberToInsertInto = fCurrentMusicXMLStaffNumber;
+  }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
+    fLogOutputStream <<
+      "==> fetching voice to insert into" <<
+      ", fCurrentStaffNumberToInsertInto = " <<
+      fCurrentStaffNumberToInsertInto <<
+      ", fPreviousNoteMusicXMLStaffNumber = " <<
+      fPreviousNoteMusicXMLStaffNumber <<
+      ", fCurrentMusicXMLStaffNumber = " <<
+      fCurrentMusicXMLStaffNumber <<
+      ", fCurrentMusicXMLVoiceNumber = " <<
+      fCurrentMusicXMLVoiceNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // fetch voice to insert into
+  S_msrVoice
+    voiceToInsertInto =
+      fetchVoiceFromPart (
+        inputLineNumber,
+        fCurrentStaffNumberToInsertInto,
+        fCurrentMusicXMLVoiceNumber);
+
+  // sanity check
+  msrAssert (
+    voiceToInsertInto != nullptr,
+    "voiceToInsertInto is null");
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
+    fLogOutputStream <<
+      "==> is there a staff change?" <<
+      " fCurrentStaffNumberToInsertInto = " <<
+      fCurrentStaffNumberToInsertInto <<
+      ", fPreviousNoteMusicXMLStaffNumber = " <<
+      fPreviousNoteMusicXMLStaffNumber <<
+      ", fCurrentMusicXMLStaffNumber = " <<
+      fCurrentMusicXMLStaffNumber <<
+      ", in voice \"" <<
+      voiceToInsertInto->getVoiceName() <<
+      "\"" <<
+      /* JMI
+      ", fCurrentMusicXMLStaffNumber = " << fCurrentMusicXMLStaffNumber <<
+      ", in staff \"" <<
+      staff->getStaffName() <<
+      "\"" <<
+      */
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // attach the pre-pending elements if any to newNote,
+  // before the note itself is handled, because that may cause
+  // tuplets or chords to be appended to the voice
+  attachPendingHarmoniesFiguredBassesAndOrFramesToNote (
+    inputLineNumber,
+    newNote,
+    voiceToInsertInto);
+
+  // create a staff change if necessary
+  createAStaffChangeIfNecessary (
+    inputLineNumber,
+    newNote,
+    voiceToInsertInto);
 
   // handle the pending backup if any
   if (fThereIsAPendingBackup) {
@@ -17230,6 +17476,36 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fThereIsAPendingBackup = false;
   }
 
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // handle the note itself
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  handleNote (
+    inputLineNumber,
+    newNote);
+
+  // attach the pending elements, if any, to newNote
+  // only now because <lyric> follows <glissando> and <slide> in MusicXML JMI ???
+  attachPendingNoteLevelElementsToNote (newNote);
+
+  // lyrics if any have to be handled in all cases
+  // only now because attachPendingNoteLevelElementsToNote()
+  // may append skip syllables to the notes
+  handleLyricsForNote (
+    voiceToInsertInto,
+    newNote);
+
+  fOnGoingNote = false;
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator:: attachPendingHarmoniesFiguredBassesAndOrFramesToNote (
+  int        inputLineNumber,
+  S_msrNote  newNote,
+  S_msrVoice voiceToInsertInto)
+{
   // handling the current pending harmonies if any,
   // so that they get attached to the note right now
   if (fPendingHarmoniesList.size ()) {
@@ -17273,294 +17549,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       fPendingFramesList.pop_front ();
     } // while
   }
-
-  // handle note
-  if (fCurrentNoteBelongsToAChord) {
-
-    if (fCurrentNoteBelongsToATuplet) {
-
-      // note is the second, third, ..., member of a chord
-      // that is a member of a tuplet
-      handleNoteBelongingToAChordInATuplet (
-        newNote);
-
-    }
-
-    else if (fCurrentNoteIsAGraceNote) {
-
-/* JMI
-      fLogOutputStream <<
-        "FOO" <<
-        endl;
-        */
-
-      // note is the second, third, ..., member of a chord
-      // that is a part of grace notes
-      handleNoteBelongingToAChordInAGraceNotesGroup (
-        newNote);
-
-    }
-
-    else {
-
-      // note is the second, third, ..., member of a chord
-      // whose first member is in
-      // JMI ??? 'fLastHandledNoteInVoiceMap [currentVoice]'
-      handleNoteBelongingToAChord (
-        newNote);
-
-    }
-  }
-
-  else if (fCurrentNoteBelongsToATuplet) {
-
-    // note/rest is the first, second, third, ..., member of a tuplet
-    handleNoteBelongingToATuplet (
-      newNote);
-
-  }
-
-  else {
-
-    // note/rest is standalone or a member of grace notes
-
-    // this terminates a tuplet if any
-    handlePendingTupletStopIfAny (
-      inputLineNumber,
-      newNote);
-
-    // handle it
-    handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
-      newNote);
-  }
-
-  // check <duration/> and <type/> consistency if relevant
-  if (
-    fCurrentNoteSoundingWholeNotesFromDuration
-      !=
-    fCurrentNoteDisplayWholeNotesFromType
-      &&
-    ! fCurrentNoteHasATimeModification
-  ) {
-    switch (newNote->getNoteKind ()) {
-      case msrNote::k_NoNoteKind:
-        break;
-
-      case msrNote::kTupletMemberNote:
-      case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletMemberUnpitchedNote:
-  // JMI      break;
-
-      case msrNote::kRestNote:
-      case msrNote::kSkipNote:
-      case msrNote::kUnpitchedNote:
-      case msrNote::kStandaloneNote:
-      case msrNote::kChordMemberNote:
-        if (! fCurrentNoteIsAGraceNote) {
-          stringstream s;
-
-          s <<
-            "note duration inconsistency: divisions indicates " <<
-            fCurrentNoteSoundingWholeNotesFromDuration <<
-            " while type indicates " <<
-            fCurrentNoteDisplayWholeNotesFromType <<
-            ", using the latter";
-
-          msrMusicXMLWarning (
-            gGeneralOptions->fInputSourceName,
-            inputLineNumber,
-            s.str ());
-        }
-
-        newNote->
-          setNoteSoundingWholeNotes (
-            fCurrentNoteDisplayWholeNotesFromType);
-        break;
-
-      case msrNote::kGraceNote:
-      case msrNote::kGraceChordMemberNote:
-      case msrNote::kDoubleTremoloMemberNote:
-        break;
-    } // switch
-  }
-
-  // set newNote tie if any
-  if (fCurrentTie) {
-    newNote->
-      setNoteTie (fCurrentTie);
-  }
-
-  // set its stem if any
-  if (fCurrentStem) {
-    newNote->
-      setNoteStem (fCurrentStem);
-  }
-
-  // attach the beams if any to the note
-  if (fPendingBeamsList.size ()) {
-    for (
-      list<S_msrBeam>::const_iterator i=fPendingBeamsList.begin ();
-      i!=fPendingBeamsList.end ();
-      i++
-  ) {
-      newNote->
-        appendBeamToNote ((*i));
-    } // for
-
-    fPendingBeamsList.clear ();
-  }
-
-  // attach the articulations if any to the note
-  attachCurrentArticulationsToNote (newNote);
-
-  // attach the technicals if any to the note
-  attachCurrentTechnicalsToNote (newNote);
-  attachCurrentTechnicalWithIntegersToNote (newNote);
-  attachCurrentTechnicalWithFloatsToNote (newNote);
-  attachCurrentTechnicalWithStringsToNote (newNote);
-
-  // attach the ornaments if any to the note
-  attachCurrentOrnamentsToNote (newNote);
-
-  // attach the spanners if any to the note
-  attachCurrentSpannersToNote (newNote);
-
-  // attach the singleTremolo if any to the note
-  attachCurrentSingleTremoloToNote (newNote);
-
-/* JMI
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) { // JMI
-     const int fieldWidth = 27;
-
-    fLogOutputStream << left <<
-      endl <<
-      "==> AFTER visitEnd (S_note&) " <<
-      newNote->asString () <<
-      ", line " << inputLineNumber <<
-      " we have:" <<
-      endl <<
-      setw (fieldWidth) <<
-      "--> fCurrentMusicXMLStaffNumber" << " = " <<
-      fCurrentMusicXMLStaffNumber <<
-      endl <<
-      setw (fieldWidth) <<
-      "--> fCurrentMusicXMLVoiceNumber" << " = " <<
-      fCurrentMusicXMLVoiceNumber <<
-      endl <<
-      setw (fieldWidth) <<
-      "--> current voice" << " = \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl <<
-      "<==" <<
-      endl <<
-      endl;
-  }
-#endif
-*/
-
-  // handling the pending grace notes group if any
-  if (fPendingGraceNotesGroup && ! fCurrentNoteIsAGraceNote) {
-    // this is the first note after the grace notes group
-
-    // attach the current grace notes to this note
-    switch (fPendingGraceNotesGroup->getGraceNotesGroupKind ()) {
-      case msrGraceNotesGroup::kGraceNotesGroupBefore:
-        newNote->
-          setNoteGraceNotesGroupBefore (
-            fPendingGraceNotesGroup);
-        break;
-      case msrGraceNotesGroup::kGraceNotesGroupAfter:
-        newNote->
-          setNoteGraceNotesGroupAfter (
-            fPendingGraceNotesGroup);
-        break;
-    } // switch
-
-    // forget about the pending grace notes
-    fPendingGraceNotesGroup = nullptr;
-  }
-
-  // handling voices current chord map if needed
-  if (! fCurrentNoteBelongsToAChord) {
-    if (fOnGoingChord) {
-      // newNote is the first note after the chord in the current voice
-
-/* JMI
-      // finalize the current chord
-      fCurrentChord->
-        finalizeChord (
-          inputLineNumber);
-*/
-
-      // forget about the current chord
-      fCurrentChord = nullptr;
-
-      fOnGoingChord = false;
-    }
-
-    if (fCurrentDoubleTremolo) {
-      // forget about a double tremolo containing a chord
-    // JMI XXL BOFS  fCurrentDoubleTremolo = 0;
-    }
-  }
-
-  // register newNote as the last found note for the current voice
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
-    fLogOutputStream <<
-      "--> STORING " <<
-      newNote->asShortString () <<
-      " as last note found in voice " <<
-      voiceToInsertInto->getVoiceName () <<
-      endl <<
-      "-->  fCurrentMusicXMLStaffNumber = " <<
-      fCurrentMusicXMLStaffNumber <<
-      endl <<
-      "--> fCurrentMusicXMLVoiceNumber  = " <<
-      fCurrentMusicXMLVoiceNumber <<
-      endl <<
-      /* JMI
-      "--> staff name  = " <<
-      staff->getStaffName () <<
-      endl <<
-      */
-      "--> voice name  = " <<
-      voiceToInsertInto->getVoiceName () <<
-      endl;
-  }
-#endif
-
-  fVoicesLastMetNoteMap [
-    make_pair (
-      fCurrentStaffNumberToInsertInto, // JMI fCurrentSequenceStaffNumber,
-      fCurrentMusicXMLVoiceNumber)
-    ] =
-      newNote;
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
-    fLogOutputStream <<
-      "--> AFTER STORING " <<
-      endl;
-
-    printVoicesLastMetNoteMap (
-      inputLineNumber);
-  }
-#endif
-
-  // attach the pending elements, if any, to newNote
-  // only now because <lyric> follows <glissando> and <slide> in MusicXML
-  attachPendingElementsToNote (newNote);
-
-  // lyrics if any have to be handled in all cases
-  // only now because attachPendingElementsToNote()
-  // may append skip syllables to the notes
-  handleLyricsForNote (
-    voiceToInsertInto,
-    newNote);
-
-  fOnGoingNote = false;
 }
 
 //______________________________________________________________________________
@@ -18405,7 +18393,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords) {
       printVoicesLastMetNoteMap (
-        inputLineNumber);
+        inputLineNumber,
+        "handleNoteBelongingToAChord()");
     }
 #endif
 
@@ -21949,3 +21938,70 @@ part-symbol
 
 
 */
+
+/* JMI
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes) { // JMI
+     const int fieldWidth = 27;
+
+    fLogOutputStream << left <<
+      endl <<
+      "==> AFTER visitEnd (S_note&) " <<
+      newNote->asString () <<
+      ", line " << inputLineNumber <<
+      " we have:" <<
+      endl <<
+      setw (fieldWidth) <<
+      "--> fCurrentMusicXMLStaffNumber" << " = " <<
+      fCurrentMusicXMLStaffNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "--> fCurrentMusicXMLVoiceNumber" << " = " <<
+      fCurrentMusicXMLVoiceNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "--> current voice" << " = \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl <<
+      "<==" <<
+      endl <<
+      endl;
+  }
+#endif
+*/
+
+/* JMI
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes) { // JMI
+    fLogOutputStream <<
+      endl <<
+      "==> BEFORE visitEnd (S_note&)" <<
+      ", line " << inputLineNumber <<
+      " we have:" <<
+      endl;
+
+    gIndenter++;
+
+    const int fieldWidth = 27;
+
+    fLogOutputStream << left <<
+      setw (fieldWidth) << "--> fCurrentMusicXMLStaffNumber" << " = " <<
+      fCurrentMusicXMLStaffNumber <<
+      endl <<
+      setw (fieldWidth) << "--> fCurrentMusicXMLVoiceNumber" << " = " <<
+      fCurrentMusicXMLVoiceNumber <<
+      endl <<
+      setw (fieldWidth) << "--> current voice" << " = \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+
+    gIndenter--;
+
+    fLogOutputStream <<
+      "<==" <<
+      endl <<
+      * endl;
+  }
+#endif
+*/
+

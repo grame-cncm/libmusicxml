@@ -166,7 +166,7 @@ string wholeNotesAsLilypondString (
 
   msrAssert (
     numerator > 0,
-    "numerator is not positive");
+    "numerator is not positive in wholeNotesAsLilypondString()");
 
   wholeNotes.rationalise ();
 

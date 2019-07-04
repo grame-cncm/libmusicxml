@@ -193,8 +193,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
-      "'" <<
-      " in segment " <<
+      "' in segment " <<
       containingSegment->asString () <<
       " in voice \"" <<
         containingSegment->
@@ -275,8 +274,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
-      "'" <<
-      " in segment " <<
+      "' in segment " <<
       containingSegment->asString () <<
       " in voice \"" <<
         containingSegment->
@@ -380,9 +378,9 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
-            "Sharing time '" <<
+            "Sharing time " <<
             time->asShortString () <<
-            "' in measure '" <<
+            " in measure '" <<
             fMeasureNumber <<
             ", measureDebugNumber: '" <<
             fMeasureDebugNumber <<
@@ -561,11 +559,11 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
         gLogIOstream <<
-          "Considering delayed '" <<
+          "Considering delayed " <<
           measureElement->asShortString () <<
-          "' in measure '" <<
+          " in measure " <<
           asShortString () <<
-          "' in voice \"" <<
+          " in voice \"" <<
           fMeasureSegmentUpLink->
             getSegmentVoiceUpLink ()
               ->getVoiceName () <<
@@ -584,11 +582,11 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
-            "Appending delayed '" <<
+            "Appending delayed " <<
             measureElement->asShortString () <<
-            "' in measure '" <<
+            " in measure " <<
             asShortString () <<
-            "' in voice \"" <<
+            " in voice \"" <<
             fMeasureSegmentUpLink->
               getSegmentVoiceUpLink ()
                 ->getVoiceName () <<
@@ -699,11 +697,11 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
     if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
-        "Appending element '" <<
+        "Appending element " <<
         elem->asShortString () <<
-        "' at the end of measure '" <<
+        " at the end of measure " <<
         asShortString () <<
-        "' in voice \"" <<
+        " in voice \"" <<
         fMeasureSegmentUpLink->
           getSegmentVoiceUpLink ()
             ->getVoiceName () <<
@@ -744,11 +742,11 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
-          "Considering delayed '" <<
+          "Considering delayed " <<
           measureElement->asShortString () <<
-          "' in measure '" <<
+          " in measure " <<
           asShortString () <<
-          "' in voice \"" <<
+          " in voice \"" <<
           fMeasureSegmentUpLink->
             getSegmentVoiceUpLink ()
               ->getVoiceName () <<
@@ -767,11 +765,11 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
-            "Appending delayed '" <<
+            "Appending delayed " <<
             measureElement->asShortString () <<
-            "' in measure '" <<
+            " in measure " <<
             asShortString () <<
-            "' in voice \"" <<
+            " in voice \"" <<
             fMeasureSegmentUpLink->
               getSegmentVoiceUpLink ()
                 ->getVoiceName () <<
@@ -820,7 +818,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Reverse iteration on element '" <<
+      "Reverse iteration on element " <<
       measureElement <<
       endl;
   }
@@ -879,19 +877,20 @@ void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Setting next measure number to '" << nextMeasureNumber <<
+      "Setting next measure number to '" <<
+      nextMeasureNumber <<
       "' in measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
-      "' in segment '" <<
+      "' in segment " <<
       fMeasureSegmentUpLink-> asString () <<
       /* JMI
       "' in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<
       */
-      "', line " << fInputLineNumber <<
+      ", line " << fInputLineNumber <<
       endl;
   }
 #endif
@@ -913,9 +912,9 @@ void msrMeasure::setMeasureFirstInVoice ()
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
-      "' in segment '" <<
+      "' in segment " <<
       fMeasureSegmentUpLink-> asString () <<
-      "', line " << fInputLineNumber <<
+      ", line " << fInputLineNumber <<
       endl;
   }
 #endif
@@ -1514,7 +1513,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     note->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTracePositionsInMeasures
+  ) {
     gLogIOstream <<
       "Appending note '" << note->asShortString () <<
       "' to measure '" <<
@@ -1569,14 +1574,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     noteHarmony =
       note->getNoteHarmony ();
 
-/*
-  if (false && noteHarmony) { // JMI
-    // set its position in measure // JMI
+  if (noteHarmony) {
+    // set its position in measure
     noteHarmony->
       setPositionInMeasure (
-        notePositionInMeasure);
+        note->getPositionInMeasure (),
+        "appendNoteToMeasure()");
   }
-  */
 
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
@@ -1586,6 +1590,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     fMeasureLongestNote = note;
   }
   else {
+    // register note as measure longest sounding and/or display note if relevant
+    // JMI ???
     if (
       note->getNoteSoundingWholeNotes ()
         >
@@ -1597,7 +1603,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     if (
       note->getNoteDisplayWholeNotes ()
         >
-      fMeasureLongestNote->getNoteSoundingWholeNotes ()
+      fMeasureLongestNote->getNoteDisplayWholeNotes ()
     ) {
       fMeasureLongestNote = note;
     }
@@ -3681,7 +3687,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         }
 #endif
 
-        // it's position in the measure should take it's offset into account
+        // its position in the measure should take it's offset into account
         rational
           positionInMeasureOfCurrentHarmony =
             currentHarmony->getPositionInMeasure ();
@@ -3892,13 +3898,14 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             s <<
               "Previous harmony " <<
               previousHarmony->asString () <<
-              " bumps into " <<
+              " overlaps current harmony " <<
               currentHarmony->asString ();
 
-            msrInternalError (
+   // JMI         msrInternalError (
+            msrInternalWarning (
               gGeneralOptions->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
+     //         __FILE__, __LINE__,
               s.str ());
           }
         }

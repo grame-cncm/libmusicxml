@@ -12726,10 +12726,22 @@ string wholeNotesAsMsrString (
     dotsNumber = 0;
     return "zero";
   }
+  else if (numerator < 0) {
+    stringstream s;
 
-  msrAssert (
-    numerator > 0,
-    "numerator is not positive");
+    s <<
+      "numerator is not positive in wholeNotesAsMsrString()" <<
+      ", wholeNotes = " << wholeNotes;
+
+ //   msrMusicXMLError ( JMI
+    msrMusicXMLWarning (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+  //    __FILE__, __LINE__,
+      s.str ());
+
+    return "???";
+  }
 
   wholeNotes.rationalise ();
 
