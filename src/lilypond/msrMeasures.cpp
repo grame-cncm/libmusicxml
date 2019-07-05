@@ -3726,7 +3726,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
       i      = iBegin;
 
     S_msrHarmony
-      previousHarmony = nullptr;
+      previousHarmony = nullptr,
+      currentHarmony  = nullptr;
 
     while (true) {
       S_msrMeasureElement
@@ -3737,9 +3738,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
       if (
         // harmony?
-        S_msrHarmony
-          currentHarmony =
-            dynamic_cast<msrHarmony*>(&(*measureElement))
+        currentHarmony =
+          dynamic_cast<msrHarmony*>(&(*measureElement))
       ) {
         // handle the currentHarmony
 #ifdef TRACE_OPTIONS
@@ -3866,7 +3866,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         else {
           // this is a subsequent harmony in the measure
 
-          // get the previousHarmony's note uplink position in the measure
+          // get the previousHarmony's position in the measure
           rational
             positionInMeasureOfPreviousHarmony =
               previousHarmony->getPositionInMeasure ();
@@ -3884,7 +3884,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               previousHarmonySoundingWholeNotes;
           positionInMeasureFollowingPreviousHarmony.rationalise ();
 
-          // compute the delta
+          // compute the positions in measure delta
           rational
             positionsInMeasureDelta =
               positionInMeasureOfCurrentHarmony
@@ -3959,9 +3959,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               paddingNote);
           }
 
-          else if (
-              positionsInMeasureDelta.getNumerator () < 0
-          ) {
+          else if (positionsInMeasureDelta.getNumerator () < 0) {
             // the two harmonies overlap in time
             stringstream s;
 
@@ -3982,6 +3980,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
                 previousHarmonySoundingWholeNotes
                   + // the delta is negative
                 positionsInMeasureDelta;
+            reducedSoundingWholeNotes.rationalise ();
 
 #ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
@@ -4027,6 +4026,97 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
       if (++i == iEnd) break;
     } // while
+
+    if (currentHarmony) {
+      // does the last harmony in the measure overflow the latter?
+
+      // get the currentHarmony's position in the measure
+      rational
+        positionInMeasureOfCurrentHarmony =
+          currentHarmony->getPositionInMeasure ();
+
+      // get the currentHarmony's duration
+      rational
+        currentHarmonySoundingWholeNotes =
+          currentHarmony->getHarmonySoundingWholeNotes ();
+
+      // compute the position in measure following currentHarmony
+      rational
+        positionInMeasureFollowingCurrentHarmony =
+          positionInMeasureOfCurrentHarmony
+            +
+          currentHarmonySoundingWholeNotes;
+      positionInMeasureFollowingCurrentHarmony.rationalise ();
+
+      // compute the positions in measure delta
+      rational
+        positionsInMeasureDelta =
+          positionInMeasureFollowingCurrentHarmony
+            -
+          fCurrentMeasureWholeNotes;
+      positionsInMeasureDelta.rationalise ();
+
+      if (positionsInMeasureDelta.getNumerator () < 0) {
+        // the last harmony's duration is too big
+        stringstream s;
+
+        s <<
+          "The last harmony " <<
+          currentHarmony->asString () <<
+          " overflows the current measure " <<
+          asString ();
+
+        msrInternalWarning (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          s.str ());
+
+        // compute currentHarmony's future sounding whole notes
+        rational
+          reducedSoundingWholeNotes =
+            currentHarmonySoundingWholeNotes
+              + // the delta is negative
+            positionsInMeasureDelta;
+        reducedSoundingWholeNotes.rationalise ();
+
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+          gLogIOstream <<
+            "Reducing the sounding whole notes of harmony " <<
+            currentHarmony->asString () <<
+            " from " <<
+            currentHarmonySoundingWholeNotes <<
+            " to " <<
+            reducedSoundingWholeNotes <<
+            " in voice \"" <<
+            voice->getVoiceName () <<
+            "\", line " << inputLineNumber <<
+            endl;
+        }
+#endif
+
+        if (reducedSoundingWholeNotes.getNumerator () == 0) {
+          stringstream s;
+
+          s <<
+            "Cannot reduce the duration of harmony " <<
+            currentHarmony->asShortString () <<
+            " to 0 : leaving it as it is";
+
+          msrInternalWarning (
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+//  JMI             __FILE__, __LINE__,
+            s.str ());
+        }
+        else {
+          // set currentHarmony's duration to the reduced value
+          currentHarmony->
+            setHarmonySoundingWholeNotes (
+              reducedSoundingWholeNotes);
+        }
+      }
+    }
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
