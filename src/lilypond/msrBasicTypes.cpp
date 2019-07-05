@@ -10012,37 +10012,37 @@ string msrAlterationKindAsString (
       break;
 
     case kTripleFlat:
-      result = "TripleFlat";
+      result = "tripleFlat";
       break;
     case kDoubleFlat:
-      result = "DoubleFlat";
+      result = "doubleFlat";
       break;
     case kSesquiFlat:
-      result = "SesquiFlat";
+      result = "sesquiFlat";
       break;
     case kFlat:
-      result = "Flat";
+      result = "flat";
       break;
     case kSemiFlat:
-      result = "SemiFlat";
+      result = "semiFlat";
       break;
     case kNatural:
-      result = "Natural";
+      result = "natural";
       break;
     case kSemiSharp:
-      result = "SemiSharp";
+      result = "semiSharp";
       break;
     case kSharp:
-      result = "Sharp";
+      result = "sharp";
       break;
     case kSesquiSharp:
-      result = "SesquiSharp";
+      result = "sesquiSharp";
       break;
     case kDoubleSharp:
-      result = "DoubleSharp";
+      result = "doubleSharp";
       break;
     case kTripleSharp:
-      result = "TripleSharp";
+      result = "tripleSharp";
       break;
   } // switch
 

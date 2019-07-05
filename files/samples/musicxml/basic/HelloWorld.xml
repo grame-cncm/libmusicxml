@@ -10,6 +10,7 @@
     </score-part>
   </part-list>
   <part id="P1">
+<!--=========================================================-->
     <measure number="1">
   <!-- A very minimal MusicXML example, part P1, measure 1 -->
       <attributes>
@@ -36,5 +37,6 @@
         <type>whole</type>
       </note>
     </measure>
+<!--=========================================================-->
   </part>
 </score-partwise>
