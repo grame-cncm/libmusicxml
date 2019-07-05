@@ -819,10 +819,14 @@ void msrChord::browseData (basevisitor* v)
     browser.browse (*fChordGraceNotesGroupAfter);
   }
 
-  if (fChordHarmony) {
-    // browse the harmony
-    msrBrowser<msrHarmony> browser (v);
-    browser.browse (*fChordHarmony);
+  // browse the harmonies if any
+  if (fChordHarmoniesList.size ()) {
+    list<S_msrHarmony>::const_iterator i;
+    for (i=fChordHarmoniesList.begin (); i!=fChordHarmoniesList.end (); i++) {
+      // browse the harmony
+      msrBrowser<msrHarmony> browser (v);
+      browser.browse (*(*i));
+    } // for
   }
 
   if (fChordFiguredBass) {
@@ -1490,26 +1494,38 @@ void msrChord::print (ostream& os)
     gIndenter--;
   }
 
-  // print the harmony if any
-  if (fChordHarmony || gMsrOptions->fDisplayMsrDetails) {
+  // print the harmonies associated to this chord if any
+  int chordHarmoniesListSize = fChordHarmoniesList.size ();
+
+  if (chordHarmoniesListSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "chordHarmony" << " : " <<
-      endl;
+      "chordHarmonies";
+    if (chordHarmoniesListSize) {
+      os << endl;
+      gIndenter++;
 
-    gIndenter++;
+      list<S_msrHarmony>::const_iterator
+        iBegin = fChordHarmoniesList.begin (),
+        iEnd   = fChordHarmoniesList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        S_msrHarmony
+          harmony = (*i);
 
-    if (fChordHarmony) {
-      os <<
-        fChordHarmony->asString () <<
-        endl;
+        os << harmony->asString ();
+
+        if (++i == iEnd) break;
+        // no endl here
+      } // for
+
+      gIndenter--;
     }
     else {
-      os <<
-        "none";
+      os << " : " <<
+        "none" <<
+        endl;
     }
-
-    gIndenter--;
   }
 
   // print the figured bass if any

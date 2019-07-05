@@ -101,7 +101,7 @@ class bsrLineElement : public bsrElement
 
 
     void                  setSpacesBefore (int value)
-                              { fSpacesBefore = value; };
+                              { fSpacesBefore = value; }
 
     int                   getSpacesBefore () const
                               { return fSpacesBefore; }
@@ -184,7 +184,7 @@ class bsrPageElement : public bsrElement
     S_bsrPage             getBsrPageUpLink () const;
 
     void                  setSpacesBefore (int value)
-                              { fSpacesBefore = value; };
+                              { fSpacesBefore = value; }
 
     int                   getSpacesBefore () const
                               { return fSpacesBefore; }

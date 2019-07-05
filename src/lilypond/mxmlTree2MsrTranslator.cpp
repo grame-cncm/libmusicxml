@@ -14503,31 +14503,36 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::copyNoteHarmonyToChord (
+void mxmlTree2MsrTranslator::copyNoteHarmoniesToChord (
   S_msrNote note, S_msrChord chord)
 {
   // copy note's harmony if any from the first note to chord
 
-  S_msrHarmony
-    harmony =
-      note->
-        getNoteHarmony ();
+  const list<S_msrHarmony>&
+    noteHarmoniesList =
+      note->getNoteHarmoniesList ();
 
-  if (harmony) {
+  if (noteHarmoniesList.size ()) {
+    list<S_msrHarmony>::const_iterator i;
+    for (i=noteHarmoniesList.begin (); i!=noteHarmoniesList.end (); i++) {
+      S_msrHarmony harmony = (*i);
+
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceChords) {
-      fLogOutputStream <<
-        "Copying harmony '" <<
-        harmony->asString () <<
-        "' from note " << note->asString () <<
-        " to chord '" << chord->asString () <<
-        "'" <<
-        endl;
-    }
+      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceChords) {
+        fLogOutputStream <<
+          "Copying harmony '" <<
+          harmony->asString () <<
+          "' from note " << note->asString () <<
+          " to chord '" << chord->asString () <<
+          "'" <<
+          endl;
+      }
 #endif
 
-    chord->
-      setChordHarmony (harmony);
+      chord->
+        appendHarmonyToChord (harmony);
+
+    } // for
   }
 }
 
@@ -14593,7 +14598,7 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
   copyNoteGraceNotesGroupsToChord (note, chord);
 
   // copy note's harmony if any to the chord
-  copyNoteHarmonyToChord (note, chord);
+  copyNoteHarmoniesToChord (note, chord);
 }
 
 //______________________________________________________________________________
@@ -17618,7 +17623,7 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
 
     // attach the harmony to the note
     newNote->
-      setNoteHarmony (harmony);
+      appendNoteToNoteHarmoniesList (harmony);
 
     // append the harmony to the harmony voice for the current voice
     voiceHarmonyVoice->

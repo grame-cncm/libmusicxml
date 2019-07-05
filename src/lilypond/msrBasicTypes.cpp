@@ -12739,7 +12739,7 @@ string wholeNotesAsMsrString (
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
-
+abort ();
     return "???";
   }
 

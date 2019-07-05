@@ -254,7 +254,7 @@ class msr2LpsrTranslator :
     void buildLpsrScoreFromMsrScore ();
 
     S_lpsrScore getLpsrScore () const
-        { return fLpsrScore; };
+        { return fLpsrScore; }
 
   protected:
 

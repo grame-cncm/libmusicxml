@@ -93,22 +93,22 @@ class msrIdentification : public msrElement
                               { return fMovementTitle; }
 
     S_msrVarValsListAssoc getComposers () const
-                              { return fComposers; };
+                              { return fComposers; }
 
     S_msrVarValsListAssoc getArrangers () const
-                              { return fArrangers; };
+                              { return fArrangers; }
 
     S_msrVarValsListAssoc getLyricists () const
-                              { return fLyricists; };
+                              { return fLyricists; }
 
     S_msrVarValsListAssoc getPoets () const
-                              { return fPoets; };
+                              { return fPoets; }
 
     S_msrVarValsListAssoc getTranslators () const
-                              { return fTranslators; };
+                              { return fTranslators; }
 
     S_msrVarValsListAssoc getSoftwares () const
-                              { return fSoftwares; };
+                              { return fSoftwares; }
 
     S_msrVarValAssoc      getEncodingDate () const
                               { return fEncodingDate; }

@@ -1816,7 +1816,8 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   if (fOnGoingNote) {
     // register the harmony in the current non-grace note clone
     fCurrentNonGraceNoteClone->
-      setNoteHarmony (fCurrentHarmonyClone);
+      appendNoteToNoteHarmoniesList (
+        fCurrentHarmonyClone);
 
     // don't append the harmony to the part harmony,
     // this has been done in pass2b // JMI ???
@@ -1825,7 +1826,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   else if (fOnGoingChord) {
     // register the harmony in the current chord clone
     fCurrentChordClone->
-      setChordHarmony (fCurrentHarmonyClone); // JMI
+      appendHarmonyToChord (fCurrentHarmonyClone); // JMI
   }
 
   else if (fOnGoingHarmonyVoice) {

@@ -238,7 +238,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
 
     S_msrScore            getMsrScore () const
-                              { return fMsrScore; };
+                              { return fMsrScore; }
 
 
     // services

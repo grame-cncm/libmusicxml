@@ -416,7 +416,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     S_msrScore getMsrScore () const
-        { return fMsrScore; };
+        { return fMsrScore; }
 
     // services
     // ------------------------------------------------------
@@ -1692,7 +1692,7 @@ class mxmlTree2MsrTranslator :
     void                      copyNoteGraceNotesGroupsToChord (
                                 S_msrNote note, S_msrChord chord);
 
-    void                      copyNoteHarmonyToChord (
+    void                      copyNoteHarmoniesToChord (
                                 S_msrNote note, S_msrChord chord);
 
     // technicals handling

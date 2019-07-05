@@ -3342,19 +3342,20 @@ class msrNote : public msrTupletElement
     bool                  getNoteIsAGraceNote () const
                               { return fNoteIsAGraceNote; }
 
-    // harmony
-    void                  setNoteHarmony (
+    // harmonies
+    void                  appendNoteToNoteHarmoniesList (
                             S_msrHarmony harmony);
 
-    const S_msrHarmony&   getNoteHarmony () const
-                              { return fNoteHarmony; };
+    const list<S_msrHarmony>&
+                          getNoteHarmoniesList () const
+                              { return fNoteHarmoniesList; }
 
     // frame
     void                  setNoteFrame (
                             S_msrFrame frame);
 
     const S_msrFrame&     getNoteFrame () const
-                              { return fNoteFrame; };
+                              { return fNoteFrame; }
 
     // figured bass
     void                  setNoteFiguredBass (
@@ -3362,7 +3363,7 @@ class msrNote : public msrTupletElement
 
     const S_msrFiguredBass&
                           getNoteFiguredBass () const
-                              { return fNoteFiguredBass; };
+                              { return fNoteFiguredBass; }
 
     // note lyrics
     // -------------------------------
@@ -3508,7 +3509,7 @@ class msrNote : public msrTupletElement
     // damps
     const list<S_msrDamp>&
                           getNoteDamps () const
-                              { return fNoteDamps; };
+                              { return fNoteDamps; }
 
     // damp alls
     const list<S_msrDampAll>&
@@ -3986,10 +3987,10 @@ class msrNote : public msrTupletElement
 
     list<S_msrPedal>      fNotePedals;
 
-    // harmony
+    // harmonies
     // ------------------------------------------------------
 
-    S_msrHarmony          fNoteHarmony;
+    list<S_msrHarmony>    fNoteHarmoniesList;
 
     // frame
     // ------------------------------------------------------
@@ -4231,9 +4232,9 @@ class msrChord : public msrTupletElement
 
 
     // harmony
-    void                  setChordHarmony (
+    void                  appendHarmonyToChord (
                             S_msrHarmony harmony)
-                              { fChordHarmony = harmony; }
+                              { fChordHarmoniesList.push_back (harmony); }
 
     // figured bass
     void                  setChordFiguredBass (
@@ -4242,7 +4243,7 @@ class msrChord : public msrTupletElement
 
     const S_msrFiguredBass&
                           getChordFiguredBass () const
-                              { return fChordFiguredBass; };
+                              { return fChordFiguredBass; }
 
     // octave shift
     void                  setChordOctaveShift (
@@ -4491,7 +4492,7 @@ class msrChord : public msrTupletElement
     S_msrGraceNotesGroup  fChordGraceNotesGroupAfter;
 
     // harmony
-    S_msrHarmony          fChordHarmony;
+    list<S_msrHarmony>    fChordHarmoniesList;
 
     // figured bass
     S_msrFiguredBass      fChordFiguredBass;
@@ -7334,20 +7335,20 @@ class msrVoice : public msrElement
     void                  setVoiceCurrentClef (S_msrClef clef);
 
     S_msrClef             getVoiceCurrentClef () const
-                              { return fVoiceCurrentClef; };
+                              { return fVoiceCurrentClef; }
 
     S_msrClef             getVoiceFirstClef () const
-                              { return fVoiceFirstClef; };
+                              { return fVoiceFirstClef; }
 
     void                  setVoiceCurrentKey (S_msrKey key);
 
     S_msrKey              getVoiceCurrentKey  () const
-                              { return fVoiceCurrentKey; };
+                              { return fVoiceCurrentKey; }
 
     void                  setVoiceCurrentTime (S_msrTime time);
 
     S_msrTime             getVoiceCurrentTime () const
-                              { return fVoiceCurrentTime; };
+                              { return fVoiceCurrentTime; }
 
      // measures
 
@@ -7838,17 +7839,17 @@ class msrStaff : public msrElement
     void                  setStaffCurrentClef (S_msrClef clef);
 
     S_msrClef             getStaffCurrentClef () const
-                              { return fStaffCurrentClef; };
+                              { return fStaffCurrentClef; }
 
     void                  setStaffCurrentKey (S_msrKey key);
 
     S_msrKey              getStaffCurrentKey  () const
-                              { return fStaffCurrentKey; };
+                              { return fStaffCurrentKey; }
 
     void                  setStaffCurrentTime (S_msrTime time);
 
     S_msrTime             getStaffCurrentTime () const
-                              { return fStaffCurrentTime; };
+                              { return fStaffCurrentTime; }
 
     // finalization
 
@@ -7866,7 +7867,7 @@ class msrStaff : public msrElement
     // transpose
 
     S_msrTranspose        getStaffCurrentTranspose () const
-                              { return fStaffCurrentTranspose; };
+                              { return fStaffCurrentTranspose; }
 
     void                  printMeasurePendingMeasureElementsList ();
 
@@ -8022,7 +8023,7 @@ class msrPart : public msrPartGroupElement
 
     void                  setPartPartGroupUpLink (
                             S_msrPartGroup partGroup)
-                              { fPartPartGroupUpLink = partGroup; };
+                              { fPartPartGroupUpLink = partGroup; }
 
     S_msrPartGroup        getPartPartGroupUpLink () const
                               { return fPartPartGroupUpLink; }
@@ -8466,21 +8467,21 @@ class msrPart : public msrPartGroupElement
     // clef, key, time
 
     S_msrClef             getPartCurrentClef () const
-                              { return fPartCurrentClef; };
+                              { return fPartCurrentClef; }
 
     S_msrKey              getPartCurrentKey  () const
-                              { return fPartCurrentKey; };
+                              { return fPartCurrentKey; }
 
     void                  setPartCurrentTime (S_msrTime time)
-                              { fPartCurrentTime = time; };
+                              { fPartCurrentTime = time; }
 
     S_msrTime             getPartCurrentTime () const
-                              { return fPartCurrentTime; };
+                              { return fPartCurrentTime; }
 
     // transpose
 
     S_msrTranspose        getPartCurrentTranspose () const
-                              { return fPartCurrentTranspose; };
+                              { return fPartCurrentTranspose; }
 
     // staff details
 

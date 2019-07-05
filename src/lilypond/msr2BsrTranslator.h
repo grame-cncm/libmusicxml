@@ -84,7 +84,7 @@ class msr2BsrTranslator :
     void buildBsrScoreFromMsrScore ();
 
     S_bsrScore getBsrScore () const
-        { return fBsrScore; };
+        { return fBsrScore; }
 
   protected:
 

@@ -23,56 +23,56 @@ namespace MusicXML2
 
 //________________________________________________________________________
 class bsr2BsrFinalizer :
-  
+
   public visitor<S_bsrScore>,
-  
+
   public visitor<S_bsrSpaces>,
-  
+
   public visitor<S_bsrBarline>,
 
   public visitor<S_bsrTranscriptionNotes>,
   public visitor<S_bsrTranscriptionNotesElement>,
-  
+
   public visitor<S_bsrPage>,
-  
+
   public visitor<S_bsrPageHeading>,
   public visitor<S_bsrMusicHeading>,
-  
+
   public visitor<S_bsrFootNotes>,
-  
+
   public visitor<S_bsrLine>,
   public visitor<S_bsrLineContents>,
-  
+
   public visitor<S_bsrMeasure>,
 
   public visitor<S_bsrNumber>,
   public visitor<S_bsrWords>,
-  
+
   public visitor<S_bsrClef>,
   public visitor<S_bsrKey>,
   public visitor<S_bsrTime>,
-  
+
   public visitor<S_bsrTempo>,
-  
+
   public visitor<S_bsrNote>
 
 {
   public:
-  
+
     bsr2BsrFinalizer (
       S_bsrOptions&    bsrOpts,
       indentedOstream& logIOstream,
       S_bsrScore       bScore);
-        
+
     virtual ~bsr2BsrFinalizer ();
 
     void generateFinalizedBsrScoreFromBsrScore ();
 
     S_bsrScore getBsrScore () const
-        { return fBsrScore; };
+        { return fBsrScore; }
 
   protected:
-        
+
     virtual void visitStart (S_bsrScore& elt);
     virtual void visitEnd   (S_bsrScore& elt);
 
@@ -94,7 +94,7 @@ class bsr2BsrFinalizer :
     virtual void visitEnd   (S_bsrPageHeading& elt);
     virtual void visitStart (S_bsrMusicHeading& elt);
     virtual void visitEnd   (S_bsrMusicHeading& elt);
-    
+
     virtual void visitStart (S_bsrFootNotes& elt);
     virtual void visitEnd   (S_bsrFootNotes& elt);
 
@@ -132,11 +132,11 @@ class bsr2BsrFinalizer :
     // the MSR score we're relying on
     // ------------------------------------------------------
     S_msrScore            fBaseMsrScore;
-                  
+
     // the BSR score we're visiting
     // ------------------------------------------------------
     S_bsrScore            fVisitedBsrScore;
-                  
+
     // the BSR score we're building
     // ------------------------------------------------------
     S_bsrScore            fBsrScore;
@@ -154,23 +154,23 @@ class bsr2BsrFinalizer :
     S_bsrMusicHeading     fCurrentMusicHeading;
 
     // foot notes
-    // ------------------------------------------------------    
+    // ------------------------------------------------------
 
     S_bsrFootNotes        fCurrentFootNotes;
 
     // measures
-    // ------------------------------------------------------    
-      
+    // ------------------------------------------------------
+
     S_bsrMeasure          fCurrentMeasure;
 
     // options
-    // ------------------------------------------------------    
-      
+    // ------------------------------------------------------
+
     S_bsrOptions          fBsrOptions;
 
     // log output stream
-    // ------------------------------------------------------    
-      
+    // ------------------------------------------------------
+
     indentedOstream&      fLogOutputStream;
 };
 

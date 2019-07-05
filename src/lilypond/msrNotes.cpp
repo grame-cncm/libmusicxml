@@ -629,6 +629,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   // harmony
   // ------------------------------------------------------
 
+/* JMI
   newbornClone->fNoteHarmony = // JMI
     fNoteHarmony;
 
@@ -647,7 +648,6 @@ S_msrNote msrNote::createNoteNewbornClone (
   // note measure information
   // ------------------------------------------------------
 
-/* JMI
   newbornClone->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
@@ -1149,12 +1149,10 @@ S_msrNote msrNote::createNoteDeepCopy (
   // harmony
   // ------------------------------------------------------
 
-  if (fNoteHarmony) {
-    noteDeepCopy->fNoteHarmony =
-      fNoteHarmony->
-        createHarmonyDeepCopy (
-          containingVoice);
-  }
+//  if (fNoteHarmony) {
+    noteDeepCopy->fNoteHarmoniesList = // JMI ???
+      fNoteHarmoniesList;
+//  }
 
   // harmony
   // ------------------------------------------------------
@@ -1433,26 +1431,19 @@ void msrNote::setNotePositionInMeasure (
 
   positionInMeasure.rationalise (); // TEMP ? JMI
 
-/* JMI
-  if (positionInMeasure == rational (1, 1)) { // K_NO_POSITION_MEASURE_NUMBER
-    abort (); // JMI
-  }
-*/
-
   msrMeasureElement::setPositionInMeasure (
     positionInMeasure,
     "setNotePositionInMeasure()");
 
-  if (fNoteHarmony) {
-    // set the harmony position in measure, taking it's offset into account
-    fNoteHarmony->
-      setHarmonyPositionInMeasure (
-        positionInMeasure);
-  }
-  else {
-    gLogIOstream <<
-      "FOO fNoteHarmony is null" << // JMI
-      endl;
+  // are there harmonies attached to this note?
+  if (fNoteHarmoniesList.size ()) {
+    list<S_msrHarmony>::const_iterator i;
+    for (i=fNoteHarmoniesList.begin (); i!=fNoteHarmoniesList.end (); i++) {
+      // set the harmony position in measure, taking it's offset into account
+      (*i)->
+        setHarmonyPositionInMeasure (
+          positionInMeasure);
+    } // for
   }
 }
 
@@ -2542,7 +2533,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
   fNoteSyllables.push_back (syllable);
 }
 
-void msrNote::setNoteHarmony (S_msrHarmony harmony)
+void msrNote::appendNoteToNoteHarmoniesList (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
   if (
@@ -2553,8 +2544,10 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
     gTraceOptions->fTracePositionsInMeasures
   ) {
     gLogIOstream <<
-      "Setting note harmony of " << asString () <<
-      " to " << harmony->asString () <<
+      "Append harmony " <<
+      harmony->asString () <<
+      " to the harmonies list of " <<
+      asString () <<
       ", line " << fInputLineNumber <<
       endl;
   }
@@ -2562,7 +2555,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 
   // update the harmony whole notes if it belongs to a tuplet ??? utf8.xml
 
-  fNoteHarmony = harmony;
+  fNoteHarmoniesList.push_back (harmony);
 
   // register this note as the harmony upLink
   harmony->
@@ -2990,22 +2983,14 @@ void msrNote::browseData (basevisitor* v)
     gIndenter--;
   }
 
-  // browse the syllables if any
-  if (fNoteSyllables.size ()) {
-    gIndenter++;
-    list<S_msrSyllable>::const_iterator i;
-    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
-      // browse the syllable
-      msrBrowser<msrSyllable> browser (v);
+  // browse the harmonies if any
+  if (fNoteHarmoniesList.size ()) {
+    list<S_msrHarmony>::const_iterator i;
+    for (i=fNoteHarmoniesList.begin (); i!=fNoteHarmoniesList.end (); i++) {
+      // browse the harmony
+      msrBrowser<msrHarmony> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
-  }
-
-  if (fNoteHarmony) {
-    // browse the harmony
-    msrBrowser<msrHarmony> browser (v);
-    browser.browse (*fNoteHarmony);
   }
 
   if (fNoteFrame) {
@@ -3018,6 +3003,18 @@ void msrNote::browseData (basevisitor* v)
     // browse the figured bass
     msrBrowser<msrFiguredBass> browser (v);
     browser.browse (*fNoteFiguredBass);
+  }
+
+  // browse the syllables if any
+  if (fNoteSyllables.size ()) {
+    gIndenter++;
+    list<S_msrSyllable>::const_iterator i;
+    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
+      // browse the syllable
+      msrBrowser<msrSyllable> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
   }
 }
 
@@ -5077,16 +5074,30 @@ void msrNote::print (ostream& os)
     }
   }
 
-  // print the harmony if any
-  os <<
-    setw (fieldWidth) <<
-    "noteHarmony";
-  if (fNoteHarmony || gMsrOptions->fDisplayMsrDetails) {
-    if (fNoteHarmony) {
+  // print the harmonies associated to this note if any
+  int noteHarmoniesListSize = fNoteHarmoniesList.size ();
+
+  if (noteHarmoniesListSize > 0 || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteHarmonies";
+    if (noteHarmoniesListSize) {
       os << endl;
       gIndenter++;
 
-      os << fNoteHarmony;
+      list<S_msrHarmony>::const_iterator
+        iBegin = fNoteHarmoniesList.begin (),
+        iEnd   = fNoteHarmoniesList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        S_msrHarmony
+          harmony = (*i);
+
+        os << harmony;
+
+        if (++i == iEnd) break;
+        // no endl here
+      } // for
 
       gIndenter--;
     }
@@ -5119,13 +5130,12 @@ void msrNote::print (ostream& os)
   }
 
   // print the frame if any
-    os <<
-      setw (fieldWidth) <<
-      "noteFrame";
+  os <<
+    setw (fieldWidth) <<
+    "noteFrame";
   if (fNoteFrame || gMsrOptions->fDisplayMsrDetails) {
     if (fNoteFrame) {
       os << endl;
-
       gIndenter++;
 
       os << fNoteFrame;
@@ -5159,8 +5169,7 @@ void msrNote::print (ostream& os)
         S_msrSyllable
           syllable = (*i);
 
-        os <<
-          syllable;
+        os << syllable;
 
   /* JMI
         os <<

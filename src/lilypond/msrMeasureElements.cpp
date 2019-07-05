@@ -46,11 +46,6 @@ void msrMeasureElement::setPositionInMeasure (
   rational positionInMeasure,
   string   context)
 {
-  // sanity check
-  msrAssert (
-    positionInMeasure != K_NO_POSITION_MEASURE_NUMBER,
-    "positionInMeasure == K_NO_POSITION_MEASURE_NUMBER");
-
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -66,6 +61,13 @@ void msrMeasureElement::setPositionInMeasure (
   }
 #endif
 
+  if (fPositionInMeasure == rational (3, 4) && positionInMeasure == rational (1, 2)) abort ();
+
+  // sanity check
+  msrAssert (
+    positionInMeasure != K_NO_POSITION_MEASURE_NUMBER,
+    "positionInMeasure == K_NO_POSITION_MEASURE_NUMBER");
+
   fPositionInMeasure = positionInMeasure;
 }
 
@@ -73,11 +75,6 @@ void msrMeasureElement::setSoundingWholeNotes (
   rational wholeNotes,
   string   context)
 {
-  // sanity check
-  msrAssert (
-    wholeNotes != K_NO_WHOLE_NOTES,
-    "wholeNotes == K_NO_WHOLE_NOTES");
-
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -92,6 +89,11 @@ void msrMeasureElement::setSoundingWholeNotes (
       endl;
   }
 #endif
+
+  // sanity check
+  msrAssert (
+    wholeNotes != K_NO_WHOLE_NOTES,
+    "wholeNotes == K_NO_WHOLE_NOTES");
 
   fSoundingWholeNotes = wholeNotes;
 }

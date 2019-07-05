@@ -217,6 +217,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
         fMeasureNumber,
         containingSegment);
 
+    /* JMI
   // lengthes
   newbornClone->fFullMeasureWholeNotes =
     fFullMeasureWholeNotes;
@@ -225,7 +226,6 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fNextMeasureNumber =
     fNextMeasureNumber;
 
-    /* JMI
   // measure purist number
   newbornClone->fMeasurePuristNumber = // JMI don't compute that again for clones ???
     fMeasurePuristNumber;
@@ -1542,14 +1542,35 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     setNoteMeasureUpLink (this);
 
   // append the note to the measure elements list
-  appendElementToMeasure (note);
+// JMI  appendElementToMeasure (note);
+  // set note's measure number
+  note->
+    setMeasureNumber (
+      fMeasureNumber);
+
+  // set the note's position in measure,
+  // this can lead to set the position in measure of the harmonies
+  // attached to the note
+  note->
+    setNotePositionInMeasure (
+      fCurrentMeasureWholeNotes);
+//        + // the offset can be negative
+ //     note->getHarmonyWholeNotesOffset ());
+      /* JMI
+    setPositionInMeasure (
+      fCurrentMeasureWholeNotes,
+      "appendElementToMeasure()");
+*/
+  fMeasureElementsList.push_back (note);
 
   // fetch note sounding whole notes
-  rational noteSoundingWholeNotes =
-    note->getNoteSoundingWholeNotes ();
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes ();
 
-  string noteSoundingWholeNotesAsMsrString =
-    note->noteSoundingWholeNotesAsMsrString ();
+  string
+    noteSoundingWholeNotesAsMsrString =
+      note->noteSoundingWholeNotesAsMsrString ();
 
   // account for note duration in measure whole notes
   setCurrentMeasureWholeNotes (
@@ -1562,25 +1583,64 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       inputLineNumber,
       fCurrentMeasureWholeNotes);
 
-/* JMI
-  // determine whether the note occupies a full measure
-  if (noteSoundingWholeNotes == fFullMeasureWholeNotes)
-    note->
-      setNoteOccupiesAFullMeasure ();
-  */
 
-  // fetch note harmony
-  S_msrHarmony
-    noteHarmony =
-      note->getNoteHarmony ();
-
-  if (noteHarmony) {
-    // set its position in measure
-    noteHarmony->
-      setPositionInMeasure (
-        note->getPositionInMeasure (),
-        "appendNoteToMeasure()");
+  /* JMI
+  // set the harmony's souding whole notes
+  if (harmonyWholeNotesOffset.getNumerator () > 0) {
+    // decrement the harmony's duration as much
+    harmony->
+      setHarmonySoundingWholeNotes (
+        newNoteSoundingWholeNotes
+          -
+        harmonyWholeNotesOffset);
   }
+  else {
+    harmony->
+      setHarmonySoundingWholeNotes (
+        fCurrentNoteSoundingWholeNotes
+          /
+        pendingHarmoniesNumber);
+  }
+
+  // has the harmony whole notes offset already been used
+  // at the same point in time?
+  if (harmonyWholeNotesOffset == previousHarmonyWhoseNotesOffset) {
+    stringstream s;
+
+    s <<
+      "harmonyWholeNotesOffset '" <<
+      harmonyWholeNotesOffset <<
+      "' already occured in that same point in time, ignoring it";
+
+    msrMusicXMLWarning (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+//        __FILE__, __LINE__,
+      s.str ());
+  }
+
+  else {
+  }
+*/
+
+
+/* JMI
+  // are there harmonies attached to this note?
+  const list<S_msrHarmony>&
+    noteHarmoniesList =
+      note->getNoteHarmoniesList ();
+
+  if (noteHarmoniesList.size ()) {
+    list<S_msrHarmony>::const_iterator i;
+    for (i=noteHarmoniesList.begin (); i!=noteHarmoniesList.end (); i++) {
+      // set the harmony position in measure, taking it's offset into account
+      (*i)->
+        setPositionInMeasure (
+          note->getPositionInMeasure (),
+          "appendNoteToMeasure()");
+    } // for
+  }
+*/
 
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
@@ -3650,6 +3710,14 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     fMeasureElementsList.sort (
       msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure);
 
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+      displayMeasure (
+        inputLineNumber,
+        "handleHarmoniesInHarmonyMeasureFinalization() 2");
+    }
+#endif
+
     // consider each measure element (a harmony in fact) in turn,
     // updating their duration and adding skips if needed
     list<S_msrMeasureElement>::iterator
@@ -3677,7 +3745,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
           gLogIOstream <<
-            "handleHarmoniesInHarmonyMeasureFinalization() 2" <<
+            "handleHarmoniesInHarmonyMeasureFinalization() 3" <<
             ", currentHarmony: ";
             gIndenter++;
             gLogIOstream <<
@@ -3705,7 +3773,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
             gLogIOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization() 3" <<
+              "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
               ", previousHarmony: ";
 
             if (previousHarmony) {
@@ -3747,7 +3815,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
             gLogIOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
+              "handleHarmoniesInHarmonyMeasureFinalization() 5" <<
               ", previousHarmony is null, positionInMeasureToPadUpTo: " <<
               positionInMeasureToPadUpTo <<
               endl;
@@ -3789,7 +3857,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
               displayMeasure (
                 inputLineNumber,
-                "handleHarmoniesInHarmonyMeasureFinalization() 5");
+                "handleHarmoniesInHarmonyMeasureFinalization() 6");
             }
 #endif
           }
@@ -3816,6 +3884,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               previousHarmonySoundingWholeNotes;
           positionInMeasureFollowingPreviousHarmony.rationalise ();
 
+          // compute the delta
           rational
             positionsInMeasureDelta =
               positionInMeasureOfCurrentHarmony
@@ -3826,7 +3895,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
             gLogIOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization() 6" <<
+              "handleHarmoniesInHarmonyMeasureFinalization() 7" <<
               ", previousHarmony: ";
 
             if (previousHarmony) {
@@ -3866,7 +3935,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             paddingNote->
               setPositionInMeasure (
                 fCurrentMeasureWholeNotes,
-                "handleHarmoniesInHarmonyMeasureFinalization() 7");
+                "handleHarmoniesInHarmonyMeasureFinalization() 8");
 
             // insert paddingNote before currentHarmony in the measure's elements list
 #ifdef TRACE_OPTIONS
@@ -3893,6 +3962,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           else if (
               positionsInMeasureDelta.getNumerator () < 0
           ) {
+            // the two harmonies overlap in time
             stringstream s;
 
             s <<
@@ -3901,12 +3971,54 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               " overlaps current harmony " <<
               currentHarmony->asString ();
 
-   // JMI         msrInternalError (
             msrInternalWarning (
               gGeneralOptions->fInputSourceName,
               inputLineNumber,
-     //         __FILE__, __LINE__,
               s.str ());
+
+            // compute previousHarmony's future sounding whole notes
+            rational
+              reducedSoundingWholeNotes =
+                previousHarmonySoundingWholeNotes
+                  + // the delta is negative
+                positionsInMeasureDelta;
+
+#ifdef TRACE_OPTIONS
+            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+              gLogIOstream <<
+                "Reducing the sounding whole notes of harmony " <<
+                previousHarmony->asString () <<
+                " from " <<
+                previousHarmonySoundingWholeNotes <<
+                " to " <<
+                reducedSoundingWholeNotes <<
+                " in voice \"" <<
+                voice->getVoiceName () <<
+                "\", line " << inputLineNumber <<
+                endl;
+            }
+#endif
+
+            if (reducedSoundingWholeNotes.getNumerator () == 0) {
+              stringstream s;
+
+              s <<
+                "Cannot reduce the duration of harmony " <<
+                previousHarmony->asShortString () <<
+                " to 0 : leaving it as it is";
+
+              msrInternalWarning (
+                gGeneralOptions->fInputSourceName,
+                inputLineNumber,
+ //  JMI             __FILE__, __LINE__,
+                s.str ());
+            }
+            else {
+              // set previousHarmony's duration to the reduced value
+              previousHarmony->
+                setHarmonySoundingWholeNotes (
+                  reducedSoundingWholeNotes);
+            }
           }
         }
 
@@ -3920,7 +4032,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
       displayMeasure (
         inputLineNumber,
-        "handleHarmoniesInHarmonyMeasureFinalization() 8");
+        "handleHarmoniesInHarmonyMeasureFinalization() 9");
     }
 #endif
   }
@@ -4190,9 +4302,9 @@ void msrMeasure::finalizeMeasure (
     stringstream s;
 
     s <<
-      "Attempting to finalize measure \"" <<
+      "Attempting to finalize measure " <<
       asShortString () <<
-      "\" more than once";
+      " more than once";
 
     msrInternalError (
       gGeneralOptions->fInputSourceName,
@@ -4997,47 +5109,4 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 
 
 }
-
-
-/*
-
-    // set the harmony's souding whole notes
-    if (harmonyWholeNotesOffset.getNumerator () > 0) {
-      // decrement the harmony's duration as much
-      harmony->
-        setHarmonySoundingWholeNotes (
-          newNoteSoundingWholeNotes
-            -
-          harmonyWholeNotesOffset);
-    }
-    else {
-      harmony->
-        setHarmonySoundingWholeNotes (
-          fCurrentNoteSoundingWholeNotes
-            /
-          pendingHarmoniesNumber);
-    }
-
-
-    // has the harmony whole notes offset already been used
-    // at the same point in time?
-    if (harmonyWholeNotesOffset == previousHarmonyWhoseNotesOffset) {
-      stringstream s;
-
-      s <<
-        "harmonyWholeNotesOffset '" <<
-        harmonyWholeNotesOffset <<
-        "' already occured in that same point in time, ignoring it";
-
-      msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-//        __FILE__, __LINE__,
-        s.str ());
-    }
-
-    else {
-    }
-*/
-
 

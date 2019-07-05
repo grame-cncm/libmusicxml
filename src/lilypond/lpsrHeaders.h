@@ -120,7 +120,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValsListAssoc
                           getComposers () const
-                              { return fComposers; };
+                              { return fComposers; }
 
     void                  setArrangers (
                             int               inputLineNumber,
@@ -130,7 +130,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValsListAssoc
                           getArrangers () const
-                              { return fArrangers; };
+                              { return fArrangers; }
 
     void                  setLyricists (
                             int               inputLineNumber,
@@ -140,7 +140,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValsListAssoc
                           getLyricists () const
-                              { return fLyricists; };
+                              { return fLyricists; }
 
     void                  setPoets (
                             int               inputLineNumber,
@@ -150,7 +150,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValsListAssoc
                           getPoets () const
-                              { return fPoets; };
+                              { return fPoets; }
 
     void                  setTranslators (
                             int               inputLineNumber,
@@ -160,7 +160,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValsListAssoc
                           getTranslators () const
-                              { return fTranslators; };
+                              { return fTranslators; }
 
     void                  setRights (
                             int               inputLineNumber,
@@ -180,7 +180,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValsListAssoc
                           getSoftwares () const
-                              { return fSoftwares; };
+                              { return fSoftwares; }
 
     // LilyPond informations
 

@@ -522,29 +522,33 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 void msrHarmony::setHarmonyPositionInMeasure (
   rational positionInMeasure)
 {
+  // set the harmony position in measure, taking it's offset into account
+
+  // the offset can negative, merely add it
+  // this overwrites it with the same value if fHarmonyWholeNotesOffset is null
+  rational
+    actualPositionInMeasure =
+      positionInMeasure
+        +
+      fHarmonyWholeNotesOffset;
+  actualPositionInMeasure.rationalise ();
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
     gLogIOstream <<
       "Setting harmony position in measure of " << asString () <<
       " to '" <<
       positionInMeasure <<
-      "'" <<
+      "', harmonyWholeNotesOffset = " <<
+      fHarmonyWholeNotesOffset <<
+      "', actualPositionInMeasure = " <<
+      actualPositionInMeasure <<
       endl;
   }
 #endif
 
-  // set the harmony position in measure, taking it's offset into account
-
-  // get the note uplink's position in measure
-  rational
-    noteUpLinkPositionInMeasure =
-      fHarmonyNoteUpLink->
-        getPositionInMeasure ();
-
-  // the offset can negative, merely add it
-  // this overwrites it with the same value if fHarmonyWholeNotesOffset is null JMI
   msrMeasureElement::setPositionInMeasure (
-    noteUpLinkPositionInMeasure + fHarmonyWholeNotesOffset,
+    actualPositionInMeasure,
     "setHarmonyPositionInMeasure()");
 }
 
