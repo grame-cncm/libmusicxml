@@ -7050,6 +7050,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 
   if (fOnGoingNote) {
   // JMI ???
+  /*
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceHarmonies) {
       fLilypondCodeIOstream <<
@@ -7057,6 +7058,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
         endl;
     }
 #endif
+*/
   }
 
   else if (fOnGoingChord) { // JMI

@@ -3664,6 +3664,9 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
   rational partCurrentMeasureWholeNotesHighTide, // JMI ???
   string   context)
 {
+  // running this method for each and every measure in turn
+  // in harmony voices is actually a partial sixth pass
+
   // fetch the voice
   S_msrVoice
     voice =
@@ -3704,9 +3707,10 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     }
 #endif
 
-    // harmonies don't have their own duration and may have a non-null offset:
+    // in MusicXML, harmonies don't have their own duration
+    // and may have a non-null offset:
     // we thus have to sort them in the measure by increasing position,
-    // taking the latter into account
+    // taking their offset into account
     fMeasureElementsList.sort (
       msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure);
 
@@ -3738,9 +3742,15 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
       if (
         // harmony?
-        currentHarmony =
-          dynamic_cast<msrHarmony*>(&(*measureElement))
+        // don't assign currentHarmony here already,
+        // this would set it to nullptr if there's anything else
+        // after the last harmony in the voice
+        S_msrHarmony
+          harmony =
+            dynamic_cast<msrHarmony*>(&(*measureElement))
       ) {
+        currentHarmony = harmony;
+
         // handle the currentHarmony
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
@@ -3757,18 +3767,21 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
         // its position in the measure should take it's offset into account
         rational
-          positionInMeasureOfCurrentHarmony =
-            currentHarmony->getPositionInMeasure ();
+          currentHarmonyPositionInMeasure =
+            currentHarmony->
+              getPositionInMeasure ();
 
         // get the currentHarmony's note uplink
         S_msrNote
           currentHarmonyNoteUpLink  =
-            currentHarmony->getHarmonyNoteUpLink ();
+            currentHarmony->
+              getHarmonyNoteUpLink ();
 
         // get the currentHarmony's note uplink position in the measure
         rational
-          positionInMeasureOfCurrentHarmonyNoteUpLink =
-            currentHarmonyNoteUpLink->getPositionInMeasure ();
+          currentHarmonyNoteUpLinkPositionInMeasure =
+            currentHarmonyNoteUpLink->
+              getPositionInMeasure ();
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
@@ -3785,10 +3798,10 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             }
 
             gLogIOstream <<
-              ", positionInMeasureOfCurrentHarmony: " <<
-              positionInMeasureOfCurrentHarmony <<
-              ", positionInMeasureOfCurrentHarmonyNoteUpLink: " <<
-              positionInMeasureOfCurrentHarmonyNoteUpLink <<
+              ", currentHarmonyPositionInMeasure: " <<
+              currentHarmonyPositionInMeasure <<
+              ", currentHarmonyNoteUpLinkPositionInMeasure: " <<
+              currentHarmonyNoteUpLinkPositionInMeasure <<
               endl;
           }
 #endif
@@ -3801,16 +3814,19 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           // to keep comparison points between the regular voice and its harmony voice
           rational
             positionInMeasureToPadUpTo =
-              positionInMeasureOfCurrentHarmonyNoteUpLink;
+      // JMI        currentHarmonyNoteUpLinkPositionInMeasure;
+              currentHarmonyPositionInMeasure;
 
+/* JMI
           if (
-            positionInMeasureOfCurrentHarmony
+            currentHarmonyPositionInMeasure
               <
-            positionInMeasureOfCurrentHarmonyNoteUpLink
+            currentHarmonyNoteUpLinkPositionInMeasure
           ) {
             positionInMeasureToPadUpTo =
-              positionInMeasureOfCurrentHarmony;
+              currentHarmonyPositionInMeasure;
           }
+*/
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
@@ -3868,7 +3884,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
           // get the previousHarmony's position in the measure
           rational
-            positionInMeasureOfPreviousHarmony =
+            previousHarmonyPositionInMeasure =
               previousHarmony->getPositionInMeasure ();
 
           // get the previousHarmony's duration
@@ -3879,7 +3895,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           // compute the position in measure following previousHarmony
           rational
             positionInMeasureFollowingPreviousHarmony =
-              positionInMeasureOfPreviousHarmony
+              previousHarmonyPositionInMeasure
                 +
               previousHarmonySoundingWholeNotes;
           positionInMeasureFollowingPreviousHarmony.rationalise ();
@@ -3887,7 +3903,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           // compute the positions in measure delta
           rational
             positionsInMeasureDelta =
-              positionInMeasureOfCurrentHarmony
+              currentHarmonyPositionInMeasure
                 -
               positionInMeasureFollowingPreviousHarmony;
           positionsInMeasureDelta.rationalise ();
@@ -3909,10 +3925,10 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             gLogIOstream <<
               ", currentHarmony: " <<
               currentHarmony->asString () <<
-              ", positionInMeasureOfPreviousHarmony: " <<
-              positionInMeasureOfPreviousHarmony <<
-              ", positionInMeasureOfCurrentHarmony: " <<
-              positionInMeasureOfCurrentHarmony <<
+              ", previousHarmonyPositionInMeasure: " <<
+              previousHarmonyPositionInMeasure <<
+              ", currentHarmonyPositionInMeasure: " <<
+              currentHarmonyPositionInMeasure <<
               ", positionInMeasureFollowingPreviousHarmony: " <<
               positionInMeasureFollowingPreviousHarmony <<
               ", positionsInMeasureDelta: " <<
@@ -4032,7 +4048,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
       // get the currentHarmony's position in the measure
       rational
-        positionInMeasureOfCurrentHarmony =
+        currentHarmonyPositionInMeasure =
           currentHarmony->getPositionInMeasure ();
 
       // get the currentHarmony's duration
@@ -4043,20 +4059,97 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
       // compute the position in measure following currentHarmony
       rational
         positionInMeasureFollowingCurrentHarmony =
-          positionInMeasureOfCurrentHarmony
+          currentHarmonyPositionInMeasure
             +
           currentHarmonySoundingWholeNotes;
       positionInMeasureFollowingCurrentHarmony.rationalise ();
+
+      // get the currentHarmony's note uplink
+      S_msrNote
+        currentHarmonyNoteUpLink  =
+          currentHarmony->
+            getHarmonyNoteUpLink ();
+
+/* JMI
+      // get the currentHarmonyNoteUpLink's sounding whole notes
+      rational
+        currentHarmonyNoteUpLinkSoundingWholeNotes =
+          currentHarmonyNoteUpLink->
+            getNoteSoundingWholeNotes ();
+
+      // get the currentHarmony's note uplink position in the measure
+      rational
+        currentHarmonyNoteUpLinkPositionInMeasure =
+          currentHarmonyNoteUpLink->
+            getPositionInMeasure ();
+
+      // compute the position in measure following currentHarmonyNoteUpLink
+      rational
+        positionInMeasureFollowingCurrentHarmonyNoteUpLink =
+          currentHarmonyNoteUpLinkPositionInMeasure
+            +
+          currentHarmonyNoteUpLinkSoundingWholeNotes;
+      positionInMeasureFollowingCurrentHarmonyNoteUpLink.rationalise ();
+*/
+
+      // get the currentHarmonyNoteUpLink's measure
+      S_msrMeasure
+        currentHarmonyNoteUpLinkMeasure =
+          currentHarmonyNoteUpLink->
+            getNoteMeasureUpLink ();
+
+      // get the currentHarmonyNoteUpLink's measure sounding whole notes
+      rational
+        currentHarmonyNoteUpLinkMeasureSoundingWholeNotes =
+          currentHarmonyNoteUpLinkMeasure->
+            getCurrentMeasureWholeNotes ();
 
       // compute the positions in measure delta
       rational
         positionsInMeasureDelta =
           positionInMeasureFollowingCurrentHarmony
             -
-          fCurrentMeasureWholeNotes;
+          currentHarmonyNoteUpLinkMeasureSoundingWholeNotes;
       positionsInMeasureDelta.rationalise ();
 
-      if (positionsInMeasureDelta.getNumerator () < 0) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+        gLogIOstream <<
+          "handleHarmoniesInHarmonyMeasureFinalization() 9" <<
+          ", currentHarmony: ";
+
+        if (currentHarmony) {
+          gLogIOstream <<
+            currentHarmony->asString ();
+        }
+        else {
+          gLogIOstream << "none";
+        }
+
+        gLogIOstream <<
+          ", currentHarmonyPositionInMeasure: " <<
+          currentHarmonyPositionInMeasure <<
+          ", currentHarmonySoundingWholeNotes: " <<
+          currentHarmonySoundingWholeNotes <<
+          ", positionInMeasureFollowingCurrentHarmony: " <<
+          positionInMeasureFollowingCurrentHarmony <<
+          /* JMI
+          ", positionInMeasureFollowingCurrentHarmonyNoteUpLink: " <<
+          positionInMeasureFollowingCurrentHarmonyNoteUpLink <<
+          ", currentHarmonyNoteUpLinkSoundingWholeNotes: " <<
+          currentHarmonyNoteUpLinkSoundingWholeNotes <<
+          ", positionInMeasureFollowingCurrentHarmonyNoteUpLink: " <<
+          positionInMeasureFollowingCurrentHarmonyNoteUpLink <<
+          */
+          ", currentHarmonyNoteUpLinkMeasureSoundingWholeNotes: " <<
+          currentHarmonyNoteUpLinkMeasureSoundingWholeNotes <<
+          ", positionsInMeasureDelta: " <<
+          positionsInMeasureDelta <<
+          endl;
+      }
+#endif
+
+      if (positionsInMeasureDelta.getNumerator () > 0) {
         // the last harmony's duration is too big
         stringstream s;
 
@@ -4075,7 +4168,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         rational
           reducedSoundingWholeNotes =
             currentHarmonySoundingWholeNotes
-              + // the delta is negative
+              - // the delta is positive
             positionsInMeasureDelta;
         reducedSoundingWholeNotes.rationalise ();
 
@@ -4117,12 +4210,19 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         }
       }
     }
+/* JMI
+    else {
+      gLogIOstream <<
+        "*** currentHarmony is null ***" << // JMI
+        endl;
+    }
+    */
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
       displayMeasure (
         inputLineNumber,
-        "handleHarmoniesInHarmonyMeasureFinalization() 9");
+        "handleHarmoniesInHarmonyMeasureFinalization() 10");
     }
 #endif
   }

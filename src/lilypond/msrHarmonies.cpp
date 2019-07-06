@@ -627,10 +627,14 @@ string msrHarmony::asString () const
     msrHarmonyKindAsShortString (fHarmonyKind) <<
 
     ", harmonySoundingWholeNotes: " <<
-// JMI    fHarmonySoundingWholeNotes <<
     fSoundingWholeNotes <<
     ", harmonyDisplayWholeNotes: " <<
     fHarmonyDisplayWholeNotes <<
+
+    ", harmonyWholeNotesOffset: " <<
+    fHarmonyWholeNotesOffset <<
+    ", positionInMeasure: " <<
+    fPositionInMeasure <<
 
     ", harmonyKindText: \"" <<
     fHarmonyKindText << "\"" <<
@@ -684,14 +688,6 @@ string msrHarmony::asString () const
     ", harmonyTupletFactor: " <<
     fHarmonyTupletFactor.asString ();
 
-  // print the harmony offset
-  s <<
-    ", harmonyWholeNotesOffset: " << fHarmonyWholeNotesOffset;
-
-  // print the harmony position in measure
-  s <<
-    ", positionInMeasure: " << fPositionInMeasure;
-
   s << "]";
 
   return s.str ();
@@ -720,24 +716,8 @@ void msrHarmony::print (ostream& os)
     msrHarmonyKindAsString (fHarmonyKind) <<
     endl <<
 
-/* JMI
-    setw (fieldWidth) <<
-    "harmonySoundingWholeNotes " << " : " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-// JMI     fHarmonySoundingWholeNotes) <<
-      fSoundingWholeNotes) <<
-    endl <<
-    setw (fieldWidth) <<
-    "harmonyDisplayWholeNotes " << " : " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fHarmonyDisplayWholeNotes) <<
-    endl <<
-*/
     setw (fieldWidth) <<
     "harmonySoundingWholeNotes" << " : " <<
-// JMI    fHarmonySoundingWholeNotes <<
     fSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
