@@ -159,7 +159,8 @@ void msrChord::setChordDisplayWholeNotes (
 }
 
 void msrChord::setChordMembersPositionInMeasure (
-  rational positionInMeasure)
+  S_msrMeasure measure,
+  rational     positionInMeasure)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
@@ -185,6 +186,10 @@ void msrChord::setChordMembersPositionInMeasure (
     for ( ; ; ) {
       S_msrNote
         note = (*i);
+
+      note->
+        setNoteMeasureUpLink (
+          measure);
 
       note->
         setNotePositionInMeasure (

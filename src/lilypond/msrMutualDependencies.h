@@ -1235,9 +1235,8 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     void                  handleHarmoniesInHarmonyMeasureFinalization (
-                            int      inputLineNumber,
-                            rational partCurrentMeasureWholeNotesHighTide,
-                            string   context);
+                            int    inputLineNumber,
+                            string context);
 
     void                  insertElementInMeasureBeforeIterator (
                             int                                 inputLineNumber,
@@ -4263,7 +4262,8 @@ class msrChord : public msrTupletElement
 
     // positions in measures
     void                  setChordMembersPositionInMeasure (
-                            rational positionInMeasure);
+                            S_msrMeasure measure,
+                            rational     positionInMeasure);
 
     // services
     // ------------------------------------------------------
@@ -4601,7 +4601,8 @@ class msrTuplet : public msrTupletElement
 
     // positions in measures
     rational              setTupletMembersPositionInMeasure (
-                            rational position);
+                            S_msrMeasure measure,
+                            rational     position);
                               // returns the position after the tuplet JMI ???
 
     int                   getTupletNumber () const

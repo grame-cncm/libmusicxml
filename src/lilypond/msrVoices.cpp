@@ -8744,7 +8744,7 @@ void msrVoice::finalizeVoice (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTracePositionsInMeasures) {
     gLogIOstream <<
       "Finalizing voice \"" <<
       getVoiceName () <<
@@ -8813,13 +8813,6 @@ void msrVoice::finalizeVoice (
       gGeneralOptions->fInputSourceName,
       fInputLineNumber,
       s.str ());
-/*
-    // let's recover from this problem JMI
-    handleRepeatEndInVoice (
-      inputLineNumber,
-      measureNumber,
-      repeatTimes);
-      */
   }
 
   // collect the voice measures into the flat list

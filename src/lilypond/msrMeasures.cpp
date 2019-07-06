@@ -531,7 +531,6 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
           ->getVoiceName () <<
       "\", line " << inputLineNumber <<
       ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-// JMI          ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
       endl;
   }
 #endif
@@ -539,14 +538,6 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
     // and then append them
-
-#ifdef TRACE_OPTIONS
-    // fetch the part measure whole notes high tide
-    rational
-      partCurrentMeasureWholeNotesHighTide =
-        fetchMeasurePartUpLink ()->
-          getPartCurrentMeasureWholeNotesHighTide ();
-#endif
 
     list<S_msrMeasureElement>::iterator
       iBegin = fMeasurePendingMeasureElementsList.begin (),
@@ -571,7 +562,6 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
           ", has position in measure '" <<
           measureElement->getPositionInMeasure () <<
           ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-          ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
           endl;
       }
 #endif
@@ -594,7 +584,6 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
             ", has position in measure '" <<
             measureElement->getPositionInMeasure () <<
             ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-            ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
             endl;
         }
 #endif
@@ -657,7 +646,6 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
           ->getVoiceName () <<
       "\", line " << inputLineNumber <<
       ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
- // JMI     ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
       endl;
   }
 #endif
@@ -689,47 +677,31 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
     elem->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending element " <<
+      elem->asShortString () <<
+      " at the end of measure " <<
+      asShortString () <<
+      " in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()
+          ->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      ", has position in measure '" <<
+      elem->getPositionInMeasure () <<
+      ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+      endl;
 
-    if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "Appending element " <<
-        elem->asShortString () <<
-        " at the end of measure " <<
-        asShortString () <<
-        " in voice \"" <<
-        fMeasureSegmentUpLink->
-          getSegmentVoiceUpLink ()
-            ->getVoiceName () <<
-        "\", line " << inputLineNumber <<
-        ", has position in measure '" <<
-        elem->getPositionInMeasure () <<
-        ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-        ", partCurrentMeasureWholeNotesHighTide = " <<
-        partCurrentMeasureWholeNotesHighTide <<
-        endl;
-
-    displayMeasure (
-      inputLineNumber,
-      "appendElementAtTheEndOfMeasure() 1");
-    }
+  displayMeasure (
+    inputLineNumber,
+    "appendElementAtTheEndOfMeasure() 1");
+  }
 #endif
 
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
     // and then append them
-
-#ifdef TRACE_OPTIONS
-    // fetch the part measure whole notes high tide
-    rational
-      partCurrentMeasureWholeNotesHighTide =
-        fetchMeasurePartUpLink ()->
-          getPartCurrentMeasureWholeNotesHighTide ();
-#endif
 
     list<S_msrMeasureElement>::iterator
       iBegin = fMeasurePendingMeasureElementsList.begin (),
@@ -754,7 +726,6 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
           ", has position in measure '" <<
           measureElement->getPositionInMeasure () <<
           ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-          ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
           endl;
       }
 #endif
@@ -777,7 +748,6 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
             ", has position in measure '" <<
             measureElement->getPositionInMeasure () <<
             ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-            ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
             endl;
         }
 #endif
@@ -1441,8 +1411,10 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
         "\", line " << inputLineNumber <<
         ", has position in measure '" <<
         barline->getPositionInMeasure () <<
-        ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-        ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
+        ", currentMeasureWholeNotes = " <<
+        fCurrentMeasureWholeNotes <<
+        ", partCurrentMeasureWholeNotesHighTide = " <<
+        partCurrentMeasureWholeNotesHighTide <<
         endl;
     }
 #endif
@@ -2021,6 +1993,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     // we can now set the position in measure for all the tuplet members
     tuplet->
       setTupletMembersPositionInMeasure (
+        this,
         fCurrentMeasureWholeNotes);
   }
 
@@ -3165,12 +3138,6 @@ void msrMeasure::padUpToPositionInMeasure (
 
   gIndenter++;
 
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
-
   if (fCurrentMeasureWholeNotes < positionInMeasureToPadUpTo) {
     // appending a rest to this measure to reach positionInMeasureToPadUpTo
     rational
@@ -3201,7 +3168,6 @@ void msrMeasure::padUpToPositionInMeasure (
        " % --> @" << fMeasureNumber << // JMI
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
-       ":" << partCurrentMeasureWholeNotesHighTide <<
         ", missingDuration = " << missingDuration <<
        endl;
    }
@@ -3260,12 +3226,6 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 
   gIndenter++;
 
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
-
   if (fCurrentMeasureWholeNotes < positionInMeasureToPadUpTo) {
     // appending a rest to this measure to reach positionInMeasureToPadUpTo
     rational
@@ -3291,8 +3251,6 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
        fMeasureDebugNumber <<
        ", currentMeasureWholeNotes: " <<
        fCurrentMeasureWholeNotes <<
-       ", partCurrentMeasureWholeNotesHighTide:" <<
-       partCurrentMeasureWholeNotesHighTide <<
        endl;
    }
 #endif
@@ -3316,9 +3274,6 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
        fMeasureDebugNumber <<
        ", currentMeasureWholeNotes: " <<
        fCurrentMeasureWholeNotes <<
-       ", partCurrentMeasureWholeNotesHighTide: " <<
-       partCurrentMeasureWholeNotesHighTide <<
- //  JMI       ", missingDuration = " << missingDuration <<
        endl;
    }
 #endif
@@ -3660,9 +3615,8 @@ void msrMeasure::finalizeRegularMeasure (
 }
 
 void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
-  int      inputLineNumber,
-  rational partCurrentMeasureWholeNotesHighTide, // JMI ???
-  string   context)
+  int    inputLineNumber,
+  string context)
 {
   // running this method for each and every measure in turn
   // in harmony voices is actually a partial sixth pass
@@ -3691,8 +3645,6 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
       "' in voice \"" <<
       voice->getVoiceName () <<
       "\" (" << context << ")" <<
-      ", partCurrentMeasureWholeNotesHighTide = " <<
-      partCurrentMeasureWholeNotesHighTide <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -4070,6 +4022,20 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           currentHarmony->
             getHarmonyNoteUpLink ();
 
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+        gLogIOstream <<
+          "handleHarmoniesInHarmonyMeasureFinalization() 8888 " <<
+          "currentHarmonyNoteUpLink:" <<
+          endl;
+        gIndenter++;
+        gLogIOstream <<
+          currentHarmonyNoteUpLink <<
+          endl;
+        gIndenter--;
+      }
+#endif
+
 /* JMI
       // get the currentHarmonyNoteUpLink's sounding whole notes
       rational
@@ -4097,6 +4063,16 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         currentHarmonyNoteUpLinkMeasure =
           currentHarmonyNoteUpLink->
             getNoteMeasureUpLink ();
+
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+        gLogIOstream <<
+          "handleHarmoniesInHarmonyMeasureFinalization() 9999 " <<
+          "currentHarmonyNoteUpLinkMeasure: " <<
+          currentHarmonyNoteUpLinkMeasure->asString () <<
+          endl;
+      }
+#endif
 
       // get the currentHarmonyNoteUpLink's measure sounding whole notes
       rational
@@ -4318,7 +4294,6 @@ void msrMeasure::finalizeHarmonyMeasure (
   // handle the harmonies in this measure
   handleHarmoniesInHarmonyMeasureFinalization (
     inputLineNumber,
-    partCurrentMeasureWholeNotesHighTide,
     context);
 
   // pad the measure up if it is in a harmony of figured bass voice
@@ -4507,6 +4482,23 @@ void msrMeasure::finalizeMeasure (
     voice =
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Finalizing measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+      fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
+      "\" (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
 
   switch (voice->getVoiceKind ()) {
     case msrVoice::kVoiceRegular:

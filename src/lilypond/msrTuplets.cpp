@@ -597,7 +597,8 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 }
 
 rational msrTuplet::setTupletMembersPositionInMeasure (
-  rational positionInMeasure)
+  S_msrMeasure measure,
+  rational     positionInMeasure)
   // returns the position in measure after the tuplet
 {
 #ifdef TRACE_OPTIONS
@@ -630,6 +631,10 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
     ) {
       // note
       note->
+        setNoteMeasureUpLink (
+          measure);
+
+      note->
         setNotePositionInMeasure (
           currentPosition);
 
@@ -645,6 +650,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
       // chord
       chord->
         setChordMembersPositionInMeasure (
+          measure,
           currentPosition);
       currentPosition.rationalise ();
 
@@ -661,6 +667,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
       currentPosition =
         tuplet->
           setTupletMembersPositionInMeasure ( // a function JMI ???
+            measure,
             currentPosition);
 
       currentPosition +=
