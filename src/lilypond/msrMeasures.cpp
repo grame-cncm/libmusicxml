@@ -677,7 +677,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
     elem->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     gLogIOstream <<
       "Appending element " <<
       elem->asShortString () <<
@@ -712,7 +712,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         measureElement = (*i);
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
         gLogIOstream <<
           "Considering delayed " <<
           measureElement->asShortString () <<
@@ -734,7 +734,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         // this is where measureElement should be appended
 
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
           gLogIOstream <<
             "Appending delayed " <<
             measureElement->asShortString () <<
@@ -779,62 +779,85 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
     S_msrMeasureElement
       measureElement = (*i);
 
-/* JMI
     // sanity check
     msrAssert (
       measureElement != nullptr,
       "measureElement is null");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Reverse iteration on element " <<
-      measureElement <<
-      endl;
-  }
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+      gLogIOstream <<
+        "Reverse iteration on measure element:" <<
+        endl;
+      gIndenter++;
+      gLogIOstream <<
+        measureElement;
+      gIndenter--;
+    }
 #endif
-*/
 
     if (
-        // barline item?
+        // barline?
         S_msrBarline
           barline =
             dynamic_cast<msrBarline*>(&(*measureElement))
     ) {
-    /* JMI
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
         gLogIOstream <<
           "Element is a barline actually" <<
           endl;
       }
 #endif
-*/
     }
     else {
-    /* JMI
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
         gLogIOstream <<
           "Element is no barline" <<
           endl;
       }
 #endif
-*/
       break;
     }
 
     if (++i == iEnd) break;
   } // for
 
+  // get iterator base
+  list<S_msrMeasureElement>::iterator
+    reverseIteratorBase =
+      (i).base ();
+
   // insert elem in the measure elements list before (*i)
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+    gLogIOstream <<
+      "Inserting measure element " <<
+      elem->asString ();
+
+    if (reverseIteratorBase == fMeasureElementsList.end ()) {
+      gLogIOstream <<
+        " at the end of the measure";
+    }
+    else {
+      gLogIOstream <<
+        " before " <<
+        (*reverseIteratorBase)->asString ();
+    }
+
+    gLogIOstream <<
+      endl;
+  }
+#endif
+
   insertElementInMeasureBeforeIterator (
     inputLineNumber,
-    (i).base (),
+    reverseIteratorBase,
     elem);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "appendElementAtTheEndOfMeasure() 2");
@@ -1335,22 +1358,33 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
   int inputLineNumber =
     barline->getInputLineNumber ();
 
-  /* JMI , a barline may appear anywhere}
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending barline " <<
+      barline->asShortString () <<
+      " to measure " <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in voice \"" <<
+      voice->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  /* JMI , a barline may appear anywhere
   // the measure may have to be padded
   padUpToPositionInMeasure (
     inputLineNumber);
     */
-
-  // register barline measure number
-  barline->
-    setMeasureNumber (
-      fMeasureNumber);
-
-  // register barline position in measure,
-  barline->
-    setPositionInMeasure ( // JMI
-      fCurrentMeasureWholeNotes,
-      "appendBarlineToMeasure()");
 
   // is there already a pending barline in this voice?
   if (fMeasurePendingMeasureElementsList.size () > 1) {
@@ -1381,18 +1415,46 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
   }
 #endif
 
+  // register barline's measure number
+  barline->
+    setMeasureNumber (
+      fMeasureNumber);
+
+  // set barline's position in measure if relevant
+  switch (voice->getVoiceKind ()) {
+    case msrVoice::kVoiceRegular:
+      // register barline position in measure
+      barline->
+        setPositionInMeasure ( // JMI
+          fCurrentMeasureWholeNotes,
+          "appendBarlineToMeasure()");
+      break;
+
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass: // JMI
+      // DON'T set barline's position in measure here:
+      // we need to keep the one set when this same barline
+      // has been appended to the regular voice (just above),
+      // so as not to change its relative place
+      break;
+  } // switch
+
+  fMeasureElementsList.push_back (barline);
+
+/*
   // fetch the part measure whole notes high tide
   rational
     partCurrentMeasureWholeNotesHighTide =
       fetchMeasurePartUpLink ()->
         getPartCurrentMeasureWholeNotesHighTide ();
 
-  if (true /* JMI */ || // TICINO
+  if (true //* JMI //* / || // TICINO
     fCurrentMeasureWholeNotes == partCurrentMeasureWholeNotesHighTide
   ) {
     // append barline to the measure elements list at once
     appendElementToMeasure (barline);
   }
+
   else {
     // delay barline handling until this measure reaches
     // the part measure whole notes high tide
@@ -1421,6 +1483,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
     fMeasurePendingMeasureElementsList.push_back (barline);
   }
+  */
 }
 
 void msrMeasure::prependBarlineToMeasure (S_msrBarline barline)

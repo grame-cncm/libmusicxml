@@ -4602,7 +4602,7 @@ class msrTuplet : public msrTupletElement
     // positions in measures
     rational              setTupletMembersPositionInMeasure (
                             S_msrMeasure measure,
-                            rational     position);
+                            rational     positionInMeasure);
                               // returns the position after the tuplet JMI ???
 
     int                   getTupletNumber () const
@@ -5490,8 +5490,6 @@ class msrRepeat : public msrVoiceElement
 
     // private work services
     // ------------------------------------------------------
-
-    void                  printMeasurePendingMeasureElementsList ();
 
   private:
 
@@ -7870,8 +7868,6 @@ class msrStaff : public msrElement
     S_msrTranspose        getStaffCurrentTranspose () const
                               { return fStaffCurrentTranspose; }
 
-    void                  printMeasurePendingMeasureElementsList ();
-
     // voices ordering in staves
 
     static bool           compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
@@ -8506,8 +8502,6 @@ class msrPart : public msrPartGroupElement
     // ------------------------------------------------------
 
     // measure elements
-
-    void                  printMeasurePendingMeasureElementsList ();
 
   private:
 

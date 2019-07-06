@@ -25,7 +25,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -85,7 +85,7 @@ S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
   // braille measure number
   newbornClone->fBrailleMeasureNumber =
     fBrailleMeasureNumber;
-    
+
   return newbornClone;
 }
 
@@ -117,9 +117,9 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending barline '" <<
+      "Appending barline " <<
       barline->asShortString () <<
-      "' to measure '" <<
+      " to measure '" <<
       asString () <<
       "'" <<
       endl;
@@ -230,12 +230,12 @@ void bsrMeasure::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrMeasure>*
     p =
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -261,7 +261,7 @@ void bsrMeasure::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -308,7 +308,7 @@ void bsrMeasure::print (ostream& os)
     ", printMeasureNumber " << fPrintMeasureNumber <<
     ", line " << fInputLineNumber <<
     endl;
-    
+
   gIndenter++;
 
   const int fieldWidth = 21;
@@ -327,19 +327,19 @@ void bsrMeasure::print (ostream& os)
     setw (fieldWidth) <<
     "cellsNumber" << " : " << fetchCellsNumber () <<
     endl;
-  
+
   // print spaces needs
   os << left <<
     setw (fieldWidth) <<
     "spacesBefore" << " : " <<
     fSpacesBefore <<
     endl;
-  
+
   os << endl;
-  
+
   // print the measure elements if any
   int measureElementsListSize = fMeasureLineElementsList.size ();
-  
+
   if (measureElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
@@ -350,7 +350,7 @@ void bsrMeasure::print (ostream& os)
     if (measureElementsListSize) {
       os << endl;
       gIndenter++;
-  
+
       list<S_bsrLineElement>::const_iterator
         iBegin = fMeasureLineElementsList.begin (),
         iEnd   = fMeasureLineElementsList.end (),
@@ -360,7 +360,7 @@ void bsrMeasure::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-          
+
       gIndenter--;
     }
     else {

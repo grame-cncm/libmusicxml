@@ -613,6 +613,7 @@ string msrBarline::asShortString () const
   stringstream s;
 
   s <<
+    "["
     "Barline " <<
     barlineCategoryKindAsString (fBarlineCategoryKind) <<
     ", measureNumber " << fMeasureNumber <<
@@ -642,7 +643,8 @@ string msrBarline::asShortString () const
     */
     ", " <<
     fBarlineTimes << " times" <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }
@@ -652,6 +654,7 @@ string msrBarline::asString () const
   stringstream s;
 
   s <<
+    "["
     "Barline " <<
     barlineCategoryKindAsString (fBarlineCategoryKind) <<
     ", measureNumber " << fMeasureNumber <<
@@ -680,7 +683,8 @@ string msrBarline::asString () const
 
     ", " <<
     fBarlineTimes << " times" <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }

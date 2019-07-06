@@ -17587,8 +17587,12 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
        So:
          - we register all harmonies with the duration of the next note
          - they will be sorted by position in the measure in finalizeMeasure(),
-           at which time their duration may then be shortened
+           at which time their duration may be shortened
            so that the offsets values are enforced
+           and they dont overflow the measure
+      It VITAL that harmony measures are finalized
+      AFTER the corresponding measure in the regular voice,
+      this the current sounding whole notes of the latter is needed for that
     */
 
     // set the harmony's sounding whole notes

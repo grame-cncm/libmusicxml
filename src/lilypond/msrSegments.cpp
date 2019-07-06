@@ -1518,9 +1518,9 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending barline '" << barline->asString () <<
-      "' to segment '" << asString () << "'" <<
-      "' in voice \"" <<
+      "Appending barline " << barline->asString () <<
+      " to segment " << asString () << "'" <<
+      " in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"," <<
       endl;
