@@ -535,6 +535,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
   }
 #endif
 
+/* JMI
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
     // and then append them
@@ -603,7 +604,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
       if (++i == iEnd) break;
     } // for
   }
-
+*/
   // set elem's measure number
   elem->
     setMeasureNumber (
@@ -699,6 +700,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
   }
 #endif
 
+/* JMI
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
     // and then append them
@@ -767,94 +769,101 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       if (++i == iEnd) break;
     } // for
   }
+*/
 
-  // append elem to the measure elements lists,
-  // but place it before barlines if any,
-  // to avoid the latter appearing too early in harmony and figured bass measures,
-  list<S_msrMeasureElement>::reverse_iterator
-    iBegin = fMeasureElementsList.rbegin (),
-    iEnd   = fMeasureElementsList.rend (),
-    i      = iBegin;
-  for ( ; ; ) {
-    S_msrMeasureElement
-      measureElement = (*i);
+  if (! fMeasureElementsList.size ()) {
+    fMeasureElementsList.push_back (elem);
+  }
 
-    // sanity check
-    msrAssert (
-      measureElement != nullptr,
-      "measureElement is null");
+  else {
+    // append elem to the measure elements lists,
+    // but place it before barlines if any,
+    // to avoid the latter appearing too early in harmony and figured bass measures,
+    list<S_msrMeasureElement>::reverse_iterator
+      iBegin = fMeasureElementsList.rbegin (),
+      iEnd   = fMeasureElementsList.rend (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrMeasureElement
+        measureElement = (*i);
 
-#ifdef TRACE_OPTIONS
+      // sanity check
+      msrAssert (
+        measureElement != nullptr,
+        "measureElement is null");
+
+  #ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+        gLogIOstream <<
+          "Reverse iteration on measure element:" <<
+          endl;
+        gIndenter++;
+        gLogIOstream <<
+          measureElement;
+        gIndenter--;
+      }
+  #endif
+
+      if (
+          // barline?
+          S_msrBarline
+            barline =
+              dynamic_cast<msrBarline*>(&(*measureElement))
+      ) {
+  #ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+          gLogIOstream <<
+            "Element is a barline actually" <<
+            endl;
+        }
+  #endif
+      }
+      else {
+  #ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+          gLogIOstream <<
+            "Element is no barline" <<
+            endl;
+        }
+  #endif
+        break;
+      }
+
+      if (++i == iEnd) break;
+    } // for
+
+    // get iterator base
+    list<S_msrMeasureElement>::iterator
+      reverseIteratorBase =
+        (i).base ();
+
+    // insert elem in the measure elements list before (*i)
+  #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
       gLogIOstream <<
-        "Reverse iteration on measure element:" <<
+        "Inserting measure element " <<
+        elem->asString ();
+
+      if (reverseIteratorBase == fMeasureElementsList.end ()) {
+        gLogIOstream <<
+          " at the end of the measure";
+      }
+      else {
+        gLogIOstream <<
+          " before " <<
+          (*reverseIteratorBase)->asString ();
+      }
+
+      gLogIOstream <<
         endl;
-      gIndenter++;
-      gLogIOstream <<
-        measureElement;
-      gIndenter--;
     }
-#endif
+  #endif
 
-    if (
-        // barline?
-        S_msrBarline
-          barline =
-            dynamic_cast<msrBarline*>(&(*measureElement))
-    ) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
-          "Element is a barline actually" <<
-          endl;
-      }
-#endif
-    }
-    else {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
-          "Element is no barline" <<
-          endl;
-      }
-#endif
-      break;
-    }
-
-    if (++i == iEnd) break;
-  } // for
-
-  // get iterator base
-  list<S_msrMeasureElement>::iterator
-    reverseIteratorBase =
-      (i).base ();
-
-  // insert elem in the measure elements list before (*i)
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-    gLogIOstream <<
-      "Inserting measure element " <<
-      elem->asString ();
-
-    if (reverseIteratorBase == fMeasureElementsList.end ()) {
-      gLogIOstream <<
-        " at the end of the measure";
-    }
-    else {
-      gLogIOstream <<
-        " before " <<
-        (*reverseIteratorBase)->asString ();
-    }
-
-    gLogIOstream <<
-      endl;
-  }
-#endif
-
-  insertElementInMeasureBeforeIterator (
-    inputLineNumber,
-    reverseIteratorBase,
-    elem);
+    insertElementInMeasureBeforeIterator (
+      inputLineNumber,
+      reverseIteratorBase,
+      elem);
+}
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
@@ -1386,6 +1395,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
     inputLineNumber);
     */
 
+/* JMI
   // is there already a pending barline in this voice?
   if (fMeasurePendingMeasureElementsList.size () > 1) {
     stringstream s;
@@ -1414,6 +1424,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
     printMeasurePendingMeasureElementsList ();
   }
 #endif
+*/
 
   // register barline's measure number
   barline->
@@ -1425,7 +1436,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
     case msrVoice::kVoiceRegular:
       // register barline position in measure
       barline->
-        setPositionInMeasure ( // JMI
+        setPositionInMeasure (
           fCurrentMeasureWholeNotes,
           "appendBarlineToMeasure()");
       break;
@@ -1435,55 +1446,13 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       // DON'T set barline's position in measure here:
       // we need to keep the one set when this same barline
       // has been appended to the regular voice (just above),
-      // so as not to change its relative place
+      // so as not to change its relative place in the measure
+      // (there are holes in the harmony voice until
+      // they are filled with skips in handleHarmoniesInHarmonyMeasureFinalization()
       break;
   } // switch
 
   fMeasureElementsList.push_back (barline);
-
-/*
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
-
-  if (true //* JMI //* / || // TICINO
-    fCurrentMeasureWholeNotes == partCurrentMeasureWholeNotesHighTide
-  ) {
-    // append barline to the measure elements list at once
-    appendElementToMeasure (barline);
-  }
-
-  else {
-    // delay barline handling until this measure reaches
-    // the part measure whole notes high tide
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "Delaying insertion of barline '" <<
-        barline->asShortString () <<
-        "' in measure '" <<
-        asShortString () <<
-        "' in voice \"" <<
-        fMeasureSegmentUpLink->
-          getSegmentVoiceUpLink ()
-            ->getVoiceName () <<
-        "\", line " << inputLineNumber <<
-        ", has position in measure '" <<
-        barline->getPositionInMeasure () <<
-        ", currentMeasureWholeNotes = " <<
-        fCurrentMeasureWholeNotes <<
-        ", partCurrentMeasureWholeNotesHighTide = " <<
-        partCurrentMeasureWholeNotesHighTide <<
-        endl;
-    }
-#endif
-
-    fMeasurePendingMeasureElementsList.push_back (barline);
-  }
-  */
 }
 
 void msrMeasure::prependBarlineToMeasure (S_msrBarline barline)
@@ -3522,18 +3491,6 @@ void msrMeasure::finalizeRegularMeasure (
     } // for
   }
 
-  // pad the measure up if it is in a harmony of figured bass voice
-  switch (voice->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
-      break;
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
-      padUpToPositionAtTheEndOfMeasure (
-        inputLineNumber,
-        partCurrentMeasureWholeNotesHighTide);
-      break;
-  } // switch
-
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
@@ -4359,17 +4316,10 @@ void msrMeasure::finalizeHarmonyMeasure (
     inputLineNumber,
     context);
 
-  // pad the measure up if it is in a harmony of figured bass voice
-  switch (voice->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
-      break;
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
-      padUpToPositionAtTheEndOfMeasure (
-        inputLineNumber,
-        partCurrentMeasureWholeNotesHighTide);
-      break;
-  } // switch
+  // pad the measure up
+  padUpToPositionAtTheEndOfMeasure (
+    inputLineNumber,
+    partCurrentMeasureWholeNotesHighTide);
 
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
@@ -4519,6 +4469,239 @@ void msrMeasure::finalizeFiguredBassMeasure (
   msrMeasureRepeatContextKind measureRepeatContextKind,
   string                      context)
 {
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+
+  // fetch the part measure whole notes high tide
+  rational
+    partCurrentMeasureWholeNotesHighTide =
+      fetchMeasurePartUpLink ()->
+        getPartCurrentMeasureWholeNotesHighTide ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Finalizing figured bass measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+      voice->getVoiceName () <<
+      "\" (" << context << ")" <<
+      ", partCurrentMeasureWholeNotesHighTide = " <<
+      partCurrentMeasureWholeNotesHighTide <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "finalizeFiguredBassMeasure() 1");
+  }
+#endif
+
+  // fetch the voice's time
+  S_msrTime
+    voiceCurrentTime =
+      voice->getVoiceCurrentTime ();
+
+  if (! voiceCurrentTime) {
+    // take the implicit 4/4 measure whole notes into account
+    fFullMeasureWholeNotes = rational (1, 1);
+  }
+  else {
+    // set the full length from time
+    setFullMeasureWholeNotesFromTime (
+      voiceCurrentTime);
+  }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+    if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
+      stringstream s;
+
+      s <<
+        "Measure '" <<
+        fMeasureNumber <<
+        ", measureDebugNumber: '" <<
+        fMeasureDebugNumber <<
+        "' in segment '" <<
+        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+        "' in voice \"" <<
+        voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        ", doesn't contain any music" <<
+        endl;
+
+      msrMusicXMLWarning (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        s.str ());
+    }
+  }
+#endif
+
+  // handle the harmonies in this measure
+  handleHarmoniesInHarmonyMeasureFinalization (
+    inputLineNumber,
+    context);
+
+  // pad the measure up
+  padUpToPositionAtTheEndOfMeasure (
+    inputLineNumber,
+    partCurrentMeasureWholeNotesHighTide);
+
+  // determine the measure kind and purist number
+  determineMeasureKindAndPuristNumber (
+    inputLineNumber,
+    measureRepeatContextKind);
+
+  // pad measure up to part measure whole notes high tide
+  switch (fMeasureKind) {
+    case msrMeasure::kMeasureKindCadenza:
+      break;
+
+    case msrMeasure::kMeasureKindOvercomplete:
+    case msrMeasure::kMeasureKindAnacrusis:
+    case msrMeasure::kMeasureKindRegular:
+    case msrMeasure::kMeasureKindIncompleteStandalone: // JMI
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
+      break;
+
+    case msrMeasure::kMeasureKindUnknown:
+      // JMI ???
+      break;
+
+    case msrMeasure::kMeasureKindMusicallyEmpty:
+      {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+        stringstream s;
+
+        s <<
+          "measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' in segment '" <<
+          fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+          "' in voice \"" <<
+          voice->getVoiceName () <<
+          "\" (" << context << context << ")" <<
+          ", line " << inputLineNumber <<
+          " IS MUSICALLY EMPTY";
+
+        msrInternalWarning (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          s.str ());
+      }
+#endif
+
+        // fetch the part measure whole notes high tide
+        rational
+          partCurrentMeasureWholeNotesHighTide =
+            fetchMeasurePartUpLink ()->
+              getPartCurrentMeasureWholeNotesHighTide ();
+
+        // pad up to partCurrentMeasureWholeNotesHighTide if > 0
+        // or fFullMeasureWholeNotes otherwise
+        rational
+          positionToPadUpto =
+            partCurrentMeasureWholeNotesHighTide.getNumerator ()
+              ? partCurrentMeasureWholeNotesHighTide
+              : fFullMeasureWholeNotes;
+
+        padUpToPositionInMeasure (
+          inputLineNumber,
+          positionToPadUpto);
+
+          /* JMI
+        switch (fMeasureCreatedForARepeatKind) {
+          case msrMeasure::kMeasureKindCreatedForARepeatNo:
+            {
+              // fetch the part measure whole notes high tide
+              rational
+                partCurrentMeasureWholeNotesHighTide =
+                  fetchMeasurePartUpLink ()->
+                    getPartCurrentMeasureWholeNotesHighTide ();
+
+              padUpToPositionInMeasure (
+                inputLineNumber,
+                partCurrentMeasureWholeNotesHighTide);
+            }
+            break;
+
+          case msrMeasure::kMeasureKindCreatedForARepeatBefore:
+          case msrMeasure::kMeasureKindCreatedForARepeatAfter:
+            // such a measure should not be padded with a rest
+            break;
+
+          case msrMeasure::kMeasureKindCreatedForARepeatPadded:
+            // should not occur
+            break;
+        } // switch
+        */
+      }
+      break;
+  } // switch
+
+  // is there a single note or rest occupying the full measure?
+  if (fMeasureLongestNote) {
+    if (
+      fMeasureLongestNote-> getNoteSoundingWholeNotes ()
+        ==
+      fFullMeasureWholeNotes
+    ) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceMeasures) {
+        gLogIOstream <<
+          "Note '" <<
+          fMeasureLongestNote->asShortString () <<
+          "' occupies measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' fully in segment '" <<
+          fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+          "' in voice \"" <<
+          voice->getVoiceName () <<
+          "\", line " << inputLineNumber <<
+          endl;
+      }
+#endif
+
+      fMeasureLongestNote->
+        setNoteOccupiesAFullMeasure ();
+    }
+  }
+
+  fMeasureHasBeenFinalized = true;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "finalizeFiguredBassMeasure() 2");
+  }
+#endif
+
+  gIndenter--;
 }
 
 void msrMeasure::finalizeMeasure (
@@ -4547,7 +4730,7 @@ void msrMeasure::finalizeMeasure (
         getSegmentVoiceUpLink ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Finalizing measure '" <<
       fMeasureNumber <<
@@ -4577,8 +4760,7 @@ void msrMeasure::finalizeMeasure (
         context);
       break;
     case msrVoice::kVoiceFiguredBass:
-   // finalizeFiguredBassMeasure (
-      finalizeRegularMeasure ( // TEMPORARY JMI to be seen
+      finalizeFiguredBassMeasure ( // JMI to be seen
         inputLineNumber,
         measureRepeatContextKind,
         context);
@@ -5355,3 +5537,51 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 
 }
 
+/* JMI
+  // append barline to the measure elements list
+  appendElementToMeasure (barline);
+*/
+
+/*
+  // fetch the part measure whole notes high tide
+  rational
+    partCurrentMeasureWholeNotesHighTide =
+      fetchMeasurePartUpLink ()->
+        getPartCurrentMeasureWholeNotesHighTide ();
+
+  if (true //* JMI //* / || // TICINO
+    fCurrentMeasureWholeNotes == partCurrentMeasureWholeNotesHighTide
+  ) {
+    // append barline to the measure elements list at once
+    appendElementToMeasure (barline);
+  }
+
+  else {
+    // delay barline handling until this measure reaches
+    // the part measure whole notes high tide
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
+      gLogIOstream <<
+        "Delaying insertion of barline '" <<
+        barline->asShortString () <<
+        "' in measure '" <<
+        asShortString () <<
+        "' in voice \"" <<
+        fMeasureSegmentUpLink->
+          getSegmentVoiceUpLink ()
+            ->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        ", has position in measure '" <<
+        barline->getPositionInMeasure () <<
+        ", currentMeasureWholeNotes = " <<
+        fCurrentMeasureWholeNotes <<
+        ", partCurrentMeasureWholeNotesHighTide = " <<
+        partCurrentMeasureWholeNotesHighTide <<
+        endl;
+    }
+#endif
+
+    fMeasurePendingMeasureElementsList.push_back (barline);
+  }
+  */

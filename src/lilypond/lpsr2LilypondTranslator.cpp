@@ -13525,6 +13525,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
   } // switch
 
   fTupletsStack.pop ();
+
+/* JMI
+ ?????? fCurrentOctaveEntryReference = nullptr;
+  // the first note after the tuplet will become the new reference
+  */
 }
 
 //________________________________________________________________________
