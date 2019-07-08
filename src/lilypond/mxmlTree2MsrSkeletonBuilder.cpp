@@ -1960,7 +1960,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 #endif
 
         combinedBooleanItemsItem->
-          setBooleanVariablesValues (true);
+          setCombinedBooleanVariables (true);
       }
 
       gMusicXMLOptions->fCubase = true;

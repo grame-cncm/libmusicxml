@@ -426,7 +426,7 @@ class oahBooleanAtom : public oahAtomWithVariableName
     // set and get
     // ------------------------------------------------------
 
-    void                  setBooleanItemVariableValue (
+    void                  setBooleanVariable (
                             bool value)
                               { fBooleanVariable = value; }
 
@@ -489,7 +489,7 @@ class oahTwoBooleansAtom : public oahAtomWithVariableName
     // set and get
     // ------------------------------------------------------
 
-    void                  setTwoBooleansItemVariableValue (
+    void                  setTwoBooleansVariables (
                             bool value)
                               {
                                 fBooleanVariable =
@@ -561,7 +561,7 @@ class oahThreeBooleansAtom : public oahAtomWithVariableName
     // set and get
     // ------------------------------------------------------
 
-    void                  setThreeBooleansItemVariableValue (
+    void                  setThreeBooleansVariables (
                             bool value)
                               {
                                 fBooleanVariable =
@@ -645,7 +645,7 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
     void                  addBooleanAtomByName (
                             string name);
 
-    void                  setBooleanVariablesValues (
+    void                  setCombinedBooleanVariables (
                             bool value);
 
     // print
@@ -862,7 +862,7 @@ class oahIntegerAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setIntegerVariableValue (
+    void                  setIntegerVariable (
                             int value)
                               { fIntegerVariable = value; }
 
@@ -924,7 +924,7 @@ class oahFloatAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setFloatItemVariableValue (
+    void                  setFloatVariable (
                             float value)
                               { fFloatVariable = value; }
 
@@ -987,7 +987,7 @@ class oahStringAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setStringItemVariableValue (
+    void                  setStringVariable (
                             string value)
                               { fStringVariable = value; }
 
@@ -1050,7 +1050,7 @@ class oahRationalAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setRationalItemVariableValue (
+    void                  setRationalVariable (
                             rational value)
                               { fRationalVariable = value;  }
 
@@ -1113,7 +1113,7 @@ class oahNumbersSetAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setNumbersSetItemVariableValue (
+    void                  setNumbersSetVariable (
                             set<int> value)
                               { fNumbersSetVariable = value; }
 
@@ -1329,7 +1329,7 @@ class oahGroup : public oahElement
                             ostream&  os,
                             S_oahAtom item);
 
-    virtual void          handleOptionsItemValue (
+    virtual void          handleAtomValue (
                             ostream&      os,
                             S_oahAtom item,
                             string        theString);
@@ -1398,9 +1398,9 @@ to be developped into :
     // ------------------------------------------------------
 
     static SMARTP<oahPrefix> create (
-      string oahPrefixName,
-      string oahPrefixErsatz,
-      string oahPrefixDescription);
+      string prefixName,
+      string prefixErsatz,
+      string prefixDescription);
 
   protected:
 
@@ -1408,9 +1408,9 @@ to be developped into :
     // ------------------------------------------------------
 
     oahPrefix (
-      string oahPrefixName,
-      string oahPrefixErsatz,
-      string oahPrefixDescription);
+      string prefixName,
+      string prefixErsatz,
+      string prefixDescription);
 
     virtual ~oahPrefix ();
 
@@ -1419,14 +1419,14 @@ to be developped into :
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsPrefixName () const
-                              { return fOptionsPrefixName; }
+    string                getPrefixName () const
+                              { return fPrefixName; }
 
-    string                getOptionsPrefixErsatz () const
-                              { return fOptionsPrefixErsatz; }
+    string                getPrefixErsatz () const
+                              { return fPrefixErsatz; }
 
-    string                getOptionsPrefixDescription () const
-                              { return fOptionsPrefixDescription; }
+    string                getPrefixDescription () const
+                              { return fPrefixDescription; }
 
   public:
 
@@ -1438,21 +1438,16 @@ to be developped into :
     // private services
     // ------------------------------------------------------
 
-    string                oahPrefixNames () const;
-    string                oahPrefixNamesInColumns (
+    string                prefixNames () const;
+    string                prefixNamesInColumns (
                             int subGroupsShortNameFieldWidth) const;
 
-    string                oahPrefixNamesBetweenParentheses () const;
-    string                oahPrefixNamesInColumnsBetweenParentheses (
+    string                prefixNamesBetweenParentheses () const;
+    string                prefixNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
 
     string                operator () () const
-                              { return fOptionsPrefixErsatz; }
-
-/* JMI
-    S_oahPrefix           fetchElementByName (
-                            string name);
-                            */
+                              { return fPrefixErsatz; }
 
   public:
 
@@ -1474,9 +1469,9 @@ to be developped into :
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsPrefixName;
-    string                fOptionsPrefixErsatz;
-    string                fOptionsPrefixDescription;
+    string                fPrefixName;
+    string                fPrefixErsatz;
+    string                fPrefixDescription;
 };
 EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
@@ -1657,93 +1652,93 @@ class EXP oahHandler : public oahElement
                             S_oahHandler handler,
                             string       name);
 
-    void                  handleOptionsGroupItemName (
+    void                  handleGroupName (
                             S_oahGroup group,
-                            string     oahAtomName);
+                            string     groupName);
 
-    void                  handleSubGroupItemName (
+    void                  handleSubGroupName (
                             S_oahSubGroup subGroup,
-                            string        oahAtomName);
+                            string        subGroupName);
 
     void                  handleAtomName (
                             S_oahAtom atom,
                             string    atomName);
 
-    void                  handleOptionsHelpUsageItemName (
-                            S_oahOptionsUsageAtom helpUsageItem,
-                            string             oahAtomName);
+    void                  handleOptionsUsageAtomName (
+                            S_oahOptionsUsageAtom optionsUsageAtom,
+                            string                atomName);
 
-    void                  handleOptionsHelpSummaryItemName (
-                            S_oahOptionsSummaryAtom helpSummaryItem,
-                            string               oahAtomName);
+    void                  handleOptionsSummaryAtomName (
+                            S_oahOptionsSummaryAtom optionsSummaryAtom,
+                            string                  atomName);
 
-    void                  handleOptionsCombinedBooleanItemsItemName (
+    void                  handleCombinedBooleansAtomName (
                             S_oahCombinedBooleansAtom combinedBooleanItemsItem,
-                            string                    oahAtomName);
+                            string                    atomName);
 
-    void                  handleOptionsBooleanItemItemName (
+    void                  handleBooleanAtomName (
                             S_oahBooleanAtom booleanItem,
-                            string           oahAtomName);
+                            string           atomName);
 
-    void                  handleOptionsTwoBooleansItemItemName (
+    void                  handleTwoBooleansAtomName (
                             S_oahTwoBooleansAtom twoBooleansItem,
-                            string               oahAtomName);
+                            string               atomName);
 
-    void                  handleOptionsThreeBooleansItemItemName (
+    void                  handleThreeBooleansAtomName (
                             S_oahThreeBooleansAtom threeBooleansItem,
-                            string                 oahAtomName);
+                            string                 atomName);
 
-    void                  handleOptionsItemHelpItemName (
+    void                  handleElementHelpAtomName (
                             S_oahElementHelpAtom itemHelpItem,
-                            string               oahAtomName);
+                            string               atomName);
 
-    void                  handleOptionsIntegerItemItemName (
+    void                  handleIntegerAtomName (
                             S_oahIntegerAtom integerItem,
-                            string           oahAtomName);
+                            string           atomName);
 
-    void                  handleOptionsFloatItemItemName (
+    void                  handleFloatAtomName (
                             S_oahFloatAtom floatItem,
-                            string         oahAtomName);
+                            string         atomName);
 
-    void                  handleOptionsStringItemItemName (
+    void                  handleStringAtomName (
                             S_oahStringAtom stringItem,
-                            string          oahAtomName);
+                            string          atomName);
 
-    void                  handleOptionsRationalItemItemName (
+    void                  handleRationalAtomName (
                             S_oahRationalAtom rationalItem,
-                            string            oahAtomName);
+                            string            atomName);
 
-    void                  handleOptionsNumbersSetItemItemName (
+    void                  handleNumbersSetAtomName (
                             S_oahNumbersSetAtom numbersSetItem,
-                            string              oahAtomName);
+                            string              atomName);
 
-    void                  handleOptionsItemValueOrArgument (
+    void                  handleOptionValueOrArgument (
                             string theString);
 
-    void                  checkMissingPendingOptionsValuedAtomValue (
+    void                  checkMissingPendingValuedAtomValue (
                             string context);
 
-    void                  handleOptionsItemHelpValue (
+    void                  handleElementHelpAtomValue (
                             S_oahElementHelpAtom itemHelpItem,
                             string               theString);
 
-    void                  handleOptionsItemIntegerValue (
+    void                  handleIntegerAtomValue (
                             S_oahIntegerAtom integerItem,
                             string           theString);
 
-    void                  handleOptionsItemFloatValue (
+    void                  handleFloatAtomValue (
                             S_oahFloatAtom floatItem,
                             string         theString);
 
-    void                  handleOptionsItemStringValue (
+    void                  handleStringAtomValue (
                             S_oahStringAtom stringItem,
                             string          theString);
 
-    void                  handleOptionsItemRationalValue (
+    void                  handleRationalAtomValue (
                             S_oahRationalAtom rationalItem,
                             string            theString);
 
-    void                  handleOptionsItemNumbersSetValue (
+    void                  handleNumbersSetAtomValue (
                             S_oahNumbersSetAtom numbersSetItem,
                             string              theString);
 
@@ -1781,9 +1776,9 @@ class EXP oahHandler : public oahElement
 
     int                   fMaximumVariableNameWidth;
 
-    list<S_oahElement>    fCommandOptionsElements;
-
     string                fExecutableName;
+
+    list<S_oahElement>    fCommandOptionsElements;
 
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;

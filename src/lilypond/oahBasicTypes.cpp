@@ -89,8 +89,8 @@ Handling:
   - each optionElement must have unique short and long names, for consistency.
 
   - an executable main() call decipherOptionsAndArguments(), in which:
-    - handleElementName() handles the element names
-    - handleOptionsItemValueOrArgument() handles the values that may follow an atom name
+    - handleElementName() handle the element names
+    - handleOptionValueOrArgument() handle the values that may follow an atom name
       and the arguments to the executable.
 
   - contracted forms are expanded in handleElementName() before the resulting,
@@ -100,7 +100,7 @@ Handling:
     determines the type of the latter,
     and delegates the handling to the corresponding object.
 
-  - handleOptionsItemValueOrArgument() associatiates the value
+  - handleOptionValueOrArgument() associatiates the value
     to the (preceding) fPendingValuedAtom if not null,
     or appends it fArgumentsVector to otherwise.
 
@@ -112,7 +112,7 @@ Handling:
       - in oahBasicTypes.h/.cpp for the predefined ones;
       - in the various options groups for those specific to the latter.
     The value following the option name, if any, is taken care of
-    by the handleOptionsItemValue() methods.
+    by the handle*AtomValue() methods.
 */
 
 //______________________________________________________________________________
@@ -1073,7 +1073,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
   }
 }
 
-void oahCombinedBooleansAtom::setBooleanVariablesValues (
+void oahCombinedBooleansAtom::setCombinedBooleanVariables (
   bool value)
 {
   // set the combined items atom variable
@@ -1095,9 +1095,9 @@ void oahCombinedBooleansAtom::setBooleanVariablesValues (
           booleanItem =
             dynamic_cast<oahBooleanAtom*>(&(*atom))
         ) {
-        // set the boolean value
+        // set the boolean variable
         booleanItem->
-          setBooleanItemVariableValue (value);
+          setBooleanVariable (value);
       }
     } // for
   }
@@ -2572,10 +2572,10 @@ S_oahValuedAtom oahGroup::handleAtom (
   return result;
 }
 
-void oahGroup::handleOptionsItemValue (
-  ostream&      os,
+void oahGroup::handleAtomValue (
+  ostream&  os,
   S_oahAtom atom,
-  string        theString)
+  string    theString)
 {
   os <<
     "---> Options atom '" <<
@@ -2933,27 +2933,27 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 
 //______________________________________________________________________________
 S_oahPrefix oahPrefix::create (
-  string oahPrefixName,
-  string oahPrefixErsatz,
-  string oahPrefixDescription)
+  string prefixName,
+  string prefixErsatz,
+  string prefixDescription)
 {
   oahPrefix* o = new
     oahPrefix (
-      oahPrefixName,
-      oahPrefixErsatz,
-      oahPrefixDescription);
+      prefixName,
+      prefixErsatz,
+      prefixDescription);
   assert(o!=0);
   return o;
 }
 
 oahPrefix::oahPrefix (
-  string oahPrefixName,
-  string oahPrefixErsatz,
-  string oahPrefixDescription)
+  string prefixName,
+  string prefixErsatz,
+  string prefixDescription)
 {
-  fOptionsPrefixName        = oahPrefixName;
-  fOptionsPrefixErsatz      = oahPrefixErsatz;
-  fOptionsPrefixDescription = oahPrefixDescription;
+  fPrefixName        = prefixName;
+  fPrefixErsatz      = prefixErsatz;
+  fPrefixDescription = prefixDescription;
 }
 
 oahPrefix::~oahPrefix ()
@@ -2965,7 +2965,7 @@ S_oahPrefix oahPrefix::fetchElementByName (
 {
   S_oahPrefix result;
 
-  if (name == fOptionsPrefixName) {
+  if (name == fPrefixName) {
     result = this;
   }
 
@@ -2973,52 +2973,52 @@ S_oahPrefix oahPrefix::fetchElementByName (
 }
 */
 
-string oahPrefix::oahPrefixNames () const
+string oahPrefix::prefixNames () const
 {
   stringstream s;
 
-  if (fOptionsPrefixName.size ()) {
+  if (fPrefixName.size ()) {
       s <<
-        "-" << fOptionsPrefixName;
+        "-" << fPrefixName;
   }
 
   return s.str ();
 }
 
-string oahPrefix::oahPrefixNamesInColumns (
+string oahPrefix::prefixNamesInColumns (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
 
-  if (fOptionsPrefixName.size ()) {
+  if (fPrefixName.size ()) {
       s << left <<
         setw (subGroupsShortNameFieldWidth) <<
-        "-" + fOptionsPrefixName;
+        "-" + fPrefixName;
   }
 
   return s.str ();
 }
 
-string oahPrefix::oahPrefixNamesBetweenParentheses () const
+string oahPrefix::prefixNamesBetweenParentheses () const
 {
   stringstream s;
 
   s <<
     "(" <<
-    oahPrefixNames () <<
+    prefixNames () <<
     ")";
 
   return s.str ();
 }
 
-string oahPrefix::oahPrefixNamesInColumnsBetweenParentheses (
+string oahPrefix::prefixNamesInColumnsBetweenParentheses (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
 
   s <<
     "(" <<
-    oahPrefixNamesInColumns (
+    prefixNamesInColumns (
       subGroupsShortNameFieldWidth) <<
     ")";
 
@@ -3028,18 +3028,18 @@ string oahPrefix::oahPrefixNamesInColumnsBetweenParentheses (
 void oahPrefix::printHeader (ostream& os) const
 {
   os <<
-    "'" << fOptionsPrefixName <<
-    "' translates to '" << fOptionsPrefixErsatz <<
+    "'" << fPrefixName <<
+    "' translates to '" << fPrefixErsatz <<
     "':" <<
     endl;
 
-  if (fOptionsPrefixDescription.size ()) {
+  if (fPrefixDescription.size ()) {
     // indent a bit more for readability
     gIndenter++;
 
     os <<
       gIndenter.indentMultiLineString (
-        fOptionsPrefixDescription) <<
+        fPrefixDescription) <<
       endl;
 
     gIndenter--;
@@ -3052,16 +3052,16 @@ void oahPrefix::printElementEssentials (
 {
   os << left <<
     setw (fieldWidth) <<
-    "oahPrefixName" << " : " <<
-    fOptionsPrefixName <<
+    "prefixName" << " : " <<
+    fPrefixName <<
     endl <<
     setw (fieldWidth) <<
-    "oahPrefixErsatz" << " : " <<
-    fOptionsPrefixErsatz <<
+    "prefixErsatz" << " : " <<
+    fPrefixErsatz <<
     endl <<
     setw (fieldWidth) <<
-    "oahPrefixDescription" << " : " <<
-    fOptionsPrefixDescription <<
+    "prefixDescription" << " : " <<
+    fPrefixDescription <<
     endl;
 }
 
@@ -3077,28 +3077,28 @@ void oahPrefix::print (ostream& os) const
 void oahPrefix::printHelp (ostream& os) const
 {
   os <<
-    oahPrefixNames () <<
+    prefixNames () <<
     endl;
 
-  if (fOptionsPrefixErsatz.size ()) {
+  if (fPrefixErsatz.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
-        fOptionsPrefixErsatz) <<
+        fPrefixErsatz) <<
       endl;
 
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 
-  if (fOptionsPrefixDescription.size ()) {
+  if (fPrefixDescription.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
-        fOptionsPrefixDescription) <<
+        fPrefixDescription) <<
       endl;
 
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
@@ -3839,7 +3839,7 @@ void oahHandler::appendPrefixToHandler (
     prefix != nullptr,
     "prefix is null");
 
-  string prefixName = prefix->getOptionsPrefixName ();
+  string prefixName = prefix->getPrefixName ();
 
   S_oahPrefix result;
 
@@ -3863,7 +3863,7 @@ void oahHandler::appendPrefixToHandler (
 
   // register prefix in the options prefixes map
   fPrefixesMap [
-    prefix->getOptionsPrefixName ()
+    prefix->getPrefixName ()
     ] = prefix;
 }
 
@@ -3886,18 +3886,18 @@ void oahHandler::appendGroupToHandler (
 
 void oahHandler::printKnownPrefixes () const
 {
-  int oahHandlerOptionsPrefixesListSize =
+  int oahHandlerPrefixesListSize =
     fPrefixesMap.size ();
 
   fHandlerLogIOstream <<
     "There are " <<
-    oahHandlerOptionsPrefixesListSize <<
+    oahHandlerPrefixesListSize <<
     " options prefixes:" <<
     endl;
 
   gIndenter++;
 
-  if (oahHandlerOptionsPrefixesListSize) {
+  if (oahHandlerPrefixesListSize) {
     // indent a bit more for readability
     for (
       map<string, S_oahPrefix>::const_iterator i =
@@ -3989,7 +3989,7 @@ S_oahElement oahHandler::fetchElementByName (
   return result;
 }
 
-void oahHandler::checkMissingPendingOptionsValuedAtomValue (
+void oahHandler::checkMissingPendingValuedAtomValue (
   string context)
 {
   if (fPendingValuedAtom) {
@@ -4209,7 +4209,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
                 // build uncontracted option name
                 string
                   uncontractedOptionName =
-                    prefix->getOptionsPrefixErsatz () + singleOptionName;
+                    prefix->getPrefixErsatz () + singleOptionName;
 
 #ifdef TRACE_OPTIONS
                 if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -4253,15 +4253,15 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
     else {
       // currentElement is no oahElement,
       // i.e. it is an atom value or an argument
-      handleOptionsItemValueOrArgument (currentElement);
+      handleOptionValueOrArgument (currentElement);
     }
 
     // next please
     n++;
   } // while
 
-  // is a pending options valued atom value missing?
-  checkMissingPendingOptionsValuedAtomValue (
+  // is a pending valued atom value missing?
+  checkMissingPendingValuedAtomValue (
     "last option in command line");
 
   unsigned int argumentsVectorSize =
@@ -4359,7 +4359,7 @@ void oahHandler::handleHandlerName (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahHandler'" <<
+      "==> element '" << name << "' is of type 'oahHandler'" <<
       endl;
   }
 #endif
@@ -4386,14 +4386,14 @@ void oahHandler::handleHandlerName (
   fHandlerLogIOstream << endl;
 }
 
-void oahHandler::handleOptionsGroupItemName (
+void oahHandler::handleGroupName (
   S_oahGroup group,
-  string     atomName)
+  string     groupName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahGroup'" <<
+      "==> element '" << groupName << "' is of type 'oahGroup'" <<
       endl;
   }
 #endif
@@ -4413,14 +4413,14 @@ void oahHandler::handleOptionsGroupItemName (
       fHandlerLogIOstream);
 }
 
-void oahHandler::handleSubGroupItemName (
+void oahHandler::handleSubGroupName (
   S_oahSubGroup subGroup,
-  string        oahAtomName)
+  string        subGroupName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'subGroup'" <<
+      "==> element '" << subGroupName << "' is of type 'subGroup'" <<
       endl;
   }
 #endif
@@ -4451,20 +4451,20 @@ void oahHandler::handleSubGroupItemName (
       subGroup);
 }
 
-void oahHandler::handleOptionsHelpUsageItemName (
-  S_oahOptionsUsageAtom helpUsageItem,
-  string                 oahAtomName)
+void oahHandler::handleOptionsUsageAtomName (
+  S_oahOptionsUsageAtom optionsUsageAtom,
+  string                atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahOptionsUsageAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahOptionsUsageAtom'" <<
       endl;
   }
 #endif
 
   // handle it at once
-  helpUsageItem->
+  optionsUsageAtom->
     printOptionsUsage (
       fHandlerLogIOstream);
 
@@ -4472,14 +4472,14 @@ void oahHandler::handleOptionsHelpUsageItemName (
   exit (0);
 }
 
-void oahHandler::handleOptionsHelpSummaryItemName (
-  S_oahOptionsSummaryAtom helpSummaryItem,
-  string                   oahAtomName)
+void oahHandler::handleOptionsSummaryAtomName (
+  S_oahOptionsSummaryAtom optionsSummaryAtom,
+  string                  atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahOptionsSummaryAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahOptionsSummaryAtom'" <<
       endl;
   }
 #endif
@@ -4492,82 +4492,82 @@ void oahHandler::handleOptionsHelpSummaryItemName (
   exit (0);
 }
 
-void oahHandler::handleOptionsCombinedBooleanItemsItemName (
+void oahHandler::handleCombinedBooleansAtomName (
   S_oahCombinedBooleansAtom combinedBooleanItemsItem,
-  string                     oahAtomName)
+  string                    atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahCombinedBooleansAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahCombinedBooleansAtom'" <<
       endl;
   }
 #endif
 
   // handle it at once
   combinedBooleanItemsItem->
-    setBooleanVariablesValues (true);
+    setCombinedBooleanVariables (true);
 }
 
-void oahHandler::handleOptionsBooleanItemItemName (
+void oahHandler::handleBooleanAtomName (
   S_oahBooleanAtom booleanItem,
-  string               oahAtomName)
+  string           atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahBooleanAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahBooleanAtom'" <<
       endl;
   }
 #endif
 
   // handle it at once
   booleanItem->
-    setBooleanItemVariableValue (true);
+    setBooleanVariable (true);
 }
 
-void oahHandler::handleOptionsTwoBooleansItemItemName (
+void oahHandler::handleTwoBooleansAtomName (
   S_oahTwoBooleansAtom twoBooleansItem,
-  string                   oahAtomName)
+  string               atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahTwoBooleansAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahTwoBooleansAtom'" <<
       endl;
   }
 #endif
 
   // handle it at once
   twoBooleansItem->
-    setTwoBooleansItemVariableValue (true);
+    setTwoBooleansVariables (true);
 }
 
-void oahHandler::handleOptionsThreeBooleansItemItemName (
+void oahHandler::handleThreeBooleansAtomName (
   S_oahThreeBooleansAtom threeBooleansItem,
-  string                     oahAtomName)
+  string                 atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahThreeBooleansAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahThreeBooleansAtom'" <<
       endl;
   }
 #endif
 
   // handle it at once
   threeBooleansItem->
-    setThreeBooleansItemVariableValue (true);
+    setThreeBooleansVariables (true);
 }
 
-void oahHandler::handleOptionsItemHelpItemName (
+void oahHandler::handleElementHelpAtomName (
   S_oahElementHelpAtom itemHelpItem,
-  string                oahAtomName)
+  string               atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahElementHelpAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahElementHelpAtom'" <<
       endl;
   }
 #endif
@@ -4576,14 +4576,14 @@ void oahHandler::handleOptionsItemHelpItemName (
   fPendingValuedAtom = itemHelpItem;
 }
 
-void oahHandler::handleOptionsIntegerItemItemName (
+void oahHandler::handleIntegerAtomName (
   S_oahIntegerAtom integerItem,
-  string               oahAtomName)
+  string           atomName)
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       fHandlerLogIOstream <<
-        "==> element is of type 'oahIntegerAtom'" <<
+        "==> element '" << atomName << "' is of type 'oahIntegerAtom'" <<
         endl;
     }
 #endif
@@ -4592,14 +4592,14 @@ void oahHandler::handleOptionsIntegerItemItemName (
     fPendingValuedAtom = integerItem;
 }
 
-void oahHandler::handleOptionsFloatItemItemName (
+void oahHandler::handleFloatAtomName (
   S_oahFloatAtom floatItem,
-  string             oahAtomName)
+  string         atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahFloatAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahFloatAtom'" <<
       endl;
   }
 #endif
@@ -4608,14 +4608,14 @@ void oahHandler::handleOptionsFloatItemItemName (
   fPendingValuedAtom = floatItem;
 }
 
-void oahHandler::handleOptionsStringItemItemName (
+void oahHandler::handleStringAtomName (
   S_oahStringAtom stringItem,
-  string              oahAtomName)
+  string          atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahStringAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahStringAtom'" <<
       endl;
   }
 #endif
@@ -4624,14 +4624,14 @@ void oahHandler::handleOptionsStringItemItemName (
   fPendingValuedAtom = stringItem;
 }
 
-void oahHandler::handleOptionsRationalItemItemName (
+void oahHandler::handleRationalAtomName (
   S_oahRationalAtom rationalItem,
-  string              oahAtomName)
+  string            atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahRationalAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahRationalAtom'" <<
       endl;
   }
 #endif
@@ -4640,14 +4640,14 @@ void oahHandler::handleOptionsRationalItemItemName (
   fPendingValuedAtom = rationalItem;
 }
 
-void oahHandler::handleOptionsNumbersSetItemItemName (
+void oahHandler::handleNumbersSetAtomName (
   S_oahNumbersSetAtom numbersSetItem,
-  string                  oahAtomName)
+  string              atomName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahNumbersSetAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahNumbersSetAtom'" <<
       endl;
   }
 #endif
@@ -4663,37 +4663,37 @@ void oahHandler::handleAtomName (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> element is of type 'oahAtom'" <<
+      "==> element '" << atomName << "' is of type 'oahAtom'" <<
       endl;
   }
 #endif
 
-  // is a pending options valued atom value missing?
+  // is a pending valued atom value missing?
   string context =
     "before option " + atom->asString ();
 
-  checkMissingPendingOptionsValuedAtomValue (
+  checkMissingPendingValuedAtomValue (
     context);
 
   if (
     // options usage atom?
     S_oahOptionsUsageAtom
-      helpUsageItem =
+      optionsUsageAtom =
         dynamic_cast<oahOptionsUsageAtom*>(&(*atom))
   ) {
-    handleOptionsHelpUsageItemName (
-      helpUsageItem,
+    handleOptionsUsageAtomName (
+      optionsUsageAtom,
       atomName);
   }
 
   else if (
     // options summary atom?
     S_oahOptionsSummaryAtom
-      helpSummaryItem =
+      optionsSummaryAtom =
         dynamic_cast<oahOptionsSummaryAtom*>(&(*atom))
   ) {
-    handleOptionsHelpSummaryItemName (
-      helpSummaryItem,
+    handleOptionsSummaryAtomName (
+      optionsSummaryAtom,
       atomName);
   }
 
@@ -4703,7 +4703,7 @@ void oahHandler::handleAtomName (
       combinedBooleanItemsItem =
         dynamic_cast<oahCombinedBooleansAtom*>(&(*atom))
   ) {
-    handleOptionsCombinedBooleanItemsItemName (
+    handleCombinedBooleansAtomName (
       combinedBooleanItemsItem,
       atomName);
   }
@@ -4714,7 +4714,7 @@ void oahHandler::handleAtomName (
       booleanItem =
         dynamic_cast<oahBooleanAtom*>(&(*atom))
   ) {
-    handleOptionsBooleanItemItemName (
+    handleBooleanAtomName (
       booleanItem,
       atomName);
   }
@@ -4725,7 +4725,7 @@ void oahHandler::handleAtomName (
       twoBooleansItem =
         dynamic_cast<oahTwoBooleansAtom*>(&(*atom))
   ) {
-    handleOptionsTwoBooleansItemItemName (
+    handleTwoBooleansAtomName (
       twoBooleansItem,
       atomName);
   }
@@ -4736,7 +4736,7 @@ void oahHandler::handleAtomName (
       threeBooleansItem =
         dynamic_cast<oahThreeBooleansAtom*>(&(*atom))
   ) {
-    handleOptionsThreeBooleansItemItemName (
+    handleThreeBooleansAtomName (
       threeBooleansItem,
       atomName);
   }
@@ -4747,7 +4747,7 @@ void oahHandler::handleAtomName (
       itemHelpItem =
         dynamic_cast<oahElementHelpAtom*>(&(*atom))
   ) {
-    handleOptionsItemHelpItemName (
+    handleElementHelpAtomName (
       itemHelpItem,
       atomName);
   }
@@ -4758,7 +4758,7 @@ void oahHandler::handleAtomName (
       integerItem =
         dynamic_cast<oahIntegerAtom*>(&(*atom))
   ) {
-    handleOptionsIntegerItemItemName (
+    handleIntegerAtomName (
       integerItem,
       atomName);
   }
@@ -4769,7 +4769,7 @@ void oahHandler::handleAtomName (
       floatItem =
         dynamic_cast<oahFloatAtom*>(&(*atom))
   ) {
-    handleOptionsFloatItemItemName (
+    handleFloatAtomName (
       floatItem,
       atomName);
   }
@@ -4780,7 +4780,7 @@ void oahHandler::handleAtomName (
       stringItem =
         dynamic_cast<oahStringAtom*>(&(*atom))
   ) {
-    handleOptionsStringItemItemName (
+    handleStringAtomName (
       stringItem,
       atomName);
   }
@@ -4791,7 +4791,7 @@ void oahHandler::handleAtomName (
       rationalItem =
         dynamic_cast<oahRationalAtom*>(&(*atom))
   ) {
-    handleOptionsRationalItemItemName (
+    handleRationalAtomName (
       rationalItem,
       atomName);
   }
@@ -4802,7 +4802,7 @@ void oahHandler::handleAtomName (
       numbersSetItem =
         dynamic_cast<oahNumbersSetAtom*>(&(*atom))
   ) {
-    handleOptionsNumbersSetItemItemName (
+    handleNumbersSetAtomName (
       numbersSetItem,
       atomName);
   }
@@ -4929,7 +4929,7 @@ void oahHandler::handleElementName (
         group =
           dynamic_cast<oahGroup*>(&(*element))
     ) {
-      handleOptionsGroupItemName (
+      handleGroupName (
         group,
         name);
     }
@@ -4940,7 +4940,7 @@ void oahHandler::handleElementName (
         subGroup =
           dynamic_cast<oahSubGroup*>(&(*element))
     ) {
-      handleSubGroupItemName (
+      handleSubGroupName (
         subGroup,
         name);
     }
@@ -4969,7 +4969,7 @@ void oahHandler::handleElementName (
   }
 }
 
-void oahHandler::handleOptionsItemHelpValue (
+void oahHandler::handleElementHelpAtomValue (
   S_oahElementHelpAtom itemHelpItem,
   string               theString)
 {
@@ -4982,7 +4982,7 @@ void oahHandler::handleOptionsItemHelpValue (
   exit (23);
 }
 
-void oahHandler::handleOptionsItemIntegerValue (
+void oahHandler::handleIntegerAtomValue (
   S_oahIntegerAtom integerItem,
   string            theString)
 {
@@ -4996,15 +4996,71 @@ void oahHandler::handleOptionsItemIntegerValue (
   }
 
   integerItem->
-    setIntegerVariableValue (
+    setIntegerVariable (
       integerValue);
 }
 
-void oahHandler::handleOptionsItemFloatValue (
+void oahHandler::handleFloatAtomValue (
   S_oahFloatAtom floatItem,
   string         theString)
 {
   // handle the option atom
+
+  // theString contains the fraction:
+  // decipher it to extract numerator and denominator values
+
+  string regularExpression (
+    "([+|-]?)"
+    "([[:digit:]]*)"
+    "."
+    "[[:digit:]]+)");
+
+  regex e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+  if (smSize == 4) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+      fHandlerLogIOstream <<
+        "There are " << smSize << " matches" <<
+        " for float string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        fHandlerLogIOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      fHandlerLogIOstream << endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-delayedOrnamentFraction argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+
+    printSpecificSubGroupHelp (
+      fHandlerLogIOstream,
+      floatItem->getSubGroupUpLink ());
+
+    exit (4);
+  }
+
+
+
+
   float floatValue;
   {
     stringstream s;
@@ -5014,21 +5070,21 @@ void oahHandler::handleOptionsItemFloatValue (
   }
 
   floatItem->
-    setFloatItemVariableValue (
+    setFloatVariable (
       floatValue);
 }
 
-void oahHandler::handleOptionsItemStringValue (
+void oahHandler::handleStringAtomValue (
   S_oahStringAtom stringItem,
   string          theString)
 {
   // handle the option atom
   stringItem->
-    setStringItemVariableValue (
+    setStringVariable (
       theString);
 }
 
-void oahHandler::handleOptionsItemRationalValue (
+void oahHandler::handleRationalAtomValue (
   S_oahRationalAtom rationalItem,
   string                theString)
 {
@@ -5112,30 +5168,30 @@ void oahHandler::handleOptionsItemRationalValue (
 #endif
 
   rationalItem->
-    setRationalItemVariableValue (
+    setRationalVariable (
       rationalValue);
 }
 
-void oahHandler::handleOptionsItemNumbersSetValue (
+void oahHandler::handleNumbersSetAtomValue (
   S_oahNumbersSetAtom numbersSetItem,
   string                  theString)
 {
   // theString contains the set specification,
   // decipher it
   numbersSetItem->
-    setNumbersSetItemVariableValue (
+    setNumbersSetVariable (
       decipherNumbersSetSpecification (
         theString, false) // 'true' to debug it
       );
 }
 
-void oahHandler::handleOptionsItemValueOrArgument (
+void oahHandler::handleOptionValueOrArgument (
   string theString)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
-      "==> handleOptionsItemValueOrArgument ()" <<
+      "==> handleOptionValueOrArgument ()" <<
       endl;
 
     gIndenter++;
@@ -5184,7 +5240,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
         itemHelpItem =
           dynamic_cast<oahElementHelpAtom*>(&(*fPendingValuedAtom))
     ) {
-      handleOptionsItemHelpValue (
+      handleElementHelpAtomValue (
         itemHelpItem,
         theString);
     }
@@ -5195,7 +5251,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
         integerItem =
           dynamic_cast<oahIntegerAtom*>(&(*fPendingValuedAtom))
     ) {
-      handleOptionsItemIntegerValue (
+      handleIntegerAtomValue (
         integerItem,
         theString);
     }
@@ -5206,7 +5262,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
         floatItem =
           dynamic_cast<oahFloatAtom*>(&(*fPendingValuedAtom))
     ) {
-      handleOptionsItemFloatValue (
+      handleFloatAtomValue (
         floatItem,
         theString);
     }
@@ -5217,7 +5273,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
         stringItem =
           dynamic_cast<oahStringAtom*>(&(*fPendingValuedAtom))
     ) {
-      handleOptionsItemStringValue (
+      handleStringAtomValue (
         stringItem,
         theString);
     }
@@ -5228,7 +5284,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
         rationalItem =
           dynamic_cast<oahRationalAtom*>(&(*fPendingValuedAtom))
     ) {
-      handleOptionsItemRationalValue (
+      handleRationalAtomValue (
         rationalItem,
         theString);
     }
@@ -5239,7 +5295,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
         numbersSetItem =
           dynamic_cast<oahNumbersSetAtom*>(&(*fPendingValuedAtom))
     ) {
-      handleOptionsItemNumbersSetValue (
+      handleNumbersSetAtomValue (
         numbersSetItem,
         theString);
     }
@@ -5264,7 +5320,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
               getGroupUpLink ();
 
       group->
-        handleOptionsItemValue (
+        handleAtomValue (
           fHandlerLogIOstream,
           fPendingValuedAtom,
           theString);
@@ -5291,9 +5347,3 @@ void oahHandler::handleOptionsItemValueOrArgument (
 
 
 }
-
-/*
-      // is a pending options valued atom value missing?
-      checkMissingPendingOptionsValuedAtomValue (
-        "FOO");
-*/

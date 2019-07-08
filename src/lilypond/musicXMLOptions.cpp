@@ -272,7 +272,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
 
   // set the '-cubase' option by default
   cubaseCombinedBooleanItemsItem->
-    setBooleanVariablesValues (fCubase);
+    setCombinedBooleanVariables (fCubase);
 
   // populate the combined items
   cubaseCombinedBooleanItemsItem->

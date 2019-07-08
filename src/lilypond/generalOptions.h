@@ -95,6 +95,9 @@ class generalOptions : public oahGroup
     void                  initializeGeneralHelpOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeGeneralOptionsAndArgumentsOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeGeneralWarningAndErrorsOptions (
                             bool boolOptionsInitialValue);
 
@@ -119,6 +122,11 @@ class generalOptions : public oahGroup
 
     string                fInputSourceName;
     string                fTranslationDate;
+
+    // options and arguments
+    // --------------------------------------
+
+    bool                  fShowOptionsAndArguments;
 
     string                fCommandLineWithLongOptions;
     string                fCommandLineWithShortOptions;

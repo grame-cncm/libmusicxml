@@ -114,6 +114,36 @@ ITEM_NAME is optionnal, and the default value is 'ih')",
       itemHelpItem);
 }
 
+void generalOptions::initializeGeneralOptionsAndArgumentsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    optionsAndArgumentsSubGroup =
+      oahSubGroup::create (
+        "Options and arguments",
+        "oaa", "options-and-arguments",
+R"()",
+        oahSubGroup::kSubGroupVisibilityAlways,
+        this);
+
+  appendSubGroup (optionsAndArgumentsSubGroup);
+
+  // options and arguments
+
+  fShowOptionsAndArguments = boolOptionsInitialValue;
+
+  optionsAndArgumentsSubGroup->
+    appendAtom (
+      oahBooleanAtom::create (
+        "soaa", "show-options-and-arguments",
+        replaceSubstringInString (
+R"(Print the options and arguments to EXECUTABLE.)",
+          "EXECUTABLE",
+          fExecutableName),
+        "showOptionsAndArguments",
+        fShowOptionsAndArguments));
+}
+
 void generalOptions::initializeGeneralWarningAndErrorsOptions (
   bool boolOptionsInitialValue)
 {
@@ -163,7 +193,7 @@ R"(Don't show errors in the log.)",
         replaceSubstringInString (
 R"(Do not abort execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
-         "EXECUTABLE",
+          "EXECUTABLE",
           fExecutableName),
         "dontAbortOnErrors",
         fDontAbortOnErrors));
@@ -236,6 +266,11 @@ void generalOptions::initializeGeneralOptions (
   initializeGeneralHelpOptions (
     boolOptionsInitialValue);
 
+  // options and arguments
+  // --------------------------------------
+  initializeGeneralOptionsAndArgumentsOptions (
+    boolOptionsInitialValue);
+
   // warning and error handling
   // --------------------------------------
   initializeGeneralWarningAndErrorsOptions (
@@ -267,6 +302,9 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 
   clone->fExecutableName =
     fExecutableName;
+
+  clone->fShowOptionsAndArguments =
+    fShowOptionsAndArguments;
 
   clone->fCommandLineWithLongOptions =
     fCommandLineWithLongOptions;
@@ -344,12 +382,16 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "input source name" << " : " <<
+    setw (fieldWidth) << "inputSourceName" << " : " <<
     fInputSourceName <<
     endl <<
 
-    setw (fieldWidth) << "translation date" << " : " <<
+    setw (fieldWidth) << "translationDate" << " : " <<
     fTranslationDate <<
+    endl <<
+
+    setw (fieldWidth) << "showOptioinsAndArguments" << " : " <<
+    booleanAsString (fShowOptionsAndArguments) <<
     endl;
 
   gIndenter--;
