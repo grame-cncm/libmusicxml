@@ -86,7 +86,7 @@ R"()",
   fTraceEncoding = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "tenc", "trace-encoding",
 R"(Encoding)",
@@ -99,7 +99,7 @@ R"(Encoding)",
   fTraceDivisions = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "tdivs", "trace-divisions",
 R"(Divisions)",
@@ -112,7 +112,7 @@ R"(Divisions)",
   fTraceBackup = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "tbackup", "trace-backup",
 R"(Backup)",
@@ -125,7 +125,7 @@ R"(Backup)",
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tmxmltv", "trace-musicxml-tree-visitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
@@ -153,7 +153,7 @@ R"()",
   fUseFilenameAsWorkTitle = false;
 
   workSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "ufawt", "use-filename-as-work-title",
 R"(Use the file name as work title if there is none in the MusicXML data.
@@ -187,7 +187,7 @@ R"(Ignore clefs that are the same as the current one.)",
         "ignoreRedundantClefs",
         fIgnoreRedundantClefs);
   clefsKeysTimesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       fIgnoreRedundantClefsItem);
 
   // redundant keys
@@ -201,7 +201,7 @@ R"(Ignore keys that are the same as the current one.)",
         "ignoreRedundantKeys",
         fIgnoreRedundantKeys);
   clefsKeysTimesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       fIgnoreRedundantKeysItem);
 
   // redundant times
@@ -215,7 +215,7 @@ R"(Ignore times that are the same as the current one.)",
         "ignoreRedundantTimes",
         fIgnoreRedundantTimes);
   clefsKeysTimesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       fIgnoreRedundantTimesItem);
 
   // '-loop' is hidden...
@@ -234,7 +234,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
     setOptionsElementIsHidden ();
 
   clefsKeysTimesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       loopOptionsBooleanItem);
 }
 
@@ -254,7 +254,7 @@ R"()",
 
   // cubase
 
-  fCubase   = false;
+  fCubase = false;
 
   // create the 'cubase' combined item
   S_oahCombinedBooleansAtom
@@ -267,22 +267,22 @@ This option is set by default, and can be unset by 'noCubase'.)",
         fCubase);
 
   combinedSubGroup->
-    appendOptionsItem (
+    appendAtom (
       cubaseCombinedBooleanItemsItem);
 
   // set the '-cubase' option by default
   cubaseCombinedBooleanItemsItem->
-    setCombinedBooleanItemsVariablesValue (fCubase);
+    setBooleanVariablesValues (fCubase);
 
   // populate the combined items
   cubaseCombinedBooleanItemsItem->
-    appendOptionsItemToCombinedBooleanItemsList (
+    addBooleanAtom (
       fIgnoreRedundantClefsItem);
   cubaseCombinedBooleanItemsItem->
-    appendOptionsItemToCombinedBooleanItemsList (
+    addBooleanAtom (
       fIgnoreRedundantKeysItem);
   cubaseCombinedBooleanItemsItem->
-    appendOptionsItemToCombinedBooleanItemsList (
+    addBooleanAtom (
       fIgnoreRedundantTimesItem);
 
   // noCubase
@@ -298,7 +298,7 @@ R"(Prevents the default 'cubase' option.)",
         fNoCubase);
 
   combinedSubGroup->
-    appendOptionsItem (
+    appendAtom (
       noCubaseBooleanItem);
  }
 

@@ -35,7 +35,7 @@ class optionsUTFKindItem : public oahValuedAtom
       string     shortName,
       string     longName,
       string     description,
-      string     optionsValueSpecification,
+      string     valueSpecification,
       string     optionsUTFKindItemVariableName,
       bsrUTFKind optionsUTFKindItemVariable);
 
@@ -48,7 +48,7 @@ class optionsUTFKindItem : public oahValuedAtom
       string     shortName,
       string     longName,
       string     description,
-      string     optionsValueSpecification,
+      string     valueSpecification,
       string     optionsUTFKindItemVariableName,
       bsrUTFKind optionsUTFKindItemVariable);
 
@@ -98,7 +98,7 @@ class optionsByteOrderingKindItem : public oahValuedAtom
       string              shortName,
       string              longName,
       string              description,
-      string              optionsValueSpecification,
+      string              valueSpecification,
       string              optionsByteOrderingKindItemVariableName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
 
@@ -111,7 +111,7 @@ class optionsByteOrderingKindItem : public oahValuedAtom
       string              shortName,
       string              longName,
       string              description,
-      string              optionsValueSpecification,
+      string              valueSpecification,
       string              optionsByteOrderingKindItemVariableName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
 

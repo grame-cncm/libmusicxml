@@ -82,7 +82,7 @@ R"()",
   // help options
 
   helpGeneralOptionsHelpSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahOptionsUsageAtom::create (
         "ho", "help-options",
 R"(Print options usage help.)"));
@@ -90,12 +90,12 @@ R"(Print options usage help.)"));
   // help summary
 
   helpGeneralOptionsHelpSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahOptionsSummaryAtom::create (
         "hs", "help-summary",
 R"(Display a help summary and exit.)"));
 
-  // help item
+  // element help
 
   S_oahElementHelpAtom
     itemHelpItem =
@@ -110,7 +110,7 @@ ITEM_NAME is optionnal, and the default value is 'ih')",
     setValueIsOptional ();
 
   helpGeneralOptionsHelpSubGroup->
-    appendOptionsItem (
+    appendAtom (
       itemHelpItem);
 }
 
@@ -133,7 +133,7 @@ R"()",
   fQuiet = boolOptionsInitialValue;
 
   warningAndErrorHandlingSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "q", "quiet",
 R"(Don't issue any warning or error messages.)",
@@ -145,7 +145,7 @@ R"(Don't issue any warning or error messages.)",
   fDontShowErrors = boolOptionsInitialValue;
 
   warningAndErrorHandlingSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dse", "dont-show-errors",
 R"(Don't show errors in the log.)",
@@ -157,7 +157,7 @@ R"(Don't show errors in the log.)",
   fDontAbortOnErrors = boolOptionsInitialValue;
 
   warningAndErrorHandlingSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "daoe", "dont-abort-on-errors",
         replaceSubstringInString (
@@ -173,7 +173,7 @@ This may be useful when debugging EXECUTABLE.)",
   fDisplaySourceCodePosition = boolOptionsInitialValue;
 
   warningAndErrorHandlingSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dscp", "display-source-code-position",
         replaceSubstringInString (
@@ -205,7 +205,7 @@ R"()",
   fDisplayCPUusage = boolOptionsInitialValue;
 
   CPUUsageSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dcpuu", "display-cpu-usage",
 R"(Write information about CPU usage to standard error.)",

@@ -41,7 +41,7 @@ class optionsFacSimileKindItem : public oahValuedAtom
       string           shortName,
       string           longName,
       string           description,
-      string           optionsValueSpecification,
+      string           valueSpecification,
       string           optionsFacSimileKindItemVariableName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
 
@@ -54,7 +54,7 @@ class optionsFacSimileKindItem : public oahValuedAtom
       string           shortName,
       string           longName,
       string           description,
-      string           optionsValueSpecification,
+      string           valueSpecification,
       string           optionsFacSimileKindItemVariableName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
 
@@ -105,7 +105,7 @@ class optionsBsrTextsLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsBsrTextsLanguageKindItemVariableName,
       bsrTextsLanguageKind&
                          optionsBsrTextsLanguageKindItemVariable);
@@ -119,7 +119,7 @@ class optionsBsrTextsLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsBsrTextsLanguageKindItemVariableName,
       bsrTextsLanguageKind&
                          optionsBsrTextsLanguageKindItemVariable);

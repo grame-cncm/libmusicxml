@@ -36,7 +36,7 @@ S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsLpsrScoreOutputKindKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsLpsrScoreOutputKindKindItemVariable)
@@ -46,7 +46,7 @@ S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrScoreOutputKindKindItemVariableName,
       optionsLpsrScoreOutputKindKindItemVariable);
   assert(o!=0);
@@ -57,7 +57,7 @@ optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsLpsrScoreOutputKindKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsLpsrScoreOutputKindKindItemVariable)
@@ -65,7 +65,7 @@ optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrScoreOutputKindKindItemVariableName),
     fOptionsLpsrScoreOutputKindKindItemVariable (
       optionsLpsrScoreOutputKindKindItemVariable)
@@ -125,7 +125,7 @@ S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsLpsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsLpsrPitchesLanguageKindItemVariable)
@@ -135,7 +135,7 @@ S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrPitchesLanguageKindItemVariableName,
       optionsLpsrPitchesLanguageKindItemVariable);
   assert(o!=0);
@@ -146,7 +146,7 @@ optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsLpsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsLpsrPitchesLanguageKindItemVariable)
@@ -154,7 +154,7 @@ optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrPitchesLanguageKindItemVariableName),
     fOptionsLpsrPitchesLanguageKindItemVariable (
       optionsLpsrPitchesLanguageKindItemVariable)
@@ -214,7 +214,7 @@ S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsLpsrChordsLanguageKindItemVariableName,
   lpsrChordsLanguageKind&
                      optionsLpsrChordsLanguageKindItemVariable)
@@ -224,7 +224,7 @@ S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrChordsLanguageKindItemVariableName,
       optionsLpsrChordsLanguageKindItemVariable);
   assert(o!=0);
@@ -235,7 +235,7 @@ optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsLpsrChordsLanguageKindItemVariableName,
   lpsrChordsLanguageKind&
                      optionsLpsrChordsLanguageKindItemVariable)
@@ -243,7 +243,7 @@ optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrChordsLanguageKindItemVariableName),
     fOptionsLpsrChordsLanguageKindItemVariable (
       optionsLpsrChordsLanguageKindItemVariable)
@@ -302,7 +302,7 @@ S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsLpsrTransposeItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
@@ -312,7 +312,7 @@ S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrTransposeItemVariableName,
       optionsLpsrTransposeItemVariable);
   assert(o!=0);
@@ -323,7 +323,7 @@ optionsLpsrTransposeItem::optionsLpsrTransposeItem (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsLpsrTransposeItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
@@ -331,7 +331,7 @@ optionsLpsrTransposeItem::optionsLpsrTransposeItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsLpsrTransposeItemVariableName),
     fOptionsTransposeItemVariable (
       optionsLpsrTransposeItemVariable)
@@ -447,7 +447,7 @@ R"()",
   fTraceLpsr            = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tlpsr", "trace-lpsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
@@ -459,7 +459,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
   fTraceLilypondVersion = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tlpv", "trace-lilypond-version",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
@@ -471,7 +471,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
   fTraceLpsrVisitors    = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tlpsrv", "trace-lpsr-visitors",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
@@ -483,7 +483,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
   fTraceLpsrBlocks      = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tlpsrb", "trace-lpsr-blocks",
 R"(Write a trace of the LPSR blocks to standard error.)",
@@ -495,7 +495,7 @@ R"(Write a trace of the LPSR blocks to standard error.)",
   fTraceSchemeFunctions = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tsf", "trace-scheme-functions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
@@ -523,7 +523,7 @@ R"()",
   fDisplayLpsr = boolOptionsInitialValue;
 
   displaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dlpsr", "display-lpsr",
 R"(Write the contents of the LPSR data to standard error.)",
@@ -552,7 +552,7 @@ R"()",
   fLilyPondVersion = lilyPondVersionDefaultValue;
 
   lilypondOutputKindGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "lpv", "lilypond-version",
         replaceSubstringInString (
@@ -573,7 +573,7 @@ The default is 'DEFAULT_VALUE'.)",
   fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 
   lilypondOutputKindGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsLpsrScoreOutputKindItem::create (
         "lpsok", "lpsr-score-output-kind",
         replaceSubstringInString (
@@ -603,7 +603,7 @@ The default is 'DEFAULT_VALUE'.)",
   fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
 
   lilypondOutputKindGroup->
-    appendOptionsItem (
+    appendAtom (
       oahFloatAtom::create (
         "gss", "global-staff-size",
         replaceSubstringInString (
@@ -635,7 +635,7 @@ R"()",
   // add words from the lyrics
 
   lyricsVersusWordsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "awftl", "add-words-from-the-lyrics",
 R"(Add words with the lyrics contents, keeping the latter untouched.
@@ -690,7 +690,7 @@ R"()",
     msrQuarterTonesPitchesLanguageKindDefaultValue;
 
   languagesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsLpsrPitchesLanguageItem::create (
         "lppl", "lpsr-pitches-language",
         replaceSubstringInString (
@@ -722,7 +722,7 @@ The default is 'DEFAULT_VALUE'.)",
     lpsrChordsLanguageKindDefaultValue;
 
   languagesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsLpsrChordsLanguageItem::create (
         "lpcl", "lpsr-chords-language",
         replaceSubstringInString (
@@ -763,7 +763,7 @@ R"()",
   // lpsr transpose
 
   languagesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsLpsrTransposeItem::create (
         "lpt", "lpsr-transpose",
 R"(Use TRANSPOSITION to tranpose in the LPSR data,
@@ -808,7 +808,7 @@ of the MSR to LPSR.)",
     setOptionsElementIsHidden ();
 
   exitAfterSomePassesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       exit3OptionsBooleanItem);
 }
 

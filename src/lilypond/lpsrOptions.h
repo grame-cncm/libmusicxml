@@ -32,7 +32,7 @@ class optionsLpsrScoreOutputKindItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsLpsrScoreOutputKindKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsLpsrScoreOutputKindKindItemVariable);
@@ -46,7 +46,7 @@ class optionsLpsrScoreOutputKindItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsLpsrScoreOutputKindKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsLpsrScoreOutputKindKindItemVariable);
@@ -98,7 +98,7 @@ class optionsLpsrPitchesLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsLpsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsLpsrPitchesLanguageKindItemVariable);
@@ -112,7 +112,7 @@ class optionsLpsrPitchesLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsLpsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsLpsrPitchesLanguageKindItemVariable);
@@ -165,7 +165,7 @@ class optionsLpsrChordsLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsLpsrChordsLanguageKindItemVariableName,
       lpsrChordsLanguageKind&
                          optionsLpsrChordsLanguageKindItemVariable);
@@ -179,7 +179,7 @@ class optionsLpsrChordsLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsLpsrChordsLanguageKindItemVariableName,
       lpsrChordsLanguageKind&
                          optionsLpsrChordsLanguageKindItemVariable);
@@ -232,8 +232,8 @@ class optionsLpsrTransposeItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       S_msrSemiTonesPitchAndOctave&
               optionsLpsrTransposeItemVariable);
 
@@ -246,8 +246,8 @@ class optionsLpsrTransposeItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       S_msrSemiTonesPitchAndOctave&
               optionsLpsrTransposeItemVariable);
 

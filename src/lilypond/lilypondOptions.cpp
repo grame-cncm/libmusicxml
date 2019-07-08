@@ -37,7 +37,7 @@ S_optionsScoreOutputKindItem optionsScoreOutputKindItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsScoreOutputKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsScoreOutputKindItemVariable)
@@ -47,7 +47,7 @@ S_optionsScoreOutputKindItem optionsScoreOutputKindItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsScoreOutputKindItemVariableName,
       optionsScoreOutputKindItemVariable);
   assert(o!=0);
@@ -58,7 +58,7 @@ optionsScoreOutputKindItem::optionsScoreOutputKindItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsScoreOutputKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsScoreOutputKindItemVariable)
@@ -66,7 +66,7 @@ optionsScoreOutputKindItem::optionsScoreOutputKindItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsScoreOutputKindItemVariableName),
     fOptionsScoreOutputKindItemVariable (
       optionsScoreOutputKindItemVariable)
@@ -193,7 +193,7 @@ S_optionsRelativeOctaveEntryItem optionsRelativeOctaveEntryItem::create (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsRelativeOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsRelativeOctaveEntryItemVariable)
@@ -203,7 +203,7 @@ S_optionsRelativeOctaveEntryItem optionsRelativeOctaveEntryItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsRelativeOctaveEntryItemVariableName,
       optionsRelativeOctaveEntryItemVariable);
   assert(o!=0);
@@ -214,7 +214,7 @@ optionsRelativeOctaveEntryItem::optionsRelativeOctaveEntryItem (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsRelativeOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsRelativeOctaveEntryItemVariable)
@@ -222,7 +222,7 @@ optionsRelativeOctaveEntryItem::optionsRelativeOctaveEntryItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsRelativeOctaveEntryItemVariableName),
     fOptionsRelativeOctaveEntryItemVariable (
       optionsRelativeOctaveEntryItemVariable)
@@ -285,7 +285,7 @@ S_optionsFixedOctaveEntryItem optionsFixedOctaveEntryItem::create (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsFixedOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsFixedOctaveEntryItemVariable)
@@ -295,7 +295,7 @@ S_optionsFixedOctaveEntryItem optionsFixedOctaveEntryItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsFixedOctaveEntryItemVariableName,
       optionsFixedOctaveEntryItemVariable);
   assert(o!=0);
@@ -306,7 +306,7 @@ optionsFixedOctaveEntryItem::optionsFixedOctaveEntryItem (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsFixedOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsFixedOctaveEntryItemVariable)
@@ -314,7 +314,7 @@ optionsFixedOctaveEntryItem::optionsFixedOctaveEntryItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsFixedOctaveEntryItemVariableName),
     fOptionsFixedOctaveEntryItemVariable (
       optionsFixedOctaveEntryItemVariable)
@@ -377,7 +377,7 @@ S_optionsAccidentalStyleKindItem optionsAccidentalStyleKindItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsAccidentalStyleKindItemVariableName,
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
@@ -387,7 +387,7 @@ S_optionsAccidentalStyleKindItem optionsAccidentalStyleKindItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsAccidentalStyleKindItemVariableName,
       optionsAccidentalStyleKindItemVariable);
   assert(o!=0);
@@ -398,7 +398,7 @@ optionsAccidentalStyleKindItem::optionsAccidentalStyleKindItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsAccidentalStyleKindItemVariableName,
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
@@ -406,7 +406,7 @@ optionsAccidentalStyleKindItem::optionsAccidentalStyleKindItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsAccidentalStyleKindItemVariableName),
     fOptionsAccidentalStyleKindItemVariable (
       optionsAccidentalStyleKindItemVariable)
@@ -466,7 +466,7 @@ S_optionsChordsDisplayItem optionsChordsDisplayItem::create (
   string                shortName,
   string                longName,
   string                description,
-  string                optionsValueSpecification,
+  string                valueSpecification,
   string                optionsChordsDisplayItemVariableName,
   list<pair<string, string> >&
                         optionsChordsDisplayItemVariable)
@@ -476,7 +476,7 @@ S_optionsChordsDisplayItem optionsChordsDisplayItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsChordsDisplayItemVariableName,
       optionsChordsDisplayItemVariable);
   assert(o!=0);
@@ -487,7 +487,7 @@ optionsChordsDisplayItem::optionsChordsDisplayItem (
   string                shortName,
   string                longName,
   string                description,
-  string                optionsValueSpecification,
+  string                valueSpecification,
   string                optionsChordsDisplayItemVariableName,
   list<pair<string, string> >&
                         optionsChordsDisplayItemVariable)
@@ -495,7 +495,7 @@ optionsChordsDisplayItem::optionsChordsDisplayItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsChordsDisplayItemVariableName),
     foptionsChordsDisplayItemVariable (
       optionsChordsDisplayItemVariable)
@@ -585,7 +585,7 @@ S_optionsMidiTempoItem optionsMidiTempoItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsMidiTempoItemVariableName,
   pair<string, int>& optionsMidiTempoItemVariable)
 {
@@ -594,7 +594,7 @@ S_optionsMidiTempoItem optionsMidiTempoItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsMidiTempoItemVariableName,
       optionsMidiTempoItemVariable);
   assert(o!=0);
@@ -605,14 +605,14 @@ optionsMidiTempoItem::optionsMidiTempoItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsMidiTempoItemVariableName,
   pair<string, int>& optionsMidiTempoItemVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsMidiTempoItemVariableName),
     fOptionsMidiTempoItemVariable (
       optionsMidiTempoItemVariable)
@@ -722,7 +722,7 @@ thus overriding the ones that may be present in the MSR data.)",
   // MusicXML informations
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "rights", "",
 R"(Set the 'rights' to STRING in the LilyPond code.)",
@@ -731,7 +731,7 @@ R"(Set the 'rights' to STRING in the LilyPond code.)",
         fRights));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "composer", "",
 R"(Set the 'composer' to STRING in the LilyPond code.)",
@@ -740,7 +740,7 @@ R"(Set the 'composer' to STRING in the LilyPond code.)",
         fComposer));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "arranger", "",
 R"(Set the 'arranger' to STRING in the LilyPond code.)",
@@ -749,7 +749,7 @@ R"(Set the 'arranger' to STRING in the LilyPond code.)",
         fArranger));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "poet", "",
 R"(Set the 'poet' to STRING in the LilyPond code.)",
@@ -758,7 +758,7 @@ R"(Set the 'poet' to STRING in the LilyPond code.)",
         fPoet));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "lyricist", "",
 R"(Set the 'lyricist' to STRING in the LilyPond code.)",
@@ -767,7 +767,7 @@ R"(Set the 'lyricist' to STRING in the LilyPond code.)",
         fLyricist));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "software", "",
 R"(Set the 'software' to STRING in the LilyPond code.)",
@@ -778,7 +778,7 @@ R"(Set the 'software' to STRING in the LilyPond code.)",
   // LilyPond informations
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "dedication", "",
 R"(Set 'dedication' to STRING in the \header.)",
@@ -787,7 +787,7 @@ R"(Set 'dedication' to STRING in the \header.)",
         fDedication));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "piece", "",
 R"(Set 'piece' to STRING in the \header.)",
@@ -796,7 +796,7 @@ R"(Set 'piece' to STRING in the \header.)",
         fPiece));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "opus", "",
 R"(Set 'opus' to STRING in the \header.)",
@@ -805,7 +805,7 @@ R"(Set 'opus' to STRING in the \header.)",
         fOpus));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "title", "",
 R"(Set 'title' to STRING in the \header.)",
@@ -814,7 +814,7 @@ R"(Set 'title' to STRING in the \header.)",
         fTitle));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "stitle", "subtitle",
 R"(Set 'subtitle' to STRING in the \header.)",
@@ -823,7 +823,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
         fSubTitle));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "sstitle", "subsubtitle",
 R"(Set 'subsubtitle' to STRING in the \header.)",
@@ -832,7 +832,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
         fSubSubTitle));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "instrument", "",
 R"(Set 'instrument' to STRING in the \header.)",
@@ -841,7 +841,7 @@ R"(Set 'instrument' to STRING in the \header.)",
         fInstrument));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "meter", "",
 R"(Set 'meter' to STRING in the \header.)",
@@ -850,7 +850,7 @@ R"(Set 'meter' to STRING in the \header.)",
         fMeter));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "tagline", "",
 R"(Set 'tagline' to STRING in the \header.)",
@@ -859,7 +859,7 @@ R"(Set 'tagline' to STRING in the \header.)",
         fTagline));
 
   identificationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahStringAtom::create (
         "copyright", "",
 R"(Set 'copyright' to STRING in the \header.)",
@@ -887,7 +887,7 @@ R"()",
   fAmbitusEngraver = boolOptionsInitialValue;
 
   engraversSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "ambitus", "",
 R"(Generate an ambitus range at the beginning of the staves/voices.)",
@@ -914,7 +914,7 @@ R"()",
   fNumericalTime = boolOptionsInitialValue;
 
   timeSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "numt", "numerical-time",
 R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
@@ -952,7 +952,7 @@ R"()",
       kF_Natural_STP, 3);
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsAbsoluteOctaveEntryItem::create (
         "abs", "absolute",
         replaceSubstringInString (
@@ -965,7 +965,7 @@ The default is to use '\relative', with LilyPond's implicit reference 'DEFAULT_V
           "optionsAbsoluteOctaveEntryItem"));
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsRelativeOctaveEntryItem::create (
         "rel", "relative",
 R"(Use relative octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
@@ -977,7 +977,7 @@ It should be placed between double quotes if it contains single quotes, such as:
         fRelativeOctaveEntrySemiTonesPitchAndOctave));
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsFixedOctaveEntryItem::create (
         "fixed", "",
 R"(Use fixed octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
@@ -993,7 +993,7 @@ It should be placed between double quotes if it contains single quotes, such as:
   fAllDurations = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "alldurs", "all-durations",
 R"(Generate all LilyPond durations.
@@ -1007,7 +1007,7 @@ is omitted for code conciseness.)",
   fStems = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "stems", "",
 R"(Generate \stemUp and \stemDown LilyPond commands.
@@ -1020,7 +1020,7 @@ By default, LilyPond will take care of that by itself.)",
   fNoAutoBeaming  = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "noab", "no-auto-beaming",
 R"(Generate '\set Voice.autoBeaming = ##f' in each voice
@@ -1033,7 +1033,7 @@ to prevent LilyPond from handling beams automatically.)",
   fRomanStringNumbers = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "rsn", "roman-string-numbers",
 R"(Generate '\romanStringNumbers' in each voice
@@ -1046,7 +1046,7 @@ for LilyPond to generate roman instead of arabic string numbers.)",
   fAvoidOpenStrings    = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "aos", "avoid-open-strings",
 R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice
@@ -1063,7 +1063,7 @@ to prevent LilyPond from using open strings.)",
   fAccidentalStyleKind = lpsrAccidentalStyleKindDefaultValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsAccidentalStyleKindItem::create (
         "as", "accidental-style", // JMI
           replaceSubstringInString (
@@ -1088,7 +1088,7 @@ The default is 'DEFAULT_VALUE'.)",
   fCompressRestMeasures = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "crmeas", "compressRestMeasures", // JMI
 R"(Generate '\compressMMRests' at the beginning of voices.
@@ -1101,7 +1101,7 @@ By default, this command is commented.)",
   fInputLineNumbers = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "iln", "input-line-numbers",
         replaceSubstringInString (
@@ -1118,7 +1118,7 @@ This is useful when debugging EXECUTABLE.)",
   fPositionsInMeasures = boolOptionsInitialValue;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "pim", "positions-in-measures",
         replaceSubstringInString (
@@ -1150,7 +1150,7 @@ R"()",
   fShowAllBarNumbers = boolOptionsInitialValue;
 
   barsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "abn", "all-bar-numbers",
 R"(Generate LilyPond code to show all bar numbers.)",
@@ -1177,7 +1177,7 @@ R"()",
   fIgnoreLineBreaks = boolOptionsInitialValue;
 
   lineBreaksSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "ilb", "ignore-line-breaks",
 R"(Ignore the line breaks from the MusicXML input
@@ -1188,7 +1188,7 @@ and let LilyPond decide about them.)",
   fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
 
   lineBreaksSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "blairm", "break-lines-at-incomplete-right-measures",
 R"(Generate a '\break' command at the end of incomplete right measures
@@ -1199,7 +1199,7 @@ which is handy in popular folk dances and tunes.)",
   fSeparatorLineEveryNMeasures         = -1;
 
   lineBreaksSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahIntegerAtom::create (
         "slenm", "separator-line-every-n-measures",
 R"(Generate an additional separator line for readability every N measures,
@@ -1229,7 +1229,7 @@ R"()",
   fIgnorePageBreaks = boolOptionsInitialValue;
 
   pageBreaksSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "ipb", "ignore-page-breaks",
 R"(Ignore the page breaks from the MusicXML input
@@ -1257,7 +1257,7 @@ R"()",
   fModernTab = boolOptionsInitialValue;
 
   stavesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "mtab", "modernTab",
 R"(Generate '\moderntab' instead of the default '\tab'.)",
@@ -1269,7 +1269,7 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
   fKeepStaffSize = boolOptionsInitialValue;
 
   stavesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "kss", "keep-staff-size",
 R"(Use the staff size value found in the MusicXML data.)",
@@ -1296,7 +1296,7 @@ R"()",
   fConnectArpeggios = boolOptionsInitialValue;
 
   chordsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "conarp", "connect-arpeggios",
 R"(Connect arpeggios across piano staves.)",
@@ -1323,7 +1323,7 @@ R"()",
   fIndentTuplets = boolOptionsInitialValue;
 
   tupletsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "itups", "indent-tuplets",
 R"(Indent tuplets notes on a line of their own,
@@ -1351,7 +1351,7 @@ R"()",
   fKeepRepeatBarlines = boolOptionsInitialValue;
 
   repeatsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "krbs", "keep-repeat-barlines",
 R"(Generate repeats start and and bar lines even though LilyPond would take care of them.)",
@@ -1361,7 +1361,7 @@ R"(Generate repeats start and and bar lines even though LilyPond would take care
   fRepeatBrackets = boolOptionsInitialValue;
 
   repeatsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "rbracks", "repeat-brackets",
 R"(Generate repeats with brackets instead of regular bar lines.)",
@@ -1371,7 +1371,7 @@ R"(Generate repeats with brackets instead of regular bar lines.)",
   fIgnoreRepeatNumbers = boolOptionsInitialValue;
 
   repeatsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "irn", "ignore-repeat-numbers",
 R"(Ignore repeats numbers and let LilyPond determine them.)",
@@ -1403,7 +1403,7 @@ R"()",
     to_string (fDelayedOrnamentsFraction.getDenominator ());
 
   ornamentsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahRationalAtom::create (
         "dof", "delayed-ornaments-fraction",
         replaceSubstringInString (
@@ -1434,7 +1434,7 @@ R"()",
   // chords
 
   chordsDiaplaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsChordsDisplayItem::create (
         "chd", "chords-display",
 /*
@@ -1475,7 +1475,7 @@ R"###(  <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"}
   <c e g a d'>1-\markup { \super "6(add9)" })###";
 
   chordsDiaplaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "jchd", "jazz-chords-display",
         replaceSubstringInString (
@@ -1507,7 +1507,7 @@ R"()",
   fJazzFonts = boolOptionsInitialValue;
 
   fontsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "jazz", "jazz-fonts",
 R"(Use the LilyJazz font for notes, braces, text and chords.
@@ -1537,7 +1537,7 @@ R"()",
   fXml2lyInfos = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "xi", "xml2ly-infos",
 R"(Generate initial comments showing the compilation date and options.)",
@@ -1549,7 +1549,7 @@ R"(Generate initial comments showing the compilation date and options.)",
   fComments = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "com", "comments",
 R"(Generate comments showing the structure of the score
@@ -1560,7 +1560,7 @@ such as '% part P_POne (P1).)",
   fGlobal = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "global", "",
 R"(Generate a 'global' empty variable and place a use of it
@@ -1571,7 +1571,7 @@ at the beginning of all voices.)",
   fDisplayMusic = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dm", "display-music",
 R"(Place the contents of all voices inside a '\displayMusic' block,
@@ -1582,7 +1582,7 @@ for LilyPond to show its internal representation of the music.)",
   fNoLilypondCode = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "nolpc", "no-lilypond-code",
 R"(Don't generate any LilyPond code.
@@ -1593,7 +1593,7 @@ That can be useful if only a summary of the score is needed.)",
   fNoLilypondLyrics = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "nolpl", "no-lilypond-lyrics",
 R"(Don't generate any lyrics in the LilyPond code.)",
@@ -1603,7 +1603,7 @@ R"(Don't generate any lyrics in the LilyPond code.)",
   fLilypondCompileDate = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "lpcd", "lilypond-compile-date",
 R"(Generate code to include the compilation date
@@ -1614,7 +1614,7 @@ when LilyPond creates the score.)",
   fPointAndClickOff = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "paco", "point-and-clic-off",
 R"(Generate \pointAndClickOff at the beginning of the LilyPond code
@@ -1626,7 +1626,7 @@ to reduce the size of the resulting PDF file.)",
   fWhiteNoteHeads = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "wnh", "white-note-heads",
 R"(Generate Scheme function 'whiteNoteHeads'
@@ -1657,7 +1657,7 @@ R"()",
   fJianpu = false;
 
   scoreNotationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "jianpu", "",
 R"(Generate the score using jianpu (numbered) notation
@@ -1694,7 +1694,7 @@ R"()",
     midiTempoDuration + " = " + to_string (midiTempoPerSecond);
 
   midiSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsMidiTempoItem::create (
         "midi-tempo", "",
         replaceSubstringInString (
@@ -1724,7 +1724,7 @@ The default is 'DEFAULT_VALUE'.)",
   fNoMidi = boolOptionsInitialValue;
 
   midiSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "no-midi", "",
 R"(Generate the '\midi' block as a comment instead of active code.)",

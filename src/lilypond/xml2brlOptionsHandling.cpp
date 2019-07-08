@@ -825,7 +825,7 @@ R"()",
     // version
 
     versionSubGroup->
-      appendOptionsItem (
+      appendAtom (
         xml2brlOptionsVersionItem::create (
           "v", "version",
 R"(Display xml2brl's version number and history and exit.)"));
@@ -850,7 +850,7 @@ R"()",
     // about
 
     aboutSubGroup->
-      appendOptionsItem (
+      appendAtom (
         xml2brlOptionsAboutItem::create (
           "a", "about",
 R"(Display information about xml2brl and exit.)"));
@@ -875,7 +875,7 @@ R"()",
     // contact
 
     contactSubGroup->
-      appendOptionsItem (
+      appendAtom (
         xml2brlOptionsContactItem::create (
           "c", "contact",
 R"(Display information about how to contacct xml2brl maintainers and exit.)"));
@@ -900,7 +900,7 @@ R"()",
     // output filename
 
     outputFileSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "o", "output-filename",
 R"(Write Braille music to file FILENAME instead of standard output.)",
@@ -913,7 +913,7 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
     fAutoOutputFile = false;
 
     outputFileSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "aof", "auto-output-filename",
 R"(This option can only be used when reading from a file.

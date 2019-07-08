@@ -773,7 +773,7 @@ R"()",
     // version
 
     versionSubGroup->
-      appendOptionsItem (
+      appendAtom (
         xml2lyOptionsVersionItem::create (
           "v", "version",
 R"(Display xml2ly's version number and history and exit.)"));
@@ -798,7 +798,7 @@ R"()",
     // about
 
     aboutSubGroup->
-      appendOptionsItem (
+      appendAtom (
         xml2lyOptionsAboutItem::create (
           "a", "about",
 R"(Display information about xml2ly and exit.)"));
@@ -823,7 +823,7 @@ R"()",
     // contact
 
     contactSubGroup->
-      appendOptionsItem (
+      appendAtom (
         xml2lyOptionsContactItem::create (
           "c", "contact",
 R"(Display information about how to contacct xml2ly maintainers and exit.)"));
@@ -848,7 +848,7 @@ R"()",
     // output filename
 
     outputFileSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "o", "output-filename",
 R"(Write LilyPond code to file FILENAME instead of standard output.)",
@@ -861,7 +861,7 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
     fAutoOutputFile = false;
 
     outputFileSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "aof", "auto-output-filename",
 R"(This option can only be used when reading from a file.

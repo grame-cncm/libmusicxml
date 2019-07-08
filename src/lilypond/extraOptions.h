@@ -91,8 +91,8 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       string& oahStringAtomVariable);
 
   protected:
@@ -104,8 +104,8 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       string& oahStringAtomVariable);
 
     virtual ~optionsShowAllChordsContentsItem ();
@@ -159,8 +159,8 @@ class optionsShowChordDetailsItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       string& oahStringAtomVariable);
 
   protected:
@@ -172,8 +172,8 @@ class optionsShowChordDetailsItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       string& oahStringAtomVariable);
 
     virtual ~optionsShowChordDetailsItem ();
@@ -223,8 +223,8 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       string& oahStringAtomVariable);
 
   protected:
@@ -236,8 +236,8 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
-      string  oahStringAtomVariableName,
+      string  valueSpecification,
+      string  variableName,
       string& oahStringAtomVariable);
 
     virtual ~optionsShowChordAnalysisItem ();

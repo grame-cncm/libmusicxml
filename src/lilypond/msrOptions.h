@@ -33,7 +33,7 @@ class optionsPartRenameItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsPartRenameItemVariableName,
       map<string, string>&
                          optionsPartRenameItemVariable);
@@ -47,7 +47,7 @@ class optionsPartRenameItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsPartRenameItemVariableName,
       map<string, string>&
                          optionsPartRenameItemVariable);
@@ -108,7 +108,7 @@ class optionsPartTransposeItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsPartTransposeItemVariableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
                          optionsPartTransposeItemVariable);
@@ -122,7 +122,7 @@ class optionsPartTransposeItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsPartTransposeItemVariableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
                          optionsPartTransposeItemVariable);
@@ -185,7 +185,7 @@ class optionsMsrPitchesLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsMsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsMsrPitchesLanguageKindItemVariable);
@@ -199,7 +199,7 @@ class optionsMsrPitchesLanguageItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsMsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsMsrPitchesLanguageKindItemVariable);

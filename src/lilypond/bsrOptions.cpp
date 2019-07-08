@@ -52,7 +52,7 @@ S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
   string           shortName,
   string           longName,
   string           description,
-  string           optionsValueSpecification,
+  string           valueSpecification,
   string           optionsFacSimileKindItemVariableName,
   bsrFacSimileKind optionsFacSimileKindItemVariable)
 {
@@ -61,7 +61,7 @@ S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsFacSimileKindItemVariableName,
       optionsFacSimileKindItemVariable);
   assert(o!=0);
@@ -72,14 +72,14 @@ optionsFacSimileKindItem::optionsFacSimileKindItem (
   string           shortName,
   string           longName,
   string           description,
-  string           optionsValueSpecification,
+  string           valueSpecification,
   string           optionsFacSimileKindItemVariableName,
   bsrFacSimileKind optionsFacSimileKindItemVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsFacSimileKindItemVariableName),
     fOptionsFacSimileKindItemVariable (
       optionsFacSimileKindItemVariable)
@@ -139,7 +139,7 @@ S_optionsBsrTextsLanguageItem optionsBsrTextsLanguageItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsBsrTextsLanguageKindItemVariableName,
   bsrTextsLanguageKind&
                      optionsBsrTextsLanguageKindItemVariable)
@@ -149,7 +149,7 @@ S_optionsBsrTextsLanguageItem optionsBsrTextsLanguageItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsBsrTextsLanguageKindItemVariableName,
       optionsBsrTextsLanguageKindItemVariable);
   assert(o!=0);
@@ -160,7 +160,7 @@ optionsBsrTextsLanguageItem::optionsBsrTextsLanguageItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsBsrTextsLanguageKindItemVariableName,
   bsrTextsLanguageKind&
                      optionsBsrTextsLanguageKindItemVariable)
@@ -168,7 +168,7 @@ optionsBsrTextsLanguageItem::optionsBsrTextsLanguageItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsBsrTextsLanguageKindItemVariableName),
     fOptionsBsrTextsLanguageKindItemVariable (
       optionsBsrTextsLanguageKindItemVariable)
@@ -277,7 +277,7 @@ R"()",
   fDisplayBsr = boolOptionsInitialValue;
 
   traceAndDisplaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "dbsr", "display-bsr",
 R"(Write the contents of the BSR data to standard error.)",
@@ -290,7 +290,7 @@ R"(Write the contents of the BSR data to standard error.)",
   fDisplayBsrDetails = boolOptionsInitialValue;
 
   traceAndDisplaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "dbsrd", "display-bsr-details",
 R"(Write the contents of the BSR data with more details to standard error.)",
@@ -342,7 +342,7 @@ R"()",
       fBsrTextsLanguageKind;
 
   languagesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsBsrTextsLanguageItem::create (
         "btl", "bsr-texts-language",
         replaceSubstringInString (
@@ -385,7 +385,7 @@ R"()",
   fNoBrailleLyrics      = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "nolpl", "no-braille-lyrics",
 R"(Don't generate any lyrics in the Braille code.)",
@@ -397,7 +397,7 @@ R"(Don't generate any lyrics in the Braille code.)",
   fBrailleCompileDate   = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "lpcd", "braille-compile-date",
 R"(Generate code to include the compilation date
@@ -410,7 +410,7 @@ when Braille creates the score.)",
   fFacSimileKind        = kFacSimileNo;
 
   miscellaneousGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsFacSimileKindItem::create (
         "fs", "facsimile",
 R"(Generate facsimile Braille nusic code.
@@ -424,7 +424,7 @@ By default, non-facsimile code is generated.)",
   fIncludeClefs         = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "clefs", "",
 R"(Include clefs in BSR. By default, they are not.)",
@@ -464,7 +464,7 @@ of the MSR to the first BSR score.)",
     */
 
   exitAfterSomePassesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       exit2aOptionsBooleanItem);
 
   // '-exit-3b' is hidden... JMI ???
@@ -485,7 +485,7 @@ of the first BSR to the second BSR.)",
     */
 
   exitAfterSomePassesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       exit2bOptionsBooleanItem);
 }
 
@@ -510,7 +510,7 @@ R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
   fTraceBsr = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tbsr", "trace-bsr",
 R"(Write a trace of the BSR graphs visiting activity to standard error.)",
@@ -522,7 +522,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
   fTracePages = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "tpages", "trace-pages",
 R"()",
@@ -535,7 +535,7 @@ R"()",
   fTraceLines = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tlines", "trace-lines",
 R"()",
@@ -547,7 +547,7 @@ R"()",
   fTraceSpaces = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tspaces", "trace-spaces",
 R"(Write a trace of the BSR spaces activity to standard error.)",
@@ -559,7 +559,7 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
   fTraceNumbers = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tnums", "trace-numbers",
 R"(Write a trace of the BSR numbers activity to standard error.)",
@@ -571,7 +571,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
   fTraceParallels = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "tpars", "trace-parallels",
 R"()",
@@ -584,7 +584,7 @@ R"()",
   fTraceBsrVisitors     = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tbsrv", "trace-bsr-visitors",
 R"(Write a trace of the BSR tree visiting activity to standard error.)",

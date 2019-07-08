@@ -38,7 +38,7 @@ S_optionsPartRenameItem optionsPartRenameItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsPartRenameItemVariableName,
   map<string, string>&
                      optionsPartRenameItemVariable)
@@ -48,7 +48,7 @@ S_optionsPartRenameItem optionsPartRenameItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsPartRenameItemVariableName,
       optionsPartRenameItemVariable);
   assert(o!=0);
@@ -59,7 +59,7 @@ optionsPartRenameItem::optionsPartRenameItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsPartRenameItemVariableName,
   map<string, string>&
                      optionsPartRenameItemVariable)
@@ -67,7 +67,7 @@ optionsPartRenameItem::optionsPartRenameItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsPartRenameItemVariableName),
     fOptionsPartRenameItemVariable (
       optionsPartRenameItemVariable)
@@ -164,7 +164,7 @@ S_optionsPartTransposeItem optionsPartTransposeItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsPartTransposeItemVariableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
@@ -174,7 +174,7 @@ S_optionsPartTransposeItem optionsPartTransposeItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsPartTransposeItemVariableName,
       optionsPartTransposeItemVariable);
   assert(o!=0);
@@ -185,7 +185,7 @@ optionsPartTransposeItem::optionsPartTransposeItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsPartTransposeItemVariableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
@@ -193,7 +193,7 @@ optionsPartTransposeItem::optionsPartTransposeItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsPartTransposeItemVariableName),
     fOptionsPartTransposeItemVariable (
       optionsPartTransposeItemVariable)
@@ -290,7 +290,7 @@ S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsMsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsMsrPitchesLanguageKindItemVariable)
@@ -300,7 +300,7 @@ S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsMsrPitchesLanguageKindItemVariableName,
       optionsMsrPitchesLanguageKindItemVariable);
   assert(o!=0);
@@ -311,7 +311,7 @@ optionsMsrPitchesLanguageItem::optionsMsrPitchesLanguageItem (
   string             shortName,
   string             longName,
   string             description,
-  string             optionsValueSpecification,
+  string             valueSpecification,
   string             optionsMsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsMsrPitchesLanguageKindItemVariable)
@@ -319,7 +319,7 @@ optionsMsrPitchesLanguageItem::optionsMsrPitchesLanguageItem (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsMsrPitchesLanguageKindItemVariableName),
     fOptionsMsrPitchesLanguageKindItemVariable (
       optionsMsrPitchesLanguageKindItemVariable)
@@ -429,7 +429,7 @@ R"()",
   fTraceMsr          = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tmsr", "trace-msr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
@@ -441,7 +441,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
   fTraceMsrVisitors  = boolOptionsInitialValue;
 
   traceSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "tmsrv", "trace-msr-visitors",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
@@ -468,7 +468,7 @@ R"()",
   fDisplayPartGroups = boolOptionsInitialValue;
 
   displaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dpg", "display-partgroups",
 R"(Write the structure of the part groups to standard error.)",
@@ -480,7 +480,7 @@ R"(Write the structure of the part groups to standard error.)",
   fDisplayMsr        = boolOptionsInitialValue;
 
   displaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dmsr", "display-msr",
 R"(Write the contents of the MSR data to standard error.)",
@@ -492,7 +492,7 @@ R"(Write the contents of the MSR data to standard error.)",
   fDisplayMsrDetails = boolOptionsInitialValue;
 
   displaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahTwoBooleansAtom::create (
         "dmsrd", "display-msr-details",
 R"(Write the contents of the MSR data with more details to standard error.)",
@@ -505,7 +505,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
   fDisplayMsrNames   = boolOptionsInitialValue;
 
   displaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dmnames", "display-msr-names",
 R"(Only write a view of the names in the MSR to standard error.
@@ -518,7 +518,7 @@ This implies that no LilyPond code is generated.)",
   fDisplayMsrSummary = boolOptionsInitialValue;
 
   displaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "dmsum", "display-msr-summary",
 R"(Only write a summary of the MSR to standard error.
@@ -569,7 +569,7 @@ R"()",
       kNederlands; //LilyPond default value
 
   languagesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsMsrPitchesLanguageItem::create (
         "mplang", "msr-pitches-language",
         replaceSubstringInString (
@@ -607,7 +607,7 @@ R"()",
   // MSR part rename
 
   partsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsPartRenameItem::create (
         "mpr", "msr-part-rename",
         replaceSubstringInString (
@@ -633,7 +633,7 @@ There can be several occurrences of this option.)",
   // MSR part transpose
 
   partsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsPartTransposeItem::create (
         "mpt", "msr-part-transpose",
 R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the MSR data.
@@ -675,7 +675,7 @@ R"()",
   fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
   stavesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "cslsar", "create-single-line-staves-as-rythmic",
 R"(Create staves with a single line as rythmic staves.
@@ -702,7 +702,7 @@ R"()",
   fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
   voicesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "cvsrvn", "create-voices-staff-relative-numbers",
 R"(Generate voices names with numbers relative to their staff.
@@ -730,7 +730,7 @@ R"()",
   fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
 
   repeatsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "ciirb", "create-implicit-initial-repeat-barline",
 R"(Create an implicit repeat barline at the beginning of the stave
@@ -758,7 +758,7 @@ R"()",
   fDelayRestsDynamics = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drdyns", "delay-rests-dynamics",
 R"()",
@@ -770,7 +770,7 @@ R"()",
   fDelayRestsWords = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drwords", "delay-rests-words",
 R"()",
@@ -782,7 +782,7 @@ R"()",
   fDelayRestsBeams = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drbeams", "delay-rests-beams",
 R"()",
@@ -794,7 +794,7 @@ R"()",
   fDelayRestsSlurs = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drslurs", "delay-rests-slurs",
 R"()",
@@ -806,7 +806,7 @@ R"()",
   fDelayRestsLigatures = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drligs", "delay-rests-ligatures",
 R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
@@ -818,7 +818,7 @@ R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
   fDelayRestsPedals = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drpeds", "delay-rests-pedals",
 R"()",
@@ -830,7 +830,7 @@ R"()",
   fDelayRestsSlashes = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drslashes", "delay-rests-slashes",
 R"('<slash/>' in MusicXML)",
@@ -842,7 +842,7 @@ R"('<slash/>' in MusicXML)",
   fDelayRestsWedges = false;
 
   notesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "drwedges", "delay-rests-wedges",
 R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
@@ -868,7 +868,7 @@ R"()",
   fAddStanzasNumbers  = false;
 
   lyricsSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "asn", "add-stanzas-numbers",
 R"(Add stanzas numbers to lyrics.)",
@@ -894,7 +894,7 @@ R"()",
   fShowHarmonyVoices      = boolOptionsInitialValue;
 
   harmoniesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "shv", "show-harmony-voices",
 R"(Show the parts harmony voices in the MSR data
@@ -921,7 +921,7 @@ R"()",
   fShowFiguredBassVoices      = boolOptionsInitialValue;
 
   figuredBassSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "sfbv", "show-figured-bass-voices",
 R"(Show the figured bass harmony voices in the MSR data
@@ -963,7 +963,7 @@ of the MusicXML tree to an MSR skeleton.)",
     */
 
   exitAfterSomePassesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       exit2aOptionsBooleanItem);
 
   // exit after pass 2b
@@ -985,7 +985,7 @@ of the MusicXML tree to MSR.)",
     */
 
   exitAfterSomePassesSubGroup->
-    appendOptionsItem (
+    appendAtom (
       exit2bOptionsBooleanItem);
 }
 

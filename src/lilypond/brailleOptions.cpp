@@ -36,7 +36,7 @@ S_optionsUTFKindItem optionsUTFKindItem::create (
   string     shortName,
   string     longName,
   string     description,
-  string     optionsValueSpecification,
+  string     valueSpecification,
   string     optionsUTFKindItemVariableName,
   bsrUTFKind optionsUTFKindItemVariable)
 {
@@ -45,7 +45,7 @@ S_optionsUTFKindItem optionsUTFKindItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsUTFKindItemVariableName,
       optionsUTFKindItemVariable);
   assert(o!=0);
@@ -56,14 +56,14 @@ optionsUTFKindItem::optionsUTFKindItem (
   string     shortName,
   string     longName,
   string     description,
-  string     optionsValueSpecification,
+  string     valueSpecification,
   string     optionsUTFKindItemVariableName,
   bsrUTFKind optionsUTFKindItemVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsUTFKindItemVariableName),
     fOptionsUTFKindItemVariable (
       optionsUTFKindItemVariable)
@@ -123,7 +123,7 @@ S_optionsByteOrderingKindItem optionsByteOrderingKindItem::create (
   string              shortName,
   string              longName,
   string              description,
-  string              optionsValueSpecification,
+  string              valueSpecification,
   string              optionsByteOrderingKindItemVariableName,
   bsrByteOrderingKind optionsByteOrderingKindItemVariable)
 {
@@ -132,7 +132,7 @@ S_optionsByteOrderingKindItem optionsByteOrderingKindItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsByteOrderingKindItemVariableName,
       optionsByteOrderingKindItemVariable);
   assert(o!=0);
@@ -143,14 +143,14 @@ optionsByteOrderingKindItem::optionsByteOrderingKindItem (
   string              shortName,
   string              longName,
   string              description,
-  string              optionsValueSpecification,
+  string              valueSpecification,
   string              optionsByteOrderingKindItemVariableName,
   bsrByteOrderingKind optionsByteOrderingKindItemVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsByteOrderingKindItemVariableName),
     fOptionsByteOrderingKindItemVariable (
       optionsByteOrderingKindItemVariable)
@@ -260,7 +260,7 @@ R"()",
   fUTFKind = kUTF8; // default value
 
   UTFEncodingSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsUTFKindItem::create (
         "utf", "utf-encoding",
 R"(Generate Braille code using UTF ENCODING_SIZE encoding,
@@ -289,7 +289,7 @@ R"()",
   fByteOrderingKind = kByteOrderingNone; // default value
 
   byteOrderingSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsByteOrderingKindItem::create (
         "bom", "byte-ordering-mark",
 R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
@@ -320,7 +320,7 @@ R"()",
   fUseEncodingInFileName = false; // default value
 
   musicFileNameSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "ueifn", "use-encoding-in-file-name",
 R"(Append a description of the encoding used
@@ -347,7 +347,7 @@ R"()",
 
   fCellsPerLine = 30;
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahIntegerAtom::create (
         "cpl", "cells-per-line",
 R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
@@ -360,7 +360,7 @@ R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
   fMeasuresPerLine = 7;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahIntegerAtom::create (
         "mpl", "measures-per-line",
 R"(Set the number of Braille measures per line to N. Default is 7.)",
@@ -373,7 +373,7 @@ R"(Set the number of Braille measures per line to N. Default is 7.)",
   fLinesPerPage = 27;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahIntegerAtom::create (
         "lpp", "lines-per-page",
 R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
@@ -401,7 +401,7 @@ R"()",
   fXml2brlInfos         = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "xi", "xml2brl-infos",
 R"(Generate initial comments showing the compilation date and options.)",
@@ -413,7 +413,7 @@ R"(Generate initial comments showing the compilation date and options.)",
   fNoBrailleCode        = boolOptionsInitialValue;
 
   codeGenerationSubGroup->
-    appendOptionsItem (
+    appendAtom (
       oahBooleanAtom::create (
         "nolpc", "no-braille-code",
 R"(Don't generate any Braille code.
@@ -771,7 +771,7 @@ thus overriding the ones that may be present in the MSR data.
     // MusicXML informations
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "rights", "",
 R"(Set the 'rights' to STRING in the Braille code.)",
@@ -780,7 +780,7 @@ R"(Set the 'rights' to STRING in the Braille code.)",
           fRights));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "composer", "",
 R"(Set the 'composer' to STRING in the Braille code.)",
@@ -789,7 +789,7 @@ R"(Set the 'composer' to STRING in the Braille code.)",
           fComposer));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "arranger", "",
 R"(Set the 'arranger' to STRING in the Braille code.)",
@@ -798,7 +798,7 @@ R"(Set the 'arranger' to STRING in the Braille code.)",
           fArranger));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "poet", "",
 R"(Set the 'poet' to STRING in the Braille code.)",
@@ -807,7 +807,7 @@ R"(Set the 'poet' to STRING in the Braille code.)",
           fPoet));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "lyricist", "",
 R"(Set the 'lyricist' to STRING in the Braille code.)",
@@ -816,7 +816,7 @@ R"(Set the 'lyricist' to STRING in the Braille code.)",
           fLyricist));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "software", "",
 R"(Set the 'software' to STRING in the Braille code.)",
@@ -827,7 +827,7 @@ R"(Set the 'software' to STRING in the Braille code.)",
     // Braille informations
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "dedication", "",
 R"(Set 'dedication' to STRING in the \header.)",
@@ -836,7 +836,7 @@ R"(Set 'dedication' to STRING in the \header.)",
           fDedication));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "piece", "",
 R"(Set 'piece' to STRING in the \header.)",
@@ -845,7 +845,7 @@ R"(Set 'piece' to STRING in the \header.)",
           fPiece));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "opus", "",
 R"(Set 'opus' to STRING in the \header.)",
@@ -854,7 +854,7 @@ R"(Set 'opus' to STRING in the \header.)",
           fOpus));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "title", "",
 R"(Set 'title' to STRING in the \header.)",
@@ -863,7 +863,7 @@ R"(Set 'title' to STRING in the \header.)",
           fTitle));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "stitle", "subtitle",
 R"(Set 'subtitle' to STRING in the \header.)",
@@ -872,7 +872,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
           fSubTitle));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "sstitle", "subsubtitle",
 R"(Set 'subsubtitle' to STRING in the \header.)",
@@ -881,7 +881,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
           fSubSubTitle));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "instrument", "",
 R"(Set 'instrument' to STRING in the \header.)",
@@ -890,7 +890,7 @@ R"(Set 'instrument' to STRING in the \header.)",
           fInstrument));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "meter", "",
 R"(Set 'meter' to STRING in the \header.)",
@@ -899,7 +899,7 @@ R"(Set 'meter' to STRING in the \header.)",
           fMeter));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "tagline", "",
 R"(Set 'tagline' to STRING in the \header.)",
@@ -908,7 +908,7 @@ R"(Set 'tagline' to STRING in the \header.)",
           fTagline));
 
     identificationSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahStringAtom::create (
           "copyright", "",
 R"(Set 'copyright' to STRING in the \header.)",
@@ -947,7 +947,7 @@ R"()",
     appendSubGroup (notesSubGroup);
 
     notesSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "abs", "absolute",
 R"(Generate Braille absolute note octaves.
@@ -956,7 +956,7 @@ By default, relative octaves are generated.)",
           fAbsoluteOctaves));
 
     notesSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "alldurs", "all-durations",
 R"(Generate all Braille durations.
@@ -966,7 +966,7 @@ is omitted for code conciseness.)",
           fAllDurations));
 
     notesSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "rsn", "roman-string-numbers",
 R"(Generate '\romanStringNumbers' in each voice
@@ -975,7 +975,7 @@ for Braille to generate roman instead of arabic string numbers.)",
           fRomanStringNumbers));
 
     notesSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "aos", "avoid-open-strings",
 R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice
@@ -984,7 +984,7 @@ to prevent Braille from using open strings.)",
           fAvoidOpenStrings));
 
     notesSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "niln", "note-input-line-numbers",
           replaceSubstringInString (
@@ -1020,7 +1020,7 @@ R"()",
     appendSubGroup (barsSubGroup);
 
     barsSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "abn", "all-bar-numbers",
 R"(Generate Braille code to show all bar numbers.)",
@@ -1053,7 +1053,7 @@ R"()",
     appendSubGroup (lineBreaksSubGroup);
 
     lineBreaksSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "ilb", "ignore-line-breaks",
 R"(Ignore the line breaks from the MusicXML input
@@ -1062,7 +1062,7 @@ and let Braille decide about them.)",
           fIgnoreLineBreaks));
 
     lineBreaksSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "blairm", "break-lines-at-incomplete-right-measures",
 R"(Generate a '\break' command at the end of incomplete right measures
@@ -1094,7 +1094,7 @@ R"()",
     appendSubGroup (pageBreaksSubGroup);
 
     pageBreaksSubGroup->
-      appendOptionsItem (
+      appendAtom (
         oahBooleanAtom::create (
           "ipb", "ignore-page-breaks",
 R"(Ignore the page breaks from the MusicXML input

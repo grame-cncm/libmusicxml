@@ -33,7 +33,7 @@ class optionsScoreOutputKindItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsScoreOutputKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsScoreOutputKindItemVariable);
@@ -47,7 +47,7 @@ class optionsScoreOutputKindItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsScoreOutputKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsScoreOutputKindItemVariable);
@@ -154,7 +154,7 @@ class optionsRelativeOctaveEntryItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
+      string  valueSpecification,
       string  optionsRelativeOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsRelativeOctaveEntryItemVariable);
@@ -168,7 +168,7 @@ class optionsRelativeOctaveEntryItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
+      string  valueSpecification,
       string  optionsRelativeOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsRelativeOctaveEntryItemVariable);
@@ -221,7 +221,7 @@ class optionsFixedOctaveEntryItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
+      string  valueSpecification,
       string  optionsFixedOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsFixedOctaveEntryItemVariable);
@@ -235,7 +235,7 @@ class optionsFixedOctaveEntryItem : public oahValuedAtom
       string  shortName,
       string  longName,
       string  description,
-      string  optionsValueSpecification,
+      string  valueSpecification,
       string  optionsFixedOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsFixedOctaveEntryItemVariable);
@@ -288,7 +288,7 @@ class optionsAccidentalStyleKindItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsAccidentalStyleKindItemVariableName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
@@ -302,7 +302,7 @@ class optionsAccidentalStyleKindItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsAccidentalStyleKindItemVariableName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
@@ -355,7 +355,7 @@ class optionsChordsDisplayItem : public oahValuedAtom
       string                shortName,
       string                longName,
       string                description,
-      string                optionsValueSpecification,
+      string                valueSpecification,
       string                optionsChordsDisplayItemVariableName,
       list<pair<string, string> >&
                             optionsChordsDisplayItemVariable);
@@ -369,7 +369,7 @@ class optionsChordsDisplayItem : public oahValuedAtom
       string                shortName,
       string                longName,
       string                description,
-      string                optionsValueSpecification,
+      string                valueSpecification,
       string                optionsChordsDisplayItemVariableName,
       list<pair<string, string> >&
                             optionsChordsDisplayItemVariable);
@@ -429,7 +429,7 @@ class optionsMidiTempoItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsMidiTempoItemVariableName,
       pair<string, int>& optionsMidiTempoItemVariable);
 
@@ -442,7 +442,7 @@ class optionsMidiTempoItem : public oahValuedAtom
       string             shortName,
       string             longName,
       string             description,
-      string             optionsValueSpecification,
+      string             valueSpecification,
       string             optionsMidiTempoItemVariableName,
       pair<string, int>& optionsMidiTempoItemVariable);
 

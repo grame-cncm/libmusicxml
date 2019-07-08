@@ -108,7 +108,7 @@ S_optionsShowAllChordsContentsItem optionsShowAllChordsContentsItem::create (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsShowAllChordsContentsItemVariableName,
   string& optionsShowAllChordsContentsItemVariable)
 {
@@ -117,7 +117,7 @@ S_optionsShowAllChordsContentsItem optionsShowAllChordsContentsItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsShowAllChordsContentsItemVariableName,
       optionsShowAllChordsContentsItemVariable);
   assert(o!=0);
@@ -128,14 +128,14 @@ optionsShowAllChordsContentsItem::optionsShowAllChordsContentsItem (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsShowAllChordsContentsItemVariableName,
   string& optionsShowAllChordsContentsItemVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsShowAllChordsContentsItemVariableName),
     fOptionsShowAllChordsContentsItemVariable (
       optionsShowAllChordsContentsItemVariable)
@@ -194,7 +194,7 @@ S_optionsShowChordDetailsItem optionsShowChordDetailsItem::create (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsShowChordDetailsItemVariableName,
   string& optionsShowChordDetailsItemVariable)
 {
@@ -203,7 +203,7 @@ S_optionsShowChordDetailsItem optionsShowChordDetailsItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsShowChordDetailsItemVariableName,
       optionsShowChordDetailsItemVariable);
   assert(o!=0);
@@ -214,14 +214,14 @@ optionsShowChordDetailsItem::optionsShowChordDetailsItem (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsShowChordDetailsItemVariableName,
   string& optionsShowChordDetailsItemVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsShowChordDetailsItemVariableName),
     fOptionsShowChordDetailsItemVariable (
       optionsShowChordDetailsItemVariable)
@@ -271,7 +271,7 @@ S_optionsShowChordAnalysisItem optionsShowChordAnalysisItem::create (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsShowChordAnalysisItemVariableName,
   string& optionsShowChordAnalysisItemVariable)
 {
@@ -280,7 +280,7 @@ S_optionsShowChordAnalysisItem optionsShowChordAnalysisItem::create (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsShowChordAnalysisItemVariableName,
       optionsShowChordAnalysisItemVariable);
   assert(o!=0);
@@ -291,14 +291,14 @@ optionsShowChordAnalysisItem::optionsShowChordAnalysisItem (
   string  shortName,
   string  longName,
   string  description,
-  string  optionsValueSpecification,
+  string  valueSpecification,
   string  optionsShowChordAnalysisItemVariableName,
   string& optionsShowChordAnalysisItemVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
-      optionsValueSpecification,
+      valueSpecification,
       optionsShowChordAnalysisItemVariableName),
     fOptionsShowChordAnalysisItemVariable (
       optionsShowChordAnalysisItemVariable)
@@ -397,7 +397,7 @@ R"()",
   appendSubGroup (traceAndDisplaySubGroup);
 
   traceAndDisplaySubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsShowAllChordsStructuresItem::create (
         "scs", "show-chords-structures",
 R"(Write all known chords structures to standard output.)"));
@@ -437,7 +437,7 @@ HARMONY_NAME should be one of:
   appendSubGroup (workSubGroup);
 
   workSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsShowAllChordsContentsItem::create (
         "sacc", "show-all-chords-contents",
 R"(Write all chords contents for the given diatonic (semitones) pitch
@@ -462,7 +462,7 @@ R"()",
   appendSubGroup (workSubGroup);
 
   workSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsShowChordDetailsItem::create (
         "scd", "show-chord-details",
         replaceSubstringInString (
@@ -499,7 +499,7 @@ R"()",
   appendSubGroup (workSubGroup);
 
   workSubGroup->
-    appendOptionsItem (
+    appendAtom (
       optionsShowChordAnalysisItem::create (
         "sca", "show-chord-analysis", // -sca "c dommin9 0"
         replaceSubstringInString (
