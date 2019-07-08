@@ -1938,7 +1938,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
     if (! gMusicXMLOptions->fNoCubase) {
       // set the '-cubase' option
-      S_optionsElement
+      S_oahElement
         cubaseOptionsElement =
           gMusicXMLOptions->
             getOptionsHandlerUpLink ()->
@@ -1946,9 +1946,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
       if (
         // combined items item?
-        S_optionsCombinedBooleanItemsItem
+        S_oahCombinedBooleansAtom
           combinedBooleanItemsItem =
-            dynamic_cast<optionsCombinedBooleanItemsItem*>(&(*cubaseOptionsElement))
+            dynamic_cast<oahCombinedBooleansAtom*>(&(*cubaseOptionsElement))
       ) {
         // handle it at once
 #ifdef TRACE_OPTIONS

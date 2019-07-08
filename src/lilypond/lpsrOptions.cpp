@@ -33,9 +33,9 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
   lpsrScoreOutputKind&
@@ -43,9 +43,9 @@ S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
 {
   optionsLpsrScoreOutputKindItem* o = new
     optionsLpsrScoreOutputKindItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrScoreOutputKindKindItemVariableDisplayName,
       optionsLpsrScoreOutputKindKindItemVariable);
@@ -54,17 +54,17 @@ S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
 }
 
 optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
   lpsrScoreOutputKind&
                      optionsLpsrScoreOutputKindKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrScoreOutputKindKindItemVariableDisplayName),
     fOptionsLpsrScoreOutputKindKindItemVariable (
@@ -122,9 +122,9 @@ ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
@@ -132,9 +132,9 @@ S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
 {
   optionsLpsrPitchesLanguageItem* o = new
     optionsLpsrPitchesLanguageItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrPitchesLanguageKindItemVariableDisplayName,
       optionsLpsrPitchesLanguageKindItemVariable);
@@ -143,17 +143,17 @@ S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
 }
 
 optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsLpsrPitchesLanguageKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrPitchesLanguageKindItemVariableDisplayName),
     fOptionsLpsrPitchesLanguageKindItemVariable (
@@ -211,9 +211,9 @@ ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt)
 
 //______________________________________________________________________________
 S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
   lpsrChordsLanguageKind&
@@ -221,9 +221,9 @@ S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
 {
   optionsLpsrChordsLanguageItem* o = new
     optionsLpsrChordsLanguageItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrChordsLanguageKindItemVariableDisplayName,
       optionsLpsrChordsLanguageKindItemVariable);
@@ -232,17 +232,17 @@ S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
 }
 
 optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
   lpsrChordsLanguageKind&
                      optionsLpsrChordsLanguageKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrChordsLanguageKindItemVariableDisplayName),
     fOptionsLpsrChordsLanguageKindItemVariable (
@@ -299,9 +299,9 @@ ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt)
 
 //______________________________________________________________________________
 S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsLpsrTransposeItemVariableDisplayName,
   S_msrSemiTonesPitchAndOctave&
@@ -309,9 +309,9 @@ S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
 {
   optionsLpsrTransposeItem* o = new
     optionsLpsrTransposeItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrTransposeItemVariableDisplayName,
       optionsLpsrTransposeItemVariable);
@@ -320,17 +320,17 @@ S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
 }
 
 optionsLpsrTransposeItem::optionsLpsrTransposeItem (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsLpsrTransposeItemVariableDisplayName,
   S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsLpsrTransposeItemVariableDisplayName),
     fOptionsTransposeItemVariable (
@@ -350,7 +350,7 @@ void optionsLpsrTransposeItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -397,26 +397,26 @@ S_lpsrOptions gLpsrOptionsUserChoices;
 S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 S_lpsrOptions lpsrOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   lpsrOptions* o = new lpsrOptions (
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
   return o;
 }
 
 lpsrOptions::lpsrOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "LPSR",
     "hlpsr", "help-lpsr",
 R"(These options control the way LPSR data is handled.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -431,13 +431,13 @@ lpsrOptions::~lpsrOptions ()
 void lpsrOptions::initializeLpsrTraceOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     traceSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Trace",
         "hlpsrtrace", "help-lpsr-trace",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (traceSubGroup);
@@ -448,7 +448,7 @@ R"()",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tlpsr", "trace-lpsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLpsr",
@@ -460,7 +460,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tlpv", "trace-lilypond-version",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLilypondVersion",
@@ -472,7 +472,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tlpsrv", "trace-lpsr-visitors",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
         "traceLpsrVisitors",
@@ -484,7 +484,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tlpsrb", "trace-lpsr-blocks",
 R"(Write a trace of the LPSR blocks to standard error.)",
         "traceLpsrBlocks",
@@ -496,7 +496,7 @@ R"(Write a trace of the LPSR blocks to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tsf", "trace-scheme-functions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
         "traceSchemeFunctions",
@@ -507,13 +507,13 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
 void lpsrOptions::initializeLpsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     displaySubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Display",
         "hlpsrd", "help-lpsr-display",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (displaySubGroup);
@@ -524,7 +524,7 @@ R"()",
 
   displaySubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dlpsr", "display-lpsr",
 R"(Write the contents of the LPSR data to standard error.)",
         "displayLpsr",
@@ -534,13 +534,13 @@ R"(Write the contents of the LPSR data to standard error.)",
 void lpsrOptions::initializeLilypondScoreOutputOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     lilypondOutputKindGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "LilyPond score  output",
         "hlpso", "help-lilypond-score-output",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (lilypondOutputKindGroup);
@@ -619,13 +619,13 @@ The default is 'DEFAULT_VALUE'.)",
 void lpsrOptions::initializeLpsrLyricsVersusWordsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     lyricsVersusWordsSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Lyrics versus words",
         "hlyrsvswords", "help-lyrics-vs-words",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (lyricsVersusWordsSubGroup);
@@ -636,7 +636,7 @@ R"()",
 
   lyricsVersusWordsSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "awftl", "add-words-from-the-lyrics",
 R"(Add words with the lyrics contents, keeping the latter untouched.
 This may come in handy when MusicXML data has been obtained from scanned images.)",
@@ -647,13 +647,13 @@ This may come in handy when MusicXML data has been obtained from scanned images.
 void lpsrOptions::initializeLpsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     languagesSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Languages",
         "hlpsrl", "help-lpsr-languages",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (languagesSubGroup);
@@ -749,13 +749,13 @@ The default is 'DEFAULT_VALUE'.)",
 void lpsrOptions::initializeLpsrTransposeOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     languagesSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Transpose",
         "hlpsrt", "help-lpsr-transpose",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (languagesSubGroup);
@@ -781,13 +781,13 @@ for instruments in 'a', 'f' and B flat respectively)",
 void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     exitAfterSomePassesSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Exit after some passes",
         "hlpexit", "help-lpsr-exit",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
@@ -796,9 +796,9 @@ R"()",
 
   fExit3 = boolOptionsInitialValue;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     exit3OptionsBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "e3", "exit-3",
 R"(Exit after pass 3, i.e. after conversion
 of the MSR to LPSR.)",
@@ -1163,11 +1163,11 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem lpsrOptions::handleOptionsItem (
+S_optionsValuedItem lpsrOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   if (
     // LPSR score output kind item?
@@ -1178,7 +1178,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsLpsrScoreOutputKindItem'" <<
+        "==> oahAtom is of type 'optionsLpsrScoreOutputKindItem'" <<
         endl;
     }
 #endif
@@ -1196,7 +1196,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
+        "==> oahAtom is of type 'optionsLpsrPitchesLanguageItem'" <<
         endl;
     }
 #endif
@@ -1214,7 +1214,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
+        "==> oahAtom is of type 'optionsLpsrChordsLanguageItem'" <<
         endl;
     }
 #endif
@@ -1232,7 +1232,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsLpsrTransposeItem'" <<
+        "==> oahAtom is of type 'optionsLpsrTransposeItem'" <<
         endl;
     }
 #endif
@@ -1270,7 +1270,7 @@ void lpsrOptions::handleOptionsLpsrScoreOutputKindItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsLpsrScoreOutputKindItem'" <<
+      "==> oahAtom is of type 'optionsLpsrScoreOutputKindItem'" <<
       endl;
   }
 #endif
@@ -1325,7 +1325,7 @@ void lpsrOptions::handleOptionsLpsrPitchesLanguageItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
+      "==> oahAtom is of type 'optionsLpsrPitchesLanguageItem'" <<
       endl;
   }
 #endif
@@ -1380,7 +1380,7 @@ void lpsrOptions::handleOptionsLpsrChordsLanguageItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
+      "==> oahAtom is of type 'optionsLpsrChordsLanguageItem'" <<
       endl;
   }
 #endif
@@ -1432,7 +1432,7 @@ void lpsrOptions::handleOptionsLpsrTransposeItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsLpsrTransposeItem'" <<
+      "==> oahAtom is of type 'optionsLpsrTransposeItem'" <<
       endl;
   }
 #endif
@@ -1452,7 +1452,7 @@ void lpsrOptions::handleOptionsLpsrTransposeItemValue (
 
 void lpsrOptions::handleOptionsItemValue (
   ostream&      os,
-  S_optionsItem item,
+  S_oahAtom item,
   string        theString)
 {
   if (
@@ -1726,7 +1726,7 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 
 //______________________________________________________________________________
 void initializeLpsrOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1740,7 +1740,7 @@ void initializeLpsrOptionsHandling (
   // ------------------------------------------------------
 
   gLpsrOptionsUserChoices = lpsrOptions::create (
-    optionsHandler);
+    oahHandler);
   assert(gLpsrOptionsUserChoices != 0);
 
   gLpsrOptions =

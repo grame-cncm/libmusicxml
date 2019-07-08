@@ -44,27 +44,27 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2brlOptionsVersionItem xml2brlOptionsVersionItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
 {
   xml2brlOptionsVersionItem* o = new
     xml2brlOptionsVersionItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription);
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription);
   assert(o!=0);
   return o;
 }
 
 xml2brlOptionsVersionItem::xml2brlOptionsVersionItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
+  : oahAtom (
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription)
 {}
 
 xml2brlOptionsVersionItem::~xml2brlOptionsVersionItem ()
@@ -80,7 +80,7 @@ void xml2brlOptionsVersionItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -121,27 +121,27 @@ ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionItem& elt)
 
 //______________________________________________________________________________
 S_xml2brlOptionsAboutItem xml2brlOptionsAboutItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
 {
   xml2brlOptionsAboutItem* o = new
     xml2brlOptionsAboutItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription);
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription);
   assert(o!=0);
   return o;
 }
 
 xml2brlOptionsAboutItem::xml2brlOptionsAboutItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
+  : oahAtom (
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription)
 {}
 
 xml2brlOptionsAboutItem::~xml2brlOptionsAboutItem ()
@@ -157,7 +157,7 @@ void xml2brlOptionsAboutItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -217,27 +217,27 @@ ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutItem& elt)
 
 //______________________________________________________________________________
 S_xml2brlOptionsContactItem xml2brlOptionsContactItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
 {
   xml2brlOptionsContactItem* o = new
     xml2brlOptionsContactItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription);
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription);
   assert(o!=0);
   return o;
 }
 
 xml2brlOptionsContactItem::xml2brlOptionsContactItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
+  : oahAtom (
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription)
 {}
 
 xml2brlOptionsContactItem::~xml2brlOptionsContactItem ()
@@ -253,7 +253,7 @@ void xml2brlOptionsContactItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -307,7 +307,7 @@ S_xml2brlOptionsHandler xml2brlOptionsHandler::create (
 xml2brlOptionsHandler::xml2brlOptionsHandler (
   string           executableName,
   indentedOstream& ios)
-  : optionsHandler (
+  : oahHandler (
     "Available options",
     "Options values",
     "h", "help",
@@ -482,7 +482,8 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
     }
     else {
       fOptionsHandlerlogIOstream <<
-        "There are no arguments" <<
+        "There are no arguments to " <<
+        gGeneralOptions->fExecutableName <<
         endl;
     }
   }
@@ -744,7 +745,7 @@ void xml2brlOptionsHandler::print (ostream& os) const
 
     gIndenter++;
 
-    list<S_optionsGroup>::const_iterator
+    list<S_oahGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -773,27 +774,27 @@ ostream& operator<< (ostream& os, const S_xml2brlOptionsHandler& elt)
 S_xml2brlOptions gXml2brlOptions;
 
 S_xml2brlOptions xml2brlOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   xml2brlOptions* o = new xml2brlOptions (
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
 
   return o;
 }
 
 xml2brlOptions::xml2brlOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "xml2brl",
     "hb", "help-xml2brl",
 R"(Options that are used by xml2brl are grouped here.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -810,13 +811,13 @@ void xml2brlOptions::initializeXml2brlOptions ()
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       versionSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Version",
           "hxv", "help-xml2brl-version",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (versionSubGroup);
@@ -835,13 +836,13 @@ R"(Display xml2brl's version number and history and exit.)"));
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       aboutSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "About",
           "hxa", "help-xml2brl-about",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (aboutSubGroup);
@@ -860,13 +861,13 @@ R"(Display information about xml2brl and exit.)"));
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       contactSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Contact",
           "hxc", "help-xml2brl-contact",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (contactSubGroup);
@@ -885,13 +886,13 @@ R"(Display information about how to contacct xml2brl maintainers and exit.)"));
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       outputFileSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Output file",
           "hxof", "help-xml2brl-output-file",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (outputFileSubGroup);
@@ -913,7 +914,7 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
 
     outputFileSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "aof", "auto-output-filename",
 R"(This option can only be used when reading from a file.
 Write Braille music to a file in the current working directory.
@@ -951,11 +952,11 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem xml2brlOptions::handleOptionsItem (
+S_optionsValuedItem xml2brlOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -976,7 +977,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> optionsItem is of type 'optionsVersionItem'" <<
+        "==> oahAtom is of type 'optionsVersionItem'" <<
         endl;
     }
 #endif
@@ -998,7 +999,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> optionsItem is of type 'optionsAboutItem'" <<
+        "==> oahAtom is of type 'optionsAboutItem'" <<
         endl;
     }
 #endif
@@ -1020,7 +1021,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> optionsItem is of type 'optionsContactItem'" <<
+        "==> oahAtom is of type 'optionsContactItem'" <<
         endl;
     }
 #endif
@@ -1038,7 +1039,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
 
 //______________________________________________________________________________
 void initializeXml2brlOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1063,7 +1064,7 @@ void initializeXml2brlOptionsHandling (
   // ------------------------------------------------------
 
   gXml2brlOptions = xml2brlOptions::create (
-    optionsHandler);
+    oahHandler);
   assert (gXml2brlOptions != 0);
 }
 

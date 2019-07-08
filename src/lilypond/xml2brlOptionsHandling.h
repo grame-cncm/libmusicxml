@@ -14,39 +14,39 @@
 #define ___xml2brlOptionsHandling___
 
 #include "exports.h"
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class xml2brlOptionsVersionItem : public optionsItem
+class xml2brlOptionsVersionItem : public oahAtom
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsVersionItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-     
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2brlOptionsVersionItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-      
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
     virtual ~xml2brlOptionsVersionItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -63,9 +63,9 @@ class xml2brlOptionsVersionItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
@@ -73,32 +73,32 @@ typedef SMARTP<xml2brlOptionsVersionItem> S_xml2brlOptionsVersionItem;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionItem& elt);
 
 //______________________________________________________________________________
-class xml2brlOptionsAboutItem : public optionsItem
+class xml2brlOptionsAboutItem : public oahAtom
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsAboutItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-     
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2brlOptionsAboutItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-      
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
     virtual ~xml2brlOptionsAboutItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -115,9 +115,9 @@ class xml2brlOptionsAboutItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
@@ -125,32 +125,32 @@ typedef SMARTP<xml2brlOptionsAboutItem> S_xml2brlOptionsAboutItem;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutItem& elt);
 
 //______________________________________________________________________________
-class xml2brlOptionsContactItem : public optionsItem
+class xml2brlOptionsContactItem : public oahAtom
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsContactItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-     
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2brlOptionsContactItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-      
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
     virtual ~xml2brlOptionsContactItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -167,9 +167,9 @@ class xml2brlOptionsContactItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
@@ -177,17 +177,17 @@ typedef SMARTP<xml2brlOptionsContactItem> S_xml2brlOptionsContactItem;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsContactItem& elt);
 
 //_______________________________________________________________________________
-class EXP xml2brlOptionsHandler : public optionsHandler
+class EXP xml2brlOptionsHandler : public oahHandler
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsHandler> create (
       string           executableName,
       indentedOstream& ios);
-     
+
   protected:
 
     // constructors/destructor
@@ -196,7 +196,7 @@ class EXP xml2brlOptionsHandler : public optionsHandler
     xml2brlOptionsHandler (
       string           executableName,
       indentedOstream& ios);
-      
+
     virtual ~xml2brlOptionsHandler ();
 
   private:
@@ -215,12 +215,12 @@ class EXP xml2brlOptionsHandler : public optionsHandler
     void                  enforceOptionsHandlerQuietness ();
 
   public:
-  
+
     // services
     // ------------------------------------------------------
 
     void                  checkOptionsAndArguments ();
-    
+
     // print
     // ------------------------------------------------------
 
@@ -235,28 +235,28 @@ typedef SMARTP<xml2brlOptionsHandler> S_xml2brlOptionsHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsHandler& elt);
 
 //______________________________________________________________________________
-class xml2brlOptions : public optionsGroup
+class xml2brlOptions : public oahGroup
 {
   public:
 
     static SMARTP<xml2brlOptions> create (
-      S_optionsHandler optionsHandler);
-        
+      S_oahHandler oahHandler);
+
   public:
 
     // initialisation
     // ------------------------------------------------------
 
     void                  initializeXml2brlOptions ();
-        
+
   protected:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2brlOptions (
-      S_optionsHandler optionsHandler);
-  
+      S_oahHandler oahHandler);
+
     virtual ~xml2brlOptions ();
 
   public:
@@ -278,10 +278,11 @@ class xml2brlOptions : public optionsGroup
     // services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
-        
+                            S_oahAtom item);
+
   public:
 
     // print
@@ -290,12 +291,12 @@ class xml2brlOptions : public optionsGroup
     void                  printXml2brlOptionsHelp ();
 
     void                  printXml2brlOptionsValues (int fieldWidth);
-    
+
   public:
 
     // input
     // --------------------------------------
-    
+
 
     // output file
     // --------------------------------------
@@ -303,7 +304,7 @@ class xml2brlOptions : public optionsGroup
     string                fOutputFileName;
     bool                  fAutoOutputFile;
 
-    
+
 };
 typedef SMARTP<xml2brlOptions> S_xml2brlOptions;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOptions& elt);
@@ -312,7 +313,7 @@ EXP extern S_xml2brlOptions gXml2brlOptions;
 
 //______________________________________________________________________________
 void initializeXml2brlOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

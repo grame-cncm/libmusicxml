@@ -49,7 +49,7 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-  S_xml2lyOptionsHandler optionsHandler,
+  S_xml2lyOptionsHandler oahHandler,
   int                    argc,
   char*                  argv [],
   indentedOstream&       logIndentedOutputStream)
@@ -57,7 +57,7 @@ vector<string> handleOptionsAndArguments (
   // analyse the options
   vector<string>
     argumentsVector =
-      optionsHandler->
+      oahHandler->
         decipherOptionsAndArguments (
           argc, argv);
 
@@ -539,7 +539,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   S_xml2lyOptionsHandler
-    optionsHandler =
+    oahHandler =
       xml2lyOptionsHandler::create (
         argv [0],
         gOutputIOstream);
@@ -550,7 +550,7 @@ int main (int argc, char *argv[])
   vector<string>
     argumentsVector =
       handleOptionsAndArguments (
-        optionsHandler,
+        oahHandler,
         argc, argv,
         gLogIOstream);
 
@@ -559,7 +559,7 @@ int main (int argc, char *argv[])
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fDisplayOptionsHandler) {
     gLogIOstream <<
-      optionsHandler <<
+      oahHandler <<
       endl <<
       endl;
   }
@@ -583,7 +583,7 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fQuiet) {
     // disable all trace and display options
-    optionsHandler->
+    oahHandler->
       enforceOptionsHandlerQuietness ();
   }
 
@@ -636,7 +636,7 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogIOstream <<
-      optionsHandler->
+      oahHandler->
         getCommandLineWithLongOptions () <<
       endl;
 
@@ -647,7 +647,7 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogIOstream <<
-      optionsHandler->
+      oahHandler->
         getCommandLineWithShortOptions () <<
       endl <<
       endl;
@@ -661,7 +661,7 @@ int main (int argc, char *argv[])
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fDisplayOptionsValues) {
-    optionsHandler->
+    oahHandler->
       printAllOptionsValues (
         gLogIOstream);
 

@@ -17,7 +17,7 @@
 
 #include "bsrBasicTypes.h"
 
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 namespace MusicXML2
 {
@@ -38,9 +38,9 @@ class optionsFacSimileKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsFacSimileKindItem> create (
-      string           optionsItemShortName,
-      string           optionsItemLongName,
-      string           optionsItemDescription,
+      string           oahAtomShortName,
+      string           oahAtomLongName,
+      string           oahAtomDescription,
       string           optionsValueSpecification,
       string           optionsFacSimileKindItemVariableDisplayName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
@@ -51,9 +51,9 @@ class optionsFacSimileKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsFacSimileKindItem (
-      string           optionsItemShortName,
-      string           optionsItemLongName,
-      string           optionsItemDescription,
+      string           oahAtomShortName,
+      string           oahAtomLongName,
+      string           oahAtomDescription,
       string           optionsValueSpecification,
       string           optionsFacSimileKindItemVariableDisplayName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
@@ -102,9 +102,9 @@ class optionsBsrTextsLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsBsrTextsLanguageItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsBsrTextsLanguageKindItemVariableDisplayName,
       bsrTextsLanguageKind&
@@ -116,9 +116,9 @@ class optionsBsrTextsLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsBsrTextsLanguageItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsBsrTextsLanguageKindItemVariableDisplayName,
       bsrTextsLanguageKind&
@@ -160,7 +160,7 @@ typedef SMARTP<optionsBsrTextsLanguageItem> S_optionsBsrTextsLanguageItem;
 EXP ostream& operator<< (ostream& os, const S_optionsBsrTextsLanguageItem& elt);
 
 //______________________________________________________________________________
-class bsrOptions : public optionsGroup
+class bsrOptions : public oahGroup
 {
   public:
 
@@ -168,7 +168,7 @@ class bsrOptions : public optionsGroup
     // ------------------------------------------------------
 
     static SMARTP<bsrOptions> create (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<bsrOptions>        createCloneWithDetailedTrace ();
 
@@ -186,7 +186,7 @@ class bsrOptions : public optionsGroup
     // ------------------------------------------------------
 
     bsrOptions (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~bsrOptions ();
 
@@ -215,13 +215,14 @@ class bsrOptions : public optionsGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
     virtual void          handleOptionsItemValue (
                             ostream&      os,
-                            S_optionsItem item,
+                            S_oahAtom item,
                             string        theString);
 
   private:
@@ -318,7 +319,7 @@ EXP extern S_bsrOptions gBsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 EXP  void initializeBsrOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

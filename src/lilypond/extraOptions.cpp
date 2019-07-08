@@ -36,27 +36,27 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsShowAllChordsStructuresItem optionsShowAllChordsStructuresItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
 {
   optionsShowAllChordsStructuresItem* o = new
     optionsShowAllChordsStructuresItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription);
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription);
   assert(o!=0);
   return o;
 }
 
 optionsShowAllChordsStructuresItem::optionsShowAllChordsStructuresItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
+  : oahAtom (
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription)
 {}
 
 optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem ()
@@ -72,7 +72,7 @@ void optionsShowAllChordsStructuresItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -105,18 +105,18 @@ ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& el
 
 //______________________________________________________________________________
 S_optionsShowAllChordsContentsItem optionsShowAllChordsContentsItem::create (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsShowAllChordsContentsItemVariableDisplayName,
   string& optionsShowAllChordsContentsItemVariable)
 {
   optionsShowAllChordsContentsItem* o = new
     optionsShowAllChordsContentsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsShowAllChordsContentsItemVariableDisplayName,
       optionsShowAllChordsContentsItemVariable);
@@ -125,16 +125,16 @@ S_optionsShowAllChordsContentsItem optionsShowAllChordsContentsItem::create (
 }
 
 optionsShowAllChordsContentsItem::optionsShowAllChordsContentsItem (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsShowAllChordsContentsItemVariableDisplayName,
   string& optionsShowAllChordsContentsItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsShowAllChordsContentsItemVariableDisplayName),
     fOptionsShowAllChordsContentsItemVariable (
@@ -154,7 +154,7 @@ void optionsShowAllChordsContentsItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -191,18 +191,18 @@ ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt)
 
 //______________________________________________________________________________
 S_optionsShowChordDetailsItem optionsShowChordDetailsItem::create (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsShowChordDetailsItemVariableDisplayName,
   string& optionsShowChordDetailsItemVariable)
 {
   optionsShowChordDetailsItem* o = new
     optionsShowChordDetailsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsShowChordDetailsItemVariableDisplayName,
       optionsShowChordDetailsItemVariable);
@@ -211,16 +211,16 @@ S_optionsShowChordDetailsItem optionsShowChordDetailsItem::create (
 }
 
 optionsShowChordDetailsItem::optionsShowChordDetailsItem (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsShowChordDetailsItemVariableDisplayName,
   string& optionsShowChordDetailsItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsShowChordDetailsItemVariableDisplayName),
     fOptionsShowChordDetailsItemVariable (
@@ -240,7 +240,7 @@ void optionsShowChordDetailsItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -268,18 +268,18 @@ ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt)
 
 //______________________________________________________________________________
 S_optionsShowChordAnalysisItem optionsShowChordAnalysisItem::create (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsShowChordAnalysisItemVariableDisplayName,
   string& optionsShowChordAnalysisItemVariable)
 {
   optionsShowChordAnalysisItem* o = new
     optionsShowChordAnalysisItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsShowChordAnalysisItemVariableDisplayName,
       optionsShowChordAnalysisItemVariable);
@@ -288,16 +288,16 @@ S_optionsShowChordAnalysisItem optionsShowChordAnalysisItem::create (
 }
 
 optionsShowChordAnalysisItem::optionsShowChordAnalysisItem (
-  string  optionsItemShortName,
-  string  optionsItemLongName,
-  string  optionsItemDescription,
+  string  oahAtomShortName,
+  string  oahAtomLongName,
+  string  oahAtomDescription,
   string  optionsValueSpecification,
   string  optionsShowChordAnalysisItemVariableDisplayName,
   string& optionsShowChordAnalysisItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsShowChordAnalysisItemVariableDisplayName),
     fOptionsShowChordAnalysisItemVariable (
@@ -317,7 +317,7 @@ void optionsShowChordAnalysisItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -350,28 +350,28 @@ S_extraOptions gExtraOptionsUserChoices;
 S_extraOptions gExtraOptionsWithDetailedTrace;
 
 S_extraOptions extraOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   extraOptions* o = new extraOptions(
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
   return o;
 }
 
 extraOptions::extraOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "Extra",
     "he", "help-extra",
 R"(These options provide features not related to translation from MusicXML to LilyPond.
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -385,13 +385,13 @@ extraOptions::~extraOptions ()
 void extraOptions::initializeExtraShowAllChordsStructuresOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     traceAndDisplaySubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Chords structures",
         "hecs", "help-extra-chord-structures",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -406,9 +406,9 @@ R"(Write all known chords structures to standard output.)"));
 void extraOptions::initializeExtraShowAllChordsContentsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     workSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Chords contents",
         "hecc", "help-extra-chords-contents",
 //          replaceSubstringInString (
@@ -431,7 +431,7 @@ HARMONY_NAME should be one of:
     "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
     "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 )",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (workSubGroup);
@@ -450,13 +450,13 @@ in the current language to standard output.)",
 void extraOptions::initializeExtraShowChordDetailsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     workSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Chord details",
         "hecd", "help-extra-chords-details",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (workSubGroup);
@@ -487,13 +487,13 @@ EXECUTABLE -show-chord-details "bes ${HARMONY}")",
 void extraOptions::initializeExtraShowChordAnalysisOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     workSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Chord analysis",
         "heca", "help-extra-chords-analysis",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (workSubGroup);
@@ -597,11 +597,11 @@ void extraOptions::printExtraOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem extraOptions::handleOptionsItem (
+S_optionsValuedItem extraOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   if (
     // show all chords structures item?
@@ -612,7 +612,7 @@ S_optionsItem extraOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowAllChordsStructuresItem'" <<
+        "==> oahAtom is of type 'optionsShowAllChordsStructuresItem'" <<
         endl;
     }
 #endif
@@ -634,7 +634,7 @@ S_optionsItem extraOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
+        "==> oahAtom is of type 'optionsShowAllChordsContentsItem'" <<
         endl;
     }
 #endif
@@ -652,7 +652,7 @@ S_optionsItem extraOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
+        "==> oahAtom is of type 'optionsShowChordDetailsItem'" <<
         endl;
     }
 #endif
@@ -670,7 +670,7 @@ S_optionsItem extraOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
+        "==> oahAtom is of type 'optionsShowChordAnalysisItem'" <<
         endl;
     }
 #endif
@@ -693,7 +693,7 @@ void extraOptions::handleOptionsItemShowAllChordsContentsValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
+      "==> oahAtom is of type 'optionsShowAllChordsContentsItem'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -790,7 +790,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
+      "==> oahAtom is of type 'optionsShowChordDetailsItem'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -964,7 +964,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
+      "==> oahAtom is of type 'optionsShowChordAnalysisItem'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -1159,7 +1159,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
 
 void extraOptions::handleOptionsItemValue (
   ostream&      os,
-  S_optionsItem item,
+  S_oahAtom item,
   string        theString)
 {
   if (
@@ -1207,7 +1207,7 @@ ostream& operator<< (ostream& os, const S_extraOptions& elt)
 
 //______________________________________________________________________________
 void initializeExtraOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1221,7 +1221,7 @@ void initializeExtraOptionsHandling (
   // ------------------------------------------------------
 
   gExtraOptionsUserChoices = extraOptions::create (
-    optionsHandler);
+    oahHandler);
   assert(gExtraOptionsUserChoices != 0);
 
   gExtraOptions =

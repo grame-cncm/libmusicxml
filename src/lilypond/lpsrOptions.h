@@ -14,7 +14,7 @@
 #define ___lpsrOptions___
 
 #include "lpsrBasicTypes.h"
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 #include "exports.h"
 
 namespace MusicXML2
@@ -29,9 +29,9 @@ class optionsLpsrScoreOutputKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrScoreOutputKindItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
       lpsrScoreOutputKind&
@@ -43,9 +43,9 @@ class optionsLpsrScoreOutputKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsLpsrScoreOutputKindItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
       lpsrScoreOutputKind&
@@ -95,9 +95,9 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrPitchesLanguageItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
@@ -109,9 +109,9 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsLpsrPitchesLanguageItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
@@ -162,9 +162,9 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrChordsLanguageItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
       lpsrChordsLanguageKind&
@@ -176,9 +176,9 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsLpsrChordsLanguageItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
       lpsrChordsLanguageKind&
@@ -229,9 +229,9 @@ class optionsLpsrTransposeItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrTransposeItem> create (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       S_msrSemiTonesPitchAndOctave&
@@ -243,9 +243,9 @@ class optionsLpsrTransposeItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsLpsrTransposeItem (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       S_msrSemiTonesPitchAndOctave&
@@ -288,12 +288,12 @@ typedef SMARTP<optionsLpsrTransposeItem> S_optionsLpsrTransposeItem;
 EXP ostream& operator<< (ostream& os, const S_optionsLpsrTransposeItem& elt);
 
 //______________________________________________________________________________
-class lpsrOptions : public optionsGroup
+class lpsrOptions : public oahGroup
 {
   public:
 
     static SMARTP<lpsrOptions> create (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<lpsrOptions>        createCloneWithDetailedTrace ();
 
@@ -311,7 +311,7 @@ class lpsrOptions : public optionsGroup
     // ------------------------------------------------------
 
     lpsrOptions (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~lpsrOptions ();
 
@@ -343,13 +343,14 @@ class lpsrOptions : public optionsGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
     virtual void          handleOptionsItemValue (
                             ostream&      os,
-                            S_optionsItem item,
+                            S_oahAtom item,
                             string        theString);
 
     void                  handleOptionsLpsrScoreOutputKindItemValue (
@@ -490,7 +491,7 @@ EXP extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 EXP  void initializeLpsrOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

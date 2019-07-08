@@ -14,39 +14,39 @@
 #define ___xml2lyOptionsHandling___
 
 #include "exports.h"
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class xml2lyOptionsVersionItem : public optionsItem
+class xml2lyOptionsVersionItem : public oahAtom
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsVersionItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-     
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2lyOptionsVersionItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-      
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
     virtual ~xml2lyOptionsVersionItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -63,9 +63,9 @@ class xml2lyOptionsVersionItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
@@ -73,32 +73,32 @@ typedef SMARTP<xml2lyOptionsVersionItem> S_xml2lyOptionsVersionItem;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt);
 
 //______________________________________________________________________________
-class xml2lyOptionsAboutItem : public optionsItem
+class xml2lyOptionsAboutItem : public oahAtom
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsAboutItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-     
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2lyOptionsAboutItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-      
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
     virtual ~xml2lyOptionsAboutItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -115,9 +115,9 @@ class xml2lyOptionsAboutItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
@@ -125,32 +125,32 @@ typedef SMARTP<xml2lyOptionsAboutItem> S_xml2lyOptionsAboutItem;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt);
 
 //______________________________________________________________________________
-class xml2lyOptionsContactItem : public optionsItem
+class xml2lyOptionsContactItem : public oahAtom
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsContactItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-     
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2lyOptionsContactItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
-      
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
+
     virtual ~xml2lyOptionsContactItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -167,9 +167,9 @@ class xml2lyOptionsContactItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
@@ -177,17 +177,17 @@ typedef SMARTP<xml2lyOptionsContactItem> S_xml2lyOptionsContactItem;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsContactItem& elt);
 
 //_______________________________________________________________________________
-class EXP xml2lyOptionsHandler : public optionsHandler
+class EXP xml2lyOptionsHandler : public oahHandler
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsHandler> create (
       string           executableName,
       indentedOstream& ios);
-     
+
   protected:
 
     // constructors/destructor
@@ -196,7 +196,7 @@ class EXP xml2lyOptionsHandler : public optionsHandler
     xml2lyOptionsHandler (
       string           executableName,
       indentedOstream& ios);
-      
+
     virtual ~xml2lyOptionsHandler ();
 
   private:
@@ -215,12 +215,12 @@ class EXP xml2lyOptionsHandler : public optionsHandler
     void                  enforceOptionsHandlerQuietness ();
 
   public:
-  
+
     // services
     // ------------------------------------------------------
 
     void                  checkOptionsAndArguments ();
-    
+
     // print
     // ------------------------------------------------------
 
@@ -235,28 +235,28 @@ typedef SMARTP<xml2lyOptionsHandler> S_xml2lyOptionsHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsHandler& elt);
 
 //______________________________________________________________________________
-class xml2lyOptions : public optionsGroup
+class xml2lyOptions : public oahGroup
 {
   public:
 
     static SMARTP<xml2lyOptions> create (
-      S_optionsHandler optionsHandler);
-        
+      S_oahHandler oahHandler);
+
   public:
 
     // initialisation
     // ------------------------------------------------------
 
     void                  initializeXml2lyOptions ();
-        
+
   protected:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     xml2lyOptions (
-      S_optionsHandler optionsHandler);
-  
+      S_oahHandler oahHandler);
+
     virtual ~xml2lyOptions ();
 
   public:
@@ -278,10 +278,11 @@ class xml2lyOptions : public optionsGroup
     // services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
-        
+                            S_oahAtom item);
+
   public:
 
     // print
@@ -290,7 +291,7 @@ class xml2lyOptions : public optionsGroup
     void                  printXml2lyOptionsHelp ();
 
     void                  printXml2lyOptionsValues (int fieldWidth);
-    
+
   public:
 
     // output file
@@ -306,7 +307,7 @@ EXP extern S_xml2lyOptions gXml2lyOptions;
 
 //______________________________________________________________________________
 void initializeXml2lyOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

@@ -23,19 +23,19 @@
 
 #include "exports.h"
 
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class traceOptions : public optionsGroup
+class traceOptions : public oahGroup
 {
   public:
 
     static SMARTP<traceOptions> create (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<traceOptions>        createCloneWithTrueValues (); // JMI
 
@@ -59,7 +59,7 @@ class traceOptions : public optionsGroup
     // ------------------------------------------------------
 
     traceOptions (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~traceOptions ();
 
@@ -92,9 +92,10 @@ class traceOptions : public optionsGroup
     // services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
   public:
 
@@ -123,7 +124,7 @@ class traceOptions : public optionsGroup
     // --------------------------------------
     bool                  fTracePasses;
 
-    // for tests, not advertised
+    // for tests, hidden
     // --------------------------------------
     bool                  fTraceForTests;
 
@@ -402,7 +403,7 @@ EXP extern S_traceOptions gTraceOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeTraceOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

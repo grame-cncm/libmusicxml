@@ -15,7 +15,7 @@
 
 #include "msrBasicTypes.h"
 
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 
 namespace MusicXML2
@@ -30,9 +30,9 @@ class optionsPartRenameItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsPartRenameItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsPartRenameItemVariableDisplayName,
       map<string, string>&
@@ -44,9 +44,9 @@ class optionsPartRenameItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsPartRenameItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsPartRenameItemVariableDisplayName,
       map<string, string>&
@@ -105,9 +105,9 @@ class optionsPartTransposeItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsPartTransposeItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsPartTransposeItemVariableDisplayName,
       map<string, S_msrSemiTonesPitchAndOctave>&
@@ -119,9 +119,9 @@ class optionsPartTransposeItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsPartTransposeItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsPartTransposeItemVariableDisplayName,
       map<string, S_msrSemiTonesPitchAndOctave>&
@@ -182,9 +182,9 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsMsrPitchesLanguageItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
@@ -196,9 +196,9 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsMsrPitchesLanguageItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
+      string             oahAtomShortName,
+      string             oahAtomLongName,
+      string             oahAtomDescription,
       string             optionsValueSpecification,
       string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
@@ -241,12 +241,12 @@ typedef SMARTP<optionsMsrPitchesLanguageItem> S_optionsMsrPitchesLanguageItem;
 EXP ostream& operator<< (ostream& os, const S_optionsMsrPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
-class msrOptions : public optionsGroup
+class msrOptions : public oahGroup
 {
   public:
 
     static SMARTP<msrOptions> create (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<msrOptions>        createCloneWithDetailedTrace ();
 
@@ -264,7 +264,7 @@ class msrOptions : public optionsGroup
     // ------------------------------------------------------
 
     msrOptions (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~msrOptions ();
 
@@ -293,13 +293,14 @@ class msrOptions : public optionsGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
     virtual void          handleOptionsItemValue (
                             ostream&      os,
-                            S_optionsItem item,
+                            S_oahAtom item,
                             string        theString);
 
   private:
@@ -468,7 +469,7 @@ EXP extern S_msrOptions gMsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMsrOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

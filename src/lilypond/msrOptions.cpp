@@ -35,9 +35,9 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsPartRenameItem optionsPartRenameItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsPartRenameItemVariableDisplayName,
   map<string, string>&
@@ -45,9 +45,9 @@ S_optionsPartRenameItem optionsPartRenameItem::create (
 {
   optionsPartRenameItem* o = new
     optionsPartRenameItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsPartRenameItemVariableDisplayName,
       optionsPartRenameItemVariable);
@@ -56,17 +56,17 @@ S_optionsPartRenameItem optionsPartRenameItem::create (
 }
 
 optionsPartRenameItem::optionsPartRenameItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsPartRenameItemVariableDisplayName,
   map<string, string>&
                      optionsPartRenameItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsPartRenameItemVariableDisplayName),
     fOptionsPartRenameItemVariable (
@@ -161,9 +161,9 @@ ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt)
 
 //______________________________________________________________________________
 S_optionsPartTransposeItem optionsPartTransposeItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsPartTransposeItemVariableDisplayName,
   map<string, S_msrSemiTonesPitchAndOctave>&
@@ -171,9 +171,9 @@ S_optionsPartTransposeItem optionsPartTransposeItem::create (
 {
   optionsPartTransposeItem* o = new
     optionsPartTransposeItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsPartTransposeItemVariableDisplayName,
       optionsPartTransposeItemVariable);
@@ -182,17 +182,17 @@ S_optionsPartTransposeItem optionsPartTransposeItem::create (
 }
 
 optionsPartTransposeItem::optionsPartTransposeItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsPartTransposeItemVariableDisplayName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsPartTransposeItemVariableDisplayName),
     fOptionsPartTransposeItemVariable (
@@ -287,9 +287,9 @@ ostream& operator<< (ostream& os, const S_optionsPartTransposeItem& elt)
 
 //______________________________________________________________________________
 S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
@@ -297,9 +297,9 @@ S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
 {
   optionsMsrPitchesLanguageItem* o = new
     optionsMsrPitchesLanguageItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsMsrPitchesLanguageKindItemVariableDisplayName,
       optionsMsrPitchesLanguageKindItemVariable);
@@ -308,17 +308,17 @@ S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
 }
 
 optionsMsrPitchesLanguageItem::optionsMsrPitchesLanguageItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsMsrPitchesLanguageKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsMsrPitchesLanguageKindItemVariableDisplayName),
     fOptionsMsrPitchesLanguageKindItemVariable (
@@ -380,26 +380,26 @@ S_msrOptions gMsrOptionsUserChoices;
 S_msrOptions gMsrOptionsWithDetailedTrace;
 
 S_msrOptions msrOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   msrOptions* o = new msrOptions(
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
   return o;
 }
 
 msrOptions::msrOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "MSR",
     "hmsr", "help-msr",
 R"(These options control the way MSR data is handled.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -414,12 +414,12 @@ msrOptions::~msrOptions ()
 void msrOptions::initializeMsrTraceOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup traceSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup traceSubGroup =
+    oahSubGroup::create (
       "Trace",
       "hmsrt", "help-msr-trace",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (traceSubGroup);
@@ -430,7 +430,7 @@ R"()",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tmsr", "trace-msr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceMsr",
@@ -442,7 +442,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tmsrv", "trace-msr-visitors",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
         "traceMsrVisitors",
@@ -453,12 +453,12 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
 void msrOptions::initializeMsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup displaySubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup displaySubGroup =
+    oahSubGroup::create (
       "Display",
       "hmsrtd", "help-msr-trace-and-display",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (displaySubGroup);
@@ -469,7 +469,7 @@ R"()",
 
   displaySubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dpg", "display-partgroups",
 R"(Write the structure of the part groups to standard error.)",
         "displayPartGroups",
@@ -481,7 +481,7 @@ R"(Write the structure of the part groups to standard error.)",
 
   displaySubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dmsr", "display-msr",
 R"(Write the contents of the MSR data to standard error.)",
         "displayMsr",
@@ -493,7 +493,7 @@ R"(Write the contents of the MSR data to standard error.)",
 
   displaySubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "dmsrd", "display-msr-details",
 R"(Write the contents of the MSR data with more details to standard error.)",
         "displayMsrDetails",
@@ -506,7 +506,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
 
   displaySubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dmnames", "display-msr-names",
 R"(Only write a view of the names in the MSR to standard error.
 This implies that no LilyPond code is generated.)",
@@ -519,7 +519,7 @@ This implies that no LilyPond code is generated.)",
 
   displaySubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dmsum", "display-msr-summary",
 R"(Only write a summary of the MSR to standard error.
 This implies that no LilyPond code is generated.)",
@@ -530,12 +530,12 @@ This implies that no LilyPond code is generated.)",
 void msrOptions::initializeMsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup languagesSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup languagesSubGroup =
+    oahSubGroup::create (
       "Languages",
       "hmsrlang", "help-msr-languages",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (languagesSubGroup);
@@ -594,12 +594,12 @@ The default is 'DEFAULT_VALUE'.)",
 void msrOptions::initializeMsrPartsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup partsSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup partsSubGroup =
+    oahSubGroup::create (
       "Parts",
       "hmsrp", "help-msr-parts",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (partsSubGroup);
@@ -660,12 +660,12 @@ There can be several occurrences of this option.)",
 void msrOptions::initializeMsrStavesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup stavesSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup stavesSubGroup =
+    oahSubGroup::create (
       "Staves",
       "hmsrs", "help-msr-staves",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (stavesSubGroup);
@@ -676,7 +676,7 @@ R"()",
 
   stavesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "cslsar", "create-single-line-staves-as-rythmic",
 R"(Create staves with a single line as rythmic staves.
 By default, drum staves are created in this case.)",
@@ -687,12 +687,12 @@ By default, drum staves are created in this case.)",
 void msrOptions::initializeMsrVoicesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup voicesSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup voicesSubGroup =
+    oahSubGroup::create (
       "Voices",
       "hmsrv", "help-msr-voices",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (voicesSubGroup);
@@ -703,7 +703,7 @@ R"()",
 
   voicesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "cvsrvn", "create-voices-staff-relative-numbers",
 R"(Generate voices names with numbers relative to their staff.
 By default, the voice numbers found are used,
@@ -715,12 +715,12 @@ which may be global to the score.)",
 void msrOptions::initializeMsrRepeatsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup repeatsSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup repeatsSubGroup =
+    oahSubGroup::create (
       "Repeats",
       "hmsrr", "help-msr-repeats",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (repeatsSubGroup);
@@ -731,7 +731,7 @@ R"()",
 
   repeatsSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "ciirb", "create-implicit-initial-repeat-barline",
 R"(Create an implicit repeat barline at the beginning of the stave
 in case there is none, as is usual in scores.
@@ -743,12 +743,12 @@ By default, no such barline is added.)",
 void msrOptions::initializeMsrNotesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup notesSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup notesSubGroup =
+    oahSubGroup::create (
       "Notes",
       "hmsrn", "help-msr-notes",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (notesSubGroup);
@@ -759,7 +759,7 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drdyns", "delay-rests-dynamics",
 R"()",
         "delayRestsDynamics",
@@ -771,7 +771,7 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drwords", "delay-rests-words",
 R"()",
         "delayRestsWords",
@@ -783,7 +783,7 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drbeams", "delay-rests-beams",
 R"()",
         "delayRestsBeams",
@@ -795,7 +795,7 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drslurs", "delay-rests-slurs",
 R"()",
         "delayRestsSlurs",
@@ -807,7 +807,7 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drligs", "delay-rests-ligatures",
 R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
         "delayRestsLigatures",
@@ -819,7 +819,7 @@ R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drpeds", "delay-rests-pedals",
 R"()",
         "delayRestsPedals",
@@ -831,7 +831,7 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drslashes", "delay-rests-slashes",
 R"('<slash/>' in MusicXML)",
         "delayRestsSlashes",
@@ -843,7 +843,7 @@ R"('<slash/>' in MusicXML)",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "drwedges", "delay-rests-wedges",
 R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
         "delayRestsWedges",
@@ -853,12 +853,12 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
 void msrOptions::initializeMsrLyricsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup lyricsSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup lyricsSubGroup =
+    oahSubGroup::create (
       "Lyrics",
       "hmsrlyrd", "help-msr-lyrics",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (lyricsSubGroup);
@@ -869,7 +869,7 @@ R"()",
 
   lyricsSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "asn", "add-stanzas-numbers",
 R"(Add stanzas numbers to lyrics.)",
         "addStanzasNumbers",
@@ -879,12 +879,12 @@ R"(Add stanzas numbers to lyrics.)",
 void msrOptions::initializeMsrHarmoniesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup harmoniesSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup harmoniesSubGroup =
+    oahSubGroup::create (
       "Harmonies",
       "hmsrh", "help-msr-harmonies",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (harmoniesSubGroup);
@@ -895,7 +895,7 @@ R"()",
 
   harmoniesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "shv", "show-harmony-voices",
 R"(Show the parts harmony voices in the MSR data
 even though it does not contain music.)",
@@ -906,12 +906,12 @@ even though it does not contain music.)",
 void msrOptions::initializeMsrFiguredBassOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup figuredBassSubGroup =
-    optionsSubGroup::create (
+  S_oahSubGroup figuredBassSubGroup =
+    oahSubGroup::create (
       "Figured bass",
       "hmsrfb", "help-msr-figured-bass",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (figuredBassSubGroup);
@@ -922,7 +922,7 @@ R"()",
 
   figuredBassSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "sfbv", "show-figured-bass-voices",
 R"(Show the figured bass harmony voices in the MSR data
 even though they do not contain music.)",
@@ -933,13 +933,13 @@ even though they do not contain music.)",
 void msrOptions::initializeMsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     exitAfterSomePassesSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Exit after some passes",
         "hme", "help-msr-exit",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
@@ -948,9 +948,9 @@ R"()",
 
   fExit2a = boolOptionsInitialValue;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     exit2aOptionsBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "e2a", "exit-2a",
 R"(Exit after pass 2a, i.e. after conversion
 of the MusicXML tree to an MSR skeleton.)",
@@ -970,9 +970,9 @@ of the MusicXML tree to an MSR skeleton.)",
 
   fExit2b = boolOptionsInitialValue;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     exit2bOptionsBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "e2b", "exit-2b",
 R"(Exit after pass 2b, i.e. after conversion
 of the MusicXML tree to MSR.)",
@@ -1498,11 +1498,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem msrOptions::handleOptionsItem (
+S_optionsValuedItem msrOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   if (
     // part rename item?
@@ -1513,7 +1513,7 @@ S_optionsItem msrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsPartRenameItem'" <<
+        "==> oahAtom is of type 'optionsPartRenameItem'" <<
         endl;
     }
 #endif
@@ -1531,7 +1531,7 @@ S_optionsItem msrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsPartTransposeItem'" <<
+        "==> oahAtom is of type 'optionsPartTransposeItem'" <<
         endl;
     }
 #endif
@@ -1549,7 +1549,7 @@ S_optionsItem msrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
+        "==> oahAtom is of type 'optionsMsrPitchesLanguageItem'" <<
         endl;
     }
 #endif
@@ -1572,7 +1572,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsPartRenameItem'" <<
+      "==> oahAtom is of type 'optionsPartRenameItem'" <<
       endl;
   }
 #endif
@@ -1682,7 +1682,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'S_optionsPartTransposeItem'" <<
+      "==> oahAtom is of type 'S_optionsPartTransposeItem'" <<
       endl;
   }
 #endif
@@ -1794,7 +1794,7 @@ void msrOptions::handleOptionsMsrPitchesLanguageItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
+      "==> oahAtom is of type 'optionsMsrPitchesLanguageItem'" <<
       endl;
   }
 #endif
@@ -1840,7 +1840,7 @@ void msrOptions::handleOptionsMsrPitchesLanguageItemValue (
 
 void msrOptions::handleOptionsItemValue (
   ostream&      os,
-  S_optionsItem item,
+  S_oahAtom item,
   string        theString)
 {
   if (
@@ -1888,7 +1888,7 @@ ostream& operator<< (ostream& os, const S_msrOptions& elt)
 
 //______________________________________________________________________________
 void initializeMsrOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1902,7 +1902,7 @@ void initializeMsrOptionsHandling (
   // ------------------------------------------------------
 
   gMsrOptionsUserChoices = msrOptions::create (
-    optionsHandler);
+    oahHandler);
   assert(gMsrOptionsUserChoices != 0);
 
   gMsrOptions =

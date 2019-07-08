@@ -19,7 +19,7 @@
 #ifdef EXTRA_OPTIONS
 
 
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 #include "exports.h"
 
@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsShowAllChordsStructuresItem : public optionsItem
+class optionsShowAllChordsStructuresItem : public oahAtom
 {
   public:
 
@@ -36,9 +36,9 @@ class optionsShowAllChordsStructuresItem : public optionsItem
     // ------------------------------------------------------
 
     static SMARTP<optionsShowAllChordsStructuresItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
 
   protected:
 
@@ -46,9 +46,9 @@ class optionsShowAllChordsStructuresItem : public optionsItem
     // ------------------------------------------------------
 
     optionsShowAllChordsStructuresItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
+      string oahAtomShortName,
+      string oahAtomLongName,
+      string oahAtomDescription);
 
     virtual ~optionsShowAllChordsStructuresItem ();
 
@@ -88,9 +88,9 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsShowAllChordsContentsItem> create (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
@@ -101,9 +101,9 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsShowAllChordsContentsItem (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
@@ -156,9 +156,9 @@ class optionsShowChordDetailsItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsShowChordDetailsItem> create (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
@@ -169,9 +169,9 @@ class optionsShowChordDetailsItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsShowChordDetailsItem (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
@@ -220,9 +220,9 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsShowChordAnalysisItem> create (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
@@ -233,9 +233,9 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsShowChordAnalysisItem (
-      string  optionsItemShortName,
-      string  optionsItemLongName,
-      string  optionsItemDescription,
+      string  oahAtomShortName,
+      string  oahAtomLongName,
+      string  oahAtomDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
@@ -276,7 +276,7 @@ typedef SMARTP<optionsShowChordAnalysisItem> S_optionsShowChordAnalysisItem;
 EXP ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt);
 
 //______________________________________________________________________________
-class extraOptions : public optionsGroup
+class extraOptions : public oahGroup
 {
   public:
 
@@ -284,7 +284,7 @@ class extraOptions : public optionsGroup
     // ------------------------------------------------------
 
     static SMARTP<extraOptions> create (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<extraOptions>        createCloneWithDetailedTrace ();
 
@@ -302,7 +302,7 @@ class extraOptions : public optionsGroup
     // ------------------------------------------------------
 
     extraOptions (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~extraOptions ();
 
@@ -325,13 +325,14 @@ class extraOptions : public optionsGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
     virtual void          handleOptionsItemValue (
                             ostream&      os,
-                            S_optionsItem item,
+                            S_oahAtom item,
                             string        theString);
 
   private:
@@ -391,7 +392,7 @@ EXP extern S_extraOptions gExtraOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeExtraOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

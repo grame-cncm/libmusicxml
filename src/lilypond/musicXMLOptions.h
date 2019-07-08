@@ -13,7 +13,7 @@
 #ifndef ___musicXMLOptions___
 #define ___musicXMLOptions___
 
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 #include "exports.h"
 
 
@@ -21,7 +21,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class musicXMLOptions : public optionsGroup
+class musicXMLOptions : public oahGroup
 {
   public:
 
@@ -29,7 +29,7 @@ class musicXMLOptions : public optionsGroup
     // ------------------------------------------------------
 
     static SMARTP<musicXMLOptions> create (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<musicXMLOptions>        createCloneWithDetailedTrace ();
 
@@ -47,7 +47,7 @@ class musicXMLOptions : public optionsGroup
     // ------------------------------------------------------
 
     musicXMLOptions (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~musicXMLOptions ();
 
@@ -78,9 +78,10 @@ class musicXMLOptions : public optionsGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
   private:
 
@@ -128,9 +129,9 @@ class musicXMLOptions : public optionsGroup
     bool                  fIgnoreRedundantKeys;
     bool                  fIgnoreRedundantTimes;
 
-    S_optionsBooleanItem  fIgnoreRedundantClefsItem;
-    S_optionsBooleanItem  fIgnoreRedundantKeysItem;
-    S_optionsBooleanItem  fIgnoreRedundantTimesItem;
+    S_oahBooleanAtom  fIgnoreRedundantClefsItem;
+    S_oahBooleanAtom  fIgnoreRedundantKeysItem;
+    S_oahBooleanAtom  fIgnoreRedundantTimesItem;
 
     // combined options, cubase
 
@@ -162,7 +163,7 @@ EXP extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMusicXMLOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

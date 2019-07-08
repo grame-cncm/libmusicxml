@@ -31,11 +31,11 @@ S_generalOptions gGeneralOptionsUserChoices;
 
 S_generalOptions generalOptions::create (
   string           executableName,
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   generalOptions* o = new generalOptions (
     executableName,
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
 
   return o;
@@ -43,18 +43,18 @@ S_generalOptions generalOptions::create (
 
 generalOptions::generalOptions (
   string           executableName,
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "General",
     "hg", "help-general",
 R"()",
-    optionsHandler),
+    oahHandler),
     fExecutableName (executableName)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -68,47 +68,62 @@ generalOptions::~generalOptions ()
 void generalOptions::initializeGeneralHelpOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     helpGeneralOptionsHelpSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Options help",
         "hgoh", "help-general-options-help",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (helpGeneralOptionsHelpSubGroup);
 
+  // help options
+
   helpGeneralOptionsHelpSubGroup->
     appendOptionsItem (
-      optionsHelpUsageItem::create (
+      oahHelpUsageAtom::create (
         "ho", "help-options",
 R"(Print options usage help.)"));
 
-  helpGeneralOptionsHelpSubGroup->
-    appendOptionsItem (
-      optionsHelpSummaryItem::create (
-        "hs", "help-summary",
-R"(Display a help summary and exit.)"));
+  // help summary
 
   helpGeneralOptionsHelpSubGroup->
     appendOptionsItem (
-      optionsItemHelpItem::create (
-      "ih", "item-help",
-R"(Print help about ITEM_NAME.)",
-      "ITEM_NAME"));
+      oahHelpSummaryAtom::create (
+        "hs", "help-summary",
+R"(Display a help summary and exit.)"));
+
+  // help item
+
+  S_oahAtomHelpItem
+    itemHelpItem =
+      oahAtomHelpItem::create (
+        "ih", "item-help",
+R"(Print help about ITEM_NAME.
+ITEM_NAME is optionnal, and the default value is 'ih')",
+        "ITEM_NAME",
+        "ITEM_NAME");
+
+  itemHelpItem->
+    setOptionsValueIsOptional ();
+
+  helpGeneralOptionsHelpSubGroup->
+    appendOptionsItem (
+      itemHelpItem);
 }
 
 void generalOptions::initializeGeneralWarningAndErrorsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     warningAndErrorHandlingSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Warnings and errors",
         "hwae", "help-warnings-and-errors",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
@@ -119,7 +134,7 @@ R"()",
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "q", "quiet",
 R"(Don't issue any warning or error messages.)",
         "quiet",
@@ -131,7 +146,7 @@ R"(Don't issue any warning or error messages.)",
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dse", "dont-show-errors",
 R"(Don't show errors in the log.)",
         "dontShowErrors",
@@ -143,7 +158,7 @@ R"(Don't show errors in the log.)",
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "daoe", "dont-abort-on-errors",
         replaceSubstringInString (
 R"(Do not abort execution on errors and go ahead.
@@ -159,7 +174,7 @@ This may be useful when debugging EXECUTABLE.)",
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dscp", "display-source-code-position",
         replaceSubstringInString (
 R"(Display the source code file name and line number
@@ -174,13 +189,13 @@ This is useful when debugging EXECUTABLE.)",
 void generalOptions::initializeGeneralCPUUsageOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     CPUUsageSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "CPU usage",
         "hgcpu", "help-general-cpu-usage",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (CPUUsageSubGroup);
@@ -191,7 +206,7 @@ R"()",
 
   CPUUsageSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dcpuu", "display-cpu-usage",
 R"(Write information about CPU usage to standard error.)",
         "displayCPUusage",
@@ -384,11 +399,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem generalOptions::handleOptionsItem (
+S_optionsValuedItem generalOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   return result;
 }
@@ -402,7 +417,7 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
   string           executableName,
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -417,7 +432,7 @@ void initializeGeneralOptionsHandling (
 
   gGeneralOptionsUserChoices = generalOptions::create (
     executableName,
-    optionsHandler);
+    oahHandler);
   assert(gGeneralOptionsUserChoices != 0);
 
   gGeneralOptions =

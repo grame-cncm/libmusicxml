@@ -17,20 +17,20 @@
 
 #include "exports.h"
 
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class generalOptions : public optionsGroup
+class generalOptions : public oahGroup
 {
   public:
 
     static SMARTP<generalOptions> create (
       string           executableName,
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<generalOptions>        createCloneWithTrueValues (); // JMI
 
@@ -49,7 +49,7 @@ class generalOptions : public optionsGroup
 
     generalOptions (
       string           executableName,
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~generalOptions ();
 
@@ -82,9 +82,10 @@ class generalOptions : public optionsGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
   private:
 
@@ -145,7 +146,7 @@ EXP extern S_generalOptions gGeneralOptionsWithDetailedTrace;
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
   string           executableName,
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

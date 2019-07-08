@@ -15,7 +15,7 @@
 
 #include <set>
 
-#include "optionsBasicTypes.h"
+#include "oahBasicTypes.h"
 
 #include "bsrBrailleCodeGenerators.h"
 
@@ -32,9 +32,9 @@ class optionsUTFKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsUTFKindItem> create (
-      string     optionsItemShortName,
-      string     optionsItemLongName,
-      string     optionsItemDescription,
+      string     oahAtomShortName,
+      string     oahAtomLongName,
+      string     oahAtomDescription,
       string     optionsValueSpecification,
       string     optionsUTFKindItemVariableDisplayName,
       bsrUTFKind optionsUTFKindItemVariable);
@@ -45,9 +45,9 @@ class optionsUTFKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsUTFKindItem (
-      string     optionsItemShortName,
-      string     optionsItemLongName,
-      string     optionsItemDescription,
+      string     oahAtomShortName,
+      string     oahAtomLongName,
+      string     oahAtomDescription,
       string     optionsValueSpecification,
       string     optionsUTFKindItemVariableDisplayName,
       bsrUTFKind optionsUTFKindItemVariable);
@@ -95,9 +95,9 @@ class optionsByteOrderingKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     static SMARTP<optionsByteOrderingKindItem> create (
-      string              optionsItemShortName,
-      string              optionsItemLongName,
-      string              optionsItemDescription,
+      string              oahAtomShortName,
+      string              oahAtomLongName,
+      string              oahAtomDescription,
       string              optionsValueSpecification,
       string              optionsByteOrderingKindItemVariableDisplayName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
@@ -108,9 +108,9 @@ class optionsByteOrderingKindItem : public optionsValuedItem
     // ------------------------------------------------------
 
     optionsByteOrderingKindItem (
-      string              optionsItemShortName,
-      string              optionsItemLongName,
-      string              optionsItemDescription,
+      string              oahAtomShortName,
+      string              oahAtomLongName,
+      string              oahAtomDescription,
       string              optionsValueSpecification,
       string              optionsByteOrderingKindItemVariableDisplayName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
@@ -151,7 +151,7 @@ typedef SMARTP<optionsByteOrderingKindItem> S_optionsByteOrderingKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt);
 
 //______________________________________________________________________________
-class brailleOptions : public optionsGroup
+class brailleOptions : public oahGroup
 {
   public:
 
@@ -159,7 +159,7 @@ class brailleOptions : public optionsGroup
     // ------------------------------------------------------
 
     static SMARTP<brailleOptions> create (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     SMARTP<brailleOptions>        createCloneWithDetailedTrace ();
 
@@ -181,7 +181,7 @@ class brailleOptions : public optionsGroup
     // ------------------------------------------------------
 
     brailleOptions (
-      S_optionsHandler optionsHandler);
+      S_oahHandler oahHandler);
 
     virtual ~brailleOptions ();
 
@@ -207,13 +207,14 @@ class brailleOptions : public optionsGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsItem handleOptionsItem (
+    virtual S_optionsValuedItem
+                          handleOptionsItem (
                             ostream&      os,
-                            S_optionsItem item);
+                            S_oahAtom item);
 
     virtual void          handleOptionsItemValue (
                             ostream&      os,
-                            S_optionsItem item,
+                            S_oahAtom item,
                             string        theString);
 
   private:
@@ -286,7 +287,7 @@ EXP extern S_brailleOptions gBrailleOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeBrailleOptionsHandling (
-  S_optionsHandler optionsHandler);
+  S_oahHandler oahHandler);
 
 
 }

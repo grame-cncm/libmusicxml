@@ -36,26 +36,26 @@ S_musicXMLOptions gMusicXMLOptionsUserChoices;
 S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 S_musicXMLOptions musicXMLOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   musicXMLOptions* o = new musicXMLOptions(
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
   return o;
 }
 
 musicXMLOptions::musicXMLOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "MusicXML",
     "hmxml", "help-musicxml",
 R"(These options control the way MusicXML data is translated.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -70,13 +70,13 @@ musicXMLOptions::~musicXMLOptions ()
 void musicXMLOptions::initializeMusicXMLTraceOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     traceSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Trace",
         "hmxmlt", "help-musicxml-trace",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (traceSubGroup);
@@ -87,7 +87,7 @@ R"()",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tenc", "trace-encoding",
 R"(Encoding)",
         "traceEncoding",
@@ -100,7 +100,7 @@ R"(Encoding)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tdivs", "trace-divisions",
 R"(Divisions)",
         "traceDivisions",
@@ -113,7 +113,7 @@ R"(Divisions)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tbackup", "trace-backup",
 R"(Backup)",
         "traceBackup",
@@ -126,7 +126,7 @@ R"(Backup)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tmxmltv", "trace-musicxml-tree-visitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
         "traceMusicXMLTreeVisitors",
@@ -137,13 +137,13 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 void musicXMLOptions::initializeMusicXMLWorkOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     workSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Work",
         "hmxmlw", "help-musicxml-work",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (workSubGroup);
@@ -154,7 +154,7 @@ R"()",
 
   workSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "ufawt", "use-filename-as-work-title",
 R"(Use the file name as work title if there is none in the MusicXML data.
 Standard input (-) becomes 'Standard input' in that case.)",
@@ -165,13 +165,13 @@ Standard input (-) becomes 'Standard input' in that case.)",
 void musicXMLOptions::initializeMusicXMLClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     clefsKeysTimesSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Clefs, keys, times",
         "hmxmlckt", "help-musicxml-clefs-keys-times",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (clefsKeysTimesSubGroup);
@@ -181,7 +181,7 @@ R"()",
   fIgnoreRedundantClefs = boolOptionsInitialValue;
 
   fIgnoreRedundantClefsItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "irc", "ignore-redundant-clefs",
 R"(Ignore clefs that are the same as the current one.)",
         "ignoreRedundantClefs",
@@ -195,7 +195,7 @@ R"(Ignore clefs that are the same as the current one.)",
   fIgnoreRedundantKeys  = boolOptionsInitialValue;
 
   fIgnoreRedundantKeysItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "irk", "ignore-redundant-keys",
 R"(Ignore keys that are the same as the current one.)",
         "ignoreRedundantKeys",
@@ -209,7 +209,7 @@ R"(Ignore keys that are the same as the current one.)",
   fIgnoreRedundantTimes = boolOptionsInitialValue;
 
   fIgnoreRedundantTimesItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "irt", "ignore-redundant-times",
 R"(Ignore times that are the same as the current one.)",
         "ignoreRedundantTimes",
@@ -222,9 +222,9 @@ R"(Ignore times that are the same as the current one.)",
 
   fLoopToMusicXML = boolOptionsInitialValue;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     loopOptionsBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "loop", "loop-to-musicxml",
 R"(Close the loop, generating a MusicXML file from the MSR.
 The file name receives a '_loop' suffix. Currently under development.)",
@@ -241,13 +241,13 @@ The file name receives a '_loop' suffix. Currently under development.)",
 void musicXMLOptions::initializeMusicXMLCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     combinedOptionsSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Combined options",
         "hmxmlco", "help-musicxml-combined-options",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
   appendOptionsSubGroup (combinedOptionsSubGroup);
@@ -257,9 +257,9 @@ R"()",
   fCubase   = false;
 
   // create the 'cubase' combined item
-  S_optionsCombinedBooleanItemsItem
+  S_oahCombinedBooleansAtom
     cubaseCombinedBooleanItemsItem =
-      optionsCombinedBooleanItemsItem::create (
+      oahCombinedBooleansAtom::create (
         "cubase", "",
 R"(Useful settings for MusicXML data exported from Cubase.
 This option is set by default, and can be unset by 'noCubase'.)",
@@ -289,9 +289,9 @@ This option is set by default, and can be unset by 'noCubase'.)",
 
   fNoCubase = false;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     noCubaseBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "noCubase", "",
 R"(Prevents the default 'cubase' option.)",
         "noCubase",
@@ -476,11 +476,11 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem musicXMLOptions::handleOptionsItem (
+S_optionsValuedItem musicXMLOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   return result;
 }
@@ -493,7 +493,7 @@ ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
 
 //______________________________________________________________________________
 void initializeMusicXMLOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -507,7 +507,7 @@ void initializeMusicXMLOptionsHandling (
   // ------------------------------------------------------
 
   gMusicXMLOptionsUserChoices = musicXMLOptions::create (
-    optionsHandler);
+    oahHandler);
   assert(gMusicXMLOptionsUserChoices != 0);
 
   gMusicXMLOptions =

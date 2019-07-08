@@ -29,26 +29,26 @@ S_traceOptions gTraceOptions;
 S_traceOptions gTraceOptionsUserChoices;
 
 S_traceOptions traceOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   traceOptions* o = new traceOptions (
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
 
   return o;
 }
 
 traceOptions::traceOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "Trace",
     "ht", "help-trace",
 R"()",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -62,13 +62,13 @@ traceOptions::~traceOptions ()
 void traceOptions::initializeOptionsHandlingTraceOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     traceOptionsSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Options handling",
         "htoh", "help-trace-options-handling",
 R"()",
-    optionsSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kAlwaysShowDescription,
     this);
 
   appendOptionsSubGroup (traceOptionsSubGroup);
@@ -79,7 +79,7 @@ R"()",
 
   traceOptionsSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "topts", "trace-options",
 R"(Write a trace of options handling to standard error.
 This option should best appear first.)",
@@ -92,7 +92,7 @@ This option should best appear first.)",
 
   traceOptionsSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "toptsd", "trace-options-details",
 R"(Write a trace of options handling with more details to standard error.
 This option should best appear first.)",
@@ -105,7 +105,7 @@ This option should best appear first.)",
 
   traceOptionsSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "dov", "display-options-values",
 R"(Write the chosen options values to standard error.)",
         "displayOptionsValues",
@@ -117,7 +117,7 @@ R"(Write the chosen options values to standard error.)",
 
   traceOptionsSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "doh", "display-options-handler",
 R"(Write the contents of the options handler to standard error.)",
         "displayOptionsHandler",
@@ -129,14 +129,14 @@ R"(Write the contents of the options handler to standard error.)",
 void traceOptions::initializeLowLevelTraceOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     lowLevelTraceSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Low level trace",
         "hllt", "help-low-level-trace",
 R"(  Can be quite verbose, use with small input data!
 Note: the options in this group imply '-t, -trace-passes'.)",
-      optionsSubGroup::kHideDescriptionByDefault,
+      oahSubGroup::kHideDescriptionByDefault,
       this);
 
   appendOptionsSubGroup (lowLevelTraceSubGroup);
@@ -147,7 +147,7 @@ Note: the options in this group imply '-t, -trace-passes'.)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "passes", "trace-passes",
 R"(Write a trace of the passes to standard error.)",
         "tracePasses",
@@ -157,9 +157,9 @@ R"(Write a trace of the passes to standard error.)",
 
   fTraceForTests = boolOptionsInitialValue;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     traceForTestsOptionsBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tft", "trace-for-tests",
 R"(Write a trace for tests to standard error.)",
         "traceForTests",
@@ -178,7 +178,7 @@ R"(Write a trace for tests to standard error.)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tscore", "trace-score",
 R"(Score)",
         "traceScore",
@@ -191,7 +191,7 @@ R"(Score)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tvva", "trace-var-val-assocs",
 R"(VarValAssocs)",
         "traceVarValAssocs",
@@ -204,7 +204,7 @@ R"(VarValAssocs)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tcredits", "trace-credits",
 R"(Credits)",
         "traceCredits",
@@ -217,7 +217,7 @@ R"(Credits)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tgeom", "trace-geometry",
 R"(Geometry)",
         "traceGeometry",
@@ -231,7 +231,7 @@ R"(Geometry)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tpgroups", "trace-part-groups",
 R"(Part groups)",
         "tracePartGroups",
@@ -240,7 +240,7 @@ R"(Part groups)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "tpgroupsd", "trace-part-groups-details",
 R"(Part groups with more details.
 This option implies '-tpgrps, -tracePartGroups'.)",
@@ -255,7 +255,7 @@ This option implies '-tpgrps, -tracePartGroups'.)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tparts", "trace-parts",
 R"(Parts)",
         "traceParts",
@@ -268,7 +268,7 @@ R"(Parts)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tstaves", "trace-staves",
 R"(Staves)",
         "traceStaves",
@@ -282,7 +282,7 @@ R"(Staves)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tvoices", "trace-voices",
 R"(Voices)",
         "traceVoices",
@@ -291,7 +291,7 @@ R"(Voices)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "tvoicesd", "trace-voices-details",
 R"(Voices with more details (quite verbose)..
 This option implies '-tvdetails, -traceVoicesDetails'.)",
@@ -309,7 +309,7 @@ This option implies '-tvdetails, -traceVoicesDetails'.)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tmeas", "trace-measures",
 R"(Measures)",
         "traceMeasures",
@@ -318,7 +318,7 @@ R"(Measures)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "tmeasd", "trace-measures-details",
 R"(Measures details)",
         "traceMeasuresDetails",
@@ -328,7 +328,7 @@ R"(Measures details)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tpim", "trace-positions-in-measures",
 R"(Positions in measures)",
         "tracePositionsInMeasures",
@@ -342,7 +342,7 @@ R"(Positions in measures)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tsegs", "trace-segments",
 R"(Voices segments)",
         "traceSegments",
@@ -351,7 +351,7 @@ R"(Voices segments)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "tsegsd", "trace-segments-details",
 R"(Voices segments details)",
         "traceSegments",
@@ -365,7 +365,7 @@ R"(Voices segments details)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tclefs", "trace-clefs",
 R"(Clefs)",
         "traceClefs",
@@ -378,7 +378,7 @@ R"(Clefs)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tkeys", "trace-keys",
 R"(Keys)",
         "traceKeys",
@@ -391,7 +391,7 @@ R"(Keys)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "ttimes", "trace-times",
 R"(Times)",
         "traceTimes",
@@ -404,7 +404,7 @@ R"(Times)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "ttempos", "trace-tempos",
 R"(Tempos)",
         "traceTempos",
@@ -417,7 +417,7 @@ R"(Tempos)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trehears", "trace-rehearsals",
 R"(Rehearsals)",
         "traceRehearsals",
@@ -430,7 +430,7 @@ R"(Rehearsals)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tlbreaks", "trace-line-breaks",
 R"(Line breaks)",
         "traceLineBreaks",
@@ -443,7 +443,7 @@ R"(Line breaks)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tpbreaks", "trace-page-breaks",
 R"(Page breaks)",
         "tracePageBreaks",
@@ -456,7 +456,7 @@ R"(Page breaks)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tschanges", "trace-staff-changes",
 R"(Staff changes)",
         "traceStaffChanges",
@@ -469,7 +469,7 @@ R"(Staff changes)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "ttransps", "trace-transpositions",
 R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
         "traceTranspositions",
@@ -482,7 +482,7 @@ R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "toshifts", "trace-octaves-shifts",
 R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
         "traceOctaveShifts",
@@ -496,7 +496,7 @@ R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tblines", "trace-barlines",
 R"(Barlines)",
         "traceBarlines",
@@ -505,7 +505,7 @@ R"(Barlines)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "tbarlinesd", "trace-barlines-details",
 R"(Barlines details)",
         "traceBarlinesDetails",
@@ -520,7 +520,7 @@ R"(Barlines details)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "treps", "trace-repeats",
 R"(Repeats)",
         "traceRepeats",
@@ -529,7 +529,7 @@ R"(Repeats)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "trepsd", "trace-repeats-details",
 R"(Repeats details)",
         "traceRepeats",
@@ -543,7 +543,7 @@ R"(Repeats details)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tmreps", "trace-measures-repeats",
 R"(Measures repeats)",
         "traceMeasureRepeats",
@@ -556,7 +556,7 @@ R"(Measures repeats)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trmeas", "trace-rest-measures",
 R"(Multiple rests)",
         "traceRestMeasures",
@@ -569,7 +569,7 @@ R"(Multiple rests)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tslashes", "trace-slashes",
 R"(Slashes)",
         "traceSlashes",
@@ -583,7 +583,7 @@ R"(Slashes)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tnotes", "trace-notes",
 R"(Notes)",
         "traceNotes",
@@ -594,7 +594,7 @@ R"(Notes)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "tnotesd", "trace-notes-details",
 R"(Notes with more details, including divisions handling (quite verbose)...
 This option implies '-tnnotes, -traceNotes'.)",
@@ -607,7 +607,7 @@ This option implies '-tnnotes, -traceNotes'.)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "twn", "trace-whole-notes",
 R"(Whole notes computations (quite verbose)...)",
         "traceWholeNotes",
@@ -618,7 +618,7 @@ R"(Whole notes computations (quite verbose)...)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trn", "trace-rest-notes",
 R"(Rest notes)",
         "traceRestNotes",
@@ -629,7 +629,7 @@ R"(Rest notes)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tsn", "trace-skip-notes",
 R"(Skip notes)",
         "traceSkipNotes",
@@ -640,7 +640,7 @@ R"(Skip notes)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tnoe", "trace-notes-octave-entry",
 R"(Notes octave entry)",
         "traceNotesOctaveEntry",
@@ -653,7 +653,7 @@ R"(Notes octave entry)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tstems", "trace-stems",
 R"(Stems)",
         "traceStems",
@@ -666,7 +666,7 @@ R"(Stems)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tbeams", "trace-beams",
 R"(Beams)",
         "traceBeams",
@@ -679,7 +679,7 @@ R"(Beams)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tarts", "trace-articulations",
 R"(Articulations)",
         "traceArticulations",
@@ -692,7 +692,7 @@ R"(Articulations)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "ttechs", "trace-technicals",
 R"(Technicals)",
         "traceTechnicals",
@@ -705,7 +705,7 @@ R"(Technicals)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "torns", "trace-ornaments",
 R"(Ornaments)",
         "traceOrnaments",
@@ -718,7 +718,7 @@ R"(Ornaments)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tdyns", "trace-dynamics",
 R"(Dynamics)",
         "traceDynamics",
@@ -731,7 +731,7 @@ R"(Dynamics)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tspans", "trace-spanners",
 R"(Spanners)",
         "traceSpanners",
@@ -744,7 +744,7 @@ R"(Spanners)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "twords", "trace-words",
 R"(Words)",
         "traceWords",
@@ -757,7 +757,7 @@ R"(Words)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "ttrems", "trace-tremolos",
 R"(Tremolos)",
         "traceTremolos",
@@ -771,7 +771,7 @@ R"(Tremolos)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tchords", "trace-chords",
 R"(Chords)",
         "traceChords",
@@ -780,7 +780,7 @@ R"(Chords)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "tchordsd", "trace-chords-details",
 R"(Chords details)",
         "traceChordsDetails",
@@ -795,7 +795,7 @@ R"(Chords details)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "ttups", "trace-tuplets",
 R"(Tuplets)",
         "traceTuplets",
@@ -804,7 +804,7 @@ R"(Tuplets)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsThreeBooleansItem::create (
+      oahThreeBooleansAtom::create (
         "ttupsd", "trace-tuplets-details",
 R"(Tuplets details)",
         "traceTupletsDetails",
@@ -818,7 +818,7 @@ R"(Tuplets details)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tgliss", "trace-glissandos",
 R"(Glissandos)",
         "traceGlissandos",
@@ -831,7 +831,7 @@ R"(Glissandos)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "teyes", "trace-eyeglasses",
 R"(Eyeglasses)",
         "traceEyeGlasses",
@@ -844,7 +844,7 @@ R"(Eyeglasses)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tdamps", "trace-damps",
 R"(Damps)",
         "traceDamps",
@@ -857,7 +857,7 @@ R"(Damps)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tdampalls", "trace-dampalls",
 R"(Dampalls)",
         "traceDampAlls",
@@ -870,7 +870,7 @@ R"(Dampalls)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tslides", "trace-slides",
 R"(Slides)",
         "traceSlides",
@@ -883,7 +883,7 @@ R"(Slides)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tgraces", "trace-gracenotes",
 R"(Grace notes)",
         "traceGraceNotes",
@@ -897,7 +897,7 @@ R"(Grace notes)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tlyrics", "trace-lyrics",
 R"(Lyrics in MusicXML, stanzas in MSR)",
         "traceLyrics",
@@ -906,7 +906,7 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tlyricsd", "trace-lyrics-details",
 R"(Lyrics in MusicXML, stanzas in MSR)",
         "traceLyricsDetails",
@@ -919,7 +919,7 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tharms", "trace-harmonies",
 R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
         "traceHarmonies",
@@ -932,7 +932,7 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tframes", "trace-frames",
 R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
         "traceFrames",
@@ -945,7 +945,7 @@ R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tfigbass", "trace-figured-basses",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
         "traceFiguredBasses",
@@ -958,7 +958,7 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tties", "trace-ties",
 R"(Ties)",
         "traceTies",
@@ -971,7 +971,7 @@ R"(Ties)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tslurs", "trace-slurs",
 R"(Slurs)",
         "traceSlurs",
@@ -984,7 +984,7 @@ R"(Slurs)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tligs", "traceLigatures",
 R"(Ligatures)",
         "traceLigatures",
@@ -997,7 +997,7 @@ R"(Ligatures)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tpedals", "trace-pedals",
 R"(Pedals)",
         "tracePedals",
@@ -1010,7 +1010,7 @@ R"(Pedals)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "twedges", "trace-wedges",
 R"(Wedges)",
         "traceWedges",
@@ -1023,7 +1023,7 @@ R"(Wedges)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tst", "trace-staff-details",
 R"(Staff details)",
         "traceStaffDetails",
@@ -1036,7 +1036,7 @@ R"(Staff details)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trace-scordaturas", "",
 R"(Scordaturas)",
         "traceScordaturas",
@@ -1049,7 +1049,7 @@ R"(Scordaturas)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trace-segnos", "",
 R"(Segnos)",
         "traceSegnos",
@@ -1062,7 +1062,7 @@ R"(Segnos)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trace-codas", "",
 R"(Codas)",
         "traceCodas",
@@ -1076,7 +1076,7 @@ R"(Codas)",
   // accordion registrations
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trace-accordion-registrations", "",
 R"(Accordion registrations)",
         "traceAccordionRegistrations",
@@ -1089,7 +1089,7 @@ R"(Accordion registrations)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "trace-harp-pedals", "",
 R"(Harp pedals)",
         "traceHarpPedals",
@@ -1102,7 +1102,7 @@ R"(Harp pedals)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "thpt", "traceHarpPedalsTunings",
 R"(Harp pedals tuning)",
         "traceHarpPedalsTunings",
@@ -1115,7 +1115,7 @@ R"(Harp pedals tuning)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tec", "trace-extra-chords",
 R"(Extra chords handling)",
         "traceExtraChords",
@@ -1129,7 +1129,7 @@ R"(Extra chords handling)",
 
   lowLevelTraceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tms", "traceMsrStreams",
 R"(MSR Streams API for applications)",
         "traceMsrStreams",
@@ -1143,7 +1143,7 @@ R"(MSR Streams API for applications)",
 
     lowLevelTraceSubGroup->
       appendOptionsItem (
-        optionsTwoBooleansItem::create (
+        oahTwoBooleansAtom::create (
           "midi", "trace-midi",
 R"(MIDI)",
           "traceMidi",
@@ -2490,11 +2490,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem traceOptions::handleOptionsItem (
+S_optionsValuedItem traceOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   return result;
 }
@@ -2507,7 +2507,7 @@ ostream& operator<< (ostream& os, const S_traceOptions& elt)
 
 //______________________________________________________________________________
 void initializeTraceOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (false && ! gGeneralOptions->fQuiet) { // JMI
@@ -2521,7 +2521,7 @@ void initializeTraceOptionsHandling (
   // ------------------------------------------------------
 
   gTraceOptionsUserChoices = traceOptions::create (
-    optionsHandler);
+    oahHandler);
   assert(gTraceOptionsUserChoices != 0);
 
   gTraceOptions =
@@ -2542,13 +2542,13 @@ void initializeTraceOptionsHandling (
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       traceAndDisplaySubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Trace and display",
           "htd", "help-trace-and-display",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
     appendOptionsSubGroup (traceAndDisplaySubGroup);

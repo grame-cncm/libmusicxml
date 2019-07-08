@@ -33,18 +33,18 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsUTFKindItem optionsUTFKindItem::create (
-  string     optionsItemShortName,
-  string     optionsItemLongName,
-  string     optionsItemDescription,
+  string     oahAtomShortName,
+  string     oahAtomLongName,
+  string     oahAtomDescription,
   string     optionsValueSpecification,
   string     optionsUTFKindItemVariableDisplayName,
   bsrUTFKind optionsUTFKindItemVariable)
 {
   optionsUTFKindItem* o = new
     optionsUTFKindItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsUTFKindItemVariableDisplayName,
       optionsUTFKindItemVariable);
@@ -53,16 +53,16 @@ S_optionsUTFKindItem optionsUTFKindItem::create (
 }
 
 optionsUTFKindItem::optionsUTFKindItem (
-  string     optionsItemShortName,
-  string     optionsItemLongName,
-  string     optionsItemDescription,
+  string     oahAtomShortName,
+  string     oahAtomLongName,
+  string     oahAtomDescription,
   string     optionsValueSpecification,
   string     optionsUTFKindItemVariableDisplayName,
   bsrUTFKind optionsUTFKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsUTFKindItemVariableDisplayName),
     fOptionsUTFKindItemVariable (
@@ -120,18 +120,18 @@ ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsByteOrderingKindItem optionsByteOrderingKindItem::create (
-  string              optionsItemShortName,
-  string              optionsItemLongName,
-  string              optionsItemDescription,
+  string              oahAtomShortName,
+  string              oahAtomLongName,
+  string              oahAtomDescription,
   string              optionsValueSpecification,
   string              optionsByteOrderingKindItemVariableDisplayName,
   bsrByteOrderingKind optionsByteOrderingKindItemVariable)
 {
   optionsByteOrderingKindItem* o = new
     optionsByteOrderingKindItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsByteOrderingKindItemVariableDisplayName,
       optionsByteOrderingKindItemVariable);
@@ -140,16 +140,16 @@ S_optionsByteOrderingKindItem optionsByteOrderingKindItem::create (
 }
 
 optionsByteOrderingKindItem::optionsByteOrderingKindItem (
-  string              optionsItemShortName,
-  string              optionsItemLongName,
-  string              optionsItemDescription,
+  string              oahAtomShortName,
+  string              oahAtomLongName,
+  string              oahAtomDescription,
   string              optionsValueSpecification,
   string              optionsByteOrderingKindItemVariableDisplayName,
   bsrByteOrderingKind optionsByteOrderingKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsByteOrderingKindItemVariableDisplayName),
     fOptionsByteOrderingKindItemVariable (
@@ -211,26 +211,26 @@ S_brailleOptions gBrailleOptionsUserChoices;
 S_brailleOptions gBrailleOptionsWithDetailedTrace;
 
 S_brailleOptions brailleOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   brailleOptions* o = new brailleOptions (
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
   return o;
 }
 
 brailleOptions::brailleOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "Braille",
     "hbrl", "help-braille",
 R"(These options control which Braille code is generated.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -244,13 +244,13 @@ brailleOptions::~brailleOptions ()
 void brailleOptions::initializeBrailleUTFEncodingOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     UTFEncodingSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "UTF encoding",
         "hlpue", "help-utf-encoding",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (UTFEncodingSubGroup);
@@ -273,13 +273,13 @@ which can be one of 8 or 16. Default value is 8.)",
 void brailleOptions::initializeBrailleByteOrderingOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     byteOrderingSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Byte ordering",
         "hlpbo", "help-byte-ordering",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (byteOrderingSubGroup);
@@ -304,13 +304,13 @@ By default, BOM is generated.)",
 void brailleOptions::initializeBrailleMusicFileNameOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     musicFileNameSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Braille music file name",
         "hlpbmfn", "help-braille-music-file-name",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (musicFileNameSubGroup);
@@ -321,7 +321,7 @@ R"()",
 
   musicFileNameSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "ueifn", "use-encoding-in-file-name",
 R"(Append a description of the encoding used
 and the presence of a BOM if any to the file name.)",
@@ -332,13 +332,13 @@ and the presence of a BOM if any to the file name.)",
 void brailleOptions::initializeBraillePageParametersOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     codeGenerationSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Page parameters",
         "hlpbpp", "help-braille-pages-parameters",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (codeGenerationSubGroup);
@@ -385,13 +385,13 @@ R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
 void brailleOptions::initializeBrailleCodeGenerationOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     codeGenerationSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Code generation",
         "hlpcg", "help-braille-code-generation",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (codeGenerationSubGroup);
@@ -402,7 +402,7 @@ R"()",
 
   codeGenerationSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "xi", "xml2brl-infos",
 R"(Generate initial comments showing the compilation date and options.)",
         "xml2brlInfos",
@@ -414,7 +414,7 @@ R"(Generate initial comments showing the compilation date and options.)",
 
   codeGenerationSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "nolpc", "no-braille-code",
 R"(Don't generate any Braille code.
 That can be useful if only a summary of the score is needed.)",
@@ -539,11 +539,11 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem brailleOptions::handleOptionsItem (
+S_optionsValuedItem brailleOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   if (
     // UTF kind item?
@@ -554,7 +554,7 @@ S_optionsItem brailleOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsUTFKindItem'" <<
+        "==> oahAtom is of type 'optionsUTFKindItem'" <<
         endl;
     }
 #endif
@@ -572,7 +572,7 @@ S_optionsItem brailleOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsUTFKindItem'" <<
+        "==> oahAtom is of type 'optionsUTFKindItem'" <<
         endl;
     }
 #endif
@@ -592,7 +592,7 @@ void brailleOptions::handleOptionsUTFKindItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsUTFKindItem'" <<
+      "==> oahAtom is of type 'optionsUTFKindItem'" <<
       endl;
   }
 #endif
@@ -638,7 +638,7 @@ void brailleOptions::handleOptionsByteOrderingKindItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsByteOrderingKindItem'" <<
+      "==> oahAtom is of type 'optionsByteOrderingKindItem'" <<
       endl;
   }
 #endif
@@ -678,7 +678,7 @@ void brailleOptions::handleOptionsByteOrderingKindItemValue (
 
 void brailleOptions::handleOptionsItemValue (
   ostream&      os,
-  S_optionsItem item,
+  S_oahAtom item,
   string        theString)
 {
   if (
@@ -716,7 +716,7 @@ ostream& operator<< (ostream& os, const S_brailleOptions& elt)
 
 //______________________________________________________________________________
 void initializeBrailleOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -730,7 +730,7 @@ void initializeBrailleOptionsHandling (
   // ------------------------------------------------------
 
   gBrailleOptionsUserChoices = brailleOptions::create (
-    optionsHandler);
+    oahHandler);
   assert(gBrailleOptionsUserChoices != 0);
 
   gBrailleOptions =
@@ -755,15 +755,15 @@ void initializeBrailleOptionsHandling (
   {
     // variables
 
-    S_optionsSubGroup
+    S_oahSubGroup
       identificationSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Identification",
           "hlpi", "help-braille-identification",
 R"(These options can be used to enforce values in the generated Braille code,
 thus overriding the ones that may be present in the MSR data.
 )",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (identificationSubGroup);
@@ -935,20 +935,20 @@ R"(Set 'copyright' to STRING in the \header.)",
 
     fInputLineNumbers = boolOptionsInitialValue;
 
-    S_optionsSubGroup
+    S_oahSubGroup
       notesSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Notes",
           "hlpn", "help-braille-notes",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (notesSubGroup);
 
     notesSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "abs", "absolute",
 R"(Generate Braille absolute note octaves.
 By default, relative octaves are generated.)",
@@ -957,7 +957,7 @@ By default, relative octaves are generated.)",
 
     notesSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "alldurs", "all-durations",
 R"(Generate all Braille durations.
 By default, a duration equal to preceding one found in the current voice
@@ -967,7 +967,7 @@ is omitted for code conciseness.)",
 
     notesSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "rsn", "roman-string-numbers",
 R"(Generate '\romanStringNumbers' in each voice
 for Braille to generate roman instead of arabic string numbers.)",
@@ -976,7 +976,7 @@ for Braille to generate roman instead of arabic string numbers.)",
 
     notesSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "aos", "avoid-open-strings",
 R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice
 to prevent Braille from using open strings.)",
@@ -985,7 +985,7 @@ to prevent Braille from using open strings.)",
 
     notesSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "niln", "note-input-line-numbers",
           replaceSubstringInString (
 R"(Generate after each note and barline a comment containing
@@ -1008,20 +1008,20 @@ This is useful when debugging EXECUTABLE.)",
 
     // options
 
-    S_optionsSubGroup
+    S_oahSubGroup
       barsSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Bars",
           "hlpb", "help-braille-bars",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (barsSubGroup);
 
     barsSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "abn", "all-bar-numbers",
 R"(Generate Braille code to show all bar numbers.)",
           "showAllBarNumbers",
@@ -1041,20 +1041,20 @@ R"(Generate Braille code to show all bar numbers.)",
 
     // options
 
-    S_optionsSubGroup
+    S_oahSubGroup
       lineBreaksSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Line breaks",
           "hlplb", "help-braille-line-breaks",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (lineBreaksSubGroup);
 
     lineBreaksSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "ilb", "ignore-line-breaks",
 R"(Ignore the line breaks from the MusicXML input
 and let Braille decide about them.)",
@@ -1063,7 +1063,7 @@ and let Braille decide about them.)",
 
     lineBreaksSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "blairm", "break-lines-at-incomplete-right-measures",
 R"(Generate a '\break' command at the end of incomplete right measures
 which is handy in popular folk dances and tunes.)",
@@ -1082,20 +1082,20 @@ which is handy in popular folk dances and tunes.)",
 
     // options
 
-    S_optionsSubGroup
+    S_oahSubGroup
       pageBreaksSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Page breaks",
           "hlppb", "help-braille-page-breaks",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (pageBreaksSubGroup);
 
     pageBreaksSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "ipb", "ignore-page-breaks",
 R"(Ignore the page breaks from the MusicXML input
 and let Braille decide about them.)",

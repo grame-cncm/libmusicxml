@@ -49,18 +49,18 @@ string facSimileKindAsString (
 
 //______________________________________________________________________________
 S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
-  string           optionsItemShortName,
-  string           optionsItemLongName,
-  string           optionsItemDescription,
+  string           oahAtomShortName,
+  string           oahAtomLongName,
+  string           oahAtomDescription,
   string           optionsValueSpecification,
   string           optionsFacSimileKindItemVariableDisplayName,
   bsrFacSimileKind optionsFacSimileKindItemVariable)
 {
   optionsFacSimileKindItem* o = new
     optionsFacSimileKindItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsFacSimileKindItemVariableDisplayName,
       optionsFacSimileKindItemVariable);
@@ -69,16 +69,16 @@ S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
 }
 
 optionsFacSimileKindItem::optionsFacSimileKindItem (
-  string           optionsItemShortName,
-  string           optionsItemLongName,
-  string           optionsItemDescription,
+  string           oahAtomShortName,
+  string           oahAtomLongName,
+  string           oahAtomDescription,
   string           optionsValueSpecification,
   string           optionsFacSimileKindItemVariableDisplayName,
   bsrFacSimileKind optionsFacSimileKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsFacSimileKindItemVariableDisplayName),
     fOptionsFacSimileKindItemVariable (
@@ -136,9 +136,9 @@ ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsBsrTextsLanguageItem optionsBsrTextsLanguageItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsBsrTextsLanguageKindItemVariableDisplayName,
   bsrTextsLanguageKind&
@@ -146,9 +146,9 @@ S_optionsBsrTextsLanguageItem optionsBsrTextsLanguageItem::create (
 {
   optionsBsrTextsLanguageItem* o = new
     optionsBsrTextsLanguageItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsBsrTextsLanguageKindItemVariableDisplayName,
       optionsBsrTextsLanguageKindItemVariable);
@@ -157,17 +157,17 @@ S_optionsBsrTextsLanguageItem optionsBsrTextsLanguageItem::create (
 }
 
 optionsBsrTextsLanguageItem::optionsBsrTextsLanguageItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
+  string             oahAtomShortName,
+  string             oahAtomLongName,
+  string             oahAtomDescription,
   string             optionsValueSpecification,
   string             optionsBsrTextsLanguageKindItemVariableDisplayName,
   bsrTextsLanguageKind&
                      optionsBsrTextsLanguageKindItemVariable)
   : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription,
       optionsValueSpecification,
       optionsBsrTextsLanguageKindItemVariableDisplayName),
     fOptionsBsrTextsLanguageKindItemVariable (
@@ -228,26 +228,26 @@ S_bsrOptions gBsrOptionsUserChoices;
 S_bsrOptions gBsrOptionsWithDetailedTrace;
 
 S_bsrOptions bsrOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   bsrOptions* o = new bsrOptions (
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
   return o;
 }
 
 bsrOptions::bsrOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "BSR",
     "hbsr", "help-bsr",
 R"(These options control the way BSR data is handled.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -261,13 +261,13 @@ bsrOptions::~bsrOptions ()
 void bsrOptions::initializeBsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     traceAndDisplaySubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Display",
         "hbsrtd", "help-bsr-display",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -278,7 +278,7 @@ R"()",
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "dbsr", "display-bsr",
 R"(Write the contents of the BSR data to standard error.)",
         "displayBsr",
@@ -291,7 +291,7 @@ R"(Write the contents of the BSR data to standard error.)",
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "dbsrd", "display-bsr-details",
 R"(Write the contents of the BSR data with more details to standard error.)",
         "displayBsrDetails",
@@ -302,13 +302,13 @@ R"(Write the contents of the BSR data with more details to standard error.)",
 void bsrOptions::initializeBsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     languagesSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Languages",
         "hbsrl", "help-bsr-languages",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (languagesSubGroup);
@@ -369,13 +369,13 @@ The default is 'DEFAULT_VALUE'.)",
 void bsrOptions::initializeBsrMiscellaneousOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     miscellaneousGenerationSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Miscellaneous",
         "hlpm", "help-miscellaneous",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (miscellaneousGenerationSubGroup);
@@ -386,7 +386,7 @@ R"()",
 
   miscellaneousGenerationSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "nolpl", "no-braille-lyrics",
 R"(Don't generate any lyrics in the Braille code.)",
         "noBrailleLyrics",
@@ -398,7 +398,7 @@ R"(Don't generate any lyrics in the Braille code.)",
 
   miscellaneousGenerationSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "lpcd", "braille-compile-date",
 R"(Generate code to include the compilation date
 when Braille creates the score.)",
@@ -425,7 +425,7 @@ By default, non-facsimile code is generated.)",
 
   miscellaneousGenerationSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "clefs", "",
 R"(Include clefs in BSR. By default, they are not.)",
         "includeClefs",
@@ -435,13 +435,13 @@ R"(Include clefs in BSR. By default, they are not.)",
 void bsrOptions::initializeBsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     exitAfterSomePassesSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Exit after some passes",
         "hbe", "help-bsr-exit",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
@@ -450,9 +450,9 @@ R"()",
 
   fExit3a = boolOptionsInitialValue;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     exit2aOptionsBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "e3a", "exit-3a",
 R"(Exit after pass 3a, i.e. after conversion
 of the MSR to the first BSR score.)",
@@ -471,9 +471,9 @@ of the MSR to the first BSR score.)",
 
   fExit3b = boolOptionsInitialValue;
 
-  S_optionsBooleanItem
+  S_oahBooleanAtom
     exit2bOptionsBooleanItem =
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "e3b", "exit-3b",
 R"(Exit after pass 3b, i.e. after conversion
 of the first BSR to the second BSR.)",
@@ -493,14 +493,14 @@ of the first BSR to the second BSR.)",
 void bsrOptions::initializeBsrTraceOptions (
   bool boolOptionsInitialValue)
 {
-  S_optionsSubGroup
+  S_oahSubGroup
     traceSubGroup =
-      optionsSubGroup::create (
+      oahSubGroup::create (
         "Trace",
         "hbst", "help-bsr-trace",
 R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
-// JMI        optionsSubGroup::kHideDescriptionByDefault,
-      optionsSubGroup::kAlwaysShowDescription,
+// JMI        oahSubGroup::kHideDescriptionByDefault,
+      oahSubGroup::kAlwaysShowDescription,
       this);
 
   appendOptionsSubGroup (traceSubGroup);
@@ -511,7 +511,7 @@ R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tbsr", "trace-bsr",
 R"(Write a trace of the BSR graphs visiting activity to standard error.)",
         "traceBsr",
@@ -523,7 +523,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tpages", "trace-pages",
 R"()",
         "tracePages",
@@ -536,7 +536,7 @@ R"()",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tlines", "trace-lines",
 R"()",
         "traceLines",
@@ -548,7 +548,7 @@ R"()",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tspaces", "trace-spaces",
 R"(Write a trace of the BSR spaces activity to standard error.)",
         "traceSpaces",
@@ -560,7 +560,7 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tnums", "trace-numbers",
 R"(Write a trace of the BSR numbers activity to standard error.)",
         "traceNumbers",
@@ -572,7 +572,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsTwoBooleansItem::create (
+      oahTwoBooleansAtom::create (
         "tpars", "trace-parallels",
 R"()",
         "traceParallels",
@@ -585,7 +585,7 @@ R"()",
 
   traceSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
+      oahBooleanAtom::create (
         "tbsrv", "trace-bsr-visitors",
 R"(Write a trace of the BSR tree visiting activity to standard error.)",
         "traceBsrVisitors",
@@ -799,11 +799,11 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem bsrOptions::handleOptionsItem (
+S_optionsValuedItem bsrOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
   if (
     // BSR texts language item?
@@ -814,7 +814,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsBsrTextsLanguageItem'" <<
+        "==> oahAtom is of type 'optionsBsrTextsLanguageItem'" <<
         endl;
     }
 #endif
@@ -832,7 +832,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsBsrTextsLanguageItem'" <<
+        "==> oahAtom is of type 'optionsBsrTextsLanguageItem'" <<
         endl;
     }
 #endif
@@ -846,7 +846,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
 
 void bsrOptions::handleOptionsItemValue (
   ostream&      os,
-  S_optionsItem item,
+  S_oahAtom item,
   string        theString)
 {
 }
@@ -859,7 +859,7 @@ ostream& operator<< (ostream& os, const S_bsrOptions& elt)
 
 //______________________________________________________________________________
 void initializeBsrOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -873,7 +873,7 @@ void initializeBsrOptionsHandling (
   // ------------------------------------------------------
 
   gBsrOptionsUserChoices = bsrOptions::create (
-    optionsHandler);
+    oahHandler);
   assert(gBsrOptionsUserChoices != 0);
 
   gBsrOptions =

@@ -43,27 +43,27 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2lyOptionsVersionItem xml2lyOptionsVersionItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
 {
   xml2lyOptionsVersionItem* o = new
     xml2lyOptionsVersionItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription);
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription);
   assert(o!=0);
   return o;
 }
 
 xml2lyOptionsVersionItem::xml2lyOptionsVersionItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
+  : oahAtom (
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription)
 {}
 
 xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem ()
@@ -79,7 +79,7 @@ void xml2lyOptionsVersionItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -120,27 +120,27 @@ ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt)
 
 //______________________________________________________________________________
 S_xml2lyOptionsAboutItem xml2lyOptionsAboutItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
 {
   xml2lyOptionsAboutItem* o = new
     xml2lyOptionsAboutItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription);
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription);
   assert(o!=0);
   return o;
 }
 
 xml2lyOptionsAboutItem::xml2lyOptionsAboutItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
+  : oahAtom (
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription)
 {}
 
 xml2lyOptionsAboutItem::~xml2lyOptionsAboutItem ()
@@ -156,7 +156,7 @@ void xml2lyOptionsAboutItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -210,27 +210,27 @@ ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt)
 
 //______________________________________________________________________________
 S_xml2lyOptionsContactItem xml2lyOptionsContactItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
 {
   xml2lyOptionsContactItem* o = new
     xml2lyOptionsContactItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription);
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription);
   assert(o!=0);
   return o;
 }
 
 xml2lyOptionsContactItem::xml2lyOptionsContactItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription)
+  string oahAtomShortName,
+  string oahAtomLongName,
+  string oahAtomDescription)
+  : oahAtom (
+      oahAtomShortName,
+      oahAtomLongName,
+      oahAtomDescription)
 {}
 
 xml2lyOptionsContactItem::~xml2lyOptionsContactItem ()
@@ -246,7 +246,7 @@ void xml2lyOptionsContactItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsElement::printElementEssentials (
+  oahElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -300,7 +300,7 @@ S_xml2lyOptionsHandler xml2lyOptionsHandler::create (
 xml2lyOptionsHandler::xml2lyOptionsHandler (
   string           executableName,
   indentedOstream& ios)
-  : optionsHandler (
+  : oahHandler (
     "Available options",
     "Options values",
     "h", "help",
@@ -473,7 +473,8 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     }
     else {
       fOptionsHandlerlogIOstream <<
-        "There are no arguments" <<
+        "There are no arguments to " <<
+        gGeneralOptions->fExecutableName <<
         endl;
     }
   }
@@ -692,7 +693,7 @@ void xml2lyOptionsHandler::print (ostream& os) const
 
     gIndenter++;
 
-    list<S_optionsGroup>::const_iterator
+    list<S_oahGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -721,27 +722,27 @@ ostream& operator<< (ostream& os, const S_xml2lyOptionsHandler& elt)
 S_xml2lyOptions gXml2lyOptions;
 
 S_xml2lyOptions xml2lyOptions::create (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
   xml2lyOptions* o = new xml2lyOptions (
-    optionsHandler);
+    oahHandler);
   assert(o!=0);
 
   return o;
 }
 
 xml2lyOptions::xml2lyOptions (
-  S_optionsHandler optionsHandler)
-  : optionsGroup (
+  S_oahHandler oahHandler)
+  : oahGroup (
     "xml2ly",
     "hx", "help-xml2ly",
 R"(Options that are used by xml2ly are grouped here.)",
-    optionsHandler)
+    oahHandler)
 {
   // append this options group to the options handler
   // if relevant
-  if (optionsHandler) {
-    optionsHandler->
+  if (oahHandler) {
+    oahHandler->
       appendOptionsGroupToHandler (this);
   }
 
@@ -758,13 +759,13 @@ void xml2lyOptions::initializeXml2lyOptions ()
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       versionSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Version",
           "hxv", "help-xml2ly-version",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (versionSubGroup);
@@ -783,13 +784,13 @@ R"(Display xml2ly's version number and history and exit.)"));
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       aboutSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "About",
           "hxa", "help-xml2ly-about",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (aboutSubGroup);
@@ -808,13 +809,13 @@ R"(Display information about xml2ly and exit.)"));
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       contactSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Contact",
           "hxc", "help-xml2ly-contact",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (contactSubGroup);
@@ -833,13 +834,13 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   // --------------------------------------
 
   {
-    S_optionsSubGroup
+    S_oahSubGroup
       outputFileSubGroup =
-        optionsSubGroup::create (
+        oahSubGroup::create (
           "Output file",
           "hxof", "help-xml2ly-output-file",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (outputFileSubGroup);
@@ -861,7 +862,7 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
 
     outputFileSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        oahBooleanAtom::create (
           "aof", "auto-output-filename",
 R"(This option can only be used when reading from a file.
 Write LilyPond code to a file in the current working directory.
@@ -899,11 +900,11 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsItem xml2lyOptions::handleOptionsItem (
+S_optionsValuedItem xml2lyOptions::handleOptionsItem (
   ostream&      os,
-  S_optionsItem item)
+  S_oahAtom item)
 {
-  S_optionsItem result;
+  S_optionsValuedItem result;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -924,7 +925,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> optionsItem is of type 'optionsVersionItem'" <<
+        "==> oahAtom is of type 'optionsVersionItem'" <<
         endl;
     }
 #endif
@@ -946,7 +947,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> optionsItem is of type 'optionsAboutItem'" <<
+        "==> oahAtom is of type 'optionsAboutItem'" <<
         endl;
     }
 #endif
@@ -968,7 +969,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> optionsItem is of type 'optionsContactItem'" <<
+        "==> oahAtom is of type 'optionsContactItem'" <<
         endl;
     }
 #endif
@@ -986,7 +987,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 
 //______________________________________________________________________________
 void initializeXml2lyOptionsHandling (
-  S_optionsHandler optionsHandler)
+  S_oahHandler oahHandler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1011,7 +1012,7 @@ void initializeXml2lyOptionsHandling (
   // ------------------------------------------------------
 
   gXml2lyOptions = xml2lyOptions::create (
-    optionsHandler);
+    oahHandler);
   assert (gXml2lyOptions != 0);
 }
 
