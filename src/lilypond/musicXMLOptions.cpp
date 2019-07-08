@@ -476,11 +476,11 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem musicXMLOptions::handleOptionsItem (
+S_oahValuedAtom musicXMLOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   return result;
 }

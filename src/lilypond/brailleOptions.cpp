@@ -59,7 +59,7 @@ optionsUTFKindItem::optionsUTFKindItem (
   string     optionsValueSpecification,
   string     optionsUTFKindItemVariableDisplayName,
   bsrUTFKind optionsUTFKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -146,7 +146,7 @@ optionsByteOrderingKindItem::optionsByteOrderingKindItem (
   string              optionsValueSpecification,
   string              optionsByteOrderingKindItemVariableDisplayName,
   bsrByteOrderingKind optionsByteOrderingKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -348,7 +348,7 @@ R"()",
   fCellsPerLine = 30;
   codeGenerationSubGroup->
     appendOptionsItem (
-      optionsIntegerItem::create (
+      oahIntegerAtom::create (
         "cpl", "cells-per-line",
 R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
         "N",
@@ -361,7 +361,7 @@ R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
 
   codeGenerationSubGroup->
     appendOptionsItem (
-      optionsIntegerItem::create (
+      oahIntegerAtom::create (
         "mpl", "measures-per-line",
 R"(Set the number of Braille measures per line to N. Default is 7.)",
         "N",
@@ -374,7 +374,7 @@ R"(Set the number of Braille measures per line to N. Default is 7.)",
 
   codeGenerationSubGroup->
     appendOptionsItem (
-      optionsIntegerItem::create (
+      oahIntegerAtom::create (
         "lpp", "lines-per-page",
 R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
         "N",
@@ -539,11 +539,11 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem brailleOptions::handleOptionsItem (
+S_oahValuedAtom brailleOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   if (
     // UTF kind item?
@@ -772,7 +772,7 @@ thus overriding the ones that may be present in the MSR data.
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "rights", "",
 R"(Set the 'rights' to STRING in the Braille code.)",
           "STRING",
@@ -781,7 +781,7 @@ R"(Set the 'rights' to STRING in the Braille code.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "composer", "",
 R"(Set the 'composer' to STRING in the Braille code.)",
           "STRING",
@@ -790,7 +790,7 @@ R"(Set the 'composer' to STRING in the Braille code.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "arranger", "",
 R"(Set the 'arranger' to STRING in the Braille code.)",
           "STRING",
@@ -799,7 +799,7 @@ R"(Set the 'arranger' to STRING in the Braille code.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "poet", "",
 R"(Set the 'poet' to STRING in the Braille code.)",
           "STRING",
@@ -808,7 +808,7 @@ R"(Set the 'poet' to STRING in the Braille code.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "lyricist", "",
 R"(Set the 'lyricist' to STRING in the Braille code.)",
           "STRING",
@@ -817,7 +817,7 @@ R"(Set the 'lyricist' to STRING in the Braille code.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "software", "",
 R"(Set the 'software' to STRING in the Braille code.)",
           "STRING",
@@ -828,7 +828,7 @@ R"(Set the 'software' to STRING in the Braille code.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "dedication", "",
 R"(Set 'dedication' to STRING in the \header.)",
           "STRING",
@@ -837,7 +837,7 @@ R"(Set 'dedication' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "piece", "",
 R"(Set 'piece' to STRING in the \header.)",
           "STRING",
@@ -846,7 +846,7 @@ R"(Set 'piece' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "opus", "",
 R"(Set 'opus' to STRING in the \header.)",
           "STRING",
@@ -855,7 +855,7 @@ R"(Set 'opus' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "title", "",
 R"(Set 'title' to STRING in the \header.)",
           "STRING",
@@ -864,7 +864,7 @@ R"(Set 'title' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "stitle", "subtitle",
 R"(Set 'subtitle' to STRING in the \header.)",
           "STRING",
@@ -873,7 +873,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "sstitle", "subsubtitle",
 R"(Set 'subsubtitle' to STRING in the \header.)",
           "STRING",
@@ -882,7 +882,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "instrument", "",
 R"(Set 'instrument' to STRING in the \header.)",
           "STRING",
@@ -891,7 +891,7 @@ R"(Set 'instrument' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "meter", "",
 R"(Set 'meter' to STRING in the \header.)",
           "STRING",
@@ -900,7 +900,7 @@ R"(Set 'meter' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "tagline", "",
 R"(Set 'tagline' to STRING in the \header.)",
           "STRING",
@@ -909,7 +909,7 @@ R"(Set 'tagline' to STRING in the \header.)",
 
     identificationSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "copyright", "",
 R"(Set 'copyright' to STRING in the \header.)",
           "STRING",

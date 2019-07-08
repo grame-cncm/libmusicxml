@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsPartRenameItem : public optionsValuedItem
+class optionsPartRenameItem : public oahValuedAtom
 {
   public:
 
@@ -97,7 +97,7 @@ typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
 EXP ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
 
 //______________________________________________________________________________
-class optionsPartTransposeItem : public optionsValuedItem
+class optionsPartTransposeItem : public oahValuedAtom
 {
   public:
 
@@ -174,7 +174,7 @@ typedef SMARTP<optionsPartTransposeItem> S_optionsPartTransposeItem;
 EXP ostream& operator<< (ostream& os, const S_optionsPartTransposeItem& elt);
 
 //______________________________________________________________________________
-class optionsMsrPitchesLanguageItem : public optionsValuedItem
+class optionsMsrPitchesLanguageItem : public oahValuedAtom
 {
   public:
 
@@ -293,7 +293,7 @@ class msrOptions : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsValuedItem
+    virtual S_oahValuedAtom
                           handleOptionsItem (
                             ostream&      os,
                             S_oahAtom item);

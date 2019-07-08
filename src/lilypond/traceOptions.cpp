@@ -2490,11 +2490,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem traceOptions::handleOptionsItem (
+S_oahValuedAtom traceOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   return result;
 }
@@ -2559,7 +2559,7 @@ R"()",
 
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        optionsNumbersSetItem::create (
+        oahNumbersSetAtom::create (
           "tdetail", "trace-detailed",
 R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
 where '^' excludes the corresponding numbers interval

@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsScoreOutputKindItem : public optionsValuedItem
+class optionsScoreOutputKindItem : public oahValuedAtom
 {
   public:
 
@@ -88,7 +88,7 @@ typedef SMARTP<optionsScoreOutputKindItem> S_optionsScoreOutputKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt);
 
 //______________________________________________________________________________
-class optionsAbsoluteOctaveEntryItem : public oahAtomWithVariableDisplayName
+class optionsAbsoluteOctaveEntryItem : public oahAtomWithVariableName
 {
   public:
 
@@ -143,7 +143,7 @@ typedef SMARTP<optionsAbsoluteOctaveEntryItem> S_optionsAbsoluteOctaveEntryItem;
 EXP ostream& operator<< (ostream& os, const S_optionsAbsoluteOctaveEntryItem& elt);
 
 //______________________________________________________________________________
-class optionsRelativeOctaveEntryItem : public optionsValuedItem
+class optionsRelativeOctaveEntryItem : public oahValuedAtom
 {
   public:
 
@@ -210,7 +210,7 @@ typedef SMARTP<optionsRelativeOctaveEntryItem> S_optionsRelativeOctaveEntryItem;
 EXP ostream& operator<< (ostream& os, const S_optionsRelativeOctaveEntryItem& elt);
 
 //______________________________________________________________________________
-class optionsFixedOctaveEntryItem : public optionsValuedItem
+class optionsFixedOctaveEntryItem : public oahValuedAtom
 {
   public:
 
@@ -277,7 +277,7 @@ typedef SMARTP<optionsFixedOctaveEntryItem> S_optionsFixedOctaveEntryItem;
 EXP ostream& operator<< (ostream& os, const S_optionsFixedOctaveEntryItem& elt);
 
 //______________________________________________________________________________
-class optionsAccidentalStyleKindItem : public optionsValuedItem
+class optionsAccidentalStyleKindItem : public oahValuedAtom
 {
   public:
 
@@ -344,7 +344,7 @@ typedef SMARTP<optionsAccidentalStyleKindItem> S_optionsAccidentalStyleKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsAccidentalStyleKindItem& elt);
 
 //______________________________________________________________________________
-class optionsChordsDisplayItem : public optionsValuedItem
+class optionsChordsDisplayItem : public oahValuedAtom
 {
   public:
 
@@ -418,7 +418,7 @@ typedef SMARTP<optionsChordsDisplayItem> S_optionsChordsDisplayItem;
 EXP ostream& operator<< (ostream& os, const S_optionsChordsDisplayItem& elt);
 
 //______________________________________________________________________________
-class optionsMidiTempoItem : public optionsValuedItem
+class optionsMidiTempoItem : public oahValuedAtom
 {
   public:
 
@@ -584,7 +584,7 @@ class lilypondOptions : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsValuedItem
+    virtual S_oahValuedAtom
                           handleOptionsItem (
                             ostream&      os,
                             S_oahAtom item);

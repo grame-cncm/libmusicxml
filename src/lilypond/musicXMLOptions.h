@@ -78,7 +78,7 @@ class musicXMLOptions : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsValuedItem
+    virtual S_oahValuedAtom
                           handleOptionsItem (
                             ostream&      os,
                             S_oahAtom item);

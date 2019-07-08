@@ -61,7 +61,7 @@ optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
   string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
   lpsrScoreOutputKind&
                      optionsLpsrScoreOutputKindKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -150,7 +150,7 @@ optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
   string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsLpsrPitchesLanguageKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -239,7 +239,7 @@ optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
   string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
   lpsrChordsLanguageKind&
                      optionsLpsrChordsLanguageKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -327,7 +327,7 @@ optionsLpsrTransposeItem::optionsLpsrTransposeItem (
   string  optionsLpsrTransposeItemVariableDisplayName,
   S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -356,7 +356,7 @@ void optionsLpsrTransposeItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -553,7 +553,7 @@ R"()",
 
   lilypondOutputKindGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "lpv", "lilypond-version",
         replaceSubstringInString (
 R"(Set the LilyPond '\version' to STRING in the LilyPond code.
@@ -604,7 +604,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   lilypondOutputKindGroup->
     appendOptionsItem (
-      optionsFloatItem::create (
+      oahFloatAtom::create (
         "gss", "global-staff-size",
         replaceSubstringInString (
 R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
@@ -1163,11 +1163,11 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem lpsrOptions::handleOptionsItem (
+S_oahValuedAtom lpsrOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   if (
     // LPSR score output kind item?

@@ -78,7 +78,7 @@ void optionsShowAllChordsStructuresItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -131,7 +131,7 @@ optionsShowAllChordsContentsItem::optionsShowAllChordsContentsItem (
   string  optionsValueSpecification,
   string  optionsShowAllChordsContentsItemVariableDisplayName,
   string& optionsShowAllChordsContentsItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -160,7 +160,7 @@ void optionsShowAllChordsContentsItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -217,7 +217,7 @@ optionsShowChordDetailsItem::optionsShowChordDetailsItem (
   string  optionsValueSpecification,
   string  optionsShowChordDetailsItemVariableDisplayName,
   string& optionsShowChordDetailsItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -246,7 +246,7 @@ void optionsShowChordDetailsItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -294,7 +294,7 @@ optionsShowChordAnalysisItem::optionsShowChordAnalysisItem (
   string  optionsValueSpecification,
   string  optionsShowChordAnalysisItemVariableDisplayName,
   string& optionsShowChordAnalysisItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -323,7 +323,7 @@ void optionsShowChordAnalysisItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -597,11 +597,11 @@ void extraOptions::printExtraOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem extraOptions::handleOptionsItem (
+S_oahValuedAtom extraOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   if (
     // show all chords structures item?

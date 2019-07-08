@@ -62,7 +62,7 @@ optionsScoreOutputKindItem::optionsScoreOutputKindItem (
   string             optionsScoreOutputKindItemVariableDisplayName,
   lpsrScoreOutputKind&
                      optionsScoreOutputKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -143,7 +143,7 @@ optionsAbsoluteOctaveEntryItem::optionsAbsoluteOctaveEntryItem (
   string oahAtomLongName,
   string oahAtomDescription,
   string optionsAbsoluteOctaveEntryItemVariableDisplayName)
-  : oahAtomWithVariableDisplayName (
+  : oahAtomWithVariableName (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -169,7 +169,7 @@ void optionsAbsoluteOctaveEntryItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -218,7 +218,7 @@ optionsRelativeOctaveEntryItem::optionsRelativeOctaveEntryItem (
   string  optionsRelativeOctaveEntryItemVariableDisplayName,
   S_msrSemiTonesPitchAndOctave&
           optionsRelativeOctaveEntryItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -247,7 +247,7 @@ void optionsRelativeOctaveEntryItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -310,7 +310,7 @@ optionsFixedOctaveEntryItem::optionsFixedOctaveEntryItem (
   string  optionsFixedOctaveEntryItemVariableDisplayName,
   S_msrSemiTonesPitchAndOctave&
           optionsFixedOctaveEntryItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -339,7 +339,7 @@ void optionsFixedOctaveEntryItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -402,7 +402,7 @@ optionsAccidentalStyleKindItem::optionsAccidentalStyleKindItem (
   string             optionsAccidentalStyleKindItemVariableDisplayName,
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -491,7 +491,7 @@ optionsChordsDisplayItem::optionsChordsDisplayItem (
   string                optionsChordsDisplayItemVariableDisplayName,
   list<pair<string, string> >&
                         optionsChordsDisplayItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -608,7 +608,7 @@ optionsMidiTempoItem::optionsMidiTempoItem (
   string             optionsValueSpecification,
   string             optionsMidiTempoItemVariableDisplayName,
   pair<string, int>& optionsMidiTempoItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -723,7 +723,7 @@ thus overriding the ones that may be present in the MSR data.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "rights", "",
 R"(Set the 'rights' to STRING in the LilyPond code.)",
         "STRING",
@@ -732,7 +732,7 @@ R"(Set the 'rights' to STRING in the LilyPond code.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "composer", "",
 R"(Set the 'composer' to STRING in the LilyPond code.)",
         "STRING",
@@ -741,7 +741,7 @@ R"(Set the 'composer' to STRING in the LilyPond code.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "arranger", "",
 R"(Set the 'arranger' to STRING in the LilyPond code.)",
         "STRING",
@@ -750,7 +750,7 @@ R"(Set the 'arranger' to STRING in the LilyPond code.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "poet", "",
 R"(Set the 'poet' to STRING in the LilyPond code.)",
         "STRING",
@@ -759,7 +759,7 @@ R"(Set the 'poet' to STRING in the LilyPond code.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "lyricist", "",
 R"(Set the 'lyricist' to STRING in the LilyPond code.)",
         "STRING",
@@ -768,7 +768,7 @@ R"(Set the 'lyricist' to STRING in the LilyPond code.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "software", "",
 R"(Set the 'software' to STRING in the LilyPond code.)",
         "STRING",
@@ -779,7 +779,7 @@ R"(Set the 'software' to STRING in the LilyPond code.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "dedication", "",
 R"(Set 'dedication' to STRING in the \header.)",
         "STRING",
@@ -788,7 +788,7 @@ R"(Set 'dedication' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "piece", "",
 R"(Set 'piece' to STRING in the \header.)",
         "STRING",
@@ -797,7 +797,7 @@ R"(Set 'piece' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "opus", "",
 R"(Set 'opus' to STRING in the \header.)",
         "STRING",
@@ -806,7 +806,7 @@ R"(Set 'opus' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "title", "",
 R"(Set 'title' to STRING in the \header.)",
         "STRING",
@@ -815,7 +815,7 @@ R"(Set 'title' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "stitle", "subtitle",
 R"(Set 'subtitle' to STRING in the \header.)",
         "STRING",
@@ -824,7 +824,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "sstitle", "subsubtitle",
 R"(Set 'subsubtitle' to STRING in the \header.)",
         "STRING",
@@ -833,7 +833,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "instrument", "",
 R"(Set 'instrument' to STRING in the \header.)",
         "STRING",
@@ -842,7 +842,7 @@ R"(Set 'instrument' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "meter", "",
 R"(Set 'meter' to STRING in the \header.)",
         "STRING",
@@ -851,7 +851,7 @@ R"(Set 'meter' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "tagline", "",
 R"(Set 'tagline' to STRING in the \header.)",
         "STRING",
@@ -860,7 +860,7 @@ R"(Set 'tagline' to STRING in the \header.)",
 
   identificationSubGroup->
     appendOptionsItem (
-      optionsStringItem::create (
+      oahStringAtom::create (
         "copyright", "",
 R"(Set 'copyright' to STRING in the \header.)",
         "STRING",
@@ -1200,7 +1200,7 @@ which is handy in popular folk dances and tunes.)",
 
   lineBreaksSubGroup->
     appendOptionsItem (
-      optionsIntegerItem::create (
+      oahIntegerAtom::create (
         "slenm", "separator-line-every-n-measures",
 R"(Generate an additional separator line for readability every N measures,
 where N is a positive integer.
@@ -1404,7 +1404,7 @@ R"()",
 
   ornamentsSubGroup->
     appendOptionsItem (
-      optionsRationalItem::create (
+      oahRationalAtom::create (
         "dof", "delayed-ornaments-fraction",
         replaceSubstringInString (
 R"(Place the delayed turn/reverseturn at the given fraction
@@ -3029,11 +3029,11 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem lilypondOptions::handleOptionsItem (
+S_oahValuedAtom lilypondOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   if (
     // absolute octave entry item?

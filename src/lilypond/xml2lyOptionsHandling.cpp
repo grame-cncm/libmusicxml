@@ -85,7 +85,7 @@ void xml2lyOptionsVersionItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -162,7 +162,7 @@ void xml2lyOptionsAboutItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -252,7 +252,7 @@ void xml2lyOptionsContactItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
+      fDescription) <<
     endl;
   gIndenter--;
 
@@ -322,34 +322,34 @@ Option '-h, -help' prints the full help,
   initializeOptionsHandler (executableName);
 
   // append the help options prefixes
-  S_optionsPrefix
+  S_oahPrefix
     helpPrefix =
-      optionsPrefix::create (
+      oahPrefix::create (
         "help",
         "help-",
         "'-help=abc,xywx-yz' is equivalent to '-help-abc, -help-xywx-yz'");
   appendOptionsPrefixToHandler (helpPrefix);
 
-  S_optionsPrefix
+  S_oahPrefix
     hPrefix =
-      optionsPrefix::create (
+      oahPrefix::create (
         "h",
         "h",
         "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'");
   appendOptionsPrefixToHandler (hPrefix);
 
   // append the trace options prefixes
-  S_optionsPrefix
+  S_oahPrefix
     tracePrefix =
-      optionsPrefix::create (
+      oahPrefix::create (
         "trace",
         "trace-",
         "'-trace=abc,xywx-yz' is equivalent to '-trace-abc, -trace-xywx-yz'");
   appendOptionsPrefixToHandler (tracePrefix);
 
-  S_optionsPrefix
+  S_oahPrefix
     tPrefix =
-      optionsPrefix::create (
+      oahPrefix::create (
         "t",
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
@@ -671,13 +671,13 @@ void xml2lyOptionsHandler::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+    "fShortName" << " : " << fShortName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+    "fLongName" << " : " << fLongName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+    "fDescription" << " : " << fDescription <<
     endl <<
     endl;
 
@@ -849,7 +849,7 @@ R"()",
 
     outputFileSubGroup->
       appendOptionsItem (
-        optionsStringItem::create (
+        oahStringAtom::create (
           "o", "output-filename",
 R"(Write LilyPond code to file FILENAME instead of standard output.)",
           "FILENAME",
@@ -900,11 +900,11 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem xml2lyOptions::handleOptionsItem (
+S_oahValuedAtom xml2lyOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {

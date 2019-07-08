@@ -80,7 +80,7 @@ typedef SMARTP<optionsShowAllChordsStructuresItem> S_optionsShowAllChordsStructu
 EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& elt);
 
 //______________________________________________________________________________
-class optionsShowAllChordsContentsItem : public optionsValuedItem
+class optionsShowAllChordsContentsItem : public oahValuedAtom
 {
   public:
 
@@ -92,8 +92,8 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      string  oahStringAtomVariableDisplayName,
+      string& oahStringAtomVariable);
 
   protected:
 
@@ -105,8 +105,8 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      string  oahStringAtomVariableDisplayName,
+      string& oahStringAtomVariable);
 
     virtual ~optionsShowAllChordsContentsItem ();
 
@@ -148,7 +148,7 @@ typedef SMARTP<optionsShowAllChordsContentsItem> S_optionsShowAllChordsContentsI
 EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt);
 
 //______________________________________________________________________________
-class optionsShowChordDetailsItem : public optionsValuedItem
+class optionsShowChordDetailsItem : public oahValuedAtom
 {
   public:
 
@@ -160,8 +160,8 @@ class optionsShowChordDetailsItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      string  oahStringAtomVariableDisplayName,
+      string& oahStringAtomVariable);
 
   protected:
 
@@ -173,8 +173,8 @@ class optionsShowChordDetailsItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      string  oahStringAtomVariableDisplayName,
+      string& oahStringAtomVariable);
 
     virtual ~optionsShowChordDetailsItem ();
 
@@ -212,7 +212,7 @@ typedef SMARTP<optionsShowChordDetailsItem> S_optionsShowChordDetailsItem;
 EXP ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt);
 
 //______________________________________________________________________________
-class optionsShowChordAnalysisItem : public optionsValuedItem
+class optionsShowChordAnalysisItem : public oahValuedAtom
 {
   public:
 
@@ -224,8 +224,8 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      string  oahStringAtomVariableDisplayName,
+      string& oahStringAtomVariable);
 
   protected:
 
@@ -237,8 +237,8 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      string  oahStringAtomVariableDisplayName,
+      string& oahStringAtomVariable);
 
     virtual ~optionsShowChordAnalysisItem ();
 
@@ -325,7 +325,7 @@ class extraOptions : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsValuedItem
+    virtual S_oahValuedAtom
                           handleOptionsItem (
                             ostream&      os,
                             S_oahAtom item);

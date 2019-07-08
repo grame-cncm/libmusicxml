@@ -97,9 +97,9 @@ R"(Display a help summary and exit.)"));
 
   // help item
 
-  S_oahAtomHelpItem
+  S_oahElementHelpAtom
     itemHelpItem =
-      oahAtomHelpItem::create (
+      oahElementHelpAtom::create (
         "ih", "item-help",
 R"(Print help about ITEM_NAME.
 ITEM_NAME is optionnal, and the default value is 'ih')",
@@ -399,11 +399,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem generalOptions::handleOptionsItem (
+S_oahValuedAtom generalOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   return result;
 }

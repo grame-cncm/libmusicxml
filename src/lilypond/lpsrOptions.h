@@ -21,7 +21,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsLpsrScoreOutputKindItem : public optionsValuedItem
+class optionsLpsrScoreOutputKindItem : public oahValuedAtom
 {
   public:
 
@@ -87,7 +87,7 @@ typedef SMARTP<optionsLpsrScoreOutputKindItem> S_optionsLpsrScoreOutputKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt);
 
 //______________________________________________________________________________
-class optionsLpsrPitchesLanguageItem : public optionsValuedItem
+class optionsLpsrPitchesLanguageItem : public oahValuedAtom
 {
   public:
 
@@ -154,7 +154,7 @@ typedef SMARTP<optionsLpsrPitchesLanguageItem> S_optionsLpsrPitchesLanguageItem;
 EXP ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
-class optionsLpsrChordsLanguageItem : public optionsValuedItem
+class optionsLpsrChordsLanguageItem : public oahValuedAtom
 {
   public:
 
@@ -221,7 +221,7 @@ typedef SMARTP<optionsLpsrChordsLanguageItem> S_optionsLpsrChordsLanguageItem;
 EXP ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt);
 
 //______________________________________________________________________________
-class optionsLpsrTransposeItem : public optionsValuedItem
+class optionsLpsrTransposeItem : public oahValuedAtom
 {
   public:
 
@@ -233,7 +233,7 @@ class optionsLpsrTransposeItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
+      string  oahStringAtomVariableDisplayName,
       S_msrSemiTonesPitchAndOctave&
               optionsLpsrTransposeItemVariable);
 
@@ -247,7 +247,7 @@ class optionsLpsrTransposeItem : public optionsValuedItem
       string  oahAtomLongName,
       string  oahAtomDescription,
       string  optionsValueSpecification,
-      string  optionsStringItemVariableDisplayName,
+      string  oahStringAtomVariableDisplayName,
       S_msrSemiTonesPitchAndOctave&
               optionsLpsrTransposeItemVariable);
 
@@ -343,7 +343,7 @@ class lpsrOptions : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsValuedItem
+    virtual S_oahValuedAtom
                           handleOptionsItem (
                             ostream&      os,
                             S_oahAtom item);

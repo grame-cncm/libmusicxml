@@ -63,7 +63,7 @@ optionsPartRenameItem::optionsPartRenameItem (
   string             optionsPartRenameItemVariableDisplayName,
   map<string, string>&
                      optionsPartRenameItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -189,7 +189,7 @@ optionsPartTransposeItem::optionsPartTransposeItem (
   string             optionsPartTransposeItemVariableDisplayName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -315,7 +315,7 @@ optionsMsrPitchesLanguageItem::optionsMsrPitchesLanguageItem (
   string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsMsrPitchesLanguageKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -1498,11 +1498,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem msrOptions::handleOptionsItem (
+S_oahValuedAtom msrOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   if (
     // part rename item?

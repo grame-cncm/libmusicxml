@@ -30,7 +30,7 @@ string facSimileKindAsString (
   bsrFacSimileKind facSimileKind);
 
 //______________________________________________________________________________
-class optionsFacSimileKindItem : public optionsValuedItem
+class optionsFacSimileKindItem : public oahValuedAtom
 {
   public:
 
@@ -94,7 +94,7 @@ typedef SMARTP<optionsFacSimileKindItem> S_optionsFacSimileKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt);
 
 //______________________________________________________________________________
-class optionsBsrTextsLanguageItem : public optionsValuedItem
+class optionsBsrTextsLanguageItem : public oahValuedAtom
 {
   public:
 
@@ -215,7 +215,7 @@ class bsrOptions : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsValuedItem
+    virtual S_oahValuedAtom
                           handleOptionsItem (
                             ostream&      os,
                             S_oahAtom item);

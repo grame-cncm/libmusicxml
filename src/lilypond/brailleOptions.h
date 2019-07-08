@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsUTFKindItem : public optionsValuedItem
+class optionsUTFKindItem : public oahValuedAtom
 {
   public:
 
@@ -87,7 +87,7 @@ typedef SMARTP<optionsUTFKindItem> S_optionsUTFKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt);
 
 //______________________________________________________________________________
-class optionsByteOrderingKindItem : public optionsValuedItem
+class optionsByteOrderingKindItem : public oahValuedAtom
 {
   public:
 
@@ -207,7 +207,7 @@ class brailleOptions : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_optionsValuedItem
+    virtual S_oahValuedAtom
                           handleOptionsItem (
                             ostream&      os,
                             S_oahAtom item);

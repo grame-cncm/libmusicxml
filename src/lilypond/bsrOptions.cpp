@@ -75,7 +75,7 @@ optionsFacSimileKindItem::optionsFacSimileKindItem (
   string           optionsValueSpecification,
   string           optionsFacSimileKindItemVariableDisplayName,
   bsrFacSimileKind optionsFacSimileKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -164,7 +164,7 @@ optionsBsrTextsLanguageItem::optionsBsrTextsLanguageItem (
   string             optionsBsrTextsLanguageKindItemVariableDisplayName,
   bsrTextsLanguageKind&
                      optionsBsrTextsLanguageKindItemVariable)
-  : optionsValuedItem (
+  : oahValuedAtom (
       oahAtomShortName,
       oahAtomLongName,
       oahAtomDescription,
@@ -799,11 +799,11 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_optionsValuedItem bsrOptions::handleOptionsItem (
+S_oahValuedAtom bsrOptions::handleOptionsItem (
   ostream&      os,
   S_oahAtom item)
 {
-  S_optionsValuedItem result;
+  S_oahValuedAtom result;
 
   if (
     // BSR texts language item?
