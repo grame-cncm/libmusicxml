@@ -29,9 +29,9 @@ class xml2brlOptionsVersionItem : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsVersionItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -39,9 +39,9 @@ class xml2brlOptionsVersionItem : public oahAtom
     // ------------------------------------------------------
 
     xml2brlOptionsVersionItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~xml2brlOptionsVersionItem ();
 
@@ -81,9 +81,9 @@ class xml2brlOptionsAboutItem : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsAboutItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -91,9 +91,9 @@ class xml2brlOptionsAboutItem : public oahAtom
     // ------------------------------------------------------
 
     xml2brlOptionsAboutItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~xml2brlOptionsAboutItem ();
 
@@ -133,9 +133,9 @@ class xml2brlOptionsContactItem : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsContactItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -143,9 +143,9 @@ class xml2brlOptionsContactItem : public oahAtom
     // ------------------------------------------------------
 
     xml2brlOptionsContactItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~xml2brlOptionsContactItem ();
 

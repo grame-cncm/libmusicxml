@@ -114,50 +114,50 @@ Handling:
 
 //______________________________________________________________________________
 S_oahElement oahElement::create (
-  string oahElementShortName,
-  string oahElementLongName,
-  string oahElementDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   oahElement* o = new
     oahElement (
-      oahElementShortName,
-      oahElementLongName,
-      oahElementDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 oahElement::oahElement (
-  string oahElementShortName,
-  string oahElementLongName,
-  string oahElementDescription)
+  string shortName,
+  string longName,
+  string description)
 {
-  fShortName   = oahElementShortName;
-  fLongName    = oahElementLongName;
-  fDescription = oahElementDescription;
+  fShortName   = shortName;
+  fLongName    = longName;
+  fDescription = description;
 
-  fHidden    = false;
+  fIsHidden    = false;
 }
 
 oahElement::~oahElement ()
 {}
 
-S_oahElement oahElement::fetchOptionElement (
-  string optiontElementName)
+S_oahElement oahElement::fetchElementByName (
+  string name)
 {
   S_oahElement result;
 
   if (
-    optiontElementName == fShortName
+    name == fShortName
      ||
-    optiontElementName == fLongName) {
+    name == fLongName) {
     result = this;
   }
 
   return result;
 }
 
-string oahElement::oahElementNames () const
+string oahElement::fetchNames () const
 {
   stringstream s;
 
@@ -165,7 +165,7 @@ string oahElement::oahElementNames () const
     fShortName.size ()
         &&
     fLongName.size ()
-    ) {
+  ) {
       s <<
         "-" << fShortName <<
         ", " <<
@@ -186,7 +186,7 @@ string oahElement::oahElementNames () const
   return s.str ();
 }
 
-string oahElement::oahElementNamesInColumns (
+string oahElement::fetchNamesInColumns (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
@@ -218,26 +218,26 @@ string oahElement::oahElementNamesInColumns (
   return s.str ();
 }
 
-string oahElement::oahElementNamesBetweenParentheses () const
+string oahElement::fetchNamesBetweenParentheses () const
 {
   stringstream s;
 
   s <<
     "(" <<
-    oahElementNames () <<
+    fetchNames () <<
     ")";
 
   return s.str ();
 }
 
-string oahElement::oahElementNamesInColumnsBetweenParentheses (
+string oahElement::fetchNamesInColumnsBetweenParentheses (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
 
   s <<
     "(" <<
-    oahElementNamesInColumns (
+    fetchNamesInColumns (
       subGroupsShortNameFieldWidth) <<
     ")";
 
@@ -298,9 +298,9 @@ void oahElement::printElementEssentials (
     fDescription <<
     endl <<
     setw (fieldWidth) <<
-    "fHidden" << " : " <<
+    "fIsHidden" << " : " <<
     booleanAsString (
-      fHidden) <<
+      fIsHidden) <<
     endl;
 }
 
@@ -316,7 +316,7 @@ void oahElement::print (ostream& os) const
 void oahElement::printHelp (ostream& os) const
 {
   os <<
-    oahElementNames () <<
+    fetchNames () <<
     endl;
 
   if (fDescription.size ()) {
@@ -343,33 +343,33 @@ ostream& operator<< (ostream& os, const S_oahElement& elt)
 
 //______________________________________________________________________________
 S_oahAtom oahAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   oahAtom* o = new
     oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 oahAtom::oahAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahElement (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 oahAtom::~oahAtom ()
 {}
 
-void oahAtom::setOptionsSubGroupUpLink (
+void oahAtom::setSubGroupUpLink (
   S_oahSubGroup oahSubGroup)
 {
   // sanity check
@@ -378,7 +378,7 @@ void oahAtom::setOptionsSubGroupUpLink (
     "oahSubGroup is null");
 
   // set the upLink
-  fOptionsSubGroupUpLink =
+  fSubGroupUpLink =
     oahSubGroup;
 }
 
@@ -386,7 +386,7 @@ void oahAtom::registerOptionsItemInHandler (
   S_oahHandler oahHandler)
 {
   oahHandler->
-    registerOptionsElementInHandler (this);
+    registerElementInHandler (this);
 }
 
 void oahAtom::print (ostream& os) const
@@ -422,27 +422,27 @@ ostream& operator<< (ostream& os, const S_oahAtom& elt)
 
 //______________________________________________________________________________
 S_oahHelpUsageAtom oahHelpUsageAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   oahHelpUsageAtom* o = new
     oahHelpUsageAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 oahHelpUsageAtom::oahHelpUsageAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 oahHelpUsageAtom::~oahHelpUsageAtom ()
@@ -524,27 +524,27 @@ ostream& operator<< (ostream& os, const S_oahHelpUsageAtom& elt)
 
 //______________________________________________________________________________
 S_oahHelpSummaryAtom oahHelpSummaryAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   oahHelpSummaryAtom* o = new
     oahHelpSummaryAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 oahHelpSummaryAtom::oahHelpSummaryAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 oahHelpSummaryAtom::~oahHelpSummaryAtom ()
@@ -595,32 +595,32 @@ ostream& operator<< (ostream& os, const S_oahHelpSummaryAtom& elt)
 
 //______________________________________________________________________________
 S_oahAtomWithVariableName oahAtomWithVariableName::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahAtomVariableDisplayName)
+  string shortName,
+  string longName,
+  string description,
+  string oahAtomVariableName)
 {
   oahAtomWithVariableName* o = new
     oahAtomWithVariableName (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahAtomVariableDisplayName);
+      shortName,
+      longName,
+      description,
+      oahAtomVariableName);
   assert(o!=0);
   return o;
 }
 
 oahAtomWithVariableName::oahAtomWithVariableName (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahAtomVariableDisplayName)
+  string shortName,
+  string longName,
+  string description,
+  string oahAtomVariableName)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription),
-    fOptionsItemVariableDisplayName (
-      oahAtomVariableDisplayName)
+      shortName,
+      longName,
+      description),
+    fOptionsItemVariableName (
+      oahAtomVariableName)
 {}
 
 oahAtomWithVariableName::~oahAtomWithVariableName ()
@@ -631,7 +631,7 @@ void oahAtomWithVariableName::print (ostream& os) const
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsItemWithVariableDisplayName:" <<
+    "OptionsItemWithVariableName:" <<
     endl;
 
   gIndenter++;
@@ -648,8 +648,8 @@ void oahAtomWithVariableName::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     endl;
 
@@ -662,7 +662,7 @@ void oahAtomWithVariableName::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     "FOO" <<
     endl;
@@ -676,34 +676,34 @@ ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt)
 
 //______________________________________________________________________________
 S_oahBooleanAtom oahBooleanAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahBooleanAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahBooleanAtomVariableName,
   bool&  oahBooleanAtomVariable)
 {
   oahBooleanAtom* o = new
     oahBooleanAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahBooleanAtomVariableDisplayName,
+      shortName,
+      longName,
+      description,
+      oahBooleanAtomVariableName,
       oahBooleanAtomVariable);
   assert(o!=0);
   return o;
 }
 
 oahBooleanAtom::oahBooleanAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahBooleanAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahBooleanAtomVariableName,
   bool&  oahBooleanAtomVariable)
   : oahAtomWithVariableName (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahBooleanAtomVariableDisplayName),
+      shortName,
+      longName,
+      description,
+      oahBooleanAtomVariableName),
     fOptionsBooleanItemVariable (
       oahBooleanAtomVariable)
 {}
@@ -733,8 +733,8 @@ void oahBooleanAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsBooleanItemVariable" << " : " <<
@@ -751,7 +751,7 @@ void oahBooleanAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     booleanAsString (
       fOptionsBooleanItemVariable) <<
@@ -766,19 +766,19 @@ ostream& operator<< (ostream& os, const S_oahBooleanAtom& elt)
 
 //______________________________________________________________________________
 S_oahTwoBooleansAtom oahTwoBooleansAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahTwoBooleansAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahTwoBooleansAtomVariableName,
   bool&  oahTwoBooleansAtomVariable,
   bool&  oahTwoBooleansAtomSecondaryVariable)
 {
   oahTwoBooleansAtom* o = new
     oahTwoBooleansAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahTwoBooleansAtomVariableDisplayName,
+      shortName,
+      longName,
+      description,
+      oahTwoBooleansAtomVariableName,
       oahTwoBooleansAtomVariable,
       oahTwoBooleansAtomSecondaryVariable);
   assert(o!=0);
@@ -786,17 +786,17 @@ S_oahTwoBooleansAtom oahTwoBooleansAtom::create (
 }
 
 oahTwoBooleansAtom::oahTwoBooleansAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahTwoBooleansAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahTwoBooleansAtomVariableName,
   bool&  oahTwoBooleansAtomVariable,
   bool&  oahTwoBooleansAtomSecondaryVariable)
   : oahAtomWithVariableName (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahTwoBooleansAtomVariableDisplayName),
+      shortName,
+      longName,
+      description,
+      oahTwoBooleansAtomVariableName),
     fOptionsTwoBooleansItemVariable (
       oahTwoBooleansAtomVariable),
     fOptionsTwoBooleansItemSecondaryVariable (
@@ -827,8 +827,8 @@ void oahTwoBooleansAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsTwoBooleansItemVariable" << " : " <<
@@ -845,7 +845,7 @@ void oahTwoBooleansAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     booleanAsString (
       fOptionsTwoBooleansItemVariable) <<
@@ -860,20 +860,20 @@ ostream& operator<< (ostream& os, const S_oahTwoBooleansAtom& elt)
 
 //______________________________________________________________________________
 S_oahThreeBooleansAtom oahThreeBooleansAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahThreeBooleansAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahThreeBooleansAtomVariableName,
   bool&  oahThreeBooleansAtomVariable,
   bool&  oahThreeBooleansAtomSecondaryVariable,
   bool&  oahThreeBooleansAtomTertiaryVariable)
 {
   oahThreeBooleansAtom* o = new
     oahThreeBooleansAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahThreeBooleansAtomVariableDisplayName,
+      shortName,
+      longName,
+      description,
+      oahThreeBooleansAtomVariableName,
       oahThreeBooleansAtomVariable,
       oahThreeBooleansAtomSecondaryVariable,
       oahThreeBooleansAtomTertiaryVariable);
@@ -882,18 +882,18 @@ S_oahThreeBooleansAtom oahThreeBooleansAtom::create (
 }
 
 oahThreeBooleansAtom::oahThreeBooleansAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahThreeBooleansAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahThreeBooleansAtomVariableName,
   bool&  oahThreeBooleansAtomVariable,
   bool&  oahThreeBooleansAtomSecondaryVariable,
   bool&  oahThreeBooleansAtomTertiaryVariable)
   : oahAtomWithVariableName (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahThreeBooleansAtomVariableDisplayName),
+      shortName,
+      longName,
+      description,
+      oahThreeBooleansAtomVariableName),
     fOptionsThreeBooleansItemVariable (
       oahThreeBooleansAtomVariable),
     fOptionsThreeBooleansItemSecondaryVariable (
@@ -927,8 +927,8 @@ void oahThreeBooleansAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsThreeBooleansItemVariable" << " : " <<
@@ -945,7 +945,7 @@ void oahThreeBooleansAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     booleanAsString (
       fOptionsThreeBooleansItemVariable) <<
@@ -960,34 +960,34 @@ ostream& operator<< (ostream& os, const S_oahThreeBooleansAtom& elt)
 
 //______________________________________________________________________________
 S_oahCombinedBooleansAtom oahCombinedBooleansAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahCombinedBooleansAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahCombinedBooleansAtomVariableName,
   bool&  oahCombinedBooleansAtomVariable)
 {
   oahCombinedBooleansAtom* o = new
     oahCombinedBooleansAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahCombinedBooleansAtomVariableDisplayName,
+      shortName,
+      longName,
+      description,
+      oahCombinedBooleansAtomVariableName,
       oahCombinedBooleansAtomVariable);
   assert(o!=0);
   return o;
 }
 
 oahCombinedBooleansAtom::oahCombinedBooleansAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string oahCombinedBooleansAtomVariableDisplayName,
+  string shortName,
+  string longName,
+  string description,
+  string oahCombinedBooleansAtomVariableName,
   bool&  oahCombinedBooleansAtomVariable)
   : oahAtomWithVariableName (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahCombinedBooleansAtomVariableDisplayName),
+      shortName,
+      longName,
+      description,
+      oahCombinedBooleansAtomVariableName),
     fOptionsCombinedBooleanItemsItemVariable (
       oahCombinedBooleansAtomVariable)
 {}
@@ -1013,7 +1013,7 @@ void oahCombinedBooleansAtom::appendOptionsItemToCombinedBooleanItemsList (
   // get the options handler
   S_oahHandler
     oahHandler =
-      getOptionsSubGroupUpLink ()->
+      getSubGroupUpLink ()->
         getOptionsGroupUpLink ()->
           getOptionsHandlerUpLink ();
 
@@ -1026,7 +1026,7 @@ void oahCombinedBooleansAtom::appendOptionsItemToCombinedBooleanItemsList (
   S_oahElement
     oahElement =
       oahHandler->
-        fetchOptionsElementFromMap (
+        fetchElementFromMap (
           oahAtomName);
 
   if (! oahElement) {
@@ -1155,7 +1155,7 @@ void oahCombinedBooleansAtom::print (ostream& os) const
 void oahCombinedBooleansAtom::printHelp (ostream& os) const
 {
   os <<
-    oahElementNames () <<
+    fetchNames () <<
     endl;
 
   if (fDescription.size ()) {
@@ -1189,7 +1189,7 @@ void oahCombinedBooleansAtom::printHelp (ostream& os) const
 
     for ( ; ; ) {
       os <<
-        (*i)-> oahElementNames ();
+        (*i)-> fetchNames ();
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -1213,7 +1213,7 @@ void oahCombinedBooleansAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     booleanAsString (
       fOptionsCombinedBooleanItemsItemVariable) <<
@@ -1270,34 +1270,34 @@ ostream& operator<< (ostream& os, const S_oahCombinedBooleansAtom& elt)
 
 //______________________________________________________________________________
 S_oahValuedAtom oahValuedAtom::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
+  string shortName,
+  string longName,
+  string description,
   string optionsValueSpecification,
-  string oahValuedAtomVariableDisplayName)
+  string oahValuedAtomVariableName)
 {
   oahValuedAtom* o = new
     oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahValuedAtomVariableDisplayName);
+      oahValuedAtomVariableName);
   assert(o!=0);
   return o;
 }
 
 oahValuedAtom::oahValuedAtom (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
+  string shortName,
+  string longName,
+  string description,
   string optionsValueSpecification,
-  string oahValuedAtomVariableDisplayName)
+  string oahValuedAtomVariableName)
   : oahAtomWithVariableName (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      oahValuedAtomVariableDisplayName)
+      shortName,
+      longName,
+      description,
+      oahValuedAtomVariableName)
 {
   fOptionsValueSpecification = optionsValueSpecification;
 
@@ -1364,7 +1364,7 @@ void oahValuedAtom::print (ostream& os) const
 void oahValuedAtom::printHelp (ostream& os) const
 {
   os <<
-    oahElementNames () <<
+    fetchNames () <<
     " " <<
     fOptionsValueSpecification <<
     endl;
@@ -1410,35 +1410,35 @@ ostream& operator<< (ostream& os, const S_oahValuedAtom& elt)
 
 //______________________________________________________________________________
 S_oahElementHelpAtom oahElementHelpAtom::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsHelpItemVariableDisplayName)
+  string             optionsHelpItemVariableName)
 {
   oahElementHelpAtom* o = new
     oahElementHelpAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsHelpItemVariableDisplayName);
+      optionsHelpItemVariableName);
   assert(o!=0);
   return o;
 }
 
 oahElementHelpAtom::oahElementHelpAtom (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsHelpItemVariableDisplayName)
+  string             optionsHelpItemVariableName)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsHelpItemVariableDisplayName)
+      optionsHelpItemVariableName)
 {}
 
 oahElementHelpAtom::~oahElementHelpAtom ()
@@ -1475,38 +1475,38 @@ ostream& operator<< (ostream& os, const S_oahElementHelpAtom& elt)
 
 //______________________________________________________________________________
 S_oahIntegerAtom oahIntegerAtom::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahIntegerAtomVariableDisplayName,
+  string             oahIntegerAtomVariableName,
   int&               oahIntegerAtomVariable)
 {
   oahIntegerAtom* o = new
     oahIntegerAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahIntegerAtomVariableDisplayName,
+      oahIntegerAtomVariableName,
       oahIntegerAtomVariable);
   assert(o!=0);
   return o;
 }
 
 oahIntegerAtom::oahIntegerAtom (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahIntegerAtomVariableDisplayName,
+  string             oahIntegerAtomVariableName,
   int&               oahIntegerAtomVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahIntegerAtomVariableDisplayName),
+      oahIntegerAtomVariableName),
     fOptionsIntegerItemVariable (
       oahIntegerAtomVariable)
 {}
@@ -1529,8 +1529,8 @@ void oahIntegerAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsIntegerItemVariable" << " : " <<
@@ -1546,7 +1546,7 @@ void oahIntegerAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     fOptionsIntegerItemVariable <<
     endl;
@@ -1560,38 +1560,38 @@ ostream& operator<< (ostream& os, const S_oahIntegerAtom& elt)
 
 //______________________________________________________________________________
 S_oahFloatAtom oahFloatAtom::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahFloatAtomVariableDisplayName,
+  string             oahFloatAtomVariableName,
   float&             oahFloatAtomVariable)
 {
   oahFloatAtom* o = new
     oahFloatAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahFloatAtomVariableDisplayName,
+      oahFloatAtomVariableName,
       oahFloatAtomVariable);
   assert(o!=0);
   return o;
 }
 
 oahFloatAtom::oahFloatAtom (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahFloatAtomVariableDisplayName,
+  string             oahFloatAtomVariableName,
   float&             oahFloatAtomVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahFloatAtomVariableDisplayName),
+      oahFloatAtomVariableName),
     fOptionsFloatItemVariable (
       oahFloatAtomVariable)
 {}
@@ -1614,8 +1614,8 @@ void oahFloatAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsFloatItemVariable" << " : " <<
@@ -1631,7 +1631,7 @@ void oahFloatAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     fOptionsFloatItemVariable <<
     endl;
@@ -1645,38 +1645,38 @@ ostream& operator<< (ostream& os, const S_oahFloatAtom& elt)
 
 //______________________________________________________________________________
 S_oahStringAtom oahStringAtom::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahStringAtomVariableDisplayName,
+  string             oahStringAtomVariableName,
   string&            oahStringAtomVariable)
 {
   oahStringAtom* o = new
     oahStringAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahStringAtomVariableDisplayName,
+      oahStringAtomVariableName,
       oahStringAtomVariable);
   assert(o!=0);
   return o;
 }
 
 oahStringAtom::oahStringAtom (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahStringAtomVariableDisplayName,
+  string             oahStringAtomVariableName,
   string&            oahStringAtomVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahStringAtomVariableDisplayName),
+      oahStringAtomVariableName),
     fOptionsStringItemVariable (
       oahStringAtomVariable)
 {}
@@ -1699,8 +1699,8 @@ void oahStringAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsStringItemVariable" << " : " <<
@@ -1716,7 +1716,7 @@ void oahStringAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     fOptionsStringItemVariable <<
     "\"" <<
@@ -1734,38 +1734,38 @@ ostream& operator<< (ostream& os, const S_oahStringAtom& elt)
 
 //______________________________________________________________________________
 S_oahRationalAtom oahRationalAtom::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahRationalAtomVariableDisplayName,
+  string             oahRationalAtomVariableName,
   rational&          oahRationalAtomVariable)
 {
   oahRationalAtom* o = new
     oahRationalAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahRationalAtomVariableDisplayName,
+      oahRationalAtomVariableName,
       oahRationalAtomVariable);
   assert(o!=0);
   return o;
 }
 
 oahRationalAtom::oahRationalAtom (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahRationalAtomVariableDisplayName,
+  string             oahRationalAtomVariableName,
   rational&          oahRationalAtomVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahRationalAtomVariableDisplayName),
+      oahRationalAtomVariableName),
     fOptionsRationalItemVariable (
       oahRationalAtomVariable)
 {}
@@ -1788,8 +1788,8 @@ void oahRationalAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsRationalItemVariable" << " : " <<
@@ -1805,7 +1805,7 @@ void oahRationalAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     fOptionsRationalItemVariable <<
     endl;
@@ -1819,38 +1819,38 @@ ostream& operator<< (ostream& os, const S_oahRationalAtom& elt)
 
 //______________________________________________________________________________
 S_oahNumbersSetAtom oahNumbersSetAtom::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahNumbersSetAtomVariableDisplayName,
+  string             oahNumbersSetAtomVariableName,
   set<int>&          oahNumbersSetAtomVariable)
 {
   oahNumbersSetAtom* o = new
     oahNumbersSetAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahNumbersSetAtomVariableDisplayName,
+      oahNumbersSetAtomVariableName,
       oahNumbersSetAtomVariable);
   assert(o!=0);
   return o;
 }
 
 oahNumbersSetAtom::oahNumbersSetAtom (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             oahNumbersSetAtomVariableDisplayName,
+  string             oahNumbersSetAtomVariableName,
   set<int>&          oahNumbersSetAtomVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      oahNumbersSetAtomVariableDisplayName),
+      oahNumbersSetAtomVariableName),
     fOptionsNumbersSetItemVariable (
       oahNumbersSetAtomVariable)
 {}
@@ -1873,8 +1873,8 @@ void oahNumbersSetAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     setw (fieldWidth) <<
     "fOptionsNumbersSetItemVariable" << " : " <<
     endl;
@@ -1914,7 +1914,7 @@ void oahNumbersSetAtom::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : ";
 
   if (! fOptionsNumbersSetItemVariable.size ()) {
@@ -1990,10 +1990,10 @@ oahSubGroup::oahSubGroup (
   fOptionsGroupUpLink =
     oahGroupUpLink;
 
-  fOptionsSubGroupHelpHeader =
+  fSubGroupHelpHeader =
     oahSubGroupHelpHeader;
 
-  fOptionsSubGroupDescriptionVisibilityKind =
+  fSubGroupDescriptionVisibilityKind =
     oahSubGroupDescriptionVisibilityKind;
 }
 
@@ -2022,7 +2022,7 @@ string oahSubGroup::oahSubGroupDescriptionVisibilityKindAsString (
 void oahSubGroup::underlineHeader (ostream& os) const
 {
   /* JMI ???
-  for (unsigned int i = 0; i < fOptionsSubGroupHelpHeader.size (); i++) {
+  for (unsigned int i = 0; i < fSubGroupHelpHeader.size (); i++) {
     os << "-";
   } // for
   os << endl;
@@ -2030,16 +2030,16 @@ void oahSubGroup::underlineHeader (ostream& os) const
   os << "--------------------------" << endl;
 }
 
-void oahSubGroup::registerOptionsSubGroupInHandler (
+void oahSubGroup::registerSubGroupInHandler (
   S_oahHandler oahHandler)
 {
   oahHandler->
-    registerOptionsElementInHandler (this);
+    registerElementInHandler (this);
 
   for (
     list<S_oahAtom>::const_iterator
-      i = fOptionsSubGroupItemsList.begin ();
-    i != fOptionsSubGroupItemsList.end ();
+      i = fSubGroupItemsList.begin ();
+    i != fSubGroupItemsList.end ();
     i++
   ) {
     // register the options sub group
@@ -2058,28 +2058,28 @@ void oahSubGroup::appendOptionsItem (
     "oahAtom is null");
 
   // append options item
-  fOptionsSubGroupItemsList.push_back (
+  fSubGroupItemsList.push_back (
     oahAtom);
 
   // set options item subgroup upLink
   oahAtom->
-    setOptionsSubGroupUpLink (this);
+    setSubGroupUpLink (this);
 }
 
-S_oahElement oahSubGroup::fetchOptionElement (
-  string optiontElementName)
+S_oahElement oahSubGroup::fetchElementByName (
+  string name)
 {
   S_oahElement result;
 
   for (
     list<S_oahAtom>::const_iterator
-      i = fOptionsSubGroupItemsList.begin ();
-    i != fOptionsSubGroupItemsList.end ();
+      i = fSubGroupItemsList.begin ();
+    i != fSubGroupItemsList.end ();
     i++
   ) {
-    // search optiontElementName in the options group
+    // search name in the options group
     result =
-      (*i)->fetchOptionElement (optiontElementName);
+      (*i)->fetchElementByName (name);
 
     if (result != 0) {
       break;
@@ -2094,7 +2094,7 @@ void oahSubGroup::print (ostream& os) const
   const int fieldWidth = 27;
 
   os <<
-   "OptionsSubGroup:" <<
+   "SubGroup:" <<
     endl;
 
   gIndenter++;
@@ -2104,27 +2104,27 @@ void oahSubGroup::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsSubGroupDescriptionVisibility" << " : " <<
+    "fSubGroupDescriptionVisibility" << " : " <<
       oahSubGroupDescriptionVisibilityKindAsString (
-        fOptionsSubGroupDescriptionVisibilityKind) <<
+        fSubGroupDescriptionVisibilityKind) <<
     endl <<
     endl;
 
   os <<
     "Options items (" <<
     singularOrPlural (
-      fOptionsSubGroupItemsList.size (), "element",  "elements") <<
+      fSubGroupItemsList.size (), "element",  "elements") <<
     "):" <<
     endl;
 
-  if (fOptionsSubGroupItemsList.size ()) {
+  if (fSubGroupItemsList.size ()) {
     os << endl;
 
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin (),
-      iEnd   = fOptionsSubGroupItemsList.end (),
+      iBegin = fSubGroupItemsList.begin (),
+      iEnd   = fSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item
@@ -2143,13 +2143,13 @@ void oahSubGroup::printHelp (ostream& os) const
 {
   // print the header and option names
   os <<
-    fOptionsSubGroupHelpHeader;
+    fSubGroupHelpHeader;
 
   os <<
     " " <<
-    oahElementNamesBetweenParentheses ();
+    fetchNamesBetweenParentheses ();
 
-  switch (fOptionsSubGroupDescriptionVisibilityKind) {
+  switch (fSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       os <<
         ":";
@@ -2174,21 +2174,21 @@ void oahSubGroup::printHelp (ostream& os) const
     os << endl;
   }
 
-  switch (fOptionsSubGroupDescriptionVisibilityKind) {
+  switch (fSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
-      if (fOptionsSubGroupItemsList.size ()) {
+      if (fSubGroupItemsList.size ()) {
         gIndenter++;
 
         list<S_oahAtom>::const_iterator
-          iBegin = fOptionsSubGroupItemsList.begin (),
-          iEnd   = fOptionsSubGroupItemsList.end (),
+          iBegin = fSubGroupItemsList.begin (),
+          iEnd   = fSubGroupItemsList.end (),
           i      = iBegin;
         for ( ; ; ) {
           S_oahAtom
             oahAtom = (*i);
           bool
             oahAtomIsHidden =
-              oahAtom->getOptionsElementIsHidden ();
+              oahAtom->getIsHidden ();
 
           // print the options item help unless it is hidden
           if (! oahAtomIsHidden) {
@@ -2215,17 +2215,17 @@ void oahSubGroup::printHelp (ostream& os) const
       setOptionsHandlerFoundAHelpItem ();
 }
 
-void oahSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
+void oahSubGroup::printSubGroupForcedHelp (ostream& os) const
 {
   // print the header and option names
   os <<
-    fOptionsSubGroupHelpHeader;
+    fSubGroupHelpHeader;
 
   os <<
     " " <<
-    oahElementNamesBetweenParentheses ();
+    fetchNamesBetweenParentheses ();
 
-  switch (fOptionsSubGroupDescriptionVisibilityKind) {
+  switch (fSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       os <<
         ":";
@@ -2251,12 +2251,12 @@ void oahSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
     os << endl;
   }
 
-  if (fOptionsSubGroupItemsList.size ()) {
+  if (fSubGroupItemsList.size ()) {
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin (),
-      iEnd   = fOptionsSubGroupItemsList.end (),
+      iBegin = fSubGroupItemsList.begin (),
+      iEnd   = fSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item help
@@ -2294,12 +2294,12 @@ void oahSubGroup::printHelpSummary (
   // print the summary
   os << left <<
     setw (maximumSubGroupsHelpHeadersSize) <<
-    fOptionsSubGroupHelpHeader <<
+    fSubGroupHelpHeader <<
     " " <<
-    oahElementNamesInColumnsBetweenParentheses (
+    fetchNamesInColumnsBetweenParentheses (
       maximumShortNameWidth);
 
-  switch (fOptionsSubGroupDescriptionVisibilityKind) {
+  switch (fSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       break;
 
@@ -2350,9 +2350,9 @@ void oahSubGroup::printOptionsItemForcedHelp (
 {
   // print the header
   os <<
-    fOptionsSubGroupHelpHeader <<
+    fSubGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl <<
     endl;
@@ -2361,12 +2361,12 @@ void oahSubGroup::printOptionsItemForcedHelp (
 // JMI  underlineHeader (os);
 
   // print the options items
-  if (fOptionsSubGroupItemsList.size ()) {
+  if (fSubGroupItemsList.size ()) {
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin (),
-      iEnd   = fOptionsSubGroupItemsList.end (),
+      iBegin = fSubGroupItemsList.begin (),
+      iEnd   = fSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahAtom
@@ -2400,9 +2400,9 @@ void oahSubGroup::printOptionsValues (
 {
   // print the header
   os <<
-    fOptionsSubGroupHelpHeader <<
+    fSubGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2410,12 +2410,12 @@ void oahSubGroup::printOptionsValues (
 // JMI  underlineHeader (os);
 
   // print the options items values
-  if (fOptionsSubGroupItemsList.size ()) {
+  if (fSubGroupItemsList.size ()) {
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin (),
-      iEnd   = fOptionsSubGroupItemsList.end (),
+      iBegin = fSubGroupItemsList.begin (),
+      iEnd   = fSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item values
@@ -2511,7 +2511,7 @@ void oahGroup::registerOptionsGroupInHandler (
 
   // register options group in options handler
   oahHandler->
-    registerOptionsElementInHandler (this);
+    registerElementInHandler (this);
 
   for (
     list<S_oahSubGroup>::const_iterator
@@ -2521,12 +2521,12 @@ void oahGroup::registerOptionsGroupInHandler (
   ) {
     // register the options sub group
     (*i)->
-      registerOptionsSubGroupInHandler (
+      registerSubGroupInHandler (
         oahHandler);
   } // for
 }
 
-void  oahGroup::appendOptionsSubGroup (
+void  oahGroup::appendSubGroup (
   S_oahSubGroup oahSubGroup)
 {
   // sanity check
@@ -2543,8 +2543,8 @@ void  oahGroup::appendOptionsSubGroup (
     setOptionsGroupUpLink (this);
 }
 
-S_oahElement oahGroup::fetchOptionElement (
-  string optiontElementName)
+S_oahElement oahGroup::fetchElementByName (
+  string name)
 {
   S_oahElement result;
 
@@ -2554,9 +2554,9 @@ S_oahElement oahGroup::fetchOptionElement (
     i != fOptionsGroupSubGroupsList.end ();
     i++
   ) {
-    // search optiontElementName in the options group
+    // search name in the options group
     result =
-      (*i)->fetchOptionElement (optiontElementName);
+      (*i)->fetchElementByName (name);
 
     if (result != 0) {
       break;
@@ -2646,7 +2646,7 @@ void oahGroup::printHelp (ostream& os) const
   os <<
     fOptionsGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2685,15 +2685,15 @@ void oahGroup::printHelp (ostream& os) const
   fOptionsHandlerUpLink->setOptionsHandlerFoundAHelpItem ();
 }
 
-void oahGroup::printOptionsSubGroupForcedHelp (
+void oahGroup::printSubGroupForcedHelp (
   ostream&             os,
-  S_oahSubGroup targetOptionsSubGroup) const
+  S_oahSubGroup targetSubGroup) const
 {
   // print the header and option names
   os <<
     fOptionsGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2724,14 +2724,14 @@ void oahGroup::printOptionsSubGroupForcedHelp (
       S_oahSubGroup
         oahSubGroup = (*i);
 
-      if (oahSubGroup == targetOptionsSubGroup) {
+      if (oahSubGroup == targetSubGroup) {
         // print the target options subgroup help
         oahSubGroup->
-          printOptionsSubGroupForcedHelp (
+          printSubGroupForcedHelp (
             os);
       }
       if (++i == iEnd) break;
-      if (oahSubGroup == targetOptionsSubGroup) {
+      if (oahSubGroup == targetSubGroup) {
         os << endl;
       }
     } // for
@@ -2742,14 +2742,14 @@ void oahGroup::printOptionsSubGroupForcedHelp (
 
 void oahGroup::printOptionsItemForcedHelp (
   ostream&             os,
-  S_oahSubGroup targetOptionsSubGroup,
+  S_oahSubGroup targetSubGroup,
   S_oahAtom     targetOptionsItem) const
 {
   // print the header and option names
   os <<
     fOptionsGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2780,7 +2780,7 @@ void oahGroup::printOptionsItemForcedHelp (
       S_oahSubGroup
         oahSubGroup = (*i);
 
-      if (oahSubGroup == targetOptionsSubGroup) {
+      if (oahSubGroup == targetSubGroup) {
         // print the target options subgroup's
         // target options item's help
         (*i)->
@@ -2789,7 +2789,7 @@ void oahGroup::printOptionsItemForcedHelp (
             targetOptionsItem);
       }
       if (++i == iEnd) break;
-      if (oahSubGroup == targetOptionsSubGroup) {
+      if (oahSubGroup == targetSubGroup) {
         os << endl;
       }
     } // for
@@ -2809,7 +2809,7 @@ void oahGroup::printHelpSummary (ostream& os) const
   os <<
     fOptionsGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2857,7 +2857,7 @@ void oahGroup::printSpecificSubGroupHelp (
   os <<
     fOptionsGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2906,7 +2906,7 @@ void oahGroup::printOptionsValues (
   os <<
     fOptionsGroupHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2969,12 +2969,12 @@ oahPrefix::~oahPrefix ()
 {}
 
 /* JMI
-S_oahPrefix oahPrefix::fetchOptionElement (
-  string optiontElementName)
+S_oahPrefix oahPrefix::fetchElementByName (
+  string name)
 {
   S_oahPrefix result;
 
-  if (optiontElementName == fOptionsPrefixName) {
+  if (name == fOptionsPrefixName) {
     result = this;
   }
 
@@ -3188,7 +3188,7 @@ oahHandler::oahHandler (
   fMaximumShortNameWidth   = 1;
   fMaximumLongNameWidth    = 1;
 
-  fMaximumVariableDisplayNameWidth = 0;
+  fMaximumVariableNameWidth = 0;
 
   fOptionsHandlerFoundAHelpItem = false;
 }
@@ -3196,14 +3196,14 @@ oahHandler::oahHandler (
 oahHandler::~oahHandler ()
 {}
 
-void oahHandler::registerOptionsHandlerInItself ()
+void oahHandler::registerHandlerInItself ()
 {
   this->
-    registerOptionsElementInHandler (this);
+    registerElementInHandler (this);
 
 /* JMI ???
   // register the help summary names in handler
-  registerOptionsNamesInHandler (
+  registerNamesInHandler (
     fOptionHandlerHelpSummaryShortName,
     fOptionHandlerHelpSummaryLongName,
     this);
@@ -3224,7 +3224,7 @@ void oahHandler::registerOptionsHandlerInItself ()
  // */
 }
 
-S_oahPrefix oahHandler::fetchOptionsPrefixFromMap (
+S_oahPrefix oahHandler::fetchPrefixFromMap (
   string oahElementName) const
 {
   S_oahPrefix result;
@@ -3243,7 +3243,7 @@ S_oahPrefix oahHandler::fetchOptionsPrefixFromMap (
   return result;
 }
 
-S_oahElement oahHandler::fetchOptionsElementFromMap (
+S_oahElement oahHandler::fetchElementFromMap (
   string oahElementName) const
 {
   S_oahElement result;
@@ -3268,7 +3268,7 @@ string oahHandler::helpNamesBetweenParentheses () const
 
   s <<
     "(" <<
-    oahElementNames () <<
+    fetchNames () <<
     ", ";
 
   if (
@@ -3299,9 +3299,9 @@ string oahHandler::helpNamesBetweenParentheses () const
   return s.str ();
 }
 
-void oahHandler::registerOptionsNamesInHandler (
-  string           optionShortName,
-  string           optionLongName,
+void oahHandler::registerNamesInHandler (
+  string       optionShortName,
+  string       optionLongName,
   S_oahElement oahElement)
 {
   int
@@ -3388,31 +3388,31 @@ void oahHandler::registerOptionsNamesInHandler (
 
   // take oahElement's display variable name length into account
   int
-    oahElementVariableDisplayNameLength =
+    oahElementVariableNameLength =
       oahElement->
-        fetchOptionsElementVariableDisplayNameLength ();
+        fetchOptionsElementVariableNameLength ();
 
     if (
-      oahElementVariableDisplayNameLength
+      oahElementVariableNameLength
         >
-      fMaximumVariableDisplayNameWidth
+      fMaximumVariableNameWidth
     ) {
-      fMaximumVariableDisplayNameWidth =
-        oahElementVariableDisplayNameLength;
+      fMaximumVariableNameWidth =
+        oahElementVariableNameLength;
     }
 }
 
-void oahHandler::registerOptionsElementInHandler (
+void oahHandler::registerElementInHandler (
   S_oahElement oahElement)
 {
   string
     optionShortName =
-      oahElement->getOptionsElementShortName (),
+      oahElement->getShortName (),
     optionLongName =
-      oahElement->getOptionsElementLongName ();
+      oahElement->getLongName ();
 
   // register the option names in handler
-  registerOptionsNamesInHandler (
+  registerNamesInHandler (
     optionShortName,
     optionLongName,
     oahElement);
@@ -3427,7 +3427,7 @@ void oahHandler::registerOptionsElementInHandler (
     string
       optionHelpHeader=
         subGroup->
-          getOptionsSubGroupHelpHeader ();
+          getSubGroupHelpHeader ();
     int
       optionHelpHeaderSize =
         optionHelpHeader.size ();
@@ -3476,7 +3476,7 @@ void oahHandler::print (ostream& os) const
 
   // print the options prefixes if any
   if (fOptionsPrefixesMap.size ()) {
-    printKnownOptionsPrefixes ();
+    printKnownPrefixes ();
   }
 
   // print the options groups if any
@@ -3515,7 +3515,7 @@ void oahHandler::printHelp (ostream& os) const
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3532,7 +3532,7 @@ void oahHandler::printHelp (ostream& os) const
 
   // print the known options prefixes
   gIndenter++;
-  printKnownOptionsPrefixes ();
+  printKnownPrefixes ();
   gIndenter--;
 
   os << endl;
@@ -3570,7 +3570,7 @@ void oahHandler::printHelpSummary (ostream& os) const
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3610,7 +3610,7 @@ void oahHandler::printSpecificSubGroupHelp (
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3636,22 +3636,22 @@ void oahHandler::printSpecificSubGroupHelp (
   }
 }
 
-void oahHandler::printSpecificItemHelp (
+void oahHandler::printSpecificElementHelp (
   ostream& os,
-  string   oahAtomName) const
+  string   name) const
 {
-  // is oahAtomName known in options elements map?
+  // is name known in options elements map?
   S_oahElement
     oahElement =
-      fetchOptionsElementFromMap (
-        oahAtomName);
+      fetchElementFromMap (
+        name);
 
   if (! oahElement) {
-    // oahAtomName is is not well handled by this options handler
+    // name is is not well handled by this options handler
     stringstream s;
 
     s <<
-      "option name '" << oahAtomName <<
+      "option name '" << name <<
       "' is unknown, cannot deliver item specific help";
 
     optionError (s.str ());
@@ -3659,7 +3659,7 @@ void oahHandler::printSpecificItemHelp (
   }
 
   else {
-    // oahAtomName is known, let's handle it
+    // name is known, let's handle it
     if (
       // options handler?
       S_oahHandler
@@ -3668,11 +3668,11 @@ void oahHandler::printSpecificItemHelp (
       ) {
       // print the option handler help or help summary
       if (
-        oahAtomName ==
+        name ==
           handler->
             getOptionHandlerHelpSummaryShortName ()
           ||
-        oahAtomName ==
+        name ==
           handler->
             getOptionHandlerHelpSummaryLongName ()
          ) {
@@ -3699,7 +3699,7 @@ void oahHandler::printSpecificItemHelp (
       fOptionsHandlerlogIOstream <<
         endl <<
         "--- Help for options item name '" <<
-        oahAtomName <<
+        name <<
         "' for group \"" <<
         group->
           getOptionsGroupHelpHeader () <<
@@ -3730,10 +3730,10 @@ void oahHandler::printSpecificItemHelp (
       fOptionsHandlerlogIOstream <<
         endl <<
         "--- Help for options item name '" <<
-        oahAtomName <<
+        name <<
         "' for subgroup \"" <<
         subGroup->
-          getOptionsSubGroupHelpHeader () <<
+          getSubGroupHelpHeader () <<
         "\"" <<
         " in group \"" <<
         group->
@@ -3743,7 +3743,7 @@ void oahHandler::printSpecificItemHelp (
         endl;
 
       group->
-        printOptionsSubGroupForcedHelp (
+        printSubGroupForcedHelp (
           fOptionsHandlerlogIOstream,
           subGroup);
     }
@@ -3758,7 +3758,7 @@ void oahHandler::printSpecificItemHelp (
       S_oahSubGroup
         subGroup =
           item->
-            getOptionsSubGroupUpLink ();
+            getSubGroupUpLink ();
 
       // get the options group upLink
       S_oahGroup
@@ -3770,10 +3770,10 @@ void oahHandler::printSpecificItemHelp (
       fOptionsHandlerlogIOstream <<
         endl <<
         "--- Help for options item name '" <<
-        oahAtomName <<
+        name <<
         "' in subgroup \"" <<
         subGroup->
-          getOptionsSubGroupHelpHeader () <<
+          getSubGroupHelpHeader () <<
         "\"" <<
         " of group \"" <<
         group->
@@ -3793,8 +3793,8 @@ void oahHandler::printSpecificItemHelp (
       stringstream s;
 
       s <<
-        "cannot handle specific help about oahAtomName \"" <<
-        oahAtomName <<
+        "cannot handle specific help about name \"" <<
+        name <<
         "\"";
 
       optionError (s.str ());
@@ -3810,7 +3810,7 @@ void oahHandler::printAllOptionsValues (
   os <<
     fOptionsHandlerValuesHeader <<
     " " <<
-    oahElementNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3828,7 +3828,7 @@ void oahHandler::printAllOptionsValues (
       // print the options group values
       (*i)->
         printOptionsValues (
-          os, fMaximumVariableDisplayNameWidth);
+          os, fMaximumVariableNameWidth);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -3843,7 +3843,7 @@ ostream& operator<< (ostream& os, const S_oahHandler& elt)
   return os;
 }
 
-void oahHandler::appendOptionsPrefixToHandler (
+void oahHandler::appendPrefixToHandler (
   S_oahPrefix prefix)
 {
   // sanity check
@@ -3855,7 +3855,7 @@ void oahHandler::appendOptionsPrefixToHandler (
 
   S_oahPrefix result;
 
-  // is oahAtomName already known in options elements map?
+  // is prefixName already known in options elements map?
   map<string, S_oahPrefix>::const_iterator
     it =
       fOptionsPrefixesMap.find (
@@ -3879,7 +3879,7 @@ void oahHandler::appendOptionsPrefixToHandler (
     ] = prefix;
 }
 
-void oahHandler::appendOptionsGroupToHandler (
+void oahHandler::appendGroupToHandler (
   S_oahGroup oahGroup)
 {
   // sanity check
@@ -3896,7 +3896,7 @@ void oahHandler::appendOptionsGroupToHandler (
     setOptionsHandlerUpLink (this);
 }
 
-void oahHandler::printKnownOptionsPrefixes () const
+void oahHandler::printKnownPrefixes () const
 {
   int oahHandlerOptionsPrefixesListSize =
     fOptionsPrefixesMap.size ();
@@ -3934,7 +3934,7 @@ void oahHandler::printKnownOptionsPrefixes () const
   gIndenter--;
 }
 
-void oahHandler::printKnownOptionsElements () const
+void oahHandler::printKnownElements () const
 {
   int oahElementsMapSize =
     fElementsMap.size ();
@@ -3978,8 +3978,8 @@ void oahHandler::printKnownOptionsElements () const
   gIndenter--;
 }
 
-S_oahElement oahHandler::fetchOptionElement (
-  string optiontElementName)
+S_oahElement oahHandler::fetchElementByName (
+  string name)
 {
   S_oahElement result;
 
@@ -3989,9 +3989,9 @@ S_oahElement oahHandler::fetchOptionElement (
     i != fOptionsHandlerOptionsGroupsList.end ();
     i++
   ) {
-    // search optiontElementName in the options group
+    // search name in the options group
     result =
-      (*i)->fetchOptionElement (optiontElementName);
+      (*i)->fetchElementByName (name);
 
     if (result != 0) {
       break;
@@ -4139,7 +4139,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-            printKnownOptionsPrefixes ();
+            printKnownPrefixes ();
           }
 #endif
 
@@ -4205,7 +4205,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
           S_oahPrefix
             prefix =
-              fetchOptionsPrefixFromMap (prefixName);
+              fetchPrefixFromMap (prefixName);
 
           if (prefix) {
             if (chunksListSize) {
@@ -4240,7 +4240,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
           }
 
           else {
-            printKnownOptionsPrefixes ();
+            printKnownPrefixes ();
 
             stringstream s;
 
@@ -4302,8 +4302,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptionsDetails && ! gGeneralOptions->fQuiet) {
-    printKnownOptionsPrefixes ();
-    printKnownOptionsElements ();
+    printKnownPrefixes ();
+    printKnownElements ();
   }
 #endif
 
@@ -4365,7 +4365,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
 void oahHandler::handleOptionsHandlerItemName (
   S_oahHandler handler,
-  string           oahAtomName)
+  string       oahAtomName)
 {
   // print the option handler help or help summary
 #ifdef TRACE_OPTIONS
@@ -4425,7 +4425,7 @@ void oahHandler::handleOptionsGroupItemName (
       fOptionsHandlerlogIOstream);
 }
 
-void oahHandler::handleOptionsSubGroupItemName (
+void oahHandler::handleSubGroupItemName (
   S_oahSubGroup subGroup,
   string            oahAtomName)
 {
@@ -4448,7 +4448,7 @@ void oahHandler::handleOptionsSubGroupItemName (
     endl <<
     "--- Help for subgroup \"" <<
     subGroup->
-      getOptionsSubGroupHelpHeader () <<
+      getSubGroupHelpHeader () <<
     "\"" <<
     " in group \"" <<
     group->
@@ -4458,7 +4458,7 @@ void oahHandler::handleOptionsSubGroupItemName (
     endl;
 
   group->
-    printOptionsSubGroupForcedHelp (
+    printSubGroupForcedHelp (
       fOptionsHandlerlogIOstream,
       subGroup);
 }
@@ -4835,7 +4835,7 @@ void oahHandler::handleOptionsItemItemName (
     S_oahGroup
       group =
         item->
-          getOptionsSubGroupUpLink ()->
+          getSubGroupUpLink ()->
             getOptionsGroupUpLink ();
 
     fPendingOptionsValuedItem =
@@ -4862,7 +4862,7 @@ void oahHandler::handleOptionsItemName (
   // is oahAtomName known in options elements map?
   S_oahElement
     element =
-      fetchOptionsElementFromMap (
+      fetchElementFromMap (
         oahAtomName);
 
   if (! element) {
@@ -4900,9 +4900,9 @@ void oahHandler::handleOptionsItemName (
     // in case one of them (short or long) is empty
     string
       shortName =
-        element->getOptionsElementShortName (),
+        element->getShortName (),
       longName =
-        element->getOptionsElementLongName ();
+        element->getLongName ();
 
     string
       shortNameToBeUsed = shortName,
@@ -4952,7 +4952,7 @@ void oahHandler::handleOptionsItemName (
         subGroup =
           dynamic_cast<oahSubGroup*>(&(*element))
     ) {
-      handleOptionsSubGroupItemName (
+      handleSubGroupItemName (
         subGroup,
         oahAtomName);
     }
@@ -4987,7 +4987,7 @@ void oahHandler::handleOptionsItemHelpValue (
   string                theString)
 {
   // handle the option item
-  printSpecificItemHelp (
+  printSpecificElementHelp (
     fOptionsHandlerlogIOstream,
     theString);
 
@@ -5092,7 +5092,7 @@ void oahHandler::handleOptionsItemRationalValue (
     printSpecificSubGroupHelp (
       fOptionsHandlerlogIOstream,
       rationalItem->
-        getOptionsSubGroupUpLink ());
+        getSubGroupUpLink ());
 
     exit (4);
   }
@@ -5274,7 +5274,7 @@ void oahHandler::handleOptionsItemValueOrArgument (
       S_oahGroup
         group =
           fPendingOptionsValuedItem->
-            getOptionsSubGroupUpLink ()->
+            getSubGroupUpLink ()->
               getOptionsGroupUpLink ();
 
       group->

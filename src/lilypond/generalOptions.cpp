@@ -55,7 +55,7 @@ R"()",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -77,7 +77,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (helpGeneralOptionsHelpSubGroup);
+  appendSubGroup (helpGeneralOptionsHelpSubGroup);
 
   // help options
 
@@ -126,7 +126,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
+  appendSubGroup (warningAndErrorHandlingSubGroup);
 
   // quiet
 
@@ -198,7 +198,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (CPUUsageSubGroup);
+  appendSubGroup (CPUUsageSubGroup);
 
   // CPU usage
 

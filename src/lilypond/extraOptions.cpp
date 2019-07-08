@@ -36,27 +36,27 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsShowAllChordsStructuresItem optionsShowAllChordsStructuresItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   optionsShowAllChordsStructuresItem* o = new
     optionsShowAllChordsStructuresItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 optionsShowAllChordsStructuresItem::optionsShowAllChordsStructuresItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem ()
@@ -105,38 +105,38 @@ ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& el
 
 //______________________________________________________________________________
 S_optionsShowAllChordsContentsItem optionsShowAllChordsContentsItem::create (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsShowAllChordsContentsItemVariableDisplayName,
+  string  optionsShowAllChordsContentsItemVariableName,
   string& optionsShowAllChordsContentsItemVariable)
 {
   optionsShowAllChordsContentsItem* o = new
     optionsShowAllChordsContentsItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsShowAllChordsContentsItemVariableDisplayName,
+      optionsShowAllChordsContentsItemVariableName,
       optionsShowAllChordsContentsItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsShowAllChordsContentsItem::optionsShowAllChordsContentsItem (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsShowAllChordsContentsItemVariableDisplayName,
+  string  optionsShowAllChordsContentsItemVariableName,
   string& optionsShowAllChordsContentsItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsShowAllChordsContentsItemVariableDisplayName),
+      optionsShowAllChordsContentsItemVariableName),
     fOptionsShowAllChordsContentsItemVariable (
       optionsShowAllChordsContentsItemVariable)
 {}
@@ -191,38 +191,38 @@ ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt)
 
 //______________________________________________________________________________
 S_optionsShowChordDetailsItem optionsShowChordDetailsItem::create (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsShowChordDetailsItemVariableDisplayName,
+  string  optionsShowChordDetailsItemVariableName,
   string& optionsShowChordDetailsItemVariable)
 {
   optionsShowChordDetailsItem* o = new
     optionsShowChordDetailsItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsShowChordDetailsItemVariableDisplayName,
+      optionsShowChordDetailsItemVariableName,
       optionsShowChordDetailsItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsShowChordDetailsItem::optionsShowChordDetailsItem (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsShowChordDetailsItemVariableDisplayName,
+  string  optionsShowChordDetailsItemVariableName,
   string& optionsShowChordDetailsItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsShowChordDetailsItemVariableDisplayName),
+      optionsShowChordDetailsItemVariableName),
     fOptionsShowChordDetailsItemVariable (
       optionsShowChordDetailsItemVariable)
 {}
@@ -268,38 +268,38 @@ ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt)
 
 //______________________________________________________________________________
 S_optionsShowChordAnalysisItem optionsShowChordAnalysisItem::create (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsShowChordAnalysisItemVariableDisplayName,
+  string  optionsShowChordAnalysisItemVariableName,
   string& optionsShowChordAnalysisItemVariable)
 {
   optionsShowChordAnalysisItem* o = new
     optionsShowChordAnalysisItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsShowChordAnalysisItemVariableDisplayName,
+      optionsShowChordAnalysisItemVariableName,
       optionsShowChordAnalysisItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsShowChordAnalysisItem::optionsShowChordAnalysisItem (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsShowChordAnalysisItemVariableDisplayName,
+  string  optionsShowChordAnalysisItemVariableName,
   string& optionsShowChordAnalysisItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsShowChordAnalysisItemVariableDisplayName),
+      optionsShowChordAnalysisItemVariableName),
     fOptionsShowChordAnalysisItemVariable (
       optionsShowChordAnalysisItemVariable)
 {}
@@ -372,7 +372,7 @@ and around the '=' sign, otherwise they can be dispensed with.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -394,7 +394,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendSubGroup (traceAndDisplaySubGroup);
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
@@ -434,7 +434,7 @@ HARMONY_NAME should be one of:
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (workSubGroup);
+  appendSubGroup (workSubGroup);
 
   workSubGroup->
     appendOptionsItem (
@@ -459,7 +459,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (workSubGroup);
+  appendSubGroup (workSubGroup);
 
   workSubGroup->
     appendOptionsItem (
@@ -496,7 +496,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (workSubGroup);
+  appendSubGroup (workSubGroup);
 
   workSubGroup->
     appendOptionsItem (
@@ -848,7 +848,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
     printSpecificSubGroupHelp (
       os,
       showChordDetailsItem->
-        getOptionsSubGroupUpLink ());
+        getSubGroupUpLink ());
 
     exit (4);
   }
@@ -1025,7 +1025,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
     printSpecificSubGroupHelp (
       os,
       showChordAnalysisItem->
-        getOptionsSubGroupUpLink ());
+        getSubGroupUpLink ());
 */
     exit (4);
   }

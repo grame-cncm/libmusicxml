@@ -29,9 +29,9 @@ class xml2lyOptionsVersionItem : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsVersionItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -39,9 +39,9 @@ class xml2lyOptionsVersionItem : public oahAtom
     // ------------------------------------------------------
 
     xml2lyOptionsVersionItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~xml2lyOptionsVersionItem ();
 
@@ -81,9 +81,9 @@ class xml2lyOptionsAboutItem : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsAboutItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -91,9 +91,9 @@ class xml2lyOptionsAboutItem : public oahAtom
     // ------------------------------------------------------
 
     xml2lyOptionsAboutItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~xml2lyOptionsAboutItem ();
 
@@ -133,9 +133,9 @@ class xml2lyOptionsContactItem : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsContactItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -143,9 +143,9 @@ class xml2lyOptionsContactItem : public oahAtom
     // ------------------------------------------------------
 
     xml2lyOptionsContactItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~xml2lyOptionsContactItem ();
 

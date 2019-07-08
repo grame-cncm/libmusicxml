@@ -44,27 +44,27 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2brlOptionsVersionItem xml2brlOptionsVersionItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   xml2brlOptionsVersionItem* o = new
     xml2brlOptionsVersionItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 xml2brlOptionsVersionItem::xml2brlOptionsVersionItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 xml2brlOptionsVersionItem::~xml2brlOptionsVersionItem ()
@@ -121,27 +121,27 @@ ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionItem& elt)
 
 //______________________________________________________________________________
 S_xml2brlOptionsAboutItem xml2brlOptionsAboutItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   xml2brlOptionsAboutItem* o = new
     xml2brlOptionsAboutItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 xml2brlOptionsAboutItem::xml2brlOptionsAboutItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 xml2brlOptionsAboutItem::~xml2brlOptionsAboutItem ()
@@ -217,27 +217,27 @@ ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutItem& elt)
 
 //______________________________________________________________________________
 S_xml2brlOptionsContactItem xml2brlOptionsContactItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   xml2brlOptionsContactItem* o = new
     xml2brlOptionsContactItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 xml2brlOptionsContactItem::xml2brlOptionsContactItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 xml2brlOptionsContactItem::~xml2brlOptionsContactItem ()
@@ -337,7 +337,7 @@ Option '-h, -help' prints the full help,
         "help",
         "help-",
         "'-help=abc,xywx-yz' is equivalent to '-help-abc, -help-xywx-yz'");
-  appendOptionsPrefixToHandler (helpPrefix);
+  appendPrefixToHandler (helpPrefix);
 
   S_oahPrefix
     hPrefix =
@@ -345,7 +345,7 @@ Option '-h, -help' prints the full help,
         "h",
         "h",
         "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'");
-  appendOptionsPrefixToHandler (hPrefix);
+  appendPrefixToHandler (hPrefix);
 
   // append the trace options prefixes
   S_oahPrefix
@@ -354,7 +354,7 @@ Option '-h, -help' prints the full help,
         "trace",
         "trace-",
         "'-trace=abc,xywx-yz' is equivalent to '-trace-abc, -trace-xywx-yz'");
-  appendOptionsPrefixToHandler (tracePrefix);
+  appendPrefixToHandler (tracePrefix);
 
   S_oahPrefix
     tPrefix =
@@ -362,7 +362,7 @@ Option '-h, -help' prints the full help,
         "t",
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
-  appendOptionsPrefixToHandler (tPrefix);
+  appendPrefixToHandler (tPrefix);
 }
 
 xml2brlOptionsHandler::~xml2brlOptionsHandler ()
@@ -434,7 +434,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
   // register options handler in itself,
   // so that the 'global' help options can be handled
   this->
-    registerOptionsHandlerInItself ();
+    registerHandlerInItself ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -795,7 +795,7 @@ R"(Options that are used by xml2brl are grouped here.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -820,7 +820,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (versionSubGroup);
+    appendSubGroup (versionSubGroup);
 
     // version
 
@@ -845,7 +845,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (aboutSubGroup);
+    appendSubGroup (aboutSubGroup);
 
     // about
 
@@ -870,7 +870,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (contactSubGroup);
+    appendSubGroup (contactSubGroup);
 
     // contact
 
@@ -895,7 +895,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (outputFileSubGroup);
+    appendSubGroup (outputFileSubGroup);
 
     // output filename
 

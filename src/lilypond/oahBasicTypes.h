@@ -52,7 +52,7 @@ typedef SMARTP<oahSubGroup> S_oahSubGroup;
 class oahGroup;
 typedef SMARTP<oahGroup> S_oahGroup;
 
-class oahHandler;
+class EXP oahHandler;
 typedef SMARTP<oahHandler> S_oahHandler;
 
 // options elements
@@ -65,9 +65,9 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     static SMARTP<oahElement> create (
-      string oahElementShortName,
-      string oahElementLongName,
-      string oahElementDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -75,9 +75,9 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     oahElement (
-      string oahElementShortName,
-      string oahElementLongName,
-      string oahElementDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~oahElement ();
 
@@ -86,40 +86,42 @@ class oahElement : public smartable
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsElementShortName () const
+    string                getShortName () const
                               { return fShortName; }
 
-    string                getOptionsElementLongName () const
+    string                getLongName () const
                               { return fLongName; }
 
-    string                getOptionsElementDescription () const
+    string                getDescription () const
                               { return fDescription; }
 
     void                  setOptionsElementIsHidden ()
-                              { fHidden = true; }
+                              { fIsHidden = true; }
 
-    bool                  getOptionsElementIsHidden () const
-                              { return fHidden; }
+    bool                  getIsHidden () const
+                              { return fIsHidden; }
 
     // services
     // ------------------------------------------------------
 
-    string                oahElementNames () const;
-    string                oahElementNamesInColumns (
+    string                fetchNames () const;
+    string                fetchNamesInColumns (
                             int subGroupsShortNameFieldWidth) const;
 
-    string                oahElementNamesBetweenParentheses () const;
-    string                oahElementNamesInColumnsBetweenParentheses (
+    string                fetchNamesBetweenParentheses () const;
+    string                fetchNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
 
-    virtual int           fetchOptionsElementVariableDisplayNameLength () const
+    virtual int           fetchOptionsElementVariableNameLength () const
                               { return 0; }
 
+/* JMI ???
     string                operator () () const
                               { return fDescription; }
+*/
 
-    S_oahElement      fetchOptionElement ( // JMI
-                            string optiontElementName);
+    S_oahElement          fetchElementByName (
+                            string name);
 
     // print
     // ------------------------------------------------------
@@ -145,7 +147,7 @@ class oahElement : public smartable
     string                fLongName;
     string                fDescription;
 
-    bool                  fHidden;
+    bool                  fIsHidden;
 };
 typedef SMARTP<oahElement> S_oahElement;
 EXP ostream& operator<< (ostream& os, const S_oahElement& elt);
@@ -160,9 +162,9 @@ class oahAtom : public oahElement
     // ------------------------------------------------------
 
     static SMARTP<oahAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -170,9 +172,9 @@ class oahAtom : public oahElement
     // ------------------------------------------------------
 
     oahAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~oahAtom ();
 
@@ -181,11 +183,11 @@ class oahAtom : public oahElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsSubGroupUpLink (
+    void                  setSubGroupUpLink (
                             S_oahSubGroup oahSubGroup);
 
-    S_oahSubGroup     getOptionsSubGroupUpLink () const
-                              { return fOptionsSubGroupUpLink; }
+    S_oahSubGroup         getSubGroupUpLink () const
+                              { return fSubGroupUpLink; }
 
     // services
     // ------------------------------------------------------
@@ -207,7 +209,7 @@ class oahAtom : public oahElement
     // fields
     // ------------------------------------------------------
 
-    S_oahSubGroup     fOptionsSubGroupUpLink;
+    S_oahSubGroup         fSubGroupUpLink;
 };
 typedef SMARTP<oahAtom> S_oahAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAtom& elt);
@@ -232,9 +234,9 @@ class oahHelpUsageAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahHelpUsageAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -242,9 +244,9 @@ class oahHelpUsageAtom : public oahAtom
     // ------------------------------------------------------
 
     oahHelpUsageAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~oahHelpUsageAtom ();
 
@@ -285,9 +287,9 @@ class oahHelpSummaryAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahHelpSummaryAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -295,9 +297,9 @@ class oahHelpSummaryAtom : public oahAtom
     // ------------------------------------------------------
 
     oahHelpSummaryAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~oahHelpSummaryAtom ();
 
@@ -338,10 +340,10 @@ class oahAtomWithVariableName : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahAtomWithVariableName> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahAtomVariableDisplayName);
+      string shortName,
+      string longName,
+      string description,
+      string oahAtomVariableName);
 
   protected:
 
@@ -349,10 +351,10 @@ class oahAtomWithVariableName : public oahAtom
     // ------------------------------------------------------
 
     oahAtomWithVariableName (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahAtomVariableDisplayName);
+      string shortName,
+      string longName,
+      string description,
+      string oahAtomVariableName);
 
     virtual ~oahAtomWithVariableName ();
 
@@ -361,19 +363,19 @@ class oahAtomWithVariableName : public oahAtom
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsItemVariableDisplayName () const
+    string                getOptionsItemVariableName () const
                               {
                                 return
-                                  fOptionsItemVariableDisplayName;
+                                  fOptionsItemVariableName;
                               }
 
     // services
     // ------------------------------------------------------
 
-    virtual int           fetchOptionsElementVariableDisplayNameLength () const
+    virtual int           fetchOptionsElementVariableNameLength () const
                               {
                                 return
-                                  fOptionsItemVariableDisplayName.size ();
+                                  fOptionsItemVariableName.size ();
                               }
 
     // print
@@ -390,7 +392,7 @@ class oahAtomWithVariableName : public oahAtom
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsItemVariableDisplayName;
+    string                fOptionsItemVariableName;
 };
 typedef SMARTP<oahAtomWithVariableName> S_oahAtomWithVariableName;
 EXP ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt);
@@ -405,10 +407,10 @@ class oahBooleanAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<oahBooleanAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahBooleanAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahBooleanAtomVariableName,
       bool&  oahBooleanAtomVariable);
 
   protected:
@@ -417,10 +419,10 @@ class oahBooleanAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     oahBooleanAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahBooleanAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahBooleanAtomVariableName,
       bool&  oahBooleanAtomVariable);
 
     virtual ~oahBooleanAtom ();
@@ -468,10 +470,10 @@ class oahTwoBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<oahTwoBooleansAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahTwoBooleansAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahTwoBooleansAtomVariableName,
       bool&  oahTwoBooleansAtomVariable,
       bool&  oahTwoBooleansAtomSecondaryVariable);
 
@@ -481,10 +483,10 @@ class oahTwoBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     oahTwoBooleansAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahTwoBooleansAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahTwoBooleansAtomVariableName,
       bool&  oahTwoBooleansAtomVariable,
       bool&  oahTwoBooleansAtomSecondaryVariable);
 
@@ -538,10 +540,10 @@ class oahThreeBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<oahThreeBooleansAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahThreeBooleansAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahThreeBooleansAtomVariableName,
       bool&  oahThreeBooleansAtomVariable,
       bool&  oahThreeBooleansAtomSecondaryVariable,
       bool&  oahThreeBooleansAtomTertiaryVariable);
@@ -552,10 +554,10 @@ class oahThreeBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     oahThreeBooleansAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahThreeBooleansAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahThreeBooleansAtomVariableName,
       bool&  oahThreeBooleansAtomVariable,
       bool&  oahThreeBooleansAtomSecondaryVariable,
       bool&  oahThreeBooleansAtomTertiaryVariable);
@@ -613,10 +615,10 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<oahCombinedBooleansAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahCombinedBooleansAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahCombinedBooleansAtomVariableName,
       bool&  oahCombinedBooleansAtomVariable);
 
   protected:
@@ -625,10 +627,10 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     oahCombinedBooleansAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string oahCombinedBooleansAtomVariableDisplayName,
+      string shortName,
+      string longName,
+      string description,
+      string oahCombinedBooleansAtomVariableName,
       bool&  oahCombinedBooleansAtomVariable);
 
     virtual ~oahCombinedBooleansAtom ();
@@ -708,11 +710,11 @@ class oahValuedAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<oahValuedAtom> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
+      string shortName,
+      string longName,
+      string description,
       string optionsValueSpecification,
-      string oahValuedAtomVariableDisplayName);
+      string oahValuedAtomVariableName);
 
   protected:
 
@@ -720,11 +722,11 @@ class oahValuedAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     oahValuedAtom (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
+      string shortName,
+      string longName,
+      string description,
       string optionsValueSpecification,
-      string oahValuedAtomVariableDisplayName);
+      string oahValuedAtomVariableName);
 
     virtual ~oahValuedAtom ();
 
@@ -788,11 +790,11 @@ class oahElementHelpAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<oahElementHelpAtom> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsHelpItemVariableDisplayName);
+      string             optionsHelpItemVariableName);
 
   protected:
 
@@ -800,11 +802,11 @@ class oahElementHelpAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     oahElementHelpAtom (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsHelpItemVariableDisplayName);
+      string             optionsHelpItemVariableName);
 
   protected:
 
@@ -847,11 +849,11 @@ class oahIntegerAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<oahIntegerAtom> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahIntegerAtomVariableDisplayName,
+      string             oahIntegerAtomVariableName,
       int&               oahIntegerAtomVariable);
 
   protected:
@@ -860,11 +862,11 @@ class oahIntegerAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     oahIntegerAtom (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahIntegerAtomVariableDisplayName,
+      string             oahIntegerAtomVariableName,
       int&               oahIntegerAtomVariable);
 
   protected:
@@ -914,11 +916,11 @@ class oahFloatAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<oahFloatAtom> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahFloatAtomVariableDisplayName,
+      string             oahFloatAtomVariableName,
       float&             oahFloatAtomVariable);
 
   protected:
@@ -927,11 +929,11 @@ class oahFloatAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     oahFloatAtom (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahFloatAtomVariableDisplayName,
+      string             oahFloatAtomVariableName,
       float&             oahFloatAtomVariable);
 
     virtual ~oahFloatAtom ();
@@ -979,11 +981,11 @@ class oahStringAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<oahStringAtom> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahStringAtomVariableDisplayName,
+      string             oahStringAtomVariableName,
       string&            oahStringAtomVariable);
 
   protected:
@@ -992,11 +994,11 @@ class oahStringAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     oahStringAtom (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahStringAtomVariableDisplayName,
+      string             oahStringAtomVariableName,
       string&            oahStringAtomVariable);
 
     virtual ~oahStringAtom ();
@@ -1044,11 +1046,11 @@ class oahRationalAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<oahRationalAtom> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahRationalAtomVariableDisplayName,
+      string             oahRationalAtomVariableName,
       rational&          oahRationalAtomVariable);
 
   protected:
@@ -1057,11 +1059,11 @@ class oahRationalAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     oahRationalAtom (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahRationalAtomVariableDisplayName,
+      string             oahRationalAtomVariableName,
       rational&          oahRationalAtomVariable);
 
     virtual ~oahRationalAtom ();
@@ -1109,11 +1111,11 @@ class oahNumbersSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<oahNumbersSetAtom> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahNumbersSetAtomVariableDisplayName,
+      string             oahNumbersSetAtomVariableName,
       set<int>&          oahNumbersSetAtomVariable);
 
   protected:
@@ -1122,11 +1124,11 @@ class oahNumbersSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     oahNumbersSetAtom (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             oahNumbersSetAtomVariableDisplayName,
+      string             oahNumbersSetAtomVariableName,
       set<int>&          oahNumbersSetAtomVariable);
 
     virtual ~oahNumbersSetAtom ();
@@ -1225,17 +1227,17 @@ class oahSubGroup : public oahElement
                                   oahGroup;
                               }
 
-    S_oahGroup        getOptionsGroupUpLink () const
+    S_oahGroup            getOptionsGroupUpLink () const
                               { return fOptionsGroupUpLink; }
 
-    string                getOptionsSubGroupHelpHeader () const
-                              { return fOptionsSubGroupHelpHeader; }
+    string                getSubGroupHelpHeader () const
+                              { return fSubGroupHelpHeader; }
 
     oahSubGroupDescriptionVisibilityKind
-                          getOptionsSubGroupIsHiddenByDefault () const
+                          getSubGroupIsHiddenByDefault () const
                               {
                                 return
-                                  fOptionsSubGroupDescriptionVisibilityKind;
+                                  fSubGroupDescriptionVisibilityKind;
                               }
 
     // services
@@ -1243,13 +1245,13 @@ class oahSubGroup : public oahElement
 
     void                  underlineHeader (ostream& os) const;
 
-    void                  registerOptionsSubGroupInHandler (
+    void                  registerSubGroupInHandler (
                             S_oahHandler oahHandler);
 
     void                  appendOptionsItem (
                             S_oahAtom oahAtom);
 
-    S_oahElement      fetchOptionElement (
+    S_oahElement          fetchElementByName (
                             string optiontElementName);
 
     // print
@@ -1259,7 +1261,7 @@ class oahSubGroup : public oahElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printOptionsSubGroupForcedHelp (
+    void                  printSubGroupForcedHelp (
                             ostream& os) const;
 
     void                  printOptionsItemForcedHelp (
@@ -1282,14 +1284,14 @@ class oahSubGroup : public oahElement
     // fields
     // ------------------------------------------------------
 
-    S_oahGroup        fOptionsGroupUpLink;
+    S_oahGroup            fOptionsGroupUpLink;
 
-    string                fOptionsSubGroupHelpHeader;
+    string                fSubGroupHelpHeader;
 
     oahSubGroupDescriptionVisibilityKind
-                          fOptionsSubGroupDescriptionVisibilityKind;
+                          fSubGroupDescriptionVisibilityKind;
 
-    list<S_oahAtom>   fOptionsSubGroupItemsList;
+    list<S_oahAtom>       fSubGroupItemsList;
 };
 typedef SMARTP<oahSubGroup> S_oahSubGroup;
 EXP ostream& operator<< (ostream& os, const S_oahSubGroup& elt);
@@ -1332,7 +1334,7 @@ class oahGroup : public oahElement
     void                  setOptionsHandlerUpLink (
                             S_oahHandler oahHandler);
 
-    S_oahHandler      getOptionsHandlerUpLink () const
+    S_oahHandler          getOptionsHandlerUpLink () const
                               { return fOptionsHandlerUpLink; }
 
     string                getOptionsGroupHelpHeader () const
@@ -1355,10 +1357,10 @@ class oahGroup : public oahElement
     void                  registerOptionsGroupInHandler (
                             S_oahHandler oahHandler);
 
-    void                  appendOptionsSubGroup (
+    void                  appendSubGroup (
                             S_oahSubGroup oahSubGroup);
 
-    S_oahElement      fetchOptionElement (
+    S_oahElement          fetchElementByName (
                             string optiontElementName);
 
     virtual S_oahValuedAtom
@@ -1378,13 +1380,13 @@ class oahGroup : public oahElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printOptionsSubGroupForcedHelp (
+    void                  printSubGroupForcedHelp (
                             ostream&             os,
-                            S_oahSubGroup targetOptionsSubGroup) const;
+                            S_oahSubGroup targetSubGroup) const;
 
     void                  printOptionsItemForcedHelp (
                             ostream&          os,
-                            S_oahSubGroup targetOptionsSubGroup,
+                            S_oahSubGroup targetSubGroup,
                             S_oahAtom     targetOptionsItem) const;
 
     void                  printHelpSummary (ostream& os) const;
@@ -1403,7 +1405,7 @@ class oahGroup : public oahElement
     // upLink
     // ------------------------------------------------------
 
-    S_oahHandler      fOptionsHandlerUpLink;
+    S_oahHandler          fOptionsHandlerUpLink;
 
   private:
 
@@ -1489,7 +1491,7 @@ to be developped into :
                               { return fOptionsPrefixErsatz; }
 
 /* JMI
-    S_oahPrefix       fetchOptionElement (
+    S_oahPrefix           fetchElementByName (
                             string optiontElementName);
                             */
 
@@ -1521,7 +1523,7 @@ EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
 // options handlers
 //_______________________________________________________________________________
-class oahHandler : public oahElement
+class EXP oahHandler : public oahElement
 {
   public:
 
@@ -1612,29 +1614,29 @@ class oahHandler : public oahElement
     int                   getMaximumLongNameWidth () const
                               { return fMaximumLongNameWidth; }
 
-    int                   getMaximumVariableDisplayNameWidth () const
-                              { return fMaximumVariableDisplayNameWidth; }
+    int                   getMaximumVariableNameWidth () const
+                              { return fMaximumVariableNameWidth; }
 
   public:
 
     // public services
     // ------------------------------------------------------
 
-    void                  appendOptionsPrefixToHandler (
+    void                  appendPrefixToHandler (
                             S_oahPrefix prefix);
 
-    void                  appendOptionsGroupToHandler (
+    void                  appendGroupToHandler (
                             S_oahGroup oahGroup);
 
-    void                  registerOptionsElementInHandler (
+    void                  registerElementInHandler (
                             S_oahElement oahElement);
 
-    void                  registerOptionsHandlerInItself ();
+    void                  registerHandlerInItself ();
 
-    S_oahPrefix       fetchOptionsPrefixFromMap (
+    S_oahPrefix           fetchPrefixFromMap (
                             string oahElementName) const;
 
-    S_oahElement      fetchOptionsElementFromMap (
+    S_oahElement          fetchElementFromMap (
                             string oahElementName) const;
 
     const vector<string>  decipherOptionsAndArguments (
@@ -1661,9 +1663,9 @@ class oahHandler : public oahElement
                             ostream&          os,
                             S_oahSubGroup oahSubGroup) const;
 
-    void                  printSpecificItemHelp (
+    void                  printSpecificElementHelp (
                             ostream& os,
-                            string   oahAtomName) const;
+                            string   name) const;
 
     void                  printAllOptionsValues (
                             ostream& os) const;
@@ -1681,15 +1683,15 @@ class oahHandler : public oahElement
 
     string                helpNamesBetweenParentheses () const; // JMI ???
 
-    void                  registerOptionsNamesInHandler (
-                            string           optionShortName,
-                            string           optionLongName,
+    void                  registerNamesInHandler (
+                            string      optionShortName,
+                            string      optionLongName,
                             S_oahElement oahElement);
 
-    void                  printKnownOptionsPrefixes () const;
-    void                  printKnownOptionsElements () const;
+    void                  printKnownPrefixes () const;
+    void                  printKnownElements () const;
 
-    S_oahElement      fetchOptionElement (
+    S_oahElement          fetchElementByName (
                             string optiontElementName);
 
     void                  handleOptionsItemName (
@@ -1703,7 +1705,7 @@ class oahHandler : public oahElement
                             S_oahGroup group,
                             string         oahAtomName);
 
-    void                  handleOptionsSubGroupItemName (
+    void                  handleSubGroupItemName (
                             S_oahSubGroup subGroup,
                             string            oahAtomName);
 
@@ -1804,14 +1806,14 @@ class oahHandler : public oahElement
 
     string                fOptionHandlerPreamble;
 
-    S_oahValuedAtom   fPendingOptionsValuedItem;
+    S_oahValuedAtom       fPendingOptionsValuedItem;
 
     vector<string>        fArgumentsVector;
 
     map<string, S_oahPrefix>
                           fOptionsPrefixesMap;
 
-    list<S_oahGroup>  fOptionsHandlerOptionsGroupsList;
+    list<S_oahGroup>      fOptionsHandlerOptionsGroupsList;
 
     map<string, S_oahElement>
                           fElementsMap;
@@ -1821,7 +1823,7 @@ class oahHandler : public oahElement
     int                   fMaximumShortNameWidth;
     int                   fMaximumLongNameWidth;
 
-    int                   fMaximumVariableDisplayNameWidth;
+    int                   fMaximumVariableNameWidth;
 
     list<S_oahElement>
                           fCommandOptionsElements;

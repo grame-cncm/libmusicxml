@@ -33,38 +33,38 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsUTFKindItem optionsUTFKindItem::create (
-  string     oahAtomShortName,
-  string     oahAtomLongName,
-  string     oahAtomDescription,
+  string     shortName,
+  string     longName,
+  string     description,
   string     optionsValueSpecification,
-  string     optionsUTFKindItemVariableDisplayName,
+  string     optionsUTFKindItemVariableName,
   bsrUTFKind optionsUTFKindItemVariable)
 {
   optionsUTFKindItem* o = new
     optionsUTFKindItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsUTFKindItemVariableDisplayName,
+      optionsUTFKindItemVariableName,
       optionsUTFKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsUTFKindItem::optionsUTFKindItem (
-  string     oahAtomShortName,
-  string     oahAtomLongName,
-  string     oahAtomDescription,
+  string     shortName,
+  string     longName,
+  string     description,
   string     optionsValueSpecification,
-  string     optionsUTFKindItemVariableDisplayName,
+  string     optionsUTFKindItemVariableName,
   bsrUTFKind optionsUTFKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsUTFKindItemVariableDisplayName),
+      optionsUTFKindItemVariableName),
     fOptionsUTFKindItemVariable (
       optionsUTFKindItemVariable)
 {}
@@ -87,8 +87,8 @@ void optionsUTFKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "optionsUTFKindItemVariable" << " : \"" <<
@@ -104,7 +104,7 @@ void optionsUTFKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     bsrUTFKindAsString (
       fOptionsUTFKindItemVariable) <<
@@ -120,38 +120,38 @@ ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsByteOrderingKindItem optionsByteOrderingKindItem::create (
-  string              oahAtomShortName,
-  string              oahAtomLongName,
-  string              oahAtomDescription,
+  string              shortName,
+  string              longName,
+  string              description,
   string              optionsValueSpecification,
-  string              optionsByteOrderingKindItemVariableDisplayName,
+  string              optionsByteOrderingKindItemVariableName,
   bsrByteOrderingKind optionsByteOrderingKindItemVariable)
 {
   optionsByteOrderingKindItem* o = new
     optionsByteOrderingKindItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsByteOrderingKindItemVariableDisplayName,
+      optionsByteOrderingKindItemVariableName,
       optionsByteOrderingKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsByteOrderingKindItem::optionsByteOrderingKindItem (
-  string              oahAtomShortName,
-  string              oahAtomLongName,
-  string              oahAtomDescription,
+  string              shortName,
+  string              longName,
+  string              description,
   string              optionsValueSpecification,
-  string              optionsByteOrderingKindItemVariableDisplayName,
+  string              optionsByteOrderingKindItemVariableName,
   bsrByteOrderingKind optionsByteOrderingKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsByteOrderingKindItemVariableDisplayName),
+      optionsByteOrderingKindItemVariableName),
     fOptionsByteOrderingKindItemVariable (
       optionsByteOrderingKindItemVariable)
 {}
@@ -174,8 +174,8 @@ void optionsByteOrderingKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "optionsByteOrderingKindItemVariable" << " : \"" <<
@@ -191,7 +191,7 @@ void optionsByteOrderingKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     byteOrderingKindAsString (
       fOptionsByteOrderingKindItemVariable) <<
@@ -231,7 +231,7 @@ R"(These options control which Braille code is generated.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -253,7 +253,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (UTFEncodingSubGroup);
+  appendSubGroup (UTFEncodingSubGroup);
 
   // UTF encoding
 
@@ -282,7 +282,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (byteOrderingSubGroup);
+  appendSubGroup (byteOrderingSubGroup);
 
   // byte ordering
 
@@ -313,7 +313,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (musicFileNameSubGroup);
+  appendSubGroup (musicFileNameSubGroup);
 
   // encoding in file name
 
@@ -341,7 +341,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (codeGenerationSubGroup);
+  appendSubGroup (codeGenerationSubGroup);
 
   // cells per line
 
@@ -394,7 +394,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (codeGenerationSubGroup);
+  appendSubGroup (codeGenerationSubGroup);
 
   // xml2brl infos
 
@@ -766,7 +766,7 @@ thus overriding the ones that may be present in the MSR data.
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (identificationSubGroup);
+    appendSubGroup (identificationSubGroup);
 
     // MusicXML informations
 
@@ -944,7 +944,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (notesSubGroup);
+    appendSubGroup (notesSubGroup);
 
     notesSubGroup->
       appendOptionsItem (
@@ -1017,7 +1017,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (barsSubGroup);
+    appendSubGroup (barsSubGroup);
 
     barsSubGroup->
       appendOptionsItem (
@@ -1050,7 +1050,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (lineBreaksSubGroup);
+    appendSubGroup (lineBreaksSubGroup);
 
     lineBreaksSubGroup->
       appendOptionsItem (
@@ -1091,7 +1091,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (pageBreaksSubGroup);
+    appendSubGroup (pageBreaksSubGroup);
 
     pageBreaksSubGroup->
       appendOptionsItem (

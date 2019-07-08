@@ -30,11 +30,11 @@ class optionsPartRenameItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsPartRenameItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsPartRenameItemVariableDisplayName,
+      string             optionsPartRenameItemVariableName,
       map<string, string>&
                          optionsPartRenameItemVariable);
 
@@ -44,11 +44,11 @@ class optionsPartRenameItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsPartRenameItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsPartRenameItemVariableDisplayName,
+      string             optionsPartRenameItemVariableName,
       map<string, string>&
                          optionsPartRenameItemVariable);
 
@@ -105,11 +105,11 @@ class optionsPartTransposeItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsPartTransposeItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsPartTransposeItemVariableDisplayName,
+      string             optionsPartTransposeItemVariableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
                          optionsPartTransposeItemVariable);
 
@@ -119,11 +119,11 @@ class optionsPartTransposeItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsPartTransposeItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsPartTransposeItemVariableDisplayName,
+      string             optionsPartTransposeItemVariableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
                          optionsPartTransposeItemVariable);
 
@@ -182,11 +182,11 @@ class optionsMsrPitchesLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsMsrPitchesLanguageItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
+      string             optionsMsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsMsrPitchesLanguageKindItemVariable);
 
@@ -196,11 +196,11 @@ class optionsMsrPitchesLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsMsrPitchesLanguageItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
+      string             optionsMsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsMsrPitchesLanguageKindItemVariable);
 

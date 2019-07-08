@@ -29,11 +29,11 @@ class optionsLpsrScoreOutputKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrScoreOutputKindItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+      string             optionsLpsrScoreOutputKindKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsLpsrScoreOutputKindKindItemVariable);
 
@@ -43,11 +43,11 @@ class optionsLpsrScoreOutputKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsLpsrScoreOutputKindItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+      string             optionsLpsrScoreOutputKindKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsLpsrScoreOutputKindKindItemVariable);
 
@@ -95,11 +95,11 @@ class optionsLpsrPitchesLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrPitchesLanguageItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+      string             optionsLpsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsLpsrPitchesLanguageKindItemVariable);
 
@@ -109,11 +109,11 @@ class optionsLpsrPitchesLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsLpsrPitchesLanguageItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+      string             optionsLpsrPitchesLanguageKindItemVariableName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsLpsrPitchesLanguageKindItemVariable);
 
@@ -162,11 +162,11 @@ class optionsLpsrChordsLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrChordsLanguageItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
+      string             optionsLpsrChordsLanguageKindItemVariableName,
       lpsrChordsLanguageKind&
                          optionsLpsrChordsLanguageKindItemVariable);
 
@@ -176,11 +176,11 @@ class optionsLpsrChordsLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsLpsrChordsLanguageItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
+      string             optionsLpsrChordsLanguageKindItemVariableName,
       lpsrChordsLanguageKind&
                          optionsLpsrChordsLanguageKindItemVariable);
 
@@ -229,11 +229,11 @@ class optionsLpsrTransposeItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsLpsrTransposeItem> create (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsLpsrTransposeItemVariable);
 
@@ -243,11 +243,11 @@ class optionsLpsrTransposeItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsLpsrTransposeItem (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsLpsrTransposeItemVariable);
 

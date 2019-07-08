@@ -34,40 +34,40 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsScoreOutputKindItem optionsScoreOutputKindItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsScoreOutputKindItemVariableDisplayName,
+  string             optionsScoreOutputKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsScoreOutputKindItemVariable)
 {
   optionsScoreOutputKindItem* o = new
     optionsScoreOutputKindItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsScoreOutputKindItemVariableDisplayName,
+      optionsScoreOutputKindItemVariableName,
       optionsScoreOutputKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsScoreOutputKindItem::optionsScoreOutputKindItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsScoreOutputKindItemVariableDisplayName,
+  string             optionsScoreOutputKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsScoreOutputKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsScoreOutputKindItemVariableDisplayName),
+      optionsScoreOutputKindItemVariableName),
     fOptionsScoreOutputKindItemVariable (
       optionsScoreOutputKindItemVariable)
 {}
@@ -90,8 +90,8 @@ void optionsScoreOutputKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsScoreOutputKindItemVariable" << " : \"" <<
@@ -107,7 +107,7 @@ void optionsScoreOutputKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fOptionsScoreOutputKindItemVariable) <<
@@ -123,31 +123,31 @@ ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsAbsoluteOctaveEntryItem optionsAbsoluteOctaveEntryItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string optionsAbsoluteOctaveEntryItemVariableDisplayName)
+  string shortName,
+  string longName,
+  string description,
+  string optionsAbsoluteOctaveEntryItemVariableName)
 {
   optionsAbsoluteOctaveEntryItem* o = new
     optionsAbsoluteOctaveEntryItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      optionsAbsoluteOctaveEntryItemVariableDisplayName);
+      shortName,
+      longName,
+      description,
+      optionsAbsoluteOctaveEntryItemVariableName);
   assert(o!=0);
   return o;
 }
 
 optionsAbsoluteOctaveEntryItem::optionsAbsoluteOctaveEntryItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription,
-  string optionsAbsoluteOctaveEntryItemVariableDisplayName)
+  string shortName,
+  string longName,
+  string description,
+  string optionsAbsoluteOctaveEntryItemVariableName)
   : oahAtomWithVariableName (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
-      optionsAbsoluteOctaveEntryItemVariableDisplayName)
+      shortName,
+      longName,
+      description,
+      optionsAbsoluteOctaveEntryItemVariableName)
 {}
 
 optionsAbsoluteOctaveEntryItem::~optionsAbsoluteOctaveEntryItem ()
@@ -182,7 +182,7 @@ void optionsAbsoluteOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : " <<
     "- no value here -" <<
     endl;
@@ -190,40 +190,40 @@ void optionsAbsoluteOctaveEntryItem::printOptionsValues (
 
 //______________________________________________________________________________
 S_optionsRelativeOctaveEntryItem optionsRelativeOctaveEntryItem::create (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsRelativeOctaveEntryItemVariableDisplayName,
+  string  optionsRelativeOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsRelativeOctaveEntryItemVariable)
 {
   optionsRelativeOctaveEntryItem* o = new
     optionsRelativeOctaveEntryItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsRelativeOctaveEntryItemVariableDisplayName,
+      optionsRelativeOctaveEntryItemVariableName,
       optionsRelativeOctaveEntryItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsRelativeOctaveEntryItem::optionsRelativeOctaveEntryItem (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsRelativeOctaveEntryItemVariableDisplayName,
+  string  optionsRelativeOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsRelativeOctaveEntryItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsRelativeOctaveEntryItemVariableDisplayName),
+      optionsRelativeOctaveEntryItemVariableName),
     fOptionsRelativeOctaveEntryItemVariable (
       optionsRelativeOctaveEntryItemVariable)
 {}
@@ -260,7 +260,7 @@ void optionsRelativeOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : ";
   if (fOptionsRelativeOctaveEntryItemVariable) {
     os << endl;
@@ -282,40 +282,40 @@ ostream& operator<< (ostream& os, const S_optionsRelativeOctaveEntryItem& elt)
 
 //______________________________________________________________________________
 S_optionsFixedOctaveEntryItem optionsFixedOctaveEntryItem::create (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsFixedOctaveEntryItemVariableDisplayName,
+  string  optionsFixedOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsFixedOctaveEntryItemVariable)
 {
   optionsFixedOctaveEntryItem* o = new
     optionsFixedOctaveEntryItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsFixedOctaveEntryItemVariableDisplayName,
+      optionsFixedOctaveEntryItemVariableName,
       optionsFixedOctaveEntryItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsFixedOctaveEntryItem::optionsFixedOctaveEntryItem (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsFixedOctaveEntryItemVariableDisplayName,
+  string  optionsFixedOctaveEntryItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsFixedOctaveEntryItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsFixedOctaveEntryItemVariableDisplayName),
+      optionsFixedOctaveEntryItemVariableName),
     fOptionsFixedOctaveEntryItemVariable (
       optionsFixedOctaveEntryItemVariable)
 {}
@@ -352,7 +352,7 @@ void optionsFixedOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : ";
   if (fOptionsFixedOctaveEntryItemVariable) {
     os << endl;
@@ -374,40 +374,40 @@ ostream& operator<< (ostream& os, const S_optionsFixedOctaveEntryItem& elt)
 
 //______________________________________________________________________________
 S_optionsAccidentalStyleKindItem optionsAccidentalStyleKindItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsAccidentalStyleKindItemVariableDisplayName,
+  string             optionsAccidentalStyleKindItemVariableName,
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
 {
   optionsAccidentalStyleKindItem* o = new
     optionsAccidentalStyleKindItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsAccidentalStyleKindItemVariableDisplayName,
+      optionsAccidentalStyleKindItemVariableName,
       optionsAccidentalStyleKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsAccidentalStyleKindItem::optionsAccidentalStyleKindItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsAccidentalStyleKindItemVariableDisplayName,
+  string             optionsAccidentalStyleKindItemVariableName,
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsAccidentalStyleKindItemVariableDisplayName),
+      optionsAccidentalStyleKindItemVariableName),
     fOptionsAccidentalStyleKindItemVariable (
       optionsAccidentalStyleKindItemVariable)
 {}
@@ -430,8 +430,8 @@ void optionsAccidentalStyleKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsAccidentalStyleKindItemVariable" << " : \"" <<
@@ -447,7 +447,7 @@ void optionsAccidentalStyleKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     lpsrAccidentalStyleKindAsString (
       fOptionsAccidentalStyleKindItemVariable) <<
@@ -463,40 +463,40 @@ ostream& operator<< (ostream& os, const S_optionsAccidentalStyleKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsChordsDisplayItem optionsChordsDisplayItem::create (
-  string                oahAtomShortName,
-  string                oahAtomLongName,
-  string                oahAtomDescription,
+  string                shortName,
+  string                longName,
+  string                description,
   string                optionsValueSpecification,
-  string                optionsChordsDisplayItemVariableDisplayName,
+  string                optionsChordsDisplayItemVariableName,
   list<pair<string, string> >&
                         optionsChordsDisplayItemVariable)
 {
   optionsChordsDisplayItem* o = new
     optionsChordsDisplayItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsChordsDisplayItemVariableDisplayName,
+      optionsChordsDisplayItemVariableName,
       optionsChordsDisplayItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsChordsDisplayItem::optionsChordsDisplayItem (
-  string                oahAtomShortName,
-  string                oahAtomLongName,
-  string                oahAtomDescription,
+  string                shortName,
+  string                longName,
+  string                description,
   string                optionsValueSpecification,
-  string                optionsChordsDisplayItemVariableDisplayName,
+  string                optionsChordsDisplayItemVariableName,
   list<pair<string, string> >&
                         optionsChordsDisplayItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsChordsDisplayItemVariableDisplayName),
+      optionsChordsDisplayItemVariableName),
     foptionsChordsDisplayItemVariable (
       optionsChordsDisplayItemVariable)
 {}
@@ -519,8 +519,8 @@ void optionsChordsDisplayItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     setw (fieldWidth) <<
     "foptionsChordsDisplayItemVariable" << " : '" <<
     endl;
@@ -548,7 +548,7 @@ void optionsChordsDisplayItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : ";
 
   if (foptionsChordsDisplayItemVariable.size ()) {
@@ -582,38 +582,38 @@ ostream& operator<< (ostream& os, const S_optionsChordsDisplayItem& elt)
 
 //______________________________________________________________________________
 S_optionsMidiTempoItem optionsMidiTempoItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsMidiTempoItemVariableDisplayName,
+  string             optionsMidiTempoItemVariableName,
   pair<string, int>& optionsMidiTempoItemVariable)
 {
   optionsMidiTempoItem* o = new
     optionsMidiTempoItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsMidiTempoItemVariableDisplayName,
+      optionsMidiTempoItemVariableName,
       optionsMidiTempoItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsMidiTempoItem::optionsMidiTempoItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsMidiTempoItemVariableDisplayName,
+  string             optionsMidiTempoItemVariableName,
   pair<string, int>& optionsMidiTempoItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsMidiTempoItemVariableDisplayName),
+      optionsMidiTempoItemVariableName),
     fOptionsMidiTempoItemVariable (
       optionsMidiTempoItemVariable)
 {}
@@ -636,8 +636,8 @@ void optionsMidiTempoItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     setw (fieldWidth) <<
     "fOptionsMidiTempoItemVariable" << " : '" <<
     fOptionsMidiTempoItemVariable.first <<
@@ -653,7 +653,7 @@ void optionsMidiTempoItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : '" <<
     fOptionsMidiTempoItemVariable.first <<
     " = " <<
@@ -694,7 +694,7 @@ R"(These options control which LilyPond code is generated.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -717,7 +717,7 @@ thus overriding the ones that may be present in the MSR data.)",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (identificationSubGroup);
+  appendSubGroup (identificationSubGroup);
 
   // MusicXML informations
 
@@ -880,7 +880,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (engraversSubGroup);
+  appendSubGroup (engraversSubGroup);
 
   // ambitus engraver
 
@@ -907,7 +907,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (timeSubGroup);
+  appendSubGroup (timeSubGroup);
 
   // numerical time
 
@@ -934,7 +934,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (notesSubGroup);
+  appendSubGroup (notesSubGroup);
 
   // octave entry
 
@@ -1143,7 +1143,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (barsSubGroup);
+  appendSubGroup (barsSubGroup);
 
   // bar numbers
 
@@ -1170,7 +1170,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (lineBreaksSubGroup);
+  appendSubGroup (lineBreaksSubGroup);
 
   // lines
 
@@ -1222,7 +1222,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (pageBreaksSubGroup);
+  appendSubGroup (pageBreaksSubGroup);
 
   // pages
 
@@ -1250,7 +1250,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (stavesSubGroup);
+  appendSubGroup (stavesSubGroup);
 
   // tabs
 
@@ -1289,7 +1289,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (chordsSubGroup);
+  appendSubGroup (chordsSubGroup);
 
   // arpeggios
 
@@ -1316,7 +1316,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (tupletsSubGroup);
+  appendSubGroup (tupletsSubGroup);
 
   // tuplets
 
@@ -1344,7 +1344,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (repeatsSubGroup);
+  appendSubGroup (repeatsSubGroup);
 
   // repeats
 
@@ -1391,7 +1391,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (ornamentsSubGroup);
+  appendSubGroup (ornamentsSubGroup);
 
   // ornaments
 
@@ -1429,7 +1429,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (chordsDiaplaySubGroup);
+  appendSubGroup (chordsDiaplaySubGroup);
 
   // chords
 
@@ -1500,7 +1500,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (fontsSubGroup);
+  appendSubGroup (fontsSubGroup);
 
   // fonts
 
@@ -1530,7 +1530,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (codeGenerationSubGroup);
+  appendSubGroup (codeGenerationSubGroup);
 
   // infos
 
@@ -1647,7 +1647,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (scoreNotationSubGroup);
+  appendSubGroup (scoreNotationSubGroup);
 
   // score notation
 
@@ -1680,7 +1680,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (midiSubGroup);
+  appendSubGroup (midiSubGroup);
 
   // midiTempo
 
@@ -3382,7 +3382,7 @@ void lilypondOptions::handleOptionsChordsDisplayItemValue (
     printSpecificSubGroupHelp (
       os,
       chordsDisplayItem->
-        getOptionsSubGroupUpLink ());
+        getSubGroupUpLink ());
 
     exit (4);
   }
@@ -3401,7 +3401,7 @@ void lilypondOptions::handleOptionsChordsDisplayItemValue (
       endl;
 
   chordsDisplayItem->
-    setOptionsChordsDisplayItemVariableDisplayName (
+    setOptionsChordsDisplayItemVariableName (
       make_pair (
         chordContents, chordsDisplaycode));
   }
@@ -3475,7 +3475,7 @@ void lilypondOptions::handleOptionsMidiTempoItemValue (
     printSpecificSubGroupHelp (
       os,
       midiTempoItem->
-        getOptionsSubGroupUpLink ());
+        getSubGroupUpLink ());
 
     exit (4);
   }

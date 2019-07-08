@@ -30,11 +30,11 @@ class optionsScoreOutputKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsScoreOutputKindItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsScoreOutputKindItemVariableDisplayName,
+      string             optionsScoreOutputKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsScoreOutputKindItemVariable);
 
@@ -44,11 +44,11 @@ class optionsScoreOutputKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsScoreOutputKindItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsScoreOutputKindItemVariableDisplayName,
+      string             optionsScoreOutputKindItemVariableName,
       lpsrScoreOutputKind&
                          optionsScoreOutputKindItemVariable);
 
@@ -96,10 +96,10 @@ class optionsAbsoluteOctaveEntryItem : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     static SMARTP<optionsAbsoluteOctaveEntryItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string optionsAbsoluteOctaveEntryItemVariableDisplayName);
+      string shortName,
+      string longName,
+      string description,
+      string optionsAbsoluteOctaveEntryItemVariableName);
 
   protected:
 
@@ -107,10 +107,10 @@ class optionsAbsoluteOctaveEntryItem : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     optionsAbsoluteOctaveEntryItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription,
-      string optionsAbsoluteOctaveEntryItemVariableDisplayName);
+      string shortName,
+      string longName,
+      string description,
+      string optionsAbsoluteOctaveEntryItemVariableName);
 
     virtual ~optionsAbsoluteOctaveEntryItem ();
 
@@ -135,7 +135,7 @@ class optionsAbsoluteOctaveEntryItem : public oahAtomWithVariableName
 
     // fields
     // ------------------------------------------------------
-    string                fOptionsAbsoluteOctaveEntryItemVariableDisplayName;
+    string                fOptionsAbsoluteOctaveEntryItemVariableName;
                             // in order for it to be displayed,
                             // even if there's no associated variable
 };
@@ -151,11 +151,11 @@ class optionsRelativeOctaveEntryItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsRelativeOctaveEntryItem> create (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  optionsRelativeOctaveEntryItemVariableDisplayName,
+      string  optionsRelativeOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsRelativeOctaveEntryItemVariable);
 
@@ -165,11 +165,11 @@ class optionsRelativeOctaveEntryItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsRelativeOctaveEntryItem (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  optionsRelativeOctaveEntryItemVariableDisplayName,
+      string  optionsRelativeOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsRelativeOctaveEntryItemVariable);
 
@@ -218,11 +218,11 @@ class optionsFixedOctaveEntryItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsFixedOctaveEntryItem> create (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  optionsFixedOctaveEntryItemVariableDisplayName,
+      string  optionsFixedOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsFixedOctaveEntryItemVariable);
 
@@ -232,11 +232,11 @@ class optionsFixedOctaveEntryItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsFixedOctaveEntryItem (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  optionsFixedOctaveEntryItemVariableDisplayName,
+      string  optionsFixedOctaveEntryItemVariableName,
       S_msrSemiTonesPitchAndOctave&
               optionsFixedOctaveEntryItemVariable);
 
@@ -285,11 +285,11 @@ class optionsAccidentalStyleKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsAccidentalStyleKindItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsAccidentalStyleKindItemVariableDisplayName,
+      string             optionsAccidentalStyleKindItemVariableName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
 
@@ -299,11 +299,11 @@ class optionsAccidentalStyleKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsAccidentalStyleKindItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsAccidentalStyleKindItemVariableDisplayName,
+      string             optionsAccidentalStyleKindItemVariableName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
 
@@ -352,11 +352,11 @@ class optionsChordsDisplayItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsChordsDisplayItem> create (
-      string                oahAtomShortName,
-      string                oahAtomLongName,
-      string                oahAtomDescription,
+      string                shortName,
+      string                longName,
+      string                description,
       string                optionsValueSpecification,
-      string                optionsChordsDisplayItemVariableDisplayName,
+      string                optionsChordsDisplayItemVariableName,
       list<pair<string, string> >&
                             optionsChordsDisplayItemVariable);
 
@@ -366,11 +366,11 @@ class optionsChordsDisplayItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsChordsDisplayItem (
-      string                oahAtomShortName,
-      string                oahAtomLongName,
-      string                oahAtomDescription,
+      string                shortName,
+      string                longName,
+      string                description,
       string                optionsValueSpecification,
-      string                optionsChordsDisplayItemVariableDisplayName,
+      string                optionsChordsDisplayItemVariableName,
       list<pair<string, string> >&
                             optionsChordsDisplayItemVariable);
 
@@ -381,7 +381,7 @@ class optionsChordsDisplayItem : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsChordsDisplayItemVariableDisplayName (
+    void                  setOptionsChordsDisplayItemVariableName (
                             pair<string, string> value)
                               {
                                 foptionsChordsDisplayItemVariable.push_back (value);
@@ -426,11 +426,11 @@ class optionsMidiTempoItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsMidiTempoItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsMidiTempoItemVariableDisplayName,
+      string             optionsMidiTempoItemVariableName,
       pair<string, int>& optionsMidiTempoItemVariable);
 
   protected:
@@ -439,11 +439,11 @@ class optionsMidiTempoItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsMidiTempoItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsMidiTempoItemVariableDisplayName,
+      string             optionsMidiTempoItemVariableName,
       pair<string, int>& optionsMidiTempoItemVariable);
 
     virtual ~optionsMidiTempoItem ();

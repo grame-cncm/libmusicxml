@@ -36,9 +36,9 @@ class optionsShowAllChordsStructuresItem : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsShowAllChordsStructuresItem> create (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -46,9 +46,9 @@ class optionsShowAllChordsStructuresItem : public oahAtom
     // ------------------------------------------------------
 
     optionsShowAllChordsStructuresItem (
-      string oahAtomShortName,
-      string oahAtomLongName,
-      string oahAtomDescription);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~optionsShowAllChordsStructuresItem ();
 
@@ -88,11 +88,11 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsShowAllChordsContentsItem> create (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       string& oahStringAtomVariable);
 
   protected:
@@ -101,11 +101,11 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsShowAllChordsContentsItem (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       string& oahStringAtomVariable);
 
     virtual ~optionsShowAllChordsContentsItem ();
@@ -156,11 +156,11 @@ class optionsShowChordDetailsItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsShowChordDetailsItem> create (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       string& oahStringAtomVariable);
 
   protected:
@@ -169,11 +169,11 @@ class optionsShowChordDetailsItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsShowChordDetailsItem (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       string& oahStringAtomVariable);
 
     virtual ~optionsShowChordDetailsItem ();
@@ -220,11 +220,11 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsShowChordAnalysisItem> create (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       string& oahStringAtomVariable);
 
   protected:
@@ -233,11 +233,11 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsShowChordAnalysisItem (
-      string  oahAtomShortName,
-      string  oahAtomLongName,
-      string  oahAtomDescription,
+      string  shortName,
+      string  longName,
+      string  description,
       string  optionsValueSpecification,
-      string  oahStringAtomVariableDisplayName,
+      string  oahStringAtomVariableName,
       string& oahStringAtomVariable);
 
     virtual ~optionsShowChordAnalysisItem ();

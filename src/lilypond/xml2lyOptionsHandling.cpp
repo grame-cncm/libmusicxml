@@ -43,27 +43,27 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2lyOptionsVersionItem xml2lyOptionsVersionItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   xml2lyOptionsVersionItem* o = new
     xml2lyOptionsVersionItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 xml2lyOptionsVersionItem::xml2lyOptionsVersionItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem ()
@@ -120,27 +120,27 @@ ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt)
 
 //______________________________________________________________________________
 S_xml2lyOptionsAboutItem xml2lyOptionsAboutItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   xml2lyOptionsAboutItem* o = new
     xml2lyOptionsAboutItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 xml2lyOptionsAboutItem::xml2lyOptionsAboutItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 xml2lyOptionsAboutItem::~xml2lyOptionsAboutItem ()
@@ -210,27 +210,27 @@ ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt)
 
 //______________________________________________________________________________
 S_xml2lyOptionsContactItem xml2lyOptionsContactItem::create (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
 {
   xml2lyOptionsContactItem* o = new
     xml2lyOptionsContactItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription);
+      shortName,
+      longName,
+      description);
   assert(o!=0);
   return o;
 }
 
 xml2lyOptionsContactItem::xml2lyOptionsContactItem (
-  string oahAtomShortName,
-  string oahAtomLongName,
-  string oahAtomDescription)
+  string shortName,
+  string longName,
+  string description)
   : oahAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription)
+      shortName,
+      longName,
+      description)
 {}
 
 xml2lyOptionsContactItem::~xml2lyOptionsContactItem ()
@@ -328,7 +328,7 @@ Option '-h, -help' prints the full help,
         "help",
         "help-",
         "'-help=abc,xywx-yz' is equivalent to '-help-abc, -help-xywx-yz'");
-  appendOptionsPrefixToHandler (helpPrefix);
+  appendPrefixToHandler (helpPrefix);
 
   S_oahPrefix
     hPrefix =
@@ -336,7 +336,7 @@ Option '-h, -help' prints the full help,
         "h",
         "h",
         "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'");
-  appendOptionsPrefixToHandler (hPrefix);
+  appendPrefixToHandler (hPrefix);
 
   // append the trace options prefixes
   S_oahPrefix
@@ -345,7 +345,7 @@ Option '-h, -help' prints the full help,
         "trace",
         "trace-",
         "'-trace=abc,xywx-yz' is equivalent to '-trace-abc, -trace-xywx-yz'");
-  appendOptionsPrefixToHandler (tracePrefix);
+  appendPrefixToHandler (tracePrefix);
 
   S_oahPrefix
     tPrefix =
@@ -353,7 +353,7 @@ Option '-h, -help' prints the full help,
         "t",
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
-  appendOptionsPrefixToHandler (tPrefix);
+  appendPrefixToHandler (tPrefix);
 }
 
 xml2lyOptionsHandler::~xml2lyOptionsHandler ()
@@ -425,7 +425,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
   // register options handler in itself,
   // so that the 'global' help options can be handled
   this->
-    registerOptionsHandlerInItself ();
+    registerHandlerInItself ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -743,7 +743,7 @@ R"(Options that are used by xml2ly are grouped here.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -768,7 +768,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (versionSubGroup);
+    appendSubGroup (versionSubGroup);
 
     // version
 
@@ -793,7 +793,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (aboutSubGroup);
+    appendSubGroup (aboutSubGroup);
 
     // about
 
@@ -818,7 +818,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (contactSubGroup);
+    appendSubGroup (contactSubGroup);
 
     // contact
 
@@ -843,7 +843,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-    appendOptionsSubGroup (outputFileSubGroup);
+    appendSubGroup (outputFileSubGroup);
 
     // output filename
 

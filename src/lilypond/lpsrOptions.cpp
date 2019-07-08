@@ -33,40 +33,40 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+  string             optionsLpsrScoreOutputKindKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsLpsrScoreOutputKindKindItemVariable)
 {
   optionsLpsrScoreOutputKindItem* o = new
     optionsLpsrScoreOutputKindItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+      optionsLpsrScoreOutputKindKindItemVariableName,
       optionsLpsrScoreOutputKindKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+  string             optionsLpsrScoreOutputKindKindItemVariableName,
   lpsrScoreOutputKind&
                      optionsLpsrScoreOutputKindKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrScoreOutputKindKindItemVariableDisplayName),
+      optionsLpsrScoreOutputKindKindItemVariableName),
     fOptionsLpsrScoreOutputKindKindItemVariable (
       optionsLpsrScoreOutputKindKindItemVariable)
 {}
@@ -89,8 +89,8 @@ void optionsLpsrScoreOutputKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsLpsrScoreOutputKindItemVariable" << " : \"" <<
@@ -106,7 +106,7 @@ void optionsLpsrScoreOutputKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fOptionsLpsrScoreOutputKindKindItemVariable) <<
@@ -122,40 +122,40 @@ ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+  string             optionsLpsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsLpsrPitchesLanguageKindItemVariable)
 {
   optionsLpsrPitchesLanguageItem* o = new
     optionsLpsrPitchesLanguageItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+      optionsLpsrPitchesLanguageKindItemVariableName,
       optionsLpsrPitchesLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+  string             optionsLpsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsLpsrPitchesLanguageKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrPitchesLanguageKindItemVariableDisplayName),
+      optionsLpsrPitchesLanguageKindItemVariableName),
     fOptionsLpsrPitchesLanguageKindItemVariable (
       optionsLpsrPitchesLanguageKindItemVariable)
 {}
@@ -178,8 +178,8 @@ void optionsLpsrPitchesLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsLpsrPitchesLanguageItemVariable" << " : \"" <<
@@ -195,7 +195,7 @@ void optionsLpsrPitchesLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fOptionsLpsrPitchesLanguageKindItemVariable) <<
@@ -211,40 +211,40 @@ ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt)
 
 //______________________________________________________________________________
 S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
+  string             optionsLpsrChordsLanguageKindItemVariableName,
   lpsrChordsLanguageKind&
                      optionsLpsrChordsLanguageKindItemVariable)
 {
   optionsLpsrChordsLanguageItem* o = new
     optionsLpsrChordsLanguageItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrChordsLanguageKindItemVariableDisplayName,
+      optionsLpsrChordsLanguageKindItemVariableName,
       optionsLpsrChordsLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
+  string             optionsLpsrChordsLanguageKindItemVariableName,
   lpsrChordsLanguageKind&
                      optionsLpsrChordsLanguageKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrChordsLanguageKindItemVariableDisplayName),
+      optionsLpsrChordsLanguageKindItemVariableName),
     fOptionsLpsrChordsLanguageKindItemVariable (
       optionsLpsrChordsLanguageKindItemVariable)
 {}
@@ -267,8 +267,8 @@ void optionsLpsrChordsLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     setw (fieldWidth) <<
     "fOptionsLpsrChordsLanguageKindItemVariable" << " : \"" <<
     lpsrChordsLanguageKindAsString (
@@ -283,7 +283,7 @@ void optionsLpsrChordsLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     lpsrChordsLanguageKindAsString (
       fOptionsLpsrChordsLanguageKindItemVariable) <<
@@ -299,40 +299,40 @@ ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt)
 
 //______________________________________________________________________________
 S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsLpsrTransposeItemVariableDisplayName,
+  string  optionsLpsrTransposeItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
 {
   optionsLpsrTransposeItem* o = new
     optionsLpsrTransposeItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrTransposeItemVariableDisplayName,
+      optionsLpsrTransposeItemVariableName,
       optionsLpsrTransposeItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsLpsrTransposeItem::optionsLpsrTransposeItem (
-  string  oahAtomShortName,
-  string  oahAtomLongName,
-  string  oahAtomDescription,
+  string  shortName,
+  string  longName,
+  string  description,
   string  optionsValueSpecification,
-  string  optionsLpsrTransposeItemVariableDisplayName,
+  string  optionsLpsrTransposeItemVariableName,
   S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsLpsrTransposeItemVariableDisplayName),
+      optionsLpsrTransposeItemVariableName),
     fOptionsTransposeItemVariable (
       optionsLpsrTransposeItemVariable)
 {}
@@ -369,7 +369,7 @@ void optionsLpsrTransposeItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : ";
   if (fOptionsTransposeItemVariable) {
     os << endl;
@@ -417,7 +417,7 @@ R"(These options control the way LPSR data is handled.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -440,7 +440,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (traceSubGroup);
+  appendSubGroup (traceSubGroup);
 
   // trace- lpsr
 
@@ -516,7 +516,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (displaySubGroup);
+  appendSubGroup (displaySubGroup);
 
   // display lpsr
 
@@ -543,7 +543,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (lilypondOutputKindGroup);
+  appendSubGroup (lilypondOutputKindGroup);
 
   // lilypond version
 
@@ -628,7 +628,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (lyricsVersusWordsSubGroup);
+  appendSubGroup (lyricsVersusWordsSubGroup);
 
   fAddWordsFromTheLyrics = boolOptionsInitialValue;
 
@@ -656,7 +656,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (languagesSubGroup);
+  appendSubGroup (languagesSubGroup);
 
   // lpsr pitches language
 
@@ -758,7 +758,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (languagesSubGroup);
+  appendSubGroup (languagesSubGroup);
 
   // lpsr transpose
 
@@ -790,7 +790,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+  appendSubGroup (exitAfterSomePassesSubGroup);
 
   // exit after pass 3
 

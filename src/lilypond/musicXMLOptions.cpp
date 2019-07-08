@@ -56,7 +56,7 @@ R"(These options control the way MusicXML data is translated.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -79,7 +79,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (traceSubGroup);
+  appendSubGroup (traceSubGroup);
 
   // encoding
 
@@ -146,7 +146,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (workSubGroup);
+  appendSubGroup (workSubGroup);
 
   // file name as work title
 
@@ -174,7 +174,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (clefsKeysTimesSubGroup);
+  appendSubGroup (clefsKeysTimesSubGroup);
 
   // redundant clefs
 
@@ -242,7 +242,7 @@ void musicXMLOptions::initializeMusicXMLCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    combinedOptionsSubGroup =
+    combinedSubGroup =
       oahSubGroup::create (
         "Combined options",
         "hmxmlco", "help-musicxml-combined-options",
@@ -250,7 +250,7 @@ R"()",
         oahSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (combinedOptionsSubGroup);
+  appendSubGroup (combinedSubGroup);
 
   // cubase
 
@@ -266,7 +266,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
         "cubase",
         fCubase);
 
-  combinedOptionsSubGroup->
+  combinedSubGroup->
     appendOptionsItem (
       cubaseCombinedBooleanItemsItem);
 
@@ -297,7 +297,7 @@ R"(Prevents the default 'cubase' option.)",
         "noCubase",
         fNoCubase);
 
-  combinedOptionsSubGroup->
+  combinedSubGroup->
     appendOptionsItem (
       noCubaseBooleanItem);
  }

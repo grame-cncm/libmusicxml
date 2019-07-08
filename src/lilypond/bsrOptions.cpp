@@ -49,38 +49,38 @@ string facSimileKindAsString (
 
 //______________________________________________________________________________
 S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
-  string           oahAtomShortName,
-  string           oahAtomLongName,
-  string           oahAtomDescription,
+  string           shortName,
+  string           longName,
+  string           description,
   string           optionsValueSpecification,
-  string           optionsFacSimileKindItemVariableDisplayName,
+  string           optionsFacSimileKindItemVariableName,
   bsrFacSimileKind optionsFacSimileKindItemVariable)
 {
   optionsFacSimileKindItem* o = new
     optionsFacSimileKindItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsFacSimileKindItemVariableDisplayName,
+      optionsFacSimileKindItemVariableName,
       optionsFacSimileKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsFacSimileKindItem::optionsFacSimileKindItem (
-  string           oahAtomShortName,
-  string           oahAtomLongName,
-  string           oahAtomDescription,
+  string           shortName,
+  string           longName,
+  string           description,
   string           optionsValueSpecification,
-  string           optionsFacSimileKindItemVariableDisplayName,
+  string           optionsFacSimileKindItemVariableName,
   bsrFacSimileKind optionsFacSimileKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsFacSimileKindItemVariableDisplayName),
+      optionsFacSimileKindItemVariableName),
     fOptionsFacSimileKindItemVariable (
       optionsFacSimileKindItemVariable)
 {}
@@ -103,8 +103,8 @@ void optionsFacSimileKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "optionsFacSimileKindItemVariable" << " : \"" <<
@@ -120,7 +120,7 @@ void optionsFacSimileKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     facSimileKindAsString (
       fOptionsFacSimileKindItemVariable) <<
@@ -136,40 +136,40 @@ ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsBsrTextsLanguageItem optionsBsrTextsLanguageItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+  string             optionsBsrTextsLanguageKindItemVariableName,
   bsrTextsLanguageKind&
                      optionsBsrTextsLanguageKindItemVariable)
 {
   optionsBsrTextsLanguageItem* o = new
     optionsBsrTextsLanguageItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsBsrTextsLanguageKindItemVariableDisplayName,
+      optionsBsrTextsLanguageKindItemVariableName,
       optionsBsrTextsLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsBsrTextsLanguageItem::optionsBsrTextsLanguageItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+  string             optionsBsrTextsLanguageKindItemVariableName,
   bsrTextsLanguageKind&
                      optionsBsrTextsLanguageKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsBsrTextsLanguageKindItemVariableDisplayName),
+      optionsBsrTextsLanguageKindItemVariableName),
     fOptionsBsrTextsLanguageKindItemVariable (
       optionsBsrTextsLanguageKindItemVariable)
 {}
@@ -192,8 +192,8 @@ void optionsBsrTextsLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     setw (fieldWidth) <<
     "fOptionsBsrTextsLanguageKindItemVariable" << " : \"" <<
     bsrTextsLanguageKindAsString (
@@ -208,7 +208,7 @@ void optionsBsrTextsLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     bsrTextsLanguageKindAsString (
       fOptionsBsrTextsLanguageKindItemVariable) <<
@@ -248,7 +248,7 @@ R"(These options control the way BSR data is handled.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -270,7 +270,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendSubGroup (traceAndDisplaySubGroup);
 
   // BSR
 
@@ -311,7 +311,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (languagesSubGroup);
+  appendSubGroup (languagesSubGroup);
 
   // texts language
 
@@ -378,7 +378,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (miscellaneousGenerationSubGroup);
+  appendSubGroup (miscellaneousGenerationSubGroup);
 
   // braille lyrics
 
@@ -444,7 +444,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+  appendSubGroup (exitAfterSomePassesSubGroup);
 
   // '-exit-3a' is hidden...
 
@@ -503,7 +503,7 @@ R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (traceSubGroup);
+  appendSubGroup (traceSubGroup);
 
   // BSR
 

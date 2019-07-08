@@ -32,11 +32,11 @@ class optionsUTFKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsUTFKindItem> create (
-      string     oahAtomShortName,
-      string     oahAtomLongName,
-      string     oahAtomDescription,
+      string     shortName,
+      string     longName,
+      string     description,
       string     optionsValueSpecification,
-      string     optionsUTFKindItemVariableDisplayName,
+      string     optionsUTFKindItemVariableName,
       bsrUTFKind optionsUTFKindItemVariable);
 
   protected:
@@ -45,11 +45,11 @@ class optionsUTFKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsUTFKindItem (
-      string     oahAtomShortName,
-      string     oahAtomLongName,
-      string     oahAtomDescription,
+      string     shortName,
+      string     longName,
+      string     description,
       string     optionsValueSpecification,
-      string     optionsUTFKindItemVariableDisplayName,
+      string     optionsUTFKindItemVariableName,
       bsrUTFKind optionsUTFKindItemVariable);
 
     virtual ~optionsUTFKindItem ();
@@ -95,11 +95,11 @@ class optionsByteOrderingKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsByteOrderingKindItem> create (
-      string              oahAtomShortName,
-      string              oahAtomLongName,
-      string              oahAtomDescription,
+      string              shortName,
+      string              longName,
+      string              description,
       string              optionsValueSpecification,
-      string              optionsByteOrderingKindItemVariableDisplayName,
+      string              optionsByteOrderingKindItemVariableName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
 
   protected:
@@ -108,11 +108,11 @@ class optionsByteOrderingKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsByteOrderingKindItem (
-      string              oahAtomShortName,
-      string              oahAtomLongName,
-      string              oahAtomDescription,
+      string              shortName,
+      string              longName,
+      string              description,
       string              optionsValueSpecification,
-      string              optionsByteOrderingKindItemVariableDisplayName,
+      string              optionsByteOrderingKindItemVariableName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
 
     virtual ~optionsByteOrderingKindItem ();

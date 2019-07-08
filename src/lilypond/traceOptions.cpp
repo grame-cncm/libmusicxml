@@ -49,7 +49,7 @@ R"()",
   // append this options group to the options handler if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -63,7 +63,7 @@ void traceOptions::initializeOptionsHandlingTraceOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    traceOptionsSubGroup =
+    traceSubGroup =
       oahSubGroup::create (
         "Options handling",
         "htoh", "help-trace-options-handling",
@@ -71,13 +71,13 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (traceOptionsSubGroup);
+  appendSubGroup (traceSubGroup);
 
   // options
 
   fTraceOptions = boolOptionsInitialValue;
 
-  traceOptionsSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       oahBooleanAtom::create (
         "topts", "trace-options",
@@ -90,7 +90,7 @@ This option should best appear first.)",
 
   fTraceOptionsDetails = boolOptionsInitialValue;
 
-  traceOptionsSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       oahBooleanAtom::create (
         "toptsd", "trace-options-details",
@@ -103,7 +103,7 @@ This option should best appear first.)",
 
   fDisplayOptionsValues = boolOptionsInitialValue;
 
-  traceOptionsSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       oahBooleanAtom::create (
         "dov", "display-options-values",
@@ -115,7 +115,7 @@ R"(Write the chosen options values to standard error.)",
 
   fDisplayOptionsHandler = boolOptionsInitialValue;
 
-  traceOptionsSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       oahBooleanAtom::create (
         "doh", "display-options-handler",
@@ -139,7 +139,7 @@ Note: the options in this group imply '-t, -trace-passes'.)",
       oahSubGroup::kHideDescriptionByDefault,
       this);
 
-  appendOptionsSubGroup (lowLevelTraceSubGroup);
+  appendSubGroup (lowLevelTraceSubGroup);
 
   // passes
 
@@ -2551,7 +2551,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-    appendOptionsSubGroup (traceAndDisplaySubGroup);
+    appendSubGroup (traceAndDisplaySubGroup);
 
   // detailed measure numbers set
 

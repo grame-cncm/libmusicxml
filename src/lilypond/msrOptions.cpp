@@ -35,40 +35,40 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_optionsPartRenameItem optionsPartRenameItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsPartRenameItemVariableDisplayName,
+  string             optionsPartRenameItemVariableName,
   map<string, string>&
                      optionsPartRenameItemVariable)
 {
   optionsPartRenameItem* o = new
     optionsPartRenameItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsPartRenameItemVariableDisplayName,
+      optionsPartRenameItemVariableName,
       optionsPartRenameItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsPartRenameItem::optionsPartRenameItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsPartRenameItemVariableDisplayName,
+  string             optionsPartRenameItemVariableName,
   map<string, string>&
                      optionsPartRenameItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsPartRenameItemVariableDisplayName),
+      optionsPartRenameItemVariableName),
     fOptionsPartRenameItemVariable (
       optionsPartRenameItemVariable)
 {}
@@ -91,8 +91,8 @@ void optionsPartRenameItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     setw (fieldWidth) <<
     "fOptionsPartRenameItemVariable" << " : " <<
     endl;
@@ -121,7 +121,7 @@ void optionsPartRenameItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : ";
 
   if (! fOptionsPartRenameItemVariable.size ()) {
@@ -161,40 +161,40 @@ ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt)
 
 //______________________________________________________________________________
 S_optionsPartTransposeItem optionsPartTransposeItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsPartTransposeItemVariableDisplayName,
+  string             optionsPartTransposeItemVariableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
 {
   optionsPartTransposeItem* o = new
     optionsPartTransposeItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsPartTransposeItemVariableDisplayName,
+      optionsPartTransposeItemVariableName,
       optionsPartTransposeItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsPartTransposeItem::optionsPartTransposeItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsPartTransposeItemVariableDisplayName,
+  string             optionsPartTransposeItemVariableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsPartTransposeItemVariableDisplayName),
+      optionsPartTransposeItemVariableName),
     fOptionsPartTransposeItemVariable (
       optionsPartTransposeItemVariable)
 {}
@@ -217,8 +217,8 @@ void optionsPartTransposeItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     setw (fieldWidth) <<
     "fOptionsPartTransposeItemVariable" << " : " <<
     endl;
@@ -247,7 +247,7 @@ void optionsPartTransposeItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : ";
 
   if (! fOptionsPartTransposeItemVariable.size ()) {
@@ -287,40 +287,40 @@ ostream& operator<< (ostream& os, const S_optionsPartTransposeItem& elt)
 
 //______________________________________________________________________________
 S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
+  string             optionsMsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsMsrPitchesLanguageKindItemVariable)
 {
   optionsMsrPitchesLanguageItem* o = new
     optionsMsrPitchesLanguageItem (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsMsrPitchesLanguageKindItemVariableDisplayName,
+      optionsMsrPitchesLanguageKindItemVariableName,
       optionsMsrPitchesLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
 
 optionsMsrPitchesLanguageItem::optionsMsrPitchesLanguageItem (
-  string             oahAtomShortName,
-  string             oahAtomLongName,
-  string             oahAtomDescription,
+  string             shortName,
+  string             longName,
+  string             description,
   string             optionsValueSpecification,
-  string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
+  string             optionsMsrPitchesLanguageKindItemVariableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsMsrPitchesLanguageKindItemVariable)
   : oahValuedAtom (
-      oahAtomShortName,
-      oahAtomLongName,
-      oahAtomDescription,
+      shortName,
+      longName,
+      description,
       optionsValueSpecification,
-      optionsMsrPitchesLanguageKindItemVariableDisplayName),
+      optionsMsrPitchesLanguageKindItemVariableName),
     fOptionsMsrPitchesLanguageKindItemVariable (
       optionsMsrPitchesLanguageKindItemVariable)
 {}
@@ -343,8 +343,8 @@ void optionsMsrPitchesLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableDisplayName" << " : " <<
-    fOptionsItemVariableDisplayName <<
+    "fOptionsItemVariableName" << " : " <<
+    fOptionsItemVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsMsrPitchesLanguageItemVariable" << " : \"" <<
@@ -360,7 +360,7 @@ void optionsMsrPitchesLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableDisplayName <<
+    fOptionsItemVariableName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fOptionsMsrPitchesLanguageKindItemVariable) <<
@@ -400,7 +400,7 @@ R"(These options control the way MSR data is handled.)",
   // if relevant
   if (oahHandler) {
     oahHandler->
-      appendOptionsGroupToHandler (this);
+      appendGroupToHandler (this);
   }
 
   // initialize it
@@ -422,7 +422,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (traceSubGroup);
+  appendSubGroup (traceSubGroup);
 
   // MSR
 
@@ -461,7 +461,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (displaySubGroup);
+  appendSubGroup (displaySubGroup);
 
   // partgroups
 
@@ -538,7 +538,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (languagesSubGroup);
+  appendSubGroup (languagesSubGroup);
 
   // notes pitches
 
@@ -602,7 +602,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (partsSubGroup);
+  appendSubGroup (partsSubGroup);
 
   // MSR part rename
 
@@ -668,7 +668,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (stavesSubGroup);
+  appendSubGroup (stavesSubGroup);
 
   // single line staves
 
@@ -695,7 +695,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (voicesSubGroup);
+  appendSubGroup (voicesSubGroup);
 
   // staff relative numbers
 
@@ -723,7 +723,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (repeatsSubGroup);
+  appendSubGroup (repeatsSubGroup);
 
   // barlines
 
@@ -751,7 +751,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (notesSubGroup);
+  appendSubGroup (notesSubGroup);
 
   // delay rests dynamics
 
@@ -861,7 +861,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (lyricsSubGroup);
+  appendSubGroup (lyricsSubGroup);
 
   // stanzas numbers
 
@@ -887,7 +887,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (harmoniesSubGroup);
+  appendSubGroup (harmoniesSubGroup);
 
   // show harmony voices
 
@@ -914,7 +914,7 @@ R"()",
     oahSubGroup::kAlwaysShowDescription,
     this);
 
-  appendOptionsSubGroup (figuredBassSubGroup);
+  appendSubGroup (figuredBassSubGroup);
 
   // show figured bass voices
 
@@ -942,7 +942,7 @@ R"()",
       oahSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+  appendSubGroup (exitAfterSomePassesSubGroup);
 
   // exit after pass 2a
 
@@ -1624,7 +1624,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
     printSpecificSubGroupHelp (
       os,
       partRenameItem->
-        getOptionsSubGroupUpLink ());
+        getSubGroupUpLink ());
 
     exit (4);
   }
@@ -1735,7 +1735,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
     printSpecificSubGroupHelp (
       os,
       partTransposeItem->
-        getOptionsSubGroupUpLink ());
+        getSubGroupUpLink ());
 
     exit (4);
   }

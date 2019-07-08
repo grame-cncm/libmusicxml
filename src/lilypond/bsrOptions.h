@@ -38,11 +38,11 @@ class optionsFacSimileKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsFacSimileKindItem> create (
-      string           oahAtomShortName,
-      string           oahAtomLongName,
-      string           oahAtomDescription,
+      string           shortName,
+      string           longName,
+      string           description,
       string           optionsValueSpecification,
-      string           optionsFacSimileKindItemVariableDisplayName,
+      string           optionsFacSimileKindItemVariableName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
 
   protected:
@@ -51,11 +51,11 @@ class optionsFacSimileKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsFacSimileKindItem (
-      string           oahAtomShortName,
-      string           oahAtomLongName,
-      string           oahAtomDescription,
+      string           shortName,
+      string           longName,
+      string           description,
       string           optionsValueSpecification,
-      string           optionsFacSimileKindItemVariableDisplayName,
+      string           optionsFacSimileKindItemVariableName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
 
     virtual ~optionsFacSimileKindItem ();
@@ -102,11 +102,11 @@ class optionsBsrTextsLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<optionsBsrTextsLanguageItem> create (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+      string             optionsBsrTextsLanguageKindItemVariableName,
       bsrTextsLanguageKind&
                          optionsBsrTextsLanguageKindItemVariable);
 
@@ -116,11 +116,11 @@ class optionsBsrTextsLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     optionsBsrTextsLanguageItem (
-      string             oahAtomShortName,
-      string             oahAtomLongName,
-      string             oahAtomDescription,
+      string             shortName,
+      string             longName,
+      string             description,
       string             optionsValueSpecification,
-      string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+      string             optionsBsrTextsLanguageKindItemVariableName,
       bsrTextsLanguageKind&
                          optionsBsrTextsLanguageKindItemVariable);
 
