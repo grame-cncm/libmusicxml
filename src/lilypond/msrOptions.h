@@ -246,7 +246,7 @@ class msrOptions : public oahGroup
   public:
 
     static SMARTP<msrOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<msrOptions>        createCloneWithDetailedTrace ();
 
@@ -264,7 +264,7 @@ class msrOptions : public oahGroup
     // ------------------------------------------------------
 
     msrOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~msrOptions ();
 
@@ -469,7 +469,7 @@ EXP extern S_msrOptions gMsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMsrOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

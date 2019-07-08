@@ -29,26 +29,26 @@ S_traceOptions gTraceOptions;
 S_traceOptions gTraceOptionsUserChoices;
 
 S_traceOptions traceOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   traceOptions* o = new traceOptions (
-    oahHandler);
+    handler);
   assert(o!=0);
 
   return o;
 }
 
 traceOptions::traceOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "Trace",
     "ht", "help-trace",
 R"()",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -2507,7 +2507,7 @@ ostream& operator<< (ostream& os, const S_traceOptions& elt)
 
 //______________________________________________________________________________
 void initializeTraceOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (false && ! gGeneralOptions->fQuiet) { // JMI
@@ -2521,7 +2521,7 @@ void initializeTraceOptionsHandling (
   // ------------------------------------------------------
 
   gTraceOptionsUserChoices = traceOptions::create (
-    oahHandler);
+    handler);
   assert(gTraceOptionsUserChoices != 0);
 
   gTraceOptions =

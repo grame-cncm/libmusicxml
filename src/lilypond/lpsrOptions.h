@@ -293,7 +293,7 @@ class lpsrOptions : public oahGroup
   public:
 
     static SMARTP<lpsrOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<lpsrOptions>        createCloneWithDetailedTrace ();
 
@@ -311,7 +311,7 @@ class lpsrOptions : public oahGroup
     // ------------------------------------------------------
 
     lpsrOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~lpsrOptions ();
 
@@ -491,7 +491,7 @@ EXP extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 EXP  void initializeLpsrOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

@@ -397,26 +397,26 @@ S_lpsrOptions gLpsrOptionsUserChoices;
 S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 S_lpsrOptions lpsrOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   lpsrOptions* o = new lpsrOptions (
-    oahHandler);
+    handler);
   assert(o!=0);
   return o;
 }
 
 lpsrOptions::lpsrOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "LPSR",
     "hlpsr", "help-lpsr",
 R"(These options control the way LPSR data is handled.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -608,6 +608,8 @@ The default is 'DEFAULT_VALUE'.)",
         "gss", "global-staff-size",
         replaceSubstringInString (
 R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
+FLOAT should be a decimal number with at least one digit after the dot,
+without any sign.
 The default is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
           to_string (fStaffGlobalSizeDefaultValue)),
@@ -1726,7 +1728,7 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 
 //______________________________________________________________________________
 void initializeLpsrOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1740,7 +1742,7 @@ void initializeLpsrOptionsHandling (
   // ------------------------------------------------------
 
   gLpsrOptionsUserChoices = lpsrOptions::create (
-    oahHandler);
+    handler);
   assert(gLpsrOptionsUserChoices != 0);
 
   gLpsrOptions =

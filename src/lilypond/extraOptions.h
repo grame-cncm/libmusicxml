@@ -284,7 +284,7 @@ class extraOptions : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<extraOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<extraOptions>        createCloneWithDetailedTrace ();
 
@@ -302,7 +302,7 @@ class extraOptions : public oahGroup
     // ------------------------------------------------------
 
     extraOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~extraOptions ();
 
@@ -392,7 +392,7 @@ EXP extern S_extraOptions gExtraOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeExtraOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

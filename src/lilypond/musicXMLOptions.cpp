@@ -36,26 +36,26 @@ S_musicXMLOptions gMusicXMLOptionsUserChoices;
 S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 S_musicXMLOptions musicXMLOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   musicXMLOptions* o = new musicXMLOptions(
-    oahHandler);
+    handler);
   assert(o!=0);
   return o;
 }
 
 musicXMLOptions::musicXMLOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "MusicXML",
     "hmxml", "help-musicxml",
 R"(These options control the way MusicXML data is translated.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -493,7 +493,7 @@ ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
 
 //______________________________________________________________________________
 void initializeMusicXMLOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -507,7 +507,7 @@ void initializeMusicXMLOptionsHandling (
   // ------------------------------------------------------
 
   gMusicXMLOptionsUserChoices = musicXMLOptions::create (
-    oahHandler);
+    handler);
   assert(gMusicXMLOptionsUserChoices != 0);
 
   gMusicXMLOptions =

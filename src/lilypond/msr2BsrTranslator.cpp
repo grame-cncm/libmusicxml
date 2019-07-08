@@ -245,7 +245,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
         inputLineNumber,
         "This braille music data created by "
           +
-        gGeneralOptions->fExecutableName);
+        gGeneralOptions->fHandlerExecutableName);
 
   fBsrScore->
     getTranscriptionNotes ()->

@@ -292,13 +292,16 @@ class lpsrScore : public lpsrElement
     // general information
     S_lpsrVarValAssoc     fLilypondVersion;
 
+    // command line
     S_lpsrComment         fInputSourceNameComment;
     S_lpsrComment         fTranslationDateComment;
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
 
+    // geometry
     S_lpsrSchemeVariable  fScoreGlobalStaffSizeSchemeVariable;
 
+    // LilyPond stuff
     S_lpsrHeader          fScoreHeader;
     S_lpsrPaper           fScorePaper;
     S_lpsrLayout          fScoreLayout;

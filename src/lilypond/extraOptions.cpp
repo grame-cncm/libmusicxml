@@ -350,28 +350,28 @@ S_extraOptions gExtraOptionsUserChoices;
 S_extraOptions gExtraOptionsWithDetailedTrace;
 
 S_extraOptions extraOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   extraOptions* o = new extraOptions(
-    oahHandler);
+    handler);
   assert(o!=0);
   return o;
 }
 
 extraOptions::extraOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "Extra",
     "he", "help-extra",
 R"(These options provide features not related to translation from MusicXML to LilyPond.
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -478,7 +478,7 @@ Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 EXECUTABLE -show-chord-details "bes ${HARMONY}")",
          "EXECUTABLE",
-          gGeneralOptions->fExecutableName),
+          gGeneralOptions->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",
         fChordsRootAsString));
@@ -516,7 +516,7 @@ HARMONY="maj7"
 INVERSION=2
 EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
           "EXECUTABLE",
-          gGeneralOptions->fExecutableName),
+          gGeneralOptions->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",
         fChordsRootAsString));
@@ -822,7 +822,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
   }
 #endif
 
-  if (smSize) {
+  if (smSize == 3) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
@@ -1207,7 +1207,7 @@ ostream& operator<< (ostream& os, const S_extraOptions& elt)
 
 //______________________________________________________________________________
 void initializeExtraOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1221,7 +1221,7 @@ void initializeExtraOptionsHandling (
   // ------------------------------------------------------
 
   gExtraOptionsUserChoices = extraOptions::create (
-    oahHandler);
+    handler);
   assert(gExtraOptionsUserChoices != 0);
 
   gExtraOptions =

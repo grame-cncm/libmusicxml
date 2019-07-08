@@ -35,7 +35,7 @@ class traceOptions : public oahGroup
   public:
 
     static SMARTP<traceOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<traceOptions>        createCloneWithTrueValues (); // JMI
 
@@ -59,7 +59,7 @@ class traceOptions : public oahGroup
     // ------------------------------------------------------
 
     traceOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~traceOptions ();
 
@@ -403,7 +403,7 @@ EXP extern S_traceOptions gTraceOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeTraceOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

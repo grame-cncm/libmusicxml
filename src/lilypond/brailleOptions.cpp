@@ -211,26 +211,26 @@ S_brailleOptions gBrailleOptionsUserChoices;
 S_brailleOptions gBrailleOptionsWithDetailedTrace;
 
 S_brailleOptions brailleOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   brailleOptions* o = new brailleOptions (
-    oahHandler);
+    handler);
   assert(o!=0);
   return o;
 }
 
 brailleOptions::brailleOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "Braille",
     "hbrl", "help-braille",
 R"(These options control which Braille code is generated.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -716,7 +716,7 @@ ostream& operator<< (ostream& os, const S_brailleOptions& elt)
 
 //______________________________________________________________________________
 void initializeBrailleOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -730,7 +730,7 @@ void initializeBrailleOptionsHandling (
   // ------------------------------------------------------
 
   gBrailleOptionsUserChoices = brailleOptions::create (
-    oahHandler);
+    handler);
   assert(gBrailleOptionsUserChoices != 0);
 
   gBrailleOptions =
@@ -992,7 +992,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
             "EXECUTABLE",
-            gGeneralOptions->fExecutableName),
+            gGeneralOptions->fHandlerExecutableName),
           "noteInputLineNumbers",
           fInputLineNumbers));
   }

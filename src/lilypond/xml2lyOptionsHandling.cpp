@@ -443,7 +443,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
 void xml2lyOptionsHandler::checkOptionsAndArguments ()
 {
   unsigned int argumentsNumber =
-    fArgumentsVector.size ();
+    fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -463,7 +463,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 
       for (unsigned int i = 0; i < argumentsNumber; i++) {
         fHandlerLogIOstream <<
-          i << " : " << fArgumentsVector [i] <<
+          i << " : " << fHandlerArgumentsVector [i] <<
             endl;
       } // for
 
@@ -474,7 +474,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     else {
       fHandlerLogIOstream <<
         "There are no arguments to " <<
-        gGeneralOptions->fExecutableName <<
+        gGeneralOptions->fHandlerExecutableName <<
         endl;
     }
   }
@@ -497,21 +497,21 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     case 1:
       // register intput file name
       gGeneralOptions->fInputSourceName =
-        fArgumentsVector [0];
+        fHandlerArgumentsVector [0];
       break;
 
     default:
       fHandlerLogIOstream <<
         endl <<
         "Several input file name supplied, only the first one, \"" <<
-        fArgumentsVector [0] <<
+        fHandlerArgumentsVector [0] <<
         "\", will be translated" <<
         endl <<
         endl;
 
       // register intput file name
       gGeneralOptions->fInputSourceName =
-        fArgumentsVector [0];
+        fHandlerArgumentsVector [0];
       break;
   } //  switch
 
@@ -579,10 +579,12 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   // register command line informations in gGeneralOptions
   // ------------------------------------------------------
 
+/* JMI ???
   gGeneralOptions->fCommandLineWithShortOptions =
     fCommandLineWithShortOptions;
-  gGeneralOptions->fCommandLineWithLongOptions =
-    fCommandLineWithLongOptions;
+  gGeneralOptions->fCommandLineWithShortOptions =
+    fCommandLineWithShortOptions;
+    */
 }
 
 //______________________________________________________________________________
@@ -722,27 +724,27 @@ ostream& operator<< (ostream& os, const S_xml2lyOptionsHandler& elt)
 S_xml2lyOptions gXml2lyOptions;
 
 S_xml2lyOptions xml2lyOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   xml2lyOptions* o = new xml2lyOptions (
-    oahHandler);
+    handler);
   assert(o!=0);
 
   return o;
 }
 
 xml2lyOptions::xml2lyOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "xml2ly",
     "hx", "help-xml2ly",
 R"(Options that are used by xml2ly are grouped here.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -987,7 +989,7 @@ S_oahValuedAtom xml2lyOptions::handleAtom (
 
 //______________________________________________________________________________
 void initializeXml2lyOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1012,7 +1014,7 @@ void initializeXml2lyOptionsHandling (
   // ------------------------------------------------------
 
   gXml2lyOptions = xml2lyOptions::create (
-    oahHandler);
+    handler);
   assert (gXml2lyOptions != 0);
 }
 

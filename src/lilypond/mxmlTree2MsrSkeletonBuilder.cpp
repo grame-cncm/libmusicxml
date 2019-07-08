@@ -1465,7 +1465,7 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
   or this MusicXML data is the first-ever real-world case
   of a score exhibiting overlapping part groups.)",
               "EXECUTABLE",
-              gGeneralOptions->fExecutableName);
+              gGeneralOptions->fHandlerExecutableName);
 
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,

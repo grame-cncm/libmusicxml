@@ -674,26 +674,26 @@ S_lilypondOptions gLilypondOptionsUserChoices;
 S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
 S_lilypondOptions lilypondOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   lilypondOptions* o = new lilypondOptions (
-    oahHandler);
+    handler);
   assert(o!=0);
   return o;
 }
 
 lilypondOptions::lilypondOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "LilyPond",
     "hlp", "help-lilypond",
 R"(These options control which LilyPond code is generated.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -1109,7 +1109,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gGeneralOptions->fExecutableName),
+          gGeneralOptions->fHandlerExecutableName),
         "inputLineNumbers",
         fInputLineNumbers));
 
@@ -1126,7 +1126,7 @@ R"(Generate after each note and barline a comment containing
 its position in the measure.
 This is useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gGeneralOptions->fExecutableName),
+          gGeneralOptions->fHandlerExecutableName),
         "positionsInMeasures",
         fPositionsInMeasures));
 }
@@ -1712,7 +1712,7 @@ PER_SECOND=66
 EXECUTABLE -midiTempo "8. ${PER_SECOND}" .
 The default is 'DEFAULT_VALUE'.)",
             "EXECUTABLE",
-            gGeneralOptions->fExecutableName),
+            gGeneralOptions->fHandlerExecutableName),
           "DEFAULT_VALUE",
           midiTempoDefaultValue),
         "MIDI_TEMPO_SPEC",
@@ -3581,7 +3581,7 @@ ostream& operator<< (ostream& os, const S_lilypondOptions& elt)
 
 //______________________________________________________________________________
 void initializeLilypondOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -3595,7 +3595,7 @@ void initializeLilypondOptionsHandling (
   // ------------------------------------------------------
 
   gLilypondOptionsUserChoices = lilypondOptions::create (
-    oahHandler);
+    handler);
   assert(gLilypondOptionsUserChoices != 0);
 
   gLilypondOptions =

@@ -534,7 +534,7 @@ class lilypondOptions : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<lilypondOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<lilypondOptions>        createCloneWithDetailedTrace ();
 
@@ -552,7 +552,7 @@ class lilypondOptions : public oahGroup
     // ------------------------------------------------------
 
     lilypondOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~lilypondOptions ();
 
@@ -894,7 +894,7 @@ EXP extern S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeLilypondOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

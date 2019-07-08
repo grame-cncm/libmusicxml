@@ -201,7 +201,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
         unsigned smSize = sm.size ();
 
-        if (smSize) {
+        if (smSize == 3) {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             gLogIOstream <<
@@ -232,8 +232,12 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           }
         }
 
-        else {
+        else if (smSize == 2) { // JMI
           perMinuteMin = stoi (tempoPerMinuteString);
+        }
+
+        else {
+          // JMI
         }
 
         // create a number to represent perMinuteMin

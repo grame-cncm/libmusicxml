@@ -240,7 +240,7 @@ class xml2lyOptions : public oahGroup
   public:
 
     static SMARTP<xml2lyOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
   public:
 
@@ -255,7 +255,7 @@ class xml2lyOptions : public oahGroup
     // ------------------------------------------------------
 
     xml2lyOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~xml2lyOptions ();
 
@@ -307,7 +307,7 @@ EXP extern S_xml2lyOptions gXml2lyOptions;
 
 //______________________________________________________________________________
 void initializeXml2lyOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

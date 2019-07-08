@@ -159,7 +159,7 @@ class brailleOptions : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<brailleOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<brailleOptions>        createCloneWithDetailedTrace ();
 
@@ -181,7 +181,7 @@ class brailleOptions : public oahGroup
     // ------------------------------------------------------
 
     brailleOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~brailleOptions ();
 
@@ -287,7 +287,7 @@ EXP extern S_brailleOptions gBrailleOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeBrailleOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

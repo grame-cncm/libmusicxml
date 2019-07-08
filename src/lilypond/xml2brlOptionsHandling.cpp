@@ -452,7 +452,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
 void xml2brlOptionsHandler::checkOptionsAndArguments ()
 {
   unsigned int argumentsNumber =
-    fArgumentsVector.size ();
+    fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -472,7 +472,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 
       for (unsigned int i = 0; i < argumentsNumber; i++) {
         fHandlerLogIOstream <<
-          i << " : " << fArgumentsVector [i] <<
+          i << " : " << fHandlerArgumentsVector [i] <<
             endl;
       } // for
 
@@ -483,7 +483,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
     else {
       fHandlerLogIOstream <<
         "There are no arguments to " <<
-        gGeneralOptions->fExecutableName <<
+        gGeneralOptions->fHandlerExecutableName <<
         endl;
     }
   }
@@ -506,21 +506,21 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
     case 1:
       // register intput file name
       gGeneralOptions->fInputSourceName =
-        fArgumentsVector [0];
+        fHandlerArgumentsVector [0];
       break;
 
     default:
       fHandlerLogIOstream <<
         endl <<
         "Several input file name supplied, only the first one, \"" <<
-        fArgumentsVector [0] <<
+        fHandlerArgumentsVector [0] <<
         "\", will be translated" <<
         endl <<
         endl;
 
       // register intput file name
       gGeneralOptions->fInputSourceName =
-        fArgumentsVector [0];
+        fHandlerArgumentsVector [0];
       break;
   } //  switch
 
@@ -632,10 +632,12 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
   // register command line informations in gGeneralOptions
   // ------------------------------------------------------
 
+/* JMI
   gGeneralOptions->fCommandLineWithShortOptions =
     fCommandLineWithShortOptions;
   gGeneralOptions->fCommandLineWithLongOptions =
     fCommandLineWithLongOptions;
+    */
 }
 
 //______________________________________________________________________________
@@ -774,27 +776,27 @@ ostream& operator<< (ostream& os, const S_xml2brlOptionsHandler& elt)
 S_xml2brlOptions gXml2brlOptions;
 
 S_xml2brlOptions xml2brlOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   xml2brlOptions* o = new xml2brlOptions (
-    oahHandler);
+    handler);
   assert(o!=0);
 
   return o;
 }
 
 xml2brlOptions::xml2brlOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "xml2brl",
     "hb", "help-xml2brl",
 R"(Options that are used by xml2brl are grouped here.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -1039,7 +1041,7 @@ S_oahValuedAtom xml2brlOptions::handleAtom (
 
 //______________________________________________________________________________
 void initializeXml2brlOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1064,7 +1066,7 @@ void initializeXml2brlOptionsHandling (
   // ------------------------------------------------------
 
   gXml2brlOptions = xml2brlOptions::create (
-    oahHandler);
+    handler);
   assert (gXml2brlOptions != 0);
 }
 

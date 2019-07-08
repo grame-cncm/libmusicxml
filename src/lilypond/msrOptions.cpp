@@ -380,26 +380,26 @@ S_msrOptions gMsrOptionsUserChoices;
 S_msrOptions gMsrOptionsWithDetailedTrace;
 
 S_msrOptions msrOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   msrOptions* o = new msrOptions(
-    oahHandler);
+    handler);
   assert(o!=0);
   return o;
 }
 
 msrOptions::msrOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "MSR",
     "hmsr", "help-msr",
 R"(These options control the way MSR data is handled.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -625,7 +625,7 @@ DESSUS="Cor anglais"
 EXECUTABLE -msr-part-rename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
          "EXECUTABLE",
-          gGeneralOptions->fExecutableName),
+          gGeneralOptions->fHandlerExecutableName),
         "PART_RENAME_SPEC",
         "partRename",
         fPartsRenamingMap));
@@ -1600,7 +1600,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
   }
 #endif
 
-  if (smSize) {
+  if (smSize == 3) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       for (unsigned i = 0; i < smSize; ++i) {
@@ -1711,7 +1711,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
   }
 #endif
 
-  if (smSize) {
+  if (smSize == 3) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       for (unsigned i = 0; i < smSize; ++i) {
@@ -1888,7 +1888,7 @@ ostream& operator<< (ostream& os, const S_msrOptions& elt)
 
 //______________________________________________________________________________
 void initializeMsrOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -1902,7 +1902,7 @@ void initializeMsrOptionsHandling (
   // ------------------------------------------------------
 
   gMsrOptionsUserChoices = msrOptions::create (
-    oahHandler);
+    handler);
   assert(gMsrOptionsUserChoices != 0);
 
   gMsrOptions =

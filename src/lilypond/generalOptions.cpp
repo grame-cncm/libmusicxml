@@ -30,31 +30,31 @@ S_generalOptions gGeneralOptions;
 S_generalOptions gGeneralOptionsUserChoices;
 
 S_generalOptions generalOptions::create (
-  string           executableName,
-  S_oahHandler oahHandler)
+  string       executableName,
+  S_oahHandler handler)
 {
   generalOptions* o = new generalOptions (
     executableName,
-    oahHandler);
+    handler);
   assert(o!=0);
 
   return o;
 }
 
 generalOptions::generalOptions (
-  string           executableName,
-  S_oahHandler oahHandler)
+  string       executableName,
+  S_oahHandler handler)
   : oahGroup (
     "General",
     "hg", "help-general",
 R"()",
-    oahHandler),
-    fExecutableName (executableName)
+    handler),
+    fHandlerExecutableName (executableName)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -139,7 +139,7 @@ R"()",
         replaceSubstringInString (
 R"(Print the options and arguments to EXECUTABLE.)",
           "EXECUTABLE",
-          fExecutableName),
+          fHandlerExecutableName),
         "showOptionsAndArguments",
         fShowOptionsAndArguments));
 }
@@ -194,7 +194,7 @@ R"(Don't show errors in the log.)",
 R"(Do not abort execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          fExecutableName),
+          fHandlerExecutableName),
         "dontAbortOnErrors",
         fDontAbortOnErrors));
 
@@ -211,7 +211,7 @@ R"(Display the source code file name and line number
 in warning and error messages.
 This is useful when debugging EXECUTABLE.)",
          "EXECUTABLE",
-          fExecutableName),
+          fHandlerExecutableName),
         "displaySourceCodePosition",
         fDisplaySourceCodePosition));
 }
@@ -287,7 +287,7 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   S_generalOptions
     clone =
       generalOptions::create (
-        fExecutableName,
+        fHandlerExecutableName,
         nullptr);
       // nullptr not to have it inserted twice in the option handler
 
@@ -300,17 +300,16 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   // command line
   // --------------------------------------
 
-  clone->fExecutableName =
-    fExecutableName;
+  clone->fHandlerExecutableName =
+    fHandlerExecutableName;
 
   clone->fShowOptionsAndArguments =
     fShowOptionsAndArguments;
 
-  clone->fCommandLineWithLongOptions =
-    fCommandLineWithLongOptions;
-  clone->fCommandLineWithShortOptions =
-    fCommandLineWithShortOptions;
-
+  clone->fCommandLineWithShortOptionsNames =
+    fCommandLineWithShortOptionsNames;
+  clone->fCommandLineWithLongOptionsNames =
+    fCommandLineWithLongOptionsNames;
 
   // warning and error handling
   // --------------------------------------
@@ -458,8 +457,8 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
-  string           executableName,
-  S_oahHandler oahHandler)
+  string       executableName,
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -474,7 +473,7 @@ void initializeGeneralOptionsHandling (
 
   gGeneralOptionsUserChoices = generalOptions::create (
     executableName,
-    oahHandler);
+    handler);
   assert(gGeneralOptionsUserChoices != 0);
 
   gGeneralOptions =

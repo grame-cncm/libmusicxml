@@ -168,7 +168,7 @@ class bsrOptions : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<bsrOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<bsrOptions>        createCloneWithDetailedTrace ();
 
@@ -186,7 +186,7 @@ class bsrOptions : public oahGroup
     // ------------------------------------------------------
 
     bsrOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~bsrOptions ();
 
@@ -319,7 +319,7 @@ EXP extern S_bsrOptions gBsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 EXP  void initializeBsrOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

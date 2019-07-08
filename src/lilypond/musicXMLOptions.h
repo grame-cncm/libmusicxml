@@ -29,7 +29,7 @@ class musicXMLOptions : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<musicXMLOptions> create (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     SMARTP<musicXMLOptions>        createCloneWithDetailedTrace ();
 
@@ -47,7 +47,7 @@ class musicXMLOptions : public oahGroup
     // ------------------------------------------------------
 
     musicXMLOptions (
-      S_oahHandler oahHandler);
+      S_oahHandler handler);
 
     virtual ~musicXMLOptions ();
 
@@ -163,7 +163,7 @@ EXP extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMusicXMLOptionsHandling (
-  S_oahHandler oahHandler);
+  S_oahHandler handler);
 
 
 }

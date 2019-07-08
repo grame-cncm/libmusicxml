@@ -228,26 +228,26 @@ S_bsrOptions gBsrOptionsUserChoices;
 S_bsrOptions gBsrOptionsWithDetailedTrace;
 
 S_bsrOptions bsrOptions::create (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
   bsrOptions* o = new bsrOptions (
-    oahHandler);
+    handler);
   assert(o!=0);
   return o;
 }
 
 bsrOptions::bsrOptions (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
   : oahGroup (
     "BSR",
     "hbsr", "help-bsr",
 R"(These options control the way BSR data is handled.)",
-    oahHandler)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
-  if (oahHandler) {
-    oahHandler->
+  if (handler) {
+    handler->
       appendGroupToHandler (this);
   }
 
@@ -859,7 +859,7 @@ ostream& operator<< (ostream& os, const S_bsrOptions& elt)
 
 //______________________________________________________________________________
 void initializeBsrOptionsHandling (
-  S_oahHandler oahHandler)
+  S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -873,7 +873,7 @@ void initializeBsrOptionsHandling (
   // ------------------------------------------------------
 
   gBsrOptionsUserChoices = bsrOptions::create (
-    oahHandler);
+    handler);
   assert(gBsrOptionsUserChoices != 0);
 
   gBsrOptions =

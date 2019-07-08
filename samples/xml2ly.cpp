@@ -49,7 +49,7 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-  S_xml2lyOptionsHandler oahHandler,
+  S_xml2lyOptionsHandler handler,
   int                    argc,
   char*                  argv [],
   indentedOstream&       logIndentedOutputStream)
@@ -57,7 +57,7 @@ vector<string> handleOptionsAndArguments (
   // analyse the options
   vector<string>
     argumentsVector =
-      oahHandler->
+      handler->
         decipherOptionsAndArguments (
           argc, argv);
 
@@ -539,7 +539,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   S_xml2lyOptionsHandler
-    oahHandler =
+    handler =
       xml2lyOptionsHandler::create (
         argv [0],
         gOutputIOstream);
@@ -550,7 +550,7 @@ int main (int argc, char *argv[])
   vector<string>
     argumentsVector =
       handleOptionsAndArguments (
-        oahHandler,
+        handler,
         argc, argv,
         gLogIOstream);
 
@@ -559,7 +559,7 @@ int main (int argc, char *argv[])
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fDisplayOptionsHandler) {
     gLogIOstream <<
-      oahHandler <<
+      handler <<
       endl <<
       endl;
   }
@@ -583,7 +583,7 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fQuiet) {
     // disable all trace and display options
-    oahHandler->
+    handler->
       enforceOptionsHandlerQuietness ();
   }
 
@@ -636,8 +636,8 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogIOstream <<
-      oahHandler->
-        getCommandLineWithLongOptions () <<
+      handler->
+        commandLineWithShortNamesAsString () <<
       endl;
 
     gIndenter--;
@@ -647,8 +647,8 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogIOstream <<
-      oahHandler->
-        getCommandLineWithShortOptions () <<
+      handler->
+        commandLineWithLongNamesAsString () <<
       endl <<
       endl;
 
@@ -661,7 +661,7 @@ int main (int argc, char *argv[])
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fDisplayOptionsValues) {
-    oahHandler->
+    handler->
       printAllOptionsValues (
         gLogIOstream);
 

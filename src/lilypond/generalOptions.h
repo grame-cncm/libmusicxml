@@ -29,8 +29,8 @@ class generalOptions : public oahGroup
   public:
 
     static SMARTP<generalOptions> create (
-      string           executableName,
-      S_oahHandler oahHandler);
+      string       executableName,
+      S_oahHandler handler);
 
     SMARTP<generalOptions>        createCloneWithTrueValues (); // JMI
 
@@ -48,8 +48,8 @@ class generalOptions : public oahGroup
     // ------------------------------------------------------
 
     generalOptions (
-      string           executableName,
-      S_oahHandler oahHandler);
+      string       executableName,
+      S_oahHandler handler);
 
     virtual ~generalOptions ();
 
@@ -118,7 +118,7 @@ class generalOptions : public oahGroup
     // command line
     // --------------------------------------
 
-    string                fExecutableName;
+    string                fHandlerExecutableName;
 
     string                fInputSourceName;
     string                fTranslationDate;
@@ -128,8 +128,8 @@ class generalOptions : public oahGroup
 
     bool                  fShowOptionsAndArguments;
 
-    string                fCommandLineWithLongOptions;
-    string                fCommandLineWithShortOptions;
+    string                fCommandLineWithShortOptionsNames;
+    string                fCommandLineWithLongOptionsNames;
 
     // warning and error handling
     // --------------------------------------
@@ -153,8 +153,8 @@ EXP extern S_generalOptions gGeneralOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
-  string           executableName,
-  S_oahHandler oahHandler);
+  string       executableName,
+  S_oahHandler handler);
 
 
 }
