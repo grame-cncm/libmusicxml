@@ -93,7 +93,7 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
       string  description,
       string  valueSpecification,
       string  variableName,
-      string& oahStringAtomVariable);
+      string& stringVariable);
 
   protected:
 
@@ -106,7 +106,7 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
       string  description,
       string  valueSpecification,
       string  variableName,
-      string& oahStringAtomVariable);
+      string& stringVariable);
 
     virtual ~optionsShowAllChordsContentsItem ();
 
@@ -161,7 +161,7 @@ class optionsShowChordDetailsItem : public oahValuedAtom
       string  description,
       string  valueSpecification,
       string  variableName,
-      string& oahStringAtomVariable);
+      string& stringVariable);
 
   protected:
 
@@ -174,7 +174,7 @@ class optionsShowChordDetailsItem : public oahValuedAtom
       string  description,
       string  valueSpecification,
       string  variableName,
-      string& oahStringAtomVariable);
+      string& stringVariable);
 
     virtual ~optionsShowChordDetailsItem ();
 
@@ -225,7 +225,7 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
       string  description,
       string  valueSpecification,
       string  variableName,
-      string& oahStringAtomVariable);
+      string& stringVariable);
 
   protected:
 
@@ -238,7 +238,7 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
       string  description,
       string  valueSpecification,
       string  variableName,
-      string& oahStringAtomVariable);
+      string& stringVariable);
 
     virtual ~optionsShowChordAnalysisItem ();
 

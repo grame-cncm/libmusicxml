@@ -74,7 +74,7 @@ void generalOptions::initializeGeneralHelpOptions (
         "Options help",
         "hgoh", "help-general-options-help",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (helpGeneralOptionsHelpSubGroup);
@@ -123,7 +123,7 @@ void generalOptions::initializeGeneralWarningAndErrorsOptions (
         "Warnings and errors",
         "hwae", "help-warnings-and-errors",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (warningAndErrorHandlingSubGroup);
@@ -195,7 +195,7 @@ void generalOptions::initializeGeneralCPUUsageOptions (
         "CPU usage",
         "hgcpu", "help-general-cpu-usage",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (CPUUsageSubGroup);

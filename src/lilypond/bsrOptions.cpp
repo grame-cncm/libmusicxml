@@ -267,7 +267,7 @@ void bsrOptions::initializeBsrDisplayOptions (
         "Display",
         "hbsrtd", "help-bsr-display",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (traceAndDisplaySubGroup);
@@ -308,7 +308,7 @@ void bsrOptions::initializeBsrLanguagesOptions (
         "Languages",
         "hbsrl", "help-bsr-languages",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (languagesSubGroup);
@@ -375,7 +375,7 @@ void bsrOptions::initializeBsrMiscellaneousOptions (
         "Miscellaneous",
         "hlpm", "help-miscellaneous",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (miscellaneousGenerationSubGroup);
@@ -441,7 +441,7 @@ void bsrOptions::initializeBsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hbe", "help-bsr-exit",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (exitAfterSomePassesSubGroup);
@@ -499,8 +499,8 @@ void bsrOptions::initializeBsrTraceOptions (
         "Trace",
         "hbst", "help-bsr-trace",
 R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
-// JMI        oahSubGroup::kHideDescriptionByDefault,
-      oahSubGroup::kAlwaysShowDescription,
+// JMI        oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (traceSubGroup);

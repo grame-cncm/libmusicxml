@@ -68,7 +68,7 @@ void traceOptions::initializeOptionsHandlingTraceOptions (
         "Options handling",
         "htoh", "help-trace-options-handling",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (traceSubGroup);
@@ -136,7 +136,7 @@ void traceOptions::initializeLowLevelTraceOptions (
         "hllt", "help-low-level-trace",
 R"(  Can be quite verbose, use with small input data!
 Note: the options in this group imply '-t, -trace-passes'.)",
-      oahSubGroup::kHideDescriptionByDefault,
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
       this);
 
   appendSubGroup (lowLevelTraceSubGroup);
@@ -2548,7 +2548,7 @@ void initializeTraceOptionsHandling (
           "Trace and display",
           "htd", "help-trace-and-display",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
     appendSubGroup (traceAndDisplaySubGroup);

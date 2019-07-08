@@ -76,7 +76,7 @@ void musicXMLOptions::initializeMusicXMLTraceOptions (
         "Trace",
         "hmxmlt", "help-musicxml-trace",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (traceSubGroup);
@@ -143,7 +143,7 @@ void musicXMLOptions::initializeMusicXMLWorkOptions (
         "Work",
         "hmxmlw", "help-musicxml-work",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);
@@ -171,7 +171,7 @@ void musicXMLOptions::initializeMusicXMLClefsKeysTimesOptions (
         "Clefs, keys, times",
         "hmxmlckt", "help-musicxml-clefs-keys-times",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (clefsKeysTimesSubGroup);
@@ -247,7 +247,7 @@ void musicXMLOptions::initializeMusicXMLCombinedOptionsOptions (
         "Combined options",
         "hmxmlco", "help-musicxml-combined-options",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (combinedSubGroup);

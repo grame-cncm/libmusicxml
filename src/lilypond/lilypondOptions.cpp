@@ -714,7 +714,7 @@ void lilypondOptions::initializeIdentificationOptions (
         "hlpi", "help-lilypond-identification",
 R"(  These options can be used to enforce values in the generated LilyPond code,
 thus overriding the ones that may be present in the MSR data.)",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (identificationSubGroup);
@@ -877,7 +877,7 @@ void lilypondOptions::initializeEngraversOptions (
         "Engravers",
         "hlpe", "help-lilypond-engravers",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (engraversSubGroup);
@@ -904,7 +904,7 @@ void lilypondOptions::initializeTimeOptions (
         "Time",
         "hlpti", "help-lilypond-time",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (timeSubGroup);
@@ -931,7 +931,7 @@ void lilypondOptions::initializeNotesOptions (
         "Notes",
         "hlpn", "help-lilypond-notes",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (notesSubGroup);
@@ -1140,7 +1140,7 @@ void lilypondOptions::initializeBarsOptions (
         "Bars",
         "hlpb", "help-lilypond-bars",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (barsSubGroup);
@@ -1167,7 +1167,7 @@ void lilypondOptions::initializeLineBreaksOptions (
         "Line breaks",
         "hlplb", "help-lilypond-line-breaks",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (lineBreaksSubGroup);
@@ -1219,7 +1219,7 @@ void lilypondOptions::initializePageBreaksOptions (
         "Page breaks",
         "hlppb", "help-lilypond-page-breaks",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (pageBreaksSubGroup);
@@ -1247,7 +1247,7 @@ void lilypondOptions::initializeStavesOptions (
         "Staves",
         "hlps", "helpLilypondStaves",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (stavesSubGroup);
@@ -1286,7 +1286,7 @@ void lilypondOptions::initializeChordsOptions (
         "Chords",
         "hlpc", "help-lilypond-chordss",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (chordsSubGroup);
@@ -1313,7 +1313,7 @@ void lilypondOptions::initializeTupletsOptions (
         "Tuplets",
         "hlpt", "help-lilypond-tuplets",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (tupletsSubGroup);
@@ -1341,7 +1341,7 @@ void lilypondOptions::initializeRepeatOptions (
         "Repeats",
         "hlpr", "help-lilypond-repeats",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (repeatsSubGroup);
@@ -1388,7 +1388,7 @@ void lilypondOptions::initializeOrnamentsOptions (
         "Ornaments",
         "hlporns", "help-lilypond-ornaments",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (ornamentsSubGroup);
@@ -1426,7 +1426,7 @@ void lilypondOptions::initializeChordsDisplayOptions (
         "Chords display",
         "hchd", "help-chords-display",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (chordsDiaplaySubGroup);
@@ -1497,7 +1497,7 @@ void lilypondOptions::initializeFontsOptions (
         "Fonts",
         "hfonts", "help-fonts",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (fontsSubGroup);
@@ -1527,7 +1527,7 @@ void lilypondOptions::initializeCodeGenerationOptions (
         "Code generation",
         "hlpcg", "help-lilypond-code-generation",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (codeGenerationSubGroup);
@@ -1644,7 +1644,7 @@ void lilypondOptions::initializeScoreNotationOptions (
         "Score notation",
         "hlpsn", "help-lilypond-score-notation",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (scoreNotationSubGroup);
@@ -1677,7 +1677,7 @@ void lilypondOptions::initializeMidiOptions (
         "Midi",
         "hlpm", "help-lilypond-midi",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (midiSubGroup);

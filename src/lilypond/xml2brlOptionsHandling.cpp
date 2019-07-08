@@ -817,7 +817,7 @@ void xml2brlOptions::initializeXml2brlOptions ()
           "Version",
           "hxv", "help-xml2brl-version",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (versionSubGroup);
@@ -842,7 +842,7 @@ R"(Display xml2brl's version number and history and exit.)"));
           "About",
           "hxa", "help-xml2brl-about",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (aboutSubGroup);
@@ -867,7 +867,7 @@ R"(Display information about xml2brl and exit.)"));
           "Contact",
           "hxc", "help-xml2brl-contact",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (contactSubGroup);
@@ -892,7 +892,7 @@ R"(Display information about how to contacct xml2brl maintainers and exit.)"));
           "Output file",
           "hxof", "help-xml2brl-output-file",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (outputFileSubGroup);

@@ -765,7 +765,7 @@ void xml2lyOptions::initializeXml2lyOptions ()
           "Version",
           "hxv", "help-xml2ly-version",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (versionSubGroup);
@@ -790,7 +790,7 @@ R"(Display xml2ly's version number and history and exit.)"));
           "About",
           "hxa", "help-xml2ly-about",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (aboutSubGroup);
@@ -815,7 +815,7 @@ R"(Display information about xml2ly and exit.)"));
           "Contact",
           "hxc", "help-xml2ly-contact",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (contactSubGroup);
@@ -840,7 +840,7 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
           "Output file",
           "hxof", "help-xml2ly-output-file",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
     appendSubGroup (outputFileSubGroup);

@@ -437,7 +437,7 @@ void lpsrOptions::initializeLpsrTraceOptions (
         "Trace",
         "hlpsrtrace", "help-lpsr-trace",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (traceSubGroup);
@@ -513,7 +513,7 @@ void lpsrOptions::initializeLpsrDisplayOptions (
         "Display",
         "hlpsrd", "help-lpsr-display",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (displaySubGroup);
@@ -540,7 +540,7 @@ void lpsrOptions::initializeLilypondScoreOutputOptions (
         "LilyPond score  output",
         "hlpso", "help-lilypond-score-output",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (lilypondOutputKindGroup);
@@ -625,7 +625,7 @@ void lpsrOptions::initializeLpsrLyricsVersusWordsOptions (
         "Lyrics versus words",
         "hlyrsvswords", "help-lyrics-vs-words",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (lyricsVersusWordsSubGroup);
@@ -653,7 +653,7 @@ void lpsrOptions::initializeLpsrLanguagesOptions (
         "Languages",
         "hlpsrl", "help-lpsr-languages",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (languagesSubGroup);
@@ -755,7 +755,7 @@ void lpsrOptions::initializeLpsrTransposeOptions (
         "Transpose",
         "hlpsrt", "help-lpsr-transpose",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (languagesSubGroup);
@@ -787,7 +787,7 @@ void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hlpexit", "help-lpsr-exit",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (exitAfterSomePassesSubGroup);

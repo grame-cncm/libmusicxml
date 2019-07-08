@@ -391,7 +391,7 @@ void extraOptions::initializeExtraShowAllChordsStructuresOptions (
         "Chords structures",
         "hecs", "help-extra-chord-structures",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (traceAndDisplaySubGroup);
@@ -431,7 +431,7 @@ HARMONY_NAME should be one of:
     "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
     "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 )",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);
@@ -456,7 +456,7 @@ void extraOptions::initializeExtraShowChordDetailsOptions (
         "Chord details",
         "hecd", "help-extra-chords-details",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);
@@ -493,7 +493,7 @@ void extraOptions::initializeExtraShowChordAnalysisOptions (
         "Chord analysis",
         "heca", "help-extra-chords-analysis",
 R"()",
-        oahSubGroup::kAlwaysShowDescription,
+        oahSubGroup::kSubGroupVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);

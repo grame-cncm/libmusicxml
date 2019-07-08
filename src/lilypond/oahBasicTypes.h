@@ -837,7 +837,7 @@ class oahIntegerAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      int&               oahIntegerAtomVariable);
+      int&               integerVariable);
 
   protected:
 
@@ -850,7 +850,7 @@ class oahIntegerAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      int&               oahIntegerAtomVariable);
+      int&               integerVariable);
 
   protected:
 
@@ -862,9 +862,9 @@ class oahIntegerAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setIntegerItemVariableValue (
+    void                  setIntegerVariableValue (
                             int value)
-                              { fOptionsIntegerItemVariable = value; }
+                              { fIntegerVariable = value; }
 
     // services
     // ------------------------------------------------------
@@ -882,7 +882,7 @@ class oahIntegerAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    int&                  fOptionsIntegerItemVariable;
+    int&                  fIntegerVariable;
 };
 typedef SMARTP<oahIntegerAtom> S_oahIntegerAtom;
 EXP ostream& operator<< (ostream& os, const S_oahIntegerAtom& elt);
@@ -902,7 +902,7 @@ class oahFloatAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      float&             oahFloatAtomVariable);
+      float&             floatVariable);
 
   protected:
 
@@ -915,7 +915,7 @@ class oahFloatAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      float&             oahFloatAtomVariable);
+      float&             floatVariable);
 
     virtual ~oahFloatAtom ();
 
@@ -926,9 +926,7 @@ class oahFloatAtom : public oahValuedAtom
 
     void                  setFloatItemVariableValue (
                             float value)
-                              {
-                                fOptionsFloatItemVariable = value;
-                              }
+                              { fFloatVariable = value; }
 
     // services
     // ------------------------------------------------------
@@ -947,7 +945,7 @@ class oahFloatAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    float&                fOptionsFloatItemVariable;
+    float&                fFloatVariable;
 };
 typedef SMARTP<oahFloatAtom> S_oahFloatAtom;
 EXP ostream& operator<< (ostream& os, const S_oahFloatAtom& elt);
@@ -967,7 +965,7 @@ class oahStringAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      string&            oahStringAtomVariable);
+      string&            stringVariable);
 
   protected:
 
@@ -980,7 +978,7 @@ class oahStringAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      string&            oahStringAtomVariable);
+      string&            stringVariable);
 
     virtual ~oahStringAtom ();
 
@@ -991,9 +989,7 @@ class oahStringAtom : public oahValuedAtom
 
     void                  setStringItemVariableValue (
                             string value)
-                              {
-                                fOptionsStringItemVariable = value;
-                              }
+                              { fStringVariable = value; }
 
     // services
     // ------------------------------------------------------
@@ -1012,7 +1008,7 @@ class oahStringAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    string&               fOptionsStringItemVariable;
+    string&               fStringVariable;
 };
 typedef SMARTP<oahStringAtom> S_oahStringAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringAtom& elt);
@@ -1032,7 +1028,7 @@ class oahRationalAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      rational&          oahRationalAtomVariable);
+      rational&          rationalVariable);
 
   protected:
 
@@ -1045,7 +1041,7 @@ class oahRationalAtom : public oahValuedAtom
       string             description,
       string             valueSpecification,
       string             variableName,
-      rational&          oahRationalAtomVariable);
+      rational&          rationalVariable);
 
     virtual ~oahRationalAtom ();
 
@@ -1056,9 +1052,7 @@ class oahRationalAtom : public oahValuedAtom
 
     void                  setRationalItemVariableValue (
                             rational value)
-                              {
-                                fOptionsRationalItemVariable = value;
-                              }
+                              { fRationalVariable = value;  }
 
     // services
     // ------------------------------------------------------
@@ -1077,7 +1071,7 @@ class oahRationalAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    rational&             fOptionsRationalItemVariable;
+    rational&             fRationalVariable;
 };
 typedef SMARTP<oahRationalAtom> S_oahRationalAtom;
 EXP ostream& operator<< (ostream& os, const S_oahRationalAtom& elt);
@@ -1154,13 +1148,12 @@ class oahSubGroup : public oahElement
     // data types
     // ------------------------------------------------------
 
-    enum oahVisibilityKind {
-      kAlwaysShowDescription,
-      kHideDescriptionByDefault };
+    enum oahSubGroupVisibilityKind {
+      kSubGroupVisibilityAlways,
+      kSubGroupVisibilityHiddenByDefault };
 
-    static string oahVisibilityKindAsString (
-      oahVisibilityKind
-        oahVisibilityKind);
+    static string subGroupVisibilityKindAsString (
+      oahSubGroupVisibilityKind subGroupVisibilityKind);
 
   public:
 
@@ -1168,14 +1161,12 @@ class oahSubGroup : public oahElement
     // ------------------------------------------------------
 
     static SMARTP<oahSubGroup> create (
-      string header,
-      string shortName,
-      string longName,
-      string description,
-      oahVisibilityKind
-             oahVisibilityKind,
-      S_oahGroup
-             oahGroupUpLink);
+      string                    header,
+      string                    shortName,
+      string                    longName,
+      string                    description,
+      oahSubGroupVisibilityKind subGroupVisibilityKind,
+      S_oahGroup                groupUpLink);
 
   protected:
 
@@ -1183,14 +1174,12 @@ class oahSubGroup : public oahElement
     // ------------------------------------------------------
 
     oahSubGroup (
-      string header,
-      string shortName,
-      string longName,
-      string description,
-      oahVisibilityKind
-             oahVisibilityKind,
-      S_oahGroup
-             oahGroupUpLink);
+      string                    header,
+      string                    shortName,
+      string                    longName,
+      string                    description,
+      oahSubGroupVisibilityKind subGroupVisibilityKind,
+      S_oahGroup                groupUpLink);
 
     virtual ~oahSubGroup ();
 
@@ -1209,9 +1198,9 @@ class oahSubGroup : public oahElement
     string                getHeader () const
                               { return fHeader; }
 
-    oahVisibilityKind
-                          getSubGroupIsHiddenByDefault () const
-                              { return fVisibilityKind; }
+    oahSubGroupVisibilityKind
+                          getSubGroupVisibilityKind () const
+                              { return fSubGroupVisibilityKind; }
 
     // services
     // ------------------------------------------------------
@@ -1260,8 +1249,8 @@ class oahSubGroup : public oahElement
 
     string                fHeader;
 
-    oahVisibilityKind
-                          fVisibilityKind;
+    oahSubGroupVisibilityKind
+                          fSubGroupVisibilityKind;
 
     list<S_oahAtom>       fSubGroupItemsList;
 };

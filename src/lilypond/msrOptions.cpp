@@ -419,7 +419,7 @@ void msrOptions::initializeMsrTraceOptions (
       "Trace",
       "hmsrt", "help-msr-trace",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (traceSubGroup);
@@ -458,7 +458,7 @@ void msrOptions::initializeMsrDisplayOptions (
       "Display",
       "hmsrtd", "help-msr-trace-and-display",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (displaySubGroup);
@@ -535,7 +535,7 @@ void msrOptions::initializeMsrLanguagesOptions (
       "Languages",
       "hmsrlang", "help-msr-languages",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (languagesSubGroup);
@@ -599,7 +599,7 @@ void msrOptions::initializeMsrPartsOptions (
       "Parts",
       "hmsrp", "help-msr-parts",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (partsSubGroup);
@@ -665,7 +665,7 @@ void msrOptions::initializeMsrStavesOptions (
       "Staves",
       "hmsrs", "help-msr-staves",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (stavesSubGroup);
@@ -692,7 +692,7 @@ void msrOptions::initializeMsrVoicesOptions (
       "Voices",
       "hmsrv", "help-msr-voices",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (voicesSubGroup);
@@ -720,7 +720,7 @@ void msrOptions::initializeMsrRepeatsOptions (
       "Repeats",
       "hmsrr", "help-msr-repeats",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (repeatsSubGroup);
@@ -748,7 +748,7 @@ void msrOptions::initializeMsrNotesOptions (
       "Notes",
       "hmsrn", "help-msr-notes",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (notesSubGroup);
@@ -858,7 +858,7 @@ void msrOptions::initializeMsrLyricsOptions (
       "Lyrics",
       "hmsrlyrd", "help-msr-lyrics",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (lyricsSubGroup);
@@ -884,7 +884,7 @@ void msrOptions::initializeMsrHarmoniesOptions (
       "Harmonies",
       "hmsrh", "help-msr-harmonies",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (harmoniesSubGroup);
@@ -911,7 +911,7 @@ void msrOptions::initializeMsrFiguredBassOptions (
       "Figured bass",
       "hmsrfb", "help-msr-figured-bass",
 R"()",
-    oahSubGroup::kAlwaysShowDescription,
+    oahSubGroup::kSubGroupVisibilityAlways,
     this);
 
   appendSubGroup (figuredBassSubGroup);
@@ -939,7 +939,7 @@ void msrOptions::initializeMsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hme", "help-msr-exit",
 R"()",
-      oahSubGroup::kAlwaysShowDescription,
+      oahSubGroup::kSubGroupVisibilityAlways,
       this);
 
   appendSubGroup (exitAfterSomePassesSubGroup);

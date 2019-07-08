@@ -1482,7 +1482,7 @@ S_oahIntegerAtom oahIntegerAtom::create (
   string             description,
   string             valueSpecification,
   string             variableName,
-  int&               oahIntegerAtomVariable)
+  int&               integerVariable)
 {
   oahIntegerAtom* o = new
     oahIntegerAtom (
@@ -1491,7 +1491,7 @@ S_oahIntegerAtom oahIntegerAtom::create (
       description,
       valueSpecification,
       variableName,
-      oahIntegerAtomVariable);
+      integerVariable);
   assert(o!=0);
   return o;
 }
@@ -1502,15 +1502,15 @@ oahIntegerAtom::oahIntegerAtom (
   string             description,
   string             valueSpecification,
   string             variableName,
-  int&               oahIntegerAtomVariable)
+  int&               integerVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fOptionsIntegerItemVariable (
-      oahIntegerAtomVariable)
+    fIntegerVariable (
+      integerVariable)
 {}
 
 oahIntegerAtom::~oahIntegerAtom ()
@@ -1535,8 +1535,8 @@ void oahIntegerAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsIntegerItemVariable" << " : " <<
-    fOptionsIntegerItemVariable <<
+    "fIntegerVariable" << " : " <<
+    fIntegerVariable <<
     endl;
 
   gIndenter--;
@@ -1550,7 +1550,7 @@ void oahIntegerAtom::printOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fOptionsIntegerItemVariable <<
+    fIntegerVariable <<
     endl;
 }
 
@@ -1567,7 +1567,7 @@ S_oahFloatAtom oahFloatAtom::create (
   string             description,
   string             valueSpecification,
   string             variableName,
-  float&             oahFloatAtomVariable)
+  float&             floatVariable)
 {
   oahFloatAtom* o = new
     oahFloatAtom (
@@ -1576,7 +1576,7 @@ S_oahFloatAtom oahFloatAtom::create (
       description,
       valueSpecification,
       variableName,
-      oahFloatAtomVariable);
+      floatVariable);
   assert(o!=0);
   return o;
 }
@@ -1587,15 +1587,15 @@ oahFloatAtom::oahFloatAtom (
   string             description,
   string             valueSpecification,
   string             variableName,
-  float&             oahFloatAtomVariable)
+  float&             floatVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fOptionsFloatItemVariable (
-      oahFloatAtomVariable)
+    fFloatVariable (
+      floatVariable)
 {}
 
 oahFloatAtom::~oahFloatAtom ()
@@ -1620,8 +1620,8 @@ void oahFloatAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsFloatItemVariable" << " : " <<
-    fOptionsFloatItemVariable <<
+    "fFloatVariable" << " : " <<
+    fFloatVariable <<
     endl;
 
   gIndenter--;
@@ -1635,7 +1635,7 @@ void oahFloatAtom::printOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fOptionsFloatItemVariable <<
+    fFloatVariable <<
     endl;
 }
 
@@ -1652,7 +1652,7 @@ S_oahStringAtom oahStringAtom::create (
   string             description,
   string             valueSpecification,
   string             variableName,
-  string&            oahStringAtomVariable)
+  string&            stringVariable)
 {
   oahStringAtom* o = new
     oahStringAtom (
@@ -1661,7 +1661,7 @@ S_oahStringAtom oahStringAtom::create (
       description,
       valueSpecification,
       variableName,
-      oahStringAtomVariable);
+      stringVariable);
   assert(o!=0);
   return o;
 }
@@ -1672,15 +1672,15 @@ oahStringAtom::oahStringAtom (
   string             description,
   string             valueSpecification,
   string             variableName,
-  string&            oahStringAtomVariable)
+  string&            stringVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fOptionsStringItemVariable (
-      oahStringAtomVariable)
+    fStringVariable (
+      stringVariable)
 {}
 
 oahStringAtom::~oahStringAtom ()
@@ -1705,8 +1705,8 @@ void oahStringAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsStringItemVariable" << " : " <<
-    fOptionsStringItemVariable <<
+    "fStringVariable" << " : " <<
+    fStringVariable <<
     endl;
 
   gIndenter--;
@@ -1720,7 +1720,7 @@ void oahStringAtom::printOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    fOptionsStringItemVariable <<
+    fStringVariable <<
     "\"" <<
     endl;
 }
@@ -1741,7 +1741,7 @@ S_oahRationalAtom oahRationalAtom::create (
   string             description,
   string             valueSpecification,
   string             variableName,
-  rational&          oahRationalAtomVariable)
+  rational&          rationalVariable)
 {
   oahRationalAtom* o = new
     oahRationalAtom (
@@ -1750,7 +1750,7 @@ S_oahRationalAtom oahRationalAtom::create (
       description,
       valueSpecification,
       variableName,
-      oahRationalAtomVariable);
+      rationalVariable);
   assert(o!=0);
   return o;
 }
@@ -1761,15 +1761,15 @@ oahRationalAtom::oahRationalAtom (
   string             description,
   string             valueSpecification,
   string             variableName,
-  rational&          oahRationalAtomVariable)
+  rational&          rationalVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fOptionsRationalItemVariable (
-      oahRationalAtomVariable)
+    fRationalVariable (
+      rationalVariable)
 {}
 
 oahRationalAtom::~oahRationalAtom ()
@@ -1794,8 +1794,8 @@ void oahRationalAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsRationalItemVariable" << " : " <<
-    fOptionsRationalItemVariable <<
+    "fRationalVariable" << " : " <<
+    fRationalVariable <<
     endl;
 
   gIndenter--;
@@ -1809,7 +1809,7 @@ void oahRationalAtom::printOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fOptionsRationalItemVariable <<
+    fRationalVariable <<
     endl;
 }
 
@@ -1954,14 +1954,12 @@ ostream& operator<< (ostream& os, const S_oahNumbersSetAtom& elt)
 
 //______________________________________________________________________________
 S_oahSubGroup oahSubGroup::create (
-  string header,
-  string shortName,
-  string longName,
-  string description,
-  oahVisibilityKind
-         oahVisibilityKind,
-  S_oahGroup
-         oahGroupUpLink)
+  string                    header,
+  string                    shortName,
+  string                    longName,
+  string                    description,
+  oahSubGroupVisibilityKind subGroupVisibilityKind,
+  S_oahGroup                groupUpLink)
 {
   oahSubGroup* o = new
     oahSubGroup (
@@ -1969,52 +1967,46 @@ S_oahSubGroup oahSubGroup::create (
       shortName,
       longName,
       description,
-      oahVisibilityKind,
-      oahGroupUpLink);
+      subGroupVisibilityKind,
+      groupUpLink);
   assert(o!=0);
   return o;
 }
 
 oahSubGroup::oahSubGroup (
-  string header,
-  string shortName,
-  string longName,
-  string description,
-  oahVisibilityKind
-         oahVisibilityKind,
-  S_oahGroup
-         oahGroupUpLink)
+  string                    header,
+  string                    shortName,
+  string                    longName,
+  string                    description,
+  oahSubGroupVisibilityKind subGroupVisibilityKind,
+  S_oahGroup                groupUpLink)
   : oahElement (
       shortName,
       longName,
       description)
 {
-  fGroupUpLink =
-    oahGroupUpLink;
+  fGroupUpLink = groupUpLink;
 
-  fHeader =
-    header;
+  fHeader = header;
 
-  fVisibilityKind =
-    oahVisibilityKind;
+  fSubGroupVisibilityKind = subGroupVisibilityKind;
 }
 
 oahSubGroup::~oahSubGroup ()
 {}
 
-string oahSubGroup::oahVisibilityKindAsString (
-  oahVisibilityKind
-    oahVisibilityKind)
+string oahSubGroup::subGroupVisibilityKindAsString (
+  oahSubGroupVisibilityKind subGroupVisibilityKind)
 {
   string result;
 
-  switch (oahVisibilityKind) {
-    case kAlwaysShowDescription:
-      result = "AlwaysShowDescription";
+  switch (subGroupVisibilityKind) {
+    case kSubGroupVisibilityAlways:
+      result = "subGroupVisibilityAlways";
       break;
 
-    case kHideDescriptionByDefault:
-      result = "HideDescriptionByDefault";
+    case kSubGroupVisibilityHiddenByDefault:
+      result = "subGroupVisibilityHiddenByDefault";
       break;
   } // switch
 
@@ -2106,9 +2098,9 @@ void oahSubGroup::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fSubGroupDescriptionVisibility" << " : " <<
-      oahVisibilityKindAsString (
-        fVisibilityKind) <<
+    "fSubGroupVisibilityKind" << " : " <<
+      subGroupVisibilityKindAsString (
+        fSubGroupVisibilityKind) <<
     endl <<
     endl;
 
@@ -2151,13 +2143,13 @@ void oahSubGroup::printHelp (ostream& os) const
     " " <<
     fetchNamesBetweenParentheses ();
 
-  switch (fVisibilityKind) {
-    case kAlwaysShowDescription:
+  switch (fSubGroupVisibilityKind) {
+    case kSubGroupVisibilityAlways:
       os <<
         ":";
       break;
 
-    case kHideDescriptionByDefault:
+    case kSubGroupVisibilityHiddenByDefault:
       os <<
         " (hidden by default)";
       break;
@@ -2176,8 +2168,8 @@ void oahSubGroup::printHelp (ostream& os) const
     os << endl;
   }
 
-  switch (fVisibilityKind) {
-    case kAlwaysShowDescription:
+  switch (fSubGroupVisibilityKind) {
+    case kSubGroupVisibilityAlways:
       if (fSubGroupItemsList.size ()) {
         gIndenter++;
 
@@ -2207,7 +2199,7 @@ void oahSubGroup::printHelp (ostream& os) const
       }
       break;
 
-    case kHideDescriptionByDefault:
+    case kSubGroupVisibilityHiddenByDefault:
       break;
   } // switch
 
@@ -2227,13 +2219,13 @@ void oahSubGroup::printSubGroupForcedHelp (ostream& os) const
     " " <<
     fetchNamesBetweenParentheses ();
 
-  switch (fVisibilityKind) {
-    case kAlwaysShowDescription:
+  switch (fSubGroupVisibilityKind) {
+    case kSubGroupVisibilityAlways:
       os <<
         ":";
       break;
 
-    case kHideDescriptionByDefault:
+    case kSubGroupVisibilityHiddenByDefault:
       os <<
         " (hidden by default) :";
       break;
@@ -2301,11 +2293,11 @@ void oahSubGroup::printOptionsSummary (
     fetchNamesInColumnsBetweenParentheses (
       maximumShortNameWidth);
 
-  switch (fVisibilityKind) {
-    case kAlwaysShowDescription:
+  switch (fSubGroupVisibilityKind) {
+    case kSubGroupVisibilityAlways:
       break;
 
-    case kHideDescriptionByDefault:
+    case kSubGroupVisibilityHiddenByDefault:
       os <<
         " (hidden by default)";
       break;
@@ -5009,7 +5001,7 @@ void oahHandler::handleOptionsItemIntegerValue (
   }
 
   integerItem->
-    setIntegerItemVariableValue (
+    setIntegerVariableValue (
       integerValue);
 }
 
