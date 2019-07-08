@@ -2032,8 +2032,8 @@ void oahSubGroup::registerSubGroupInHandler (
 
   for (
     list<S_oahAtom>::const_iterator
-      i = fSubGroupItemsList.begin ();
-    i != fSubGroupItemsList.end ();
+      i = fAtomsList.begin ();
+    i != fAtomsList.end ();
     i++
   ) {
     // register the options sub group
@@ -2052,7 +2052,7 @@ void oahSubGroup::appendAtom (
     "oahAtom is null");
 
   // append options item
-  fSubGroupItemsList.push_back (
+  fAtomsList.push_back (
     oahAtom);
 
   // set options item subgroup upLink
@@ -2067,8 +2067,8 @@ S_oahElement oahSubGroup::fetchElementByName (
 
   for (
     list<S_oahAtom>::const_iterator
-      i = fSubGroupItemsList.begin ();
-    i != fSubGroupItemsList.end ();
+      i = fAtomsList.begin ();
+    i != fAtomsList.end ();
     i++
   ) {
     // search name in the options group
@@ -2107,18 +2107,18 @@ void oahSubGroup::print (ostream& os) const
   os <<
     "Options items (" <<
     singularOrPlural (
-      fSubGroupItemsList.size (), "element",  "elements") <<
+      fAtomsList.size (), "element",  "elements") <<
     "):" <<
     endl;
 
-  if (fSubGroupItemsList.size ()) {
+  if (fAtomsList.size ()) {
     os << endl;
 
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fSubGroupItemsList.begin (),
-      iEnd   = fSubGroupItemsList.end (),
+      iBegin = fAtomsList.begin (),
+      iEnd   = fAtomsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item
@@ -2170,12 +2170,12 @@ void oahSubGroup::printHelp (ostream& os) const
 
   switch (fSubGroupVisibilityKind) {
     case kSubGroupVisibilityAlways:
-      if (fSubGroupItemsList.size ()) {
+      if (fAtomsList.size ()) {
         gIndenter++;
 
         list<S_oahAtom>::const_iterator
-          iBegin = fSubGroupItemsList.begin (),
-          iEnd   = fSubGroupItemsList.end (),
+          iBegin = fAtomsList.begin (),
+          iEnd   = fAtomsList.end (),
           i      = iBegin;
         for ( ; ; ) {
           S_oahAtom
@@ -2245,12 +2245,12 @@ void oahSubGroup::printSubGroupForcedHelp (ostream& os) const
     os << endl;
   }
 
-  if (fSubGroupItemsList.size ()) {
+  if (fAtomsList.size ()) {
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fSubGroupItemsList.begin (),
-      iEnd   = fSubGroupItemsList.end (),
+      iBegin = fAtomsList.begin (),
+      iEnd   = fAtomsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item help
@@ -2355,12 +2355,12 @@ void oahSubGroup::printAtomForcedHelp (
 // JMI  underlineHeader (os);
 
   // print the options items
-  if (fSubGroupItemsList.size ()) {
+  if (fAtomsList.size ()) {
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fSubGroupItemsList.begin (),
-      iEnd   = fSubGroupItemsList.end (),
+      iBegin = fAtomsList.begin (),
+      iEnd   = fAtomsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahAtom
@@ -2404,12 +2404,12 @@ void oahSubGroup::printOptionsValues (
 // JMI  underlineHeader (os);
 
   // print the options items values
-  if (fSubGroupItemsList.size ()) {
+  if (fAtomsList.size ()) {
     gIndenter++;
 
     list<S_oahAtom>::const_iterator
-      iBegin = fSubGroupItemsList.begin (),
-      iEnd   = fSubGroupItemsList.end (),
+      iBegin = fAtomsList.begin (),
+      iEnd   = fAtomsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item values
@@ -2432,37 +2432,37 @@ ostream& operator<< (ostream& os, const S_oahSubGroup& elt)
 
 //______________________________________________________________________________
 S_oahGroup oahGroup::create (
-  string           oahGroupHelpHeader,
-  string           optionGroupShortName,
-  string           optionGroupLongName,
-  string           optionGroupDescription,
-  S_oahHandler oahHandlerUpLink)
+  string       header,
+  string       shortName,
+  string       longName,
+  string       description,
+  S_oahHandler handlerUpLink)
 {
   oahGroup* o = new
     oahGroup (
-      oahGroupHelpHeader,
-      optionGroupShortName,
-      optionGroupLongName,
-      optionGroupDescription,
-      oahHandlerUpLink);
+      header,
+      shortName,
+      longName,
+      description,
+      handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 oahGroup::oahGroup (
-  string           oahGroupHelpHeader,
-  string           optionGroupShortName,
-  string           optionGroupLongName,
-  string           optionGroupDescription,
-  S_oahHandler oahHandlerUpLink)
+  string       header,
+  string       shortName,
+  string       longName,
+  string       description,
+  S_oahHandler handlerUpLink)
   : oahElement (
-      optionGroupShortName,
-      optionGroupLongName,
-      optionGroupDescription)
+      shortName,
+      longName,
+      description)
 {
-  fHandlerUpLink = oahHandlerUpLink;
+  fHandlerUpLink = handlerUpLink;
 
-  fOptionsGroupHelpHeader = oahGroupHelpHeader;
+  fHeader = header;
 }
 
 oahGroup::~oahGroup ()
@@ -2484,7 +2484,7 @@ void oahGroup::setOptionsHandlerUpLink (
 void oahGroup::underlineHeader (ostream& os) const
 {
   /* JMI
-  for (unsigned int i = 0; i < fOptionsGroupHelpHeader.size (); i++) {
+  for (unsigned int i = 0; i < fHeader.size (); i++) {
     os << "-";
   } // for
   os << endl;
@@ -2509,8 +2509,8 @@ void oahGroup::registerOptionsGroupInHandler (
 
   for (
     list<S_oahSubGroup>::const_iterator
-      i = fOptionsGroupSubGroupsList.begin ();
-    i != fOptionsGroupSubGroupsList.end ();
+      i = fSubGroupsList.begin ();
+    i != fSubGroupsList.end ();
     i++
   ) {
     // register the options sub group
@@ -2529,7 +2529,7 @@ void  oahGroup::appendSubGroup (
     "subGroup is null");
 
   // append options subgroup
-  fOptionsGroupSubGroupsList.push_back (
+  fSubGroupsList.push_back (
     subGroup);
 
   // set options subgroup group upLink
@@ -2544,8 +2544,8 @@ S_oahElement oahGroup::fetchElementByName (
 
   for (
     list<S_oahSubGroup>::const_iterator
-      i = fOptionsGroupSubGroupsList.begin ();
-    i != fOptionsGroupSubGroupsList.end ();
+      i = fSubGroupsList.begin ();
+    i != fSubGroupsList.end ();
     i++
   ) {
     // search name in the options group
@@ -2608,18 +2608,18 @@ void oahGroup::print (ostream& os) const
   os <<
     "Options subgroups (" <<
     singularOrPlural (
-      fOptionsGroupSubGroupsList.size (), "element",  "elements") <<
+      fSubGroupsList.size (), "element",  "elements") <<
     "):" <<
     endl;
 
-  if (fOptionsGroupSubGroupsList.size ()) {
+  if (fSubGroupsList.size ()) {
     os << endl;
 
     gIndenter++;
 
     list<S_oahSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin (),
-      iEnd   = fOptionsGroupSubGroupsList.end (),
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup
@@ -2638,7 +2638,7 @@ void oahGroup::printHelp (ostream& os) const
 {
   // print the header and option names
   os <<
-    fOptionsGroupHelpHeader <<
+    fHeader <<
     " " <<
     fetchNamesBetweenParentheses () <<
     ":" <<
@@ -2658,12 +2658,12 @@ void oahGroup::printHelp (ostream& os) const
   underlineHeader (os);
 
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {
+  if (fSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_oahSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin (),
-      iEnd   = fOptionsGroupSubGroupsList.end (),
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup help
@@ -2685,7 +2685,7 @@ void oahGroup::printSubGroupForcedHelp (
 {
   // print the header and option names
   os <<
-    fOptionsGroupHelpHeader <<
+    fHeader <<
     " " <<
     fetchNamesBetweenParentheses () <<
     ":" <<
@@ -2707,12 +2707,12 @@ void oahGroup::printSubGroupForcedHelp (
   underlineHeader (os);
 
   // print the target options subgroup
-  if (fOptionsGroupSubGroupsList.size ()) {
+  if (fSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_oahSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin (),
-      iEnd   = fOptionsGroupSubGroupsList.end (),
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahSubGroup
@@ -2741,7 +2741,7 @@ void oahGroup::printGroupForcedHelp (
 {
   // print the header and option names
   os <<
-    fOptionsGroupHelpHeader <<
+    fHeader <<
     " " <<
     fetchNamesBetweenParentheses () <<
     ":" <<
@@ -2763,12 +2763,12 @@ void oahGroup::printGroupForcedHelp (
   underlineHeader (os);
 
   // print the target options subgroup
-  if (fOptionsGroupSubGroupsList.size ()) {
+  if (fSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_oahSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin (),
-      iEnd   = fOptionsGroupSubGroupsList.end (),
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahSubGroup
@@ -2801,7 +2801,7 @@ void oahGroup::printOptionsSummary (ostream& os) const
 {
   // the description is the header of the information
   os <<
-    fOptionsGroupHelpHeader <<
+    fHeader <<
     " " <<
     fetchNamesBetweenParentheses () <<
     ":" <<
@@ -2821,12 +2821,12 @@ void oahGroup::printOptionsSummary (ostream& os) const
   underlineHeader (os);
 
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {
+  if (fSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_oahSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin (),
-      iEnd   = fOptionsGroupSubGroupsList.end (),
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup description
@@ -2849,7 +2849,7 @@ void oahGroup::printSpecificSubGroupHelp (
 {
   // the description is the header of the information
   os <<
-    fOptionsGroupHelpHeader <<
+    fHeader <<
     " " <<
     fetchNamesBetweenParentheses () <<
     ":" <<
@@ -2869,12 +2869,12 @@ void oahGroup::printSpecificSubGroupHelp (
   underlineHeader (os);
 
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {
+  if (fSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_oahSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin (),
-      iEnd   = fOptionsGroupSubGroupsList.end (),
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup specific subgroup help
@@ -2899,7 +2899,7 @@ void oahGroup::printOptionsValues (
 {
   // print the header
   os <<
-    fOptionsGroupHelpHeader <<
+    fHeader <<
     " " <<
     fetchNamesBetweenParentheses () <<
     ":" <<
@@ -2909,12 +2909,12 @@ void oahGroup::printOptionsValues (
   underlineHeader (os);
 
   // print the options subgroups values
-  if (fOptionsGroupSubGroupsList.size ()) {
+  if (fSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_oahSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin (),
-      iEnd   = fOptionsGroupSubGroupsList.end (),
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup values
@@ -3419,16 +3419,16 @@ void oahHandler::registerElementInHandler (
     ) {
 
     string
-      subGroupHeader=
+      subHeader=
         subGroup-> getHeader ();
     int
-      subGroupHeaderSize =
-        subGroupHeader.size ();
+      subHeaderSize =
+        subHeader.size ();
 
     // account for subGroup's header size
-    if (subGroupHeaderSize > fMaximumSubGroupsHelpHeadersSize) {
+    if (subHeaderSize > fMaximumSubGroupsHelpHeadersSize) {
       fMaximumSubGroupsHelpHeadersSize =
-        subGroupHeaderSize;
+        subHeaderSize;
     }
   }
 }
@@ -3694,7 +3694,7 @@ void oahHandler::printSpecificElementHelp (
         name <<
         "' for group \"" <<
         group->
-          getOptionsGroupHelpHeader () <<
+          getHeader () <<
         "\" ---" <<
         endl <<
         endl;
@@ -3729,7 +3729,7 @@ void oahHandler::printSpecificElementHelp (
         "\"" <<
         " in group \"" <<
         group->
-          getOptionsGroupHelpHeader () <<
+          getHeader () <<
         "\" ---" <<
         endl <<
         endl;
@@ -3769,7 +3769,7 @@ void oahHandler::printSpecificElementHelp (
         "\"" <<
         " of group \"" <<
         group->
-          getOptionsGroupHelpHeader () <<
+          getHeader () <<
         "\" ---" <<
         endl <<
         endl;
@@ -4407,7 +4407,7 @@ void oahHandler::handleOptionsGroupItemName (
     endl <<
     "--- Help for group \"" <<
     group->
-      getOptionsGroupHelpHeader () <<
+      getHeader () <<
     "\" ---" <<
     endl <<
     endl;
@@ -4444,7 +4444,7 @@ void oahHandler::handleSubGroupItemName (
     "\"" <<
     " in group \"" <<
     group->
-      getOptionsGroupHelpHeader () <<
+      getHeader () <<
     "\" ---" <<
     endl <<
     endl;

@@ -1252,7 +1252,7 @@ class oahSubGroup : public oahElement
     oahSubGroupVisibilityKind
                           fSubGroupVisibilityKind;
 
-    list<S_oahAtom>       fSubGroupItemsList;
+    list<S_oahAtom>       fAtomsList;
 };
 typedef SMARTP<oahSubGroup> S_oahSubGroup;
 EXP ostream& operator<< (ostream& os, const S_oahSubGroup& elt);
@@ -1267,11 +1267,11 @@ class oahGroup : public oahElement
     // ------------------------------------------------------
 
     static SMARTP<oahGroup> create (
-      string           oahGroupHelpHeader,
-      string           optionGroupShortName,
-      string           optionGroupLongName,
-      string           optionGroupDescription,
-      S_oahHandler oahHandlerUpLink);
+      string       header,
+      string       shortName,
+      string       longName,
+      string       description,
+      S_oahHandler handlerUpLink);
 
   protected:
 
@@ -1279,11 +1279,11 @@ class oahGroup : public oahElement
     // ------------------------------------------------------
 
     oahGroup (
-      string           oahGroupHelpHeader,
-      string           optionGroupShortName,
-      string           optionGroupLongName,
-      string           optionGroupDescription,
-      S_oahHandler oahHandlerUpLink);
+      string       header,
+      string       shortName,
+      string       longName,
+      string       description,
+      S_oahHandler handlerUpLink);
 
     virtual ~oahGroup ();
 
@@ -1298,8 +1298,8 @@ class oahGroup : public oahElement
     S_oahHandler          getOptionsHandlerUpLink () const
                               { return fHandlerUpLink; }
 
-    string                getOptionsGroupHelpHeader () const
-                              { return fOptionsGroupHelpHeader; }
+    string                getHeader () const
+                              { return fHeader; }
 
   public:
 
@@ -1372,10 +1372,9 @@ class oahGroup : public oahElement
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsGroupHelpHeader;
+    string                fHeader;
 
-    list<S_oahSubGroup>
-                          fOptionsGroupSubGroupsList;
+    list<S_oahSubGroup>   fSubGroupsList;
 };
 typedef SMARTP<oahGroup> S_oahGroup;
 EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
