@@ -248,12 +248,12 @@ string oahElement::fetchNamesInColumnsBetweenParentheses (
   return s.str ();
 }
 
-string oahElement::asShortNameElementString () const
+string oahElement::asShortNamedElementString () const
 {
   return "-" + fShortName;
 }
 
-string oahElement::asLongNameElementString () const
+string oahElement::asLongNamedElementString () const
 {
   return "-" + fLongName;
 }
@@ -1451,6 +1451,26 @@ oahElementHelpAtom::oahElementHelpAtom (
 oahElementHelpAtom::~oahElementHelpAtom ()
 {}
 
+string oahElementHelpAtom::asShortNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " << fVariableName;
+
+  return s.str ();
+}
+
+string oahElementHelpAtom::asLongNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " << fVariableName;
+
+  return s.str ();
+}
+
 void oahElementHelpAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1520,6 +1540,26 @@ oahIntegerAtom::oahIntegerAtom (
 
 oahIntegerAtom::~oahIntegerAtom ()
 {}
+
+string oahIntegerAtom::asShortNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " << fIntegerVariable;
+
+  return s.str ();
+}
+
+string oahIntegerAtom::asLongNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " << fIntegerVariable;
+
+  return s.str ();
+}
 
 void oahIntegerAtom::print (ostream& os) const
 {
@@ -1606,6 +1646,26 @@ oahFloatAtom::oahFloatAtom (
 oahFloatAtom::~oahFloatAtom ()
 {}
 
+string oahFloatAtom::asShortNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " << fFloatVariable;
+
+  return s.str ();
+}
+
+string oahFloatAtom::asLongNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " << fFloatVariable;
+
+  return s.str ();
+}
+
 void oahFloatAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1690,6 +1750,26 @@ oahStringAtom::oahStringAtom (
 
 oahStringAtom::~oahStringAtom ()
 {}
+
+string oahStringAtom::asShortNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " << fStringVariable;
+
+  return s.str ();
+}
+
+string oahStringAtom::asLongNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " << fStringVariable;
+
+  return s.str ();
+}
 
 void oahStringAtom::print (ostream& os) const
 {
@@ -1780,6 +1860,26 @@ oahRationalAtom::oahRationalAtom (
 oahRationalAtom::~oahRationalAtom ()
 {}
 
+string oahRationalAtom::asShortNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " << fRationalVariable;
+
+  return s.str ();
+}
+
+string oahRationalAtom::asLongNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " << fRationalVariable;
+
+  return s.str ();
+}
+
 void oahRationalAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1864,6 +1964,56 @@ oahNumbersSetAtom::oahNumbersSetAtom (
 
 oahNumbersSetAtom::~oahNumbersSetAtom ()
 {}
+
+string oahNumbersSetAtom::asShortNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " <<
+    "[";
+
+  set<int>::const_iterator
+    iBegin = fNumbersSetVariable.begin (),
+    iEnd   = fNumbersSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
+
+string oahNumbersSetAtom::asLongNamedElementString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fLongName << " " <<
+    "[";
+
+  set<int>::const_iterator
+    iBegin = fNumbersSetVariable.begin (),
+    iEnd   = fNumbersSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
 
 void oahNumbersSetAtom::print (ostream& os) const
 {
@@ -3962,7 +4112,7 @@ string oahHandler::commandLineWithShortNamesAsString () const
       S_oahElement element = (*i);
 
       s <<
-        element-> asShortNameElementString ();
+        element-> asShortNamedElementString ();
 
       if (++i == iEnd) break;
 
@@ -4007,7 +4157,7 @@ string oahHandler::commandLineWithLongNamesAsString () const
       S_oahElement element = (*i);
 
       s <<
-        element-> asLongNameElementString ();
+        element-> asLongNamedElementString ();
 
       if (++i == iEnd) break;
 

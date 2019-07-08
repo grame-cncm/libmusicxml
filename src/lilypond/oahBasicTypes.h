@@ -125,8 +125,8 @@ class oahElement : public smartable
     // print
     // ------------------------------------------------------
 
-    virtual string        asShortNameElementString () const;
-    virtual string        asLongNameElementString () const;
+    virtual string        asShortNamedElementString () const;
+    virtual string        asLongNamedElementString () const;
 
     string                asString () const;
 
@@ -799,6 +799,9 @@ class oahElementHelpAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedElementString () const;
+    string                asLongNamedElementString () const;
+
     void                  print (ostream& os) const;
 
     virtual void          printOptionsValues (
@@ -863,6 +866,9 @@ class oahIntegerAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedElementString () const;
+    string                asLongNamedElementString () const;
+
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
@@ -923,6 +929,9 @@ class oahFloatAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedElementString () const;
+    string                asLongNamedElementString () const;
 
     void                  print (ostream& os) const;
 
@@ -986,6 +995,9 @@ class oahStringAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedElementString () const;
+    string                asLongNamedElementString () const;
+
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
@@ -1048,6 +1060,9 @@ class oahRationalAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedElementString () const;
+    string                asLongNamedElementString () const;
+
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
@@ -1109,6 +1124,9 @@ class oahNumbersSetAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedElementString () const;
+    string                asLongNamedElementString () const;
 
     void                  print (ostream& os) const;
 
