@@ -556,7 +556,7 @@ S_extraOptions extraOptions::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // chord intervals

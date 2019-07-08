@@ -83,7 +83,7 @@ R"()",
 
   helpGeneralOptionsHelpSubGroup->
     appendOptionsItem (
-      oahHelpUsageAtom::create (
+      oahOptionsUsageAtom::create (
         "ho", "help-options",
 R"(Print options usage help.)"));
 
@@ -91,7 +91,7 @@ R"(Print options usage help.)"));
 
   helpGeneralOptionsHelpSubGroup->
     appendOptionsItem (
-      oahHelpSummaryAtom::create (
+      oahOptionsSummaryAtom::create (
         "hs", "help-summary",
 R"(Display a help summary and exit.)"));
 
@@ -107,7 +107,7 @@ ITEM_NAME is optionnal, and the default value is 'ih')",
         "ITEM_NAME");
 
   itemHelpItem->
-    setOptionsValueIsOptional ();
+    setValueIsOptional ();
 
   helpGeneralOptionsHelpSubGroup->
     appendOptionsItem (
@@ -259,7 +259,7 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // command line

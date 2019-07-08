@@ -337,7 +337,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // clefs, keys, times

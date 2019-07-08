@@ -82,13 +82,13 @@ void optionsUTFKindItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "optionsUTFKindItemVariable" << " : \"" <<
@@ -104,7 +104,7 @@ void optionsUTFKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     bsrUTFKindAsString (
       fOptionsUTFKindItemVariable) <<
@@ -169,13 +169,13 @@ void optionsByteOrderingKindItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "optionsByteOrderingKindItemVariable" << " : \"" <<
@@ -191,7 +191,7 @@ void optionsByteOrderingKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     byteOrderingKindAsString (
       fOptionsByteOrderingKindItemVariable) <<
@@ -461,7 +461,7 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
   // code generation JMI ???
   // --------------------------------------
@@ -608,7 +608,7 @@ void brailleOptions::handleOptionsUTFKindItemValue (
   else {
     // no, theString is unknown
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     stringstream s;
 
@@ -654,7 +654,7 @@ void brailleOptions::handleOptionsByteOrderingKindItemValue (
   else {
     // no, theString is unknown
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     stringstream s;
 

@@ -406,15 +406,15 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
-    fOptionsHandlerlogIOstream <<
+    fHandlerLogIOstream <<
       "xml2lyOptionsHandler has been initialized as:" <<
       endl;
 
     gIndenter++;
 
     print (
-      fOptionsHandlerlogIOstream);
-    fOptionsHandlerlogIOstream <<
+      fHandlerLogIOstream);
+    fHandlerLogIOstream <<
       endl <<
       endl;
 
@@ -429,13 +429,13 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerlogIOstream <<
+    fHandlerLogIOstream <<
       "xml2lyOptionsHandler help:" <<
       endl;
 
     this->
       printHelp (
-        fOptionsHandlerlogIOstream);
+        fHandlerLogIOstream);
   }
 #endif
 }
@@ -448,7 +448,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     if (argumentsNumber > 0) {
-      fOptionsHandlerlogIOstream <<
+      fHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
           argumentsNumber, "There is", "There are") <<
         " " <<
@@ -462,17 +462,17 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
       gIndenter++;
 
       for (unsigned int i = 0; i < argumentsNumber; i++) {
-        fOptionsHandlerlogIOstream <<
+        fHandlerLogIOstream <<
           i << " : " << fArgumentsVector [i] <<
             endl;
       } // for
 
-      fOptionsHandlerlogIOstream << endl;
+      fHandlerLogIOstream << endl;
 
       gIndenter--;
     }
     else {
-      fOptionsHandlerlogIOstream <<
+      fHandlerLogIOstream <<
         "There are no arguments to " <<
         gGeneralOptions->fExecutableName <<
         endl;
@@ -485,7 +485,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 
   switch (argumentsNumber) {
     case 0:
-      fOptionsHandlerlogIOstream <<
+      fHandlerLogIOstream <<
         endl <<
         "Input file name or '-' for standard input expected" <<
         endl <<
@@ -501,7 +501,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
       break;
 
     default:
-      fOptionsHandlerlogIOstream <<
+      fHandlerLogIOstream <<
         endl <<
         "Several input file name supplied, only the first one, \"" <<
         fArgumentsVector [0] <<
@@ -684,18 +684,18 @@ void xml2lyOptionsHandler::print (ostream& os) const
   os <<
     "Options groups (" <<
     singularOrPlural (
-      fOptionsHandlerOptionsGroupsList.size (), "element",  "elements") <<
+      fHandlerGroupsList.size (), "element",  "elements") <<
     "):" <<
     endl;
 
-  if (fOptionsHandlerOptionsGroupsList.size ()) {
+  if (fHandlerGroupsList.size ()) {
     os << endl;
 
     gIndenter++;
 
     list<S_oahGroup>::const_iterator
-      iBegin = fOptionsHandlerOptionsGroupsList.begin (),
-      iEnd   = fOptionsHandlerOptionsGroupsList.end (),
+      iBegin = fHandlerGroupsList.begin (),
+      iEnd   = fHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the element

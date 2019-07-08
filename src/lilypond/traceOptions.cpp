@@ -1173,7 +1173,7 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // specific trace

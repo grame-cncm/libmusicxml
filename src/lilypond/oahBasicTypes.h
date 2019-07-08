@@ -112,7 +112,7 @@ class oahElement : public smartable
     string                fetchNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
 
-    virtual int           fetchOptionsElementVariableNameLength () const
+    virtual int           fetchVariableNameLength () const
                               { return 0; }
 
 /* JMI ???
@@ -214,11 +214,11 @@ class oahAtom : public oahElement
 typedef SMARTP<oahAtom> S_oahAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAtom& elt);
 
+/* JMI
 // pointers to options items methods
 //______________________________________________________________________________
 typedef void (oahAtom::*oahAtomMethodPtrType)();
 
-/*
   It's worth noting that, as of C++11, you could write this expression
   as a more legible using statement:
     using oahAtomMethodPtrType = void (oahAtom::*)();
@@ -226,14 +226,14 @@ typedef void (oahAtom::*oahAtomMethodPtrType)();
 
 // options help usage items
 //______________________________________________________________________________
-class oahHelpUsageAtom : public oahAtom
+class oahOptionsUsageAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahHelpUsageAtom> create (
+    static SMARTP<oahOptionsUsageAtom> create (
       string shortName,
       string longName,
       string description);
@@ -243,12 +243,12 @@ class oahHelpUsageAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahHelpUsageAtom (
+    oahOptionsUsageAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~oahHelpUsageAtom ();
+    virtual ~oahOptionsUsageAtom ();
 
   public:
 
@@ -263,7 +263,7 @@ class oahHelpUsageAtom : public oahAtom
 
     void                  print (ostream& os) const;
 
-    void                  printHelpUsage (ostream& os) const;
+    void                  printOptionsUsage (ostream& os) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -274,19 +274,19 @@ class oahHelpUsageAtom : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<oahHelpUsageAtom> S_oahHelpUsageAtom;
-EXP ostream& operator<< (ostream& os, const S_oahHelpUsageAtom& elt);
+typedef SMARTP<oahOptionsUsageAtom> S_oahOptionsUsageAtom;
+EXP ostream& operator<< (ostream& os, const S_oahOptionsUsageAtom& elt);
 
 // options help summary items
 //______________________________________________________________________________
-class oahHelpSummaryAtom : public oahAtom
+class oahOptionsSummaryAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahHelpSummaryAtom> create (
+    static SMARTP<oahOptionsSummaryAtom> create (
       string shortName,
       string longName,
       string description);
@@ -296,12 +296,12 @@ class oahHelpSummaryAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahHelpSummaryAtom (
+    oahOptionsSummaryAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~oahHelpSummaryAtom ();
+    virtual ~oahOptionsSummaryAtom ();
 
   public:
 
@@ -316,7 +316,7 @@ class oahHelpSummaryAtom : public oahAtom
 
     void                  print (ostream& os) const;
 
-    void                  printHelpSummary (ostream& os) const;
+    void                  printOptionsSummary (ostream& os) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -327,8 +327,8 @@ class oahHelpSummaryAtom : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<oahHelpSummaryAtom> S_oahHelpSummaryAtom;
-EXP ostream& operator<< (ostream& os, const S_oahHelpSummaryAtom& elt);
+typedef SMARTP<oahOptionsSummaryAtom> S_oahOptionsSummaryAtom;
+EXP ostream& operator<< (ostream& os, const S_oahOptionsSummaryAtom& elt);
 
 // options items with variable name
 //______________________________________________________________________________
@@ -343,7 +343,7 @@ class oahAtomWithVariableName : public oahAtom
       string shortName,
       string longName,
       string description,
-      string oahAtomVariableName);
+      string variableName);
 
   protected:
 
@@ -354,7 +354,7 @@ class oahAtomWithVariableName : public oahAtom
       string shortName,
       string longName,
       string description,
-      string oahAtomVariableName);
+      string variableName);
 
     virtual ~oahAtomWithVariableName ();
 
@@ -363,20 +363,14 @@ class oahAtomWithVariableName : public oahAtom
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsItemVariableName () const
-                              {
-                                return
-                                  fOptionsItemVariableName;
-                              }
+    string                getVariableName () const
+                              { return fVariableName; }
 
     // services
     // ------------------------------------------------------
 
-    virtual int           fetchOptionsElementVariableNameLength () const
-                              {
-                                return
-                                  fOptionsItemVariableName.size ();
-                              }
+    virtual int           fetchVariableNameLength () const
+                              { return fVariableName.size (); }
 
     // print
     // ------------------------------------------------------
@@ -392,7 +386,7 @@ class oahAtomWithVariableName : public oahAtom
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsItemVariableName;
+    string                fVariableName;
 };
 typedef SMARTP<oahAtomWithVariableName> S_oahAtomWithVariableName;
 EXP ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt);
@@ -410,8 +404,8 @@ class oahBooleanAtom : public oahAtomWithVariableName
       string shortName,
       string longName,
       string description,
-      string oahBooleanAtomVariableName,
-      bool&  oahBooleanAtomVariable);
+      string variableName,
+      bool&  booleanVariable);
 
   protected:
 
@@ -422,8 +416,8 @@ class oahBooleanAtom : public oahAtomWithVariableName
       string shortName,
       string longName,
       string description,
-      string oahBooleanAtomVariableName,
-      bool&  oahBooleanAtomVariable);
+      string variableName,
+      bool&  booleanVariable);
 
     virtual ~oahBooleanAtom ();
 
@@ -434,9 +428,7 @@ class oahBooleanAtom : public oahAtomWithVariableName
 
     void                  setBooleanItemVariableValue (
                             bool value)
-                              {
-                                fOptionsBooleanItemVariable = value;
-                              }
+                              { fBooleanVariable = value; }
 
     // services
     // ------------------------------------------------------
@@ -455,7 +447,7 @@ class oahBooleanAtom : public oahAtomWithVariableName
     // fields
     // ------------------------------------------------------
 
-    bool&                 fOptionsBooleanItemVariable;
+    bool&                 fBooleanVariable;
 };
 typedef SMARTP<oahBooleanAtom> S_oahBooleanAtom;
 EXP ostream& operator<< (ostream& os, const S_oahBooleanAtom& elt);
@@ -713,8 +705,8 @@ class oahValuedAtom : public oahAtomWithVariableName
       string shortName,
       string longName,
       string description,
-      string optionsValueSpecification,
-      string oahValuedAtomVariableName);
+      string valueSpecification,
+      string variableName);
 
   protected:
 
@@ -726,7 +718,7 @@ class oahValuedAtom : public oahAtomWithVariableName
       string longName,
       string description,
       string optionsValueSpecification,
-      string oahValuedAtomVariableName);
+      string variableName);
 
     virtual ~oahValuedAtom ();
 
@@ -736,17 +728,17 @@ class oahValuedAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     oahValuedAtomKind
-                          getOptionsItemKind () const
-                              { return fOptionsItemKind; }
+                          getValuedAtomKind () const
+                              { return fValuedAtomKind; }
 
-    string                getOptionsValueSpecification () const
-                              { return fOptionsValueSpecification; }
+    string                getValueSpecification () const
+                              { return fValueSpecification; }
 
-    void                  setOptionsValueIsOptional ()
-                              { fOptionsValueIsOptional = true; }
+    void                  setValueIsOptional ()
+                              { fValueIsOptional = true; }
 
-    bool                  getOptionsValueIsOptional () const
-                              { return fOptionsValueIsOptional; }
+    bool                  getValueIsOptional () const
+                              { return fValueIsOptional; }
 
     // services
     // ------------------------------------------------------
@@ -754,7 +746,7 @@ class oahValuedAtom : public oahAtomWithVariableName
     // print
     // ------------------------------------------------------
 
-    virtual void          printValuedItemEssentials (
+    virtual void          printValuedAtomEssentials (
                             ostream& os,
                             int      fieldWidth) const;
 
@@ -771,11 +763,11 @@ class oahValuedAtom : public oahAtomWithVariableName
     // fields
     // ------------------------------------------------------
 
-    oahValuedAtomKind fOptionsItemKind;
+    oahValuedAtomKind     fValuedAtomKind; // JMI
 
-    string                fOptionsValueSpecification;
+    string                fValueSpecification;
 
-    bool                  fOptionsValueIsOptional;
+    bool                  fValueIsOptional; // not yet supported JMI
 };
 typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
 EXP ostream& operator<< (ostream& os, const S_oahValuedAtom& elt);
@@ -834,7 +826,7 @@ class oahElementHelpAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    string             fOptionsValueSpecification;
+    string             fValueSpecification;
 };
 typedef SMARTP<oahElementHelpAtom> S_oahElementHelpAtom;
 EXP ostream& operator<< (ostream& os, const S_oahElementHelpAtom& elt);
@@ -1268,7 +1260,7 @@ class oahSubGroup : public oahElement
                             ostream&         os,
                             S_oahAtom targetOptionsItem) const;
 
-    void                  printHelpSummary (ostream& os) const;
+    void                  printOptionsSummary (ostream& os) const;
 
     void                  printSpecificSubGroupHelp (
                             ostream& os,
@@ -1335,7 +1327,7 @@ class oahGroup : public oahElement
                             S_oahHandler oahHandler);
 
     S_oahHandler          getOptionsHandlerUpLink () const
-                              { return fOptionsHandlerUpLink; }
+                              { return fHandlerUpLink; }
 
     string                getOptionsGroupHelpHeader () const
                               { return fOptionsGroupHelpHeader; }
@@ -1389,7 +1381,7 @@ class oahGroup : public oahElement
                             S_oahSubGroup targetSubGroup,
                             S_oahAtom     targetOptionsItem) const;
 
-    void                  printHelpSummary (ostream& os) const;
+    void                  printOptionsSummary (ostream& os) const;
 
     void                  printSpecificSubGroupHelp (
                             ostream& os,
@@ -1405,7 +1397,7 @@ class oahGroup : public oahElement
     // upLink
     // ------------------------------------------------------
 
-    S_oahHandler          fOptionsHandlerUpLink;
+    S_oahHandler          fHandlerUpLink;
 
   private:
 
@@ -1574,23 +1566,23 @@ class EXP oahHandler : public oahElement
     // ------------------------------------------------------
 
     string                getOptionsHandlerHelpHeader () const
-                              { return fOptionsHandlerHelpHeader; }
+                              { return fHandlerHelpHeader; }
 
     string                getOptionsHandlerValuesHeader () const
-                              { return fOptionsHandlerValuesHeader; }
+                              { return fHandlerValuesHeader; }
 
     string                getOptionHandlerHelpSummaryShortName () const
-                              { return fOptionHandlerHelpSummaryShortName; }
+                              { return fHandlerHelpSummaryShortName; }
 
     string                getOptionHandlerHelpSummaryLongName () const
-                              { return fOptionHandlerHelpSummaryLongName; }
+                              { return fHandlerHelpSummaryLongName; }
 
     string                getOptionHandlerPreamble () const
-                              { return fOptionHandlerPreamble; }
+                              { return fHandlerPreamble; }
 
     const indentedOstream&
                           getOptionsHandlerlogIOstream ()
-                              { return fOptionsHandlerlogIOstream; }
+                              { return fHandlerLogIOstream; }
 
     string                getExecutableName () const
                               { return fExecutableName; }
@@ -1652,11 +1644,11 @@ class EXP oahHandler : public oahElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printHelpSummary (ostream& os) const;
-    void                  printHelpSummary () const
+    void                  printOptionsSummary (ostream& os) const;
+    void                  printOptionsSummary () const
                               {
-                                printHelpSummary (
-                                  fOptionsHandlerlogIOstream);
+                                printOptionsSummary (
+                                  fHandlerLogIOstream);
                               }
 
     void                  printSpecificSubGroupHelp (
@@ -1671,10 +1663,10 @@ class EXP oahHandler : public oahElement
                             ostream& os) const;
 
     bool                  getOptionsHandlerFoundAHelpItem () const
-                              { return fOptionsHandlerFoundAHelpItem; }
+                              { return fHandlerFoundAHelpItem; }
 
     void                  setOptionsHandlerFoundAHelpItem ()
-                              { fOptionsHandlerFoundAHelpItem = true; }
+                              { fHandlerFoundAHelpItem = true; }
 
   private:
 
@@ -1694,102 +1686,102 @@ class EXP oahHandler : public oahElement
     S_oahElement          fetchElementByName (
                             string optiontElementName);
 
-    void                  handleOptionsItemName (
-                            string oahAtomName);
+    void                  handleElementName (
+                            string name);
 
     void                  handleOptionsHandlerItemName (
                             S_oahHandler handler,
-                            string           oahAtomName);
+                            string       oahAtomName);
 
     void                  handleOptionsGroupItemName (
                             S_oahGroup group,
-                            string         oahAtomName);
+                            string     oahAtomName);
 
     void                  handleSubGroupItemName (
                             S_oahSubGroup subGroup,
-                            string            oahAtomName);
+                            string        oahAtomName);
 
     void                  handleOptionsItemItemName (
                             S_oahAtom item,
-                            string        oahAtomName);
+                            string    oahAtomName);
 
     void                  handleOptionsHelpUsageItemName (
-                            S_oahHelpUsageAtom helpUsageItem,
-                            string                 oahAtomName);
+                            S_oahOptionsUsageAtom helpUsageItem,
+                            string             oahAtomName);
 
     void                  handleOptionsHelpSummaryItemName (
-                            S_oahHelpSummaryAtom helpSummaryItem,
-                            string                   oahAtomName);
+                            S_oahOptionsSummaryAtom helpSummaryItem,
+                            string               oahAtomName);
 
     void                  handleOptionsCombinedBooleanItemsItemName (
                             S_oahCombinedBooleansAtom combinedBooleanItemsItem,
-                            string                     oahAtomName);
+                            string                    oahAtomName);
 
     void                  handleOptionsBooleanItemItemName (
                             S_oahBooleanAtom booleanItem,
-                            string               oahAtomName);
+                            string           oahAtomName);
 
     void                  handleOptionsTwoBooleansItemItemName (
                             S_oahTwoBooleansAtom twoBooleansItem,
-                            string                   oahAtomName);
+                            string               oahAtomName);
 
     void                  handleOptionsThreeBooleansItemItemName (
                             S_oahThreeBooleansAtom threeBooleansItem,
-                            string                     oahAtomName);
+                            string                 oahAtomName);
 
     void                  handleOptionsItemHelpItemName (
                             S_oahElementHelpAtom itemHelpItem,
-                            string                oahAtomName);
+                            string               oahAtomName);
 
     void                  handleOptionsIntegerItemItemName (
                             S_oahIntegerAtom integerItem,
-                            string               oahAtomName);
+                            string           oahAtomName);
 
     void                  handleOptionsFloatItemItemName (
                             S_oahFloatAtom floatItem,
-                            string             oahAtomName);
+                            string         oahAtomName);
 
     void                  handleOptionsStringItemItemName (
                             S_oahStringAtom stringItem,
-                            string              oahAtomName);
+                            string          oahAtomName);
 
     void                  handleOptionsRationalItemItemName (
                             S_oahRationalAtom rationalItem,
-                            string              oahAtomName);
+                            string            oahAtomName);
 
     void                  handleOptionsNumbersSetItemItemName (
                             S_oahNumbersSetAtom numbersSetItem,
-                            string                  oahAtomName);
+                            string              oahAtomName);
 
     void                  handleOptionsItemValueOrArgument (
                             string theString);
 
-    void                  checkMissingPendingOptionsValuedItemValue (
+    void                  checkMissingPendingOptionsValuedAtomValue (
                             string context);
 
     void                  handleOptionsItemHelpValue (
                             S_oahElementHelpAtom itemHelpItem,
-                            string                theString);
+                            string               theString);
 
     void                  handleOptionsItemIntegerValue (
                             S_oahIntegerAtom integerItem,
-                            string               theString);
+                            string           theString);
 
     void                  handleOptionsItemFloatValue (
                             S_oahFloatAtom floatItem,
-                            string             theString);
+                            string         theString);
 
     void                  handleOptionsItemStringValue (
                             S_oahStringAtom stringItem,
-                            string              theString);
+                            string          theString);
 
     void                  handleOptionsItemRationalValue (
                             S_oahRationalAtom rationalItem,
-                            string                theString);
+                            string            theString);
 
     void                  handleOptionsItemNumbersSetValue (
                             S_oahNumbersSetAtom numbersSetItem,
-                            string                  theString);
+                            string              theString);
 
     virtual void          checkOptionsAndArguments () = 0;
 
@@ -1798,22 +1790,22 @@ class EXP oahHandler : public oahElement
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsHandlerHelpHeader;
-    string                fOptionsHandlerValuesHeader;
+    string                fHandlerHelpHeader;
+    string                fHandlerValuesHeader;
 
-    string                fOptionHandlerHelpSummaryShortName;
-    string                fOptionHandlerHelpSummaryLongName;
+    string                fHandlerHelpSummaryShortName;
+    string                fHandlerHelpSummaryLongName;
 
-    string                fOptionHandlerPreamble;
+    string                fHandlerPreamble;
 
-    S_oahValuedAtom       fPendingOptionsValuedItem;
+    S_oahValuedAtom       fPendingValuedAtom;
 
     vector<string>        fArgumentsVector;
 
     map<string, S_oahPrefix>
-                          fOptionsPrefixesMap;
+                          fPrefixesMap;
 
-    list<S_oahGroup>      fOptionsHandlerOptionsGroupsList;
+    list<S_oahGroup>      fHandlerGroupsList;
 
     map<string, S_oahElement>
                           fElementsMap;
@@ -1825,19 +1817,19 @@ class EXP oahHandler : public oahElement
 
     int                   fMaximumVariableNameWidth;
 
-    list<S_oahElement>
-                          fCommandOptionsElements;
+    list<S_oahElement>    fCommandOptionsElements;
 
     string                fExecutableName;
 
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;
 
-    indentedOstream&      fOptionsHandlerlogIOstream;
+    indentedOstream&      fHandlerLogIOstream;
 
-    // this is needed to exit if the executable is launched with help items,
+    // this is needed to exit if the executable is launched
+    // with one or more help options,
     // i.e. items that are only used to display help to the user
-    bool                  fOptionsHandlerFoundAHelpItem;
+    bool                  fHandlerFoundAHelpItem;
 };
 typedef SMARTP<oahHandler> S_oahHandler;
 EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);

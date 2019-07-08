@@ -86,13 +86,13 @@ void optionsPartRenameItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     setw (fieldWidth) <<
     "fOptionsPartRenameItemVariable" << " : " <<
     endl;
@@ -121,7 +121,7 @@ void optionsPartRenameItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : ";
 
   if (! fOptionsPartRenameItemVariable.size ()) {
@@ -212,13 +212,13 @@ void optionsPartTransposeItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     setw (fieldWidth) <<
     "fOptionsPartTransposeItemVariable" << " : " <<
     endl;
@@ -247,7 +247,7 @@ void optionsPartTransposeItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : ";
 
   if (! fOptionsPartTransposeItemVariable.size ()) {
@@ -338,13 +338,13 @@ void optionsMsrPitchesLanguageItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsMsrPitchesLanguageItemVariable" << " : \"" <<
@@ -360,7 +360,7 @@ void optionsMsrPitchesLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fOptionsMsrPitchesLanguageKindItemVariable) <<
@@ -1065,7 +1065,7 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // trace and display
@@ -1807,7 +1807,7 @@ void msrOptions::handleOptionsMsrPitchesLanguageItemValue (
   if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     stringstream s;
 

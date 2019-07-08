@@ -98,13 +98,13 @@ void optionsFacSimileKindItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "optionsFacSimileKindItemVariable" << " : \"" <<
@@ -120,7 +120,7 @@ void optionsFacSimileKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     facSimileKindAsString (
       fOptionsFacSimileKindItemVariable) <<
@@ -187,13 +187,13 @@ void optionsBsrTextsLanguageItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     setw (fieldWidth) <<
     "fOptionsBsrTextsLanguageKindItemVariable" << " : \"" <<
     bsrTextsLanguageKindAsString (
@@ -208,7 +208,7 @@ void optionsBsrTextsLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     bsrTextsLanguageKindAsString (
       fOptionsBsrTextsLanguageKindItemVariable) <<
@@ -634,7 +634,7 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // display

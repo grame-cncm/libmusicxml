@@ -84,13 +84,13 @@ void optionsLpsrScoreOutputKindItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsLpsrScoreOutputKindItemVariable" << " : \"" <<
@@ -106,7 +106,7 @@ void optionsLpsrScoreOutputKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fOptionsLpsrScoreOutputKindKindItemVariable) <<
@@ -173,13 +173,13 @@ void optionsLpsrPitchesLanguageItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsLpsrPitchesLanguageItemVariable" << " : \"" <<
@@ -195,7 +195,7 @@ void optionsLpsrPitchesLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fOptionsLpsrPitchesLanguageKindItemVariable) <<
@@ -262,13 +262,13 @@ void optionsLpsrChordsLanguageItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     setw (fieldWidth) <<
     "fOptionsLpsrChordsLanguageKindItemVariable" << " : \"" <<
     lpsrChordsLanguageKindAsString (
@@ -283,7 +283,7 @@ void optionsLpsrChordsLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     lpsrChordsLanguageKindAsString (
       fOptionsLpsrChordsLanguageKindItemVariable) <<
@@ -369,7 +369,7 @@ void optionsLpsrTransposeItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : ";
   if (fOptionsTransposeItemVariable) {
     os << endl;
@@ -863,7 +863,7 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // trace
@@ -1283,7 +1283,7 @@ void lpsrOptions::handleOptionsLpsrScoreOutputKindItemValue (
   if (it == gLpsrScoreOutputKindsMap.end ()) {
     // no, score output kind is unknown in the map
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     stringstream s;
 
@@ -1338,7 +1338,7 @@ void lpsrOptions::handleOptionsLpsrPitchesLanguageItemValue (
   if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     stringstream s;
 
@@ -1411,7 +1411,7 @@ void lpsrOptions::handleOptionsLpsrChordsLanguageItemValue (
 
     optionError (s.str ());
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     exit (4);
   }

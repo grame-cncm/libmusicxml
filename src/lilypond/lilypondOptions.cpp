@@ -85,13 +85,13 @@ void optionsScoreOutputKindItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsScoreOutputKindItemVariable" << " : \"" <<
@@ -107,7 +107,7 @@ void optionsScoreOutputKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fOptionsScoreOutputKindItemVariable) <<
@@ -182,7 +182,7 @@ void optionsAbsoluteOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : " <<
     "- no value here -" <<
     endl;
@@ -260,7 +260,7 @@ void optionsRelativeOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : ";
   if (fOptionsRelativeOctaveEntryItemVariable) {
     os << endl;
@@ -352,7 +352,7 @@ void optionsFixedOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : ";
   if (fOptionsFixedOctaveEntryItemVariable) {
     os << endl;
@@ -425,13 +425,13 @@ void optionsAccidentalStyleKindItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsAccidentalStyleKindItemVariable" << " : \"" <<
@@ -447,7 +447,7 @@ void optionsAccidentalStyleKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : \"" <<
     lpsrAccidentalStyleKindAsString (
       fOptionsAccidentalStyleKindItemVariable) <<
@@ -514,13 +514,13 @@ void optionsChordsDisplayItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     setw (fieldWidth) <<
     "foptionsChordsDisplayItemVariable" << " : '" <<
     endl;
@@ -548,7 +548,7 @@ void optionsChordsDisplayItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : ";
 
   if (foptionsChordsDisplayItemVariable.size ()) {
@@ -631,13 +631,13 @@ void optionsMidiTempoItem::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedItemEssentials (
+  printValuedAtomEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsItemVariableName" << " : " <<
-    fOptionsItemVariableName <<
+    "fVariableName" << " : " <<
+    fVariableName <<
     setw (fieldWidth) <<
     "fOptionsMidiTempoItemVariable" << " : '" <<
     fOptionsMidiTempoItemVariable.first <<
@@ -653,7 +653,7 @@ void optionsMidiTempoItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsItemVariableName <<
+    fVariableName <<
     " : '" <<
     fOptionsMidiTempoItemVariable.first <<
     " = " <<
@@ -1831,7 +1831,7 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->
     setOptionsHandlerUpLink (
-      fOptionsHandlerUpLink);
+      fHandlerUpLink);
 
 
   // identification
@@ -3178,7 +3178,7 @@ void lilypondOptions::handleOptionsRelativeOctaveEntryItemValue (
   if (it == gLpsrOctaveEntryKindsMap.end ()) {
     // no, octave entry kind is unknown in the map
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     stringstream s;
 
@@ -3280,7 +3280,7 @@ void lilypondOptions:: handleOptionsAccidentalStyleKindItemValue (
 
     optionError (s.str ());
 
-    printHelpSummary (os);
+    printOptionsSummary (os);
 
     exit (4);
   }
