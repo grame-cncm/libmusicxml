@@ -555,7 +555,7 @@ S_extraOptions extraOptions::createCloneWithDetailedTrace ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -597,7 +597,7 @@ void extraOptions::printExtraOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom extraOptions::handleOptionsItem (
+S_oahValuedAtom extraOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

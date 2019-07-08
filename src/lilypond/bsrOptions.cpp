@@ -633,7 +633,7 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -799,7 +799,7 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom bsrOptions::handleOptionsItem (
+S_oahValuedAtom bsrOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

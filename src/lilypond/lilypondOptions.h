@@ -585,7 +585,7 @@ class lilypondOptions : public oahGroup
     // ------------------------------------------------------
 
     virtual S_oahValuedAtom
-                          handleOptionsItem (
+                          handleAtom (
                             ostream&      os,
                             S_oahAtom item);
 

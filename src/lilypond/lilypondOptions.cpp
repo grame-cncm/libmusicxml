@@ -1830,7 +1830,7 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -3029,7 +3029,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom lilypondOptions::handleOptionsItem (
+S_oahValuedAtom lilypondOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

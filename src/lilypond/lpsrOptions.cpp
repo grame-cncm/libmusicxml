@@ -862,7 +862,7 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -1163,7 +1163,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom lpsrOptions::handleOptionsItem (
+S_oahValuedAtom lpsrOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {
@@ -1246,7 +1246,7 @@ S_oahValuedAtom lpsrOptions::handleOptionsItem (
 
     s <<
       "INTERNAL OPTION ERROR: "
-      "lpsrOptions::handleOptionsItem() cannot handle option item" <<
+      "lpsrOptions::handleAtom() cannot handle option item" <<
       endl <<
       item <<
       endl;

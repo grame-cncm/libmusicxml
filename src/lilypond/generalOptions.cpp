@@ -258,7 +258,7 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -399,7 +399,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom generalOptions::handleOptionsItem (
+S_oahValuedAtom generalOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

@@ -1941,7 +1941,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
       S_oahElement
         cubaseOptionsElement =
           gMusicXMLOptions->
-            getOptionsHandlerUpLink ()->
+            getHandlerUpLink ()->
               fetchElementFromMap ("cubase");
 
       if (

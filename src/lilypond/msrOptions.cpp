@@ -1064,7 +1064,7 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -1498,7 +1498,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom msrOptions::handleOptionsItem (
+S_oahValuedAtom msrOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

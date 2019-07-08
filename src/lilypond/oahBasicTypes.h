@@ -1292,10 +1292,10 @@ class oahGroup : public oahElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsHandlerUpLink (
+    void                  setHandlerUpLink (
                             S_oahHandler handler);
 
-    S_oahHandler          getOptionsHandlerUpLink () const
+    S_oahHandler          getHandlerUpLink () const
                               { return fHandlerUpLink; }
 
     string                getHeader () const
@@ -1325,8 +1325,8 @@ class oahGroup : public oahElement
                             string name);
 
     virtual S_oahValuedAtom
-                          handleOptionsItem (
-                            ostream&      os,
+                          handleAtom (
+                            ostream&  os,
                             S_oahAtom item);
 
     virtual void          handleOptionsItemValue (
@@ -1593,10 +1593,10 @@ class EXP oahHandler : public oahElement
     void                  registerHandlerInItself ();
 
     S_oahPrefix           fetchPrefixFromMap (
-                            string oahElementName) const;
+                            string name) const;
 
     S_oahElement          fetchElementFromMap (
-                            string oahElementName) const;
+                            string name) const;
 
     const vector<string>  decipherOptionsAndArguments (
                             int   argc,
@@ -1613,10 +1613,7 @@ class EXP oahHandler : public oahElement
 
     void                  printOptionsSummary (ostream& os) const;
     void                  printOptionsSummary () const
-                              {
-                                printOptionsSummary (
-                                  fHandlerLogIOstream);
-                              }
+                              { printOptionsSummary (fHandlerLogIOstream); }
 
     void                  printSpecificSubGroupHelp (
                             ostream&      os,
@@ -1656,9 +1653,9 @@ class EXP oahHandler : public oahElement
     void                  handleElementName (
                             string name);
 
-    void                  handleOptionsHandlerItemName (
+    void                  handleHandlerName (
                             S_oahHandler handler,
-                            string       oahAtomName);
+                            string       name);
 
     void                  handleOptionsGroupItemName (
                             S_oahGroup group,
@@ -1668,9 +1665,9 @@ class EXP oahHandler : public oahElement
                             S_oahSubGroup subGroup,
                             string        oahAtomName);
 
-    void                  handleOptionsItemItemName (
-                            S_oahAtom item,
-                            string    oahAtomName);
+    void                  handleAtomName (
+                            S_oahAtom atom,
+                            string    atomName);
 
     void                  handleOptionsHelpUsageItemName (
                             S_oahOptionsUsageAtom helpUsageItem,

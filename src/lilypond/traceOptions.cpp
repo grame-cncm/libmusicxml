@@ -1172,7 +1172,7 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -2490,7 +2490,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom traceOptions::handleOptionsItem (
+S_oahValuedAtom traceOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

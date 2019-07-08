@@ -460,7 +460,7 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
   // code generation JMI ???
@@ -539,7 +539,7 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom brailleOptions::handleOptionsItem (
+S_oahValuedAtom brailleOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

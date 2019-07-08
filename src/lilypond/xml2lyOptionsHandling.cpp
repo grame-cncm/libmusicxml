@@ -900,7 +900,7 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom xml2lyOptions::handleOptionsItem (
+S_oahValuedAtom xml2lyOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

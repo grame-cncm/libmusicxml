@@ -952,7 +952,7 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom xml2brlOptions::handleOptionsItem (
+S_oahValuedAtom xml2brlOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {

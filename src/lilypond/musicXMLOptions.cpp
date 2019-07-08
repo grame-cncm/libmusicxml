@@ -336,7 +336,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 
   // set the options handler upLink
   clone->
-    setOptionsHandlerUpLink (
+    setHandlerUpLink (
       fHandlerUpLink);
 
 
@@ -476,7 +476,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom musicXMLOptions::handleOptionsItem (
+S_oahValuedAtom musicXMLOptions::handleAtom (
   ostream&      os,
   S_oahAtom item)
 {
