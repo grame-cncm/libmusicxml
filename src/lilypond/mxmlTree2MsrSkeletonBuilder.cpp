@@ -1938,11 +1938,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
     if (! gMusicXMLOptions->fNoCubase) {
       // set the '-cubase' option
-      S_oahElement
+      S_oahOption
         cubaseOptionsElement =
           gMusicXMLOptions->
             getHandlerUpLink ()->
-              fetchElementFromMap ("cubase");
+              fetchOptionFromMap ("cubase");
 
       if (
         // combined items item?

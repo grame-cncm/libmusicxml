@@ -231,7 +231,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
         "loopToMusicXML",
         fLoopToMusicXML);
   loopOptionsBooleanItem->
-    setOptionsElementIsHidden ();
+    setIsHidden ();
 
   clefsKeysTimesSubGroup->
     appendAtom (

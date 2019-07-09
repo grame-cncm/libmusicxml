@@ -460,7 +460,7 @@ of the MSR to the first BSR score.)",
         fExit3a);
         /* JMI
   exit2aOptionsBooleanItem->
-    setOptionsElementIsHidden ();
+    setIsHidden ();
     */
 
   exitAfterSomePassesSubGroup->
@@ -481,7 +481,7 @@ of the first BSR to the second BSR.)",
         fExit3b);
         /* JMI
   exit2bOptionsBooleanItem->
-    setOptionsElementIsHidden ();
+    setIsHidden ();
     */
 
   exitAfterSomePassesSubGroup->

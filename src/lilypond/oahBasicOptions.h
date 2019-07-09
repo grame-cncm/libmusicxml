@@ -124,6 +124,11 @@ class oahBasicOptions : public oahGroup
     string                fCommandLineWithShortOptionsNames;
     string                fCommandLineWithLongOptionsNames;
 
+    // options and arguments
+    // --------------------------------------
+
+    string                fOptionName;
+
     // options trace and display
     // --------------------------------------
 

@@ -99,7 +99,7 @@ R"(Write a trace for tests to standard error.)",
         fTraceForTests);
   // '-trace-for-tests' is hidden...
   traceForTestsOptionsBooleanItem->
-    setOptionsElementIsHidden ();
+    setIsHidden ();
 
   lowLevelTraceSubGroup->
     appendAtom (

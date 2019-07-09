@@ -163,7 +163,7 @@ void optionsAbsoluteOctaveEntryItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -241,7 +241,7 @@ void optionsRelativeOctaveEntryItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -333,7 +333,7 @@ void optionsFixedOctaveEntryItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -3379,10 +3379,9 @@ void lilypondOptions::handleOptionsChordsDisplayItemValue (
 
     optionError (s.str ());
 
-    printSpecificSubGroupHelp (
+    printGroupAndSubGroupHelp (
       os,
-      chordsDisplayItem->
-        getSubGroupUpLink ());
+      chordsDisplayItem->getSubGroupUpLink ());
 
     exit (4);
   }
@@ -3472,10 +3471,9 @@ void lilypondOptions::handleOptionsMidiTempoItemValue (
 
     optionError (s.str ());
 
-    printSpecificSubGroupHelp (
+    printGroupAndSubGroupHelp (
       os,
-      midiTempoItem->
-        getSubGroupUpLink ());
+      midiTempoItem->getSubGroupUpLink ());
 
     exit (4);
   }

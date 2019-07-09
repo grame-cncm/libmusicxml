@@ -350,7 +350,7 @@ void optionsLpsrTransposeItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -807,7 +807,7 @@ of the MSR to LPSR.)",
         "exit3",
         fExit3);
   exit3OptionsBooleanItem->
-    setOptionsElementIsHidden ();
+    setIsHidden ();
 
   exitAfterSomePassesSubGroup->
     appendAtom (

@@ -79,7 +79,7 @@ void xml2lyOptionsVersionItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -156,7 +156,7 @@ void xml2lyOptionsAboutItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -246,7 +246,7 @@ void xml2lyOptionsContactItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;

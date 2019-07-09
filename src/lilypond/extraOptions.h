@@ -327,13 +327,13 @@ class extraOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
+                            ostream&  os,
                             S_oahAtom item);
 
     virtual void          handleOptionsItemValue (
-                            ostream&      os,
+                            ostream&  os,
                             S_oahAtom item,
-                            string        theString);
+                            string    theString);
 
   private:
 

@@ -80,7 +80,7 @@ void xml2brlOptionsVersionItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -157,7 +157,7 @@ void xml2brlOptionsAboutItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -253,7 +253,7 @@ void xml2brlOptionsContactItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;

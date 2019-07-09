@@ -9607,12 +9607,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
     string placementString = elt->getAttributeValue ("placement");
 
     msrPlacementKind
-      placementKind = // JMI ???
-        msrPlacementKindFromString (
-          inputLineNumber,
-          placementString);
-
-    msrPlacementKind
       fretPlacementKind =  kPlacementNone;
 
     // color JMI ???

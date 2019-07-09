@@ -959,7 +959,7 @@ of the MusicXML tree to an MSR skeleton.)",
         /* JMI
   // '-exit-2a' is hidden...
   exit2aOptionsBooleanItem->
-    setOptionsElementIsHidden ();
+    setIsHidden ();
     */
 
   exitAfterSomePassesSubGroup->
@@ -981,7 +981,7 @@ of the MusicXML tree to MSR.)",
         /* JMI
   // '-exit-2b' is hidden...
   exit2bOptionsBooleanItem->
-    setOptionsElementIsHidden ();
+    setIsHidden ();
     */
 
   exitAfterSomePassesSubGroup->
@@ -1621,10 +1621,9 @@ void msrOptions::handleOptionsPartRenameItemValue (
 
     optionError (s.str ());
 
-    printSpecificSubGroupHelp (
+    printGroupAndSubGroupHelp (
       os,
-      partRenameItem->
-        getSubGroupUpLink ());
+      partRenameItem->getSubGroupUpLink ());
 
     exit (4);
   }
@@ -1732,7 +1731,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
 
     optionError (s.str ());
 
-    printSpecificSubGroupHelp (
+    printSubGroupSpecificHelp (
       os,
       partTransposeItem->
         getSubGroupUpLink ());

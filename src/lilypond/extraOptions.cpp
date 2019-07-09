@@ -73,7 +73,7 @@ void optionsShowAllChordsStructuresItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -155,7 +155,7 @@ void optionsShowAllChordsContentsItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -241,7 +241,7 @@ void optionsShowChordDetailsItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -318,7 +318,7 @@ void optionsShowChordAnalysisItem::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printElementEssentials (
+  oahOption::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -846,10 +846,9 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
 
     optionError (s.str ());
 
-    printSpecificSubGroupHelp (
+    printGroupAndSubGroupHelp (
       os,
-      showChordDetailsItem->
-        getSubGroupUpLink ());
+      showChordDetailsItem->getSubGroupUpLink ());
 
     exit (4);
   }
@@ -1023,7 +1022,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
     optionError (s.str ());
 
 /* JMI ??? should work...
-    printSpecificSubGroupHelp (
+    printSubGroupSpecificHelp (
       os,
       showChordAnalysisItem->
         getSubGroupUpLink ());

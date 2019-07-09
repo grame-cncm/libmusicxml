@@ -97,14 +97,23 @@ R"(Display a help summary and exit.)"));
 
   // element help
 
-  S_oahElementHelpAtom
+  string defaultOptionName = "onh";
+
+  fOptionName = defaultOptionName;
+
+  S_oahOptionHelpAtom
     itemHelpItem =
-      oahElementHelpAtom::create (
+      oahOptionHelpAtom::create (
         "onh", "option-name-help",
+        replaceSubstringInString (
 R"(Print help about OPTION_NAME.
-ITEM_NAME is optionnal, and the default value is 'onh')",
+OPTION_NAME is optionnal, and the default value is 'DEFAULT_VALUE'.)",
+          "DEFAULT_VALUE",
+          defaultOptionName),
         "OPTION_NAME",
-        "OPTION_NAME");
+        "optionName",
+        fOptionName,
+        defaultOptionName);
 
   itemHelpItem->
     setValueIsOptional ();
