@@ -17,6 +17,7 @@
 
 #include "messagesHandling.h"
 
+#include "oahBasicOptions.h"
 #include "generalOptions.h"
 
 #include "setTraceOptionsIfDesired.h"
@@ -63,9 +64,9 @@ bsrKey::bsrKey (
       "BSR key inconsistency:" <<
       "keyKind: " << keyKindAsString (fKeyKind) <<
       "numberOfAlterations: " << fNumberOfAlterations;
-       
+
     bsrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -128,7 +129,7 @@ S_bsrCellsList bsrKey::buildCellsList () const
   switch (fNumberOfAlterations) {
     case 0:
       break;
-      
+
     case 1:
     case 2:
     case 3:
@@ -138,7 +139,7 @@ S_bsrCellsList bsrKey::buildCellsList () const
           keyKindAsCellsList ());
       } // for
       break;
-      
+
     default:
       {
         // create the number of alterations
@@ -152,13 +153,13 @@ S_bsrCellsList bsrKey::buildCellsList () const
         // append it to result
         result->appendCellsListToCellsList (
           number->fetchCellsList ());
-  
+
         // append the flat or sharp sign to result
         result->appendCellsListToCellsList (
           keyKindAsCellsList ());
       }
   } // switch
-  
+
   return result;
 }
 
@@ -176,12 +177,12 @@ void bsrKey::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrKey>*
     p =
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -207,7 +208,7 @@ void bsrKey::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -226,7 +227,7 @@ string bsrKey::keyKindAsString (
   bsrKeyKind keyKind)
 {
   string result;
- 
+
   switch (keyKind) {
     case bsrKey::kKeyKindNone:
       result = "***keyKindNone***";
@@ -268,7 +269,7 @@ void bsrKey::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 20;
 
   os <<

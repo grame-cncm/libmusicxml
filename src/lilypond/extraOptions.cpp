@@ -22,6 +22,7 @@
 #include "version.h"
 #include "utilities.h"
 
+#include "oahBasicOptions.h"
 #include "generalOptions.h"
 
 #include "traceOptions.h"
@@ -478,7 +479,7 @@ Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 EXECUTABLE -show-chord-details "bes ${HARMONY}")",
          "EXECUTABLE",
-          gGeneralOptions->fHandlerExecutableName),
+          gOahBasicOptions->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",
         fChordsRootAsString));
@@ -516,7 +517,7 @@ HARMONY="maj7"
 INVERSION=2
 EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
           "EXECUTABLE",
-          gGeneralOptions->fHandlerExecutableName),
+          gOahBasicOptions->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",
         fChordsRootAsString));
@@ -610,7 +611,7 @@ S_oahValuedAtom extraOptions::handleAtom (
         dynamic_cast<optionsShowAllChordsStructuresItem*>(&(*item))
   ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsShowAllChordsStructuresItem'" <<
         endl;
@@ -632,7 +633,7 @@ S_oahValuedAtom extraOptions::handleAtom (
         dynamic_cast<optionsShowAllChordsContentsItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsShowAllChordsContentsItem'" <<
         endl;
@@ -650,7 +651,7 @@ S_oahValuedAtom extraOptions::handleAtom (
         dynamic_cast<optionsShowChordDetailsItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsShowChordDetailsItem'" <<
         endl;
@@ -668,7 +669,7 @@ S_oahValuedAtom extraOptions::handleAtom (
         dynamic_cast<optionsShowChordAnalysisItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsShowChordAnalysisItem'" <<
         endl;
@@ -691,7 +692,7 @@ void extraOptions::handleOptionsItemShowAllChordsContentsValue (
   // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsShowAllChordsContentsItem'" <<
       ", theString = \"" << theString << "\"" <<
@@ -788,7 +789,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsShowChordDetailsItem'" <<
       ", theString = \"" << theString << "\"" <<
@@ -812,7 +813,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "There are " << smSize << " matches" <<
       " for chord details string '" << theString <<
@@ -824,7 +825,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         smSize << " elements: ";
       for (unsigned i = 0; i < smSize; ++i) {
@@ -858,7 +859,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
     harmonyName = sm [2];
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
@@ -962,7 +963,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
   // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsShowChordAnalysisItem'" <<
       ", theString = \"" << theString << "\"" <<
@@ -988,7 +989,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "There are " << smSize << " matches" <<
       " for chord analysis string '" << theString <<
@@ -1000,7 +1001,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
 
   if (smSize == 4) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         smSize << " elements: ";
       for (unsigned i = 0; i < smSize; ++i) {
@@ -1045,7 +1046,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
   s >> inversion;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
@@ -1210,7 +1211,7 @@ void initializeExtraOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing extra options handling" <<
       endl;

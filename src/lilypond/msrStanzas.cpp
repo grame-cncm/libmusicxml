@@ -226,7 +226,7 @@ void msrStanza::appendSyllableToStanza (
 
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");

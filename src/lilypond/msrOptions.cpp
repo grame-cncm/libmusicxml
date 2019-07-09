@@ -625,7 +625,7 @@ DESSUS="Cor anglais"
 EXECUTABLE -msr-part-rename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
          "EXECUTABLE",
-          gGeneralOptions->fHandlerExecutableName),
+          gOahBasicOptions->fHandlerExecutableName),
         "PART_RENAME_SPEC",
         "partRename",
         fPartsRenamingMap));
@@ -1511,7 +1511,7 @@ S_oahValuedAtom msrOptions::handleAtom (
         dynamic_cast<optionsPartRenameItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsPartRenameItem'" <<
         endl;
@@ -1529,7 +1529,7 @@ S_oahValuedAtom msrOptions::handleAtom (
         dynamic_cast<optionsPartTransposeItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsPartTransposeItem'" <<
         endl;
@@ -1547,7 +1547,7 @@ S_oahValuedAtom msrOptions::handleAtom (
         dynamic_cast<optionsMsrPitchesLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsMsrPitchesLanguageItem'" <<
         endl;
@@ -1570,7 +1570,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
   // decipher it to extract the old and new part names
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsPartRenameItem'" <<
       endl;
@@ -1590,7 +1590,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "There are " << smSize << " matches" <<
       " for part rename string '" << theString <<
@@ -1602,7 +1602,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       for (unsigned i = 0; i < smSize; ++i) {
         os <<
           "[" << sm [i] << "] ";
@@ -1634,7 +1634,7 @@ void msrOptions::handleOptionsPartRenameItemValue (
     newPartName = sm [2];
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "--> oldPartName = \"" << oldPartName << "\", " <<
       "--> newPartName = \"" << newPartName << "\"" <<
@@ -1680,7 +1680,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
   // decipher it to extract the old and new part names
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'S_optionsPartTransposeItem'" <<
       endl;
@@ -1701,7 +1701,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "There are " << smSize << " matches" <<
       " for part transpose string '" << theString <<
@@ -1713,7 +1713,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       for (unsigned i = 0; i < smSize; ++i) {
         os <<
           "[" << sm [i] << "] ";
@@ -1745,7 +1745,7 @@ void msrOptions::handleOptionsPartTransposeItemValue (
     newPartName = sm [2];
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "--> oldPartName = \"" << oldPartName << "\", " <<
       "--> newPartName = \"" << newPartName << "\"" <<
@@ -1792,7 +1792,7 @@ void msrOptions::handleOptionsMsrPitchesLanguageItemValue (
   // is it in the pitches languages map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsMsrPitchesLanguageItem'" <<
       endl;
@@ -1891,7 +1891,7 @@ void initializeMsrOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing MSR options handling" <<
       endl;

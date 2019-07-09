@@ -207,7 +207,7 @@ void msrVoice::setVoiceNameFromNumber (
           "' voice cannot get its name from its number";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -378,7 +378,7 @@ void msrVoice::initializeVoice (
 
           /* JMI ???
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -399,7 +399,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_FIGURED_BASS_VOICE_NUMBER;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -692,7 +692,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
           "\" initial elements element should be a repeat or a segment";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1133,7 +1133,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
       "\" already has a harmony voice";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1189,7 +1189,7 @@ S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
       "\" already has a figured bass voice";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1252,7 +1252,7 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
       endl;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1392,7 +1392,7 @@ S_msrStanza msrVoice::fetchStanzaInVoice (
       endl;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1624,7 +1624,7 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
               "'";
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gOahBasicOptions->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1711,7 +1711,7 @@ void msrVoice::appendHarmonyToVoice (
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1783,7 +1783,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1838,7 +1838,7 @@ void msrVoice::appendFiguredBassToVoice (
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1882,7 +1882,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           figuredBass->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -2813,7 +2813,7 @@ S_msrMeasure msrVoice::fetchVoiceLastMeasure (
       "attempting to fetch voice last measure in an empty measures list";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2846,7 +2846,7 @@ S_msrMeasureElement msrVoice::fetchVoiceLastElement (
       "attempting to fetch voice last element in an empty elements list";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3325,7 +3325,7 @@ void msrVoice::popRepeatFromRepeatDescrsStack (
       ", line " << inputLineNumber;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4428,7 +4428,7 @@ void msrVoice::handleRepeatEndInVoice (
                       "' ";
 
                     msrInternalError (
-                      gGeneralOptions->fInputSourceName,
+                      gOahBasicOptions->fInputSourceName,
                       fInputLineNumber,
                       __FILE__, __LINE__,
                       s.str ());
@@ -5035,7 +5035,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
                 "' ";
 
               msrInternalError (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 s.str ());
@@ -5203,7 +5203,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
             "'cannot be added to a just created measures repeat";
 
           msrMusicXMLError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -5252,7 +5252,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
             "'cannot be added to a completed measures repeat";
 
           msrMusicXMLError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -5330,7 +5330,7 @@ void msrVoice::finalizeRepeatEndInVoice (
             "' ";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -5434,7 +5434,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
             " available";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -5492,7 +5492,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
             "attempting to create a measures repeat while another one is pending";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -5710,7 +5710,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
             "attempting to append a pending measures repeat which doesn't exist";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -5733,7 +5733,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
             "attempting to grab first measure of voice last segment, that contains none";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -5886,7 +5886,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
             "attempting to create a measures repeat while another one is pending";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -6079,7 +6079,7 @@ void msrVoice::createRestMeasuresInVoice (
             "attempting to create a rest measures while another one is pending";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -6187,7 +6187,7 @@ void msrVoice::appendPendingRestMeasuresToVoice (
             "attempting to append a pending rest measures which doesn't exist";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -6354,7 +6354,7 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
           "' ";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6423,7 +6423,7 @@ void msrVoice::handleRestMeasuresEndInVoiceClone (
           "' ";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6489,7 +6489,7 @@ void msrVoice::handleRestMeasuresContentsStartInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6562,7 +6562,7 @@ void msrVoice::handleRestMeasuresContentsEndInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6785,7 +6785,7 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
           "' ";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6865,7 +6865,7 @@ void msrVoice::handleMeasuresRepeatEndInVoiceClone (
           "' ";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6927,7 +6927,7 @@ void msrVoice::handleMeasuresRepeatPatternStartInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7000,7 +7000,7 @@ void msrVoice::handleMeasuresRepeatPatternEndInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7064,7 +7064,7 @@ void msrVoice::handleMeasuresRepeatReplicasStartInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7137,7 +7137,7 @@ void msrVoice::handleMeasuresRepeatReplicasEndInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7285,7 +7285,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7387,7 +7387,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7555,7 +7555,7 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7635,7 +7635,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7712,7 +7712,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7802,7 +7802,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
       "' ";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8032,7 +8032,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
                 "' ";
 
               msrInternalError (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 s.str ());
@@ -8286,7 +8286,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
             "' ";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -8766,7 +8766,7 @@ void msrVoice::finalizeVoice (
       "\" more than once";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8787,7 +8787,7 @@ void msrVoice::finalizeVoice (
       endl;
 
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -8810,7 +8810,7 @@ void msrVoice::finalizeVoice (
       "\" ";
 
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       s.str ());
   }

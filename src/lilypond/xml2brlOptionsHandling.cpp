@@ -379,8 +379,11 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
     this);
 #endif
 
-  initializeGeneralOptionsHandling (
+  initializeOahBasicOptionsHandling (
     executableName,
+    this);
+
+  initializeGeneralOptionsHandling (
     this);
 
   // initialize the library
@@ -413,7 +416,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
     this);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
     fHandlerLogIOstream <<
       "xml2brlOptionsHandler has been initialized as:" <<
@@ -437,7 +440,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
     registerHandlerInItself ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "xml2brlOptionsHandler help:" <<
       endl;
@@ -455,7 +458,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
     fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     if (argumentsNumber > 0) {
       fHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
@@ -483,7 +486,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
     else {
       fHandlerLogIOstream <<
         "There are no arguments to " <<
-        gGeneralOptions->fHandlerExecutableName <<
+        gOahBasicOptions->fHandlerExecutableName <<
         endl;
     }
   }
@@ -505,7 +508,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 
     case 1:
       // register intput file name
-      gGeneralOptions->fInputSourceName =
+      gOahBasicOptions->fInputSourceName =
         fHandlerArgumentsVector [0];
       break;
 
@@ -519,7 +522,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
         endl;
 
       // register intput file name
-      gGeneralOptions->fInputSourceName =
+      gOahBasicOptions->fInputSourceName =
         fHandlerArgumentsVector [0];
       break;
   } //  switch
@@ -529,12 +532,12 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 
   string potentialOutputFileName;
 
-  if (gGeneralOptions->fInputSourceName != "-") {
+  if (gOahBasicOptions->fInputSourceName != "-") {
     // determine potential output file name,
     // may be set differently by '--ofn, --outputFileName' option
     potentialOutputFileName =
       baseName (
-        gGeneralOptions->fInputSourceName);
+        gOahBasicOptions->fInputSourceName);
 
     size_t
       posInString =
@@ -610,7 +613,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       exit (3);
     }
 
-    else if (gGeneralOptions->fInputSourceName == "-") {
+    else if (gOahBasicOptions->fInputSourceName == "-") {
       stringstream s;
 
       s <<
@@ -961,7 +964,7 @@ S_oahValuedAtom xml2brlOptions::handleAtom (
   S_oahValuedAtom result;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
       "---> Handling options item '" <<
       item <<
@@ -977,7 +980,7 @@ S_oahValuedAtom xml2brlOptions::handleAtom (
         dynamic_cast<xml2brlOptionsVersionItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> oahAtom is of type 'optionsVersionItem'" <<
         endl;
@@ -999,7 +1002,7 @@ S_oahValuedAtom xml2brlOptions::handleAtom (
         dynamic_cast<xml2brlOptionsAboutItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> oahAtom is of type 'optionsAboutItem'" <<
         endl;
@@ -1021,7 +1024,7 @@ S_oahValuedAtom xml2brlOptions::handleAtom (
         dynamic_cast<xml2brlOptionsContactItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> oahAtom is of type 'optionsContactItem'" <<
         endl;
@@ -1044,7 +1047,7 @@ void initializeXml2brlOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing xml2brl options handling" <<
       endl;

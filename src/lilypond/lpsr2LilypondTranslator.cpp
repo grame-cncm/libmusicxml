@@ -1131,7 +1131,7 @@ void lpsr2LilypondTranslator::generateNoteHeadColor (
         ", line " << inputLineNumber;
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2416,7 +2416,7 @@ void lpsr2LilypondTranslator::generateNoteArticulation (
           ", line " << articulation->getInputLineNumber ();
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           articulation->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -2558,7 +2558,7 @@ void lpsr2LilypondTranslator::generateChordArticulation (
           ", line " << articulation->getInputLineNumber ();
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           articulation->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -3153,7 +3153,7 @@ void lpsr2LilypondTranslator::transposeDiatonicError (
     "'";
 
   msrMusicXMLError (
-    gGeneralOptions->fInputSourceName,
+    gOahBasicOptions->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -7515,13 +7515,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
 if (false) // JMI
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
 else
         msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -7603,7 +7603,7 @@ else
 
      // JMI       msrInternalError (
           msrInternalWarning (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
     // JMI        __FILE__, __LINE__,
             s.str ());
@@ -8323,7 +8323,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
 
             else {
                 msrInternalError (
-                  gGeneralOptions->fInputSourceName,
+                  gOahBasicOptions->fInputSourceName,
                   elt->getInputLineNumber (),
                   __FILE__, __LINE__,
                   "Humdrum/Scot key items vector is empty");
@@ -8520,7 +8520,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       // there are no time items
       if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           "time items vector is empty");
@@ -8951,7 +8951,7 @@ If the double element is present, it indicates that the music is doubled one oct
           "' is not between -12 and 12, ignored";
 
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -10392,7 +10392,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
           ", line " << graceNotesGroup->getInputLineNumber ();
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           graceNotesGroup->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -10416,7 +10416,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
       ", line " << graceNotesGroup->getInputLineNumber ();
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       graceNotesGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -11617,7 +11617,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                 ", line " << articulation->getInputLineNumber ();
 
               msrInternalError (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 articulation->getInputLineNumber (),
                 __FILE__, __LINE__,
                 s.str ());
@@ -12016,7 +12016,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                 ", line " << articulation->getInputLineNumber ();
 
               msrInternalError (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 articulation->getInputLineNumber (),
                 __FILE__, __LINE__,
                 s.str ());
@@ -13281,7 +13281,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       elt->getInputLineNumber ();
 
     msrInternalWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       chordInputLineNumber,
       "% ==> Start visiting grace chords is ignored");
 
@@ -13309,7 +13309,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
 #ifdef TRACE_OPTIONS
   if (fOnGoingGraceNotesGroup) {
     msrInternalWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       "% ==> End visiting grace chords is ignored");
 
@@ -13742,7 +13742,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
           "' has no pedal type";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -13901,7 +13901,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 
   // JMI      msrInternalError (
         msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
   // JMI        __FILE__, __LINE__,
           s.str ());

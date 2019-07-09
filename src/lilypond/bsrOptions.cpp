@@ -812,7 +812,7 @@ S_oahValuedAtom bsrOptions::handleAtom (
         dynamic_cast<optionsBsrTextsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsBsrTextsLanguageItem'" <<
         endl;
@@ -830,7 +830,7 @@ S_oahValuedAtom bsrOptions::handleAtom (
         dynamic_cast<optionsBsrTextsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsBsrTextsLanguageItem'" <<
         endl;
@@ -862,7 +862,7 @@ void initializeBsrOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing BSR options handling" <<
       endl;

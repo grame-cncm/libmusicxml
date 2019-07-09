@@ -10,35 +10,36 @@
   research@grame.fr
 */
 
-#ifndef ___generalOptions___
-#define ___generalOptions___
+#ifndef ___oahBasicOptions___
+#define ___oahBasicOptions___
 
 #include <set>
 
 #include "exports.h"
 
-#include "oahBasicOptions.h"
+#include "oahBasicTypes.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class generalOptions : public oahGroup
+class oahBasicOptions : public oahGroup
 {
   public:
 
-    static SMARTP<generalOptions> create (
+    static SMARTP<oahBasicOptions> create (
+      string       executableName,
       S_oahHandler handler);
 
-    SMARTP<generalOptions>        createCloneWithTrueValues (); // JMI
+    SMARTP<oahBasicOptions>        createCloneWithTrueValues (); // JMI
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeGeneralOptions (
+    void                  initializeOahBasicOptions (
                             bool boolOptionsInitialValue);
 
   protected:
@@ -46,10 +47,11 @@ class generalOptions : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    generalOptions (
+    oahBasicOptions (
+      string       executableName,
       S_oahHandler handler);
 
-    virtual ~generalOptions ();
+    virtual ~oahBasicOptions ();
 
   public:
 
@@ -70,11 +72,6 @@ class generalOptions : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-/* JMI ???
-    void                  setAllGeneralTraceOptions (
-                            bool boolOptionsInitialValue);
-                            */
-
   public:
 
     // public services
@@ -90,50 +87,64 @@ class generalOptions : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  initializeGeneralWarningAndErrorsOptions (
+    void                  initializeOahBasicHelpOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeGeneralCPUUsageOptions (
+    void                  initializeOahBasicOptionsAndArgumentsOptions (
                             bool boolOptionsInitialValue);
+
+#ifdef TRACE_OPTIONS
+    void                  initializeOptionsTraceAndDisplayOptions (
+                            bool boolOptionsInitialValue);
+#endif
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  printGeneralOptionsHelp ();
+    void                  printOahBasicOptionsHelp ();
 
-    void                  printGeneralOptionsValues (int fieldWidth);
+    void                  printOahBasicOptionsValues (int valueFieldWidth);
 
   public:
 
-    // translation date
+    // command line
     // --------------------------------------
 
-    string                fTranslationDate;
+    string                fHandlerExecutableName;
 
-    // warning and error handling
+    string                fInputSourceName;
+
+    // options and arguments
     // --------------------------------------
 
-    bool                  fQuiet;
-    bool                  fDontShowErrors;
-    bool                  fDontAbortOnErrors;
-    bool                  fDisplaySourceCodePosition;
+    bool                  fShowOptionsAndArguments;
 
-    // CPU usage
+    string                fCommandLineWithShortOptionsNames;
+    string                fCommandLineWithLongOptionsNames;
+
+    // options trace and display
     // --------------------------------------
 
-    bool                  fDisplayCPUusage;
+#ifdef TRACE_OPTIONS
+    bool                  fTraceOptions;
+    bool                  fTraceOptionsDetails;
+
+    bool                  fDisplayOptionsValues;
+    bool                  fDisplayOptionsHandler;
+#endif
 };
-typedef SMARTP<generalOptions> S_generalOptions;
-EXP ostream& operator<< (ostream& os, const S_generalOptions& elt);
+typedef SMARTP<oahBasicOptions> S_oahBasicOptions;
+EXP ostream& operator<< (ostream& os, const S_oahBasicOptions& elt);
 
-EXP extern S_generalOptions gGeneralOptions;
-EXP extern S_generalOptions gGeneralOptionsUserChoices;
-EXP extern S_generalOptions gGeneralOptionsWithDetailedTrace;
+EXP extern S_oahBasicOptions gOahBasicOptions;
+EXP extern S_oahBasicOptions gOahBasicOptionsUserChoices;
+EXP extern S_oahBasicOptions gOahBasicOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeGeneralOptionsHandling (
+void initializeOahBasicOptionsHandling (
+  string       executableName,
   S_oahHandler handler);
 
 

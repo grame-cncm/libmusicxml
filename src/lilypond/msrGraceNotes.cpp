@@ -217,7 +217,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
     
     else {
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "grace notes element should be a note or a chord");
@@ -314,7 +314,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 
   else {
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "removeLastNoteFromGraceNotesGroup (): grace notes group element should be a note");

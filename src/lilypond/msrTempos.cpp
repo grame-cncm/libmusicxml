@@ -428,7 +428,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since it has not been found";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -444,7 +444,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since it has not been found";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -603,7 +603,7 @@ string msrTempoTuplet::asString () const
 
       else {
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
@@ -672,7 +672,7 @@ string msrTempoTuplet::asString () const
 
       else {
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");

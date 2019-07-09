@@ -205,7 +205,7 @@ string msrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -430,7 +430,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
   else {
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "time items vector is empty");
@@ -614,7 +614,7 @@ string msrTime::asString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time  items vector is empty");

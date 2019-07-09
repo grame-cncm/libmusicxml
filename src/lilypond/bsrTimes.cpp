@@ -17,6 +17,7 @@
 
 #include "messagesHandling.h"
 
+#include "oahBasicOptions.h"
 #include "generalOptions.h"
 
 #include "setTraceOptionsIfDesired.h"
@@ -216,7 +217,7 @@ string bsrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -365,7 +366,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -489,7 +490,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrMusicXMLWarning (
-                        gGeneralOptions->fInputSourceName,
+                        gOahBasicOptions->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }
@@ -557,7 +558,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -618,7 +619,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrMusicXMLWarning (
-                        gGeneralOptions->fInputSourceName,
+                        gOahBasicOptions->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }

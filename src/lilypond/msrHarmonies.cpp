@@ -419,7 +419,7 @@ msrHarmony::msrHarmony (
           "'";
 
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());

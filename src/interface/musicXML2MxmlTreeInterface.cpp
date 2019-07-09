@@ -27,6 +27,7 @@
 
 #include "musicXML2MxmlTreeInterface.h"
 
+#include "oahBasicOptions.h"
 #include "generalOptions.h"
 
 #include "setTraceOptionsIfDesired.h"
@@ -171,7 +172,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -199,7 +200,7 @@ string uncompressMXLFile (
       // close the stream
       if (pclose (inputStream) < 0) {
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           0, // inputLineNumber
           __FILE__, __LINE__,
           "Cannot close the input stream after 'popen ()'");
@@ -325,7 +326,7 @@ string uncompressMXLFile (
                   "' and then '" << stringFromLine << "'";
 
                 msrInternalError (
-                  gGeneralOptions->fInputSourceName,
+                  gOahBasicOptions->fInputSourceName,
                   0, // inputLineNumber
                   __FILE__, __LINE__,
                   s.str ());
@@ -393,7 +394,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -458,7 +459,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "you should uncompress this file prior to running xml2ly";
 
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       1, // inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -557,7 +558,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       " doesn't contain any encoding specification; assuming it is UTF-8";
 
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -572,7 +573,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       ", for example with iconv or using a text editor - handling it as is";
 
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -696,7 +697,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       ", for example with iconv or using a text editor - handling it as is";
 
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }

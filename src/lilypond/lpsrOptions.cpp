@@ -1178,7 +1178,7 @@ S_oahValuedAtom lpsrOptions::handleAtom (
         dynamic_cast<optionsLpsrScoreOutputKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsLpsrScoreOutputKindItem'" <<
         endl;
@@ -1196,7 +1196,7 @@ S_oahValuedAtom lpsrOptions::handleAtom (
         dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsLpsrPitchesLanguageItem'" <<
         endl;
@@ -1214,7 +1214,7 @@ S_oahValuedAtom lpsrOptions::handleAtom (
         dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsLpsrChordsLanguageItem'" <<
         endl;
@@ -1232,7 +1232,7 @@ S_oahValuedAtom lpsrOptions::handleAtom (
         dynamic_cast<optionsLpsrTransposeItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsLpsrTransposeItem'" <<
         endl;
@@ -1270,7 +1270,7 @@ void lpsrOptions::handleOptionsLpsrScoreOutputKindItemValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsLpsrScoreOutputKindItem'" <<
       endl;
@@ -1325,7 +1325,7 @@ void lpsrOptions::handleOptionsLpsrPitchesLanguageItemValue (
   // is it in the pitches languages map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsLpsrPitchesLanguageItem'" <<
       endl;
@@ -1380,7 +1380,7 @@ void lpsrOptions::handleOptionsLpsrChordsLanguageItemValue (
   // is it in the chords languages map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsLpsrChordsLanguageItem'" <<
       endl;
@@ -1432,7 +1432,7 @@ void lpsrOptions::handleOptionsLpsrTransposeItemValue (
   // is it in the chords languages map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsLpsrTransposeItem'" <<
       endl;
@@ -1731,7 +1731,7 @@ void initializeLpsrOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing LPSR options handling" <<
       endl;

@@ -1413,7 +1413,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
 //    msrInternalError (
     msrInternalWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
 // JMI      __FILE__, __LINE__,
       s.str ());
@@ -1617,7 +1617,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       "' already occured in that same point in time, ignoring it";
 
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
 //        __FILE__, __LINE__,
       s.str ());
@@ -2469,7 +2469,7 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
 
 //    msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
  //     __FILE__, __LINE__,
       s.str ());
@@ -2714,7 +2714,7 @@ void msrMeasure::removeNoteFromMeasure (
     " since it has not been found";
 
   msrInternalError (
-    gGeneralOptions->fInputSourceName,
+    gOahBasicOptions->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -2795,7 +2795,7 @@ void msrMeasure::removeElementFromMeasure (
     " since it has not been found";
 
   msrInternalError (
-    gGeneralOptions->fInputSourceName,
+    gOahBasicOptions->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -2816,7 +2816,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
 if (false)
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2908,13 +2908,13 @@ if (false)
 
     if (false) // JMI
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     else
       msrInternalWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
   }
@@ -3019,7 +3019,7 @@ if (false)
 
         // JMI      msrInternalError (
               msrInternalWarning (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 inputLineNumber,
          //       __FILE__, __LINE__,
                 s.str ());
@@ -3410,7 +3410,7 @@ void msrMeasure::finalizeRegularMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -3537,7 +3537,7 @@ void msrMeasure::finalizeRegularMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -3958,7 +3958,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               currentHarmony->asString ();
 
             msrInternalWarning (
-              gGeneralOptions->fInputSourceName,
+              gOahBasicOptions->fInputSourceName,
               inputLineNumber,
               s.str ());
 
@@ -3995,7 +3995,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
                 " to 0 : leaving it as it is";
 
               msrInternalWarning (
-                gGeneralOptions->fInputSourceName,
+                gOahBasicOptions->fInputSourceName,
                 inputLineNumber,
  //  JMI             __FILE__, __LINE__,
                 s.str ());
@@ -4156,7 +4156,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           asString ();
 
         msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
 
@@ -4193,7 +4193,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             " to 0 : leaving it as it is";
 
           msrInternalWarning (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
 //  JMI             __FILE__, __LINE__,
             s.str ());
@@ -4304,7 +4304,7 @@ void msrMeasure::finalizeHarmonyMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -4367,7 +4367,7 @@ void msrMeasure::finalizeHarmonyMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -4544,7 +4544,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -4607,7 +4607,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -4718,7 +4718,7 @@ void msrMeasure::finalizeMeasure (
       " more than once";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4790,7 +4790,7 @@ void msrMeasure::finalizeMeasureClone (
       "\" more than once";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4839,7 +4839,7 @@ void msrMeasure::finalizeMeasureClone (
 
  //   msrInternalError ( // JMI
     msrInternalWarning (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
  //      __FILE__, __LINE__,
       s.str ());

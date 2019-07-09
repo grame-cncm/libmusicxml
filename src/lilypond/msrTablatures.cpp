@@ -276,7 +276,7 @@ void msrFrame::appendFrameNoteToFrame (
             frameNote;
 
           msrMusicXMLError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -305,7 +305,7 @@ void msrFrame::appendFrameNoteToFrame (
               barreStartFretNumber;
 
             msrMusicXMLError (
-              gGeneralOptions->fInputSourceName,
+              gOahBasicOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());

@@ -115,7 +115,7 @@ void msr2BsrTranslator::notSupportedMessage (
 {
   // issue a warning message to the output log stream
   bsrMusicXMLWarning (
-    gGeneralOptions->fInputSourceName,
+    gOahBasicOptions->fInputSourceName,
     inputLineNumber,
     message);
 
@@ -245,7 +245,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
         inputLineNumber,
         "This braille music data created by "
           +
-        gGeneralOptions->fHandlerExecutableName);
+        gOahBasicOptions->fHandlerExecutableName);
 
   fBsrScore->
     getTranscriptionNotes ()->
@@ -3118,7 +3118,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3167,7 +3167,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -4337,7 +4337,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "' has an empty note upLink";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4913,7 +4913,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -4928,7 +4928,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of a double tremolo";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4952,7 +4952,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of grace notes";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5022,7 +5022,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5047,7 +5047,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5071,7 +5071,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5351,7 +5351,7 @@ void msr2BsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6505,7 +6505,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -6647,7 +6647,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }

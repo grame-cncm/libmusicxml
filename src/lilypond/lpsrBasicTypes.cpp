@@ -254,7 +254,7 @@ string wholeNotesAsLilypondString (
             " it will be represented using a multiplying factor";
 
           msrMusicXMLWarning (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             inputLineNumber,
             s.str ());
 
@@ -331,7 +331,7 @@ string wholeNotesAsLilypondString (
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -1217,7 +1217,7 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 void initializeLPSRBasicTypes ()
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing LPSR basic types handling" <<
       endl;

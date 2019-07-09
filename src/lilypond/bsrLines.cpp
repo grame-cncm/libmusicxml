@@ -14,6 +14,7 @@
 
 #include "bsrMutualDependencies.h"
 
+#include "oahBasicOptions.h"
 #include "generalOptions.h"
 
 #include "setTraceOptionsIfDesired.h"
@@ -27,7 +28,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -71,7 +72,7 @@ S_bsrLineContents bsrLineContents::createLineNewbornClone ()
       bsrLineContents::create (
         fInputLineNumber,
         fLineContentsKind);
-    
+
   return newbornClone;
 }
 
@@ -112,7 +113,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
   int
     lineContentsElementsListSize =
       fLineContentsElementsList.size ();
-    
+
   if (lineContentsElementsListSize > 0) {
     list<S_bsrLineElement>::iterator it = fLineContentsElementsList.begin();
 
@@ -129,7 +130,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
       "' before its last element";
 
     bsrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       lineElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -146,7 +147,7 @@ int bsrLineContents::fetchCellsNumber () const
     i++
   ) {
     S_bsrLineElement lineElement = (*i);
-      
+
     result += lineElement->fetchCellsNumber ();
   } // for
 
@@ -162,12 +163,12 @@ void bsrLineContents::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-  
+
   if (visitor<S_bsrLineContents>*
     p =
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -193,7 +194,7 @@ void bsrLineContents::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -263,7 +264,7 @@ string bsrLineContents::asString () const
 void bsrLineContents::print (ostream& os)
 {
   int lineElementsListSize = fLineContentsElementsList.size ();
-  
+
   os <<
     "LineContents" <<
     ", lineContentsKind: " <<
@@ -272,18 +273,18 @@ void bsrLineContents::print (ostream& os)
     singularOrPlural (
       lineElementsListSize, "lineElement", "lineElements") <<
     endl;
-  
+
   gIndenter++;
 
   // print the line numbers
   const int fieldWidth = 17;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "cellsNumber" << " : " << fetchCellsNumber () <<
     endl;
   os << endl;
-  
+
   // print the line elements if any
   if (lineElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
@@ -295,7 +296,7 @@ void bsrLineContents::print (ostream& os)
     if (lineElementsListSize) {
       os << endl;
       gIndenter++;
-  
+
       list<S_bsrLineElement>::const_iterator
         iBegin = fLineContentsElementsList.begin (),
         iEnd   = fLineContentsElementsList.end (),
@@ -305,7 +306,7 @@ void bsrLineContents::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-          
+
       gIndenter--;
     }
     else {
@@ -345,7 +346,7 @@ bsrLine::bsrLine (
 {
   fPrintLineNumber   = printLineNumber;
   fBrailleLineNumber = fPrintLineNumber; // will be set by BSR finalizer
-  
+
   fCellsPerLine = cellsPerLine;
 
   fLineNumberCellsList = buildLineNumberCellsList ();
@@ -388,7 +389,7 @@ S_bsrLine bsrLine::createLineNewbornClone ()
   // braille line number
   newbornClone->fBrailleLineNumber =
     fBrailleLineNumber;
-    
+
   return newbornClone;
 }
 
@@ -396,7 +397,7 @@ void bsrLine::appendLineElementToLine (S_bsrLineElement lineElement)
 {
   S_bsrLineContents
     lineContentsToAppendTo;
-    
+
   if (! fLineContentsList.size ()) {
     // first insertion in this line: create the first, regular line contents
     lineContentsToAppendTo =
@@ -430,10 +431,10 @@ void bsrLine::appendLineElementToLine (S_bsrLineElement lineElement)
       appendLineElementToLineContents (
         bsrSpaces::create (
           fInputLineNumber, 1));
-          
+
     fASpaceIsNeededInLine = false;
   }
-  
+
   lineContentsToAppendTo->
     appendLineElementToLineContents (lineElement);
 }
@@ -443,7 +444,7 @@ void bsrLine::insertElementBeforeLastElementOfLine (
 {
   S_bsrLineContents
     lineContentsToAppendTo;
-    
+
   if (! fLineContentsList.size ()) {
     // first insertion in this line: create the first, regular line contents
     lineContentsToAppendTo =
@@ -574,7 +575,7 @@ void bsrLine::appendLineElementToLastMeasureOfLine (
 {
   S_bsrLineContents
     lineContentsToAppendTo;
-    
+
   if (! fLineContentsList.size ()) {
     // first insertion in this line: create the first, regular line contents
     lineContentsToAppendTo =
@@ -608,10 +609,10 @@ void bsrLine::appendLineElementToLastMeasureOfLine (
       appendLineElementToLineContents (
         bsrSpaces::create (
           fInputLineNumber, 1));
-          
+
     fASpaceIsNeededInLine = false;
   }
-  
+
   lineContentsToAppendTo->
     appendLineElementToLineContents (lineElement);
 }
@@ -638,7 +639,7 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
   S_bsrCellsList
     result =
       bsrCellsList::create (fInputLineNumber);
-  
+
   // create the print line number
   S_bsrNumber
     printLineNumber =
@@ -659,7 +660,7 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
           fInputLineNumber,
           fBrailleLineNumber,
           bsrNumber::kNumberSignIsNeededYes);
-  
+
     // append it to result
     result->appendCellsListToCellsList (
       brailleLineNumber->fetchCellsList ());
@@ -691,12 +692,12 @@ void bsrLine::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrLine>*
     p =
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -722,7 +723,7 @@ void bsrLine::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -758,26 +759,26 @@ string bsrLine::asString () const
     ", lineContents: " << fLineContentsList.size () <<
     ", cellsNumber" << " : " << fetchCellsNumber () <<
     ", line " << fInputLineNumber;
-    
+
   return s.str ();
 }
 
 void bsrLine::print (ostream& os)
 {
   int lineContentsListSize = fLineContentsList.size ();
-  
+
   os <<
     "Line" <<
     ", " <<
     singularOrPlural (
       lineContentsListSize, "lineContent", "lineContents") <<
     endl;
-  
+
   gIndenter++;
 
   // print the line numbers
   const int fieldWidth = 18;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "printLineNumber" << " : " << fPrintLineNumber <<
@@ -795,7 +796,7 @@ void bsrLine::print (ostream& os)
     "cellsNumber" << " : " << fetchCellsNumber () <<
     endl;
   os << endl;
-  
+
   // print the line contents if any
   if (lineContentsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
@@ -807,7 +808,7 @@ void bsrLine::print (ostream& os)
     if (lineContentsListSize) {
       os << endl;
       gIndenter++;
-  
+
       list<S_bsrLineContents>::const_iterator
         iBegin = fLineContentsList.begin (),
         iEnd   = fLineContentsList.end (),
@@ -817,7 +818,7 @@ void bsrLine::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-          
+
       gIndenter--;
     }
     else {

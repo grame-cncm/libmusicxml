@@ -159,7 +159,7 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_FIGURED_BASS_STAFF_NUMBER;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -583,7 +583,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       /* JMI ???
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -906,7 +906,7 @@ void msrStaff::registerVoiceInStaff (
           /* JMI ???
         msrMusicXMLError (
     // JMI    msrMusicXMLWarning ( JMI
-          gGeneralOptions->fInputSourceName,
+          gOahBasicOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());

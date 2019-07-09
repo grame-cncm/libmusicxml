@@ -1109,7 +1109,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gGeneralOptions->fHandlerExecutableName),
+          gOahBasicOptions->fHandlerExecutableName),
         "inputLineNumbers",
         fInputLineNumbers));
 
@@ -1126,7 +1126,7 @@ R"(Generate after each note and barline a comment containing
 its position in the measure.
 This is useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gGeneralOptions->fHandlerExecutableName),
+          gOahBasicOptions->fHandlerExecutableName),
         "positionsInMeasures",
         fPositionsInMeasures));
 }
@@ -1712,7 +1712,7 @@ PER_SECOND=66
 EXECUTABLE -midiTempo "8. ${PER_SECOND}" .
 The default is 'DEFAULT_VALUE'.)",
             "EXECUTABLE",
-            gGeneralOptions->fHandlerExecutableName),
+            gOahBasicOptions->fHandlerExecutableName),
           "DEFAULT_VALUE",
           midiTempoDefaultValue),
         "MIDI_TEMPO_SPEC",
@@ -3042,7 +3042,7 @@ S_oahValuedAtom lilypondOptions::handleAtom (
         dynamic_cast<optionsAbsoluteOctaveEntryItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsAbsoluteOctaveEntryItem'" <<
         endl;
@@ -3060,7 +3060,7 @@ S_oahValuedAtom lilypondOptions::handleAtom (
         dynamic_cast<optionsRelativeOctaveEntryItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsRelativeOctaveEntryItem'" <<
         endl;
@@ -3081,7 +3081,7 @@ S_oahValuedAtom lilypondOptions::handleAtom (
         dynamic_cast<optionsFixedOctaveEntryItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsFixedOctaveEntryItem'" <<
         endl;
@@ -3102,7 +3102,7 @@ S_oahValuedAtom lilypondOptions::handleAtom (
         dynamic_cast<optionsAccidentalStyleKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsAccidentalStyleKindItem'" <<
         endl;
@@ -3120,7 +3120,7 @@ S_oahValuedAtom lilypondOptions::handleAtom (
         dynamic_cast<optionsChordsDisplayItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsChordsDisplayItem'" <<
         endl;
@@ -3138,7 +3138,7 @@ S_oahValuedAtom lilypondOptions::handleAtom (
         dynamic_cast<optionsMidiTempoItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsMidiTempoItem'" <<
         endl;
@@ -3162,7 +3162,7 @@ void lilypondOptions::handleOptionsRelativeOctaveEntryItemValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsRelativeOctaveEntryItem'" <<
       endl;
@@ -3222,7 +3222,7 @@ void lilypondOptions::handleOptionsFixedOctaveEntryItemValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsRelativeOctaveEntryItem'" <<
       endl;
@@ -3246,7 +3246,7 @@ void lilypondOptions:: handleOptionsAccidentalStyleKindItemValue (
   // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsAccidentalStyleKindItem'" <<
       endl;
@@ -3328,7 +3328,7 @@ void lilypondOptions::handleOptionsChordsDisplayItemValue (
   //   '<c ees ges bes> \super {"-7(" {\small\raise #0.5 \flat} "5)"}'
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsChordsDisplayItem'" <<
       endl;
@@ -3349,7 +3349,7 @@ void lilypondOptions::handleOptionsChordsDisplayItemValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "There are " << smSize << " matches" <<
       " for chords display string '" << theString <<
@@ -3391,7 +3391,7 @@ void lilypondOptions::handleOptionsChordsDisplayItemValue (
   string chordsDisplaycode = sm [2];
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "FAA chordContents  = " <<
       chordContents <<
@@ -3418,7 +3418,7 @@ void lilypondOptions::handleOptionsMidiTempoItemValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsMidiTempoItem'" <<
       endl;
@@ -3442,7 +3442,7 @@ void lilypondOptions::handleOptionsMidiTempoItemValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "There are " << smSize << " matches" <<
       " for MIDI tempo string '" << theString <<
@@ -3490,7 +3490,7 @@ void lilypondOptions::handleOptionsMidiTempoItemValue (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "midiTempoDuration  = " <<
       midiTempoDuration <<
@@ -3584,7 +3584,7 @@ void initializeLilypondOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing LilyPond options handling" <<
       endl;

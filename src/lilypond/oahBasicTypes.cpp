@@ -584,7 +584,7 @@ void oahOptionsSummaryAtom::print (ostream& os) const
 void oahOptionsSummaryAtom::printOptionsSummary (ostream& os) const
 {
   os <<
-    gGeneralOptions->fHandlerExecutableName <<
+    gOahBasicOptions->fHandlerExecutableName <<
     endl;
 }
 
@@ -4277,7 +4277,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
     string currentElement = string (argv [n]);
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       // print current element
       fHandlerLogIOstream <<
         "Command line element " << n <<
@@ -4293,7 +4293,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
       if (currentElement.size () == 1) {
         // this is the stdin indicator
 #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+          if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fHandlerLogIOstream <<
             "'" << currentElement <<
               "' is the '-' stdin indicator" <<
@@ -4324,7 +4324,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
               elementTrailer.substr (1, string::npos);
 
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+            if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
               fHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a double-dashed option" <<
                 endl;
@@ -4337,7 +4337,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
               elementTrailer; //.substr (1, string::npos);
 
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+            if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
               fHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a single-dashed option" <<
                 endl;
@@ -4348,7 +4348,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
         else {
 #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+          if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             fHandlerLogIOstream <<
               "'-' is the minimal single-dashed option" <<
               endl;
@@ -4364,7 +4364,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
           // yes
 
 #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+          if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             printKnownPrefixes ();
           }
 #endif
@@ -4377,7 +4377,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
 
 #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+          if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             fHandlerLogIOstream <<
               "===> equalsSignPosition = '" << equalsSignPosition <<
               "', " <<
@@ -4401,7 +4401,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
           unsigned chunksListSize = chunksList.size ();
 
 #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+          if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             fHandlerLogIOstream <<
               "There are " << chunksListSize << " chunks" <<
               " in '" << stringAfterEqualsSign <<
@@ -4450,7 +4450,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
                     prefix->getPrefixErsatz () + singleOptionName;
 
 #ifdef TRACE_OPTIONS
-                if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+                if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
                   fHandlerLogIOstream <<
                     "Expanding option '" << singleOptionName <<
                     "' to '" << uncontractedOptionName <<
@@ -4509,9 +4509,9 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   // display arc and argv only now, to wait for the options to have been handled
   if (
     (
-      gTraceOptions->fTraceOptions
+      gOahBasicOptions->fTraceOptions
         ||
-      gGeneralOptions->fShowOptionsAndArguments
+      gOahBasicOptions->fShowOptionsAndArguments
     )
       &&
     ! gGeneralOptions->fQuiet
@@ -4535,14 +4535,14 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptionsDetails && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptionsDetails && ! gGeneralOptions->fQuiet) {
     printKnownPrefixes ();
     printKnownElements ();
   }
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the arguments vector
     fHandlerLogIOstream <<
       "Arguments vector (" <<
@@ -4564,7 +4564,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
   // was this run 'help' one?
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> fHandlerFoundAHelpItem: " <<
       booleanAsString (fHandlerFoundAHelpItem) <<
@@ -4584,12 +4584,11 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   // check the options and arguments
   checkOptionsAndArguments ();
 
-  // store the command line with options in gGeneralOptions
-  gGeneralOptions->
-    fCommandLineWithShortOptionsNames =
+  // store the command line with options in gOahBasicOptions
+  // for whoever need them
+  gOahBasicOptions->fCommandLineWithShortOptionsNames =
       commandLineWithShortNamesAsString ();
-  gGeneralOptions->
-    fCommandLineWithLongOptionsNames =
+  gOahBasicOptions->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
 
   // return arguments vector for handling by caller
@@ -4602,7 +4601,7 @@ void oahHandler::handleHandlerName (
 {
   // print the option handler help or help summary
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << name << "' is of type 'oahHandler'" <<
       endl;
@@ -4632,7 +4631,7 @@ void oahHandler::handleGroupName (
   string     groupName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << groupName << "' is of type 'oahGroup'" <<
       endl;
@@ -4659,7 +4658,7 @@ void oahHandler::handleSubGroupName (
   string        subGroupName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << subGroupName << "' is of type 'subGroup'" <<
       endl;
@@ -4697,7 +4696,7 @@ void oahHandler::handleOptionsUsageAtomName (
   string                atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahOptionsUsageAtom'" <<
       endl;
@@ -4718,7 +4717,7 @@ void oahHandler::handleOptionsSummaryAtomName (
   string                  atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahOptionsSummaryAtom'" <<
       endl;
@@ -4738,7 +4737,7 @@ void oahHandler::handleCombinedBooleansAtomName (
   string                    atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahCombinedBooleansAtom'" <<
       endl;
@@ -4755,7 +4754,7 @@ void oahHandler::handleBooleanAtomName (
   string           atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahBooleanAtom'" <<
       endl;
@@ -4772,7 +4771,7 @@ void oahHandler::handleTwoBooleansAtomName (
   string               atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahTwoBooleansAtom'" <<
       endl;
@@ -4789,7 +4788,7 @@ void oahHandler::handleThreeBooleansAtomName (
   string                 atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahThreeBooleansAtom'" <<
       endl;
@@ -4806,7 +4805,7 @@ void oahHandler::handleElementHelpAtomName (
   string               atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahElementHelpAtom'" <<
       endl;
@@ -4822,7 +4821,7 @@ void oahHandler::handleIntegerAtomName (
   string           atomName)
 {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       fHandlerLogIOstream <<
         "==> element '" << atomName << "' is of type 'oahIntegerAtom'" <<
         endl;
@@ -4838,7 +4837,7 @@ void oahHandler::handleFloatAtomName (
   string         atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahFloatAtom'" <<
       endl;
@@ -4854,7 +4853,7 @@ void oahHandler::handleStringAtomName (
   string          atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahStringAtom'" <<
       endl;
@@ -4870,7 +4869,7 @@ void oahHandler::handleRationalAtomName (
   string            atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahRationalAtom'" <<
       endl;
@@ -4886,7 +4885,7 @@ void oahHandler::handleNumbersSetAtomName (
   string              atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahNumbersSetAtom'" <<
       endl;
@@ -4902,7 +4901,7 @@ void oahHandler::handleAtomName (
   string    atomName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> element '" << atomName << "' is of type 'oahAtom'" <<
       endl;
@@ -5053,7 +5052,7 @@ void oahHandler::handleAtomName (
     // let the oahGroup handle it
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       fHandlerLogIOstream <<
         "==> atom is of another type" <<
         ", let the oahGroup handle it" <<
@@ -5079,7 +5078,7 @@ void oahHandler::handleElementName (
   string name)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> handleElementName (), name = \"" <<
       name <<
@@ -5111,7 +5110,7 @@ void oahHandler::handleElementName (
   else {
     // name is known, let's handle it
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> handleElementName (), name = \"" <<
       name <<
@@ -5259,7 +5258,7 @@ void oahHandler::handleFloatAtomValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       fHandlerLogIOstream <<
         "There are " << smSize << " matches" <<
         " for float string '" << theString <<
@@ -5349,7 +5348,7 @@ void oahHandler::handleRationalAtomValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       fHandlerLogIOstream <<
         "There are " << smSize << " matches" <<
         " for rational string '" << theString <<
@@ -5403,7 +5402,7 @@ void oahHandler::handleRationalAtomValue (
       rational (numerator, denominator);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream << // JMI
       "rationalValue = " <<
       rationalValue <<
@@ -5433,7 +5432,7 @@ void oahHandler::handleOptionValueOrArgument (
   string theString)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "==> handleOptionValueOrArgument ()" <<
       endl;
@@ -5549,7 +5548,7 @@ void oahHandler::handleOptionValueOrArgument (
       // let the oahGroup handle it
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+      if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fHandlerLogIOstream <<
           "==> fPendingValuedAtom is of another type" <<
           ", let the oahGroup handle it" <<
@@ -5577,7 +5576,7 @@ void oahHandler::handleOptionValueOrArgument (
     // theString is an argument
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+      if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fHandlerLogIOstream <<
           "'" << theString << "'" <<
           " is an argument, not an option" <<

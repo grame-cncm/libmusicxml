@@ -370,8 +370,11 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
     this);
 #endif
 
-  initializeGeneralOptionsHandling (
+  initializeOahBasicOptionsHandling (
     executableName,
+    this);
+
+  initializeGeneralOptionsHandling (
     this);
 
   // initialize the library
@@ -404,7 +407,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
     this);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
     fHandlerLogIOstream <<
       "xml2lyOptionsHandler has been initialized as:" <<
@@ -428,7 +431,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
     registerHandlerInItself ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fHandlerLogIOstream <<
       "xml2lyOptionsHandler help:" <<
       endl;
@@ -446,7 +449,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     if (argumentsNumber > 0) {
       fHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
@@ -474,7 +477,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     else {
       fHandlerLogIOstream <<
         "There are no arguments to " <<
-        gGeneralOptions->fHandlerExecutableName <<
+        gOahBasicOptions->fHandlerExecutableName <<
         endl;
     }
   }
@@ -496,7 +499,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 
     case 1:
       // register intput file name
-      gGeneralOptions->fInputSourceName =
+      gOahBasicOptions->fInputSourceName =
         fHandlerArgumentsVector [0];
       break;
 
@@ -510,7 +513,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
         endl;
 
       // register intput file name
-      gGeneralOptions->fInputSourceName =
+      gOahBasicOptions->fInputSourceName =
         fHandlerArgumentsVector [0];
       break;
   } //  switch
@@ -520,12 +523,12 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 
   string potentialOutputFileName;
 
-  if (gGeneralOptions->fInputSourceName != "-") {
+  if (gOahBasicOptions->fInputSourceName != "-") {
     // determine potential output file name,
     // may be set differently by '--ofn, --outputFileName' option
     potentialOutputFileName =
       baseName (
-        gGeneralOptions->fInputSourceName);
+        gOahBasicOptions->fInputSourceName);
 
     // set '.ly' suffix
     size_t
@@ -557,7 +560,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
       exit (3);
     }
 
-    else if (gGeneralOptions->fInputSourceName == "-") {
+    else if (gOahBasicOptions->fInputSourceName == "-") {
       stringstream s;
 
       s <<
@@ -909,7 +912,7 @@ S_oahValuedAtom xml2lyOptions::handleAtom (
   S_oahValuedAtom result;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
       "---> Handling options item '" <<
       item <<
@@ -925,7 +928,7 @@ S_oahValuedAtom xml2lyOptions::handleAtom (
         dynamic_cast<xml2lyOptionsVersionItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> oahAtom is of type 'optionsVersionItem'" <<
         endl;
@@ -947,7 +950,7 @@ S_oahValuedAtom xml2lyOptions::handleAtom (
         dynamic_cast<xml2lyOptionsAboutItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> oahAtom is of type 'optionsAboutItem'" <<
         endl;
@@ -969,7 +972,7 @@ S_oahValuedAtom xml2lyOptions::handleAtom (
         dynamic_cast<xml2lyOptionsContactItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> oahAtom is of type 'optionsContactItem'" <<
         endl;
@@ -992,7 +995,7 @@ void initializeXml2lyOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing xml2ly options handling" <<
       endl;

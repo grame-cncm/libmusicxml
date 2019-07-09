@@ -197,7 +197,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
       "line " << inputLineNumber;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -296,7 +296,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
     gIndenter--;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gOahBasicOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -365,7 +365,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
       gIndenter--;
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         chord->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -424,7 +424,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
       gIndenter--;
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         chord->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -577,7 +577,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "notes double tremolo first element should be a note");
@@ -594,7 +594,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "chords double tremolo first element should be a chord");
@@ -618,7 +618,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "notes double tremolo second element should be a note");
@@ -635,7 +635,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gOahBasicOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "chords double tremolo second element should be a chord");

@@ -552,7 +552,7 @@ S_oahValuedAtom brailleOptions::handleAtom (
         dynamic_cast<optionsUTFKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsUTFKindItem'" <<
         endl;
@@ -570,7 +570,7 @@ S_oahValuedAtom brailleOptions::handleAtom (
         dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gOahBasicOptions->fTraceOptions) {
       os <<
         "==> oahAtom is of type 'optionsUTFKindItem'" <<
         endl;
@@ -590,7 +590,7 @@ void brailleOptions::handleOptionsUTFKindItemValue (
   string               theString)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsUTFKindItem'" <<
       endl;
@@ -636,7 +636,7 @@ void brailleOptions::handleOptionsByteOrderingKindItemValue (
   string                        theString)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gOahBasicOptions->fTraceOptions) {
     os <<
       "==> oahAtom is of type 'optionsByteOrderingKindItem'" <<
       endl;
@@ -719,7 +719,7 @@ void initializeBrailleOptionsHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing Braille options handling" <<
       endl;
@@ -992,7 +992,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
             "EXECUTABLE",
-            gGeneralOptions->fHandlerExecutableName),
+            gOahBasicOptions->fHandlerExecutableName),
           "noteInputLineNumbers",
           fInputLineNumbers));
   }

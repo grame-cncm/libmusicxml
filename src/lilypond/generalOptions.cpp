@@ -30,11 +30,9 @@ S_generalOptions gGeneralOptions;
 S_generalOptions gGeneralOptionsUserChoices;
 
 S_generalOptions generalOptions::create (
-  string       executableName,
   S_oahHandler handler)
 {
   generalOptions* o = new generalOptions (
-    executableName,
     handler);
   assert(o!=0);
 
@@ -42,14 +40,12 @@ S_generalOptions generalOptions::create (
 }
 
 generalOptions::generalOptions (
-  string       executableName,
   S_oahHandler handler)
   : oahGroup (
     "General",
     "hg", "help-general",
 R"()",
-    handler),
-    fHandlerExecutableName (executableName)
+    handler)
 {
   // append this options group to the options handler
   // if relevant
@@ -64,85 +60,6 @@ R"()",
 
 generalOptions::~generalOptions ()
 {}
-
-void generalOptions::initializeGeneralHelpOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    helpGeneralOptionsHelpSubGroup =
-      oahSubGroup::create (
-        "Options help",
-        "hgoh", "help-general-options-help",
-R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
-      this);
-
-  appendSubGroup (helpGeneralOptionsHelpSubGroup);
-
-  // help options
-
-  helpGeneralOptionsHelpSubGroup->
-    appendAtom (
-      oahOptionsUsageAtom::create (
-        "ho", "help-options",
-R"(Print options usage help.)"));
-
-  // help summary
-
-  helpGeneralOptionsHelpSubGroup->
-    appendAtom (
-      oahOptionsSummaryAtom::create (
-        "hs", "help-summary",
-R"(Display a help summary and exit.)"));
-
-  // element help
-
-  S_oahElementHelpAtom
-    itemHelpItem =
-      oahElementHelpAtom::create (
-        "ih", "item-help",
-R"(Print help about ITEM_NAME.
-ITEM_NAME is optionnal, and the default value is 'ih')",
-        "ITEM_NAME",
-        "ITEM_NAME");
-
-  itemHelpItem->
-    setValueIsOptional ();
-
-  helpGeneralOptionsHelpSubGroup->
-    appendAtom (
-      itemHelpItem);
-}
-
-void generalOptions::initializeGeneralOptionsAndArgumentsOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    optionsAndArgumentsSubGroup =
-      oahSubGroup::create (
-        "Options and arguments",
-        "oaa", "options-and-arguments",
-R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
-        this);
-
-  appendSubGroup (optionsAndArgumentsSubGroup);
-
-  // options and arguments
-
-  fShowOptionsAndArguments = boolOptionsInitialValue;
-
-  optionsAndArgumentsSubGroup->
-    appendAtom (
-      oahBooleanAtom::create (
-        "soaa", "show-options-and-arguments",
-        replaceSubstringInString (
-R"(Print the options and arguments to EXECUTABLE.)",
-          "EXECUTABLE",
-          fHandlerExecutableName),
-        "showOptionsAndArguments",
-        fShowOptionsAndArguments));
-}
 
 void generalOptions::initializeGeneralWarningAndErrorsOptions (
   bool boolOptionsInitialValue)
@@ -194,7 +111,7 @@ R"(Don't show errors in the log.)",
 R"(Do not abort execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          fHandlerExecutableName),
+          gOahBasicOptions->fHandlerExecutableName),
         "dontAbortOnErrors",
         fDontAbortOnErrors));
 
@@ -210,8 +127,8 @@ This may be useful when debugging EXECUTABLE.)",
 R"(Display the source code file name and line number
 in warning and error messages.
 This is useful when debugging EXECUTABLE.)",
-         "EXECUTABLE",
-          fHandlerExecutableName),
+          "EXECUTABLE",
+          gOahBasicOptions->fHandlerExecutableName),
         "displaySourceCodePosition",
         fDisplaySourceCodePosition));
 }
@@ -261,16 +178,6 @@ void generalOptions::initializeGeneralOptions (
     fTranslationDate = buffer;
   }
 
-  // help
-  // --------------------------------------
-  initializeGeneralHelpOptions (
-    boolOptionsInitialValue);
-
-  // options and arguments
-  // --------------------------------------
-  initializeGeneralOptionsAndArgumentsOptions (
-    boolOptionsInitialValue);
-
   // warning and error handling
   // --------------------------------------
   initializeGeneralWarningAndErrorsOptions (
@@ -287,7 +194,6 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   S_generalOptions
     clone =
       generalOptions::create (
-        fHandlerExecutableName,
         nullptr);
       // nullptr not to have it inserted twice in the option handler
 
@@ -295,21 +201,6 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   clone->
     setHandlerUpLink (
       fHandlerUpLink);
-
-
-  // command line
-  // --------------------------------------
-
-  clone->fHandlerExecutableName =
-    fHandlerExecutableName;
-
-  clone->fShowOptionsAndArguments =
-    fShowOptionsAndArguments;
-
-  clone->fCommandLineWithShortOptionsNames =
-    fCommandLineWithShortOptionsNames;
-  clone->fCommandLineWithLongOptionsNames =
-    fCommandLineWithLongOptionsNames;
 
   // warning and error handling
   // --------------------------------------
@@ -323,12 +214,10 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   clone->fDisplaySourceCodePosition =
     fDisplaySourceCodePosition;
 
-
   // CPU usage
   // --------------------------------------
 
   clone->fDisplayCPUusage = true;
-
 
   return clone;
 }
@@ -373,7 +262,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-  // command line
+  // translation date
   // --------------------------------------
 
   gLogIOstream << left <<
@@ -381,16 +270,8 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "inputSourceName" << " : " <<
-    fInputSourceName <<
-    endl <<
-
     setw (fieldWidth) << "translationDate" << " : " <<
     fTranslationDate <<
-    endl <<
-
-    setw (fieldWidth) << "showOptioinsAndArguments" << " : " <<
-    booleanAsString (fShowOptionsAndArguments) <<
     endl;
 
   gIndenter--;
@@ -446,6 +327,8 @@ S_oahValuedAtom generalOptions::handleAtom (
 {
   S_oahValuedAtom result;
 
+  // JMI ???
+
   return result;
 }
 
@@ -457,11 +340,10 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
-  string       executableName,
   S_oahHandler handler)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing general options handling" <<
       endl;
@@ -472,7 +354,6 @@ void initializeGeneralOptionsHandling (
   // ------------------------------------------------------
 
   gGeneralOptionsUserChoices = generalOptions::create (
-    executableName,
     handler);
   assert(gGeneralOptionsUserChoices != 0);
 

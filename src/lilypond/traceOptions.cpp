@@ -59,73 +59,6 @@ R"()",
 traceOptions::~traceOptions ()
 {}
 
-void traceOptions::initializeOptionsHandlingTraceOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    traceSubGroup =
-      oahSubGroup::create (
-        "Options handling",
-        "htoh", "help-trace-options-handling",
-R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
-    this);
-
-  appendSubGroup (traceSubGroup);
-
-  // options
-
-  fTraceOptions = boolOptionsInitialValue;
-
-  traceSubGroup->
-    appendAtom (
-      oahBooleanAtom::create (
-        "topts", "trace-options",
-R"(Write a trace of options handling to standard error.
-This option should best appear first.)",
-        "traceOptions",
-        fTraceOptions));
-
-  // options details
-
-  fTraceOptionsDetails = boolOptionsInitialValue;
-
-  traceSubGroup->
-    appendAtom (
-      oahBooleanAtom::create (
-        "toptsd", "trace-options-details",
-R"(Write a trace of options handling with more details to standard error.
-This option should best appear first.)",
-        "traceOptionsDetails",
-        fTraceOptionsDetails));
-
-  // options values
-
-  fDisplayOptionsValues = boolOptionsInitialValue;
-
-  traceSubGroup->
-    appendAtom (
-      oahBooleanAtom::create (
-        "dov", "display-options-values",
-R"(Write the chosen options values to standard error.)",
-        "displayOptionsValues",
-        fDisplayOptionsValues));
-
-  // options handler
-
-  fDisplayOptionsHandler = boolOptionsInitialValue;
-
-  traceSubGroup->
-    appendAtom (
-      oahBooleanAtom::create (
-        "doh", "display-options-handler",
-R"(Write the contents of the options handler to standard error.)",
-        "displayOptionsHandler",
-        fDisplayOptionsHandler));
-
-  // fTraceDetailedMeasureNumbersSet is empty
-}
-
 void traceOptions::initializeLowLevelTraceOptions (
   bool boolOptionsInitialValue)
 {
@@ -1154,10 +1087,6 @@ R"(MIDI)",
 void traceOptions::initializeTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // options handling
-  initializeOptionsHandlingTraceOptions (
-    boolOptionsInitialValue);
-
   // low level trace
   initializeLowLevelTraceOptions (
     boolOptionsInitialValue);
@@ -1178,12 +1107,6 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
 
   // specific trace
   // --------------------------------------
-
-  // options
-  clone->fTraceOptions = true;
-  clone->fTraceOptionsDetails = true;
-  clone->fDisplayOptionsValues = true;
-  clone->fDisplayOptionsHandler = true;
 
   // passes
   clone->fTracePasses = true;
@@ -1403,12 +1326,6 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
 void traceOptions::setAllGeneralTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // options
-  fTraceOptions          = boolOptionsInitialValue;
-  fTraceOptionsDetails   = boolOptionsInitialValue;
-  fDisplayOptionsValues  = boolOptionsInitialValue;
-  fDisplayOptionsHandler = boolOptionsInitialValue;
-
   // passes
   clone->fTracePasses = boolOptionsInitialValue;
 
@@ -1649,20 +1566,6 @@ void traceOptions::printOptionsValues (
   gIndenter++;
 
   os << left <<
-    // options
-    setw (valueFieldWidth) << "traceOptions" << " : " <<
-    booleanAsString (fTraceOptions) <<
-    endl <<
-    setw (valueFieldWidth) << "traceOptionsDetails" << " : " <<
-    booleanAsString (fTraceOptionsDetails) <<
-    endl <<
-    setw (valueFieldWidth) << "displayOptionsValues" << " : " <<
-    booleanAsString (fDisplayOptionsValues) <<
-    endl <<
-    setw (valueFieldWidth) << "displayOptionsHandler" << " : " <<
-    booleanAsString (fDisplayOptionsHandler) <<
-    endl <<
-
     // passes
     setw (valueFieldWidth) << "tracePasses" << " : " <<
     booleanAsString (fTracePasses) <<
@@ -2077,20 +1980,6 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    // options
-    setw (fieldWidth) << "traceOptions" << " : " <<
-    booleanAsString (fTraceOptions) <<
-    endl <<
-    setw (fieldWidth) << "traceOptionsDetails" << " : " <<
-    booleanAsString (fTraceOptionsDetails) <<
-    endl <<
-    setw (fieldWidth) << "displayOptionsValues" << " : " <<
-    booleanAsString (fDisplayOptionsValues) <<
-    endl <<
-    setw (fieldWidth) << "displayOptionsHandler" << " : " <<
-    booleanAsString (fDisplayOptionsHandler) <<
-    endl <<
-
     // passes
     setw (fieldWidth) << "tracePasses" << " : " <<
     booleanAsString (fTracePasses) <<
@@ -2491,7 +2380,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom traceOptions::handleAtom (
-  ostream&      os,
+  ostream&  os,
   S_oahAtom item)
 {
   S_oahValuedAtom result;

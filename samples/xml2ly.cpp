@@ -135,7 +135,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -175,7 +175,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -204,7 +204,7 @@ void displayMsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -243,7 +243,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -285,7 +285,7 @@ void displayLpsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -401,7 +401,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGeneralOptions->fInputSourceName,
+        gOahBasicOptions->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -568,7 +568,7 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gGeneralOptions->fInputSourceName;
+      gOahBasicOptions->fInputSourceName;
 
   string
     outputFileName =
@@ -660,7 +660,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fDisplayOptionsValues) {
+  if (gOahBasicOptions->fDisplayOptionsValues) {
     handler->
       printAllOptionsValues (
         gLogIOstream);

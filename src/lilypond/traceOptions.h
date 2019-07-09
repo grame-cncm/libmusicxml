@@ -47,9 +47,6 @@ class traceOptions : public oahGroup
     void                  initializeTraceOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeOptionsHandlingTraceOptions (
-                            bool boolOptionsInitialValue);
-
     void                  initializeLowLevelTraceOptions (
                             bool boolOptionsInitialValue);
 
@@ -94,7 +91,7 @@ class traceOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
+                            ostream&  os,
                             S_oahAtom item);
 
   public:
@@ -111,14 +108,6 @@ class traceOptions : public oahGroup
                             int      valueFieldWidth) const;
 
   public:
-
-
-    // options
-    // --------------------------------------
-    bool                  fTraceOptions;
-    bool                  fTraceOptionsDetails;
-    bool                  fDisplayOptionsValues;
-    bool                  fDisplayOptionsHandler;
 
     // passes
     // --------------------------------------
