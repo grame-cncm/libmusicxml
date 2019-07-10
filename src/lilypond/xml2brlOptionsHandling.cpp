@@ -43,13 +43,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_xml2brlOptionsVersionItem xml2brlOptionsVersionItem::create (
+S_xml2brlOptionsVersionAtom xml2brlOptionsVersionAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2brlOptionsVersionItem* o = new
-    xml2brlOptionsVersionItem (
+  xml2brlOptionsVersionAtom* o = new
+    xml2brlOptionsVersionAtom (
       shortName,
       longName,
       description);
@@ -57,7 +57,7 @@ S_xml2brlOptionsVersionItem xml2brlOptionsVersionItem::create (
   return o;
 }
 
-xml2brlOptionsVersionItem::xml2brlOptionsVersionItem (
+xml2brlOptionsVersionAtom::xml2brlOptionsVersionAtom (
   string shortName,
   string longName,
   string description)
@@ -67,15 +67,15 @@ xml2brlOptionsVersionItem::xml2brlOptionsVersionItem (
       description)
 {}
 
-xml2brlOptionsVersionItem::~xml2brlOptionsVersionItem ()
+xml2brlOptionsVersionAtom::~xml2brlOptionsVersionAtom ()
 {}
 
-void xml2brlOptionsVersionItem::print (ostream& os) const
+void xml2brlOptionsVersionAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2brlOptionsVersionItem:" <<
+    "xml2brlOptionsVersionAtom:" <<
     endl;
 
   gIndenter++;
@@ -93,7 +93,7 @@ void xml2brlOptionsVersionItem::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2brlOptionsVersionItem::printVersion (ostream& os) const
+void xml2brlOptionsVersionAtom::printVersion (ostream& os) const
 {
   os <<
     endl <<
@@ -106,27 +106,27 @@ void xml2brlOptionsVersionItem::printVersion (ostream& os) const
   printVersionsHistory (os);
 }
 
-void xml2brlOptionsVersionItem::printOptionsValues (
+void xml2brlOptionsVersionAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionItem& elt)
+ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_xml2brlOptionsAboutItem xml2brlOptionsAboutItem::create (
+S_xml2brlOptionsAboutAtom xml2brlOptionsAboutAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2brlOptionsAboutItem* o = new
-    xml2brlOptionsAboutItem (
+  xml2brlOptionsAboutAtom* o = new
+    xml2brlOptionsAboutAtom (
       shortName,
       longName,
       description);
@@ -134,7 +134,7 @@ S_xml2brlOptionsAboutItem xml2brlOptionsAboutItem::create (
   return o;
 }
 
-xml2brlOptionsAboutItem::xml2brlOptionsAboutItem (
+xml2brlOptionsAboutAtom::xml2brlOptionsAboutAtom (
   string shortName,
   string longName,
   string description)
@@ -144,15 +144,15 @@ xml2brlOptionsAboutItem::xml2brlOptionsAboutItem (
       description)
 {}
 
-xml2brlOptionsAboutItem::~xml2brlOptionsAboutItem ()
+xml2brlOptionsAboutAtom::~xml2brlOptionsAboutAtom ()
 {}
 
-void xml2brlOptionsAboutItem::print (ostream& os) const
+void xml2brlOptionsAboutAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2brlOptionsAboutItem:" <<
+    "xml2brlOptionsAboutAtom:" <<
     endl;
 
   gIndenter++;
@@ -170,7 +170,7 @@ void xml2brlOptionsAboutItem::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2brlOptionsAboutItem::printAbout (ostream& os) const
+void xml2brlOptionsAboutAtom::printAbout (ostream& os) const
 {
   os <<
     endl <<
@@ -202,27 +202,27 @@ R"(What xml2brl does:
     endl;
 }
 
-void xml2brlOptionsAboutItem::printOptionsValues (
+void xml2brlOptionsAboutAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutItem& elt)
+ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_xml2brlOptionsContactItem xml2brlOptionsContactItem::create (
+S_xml2brlOptionsContactAtom xml2brlOptionsContactAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2brlOptionsContactItem* o = new
-    xml2brlOptionsContactItem (
+  xml2brlOptionsContactAtom* o = new
+    xml2brlOptionsContactAtom (
       shortName,
       longName,
       description);
@@ -230,7 +230,7 @@ S_xml2brlOptionsContactItem xml2brlOptionsContactItem::create (
   return o;
 }
 
-xml2brlOptionsContactItem::xml2brlOptionsContactItem (
+xml2brlOptionsContactAtom::xml2brlOptionsContactAtom (
   string shortName,
   string longName,
   string description)
@@ -240,15 +240,15 @@ xml2brlOptionsContactItem::xml2brlOptionsContactItem (
       description)
 {}
 
-xml2brlOptionsContactItem::~xml2brlOptionsContactItem ()
+xml2brlOptionsContactAtom::~xml2brlOptionsContactAtom ()
 {}
 
-void xml2brlOptionsContactItem::print (ostream& os) const
+void xml2brlOptionsContactAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2brlOptionsContactItem:" <<
+    "xml2brlOptionsContactAtom:" <<
     endl;
 
   gIndenter++;
@@ -266,7 +266,7 @@ void xml2brlOptionsContactItem::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2brlOptionsContactItem::printContact (ostream& os) const
+void xml2brlOptionsContactAtom::printContact (ostream& os) const
 {
   os <<
     endl <<
@@ -278,14 +278,14 @@ R"(To contact xml2brl maintainers:
     endl;
 }
 
-void xml2brlOptionsContactItem::printOptionsValues (
+void xml2brlOptionsContactAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2brlOptionsContactItem& elt)
+ostream& operator<< (ostream& os, const S_xml2brlOptionsContactAtom& elt)
 {
   elt->print (os);
   return os;
@@ -604,7 +604,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       stringstream s;
 
       s <<
-        "options '--aofn, --autoOutputFileName' and '--ofn, --outputFileName'"  <<
+        "options '-aofn, -auto-output-file-name' and '-o, -output-file-name'"  <<
         endl <<
         "cannot be chosen simultaneously";
 
@@ -617,7 +617,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       stringstream s;
 
       s <<
-        "option '--aofn, --autoOutputFileName'"  <<
+        "option '-aofn, -auto-output-file-name'"  <<
         endl <<
         "cannot be used when reading from standard input";
 
@@ -792,7 +792,7 @@ xml2brlOptions::xml2brlOptions (
   S_oahHandler handler)
   : oahGroup (
     "xml2brl",
-    "hb", "help-xml2brl",
+    "hxb", "help-xml2brl",
 R"(Options that are used by xml2brl are grouped here.)",
     handler)
 {
@@ -831,7 +831,7 @@ R"()",
 
     versionSubGroup->
       appendAtom (
-        xml2brlOptionsVersionItem::create (
+        xml2brlOptionsVersionAtom::create (
           "v", "version",
 R"(Display xml2brl's version number and history and exit.)"));
   }
@@ -856,7 +856,7 @@ R"()",
 
     aboutSubGroup->
       appendAtom (
-        xml2brlOptionsAboutItem::create (
+        xml2brlOptionsAboutAtom::create (
           "a", "about",
 R"(Display information about xml2brl and exit.)"));
   }
@@ -881,7 +881,7 @@ R"()",
 
     contactSubGroup->
       appendAtom (
-        xml2brlOptionsContactItem::create (
+        xml2brlOptionsContactAtom::create (
           "c", "contact",
 R"(Display information about how to contacct xml2brl maintainers and exit.)"));
   }
@@ -907,7 +907,7 @@ R"()",
     outputFileSubGroup->
       appendAtom (
         oahStringAtom::create (
-          "o", "output-filename",
+          "o", "output-file-name",
 R"(Write Braille music to file FILENAME instead of standard output.)",
           "FILENAME",
           "outputFileName",
@@ -920,7 +920,7 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
     outputFileSubGroup->
       appendAtom (
         oahBooleanAtom::create (
-          "aof", "auto-output-filename",
+          "aofn", "auto-output-file-name",
 R"(This option can only be used when reading from a file.
 Write Braille music to a file in the current working directory.
 The file name is derived from that of the input file,
@@ -958,37 +958,37 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom xml2brlOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
+  ostream&  os,
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
 
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
-      "---> Handling options item '" <<
-      item <<
+      "---> Handling options atom '" <<
+      atom <<
       "'" <<
       endl;
   }
 #endif
 
   if (
-    // version item?
-    S_xml2brlOptionsVersionItem
-      versionItem =
-        dynamic_cast<xml2brlOptionsVersionItem*>(&(*item))
+    // version atom?
+    S_xml2brlOptionsVersionAtom
+      versionAtom =
+        dynamic_cast<xml2brlOptionsVersionAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> oahAtom is of type 'optionsVersionItem'" <<
+        "==> oahAtom is of type 'optionsVersionAtom'" <<
         endl;
     }
 #endif
 
     // handle it at once
-    versionItem->
+    versionAtom->
       printVersion (os);
 
     // exit
@@ -996,21 +996,21 @@ S_oahValuedAtom xml2brlOptions::handleAtom (
   }
 
   else if (
-    // about item?
-    S_xml2brlOptionsAboutItem
-      aboutItem =
-        dynamic_cast<xml2brlOptionsAboutItem*>(&(*item))
+    // about atom?
+    S_xml2brlOptionsAboutAtom
+      aboutAtom =
+        dynamic_cast<xml2brlOptionsAboutAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> oahAtom is of type 'optionsAboutItem'" <<
+        "==> oahAtom is of type 'optionsAboutAtom'" <<
         endl;
     }
 #endif
 
     // handle it at once
-    aboutItem->
+    aboutAtom->
       printAbout (os);
 
     // exit
@@ -1018,21 +1018,21 @@ S_oahValuedAtom xml2brlOptions::handleAtom (
   }
 
   else if (
-    // contact item?
-    S_xml2brlOptionsContactItem
-      contactItem =
-        dynamic_cast<xml2brlOptionsContactItem*>(&(*item))
+    // contact atom?
+    S_xml2brlOptionsContactAtom
+      contactAtom =
+        dynamic_cast<xml2brlOptionsContactAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> oahAtom is of type 'optionsContactItem'" <<
+        "==> oahAtom is of type 'optionsContactAtom'" <<
         endl;
     }
 #endif
 
     // handle it at once
-    contactItem->
+    contactAtom->
       printContact (os);
 
     // exit

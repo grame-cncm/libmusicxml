@@ -24,48 +24,47 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsUTFKindItem : public oahValuedAtom
+class brailleUTFKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsUTFKindItem> create (
+    static SMARTP<brailleUTFKindAtom> create (
       string     shortName,
       string     longName,
       string     description,
       string     valueSpecification,
-      string     optionsUTFKindItemVariableName,
-      bsrUTFKind optionsUTFKindItemVariable);
+      string     variableName,
+      bsrUTFKind brailleUTFKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsUTFKindItem (
+    brailleUTFKindAtom (
       string     shortName,
       string     longName,
       string     description,
       string     valueSpecification,
-      string     optionsUTFKindItemVariableName,
-      bsrUTFKind optionsUTFKindItemVariable);
+      string     variableName,
+      bsrUTFKind brailleUTFKindVariable);
 
-    virtual ~optionsUTFKindItem ();
+    virtual ~brailleUTFKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsUTFKindItemVariable (bsrUTFKind value)
-                              {
-                                fOptionsUTFKindItemVariable = value;
-                              }
-
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -81,55 +80,53 @@ class optionsUTFKindItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    bsrUTFKind            fOptionsUTFKindItemVariable;
+    bsrUTFKind            fBsrUTFKindVariable;
 };
-typedef SMARTP<optionsUTFKindItem> S_optionsUTFKindItem;
-EXP ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt);
+typedef SMARTP<brailleUTFKindAtom> S_brailleUTFKindAtom;
+EXP ostream& operator<< (ostream& os, const S_brailleUTFKindAtom& elt);
 
 //______________________________________________________________________________
-class optionsByteOrderingKindItem : public oahValuedAtom
+class brailleByteOrderingKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsByteOrderingKindItem> create (
+    static SMARTP<brailleByteOrderingKindAtom> create (
       string              shortName,
       string              longName,
       string              description,
       string              valueSpecification,
-      string              optionsByteOrderingKindItemVariableName,
-      bsrByteOrderingKind optionsByteOrderingKindItemVariable);
+      string              variableName,
+      bsrByteOrderingKind brailleByteOrderingKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsByteOrderingKindItem (
+    brailleByteOrderingKindAtom (
       string              shortName,
       string              longName,
       string              description,
       string              valueSpecification,
-      string              optionsByteOrderingKindItemVariableName,
-      bsrByteOrderingKind optionsByteOrderingKindItemVariable);
+      string              variableName,
+      bsrByteOrderingKind brailleByteOrderingKindVariable);
 
-    virtual ~optionsByteOrderingKindItem ();
+    virtual ~brailleByteOrderingKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsByteOrderingKindItemVariable (
-                            bsrByteOrderingKind value)
-                              {
-                                fOptionsByteOrderingKindItemVariable = value;
-                              }
-
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -145,10 +142,10 @@ class optionsByteOrderingKindItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    bsrByteOrderingKind   fOptionsByteOrderingKindItemVariable;
+    bsrByteOrderingKind   fBsrByteOrderingKindVariable;
 };
-typedef SMARTP<optionsByteOrderingKindItem> S_optionsByteOrderingKindItem;
-EXP ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt);
+typedef SMARTP<brailleByteOrderingKindAtom> S_brailleByteOrderingKindAtom;
+EXP ostream& operator<< (ostream& os, const S_brailleByteOrderingKindAtom& elt);
 
 //______________________________________________________________________________
 class brailleOptions : public oahGroup
@@ -209,13 +206,13 @@ class brailleOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
-                            S_oahAtom item);
+                            ostream&  os,
+                            S_oahAtom atom);
 
-    virtual void          handleOptionsItemValue (
-                            ostream&      os,
-                            S_oahAtom item,
-                            string        theString);
+    virtual void          handleValuedAtomValue (
+                            indentedOstream& os,
+                            S_oahAtom        atom,
+                            string           theString);
 
   private:
 
@@ -236,16 +233,6 @@ class brailleOptions : public oahGroup
 
     void                  initializeBrailleCodeGenerationOptions (
                             bool boolOptionsInitialValue);
-
-    virtual void          handleOptionsUTFKindItemValue (
-                            ostream&             os,
-                            S_optionsUTFKindItem UTFKindItem,
-                            string               theString);
-
-    virtual void          handleOptionsByteOrderingKindItemValue (
-                            ostream&                      os,
-                            S_optionsByteOrderingKindItem byteOrderingKindItem,
-                            string                        theString);
 
   public:
 

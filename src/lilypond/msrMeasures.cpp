@@ -1364,9 +1364,6 @@ void msrMeasure::printMeasurePendingMeasureElementsList ()
 
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
-  int inputLineNumber =
-    barline->getInputLineNumber ();
-
   // fetch the voice
   S_msrVoice
     voice =
@@ -1388,43 +1385,6 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       endl;
   }
 #endif
-
-  /* JMI , a barline may appear anywhere
-  // the measure may have to be padded
-  padUpToPositionInMeasure (
-    inputLineNumber);
-    */
-
-/* JMI
-  // is there already a pending barline in this voice?
-  if (fMeasurePendingMeasureElementsList.size () > 1) {
-    stringstream s;
-
-    s <<
-      "should not have more than one pending measure elements in measure " << // JMI
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in voice \"" <<
-      fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink ()->
-          getVoiceName () <<
-      "\"";
-
-//    msrInternalError (
-    msrInternalWarning (
-      gOahBasicOptions->fInputSourceName,
-      inputLineNumber,
-// JMI      __FILE__, __LINE__,
-      s.str ());
-  }
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
-    printMeasurePendingMeasureElementsList ();
-  }
-#endif
-*/
 
   // register barline's measure number
   barline->
@@ -5537,51 +5497,3 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 
 }
 
-/* JMI
-  // append barline to the measure elements list
-  appendElementToMeasure (barline);
-*/
-
-/*
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
-
-  if (true //* JMI //* / || // TICINO
-    fCurrentMeasureWholeNotes == partCurrentMeasureWholeNotesHighTide
-  ) {
-    // append barline to the measure elements list at once
-    appendElementToMeasure (barline);
-  }
-
-  else {
-    // delay barline handling until this measure reaches
-    // the part measure whole notes high tide
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "Delaying insertion of barline '" <<
-        barline->asShortString () <<
-        "' in measure '" <<
-        asShortString () <<
-        "' in voice \"" <<
-        fMeasureSegmentUpLink->
-          getSegmentVoiceUpLink ()
-            ->getVoiceName () <<
-        "\", line " << inputLineNumber <<
-        ", has position in measure '" <<
-        barline->getPositionInMeasure () <<
-        ", currentMeasureWholeNotes = " <<
-        fCurrentMeasureWholeNotes <<
-        ", partCurrentMeasureWholeNotesHighTide = " <<
-        partCurrentMeasureWholeNotesHighTide <<
-        endl;
-    }
-#endif
-
-    fMeasurePendingMeasureElementsList.push_back (barline);
-  }
-  */

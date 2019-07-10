@@ -21,14 +21,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class xml2lyOptionsVersionItem : public oahAtom
+class xml2lyOptionsVersionAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyOptionsVersionItem> create (
+    static SMARTP<xml2lyOptionsVersionAtom> create (
       string shortName,
       string longName,
       string description);
@@ -38,12 +38,12 @@ class xml2lyOptionsVersionItem : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOptionsVersionItem (
+    xml2lyOptionsVersionAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~xml2lyOptionsVersionItem ();
+    virtual ~xml2lyOptionsVersionAtom ();
 
   public:
 
@@ -69,18 +69,18 @@ class xml2lyOptionsVersionItem : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyOptionsVersionItem> S_xml2lyOptionsVersionItem;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt);
+typedef SMARTP<xml2lyOptionsVersionAtom> S_xml2lyOptionsVersionAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionAtom& elt);
 
 //______________________________________________________________________________
-class xml2lyOptionsAboutItem : public oahAtom
+class xml2lyOptionsAboutAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyOptionsAboutItem> create (
+    static SMARTP<xml2lyOptionsAboutAtom> create (
       string shortName,
       string longName,
       string description);
@@ -90,12 +90,12 @@ class xml2lyOptionsAboutItem : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOptionsAboutItem (
+    xml2lyOptionsAboutAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~xml2lyOptionsAboutItem ();
+    virtual ~xml2lyOptionsAboutAtom ();
 
   public:
 
@@ -121,18 +121,18 @@ class xml2lyOptionsAboutItem : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyOptionsAboutItem> S_xml2lyOptionsAboutItem;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt);
+typedef SMARTP<xml2lyOptionsAboutAtom> S_xml2lyOptionsAboutAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutAtom& elt);
 
 //______________________________________________________________________________
-class xml2lyOptionsContactItem : public oahAtom
+class xml2lyOptionsContactAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyOptionsContactItem> create (
+    static SMARTP<xml2lyOptionsContactAtom> create (
       string shortName,
       string longName,
       string description);
@@ -142,12 +142,12 @@ class xml2lyOptionsContactItem : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOptionsContactItem (
+    xml2lyOptionsContactAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~xml2lyOptionsContactItem ();
+    virtual ~xml2lyOptionsContactAtom ();
 
   public:
 
@@ -173,8 +173,8 @@ class xml2lyOptionsContactItem : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyOptionsContactItem> S_xml2lyOptionsContactItem;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsContactItem& elt);
+typedef SMARTP<xml2lyOptionsContactAtom> S_xml2lyOptionsContactAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2lyOptionsContactAtom& elt);
 
 //_______________________________________________________________________________
 class EXP xml2lyOptionsHandler : public oahHandler
@@ -280,8 +280,8 @@ class xml2lyOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
-                            S_oahAtom item);
+                            ostream&  os,
+                            S_oahAtom atom);
 
   public:
 
@@ -298,7 +298,7 @@ class xml2lyOptions : public oahGroup
     // --------------------------------------
 
     string                fOutputFileName;
-    bool                  fAutoOutputFile;
+    bool                  fAutoOutputFileName;
 };
 typedef SMARTP<xml2lyOptions> S_xml2lyOptions;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOptions& elt);

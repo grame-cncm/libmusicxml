@@ -81,7 +81,7 @@ class musicXMLOptions : public oahGroup
     virtual S_oahValuedAtom
                           handleAtom (
                             ostream&  os,
-                            S_oahAtom item);
+                            S_oahAtom atom);
 
   private:
 
@@ -129,9 +129,9 @@ class musicXMLOptions : public oahGroup
     bool                  fIgnoreRedundantKeys;
     bool                  fIgnoreRedundantTimes;
 
-    S_oahBooleanAtom      fIgnoreRedundantClefsItem;
-    S_oahBooleanAtom      fIgnoreRedundantKeysItem;
-    S_oahBooleanAtom      fIgnoreRedundantTimesItem;
+    S_oahBooleanAtom      fIgnoreRedundantClefsAtom;
+    S_oahBooleanAtom      fIgnoreRedundantKeysAtom;
+    S_oahBooleanAtom      fIgnoreRedundantTimesAtom;
 
     // combined options, cubase
 

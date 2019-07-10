@@ -198,9 +198,8 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
       // nullptr not to have it inserted twice in the option handler
 
   // set the options handler upLink
-  clone->
-    setHandlerUpLink (
-      fHandlerUpLink);
+  clone->fHandlerUpLink =
+    fHandlerUpLink;
 
   // warning and error handling
   // --------------------------------------
@@ -322,8 +321,8 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom generalOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
+  ostream&  os,
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
 
@@ -342,14 +341,6 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 void initializeGeneralOptionsHandling (
   S_oahHandler handler)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
-      "Initializing general options handling" <<
-      endl;
-  }
-#endif
-
   // create the options variables
   // ------------------------------------------------------
 

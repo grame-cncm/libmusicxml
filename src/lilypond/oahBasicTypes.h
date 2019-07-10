@@ -85,6 +85,14 @@ class oahOption : public smartable
     // set and get
     // ------------------------------------------------------
 
+    // uplink
+    void                  setHandlerUpLink (
+                            S_oahHandler handler)
+                              { fHandlerUpLink = handler; }
+
+    S_oahHandler          getHandlerUpLink () const
+                              { return fHandlerUpLink; }
+
     string                getShortName () const
                               { return fShortName; }
 
@@ -119,8 +127,12 @@ class oahOption : public smartable
                               { return fDescription; }
 */
 
-    S_oahOption          fetchOptionByName (
+    S_oahOption           fetchOptionByName (
                             string name);
+
+    virtual void          handleOptionName (
+                            string           optionName,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -144,6 +156,9 @@ class oahOption : public smartable
 
     // fields
     // ------------------------------------------------------
+
+    // uplink
+    S_oahHandler          fHandlerUpLink;
 
     string                fShortName;
     string                fLongName;
@@ -195,6 +210,10 @@ class oahAtom : public oahOption
 
     void                  registerAtomInHandler (
                             S_oahHandler handler);
+
+    void                  handleOptionName (
+                            string           optionName,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -717,6 +736,10 @@ class oahValuedAtom : public oahAtomWithVariableName
     // services
     // ------------------------------------------------------
 
+    virtual void          handleValue (
+                            string           theString,
+                            indentedOstream& os) = 0;
+
     virtual void          handleDefaultValue ();
                             // used only fValueIsOptional is true
 
@@ -795,6 +818,10 @@ class oahIntegerAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
+
     // print
     // ------------------------------------------------------
 
@@ -858,6 +885,10 @@ class oahFloatAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -923,6 +954,10 @@ class oahStringAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -991,6 +1026,10 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
     // services
     // ------------------------------------------------------
 
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
+
     // print
     // ------------------------------------------------------
 
@@ -1003,12 +1042,12 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
                             ostream& os,
                             int      valueFieldWidth) const;
 
-  private:
+  protected:
 
     // fields
     // ------------------------------------------------------
 
-    string               fDefaultStringValue;
+    string                fDefaultStringValue;
 };
 typedef SMARTP<oahStringWithDefaultValueAtom> S_oahStringWithDefaultValueAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringWithDefaultValueAtom& elt);
@@ -1055,6 +1094,10 @@ class oahRationalAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -1121,6 +1164,10 @@ class oahNumbersSetAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
+
     // print
     // ------------------------------------------------------
 
@@ -1144,14 +1191,21 @@ typedef SMARTP<oahNumbersSetAtom> S_oahNumbersSetAtom;
 EXP ostream& operator<< (ostream& os, const S_oahNumbersSetAtom& elt);
 
 //______________________________________________________________________________
-class oahOptionHelpAtom : public oahStringWithDefaultValueAtom
+class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 {
+/*
+  This is where OAH is introspective:
+    OAH provides a way to obtain help on any option name,
+    be it one to print help about a group or subgroup,
+    or the name of a 'regular' atom.
+  This option is reflexive, since it can provide help about itself.
+*/
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahOptionHelpAtom> create (
+    static SMARTP<oahOptionNameHelpAtom> create (
       string shortName,
       string longName,
       string description,
@@ -1165,7 +1219,7 @@ class oahOptionHelpAtom : public oahStringWithDefaultValueAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahOptionHelpAtom (
+    oahOptionNameHelpAtom (
       string shortName,
       string longName,
       string description,
@@ -1177,7 +1231,7 @@ class oahOptionHelpAtom : public oahStringWithDefaultValueAtom
   protected:
 
 
-    virtual ~oahOptionHelpAtom ();
+    virtual ~oahOptionNameHelpAtom ();
 
   public:
 
@@ -1186,6 +1240,10 @@ class oahOptionHelpAtom : public oahStringWithDefaultValueAtom
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     void                  handleDefaultValue ();
 
@@ -1207,8 +1265,8 @@ class oahOptionHelpAtom : public oahStringWithDefaultValueAtom
 
     string                fValueSpecification;
 };
-typedef SMARTP<oahOptionHelpAtom> S_oahOptionHelpAtom;
-EXP ostream& operator<< (ostream& os, const S_oahOptionHelpAtom& elt);
+typedef SMARTP<oahOptionNameHelpAtom> S_oahOptionNameHelpAtom;
+EXP ostream& operator<< (ostream& os, const S_oahOptionNameHelpAtom& elt);
 
 //_______________________________________________________________________________
 class oahSubGroup : public oahOption
@@ -1283,8 +1341,12 @@ class oahSubGroup : public oahOption
     void                  appendAtom (
                             S_oahAtom oahAtom);
 
-    S_oahOption          fetchOptionByName (
+    S_oahOption           fetchOptionByName (
                             string name);
+
+    void                  handleOptionName (
+                            string           optionName,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -1361,12 +1423,6 @@ class oahGroup : public oahOption
     // set and get
     // ------------------------------------------------------
 
-    void                  setHandlerUpLink (
-                            S_oahHandler handler);
-
-    S_oahHandler          getHandlerUpLink () const
-                              { return fHandlerUpLink; }
-
     string                getGroupHeader () const
                               { return fGroupHeader; }
 
@@ -1403,6 +1459,10 @@ class oahGroup : public oahOption
                             S_oahAtom atom,
                             string    theString);
 
+    void                  handleOptionName (
+                            string           optionName,
+                            indentedOstream& os);
+
     // print
     // ------------------------------------------------------
 
@@ -1428,13 +1488,6 @@ class oahGroup : public oahOption
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-
-  protected:
-
-    // upLink
-    // ------------------------------------------------------
-
-    S_oahHandler          fHandlerUpLink;
 
   private:
 
@@ -1669,9 +1722,7 @@ class EXP oahHandler : public oahOption
 
     void                  printOptionsSummary (ostream& os) const;
     void                  printOptionsSummary () const
-                              {
-                                printOptionsSummary (fHandlerLogIOstream);
-                              }
+                              { printOptionsSummary (fHandlerLogIOstream); }
 
     void                  printHandlerAndGroupAndSubGroupSpecificHelp (
                             ostream&      os,
@@ -1683,6 +1734,9 @@ class EXP oahHandler : public oahOption
 
     void                  printAllOptionsValues (
                             ostream& os) const;
+
+    indentedOstream&      getHandlerLogIOstream ()
+                              { return fHandlerLogIOstream; }
 
     void                  setOptionsHandlerFoundAHelpOption ()
                               { fHandlerFoundAHelpOption = true; }
@@ -1752,9 +1806,9 @@ class EXP oahHandler : public oahOption
                             S_oahThreeBooleansAtom threeBooleansAtom,
                             string                 atomName);
 
-    void                  handleOptionHelpAtomName (
-                            S_oahOptionHelpAtom optionHelpAtom,
-                            string              atomName);
+    void                  handleOptionNameHelpAtomName (
+                            S_oahOptionNameHelpAtom optionNameHelpAtom,
+                            string                  atomName);
 
     void                  handleIntegerAtomName (
                             S_oahIntegerAtom integerAtom,
@@ -1781,33 +1835,6 @@ class EXP oahHandler : public oahOption
 
     void                  checkMissingPendingValuedAtomValue (
                             string context);
-
-    void                  handleOptionHelpAtomValue (
-                            S_oahOptionHelpAtom optionHelpAtom,
-                            string              theString);
-
-    void                  handleIntegerAtomValue (
-                            S_oahIntegerAtom integerAtom,
-                            string           theString);
-
-    void                  handleFloatAtomValue (
-                            S_oahFloatAtom floatAtom,
-                            string         theString);
-
-    void                  handleStringAtomValue (
-                            S_oahStringAtom stringAtom,
-                            string          theString);
-
-    void                  handleStringWithDefaultValueAtomDefaultValue ( // JMI
-                            S_oahStringAtom stringAtom);
-
-    void                  handleRationalAtomValue (
-                            S_oahRationalAtom rationalAtom,
-                            string            theString);
-
-    void                  handleNumbersSetAtomValue (
-                            S_oahNumbersSetAtom numbersSetAtom,
-                            string              theString);
 
     virtual void          checkOptionsAndArguments () = 0;
 

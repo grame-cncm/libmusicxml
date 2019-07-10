@@ -180,7 +180,7 @@ R"()",
 
   fIgnoreRedundantClefs = boolOptionsInitialValue;
 
-  fIgnoreRedundantClefsItem =
+  fIgnoreRedundantClefsAtom =
       oahBooleanAtom::create (
         "irc", "ignore-redundant-clefs",
 R"(Ignore clefs that are the same as the current one.)",
@@ -188,13 +188,13 @@ R"(Ignore clefs that are the same as the current one.)",
         fIgnoreRedundantClefs);
   clefsKeysTimesSubGroup->
     appendAtom (
-      fIgnoreRedundantClefsItem);
+      fIgnoreRedundantClefsAtom);
 
   // redundant keys
 
   fIgnoreRedundantKeys  = boolOptionsInitialValue;
 
-  fIgnoreRedundantKeysItem =
+  fIgnoreRedundantKeysAtom =
       oahBooleanAtom::create (
         "irk", "ignore-redundant-keys",
 R"(Ignore keys that are the same as the current one.)",
@@ -202,13 +202,13 @@ R"(Ignore keys that are the same as the current one.)",
         fIgnoreRedundantKeys);
   clefsKeysTimesSubGroup->
     appendAtom (
-      fIgnoreRedundantKeysItem);
+      fIgnoreRedundantKeysAtom);
 
   // redundant times
 
   fIgnoreRedundantTimes = boolOptionsInitialValue;
 
-  fIgnoreRedundantTimesItem =
+  fIgnoreRedundantTimesAtom =
       oahBooleanAtom::create (
         "irt", "ignore-redundant-times",
 R"(Ignore times that are the same as the current one.)",
@@ -216,26 +216,26 @@ R"(Ignore times that are the same as the current one.)",
         fIgnoreRedundantTimes);
   clefsKeysTimesSubGroup->
     appendAtom (
-      fIgnoreRedundantTimesItem);
+      fIgnoreRedundantTimesAtom);
 
   // '-loop' is hidden...
 
   fLoopToMusicXML = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    loopOptionsBooleanItem =
+    loopOptionsBooleanAtom =
       oahBooleanAtom::create (
         "loop", "loop-to-musicxml",
 R"(Close the loop, generating a MusicXML file from the MSR.
 The file name receives a '_loop' suffix. Currently under development.)",
         "loopToMusicXML",
         fLoopToMusicXML);
-  loopOptionsBooleanItem->
+  loopOptionsBooleanAtom->
     setIsHidden ();
 
   clefsKeysTimesSubGroup->
     appendAtom (
-      loopOptionsBooleanItem);
+      loopOptionsBooleanAtom);
 }
 
 void musicXMLOptions::initializeMusicXMLCombinedOptionsOptions (
@@ -256,9 +256,9 @@ R"()",
 
   fCubase = false;
 
-  // create the 'cubase' combined item
+  // create the 'cubase' combined atom
   S_oahCombinedBooleansAtom
-    cubaseCombinedBooleanItemsItem =
+    cubaseCombinedBooleansAtom =
       oahCombinedBooleansAtom::create (
         "cubase", "",
 R"(Useful settings for MusicXML data exported from Cubase.
@@ -268,29 +268,29 @@ This option is set by default, and can be unset by 'noCubase'.)",
 
   combinedSubGroup->
     appendAtom (
-      cubaseCombinedBooleanItemsItem);
+      cubaseCombinedBooleansAtom);
 
   // set the '-cubase' option by default
-  cubaseCombinedBooleanItemsItem->
+  cubaseCombinedBooleansAtom->
     setCombinedBooleanVariables (fCubase);
 
-  // populate the combined items
-  cubaseCombinedBooleanItemsItem->
+  // populate the combined atoms
+  cubaseCombinedBooleansAtom->
     addBooleanAtom (
-      fIgnoreRedundantClefsItem);
-  cubaseCombinedBooleanItemsItem->
+      fIgnoreRedundantClefsAtom);
+  cubaseCombinedBooleansAtom->
     addBooleanAtom (
-      fIgnoreRedundantKeysItem);
-  cubaseCombinedBooleanItemsItem->
+      fIgnoreRedundantKeysAtom);
+  cubaseCombinedBooleansAtom->
     addBooleanAtom (
-      fIgnoreRedundantTimesItem);
+      fIgnoreRedundantTimesAtom);
 
   // noCubase
 
   fNoCubase = false;
 
   S_oahBooleanAtom
-    noCubaseBooleanItem =
+    noCubaseBooleanAtom =
       oahBooleanAtom::create (
         "noCubase", "",
 R"(Prevents the default 'cubase' option.)",
@@ -299,7 +299,7 @@ R"(Prevents the default 'cubase' option.)",
 
   combinedSubGroup->
     appendAtom (
-      noCubaseBooleanItem);
+      noCubaseBooleanAtom);
  }
 
 void musicXMLOptions::initializeMusicXMLOptions (
@@ -335,9 +335,8 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
       // 0 not to have it inserted twice in the option handler
 
   // set the options handler upLink
-  clone->
-    setHandlerUpLink (
-      fHandlerUpLink);
+  clone->fHandlerUpLink =
+    fHandlerUpLink;
 
 
   // clefs, keys, times
@@ -477,10 +476,12 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom musicXMLOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
+  ostream&  os,
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
+
+  // JMI ???
 
   return result;
 }

@@ -36,13 +36,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_optionsShowAllChordsStructuresItem optionsShowAllChordsStructuresItem::create (
+S_extraShowAllChordsStructuresAtom extraShowAllChordsStructuresAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  optionsShowAllChordsStructuresItem* o = new
-    optionsShowAllChordsStructuresItem (
+  extraShowAllChordsStructuresAtom* o = new
+    extraShowAllChordsStructuresAtom (
       shortName,
       longName,
       description);
@@ -50,7 +50,7 @@ S_optionsShowAllChordsStructuresItem optionsShowAllChordsStructuresItem::create 
   return o;
 }
 
-optionsShowAllChordsStructuresItem::optionsShowAllChordsStructuresItem (
+extraShowAllChordsStructuresAtom::extraShowAllChordsStructuresAtom (
   string shortName,
   string longName,
   string description)
@@ -60,15 +60,15 @@ optionsShowAllChordsStructuresItem::optionsShowAllChordsStructuresItem (
       description)
 {}
 
-optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem ()
+extraShowAllChordsStructuresAtom::~extraShowAllChordsStructuresAtom ()
 {}
 
-void optionsShowAllChordsStructuresItem::print (ostream& os) const
+void extraShowAllChordsStructuresAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsShowAllChordsStructuresItem:" <<
+    "OptionsShowAllChordsStructuresAtom:" <<
     endl;
 
   gIndenter++;
@@ -86,615 +86,84 @@ void optionsShowAllChordsStructuresItem::print (ostream& os) const
   gIndenter--;
 }
 
-void optionsShowAllChordsStructuresItem::printAllChordsStructures (ostream& os) const
+void extraShowAllChordsStructuresAtom::printAllChordsStructures (ostream& os) const
 {
   msrChordStructure::printAllChordsStructures (os);
 }
 
-void optionsShowAllChordsStructuresItem::printOptionsValues (
+void extraShowAllChordsStructuresAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& elt)
+ostream& operator<< (ostream& os, const S_extraShowAllChordsStructuresAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_optionsShowAllChordsContentsItem optionsShowAllChordsContentsItem::create (
+S_extraShowAllChordsContentsAtom extraShowAllChordsContentsAtom::create (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
-  string  optionsShowAllChordsContentsItemVariableName,
-  string& optionsShowAllChordsContentsItemVariable)
+  string  variableName,
+  string& extraShowAllChordsContentsVariable)
 {
-  optionsShowAllChordsContentsItem* o = new
-    optionsShowAllChordsContentsItem (
+  extraShowAllChordsContentsAtom* o = new
+    extraShowAllChordsContentsAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsShowAllChordsContentsItemVariableName,
-      optionsShowAllChordsContentsItemVariable);
+      variableName,
+      extraShowAllChordsContentsVariable);
   assert(o!=0);
   return o;
 }
 
-optionsShowAllChordsContentsItem::optionsShowAllChordsContentsItem (
+extraShowAllChordsContentsAtom::extraShowAllChordsContentsAtom (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
-  string  optionsShowAllChordsContentsItemVariableName,
-  string& optionsShowAllChordsContentsItemVariable)
+  string  variableName,
+  string& extraShowAllChordsContentsVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsShowAllChordsContentsItemVariableName),
-    fOptionsShowAllChordsContentsItemVariable (
-      optionsShowAllChordsContentsItemVariable)
+      variableName),
+    fStringVariable (
+      extraShowAllChordsContentsVariable)
 {}
 
-optionsShowAllChordsContentsItem::~optionsShowAllChordsContentsItem ()
+extraShowAllChordsContentsAtom::~extraShowAllChordsContentsAtom ()
 {}
 
-void optionsShowAllChordsContentsItem::print (ostream& os) const
+void extraShowAllChordsContentsAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "optionsShowAllChordsContentsItem:" <<
-    endl;
-
-  gIndenter++;
-
-  oahOption::printOptionEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
-
-  gIndenter--;
-}
-
-void optionsShowAllChordsContentsItem::printAllChordsContents (
-  ostream&              os,
-  msrSemiTonesPitchKind semiTonesPitchKind) const
-{
-  msrChordContents::printAllChordsContents (
-    os,
-    semiTonesPitchKind);
-}
-
-void optionsShowAllChordsContentsItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  // nothing to print here
-}
-
-ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_optionsShowChordDetailsItem optionsShowChordDetailsItem::create (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  optionsShowChordDetailsItemVariableName,
-  string& optionsShowChordDetailsItemVariable)
-{
-  optionsShowChordDetailsItem* o = new
-    optionsShowChordDetailsItem (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      optionsShowChordDetailsItemVariableName,
-      optionsShowChordDetailsItemVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsShowChordDetailsItem::optionsShowChordDetailsItem (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  optionsShowChordDetailsItemVariableName,
-  string& optionsShowChordDetailsItemVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      optionsShowChordDetailsItemVariableName),
-    fOptionsShowChordDetailsItemVariable (
-      optionsShowChordDetailsItemVariable)
-{}
-
-optionsShowChordDetailsItem::~optionsShowChordDetailsItem ()
-{}
-
-void optionsShowChordDetailsItem::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "optionsShowChordDetailsItem:" <<
-    endl;
-
-  gIndenter++;
-
-  oahOption::printOptionEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
-
-  gIndenter--;
-}
-
-void optionsShowChordDetailsItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  // nothing to print here
-}
-
-ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_optionsShowChordAnalysisItem optionsShowChordAnalysisItem::create (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  optionsShowChordAnalysisItemVariableName,
-  string& optionsShowChordAnalysisItemVariable)
-{
-  optionsShowChordAnalysisItem* o = new
-    optionsShowChordAnalysisItem (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      optionsShowChordAnalysisItemVariableName,
-      optionsShowChordAnalysisItemVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsShowChordAnalysisItem::optionsShowChordAnalysisItem (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  optionsShowChordAnalysisItemVariableName,
-  string& optionsShowChordAnalysisItemVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      optionsShowChordAnalysisItemVariableName),
-    fOptionsShowChordAnalysisItemVariable (
-      optionsShowChordAnalysisItemVariable)
-{}
-
-optionsShowChordAnalysisItem::~optionsShowChordAnalysisItem ()
-{}
-
-void optionsShowChordAnalysisItem::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "optionsShowChordAnalysisItem:" <<
-    endl;
-
-  gIndenter++;
-
-  oahOption::printOptionEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
-
-  gIndenter--;
-}
-
-void optionsShowChordAnalysisItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  // nothing to print here
-}
-
-ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//_______________________________________________________________________________
-
-S_extraOptions gExtraOptions;
-S_extraOptions gExtraOptionsUserChoices;
-S_extraOptions gExtraOptionsWithDetailedTrace;
-
-S_extraOptions extraOptions::create (
-  S_oahHandler handler)
-{
-  extraOptions* o = new extraOptions(
-    handler);
-  assert(o!=0);
-  return o;
-}
-
-extraOptions::extraOptions (
-  S_oahHandler handler)
-  : oahGroup (
-    "Extra",
-    "he", "help-extra",
-R"(These options provide features not related to translation from MusicXML to LilyPond.
-The single or double quotes are used to allow spaces in the names
-and around the '=' sign, otherwise they can be dispensed with.)",
-    handler)
-{
-  // append this options group to the options handler
-  // if relevant
-  if (handler) {
-    handler->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeExtraOptions (false);
-}
-
-extraOptions::~extraOptions ()
-{}
-
-void extraOptions::initializeExtraShowAllChordsStructuresOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    traceAndDisplaySubGroup =
-      oahSubGroup::create (
-        "Chords structures",
-        "hecs", "help-extra-chord-structures",
-R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
-        this);
-
-  appendSubGroup (traceAndDisplaySubGroup);
-
-  traceAndDisplaySubGroup->
-    appendAtom (
-      optionsShowAllChordsStructuresItem::create (
-        "scs", "show-chords-structures",
-R"(Write all known chords structures to standard output.)"));
-}
-
-void extraOptions::initializeExtraShowAllChordsContentsOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    workSubGroup =
-      oahSubGroup::create (
-        "Chords contents",
-        "hecc", "help-extra-chords-contents",
-//          replaceSubstringInString (
-//            "HARMONY_KINDS",
-//            existingHarmonyKindsNames ()
-//    HARMONY_KINDS.
-R"(  In the options below:
-- ROOT_DIATONIC_PITCH should belong to the names available in
-  the selected MSR pitches language, "nederlands" by default.
-- other languages can be chosen with the '-mpl, -msrPitchesLanguage' option.
-
-HARMONY_NAME should be one of:
-   MusicXML chords:
-    "maj", "min", "aug", "dim", "dom",
-    "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
-    "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
-    "dom13", "maj13", "min13", "sus2", "sus4",
-    "neapolitan", "italian", "french", "german"
-  Jazz-specific chords:
-    "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
-    "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
-)",
-        oahSubGroup::kSubGroupVisibilityAlways,
-        this);
-
-  appendSubGroup (workSubGroup);
-
-  workSubGroup->
-    appendAtom (
-      optionsShowAllChordsContentsItem::create (
-        "sacc", "show-all-chords-contents",
-R"(Write all chords contents for the given diatonic (semitones) pitch
-in the current language to standard output.)",
-        "pitch",
-        "diatonic (semitones) pitch",
-        fChordsRootAsString));
-}
-
-void extraOptions::initializeExtraShowChordDetailsOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    workSubGroup =
-      oahSubGroup::create (
-        "Chord details",
-        "hecd", "help-extra-chords-details",
-R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
-        this);
-
-  appendSubGroup (workSubGroup);
-
-  workSubGroup->
-    appendAtom (
-      optionsShowChordDetailsItem::create (
-        "scd", "show-chord-details",
-        replaceSubstringInString (
-R"(Write the details of the chord for the given diatonic (semitones) pitch
-in the current language and the given harmony to standard output.
-
-CHORD_SPEC can be:
-'ROOT_DIATONIC_PITCH HARMONY_NAME'
-or
-"ROOT_DIATONIC_PITCH = HARMONY_NAME"
-
-Using double quotes allows for shell variables substitutions, as in:
-HARMONY="maj7"
-EXECUTABLE -show-chord-details "bes ${HARMONY}")",
-         "EXECUTABLE",
-          gOahBasicOptions->fHandlerExecutableName),
-        "CHORD_SPEC",
-        "diatonic (semitones) pitch",
-        fChordsRootAsString));
-}
-
-void extraOptions::initializeExtraShowChordAnalysisOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    workSubGroup =
-      oahSubGroup::create (
-        "Chord analysis",
-        "heca", "help-extra-chords-analysis",
-R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
-        this);
-
-  appendSubGroup (workSubGroup);
-
-  workSubGroup->
-    appendAtom (
-      optionsShowChordAnalysisItem::create (
-        "sca", "show-chord-analysis", // -sca "c dommin9 0"
-        replaceSubstringInString (
-R"(Write an analysis of the chord for the given diatonic (semitones) pitch
-in the current language and the given harmony to standard output.
-
-CHORD_SPEC can be:
-'ROOT_DIATONIC_PITCH HARMONY_NAME INVERSION'
-or
-"ROOT_DIATONIC_PITCH = HARMONY_NAME INVERSION"
-
-Using double quotes allows for shell variables substitutions, as in:
-HARMONY="maj7"
-INVERSION=2
-EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
-          "EXECUTABLE",
-          gOahBasicOptions->fHandlerExecutableName),
-        "CHORD_SPEC",
-        "diatonic (semitones) pitch",
-        fChordsRootAsString));
-}
-
-void extraOptions::initializeExtraOptions (
-  bool boolOptionsInitialValue)
-{
-  // show all chords structures
-  // --------------------------------------
-  initializeExtraShowAllChordsStructuresOptions (
-    boolOptionsInitialValue);
-
-  // show all chords contents
-  // --------------------------------------
-  initializeExtraShowAllChordsContentsOptions (
-    boolOptionsInitialValue);
-
-  // show chord details
-  // --------------------------------------
-  initializeExtraShowChordDetailsOptions (
-    boolOptionsInitialValue);
-
-  // show chord analysis
-  // --------------------------------------
-  initializeExtraShowChordAnalysisOptions (
-    boolOptionsInitialValue);
-}
-
-S_extraOptions extraOptions::createCloneWithDetailedTrace ()
-{
-  S_extraOptions
-    clone =
-      extraOptions::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->
-    setHandlerUpLink (
-      fHandlerUpLink);
-
-
-  // chord intervals
-  // --------------------------------------
-
-  // chord notes
-  // --------------------------------------
-
-  return clone;
-}
-
-//______________________________________________________________________________
-void extraOptions::enforceQuietness ()
-{
-}
-
-//______________________________________________________________________________
-void extraOptions::checkOptionsConsistency ()
-{
-  // JMI
-}
-
-//______________________________________________________________________________
-void extraOptions::printExtraOptionsValues (int fieldWidth)
-{
-  gLogIOstream <<
-    "The extra options are:" << // JMI
-    endl;
-
-  gIndenter++;
-
-  // chord intervals
-  // --------------------------------------
-
-  // chord notes
-  // --------------------------------------
-
-  gIndenter--;
-}
-
-S_oahValuedAtom extraOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
-{
-  S_oahValuedAtom result;
-
-  if (
-    // show all chords structures item?
-    S_optionsShowAllChordsStructuresItem
-      showAllChordsStructuresItem =
-        dynamic_cast<optionsShowAllChordsStructuresItem*>(&(*item))
-  ) {
 #ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
-      os <<
-        "==> oahAtom is of type 'optionsShowAllChordsStructuresItem'" <<
-        endl;
-    }
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
+      endl;
+  }
 #endif
 
-    // handle it at once
-    showAllChordsStructuresItem->
-      printAllChordsStructures (os);
-
-    // exit
-    exit (0);
-  }
-
-  else if (
-    // show all chords notes item?
-    S_optionsShowAllChordsContentsItem
-      showAllChordsContentsItem =
-        dynamic_cast<optionsShowAllChordsContentsItem*>(&(*item))
-    ) {
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
-      os <<
-        "==> oahAtom is of type 'optionsShowAllChordsContentsItem'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = showAllChordsContentsItem;
-  }
-
-  else if (
-    // show chord details item?
-    S_optionsShowChordDetailsItem
-      showChordDetailsItem =
-        dynamic_cast<optionsShowChordDetailsItem*>(&(*item))
-    ) {
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
-      os <<
-        "==> oahAtom is of type 'optionsShowChordDetailsItem'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = showChordDetailsItem;
-  }
-
-  else if (
-    // show chord analysis item?
-    S_optionsShowChordAnalysisItem
-      showChordAnalysisItem =
-        dynamic_cast<optionsShowChordAnalysisItem*>(&(*item))
-    ) {
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
-      os <<
-        "==> oahAtom is of type 'optionsShowChordAnalysisItem'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = showChordAnalysisItem;
-  }
-
-  return result;
-}
-
-void extraOptions::handleOptionsItemShowAllChordsContentsValue (
-  ostream&                           os,
-  S_optionsShowAllChordsContentsItem showAllChordsContentsItem,
-  string                             theString)
-{
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
     os <<
-      "==> oahAtom is of type 'optionsShowAllChordsContentsItem'" <<
+      "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -772,26 +241,118 @@ void extraOptions::handleOptionsItemShowAllChordsContentsValue (
   } // switch
 
   // print all the chords notes
-  showAllChordsContentsItem->
-    printAllChordsContents (
-      os,
-      semiTonesPitchKind);
+  printAllChordsContents (
+    os,
+    semiTonesPitchKind);
 
   // exit
   exit (23);
 }
 
-void extraOptions::handleOptionsShowChordDetailsItemValue (
-  ostream&                      os,
-  S_optionsShowChordDetailsItem showChordDetailsItem,
-  string                        theString)
+void extraShowAllChordsContentsAtom::print (ostream& os) const
 {
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "extraShowAllChordsContentsAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  oahOption::printOptionEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void extraShowAllChordsContentsAtom::printAllChordsContents (
+  ostream&              os,
+  msrSemiTonesPitchKind semiTonesPitchKind) const
+{
+  msrChordContents::printAllChordsContents (
+    os,
+    semiTonesPitchKind);
+}
+
+void extraShowAllChordsContentsAtom::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+
+ostream& operator<< (ostream& os, const S_extraShowAllChordsContentsAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_extraShowChordDetailsAtom extraShowChordDetailsAtom::create (
+  string  shortName,
+  string  longName,
+  string  description,
+  string  valueSpecification,
+  string  variableName,
+  string& extraShowChordDetailsVariable)
+{
+  extraShowChordDetailsAtom* o = new
+    extraShowChordDetailsAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      extraShowChordDetailsVariable);
+  assert(o!=0);
+  return o;
+}
+
+extraShowChordDetailsAtom::extraShowChordDetailsAtom (
+  string  shortName,
+  string  longName,
+  string  description,
+  string  valueSpecification,
+  string  variableName,
+  string& extraShowChordDetailsVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringVariable (
+      extraShowChordDetailsVariable)
+{}
+
+extraShowChordDetailsAtom::~extraShowChordDetailsAtom ()
+{}
+
+void extraShowChordDetailsAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
+      endl;
+  }
+#endif
+
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
     os <<
-      "==> oahAtom is of type 'optionsShowChordDetailsItem'" <<
+      "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -845,11 +406,6 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
       "' is ill-formed";
 
     optionError (s.str ());
-
-    printGroupAndSubGroupHelp (
-      os,
-      showChordDetailsItem->getSubGroupUpLink ());
-
     exit (4);
   }
 
@@ -953,18 +509,96 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
   exit (23);
 }
 
-void extraOptions::handleOptionshowChordAnalysisItemValue (
-  ostream&                       os,
-  S_optionsShowChordAnalysisItem showChordAnalysisItem,
-  string                         theString)
+void extraShowChordDetailsAtom::print (ostream& os) const
 {
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "extraShowChordDetailsAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  oahOption::printOptionEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void extraShowChordDetailsAtom::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+
+//______________________________________________________________________________
+S_extraShowChordAnalysisAtom extraShowChordAnalysisAtom::create (
+  string  shortName,
+  string  longName,
+  string  description,
+  string  valueSpecification,
+  string  variableName,
+  string& extraShowChordAnalysisVariable)
+{
+  extraShowChordAnalysisAtom* o = new
+    extraShowChordAnalysisAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      extraShowChordAnalysisVariable);
+  assert(o!=0);
+  return o;
+}
+
+extraShowChordAnalysisAtom::extraShowChordAnalysisAtom (
+  string  shortName,
+  string  longName,
+  string  description,
+  string  valueSpecification,
+  string  variableName,
+  string& extraShowChordAnalysisVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringVariable (
+      extraShowChordAnalysisVariable)
+{}
+
+extraShowChordAnalysisAtom::~extraShowChordAnalysisAtom ()
+{}
+
+void extraShowChordAnalysisAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
+      endl;
+  }
+#endif
+
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
     os <<
-      "==> oahAtom is of type 'optionsShowChordAnalysisItem'" <<
+      "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -1024,7 +658,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
 /* JMI ??? should work...
     printSubGroupSpecificHelp (
       os,
-      showChordAnalysisItem->
+      showChordAnalysisAtom->
         getSubGroupUpLink ());
 */
     exit (4);
@@ -1157,45 +791,410 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
   exit (23);
 }
 
-void extraOptions::handleOptionsItemValue (
-  ostream&      os,
-  S_oahAtom item,
-  string        theString)
+void extraShowChordAnalysisAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "extraShowChordAnalysisAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  oahOption::printOptionEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void extraShowChordAnalysisAtom::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+
+//_______________________________________________________________________________
+
+S_extraOptions gExtraOptions;
+S_extraOptions gExtraOptionsUserChoices;
+S_extraOptions gExtraOptionsWithDetailedTrace;
+
+S_extraOptions extraOptions::create (
+  S_oahHandler handler)
+{
+  extraOptions* o = new extraOptions(
+    handler);
+  assert(o!=0);
+  return o;
+}
+
+extraOptions::extraOptions (
+  S_oahHandler handler)
+  : oahGroup (
+    "Extra",
+    "he", "help-extra",
+R"(These extra provide features not related to translation from MusicXML to LilyPond.
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.)",
+    handler)
+{
+  // append this extra group to the extra handler
+  // if relevant
+  if (handler) {
+    handler->
+      appendGroupToHandler (this);
+  }
+
+  // initialize it
+  initializeExtraOptions (false);
+}
+
+extraOptions::~extraOptions ()
+{}
+
+void extraOptions::initializeExtraShowAllChordsStructuresOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    traceAndDisplaySubGroup =
+      oahSubGroup::create (
+        "Chords structures",
+        "hecs", "help-extra-chord-structures",
+R"()",
+        oahSubGroup::kSubGroupVisibilityAlways,
+        this);
+
+  appendSubGroup (traceAndDisplaySubGroup);
+
+  traceAndDisplaySubGroup->
+    appendAtom (
+      extraShowAllChordsStructuresAtom::create (
+        "scs", "show-chords-structures",
+R"(Write all known chords structures to standard output.)"));
+}
+
+void extraOptions::initializeExtraShowAllChordsContentsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    workSubGroup =
+      oahSubGroup::create (
+        "Chords contents",
+        "hecc", "help-extra-chords-contents",
+//          replaceSubstringInString (
+//            "HARMONY_KINDS",
+//            existingHarmonyKindsNames ()
+//    HARMONY_KINDS.
+R"(  In the extra below:
+- ROOT_DIATONIC_PITCH should belong to the names available in
+  the selected MSR pitches language, "nederlands" by default.
+- other languages can be chosen with the '-mpl, -msrPitchesLanguage' option.
+
+HARMONY_NAME should be one of:
+   MusicXML chords:
+    "maj", "min", "aug", "dim", "dom",
+    "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
+    "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
+    "dom13", "maj13", "min13", "sus2", "sus4",
+    "neapolitan", "italian", "french", "german"
+  Jazz-specific chords:
+    "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
+    "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
+)",
+        oahSubGroup::kSubGroupVisibilityAlways,
+        this);
+
+  appendSubGroup (workSubGroup);
+
+  workSubGroup->
+    appendAtom (
+      extraShowAllChordsContentsAtom::create (
+        "sacc", "show-all-chords-contents",
+R"(Write all chords contents for the given diatonic (semitones) pitch
+in the current language to standard output.)",
+        "pitch",
+        "diatonic (semitones) pitch",
+        fChordsRootAsString));
+}
+
+void extraOptions::initializeExtraShowChordDetailsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    workSubGroup =
+      oahSubGroup::create (
+        "Chord details",
+        "hecd", "help-extra-chords-details",
+R"()",
+        oahSubGroup::kSubGroupVisibilityAlways,
+        this);
+
+  appendSubGroup (workSubGroup);
+
+  workSubGroup->
+    appendAtom (
+      extraShowChordDetailsAtom::create (
+        "scd", "show-chord-details",
+        replaceSubstringInString (
+R"(Write the details of the chord for the given diatonic (semitones) pitch
+in the current language and the given harmony to standard output.
+
+CHORD_SPEC can be:
+'ROOT_DIATONIC_PITCH HARMONY_NAME'
+or
+"ROOT_DIATONIC_PITCH = HARMONY_NAME"
+
+Using double quotes allows for shell variables substitutions, as in:
+HARMONY="maj7"
+EXECUTABLE -show-chord-details "bes ${HARMONY}")",
+         "EXECUTABLE",
+          gOahBasicOptions->fHandlerExecutableName),
+        "CHORD_SPEC",
+        "diatonic (semitones) pitch",
+        fChordsRootAsString));
+}
+
+void extraOptions::initializeExtraShowChordAnalysisOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    workSubGroup =
+      oahSubGroup::create (
+        "Chord analysis",
+        "heca", "help-extra-chords-analysis",
+R"()",
+        oahSubGroup::kSubGroupVisibilityAlways,
+        this);
+
+  appendSubGroup (workSubGroup);
+
+  workSubGroup->
+    appendAtom (
+      extraShowChordAnalysisAtom::create (
+        "sca", "show-chord-analysis", // -sca "c dommin9 0"
+        replaceSubstringInString (
+R"(Write an analysis of the chord for the given diatonic (semitones) pitch
+in the current language and the given harmony to standard output.
+
+CHORD_SPEC can be:
+'ROOT_DIATONIC_PITCH HARMONY_NAME INVERSION'
+or
+"ROOT_DIATONIC_PITCH = HARMONY_NAME INVERSION"
+
+Using double quotes allows for shell variables substitutions, as in:
+HARMONY="maj7"
+INVERSION=2
+EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
+          "EXECUTABLE",
+          gOahBasicOptions->fHandlerExecutableName),
+        "CHORD_SPEC",
+        "diatonic (semitones) pitch",
+        fChordsRootAsString));
+}
+
+void extraOptions::initializeExtraOptions (
+  bool boolOptionsInitialValue)
+{
+  // show all chords structures
+  // --------------------------------------
+  initializeExtraShowAllChordsStructuresOptions (
+    boolOptionsInitialValue);
+
+  // show all chords contents
+  // --------------------------------------
+  initializeExtraShowAllChordsContentsOptions (
+    boolOptionsInitialValue);
+
+  // show chord details
+  // --------------------------------------
+  initializeExtraShowChordDetailsOptions (
+    boolOptionsInitialValue);
+
+  // show chord analysis
+  // --------------------------------------
+  initializeExtraShowChordAnalysisOptions (
+    boolOptionsInitialValue);
+}
+
+S_extraOptions extraOptions::createCloneWithDetailedTrace ()
+{
+  S_extraOptions
+    clone =
+      extraOptions::create (0);
+      // 0 not to have it inserted twice in the option handler
+
+  // set the extra handler upLink
+  clone->fHandlerUpLink =
+    fHandlerUpLink;
+
+
+  // chord intervals
+  // --------------------------------------
+
+  // chord notes
+  // --------------------------------------
+
+  return clone;
+}
+
+//______________________________________________________________________________
+void extraOptions::enforceQuietness ()
+{
+}
+
+//______________________________________________________________________________
+void extraOptions::checkOptionsConsistency ()
+{
+  // JMI
+}
+
+//______________________________________________________________________________
+void extraOptions::printExtraOptionsValues (int fieldWidth)
+{
+  gLogIOstream <<
+    "The extra extra are:" << // JMI
+    endl;
+
+  gIndenter++;
+
+  // chord intervals
+  // --------------------------------------
+
+  // chord notes
+  // --------------------------------------
+
+  gIndenter--;
+}
+
+S_oahValuedAtom extraOptions::handleAtom (
+  ostream&  os,
+  S_oahAtom atom)
+{
+  S_oahValuedAtom result;
+
+  if (
+    // show all chords structures atom?
+    S_extraShowAllChordsStructuresAtom
+      showAllChordsStructuresAtom =
+        dynamic_cast<extraShowAllChordsStructuresAtom*>(&(*atom))
+  ) {
+#ifdef TRACE_OPTIONS
+    if (gOahBasicOptions->fTraceOptions) {
+      os <<
+        "==> oahAtom is of type 'extraShowAllChordsStructuresAtom'" <<
+        endl;
+    }
+#endif
+
+    // handle it at once
+    showAllChordsStructuresAtom->
+      printAllChordsStructures (os);
+
+    // exit
+    exit (0);
+  }
+
+  else if (
+    // show all chords notes atom?
+    S_extraShowAllChordsContentsAtom
+      showAllChordsContentsAtom =
+        dynamic_cast<extraShowAllChordsContentsAtom*>(&(*atom))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gOahBasicOptions->fTraceOptions) {
+      os <<
+        "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = showAllChordsContentsAtom;
+  }
+
+  else if (
+    // show chord details atom?
+    S_extraShowChordDetailsAtom
+      showChordDetailsAtom =
+        dynamic_cast<extraShowChordDetailsAtom*>(&(*atom))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gOahBasicOptions->fTraceOptions) {
+      os <<
+        "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = showChordDetailsAtom;
+  }
+
+  else if (
+    // show chord analysis atom?
+    S_extraShowChordAnalysisAtom
+      showChordAnalysisAtom =
+        dynamic_cast<extraShowChordAnalysisAtom*>(&(*atom))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gOahBasicOptions->fTraceOptions) {
+      os <<
+        "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = showChordAnalysisAtom;
+  }
+
+  return result;
+}
+
+void extraOptions::handleValuedAtomValue (
+  indentedOstream&  os,
+  S_oahAtom         atom,
+  string            theString)
 {
   if (
-    // show all chord contents item?
-    S_optionsShowAllChordsContentsItem
-      showAllChordsContentsItem =
-        dynamic_cast<optionsShowAllChordsContentsItem*>(&(*item))
+    // show all chord contents atom?
+    S_extraShowAllChordsContentsAtom
+      showAllChordsContentsAtom =
+        dynamic_cast<extraShowAllChordsContentsAtom*>(&(*atom))
   ) {
-    handleOptionsItemShowAllChordsContentsValue (
-      os,
-      showAllChordsContentsItem,
-      theString);
+    showAllChordsContentsAtom->handleValue (
+      theString,
+      os);
   }
 
   else if (
-    // show chord details item?
-    S_optionsShowChordDetailsItem
-      showChordDetailsItem =
-        dynamic_cast<optionsShowChordDetailsItem*>(&(*item))
+    // show chord details atom?
+    S_extraShowChordDetailsAtom
+      showChordDetailsAtom =
+        dynamic_cast<extraShowChordDetailsAtom*>(&(*atom))
   ) {
-    handleOptionsShowChordDetailsItemValue (
-      os,
-      showChordDetailsItem,
-      theString);
+    showChordDetailsAtom->handleValue (
+      theString,
+      os);
   }
 
   else if (
-    // show chord analysis item?
-    S_optionsShowChordAnalysisItem
-      showChordAnalysisItem =
-        dynamic_cast<optionsShowChordAnalysisItem*>(&(*item))
+    // show chord analysis atom?
+    S_extraShowChordAnalysisAtom
+      showChordAnalysisAtom =
+        dynamic_cast<extraShowChordAnalysisAtom*>(&(*atom))
   ) {
-    handleOptionshowChordAnalysisItemValue (
-      os,
-      showChordAnalysisItem,
-      theString);
+    showChordAnalysisAtom->handleValue (
+      theString,
+      os);
   }
 }
 
@@ -1212,12 +1211,12 @@ void initializeExtraOptionsHandling (
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
-      "Initializing extra options handling" <<
+      "Initializing extra extra handling" <<
       endl;
   }
 #endif
 
-  // create the extra options
+  // create the extra extra
   // ------------------------------------------------------
 
   gExtraOptionsUserChoices = extraOptions::create (

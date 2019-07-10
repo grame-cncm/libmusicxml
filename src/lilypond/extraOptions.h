@@ -28,14 +28,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsShowAllChordsStructuresItem : public oahAtom
+class extraShowAllChordsStructuresAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsShowAllChordsStructuresItem> create (
+    static SMARTP<extraShowAllChordsStructuresAtom> create (
       string shortName,
       string longName,
       string description);
@@ -45,12 +45,12 @@ class optionsShowAllChordsStructuresItem : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsShowAllChordsStructuresItem (
+    extraShowAllChordsStructuresAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~optionsShowAllChordsStructuresItem ();
+    virtual ~extraShowAllChordsStructuresAtom ();
 
   public:
 
@@ -76,18 +76,18 @@ class optionsShowAllChordsStructuresItem : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<optionsShowAllChordsStructuresItem> S_optionsShowAllChordsStructuresItem;
-EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& elt);
+typedef SMARTP<extraShowAllChordsStructuresAtom> S_extraShowAllChordsStructuresAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowAllChordsStructuresAtom& elt);
 
 //______________________________________________________________________________
-class optionsShowAllChordsContentsItem : public oahValuedAtom
+class extraShowAllChordsContentsAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsShowAllChordsContentsItem> create (
+    static SMARTP<extraShowAllChordsContentsAtom> create (
       string  shortName,
       string  longName,
       string  description,
@@ -100,7 +100,7 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsShowAllChordsContentsItem (
+    extraShowAllChordsContentsAtom (
       string  shortName,
       string  longName,
       string  description,
@@ -108,21 +108,23 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
       string  variableName,
       string& stringVariable);
 
-    virtual ~optionsShowAllChordsContentsItem ();
+    virtual ~extraShowAllChordsContentsAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setShowAllChordsContentsItemVariableValue (
+    void                  setStringVariable (
                             string value)
-                              {
-                                fOptionsShowAllChordsContentsItemVariable = value;
-                              }
+                              { fStringVariable = value; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -142,20 +144,20 @@ class optionsShowAllChordsContentsItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    string&               fOptionsShowAllChordsContentsItemVariable;
+    string&               fStringVariable;
 };
-typedef SMARTP<optionsShowAllChordsContentsItem> S_optionsShowAllChordsContentsItem;
-EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt);
+typedef SMARTP<extraShowAllChordsContentsAtom> S_extraShowAllChordsContentsAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowAllChordsContentsAtom& elt);
 
 //______________________________________________________________________________
-class optionsShowChordDetailsItem : public oahValuedAtom
+class extraShowChordDetailsAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsShowChordDetailsItem> create (
+    static SMARTP<extraShowChordDetailsAtom> create (
       string  shortName,
       string  longName,
       string  description,
@@ -168,7 +170,7 @@ class optionsShowChordDetailsItem : public oahValuedAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsShowChordDetailsItem (
+    extraShowChordDetailsAtom (
       string  shortName,
       string  longName,
       string  description,
@@ -176,21 +178,23 @@ class optionsShowChordDetailsItem : public oahValuedAtom
       string  variableName,
       string& stringVariable);
 
-    virtual ~optionsShowChordDetailsItem ();
+    virtual ~extraShowChordDetailsAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setShowChordDetailsItemVariableValue (
+    void                  setShowChordDetailsVariableValue (
                             string value)
-                              {
-                                fOptionsShowChordDetailsItemVariable = value;
-                              }
+                              {  fStringVariable = value; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -206,20 +210,20 @@ class optionsShowChordDetailsItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    string&               fOptionsShowChordDetailsItemVariable;
+    string&               fStringVariable;
 };
-typedef SMARTP<optionsShowChordDetailsItem> S_optionsShowChordDetailsItem;
-EXP ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt);
+typedef SMARTP<extraShowChordDetailsAtom> S_extraShowChordDetailsAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowChordDetailsAtom& elt);
 
 //______________________________________________________________________________
-class optionsShowChordAnalysisItem : public oahValuedAtom
+class extraShowChordAnalysisAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsShowChordAnalysisItem> create (
+    static SMARTP<extraShowChordAnalysisAtom> create (
       string  shortName,
       string  longName,
       string  description,
@@ -232,7 +236,7 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsShowChordAnalysisItem (
+    extraShowChordAnalysisAtom (
       string  shortName,
       string  longName,
       string  description,
@@ -240,21 +244,23 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
       string  variableName,
       string& stringVariable);
 
-    virtual ~optionsShowChordAnalysisItem ();
+    virtual ~extraShowChordAnalysisAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setShowChordAnalysisItemVariableValue (
+    void                  setShowChordAnalysisVariableValue (
                             string value)
-                              {
-                                fOptionsShowChordAnalysisItemVariable = value;
-                              }
+                              { fStringVariable = value; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -270,10 +276,10 @@ class optionsShowChordAnalysisItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    string&               fOptionsShowChordAnalysisItemVariable;
+    string&               fStringVariable;
 };
-typedef SMARTP<optionsShowChordAnalysisItem> S_optionsShowChordAnalysisItem;
-EXP ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt);
+typedef SMARTP<extraShowChordAnalysisAtom> S_extraShowChordAnalysisAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowChordAnalysisAtom& elt);
 
 //______________________________________________________________________________
 class extraOptions : public oahGroup
@@ -328,12 +334,12 @@ class extraOptions : public oahGroup
     virtual S_oahValuedAtom
                           handleAtom (
                             ostream&  os,
-                            S_oahAtom item);
+                            S_oahAtom atom);
 
-    virtual void          handleOptionsItemValue (
-                            ostream&  os,
-                            S_oahAtom item,
-                            string    theString);
+    virtual void          handleValuedAtomValue (
+                            indentedOstream&  os,
+                            S_oahAtom         atom,
+                            string            theString);
 
   private:
 
@@ -351,21 +357,6 @@ class extraOptions : public oahGroup
 
     void                  initializeExtraShowChordAnalysisOptions (
                             bool boolOptionsInitialValue);
-
-    virtual void          handleOptionsItemShowAllChordsContentsValue (
-                            ostream&                           os,
-                            S_optionsShowAllChordsContentsItem showAllChordsContentsItem,
-                            string                             theString);
-
-    virtual void          handleOptionsShowChordDetailsItemValue (
-                            ostream&                      os,
-                            S_optionsShowChordDetailsItem showChordDetailsItem,
-                            string                        theString);
-
-    virtual void          handleOptionshowChordAnalysisItemValue (
-                            ostream&                       os,
-                            S_optionsShowChordAnalysisItem showChordAnalysisItem,
-                            string                         theString);
 
   public:
 

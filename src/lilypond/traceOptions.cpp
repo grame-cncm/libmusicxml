@@ -76,12 +76,12 @@ Note: the options in this group imply '-t, -trace-passes'.)",
 
   // passes
 
-  fTracePasses = boolOptionsInitialValue;
+  fTracePasses = boolOptionsInitialValue; // TEMP boolOptionsInitialValue;
 
   lowLevelTraceSubGroup->
     appendAtom (
       oahBooleanAtom::create (
-        "passes", "trace-passes",
+        "tpasses", "trace-passes",
 R"(Write a trace of the passes to standard error.)",
         "tracePasses",
         fTracePasses));
@@ -1100,10 +1100,8 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
       // 0 not to have it inserted twice in the option handler
 
   // set the options handler upLink
-  clone->
-    setHandlerUpLink (
-      fHandlerUpLink);
-
+  clone->fHandlerUpLink =
+    fHandlerUpLink;
 
   // specific trace
   // --------------------------------------
@@ -2381,9 +2379,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
 
 S_oahValuedAtom traceOptions::handleAtom (
   ostream&  os,
-  S_oahAtom item)
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
+
+  // JMI ???
 
   return result;
 }

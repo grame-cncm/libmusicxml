@@ -22,51 +22,53 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsScoreOutputKindItem : public oahValuedAtom
+class lilypondScoreOutputKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsScoreOutputKindItem> create (
+    static SMARTP<lilypondScoreOutputKindAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsScoreOutputKindItemVariableName,
+      string             variableName,
       lpsrScoreOutputKind&
-                         optionsScoreOutputKindItemVariable);
+                         lilypondScoreOutputKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsScoreOutputKindItem (
+    lilypondScoreOutputKindAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsScoreOutputKindItemVariableName,
+      string             variableName,
       lpsrScoreOutputKind&
-                         optionsScoreOutputKindItemVariable);
+                         lilypondScoreOutputKindVariable);
 
-    virtual ~optionsScoreOutputKindItem ();
+    virtual ~lilypondScoreOutputKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setScoreOutputKindItemVariableValue (
+    void                  setScoreOutputKindVariableValue (
                             lpsrScoreOutputKind value)
-                              {
-                                fOptionsScoreOutputKindItemVariable = value;
-                              }
+                              {  fLpsrScoreOutputKindVariable = value; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -82,37 +84,37 @@ class optionsScoreOutputKindItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    lpsrScoreOutputKind&  fOptionsScoreOutputKindItemVariable;
+    lpsrScoreOutputKind&  fLpsrScoreOutputKindVariable;
 };
-typedef SMARTP<optionsScoreOutputKindItem> S_optionsScoreOutputKindItem;
-EXP ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt);
+typedef SMARTP<lilypondScoreOutputKindAtom> S_lilypondScoreOutputKindAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class optionsAbsoluteOctaveEntryItem : public oahAtomWithVariableName
+class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsAbsoluteOctaveEntryItem> create (
+    static SMARTP<lilypondAbsoluteOctaveEntryAtom> create (
       string shortName,
       string longName,
       string description,
-      string optionsAbsoluteOctaveEntryItemVariableName);
+      string lilypondAbsoluteOctaveEntryVariableName);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsAbsoluteOctaveEntryItem (
+    lilypondAbsoluteOctaveEntryAtom (
       string shortName,
       string longName,
       string description,
-      string optionsAbsoluteOctaveEntryItemVariableName);
+      string lilypondAbsoluteOctaveEntryVariableName);
 
-    virtual ~optionsAbsoluteOctaveEntryItem ();
+    virtual ~lilypondAbsoluteOctaveEntryAtom ();
 
   public:
 
@@ -135,59 +137,63 @@ class optionsAbsoluteOctaveEntryItem : public oahAtomWithVariableName
 
     // fields
     // ------------------------------------------------------
-    string                fOptionsAbsoluteOctaveEntryItemVariableName;
+    string                fOptionsAbsoluteOctaveEntryVariableName;
                             // in order for it to be displayed,
                             // even if there's no associated variable
 };
-typedef SMARTP<optionsAbsoluteOctaveEntryItem> S_optionsAbsoluteOctaveEntryItem;
-EXP ostream& operator<< (ostream& os, const S_optionsAbsoluteOctaveEntryItem& elt);
+typedef SMARTP<lilypondAbsoluteOctaveEntryAtom> S_lilypondAbsoluteOctaveEntryAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondAbsoluteOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class optionsRelativeOctaveEntryItem : public oahValuedAtom
+class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsRelativeOctaveEntryItem> create (
+    static SMARTP<lilypondRelativeOctaveEntryAtom> create (
       string  shortName,
       string  longName,
       string  description,
       string  valueSpecification,
-      string  optionsRelativeOctaveEntryItemVariableName,
+      string  variableName,
       S_msrSemiTonesPitchAndOctave&
-              optionsRelativeOctaveEntryItemVariable);
+              lilypondRelativeOctaveEntryVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsRelativeOctaveEntryItem (
+    lilypondRelativeOctaveEntryAtom (
       string  shortName,
       string  longName,
       string  description,
       string  valueSpecification,
-      string  optionsRelativeOctaveEntryItemVariableName,
+      string  variableName,
       S_msrSemiTonesPitchAndOctave&
-              optionsRelativeOctaveEntryItemVariable);
+              lilypondRelativeOctaveEntryVariable);
 
-    virtual ~optionsRelativeOctaveEntryItem ();
+    virtual ~lilypondRelativeOctaveEntryAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setRelativeOctaveEntryItemVariableValue (
+    void                  setRelativeOctaveEntryVariableValue (
                             S_msrSemiTonesPitchAndOctave value)
                               {
-                                fOptionsRelativeOctaveEntryItemVariable = value;
+                                fMsrSemiTonesPitchAndOctaveVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -204,57 +210,61 @@ class optionsRelativeOctaveEntryItem : public oahValuedAtom
     // ------------------------------------------------------
 
     S_msrSemiTonesPitchAndOctave&
-                          fOptionsRelativeOctaveEntryItemVariable;
+                          fMsrSemiTonesPitchAndOctaveVariable;
 };
-typedef SMARTP<optionsRelativeOctaveEntryItem> S_optionsRelativeOctaveEntryItem;
-EXP ostream& operator<< (ostream& os, const S_optionsRelativeOctaveEntryItem& elt);
+typedef SMARTP<lilypondRelativeOctaveEntryAtom> S_lilypondRelativeOctaveEntryAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondRelativeOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class optionsFixedOctaveEntryItem : public oahValuedAtom
+class lilypondFixedOctaveEntryAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsFixedOctaveEntryItem> create (
+    static SMARTP<lilypondFixedOctaveEntryAtom> create (
       string  shortName,
       string  longName,
       string  description,
       string  valueSpecification,
-      string  optionsFixedOctaveEntryItemVariableName,
+      string  variableName,
       S_msrSemiTonesPitchAndOctave&
-              optionsFixedOctaveEntryItemVariable);
+              lilypondFixedOctaveEntryVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsFixedOctaveEntryItem (
+    lilypondFixedOctaveEntryAtom (
       string  shortName,
       string  longName,
       string  description,
       string  valueSpecification,
-      string  optionsFixedOctaveEntryItemVariableName,
+      string  variableName,
       S_msrSemiTonesPitchAndOctave&
-              optionsFixedOctaveEntryItemVariable);
+              lilypondFixedOctaveEntryVariable);
 
-    virtual ~optionsFixedOctaveEntryItem ();
+    virtual ~lilypondFixedOctaveEntryAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setFixedOctaveEntryItemVariableValue (
+    void                  setFixedOctaveEntryVariableValue (
                             S_msrSemiTonesPitchAndOctave value)
                               {
-                                fOptionsFixedOctaveEntryItemVariable = value;
+                                fMsrSemiTonesPitchAndOctaveVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -271,57 +281,61 @@ class optionsFixedOctaveEntryItem : public oahValuedAtom
     // ------------------------------------------------------
 
     S_msrSemiTonesPitchAndOctave&
-                          fOptionsFixedOctaveEntryItemVariable;
+                          fMsrSemiTonesPitchAndOctaveVariable;
 };
-typedef SMARTP<optionsFixedOctaveEntryItem> S_optionsFixedOctaveEntryItem;
-EXP ostream& operator<< (ostream& os, const S_optionsFixedOctaveEntryItem& elt);
+typedef SMARTP<lilypondFixedOctaveEntryAtom> S_lilypondFixedOctaveEntryAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondFixedOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class optionsAccidentalStyleKindItem : public oahValuedAtom
+class lilypondAccidentalStyleKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsAccidentalStyleKindItem> create (
+    static SMARTP<lilypondAccidentalStyleKindAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsAccidentalStyleKindItemVariableName,
+      string             variableName,
       lpsrAccidentalStyleKind&
-                         optionsAccidentalStyleKindItemVariable);
+                         lilypondAccidentalStyleKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsAccidentalStyleKindItem (
+    lilypondAccidentalStyleKindAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsAccidentalStyleKindItemVariableName,
+      string             variableName,
       lpsrAccidentalStyleKind&
-                         optionsAccidentalStyleKindItemVariable);
+                         lilypondAccidentalStyleKindVariable);
 
-    virtual ~optionsAccidentalStyleKindItem ();
+    virtual ~lilypondAccidentalStyleKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setAccidentalStyleKindItemVariableValue (
+    void                  setLpsrAccidentalStyleKindVariable (
                             lpsrAccidentalStyleKind value)
                               {
-                                fOptionsAccidentalStyleKindItemVariable = value;
+                                fLpsrAccidentalStyleKindVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -338,64 +352,65 @@ class optionsAccidentalStyleKindItem : public oahValuedAtom
     // ------------------------------------------------------
 
     lpsrAccidentalStyleKind&
-                          fOptionsAccidentalStyleKindItemVariable;
+                          fLpsrAccidentalStyleKindVariable;
 };
-typedef SMARTP<optionsAccidentalStyleKindItem> S_optionsAccidentalStyleKindItem;
-EXP ostream& operator<< (ostream& os, const S_optionsAccidentalStyleKindItem& elt);
+typedef SMARTP<lilypondAccidentalStyleKindAtom> S_lilypondAccidentalStyleKindAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondAccidentalStyleKindAtom& elt);
 
 //______________________________________________________________________________
-class optionsChordsDisplayItem : public oahValuedAtom
+class lilypondChordsDisplayAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsChordsDisplayItem> create (
+    static SMARTP<lilypondChordsDisplayAtom> create (
       string                shortName,
       string                longName,
       string                description,
       string                valueSpecification,
-      string                optionsChordsDisplayItemVariableName,
+      string                variableName,
       list<pair<string, string> >&
-                            optionsChordsDisplayItemVariable);
+                            lilypondChordsDisplayVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsChordsDisplayItem (
+    lilypondChordsDisplayAtom (
       string                shortName,
       string                longName,
       string                description,
       string                valueSpecification,
-      string                optionsChordsDisplayItemVariableName,
+      string                variableName,
       list<pair<string, string> >&
-                            optionsChordsDisplayItemVariable);
+                            lilypondChordsDisplayVariable);
 
-    virtual ~optionsChordsDisplayItem ();
+    virtual ~lilypondChordsDisplayAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsChordsDisplayItemVariableName (
+    void                  setStringsPairListVariable (
                             pair<string, string> value)
                               {
-                                foptionsChordsDisplayItemVariable.push_back (value);
+                                fStringsPairListVariable.push_back (value);
                               }
 
     const list<pair<string, string> >&
-                          getOptionsChordsDisplayItemVariable ()
-                              {
-                                return
-                                  foptionsChordsDisplayItemVariable;
-                              }
+                          getStringsPairListVariable ()
+                              { return fStringsPairListVariable; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -412,62 +427,61 @@ class optionsChordsDisplayItem : public oahValuedAtom
     // ------------------------------------------------------
 
     list<pair<string, string> >&
-                          foptionsChordsDisplayItemVariable;
+                          fStringsPairListVariable;
 };
-typedef SMARTP<optionsChordsDisplayItem> S_optionsChordsDisplayItem;
-EXP ostream& operator<< (ostream& os, const S_optionsChordsDisplayItem& elt);
+typedef SMARTP<lilypondChordsDisplayAtom> S_lilypondChordsDisplayAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt);
 
 //______________________________________________________________________________
-class optionsMidiTempoItem : public oahValuedAtom
+class lilypondMidiTempoAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsMidiTempoItem> create (
+    static SMARTP<lilypondMidiTempoAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsMidiTempoItemVariableName,
-      pair<string, int>& optionsMidiTempoItemVariable);
+      string             variableName,
+      pair<string, int>& lilypondMidiTempoVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsMidiTempoItem (
+    lilypondMidiTempoAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsMidiTempoItemVariableName,
-      pair<string, int>& optionsMidiTempoItemVariable);
+      string             variableName,
+      pair<string, int>& lilypondMidiTempoVariable);
 
-    virtual ~optionsMidiTempoItem ();
+    virtual ~lilypondMidiTempoAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setMidiTempoItemVariableValue (
+    void                  setStringIntPairVariable (
                             pair<string, int> value)
-                              {
-                                fOptionsMidiTempoItemVariable = value;
-                              }
+                              { fStringIntPairVariable = value; }
 
     const pair<string, int>&
-                          getOptionsMidiTempoItemVariable ()
-                              {
-                                return
-                                  fOptionsMidiTempoItemVariable;
-                              }
+                          getStringIntPairVariable ()
+                              { return fStringIntPairVariable; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -483,10 +497,10 @@ class optionsMidiTempoItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    pair<string, int>&    fOptionsMidiTempoItemVariable;
+    pair<string, int>&    fStringIntPairVariable;
 };
-typedef SMARTP<optionsMidiTempoItem> S_optionsMidiTempoItem;
-EXP ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt);
+typedef SMARTP<lilypondMidiTempoAtom> S_lilypondMidiTempoAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondMidiTempoAtom& elt);
 
 //______________________________________________________________________________
 class lilypondOptions : public oahGroup
@@ -586,43 +600,13 @@ class lilypondOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
-                            S_oahAtom item);
+                            ostream&  os,
+                            S_oahAtom atom);
 
-    virtual void          handleOptionsItemValue (
-                            ostream&      os,
-                            S_oahAtom item,
-                            string        theString);
-
-    void                  handleOptionsRelativeOctaveEntryItemValue (
-                            ostream&      os,
-                            S_optionsRelativeOctaveEntryItem
-                                          relativeOctaveEntryItem,
-                            string        theString);
-
-    void                  handleOptionsFixedOctaveEntryItemValue (
-                            ostream&      os,
-                            S_optionsFixedOctaveEntryItem
-                                          fixedOctaveEntryItem,
-                            string        theString);
-
-    void                  handleOptionsAccidentalStyleKindItemValue (
-                            ostream&      os,
-                            S_optionsAccidentalStyleKindItem
-                                          accidentalStyleKindItem,
-                            string        theString);
-
-    void                  handleOptionsChordsDisplayItemValue (
-                            ostream&      os,
-                            S_optionsChordsDisplayItem
-                                          chordsDisplayItem,
-                            string        theString);
-
-    void                  handleOptionsMidiTempoItemValue (
-                            ostream&      os,
-                            S_optionsMidiTempoItem
-                                          midiTempoItem,
-                            string        theString);
+    virtual void          handleValuedAtomValue (
+                            indentedOstream& os,
+                            S_oahAtom        atom,
+                            string           theString);
 
   private:
 

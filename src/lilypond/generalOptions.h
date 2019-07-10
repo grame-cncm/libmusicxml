@@ -83,7 +83,7 @@ class generalOptions : public oahGroup
     virtual S_oahValuedAtom
                           handleAtom (
                             ostream&  os,
-                            S_oahAtom item);
+                            S_oahAtom atom);
 
   private:
 

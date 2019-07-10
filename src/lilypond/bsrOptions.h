@@ -30,49 +30,51 @@ string facSimileKindAsString (
   bsrFacSimileKind facSimileKind);
 
 //______________________________________________________________________________
-class optionsFacSimileKindItem : public oahValuedAtom
+class bsrFacSimileKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsFacSimileKindItem> create (
+    static SMARTP<bsrFacSimileKindAtom> create (
       string           shortName,
       string           longName,
       string           description,
       string           valueSpecification,
-      string           optionsFacSimileKindItemVariableName,
-      bsrFacSimileKind optionsFacSimileKindItemVariable);
+      string           variableName,
+      bsrFacSimileKind bsrFacSimileKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsFacSimileKindItem (
+    bsrFacSimileKindAtom (
       string           shortName,
       string           longName,
       string           description,
       string           valueSpecification,
-      string           optionsFacSimileKindItemVariableName,
-      bsrFacSimileKind optionsFacSimileKindItemVariable);
+      string           variableName,
+      bsrFacSimileKind bsrFacSimileKindVariable);
 
-    virtual ~optionsFacSimileKindItem ();
+    virtual ~bsrFacSimileKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setOptionsFacSimileKindItemVariable (
+    void                  setOptionsFacSimileKindVariable (
                             bsrFacSimileKind value)
-                              {
-                                fOptionsFacSimileKindItemVariable = value;
-                              }
+                              { fBsrFacSimileKindVariable = value; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -88,57 +90,61 @@ class optionsFacSimileKindItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    bsrFacSimileKind      fOptionsFacSimileKindItemVariable;
+    bsrFacSimileKind      fBsrFacSimileKindVariable;
 };
-typedef SMARTP<optionsFacSimileKindItem> S_optionsFacSimileKindItem;
-EXP ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt);
+typedef SMARTP<bsrFacSimileKindAtom> S_bsrFacSimileKindAtom;
+EXP ostream& operator<< (ostream& os, const S_bsrFacSimileKindAtom& elt);
 
 //______________________________________________________________________________
-class optionsBsrTextsLanguageItem : public oahValuedAtom
+class bsrTextsLanguageAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsBsrTextsLanguageItem> create (
+    static SMARTP<bsrTextsLanguageAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsBsrTextsLanguageKindItemVariableName,
+      string             variableName,
       bsrTextsLanguageKind&
-                         optionsBsrTextsLanguageKindItemVariable);
+                         bsrTextsLanguageKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsBsrTextsLanguageItem (
+    bsrTextsLanguageAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsBsrTextsLanguageKindItemVariableName,
+      string             variableName,
       bsrTextsLanguageKind&
-                         optionsBsrTextsLanguageKindItemVariable);
+                         bsrTextsLanguageKindVariable);
 
-    virtual ~optionsBsrTextsLanguageItem ();
+    virtual ~bsrTextsLanguageAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setBsrTextsLanguageKindItemVariableValue (
+    void                  setBsrTextsLanguageKindVariable (
                             bsrTextsLanguageKind value)
                               {
-                                fOptionsBsrTextsLanguageKindItemVariable = value;
+                                fBsrTextsLanguageKindVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -154,10 +160,10 @@ class optionsBsrTextsLanguageItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    bsrTextsLanguageKind& fOptionsBsrTextsLanguageKindItemVariable;
+    bsrTextsLanguageKind& fBsrTextsLanguageKindVariable;
 };
-typedef SMARTP<optionsBsrTextsLanguageItem> S_optionsBsrTextsLanguageItem;
-EXP ostream& operator<< (ostream& os, const S_optionsBsrTextsLanguageItem& elt);
+typedef SMARTP<bsrTextsLanguageAtom> S_bsrTextsLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_bsrTextsLanguageAtom& elt);
 
 //______________________________________________________________________________
 class bsrOptions : public oahGroup
@@ -217,12 +223,12 @@ class bsrOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
-                            S_oahAtom item);
+                            ostream&  os,
+                            S_oahAtom atom);
 
-    virtual void          handleOptionsItemValue (
+    virtual void          handleValuedAtomValue (
                             ostream&      os,
-                            S_oahAtom item,
+                            S_oahAtom atom,
                             string        theString);
 
   private:

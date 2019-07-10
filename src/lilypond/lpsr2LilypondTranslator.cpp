@@ -564,9 +564,6 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
 string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
   S_msrNote note)
 {
-  int inputLineNumber =
-    note->getInputLineNumber ();
-
   // generate LilyPond octave relative to fCurrentOctaveEntryReference
 
   // in MusicXML, octave number is 4 for the octave starting with middle C

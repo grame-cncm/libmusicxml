@@ -32,52 +32,90 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_optionsUTFKindItem optionsUTFKindItem::create (
+S_brailleUTFKindAtom brailleUTFKindAtom::create (
   string     shortName,
   string     longName,
   string     description,
   string     valueSpecification,
-  string     optionsUTFKindItemVariableName,
-  bsrUTFKind optionsUTFKindItemVariable)
+  string     variableName,
+  bsrUTFKind brailleUTFKindVariable)
 {
-  optionsUTFKindItem* o = new
-    optionsUTFKindItem (
+  brailleUTFKindAtom* o = new
+    brailleUTFKindAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsUTFKindItemVariableName,
-      optionsUTFKindItemVariable);
+      variableName,
+      brailleUTFKindVariable);
   assert(o!=0);
   return o;
 }
 
-optionsUTFKindItem::optionsUTFKindItem (
+brailleUTFKindAtom::brailleUTFKindAtom (
   string     shortName,
   string     longName,
   string     description,
   string     valueSpecification,
-  string     optionsUTFKindItemVariableName,
-  bsrUTFKind optionsUTFKindItemVariable)
+  string     variableName,
+  bsrUTFKind brailleUTFKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsUTFKindItemVariableName),
-    fOptionsUTFKindItemVariable (
-      optionsUTFKindItemVariable)
+      variableName),
+    fBsrUTFKindVariable (
+      brailleUTFKindVariable)
 {}
 
-optionsUTFKindItem::~optionsUTFKindItem ()
+brailleUTFKindAtom::~brailleUTFKindAtom ()
 {}
 
-void optionsUTFKindItem::print (ostream& os) const
+void brailleUTFKindAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'brailleUTFKindAtom'" <<
+      endl;
+  }
+#endif
+
+  bsrUTFKind UTFKind = kUTF8; // default value
+
+  if (theString == "8") {
+    UTFKind = kUTF8;
+  }
+  else if (theString == "16") {
+    UTFKind = kUTF16;
+  }
+  else {
+    // no, theString is unknown
+    stringstream s;
+
+    s <<
+      "UTF kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The possible values are 8 and 16" <<
+      endl;
+
+    optionError (s.str ());
+    exit (4);
+  }
+
+  fBsrUTFKindVariable = UTFKind;
+}
+
+void brailleUTFKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsUTFKindItem:" <<
+    "OptionsUTFKindAtom:" <<
     endl;
 
   gIndenter++;
@@ -91,14 +129,14 @@ void optionsUTFKindItem::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "optionsUTFKindItemVariable" << " : \"" <<
+    "brailleUTFKindVariable" << " : \"" <<
     bsrUTFKindAsString (
-      fOptionsUTFKindItemVariable) <<
+      fBsrUTFKindVariable) <<
       "\"" <<
     endl;
 }
 
-void optionsUTFKindItem::printOptionsValues (
+void brailleUTFKindAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -107,64 +145,102 @@ void optionsUTFKindItem::printOptionsValues (
     fVariableName <<
     " : \"" <<
     bsrUTFKindAsString (
-      fOptionsUTFKindItemVariable) <<
+      fBsrUTFKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt)
+ostream& operator<< (ostream& os, const S_brailleUTFKindAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_optionsByteOrderingKindItem optionsByteOrderingKindItem::create (
+S_brailleByteOrderingKindAtom brailleByteOrderingKindAtom::create (
   string              shortName,
   string              longName,
   string              description,
   string              valueSpecification,
-  string              optionsByteOrderingKindItemVariableName,
-  bsrByteOrderingKind optionsByteOrderingKindItemVariable)
+  string              variableName,
+  bsrByteOrderingKind brailleByteOrderingKindVariable)
 {
-  optionsByteOrderingKindItem* o = new
-    optionsByteOrderingKindItem (
+  brailleByteOrderingKindAtom* o = new
+    brailleByteOrderingKindAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsByteOrderingKindItemVariableName,
-      optionsByteOrderingKindItemVariable);
+      variableName,
+      brailleByteOrderingKindVariable);
   assert(o!=0);
   return o;
 }
 
-optionsByteOrderingKindItem::optionsByteOrderingKindItem (
+brailleByteOrderingKindAtom::brailleByteOrderingKindAtom (
   string              shortName,
   string              longName,
   string              description,
   string              valueSpecification,
-  string              optionsByteOrderingKindItemVariableName,
-  bsrByteOrderingKind optionsByteOrderingKindItemVariable)
+  string              variableName,
+  bsrByteOrderingKind brailleByteOrderingKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsByteOrderingKindItemVariableName),
-    fOptionsByteOrderingKindItemVariable (
-      optionsByteOrderingKindItemVariable)
+      variableName),
+    fBsrByteOrderingKindVariable (
+      brailleByteOrderingKindVariable)
 {}
 
-optionsByteOrderingKindItem::~optionsByteOrderingKindItem ()
+brailleByteOrderingKindAtom::~brailleByteOrderingKindAtom ()
 {}
 
-void optionsByteOrderingKindItem::print (ostream& os) const
+void brailleByteOrderingKindAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'brailleByteOrderingKindAtom'" <<
+      endl;
+  }
+#endif
+
+  bsrByteOrderingKind byteOrderingKind = kByteOrderingNone; // default value
+
+  if (theString == "big") {
+    byteOrderingKind = kByteOrderingBigEndian;
+  }
+  else if (theString == "small") {
+    byteOrderingKind = kByteOrderingSmallEndian;
+  }
+  else {
+    // no, theString is unknown
+    stringstream s;
+
+    s <<
+      "byte ordering '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The possible values are big and small" <<
+      endl;
+
+    optionError (s.str ());
+    exit (4); // JMI
+  }
+
+  fBsrByteOrderingKindVariable = byteOrderingKind;
+}
+
+void brailleByteOrderingKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsByteOrderingKindItem:" <<
+    "OptionsByteOrderingKindAtom:" <<
     endl;
 
   gIndenter++;
@@ -178,14 +254,14 @@ void optionsByteOrderingKindItem::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "optionsByteOrderingKindItemVariable" << " : \"" <<
+    "brailleByteOrderingKindVariable" << " : \"" <<
     byteOrderingKindAsString (
-      fOptionsByteOrderingKindItemVariable) <<
+      fBsrByteOrderingKindVariable) <<
       "\"" <<
     endl;
 }
 
-void optionsByteOrderingKindItem::printOptionsValues (
+void brailleByteOrderingKindAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -194,12 +270,12 @@ void optionsByteOrderingKindItem::printOptionsValues (
     fVariableName <<
     " : \"" <<
     byteOrderingKindAsString (
-      fOptionsByteOrderingKindItemVariable) <<
+      fBsrByteOrderingKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt)
+ostream& operator<< (ostream& os, const S_brailleByteOrderingKindAtom& elt)
 {
   elt->print (os);
   return os;
@@ -224,10 +300,10 @@ brailleOptions::brailleOptions (
   : oahGroup (
     "Braille",
     "hbrl", "help-braille",
-R"(These options control which Braille code is generated.)",
+R"(These braille control which Braille code is generated.)",
     handler)
 {
-  // append this options group to the options handler
+  // append this braille group to the braille handler
   // if relevant
   if (handler) {
     handler->
@@ -261,7 +337,7 @@ R"()",
 
   UTFEncodingSubGroup->
     appendAtom (
-      optionsUTFKindItem::create (
+      brailleUTFKindAtom::create (
         "utf", "utf-encoding",
 R"(Generate Braille code using UTF ENCODING_SIZE encoding,
 which can be one of 8 or 16. Default value is 8.)",
@@ -290,7 +366,7 @@ R"()",
 
   byteOrderingSubGroup->
     appendAtom (
-      optionsByteOrderingKindItem::create (
+      brailleByteOrderingKindAtom::create (
         "bom", "byte-ordering-mark",
 R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
 ahead of the Braille nusic code,
@@ -404,7 +480,7 @@ R"()",
     appendAtom (
       oahBooleanAtom::create (
         "xi", "xml2brl-infos",
-R"(Generate initial comments showing the compilation date and options.)",
+R"(Generate initial comments showing the compilation date and braille.)",
         "xml2brlInfos",
         fXml2brlInfos));
 
@@ -458,10 +534,9 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
       brailleOptions::create (0);
       // 0 not to have it inserted twice in the option handler
 
-  // set the options handler upLink
-  clone->
-    setHandlerUpLink (
-      fHandlerUpLink);
+  // set the braille handler upLink
+  clone->fHandlerUpLink =
+    fHandlerUpLink;;
 
   // code generation JMI ???
   // --------------------------------------
@@ -488,7 +563,7 @@ void brailleOptions::checkOptionsConsistency ()
 void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 {
   gLogIOstream <<
-    "The Braille options are:" <<
+    "The Braille braille are:" <<
     endl;
 
   gIndenter++;
@@ -540,171 +615,77 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom brailleOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
+  ostream&  os,
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
 
   if (
-    // UTF kind item?
-    S_optionsUTFKindItem
-      UTFKindItem =
-        dynamic_cast<optionsUTFKindItem*>(&(*item))
+    // UTF kind atom?
+    S_brailleUTFKindAtom
+      UTFKindAtom =
+        dynamic_cast<brailleUTFKindAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions) {
       os <<
-        "==> oahAtom is of type 'optionsUTFKindItem'" <<
+        "==> oahAtom is of type 'brailleUTFKindAtom'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = UTFKindItem;
+    result = UTFKindAtom;
   }
 
   else if (
-    // byte ordering kind item?
-    S_optionsByteOrderingKindItem
-      byteOrderingKindItem =
-        dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
+    // byte ordering kind atom?
+    S_brailleByteOrderingKindAtom
+      byteOrderingKindAtom =
+        dynamic_cast<brailleByteOrderingKindAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions) {
       os <<
-        "==> oahAtom is of type 'optionsUTFKindItem'" <<
+        "==> oahAtom is of type 'brailleUTFKindAtom'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = byteOrderingKindItem;
+    result = byteOrderingKindAtom;
   }
 
   return result;
 }
 
-void brailleOptions::handleOptionsUTFKindItemValue (
-  ostream&             os,
-  S_optionsUTFKindItem UTFKindItem,
-  string               theString)
-{
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
-    os <<
-      "==> oahAtom is of type 'optionsUTFKindItem'" <<
-      endl;
-  }
-#endif
-
-  bsrUTFKind UTFKind = kUTF8; // default value
-
-  if (theString == "8") {
-    UTFKind = kUTF8;
-  }
-  else if (theString == "16") {
-    UTFKind = kUTF16;
-  }
-  else {
-    // no, theString is unknown
-
-    printOptionsSummary (os);
-
-    stringstream s;
-
-    s <<
-      "UTF kind '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The possible values are 8 and 16" <<
-      endl;
-
-    optionError (s.str ());
-
-//     exit (4); // JMI
-    abort ();
-  }
-
-  UTFKindItem->
-    setOptionsUTFKindItemVariable (
-      UTFKind);
-}
-
-void brailleOptions::handleOptionsByteOrderingKindItemValue (
-  ostream&                      os,
-  S_optionsByteOrderingKindItem byteOrderingKindItem,
-  string                        theString)
-{
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
-    os <<
-      "==> oahAtom is of type 'optionsByteOrderingKindItem'" <<
-      endl;
-  }
-#endif
-
-  bsrByteOrderingKind byteOrderingKind = kByteOrderingNone; // default value
-
-  if (theString == "big") {
-    byteOrderingKind = kByteOrderingBigEndian;
-  }
-  else if (theString == "small") {
-    byteOrderingKind = kByteOrderingSmallEndian;
-  }
-  else {
-    // no, theString is unknown
-
-    printOptionsSummary (os);
-
-    stringstream s;
-
-    s <<
-      "byte ordering '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The possible values are big and small" <<
-      endl;
-
-    optionError (s.str ());
-
-//     exit (4); // JMI
-    abort ();
-  }
-
-  byteOrderingKindItem->
-    setOptionsByteOrderingKindItemVariable (
-      byteOrderingKind);
-}
-
-void brailleOptions::handleOptionsItemValue (
-  ostream&      os,
-  S_oahAtom item,
-  string        theString)
+void brailleOptions::handleValuedAtomValue (
+  indentedOstream& os,
+  S_oahAtom        atom,
+  string           theString)
 {
   if (
-    // UTF kind item?
-    S_optionsUTFKindItem
-      UTFKindItem =
-        dynamic_cast<optionsUTFKindItem*>(&(*item))
+    // UTF kind atom?
+    S_brailleUTFKindAtom
+      UTFKindAtom =
+        dynamic_cast<brailleUTFKindAtom*>(&(*atom))
   ) {
     // theString contains the UTF size
-    handleOptionsUTFKindItemValue (
-      os,
-      UTFKindItem,
-      theString);
+    UTFKindAtom->handleValue (
+      theString,
+      os);
   }
 
   else if (
-    // byte ordering item?
-    S_optionsByteOrderingKindItem
-      byteOrderingKindItem =
-        dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
+    // byte ordering atom?
+    S_brailleByteOrderingKindAtom
+      byteOrderingKindAtom =
+        dynamic_cast<brailleByteOrderingKindAtom*>(&(*atom))
   ) {
     // theString contains the byte ordering name
-    handleOptionsByteOrderingKindItemValue (
-      os,
-      byteOrderingKindItem,
-      theString);
+    byteOrderingKindAtom->handleValue (
+      theString,
+      os);
   }
 }
 
@@ -721,12 +702,12 @@ void initializeBrailleOptionsHandling (
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
-      "Initializing Braille options handling" <<
+      "Initializing Braille braille handling" <<
       endl;
   }
 #endif
 
-  // create the options variables
+  // create the braille variables
   // ------------------------------------------------------
 
   gBrailleOptionsUserChoices = brailleOptions::create (
@@ -760,7 +741,7 @@ void initializeBrailleOptionsHandling (
         oahSubGroup::create (
           "Identification",
           "hlpi", "help-braille-identification",
-R"(These options can be used to enforce values in the generated Braille code,
+R"(These braille can be used to enforce values in the generated Braille code,
 thus overriding the ones that may be present in the MSR data.
 )",
         oahSubGroup::kSubGroupVisibilityAlways,
@@ -1006,7 +987,7 @@ This is useful when debugging EXECUTABLE.)",
 
     fShowAllBarNumbers = boolOptionsInitialValue;
 
-    // options
+    // braille
 
     S_oahSubGroup
       barsSubGroup =
@@ -1039,7 +1020,7 @@ R"(Generate Braille code to show all bar numbers.)",
 
     fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
 
-    // options
+    // braille
 
     S_oahSubGroup
       lineBreaksSubGroup =
@@ -1080,7 +1061,7 @@ which is handy in popular folk dances and tunes.)",
 
     fIgnorePageBreaks = boolOptionsInitialValue;
 
-    // options
+    // braille
 
     S_oahSubGroup
       pageBreaksSubGroup =

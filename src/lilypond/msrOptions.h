@@ -22,60 +22,53 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsPartRenameItem : public oahValuedAtom
+class msrPartRenameAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsPartRenameItem> create (
+    static SMARTP<msrPartRenameAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsPartRenameItemVariableName,
+      string             variableName,
       map<string, string>&
-                         optionsPartRenameItemVariable);
+                         msrPartRenameVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsPartRenameItem (
+    msrPartRenameAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsPartRenameItemVariableName,
+      string             variableName,
       map<string, string>&
-                         optionsPartRenameItemVariable);
+                         msrPartRenameVariable);
 
-    virtual ~optionsPartRenameItem ();
+    virtual ~msrPartRenameAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setPartRenameItemVariableValue (
-                            string oldPartName,
-                            string newPartName)
-                              {
-                                fOptionsPartRenameItemVariable [oldPartName] =
-                                  newPartName;
-                              }
-
     const map<string, string>&
-                          getOptionsPartRenameItemVariable ()
-                              {
-                                return
-                                  fOptionsPartRenameItemVariable;
-                              }
+                          getStringStringMapVariable ()
+                              { return fStringStringMapVariable; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -91,67 +84,73 @@ class optionsPartRenameItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    map<string, string>&  fOptionsPartRenameItemVariable;
+    map<string, string>&  fStringStringMapVariable;
 };
-typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
-EXP ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
+typedef SMARTP<msrPartRenameAtom> S_msrPartRenameAtom;
+EXP ostream& operator<< (ostream& os, const S_msrPartRenameAtom& elt);
 
 //______________________________________________________________________________
-class optionsPartTransposeItem : public oahValuedAtom
+class msrPartTransposeAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsPartTransposeItem> create (
+    static SMARTP<msrPartTransposeAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsPartTransposeItemVariableName,
+      string             variableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
-                         optionsPartTransposeItemVariable);
+                         msrPartTransposeVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsPartTransposeItem (
+    msrPartTransposeAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsPartTransposeItemVariableName,
+      string             variableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
-                         optionsPartTransposeItemVariable);
+                         msrPartTransposeVariable);
 
-    virtual ~optionsPartTransposeItem ();
+    virtual ~msrPartTransposeAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setPartTransposeItemVariableValue (
+    void                  setStringMsrSemiTonesPitchAndOctaveVariable (
                             string  partName,
                             S_msrSemiTonesPitchAndOctave
                                     semiTonesPitchAndOctave)
                               {
-                                fOptionsPartTransposeItemVariable [partName] =
+                                fStringMsrSemiTonesPitchAndOctaveVariable [
+                                  partName
+                                ] =
                                   semiTonesPitchAndOctave;
                               }
 
     const map<string, S_msrSemiTonesPitchAndOctave>&
-                          getOptionsPartTransposeItemVariable ()
+                          getStringMsrSemiTonesPitchAndOctaveVariable ()
                               {
                                 return
-                                  fOptionsPartTransposeItemVariable;
+                                  fStringMsrSemiTonesPitchAndOctaveVariable;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -168,57 +167,61 @@ class optionsPartTransposeItem : public oahValuedAtom
     // ------------------------------------------------------
 
     map<string, S_msrSemiTonesPitchAndOctave>&
-                          fOptionsPartTransposeItemVariable;
+                          fStringMsrSemiTonesPitchAndOctaveVariable;
 };
-typedef SMARTP<optionsPartTransposeItem> S_optionsPartTransposeItem;
-EXP ostream& operator<< (ostream& os, const S_optionsPartTransposeItem& elt);
+typedef SMARTP<msrPartTransposeAtom> S_msrPartTransposeAtom;
+EXP ostream& operator<< (ostream& os, const S_msrPartTransposeAtom& elt);
 
 //______________________________________________________________________________
-class optionsMsrPitchesLanguageItem : public oahValuedAtom
+class msrPitchesLanguageAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsMsrPitchesLanguageItem> create (
+    static SMARTP<msrPitchesLanguageAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsMsrPitchesLanguageKindItemVariableName,
+      string             variableName,
       msrQuarterTonesPitchesLanguageKind&
-                         optionsMsrPitchesLanguageKindItemVariable);
+                         msrMsrPitchesLanguageKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsMsrPitchesLanguageItem (
+    msrPitchesLanguageAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsMsrPitchesLanguageKindItemVariableName,
+      string             variableName,
       msrQuarterTonesPitchesLanguageKind&
-                         optionsMsrPitchesLanguageKindItemVariable);
+                         msrMsrPitchesLanguageKindVariable);
 
-    virtual ~optionsMsrPitchesLanguageItem ();
+    virtual ~msrPitchesLanguageAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setPitchesLanguageKindItemVariableValue (
+    void                  setMsrQuarterTonesPitchesLanguageKindVariable (
                             msrQuarterTonesPitchesLanguageKind value)
                               {
-                                fOptionsMsrPitchesLanguageKindItemVariable = value;
+                                fMsrQuarterTonesPitchesLanguageKindVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -235,10 +238,10 @@ class optionsMsrPitchesLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     msrQuarterTonesPitchesLanguageKind&
-                          fOptionsMsrPitchesLanguageKindItemVariable;
+                          fMsrQuarterTonesPitchesLanguageKindVariable;
 };
-typedef SMARTP<optionsMsrPitchesLanguageItem> S_optionsMsrPitchesLanguageItem;
-EXP ostream& operator<< (ostream& os, const S_optionsMsrPitchesLanguageItem& elt);
+typedef SMARTP<msrPitchesLanguageAtom> S_msrPitchesLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_msrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
 class msrOptions : public oahGroup
@@ -295,13 +298,13 @@ class msrOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
-                            S_oahAtom item);
+                            ostream&  os,
+                            S_oahAtom atom);
 
-    virtual void          handleOptionsItemValue (
-                            ostream&      os,
-                            S_oahAtom item,
-                            string        theString);
+    virtual void          handleValuedAtomValue (
+                            indentedOstream& os,
+                            S_oahAtom        atom,
+                            string           theString);
 
   private:
 
@@ -345,21 +348,6 @@ class msrOptions : public oahGroup
 
     void                  initializeMsrExitAfterSomePassesOptions (
                             bool boolOptionsInitialValue);
-
-    virtual void          handleOptionsPartRenameItemValue (
-                            ostream&                os,
-                            S_optionsPartRenameItem partRenameItem,
-                            string                  theString);
-
-    virtual void          handleOptionsPartTransposeItemValue (
-                            ostream&                   os,
-                            S_optionsPartTransposeItem partTransposeItem,
-                            string                     theString);
-
-    virtual void          handleOptionsMsrPitchesLanguageItemValue (
-                            ostream&                        os,
-                            S_optionsMsrPitchesLanguageItem pitchesLanguageKindItem,
-                            string                          theString);
 
   public:
 

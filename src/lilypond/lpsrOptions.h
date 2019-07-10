@@ -21,51 +21,53 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsLpsrScoreOutputKindItem : public oahValuedAtom
+class lpsrScoreOutputKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsLpsrScoreOutputKindItem> create (
+    static SMARTP<lpsrScoreOutputKindAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsLpsrScoreOutputKindKindItemVariableName,
+      string             variableName,
       lpsrScoreOutputKind&
-                         optionsLpsrScoreOutputKindKindItemVariable);
+                         lpsrScoreOutputKindKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsLpsrScoreOutputKindItem (
+    lpsrScoreOutputKindAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsLpsrScoreOutputKindKindItemVariableName,
+      string             variableName,
       lpsrScoreOutputKind&
-                         optionsLpsrScoreOutputKindKindItemVariable);
+                         lpsrScoreOutputKindKindVariable);
 
-    virtual ~optionsLpsrScoreOutputKindItem ();
+    virtual ~lpsrScoreOutputKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setScoreOutputKindKindItemVariableValue (
+    void                  setLpsrScoreOutputKindVariable (
                             lpsrScoreOutputKind value)
-                              {
-                                fOptionsLpsrScoreOutputKindKindItemVariable = value;
-                              }
+                              { fLpsrScoreOutputKindVariable = value; }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -81,57 +83,61 @@ class optionsLpsrScoreOutputKindItem : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    lpsrScoreOutputKind&  fOptionsLpsrScoreOutputKindKindItemVariable;
+    lpsrScoreOutputKind&  fLpsrScoreOutputKindVariable;
 };
-typedef SMARTP<optionsLpsrScoreOutputKindItem> S_optionsLpsrScoreOutputKindItem;
-EXP ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt);
+typedef SMARTP<lpsrScoreOutputKindAtom> S_lpsrScoreOutputKindAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class optionsLpsrPitchesLanguageItem : public oahValuedAtom
+class lpsrPitchesLanguageAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsLpsrPitchesLanguageItem> create (
+    static SMARTP<lpsrPitchesLanguageAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsLpsrPitchesLanguageKindItemVariableName,
+      string             variableName,
       msrQuarterTonesPitchesLanguageKind&
-                         optionsLpsrPitchesLanguageKindItemVariable);
+                         lpsrPitchesLanguageKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsLpsrPitchesLanguageItem (
+    lpsrPitchesLanguageAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsLpsrPitchesLanguageKindItemVariableName,
+      string             variableName,
       msrQuarterTonesPitchesLanguageKind&
-                         optionsLpsrPitchesLanguageKindItemVariable);
+                         lpsrPitchesLanguageKindVariable);
 
-    virtual ~optionsLpsrPitchesLanguageItem ();
+    virtual ~lpsrPitchesLanguageAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setPitchesLanguageKindItemVariableValue (
+    void                  setMsrQuarterTonesPitchesLanguageKindVariable (
                             msrQuarterTonesPitchesLanguageKind value)
                               {
-                                fOptionsLpsrPitchesLanguageKindItemVariable = value;
+                                fMsrQuarterTonesPitchesLanguageKindVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -148,57 +154,61 @@ class optionsLpsrPitchesLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     msrQuarterTonesPitchesLanguageKind&
-                          fOptionsLpsrPitchesLanguageKindItemVariable;
+                          fMsrQuarterTonesPitchesLanguageKindVariable;
 };
-typedef SMARTP<optionsLpsrPitchesLanguageItem> S_optionsLpsrPitchesLanguageItem;
-EXP ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt);
+typedef SMARTP<lpsrPitchesLanguageAtom> S_lpsrPitchesLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
-class optionsLpsrChordsLanguageItem : public oahValuedAtom
+class lpsrChordsLanguageAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsLpsrChordsLanguageItem> create (
+    static SMARTP<lpsrChordsLanguageAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsLpsrChordsLanguageKindItemVariableName,
+      string             variableName,
       lpsrChordsLanguageKind&
-                         optionsLpsrChordsLanguageKindItemVariable);
+                         lpsrChordsLanguageKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsLpsrChordsLanguageItem (
+    lpsrChordsLanguageAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
-      string             optionsLpsrChordsLanguageKindItemVariableName,
+      string             variableName,
       lpsrChordsLanguageKind&
-                         optionsLpsrChordsLanguageKindItemVariable);
+                         lpsrChordsLanguageKindVariable);
 
-    virtual ~optionsLpsrChordsLanguageItem ();
+    virtual ~lpsrChordsLanguageAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setLpsrChordsLanguageKindItemVariableValue (
+    void                  setLpsrChordsLanguageKindVariable (
                             lpsrChordsLanguageKind value)
                               {
-                                fOptionsLpsrChordsLanguageKindItemVariable = value;
+                                fLpsrChordsLanguageKindVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -215,57 +225,61 @@ class optionsLpsrChordsLanguageItem : public oahValuedAtom
     // ------------------------------------------------------
 
     lpsrChordsLanguageKind&
-                          fOptionsLpsrChordsLanguageKindItemVariable;
+                          fLpsrChordsLanguageKindVariable;
 };
-typedef SMARTP<optionsLpsrChordsLanguageItem> S_optionsLpsrChordsLanguageItem;
-EXP ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt);
+typedef SMARTP<lpsrChordsLanguageAtom> S_lpsrChordsLanguageAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrChordsLanguageAtom& elt);
 
 //______________________________________________________________________________
-class optionsLpsrTransposeItem : public oahValuedAtom
+class lpsrTransposeAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsLpsrTransposeItem> create (
+    static SMARTP<lpsrTransposeAtom> create (
       string  shortName,
       string  longName,
       string  description,
       string  valueSpecification,
       string  variableName,
       S_msrSemiTonesPitchAndOctave&
-              optionsLpsrTransposeItemVariable);
+              lpsrTransposeVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsLpsrTransposeItem (
+    lpsrTransposeAtom (
       string  shortName,
       string  longName,
       string  description,
       string  valueSpecification,
       string  variableName,
       S_msrSemiTonesPitchAndOctave&
-              optionsLpsrTransposeItemVariable);
+              lpsrTransposeVariable);
 
-    virtual ~optionsLpsrTransposeItem ();
+    virtual ~lpsrTransposeAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setTransposeItemVariableValue (
+    void                  setMsrSemiTonesPitchAndOctaveVariable (
                             S_msrSemiTonesPitchAndOctave value)
                               {
-                                fOptionsTransposeItemVariable = value;
+                                fMsrSemiTonesPitchAndOctaveVariable = value;
                               }
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string           theString,
+                            indentedOstream& os);
 
     // print
     // ------------------------------------------------------
@@ -282,10 +296,10 @@ class optionsLpsrTransposeItem : public oahValuedAtom
     // ------------------------------------------------------
 
     S_msrSemiTonesPitchAndOctave&
-                          fOptionsTransposeItemVariable;
+                          fMsrSemiTonesPitchAndOctaveVariable;
 };
-typedef SMARTP<optionsLpsrTransposeItem> S_optionsLpsrTransposeItem;
-EXP ostream& operator<< (ostream& os, const S_optionsLpsrTransposeItem& elt);
+typedef SMARTP<lpsrTransposeAtom> S_lpsrTransposeAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt);
 
 //______________________________________________________________________________
 class lpsrOptions : public oahGroup
@@ -345,33 +359,13 @@ class lpsrOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&      os,
-                            S_oahAtom item);
+                            ostream&  os,
+                            S_oahAtom atom);
 
-    virtual void          handleOptionsItemValue (
-                            ostream&      os,
-                            S_oahAtom item,
-                            string        theString);
-
-    void                  handleOptionsLpsrScoreOutputKindItemValue (
-                            ostream&                         os,
-                            S_optionsLpsrScoreOutputKindItem scoreOutputKindItem,
-                            string                           theString);
-
-    void                  handleOptionsLpsrPitchesLanguageItemValue (
-                            ostream&                         os,
-                            S_optionsLpsrPitchesLanguageItem pitchesLanguageKindItem,
-                            string                           theString);
-
-    void                  handleOptionsLpsrChordsLanguageItemValue (
-                            ostream&                        os,
-                            S_optionsLpsrChordsLanguageItem chordsLanguageItem,
-                            string                          theString);
-
-    void                  handleOptionsLpsrTransposeItemValue (
-                            ostream&                   os,
-                            S_optionsLpsrTransposeItem transposeItem,
-                            string                     theString);
+    virtual void          handleValuedAtomValue (
+                            indentedOstream& os,
+                            S_oahAtom        atom,
+                            string           theString);
 
     void                  crackLilypondVersionNumber (
                             string theString,

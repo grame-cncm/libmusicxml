@@ -42,13 +42,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_xml2lyOptionsVersionItem xml2lyOptionsVersionItem::create (
+S_xml2lyOptionsVersionAtom xml2lyOptionsVersionAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2lyOptionsVersionItem* o = new
-    xml2lyOptionsVersionItem (
+  xml2lyOptionsVersionAtom* o = new
+    xml2lyOptionsVersionAtom (
       shortName,
       longName,
       description);
@@ -56,7 +56,7 @@ S_xml2lyOptionsVersionItem xml2lyOptionsVersionItem::create (
   return o;
 }
 
-xml2lyOptionsVersionItem::xml2lyOptionsVersionItem (
+xml2lyOptionsVersionAtom::xml2lyOptionsVersionAtom (
   string shortName,
   string longName,
   string description)
@@ -66,15 +66,15 @@ xml2lyOptionsVersionItem::xml2lyOptionsVersionItem (
       description)
 {}
 
-xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem ()
+xml2lyOptionsVersionAtom::~xml2lyOptionsVersionAtom ()
 {}
 
-void xml2lyOptionsVersionItem::print (ostream& os) const
+void xml2lyOptionsVersionAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2lyOptionsVersionItem:" <<
+    "xml2lyOptionsVersionAtom:" <<
     endl;
 
   gIndenter++;
@@ -92,7 +92,7 @@ void xml2lyOptionsVersionItem::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2lyOptionsVersionItem::printVersion (ostream& os) const
+void xml2lyOptionsVersionAtom::printVersion (ostream& os) const
 {
   os <<
     endl <<
@@ -105,27 +105,27 @@ void xml2lyOptionsVersionItem::printVersion (ostream& os) const
   printVersionsHistory (os);
 }
 
-void xml2lyOptionsVersionItem::printOptionsValues (
+void xml2lyOptionsVersionAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt)
+ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_xml2lyOptionsAboutItem xml2lyOptionsAboutItem::create (
+S_xml2lyOptionsAboutAtom xml2lyOptionsAboutAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2lyOptionsAboutItem* o = new
-    xml2lyOptionsAboutItem (
+  xml2lyOptionsAboutAtom* o = new
+    xml2lyOptionsAboutAtom (
       shortName,
       longName,
       description);
@@ -133,7 +133,7 @@ S_xml2lyOptionsAboutItem xml2lyOptionsAboutItem::create (
   return o;
 }
 
-xml2lyOptionsAboutItem::xml2lyOptionsAboutItem (
+xml2lyOptionsAboutAtom::xml2lyOptionsAboutAtom (
   string shortName,
   string longName,
   string description)
@@ -143,15 +143,15 @@ xml2lyOptionsAboutItem::xml2lyOptionsAboutItem (
       description)
 {}
 
-xml2lyOptionsAboutItem::~xml2lyOptionsAboutItem ()
+xml2lyOptionsAboutAtom::~xml2lyOptionsAboutAtom ()
 {}
 
-void xml2lyOptionsAboutItem::print (ostream& os) const
+void xml2lyOptionsAboutAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2lyOptionsAboutItem:" <<
+    "xml2lyOptionsAboutAtom:" <<
     endl;
 
   gIndenter++;
@@ -169,7 +169,7 @@ void xml2lyOptionsAboutItem::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2lyOptionsAboutItem::printAbout (ostream& os) const
+void xml2lyOptionsAboutAtom::printAbout (ostream& os) const
 {
   os <<
     endl <<
@@ -195,27 +195,27 @@ R"(What xml2ly does:
     endl;
 }
 
-void xml2lyOptionsAboutItem::printOptionsValues (
+void xml2lyOptionsAboutAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt)
+ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_xml2lyOptionsContactItem xml2lyOptionsContactItem::create (
+S_xml2lyOptionsContactAtom xml2lyOptionsContactAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2lyOptionsContactItem* o = new
-    xml2lyOptionsContactItem (
+  xml2lyOptionsContactAtom* o = new
+    xml2lyOptionsContactAtom (
       shortName,
       longName,
       description);
@@ -223,7 +223,7 @@ S_xml2lyOptionsContactItem xml2lyOptionsContactItem::create (
   return o;
 }
 
-xml2lyOptionsContactItem::xml2lyOptionsContactItem (
+xml2lyOptionsContactAtom::xml2lyOptionsContactAtom (
   string shortName,
   string longName,
   string description)
@@ -233,15 +233,15 @@ xml2lyOptionsContactItem::xml2lyOptionsContactItem (
       description)
 {}
 
-xml2lyOptionsContactItem::~xml2lyOptionsContactItem ()
+xml2lyOptionsContactAtom::~xml2lyOptionsContactAtom ()
 {}
 
-void xml2lyOptionsContactItem::print (ostream& os) const
+void xml2lyOptionsContactAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2lyOptionsContactItem:" <<
+    "xml2lyOptionsContactAtom:" <<
     endl;
 
   gIndenter++;
@@ -259,7 +259,7 @@ void xml2lyOptionsContactItem::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2lyOptionsContactItem::printContact (ostream& os) const
+void xml2lyOptionsContactAtom::printContact (ostream& os) const
 {
   os <<
     endl <<
@@ -271,14 +271,14 @@ R"(To contact xml2ly maintainers:
     endl;
 }
 
-void xml2lyOptionsContactItem::printOptionsValues (
+void xml2lyOptionsContactAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2lyOptionsContactItem& elt)
+ostream& operator<< (ostream& os, const S_xml2lyOptionsContactAtom& elt)
 {
   elt->print (os);
   return os;
@@ -546,12 +546,12 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   // check auto output file option usage
   // ------------------------------------------------------
 
-  if (gXml2lyOptions->fAutoOutputFile) {
+  if (gXml2lyOptions->fAutoOutputFileName) {
     if (gXml2lyOptions->fOutputFileName.size ()) {
       stringstream s;
 
       s <<
-        "options '--aofn, --autoOutputFileName' and '--ofn, --outputFileName'"  <<
+        "options '-aofn, -auto-output-file-name' and '-o, -output-file-name'"  <<
         endl <<
         "cannot be chosen simultaneously";
 
@@ -564,7 +564,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
       stringstream s;
 
       s <<
-        "option '--aofn, --autoOutputFileName'"  <<
+        "option '-aofn, -auto-output-file-name'"  <<
         endl <<
         "cannot be used when reading from standard input";
 
@@ -740,7 +740,7 @@ xml2lyOptions::xml2lyOptions (
   S_oahHandler handler)
   : oahGroup (
     "xml2ly",
-    "hx", "help-xml2ly",
+    "hxl", "help-xml2ly",
 R"(Options that are used by xml2ly are grouped here.)",
     handler)
 {
@@ -779,7 +779,7 @@ R"()",
 
     versionSubGroup->
       appendAtom (
-        xml2lyOptionsVersionItem::create (
+        xml2lyOptionsVersionAtom::create (
           "v", "version",
 R"(Display xml2ly's version number and history and exit.)"));
   }
@@ -804,7 +804,7 @@ R"()",
 
     aboutSubGroup->
       appendAtom (
-        xml2lyOptionsAboutItem::create (
+        xml2lyOptionsAboutAtom::create (
           "a", "about",
 R"(Display information about xml2ly and exit.)"));
   }
@@ -829,7 +829,7 @@ R"()",
 
     contactSubGroup->
       appendAtom (
-        xml2lyOptionsContactItem::create (
+        xml2lyOptionsContactAtom::create (
           "c", "contact",
 R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   }
@@ -855,7 +855,7 @@ R"()",
     outputFileSubGroup->
       appendAtom (
         oahStringAtom::create (
-          "o", "output-filename",
+          "o", "output-file-name",
 R"(Write LilyPond code to file FILENAME instead of standard output.)",
           "FILENAME",
           "outputFileName",
@@ -863,19 +863,19 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
 
     // auto output filename
 
-    fAutoOutputFile = false;
+    fAutoOutputFileName = false;
 
     outputFileSubGroup->
       appendAtom (
         oahBooleanAtom::create (
-          "aof", "auto-output-filename",
+          "aofn", "auto-output-file-name",
 R"(This option can only be used when reading from a file.
 Write LilyPond code to a file in the current working directory.
 The file name is derived from that of the input file,
 replacing any suffix after the the '.' by 'ly'
 or adding '.ly' if none is present.)",
           "autoOutputFileName",
-          fAutoOutputFile));
+          fAutoOutputFileName));
   }
 }
 
@@ -906,37 +906,37 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom xml2lyOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
+  ostream&  os,
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
 
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
-      "---> Handling options item '" <<
-      item <<
+      "---> Handling options atom '" <<
+      atom <<
       "'" <<
       endl;
   }
 #endif
 
   if (
-    // version item?
-    S_xml2lyOptionsVersionItem
-      versionItem =
-        dynamic_cast<xml2lyOptionsVersionItem*>(&(*item))
+    // version atom?
+    S_xml2lyOptionsVersionAtom
+      versionAtom =
+        dynamic_cast<xml2lyOptionsVersionAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> oahAtom is of type 'optionsVersionItem'" <<
+        "==> oahAtom is of type 'optionsVersionAtom'" <<
         endl;
     }
 #endif
 
     // handle it at once
-    versionItem->
+    versionAtom->
       printVersion (os);
 
     // exit
@@ -944,21 +944,21 @@ S_oahValuedAtom xml2lyOptions::handleAtom (
   }
 
   else if (
-    // about item?
-    S_xml2lyOptionsAboutItem
-      aboutItem =
-        dynamic_cast<xml2lyOptionsAboutItem*>(&(*item))
+    // about atom?
+    S_xml2lyOptionsAboutAtom
+      aboutAtom =
+        dynamic_cast<xml2lyOptionsAboutAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> oahAtom is of type 'optionsAboutItem'" <<
+        "==> oahAtom is of type 'optionsAboutAtom'" <<
         endl;
     }
 #endif
 
     // handle it at once
-    aboutItem->
+    aboutAtom->
       printAbout (os);
 
     // exit
@@ -966,21 +966,21 @@ S_oahValuedAtom xml2lyOptions::handleAtom (
   }
 
   else if (
-    // contact item?
-    S_xml2lyOptionsContactItem
-      contactItem =
-        dynamic_cast<xml2lyOptionsContactItem*>(&(*item))
+    // contact atom?
+    S_xml2lyOptionsContactAtom
+      contactAtom =
+        dynamic_cast<xml2lyOptionsContactAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
-        "==> oahAtom is of type 'optionsContactItem'" <<
+        "==> oahAtom is of type 'optionsContactAtom'" <<
         endl;
     }
 #endif
 
     // handle it at once
-    contactItem->
+    contactAtom->
       printContact (os);
 
     // exit

@@ -101,9 +101,9 @@ R"(Display a help summary and exit.)"));
 
   fOptionName = defaultOptionName;
 
-  S_oahOptionHelpAtom
-    itemHelpItem =
-      oahOptionHelpAtom::create (
+  S_oahOptionNameHelpAtom
+    optionNameHelpAtom =
+      oahOptionNameHelpAtom::create (
         "onh", "option-name-help",
         replaceSubstringInString (
 R"(Print help about OPTION_NAME.
@@ -115,12 +115,12 @@ OPTION_NAME is optionnal, and the default value is 'DEFAULT_VALUE'.)",
         fOptionName,
         defaultOptionName);
 
-  itemHelpItem->
+  optionNameHelpAtom->
     setValueIsOptional ();
 
   helpOahBasicOptionsHelpSubGroup->
     appendAtom (
-      itemHelpItem);
+      optionNameHelpAtom);
 }
 
 void oahBasicOptions::initializeOahBasicOptionsAndArgumentsOptions (
@@ -170,7 +170,7 @@ R"()",
 
   // trace options
 
-  fTraceOptions = boolOptionsInitialValue;
+  fTraceOptions = boolOptionsInitialValue; // JMI ECURIE
 
   traceSubGroup->
     appendAtom (
@@ -234,6 +234,11 @@ void oahBasicOptions::initializeOahBasicOptions (
   // --------------------------------------
   initializeOahBasicOptionsAndArgumentsOptions (
     boolOptionsInitialValue);
+
+#ifdef TRACE_OPTIONS
+  initializeOptionsTraceAndDisplayOptions (
+    boolOptionsInitialValue);
+#endif
 }
 
 S_oahBasicOptions oahBasicOptions::createCloneWithTrueValues ()
@@ -246,9 +251,8 @@ S_oahBasicOptions oahBasicOptions::createCloneWithTrueValues ()
       // nullptr not to have it inserted twice in the option handler
 
   // set the options handler upLink
-  clone->
-    setHandlerUpLink (
-      fHandlerUpLink);
+  clone->fHandlerUpLink =
+    fHandlerUpLink;
 
   // command line
   // --------------------------------------
@@ -355,8 +359,8 @@ void oahBasicOptions::printOahBasicOptionsValues (int valueFieldWidth)
 }
 
 S_oahValuedAtom oahBasicOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
+  ostream&  os,
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
 

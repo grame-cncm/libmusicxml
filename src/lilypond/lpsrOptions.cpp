@@ -32,54 +32,113 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
+S_lpsrScoreOutputKindAtom lpsrScoreOutputKindAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
-  string             optionsLpsrScoreOutputKindKindItemVariableName,
+  string             variableName,
   lpsrScoreOutputKind&
-                     optionsLpsrScoreOutputKindKindItemVariable)
+                     lpsrScoreOutputKindKindVariable)
 {
-  optionsLpsrScoreOutputKindItem* o = new
-    optionsLpsrScoreOutputKindItem (
+  lpsrScoreOutputKindAtom* o = new
+    lpsrScoreOutputKindAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrScoreOutputKindKindItemVariableName,
-      optionsLpsrScoreOutputKindKindItemVariable);
+      variableName,
+      lpsrScoreOutputKindKindVariable);
   assert(o!=0);
   return o;
 }
 
-optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
+lpsrScoreOutputKindAtom::lpsrScoreOutputKindAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
-  string             optionsLpsrScoreOutputKindKindItemVariableName,
+  string             variableName,
   lpsrScoreOutputKind&
-                     optionsLpsrScoreOutputKindKindItemVariable)
+                     lpsrScoreOutputKindKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrScoreOutputKindKindItemVariableName),
-    fOptionsLpsrScoreOutputKindKindItemVariable (
-      optionsLpsrScoreOutputKindKindItemVariable)
+      variableName),
+    fLpsrScoreOutputKindVariable (
+      lpsrScoreOutputKindKindVariable)
 {}
 
-optionsLpsrScoreOutputKindItem::~optionsLpsrScoreOutputKindItem ()
+lpsrScoreOutputKindAtom::~lpsrScoreOutputKindAtom ()
 {}
 
-void optionsLpsrScoreOutputKindItem::print (ostream& os) const
+void lpsrScoreOutputKindAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the score output kind:
+  // is it in the score output kinds map?
+
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrScoreOutputKind>::const_iterator
+    it =
+      gLpsrScoreOutputKindsMap.find (
+        theString);
+
+  if (it == gLpsrScoreOutputKindsMap.end ()) {
+    // no, score output kind is unknown in the map
+
+    stringstream s;
+
+    s <<
+      "LPSR score output kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrScoreOutputKindsMap.size () <<
+      " known LPSR score output kinds are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrScoreOutputKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  setLpsrScoreOutputKindVariable (
+    (*it).second);
+}
+
+void lpsrScoreOutputKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsLpsrScoreOutputKindItem:" <<
+    "OptionsLpsrScoreOutputKindAtom:" <<
     endl;
 
   gIndenter++;
@@ -93,14 +152,14 @@ void optionsLpsrScoreOutputKindItem::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsLpsrScoreOutputKindItemVariable" << " : \"" <<
+    "fOptionsLpsrScoreOutputKindVariable" << " : \"" <<
     lpsrScoreOutputKindAsString (
-      fOptionsLpsrScoreOutputKindKindItemVariable) <<
-      "\"" <<
+      fLpsrScoreOutputKindVariable) <<
+    "\"" <<
     endl;
 }
 
-void optionsLpsrScoreOutputKindItem::printOptionsValues (
+void lpsrScoreOutputKindAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -109,66 +168,125 @@ void optionsLpsrScoreOutputKindItem::printOptionsValues (
     fVariableName <<
     " : \"" <<
     lpsrScoreOutputKindAsString (
-      fOptionsLpsrScoreOutputKindKindItemVariable) <<
+      fLpsrScoreOutputKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt)
+ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
+S_lpsrPitchesLanguageAtom lpsrPitchesLanguageAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
-  string             optionsLpsrPitchesLanguageKindItemVariableName,
+  string             variableName,
   msrQuarterTonesPitchesLanguageKind&
-                     optionsLpsrPitchesLanguageKindItemVariable)
+                     lpsrPitchesLanguageKindVariable)
 {
-  optionsLpsrPitchesLanguageItem* o = new
-    optionsLpsrPitchesLanguageItem (
+  lpsrPitchesLanguageAtom* o = new
+    lpsrPitchesLanguageAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrPitchesLanguageKindItemVariableName,
-      optionsLpsrPitchesLanguageKindItemVariable);
+      variableName,
+      lpsrPitchesLanguageKindVariable);
   assert(o!=0);
   return o;
 }
 
-optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
+lpsrPitchesLanguageAtom::lpsrPitchesLanguageAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
-  string             optionsLpsrPitchesLanguageKindItemVariableName,
+  string             variableName,
   msrQuarterTonesPitchesLanguageKind&
-                     optionsLpsrPitchesLanguageKindItemVariable)
+                     lpsrPitchesLanguageKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrPitchesLanguageKindItemVariableName),
-    fOptionsLpsrPitchesLanguageKindItemVariable (
-      optionsLpsrPitchesLanguageKindItemVariable)
+      variableName),
+    fMsrQuarterTonesPitchesLanguageKindVariable (
+      lpsrPitchesLanguageKindVariable)
 {}
 
-optionsLpsrPitchesLanguageItem::~optionsLpsrPitchesLanguageItem ()
+lpsrPitchesLanguageAtom::~lpsrPitchesLanguageAtom ()
 {}
 
-void optionsLpsrPitchesLanguageItem::print (ostream& os) const
+void lpsrPitchesLanguageAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the pitches languages map?
+
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+    it =
+      gQuarterTonesPitchesLanguageKindsMap.find (
+        theString);
+
+  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+
+    stringstream s;
+
+    s <<
+      "LPSR pitches language '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      " known LPSR pitches languages are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingQuarterTonesPitchesLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  setMsrQuarterTonesPitchesLanguageKindVariable (
+    (*it).second);
+}
+
+void lpsrPitchesLanguageAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsLpsrPitchesLanguageItem:" <<
+    "OptionsLpsrPitchesLanguageAtom:" <<
     endl;
 
   gIndenter++;
@@ -182,14 +300,14 @@ void optionsLpsrPitchesLanguageItem::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsLpsrPitchesLanguageItemVariable" << " : \"" <<
+    "fOptionsLpsrPitchesLanguageVariable" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
-      fOptionsLpsrPitchesLanguageKindItemVariable) <<
-      "\"" <<
+      fMsrQuarterTonesPitchesLanguageKindVariable) <<
+    "\"" <<
     endl;
 }
 
-void optionsLpsrPitchesLanguageItem::printOptionsValues (
+void lpsrPitchesLanguageAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -198,66 +316,121 @@ void optionsLpsrPitchesLanguageItem::printOptionsValues (
     fVariableName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
-      fOptionsLpsrPitchesLanguageKindItemVariable) <<
+      fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt)
+ostream& operator<< (ostream& os, const S_lpsrPitchesLanguageAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
+S_lpsrChordsLanguageAtom lpsrChordsLanguageAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
-  string             optionsLpsrChordsLanguageKindItemVariableName,
+  string             variableName,
   lpsrChordsLanguageKind&
-                     optionsLpsrChordsLanguageKindItemVariable)
+                     lpsrChordsLanguageKindVariable)
 {
-  optionsLpsrChordsLanguageItem* o = new
-    optionsLpsrChordsLanguageItem (
+  lpsrChordsLanguageAtom* o = new
+    lpsrChordsLanguageAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrChordsLanguageKindItemVariableName,
-      optionsLpsrChordsLanguageKindItemVariable);
+      variableName,
+      lpsrChordsLanguageKindVariable);
   assert(o!=0);
   return o;
 }
 
-optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
+lpsrChordsLanguageAtom::lpsrChordsLanguageAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
-  string             optionsLpsrChordsLanguageKindItemVariableName,
+  string             variableName,
   lpsrChordsLanguageKind&
-                     optionsLpsrChordsLanguageKindItemVariable)
+                     lpsrChordsLanguageKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrChordsLanguageKindItemVariableName),
-    fOptionsLpsrChordsLanguageKindItemVariable (
-      optionsLpsrChordsLanguageKindItemVariable)
+      variableName),
+    fLpsrChordsLanguageKindVariable (
+      lpsrChordsLanguageKindVariable)
 {}
 
-optionsLpsrChordsLanguageItem::~optionsLpsrChordsLanguageItem ()
+lpsrChordsLanguageAtom::~lpsrChordsLanguageAtom ()
 {}
 
-void optionsLpsrChordsLanguageItem::print (ostream& os) const
+void lpsrChordsLanguageAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the chords languages map?
+
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrChordsLanguageKind>::const_iterator
+    it =
+      gLpsrChordsLanguageKindsMap.find (theString);
+
+  if (it == gLpsrChordsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    stringstream s;
+
+    s <<
+      "LPSR chords language '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrChordsLanguageKindsMap.size () - 1 <<
+      " known LPSR chords languages apart from the default Ignatzek are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrChordsLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+    exit (4);
+  }
+
+  setLpsrChordsLanguageKindVariable (
+    (*it).second);
+}
+
+void lpsrChordsLanguageAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsLpsrChordsLanguageItem:" <<
+    "OptionsLpsrChordsLanguageAtom:" <<
     endl;
 
   gIndenter++;
@@ -270,14 +443,14 @@ void optionsLpsrChordsLanguageItem::print (ostream& os) const
     "fVariableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fOptionsLpsrChordsLanguageKindItemVariable" << " : \"" <<
+    "fLpsrChordsLanguageKindVariable" << " : \"" <<
     lpsrChordsLanguageKindAsString (
-      fOptionsLpsrChordsLanguageKindItemVariable) <<
-      "\"" <<
+      fLpsrChordsLanguageKindVariable) <<
+    "\"" <<
     endl;
 }
 
-void optionsLpsrChordsLanguageItem::printOptionsValues (
+void lpsrChordsLanguageAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -286,66 +459,101 @@ void optionsLpsrChordsLanguageItem::printOptionsValues (
     fVariableName <<
     " : \"" <<
     lpsrChordsLanguageKindAsString (
-      fOptionsLpsrChordsLanguageKindItemVariable) <<
+      fLpsrChordsLanguageKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt)
+ostream& operator<< (ostream& os, const S_lpsrChordsLanguageAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
+S_lpsrTransposeAtom lpsrTransposeAtom::create (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
-  string  optionsLpsrTransposeItemVariableName,
+  string  variableName,
   S_msrSemiTonesPitchAndOctave&
-          optionsLpsrTransposeItemVariable)
+          lpsrTransposeVariable)
 {
-  optionsLpsrTransposeItem* o = new
-    optionsLpsrTransposeItem (
+  lpsrTransposeAtom* o = new
+    lpsrTransposeAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrTransposeItemVariableName,
-      optionsLpsrTransposeItemVariable);
+      variableName,
+      lpsrTransposeVariable);
   assert(o!=0);
   return o;
 }
 
-optionsLpsrTransposeItem::optionsLpsrTransposeItem (
+lpsrTransposeAtom::lpsrTransposeAtom (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
-  string  optionsLpsrTransposeItemVariableName,
+  string  variableName,
   S_msrSemiTonesPitchAndOctave&
-          optionsLpsrTransposeItemVariable)
+          lpsrTransposeVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      optionsLpsrTransposeItemVariableName),
-    fOptionsTransposeItemVariable (
-      optionsLpsrTransposeItemVariable)
+      variableName),
+    fMsrSemiTonesPitchAndOctaveVariable (
+      lpsrTransposeVariable)
 {}
 
-optionsLpsrTransposeItem::~optionsLpsrTransposeItem ()
+lpsrTransposeAtom::~lpsrTransposeAtom ()
 {}
 
-void optionsLpsrTransposeItem::print (ostream& os) const
+void lpsrTransposeAtom::handleValue (
+  string           theString,
+  indentedOstream& os)
+{
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrTransposeAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the chords languages map?
+
+#ifdef TRACE_OPTIONS
+  if (gOahBasicOptions->fTraceOptions) {
+    os <<
+      "==> oahAtom is of type 'lpsrTransposeAtom'" <<
+      endl;
+  }
+#endif
+
+  // create the semitones pitch and octave from theString
+  S_msrSemiTonesPitchAndOctave
+    semiTonesPitchAndOctave =
+      msrSemiTonesPitchAndOctave::createFromString (
+        K_NO_INPUT_LINE_NUMBER,
+        theString);
+
+  // set the transpose atom variable value
+  setMsrSemiTonesPitchAndOctaveVariable (
+    semiTonesPitchAndOctave);
+}
+
+void lpsrTransposeAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "optionsLpsrTransposeItem:" <<
+    "lpsrTransposeAtom:" <<
     endl;
 
   gIndenter++;
@@ -363,7 +571,7 @@ void optionsLpsrTransposeItem::print (ostream& os) const
   gIndenter--;
 }
 
-void optionsLpsrTransposeItem::printOptionsValues (
+void lpsrTransposeAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -371,11 +579,11 @@ void optionsLpsrTransposeItem::printOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : ";
-  if (fOptionsTransposeItemVariable) {
+  if (fMsrSemiTonesPitchAndOctaveVariable) {
     os << endl;
     gIndenter++;
     os <<
-      fOptionsTransposeItemVariable;
+      fMsrSemiTonesPitchAndOctaveVariable;
     gIndenter--;
   }
   else {
@@ -385,7 +593,7 @@ void optionsLpsrTransposeItem::printOptionsValues (
   }
 }
 
-ostream& operator<< (ostream& os, const S_optionsLpsrTransposeItem& elt)
+ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt)
 {
   elt->print (os);
   return os;
@@ -574,7 +782,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   lilypondOutputKindGroup->
     appendAtom (
-      optionsLpsrScoreOutputKindItem::create (
+      lpsrScoreOutputKindAtom::create (
         "lpsok", "lpsr-score-output-kind",
         replaceSubstringInString (
           replaceSubstringInString (
@@ -693,7 +901,7 @@ R"()",
 
   languagesSubGroup->
     appendAtom (
-      optionsLpsrPitchesLanguageItem::create (
+      lpsrPitchesLanguageAtom::create (
         "lppl", "lpsr-pitches-language",
         replaceSubstringInString (
           replaceSubstringInString (
@@ -725,7 +933,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   languagesSubGroup->
     appendAtom (
-      optionsLpsrChordsLanguageItem::create (
+      lpsrChordsLanguageAtom::create (
         "lpcl", "lpsr-chords-language",
         replaceSubstringInString (
           replaceSubstringInString (
@@ -766,7 +974,7 @@ R"()",
 
   languagesSubGroup->
     appendAtom (
-      optionsLpsrTransposeItem::create (
+      lpsrTransposeAtom::create (
         "lpt", "lpsr-transpose",
 R"(Use TRANSPOSITION to tranpose in the LPSR data,
 thus as in the generated LilyPond code as well.
@@ -799,19 +1007,19 @@ R"()",
   fExit3 = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    exit3OptionsBooleanItem =
+    exit3OptionsBooleanAtom =
       oahBooleanAtom::create (
         "e3", "exit-3",
 R"(Exit after pass 3, i.e. after conversion
 of the MSR to LPSR.)",
         "exit3",
         fExit3);
-  exit3OptionsBooleanItem->
+  exit3OptionsBooleanAtom->
     setIsHidden ();
 
   exitAfterSomePassesSubGroup->
     appendAtom (
-      exit3OptionsBooleanItem);
+      exit3OptionsBooleanAtom);
 }
 
 void lpsrOptions::initializeLpsrOptions (
@@ -863,10 +1071,8 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
       // 0 not to have it inserted twice in the option handler
 
   // set the options handler upLink
-  clone->
-    setHandlerUpLink (
-      fHandlerUpLink);
-
+  clone->fHandlerUpLink =
+    fHandlerUpLink;
 
   // trace
   // --------------------------------------
@@ -1166,81 +1372,81 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom lpsrOptions::handleAtom (
-  ostream&      os,
-  S_oahAtom item)
+  ostream&  os,
+  S_oahAtom atom)
 {
   S_oahValuedAtom result;
 
   if (
-    // LPSR score output kind item?
-    S_optionsLpsrScoreOutputKindItem
-      scoreOutputKindItem =
-        dynamic_cast<optionsLpsrScoreOutputKindItem*>(&(*item))
+    // LPSR score output kind atom?
+    S_lpsrScoreOutputKindAtom
+      scoreOutputKindAtom =
+        dynamic_cast<lpsrScoreOutputKindAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions) {
       os <<
-        "==> oahAtom is of type 'optionsLpsrScoreOutputKindItem'" <<
+        "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = scoreOutputKindItem;
+    result = scoreOutputKindAtom;
   }
 
   else if (
-    // LPSR pitches language item?
-    S_optionsLpsrPitchesLanguageItem
-      pitchesLanguageItem =
-        dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
+    // LPSR pitches language atom?
+    S_lpsrPitchesLanguageAtom
+      pitchesLanguageAtom =
+        dynamic_cast<lpsrPitchesLanguageAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions) {
       os <<
-        "==> oahAtom is of type 'optionsLpsrPitchesLanguageItem'" <<
+        "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = pitchesLanguageItem;
+    result = pitchesLanguageAtom;
   }
 
   else if (
-    // chords language item?
-    S_optionsLpsrChordsLanguageItem
-      LpsrChordsLanguageItem =
-        dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
+    // chords language atom?
+    S_lpsrChordsLanguageAtom
+      LpsrChordsLanguageAtom =
+        dynamic_cast<lpsrChordsLanguageAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions) {
       os <<
-        "==> oahAtom is of type 'optionsLpsrChordsLanguageItem'" <<
+        "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = LpsrChordsLanguageItem;
+    result = LpsrChordsLanguageAtom;
   }
 
   else if (
-    // transpose item?
-    S_optionsLpsrTransposeItem
-      transposeItem =
-        dynamic_cast<optionsLpsrTransposeItem*>(&(*item))
+    // transpose atom?
+    S_lpsrTransposeAtom
+      transposeAtom =
+        dynamic_cast<lpsrTransposeAtom*>(&(*atom))
     ) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions) {
       os <<
-        "==> oahAtom is of type 'optionsLpsrTransposeItem'" <<
+        "==> oahAtom is of type 'lpsrTransposeAtom'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = transposeItem;
+    result = transposeAtom;
   }
 
   else {
@@ -1248,9 +1454,9 @@ S_oahValuedAtom lpsrOptions::handleAtom (
 
     s <<
       "INTERNAL OPTION ERROR: "
-      "lpsrOptions::handleAtom() cannot handle option item" <<
+      "lpsrOptions::handleAtom() cannot handle option atom" <<
       endl <<
-      item <<
+      atom <<
       endl;
 
     optionError (s.str ());
@@ -1261,248 +1467,53 @@ S_oahValuedAtom lpsrOptions::handleAtom (
   return result;
 }
 
-void lpsrOptions::handleOptionsLpsrScoreOutputKindItemValue (
-  ostream&                         os,
-  S_optionsLpsrScoreOutputKindItem scoreOutputKindItem,
-  string                           theString)
-{
-  // theString contains the score output kind:
-  // is it in the score output kinds map?
-
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
-    os <<
-      "==> oahAtom is of type 'optionsLpsrScoreOutputKindItem'" <<
-      endl;
-  }
-#endif
-
-  map<string, lpsrScoreOutputKind>::const_iterator
-    it =
-      gLpsrScoreOutputKindsMap.find (
-        theString);
-
-  if (it == gLpsrScoreOutputKindsMap.end ()) {
-    // no, score output kind is unknown in the map
-
-    printOptionsSummary (os);
-
-    stringstream s;
-
-    s <<
-      "LPSR score output kind '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gLpsrScoreOutputKindsMap.size () <<
-      " known LPSR score output kinds are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingLpsrScoreOutputKinds ();
-
-    gIndenter--;
-
-    optionError (s.str ());
-
-//     exit (4); // JMI
-    abort ();
-  }
-
-  scoreOutputKindItem->
-    setScoreOutputKindKindItemVariableValue (
-      (*it).second);
-}
-
-void lpsrOptions::handleOptionsLpsrPitchesLanguageItemValue (
-  ostream&                         os,
-  S_optionsLpsrPitchesLanguageItem pitchesLanguageKindItem,
-  string                           theString)
-{
-  // theString contains the language name:
-  // is it in the pitches languages map?
-
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
-    os <<
-      "==> oahAtom is of type 'optionsLpsrPitchesLanguageItem'" <<
-      endl;
-  }
-#endif
-
-  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
-    it =
-      gQuarterTonesPitchesLanguageKindsMap.find (
-        theString);
-
-  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
-    // no, language is unknown in the map
-
-    printOptionsSummary (os);
-
-    stringstream s;
-
-    s <<
-      "LPSR pitches language '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gQuarterTonesPitchesLanguageKindsMap.size () <<
-      " known LPSR pitches languages are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingQuarterTonesPitchesLanguageKinds ();
-
-    gIndenter--;
-
-    optionError (s.str ());
-
-//     exit (4); // JMI
-    abort ();
-  }
-
-  pitchesLanguageKindItem->
-    setPitchesLanguageKindItemVariableValue (
-      (*it).second);
-}
-
-void lpsrOptions::handleOptionsLpsrChordsLanguageItemValue (
-  ostream&                        os,
-  S_optionsLpsrChordsLanguageItem chordsLanguageItem,
-  string                          theString)
-{
-  // theString contains the language name:
-  // is it in the chords languages map?
-
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
-    os <<
-      "==> oahAtom is of type 'optionsLpsrChordsLanguageItem'" <<
-      endl;
-  }
-#endif
-
-  map<string, lpsrChordsLanguageKind>::const_iterator
-    it =
-      gLpsrChordsLanguageKindsMap.find (theString);
-
-  if (it == gLpsrChordsLanguageKindsMap.end ()) {
-    // no, language is unknown in the map
-    stringstream s;
-
-    s <<
-      "LPSR chords language '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gLpsrChordsLanguageKindsMap.size () - 1 <<
-      " known LPSR chords languages apart from the default Ignatzek are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingLpsrChordsLanguageKinds ();
-
-    gIndenter--;
-
-    optionError (s.str ());
-
-    printOptionsSummary (os);
-
-    exit (4);
-  }
-
-  chordsLanguageItem->
-    setLpsrChordsLanguageKindItemVariableValue (
-      (*it).second);
-}
-
-void lpsrOptions::handleOptionsLpsrTransposeItemValue (
-  ostream&                   os,
-  S_optionsLpsrTransposeItem transposeItem,
-  string                     theString)
-{
-  // theString contains the language name:
-  // is it in the chords languages map?
-
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
-    os <<
-      "==> oahAtom is of type 'optionsLpsrTransposeItem'" <<
-      endl;
-  }
-#endif
-
-  // create the semitones pitch and octave from theString
-  S_msrSemiTonesPitchAndOctave
-    semiTonesPitchAndOctave =
-      msrSemiTonesPitchAndOctave::createFromString (
-        K_NO_INPUT_LINE_NUMBER,
-        theString);
-
-  // set the transpose item variable value
-  transposeItem->
-    setTransposeItemVariableValue (
-      semiTonesPitchAndOctave);
-}
-
-void lpsrOptions::handleOptionsItemValue (
-  ostream&      os,
-  S_oahAtom item,
-  string        theString)
+void lpsrOptions::handleValuedAtomValue (
+  indentedOstream& os,
+  S_oahAtom        atom,
+  string           theString)
 {
   if (
-    // LPSR score output kind item?
-    S_optionsLpsrScoreOutputKindItem
-      scoreOutputKindItem =
-        dynamic_cast<optionsLpsrScoreOutputKindItem*>(&(*item))
+    // LPSR score output kind atom?
+    S_lpsrScoreOutputKindAtom
+      scoreOutputKindAtom =
+        dynamic_cast<lpsrScoreOutputKindAtom*>(&(*atom))
   ) {
-    handleOptionsLpsrScoreOutputKindItemValue (
-      os,
-      scoreOutputKindItem,
-      theString);
+    scoreOutputKindAtom->handleValue (
+      theString,
+      os);
   }
 
   else if (
-    // LPSR pitches language item?
-    S_optionsLpsrPitchesLanguageItem
-      pitchesLanguageKindItem =
-        dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
+    // LPSR pitches language atom?
+    S_lpsrPitchesLanguageAtom
+      pitchesLanguageKindAtom =
+        dynamic_cast<lpsrPitchesLanguageAtom*>(&(*atom))
   ) {
-    handleOptionsLpsrPitchesLanguageItemValue (
-      os,
-      pitchesLanguageKindItem,
-      theString);
+    pitchesLanguageKindAtom->handleValue (
+      theString,
+      os);
   }
 
   else if (
-    // chords language item?
-    S_optionsLpsrChordsLanguageItem
-      chordsLanguageItem =
-        dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
+    // chords language atom?
+    S_lpsrChordsLanguageAtom
+      chordsLanguageAtom =
+        dynamic_cast<lpsrChordsLanguageAtom*>(&(*atom))
   ) {
-    handleOptionsLpsrChordsLanguageItemValue (
-      os,
-      chordsLanguageItem,
-      theString);
+    chordsLanguageAtom->handleValue (
+      theString,
+      os);
   }
 
   else if (
-    // transpose item?
-    S_optionsLpsrTransposeItem
-      transposeItem =
-        dynamic_cast<optionsLpsrTransposeItem*>(&(*item))
+    // transpose atom?
+    S_lpsrTransposeAtom
+      transposeAtom =
+        dynamic_cast<lpsrTransposeAtom*>(&(*atom))
   ) {
-    handleOptionsLpsrTransposeItemValue (
-      os,
-      transposeItem,
-      theString);
+    transposeAtom->handleValue (
+      theString,
+      os);
   }
 
   else {
@@ -1510,9 +1521,9 @@ void lpsrOptions::handleOptionsItemValue (
 
     s <<
       "INTERNAL OPTION ERROR: "
-      "lpsrOptions::handleOptionsItemValue() cannot handle option item" <<
+      "lpsrOptions::handleValuedAtomValue() cannot handle option atom" <<
       endl <<
-      item <<
+      atom <<
       endl;
 
     optionError (s.str ());
@@ -1589,7 +1600,7 @@ void lpsrOptions::crackLilypondVersionNumber (
     // decipher theString with a two-number regular expression
     string regularExpression (
       "([[:digit:]]+)"
-      "\."
+      "."
       "([[:digit:]]+)");
 
     regex  e (regularExpression);
