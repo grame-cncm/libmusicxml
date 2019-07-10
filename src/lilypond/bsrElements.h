@@ -69,11 +69,11 @@ class bsrElement : public msrElement
     
     virtual std::string   asShortString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
 };
 typedef SMARTP<bsrElement> S_bsrElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrElement& elt);
+EXP ostream& operator<< (ostream& os, const S_bsrElement& elt);
 
 //______________________________________________________________________________
 template <typename T> class bsrBrowser : public browser<T> 

@@ -39,7 +39,7 @@ msrVoiceElement::~msrVoiceElement ()
 void msrVoiceElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrVoiceElement::acceptIn ()" <<
       endl;
   }
@@ -50,7 +50,7 @@ void msrVoiceElement::acceptIn (basevisitor* v)
         S_msrVoiceElement elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrVoiceElement::visitStart ()" <<
             endl;
         }
@@ -61,7 +61,7 @@ void msrVoiceElement::acceptIn (basevisitor* v)
 void msrVoiceElement::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrVoiceElement::acceptOut ()" <<
       endl;
   }
@@ -72,7 +72,7 @@ void msrVoiceElement::acceptOut (basevisitor* v)
         S_msrVoiceElement elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrVoiceElement::visitEnd ()" <<
             endl;
         }

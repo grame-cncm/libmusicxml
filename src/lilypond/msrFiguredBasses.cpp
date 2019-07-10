@@ -68,7 +68,7 @@ msrFigure::msrFigure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating figure '" <<
       asString () <<
       "'" <<
@@ -85,7 +85,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of figure '" <<
       asString () <<
       "'" <<
@@ -115,7 +115,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a deep copy of figure '" <<
       asString () <<
       "'" <<
@@ -243,7 +243,7 @@ string msrFigure::asString () const
 void msrFigure::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFigure::acceptIn ()" <<
       endl;
   }
@@ -254,7 +254,7 @@ void msrFigure::acceptIn (basevisitor* v)
         S_msrFigure elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFigure::visitStart ()" <<
             endl;
         }
@@ -265,7 +265,7 @@ void msrFigure::acceptIn (basevisitor* v)
 void msrFigure::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFigure::acceptOut ()" <<
       endl;
   }
@@ -276,7 +276,7 @@ void msrFigure::acceptOut (basevisitor* v)
         S_msrFigure elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFigure::visitEnd ()" <<
             endl;
         }
@@ -381,7 +381,7 @@ msrFiguredBass::msrFiguredBass (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating figuredBass '" <<
       asString () <<
       "'" <<
@@ -398,7 +398,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of figured bass '" <<
       asShortString () <<
       "'" <<
@@ -430,7 +430,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a deep copy of figuredBass '" <<
       asString () <<
       "'" <<
@@ -464,7 +464,7 @@ void msrFiguredBass::appendFigureToFiguredBass (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending figure'" << figure->asString () <<
       "' to figuredBass '" <<
       asString () <<
@@ -479,7 +479,7 @@ void msrFiguredBass::appendFigureToFiguredBass (
 void msrFiguredBass::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFiguredBass::acceptIn ()" <<
       endl;
   }
@@ -490,7 +490,7 @@ void msrFiguredBass::acceptIn (basevisitor* v)
         S_msrFiguredBass elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFiguredBass::visitStart ()" <<
             endl;
         }
@@ -501,7 +501,7 @@ void msrFiguredBass::acceptIn (basevisitor* v)
 void msrFiguredBass::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFiguredBass::acceptOut ()" <<
       endl;
   }
@@ -512,7 +512,7 @@ void msrFiguredBass::acceptOut (basevisitor* v)
         S_msrFiguredBass elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFiguredBass::visitEnd ()" <<
             endl;
         }

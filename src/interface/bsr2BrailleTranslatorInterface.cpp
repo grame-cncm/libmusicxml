@@ -37,8 +37,8 @@ namespace MusicXML2
 void generateBrailleCodeFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream,
-  ostream&         brailleCodeIOstream)
+  indentedOstream& logOstream,
+  ostream&         brailleCodeOutputStream)
 {
   // sanity check
   msrAssert (
@@ -52,7 +52,7 @@ void generateBrailleCodeFromBsrScore (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -67,10 +67,17 @@ void generateBrailleCodeFromBsrScore (
   // create an bsr2BrailleTranslator
   bsr2BrailleTranslator
     translator (
+      bScore,
       bsrOpts,
-      logIOstream,
-      brailleCodeIOstream,
-      bScore);
+      logOstream,
+      brailleCodeOutputStream);
+
+/*
+  const S_bsrScore bScore,
+  S_bsrOptions     bsrOpts,
+  indentedOstream& logOstream,
+  ostream&         brailleCodeOutputStream);
+*/
 
   // build the Braille score
   translator.generateBrailleCodeFromBsrScore ();

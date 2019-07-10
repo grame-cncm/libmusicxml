@@ -115,13 +115,13 @@ float msrPageGeometry::fetchGlobalStaffSize () const
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
-    gLogIOstream <<
+    gLogOstream <<
       "fetchGlobalStaffSize():" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    gLogOstream <<
       "optionsGlobalStaffSize" << " : " <<
       optionsGlobalStaffSize <<
       endl <<
@@ -168,7 +168,7 @@ float msrPageGeometry::fetchGlobalStaffSize () const
 void msrPageGeometry::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrPageGeometry::acceptIn ()" <<
       endl;
   }
@@ -179,7 +179,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
         S_msrPageGeometry elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrPageGeometry::visitStart ()" <<
             endl;
         }
@@ -190,7 +190,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
 void msrPageGeometry::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrPageGeometry::acceptOut ()" <<
       endl;
   }
@@ -201,7 +201,7 @@ void msrPageGeometry::acceptOut (basevisitor* v)
         S_msrPageGeometry elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrPageGeometry::visitEnd ()" <<
             endl;
         }

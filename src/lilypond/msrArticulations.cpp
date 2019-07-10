@@ -134,7 +134,7 @@ string msrArticulation::articulationPlacementKindAsString () const
 void msrArticulation::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrArticulation::acceptIn ()" <<
       endl;
   }
@@ -145,7 +145,7 @@ void msrArticulation::acceptIn (basevisitor* v)
         S_msrArticulation elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrArticulation::visitStart ()" <<
             endl;
         }
@@ -156,7 +156,7 @@ void msrArticulation::acceptIn (basevisitor* v)
 void msrArticulation::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrArticulation::acceptOut ()" <<
       endl;
   }
@@ -167,7 +167,7 @@ void msrArticulation::acceptOut (basevisitor* v)
         S_msrArticulation elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrArticulation::visitEnd ()" <<
             endl;
         }
@@ -229,7 +229,7 @@ msrFermata::~msrFermata ()
 void msrFermata::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFermata::acceptIn ()" <<
       endl;
   }
@@ -240,7 +240,7 @@ void msrFermata::acceptIn (basevisitor* v)
         S_msrFermata elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFermata::visitStart ()" <<
             endl;
         }
@@ -251,7 +251,7 @@ void msrFermata::acceptIn (basevisitor* v)
 void msrFermata::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFermata::acceptOut ()" <<
       endl;
   }
@@ -262,7 +262,7 @@ void msrFermata::acceptOut (basevisitor* v)
         S_msrFermata elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFermata::visitEnd ()" <<
             endl;
         }
@@ -385,7 +385,7 @@ string msrArpeggiato::arpeggiatoDirectionKindAsString () const
 void msrArpeggiato::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrArpeggiato::acceptIn ()" <<
       endl;
   }
@@ -396,7 +396,7 @@ void msrArpeggiato::acceptIn (basevisitor* v)
         S_msrArpeggiato elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrArpeggiato::visitStart ()" <<
             endl;
         }
@@ -407,7 +407,7 @@ void msrArpeggiato::acceptIn (basevisitor* v)
 void msrArpeggiato::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrArpeggiato::acceptOut ()" <<
       endl;
   }
@@ -418,7 +418,7 @@ void msrArpeggiato::acceptOut (basevisitor* v)
         S_msrArpeggiato elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrArpeggiato::visitEnd ()" <<
             endl;
         }
@@ -514,7 +514,7 @@ string msrNonArpeggiato::nonArpeggiatoTypeKindAsString () const
 void msrNonArpeggiato::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrNonArpeggiato::acceptIn ()" <<
       endl;
   }
@@ -525,7 +525,7 @@ void msrNonArpeggiato::acceptIn (basevisitor* v)
         S_msrNonArpeggiato elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrNonArpeggiato::visitStart ()" <<
             endl;
         }
@@ -536,7 +536,7 @@ void msrNonArpeggiato::acceptIn (basevisitor* v)
 void msrNonArpeggiato::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrNonArpeggiato::acceptOut ()" <<
       endl;
   }
@@ -547,7 +547,7 @@ void msrNonArpeggiato::acceptOut (basevisitor* v)
         S_msrNonArpeggiato elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrNonArpeggiato::visitEnd ()" <<
             endl;
         }

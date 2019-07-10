@@ -25,7 +25,7 @@
 #include "bsrOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /*!
@@ -41,14 +41,14 @@ The library includes a high level API to convert
 EXP S_bsrScore generateFinalizedBsrScoreFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 //_______________________________________________________________________________
 EXP void displayFinalizedBsrScore (
   const S_bsrScore bScore,
   S_msrOptions     msrOpts,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 /*! @} */
 

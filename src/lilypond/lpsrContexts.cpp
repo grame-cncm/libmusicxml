@@ -56,7 +56,7 @@ void lpsrContext::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrContext::acceptIn ()" <<
       endl;
   }
@@ -69,7 +69,7 @@ void lpsrContext::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrContext::visitStart ()" <<
             endl;
         }
@@ -82,7 +82,7 @@ void lpsrContext::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrContext::acceptOut ()" <<
       endl;
   }
@@ -95,7 +95,7 @@ void lpsrContext::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrContext::visitEnd ()" <<
             endl;
         }
@@ -229,7 +229,7 @@ void lpsrChordNamesContext::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrChordNamesContext::acceptIn ()" <<
       endl;
   }
@@ -242,7 +242,7 @@ void lpsrChordNamesContext::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrChordNamesContext::visitStart ()" <<
             endl;
         }
@@ -255,7 +255,7 @@ void lpsrChordNamesContext::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrChordNamesContext::acceptOut ()" <<
       endl;
   }
@@ -268,7 +268,7 @@ void lpsrChordNamesContext::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrChordNamesContext::visitEnd ()" <<
             endl;
         }
@@ -387,7 +387,7 @@ void lpsrFiguredBassContext::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrFiguredBassContext::acceptIn ()" <<
       endl;
   }
@@ -400,7 +400,7 @@ void lpsrFiguredBassContext::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrFiguredBassContext::visitStart ()" <<
             endl;
         }
@@ -413,7 +413,7 @@ void lpsrFiguredBassContext::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrFiguredBassContext::acceptOut ()" <<
       endl;
   }
@@ -426,7 +426,7 @@ void lpsrFiguredBassContext::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrFiguredBassContext::visitEnd ()" <<
             endl;
         }

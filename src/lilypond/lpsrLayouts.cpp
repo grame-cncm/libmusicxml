@@ -49,7 +49,7 @@ void lpsrLayout::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrLayout::acceptIn ()" <<
       endl;
   }
@@ -62,7 +62,7 @@ void lpsrLayout::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrLayout::visitStart ()" <<
             endl;
         }
@@ -75,7 +75,7 @@ void lpsrLayout::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrLayout::acceptOut ()" <<
       endl;
   }
@@ -88,7 +88,7 @@ void lpsrLayout::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrLayout::visitEnd ()" <<
             endl;
         }

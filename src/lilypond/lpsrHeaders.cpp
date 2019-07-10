@@ -503,7 +503,7 @@ void lpsrHeader::addRights (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding right \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -529,7 +529,7 @@ void lpsrHeader::addComposer (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding composer \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -555,7 +555,7 @@ void lpsrHeader::addArranger (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding arranger \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -581,7 +581,7 @@ void lpsrHeader::addLyricist (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding lyricist \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -607,7 +607,7 @@ void lpsrHeader::addPoet (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding poet \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -633,7 +633,7 @@ void lpsrHeader::addTranslator (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding translator \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -659,7 +659,7 @@ void lpsrHeader::addArtist (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding artist \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -685,7 +685,7 @@ void lpsrHeader::addSoftware (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding software \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -965,7 +965,7 @@ void lpsrHeader::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrHeader::acceptIn ()" <<
       endl;
   }
@@ -978,7 +978,7 @@ void lpsrHeader::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrHeader::visitStart ()" <<
             endl;
         }
@@ -991,7 +991,7 @@ void lpsrHeader::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrHeader::acceptOut ()" <<
       endl;
   }
@@ -1004,7 +1004,7 @@ void lpsrHeader::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrHeader::visitEnd ()" <<
             endl;
         }

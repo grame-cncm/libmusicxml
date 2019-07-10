@@ -146,8 +146,8 @@ extraShowAllChordsContentsAtom::~extraShowAllChordsContentsAtom ()
 {}
 
 void extraShowAllChordsContentsAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -336,8 +336,8 @@ extraShowChordDetailsAtom::~extraShowChordDetailsAtom ()
 {}
 
 void extraShowChordDetailsAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -581,8 +581,8 @@ extraShowChordAnalysisAtom::~extraShowChordAnalysisAtom ()
 {}
 
 void extraShowChordAnalysisAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -1059,7 +1059,7 @@ void extraOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void extraOptions::printExtraOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The extra extra are:" << // JMI
     endl;
 
@@ -1160,9 +1160,9 @@ S_oahValuedAtom extraOptions::handleAtom (
 }
 
 void extraOptions::handleValuedAtomValue (
-  indentedOstream&  os,
-  S_oahAtom         atom,
-  string            theString)
+  ostream&  os,
+  S_oahAtom atom,
+  string    theString)
 {
   if (
     // show all chord contents atom?
@@ -1210,7 +1210,7 @@ void initializeExtraOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing extra extra handling" <<
       endl;
   }

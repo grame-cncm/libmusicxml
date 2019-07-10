@@ -69,7 +69,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of a double tremolo" <<
       endl;
   }
@@ -119,7 +119,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting note " << note->asShortString () <<
       " as first element of double tremolo " <<
       asShortString () <<
@@ -208,7 +208,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting notes double tremolo number of repeats to '" <<
       fDoubleTremoloNumberOfRepeats <<
       "', fDoubleTremoloSoundingWholeNotes = '" <<
@@ -226,7 +226,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting note " << note->asShortString () <<
       " as second element of double tremolo " <<
       asShortString () <<
@@ -260,7 +260,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
   // match the known double tremolo sounding whole notes
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos) {
-    gLogIOstream <<
+    gLogOstream <<
       "Checking notes double tremolo second note duration"<<
       ", doubleTremoloNumberOfRepeats = '" <<
       fDoubleTremoloNumberOfRepeats <<
@@ -313,7 +313,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting chord " << chord->asString () <<
       " as first element of double tremolo " <<
       asShortString () <<
@@ -381,7 +381,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting chord " << chord->asString () <<
       " as second element of double tremolo " <<
       asShortString () <<
@@ -454,7 +454,7 @@ void msrDoubleTremolo::setDoubleTremoloMeasureNumber (
 void msrDoubleTremolo::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrDoubleTremolo::acceptIn ()" <<
       endl;
   }
@@ -465,7 +465,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v)
         S_msrDoubleTremolo elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrDoubleTremolo::visitStart ()" <<
             endl;
         }
@@ -476,7 +476,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v)
 void msrDoubleTremolo::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrDoubleTremolo::acceptOut ()" <<
       endl;
   }
@@ -487,7 +487,7 @@ void msrDoubleTremolo::acceptOut (basevisitor* v)
         S_msrDoubleTremolo elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrDoubleTremolo::visitEnd ()" <<
             endl;
         }

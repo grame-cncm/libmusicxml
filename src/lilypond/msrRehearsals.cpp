@@ -60,7 +60,7 @@ msrRehearsal::~msrRehearsal ()
 void msrRehearsal::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrRehearsal::acceptIn ()" <<
       endl;
   }
@@ -71,7 +71,7 @@ void msrRehearsal::acceptIn (basevisitor* v)
         S_msrRehearsal elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrRehearsal::visitStart ()" <<
             endl;
         }
@@ -82,7 +82,7 @@ void msrRehearsal::acceptIn (basevisitor* v)
 void msrRehearsal::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrRehearsal::acceptOut ()" <<
       endl;
   }
@@ -93,7 +93,7 @@ void msrRehearsal::acceptOut (basevisitor* v)
         S_msrRehearsal elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrRehearsal::visitEnd ()" <<
             endl;
         }

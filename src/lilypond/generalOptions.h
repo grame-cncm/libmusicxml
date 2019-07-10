@@ -82,7 +82,7 @@ class generalOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&  os,
+                            indentedOstream&  os,
                             S_oahAtom atom);
 
   private:

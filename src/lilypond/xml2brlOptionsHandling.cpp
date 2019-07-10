@@ -418,15 +418,15 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
-    fHandlerLogIOstream <<
+    fHandlerLogOstream <<
       "xml2brlOptionsHandler has been initialized as:" <<
       endl;
 
     gIndenter++;
 
     print (
-      fHandlerLogIOstream);
-    fHandlerLogIOstream <<
+      fHandlerLogOstream);
+    fHandlerLogOstream <<
       endl <<
       endl;
 
@@ -441,13 +441,13 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
 
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fHandlerLogIOstream <<
+    fHandlerLogOstream <<
       "xml2brlOptionsHandler help:" <<
       endl;
 
     this->
       printHelp (
-        fHandlerLogIOstream);
+        fHandlerLogOstream);
   }
 #endif
 }
@@ -460,7 +460,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     if (argumentsNumber > 0) {
-      fHandlerLogIOstream <<
+      fHandlerLogOstream <<
         singularOrPluralWithoutNumber (
           argumentsNumber, "There is", "There are") <<
         " " <<
@@ -474,17 +474,17 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       gIndenter++;
 
       for (unsigned int i = 0; i < argumentsNumber; i++) {
-        fHandlerLogIOstream <<
+        fHandlerLogOstream <<
           i << " : " << fHandlerArgumentsVector [i] <<
             endl;
       } // for
 
-      fHandlerLogIOstream << endl;
+      fHandlerLogOstream << endl;
 
       gIndenter--;
     }
     else {
-      fHandlerLogIOstream <<
+      fHandlerLogOstream <<
         "There are no arguments to " <<
         gOahBasicOptions->fHandlerExecutableName <<
         endl;
@@ -497,7 +497,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 
   switch (argumentsNumber) {
     case 0:
-      fHandlerLogIOstream <<
+      fHandlerLogOstream <<
         endl <<
         "Input file name or '-' for standard input expected" <<
         endl <<
@@ -513,7 +513,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       break;
 
     default:
-      fHandlerLogIOstream <<
+      fHandlerLogOstream <<
         endl <<
         "Several input file name supplied, only the first one, \"" <<
         fHandlerArgumentsVector [0] <<
@@ -682,7 +682,7 @@ void xml2brlOptions::enforceQuietness ()
 //______________________________________________________________________________
 void xml2brlOptions::checkOptionsConsistency ()
 {
-  gLogIOstream <<
+  gLogOstream <<
     "xml2brlOptions::checkOptionsConsistency ()" <<
     endl;
 
@@ -933,7 +933,7 @@ or adding '.brl' if none is present.)",
 
 void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The xml2brl options are:" <<
     endl;
 
@@ -942,13 +942,13 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
   // output file
   // --------------------------------------
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "Output file:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
@@ -1048,7 +1048,7 @@ void initializeXml2brlOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing xml2brl options handling" <<
       endl;
   }

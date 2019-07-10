@@ -44,7 +44,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrPartGroupBlock::acceptIn ()" <<
       endl;
   }
@@ -57,7 +57,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitStart ()" <<
             endl;
         }
@@ -70,7 +70,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrPartGroupBlock::acceptOut ()" <<
       endl;
   }
@@ -83,7 +83,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd ()" <<
             endl;
         }
@@ -96,7 +96,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrPartGroupBlock::browseData ()" <<
       endl;
   }
@@ -114,7 +114,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% <== lpsrPartGroupBlock::browseData ()" <<
       endl;
   }

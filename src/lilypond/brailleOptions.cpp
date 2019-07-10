@@ -73,8 +73,8 @@ brailleUTFKindAtom::~brailleUTFKindAtom ()
 {}
 
 void brailleUTFKindAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -137,7 +137,7 @@ void brailleUTFKindAtom::print (ostream& os) const
 }
 
 void brailleUTFKindAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -198,8 +198,8 @@ brailleByteOrderingKindAtom::~brailleByteOrderingKindAtom ()
 {}
 
 void brailleByteOrderingKindAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -262,7 +262,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
 }
 
 void brailleByteOrderingKindAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -562,7 +562,7 @@ void brailleOptions::checkOptionsConsistency ()
 
 void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The Braille braille are:" <<
     endl;
 
@@ -572,13 +572,13 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   // code generation
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Braille code generation:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "UTFKind" << " : " <<
       bsrUTFKindAsString (fUTFKind) <<
       endl <<
@@ -615,7 +615,7 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom brailleOptions::handleAtom (
-  ostream&  os,
+  indentedOstream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -701,7 +701,7 @@ void initializeBrailleOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing Braille braille handling" <<
       endl;
   }

@@ -49,7 +49,7 @@ msrLineBreak::msrLineBreak (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a break before measure " << fNextBarNumber <<
       endl;
   }
@@ -73,7 +73,7 @@ string msrLineBreak::asString () const
 void msrLineBreak::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrLineBreak::acceptIn ()" <<
       endl;
   }
@@ -84,7 +84,7 @@ void msrLineBreak::acceptIn (basevisitor* v)
         S_msrLineBreak elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrLineBreak::visitStart ()" <<
             endl;
         }
@@ -95,7 +95,7 @@ void msrLineBreak::acceptIn (basevisitor* v)
 void msrLineBreak::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrLineBreak::acceptOut ()" <<
       endl;
   }
@@ -106,7 +106,7 @@ void msrLineBreak::acceptOut (basevisitor* v)
         S_msrLineBreak elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrLineBreak::visitEnd ()" <<
             endl;
         }
@@ -147,7 +147,7 @@ msrPageBreak::msrPageBreak (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a page break" <<
       endl;
   }
@@ -170,7 +170,7 @@ string msrPageBreak::asString () const
 void msrPageBreak::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrPageBreak::acceptIn ()" <<
       endl;
   }
@@ -181,7 +181,7 @@ void msrPageBreak::acceptIn (basevisitor* v)
         S_msrPageBreak elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrPageBreak::visitStart ()" <<
             endl;
         }
@@ -192,7 +192,7 @@ void msrPageBreak::acceptIn (basevisitor* v)
 void msrPageBreak::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrPageBreak::acceptOut ()" <<
       endl;
   }
@@ -203,7 +203,7 @@ void msrPageBreak::acceptOut (basevisitor* v)
         S_msrPageBreak elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrPageBreak::visitEnd ()" <<
             endl;
         }

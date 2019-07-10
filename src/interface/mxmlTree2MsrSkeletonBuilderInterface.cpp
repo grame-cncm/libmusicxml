@@ -46,7 +46,7 @@ namespace MusicXML2
 S_msrScore buildMsrSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -60,7 +60,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     string separator =
       "%--------------------------------------------------------------";
   
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -68,7 +68,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
       "Pass 2a: translating the xmlelement tree into an MSR skeleton" <<
       endl;
     
-    logIOstream <<
+    logOstream <<
       separator <<
       endl;
   }
@@ -77,7 +77,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
   // create an mxmlTree2MsrSkeletonBuilder
   mxmlTree2MsrSkeletonBuilder
     skeletonBuilder (
-      logIOstream);
+      logOstream);
 
   // build the MSR score
   skeletonBuilder.browseMxmlTree (
@@ -104,7 +104,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     displayMsrSkeleton (
       msrOpts,
       scoreSkeleton,
-      logIOstream);
+      logOstream);
   }
 
   return scoreSkeleton;
@@ -114,7 +114,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
 void displayMsrSkeleton (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -126,7 +126,7 @@ void displayMsrSkeleton (
   string separator =
     "%--------------------------------------------------------------";
   
-  logIOstream <<
+  logOstream <<
     endl <<
     separator <<
     endl <<
@@ -154,7 +154,7 @@ void displayMsrSkeleton (
 void displayMsrSkeletonSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -168,7 +168,7 @@ void displayMsrSkeletonSummary (
     string separator =
       "%--------------------------------------------------------------";
     
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -184,7 +184,7 @@ void displayMsrSkeletonSummary (
   msr2SummaryVisitor
     summaryVisitor (
       msrOpts,
-      logIOstream);
+      logOstream);
 
   summaryVisitor.printSummaryFromMsrScore (
     mScore);

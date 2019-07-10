@@ -136,7 +136,7 @@ class bsrLineElement : public bsrElement
 
     virtual std::string   asShortString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
   protected:
 
@@ -148,7 +148,7 @@ class bsrLineElement : public bsrElement
     int                   fSpacesBefore;
 };
 typedef SMARTP<bsrLineElement> S_bsrLineElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineElement& elt);
+EXP ostream& operator<< (ostream& os, const S_bsrLineElement& elt);
 
 //______________________________________________________________________________
 class bsrPageElement : public bsrElement
@@ -221,7 +221,7 @@ class bsrPageElement : public bsrElement
 
     virtual std::string   asShortString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
   protected:
 
@@ -234,7 +234,7 @@ class bsrPageElement : public bsrElement
  // JMI   int                   fSpacesAfter;
 };
 typedef SMARTP<bsrPageElement> S_bsrPageElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrPageElement& elt);
+EXP ostream& operator<< (ostream& os, const S_bsrPageElement& elt);
 
 //______________________________________________________________________________
 class bsrLineContents : public bsrElement
@@ -322,7 +322,7 @@ class bsrLineContents : public bsrElement
 
     virtual std::string   asShortString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
   protected:
 
@@ -337,7 +337,7 @@ class bsrLineContents : public bsrElement
                           fLineContentsElementsList;
 };
 typedef SMARTP<bsrLineContents> S_bsrLineContents;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineContents& elt);
+EXP ostream& operator<< (ostream& os, const S_bsrLineContents& elt);
 
 //______________________________________________________________________________
 const bsrCellKind

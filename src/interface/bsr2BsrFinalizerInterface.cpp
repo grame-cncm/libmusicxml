@@ -37,7 +37,7 @@ namespace MusicXML2
 S_bsrScore generateFinalizedBsrScoreFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -53,7 +53,7 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -69,12 +69,12 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
   bsr2BsrFinalizer
     translator (
       bsrOpts,
-      logIOstream,
+      logOstream,
       bScore);
 
   // build the finalized BSR score
   translator.generateFinalizedBsrScoreFromBsrScore ();
-  logIOstream << endl;
+  logOstream << endl;
 
   // get the result
   result = translator.getBsrScore ();
@@ -97,7 +97,7 @@ void displayFinalizedBsrScore (
   const S_bsrScore bScore,
   S_msrOptions     msrOpts,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -109,7 +109,7 @@ void displayFinalizedBsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  logIOstream <<
+  logOstream <<
     separator <<
     endl <<
     gTab <<

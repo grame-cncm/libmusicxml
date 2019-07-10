@@ -95,7 +95,7 @@ R"(Print options usage help.)"));
         "hs", "help-summary",
 R"(Display a help summary and exit.)"));
 
-  // element help
+  // option name help
 
   string defaultOptionName = "onh";
 
@@ -107,7 +107,7 @@ R"(Display a help summary and exit.)"));
         "onh", "option-name-help",
         replaceSubstringInString (
 R"(Print help about OPTION_NAME.
-OPTION_NAME is optionnal, and the default value is 'DEFAULT_VALUE'.)",
+OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
           defaultOptionName),
         "OPTION_NAME",
@@ -301,7 +301,7 @@ void oahBasicOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void oahBasicOptions::printOahBasicOptionsValues (int valueFieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The basic options are:" <<
     endl;
 
@@ -310,13 +310,13 @@ void oahBasicOptions::printOahBasicOptionsValues (int valueFieldWidth)
   // command line
   // --------------------------------------
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (valueFieldWidth) << "Command line:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (valueFieldWidth) << "inputSourceName" << " : " <<
     fInputSourceName <<
     endl <<
@@ -331,13 +331,13 @@ void oahBasicOptions::printOahBasicOptionsValues (int valueFieldWidth)
   // options trace and display
   // --------------------------------------
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (valueFieldWidth) << "Options trace and display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (valueFieldWidth) << "traceOptions" << " : " <<
     booleanAsString (fTraceOptions) <<
     endl <<

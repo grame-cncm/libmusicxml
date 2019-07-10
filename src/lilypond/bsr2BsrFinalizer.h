@@ -61,7 +61,7 @@ class bsr2BsrFinalizer :
 
     bsr2BsrFinalizer (
       S_bsrOptions&    bsrOpts,
-      indentedOstream& logIOstream,
+      indentedOstream& logOstream,
       S_bsrScore       bScore);
 
     virtual ~bsr2BsrFinalizer ();

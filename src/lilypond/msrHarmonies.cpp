@@ -58,7 +58,7 @@ msrHarmonyDegree::msrHarmonyDegree (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating harmony degree '" <<
       asString () <<
       "', line " << inputLineNumber <<
@@ -144,7 +144,7 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
 void msrHarmonyDegree::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrHarmonyDegree::acceptIn ()" <<
       endl;
   }
@@ -155,7 +155,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
         S_msrHarmonyDegree elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrHarmonyDegree::visitStart ()" <<
             endl;
         }
@@ -166,7 +166,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
 void msrHarmonyDegree::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrHarmonyDegree::acceptOut ()" <<
       endl;
   }
@@ -177,7 +177,7 @@ void msrHarmonyDegree::acceptOut (basevisitor* v)
         S_msrHarmonyDegree elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrHarmonyDegree::visitEnd ()" <<
             endl;
         }
@@ -433,7 +433,7 @@ msrHarmony::msrHarmony (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating harmony " <<
       asString () <<
       endl;
@@ -449,7 +449,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of harmony " <<
       asShortString () <<
       ", line " << fInputLineNumber <<
@@ -487,7 +487,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a deep copy of harmony " <<
       asShortString () <<
       ", line " << fInputLineNumber <<
@@ -535,7 +535,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting harmony position in measure of " << asString () <<
       " to '" <<
       positionInMeasure <<
@@ -555,7 +555,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
 void msrHarmony::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrHarmony::acceptIn ()" <<
       endl;
   }
@@ -566,7 +566,7 @@ void msrHarmony::acceptIn (basevisitor* v)
         S_msrHarmony elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrHarmony::visitStart ()" <<
             endl;
         }
@@ -577,7 +577,7 @@ void msrHarmony::acceptIn (basevisitor* v)
 void msrHarmony::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrHarmony::acceptOut ()" <<
       endl;
   }
@@ -588,7 +588,7 @@ void msrHarmony::acceptOut (basevisitor* v)
         S_msrHarmony elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrHarmony::visitEnd ()" <<
             endl;
         }

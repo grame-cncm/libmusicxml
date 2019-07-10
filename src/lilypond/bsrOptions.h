@@ -73,8 +73,8 @@ class bsrFacSimileKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -143,8 +143,8 @@ class bsrTextsLanguageAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -223,11 +223,11 @@ class bsrOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&  os,
+                            indentedOstream&  os,
                             S_oahAtom atom);
 
     virtual void          handleValuedAtomValue (
-                            ostream&      os,
+                            indentedOstream&      os,
                             S_oahAtom atom,
                             string        theString);
 

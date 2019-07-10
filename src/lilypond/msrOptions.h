@@ -67,8 +67,8 @@ class msrPartRenameAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -76,7 +76,7 @@ class msrPartRenameAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
-                            ostream& os,
+                            indentedOstream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -149,8 +149,8 @@ class msrPartTransposeAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -158,7 +158,7 @@ class msrPartTransposeAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
-                            ostream& os,
+                            indentedOstream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -220,8 +220,8 @@ class msrPitchesLanguageAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -229,7 +229,7 @@ class msrPitchesLanguageAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
-                            ostream& os,
+                            indentedOstream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -298,7 +298,7 @@ class msrOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&  os,
+                            indentedOstream&  os,
                             S_oahAtom atom);
 
     virtual void          handleValuedAtomValue (

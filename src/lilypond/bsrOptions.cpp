@@ -89,8 +89,8 @@ bsrFacSimileKindAtom::~bsrFacSimileKindAtom ()
 {}
 
 void bsrFacSimileKindAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -192,8 +192,8 @@ bsrTextsLanguageAtom::~bsrTextsLanguageAtom ()
 {}
 
 void bsrTextsLanguageAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -718,7 +718,7 @@ void bsrOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void bsrOptions::printBsrOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The BSR bsr are:" <<
     endl;
 
@@ -726,13 +726,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
 
   // display
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "displayBsr" << " : " <<
     booleanAsString (fDisplayBsr) <<
     endl <<
@@ -746,13 +746,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // exit after some passes
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Exit after some passes:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "exit3a" << " : " <<
     booleanAsString (fExit3a) <<
     endl <<
@@ -765,13 +765,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // miscellaneous
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Miscellaneous:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "noBrailleLyrics" << " : " <<
       booleanAsString (fNoBrailleLyrics) <<
       endl <<
@@ -791,13 +791,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // --------------------------------------
 
 #ifdef TRACE_OPTIONS
-  gLogIOstream <<
+  gLogOstream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "traceBsr" << " : " <<
     booleanAsString (fTraceBsr) <<
     endl <<
@@ -827,7 +827,7 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom bsrOptions::handleAtom (
-  ostream&  os,
+  indentedOstream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -872,7 +872,7 @@ S_oahValuedAtom bsrOptions::handleAtom (
 }
 
 void bsrOptions::handleValuedAtomValue (
-  ostream&      os,
+  indentedOstream&      os,
   S_oahAtom atom,
   string        theString)
 {
@@ -890,7 +890,7 @@ void initializeBsrOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing BSR bsr handling" <<
       endl;
   }

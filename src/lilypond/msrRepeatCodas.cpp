@@ -69,7 +69,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -104,7 +104,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -153,7 +153,7 @@ void msrRepeatCoda::appendElementToRepeatCoda (
 void msrRepeatCoda::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrRepeatCoda::acceptIn ()" <<
       endl;
   }
@@ -164,7 +164,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
         S_msrRepeatCoda elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrRepeatCoda::visitStart ()" <<
             endl;
         }
@@ -175,7 +175,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
 void msrRepeatCoda::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrRepeatCoda::acceptOut ()" <<
       endl;
   }
@@ -186,7 +186,7 @@ void msrRepeatCoda::acceptOut (basevisitor* v)
         S_msrRepeatCoda elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrRepeatCoda::visitEnd ()" <<
             endl;
         }

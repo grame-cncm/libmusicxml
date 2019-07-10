@@ -68,7 +68,7 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrSchemeVariable::acceptIn ()" <<
       endl;
   }
@@ -81,7 +81,7 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
             endl;
         }
@@ -94,7 +94,7 @@ void lpsrSchemeVariable::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrSchemeVariable::acceptOut ()" <<
       endl;
   }
@@ -107,7 +107,7 @@ void lpsrSchemeVariable::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
             endl;
         }
@@ -247,7 +247,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptIn ()" <<
       endl;
   }
@@ -260,7 +260,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
             endl;
         }
@@ -273,7 +273,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptOut ()" <<
       endl;
   }
@@ -286,7 +286,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<
             endl;
         }

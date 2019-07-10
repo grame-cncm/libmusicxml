@@ -22,7 +22,7 @@
 #include "exports.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //#ifdef __cplusplus
@@ -43,8 +43,8 @@ EXP void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOptions      msrOpts,
   S_lpsrOptions     lpsrOpts,
-  indentedOstream&  logIOstream,
-  indentedOstream&  lilypondCodeIOstream);
+  indentedOstream&  logOstream,
+  indentedOstream&  lilypondCodeOstream);
 
 /*! @} */
 

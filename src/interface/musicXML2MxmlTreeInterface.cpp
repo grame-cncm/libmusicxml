@@ -46,7 +46,7 @@ namespace MusicXML2
 //_______________________________________________________________________________
 void displayXMLDeclaration (
   TXMLDecl*        xmlDeclaration,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   string xmlVersion    = xmlDeclaration->getVersion ();
   string xmlEncoding   = xmlDeclaration->getEncoding ();
@@ -54,13 +54,13 @@ void displayXMLDeclaration (
 
   const int fieldWidth = 14;
 
-  logIOstream <<
+  logOstream <<
     "XML Declaration:" <<
     endl;
 
   gIndenter++;
 
-  logIOstream << left <<
+  logOstream << left <<
     setw (fieldWidth) <<
     "xmlVersion" << " = \"" << xmlVersion << "\"" <<
     endl <<
@@ -78,11 +78,11 @@ void displayXMLDeclaration (
 //_______________________________________________________________________________
 void displayDocumentType (
   TDocType*        documentType,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   const int fieldWidth = 16;
 
-  logIOstream <<
+  logOstream <<
     "Document Type:" <<
     endl;
 
@@ -93,7 +93,7 @@ void displayDocumentType (
   std::string xmlPubLitteral  = documentType->getPubLitteral ();
   std::string xmlSysLitteral  = documentType->getSysLitteral ();
 
-  logIOstream << left <<
+  logOstream << left <<
     setw (fieldWidth) <<
     "xmlStartElement" << " = \"" << xmlStartElement << "\"" <<
     endl <<
@@ -114,11 +114,11 @@ void displayDocumentType (
 //_______________________________________________________________________________
 string uncompressMXLFile (
   string           mxlFileName,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   string fileBaseName = baseName (mxlFileName);
 
-  logIOstream <<
+  logOstream <<
     "The compressed file name is '" <<
     mxlFileName <<
     "'" <<
@@ -141,7 +141,7 @@ string uncompressMXLFile (
     string listContentsShellCommand = s1.str ();
 
     if (true) {
-      logIOstream <<
+      logOstream <<
         "Listing the contents of the compressed file '" <<
         mxlFileName <<
         "' with command:" <<
@@ -149,7 +149,7 @@ string uncompressMXLFile (
 
       gIndenter++;
 
-      logIOstream <<
+      logOstream <<
         listContentsShellCommand <<
         endl <<
         endl;
@@ -206,7 +206,7 @@ string uncompressMXLFile (
           "Cannot close the input stream after 'popen ()'");
       }
 
-      logIOstream <<
+      logOstream <<
         "The contents of the compressed file '" <<
         mxlFileName <<
         "' is:" <<
@@ -214,7 +214,7 @@ string uncompressMXLFile (
 
       gIndenter++;
 
-      logIOstream <<
+      logOstream <<
         contentsList <<
         endl;
 
@@ -232,13 +232,13 @@ string uncompressMXLFile (
 
 #ifdef TRACE_OPTIONS
         {
-          logIOstream <<
+          logOstream <<
             "*** currentLine:" <<
             endl;
 
           gIndenter++;
 
-          logIOstream <<
+          logOstream <<
             currentLine <<
             endl;
 
@@ -278,19 +278,19 @@ string uncompressMXLFile (
         if (sm.size ()) {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTracePasses) { // JMI ???
-            logIOstream <<
+            logOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
               "with regex '" << regularExpression <<
               "':" <<
               endl;
 
             for (unsigned i = 1; i < sm.size (); ++i) {
-              logIOstream <<
+              logOstream <<
                 "[" << sm [i] << "] " <<
                 endl;
             } // for
 
-            logIOstream <<
+            logOstream <<
               endl <<
               endl;
           }
@@ -336,7 +336,7 @@ string uncompressMXLFile (
                 // we've got the uncompressed file name
                 uncompressedFileName = stringFromLine;
 
-                logIOstream <<
+                logOstream <<
                   "The uncompressed file name is '" <<
                   uncompressedFileName <<
                   "'" <<
@@ -361,7 +361,7 @@ string uncompressMXLFile (
     string uncompressShellCommand = s2.str ();
 
     if (true) {
-      logIOstream <<
+      logOstream <<
         "Uncompressing '" <<
         mxlFileName <<
         "' into '/tmp/" <<
@@ -371,7 +371,7 @@ string uncompressMXLFile (
 
       gIndenter++;
 
-      logIOstream <<
+      logOstream <<
         uncompressShellCommand <<
         endl <<
         endl;
@@ -409,7 +409,7 @@ string uncompressMXLFile (
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*       fileName,
   S_musicXMLOptions mxmlOpts,
-  indentedOstream&  logIOstream)
+  indentedOstream&  logOstream)
 {
   clock_t startClock = clock ();
 
@@ -420,7 +420,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     string separator =
       "%--------------------------------------------------------------";
 
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -446,7 +446,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     string uncompressedFileName =
       uncompressMXLFile (
         fileNameAsString,
-        logIOstream);
+        logOstream);
 
     // the incompressed file in /tmp will be handled
     // instead of the compressed one
@@ -479,15 +479,15 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceEncoding) {
-    logIOstream <<
+    logOstream <<
       endl <<
       "!!!!! xmlFile contents from file:" <<
       endl <<
       endl;
 
-    xmlFile->print (logIOstream);
+    xmlFile->print (logOstream);
 
-    logIOstream <<
+    logOstream <<
       endl <<
       endl;
   }
@@ -498,16 +498,16 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceEncoding) {
-    logIOstream <<
+    logOstream <<
       endl <<
       "!!!!! xmlDecl contents from file:" <<
       endl <<
       endl;
-    xmlDecl->print (logIOstream);
+    xmlDecl->print (logOstream);
 
     displayXMLDeclaration (
       xmlDecl,
-      logIOstream);
+      logOstream);
   }
 #endif
 
@@ -516,16 +516,16 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   TDocType * docType = xmlFile->getDocType ();
 
   if (gMusicXMLOptions->fTraceEncoding) {
-    logIOstream <<
+    logOstream <<
       endl <<
       "!!!!! docType from file:" <<
       endl <<
       endl;
-    docType->print (logIOstream);
+    docType->print (logOstream);
 
     displayDocumentType (
       docType,
-      logIOstream);
+      logOstream);
   }
 #endif
 
@@ -541,7 +541,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   if (encoding == desiredEncoding) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTracePasses) {
-      logIOstream <<
+      logOstream <<
         "% MusicXML data uses \"" <<
         desiredEncoding <<
         "\" encoding" <<
@@ -597,7 +597,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 EXP Sxmlelement musicXMLFd2mxmlTree (
   FILE*             fd,
   S_musicXMLOptions mxmlOpts,
-  indentedOstream&  logIOstream)
+  indentedOstream&  logOstream)
 {
   clock_t startClock = clock ();
 
@@ -606,7 +606,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     string separator =
       "%--------------------------------------------------------------";
 
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -630,11 +630,11 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceEncoding) {
-    logIOstream <<
+    logOstream <<
       "!!!!! xmlFile contents from stream:" <<
       endl;
-    xmlFile->print (logIOstream);
-    logIOstream << endl;
+    xmlFile->print (logOstream);
+    logOstream << endl;
   }
 #endif
 
@@ -643,16 +643,16 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceEncoding) {
-    logIOstream <<
+    logOstream <<
       endl <<
       "xmlDecl contents:" <<
       endl <<
       endl;
-    xmlDecl->print (logIOstream);
+    xmlDecl->print (logOstream);
 
     displayXMLDeclaration (
       xmlDecl,
-      logIOstream);
+      logOstream);
   }
 #endif
 
@@ -661,16 +661,16 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   TDocType * docType = xmlFile->getDocType ();
 
   if (gMusicXMLOptions->fTraceEncoding) {
-    logIOstream <<
+    logOstream <<
       endl <<
       "!!!!! docType from stream:" <<
       endl <<
       endl;
-    docType->print (logIOstream);
+    docType->print (logOstream);
 
     displayDocumentType (
       docType,
-      logIOstream);
+      logOstream);
   }
 #endif
 
@@ -680,7 +680,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   // should the encoding be converted to UTF-8?
   string desiredEncoding = "UTF-8";
 
-  logIOstream <<
+  logOstream <<
     "% MusicXML data uses \"" <<
     desiredEncoding <<
     "\" encoding" <<
@@ -722,7 +722,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 EXP Sxmlelement musicXMLString2mxmlTree (
   const char*       buffer,
   S_musicXMLOptions mxmlOpts,
-  indentedOstream&  logIOstream)
+  indentedOstream&  logOstream)
 {
   clock_t startClock = clock ();
 
@@ -731,7 +731,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
     string separator =
       "%--------------------------------------------------------------";
 
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<

@@ -62,7 +62,7 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
 /* JMI ???
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePapers) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of a paper" <<
       endl;
   }
@@ -108,7 +108,7 @@ void lpsrPaper::setIndent (float val)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting paper indent to " << val <<
       endl;
   }
@@ -121,7 +121,7 @@ void lpsrPaper::setShortIndent (float val)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting paper short indent to " << val <<
       endl;
   }
@@ -134,7 +134,7 @@ void lpsrPaper::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrPaper::acceptIn ()" <<
       endl;
   }
@@ -147,7 +147,7 @@ void lpsrPaper::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrPaper::visitStart ()" <<
             endl;
         }
@@ -160,7 +160,7 @@ void lpsrPaper::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrPaper::acceptOut ()" <<
       endl;
   }
@@ -173,7 +173,7 @@ void lpsrPaper::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrPaper::visitEnd ()" <<
             endl;
         }

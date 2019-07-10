@@ -255,7 +255,7 @@ void generalOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The general options are:" <<
     endl;
 
@@ -264,11 +264,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // translation date
   // --------------------------------------
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "translationDate" << " : " <<
     fTranslationDate <<
     endl;
@@ -278,13 +278,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // warning and error handling
   // --------------------------------------
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "Warning and error handling:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream <<
+  gLogOstream <<
     setw (fieldWidth) << "quiet" << " : " <<
     booleanAsString (fQuiet) <<
     endl <<
@@ -304,13 +304,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // CPU usage
   // --------------------------------------
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "CPU usage:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream <<
+  gLogOstream <<
     setw (fieldWidth) << "displayCPUusage" << " : " <<
     booleanAsString (fDisplayCPUusage) <<
     endl;
@@ -321,7 +321,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom generalOptions::handleAtom (
-  ostream&  os,
+  indentedOstream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;

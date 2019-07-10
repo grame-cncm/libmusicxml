@@ -75,8 +75,8 @@ lpsrScoreOutputKindAtom::~lpsrScoreOutputKindAtom ()
 {}
 
 void lpsrScoreOutputKindAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -160,7 +160,7 @@ void lpsrScoreOutputKindAtom::print (ostream& os) const
 }
 
 void lpsrScoreOutputKindAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -223,8 +223,8 @@ lpsrPitchesLanguageAtom::~lpsrPitchesLanguageAtom ()
 {}
 
 void lpsrPitchesLanguageAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -308,7 +308,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
 }
 
 void lpsrPitchesLanguageAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -371,8 +371,8 @@ lpsrChordsLanguageAtom::~lpsrChordsLanguageAtom ()
 {}
 
 void lpsrChordsLanguageAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -451,7 +451,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
 }
 
 void lpsrChordsLanguageAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -514,8 +514,8 @@ lpsrTransposeAtom::~lpsrTransposeAtom ()
 {}
 
 void lpsrTransposeAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -572,7 +572,7 @@ void lpsrTransposeAtom::print (ostream& os) const
 }
 
 void lpsrTransposeAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -1201,7 +1201,7 @@ void lpsrOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The LPSR options are:" <<
     endl;
 
@@ -1210,13 +1210,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 #ifdef TRACE_OPTIONS
   // trace
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
     booleanAsString (fTraceLpsr) <<
     endl <<
@@ -1242,13 +1242,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   // display
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "displayLpsr" << " : " <<
     booleanAsString (fDisplayLpsr) <<
     endl;
@@ -1258,13 +1258,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // LilyPond version
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "LilyPond version:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "lilyPondVersion" << " : " <<
     fLilyPondVersion <<
     endl;
@@ -1274,13 +1274,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // LilyPond output kind
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "LilyPond output kind:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "scoreOutputKind" << " : " <<
     lpsrScoreOutputKindAsString (fScoreOutputKind) <<
     endl;
@@ -1290,13 +1290,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // global staff size
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "global staff size:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "fGlobalStaffSize" << " : " <<
     fGlobalStaffSize <<
     endl;
@@ -1306,13 +1306,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // lyrics vs words
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Lyrics vs words:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
     booleanAsString (fAddWordsFromTheLyrics) <<
     endl;
@@ -1322,13 +1322,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // languages
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Languages:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fLpsrQuarterTonesPitchesLanguageKind) <<
@@ -1346,24 +1346,24 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // transpose
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Transpose:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "transposeSemiTonesPitchAndOctave" << " : ";
 
     if (fTransposeSemiTonesPitchAndOctave) {
-      gLogIOstream <<
+      gLogOstream <<
         fTransposeSemiTonesPitchAndOctave->asString ();
     }
     else {
-      gLogIOstream <<
+      gLogOstream <<
         "none";
     }
-  gLogIOstream << endl;
+  gLogOstream << endl;
 
   gIndenter--;
 
@@ -1372,7 +1372,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom lpsrOptions::handleAtom (
-  ostream&  os,
+  indentedOstream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -1557,7 +1557,7 @@ void lpsrOptions::crackLilypondVersionNumber (
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLilypondVersion) {
-    gLogIOstream <<
+    gLogOstream <<
       "There are " << smSize << " matches" <<
       " for version string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -1566,11 +1566,11 @@ void lpsrOptions::crackLilypondVersionNumber (
       smSize << " elements: ";
 
       for (unsigned i = 0; i < smSize; ++i) {
-        gLogIOstream <<
+        gLogOstream <<
           "[" << sm [i] << "] ";
       } // for
 
-      gLogIOstream << endl;
+      gLogOstream << endl;
     }
 #endif
 
@@ -1583,7 +1583,7 @@ void lpsrOptions::crackLilypondVersionNumber (
 
 #ifdef TRACE_OPTIONS
     if (gLpsrOptions->fTraceLilypondVersion) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
         "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
         "--> minorNumberValue = \"" << minorNumberValue << "\"" <<
@@ -1612,7 +1612,7 @@ void lpsrOptions::crackLilypondVersionNumber (
 
 #ifdef TRACE_OPTIONS
     if (gLpsrOptions->fTraceLilypondVersion) {
-      gLogIOstream <<
+      gLogOstream <<
         "There are " << smSize << " matches" <<
         " for chord details string '" << theString <<
         "' with regex '" << regularExpression <<
@@ -1621,11 +1621,11 @@ void lpsrOptions::crackLilypondVersionNumber (
         smSize << " elements: ";
 
         for (unsigned i = 0; i < smSize; ++i) {
-          gLogIOstream <<
+          gLogOstream <<
             "[" << sm [i] << "] ";
         } // for
 
-        gLogIOstream << endl;
+        gLogOstream << endl;
       }
 #endif
 
@@ -1638,7 +1638,7 @@ void lpsrOptions::crackLilypondVersionNumber (
 
 #ifdef TRACE_OPTIONS
       if (gLpsrOptions->fTraceLilypondVersion) {
-        gLogIOstream <<
+        gLogOstream <<
           "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
           "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
           endl;
@@ -1692,7 +1692,7 @@ bool lpsrOptions::versionNumberGreaterThanOrEqualTo (
     otherVersionNumbeMinorNumber);
 
   if (otherVersionNumbeGenerationNumber != 2) {
-    gLogIOstream <<
+    gLogOstream <<
       "Using verstion \"" <<
       otherVersionNumbeGenerationNumber << ".x.y\" " <<
       "is probably not such a good idea" <<
@@ -1700,7 +1700,7 @@ bool lpsrOptions::versionNumberGreaterThanOrEqualTo (
   }
 
   if (otherVersionNumbeMajorNumber < 19) {
-    gLogIOstream <<
+    gLogOstream <<
       "Using a verstion older than \"" <<
       otherVersionNumbeGenerationNumber << ".19.y\" " <<
       "is not a good idea: the generated LilyPond code uses features introduced in the latter" <<
@@ -1743,7 +1743,7 @@ void initializeLpsrOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing LPSR options handling" <<
       endl;
   }

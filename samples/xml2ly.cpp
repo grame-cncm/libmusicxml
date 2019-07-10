@@ -76,7 +76,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
       musicXMLFd2mxmlTree (
         stdin,
         gMusicXMLOptions,
-        gLogIOstream);
+        gLogOstream);
   }
 
   else {
@@ -109,7 +109,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
         gMusicXMLOptions,
-        gLogIOstream);
+        gLogOstream);
   }
 
   return mxmlTree;
@@ -124,7 +124,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
       buildMsrSkeletonFromElementsTree (
         gMsrOptions,
         mxmlTree,
-        gLogIOstream);
+        gLogOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -144,7 +144,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
   }
 
   if (! mScore) {
-    gLogIOstream <<
+    gLogOstream <<
       "### Conversion from MusicCML to an MSR skeleton failed ###" <<
       endl <<
       endl;
@@ -164,7 +164,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
     gMsrOptions,
     mxmlTree,
     scoreSkeleton,
-    gLogIOstream);
+    gLogOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -193,7 +193,7 @@ void displayMsrScore_OptionalPass (
   displayMSRPopulatedScore (
     msrOpts,
     mScore,
-    gLogIOstream);
+    gLogOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -220,7 +220,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
   S_lpsrScore lpScore;
 
   if (gLilypondOptions->fNoLilypondCode) {
-    gLogIOstream <<
+    gLogOstream <<
       "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
       endl <<
       endl;
@@ -231,7 +231,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
         mScore,
         gMsrOptions,
         gLpsrOptions,
-        gLogIOstream);
+        gLogOstream);
   }
 
   if (gIndenter != 0) {
@@ -252,7 +252,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
   }
 
   if (! lpScore && ! gLilypondOptions->fNoLilypondCode) {
-    gLogIOstream <<
+    gLogOstream <<
       "### Conversion from MSR to LPSR failed ###" <<
       endl <<
       endl;
@@ -274,7 +274,7 @@ void displayLpsrScore_OptionalPass (
     lpScore,
     msrOpts,
     lpsrOpts,
-    gLogIOstream);
+    gLogOstream);
 
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
@@ -302,7 +302,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
   int outputFileNameSize = outputFileName.size ();
 
   if (gLilypondOptions->fNoLilypondCode) {
-    gLogIOstream <<
+    gLogOstream <<
       "Option '-nolpc -no-lilypond-code' is set, no LilyPond code is created" <<
       endl <<
       endl;
@@ -316,7 +316,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
-        gLogIOstream <<
+        gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
       }
@@ -327,7 +327,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         ofstream::out);
 
       if (! outFileStream.is_open ()) {
-        gLogIOstream <<
+        gLogOstream <<
           "Could not open LilyPond output file \"" <<
           outputFileName <<
           "\" for writing, exiting" <<
@@ -348,14 +348,14 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         lpScore,
         gMsrOptions,
         gLpsrOptions,
-        gLogIOstream,
+        gLogOstream,
         brailleCodeFileOutputStream);
     }
 
     else {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
-        gLogIOstream <<
+        gLogOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
           endl;
@@ -374,14 +374,14 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         lpScore,
         gMsrOptions,
         gLpsrOptions,
-        gLogIOstream,
+        gLogOstream,
         brailleCodeCoutOutputStream);
     }
 
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
-        gLogIOstream <<
+        gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
           endl;
@@ -433,7 +433,7 @@ void convertMusicXMLToLilypond (
         mxmlTree);
 
   if (gMsrOptions->fExit2a) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
       endl;
@@ -449,7 +449,7 @@ void convertMusicXMLToLilypond (
     mScore);
 
   if (gMsrOptions->fExit2b) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<
       endl;
@@ -476,7 +476,7 @@ void convertMusicXMLToLilypond (
     displayMSRPopulatedScoreSummary (
       gMsrOptions,
       mScore,
-      gLogIOstream);
+      gLogOstream);
 
     exit (444);
   }
@@ -490,7 +490,7 @@ void convertMusicXMLToLilypond (
     displayMSRPopulatedScoreNames (
       gMsrOptions,
       mScore,
-      gLogIOstream);
+      gLogOstream);
 
     exit (555);
   }
@@ -505,7 +505,7 @@ void convertMusicXMLToLilypond (
         mScore);
 
   if (gLpsrOptions->fExit3) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "Existing after pass 3 as requested" <<
       endl;
@@ -542,7 +542,7 @@ int main (int argc, char *argv[])
     handler =
       xml2lyOptionsHandler::create (
         argv [0],
-        gOutputIOstream);
+        gOutputOstream);
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
@@ -552,13 +552,13 @@ int main (int argc, char *argv[])
       handleOptionsAndArguments (
         handler,
         argc, argv,
-        gLogIOstream);
+        gLogOstream);
 
 /* JMI
   // print the resulting options
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fDisplayOptionsHandler) {
-    gLogIOstream <<
+    gLogOstream <<
       handler <<
       endl <<
       endl;
@@ -592,61 +592,61 @@ int main (int argc, char *argv[])
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "This is xml2ly " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    gLogIOstream <<
+    gLogOstream <<
       "Launching conversion of ";
 
     if (inputSourceName == "-")
-      gLogIOstream <<
+      gLogOstream <<
         "standard input";
     else
-      gLogIOstream <<
+      gLogOstream <<
         "\"" << inputSourceName << "\"";
 
-    gLogIOstream <<
+    gLogOstream <<
       " to LilyPond" <<
       endl;
 
-    gLogIOstream <<
+    gLogOstream <<
       "Time is " << gGeneralOptions->fTranslationDate <<
       endl;
 
-    gLogIOstream <<
+    gLogOstream <<
       "LilyPond code will be written to ";
     if (outputFileNameSize) {
-      gLogIOstream <<
+      gLogOstream <<
         outputFileName;
     }
     else {
-      gLogIOstream <<
+      gLogOstream <<
         "standard output";
     }
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       endl;
 
-    gLogIOstream <<
+    gLogOstream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    gLogOstream <<
       handler->
         commandLineWithShortNamesAsString () <<
       endl;
 
     gIndenter--;
-    gLogIOstream <<
+    gLogOstream <<
       "or:" <<
       endl;
     gIndenter++;
 
-    gLogIOstream <<
+    gLogOstream <<
       handler->
         commandLineWithLongNamesAsString () <<
       endl <<
@@ -663,9 +663,9 @@ int main (int argc, char *argv[])
   if (gOahBasicOptions->fDisplayOptionsValues) {
     handler->
       printAllOptionsValues (
-        gLogIOstream);
+        gLogOstream);
 
-    gLogIOstream << endl;
+    gLogOstream << endl;
   }
 #endif
 
@@ -674,7 +674,7 @@ int main (int argc, char *argv[])
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
-    gLogIOstream <<
+    gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
   }
@@ -697,11 +697,11 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fDisplayCPUusage)
     timing::gTiming.print (
-      gLogIOstream);
+      gLogOstream);
 
   // check indentation
   if (gIndenter != 0) {
-    gLogIOstream <<
+    gLogOstream <<
       "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
       endl <<
       endl;
@@ -713,7 +713,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (! true) { // JMI
-    gLogIOstream <<
+    gLogOstream <<
       "### Conversion from LPSR to LilyPond code failed ###" <<
       endl <<
       endl;

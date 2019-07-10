@@ -123,8 +123,8 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -193,8 +193,8 @@ class extraShowChordDetailsAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -259,8 +259,8 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -337,9 +337,9 @@ class extraOptions : public oahGroup
                             S_oahAtom atom);
 
     virtual void          handleValuedAtomValue (
-                            indentedOstream&  os,
-                            S_oahAtom         atom,
-                            string            theString);
+                            ostream&  os,
+                            S_oahAtom atom,
+                            string    theString);
 
   private:
 

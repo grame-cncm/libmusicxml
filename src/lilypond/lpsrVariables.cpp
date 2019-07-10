@@ -47,7 +47,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
   }
@@ -60,7 +60,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
             endl;
         }
@@ -73,7 +73,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
   }
@@ -86,7 +86,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;
         }

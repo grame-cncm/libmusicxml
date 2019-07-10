@@ -24,7 +24,7 @@
 #include "bsrOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -38,7 +38,7 @@ class bsrScore : public bsrElement
     static SMARTP<bsrScore> create (
       int            inputLineNumber,
       S_msrScore     mScore);
-     
+
   protected:
 
     // constructors/destructor
@@ -47,9 +47,9 @@ class bsrScore : public bsrElement
     bsrScore (
       int            inputLineNumber,
       S_msrScore     mScore);
-      
+
     virtual ~bsrScore ();
-  
+
   public:
 
     // set and get
@@ -69,13 +69,13 @@ class bsrScore : public bsrElement
                               { return fBraillePageLength; }
 
   public:
-  
+
     // public services
     // ------------------------------------------------------
 
     void                  appendPageToScore (S_bsrPage page)
                               { fScorePagesList.push_back (page); }
-                              
+
     void                  appendTranscriptionNotesElementToScore ( // JMI
                             S_bsrTranscriptionNotesElement
                               transcriptionNotesElement)
@@ -86,12 +86,12 @@ class bsrScore : public bsrElement
                               }
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -101,7 +101,7 @@ class bsrScore : public bsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -124,7 +124,7 @@ class bsrScore : public bsrElement
     list<S_bsrPage>       fScorePagesList;
 };
 typedef SMARTP<bsrScore> S_bsrScore;
-EXP ostream& operator<< (ostream& os, const S_bsrScore& elt);
+EXP ostream& operator<< (ostream& os, const S_bsrScore& score);
 
 
 }

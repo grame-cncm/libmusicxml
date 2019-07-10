@@ -73,7 +73,7 @@ msrStringTuning::~msrStringTuning ()
 void msrStringTuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrStringTuning::acceptIn ()" <<
       endl;
   }
@@ -84,7 +84,7 @@ void msrStringTuning::acceptIn (basevisitor* v)
         S_msrStringTuning elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrStringTuning::visitStart ()" <<
             endl;
         }
@@ -95,7 +95,7 @@ void msrStringTuning::acceptIn (basevisitor* v)
 void msrStringTuning::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrStringTuning::acceptOut ()" <<
       endl;
   }
@@ -106,7 +106,7 @@ void msrStringTuning::acceptOut (basevisitor* v)
         S_msrStringTuning elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrStringTuning::visitEnd ()" <<
             endl;
         }
@@ -180,7 +180,7 @@ void msrScordatura::addStringTuningToScordatura (
 void msrScordatura::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrScordatura::acceptIn ()" <<
       endl;
   }
@@ -191,7 +191,7 @@ void msrScordatura::acceptIn (basevisitor* v)
         S_msrScordatura elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrScordatura::visitStart ()" <<
             endl;
         }
@@ -202,7 +202,7 @@ void msrScordatura::acceptIn (basevisitor* v)
 void msrScordatura::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrScordatura::acceptOut ()" <<
       endl;
   }
@@ -213,7 +213,7 @@ void msrScordatura::acceptOut (basevisitor* v)
         S_msrScordatura elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrScordatura::visitEnd ()" <<
             endl;
         }
@@ -295,7 +295,7 @@ msrAccordionRegistration::~msrAccordionRegistration ()
 void msrAccordionRegistration::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrAccordionRegistration::acceptIn ()" <<
       endl;
   }
@@ -306,7 +306,7 @@ void msrAccordionRegistration::acceptIn (basevisitor* v)
         S_msrAccordionRegistration elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrAccordionRegistration::visitStart ()" <<
             endl;
         }
@@ -317,7 +317,7 @@ void msrAccordionRegistration::acceptIn (basevisitor* v)
 void msrAccordionRegistration::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrAccordionRegistration::acceptOut ()" <<
       endl;
   }
@@ -328,7 +328,7 @@ void msrAccordionRegistration::acceptOut (basevisitor* v)
         S_msrAccordionRegistration elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrAccordionRegistration::visitEnd ()" <<
             endl;
         }
@@ -394,7 +394,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -411,7 +411,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -458,7 +458,7 @@ void msrHarpPedalsTuning::addPedalTuning (
 void msrHarpPedalsTuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrHarpPedalsTuning::acceptIn ()" <<
       endl;
   }
@@ -469,7 +469,7 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v)
         S_msrHarpPedalsTuning elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitStart ()" <<
             endl;
         }
@@ -480,7 +480,7 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v)
 void msrHarpPedalsTuning::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrHarpPedalsTuning::acceptOut ()" <<
       endl;
   }
@@ -491,7 +491,7 @@ void msrHarpPedalsTuning::acceptOut (basevisitor* v)
         S_msrHarpPedalsTuning elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitEnd ()" <<
             endl;
         }
@@ -678,7 +678,7 @@ string msrPedal::pedalSignAsString ()
 void msrPedal::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrPedal::acceptIn ()" <<
       endl;
   }
@@ -689,7 +689,7 @@ void msrPedal::acceptIn (basevisitor* v)
         S_msrPedal elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrPedal::visitStart ()" <<
             endl;
         }
@@ -700,7 +700,7 @@ void msrPedal::acceptIn (basevisitor* v)
 void msrPedal::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrPedal::acceptOut ()" <<
       endl;
   }
@@ -711,7 +711,7 @@ void msrPedal::acceptOut (basevisitor* v)
         S_msrPedal elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrPedal::visitEnd ()" <<
             endl;
         }
@@ -764,7 +764,7 @@ msrDamp::~msrDamp ()
 void msrDamp::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrDamp::acceptIn ()" <<
       endl;
   }
@@ -775,7 +775,7 @@ void msrDamp::acceptIn (basevisitor* v)
         S_msrDamp elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrDamp::visitStart ()" <<
             endl;
         }
@@ -786,7 +786,7 @@ void msrDamp::acceptIn (basevisitor* v)
 void msrDamp::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrDamp::acceptOut ()" <<
       endl;
   }
@@ -797,7 +797,7 @@ void msrDamp::acceptOut (basevisitor* v)
         S_msrDamp elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrDamp::visitEnd ()" <<
             endl;
         }
@@ -844,7 +844,7 @@ msrDampAll::~msrDampAll ()
 void msrDampAll::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrDampAll::acceptIn ()" <<
       endl;
   }
@@ -855,7 +855,7 @@ void msrDampAll::acceptIn (basevisitor* v)
         S_msrDampAll elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrDampAll::visitStart ()" <<
             endl;
         }
@@ -866,7 +866,7 @@ void msrDampAll::acceptIn (basevisitor* v)
 void msrDampAll::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrDampAll::acceptOut ()" <<
       endl;
   }
@@ -877,7 +877,7 @@ void msrDampAll::acceptOut (basevisitor* v)
         S_msrDampAll elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrDampAll::visitEnd ()" <<
             endl;
         }

@@ -28,15 +28,15 @@ namespace MusicXML2
 
 //________________________________________________________________________
 bsr2BrailleTranslator::bsr2BrailleTranslator (
+  S_bsrScore       bsrScore,
   S_bsrOptions&    bsrOpts,
-  indentedOstream& logIOstream,
-  ostream&         brailleOutputStream,
-  S_bsrScore       bsrScore)
+  indentedOstream& logOstream,
+  ostream&         brailleCodeOutputStream)
     : fLogOutputStream (
-        logIOstream)
+        logOstream)
 {
   fBsrOptions = bsrOpts;
-  
+
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
 
@@ -45,32 +45,32 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
           gBrailleOptions->fByteOrderingKind,
-          brailleOutputStream);
+          brailleCodeOutputStream);
       break;
-      
+
     case kUTF16:
       switch (gBrailleOptions->fByteOrderingKind) {
         case kByteOrderingNone:
           break;
-          
+
         case kByteOrderingBigEndian:
           fBrailleGenerator =
             bsrUTF16BigEndianBrailleGenerator::create (
               gBrailleOptions->fByteOrderingKind,
-              brailleOutputStream);
+              brailleCodeOutputStream);
           break;
-          
+
         case kByteOrderingSmallEndian:
           break;
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (
               gBrailleOptions->fByteOrderingKind,
-              brailleOutputStream);
+              brailleCodeOutputStream);
       } // switch
       break;
   } // switch
 };
-  
+
 bsr2BrailleTranslator::~bsr2BrailleTranslator ()
 {}
 
@@ -337,7 +337,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
         "Generating a space before S_bsrMusicHeading" <<
         endl;
     }
-    
+
     fBrailleGenerator->generateCodeForBrailleCell (
       kCellSpace);
 //      kCellA);

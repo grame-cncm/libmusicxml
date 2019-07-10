@@ -67,7 +67,7 @@ S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGlissandos) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of glissando '" <<
       asString () <<
       "'" <<
@@ -110,7 +110,7 @@ string msrGlissando::glissandoTypeKindAsString (
 void msrGlissando::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrGlissando::acceptIn ()" <<
       endl;
   }
@@ -121,7 +121,7 @@ void msrGlissando::acceptIn (basevisitor* v)
         S_msrGlissando elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrGlissando::visitStart ()" <<
             endl;
         }
@@ -132,7 +132,7 @@ void msrGlissando::acceptIn (basevisitor* v)
 void msrGlissando::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrGlissando::acceptOut ()" <<
       endl;
   }
@@ -143,7 +143,7 @@ void msrGlissando::acceptOut (basevisitor* v)
         S_msrGlissando elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrGlissando::visitEnd ()" <<
             endl;
         }

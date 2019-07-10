@@ -266,87 +266,9 @@ Usage:
 };
 
 // useful shortcut macros
-#define gOutputIOstream indentedOstream::gOutputIndentedOstream
-#define gLogIOstream    indentedOstream::gLogIndentedOstream
-#define gNullIOstream   indentedOstream::gNullIndentedOstream
-
-//______________________________________________________________________________
-class EXP segmentedLinesOstream
-{
-/*
-  // in order to avoid spaces at the end of a line,
-  // an end of segment causes a space to be output later,
-  // by the next '<<' operator
-
---
-*
-Reference for this class:
-  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
-
-Usage:
-  segmentedLinesOstream myStream (std::cout);
-
-  myStream <<
-    1 << 2 << 3 << std::endl <<
-    5 << 6 << std::endl <<
-    7 << 8 << std::endl;
-*/
-
-  private:
-    // segmentedLinesOstream just uses an indentedOstream
-    indentedOstream&      fIndentedOstream;
-
-    // an end of segment causes a space to be output by the next '<<' operator
-    bool                  fAtEndOfSegment;
-
-  public:
-
-    // constructor
-    segmentedLinesOstream (
-      indentedOstream& indentedOstream)
-      : fIndentedOstream (indentedOstream)
-        { fAtEndOfSegment = false; }
-
-    // destructor
-    virtual ~segmentedLinesOstream ()
-        {};
-
-    // flush
-    void                  flush ()
-                              { fIndentedOstream.flush (); }
-
-    // set and get
-    indentedOstream&      getIndentedOstream ()
-                              { return fIndentedOstream; }
-
-    // indentation
-    indenter&             getIndenter ()
-                              { return fIndentedOstream.getIndenter (); }
-
-    void                  incrIdentation ()
-                              { fIndentedOstream.incrIdentation (); }
-
-    void                  decrIdentation ()
-                              { fIndentedOstream.decrIdentation (); }
-
-    // segments
-    void                  setAtEndOfSegment (bool value)
-                              { fAtEndOfSegment = value; }
-    bool                  getAtEndOfSegment ()
-                              { return fAtEndOfSegment; }
-};
-
-// '<<' operators to implement segments
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch);
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i);
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i);
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f);
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const std::string& str);
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str);
-
-// the manipulators
-segmentedLinesOstream& endline (segmentedLinesOstream& os);
-segmentedLinesOstream& endseg (segmentedLinesOstream& os);
+#define gOutputOstream indentedOstream::gOutputIndentedOstream
+#define gLogOstream    indentedOstream::gLogIndentedOstream
+#define gNullOstream   indentedOstream::gNullIndentedOstream
 
 //______________________________________________________________________________
 struct stringQuoteEscaper

@@ -5941,7 +5941,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasuresDetails) {
-    gLogIOstream <<
+    gLogOstream <<
       "==> visitStart (S_measure" <<
       ", fPartMeasuresCounter = '" <<
         fPartMeasuresCounter <<

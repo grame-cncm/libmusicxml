@@ -84,9 +84,9 @@ class msrVoiceElement : public msrElement
     virtual std::string   asShortString () const;
     virtual std::string   asString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
-    virtual void          printSummary (std::ostream& os) {}
+    virtual void          printSummary (ostream& os) {}
 
   protected:
 
@@ -98,7 +98,7 @@ class msrVoiceElement : public msrElement
     */
 };
 typedef SMARTP<msrVoiceElement> S_msrVoiceElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_msrVoiceElement& elt);
+EXP ostream& operator<< (ostream& os, const S_msrVoiceElement& elt);
 
 
 } // namespace MusicXML2

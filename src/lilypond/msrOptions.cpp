@@ -77,8 +77,8 @@ msrPartRenameAtom::~msrPartRenameAtom ()
 {}
 
 void msrPartRenameAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -220,7 +220,7 @@ void msrPartRenameAtom::print (ostream& os) const
 }
 
 void msrPartRenameAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -307,8 +307,8 @@ msrPartTransposeAtom::~msrPartTransposeAtom ()
 {}
 
 void msrPartTransposeAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -465,7 +465,7 @@ void msrPartTransposeAtom::print (ostream& os) const
 }
 
 void msrPartTransposeAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -552,8 +552,8 @@ msrPitchesLanguageAtom::~msrPitchesLanguageAtom ()
 {}
 
 void msrPitchesLanguageAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string   theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -635,7 +635,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
 }
 
 void msrPitchesLanguageAtom::printOptionsValues (
-  ostream& os,
+  indentedOstream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -1487,7 +1487,7 @@ void msrOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void msrOptions::printMsrOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The MSR options are:" <<
     endl;
 
@@ -1497,13 +1497,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // trace and display
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Trace and display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "traceMsr" << " : " <<
     booleanAsString (fTraceMsr) <<
     endl <<
@@ -1537,13 +1537,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // languages
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
      "Languages:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKind) <<
@@ -1556,17 +1556,17 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // parts
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
      "Parts:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "parts renaming" << " : ";
 
   if (! fPartsRenamingMap.size ()) {
-    gLogIOstream <<
+    gLogOstream <<
       "none";
   }
 
@@ -1577,18 +1577,18 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       i != fPartsRenamingMap.end ();
       i++
   ) {
-        gLogIOstream <<
+        gLogOstream <<
           "\"" << ((*i).first) << "\" -> \"" << ((*i).second) << "\"";
     } // for
   }
 
-  gLogIOstream << endl;
+  gLogOstream << endl;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "parts transposition" << " : ";
 
   if (! fPartsTranspositionMap.size ()) {
-    gLogIOstream <<
+    gLogOstream <<
       "none";
   }
 
@@ -1599,12 +1599,12 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       i != fPartsTranspositionMap.end ();
       i++
   ) {
-        gLogIOstream <<
+        gLogOstream <<
           "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
     } // for
   }
 
-  gLogIOstream << endl;
+  gLogOstream << endl;
 
   gIndenter--;
 
@@ -1612,13 +1612,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // staves
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Staves:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) <<
     "createSingleLineStavesAsRythmic" << " : " <<
     booleanAsString (fCreateSingleLineStavesAsRythmic) <<
@@ -1630,13 +1630,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // voices
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Voices:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) <<
     "createVoicesStaffRelativeNumbers" << " : " <<
     booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
@@ -1648,13 +1648,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // repeats
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Repeats:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) <<
     "createImplicitInitialRepeatBarline" << " : " <<
     booleanAsString (fCreateImplicitInitialRepeatBarline) <<
@@ -1666,13 +1666,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // notes
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
      "Notes:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "delayRestsDynamics" << " : " <<
     booleanAsString (fDelayRestsDynamics) <<
     endl <<
@@ -1707,13 +1707,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // lyrics
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Lyrics:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream <<
+  gLogOstream <<
     setw (fieldWidth) << "addStanzasNumbers" << " : " <<
     booleanAsString (fAddStanzasNumbers) <<
     endl;
@@ -1724,13 +1724,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // harmonies
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Harmonies:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "showHarmonyVoices" << " : " <<
     booleanAsString (fShowHarmonyVoices) <<
     endl;
@@ -1741,13 +1741,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // figured bass
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Figured bass:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
     booleanAsString (fShowFiguredBassVoices) <<
     endl;
@@ -1760,13 +1760,13 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // exit after some passes
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Exit after some passes:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "exit2a" << " : " <<
     booleanAsString (fExit2a) <<
     endl <<
@@ -1778,7 +1778,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom msrOptions::handleAtom (
-  ostream&  os,
+  indentedOstream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -1891,7 +1891,7 @@ void initializeMsrOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing MSR options handling" <<
       endl;
   }

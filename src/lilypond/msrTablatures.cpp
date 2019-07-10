@@ -70,7 +70,7 @@ msrFrameNote::msrFrameNote (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating frame note '" <<
       asString () <<
       "'" <<
@@ -122,7 +122,7 @@ string msrFrameNote::asString () const
 void msrFrameNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFrameNote::acceptIn ()" <<
       endl;
   }
@@ -133,7 +133,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
         S_msrFrameNote elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFrameNote::visitStart ()" <<
             endl;
         }
@@ -144,7 +144,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
 void msrFrameNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFrameNote::acceptOut ()" <<
       endl;
   }
@@ -155,7 +155,7 @@ void msrFrameNote::acceptOut (basevisitor* v)
         S_msrFrameNote elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFrameNote::visitEnd ()" <<
             endl;
         }
@@ -235,7 +235,7 @@ msrFrame::msrFrame (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating frame '" <<
       asString () <<
       "'" <<
@@ -354,7 +354,7 @@ string msrFrame::asString () const
 void msrFrame::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFrame::acceptIn ()" <<
       endl;
   }
@@ -365,7 +365,7 @@ void msrFrame::acceptIn (basevisitor* v)
         S_msrFrame elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFrame::visitStart ()" <<
             endl;
         }
@@ -376,7 +376,7 @@ void msrFrame::acceptIn (basevisitor* v)
 void msrFrame::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrFrame::acceptOut ()" <<
       endl;
   }
@@ -387,7 +387,7 @@ void msrFrame::acceptOut (basevisitor* v)
         S_msrFrame elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrFrame::visitEnd ()" <<
             endl;
         }

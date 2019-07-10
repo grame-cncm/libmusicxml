@@ -18,9 +18,9 @@
 #include "msrMutualDependencies.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
- 
+
 //______________________________________________________________________________
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
@@ -55,31 +55,31 @@ class msrPartGroup : public msrPartGroupElement
 
     enum msrPartGroupImplicitKind {
         kPartGroupImplicitYes, kPartGroupImplicitNo};
-          
+
     static string partGroupImplicitKindAsString (
       msrPartGroupImplicitKind partGroupImplicitKind);
-      
+
     enum msrPartGroupTypeKind {
         kPartGroupTypeNone,
         kPartGroupTypeStart, kPartGroupTypeStop };
-          
+
     static string partGroupTypeKindAsString (
       msrPartGroupTypeKind partGroupTypeKind);
-      
+
     enum msrPartGroupSymbolKind {
         kPartGroupSymbolNone,
         kPartGroupSymbolBrace, kPartGroupSymbolBracket,
         kPartGroupSymbolLine, kPartGroupSymbolSquare};
-          
+
     static string partGroupSymbolKindAsString (
       msrPartGroupSymbolKind partGroupSymbolKind);
-      
+
     enum msrPartGroupBarlineKind {
         kPartGroupBarlineYes, kPartGroupBarlineNo};
-          
+
     static string partGroupBarlineKindAsString (
       msrPartGroupBarlineKind partGroupBarlineKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -130,9 +130,9 @@ class msrPartGroup : public msrPartGroupElement
       msrPartGroupBarlineKind  partGroupBarlineKind,
       S_msrPartGroup           partGroupPartGroupUpLink,
       S_msrScore               partGroupScoreUpLink);
-            
+
     virtual ~msrPartGroup ();
-  
+
   public:
 
     // set and get
@@ -155,12 +155,12 @@ class msrPartGroup : public msrPartGroupElement
     // numbers
     int                   getPartGroupAbsoluteNumber () const
                               { return fPartGroupAbsoluteNumber; }
-    
+
     int                   getPartGroupNumber () const
                               { return fPartGroupNumber; }
 
     // names
-    
+
     string                getPartGroupCombinedName () const;
 
     // miscellaneous
@@ -187,16 +187,16 @@ class msrPartGroup : public msrPartGroupElement
     msrPartGroupImplicitKind
                           getPartGroupImplicitKind () const
                               { return fPartGroupImplicitKind; }
-    
+
     msrPartGroupBarlineKind
                           getPartGroupBarlineKind () const
                               { return fPartGroupBarlineKind; }
-    
+
     void                  setPartGroupInstrumentName (string name);
-                
+
     string                getPartGroupInstrumentName () const
                               { return fPartGroupInstrumentName; }
-                
+
     const list<S_msrPartGroupElement>&
                           getPartGroupElements () const
                               { return fPartGroupElements; }
@@ -207,13 +207,13 @@ class msrPartGroup : public msrPartGroupElement
     S_msrPart             appendPartToPartGroupByItsPartID (
                             int    inputLineNumber,
                             string partID);
-    
+
     void                  appendPartToPartGroup (S_msrPart part);
-    
+
     void                  removePartFromPartGroup (
                             int       inputLineNumber,
                             S_msrPart partToBeRemoved);
-                
+
     void                  prependSubPartGroupToPartGroup (
                             S_msrPartGroup partGroup);
 
@@ -253,13 +253,13 @@ class msrPartGroup : public msrPartGroupElement
     void                  printPartGroupParts (
                             int      inputLineNumber,
                             ostream& os);
-  
+
     string                partGroupImplicitKindAsString () const;
-    
+
     string                partGroupBarlineKindAsString () const;
 
     virtual string        asString () const;
-    
+
     virtual void          print (ostream& os);
 
     virtual void          printSummary (ostream& os);
@@ -270,42 +270,42 @@ class msrPartGroup : public msrPartGroupElement
     // ------------------------------------------------------
 
     // upLinks
-    
+
     S_msrPartGroup        fPartGroupPartGroupUpLink;
                             // part groups can be nested
 
     S_msrScore            fPartGroupScoreUpLink;
 
     // numbers
-    
+
     int                   fPartGroupNumber;
-    int                   fPartGroupAbsoluteNumber;    
+    int                   fPartGroupAbsoluteNumber;
 
     // name
-    
+
     string                fPartGroupName;
     string                fPartGroupNameDisplayText;
-    
+
     string                fPartGroupAccidentalText;
-    
+
     string                fPartGroupAbbreviation;
 
     // symbol kind
-    
+
     msrPartGroupSymbolKind
                           fPartGroupSymbolKind;
 
     // default X
-    
+
     int                   fPartGroupSymbolDefaultX;
 
     // implicit
-    
+
     msrPartGroupImplicitKind
                           fPartGroupImplicitKind;
 
     // bar line
-    
+
     msrPartGroupBarlineKind
                           fPartGroupBarlineKind;
 

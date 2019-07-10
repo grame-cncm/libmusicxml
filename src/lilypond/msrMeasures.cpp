@@ -82,7 +82,7 @@ void msrMeasure::initializeMeasure ()
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -100,7 +100,7 @@ void msrMeasure::initializeMeasure ()
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceRepeats) {
     if (false && fMeasureDebugNumber == 3) { // JMI
-      gLogIOstream <<
+      gLogOstream <<
         endl <<
         "======================= initializeMeasure()" <<
         endl <<
@@ -188,7 +188,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -269,7 +269,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a deep copy of measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -325,7 +325,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   if (numberOfMeasureElements) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         singularOrPluralWithoutNumber (
           numberOfMeasureElements, "There is", "There are") <<
         " " <<
@@ -377,7 +377,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         ) {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Sharing time " <<
             time->asShortString () <<
             " in measure '" <<
@@ -409,7 +409,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   else {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         "There are no elements in measure to be deep copied" <<
         " in segment " <<
         containingSegment->asString () <<
@@ -435,7 +435,7 @@ void msrMeasure::setMeasureEndRegularKind (
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         "Setting regular kind of measure '" <<
         fMeasureNumber <<
         "' to '" <<
@@ -460,7 +460,7 @@ void msrMeasure::setMeasureRepeatContextKind (
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         "Setting repeat context kind of measure '" <<
         fMeasureNumber <<
         "' to '" <<
@@ -485,7 +485,7 @@ void msrMeasure::setMeasurePuristNumber (
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         "Setting purist number of measure '" <<
         fMeasureNumber <<
         "' to '" <<
@@ -520,7 +520,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 //      ||
 //    gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending element " <<
       elem->asShortString () <<
       " to measure " <<
@@ -550,7 +550,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "Considering delayed " <<
           measureElement->asShortString () <<
           " in measure " <<
@@ -572,7 +572,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Appending delayed " <<
             measureElement->asShortString () <<
             " in measure " <<
@@ -632,7 +632,7 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
       ||
     gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Inserting element " <<
       elem->asShortString () <<
       /* JMI ???
@@ -679,7 +679,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending element " <<
       elem->asShortString () <<
       " at the end of measure " <<
@@ -715,7 +715,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "Considering delayed " <<
           measureElement->asShortString () <<
           " in measure " <<
@@ -737,7 +737,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Appending delayed " <<
             measureElement->asShortString () <<
             " in measure " <<
@@ -794,11 +794,11 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
   #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "Reverse iteration on measure element:" <<
           endl;
         gIndenter++;
-        gLogIOstream <<
+        gLogOstream <<
           measureElement;
         gIndenter--;
       }
@@ -812,7 +812,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       ) {
   #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Element is a barline actually" <<
             endl;
         }
@@ -821,7 +821,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       else {
   #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Element is no barline" <<
             endl;
         }
@@ -840,21 +840,21 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
     // insert elem in the measure elements list before (*i)
   #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         "Inserting measure element " <<
         elem->asString ();
 
       if (reverseIteratorBase == fMeasureElementsList.end ()) {
-        gLogIOstream <<
+        gLogOstream <<
           " at the end of the measure";
       }
       else {
-        gLogIOstream <<
+        gLogOstream <<
           " before " <<
           (*reverseIteratorBase)->asString ();
       }
 
-      gLogIOstream <<
+      gLogOstream <<
         endl;
     }
   #endif
@@ -878,7 +878,7 @@ void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
       "' in measure '" <<
@@ -904,7 +904,7 @@ void msrMeasure::setMeasureFirstInVoice ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -950,7 +950,7 @@ void msrMeasure::setCurrentMeasureWholeNotes (
       ||
     gMusicXMLOptions->fTraceDivisions
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting current whole notes of measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -964,11 +964,11 @@ void msrMeasure::setCurrentMeasureWholeNotes (
         !=
       wholeNotes.getDenominator ()
     ) {
-      gLogIOstream <<
+      gLogOstream <<
         " (rationalised from '" << wholeNotes << "')";
     }
 
-    gLogIOstream <<
+    gLogOstream <<
       " in voice \"" <<
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
@@ -996,7 +996,7 @@ void msrMeasure::setMeasureKind (
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         "Setting measure kind of measure '" <<
         fMeasureNumber <<
         "' to '" <<
@@ -1020,7 +1020,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending clef '" << clef->asString () <<
       "' to measure " <<
       fMeasureNumber <<
@@ -1041,7 +1041,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending key '" << key->asString () <<
       "' to measure " <<
       fMeasureNumber <<
@@ -1067,18 +1067,18 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending time '" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    gLogOstream <<
       time;
 
     gIndenter--;
 
-    gLogIOstream <<
+    gLogOstream <<
       "' to measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -1113,13 +1113,13 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    gLogOstream <<
       time;
 
     gIndenter--;
@@ -1129,7 +1129,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
         fMeasureSegmentUpLink->
           getSegmentVoiceUpLink ();
 
-    gLogIOstream <<
+    gLogOstream <<
       "to measure clone '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -1162,18 +1162,18 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
     gTraceOptions->fTraceTimes
       ||
     gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting measure full measure whole notes from time:" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    gLogOstream <<
       time;
 
     gIndenter--;
 
-    gLogIOstream <<
+    gLogOstream <<
       "for measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -1212,7 +1212,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
           gTraceOptions->fTraceTimes
             ||
           gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "There are " <<
             wholeNotesPerMeasure <<
             " whole note(s) per measure in time:" <<
@@ -1220,12 +1220,12 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
 
           gIndenter++;
 
-          gLogIOstream <<
+          gLogOstream <<
             time;
 
           gIndenter--;
 
-          gLogIOstream <<
+          gLogOstream <<
             "in measure '" <<
             fMeasureNumber << "'" <<
             ", measureDebugNumber: '" <<
@@ -1251,7 +1251,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
           gTraceOptions->fTraceTimes
             ||
           gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Measure '" <<
             fMeasureNumber <<
             ", measureDebugNumber: '" <<
@@ -1282,7 +1282,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
           ||
         gTraceOptions->fTraceMeasures
       ) {
-        gLogIOstream <<
+        gLogOstream <<
           "Measure '" <<
           fMeasureNumber <<
           ", measureDebugNumber: '" <<
@@ -1330,7 +1330,7 @@ void msrMeasure::appendPartAbbreviationDisplayToMeasure (
 
 void msrMeasure::printMeasurePendingMeasureElementsList ()
 {
-  gLogIOstream <<
+  gLogOstream <<
     endl <<
     "===> printMeasurePendingMeasureElementsList ()" <<
     endl;
@@ -1343,20 +1343,20 @@ void msrMeasure::printMeasurePendingMeasureElementsList ()
       iEnd   = fMeasurePendingMeasureElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogIOstream << (*i)->asShortString ();
+      gLogOstream << (*i)->asShortString ();
       if (++i == iEnd) break;
-      gLogIOstream << endl;
+      gLogOstream << endl;
     } // for
   }
   else {
-    gLogIOstream <<
+    gLogOstream <<
       "none" <<
       endl;
   }
 
   gIndenter--;
 
-  gLogIOstream <<
+  gLogOstream <<
     "<===" <<
     endl <<
     endl;
@@ -1372,7 +1372,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending barline " <<
       barline->asShortString () <<
       " to measure " <<
@@ -1484,7 +1484,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       ||
     gTraceOptions->fTracePositionsInMeasures
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending note '" << note->asShortString () <<
       "' to measure '" <<
       fMeasureNumber <<
@@ -1646,7 +1646,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending padding note '" << note->asShortString () <<
       "' at the end of measure '" <<
       fMeasureNumber <<
@@ -1735,7 +1735,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending note '" << note->asShortString () <<
       "' to measure clone '" <<
       fMeasureNumber <<
@@ -1816,7 +1816,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->asShortString () <<
       "' to measure '" <<
@@ -1898,7 +1898,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
       ||
     gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending chord '" << chord->asString () <<
       "' to measure '" <<
       fMeasureNumber <<
@@ -1952,7 +1952,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       ||
     gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending tuplet " << tuplet->asString () <<
       " to measure '" <<
       fMeasureNumber <<
@@ -2017,7 +2017,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       ||
     gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending harmony " << harmony->asString () <<
       " to measure '" <<
       fMeasureNumber <<
@@ -2077,7 +2077,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       ||
     gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending harmony " << harmony->asString () <<
       " to measure clone '" <<
       fMeasureNumber <<
@@ -2130,7 +2130,7 @@ void msrMeasure::appendFiguredBassToMeasure (
       ||
     gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
       "' to measure '" <<
       fMeasureNumber <<
@@ -2183,7 +2183,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
       ||
     gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
       "' to measure clone '" <<
       fMeasureNumber <<
@@ -2231,7 +2231,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a padding note for voice \"" <<
       voice->getVoiceName () <<
       "', duration = '" <<
@@ -2314,9 +2314,9 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
       ||
     gTraceOptions->fTraceWholeNotes
   ) {
-    this->print (gLogIOstream);
+    this->print (gLogOstream);
 
-    gLogIOstream <<
+    gLogOstream <<
       "Padding from current measure whole notes '" << fCurrentMeasureWholeNotes <<
       "' to '" << wholeNotes <<
       "' in measure '" <<
@@ -2351,7 +2351,7 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures || gMusicXMLOptions->fTraceDivisions) {
-      gLogIOstream <<
+      gLogOstream <<
         "Appending rest" << paddingNote->asString () <<
         " (missingDuration " << missingDuration <<
         " whole notes) to skip from length '" << fCurrentMeasureWholeNotes <<
@@ -2387,7 +2387,7 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
   else if (fCurrentMeasureWholeNotes == wholeNotes) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
         "No need to pad from current measure whole notes '" <<
         fCurrentMeasureWholeNotes <<
         "' to '" <<
@@ -2407,8 +2407,8 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
   }
 
   else {
-    measureVoice->print (gLogIOstream); // JMI
-    this->print (gLogIOstream);
+    measureVoice->print (gLogOstream); // JMI
+    this->print (gLogOstream);
 
     stringstream s;
 
@@ -2443,7 +2443,7 @@ void msrMeasure::appendPaddingNoteToMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending padding note of " << divisions <<
       " divisions to measure " <<
       fMeasureNumber <<
@@ -2541,7 +2541,7 @@ void msrMeasure::appendStaffDetailsToMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending staff details '" << staffDetails->asShortString () <<
       "' to measure '" <<
       fMeasureNumber <<
@@ -2587,7 +2587,7 @@ void msrMeasure::removeNoteFromMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Removing note '" <<
       note->asShortString () <<
       "' from measure '" <<
@@ -2637,7 +2637,7 @@ void msrMeasure::removeNoteFromMeasure (
         getVoiceStaffUpLink ()->
         getStaffPartUpLink ();
 
-  gLogIOstream <<
+  gLogOstream <<
     endl <<
     endl <<
     "@@@@@@@@@@@@@@@@@ segmentVoicePart" <<
@@ -2648,7 +2648,7 @@ void msrMeasure::removeNoteFromMeasure (
     endl <<
     endl;
 
-  gLogIOstream <<
+  gLogOstream <<
     endl <<
     endl <<
     "@@@@@@@@@@@@@@@@@ segmentVoiceUpLink" <<
@@ -2686,16 +2686,16 @@ void msrMeasure::removeElementFromMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Removing element:" <<
       endl;
 
     gIndenter++;
-    gLogIOstream <<
+    gLogOstream <<
       " JMI ??? element->elementAsString ()" << endl;
     gIndenter--;
 
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       " from measure '" <<
       fMeasureNumber <<
@@ -2709,7 +2709,7 @@ void msrMeasure::removeElementFromMeasure (
       endl;
 
     gIndenter++;
-    gLogIOstream <<
+    gLogOstream <<
       "fMeasureLastHandledNote:" <<
       endl <<
       fMeasureLastHandledNote <<
@@ -2813,7 +2813,7 @@ if (false)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Determining the measure kind and purist number of measure '" <<
       fMeasureNumber <<
       "', measureDebugNumber: '" <<
@@ -3104,7 +3104,7 @@ void msrMeasure::padUpToPositionInMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
       "' in measure '" <<
@@ -3147,7 +3147,7 @@ void msrMeasure::padUpToPositionInMeasure (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
        "Appending '" << paddingNote->asString () <<
        " (" << missingDuration << " whole notes)'" <<
        " to finalize \"" << measureVoice->getVoiceName () <<
@@ -3191,7 +3191,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
       "' at the end of measure '" <<
@@ -3233,7 +3233,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
        "Creating a padding note '" <<
        ", duration: " << duration <<
        " at the end of voice \"" << measureVoice->getVoiceName () <<
@@ -3257,7 +3257,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
-      gLogIOstream <<
+      gLogOstream <<
        "Appending '" << paddingNote->asString () <<
        " to finalize \"" << measureVoice->getVoiceName () <<
        "\" measure: '" <<
@@ -3309,7 +3309,7 @@ void msrMeasure::finalizeRegularMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Finalizing regular measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -3391,7 +3391,7 @@ void msrMeasure::finalizeRegularMeasure (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "Considering delayed '" <<
           measureElement->asShortString () <<
           "' in measure '" <<
@@ -3422,7 +3422,7 @@ void msrMeasure::finalizeRegularMeasure (
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Appending delayed '" <<
             measureElement->asShortString () <<
             "' in measure '" <<
@@ -3560,7 +3560,7 @@ void msrMeasure::finalizeRegularMeasure (
     ) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
           "' occupies measure '" <<
@@ -3615,7 +3615,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
       ||
     gTraceOptions->fTraceForTests
   ) {
-    gLogIOstream <<
+    gLogOstream <<
       "Finalizing harmonies in harmony measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -3686,11 +3686,11 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         // handle the currentHarmony
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "handleHarmoniesInHarmonyMeasureFinalization() 3" <<
             ", currentHarmony: ";
             gIndenter++;
-            gLogIOstream <<
+            gLogOstream <<
               currentHarmony->asString () <<
               endl;
             gIndenter--;
@@ -3717,19 +3717,19 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-            gLogIOstream <<
+            gLogOstream <<
               "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
               ", previousHarmony: ";
 
             if (previousHarmony) {
-              gLogIOstream <<
+              gLogOstream <<
                 previousHarmony->asString ();
             }
             else {
-              gLogIOstream << "none";
+              gLogOstream << "none";
             }
 
-            gLogIOstream <<
+            gLogOstream <<
               ", currentHarmonyPositionInMeasure: " <<
               currentHarmonyPositionInMeasure <<
               ", currentHarmonyNoteUpLinkPositionInMeasure: " <<
@@ -3762,7 +3762,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-            gLogIOstream <<
+            gLogOstream <<
               "handleHarmoniesInHarmonyMeasureFinalization() 5" <<
               ", previousHarmony is null, positionInMeasureToPadUpTo: " <<
               positionInMeasureToPadUpTo <<
@@ -3783,7 +3783,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             // insert paddingNote before currentHarmony in the measure's elements list
 #ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-              gLogIOstream <<
+              gLogOstream <<
                 "Inserting first padding note " <<
                 paddingNote->asString () <<
                 " before currentHarmony " <<
@@ -3842,19 +3842,19 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-            gLogIOstream <<
+            gLogOstream <<
               "handleHarmoniesInHarmonyMeasureFinalization() 7" <<
               ", previousHarmony: ";
 
             if (previousHarmony) {
-              gLogIOstream <<
+              gLogOstream <<
                 previousHarmony->asString ();
             }
             else {
-              gLogIOstream << "none";
+              gLogOstream << "none";
             }
 
-            gLogIOstream <<
+            gLogOstream <<
               ", currentHarmony: " <<
               currentHarmony->asString () <<
               ", previousHarmonyPositionInMeasure: " <<
@@ -3888,7 +3888,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             // insert paddingNote before currentHarmony in the measure's elements list
 #ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-              gLogIOstream <<
+              gLogOstream <<
                 "Inserting subsequent padding note " <<
                 paddingNote->asString () <<
                 " before currentHarmony " <<
@@ -3932,7 +3932,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-              gLogIOstream <<
+              gLogOstream <<
                 "Reducing the sounding whole notes of harmony " <<
                 previousHarmony->asString () <<
                 " from " <<
@@ -4004,12 +4004,12 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "handleHarmoniesInHarmonyMeasureFinalization() 8888 " <<
           "currentHarmonyNoteUpLink:" <<
           endl;
         gIndenter++;
-        gLogIOstream <<
+        gLogOstream <<
           currentHarmonyNoteUpLink <<
           endl;
         gIndenter--;
@@ -4046,7 +4046,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "handleHarmoniesInHarmonyMeasureFinalization() 9999 " <<
           "currentHarmonyNoteUpLinkMeasure: " <<
           currentHarmonyNoteUpLinkMeasure->asString () <<
@@ -4070,19 +4070,19 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "handleHarmoniesInHarmonyMeasureFinalization() 9" <<
           ", currentHarmony: ";
 
         if (currentHarmony) {
-          gLogIOstream <<
+          gLogOstream <<
             currentHarmony->asString ();
         }
         else {
-          gLogIOstream << "none";
+          gLogOstream << "none";
         }
 
-        gLogIOstream <<
+        gLogOstream <<
           ", currentHarmonyPositionInMeasure: " <<
           currentHarmonyPositionInMeasure <<
           ", currentHarmonySoundingWholeNotes: " <<
@@ -4130,7 +4130,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
-          gLogIOstream <<
+          gLogOstream <<
             "Reducing the sounding whole notes of harmony " <<
             currentHarmony->asString () <<
             " from " <<
@@ -4168,7 +4168,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     }
 /* JMI
     else {
-      gLogIOstream <<
+      gLogOstream <<
         "*** currentHarmony is null ***" << // JMI
         endl;
     }
@@ -4203,7 +4203,7 @@ void msrMeasure::finalizeHarmonyMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Finalizing harmony measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -4390,7 +4390,7 @@ void msrMeasure::finalizeHarmonyMeasure (
     ) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
           "' occupies measure '" <<
@@ -4443,7 +4443,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Finalizing figured bass measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -4630,7 +4630,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
     ) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures) {
-        gLogIOstream <<
+        gLogOstream <<
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
           "' occupies measure '" <<
@@ -4691,7 +4691,7 @@ void msrMeasure::finalizeMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Finalizing measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -4821,7 +4821,7 @@ void msrMeasure::finalizeMeasureClone (
 void msrMeasure::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrMeasure::acceptIn ()" <<
       endl;
   }
@@ -4832,7 +4832,7 @@ void msrMeasure::acceptIn (basevisitor* v)
         S_msrMeasure elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrMeasure::visitStart ()" <<
             endl;
         }
@@ -4843,7 +4843,7 @@ void msrMeasure::acceptIn (basevisitor* v)
 void msrMeasure::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrMeasure::acceptOut ()" <<
       endl;
   }
@@ -4854,7 +4854,7 @@ void msrMeasure::acceptOut (basevisitor* v)
         S_msrMeasure elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrMeasure::visitEnd ()" <<
             endl;
         }
@@ -4865,7 +4865,7 @@ void msrMeasure::acceptOut (basevisitor* v)
 void msrMeasure::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrMeasure::browseData ()" <<
       endl;
   }
@@ -4881,7 +4881,7 @@ void msrMeasure::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% <== msrMeasure::browseData ()" <<
       endl;
   }
@@ -5089,7 +5089,7 @@ void msrMeasure::displayMeasure (
   int    inputLineNumber,
   string context)
 {
-  gLogIOstream <<
+  gLogOstream <<
     endl <<
     "*********>> Measure '" <<
     fMeasureNumber <<
@@ -5105,10 +5105,10 @@ void msrMeasure::displayMeasure (
     endl;
 
   gIndenter++;
-  print (gLogIOstream);
+  print (gLogOstream);
   gIndenter--;
 
-  gLogIOstream <<
+  gLogOstream <<
     "<<*********" <<
     endl <<
     endl;

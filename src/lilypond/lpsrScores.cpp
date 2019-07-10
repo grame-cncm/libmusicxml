@@ -396,7 +396,7 @@ void lpsrScore::setScoreGlobalStaffSizeSchemeVariable (float size)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting score global staff size Scheme variable to '" <<
       size <<
       "'" <<
@@ -563,7 +563,7 @@ R"(
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -601,7 +601,7 @@ R"(
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -785,7 +785,7 @@ glissandoTextOff = \revert Glissando.stencil
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -838,7 +838,7 @@ R"(
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
@@ -877,7 +877,7 @@ R"(
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
@@ -915,7 +915,7 @@ R"(
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Using Scheme modules '" << schemeModulesName << "'" <<
       endl;
   }
@@ -968,7 +968,7 @@ tongue =
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1015,7 +1015,7 @@ editorialAccidental =
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1059,7 +1059,7 @@ ffffff = #(make-dynamic-script "ffffff")
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1151,7 +1151,7 @@ tupletsCurvedBrackets = {
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1197,7 +1197,7 @@ after =
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1301,7 +1301,7 @@ tempoRelationship =
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1355,7 +1355,7 @@ damp = \markup {
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1403,7 +1403,7 @@ dampAll = \markup
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1456,7 +1456,7 @@ whiteNoteHeads =
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1537,7 +1537,7 @@ R"(
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1588,7 +1588,7 @@ void lpsrScore::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrScore::acceptIn ()" <<
       endl;
   }
@@ -1601,7 +1601,7 @@ void lpsrScore::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrScore::visitStart ()" <<
             endl;
         }
@@ -1614,7 +1614,7 @@ void lpsrScore::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrScore::acceptOut ()" <<
       endl;
   }
@@ -1627,7 +1627,7 @@ void lpsrScore::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrScore::visitEnd ()" <<
             endl;
         }
@@ -1640,7 +1640,7 @@ void lpsrScore::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrScore::browseData ()" <<
       endl;
   }
@@ -1770,7 +1770,7 @@ void lpsrScore::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% <== lpsrScore::browseData ()" <<
       endl;
   }

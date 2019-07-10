@@ -48,7 +48,7 @@ void msrMeasureElement::setPositionInMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting position in measure of " <<
       asString () <<
       " to '" << positionInMeasure <<
@@ -77,7 +77,7 @@ void msrMeasureElement::setSoundingWholeNotes (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting sounding whole notes of " <<
       asString () <<
       " to '" << wholeNotes <<
@@ -112,7 +112,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrMeasureElement::acceptIn ()" <<
       endl;
   }
@@ -125,7 +125,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrMeasureElement::visitStart ()" <<
             endl;
         }
@@ -138,7 +138,7 @@ void msrMeasureElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrMeasureElement::acceptOut ()" <<
       endl;
   }
@@ -151,7 +151,7 @@ void msrMeasureElement::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrMeasureElement::visitEnd ()" <<
             endl;
         }

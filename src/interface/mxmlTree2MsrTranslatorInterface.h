@@ -39,25 +39,25 @@ EXP void populateMsrSkeletonFromMxmlTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScore (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScoreSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScoreNames (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 
 } // namespace MusicXML2

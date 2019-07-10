@@ -151,7 +151,7 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
 void msrOrnament::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrOrnament::acceptIn ()" <<
       endl;
   }
@@ -162,7 +162,7 @@ void msrOrnament::acceptIn (basevisitor* v)
         S_msrOrnament elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrOrnament::visitStart ()" <<
             endl;
         }
@@ -173,7 +173,7 @@ void msrOrnament::acceptIn (basevisitor* v)
 void msrOrnament::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrOrnament::acceptOut ()" <<
       endl;
   }
@@ -184,7 +184,7 @@ void msrOrnament::acceptOut (basevisitor* v)
         S_msrOrnament elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrOrnament::visitEnd ()" <<
             endl;
         }

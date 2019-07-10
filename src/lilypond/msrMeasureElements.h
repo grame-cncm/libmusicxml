@@ -96,9 +96,9 @@ class msrMeasureElement : public msrElement
     virtual std::string   asShortString () const;
     virtual std::string   asString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
-    virtual void          printSummary (std::ostream& os) {}
+    virtual void          printSummary (ostream& os) {}
 
   protected:
 
@@ -110,7 +110,7 @@ class msrMeasureElement : public msrElement
     rational              fSoundingWholeNotes;
 };
 typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_msrMeasureElement& elt);
+EXP ostream& operator<< (ostream& os, const S_msrMeasureElement& elt);
 
 
 } // namespace MusicXML2

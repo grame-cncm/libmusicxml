@@ -16,7 +16,7 @@
 #include "bsrCellsLists.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -32,18 +32,18 @@ const string
     "\xFF\xFE",         // UTF-16, little-endian
   kBOM_UTF_8 =
     "\xEF\xBB\xBF";     // UTF-8
-    
+
 //______________________________________________________________________________
 enum bsrUTFKind {
     kUTF8, kUTF16 };
-    
+
 string bsrUTFKindAsString (
   bsrUTFKind UTFKind);
 
 enum bsrByteOrderingKind {
     kByteOrderingNone,
     kByteOrderingBigEndian, kByteOrderingSmallEndian };
-    
+
 string byteOrderingKindAsString (
   bsrByteOrderingKind byteOrderingKind);
 
@@ -70,9 +70,9 @@ class bsrBrailleGenerator : public smartable
     bsrBrailleGenerator (
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
-      
+
     virtual ~bsrBrailleGenerator ();
-  
+
   public:
 
     // set and get
@@ -80,18 +80,18 @@ class bsrBrailleGenerator : public smartable
 
     bsrByteOrderingKind   getByteOrderingKind () const
                               { return fByteOrderingKind; }
-                  
+
   public:
 
     // services
     // ------------------------------------------------------
-      
+
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind) = 0;
-    
+
     void                  generateCodeForCellsList (
                             S_bsrCellsList cellsList);
-    
+
   public:
 
     // print
@@ -132,9 +132,9 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
     bsrUTF8BrailleGenerator (
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
-      
+
     virtual ~bsrUTF8BrailleGenerator ();
-  
+
   public:
 
     // set and get
@@ -144,10 +144,10 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
 
     // services
     // ------------------------------------------------------
-      
+
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind);
-        
+
   public:
 
     // print
@@ -185,9 +185,9 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
     bsrUTF16BigEndianBrailleGenerator (
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
-      
+
     virtual ~bsrUTF16BigEndianBrailleGenerator ();
-  
+
   public:
 
     // set and get
@@ -197,10 +197,10 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
 
     // services
     // ------------------------------------------------------
-      
+
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind);
-        
+
   public:
 
     // print
@@ -238,9 +238,9 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
     bsrUTF16SmallEndianBrailleGenerator (
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
-      
+
     virtual ~bsrUTF16SmallEndianBrailleGenerator ();
-  
+
   public:
 
     // set and get
@@ -250,10 +250,10 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
 
     // services
     // ------------------------------------------------------
-      
+
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind);
-        
+
   public:
 
     // print

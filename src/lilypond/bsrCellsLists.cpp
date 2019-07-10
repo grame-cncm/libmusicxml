@@ -219,7 +219,7 @@ void bsrCellsList::appendCellsListToCellsList (
         fCellsListElements.push_back ((*i));
         if (++i == iEnd) break;
    // JMI      os << " ";
-      } // for  
+      } // for
     }
   }
 }
@@ -237,7 +237,7 @@ void bsrCellsList::prependCellsListToCellsList (
         fCellsListElements.push_front ((*i));
         if (++i == iEnd) break;
    // JMI      os << " ";
-      } // for  
+      } // for
     }
   }
 }
@@ -254,7 +254,7 @@ void bsrCellsList::generateBrailleCode (ostream& os)
         bsrCellKindAsShortString ((*i));
       if (++i == iEnd) break;
        os << " ";
-    } // for  
+    } // for
   }
 }
 
@@ -262,20 +262,20 @@ void bsrCellsList::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrCellsList::acceptIn ()" <<
       endl;
   }
 #endif
-  
+
   if (visitor<S_bsrCellsList>*
     p =
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrCellsList::visitStart ()" <<
             endl;
         }
@@ -288,7 +288,7 @@ void bsrCellsList::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrCellsList::acceptOut ()" <<
       endl;
   }
@@ -298,10 +298,10 @@ void bsrCellsList::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrCellsList::visitEnd ()" <<
             endl;
         }
@@ -317,10 +317,10 @@ void bsrCellsList::browseData (basevisitor* v)
 string bsrCellsList::asString () const
 {
   stringstream s;
-  
+
   s <<
     "cellsListElements [";
-    
+
   if (fCellsListElements.size ()) {
     list<bsrCellKind>::const_iterator
       iBegin = fCellsListElements.begin (),
@@ -331,7 +331,7 @@ string bsrCellsList::asString () const
         bsrCellKindAsShortString ((*i));
       if (++i == iEnd) break;
        s << " ";
-    } // for  
+    } // for
   }
 
   s <<
@@ -349,7 +349,7 @@ void bsrCellsList::print (ostream& os)
 {
   os <<
     "cellsListElements [";
-    
+
   if (fCellsListElements.size ()) {
     list<bsrCellKind>::const_iterator
       iBegin = fCellsListElements.begin (),
@@ -360,7 +360,7 @@ void bsrCellsList::print (ostream& os)
         bsrCellKindAsShortString ((*i));
       if (++i == iEnd) break;
        os << " ";
-    } // for  
+    } // for
   }
 
   os <<

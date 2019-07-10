@@ -84,7 +84,7 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrMusicHeading::acceptIn ()" <<
       endl;
   }
@@ -97,7 +97,7 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrMusicHeading::visitStart ()" <<
             endl;
         }
@@ -110,7 +110,7 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrMusicHeading::acceptOut ()" <<
       endl;
   }
@@ -123,7 +123,7 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrMusicHeading::visitEnd ()" <<
             endl;
         }
@@ -136,7 +136,7 @@ void bsrMusicHeading::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
@@ -162,7 +162,7 @@ void bsrMusicHeading::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }

@@ -53,7 +53,7 @@ bsrClef::bsrClef (
     
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceClefs) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating bsrClef '" <<
       asString () <<
       "', line " <<
@@ -157,7 +157,7 @@ void bsrClef::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrClef::acceptIn ()" <<
       endl;
   }
@@ -170,7 +170,7 @@ void bsrClef::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrClef::visitStart ()" <<
             endl;
         }
@@ -183,7 +183,7 @@ void bsrClef::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrClef::acceptOut ()" <<
       endl;
   }
@@ -196,7 +196,7 @@ void bsrClef::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrClef::visitEnd ()" <<
             endl;
         }

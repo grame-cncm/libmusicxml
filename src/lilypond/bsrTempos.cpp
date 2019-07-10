@@ -92,12 +92,12 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           for ( ; ; ) {
             S_msrWords words = (*i);
 
-//            fLilypondCodeIOstream <<
+//            fLilypondCodeOstream <<
    //           "\"" << words->getWordsContents () << "\"";
 
             if (++i == iEnd) break;
 
-     //       fLilypondCodeIOstream <<
+     //       fLilypondCodeOstream <<
      //         " ";
           } // for
         }
@@ -204,7 +204,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         if (smSize == 3) {
 #ifdef TRACE_OPTIONS
           if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-            gLogIOstream <<
+            gLogOstream <<
               "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<
               "' with regex '" << regularExpression <<
@@ -212,11 +212,11 @@ S_bsrCellsList bsrTempo::buildCellsList () const
               endl;
 
             for (unsigned i = 0; i < smSize; ++i) {
-              gLogIOstream <<
+              gLogOstream <<
                 "[" << sm [i] << "] ";
             } // for
 
-            gLogIOstream << endl;
+            gLogOstream << endl;
           }
 #endif
 
@@ -295,7 +295,7 @@ void bsrTempo::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrTempo::acceptIn ()" <<
       endl;
   }
@@ -308,7 +308,7 @@ void bsrTempo::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrTempo::visitStart ()" <<
             endl;
         }
@@ -321,7 +321,7 @@ void bsrTempo::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrTempo::acceptOut ()" <<
       endl;
   }
@@ -334,7 +334,7 @@ void bsrTempo::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrTempo::visitEnd ()" <<
             endl;
         }

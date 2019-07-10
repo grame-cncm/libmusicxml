@@ -60,7 +60,7 @@ S_bsrLineContents bsrLineContents::createLineNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of line " <<
       asString () <<
       endl;
@@ -100,7 +100,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Inserting line element '" <<
       lineElement->asShortString () <<
       "' before the last element of line contents '" <<
@@ -158,7 +158,7 @@ void bsrLineContents::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrLineContents::acceptIn ()" <<
       endl;
   }
@@ -171,7 +171,7 @@ void bsrLineContents::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrLineContents::visitStart ()" <<
             endl;
         }
@@ -184,7 +184,7 @@ void bsrLineContents::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrLineContents::acceptOut ()" <<
       endl;
   }
@@ -197,7 +197,7 @@ void bsrLineContents::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrLineContents::visitEnd ()" <<
             endl;
         }
@@ -355,7 +355,7 @@ bsrLine::bsrLine (
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating bsrLine '" <<
       asString () <<
       "', line " <<
@@ -372,7 +372,7 @@ S_bsrLine bsrLine::createLineNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of line " <<
       asString () <<
       endl;
@@ -467,7 +467,7 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceSpaces || gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending spaces '" <<
       spaces->asShortString () <<
       "' to line '" <<
@@ -484,7 +484,7 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending key '" <<
       key->asShortString () <<
       "' to line '" <<
@@ -502,7 +502,7 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending time '" <<
       time->asShortString () <<
       "' to line '" <<
@@ -520,7 +520,7 @@ void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Inserting time '" <<
       time->asShortString () <<
       "' before the last element of line '" <<
@@ -538,7 +538,7 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending tempo '" <<
       tempo->asShortString () <<
       "' to line '" <<
@@ -556,7 +556,7 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending line '" <<
       measure->asShortString () <<
       "' to line '" <<
@@ -621,7 +621,7 @@ void bsrLine::appendNoteToLine (S_bsrNote note)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
       "' to line '" <<
@@ -687,7 +687,7 @@ void bsrLine::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrLine::acceptIn ()" <<
       endl;
   }
@@ -700,7 +700,7 @@ void bsrLine::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrLine::visitStart ()" <<
             endl;
         }
@@ -713,7 +713,7 @@ void bsrLine::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrLine::acceptOut ()" <<
       endl;
   }
@@ -726,7 +726,7 @@ void bsrLine::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrLine::visitEnd ()" <<
             endl;
         }

@@ -4694,7 +4694,7 @@ class msrTuplet : public msrTupletElement
 
     virtual void          print (ostream& os);
 
-    virtual void          printShort (ostream& os);
+    virtual void          printShort (indentedOstream& os);
 
   private:
 

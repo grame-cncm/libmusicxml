@@ -61,7 +61,7 @@ void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptIn ()" <<
       endl;
   }
@@ -74,7 +74,7 @@ void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitStart ()" <<
             endl;
         }
@@ -87,7 +87,7 @@ void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptOut ()" <<
       endl;
   }
@@ -100,7 +100,7 @@ void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitEnd ()" <<
             endl;
         }
@@ -113,7 +113,7 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrParallelMusicBLock::browseData ()" <<
       endl;
   }
@@ -132,7 +132,7 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% <== lpsrParallelMusicBLock::browseData ()" <<
       endl;
   }

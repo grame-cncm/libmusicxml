@@ -46,7 +46,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptIn ()" <<
       endl;
   }
@@ -59,7 +59,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart ()" <<
             endl;
         }
@@ -72,7 +72,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptOut ()" <<
       endl;
   }
@@ -85,7 +85,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd ()" <<
             endl;
         }
@@ -145,7 +145,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptIn ()" <<
       endl;
   }
@@ -158,7 +158,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart ()" <<
             endl;
         }
@@ -171,7 +171,7 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptOut ()" <<
       endl;
   }
@@ -184,7 +184,7 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd ()" <<
             endl;
         }
@@ -237,7 +237,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrNewStaffBlock::acceptIn ()" <<
       endl;
   }
@@ -250,7 +250,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitStart ()" <<
             endl;
         }
@@ -263,7 +263,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrNewStaffBlock::acceptOut ()" <<
       endl;
   }
@@ -276,7 +276,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd ()" <<
             endl;
         }
@@ -369,7 +369,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrStaffBlock::acceptIn ()" <<
       endl;
   }
@@ -382,7 +382,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrStaffBlock::visitStart ()" <<
             endl;
         }
@@ -395,7 +395,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrStaffBlock::acceptOut ()" <<
       endl;
   }
@@ -408,7 +408,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrStaffBlock::visitEnd ()" <<
             endl;
         }
@@ -421,7 +421,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrStaffBlock::browseData ()" <<
       endl;
   }
@@ -439,7 +439,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% <== lpsrStaffBlock::browseData ()" <<
       endl;
   }

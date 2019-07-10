@@ -48,7 +48,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptIn ()" <<
       endl;
   }
@@ -61,7 +61,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart ()" <<
             endl;
         }
@@ -74,7 +74,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptOut ()" <<
       endl;
   }
@@ -87,7 +87,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd ()" <<
             endl;
         }

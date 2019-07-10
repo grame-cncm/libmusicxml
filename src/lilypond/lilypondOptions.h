@@ -30,13 +30,12 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<lilypondScoreOutputKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrScoreOutputKind&
-                         lilypondScoreOutputKindVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      lpsrScoreOutputKind& lilypondScoreOutputKindVariable);
 
   protected:
 
@@ -44,13 +43,12 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     lilypondScoreOutputKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrScoreOutputKind&
-                         lilypondScoreOutputKindVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      lpsrScoreOutputKind& lilypondScoreOutputKindVariable);
 
     virtual ~lilypondScoreOutputKindAtom ();
 
@@ -67,8 +65,8 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string  theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -153,13 +151,12 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<lilypondRelativeOctaveEntryAtom> create (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      S_msrSemiTonesPitchAndOctave&
-              lilypondRelativeOctaveEntryVariable);
+      string                        shortName,
+      string                        longName,
+      string                        description,
+      string                        valueSpecification,
+      string                        variableName,
+      S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
 
   protected:
 
@@ -167,13 +164,12 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     lilypondRelativeOctaveEntryAtom (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      S_msrSemiTonesPitchAndOctave&
-              lilypondRelativeOctaveEntryVariable);
+      string                        shortName,
+      string                        longName,
+      string                        description,
+      string                        valueSpecification,
+      string                        variableName,
+      S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
 
     virtual ~lilypondRelativeOctaveEntryAtom ();
 
@@ -192,8 +188,8 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string  theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -263,8 +259,8 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string  theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -334,8 +330,8 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string  theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -409,8 +405,8 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string  theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -480,8 +476,8 @@ class lilypondMidiTempoAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string  theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -600,7 +596,7 @@ class lilypondOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&  os,
+                            indentedOstream&  os,
                             S_oahAtom atom);
 
     virtual void          handleValuedAtomValue (

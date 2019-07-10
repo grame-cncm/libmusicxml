@@ -200,7 +200,7 @@ indenter& indenter::operator++ (const int value)
   fIndent++;
 
 #ifdef DEBUG_INDENTER
-  gLogIOstream <<
+  gLogOstream <<
     "% INDENTER: " << fIndent <<
     endl;
 #endif
@@ -213,7 +213,7 @@ indenter& indenter::operator-- (const int value)
   fIndent--;
 
   if (fIndent < 0) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -225,7 +225,7 @@ indenter& indenter::operator-- (const int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogIOstream <<
+    gLogOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -239,7 +239,7 @@ indenter& indenter::increment (int value)
   fIndent += value;
 
   if (fIndent < 0) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -251,7 +251,7 @@ indenter& indenter::increment (int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogIOstream <<
+    gLogOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -265,7 +265,7 @@ indenter& indenter::decrement (int value)
   fIndent -= value;
 
   if (fIndent < 0) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -277,7 +277,7 @@ indenter& indenter::decrement (int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogIOstream <<
+    gLogOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -391,103 +391,6 @@ std::ostream cnull  (& cnull_obj);
 
 indentedOstream indentedOstream::gNullIndentedOstream (
   cnull, indenter::gIndenter);
-
-//______________________________________________________________________________
-// the manipulators
-segmentedLinesOstream& endline (segmentedLinesOstream& os)
-{
-  if (! os.getAtEndOfSegment ()) {
-    // don't output multiple spaces after a segment
-    os.setAtEndOfSegment (true);
-  }
-
-  os.getIndentedOstream () << endl;
-
-  return os;
-}
-
-segmentedLinesOstream& endseg (segmentedLinesOstream& os)
-{
-  if (! os.getAtEndOfSegment ()) {
-    // don't output multiple spaces after a segment
-    os.setAtEndOfSegment (true);
-  }
-
-  return os;
-}
-
-// '<<' operators to implement segments
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch)
-{
-  if (os.getAtEndOfSegment ()) {
-    os << ' ';
-    os.setAtEndOfSegment (false);
-  }
-
-  os.getIndentedOstream () << ch;
-
-  return os;
-}
-
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i)
-{
-  if (os.getAtEndOfSegment ()) {
-    os << ' ';
-    os.setAtEndOfSegment (false);
-  }
-
-  os.getIndentedOstream () << i;
-
-  return os;
-}
-
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i)
-{
-  if (os.getAtEndOfSegment ()) {
-    os << ' ';
-    os.setAtEndOfSegment (false);
-  }
-
-  os.getIndentedOstream () << i;
-
-  return os;
-}
-
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f)
-{
-  if (os.getAtEndOfSegment ()) {
-    os << ' ';
-    os.setAtEndOfSegment (false);
-  }
-
-  os.getIndentedOstream () << f;
-
-  return os;
-}
-
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const string& str)
-{
-  if (os.getAtEndOfSegment ()) {
-    os << ' ';
-    os.setAtEndOfSegment (false);
-  }
-
-  os.getIndentedOstream () << str;
-
-  return os;
-}
-
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str)
-{
-  if (os.getAtEndOfSegment ()) {
-    os << ' ';
-    os.setAtEndOfSegment (false);
-  }
-
-  os.getIndentedOstream () << str;
-
-  return os;
-}
 
 //______________________________________________________________________________
 string replicateString (
@@ -730,7 +633,7 @@ int consumeDecimalNumber (
   int    number = 0;
 
   if (! isdigit (*cursor)) {
-    gLogIOstream <<
+    gLogOstream <<
       "consumeDecimalNumber (" << *cursor <<
       "), " << *cursor << " is no decimal digit!" <<
       endl;
@@ -738,7 +641,7 @@ int consumeDecimalNumber (
 
   while (isdigit (*cursor)) {
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> consumeDecimalNumber: cursor = |" <<
         *cursor <<
         "|" <<
@@ -753,7 +656,7 @@ int consumeDecimalNumber (
   remainingStringIterator = cursor;
 
   if (debugMode) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> consumeDecimalNumber: number = " << number <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
@@ -773,7 +676,7 @@ set<int> decipherNumbersSetSpecification (
   set<int> selectedNumbers;
 
   if (debugMode) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> decipherNumbersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
@@ -784,7 +687,7 @@ set<int> decipherNumbersSetSpecification (
 
   while (1) {
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> decipherNumbersSpecification: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -806,7 +709,7 @@ set<int> decipherNumbersSetSpecification (
       cursor++;
 
       if (debugMode) {
-        gLogIOstream <<
+        gLogOstream <<
           "--> decipherNumbersSpecification after '-' : cursor = |" <<
           *cursor <<
           "|" <<
@@ -823,7 +726,7 @@ set<int> decipherNumbersSetSpecification (
     }
 
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> decipherNumbersSpecification, intervalStartNumber = " << intervalStartNumber <<
         ", intervalEndNumber = " << intervalEndNumber <<
         ": *cursor = |" << *cursor << "|" <<
@@ -841,7 +744,7 @@ set<int> decipherNumbersSetSpecification (
 
     if (*cursor != ',') {
       if (debugMode) {
-        gLogIOstream <<
+        gLogOstream <<
           "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
@@ -854,7 +757,7 @@ set<int> decipherNumbersSetSpecification (
     cursor++;
 
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> decipherNumbersSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
@@ -864,7 +767,7 @@ set<int> decipherNumbersSetSpecification (
   } // while
 
   if (* cursor != '\0') {
-    gLogIOstream <<
+    gLogOstream <<
       "--> Extraneous characters |" << *cursor <<
       "| in numbers spec" <<
       endl << endl;
@@ -881,7 +784,7 @@ list<int> extractNumbersFromString (
   list<int> foundNumbers;
 
   if (debugMode) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> extractNumbersFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -895,7 +798,7 @@ list<int> extractNumbersFromString (
       break;
 
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> extractNumbersFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -931,7 +834,7 @@ pair<string, string> extractNamesPairFromString (
   string name2;
 
   if (debugMode) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> extractNamesPairFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -946,7 +849,7 @@ pair<string, string> extractNamesPairFromString (
       break;
 
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -965,14 +868,14 @@ pair<string, string> extractNamesPairFromString (
   name1 = trim (name1);
   if (! name1.size ()) {
     // found an empty name1
-    gLogIOstream <<
+    gLogOstream <<
       "### ERROR: the first name before the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
   }
 
   if (cursor == theString.end ())
-    gLogIOstream <<
+    gLogOstream <<
       "### ERROR: the " << separator <<
       " separator is missing in string '" <<
       theString << "'" <<
@@ -987,7 +890,7 @@ pair<string, string> extractNamesPairFromString (
       break;
 
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -995,7 +898,7 @@ pair<string, string> extractNamesPairFromString (
 
     if ((*cursor) == '=') {
       // found the separator
-      gLogIOstream <<
+      gLogOstream <<
         "### ERROR: the " << separator <<
         " separator occurs more than once in string '" <<
         theString << "'" <<
@@ -1011,7 +914,7 @@ pair<string, string> extractNamesPairFromString (
   name2 = trim (name2);
   if (! name2.size ()) {
     // found an empty name2
-    gLogIOstream <<
+    gLogOstream <<
       "### ERROR: the second name after the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
@@ -1144,7 +1047,7 @@ string singularOrPluralWithoutNumber (
 //______________________________________________________________________________
 void optionError (string errorMessage)
 {
-  gLogIOstream <<
+  gLogOstream <<
     endl <<
     "### ERROR in the options:" <<
     endl <<
@@ -1221,7 +1124,7 @@ void splitStringIntoChunks (
   //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogIOstream <<
+  gLogOstream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
@@ -1259,7 +1162,7 @@ void splitStringIntoChunks (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1304,7 +1207,7 @@ void splitStringIntoChunks (
         theString.substr (
           currentPosition);
 
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1331,7 +1234,7 @@ void splitRegularStringAtEndOfLines (
 //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogIOstream <<
+  gLogOstream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
@@ -1376,7 +1279,7 @@ void splitRegularStringAtEndOfLines (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1421,7 +1324,7 @@ void splitRegularStringAtEndOfLines (
         theString.substr (
           currentPosition);
 
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1449,7 +1352,7 @@ void splitHTMLStringContainingEndOfLines (
 //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogIOstream <<
+  gLogOstream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
@@ -1506,7 +1409,7 @@ void splitHTMLStringContainingEndOfLines (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1551,7 +1454,7 @@ void splitHTMLStringContainingEndOfLines (
         theString.substr (
           currentPosition);
 
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1626,3 +1529,210 @@ string makeSingleWordFromString (const string& theString)
 
 
 }
+
+/* JMI
+//______________________________________________________________________________
+class EXP segmentedLinesOstream
+{
+/ * JMI NOT DONE
+  // in order to avoid spaces at the end of a line,
+  // an end of segment causes a space to be output later,
+  // by the next '<<' operator
+
+--
+*
+Reference for this class:
+  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
+
+Usage:
+  segmentedLinesOstream myStream (std::cout);
+
+  myStream <<
+    1 << 2 << 3 << std::endl <<
+    5 << 6 << std::endl <<
+    7 << 8 << std::endl;
+* /
+
+  private:
+    // segmentedLinesOstream just uses an indentedOstream
+    indentedOstream&      fIndentedOstream;
+
+    // an end of segment causes a space to be output by the next '<<' operator
+    bool                  fAtEndOfSegment;
+
+  public:
+
+    // constructor
+    segmentedLinesOstream (
+      indentedOstream& indentedOstream)
+      : fIndentedOstream (indentedOstream)
+        { fAtEndOfSegment = false; }
+
+    // destructor
+    virtual ~segmentedLinesOstream ()
+        {};
+
+    // flush
+    void                  flush ()
+                              { fIndentedOstream.flush (); }
+
+    // set and get
+    indentedOstream&      getIndentedOstream ()
+                              { return fIndentedOstream; }
+
+    // indentation
+    indenter&             getIndenter ()
+                              { return fIndentedOstream.getIndenter (); }
+
+    void                  incrIdentation ()
+                              { fIndentedOstream.incrIdentation (); }
+
+    void                  decrIdentation ()
+                              { fIndentedOstream.decrIdentation (); }
+
+    // segments
+    void                  setAtEndOfSegment (bool value)
+                              { fAtEndOfSegment = value; }
+    bool                  getAtEndOfSegment ()
+                              { return fAtEndOfSegment; }
+};
+
+// '<<' operators to implement segments
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const std::string& str);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str);
+
+// the manipulators
+segmentedLinesOstream& endline (segmentedLinesOstream& os);
+segmentedLinesOstream& endseg (segmentedLinesOstream& os);
+*/
+
+
+/* JMI
+  segmentedLinesOstream
+    testSegmentedLinesOstream (fLogOutputStream);
+
+  fLogOutputStream <<
+    "getAtEndOfSegment: " <<
+    booleanAsString (
+      testSegmentedLinesOstream.getAtEndOfSegment ()) <<
+    endl;
+
+  testSegmentedLinesOstream.setAtEndOfSegment (true);
+
+  fLogOutputStream <<
+    "getAtEndOfSegment: " <<
+    booleanAsString (
+      testSegmentedLinesOstream.getAtEndOfSegment ()) <<
+    endl;
+
+  testSegmentedLinesOstream <<
+    "FOO" << endl; // <<
+ //   endline;
+
+  testSegmentedLinesOstream.getIndentedOstream () << flush;
+  */
+
+
+/* JMI
+//______________________________________________________________________________
+// the manipulators
+segmentedLinesOstream& endline (segmentedLinesOstream& os)
+{
+  if (! os.getAtEndOfSegment ()) {
+    // don't output multiple spaces after a segment
+    os.setAtEndOfSegment (true);
+  }
+
+  os.getIndentedOstream () << endl;
+
+  return os;
+}
+
+segmentedLinesOstream& endseg (segmentedLinesOstream& os)
+{
+  if (! os.getAtEndOfSegment ()) {
+    // don't output multiple spaces after a segment
+    os.setAtEndOfSegment (true);
+  }
+
+  return os;
+}
+
+// '<<' operators to implement segments
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << ch;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << i;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << i;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << f;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const string& str)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << str;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << str;
+
+  return os;
+}
+*/
+

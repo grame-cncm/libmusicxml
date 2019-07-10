@@ -44,7 +44,7 @@ bsrParallel::~bsrParallel ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceParallels) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating bsrParallel '" <<
       asString () <<
       "', line " <<
@@ -58,7 +58,7 @@ void bsrParallel::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
   }
@@ -71,7 +71,7 @@ void bsrParallel::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
         }
@@ -84,7 +84,7 @@ void bsrParallel::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
   }
@@ -97,7 +97,7 @@ void bsrParallel::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;
         }

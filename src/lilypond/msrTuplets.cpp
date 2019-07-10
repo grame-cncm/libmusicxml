@@ -84,13 +84,13 @@ msrTuplet::msrTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating tuplet:" <<
       endl;
 
     gIndenter++;
 
-    this->print (gLogIOstream);
+    this->print (gLogOstream);
 
     gIndenter--;
   }
@@ -104,7 +104,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of tuplet " <<
       asString () <<
       endl;
@@ -248,7 +248,7 @@ void msrTuplet::addNoteToTuplet (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding note " <<
       note->asShortString () <<
       // the information is missing to display it the normal way
@@ -278,7 +278,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding chord " <<
       chord->asString () <<
       " to tuplet " <<
@@ -312,7 +312,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding tuplet " <<
       tuplet->asString () <<
       " to tuplet " <<
@@ -347,7 +347,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Adding tuplet " <<
       tuplet->asString () <<
       " to tuplet " <<
@@ -414,7 +414,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Removing first note from tuplet " <<
       asString () <<
       endl;
@@ -435,7 +435,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 
     else {
       if (true) {
-        this->print (gLogIOstream);
+        this->print (gLogOstream);
       }
 
       msrInternalError (
@@ -522,7 +522,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Removing last note from tuplet " <<
       asString () <<
       endl;
@@ -552,7 +552,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
     else {
       if (true) { // JMI
-        this->print (gLogIOstream);
+        this->print (gLogOstream);
       }
 
       msrInternalError (
@@ -584,7 +584,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "This last note from tuplet " <<
       asString () <<
       " turns out to be " <<
@@ -603,7 +603,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
-    gLogIOstream <<
+    gLogOstream <<
       "Setting tuplet position in measure of " << asString () <<
       " to '" <<
       positionInMeasure <<
@@ -697,13 +697,13 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "unapplySoundingFactorToTupletMembers ()" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    gLogOstream <<
       "% fTupletFactor = " << fTupletFactor.asString () <<
       endl <<
       "% containingTupletFactor = " << containingTupletFactor.asString () <<
@@ -736,7 +736,7 @@ void msrTuplet::finalizeTuplet (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
+    gLogOstream <<
       "Finalizing tuplet " <<
       asString () <<
       ", line " << inputLineNumber <<
@@ -755,7 +755,7 @@ void msrTuplet::finalizeTuplet (
 void msrTuplet::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrTuplet::acceptIn ()" <<
       endl;
   }
@@ -766,7 +766,7 @@ void msrTuplet::acceptIn (basevisitor* v)
         S_msrTuplet elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrTuplet::visitStart ()" <<
             endl;
         }
@@ -777,7 +777,7 @@ void msrTuplet::acceptIn (basevisitor* v)
 void msrTuplet::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrTuplet::acceptOut ()" <<
       endl;
   }
@@ -788,7 +788,7 @@ void msrTuplet::acceptOut (basevisitor* v)
         S_msrTuplet elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrTuplet::visitEnd ()" <<
             endl;
         }
@@ -995,7 +995,7 @@ void msrTuplet::print (ostream& os)
   os << endl;
 }
 
-void msrTuplet::printShort (ostream& os)
+void msrTuplet::printShort (indentedOstream& os)
 {
   os <<
     "Tuplet " <<

@@ -46,7 +46,7 @@ void populateMsrSkeletonFromMxmlTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -65,7 +65,7 @@ void populateMsrSkeletonFromMxmlTree (
     string separator =
       "%--------------------------------------------------------------";
 
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -73,7 +73,7 @@ void populateMsrSkeletonFromMxmlTree (
       "Pass 2b: translating the xmlelement tree into a MSR" <<
       endl;
 
-    logIOstream <<
+    logOstream <<
       separator <<
       endl;
   }
@@ -83,7 +83,7 @@ void populateMsrSkeletonFromMxmlTree (
   mxmlTree2MsrTranslator
     translator (
       scoreSkeleton,
-      logIOstream);
+      logOstream);
 
   // browse the mxmlTree
   translator.browseMxmlTree (
@@ -104,7 +104,7 @@ void populateMsrSkeletonFromMxmlTree (
 void displayMSRPopulatedScore (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -116,7 +116,7 @@ void displayMSRPopulatedScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  logIOstream <<
+  logOstream <<
     endl <<
     separator <<
     endl <<
@@ -143,7 +143,7 @@ void displayMSRPopulatedScore (
 void displayMSRPopulatedScoreSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -157,7 +157,7 @@ void displayMSRPopulatedScoreSummary (
     string separator =
       "%--------------------------------------------------------------";
 
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -174,7 +174,7 @@ void displayMSRPopulatedScoreSummary (
   msr2SummaryVisitor
     summaryVisitor (
       msrOpts,
-      logIOstream);
+      logOstream);
 
   summaryVisitor.printSummaryFromMsrScore (
     mScore);
@@ -194,7 +194,7 @@ void displayMSRPopulatedScoreSummary (
 void displayMSRPopulatedScoreNames (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -208,7 +208,7 @@ void displayMSRPopulatedScoreNames (
     string separator =
       "%--------------------------------------------------------------";
 
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -225,7 +225,7 @@ void displayMSRPopulatedScoreNames (
   msr2NamesVisitor
     namesVisitor (
       msrOpts,
-      logIOstream);
+      logOstream);
 
   namesVisitor.printNamesFromMsrScore (
     mScore);

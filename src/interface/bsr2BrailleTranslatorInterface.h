@@ -41,8 +41,8 @@ The library includes a high level API to convert
 EXP void generateBrailleCodeFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream,
-  ostream&         brailleCodeIOstream);
+  indentedOstream& logOstream,
+  ostream&         brailleCodeOutputStream);
 
 /*! @} */
 

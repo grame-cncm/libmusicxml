@@ -408,7 +408,7 @@ void musicXMLOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The MusicXML options are:" <<
     endl;
 
@@ -417,13 +417,13 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   // clefs, keys, times
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Clefs, keys, times:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "ignoreRedundantClefs" << " : " <<
     booleanAsString (fIgnoreRedundantClefs) <<
     endl <<
@@ -445,13 +445,13 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   // trace
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
 #ifdef TRACE_OPTIONS
     setw (fieldWidth) << "traceEncoding" << " : " <<
     booleanAsString (fTraceEncoding) <<
@@ -476,7 +476,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom musicXMLOptions::handleAtom (
-  ostream&  os,
+  indentedOstream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -498,7 +498,7 @@ void initializeMusicXMLOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing MusicXML options handling" <<
       endl;
   }

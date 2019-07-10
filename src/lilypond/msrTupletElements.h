@@ -16,7 +16,7 @@
 #include "msrMeasureElements.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -52,7 +52,7 @@ class msrTupletElement : public msrMeasureElement
                                 fTupletNumber =
                                   positionInTuplet;
                               }
-                      
+
     string                getTupletNumber ()
                               { return fTupletNumber; }
 
@@ -62,7 +62,7 @@ class msrTupletElement : public msrMeasureElement
                                 fPositionInTuplet =
                                   positionInTuplet;
                               }
-                      
+
     rational              getPositionInTuplet ()
                               { return fPositionInTuplet; }
 
@@ -85,14 +85,14 @@ class msrTupletElement : public msrMeasureElement
     // ------------------------------------------------------
 
     virtual std::string   asShortString () const;
-    virtual std::string   asString () const;    
+    virtual std::string   asString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
-    virtual void          printSummary (std::ostream& os) {}
-    
+    virtual void          printSummary (ostream& os) {}
+
   protected:
-     
+
     // fields
     // ------------------------------------------------------
 
@@ -101,7 +101,7 @@ class msrTupletElement : public msrMeasureElement
     */
 };
 typedef SMARTP<msrTupletElement> S_msrTupletElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_msrTupletElement& elt);
+EXP ostream& operator<< (ostream& os, const S_msrTupletElement& elt);
 
 
 } // namespace MusicXML2

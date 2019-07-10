@@ -18,7 +18,7 @@
 #include "rational.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -67,46 +67,46 @@ class msrElement : public smartable
 
     virtual std::string   asShortString () const;
     virtual std::string   asString () const;
-    
-    virtual void          print (std::ostream& os);
-    
-    virtual void          shortPrint (std::ostream& os);
 
-    virtual void          printSummary (std::ostream& os) {}
-    
+    virtual void          print (ostream& os);
+
+    virtual void          shortPrint (ostream& os);
+
+    virtual void          printSummary (ostream& os) {}
+
   protected:
-     
+
     // fields
     // ------------------------------------------------------
 
     int                   fInputLineNumber;
 };
 typedef SMARTP<msrElement> S_msrElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_msrElement& elt);
+EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 //______________________________________________________________________________
-template <typename T> class msrBrowser : public browser <T> 
+template <typename T> class msrBrowser : public browser <T>
 {
   public:
-    
+
     msrBrowser (basevisitor* v) : fVisitor (v) {}
-    
+
     virtual ~msrBrowser () {}
 
   public:
 
     virtual void set (basevisitor* v) { fVisitor = v; }
-    
+
     virtual void browse (T& t) {
       enter (t);
 
       t.browseData (fVisitor);
-      
+
       leave (t);
     }
 
   protected:
-  
+
     basevisitor*  fVisitor;
 
     virtual void enter (T& t) { t.acceptIn  (fVisitor); }

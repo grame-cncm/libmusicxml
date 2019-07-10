@@ -131,8 +131,8 @@ class oahOption : public smartable
                             string name);
 
     virtual void          handleOptionName (
-                            string           optionName,
-                            indentedOstream& os);
+                            string   optionName,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -212,8 +212,8 @@ class oahAtom : public oahOption
                             S_oahHandler handler);
 
     void                  handleOptionName (
-                            string           optionName,
-                            indentedOstream& os);
+                            string   optionName,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -737,8 +737,8 @@ class oahValuedAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     virtual void          handleValue (
-                            string           theString,
-                            indentedOstream& os) = 0;
+                            string   theString,
+                            ostream& os) = 0;
 
     virtual void          handleDefaultValue ();
                             // used only fValueIsOptional is true
@@ -819,8 +819,8 @@ class oahIntegerAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -887,8 +887,8 @@ class oahFloatAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -956,8 +956,8 @@ class oahStringAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -1027,8 +1027,8 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -1096,8 +1096,8 @@ class oahRationalAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -1165,8 +1165,8 @@ class oahNumbersSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -1242,8 +1242,8 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     void                  handleDefaultValue ();
 
@@ -1345,8 +1345,8 @@ class oahSubGroup : public oahOption
                             string name);
 
     void                  handleOptionName (
-                            string           optionName,
-                            indentedOstream& os);
+                            string   optionName,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -1460,8 +1460,8 @@ class oahGroup : public oahOption
                             string    theString);
 
     void                  handleOptionName (
-                            string           optionName,
-                            indentedOstream& os);
+                            string   optionName,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -1613,7 +1613,7 @@ class EXP oahHandler : public oahOption
       string           handlerSummaryLongName,
       string           handlerPreamble,
       string           handlerDescription,
-      indentedOstream& handlerlogIOstream);
+      indentedOstream& handlerLogOstream);
 */
 
   protected:
@@ -1630,7 +1630,7 @@ class EXP oahHandler : public oahOption
       string           handlerSummaryLongName,
       string           handlerPreamble,
       string           handlerDescription,
-      indentedOstream& handlerlogIOstream);
+      indentedOstream& handlerLogOstream);
 
     virtual ~oahHandler ();
 
@@ -1662,9 +1662,8 @@ class EXP oahHandler : public oahOption
     string                getHandlerPreamble () const
                               { return fHandlerPreamble; }
 
-    const indentedOstream&
-                          getOptionsHandlerlogIOstream ()
-                              { return fHandlerLogIOstream; }
+    ostream&              getHandlerLogOstream ()
+                              { return fHandlerLogOstream; }
 
     string                getExecutableName () const
                               { return fHandlerExecutableName; }
@@ -1722,7 +1721,7 @@ class EXP oahHandler : public oahOption
 
     void                  printOptionsSummary (ostream& os) const;
     void                  printOptionsSummary () const
-                              { printOptionsSummary (fHandlerLogIOstream); }
+                              { printOptionsSummary (fHandlerLogOstream); }
 
     void                  printHandlerAndGroupAndSubGroupSpecificHelp (
                             ostream&      os,
@@ -1735,9 +1734,6 @@ class EXP oahHandler : public oahOption
     void                  printAllOptionsValues (
                             ostream& os) const;
 
-    indentedOstream&      getHandlerLogIOstream ()
-                              { return fHandlerLogIOstream; }
-
     void                  setOptionsHandlerFoundAHelpOption ()
                               { fHandlerFoundAHelpOption = true; }
 
@@ -1749,7 +1745,7 @@ class EXP oahHandler : public oahOption
     // private services
     // ------------------------------------------------------
 
-    string                helpNamesBetweenParentheses () const; // JMI ???
+    string                handlerOptionNamesBetweenParentheses () const;
 
     void                  registerOptionNamesInHandler (
                             string      optionShortName,
@@ -1865,7 +1861,7 @@ class EXP oahHandler : public oahOption
 
     list<S_oahOption>     fHandlerOptionsList;
 
-    indentedOstream&      fHandlerLogIOstream;
+    ostream&              fHandlerLogOstream;
 
     // this is needed to exit if the executable is launched
     // with one or more help options,

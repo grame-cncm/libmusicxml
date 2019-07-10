@@ -54,7 +54,7 @@ void lpsrComment::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrComment::acceptIn ()" <<
       endl;
   }
@@ -67,7 +67,7 @@ void lpsrComment::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrComment::visitStart ()" <<
             endl;
         }
@@ -80,7 +80,7 @@ void lpsrComment::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> lpsrComment::acceptOut ()" <<
       endl;
   }
@@ -93,7 +93,7 @@ void lpsrComment::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching lpsrComment::visitEnd ()" <<
             endl;
         }

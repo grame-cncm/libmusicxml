@@ -25,56 +25,56 @@ namespace MusicXML2
 
 //________________________________________________________________________
 class bsr2BrailleTranslator :
-  
+
   public visitor<S_bsrScore>,
-  
+
   public visitor<S_bsrSpaces>,
-  
+
   public visitor<S_bsrBarline>,
 
   public visitor<S_bsrTranscriptionNotes>,
   public visitor<S_bsrTranscriptionNotesElement>,
-  
+
   public visitor<S_bsrPage>,
-  
+
   public visitor<S_bsrPagination>,
 
   public visitor<S_bsrPageHeading>,
   public visitor<S_bsrMusicHeading>,
-  
+
   public visitor<S_bsrFootNotes>,
-  
+
   public visitor<S_bsrLine>,
   public visitor<S_bsrLineContents>,
-  
+
   public visitor<S_bsrMeasure>,
 
   public visitor<S_bsrNumber>,
   public visitor<S_bsrWords>,
-  
+
   public visitor<S_bsrClef>,
   public visitor<S_bsrKey>,
   public visitor<S_bsrTime>,
-  
+
   public visitor<S_bsrTempo>,
 
   public visitor<S_bsrNote>
 
 {
   public:
-  
+
     bsr2BrailleTranslator (
+      S_bsrScore       bsrScore,
       S_bsrOptions&    bsrOpts,
-      indentedOstream& logIOstream,
-      ostream&         brailleCodeIOstream,
-      S_bsrScore       bsrScore);
-        
+      indentedOstream& logOstream,
+      ostream&         brailleCodeOutputStream);
+
     virtual ~bsr2BrailleTranslator ();
 
     void generateBrailleCodeFromBsrScore ();
 
   protected:
-        
+
     virtual void visitStart (S_bsrScore& elt);
     virtual void visitEnd   (S_bsrScore& elt);
 
@@ -99,7 +99,7 @@ class bsr2BrailleTranslator :
     virtual void visitEnd   (S_bsrPageHeading& elt);
     virtual void visitStart (S_bsrMusicHeading& elt);
     virtual void visitEnd   (S_bsrMusicHeading& elt);
-    
+
     virtual void visitStart (S_bsrFootNotes& elt);
     virtual void visitEnd   (S_bsrFootNotes& elt);
 
@@ -135,7 +135,7 @@ class bsr2BrailleTranslator :
   private:
 
     S_bsrScore            fVisitedBsrScore;
-                  
+
     S_bsrOptions          fBsrOptions;
 
     indentedOstream&      fLogOutputStream;

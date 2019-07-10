@@ -127,7 +127,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> -------------------------------------" <<
       endl <<
       "--> wholeNotes: " << wholeNotes <<
@@ -142,7 +142,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> numerator:   " << numerator <<
       endl <<
       "--> denominator: " << denominator <<
@@ -172,7 +172,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
   }
@@ -192,7 +192,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
         rationalHasBeenSimplified) <<
@@ -220,7 +220,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
       endl;
@@ -343,7 +343,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
       endl <<
@@ -358,7 +358,7 @@ string wholeNotesAsLilypondString (
     // 6/1 thus becomes 3\breve, hence \longa.
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
         endl;
@@ -371,7 +371,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceWholeNotes) {
-        gLogIOstream <<
+        gLogOstream <<
           "--> numerator" << " : " <<
           numerator <<
           endl <<
@@ -389,7 +389,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> numerator" << " : " <<
       numerator <<
       endl <<
@@ -412,7 +412,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -427,7 +427,7 @@ string wholeNotesAsLilypondString (
     // set the multiplying factor
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> setting the multiplying factor" <<
         endl;
     }
@@ -443,7 +443,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceWholeNotes) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -463,7 +463,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceWholeNotes) {
-        gLogIOstream <<
+        gLogOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
           endl <<
@@ -479,7 +479,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> numerator " << " : " <<
       numerator <<
       endl <<
@@ -540,7 +540,7 @@ string wholeNotesAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceWholeNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> return:" <<
       endl <<
       "  --> s.str ()     " << " : \"" << s.str () << "\"" <<
@@ -1218,7 +1218,7 @@ void initializeLPSRBasicTypes ()
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing LPSR basic types handling" <<
       endl;
   }

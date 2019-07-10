@@ -77,7 +77,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a newborn clone of grace notes group '" <<
       asShortString () <<
       "'" <<
@@ -136,7 +136,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "Creating a skip clone of grace notes group '" <<
       asShortString () <<
       "'" <<
@@ -231,7 +231,7 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
       "' to grace notes group" <<
@@ -259,7 +259,7 @@ void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "Appending chord '" <<
       chord->asShortString () <<
       "' to grace notes group '" <<
@@ -279,7 +279,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "Removing last note from grace notes group '" <<
       asShortString () <<
       "' in voice \"" <<
@@ -296,7 +296,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "Removing last note from grace notes '" <<
       asString () <<
       "'" <<
@@ -322,7 +322,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
+    gLogOstream <<
       "This last note from grace notes '" <<
       asString () <<
       "' turns out to be '" <<
@@ -340,7 +340,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 void msrGraceNotesGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrGraceNotesGroup::acceptIn ()" <<
       endl;
   }
@@ -351,7 +351,7 @@ void msrGraceNotesGroup::acceptIn (basevisitor* v)
         S_msrGraceNotesGroup elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrGraceNotesGroup::visitStart ()" <<
             endl;
         }
@@ -362,7 +362,7 @@ void msrGraceNotesGroup::acceptIn (basevisitor* v)
 void msrGraceNotesGroup::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    gLogOstream <<
       "% ==> msrGraceNotesGroup::acceptOut ()" <<
       endl;
   }
@@ -373,7 +373,7 @@ void msrGraceNotesGroup::acceptOut (basevisitor* v)
         S_msrGraceNotesGroup elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          gLogOstream <<
             "% ==> Launching msrGraceNotesGroup::visitEnd ()" <<
             endl;
         }

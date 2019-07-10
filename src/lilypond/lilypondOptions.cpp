@@ -34,13 +34,12 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_lilypondScoreOutputKindAtom lilypondScoreOutputKindAtom::create (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  lpsrScoreOutputKind&
-                     lilypondScoreOutputKindVariable)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  lpsrScoreOutputKind& lilypondScoreOutputKindVariable)
 {
   lilypondScoreOutputKindAtom* o = new
     lilypondScoreOutputKindAtom (
@@ -55,13 +54,12 @@ S_lilypondScoreOutputKindAtom lilypondScoreOutputKindAtom::create (
 }
 
 lilypondScoreOutputKindAtom::lilypondScoreOutputKindAtom (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  lpsrScoreOutputKind&
-                     lilypondScoreOutputKindVariable)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  lpsrScoreOutputKind& lilypondScoreOutputKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -76,8 +74,8 @@ lilypondScoreOutputKindAtom::~lilypondScoreOutputKindAtom ()
 {}
 
 void lilypondScoreOutputKindAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string  theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -204,13 +202,12 @@ void lilypondAbsoluteOctaveEntryAtom::printOptionsValues (
 
 //______________________________________________________________________________
 S_lilypondRelativeOctaveEntryAtom lilypondRelativeOctaveEntryAtom::create (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  variableName,
-  S_msrSemiTonesPitchAndOctave&
-          lilypondRelativeOctaveEntryVariable)
+  string                        shortName,
+  string                        longName,
+  string                        description,
+  string                        valueSpecification,
+  string                        variableName,
+  S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable)
 {
   lilypondRelativeOctaveEntryAtom* o = new
     lilypondRelativeOctaveEntryAtom (
@@ -225,13 +222,12 @@ S_lilypondRelativeOctaveEntryAtom lilypondRelativeOctaveEntryAtom::create (
 }
 
 lilypondRelativeOctaveEntryAtom::lilypondRelativeOctaveEntryAtom (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  variableName,
-  S_msrSemiTonesPitchAndOctave&
-          lilypondRelativeOctaveEntryVariable)
+  string                        shortName,
+  string                        longName,
+  string                        description,
+  string                        valueSpecification,
+  string                        variableName,
+  S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -246,8 +242,8 @@ lilypondRelativeOctaveEntryAtom::~lilypondRelativeOctaveEntryAtom ()
 {}
 
 void lilypondRelativeOctaveEntryAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string  theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -403,8 +399,8 @@ lilypondFixedOctaveEntryAtom::~lilypondFixedOctaveEntryAtom ()
 {}
 
 void lilypondFixedOctaveEntryAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string  theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -524,8 +520,8 @@ lilypondAccidentalStyleKindAtom::~lilypondAccidentalStyleKindAtom ()
 {}
 
 void lilypondAccidentalStyleKindAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string  theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -669,8 +665,8 @@ lilypondChordsDisplayAtom::~lilypondChordsDisplayAtom ()
 {}
 
 void lilypondChordsDisplayAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string  theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -903,8 +899,8 @@ lilypondMidiTempoAtom::~lilypondMidiTempoAtom ()
 {}
 
 void lilypondMidiTempoAtom::handleValue (
-  string           theString,
-  indentedOstream& os)
+  string  theString,
+  ostream& os)
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions) {
@@ -2977,7 +2973,7 @@ void lilypondOptions::printOptionsValues (
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  gLogOstream <<
     "The LilyPond lilypond are:" <<
     endl;
 
@@ -2985,14 +2981,14 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // identification
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Identification:" <<
     endl;
 
   gIndenter++;
 
   // MusicXML informations
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "rights" << " : " <<
       fRights <<
       endl <<
@@ -3055,13 +3051,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // engravers
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Engravers:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "ambitusEngraver" << " : " <<
       booleanAsString (fAmbitusEngraver) <<
       endl;
@@ -3071,13 +3067,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // time
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Time:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "numericalTime" << " : " <<
       booleanAsString (fNumericalTime) <<
       endl;
@@ -3087,13 +3083,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // notes
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Notes:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "octaveEntryKind" << " : " <<
       lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
       endl <<
@@ -3137,13 +3133,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // bars
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Bars:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "showAllBarNumbers" << " : " <<
     booleanAsString (fShowAllBarNumbers) <<
     endl;
@@ -3153,13 +3149,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // line breaks
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Line breaks:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
       booleanAsString (fIgnoreLineBreaks) <<
       endl <<
@@ -3177,13 +3173,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // page breaks
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Page breaks:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "ignorePageBreaks" << " : " <<
     booleanAsString (fIgnorePageBreaks) <<
     endl;
@@ -3193,13 +3189,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // staves
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Staves:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "modernTab" << " : " <<
     booleanAsString (fModernTab) <<
     endl;
@@ -3210,13 +3206,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // chords
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Chords:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "connectArpeggios" << " : " <<
     booleanAsString (fConnectArpeggios) <<
     endl;
@@ -3227,13 +3223,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // tuplets
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Tuplets:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "indentTuplets" << " : " <<
     booleanAsString (fIndentTuplets) <<
     endl;
@@ -3244,13 +3240,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // repeats
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Repeats:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "keepRepeatBarlines" << " : " <<
     booleanAsString (fKeepRepeatBarlines) <<
     endl <<
@@ -3267,13 +3263,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // ornaments
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Ornaments:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
     fDelayedOrnamentsFraction <<
     endl;
@@ -3284,13 +3280,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // chords display
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Chords display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "jazzChordsDisplay" << " : " <<
     booleanAsString (fJazzChordsDisplay) <<
     endl <<
@@ -3304,13 +3300,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // fonts
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Fonts:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "jazzFonts" << " : " <<
     booleanAsString (fJazzFonts) <<
     endl;
@@ -3321,13 +3317,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // code generation
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "LilyPond code generation:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "xml2lyInfos" << " : " <<
       booleanAsString (fXml2lyInfos) <<
       endl <<
@@ -3370,13 +3366,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // score notation
   // --------------------------------------
 
-  gLogIOstream <<
+  gLogOstream <<
     "Score notation:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "fJianpu" << " : " <<
       booleanAsString (fJianpu) <<
       endl;
@@ -3386,13 +3382,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // midi
   // --------------------------------------
-  gLogIOstream <<
+  gLogOstream <<
     "Midi:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  gLogOstream << left <<
     setw (fieldWidth) << "fMidiTempo" << " : " <<
       fMidiTempo.first << " = " << fMidiTempo.second <<
       endl <<
@@ -3407,7 +3403,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 }
 
 S_oahValuedAtom lilypondOptions::handleAtom (
-  ostream&  os,
+  indentedOstream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -3602,7 +3598,7 @@ void initializeLilypondOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    gLogOstream <<
       "Initializing LilyPond lilypond handling" <<
       endl;
   }

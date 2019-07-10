@@ -43,7 +43,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
   S_msrOptions     msrOpts,
   S_lpsrOptions    lpsrOpts,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
@@ -57,7 +57,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     string separator =
       "%--------------------------------------------------------------";
 
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -72,7 +72,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   // create an msr2LpsrTranslator
   msr2LpsrTranslator
     translator (
-      logIOstream,
+      logOstream,
       mScore);
 
   // build the LPSR score
@@ -102,7 +102,7 @@ void displayLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOptions      msrOpts,
   S_lpsrOptions     lpsrOpts,
-  indentedOstream&  logIOstream)
+  indentedOstream&  logOstream)
 {
   // sanity check
   msrAssert (
@@ -114,7 +114,7 @@ void displayLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  logIOstream <<
+  logOstream <<
     separator <<
     endl <<
     gTab <<

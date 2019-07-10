@@ -63,8 +63,8 @@ class brailleUTFKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -72,7 +72,7 @@ class brailleUTFKindAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
-                            ostream& os,
+                            indentedOstream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -125,8 +125,8 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string           theString,
-                            indentedOstream& os);
+                            string   theString,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -134,7 +134,7 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printOptionsValues (
-                            ostream& os,
+                            indentedOstream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -206,7 +206,7 @@ class brailleOptions : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            ostream&  os,
+                            indentedOstream&  os,
                             S_oahAtom atom);
 
     virtual void          handleValuedAtomValue (

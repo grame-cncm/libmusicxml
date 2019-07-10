@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -38,14 +38,14 @@ void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOptions      msrOpts,
   S_lpsrOptions     lpsrOpts,
-  indentedOstream&  logIOstream,
-  indentedOstream&  lilypondCodeIOstream)
+  indentedOstream&  logOstream,
+  indentedOstream&  lilypondCodeOstream)
 {
   // sanity check
   msrAssert (
     lpScore != 0,
     "lpScore is null");
-    
+
   clock_t startClock = clock ();
 
   string separator =
@@ -53,7 +53,7 @@ void generateLilypondCodeFromLpsrScore (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
-    logIOstream <<
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -68,13 +68,13 @@ void generateLilypondCodeFromLpsrScore (
   // create an lpsr2LilypondTranslator
   lpsr2LilypondTranslator
     translator (
+      lpScore,
       msrOpts,
       lpsrOpts,
-      logIOstream,
-      lilypondCodeIOstream,
-      lpScore);
-  
-  // build the LilyPond score    
+      logOstream,
+      lilypondCodeOstream);
+
+  // build the LilyPond score
   translator.generateLilypondCodeFromLpsrScore ();
 
   clock_t endClock = clock ();

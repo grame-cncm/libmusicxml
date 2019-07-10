@@ -39,20 +39,20 @@ The library includes a high level API to convert
 EXP S_msrScore buildMsrSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 //_______________________________________________________________________________
 EXP void displayMsrSkeleton (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 
 //_______________________________________________________________________________
 /* JMI
 EXP void displayMsrSkeletonSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream);
+  indentedOstream& logOstream);
 */
 
 

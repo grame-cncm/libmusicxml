@@ -77,7 +77,7 @@ class bsrCellsList : public smartable
       bsrCellKind cellKind6);
 
   protected:
-         
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -142,7 +142,7 @@ class bsrCellsList : public smartable
 
     void                  appendCellsListToCellsList (
                             S_bsrCellsList otherCellsList);
-                            
+
     void                  prependCellsListToCellsList (
                             S_bsrCellsList otherCellsList);
 
@@ -152,7 +152,7 @@ class bsrCellsList : public smartable
     void                  generateBrailleCode (ostream& os);
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -167,19 +167,19 @@ class bsrCellsList : public smartable
     // ------------------------------------------------------
 
     virtual std::string   asString () const;
-    
+
     virtual std::string   asShortString () const;
 
-    virtual void          print (std::ostream& os);
+    virtual void          print (ostream& os);
 
   protected:
-  
+
     // fields
     // ------------------------------------------------------
 
     list<bsrCellKind>     fCellsListElements;
 };
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrCellsList& elt);
+EXP ostream& operator<< (ostream& os, const S_bsrCellsList& elt);
 
 
 } // namespace MusicXML2

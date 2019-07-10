@@ -35,7 +35,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -43,21 +43,21 @@ S_bsrScore buildBsrScoreFromMsrScore (
   const S_msrScore mScore,
   S_msrOptions     msrOpts,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-      
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-  
-    logIOstream <<
+
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -68,16 +68,16 @@ S_bsrScore buildBsrScoreFromMsrScore (
       endl;
   }
 #endif
- 
+
   // create an msr2BsrTranslator
   msr2BsrTranslator
     translator (
-      logIOstream,
+      logOstream,
       mScore);
-      
+
   // build the BSR score
   translator.buildBsrScoreFromMsrScore ();
-  logIOstream << endl;
+  logOstream << endl;
 
   clock_t endClock = clock ();
 
@@ -103,19 +103,19 @@ void displayFirstBsrScore (
   const S_bsrScore bScore,
   S_msrOptions     msrOpts,
   S_bsrOptions     bsrOpts,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     bScore != 0,
     "bScore is null");
-    
+
   clock_t startClock = clock ();
 
   string separator =
     "%--------------------------------------------------------------";
 
-  logIOstream <<
+  logOstream <<
     separator <<
     endl <<
     gTab <<
