@@ -1656,14 +1656,60 @@ void oahIntegerAtom::handleValue (
   string   theString,
   ostream& os)
 {
-  int integerValue;
-  {
-    stringstream s;
-    s << theString;
-    s >> integerValue;
+  // theString contains the integer value
+
+  // check whether it is well-formed
+  string regularExpression (
+    "([[:digit:]]+)");
+
+  regex e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+  if (smSize) {
+#ifdef TRACE_OPTIONS
+    if (gOahBasicOptions->fTraceOptions) {
+      os <<
+        "There are " << smSize << " matches" <<
+        " for integer string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      os << endl;
+    }
+#endif
+
+    // leave the low level details to the STL...
+    int integerValue;
+    {
+      stringstream s;
+      s << theString;
+      s >> integerValue;
+    }
+
+    fIntegerVariable = integerValue;
   }
 
-  fIntegerVariable = integerValue;
+  else {
+    stringstream s;
+
+    s <<
+      "integer value '" << theString <<
+      "' for option '" << fetchNames () <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+    exit (4);
+  }
 }
 
 string oahIntegerAtom::asShortNamedOptionString () const
@@ -1775,14 +1821,14 @@ void oahFloatAtom::handleValue (
   string   theString,
   ostream& os)
 {
-  // theString contains the float value:
-  // decipher it to extract numerator and denominator values
+  // theString contains the float value
 
+  // check whether it is well-formed
   string regularExpression (
- // conflicts with the options '-' sign... JMI   "([+|-]?)"
-    "([[:digit:]]*)"
+   // no sign, a '-' would be handled as an option name JMI   "([+|-]?)"
+    "([[:digit:]]+)"
     "."
-    "([[:digit:]]+)");
+    "([[:digit:]]*)");
 
   regex e (regularExpression);
   smatch sm;
@@ -1791,7 +1837,7 @@ void oahFloatAtom::handleValue (
 
   unsigned smSize = sm.size ();
 
-  if (smSize == 3) {
+  if (smSize) {
 #ifdef TRACE_OPTIONS
     if (gOahBasicOptions->fTraceOptions) {
       os <<
@@ -1810,23 +1856,14 @@ void oahFloatAtom::handleValue (
     }
 #endif
 
-  float floatValue;
-  {
-    stringstream s;
+    // leave the low level details to the STL...
+    float floatValue;
+    {
+      stringstream s;
 
-    s <<
-      setprecision (2) <<
-        sm [1] <<
-        "." <<
-        sm [2];
-    s >> floatValue;
-  }
-
-/* JMI
-  if (sm [1] == "-") {
-    floatValue = -floatValue;
-  }
-*/
+      s << theString;
+      s >> floatValue;
+    }
 
     fFloatVariable = floatValue;
   }
@@ -1836,18 +1873,10 @@ void oahFloatAtom::handleValue (
 
     s <<
       "float value '" << theString <<
-      "' for option '" <<
-      fetchNames () <<
+      "' for option '" << fetchNames () <<
       "' is ill-formed";
 
     optionError (s.str ());
-
-/* JMI
-    printHandlerAndGroupAndSubGroupSpecificHelp (
-      os,
-      fSubGroupUpLink);
-*/
-
     exit (4);
   }
 }

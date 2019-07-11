@@ -816,7 +816,7 @@ The default is 'DEFAULT_VALUE'.)",
         "gss", "global-staff-size",
         replaceSubstringInString (
 R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
-FLOAT should be a decimal number with at least one digit after the dot,
+FLOAT should be a decimal number with at least one digit before the dot,
 without any sign.
 The default is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",

@@ -3955,7 +3955,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
       fVoiceLastSegment->
         fetchLastMeasureFromSegment (
           inputLineNumber,
-          "handleVoiceLevelRepeatEndWithoutStartInVoice() 1");
+          "handleVoiceLevelRepeatEndWithoutStartInVoice() 2");
 
   // set voice current after repeat component phase kind
   // before finalizeCurrentMeasureInVoice()
@@ -3968,7 +3968,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
     finalizeMeasure (
       inputLineNumber,
       msrMeasure::kMeasureRepeatContextKindCommonPartLastMeasure,
-      "handleVoiceLevelRepeatEndWithoutStartInVoice() 2"
+      "handleVoiceLevelRepeatEndWithoutStartInVoice() 3"
       );
 
   // append the voice last segment to the new repeat common part
@@ -3987,14 +3987,14 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
     appendSegmentToRepeatCommonPart (
       inputLineNumber,
       fVoiceLastSegment,
-      "handleVoiceLevelRepeatEndWithoutStartInVoice() 3");
+      "handleVoiceLevelRepeatEndWithoutStartInVoice() 4");
 
-/* JMI VIRER BOF ??? SURE
+//* JMI VIRER BOF ??? SURE
   // create a new last segment for the voice
   createNewLastSegmentForVoice (
     inputLineNumber,
-    "handleVoiceLevelRepeatEndWithoutStartInVoice()");
-    */
+    "handleVoiceLevelRepeatEndWithoutStartInVoice() 5");
+//    */
 
   // set newRepeat's build phase to completed
   newRepeat->
@@ -4005,13 +4005,13 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   appendRepeatToInitialVoiceElements (
     inputLineNumber,
     newRepeat,
-    "handleVoiceLevelRepeatEndWithoutStartInVoice() 4");
+    "handleVoiceLevelRepeatEndWithoutStartInVoice() 6");
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
     displayVoiceRepeatsStackAndVoice (
       inputLineNumber,
-      "handleVoiceLevelRepeatEndWithoutStartInVoice() 5");
+      "handleVoiceLevelRepeatEndWithoutStartInVoice() 7");
   }
 #endif
 
@@ -6729,7 +6729,7 @@ void msrVoice::appendRepeatCloneToVoiceClone (
         appendRepeatCloneToInitialVoiceElements (
           inputLineNumber,
           repeatCLone,
-          "handleRepeatEndInVoice()");
+          "appendRepeatCloneToVoiceClone() 3");
       }
       break;
   } // switch
@@ -6738,7 +6738,7 @@ void msrVoice::appendRepeatCloneToVoiceClone (
   if (gTraceOptions->fTraceRepeats) {
     displayVoiceRepeatsStackAndVoice (
       inputLineNumber,
-      "appendRepeatCloneToVoiceClone() 3");
+      "appendRepeatCloneToVoiceClone() 4");
   }
 #endif
 

@@ -61,6 +61,7 @@
       </score-part>
     </part-list>
   <part id="P1">
+  <!--=========================================================-->
     <measure number="0" implicit="yes" width="140.83">
       <print>
         <system-layout>
@@ -104,6 +105,7 @@
         <type>quarter</type>
         </note>
       </measure>
+  <!--=========================================================-->
     <measure number="1" width="0.00">
       <attributes>
         <measure-style>
@@ -116,6 +118,7 @@
         <voice>1</voice>
         </note>
       </measure>
+  <!--=========================================================-->
     <measure number="2" width="0.00">
       <note>
         <rest/>
@@ -123,6 +126,7 @@
         <voice>1</voice>
         </note>
       </measure>
+  <!--=========================================================-->
     <measure number="3" width="143.01">
       <note default-x="12.00" default-y="-25.00">
         <pitch>
