@@ -50,6 +50,33 @@ class traceOptions : public oahGroup
     void                  initializeLowLevelTraceOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeRepeatsTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeNotesTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeNotesAttachmentsTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeScoreToVoicesTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeSegmentsAndMeasuresTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeInstrumentsTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeChordsAndTupletsTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLyricsAndWordsTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeHarmoniesAndFiguredBassesTraceOptions (
+                            bool boolOptionsInitialValue);
+
   protected:
 
     // constructors/destructor
@@ -117,9 +144,24 @@ class traceOptions : public oahGroup
     // --------------------------------------
     bool                  fTraceForTests;
 
-    // score
+    // score to voices
     // --------------------------------------
+    // score
     bool                  fTraceScore;
+    // part groups
+    bool                  fTracePartGroups;
+    bool                  fTracePartGroupsDetails;
+    // parts
+    bool                  fTraceParts;
+    // staves
+    bool                  fTraceStaves;
+    // staff details
+    bool                  fTraceStaffDetails;
+    // staff changes
+    bool                  fTraceStaffChanges;
+    // voices
+    bool                  fTraceVoices;
+    bool                  fTraceVoicesDetails;
 
     // varValAssocs
     // --------------------------------------
@@ -133,35 +175,16 @@ class traceOptions : public oahGroup
     // --------------------------------------
     bool                  fTraceGeometry;
 
-    // part groups
+    // segments and measures
     // --------------------------------------
-    bool                  fTracePartGroups;
-    bool                  fTracePartGroupsDetails;
-
-    // parts
-    // --------------------------------------
-    bool                  fTraceParts;
-
-    // staves
-    // --------------------------------------
-    bool                  fTraceStaves;
-
-    // voices
-    // --------------------------------------
-    bool                  fTraceVoices;
-    bool                  fTraceVoicesDetails;
-
+    // segments
+    bool                  fTraceSegments;
+    bool                  fTraceSegmentsDetails;
     // measures
-    // --------------------------------------
     bool                  fTraceMeasures;
     bool                  fTraceMeasuresDetails;
     bool                  fTracePositionsInMeasures;
     set<int>              fTraceDetailedMeasureNumbersSet;
-
-    // segments
-    // --------------------------------------
-    bool                  fTraceSegments;
-    bool                  fTraceSegmentsDetails;
 
     // clefs
     // --------------------------------------
@@ -191,10 +214,6 @@ class traceOptions : public oahGroup
     // --------------------------------------
     bool                  fTracePageBreaks;
 
-    // staff changes
-    // --------------------------------------
-    bool                  fTraceStaffChanges;
-
     // transpositions
     // --------------------------------------
     bool                  fTraceTranspositions;
@@ -210,73 +229,73 @@ class traceOptions : public oahGroup
 
     // repeats
     // --------------------------------------
+
+    // repeats
     bool                  fTraceRepeats;
     bool                  fTraceRepeatsDetails;
-
     // measures repeats
-    // --------------------------------------
     bool                  fTraceMeasuresRepeats;
-
     // rest measures
-    // --------------------------------------
     bool                  fTraceRestMeasures;
-
     // slashes
-    // --------------------------------------
     bool                  fTraceSlashes;
 
     // notes
     // --------------------------------------
+
+    // notes
     bool                  fTraceNotes;
+    // notes details
     bool                  fTraceNotesDetails;
+    // whole notes
     bool                  fTraceWholeNotes;
+    // skip notes
     bool                  fTraceSkipNotes;
+    // rest notes
     bool                  fTraceRestNotes;
+    // notes octave entry
     bool                  fTraceNotesOctaveEntry;
 
+    // note attachments
+    // --------------------------------------
+
     // stems
-    // --------------------------------------
     bool                  fTraceStems;
-
     // beams
-    // --------------------------------------
     bool                  fTraceBeams;
-
     // articulations
-    // --------------------------------------
     bool                  fTraceArticulations;
-
     // technicals
-    // --------------------------------------
     bool                  fTraceTechnicals;
-
     // ornaments
-    // --------------------------------------
     bool                  fTraceOrnaments;
-
     // dynamics
-    // --------------------------------------
     bool                  fTraceDynamics;
 
     // spanners
     // --------------------------------------
     bool                  fTraceSpanners;
 
-    // words
+    // lyrics and words
     // --------------------------------------
+
+    // lyrics
+    bool                  fTraceLyrics;
+    bool                  fTraceLyricsDetails;
+    // words
     bool                  fTraceWords;
 
     // tremolos
     // --------------------------------------
     bool                  fTraceTremolos;
 
-    // chords
+    // chords and tuplets
     // --------------------------------------
+
+    // chords
     bool                  fTraceChords;
     bool                  fTraceChordsDetails;
-
     // tuplets
-    // --------------------------------------
     bool                  fTraceTuplets;
     bool                  fTraceTupletsDetails;
 
@@ -304,21 +323,12 @@ class traceOptions : public oahGroup
     // --------------------------------------
     bool                  fTraceGraceNotes;
 
-    // lyrics
+    // harmonies and figured basses
     // --------------------------------------
-    bool                  fTraceLyrics;
-    bool                  fTraceLyricsDetails;
 
     // harmonies
-    // --------------------------------------
     bool                  fTraceHarmonies;
-
-    // frames
-    // --------------------------------------
-    bool                  fTraceFrames;
-
     // figured basses
-    // --------------------------------------
     bool                  fTraceFiguredBasses;
 
     // ties
@@ -333,21 +343,9 @@ class traceOptions : public oahGroup
     // --------------------------------------
     bool                  fTraceLigatures;
 
-    // pedals
-    // --------------------------------------
-    bool                  fTracePedals;
-
     // wedges
     // --------------------------------------
     bool                  fTraceWedges;
-
-    // staff details
-    // --------------------------------------
-    bool                  fTraceStaffDetails;
-
-    // scordaturas
-    // --------------------------------------
-    bool                  fTraceScordaturas;
 
     // segnos
     // --------------------------------------
@@ -357,16 +355,20 @@ class traceOptions : public oahGroup
     // --------------------------------------
     bool                  fTraceCodas;
 
+    // instruments
+    // --------------------------------------
+
+    // frames
+    bool                  fTraceFrames;
+    // scordaturas
+    bool                  fTraceScordaturas;
+    // pedals
+    bool                  fTracePedals;
     // accordion registrations
-    // --------------------------------------
     bool                  fTraceAccordionRegistrations;
-
     // harp pedals
-    // --------------------------------------
     bool                  fTraceHarpPedals;
-
     // harp pedals tuning
-    // --------------------------------------
     bool                  fTraceHarpPedalsTunings;
 
     // extra chords

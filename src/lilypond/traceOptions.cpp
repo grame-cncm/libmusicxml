@@ -59,6 +59,746 @@ R"()",
 traceOptions::~traceOptions ()
 {}
 
+void traceOptions::initializeHarmoniesAndFiguredBassesTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    harmoniesAndFiguredBassesTraceSubGroup =
+      oahSubGroup::create (
+        "Harmonies and figured basses",
+        "hhafbt", "help-harmonies-and-figured-basses",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (harmoniesAndFiguredBassesTraceSubGroup);
+
+  // harmonies
+
+  fTraceHarmonies = boolOptionsInitialValue;
+
+  harmoniesAndFiguredBassesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tharms", "trace-harmonies",
+R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
+        "traceHarmonies",
+        fTraceHarmonies,
+        fTracePasses));
+
+  // figured basses
+
+  fTraceFiguredBasses = boolOptionsInitialValue;
+
+  harmoniesAndFiguredBassesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tfigbass", "trace-figured-basses",
+R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
+        "traceFiguredBasses",
+        fTraceFiguredBasses,
+        fTracePasses));
+}
+
+void traceOptions::initializeLyricsAndWordsTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    lyricsAndWordsTraceSubGroup =
+      oahSubGroup::create (
+        "Lyrics and words",
+        "hlawt", "help-lyrics-and-words",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (lyricsAndWordsTraceSubGroup);
+
+  // lyrics
+
+  fTraceLyrics        = boolOptionsInitialValue;
+
+  lyricsAndWordsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tlyrics", "trace-lyrics",
+R"(Lyrics in MusicXML, stanzas in MSR)",
+        "traceLyrics",
+        fTraceLyrics,
+        fTracePasses));
+
+  // lyrics details
+
+  fTraceLyricsDetails = boolOptionsInitialValue;
+
+  lyricsAndWordsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tlyricsd", "trace-lyrics-details",
+R"(Lyrics in MusicXML, stanzas in MSR)",
+        "traceLyricsDetails",
+        fTraceLyricsDetails,
+        fTracePasses));
+
+  // words
+
+  fTraceWords = boolOptionsInitialValue;
+
+  lyricsAndWordsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "twords", "trace-words",
+R"(Words)",
+        "traceWords",
+        fTraceWords,
+        fTracePasses));
+}
+
+void traceOptions::initializeChordsAndTupletsTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    chordsAndTupletsTraceSubGroup =
+      oahSubGroup::create (
+        "Chords and tuplets trace",
+        "hcatt", "help-chords-and-tuplets",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (chordsAndTupletsTraceSubGroup);
+
+  // chords
+
+  fTraceChords = boolOptionsInitialValue;
+
+  chordsAndTupletsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tchords", "trace-chords",
+R"(Chords)",
+        "traceChords",
+        fTraceChords,
+        fTracePasses));
+
+  // chords details
+
+  fTraceChordsDetails = boolOptionsInitialValue;
+
+  chordsAndTupletsTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "tchordsd", "trace-chords-details",
+R"(Chords details)",
+        "traceChordsDetails",
+        fTraceChordsDetails,
+        fTraceChords,
+        fTracePasses));
+
+  // tuplets
+
+  fTraceTuplets = boolOptionsInitialValue;
+
+  chordsAndTupletsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "ttups", "trace-tuplets",
+R"(Tuplets)",
+        "traceTuplets",
+        fTraceTuplets,
+        fTracePasses));
+
+  // tuplets details
+
+  fTraceTupletsDetails = boolOptionsInitialValue;
+
+  chordsAndTupletsTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "ttupsd", "trace-tuplets-details",
+R"(Tuplets details)",
+        "traceTupletsDetails",
+        fTraceTupletsDetails,
+        fTraceTuplets,
+        fTracePasses));
+}
+
+void traceOptions::initializeInstrumentsTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    instrumentsTraceSubGroup =
+      oahSubGroup::create (
+        "Instruments trace",
+        "hit", "help-instruments-trace",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (instrumentsTraceSubGroup);
+
+  // frames
+
+  fTraceFrames = boolOptionsInitialValue;
+
+  instrumentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tframes", "trace-frames",
+R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
+        "traceFrames",
+        fTraceFrames,
+        fTracePasses));
+
+  // scordaturas
+
+  fTraceScordaturas = boolOptionsInitialValue;
+
+  instrumentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "trace-scordaturas", "",
+R"(Scordaturas)",
+        "traceScordaturas",
+        fTraceScordaturas,
+        fTracePasses));
+
+  // pedals
+
+  fTracePedals = boolOptionsInitialValue;
+
+  instrumentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tpedals", "trace-pedals",
+R"(Pedals)",
+        "tracePedals",
+        fTracePedals,
+        fTracePasses));
+
+  // accordion registrations
+
+  fTraceAccordionRegistrations = boolOptionsInitialValue;
+
+  // accordion registrations
+  instrumentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "trace-accordion-registrations", "",
+R"(Accordion registrations)",
+        "traceAccordionRegistrations",
+        fTraceAccordionRegistrations,
+        fTracePasses));
+
+  // harp pedals
+
+  fTraceHarpPedals = boolOptionsInitialValue;
+
+  instrumentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "trace-harp-pedals", "",
+R"(Harp pedals)",
+        "traceHarpPedals",
+        fTraceHarpPedals,
+        fTracePasses));
+
+  // harp pedals tuning
+
+  fTraceHarpPedalsTunings = boolOptionsInitialValue;
+
+  instrumentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "thpt", "traceHarpPedalsTunings",
+R"(Harp pedals tuning)",
+        "traceHarpPedalsTunings",
+        fTraceHarpPedalsTunings,
+        fTracePasses));
+}
+
+void traceOptions::initializeNotesAttachmentsTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    notesAttachmentsTraceSubGroup =
+      oahSubGroup::create (
+        "Notes attachments trace",
+        "hnat", "help-notes-attachments-trace",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (notesAttachmentsTraceSubGroup);
+
+  // stems
+
+  fTraceStems = boolOptionsInitialValue;
+
+  notesAttachmentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tstems", "trace-stems",
+R"(Stems)",
+        "traceStems",
+        fTraceStems,
+        fTracePasses));
+
+  // beams
+
+  fTraceBeams = boolOptionsInitialValue;
+
+  notesAttachmentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tbeams", "trace-beams",
+R"(Beams)",
+        "traceBeams",
+        fTraceBeams,
+        fTracePasses));
+
+  // articulations
+
+  fTraceArticulations = boolOptionsInitialValue;
+
+  notesAttachmentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tarts", "trace-articulations",
+R"(Articulations)",
+        "traceArticulations",
+        fTraceArticulations,
+        fTracePasses));
+
+  // technicals
+
+  fTraceTechnicals = boolOptionsInitialValue;
+
+  notesAttachmentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "ttechs", "trace-technicals",
+R"(Technicals)",
+        "traceTechnicals",
+        fTraceTechnicals,
+        fTracePasses));
+
+  // ornaments
+
+  fTraceOrnaments = boolOptionsInitialValue;
+
+  notesAttachmentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "torns", "trace-ornaments",
+R"(Ornaments)",
+        "traceOrnaments",
+        fTraceOrnaments,
+        fTracePasses));
+
+  // dynamics
+
+  fTraceDynamics = boolOptionsInitialValue;
+
+  notesAttachmentsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tdyns", "trace-dynamics",
+R"(Dynamics)",
+        "traceDynamics",
+        fTraceDynamics,
+        fTracePasses));
+}
+
+void traceOptions::initializeSegmentsAndMeasuresTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    segmentsAndMeasuresTraceSubGroup =
+      oahSubGroup::create (
+        "Segments and measures trace",
+        "hsamt", "help-segments-and-measures-trace",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (segmentsAndMeasuresTraceSubGroup);
+
+  // segments
+
+  fTraceSegments = boolOptionsInitialValue;
+
+  segmentsAndMeasuresTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tsegs", "trace-segments",
+R"(Voices segments)",
+        "traceSegments",
+        fTraceSegments,
+        fTracePasses));
+
+  // segments details
+
+  fTraceSegmentsDetails = boolOptionsInitialValue;
+
+  segmentsAndMeasuresTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "tsegsd", "trace-segments-details",
+R"(Voices segments details)",
+        "traceSegments",
+        fTraceSegmentsDetails,
+        fTraceSegments,
+        fTracePasses));
+
+  // measures
+
+  fTraceMeasures = boolOptionsInitialValue;
+
+  segmentsAndMeasuresTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tmeas", "trace-measures",
+R"(Measures)",
+        "traceMeasures",
+        fTraceMeasures,
+        fTracePasses));
+
+  // measures details
+
+  fTraceMeasuresDetails = boolOptionsInitialValue;
+
+  segmentsAndMeasuresTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "tmeasd", "trace-measures-details",
+R"(Measures details)",
+        "traceMeasuresDetails",
+        fTraceMeasuresDetails,
+        fTraceMeasures,
+        fTracePasses));
+
+  // positions in measures
+
+  fTracePositionsInMeasures = boolOptionsInitialValue;
+
+  segmentsAndMeasuresTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tpim", "trace-positions-in-measures",
+R"(Positions in measures)",
+        "tracePositionsInMeasures",
+        fTracePositionsInMeasures,
+        fTracePasses));
+
+  // fTraceDetailedMeasureNumbersSet is empty
+}
+
+void traceOptions::initializeScoreToVoicesTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    scoreToVoicesTraceSubGroup =
+      oahSubGroup::create (
+        "Score to voices trace",
+        "hstvt", "help-score-to-voices-trace",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (scoreToVoicesTraceSubGroup);
+
+  // score
+
+  fTraceScore = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tscore", "trace-score",
+R"(Score)",
+        "traceScore",
+        fTraceScore,
+        fTracePasses));
+
+  // part groups
+
+  fTracePartGroups = boolOptionsInitialValue;
+  fTracePartGroupsDetails = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tpgroups", "trace-part-groups",
+R"(Part groups)",
+        "tracePartGroups",
+        fTracePartGroups,
+        fTracePasses));
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "tpgroupsd", "trace-part-groups-details",
+R"(Part groups with more details.
+This option implies '-tpgrps, -tracePartGroups'.)",
+        "tracePartGroupsDetails",
+        fTracePartGroupsDetails,
+        fTracePartGroups,
+        fTracePasses));
+
+  // parts
+
+  fTraceParts = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tparts", "trace-parts",
+R"(Parts)",
+        "traceParts",
+        fTraceParts,
+        fTracePasses));
+
+  // staves
+
+  fTraceStaves = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tstaves", "trace-staves",
+R"(Staves)",
+        "traceStaves",
+        fTraceStaves,
+        fTracePasses));
+
+  // staff details
+
+  fTraceStaffDetails = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tst", "trace-staff-details",
+R"(Staff details)",
+        "traceStaffDetails",
+        fTraceStaffDetails,
+        fTracePasses));
+
+  // staff changes
+
+  fTraceStaffChanges = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tschanges", "trace-staff-changes",
+R"(Staff changes)",
+        "traceStaffChanges",
+        fTraceStaffChanges,
+        fTracePasses));
+
+  // voices
+
+  fTraceVoices = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tvoices", "trace-voices",
+R"(Voices)",
+        "traceVoices",
+        fTraceVoices,
+        fTracePasses));
+
+  // voices details
+
+  fTraceVoicesDetails = boolOptionsInitialValue;
+
+  scoreToVoicesTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "tvoicesd", "trace-voices-details",
+R"(Voices with more details (quite verbose)..
+This option implies '-tvdetails, -traceVoicesDetails'.)",
+        "traceVoicesDetails",
+        fTraceVoicesDetails,
+        fTraceVoices,
+        fTracePasses));
+}
+
+void traceOptions::initializeNotesTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    notesTraceSubGroup =
+      oahSubGroup::create (
+        "Notes trace",
+        "hnt", "help-notes-trace",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (notesTraceSubGroup);
+
+  // notes
+
+  fTraceNotes = boolOptionsInitialValue;
+
+  notesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tnotes", "trace-notes",
+R"(Notes)",
+        "traceNotes",
+        fTraceNotes,
+        fTracePasses));
+
+  fTraceNotesDetails = boolOptionsInitialValue;
+
+  notesTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "tnotesd", "trace-notes-details",
+R"(Notes with more details, including divisions handling (quite verbose)...
+This option implies '-tnnotes, -traceNotes'.)",
+        "traceNotesDetails",
+        fTraceNotesDetails,
+        fTraceNotes,
+        fTracePasses));
+
+  fTraceWholeNotes = boolOptionsInitialValue;
+
+  notesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "twn", "trace-whole-notes",
+R"(Whole notes computations (quite verbose)...)",
+        "traceWholeNotes",
+        fTraceWholeNotes,
+        fTracePasses));
+
+  fTraceRestNotes = boolOptionsInitialValue;
+
+  notesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "trn", "trace-rest-notes",
+R"(Rest notes)",
+        "traceRestNotes",
+        fTraceRestNotes,
+        fTracePasses));
+
+  fTraceSkipNotes = boolOptionsInitialValue;
+
+  notesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tsn", "trace-skip-notes",
+R"(Skip notes)",
+        "traceSkipNotes",
+        fTraceSkipNotes,
+        fTracePasses));
+
+  fTraceNotesOctaveEntry = boolOptionsInitialValue;
+
+  notesTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tnoe", "trace-notes-octave-entry",
+R"(Notes octave entry)",
+        "traceNotesOctaveEntry",
+        fTraceNotesOctaveEntry,
+        fTracePasses));
+}
+
+void traceOptions::initializeRepeatsTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    repeatsTraceSubGroup =
+      oahSubGroup::create (
+        "Repeats trace",
+        "hrt", "help-repeats-trace",
+R"(  Can be quite verbose, use with small input data!
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
+      oahSubGroup::kSubGroupVisibilityHiddenByDefault,
+      this);
+
+  appendSubGroup (repeatsTraceSubGroup);
+
+  // repeats
+
+  fTraceRepeats = boolOptionsInitialValue;
+  fTraceRepeatsDetails = boolOptionsInitialValue;
+
+  repeatsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "treps", "trace-repeats",
+R"(Repeats)",
+        "traceRepeats",
+        fTraceRepeats,
+        fTracePasses));
+
+  repeatsTraceSubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "trepsd", "trace-repeats-details",
+R"(Repeats details)",
+        "traceRepeats",
+        fTraceRepeatsDetails,
+        fTraceRepeats,
+        fTracePasses));
+
+  // measures repeats
+
+  fTraceMeasuresRepeats = boolOptionsInitialValue;
+
+  repeatsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tmreps", "trace-measures-repeats",
+R"(Measures repeats)",
+        "traceMeasureRepeats",
+        fTraceMeasuresRepeats,
+        fTracePasses));
+
+  // rest measures
+
+  fTraceRestMeasures = boolOptionsInitialValue;
+
+  repeatsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "trmeas", "trace-rest-measures",
+R"(Multiple rests)",
+        "traceRestMeasures",
+        fTraceRestMeasures,
+        fTracePasses));
+
+  // slashes
+
+  fTraceSlashes = boolOptionsInitialValue;
+
+  repeatsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tslashes", "trace-slashes",
+R"(Slashes)",
+        "traceSlashes",
+        fTraceSlashes,
+        fTracePasses));
+}
+
 void traceOptions::initializeLowLevelTraceOptions (
   bool boolOptionsInitialValue)
 {
@@ -68,7 +808,7 @@ void traceOptions::initializeLowLevelTraceOptions (
         "Low level trace",
         "hllt", "help-low-level-trace",
 R"(  Can be quite verbose, use with small input data!
-Note: the options in this group imply '-t, -trace-passes'.)",
+Note: the options in this sub-group imply '-tpasses, -trace-passes'.)",
       oahSubGroup::kSubGroupVisibilityHiddenByDefault,
       this);
 
@@ -104,19 +844,6 @@ R"(Write a trace for tests to standard error.)",
   lowLevelTraceSubGroup->
     appendAtom (
       traceForTestsOptionsBooleanItem);
-
-  // score
-
-  fTraceScore = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tscore", "trace-score",
-R"(Score)",
-        "traceScore",
-        fTraceScore,
-        fTracePasses));
 
   // varValAssocs
 
@@ -155,141 +882,6 @@ R"(Credits)",
 R"(Geometry)",
         "traceGeometry",
         fTraceGeometry,
-        fTracePasses));
-
-  // part groups
-
-  fTracePartGroups = boolOptionsInitialValue;
-  fTracePartGroupsDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tpgroups", "trace-part-groups",
-R"(Part groups)",
-        "tracePartGroups",
-        fTracePartGroups,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "tpgroupsd", "trace-part-groups-details",
-R"(Part groups with more details.
-This option implies '-tpgrps, -tracePartGroups'.)",
-        "tracePartGroupsDetails",
-        fTracePartGroupsDetails,
-        fTracePartGroups,
-        fTracePasses));
-
-  // parts
-
-  fTraceParts = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tparts", "trace-parts",
-R"(Parts)",
-        "traceParts",
-        fTraceParts,
-        fTracePasses));
-
-  // staves
-
-  fTraceStaves = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tstaves", "trace-staves",
-R"(Staves)",
-        "traceStaves",
-        fTraceStaves,
-        fTracePasses));
-
-  // voices
-
-  fTraceVoices = boolOptionsInitialValue;
-  fTraceVoicesDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tvoices", "trace-voices",
-R"(Voices)",
-        "traceVoices",
-        fTraceVoices,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "tvoicesd", "trace-voices-details",
-R"(Voices with more details (quite verbose)..
-This option implies '-tvdetails, -traceVoicesDetails'.)",
-        "traceVoicesDetails",
-        fTraceVoicesDetails,
-        fTraceVoices,
-        fTracePasses));
-
-  // measures
-
-  fTraceMeasures = boolOptionsInitialValue;
-  fTraceMeasuresDetails = boolOptionsInitialValue;
-  fTracePositionsInMeasures = boolOptionsInitialValue;
-  // fTraceDetailedMeasureNumbersSet is empty
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tmeas", "trace-measures",
-R"(Measures)",
-        "traceMeasures",
-        fTraceMeasures,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "tmeasd", "trace-measures-details",
-R"(Measures details)",
-        "traceMeasuresDetails",
-        fTraceMeasuresDetails,
-        fTraceMeasures,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tpim", "trace-positions-in-measures",
-R"(Positions in measures)",
-        "tracePositionsInMeasures",
-        fTracePositionsInMeasures,
-        fTracePasses));
-
-  // segments
-
-  fTraceSegments = boolOptionsInitialValue;
-  fTraceSegmentsDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tsegs", "trace-segments",
-R"(Voices segments)",
-        "traceSegments",
-        fTraceSegments,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "tsegsd", "trace-segments-details",
-R"(Voices segments details)",
-        "traceSegments",
-        fTraceSegmentsDetails,
-        fTraceSegments,
         fTracePasses));
 
   // clefs
@@ -383,19 +975,6 @@ R"(Page breaks)",
         fTracePageBreaks,
         fTracePasses));
 
-  // staff changes
-
-  fTraceStaffChanges = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tschanges", "trace-staff-changes",
-R"(Staff changes)",
-        "traceStaffChanges",
-        fTraceStaffChanges,
-        fTracePasses));
-
   // transpositions
 
   fTraceTranspositions = boolOptionsInitialValue;
@@ -446,218 +1025,6 @@ R"(Barlines details)",
         fTraceBarLines,
         fTracePasses));
 
-  // repeats
-
-  fTraceRepeats = boolOptionsInitialValue;
-  fTraceRepeatsDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "treps", "trace-repeats",
-R"(Repeats)",
-        "traceRepeats",
-        fTraceRepeats,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "trepsd", "trace-repeats-details",
-R"(Repeats details)",
-        "traceRepeats",
-        fTraceRepeatsDetails,
-        fTraceRepeats,
-        fTracePasses));
-
-  // measures repeats
-
-  fTraceMeasuresRepeats = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tmreps", "trace-measures-repeats",
-R"(Measures repeats)",
-        "traceMeasureRepeats",
-        fTraceMeasuresRepeats,
-        fTracePasses));
-
-  // rest measures
-
-  fTraceRestMeasures = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "trmeas", "trace-rest-measures",
-R"(Multiple rests)",
-        "traceRestMeasures",
-        fTraceRestMeasures,
-        fTracePasses));
-
-  // slashes
-
-  fTraceSlashes = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tslashes", "trace-slashes",
-R"(Slashes)",
-        "traceSlashes",
-        fTraceSlashes,
-        fTracePasses));
-
-  // notes
-
-
-  fTraceNotes = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tnotes", "trace-notes",
-R"(Notes)",
-        "traceNotes",
-        fTraceNotes,
-        fTracePasses));
-
-  fTraceNotesDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "tnotesd", "trace-notes-details",
-R"(Notes with more details, including divisions handling (quite verbose)...
-This option implies '-tnnotes, -traceNotes'.)",
-        "traceNotesDetails",
-        fTraceNotesDetails,
-        fTraceNotes,
-        fTracePasses));
-
-  fTraceWholeNotes = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "twn", "trace-whole-notes",
-R"(Whole notes computations (quite verbose)...)",
-        "traceWholeNotes",
-        fTraceWholeNotes,
-        fTracePasses));
-
-  fTraceRestNotes = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "trn", "trace-rest-notes",
-R"(Rest notes)",
-        "traceRestNotes",
-        fTraceRestNotes,
-        fTracePasses));
-
-  fTraceSkipNotes = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tsn", "trace-skip-notes",
-R"(Skip notes)",
-        "traceSkipNotes",
-        fTraceSkipNotes,
-        fTracePasses));
-
-  fTraceNotesOctaveEntry = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tnoe", "trace-notes-octave-entry",
-R"(Notes octave entry)",
-        "traceNotesOctaveEntry",
-        fTraceNotesOctaveEntry,
-        fTracePasses));
-
-  // stems
-
-  fTraceStems = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tstems", "trace-stems",
-R"(Stems)",
-        "traceStems",
-        fTraceStems,
-        fTracePasses));
-
-  // beams
-
-  fTraceBeams = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tbeams", "trace-beams",
-R"(Beams)",
-        "traceBeams",
-        fTraceBeams,
-        fTracePasses));
-
-  // articulations
-
-  fTraceArticulations = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tarts", "trace-articulations",
-R"(Articulations)",
-        "traceArticulations",
-        fTraceArticulations,
-        fTracePasses));
-
-  // technicals
-
-  fTraceTechnicals = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "ttechs", "trace-technicals",
-R"(Technicals)",
-        "traceTechnicals",
-        fTraceTechnicals,
-        fTracePasses));
-
-  // ornaments
-
-  fTraceOrnaments = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "torns", "trace-ornaments",
-R"(Ornaments)",
-        "traceOrnaments",
-        fTraceOrnaments,
-        fTracePasses));
-
-  // dynamics
-
-  fTraceDynamics = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tdyns", "trace-dynamics",
-R"(Dynamics)",
-        "traceDynamics",
-        fTraceDynamics,
-        fTracePasses));
-
   // spanners
 
   fTraceSpanners = boolOptionsInitialValue;
@@ -671,19 +1038,6 @@ R"(Spanners)",
         fTraceSpanners,
         fTracePasses));
 
-  // words
-
-  fTraceWords = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "twords", "trace-words",
-R"(Words)",
-        "traceWords",
-        fTraceWords,
-        fTracePasses));
-
   // tremolos
 
   fTraceTremolos = boolOptionsInitialValue;
@@ -695,54 +1049,6 @@ R"(Words)",
 R"(Tremolos)",
         "traceTremolos",
         fTraceTremolos,
-        fTracePasses));
-
-  // chords
-
-  fTraceChords = boolOptionsInitialValue;
-  fTraceChordsDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tchords", "trace-chords",
-R"(Chords)",
-        "traceChords",
-        fTraceChords,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "tchordsd", "trace-chords-details",
-R"(Chords details)",
-        "traceChordsDetails",
-        fTraceChordsDetails,
-        fTraceChords,
-        fTracePasses));
-
-  // tuplets
-
-  fTraceTuplets = boolOptionsInitialValue;
-  fTraceTupletsDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "ttups", "trace-tuplets",
-R"(Tuplets)",
-        "traceTuplets",
-        fTraceTuplets,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahThreeBooleansAtom::create (
-        "ttupsd", "trace-tuplets-details",
-R"(Tuplets details)",
-        "traceTupletsDetails",
-        fTraceTupletsDetails,
-        fTraceTuplets,
         fTracePasses));
 
   // glissandos
@@ -823,68 +1129,6 @@ R"(Grace notes)",
         fTraceGraceNotes,
         fTracePasses));
 
-  // lyrics
-
-  fTraceLyrics        = boolOptionsInitialValue;
-  fTraceLyricsDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tlyrics", "trace-lyrics",
-R"(Lyrics in MusicXML, stanzas in MSR)",
-        "traceLyrics",
-        fTraceLyrics,
-        fTracePasses));
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tlyricsd", "trace-lyrics-details",
-R"(Lyrics in MusicXML, stanzas in MSR)",
-        "traceLyricsDetails",
-        fTraceLyricsDetails,
-        fTracePasses));
-
-  // harmonies
-
-  fTraceHarmonies = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tharms", "trace-harmonies",
-R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
-        "traceHarmonies",
-        fTraceHarmonies,
-        fTracePasses));
-
-  // frames
-
-  fTraceFrames = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tframes", "trace-frames",
-R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
-        "traceFrames",
-        fTraceFrames,
-        fTracePasses));
-
-  // figured basses
-
-  fTraceFiguredBasses = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tfigbass", "trace-figured-basses",
-R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
-        "traceFiguredBasses",
-        fTraceFiguredBasses,
-        fTracePasses));
-
   // ties
 
   fTraceTies = boolOptionsInitialValue;
@@ -924,19 +1168,6 @@ R"(Ligatures)",
         fTraceLigatures,
         fTracePasses));
 
-  // pedals
-
-  fTracePedals = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tpedals", "trace-pedals",
-R"(Pedals)",
-        "tracePedals",
-        fTracePedals,
-        fTracePasses));
-
   // wedges
 
   fTraceWedges = boolOptionsInitialValue;
@@ -948,32 +1179,6 @@ R"(Pedals)",
 R"(Wedges)",
         "traceWedges",
         fTraceWedges,
-        fTracePasses));
-
-  // staff details
-
-  fTraceStaffDetails = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "tst", "trace-staff-details",
-R"(Staff details)",
-        "traceStaffDetails",
-        fTraceStaffDetails,
-        fTracePasses));
-
-  // scordaturas
-
-  fTraceScordaturas = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "trace-scordaturas", "",
-R"(Scordaturas)",
-        "traceScordaturas",
-        fTraceScordaturas,
         fTracePasses));
 
   // segnos
@@ -1000,46 +1205,6 @@ R"(Segnos)",
 R"(Codas)",
         "traceCodas",
         fTraceCodas,
-        fTracePasses));
-
-  // accordion registrations
-
-  fTraceAccordionRegistrations = boolOptionsInitialValue;
-
-  // accordion registrations
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "trace-accordion-registrations", "",
-R"(Accordion registrations)",
-        "traceAccordionRegistrations",
-        fTraceAccordionRegistrations,
-        fTracePasses));
-
-  // harp pedals
-
-  fTraceHarpPedals = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "trace-harp-pedals", "",
-R"(Harp pedals)",
-        "traceHarpPedals",
-        fTraceHarpPedals,
-        fTracePasses));
-
-  // harp pedals tuning
-
-  fTraceHarpPedalsTunings = boolOptionsInitialValue;
-
-  lowLevelTraceSubGroup->
-    appendAtom (
-      oahTwoBooleansAtom::create (
-        "thpt", "traceHarpPedalsTunings",
-R"(Harp pedals tuning)",
-        "traceHarpPedalsTunings",
-        fTraceHarpPedalsTunings,
         fTracePasses));
 
   // extra chords
@@ -1087,6 +1252,42 @@ R"(MIDI)",
 void traceOptions::initializeTraceOptions (
   bool boolOptionsInitialValue)
 {
+  // score to voices
+  initializeScoreToVoicesTraceOptions (
+    boolOptionsInitialValue);
+
+  // segments and measures
+  initializeSegmentsAndMeasuresTraceOptions (
+    boolOptionsInitialValue);
+
+  // notes
+  initializeNotesTraceOptions (
+    boolOptionsInitialValue);
+
+  // notes attachments
+  initializeNotesAttachmentsTraceOptions (
+    boolOptionsInitialValue);
+
+  // repeats
+  initializeRepeatsTraceOptions (
+    boolOptionsInitialValue);
+
+  // instruments
+  initializeInstrumentsTraceOptions (
+    boolOptionsInitialValue);
+
+  // chords and tuplets
+  initializeChordsAndTupletsTraceOptions (
+    boolOptionsInitialValue);
+
+  // lyrics and words
+  initializeLyricsAndWordsTraceOptions (
+    boolOptionsInitialValue);
+
+  // harmonies and figured basses
+  initializeHarmoniesAndFiguredBassesTraceOptions (
+    boolOptionsInitialValue);
+
   // low level trace
   initializeLowLevelTraceOptions (
     boolOptionsInitialValue);
@@ -1183,7 +1384,7 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   clone->fTraceBarLines = true;
   clone->fTraceBarLinesDetails = true;
 
-  // repeats
+  // repeats trace
   clone->fTraceRepeats = true;
   clone->fTraceRepeatsDetails = true;
 
@@ -1196,7 +1397,7 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // slashes
   clone->fTraceSlashes = true;
 
-  // notes
+  // notes trace
   clone->fTraceNotes = true;
   clone->fTraceNotesDetails = true;
   clone->fTraceWholeNotes = true;

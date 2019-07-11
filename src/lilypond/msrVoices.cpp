@@ -3989,12 +3989,10 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
       fVoiceLastSegment,
       "handleVoiceLevelRepeatEndWithoutStartInVoice() 4");
 
-//* JMI VIRER BOF ??? SURE
   // create a new last segment for the voice
   createNewLastSegmentForVoice (
     inputLineNumber,
     "handleVoiceLevelRepeatEndWithoutStartInVoice() 5");
-//    */
 
   // set newRepeat's build phase to completed
   newRepeat->
