@@ -59,9 +59,7 @@ All of them imply '-tpasses, -trace-passes'.)",
   // initialize it
   initializeTraceOptions (false);
 
-  // '-ht, -help-trace' is hidden...
-  this->
-    setIsHidden ();
+  fMaximumSubGroupHeaderLength = 0;
 }
 
 traceOptions::~traceOptions ()
@@ -2703,6 +2701,67 @@ S_oahValuedAtom traceOptions::handleAtom (
   // JMI ???
 
   return result;
+}
+
+void traceOptions::printHelp (ostream& os)
+{
+  int undef = 3;
+
+  // print the header and option names
+  printGroupHeader (os);
+
+  // print the description if any
+  if (fDescription.size ()) {
+    gIndenter++;
+    os <<
+      gIndenter.indentMultiLineString (
+        fDescription) <<
+      endl;
+    gIndenter--;
+  }
+
+  // underline the options group header
+  underlineGroupHeader (os);
+
+  // print the options subgroups
+  if (fSubGroupsList.size ()) {
+    // compute the maximun sub group header length
+    for (
+      list<S_oahSubGroup>::const_iterator i = fSubGroupsList.begin ();
+      i != fSubGroupsList.end ();
+      i++
+    ) {
+      string subGroupHeader  = (*i)->getSubGroupHeader ();
+      int subGroupHeaderSize = subGroupHeader.size ();
+
+      if (subGroupHeaderSize > fMaximumSubGroupHeaderLength) {
+        fMaximumSubGroupHeaderLength = subGroupHeaderSize;
+      }
+    } // for
+
+    gIndenter++;
+
+    list<S_oahSubGroup>::const_iterator
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_oahSubGroup subGroup = (*i);
+
+      // print the options subgroup help
+      subGroup->printHelpWithHeaderWidth (
+        os,
+        fMaximumSubGroupHeaderLength);
+
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  // register help print action in options handler upLink
+  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
 ostream& operator<< (ostream& os, const S_traceOptions& elt)

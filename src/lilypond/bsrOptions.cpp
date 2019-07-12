@@ -487,16 +487,10 @@ R"(Exit after pass 3a, i.e. after conversion
 of the MSR to the first BSR score.)",
         "exit3a",
         fExit3a);
-        /* JMI
-  exit2aOptionsBooleanAtom->
-    setIsHidden ();
-    */
 
   exitAfterSomePassesSubGroup->
     appendAtom (
       exit2aOptionsBooleanAtom);
-
-  // '-exit-3b' is hidden... JMI ???
 
   fExit3b = boolOptionsInitialValue;
 
@@ -508,10 +502,6 @@ R"(Exit after pass 3b, i.e. after conversion
 of the first BSR to the second BSR.)",
         "exit3b",
         fExit3b);
-        /* JMI
-  exit2bOptionsBooleanAtom->
-    setIsHidden ();
-    */
 
   exitAfterSomePassesSubGroup->
     appendAtom (

@@ -144,6 +144,8 @@ class traceOptions : public oahGroup
     // print
     // ------------------------------------------------------
 
+    void                  printHelp (ostream& os);
+
     void                  printTraceOptionsHelp ();
 
     void                  printTraceOptionsValues (int fieldWidth);
@@ -387,7 +389,16 @@ class traceOptions : public oahGroup
     // msrStreams
     // --------------------------------------
     bool                  fTraceMsrStreams;
+
+    // layout
 */
+
+  private:
+
+    // private work fields
+    // --------------------------------------
+
+    int                   fMaximumSubGroupHeaderLength;
 };
 typedef SMARTP<traceOptions> S_traceOptions;
 EXP ostream& operator<< (ostream& os, const S_traceOptions& elt);

@@ -117,7 +117,7 @@ Handling:
 */
 
 //______________________________________________________________________________
-string OptionVisibilityKindAsString (
+string optionVisibilityKindAsString (
   oahOptionVisibilityKind optionVisibilityKind)
 {
   string result;
@@ -353,7 +353,7 @@ void oahOption::print (ostream& os) const
   printOptionEssentials (os, 40); // JMI
 }
 
-void oahOption::printHelp (ostream& os) const
+void oahOption::printHelp (ostream& os)
 {
   os <<
     fetchNames () <<
@@ -1375,7 +1375,7 @@ void oahCombinedBooleansAtom::print (ostream& os) const
   os << endl;
 }
 
-void oahCombinedBooleansAtom::printHelp (ostream& os) const
+void oahCombinedBooleansAtom::printHelp (ostream& os)
 {
   os <<
     fetchNames () <<
@@ -1589,7 +1589,7 @@ void oahValuedAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void oahValuedAtom::printHelp (ostream& os) const
+void oahValuedAtom::printHelp (ostream& os)
 {
   os <<
     fetchNames () <<
@@ -2834,7 +2834,7 @@ void oahSubGroup::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "fOptionVisibilityKind" << " : " <<
-      OptionVisibilityKindAsString (
+      optionVisibilityKindAsString (
         fOptionVisibilityKind) <<
     endl <<
     endl;
@@ -2893,10 +2893,98 @@ void oahSubGroup::printSubGroupHeader (ostream& os) const
   os << endl;
 }
 
-void oahSubGroup::printHelp (ostream& os) const
+void oahSubGroup::printSubGroupHeaderWithHeaderWidth (
+  ostream& os,
+  int      subGroupHeaderWidth) const
+{
+  // print the header and option names
+  os << left <<
+    setw (subGroupHeaderWidth) <<
+    fSubGroupHeader <<
+    " " <<
+    fetchNamesBetweenParentheses ();
+
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
+      os <<
+        ":";
+      break;
+
+    case kElementVisibilityHiddenByDefault:
+      os <<
+        " (hidden by default)";
+      break;
+  } // switch
+
+  os << endl;
+
+}
+
+void oahSubGroup::printHelp (ostream& os)
 {
   // print the header and option names
   printSubGroupHeader (os);
+
+  // print the description if any
+  if (fDescription.size ()) {
+    gIndenter++;
+    os <<
+      gIndenter.indentMultiLineString (
+        fDescription);
+    gIndenter--;
+
+    os << endl;
+  }
+
+  // print the options atoms if relevant
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
+      if (fAtomsList.size ()) {
+        gIndenter++;
+
+        list<S_oahAtom>::const_iterator
+          iBegin = fAtomsList.begin (),
+          iEnd   = fAtomsList.end (),
+          i      = iBegin;
+        for ( ; ; ) {
+          S_oahAtom oahAtom = (*i);
+          bool
+            oahAtomIsHidden =
+              oahAtom->getIsHidden ();
+
+          // print the atom help unless it is hidden
+          if (! oahAtomIsHidden) {
+            oahAtom->
+              printHelp (os);
+          }
+          if (++i == iEnd) break;
+          if (! oahAtomIsHidden) {
+   // JMI         os << endl;
+          }
+        } // for
+
+        gIndenter--;
+      }
+      break;
+
+    case kElementVisibilityHiddenByDefault:
+      break;
+  } // switch
+
+  // register help print action in options groups's options handler upLink
+  fGroupUpLink->
+    getHandlerUpLink ()->
+      setOptionsHandlerFoundAHelpOption ();
+}
+
+void oahSubGroup::printHelpWithHeaderWidth (
+  ostream& os,
+  int      subGroupHeaderWidth)
+{
+  // print the header and option names
+  printSubGroupHeaderWithHeaderWidth (
+    os,
+    subGroupHeaderWidth);
 
   // print the description if any
   if (fDescription.size ()) {
@@ -3389,7 +3477,7 @@ void oahGroup::printGroupHeader (ostream& os) const
   os << endl;
 }
 
-void oahGroup::printHelp (ostream& os) const
+void oahGroup::printHelp (ostream& os)
 {
   // print the header and option names
   printGroupHeader (os);
@@ -3835,7 +3923,7 @@ void oahPrefix::print (ostream& os) const
   printPrefixEssentials (os, 40); // JMI
 }
 
-void oahPrefix::printHelp (ostream& os) const
+void oahPrefix::printHelp (ostream& os)
 {
   os <<
     prefixNames () <<
@@ -4254,7 +4342,7 @@ void oahHandler::print (ostream& os) const
   gIndenter--;
 }
 
-void oahHandler::printHelp (ostream& os) const
+void oahHandler::printHelp (ostream& os)
 {
   // print the options handler preamble
   os <<

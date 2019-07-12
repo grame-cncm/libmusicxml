@@ -62,7 +62,7 @@ enum oahOptionVisibilityKind {
   kElementVisibilityAlways,
   kElementVisibilityHiddenByDefault };
 
-static string OptionVisibilityKindAsString (
+string optionVisibilityKindAsString (
   oahOptionVisibilityKind optionVisibilityKind);
 
 //______________________________________________________________________________
@@ -166,7 +166,7 @@ class oahOption : public smartable
 
     virtual void          print (ostream& os) const;
 
-    virtual void          printHelp (ostream& os) const;
+    virtual void          printHelp (ostream& os);
 
   protected:
 
@@ -675,7 +675,7 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const;
 
-    void                  printHelp (ostream& os) const;
+    void                  printHelp (ostream& os);
 
     void                  printOptionsValues (
                             ostream& os,
@@ -771,7 +771,7 @@ class oahValuedAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const;
 
-    void                  printHelp (ostream& os) const;
+    void                  printHelp (ostream& os);
 
     virtual void          printOptionsValues (
                             ostream& os,
@@ -1356,9 +1356,16 @@ class oahSubGroup : public oahOption
 
     void                  print (ostream& os) const;
 
-    void                  printHelp (ostream& os) const;
+    void                  printHelp (ostream& os);
+
+    void                  printHelpWithHeaderWidth (
+                            ostream& os,
+                            int      subGroupHeaderWidth);
 
     void                  printSubGroupHeader (ostream& os) const;
+    void                  printSubGroupHeaderWithHeaderWidth (
+                            ostream& os,
+                            int      subGroupHeaderWidth) const;
 
     void                  printSubGroupHelp (
                             ostream& os) const;
@@ -1474,7 +1481,7 @@ class oahGroup : public oahOption
 
     void                  printGroupHeader (ostream& os) const;
 
-    void                  printHelp (ostream& os) const;
+    void                  printHelp (ostream& os);
 
     void                  printGroupAndSubGroupHelp (
                             ostream&      os,
@@ -1497,10 +1504,15 @@ class oahGroup : public oahOption
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fGroupHeader;
+
+  protected:
+
+    // protected fields
+    // ------------------------------------------------------
 
     list<S_oahSubGroup>   fSubGroupsList;
 };
@@ -1589,7 +1601,7 @@ to be developped into :
 
     virtual void          print (ostream& os) const;
 
-    virtual void          printHelp (ostream& os) const;
+    virtual void          printHelp (ostream& os);
 
   protected:
 
@@ -1723,7 +1735,7 @@ class EXP oahHandler : public oahOption
 
     void                  print (ostream& os) const;
 
-    void                  printHelp (ostream& os) const;
+    void                  printHelp (ostream& os);
 
     void                  printOptionsSummary (ostream& os) const;
     void                  printOptionsSummary () const

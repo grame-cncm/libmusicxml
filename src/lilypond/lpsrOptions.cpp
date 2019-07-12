@@ -1015,8 +1015,6 @@ R"(Exit after pass 3, i.e. after conversion
 of the MSR to LPSR.)",
         "exit3",
         fExit3);
-  exit3OptionsBooleanAtom->
-    setIsHidden ();
 
   exitAfterSomePassesSubGroup->
     appendAtom (

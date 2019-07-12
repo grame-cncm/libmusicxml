@@ -1237,11 +1237,6 @@ R"(Exit after pass 2a, i.e. after conversion
 of the MusicXML tree to an MSR skeleton.)",
         "exit2a",
         fExit2a);
-        /* JMI
-  // '-exit-2a' is hidden...
-  exit2aOptionsBooleanAtom->
-    setIsHidden ();
-    */
 
   exitAfterSomePassesSubGroup->
     appendAtom (
@@ -1259,11 +1254,6 @@ R"(Exit after pass 2b, i.e. after conversion
 of the MusicXML tree to MSR.)",
         "exit2b",
         fExit2b);
-        /* JMI
-  // '-exit-2b' is hidden...
-  exit2bOptionsBooleanAtom->
-    setIsHidden ();
-    */
 
   exitAfterSomePassesSubGroup->
     appendAtom (
