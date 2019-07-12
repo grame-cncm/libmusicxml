@@ -45,6 +45,7 @@ generalOptions::generalOptions (
     "General",
     "hg", "help-general",
 R"()",
+    kElementVisibilityAlways,
     handler)
 {
   // append this options group to the options handler
@@ -70,7 +71,7 @@ void generalOptions::initializeGeneralWarningAndErrorsOptions (
         "Warnings and errors",
         "hwae", "help-warnings-and-errors",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (warningAndErrorHandlingSubGroup);
@@ -142,7 +143,7 @@ void generalOptions::initializeGeneralCPUUsageOptions (
         "CPU usage",
         "hgcpu", "help-general-cpu-usage",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (CPUUsageSubGroup);

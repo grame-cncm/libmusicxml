@@ -47,10 +47,7 @@ class traceOptions : public oahGroup
     void                  initializeTraceOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLowLevelTraceOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeRepeatsTraceOptions (
+    void                  initializeRepeatsToSlashesTraceOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeNotesTraceOptions (
@@ -71,10 +68,31 @@ class traceOptions : public oahGroup
     void                  initializeChordsAndTupletsTraceOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLyricsAndWordsTraceOptions (
+    void                  initializeCreditsToWordsTraceOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeHarmoniesAndFiguredBassesTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeSpannersTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeInterNotesTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeClefsToTemposTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeBreaksAndBarlinesTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeAboveStaffTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeTranspositionsTraceOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeOtherTraceOptions (
                             bool boolOptionsInitialValue);
 
   protected:
@@ -136,16 +154,22 @@ class traceOptions : public oahGroup
 
   public:
 
-    // passes
+    // other
     // --------------------------------------
-    bool                  fTracePasses;
 
+    // passes
+    bool                  fTracePasses;
     // for tests, hidden
-    // --------------------------------------
     bool                  fTraceForTests;
+    // varValAssocs
+    bool                  fTraceVarValAssocs;
+    // geometry
+    bool                  fTraceGeometry;
+
 
     // score to voices
     // --------------------------------------
+
     // score
     bool                  fTraceScore;
     // part groups
@@ -163,20 +187,10 @@ class traceOptions : public oahGroup
     bool                  fTraceVoices;
     bool                  fTraceVoicesDetails;
 
-    // varValAssocs
-    // --------------------------------------
-    bool                  fTraceVarValAssocs;
-
-    // credits
-    // --------------------------------------
-    bool                  fTraceCredits;
-
-    // geometry
-    // --------------------------------------
-    bool                  fTraceGeometry;
 
     // segments and measures
     // --------------------------------------
+
     // segments
     bool                  fTraceSegments;
     bool                  fTraceSegmentsDetails;
@@ -186,48 +200,43 @@ class traceOptions : public oahGroup
     bool                  fTracePositionsInMeasures;
     set<int>              fTraceDetailedMeasureNumbersSet;
 
+
+    // clefs to tempos
+    // --------------------------------------
+
     // clefs
-    // --------------------------------------
     bool                  fTraceClefs;
-
     // keys
-    // --------------------------------------
     bool                  fTraceKeys;
-
     // times
-    // --------------------------------------
     bool                  fTraceTimes;
-
     // tempos
-    // --------------------------------------
     bool                  fTraceTempos;
 
-    // rehearsals
+
+    // breaks and barlines
     // --------------------------------------
-    bool                  fTraceRehearsals;
 
     // line breaks
-    // --------------------------------------
     bool                  fTraceLineBreaks;
-
     // page breaks
-    // --------------------------------------
     bool                  fTracePageBreaks;
+    // barlines
+    bool                  fTraceBarLines;
+    // barlines details
+    bool                  fTraceBarLinesDetails;
+
 
     // transpositions
     // --------------------------------------
-    bool                  fTraceTranspositions;
 
+    // transpositions
+    bool                  fTraceTranspositions;
     // octave shifts
-    // --------------------------------------
     bool                  fTraceOctaveShifts;
 
-    // barlines
-    // --------------------------------------
-    bool                  fTraceBarLines;
-    bool                  fTraceBarLinesDetails;
 
-    // repeats
+    // repeats to slashes
     // --------------------------------------
 
     // repeats
@@ -239,6 +248,7 @@ class traceOptions : public oahGroup
     bool                  fTraceRestMeasures;
     // slashes
     bool                  fTraceSlashes;
+
 
     // notes
     // --------------------------------------
@@ -255,6 +265,11 @@ class traceOptions : public oahGroup
     bool                  fTraceRestNotes;
     // notes octave entry
     bool                  fTraceNotesOctaveEntry;
+    // grace notes
+    bool                  fTraceGraceNotes;
+    // tremolos
+    bool                  fTraceTremolos;
+
 
     // note attachments
     // --------------------------------------
@@ -272,22 +287,32 @@ class traceOptions : public oahGroup
     // dynamics
     bool                  fTraceDynamics;
 
+
     // spanners
     // --------------------------------------
-    bool                  fTraceSpanners;
 
-    // lyrics and words
+    // spanners
+    bool                  fTraceSpanners; // ???
+    // wedges
+    bool                  fTraceWedges;
+    // spanners
+    // slurs
+    bool                  fTraceSlurs;
+    // ligatures
+    bool                  fTraceLigatures;
+
+
+    // credits to words
     // --------------------------------------
 
+    // credits
+    bool                  fTraceCredits;
     // lyrics
     bool                  fTraceLyrics;
     bool                  fTraceLyricsDetails;
     // words
     bool                  fTraceWords;
 
-    // tremolos
-    // --------------------------------------
-    bool                  fTraceTremolos;
 
     // chords and tuplets
     // --------------------------------------
@@ -298,30 +323,31 @@ class traceOptions : public oahGroup
     // tuplets
     bool                  fTraceTuplets;
     bool                  fTraceTupletsDetails;
+    // extra chords
+    bool                  fTraceExtraChords;
 
-    // glissandos
+
+    // inter-notes
     // --------------------------------------
+
+    // ties
+    bool                  fTraceTies;
+    // glissandos
     bool                  fTraceGlissandos;
 
-    // eyeglases
+
+    // above staff
     // --------------------------------------
+
+    // rehearsals
+    bool                  fTraceRehearsals;
+    // segnos
+    bool                  fTraceSegnos;
+    // codas
+    bool                  fTraceCodas;
+    // eyeglases
     bool                  fTraceEyeGlasses;
 
-    // damps
-    // --------------------------------------
-    bool                  fTraceDamps;
-
-    // dampalls
-    // --------------------------------------
-    bool                  fTraceDampAlls;
-
-    // slides
-    // --------------------------------------
-    bool                  fTraceSlides;
-
-    // grace notes
-    // --------------------------------------
-    bool                  fTraceGraceNotes;
 
     // harmonies and figured basses
     // --------------------------------------
@@ -331,29 +357,6 @@ class traceOptions : public oahGroup
     // figured basses
     bool                  fTraceFiguredBasses;
 
-    // ties
-    // --------------------------------------
-    bool                  fTraceTies;
-
-    // slurs
-    // --------------------------------------
-    bool                  fTraceSlurs;
-
-    // ligatures
-    // --------------------------------------
-    bool                  fTraceLigatures;
-
-    // wedges
-    // --------------------------------------
-    bool                  fTraceWedges;
-
-    // segnos
-    // --------------------------------------
-    bool                  fTraceSegnos;
-
-    // codas
-    // --------------------------------------
-    bool                  fTraceCodas;
 
     // instruments
     // --------------------------------------
@@ -362,6 +365,8 @@ class traceOptions : public oahGroup
     bool                  fTraceFrames;
     // scordaturas
     bool                  fTraceScordaturas;
+    // slides
+    bool                  fTraceSlides;
     // pedals
     bool                  fTracePedals;
     // accordion registrations
@@ -370,20 +375,19 @@ class traceOptions : public oahGroup
     bool                  fTraceHarpPedals;
     // harp pedals tuning
     bool                  fTraceHarpPedalsTunings;
+    // damps
+    bool                  fTraceDamps;
+    // dampalls
+    bool                  fTraceDampAlls;
+    // midi
+    bool                  fTraceMidi;
 
-    // extra chords
-    // --------------------------------------
-    bool                  fTraceExtraChords;
 
 /* JMI
     // msrStreams
     // --------------------------------------
     bool                  fTraceMsrStreams;
 */
-
-    // midi
-    // --------------------------------------
-    bool                  fTraceMidi;
 };
 typedef SMARTP<traceOptions> S_traceOptions;
 EXP ostream& operator<< (ostream& os, const S_traceOptions& elt);

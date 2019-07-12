@@ -794,6 +794,7 @@ xml2brlOptions::xml2brlOptions (
     "xml2brl",
     "hxb", "help-xml2brl",
 R"(Options that are used by xml2brl are grouped here.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this options group to the options handler
@@ -822,7 +823,7 @@ void xml2brlOptions::initializeXml2brlOptions ()
           "Version",
           "hxv", "help-xml2brl-version",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (versionSubGroup);
@@ -847,7 +848,7 @@ R"(Display xml2brl's version number and history and exit.)"));
           "About",
           "hxa", "help-xml2brl-about",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (aboutSubGroup);
@@ -872,7 +873,7 @@ R"(Display information about xml2brl and exit.)"));
           "Contact",
           "hxc", "help-xml2brl-contact",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (contactSubGroup);
@@ -897,7 +898,7 @@ R"(Display information about how to contacct xml2brl maintainers and exit.)"));
           "Output file",
           "hxof", "help-xml2brl-output-file",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (outputFileSubGroup);

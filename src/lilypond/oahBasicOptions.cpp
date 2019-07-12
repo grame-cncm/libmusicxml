@@ -48,6 +48,7 @@ oahBasicOptions::oahBasicOptions (
     "Basic",
     "hb", "help-basic",
 R"()",
+    kElementVisibilityAlways,
     handler),
     fHandlerExecutableName (executableName)
 {
@@ -74,7 +75,7 @@ void oahBasicOptions::initializeOahBasicHelpOptions (
         "Options help",
         "hboh", "help-basic-options-help",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (helpOahBasicOptionsHelpSubGroup);
@@ -132,7 +133,7 @@ void oahBasicOptions::initializeOahBasicOptionsAndArgumentsOptions (
         "Options and arguments",
         "oaa", "options-and-arguments",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (optionsAndArgumentsSubGroup);
@@ -163,7 +164,7 @@ void oahBasicOptions::initializeOptionsTraceAndDisplayOptions (
         "Options handling",
         "htoh", "help-trace-options-handling",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (traceSubGroup);

@@ -50,6 +50,7 @@ musicXMLOptions::musicXMLOptions (
     "MusicXML",
     "hmxml", "help-musicxml",
 R"(These options control the way MusicXML data is translated.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this options group to the options handler
@@ -76,7 +77,7 @@ void musicXMLOptions::initializeMusicXMLTraceOptions (
         "Trace",
         "hmxmlt", "help-musicxml-trace",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (traceSubGroup);
@@ -143,7 +144,7 @@ void musicXMLOptions::initializeMusicXMLWorkOptions (
         "Work",
         "hmxmlw", "help-musicxml-work",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);
@@ -171,7 +172,7 @@ void musicXMLOptions::initializeMusicXMLClefsKeysTimesOptions (
         "Clefs, keys, times",
         "hmxmlckt", "help-musicxml-clefs-keys-times",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (clefsKeysTimesSubGroup);
@@ -247,7 +248,7 @@ void musicXMLOptions::initializeMusicXMLCombinedOptionsOptions (
         "Combined options",
         "hmxmlco", "help-musicxml-combined-options",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (combinedSubGroup);

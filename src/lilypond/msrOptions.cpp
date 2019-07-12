@@ -674,6 +674,7 @@ msrOptions::msrOptions (
     "MSR",
     "hmsr", "help-msr",
 R"(These options control the way MSR data is handled.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this options group to the options handler
@@ -699,7 +700,7 @@ void msrOptions::initializeMsrTraceOptions (
       "Trace",
       "hmsrt", "help-msr-trace",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (traceSubGroup);
@@ -738,7 +739,7 @@ void msrOptions::initializeMsrDisplayOptions (
       "Display",
       "hmsrtd", "help-msr-trace-and-display",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (displaySubGroup);
@@ -815,7 +816,7 @@ void msrOptions::initializeMsrLanguagesOptions (
       "Languages",
       "hmsrlang", "help-msr-languages",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (languagesSubGroup);
@@ -879,7 +880,7 @@ void msrOptions::initializeMsrPartsOptions (
       "Parts",
       "hmsrp", "help-msr-parts",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (partsSubGroup);
@@ -945,7 +946,7 @@ void msrOptions::initializeMsrStavesOptions (
       "Staves",
       "hmsrs", "help-msr-staves",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (stavesSubGroup);
@@ -972,7 +973,7 @@ void msrOptions::initializeMsrVoicesOptions (
       "Voices",
       "hmsrv", "help-msr-voices",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (voicesSubGroup);
@@ -1000,7 +1001,7 @@ void msrOptions::initializeMsrRepeatsOptions (
       "Repeats",
       "hmsrr", "help-msr-repeats",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (repeatsSubGroup);
@@ -1028,7 +1029,7 @@ void msrOptions::initializeMsrNotesOptions (
       "Notes",
       "hmsrn", "help-msr-notes",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (notesSubGroup);
@@ -1138,7 +1139,7 @@ void msrOptions::initializeMsrLyricsOptions (
       "Lyrics",
       "hmsrlyrd", "help-msr-lyrics",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (lyricsSubGroup);
@@ -1164,7 +1165,7 @@ void msrOptions::initializeMsrHarmoniesOptions (
       "Harmonies",
       "hmsrh", "help-msr-harmonies",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (harmoniesSubGroup);
@@ -1191,7 +1192,7 @@ void msrOptions::initializeMsrFiguredBassOptions (
       "Figured bass",
       "hmsrfb", "help-msr-figured-bass",
 R"()",
-    oahSubGroup::kSubGroupVisibilityAlways,
+    kElementVisibilityAlways,
     this);
 
   appendSubGroup (figuredBassSubGroup);
@@ -1219,7 +1220,7 @@ void msrOptions::initializeMsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hme", "help-msr-exit",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (exitAfterSomePassesSubGroup);

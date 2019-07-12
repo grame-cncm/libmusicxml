@@ -270,6 +270,7 @@ bsrOptions::bsrOptions (
     "BSR",
     "hbsr", "help-bsr",
 R"(These bsr control the way BSR data is handled.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this bsr group to the bsr handler
@@ -295,7 +296,7 @@ void bsrOptions::initializeBsrDisplayOptions (
         "Display",
         "hbsrtd", "help-bsr-display",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (traceAndDisplaySubGroup);
@@ -336,7 +337,7 @@ void bsrOptions::initializeBsrLanguagesOptions (
         "Languages",
         "hbsrl", "help-bsr-languages",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (languagesSubGroup);
@@ -403,7 +404,7 @@ void bsrOptions::initializeBsrMiscellaneousOptions (
         "Miscellaneous",
         "hlpm", "help-miscellaneous",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (miscellaneousGenerationSubGroup);
@@ -469,7 +470,7 @@ void bsrOptions::initializeBsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hbe", "help-bsr-exit",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (exitAfterSomePassesSubGroup);
@@ -527,8 +528,8 @@ void bsrOptions::initializeBsrTraceOptions (
         "Trace",
         "hbst", "help-bsr-trace",
 R"(Note: the bsr in this group imply '-tbsr, -trace-bsr'.)",
-// JMI        oahSubGroup::kSubGroupVisibilityHiddenByDefault,
-      oahSubGroup::kSubGroupVisibilityAlways,
+// JMI        kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (traceSubGroup);

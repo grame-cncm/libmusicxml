@@ -117,28 +117,52 @@ Handling:
 */
 
 //______________________________________________________________________________
+string OptionVisibilityKindAsString (
+  oahOptionVisibilityKind optionVisibilityKind)
+{
+  string result;
+
+  switch (optionVisibilityKind) {
+    case kElementVisibilityAlways:
+      result = "elementVisibilityAlways";
+      break;
+
+    case kElementVisibilityHiddenByDefault:
+      result = "elementVisibilityHiddenByDefault";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
 S_oahOption oahOption::create (
-  string shortName,
-  string longName,
-  string description)
+  string                  shortName,
+  string                  longName,
+  string                  description,
+  oahOptionVisibilityKind optionVisibilityKind)
 {
   oahOption* o = new
     oahOption (
       shortName,
       longName,
-      description);
+      description,
+      optionVisibilityKind);
   assert(o!=0);
   return o;
 }
 
 oahOption::oahOption (
-  string shortName,
-  string longName,
-  string description)
+  string                  shortName,
+  string                  longName,
+  string                  description,
+  oahOptionVisibilityKind optionVisibilityKind)
 {
   fShortName   = shortName;
   fLongName    = longName;
   fDescription = description;
+
+  fOptionVisibilityKind = optionVisibilityKind;
 
   fIsHidden    = false;
 }
@@ -379,7 +403,8 @@ oahAtom::oahAtom (
   : oahOption (
       shortName,
       longName,
-      description)
+      description,
+      kElementVisibilityAlways)
 {}
 
 oahAtom::~oahAtom ()
@@ -2681,12 +2706,12 @@ ostream& operator<< (ostream& os, const S_oahOptionNameHelpAtom& elt)
 
 //______________________________________________________________________________
 S_oahSubGroup oahSubGroup::create (
-  string                    subGroupHeader,
-  string                    shortName,
-  string                    longName,
-  string                    description,
-  oahSubGroupVisibilityKind subGroupVisibilityKind,
-  S_oahGroup                groupUpLink)
+  string                  subGroupHeader,
+  string                  shortName,
+  string                  longName,
+  string                  description,
+  oahOptionVisibilityKind optionVisibilityKind,
+  S_oahGroup              groupUpLink)
 {
   oahSubGroup* o = new
     oahSubGroup (
@@ -2694,51 +2719,32 @@ S_oahSubGroup oahSubGroup::create (
       shortName,
       longName,
       description,
-      subGroupVisibilityKind,
+      optionVisibilityKind,
       groupUpLink);
   assert(o!=0);
   return o;
 }
 
 oahSubGroup::oahSubGroup (
-  string                    subGroupHeader,
-  string                    shortName,
-  string                    longName,
-  string                    description,
-  oahSubGroupVisibilityKind subGroupVisibilityKind,
-  S_oahGroup                groupUpLink)
+  string                  subGroupHeader,
+  string                  shortName,
+  string                  longName,
+  string                  description,
+  oahOptionVisibilityKind optionVisibilityKind,
+  S_oahGroup              groupUpLink)
   : oahOption (
       shortName,
       longName,
-      description)
+      description,
+      optionVisibilityKind)
 {
   fGroupUpLink = groupUpLink;
 
   fSubGroupHeader = subGroupHeader;
-
-  fSubGroupVisibilityKind = subGroupVisibilityKind;
 }
 
 oahSubGroup::~oahSubGroup ()
 {}
-
-string oahSubGroup::subGroupVisibilityKindAsString (
-  oahSubGroupVisibilityKind subGroupVisibilityKind)
-{
-  string result;
-
-  switch (subGroupVisibilityKind) {
-    case kSubGroupVisibilityAlways:
-      result = "subGroupVisibilityAlways";
-      break;
-
-    case kSubGroupVisibilityHiddenByDefault:
-      result = "subGroupVisibilityHiddenByDefault";
-      break;
-  } // switch
-
-  return result;
-}
 
 void oahSubGroup::underlineSubGroupHeader (ostream& os) const
 {
@@ -2827,9 +2833,9 @@ void oahSubGroup::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fSubGroupVisibilityKind" << " : " <<
-      subGroupVisibilityKindAsString (
-        fSubGroupVisibilityKind) <<
+    "fOptionVisibilityKind" << " : " <<
+      OptionVisibilityKindAsString (
+        fOptionVisibilityKind) <<
     endl <<
     endl;
 
@@ -2872,13 +2878,13 @@ void oahSubGroup::printHelp (ostream& os) const
     " " <<
     fetchNamesBetweenParentheses ();
 
-  switch (fSubGroupVisibilityKind) {
-    case kSubGroupVisibilityAlways:
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
       os <<
         ":";
       break;
 
-    case kSubGroupVisibilityHiddenByDefault:
+    case kElementVisibilityHiddenByDefault:
       os <<
         " (hidden by default)";
       break;
@@ -2897,8 +2903,9 @@ void oahSubGroup::printHelp (ostream& os) const
     os << endl;
   }
 
-  switch (fSubGroupVisibilityKind) {
-    case kSubGroupVisibilityAlways:
+  // print the options atoms if relevant
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
       if (fAtomsList.size ()) {
         gIndenter++;
 
@@ -2927,7 +2934,7 @@ void oahSubGroup::printHelp (ostream& os) const
       }
       break;
 
-    case kSubGroupVisibilityHiddenByDefault:
+    case kElementVisibilityHiddenByDefault:
       break;
   } // switch
 
@@ -2954,13 +2961,13 @@ void oahSubGroup::printSubGroupHelp (ostream& os) const
     " " <<
     fetchNamesBetweenParentheses ();
 
-  switch (fSubGroupVisibilityKind) {
-    case kSubGroupVisibilityAlways:
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
       os <<
         ":";
       break;
 
-    case kSubGroupVisibilityHiddenByDefault:
+    case kElementVisibilityHiddenByDefault:
       os <<
         " (hidden by default) :";
       break;
@@ -3028,11 +3035,11 @@ void oahSubGroup::printOptionsSummary (
     fetchNamesInColumnsBetweenParentheses (
       maximumShortNameWidth);
 
-  switch (fSubGroupVisibilityKind) {
-    case kSubGroupVisibilityAlways:
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
       break;
 
-    case kSubGroupVisibilityHiddenByDefault:
+    case kElementVisibilityHiddenByDefault:
       os <<
         " (hidden by default)";
       break;
@@ -3172,11 +3179,12 @@ ostream& operator<< (ostream& os, const S_oahSubGroup& elt)
 
 //______________________________________________________________________________
 S_oahGroup oahGroup::create (
-  string       header,
-  string       shortName,
-  string       longName,
-  string       description,
-  S_oahHandler groupHandlerUpLink)
+  string                  header,
+  string                  shortName,
+  string                  longName,
+  string                  description,
+  oahOptionVisibilityKind optionVisibilityKind,
+  S_oahHandler            groupHandlerUpLink)
 {
   oahGroup* o = new
     oahGroup (
@@ -3184,21 +3192,24 @@ S_oahGroup oahGroup::create (
       shortName,
       longName,
       description,
+      optionVisibilityKind,
       groupHandlerUpLink);
   assert(o!=0);
   return o;
 }
 
 oahGroup::oahGroup (
-  string       header,
-  string       shortName,
-  string       longName,
-  string       description,
-  S_oahHandler groupHandlerUpLink)
+  string                  header,
+  string                  shortName,
+  string                  longName,
+  string                  description,
+  oahOptionVisibilityKind optionVisibilityKind,
+  S_oahHandler            groupHandlerUpLink)
   : oahOption (
       shortName,
       longName,
-      description)
+      description,
+      optionVisibilityKind)
 {
   fHandlerUpLink = groupHandlerUpLink;
 
@@ -3374,9 +3385,21 @@ void oahGroup::printHelp (ostream& os) const
   os <<
     fGroupHeader <<
     " " <<
-    fetchNamesBetweenParentheses () <<
-    ":" <<
-    endl;
+    fetchNamesBetweenParentheses ();
+
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
+      os <<
+        ":";
+      break;
+
+    case kElementVisibilityHiddenByDefault:
+      os <<
+        " (hidden by default)";
+      break;
+  } // switch
+
+  os << endl;
 
   // print the description if any
   if (fDescription.size ()) {
@@ -3391,23 +3414,30 @@ void oahGroup::printHelp (ostream& os) const
   // underline the options group header
   underlineGroupHeader (os);
 
-  // print the options subgroups
-  if (fSubGroupsList.size ()) {
-    gIndenter++;
+  // print the options subgroups if relevant
+  switch (fOptionVisibilityKind) {
+    case kElementVisibilityAlways:
+      if (fSubGroupsList.size ()) {
+        gIndenter++;
 
-    list<S_oahSubGroup>::const_iterator
-      iBegin = fSubGroupsList.begin (),
-      iEnd   = fSubGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the options subgroup help
-      (*i)->printHelp (os);
-      if (++i == iEnd) break;
-  // JMI    os << endl;
-    } // for
+        list<S_oahSubGroup>::const_iterator
+          iBegin = fSubGroupsList.begin (),
+          iEnd   = fSubGroupsList.end (),
+          i      = iBegin;
+        for ( ; ; ) {
+          // print the options subgroup help
+          (*i)->printHelp (os);
+          if (++i == iEnd) break;
+      // JMI    os << endl;
+        } // for
 
-    gIndenter--;
-  }
+        gIndenter--;
+      }
+      break;
+
+    case kElementVisibilityHiddenByDefault:
+      break;
+  } // switch
 
   // register help print action in options handler upLink
   fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
@@ -3901,7 +3931,8 @@ oahHandler::oahHandler (
   : oahOption (
       handlerShortName,
       handlerLongName,
-      handlerDescription),
+      handlerDescription,
+      kElementVisibilityAlways),
     fHandlerLogOstream (
       handlerLogOstream)
 {
@@ -4614,9 +4645,8 @@ void oahHandler::appendPrefixToHandler (
   }
 
   // register prefix in the options prefixes map
-  fHandlerPrefixesMap [
-    prefix->getPrefixName ()
-    ] = prefix;
+  fHandlerPrefixesMap [prefix->getPrefixName ()] =
+    prefix;
 }
 
 void oahHandler::appendGroupToHandler (

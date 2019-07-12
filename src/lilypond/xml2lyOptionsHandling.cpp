@@ -742,6 +742,7 @@ xml2lyOptions::xml2lyOptions (
     "xml2ly",
     "hxl", "help-xml2ly",
 R"(Options that are used by xml2ly are grouped here.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this options group to the options handler
@@ -770,7 +771,7 @@ void xml2lyOptions::initializeXml2lyOptions ()
           "Version",
           "hxv", "help-xml2ly-version",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (versionSubGroup);
@@ -795,7 +796,7 @@ R"(Display xml2ly's version number and history and exit.)"));
           "About",
           "hxa", "help-xml2ly-about",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (aboutSubGroup);
@@ -820,7 +821,7 @@ R"(Display information about xml2ly and exit.)"));
           "Contact",
           "hxc", "help-xml2ly-contact",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (contactSubGroup);
@@ -845,7 +846,7 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
           "Output file",
           "hxof", "help-xml2ly-output-file",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (outputFileSubGroup);

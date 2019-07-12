@@ -619,6 +619,7 @@ lpsrOptions::lpsrOptions (
     "LPSR",
     "hlpsr", "help-lpsr",
 R"(These options control the way LPSR data is handled.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this options group to the options handler
@@ -645,7 +646,7 @@ void lpsrOptions::initializeLpsrTraceOptions (
         "Trace",
         "hlpsrtrace", "help-lpsr-trace",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (traceSubGroup);
@@ -721,7 +722,7 @@ void lpsrOptions::initializeLpsrDisplayOptions (
         "Display",
         "hlpsrd", "help-lpsr-display",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (displaySubGroup);
@@ -748,7 +749,7 @@ void lpsrOptions::initializeLilypondScoreOutputOptions (
         "LilyPond score  output",
         "hlpso", "help-lilypond-score-output",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (lilypondOutputKindGroup);
@@ -835,7 +836,7 @@ void lpsrOptions::initializeLpsrLyricsVersusWordsOptions (
         "Lyrics versus words",
         "hlyrsvswords", "help-lyrics-vs-words",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (lyricsVersusWordsSubGroup);
@@ -863,7 +864,7 @@ void lpsrOptions::initializeLpsrLanguagesOptions (
         "Languages",
         "hlpsrl", "help-lpsr-languages",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (languagesSubGroup);
@@ -965,7 +966,7 @@ void lpsrOptions::initializeLpsrTransposeOptions (
         "Transpose",
         "hlpsrt", "help-lpsr-transpose",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (languagesSubGroup);
@@ -997,7 +998,7 @@ void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hlpexit", "help-lpsr-exit",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (exitAfterSomePassesSubGroup);

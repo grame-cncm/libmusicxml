@@ -55,6 +55,16 @@ typedef SMARTP<oahGroup> S_oahGroup;
 class EXP oahHandler;
 typedef SMARTP<oahHandler> S_oahHandler;
 
+// data types
+// ------------------------------------------------------
+
+enum oahOptionVisibilityKind {
+  kElementVisibilityAlways,
+  kElementVisibilityHiddenByDefault };
+
+static string OptionVisibilityKindAsString (
+  oahOptionVisibilityKind optionVisibilityKind);
+
 //______________________________________________________________________________
 class oahOption : public smartable
 {
@@ -64,9 +74,10 @@ class oahOption : public smartable
     // ------------------------------------------------------
 
     static SMARTP<oahOption> create (
-      string shortName,
-      string longName,
-      string description);
+      string                  shortName,
+      string                  longName,
+      string                  description,
+      oahOptionVisibilityKind optionVisibilityKind);
 
   protected:
 
@@ -74,9 +85,10 @@ class oahOption : public smartable
     // ------------------------------------------------------
 
     oahOption (
-      string shortName,
-      string longName,
-      string description);
+      string                  shortName,
+      string                  longName,
+      string                  description,
+      oahOptionVisibilityKind optionVisibilityKind);
 
     virtual ~oahOption ();
 
@@ -101,6 +113,10 @@ class oahOption : public smartable
 
     string                getDescription () const
                               { return fDescription; }
+
+    oahOptionVisibilityKind
+                          getOptionVisibilityKind () const
+                              { return fOptionVisibilityKind; }
 
     void                  setIsHidden ()
                               { fIsHidden = true; }
@@ -163,6 +179,9 @@ class oahOption : public smartable
     string                fShortName;
     string                fLongName;
     string                fDescription;
+
+    oahOptionVisibilityKind
+                          fOptionVisibilityKind;
 
     bool                  fIsHidden;
 };
@@ -1273,28 +1292,16 @@ class oahSubGroup : public oahOption
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum oahSubGroupVisibilityKind {
-      kSubGroupVisibilityAlways,
-      kSubGroupVisibilityHiddenByDefault };
-
-    static string subGroupVisibilityKindAsString (
-      oahSubGroupVisibilityKind subGroupVisibilityKind);
-
-  public:
-
     // creation
     // ------------------------------------------------------
 
     static SMARTP<oahSubGroup> create (
-      string                    subGroupHeader,
-      string                    shortName,
-      string                    longName,
-      string                    description,
-      oahSubGroupVisibilityKind subGroupVisibilityKind,
-      S_oahGroup                groupUpLink);
+      string                  subGroupHeader,
+      string                  shortName,
+      string                  longName,
+      string                  description,
+      oahOptionVisibilityKind optionVisibilityKind,
+      S_oahGroup              groupUpLink);
 
   protected:
 
@@ -1302,12 +1309,12 @@ class oahSubGroup : public oahOption
     // ------------------------------------------------------
 
     oahSubGroup (
-      string                    subGroupHeader,
-      string                    shortName,
-      string                    longName,
-      string                    description,
-      oahSubGroupVisibilityKind subGroupVisibilityKind,
-      S_oahGroup                groupUpLink);
+      string                  subGroupHeader,
+      string                  shortName,
+      string                  longName,
+      string                  description,
+      oahOptionVisibilityKind optionVisibilityKind,
+      S_oahGroup              groupUpLink);
 
     virtual ~oahSubGroup ();
 
@@ -1325,10 +1332,6 @@ class oahSubGroup : public oahOption
 
     string                getSubGroupHeader () const
                               { return fSubGroupHeader; }
-
-    oahSubGroupVisibilityKind
-                          getSubGroupVisibilityKind () const
-                              { return fSubGroupVisibilityKind; }
 
     // services
     // ------------------------------------------------------
@@ -1381,9 +1384,6 @@ class oahSubGroup : public oahOption
 
     string                fSubGroupHeader;
 
-    oahSubGroupVisibilityKind
-                          fSubGroupVisibilityKind;
-
     list<S_oahAtom>       fAtomsList;
 };
 typedef SMARTP<oahSubGroup> S_oahSubGroup;
@@ -1398,11 +1398,12 @@ class oahGroup : public oahOption
     // ------------------------------------------------------
 
     static SMARTP<oahGroup> create (
-      string       header,
-      string       shortName,
-      string       longName,
-      string       description,
-      S_oahHandler groupHandlerUpLink);
+      string                  header,
+      string                  shortName,
+      string                  longName,
+      string                  description,
+      oahOptionVisibilityKind optionVisibilityKind,
+      S_oahHandler            groupHandlerUpLink);
 
   protected:
 
@@ -1410,11 +1411,12 @@ class oahGroup : public oahOption
     // ------------------------------------------------------
 
     oahGroup (
-      string       header,
-      string       shortName,
-      string       longName,
-      string       description,
-      S_oahHandler groupHandlerUpLink);
+      string                  header,
+      string                  shortName,
+      string                  longName,
+      string                  description,
+      oahOptionVisibilityKind optionVisibilityKind,
+      S_oahHandler            groupHandlerUpLink);
 
     virtual ~oahGroup ();
 

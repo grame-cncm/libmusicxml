@@ -301,6 +301,7 @@ brailleOptions::brailleOptions (
     "Braille",
     "hbrl", "help-braille",
 R"(These braille control which Braille code is generated.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this braille group to the braille handler
@@ -326,7 +327,7 @@ void brailleOptions::initializeBrailleUTFEncodingOptions (
         "UTF encoding",
         "hlpue", "help-utf-encoding",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (UTFEncodingSubGroup);
@@ -355,7 +356,7 @@ void brailleOptions::initializeBrailleByteOrderingOptions (
         "Byte ordering",
         "hlpbo", "help-byte-ordering",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (byteOrderingSubGroup);
@@ -386,7 +387,7 @@ void brailleOptions::initializeBrailleMusicFileNameOptions (
         "Braille music file name",
         "hlpbmfn", "help-braille-music-file-name",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (musicFileNameSubGroup);
@@ -414,7 +415,7 @@ void brailleOptions::initializeBraillePageParametersOptions (
         "Page parameters",
         "hlpbpp", "help-braille-pages-parameters",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (codeGenerationSubGroup);
@@ -467,7 +468,7 @@ void brailleOptions::initializeBrailleCodeGenerationOptions (
         "Code generation",
         "hlpcg", "help-braille-code-generation",
 R"()",
-      oahSubGroup::kSubGroupVisibilityAlways,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroup (codeGenerationSubGroup);
@@ -744,7 +745,7 @@ void initializeBrailleOptionsHandling (
 R"(These braille can be used to enforce values in the generated Braille code,
 thus overriding the ones that may be present in the MSR data.
 )",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (identificationSubGroup);
@@ -922,7 +923,7 @@ R"(Set 'copyright' to STRING in the \header.)",
           "Notes",
           "hlpn", "help-braille-notes",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (notesSubGroup);
@@ -995,7 +996,7 @@ This is useful when debugging EXECUTABLE.)",
           "Bars",
           "hlpb", "help-braille-bars",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (barsSubGroup);
@@ -1028,7 +1029,7 @@ R"(Generate Braille code to show all bar numbers.)",
           "Line breaks",
           "hlplb", "help-braille-line-breaks",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (lineBreaksSubGroup);
@@ -1069,7 +1070,7 @@ which is handy in popular folk dances and tunes.)",
           "Page breaks",
           "hlppb", "help-braille-page-breaks",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
     appendSubGroup (pageBreaksSubGroup);

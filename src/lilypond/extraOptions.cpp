@@ -844,6 +844,7 @@ extraOptions::extraOptions (
 R"(These extra provide features not related to translation from MusicXML to LilyPond.
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
+    kElementVisibilityAlways,
     handler)
 {
   // append this extra group to the extra handler
@@ -869,7 +870,7 @@ void extraOptions::initializeExtraShowAllChordsStructuresOptions (
         "Chords structures",
         "hecs", "help-extra-chord-structures",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (traceAndDisplaySubGroup);
@@ -909,7 +910,7 @@ HARMONY_NAME should be one of:
     "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
     "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 )",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);
@@ -934,7 +935,7 @@ void extraOptions::initializeExtraShowChordDetailsOptions (
         "Chord details",
         "hecd", "help-extra-chords-details",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);
@@ -971,7 +972,7 @@ void extraOptions::initializeExtraShowChordAnalysisOptions (
         "Chord analysis",
         "heca", "help-extra-chords-analysis",
 R"()",
-        oahSubGroup::kSubGroupVisibilityAlways,
+        kElementVisibilityAlways,
         this);
 
   appendSubGroup (workSubGroup);
