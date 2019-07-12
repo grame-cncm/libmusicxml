@@ -179,8 +179,8 @@ void traceOptions::initializeBreaksAndBarlinesTraceOptions (
   S_oahSubGroup
     breaksAndBarlinesTraceSubGroup =
       oahSubGroup::create (
-        "Breaks",
-        "hbt", "help-breaks-trace",
+        "Breaks and barlines",
+        "hbt", "help-breaks-and-barlines-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -315,7 +315,7 @@ void traceOptions::initializeInterNotesTraceOptions (
     interNotesTraceSubGroup =
       oahSubGroup::create (
         "Inter-notes",
-        "hintt", "help-inter-notes-trace",
+        "hint", "help-inter-notes-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -1277,25 +1277,18 @@ R"(Write a trace of the passes to standard error.)",
         "tracePasses",
         fTracePasses));
 
-  // for tests, hidden
+  // geometry
 
-  fTraceForTests = boolOptionsInitialValue;
-
-  S_oahBooleanAtom
-    traceForTestsOptionsBooleanItem =
-      oahBooleanAtom::create (
-        "tft", "trace-for-tests",
-R"(Write a trace for tests to standard error.)",
-        "traceForTests",
-        fTraceForTests);
-
-  // '-trace-for-tests' is hidden...
-  traceForTestsOptionsBooleanItem->
-    setIsHidden ();
+  fTraceGeometry = boolOptionsInitialValue;
 
   lowLevelTraceSubGroup->
     appendAtom (
-      traceForTestsOptionsBooleanItem);
+      oahTwoBooleansAtom::create (
+        "tgeom", "trace-geometry",
+R"(Geometry)",
+        "traceGeometry",
+        fTraceGeometry,
+        fTracePasses));
 
   // varValAssocs
 
@@ -1310,18 +1303,23 @@ R"(VarValAssocs)",
         fTraceVarValAssocs,
         fTracePasses));
 
-  // geometry
+  // '-trace-for-tests' is hidden...
 
-  fTraceGeometry = boolOptionsInitialValue;
+  fTraceForTests = boolOptionsInitialValue;
+
+  S_oahBooleanAtom
+    traceForTestsOptionsBooleanAtom =
+      oahBooleanAtom::create (
+        "tft", "trace-for-tests",
+R"(Write a trace for tests to standard error.)",
+        "traceForTests",
+        fTraceForTests);
+  traceForTestsOptionsBooleanAtom->
+    setIsHidden ();
 
   lowLevelTraceSubGroup->
     appendAtom (
-      oahTwoBooleansAtom::create (
-        "tgeom", "trace-geometry",
-R"(Geometry)",
-        "traceGeometry",
-        fTraceGeometry,
-        fTracePasses));
+      traceForTestsOptionsBooleanAtom);
 
 /* JMI
   // MSR streams

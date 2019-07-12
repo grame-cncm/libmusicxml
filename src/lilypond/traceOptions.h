@@ -161,12 +161,12 @@ class traceOptions : public oahGroup
 
     // passes
     bool                  fTracePasses;
-    // for tests, hidden
-    bool                  fTraceForTests;
-    // varValAssocs
-    bool                  fTraceVarValAssocs;
     // geometry
     bool                  fTraceGeometry;
+    // varValAssocs
+    bool                  fTraceVarValAssocs; // specialize ??? JMI
+    // for tests, hidden
+    bool                  fTraceForTests;
 
 
     // score to voices
