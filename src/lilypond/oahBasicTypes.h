@@ -158,7 +158,7 @@ class oahOption : public smartable
 
     string                asString () const;
 
-    virtual void          printHeader (ostream& os) const;
+    virtual void          printOptionHeader (ostream& os) const; // virtual ??? JMI
 
     virtual void          printOptionEssentials (
                             ostream& os,
@@ -1358,6 +1358,8 @@ class oahSubGroup : public oahOption
 
     void                  printHelp (ostream& os) const;
 
+    void                  printSubGroupHeader (ostream& os) const;
+
     void                  printSubGroupHelp (
                             ostream& os) const;
 
@@ -1470,6 +1472,8 @@ class oahGroup : public oahOption
 
     void                  print (ostream& os) const;
 
+    void                  printGroupHeader (ostream& os) const;
+
     void                  printHelp (ostream& os) const;
 
     void                  printGroupAndSubGroupHelp (
@@ -1577,7 +1581,7 @@ to be developped into :
     // print
     // ------------------------------------------------------
 
-    virtual void          printHeader (ostream& os) const;
+    virtual void          printPrefixHeader (ostream& os) const;
 
     virtual void          printPrefixEssentials (
                             ostream& os,

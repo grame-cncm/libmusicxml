@@ -299,7 +299,7 @@ string oahOption::asString () const
   return s.str ();
 }
 
-void oahOption::printHeader (ostream& os) const
+void oahOption::printOptionHeader (ostream& os) const
 {
   os <<
     "-" << fShortName <<
@@ -2868,7 +2868,7 @@ void oahSubGroup::print (ostream& os) const
   gIndenter--;
 }
 
-void oahSubGroup::printHelp (ostream& os) const
+void oahSubGroup::printSubGroupHeader (ostream& os) const
 {
   // print the header and option names
   os <<
@@ -2891,6 +2891,12 @@ void oahSubGroup::printHelp (ostream& os) const
   } // switch
 
   os << endl;
+}
+
+void oahSubGroup::printHelp (ostream& os) const
+{
+  // print the header and option names
+  printSubGroupHeader (os);
 
   // print the description if any
   if (fDescription.size ()) {
@@ -2954,26 +2960,7 @@ void oahSubGroup::handleOptionName (
 void oahSubGroup::printSubGroupHelp (ostream& os) const
 {
   // print the header and option names
-  os <<
-    fSubGroupHeader;
-
-  os <<
-    " " <<
-    fetchNamesBetweenParentheses ();
-
-  switch (fOptionVisibilityKind) {
-    case kElementVisibilityAlways:
-      os <<
-        ":";
-      break;
-
-    case kElementVisibilityHiddenByDefault:
-      os <<
-        " (hidden by default) :";
-      break;
-  } // switch
-
-  os << endl;
+  printSubGroupHeader (os);
 
   // print the description if any
   if (fDescription.size ()) {
@@ -3379,7 +3366,7 @@ void oahGroup::print (ostream& os) const
   gIndenter--;
 }
 
-void oahGroup::printHelp (ostream& os) const
+void oahGroup::printGroupHeader (ostream& os) const
 {
   // print the header and option names
   os <<
@@ -3400,6 +3387,12 @@ void oahGroup::printHelp (ostream& os) const
   } // switch
 
   os << endl;
+}
+
+void oahGroup::printHelp (ostream& os) const
+{
+  // print the header and option names
+  printGroupHeader (os);
 
   // print the description if any
   if (fDescription.size ()) {
@@ -3414,30 +3407,23 @@ void oahGroup::printHelp (ostream& os) const
   // underline the options group header
   underlineGroupHeader (os);
 
-  // print the options subgroups if relevant
-  switch (fOptionVisibilityKind) {
-    case kElementVisibilityAlways:
-      if (fSubGroupsList.size ()) {
-        gIndenter++;
+  // print the options subgroups
+  if (fSubGroupsList.size ()) {
+    gIndenter++;
 
-        list<S_oahSubGroup>::const_iterator
-          iBegin = fSubGroupsList.begin (),
-          iEnd   = fSubGroupsList.end (),
-          i      = iBegin;
-        for ( ; ; ) {
-          // print the options subgroup help
-          (*i)->printHelp (os);
-          if (++i == iEnd) break;
-      // JMI    os << endl;
-        } // for
+    list<S_oahSubGroup>::const_iterator
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup help
+      (*i)->printHelp (os);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
 
-        gIndenter--;
-      }
-      break;
-
-    case kElementVisibilityHiddenByDefault:
-      break;
-  } // switch
+    gIndenter--;
+  }
 
   // register help print action in options handler upLink
   fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
@@ -3800,7 +3786,7 @@ string oahPrefix::prefixNamesInColumnsBetweenParentheses (
   return s.str ();
 }
 
-void oahPrefix::printHeader (ostream& os) const
+void oahPrefix::printPrefixHeader (ostream& os) const
 {
   os <<
     "'" << fPrefixName <<
@@ -4308,7 +4294,7 @@ void oahHandler::printHelp (ostream& os) const
 
   os << endl;
 
-  // print the options groups helps
+  // print the options groups help
   if (fHandlerGroupsList.size ()) {
     gIndenter++;
 
@@ -4317,8 +4303,23 @@ void oahHandler::printHelp (ostream& os) const
       iEnd   = fHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
+      S_oahGroup group = (*i);
+
       // print the options group help
-      (*i)->printHelp (os);
+//      group->printHelp (os);
+
+      // print the options subgroups if relevant
+      switch (group->getOptionVisibilityKind ()) {
+        case kElementVisibilityAlways:
+          group->printHelp (os);
+          break;
+
+        case kElementVisibilityHiddenByDefault:
+          group->printGroupHeader (os);
+          group->underlineGroupHeader(os);
+          break;
+      } // switch
+
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -4691,7 +4692,7 @@ void oahHandler::printKnownPrefixes () const
         prefix = (*i).second;
 
       prefix->
-        printHeader (
+        printPrefixHeader (
           fHandlerLogOstream);
     } // for
   }
@@ -4841,7 +4842,7 @@ void oahHandler::printKnownOptions () const
       gIndenter++;
 
       (*i).second->
-        printHeader (
+        printOptionHeader (
           fHandlerLogOstream);
 
       if (++i == iEnd) break;

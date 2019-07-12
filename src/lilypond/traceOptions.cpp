@@ -465,7 +465,7 @@ void traceOptions::initializeCreditsToWordsTraceOptions (
   S_oahSubGroup
     creditsToWordsTraceSubGroup =
       oahSubGroup::create (
-        "Texts",
+        "Credits to words",
         "hctwt", "help-credits-to-words-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
@@ -532,7 +532,7 @@ void traceOptions::initializeChordsAndTupletsTraceOptions (
   S_oahSubGroup
     chordsAndTupletsTraceSubGroup =
       oahSubGroup::create (
-        "Chords and tuplets trace",
+        "Chords and tuplets",
         "hcatt", "help-chords-and-tuplets-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
@@ -614,7 +614,7 @@ void traceOptions::initializeInstrumentsTraceOptions (
   S_oahSubGroup
     instrumentsTraceSubGroup =
       oahSubGroup::create (
-        "Instruments trace",
+        "Instruments",
         "hit", "help-instruments-trace-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
@@ -760,7 +760,7 @@ void traceOptions::initializeNotesAttachmentsTraceOptions (
   S_oahSubGroup
     notesAttachmentsTraceSubGroup =
       oahSubGroup::create (
-        "Notes attachments trace",
+        "Notes attachments",
         "hnat", "help-notes-attachments-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
@@ -853,7 +853,7 @@ void traceOptions::initializeSegmentsAndMeasuresTraceOptions (
   S_oahSubGroup
     segmentsAndMeasuresTraceSubGroup =
       oahSubGroup::create (
-        "Segments and measures trace",
+        "Segments and measures",
         "hsamt", "help-segments-and-measures-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
@@ -937,7 +937,7 @@ void traceOptions::initializeScoreToVoicesTraceOptions (
   S_oahSubGroup
     scoreToVoicesTraceSubGroup =
       oahSubGroup::create (
-        "Score to voices trace",
+        "Score to voices",
         "hstvt", "help-score-to-voices-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
@@ -1181,7 +1181,7 @@ void traceOptions::initializeRepeatsToSlashesTraceOptions (
   S_oahSubGroup
     repeatsTraceSubGroup =
       oahSubGroup::create (
-        "Repeats to slashes trace",
+        "Repeats to slashes",
         "hrtst", "help-repeats-to-slashes-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
@@ -1259,7 +1259,7 @@ void traceOptions::initializeOtherTraceOptions (
   S_oahSubGroup
     lowLevelTraceSubGroup =
       oahSubGroup::create (
-        "Other trace",
+        "Other",
         "hot", "help-other-trace",
 R"()",
       kElementVisibilityHiddenByDefault,
