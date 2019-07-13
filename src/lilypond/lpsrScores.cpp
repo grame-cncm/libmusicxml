@@ -1482,6 +1482,13 @@ void lpsrScore::addJazzChordsDisplayToScore ()
 
   s <<
 R"###(% Exception music is chords with markups
+#(define (lower-extension pitch chbass)
+   "Return lowered markup for pitch note name."
+   #{
+     \markup \raise #-1.9 \halign #0.2
+     #(note-name->markup pitch chbass)
+   #})
+
 chExceptionMusic = {)###" <<
       endl;
 

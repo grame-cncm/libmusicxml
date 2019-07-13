@@ -678,6 +678,13 @@ void lilypondChordsDisplayAtom::handleValue (
 
   /*
     % Exception music is chords with markups
+    #(define (lower-extension pitch chbass)
+       "Return lowered markup for pitch note name."
+       #{
+         \markup \raise #-1.9 \halign #0.2
+         #(note-name->markup pitch chbass)
+       #})
+
     chExceptionMusic = {
       <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"} }
       <c e g bes>1-\markup { \super "7" }

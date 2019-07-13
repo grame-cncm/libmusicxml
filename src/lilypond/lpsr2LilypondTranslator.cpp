@@ -4937,6 +4937,24 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
       "}" <<
       endl;
   }
+
+  // ChordNames context
+  if (fVisitedLpsrScore->getJazzChordsDisplayIsNeeded ()) {
+    fLilypondCodeOstream <<
+      gIndenter.indentMultiLineString (
+R"(\context {
+  \ChordNames
+  chordNameExceptions = \chExceptions
+  slashChordSeparator = \markup {
+    % the \hspace commands simulate kerning
+    \hspace #-.7
+    \fontsize #1 \lower #1.2 \rotate #-10 "/"
+    \hspace #-.1
+  }
+  chordNoteNamer = #lower-extension
+})") <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)

@@ -185,19 +185,55 @@ class lpsrScore : public lpsrElement
     // tempo relationships
     void                  setTempoRelationshipSchemeFunctionIsNeeded ();
 
+    bool                  getTempoRelationshipSchemeFunctionIsNeeded () const
+                              {
+                                return
+                                  fTempoRelationshipSchemeFunctionIsNeeded;
+                              }
+
     // glissando with text
     void                  setGlissandoWithTextSchemeFunctionIsNeeded ();
+
+    bool                  getGlissandoWithTextSchemeFunctionIsNeeded () const
+                              {
+                                return
+                                  fGlissandoWithTextSchemeFunctionIsNeeded;
+                              }
 
     // damps
     void                  setDampMarkupIsNeeded ();
 
+    bool                  getDampMarkupIsNeeded () const
+                              {
+                                return
+                                  fDampMarkupIsNeeded;
+                              }
+
     void                  setDampAllMarkupIsNeeded ();
+
+    bool                  getDampAllMarkupIsNeeded () const
+                              {
+                                return
+                                  fDampAllMarkupIsNeeded;
+                              }
 
     // white note heads
     void                  setWhiteNoteHeadsIsNeeded ();
 
+    bool                  getWhiteNoteHeadsIsNeeded () const
+                              {
+                                return
+                                  fWhiteNoteHeadsIsNeeded;
+                              }
+
     // jazz chords display
     void                  setJazzChordsDisplayIsNeeded ();
+
+    bool                  getJazzChordsDisplayIsNeeded () const
+                              {
+                                return
+                                  fJazzChordsDisplayIsNeeded;
+                              }
 
   public:
 
