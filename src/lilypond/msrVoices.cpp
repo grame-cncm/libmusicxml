@@ -5404,154 +5404,146 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
   }
 #endif
 
-  switch (fVoiceKind) { // superfluous JMI ???
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
-      {
-        // this occurs after an empty measure has just been created,
-        // hence the repeated measure/measures is/are the
-        // measuresRepeatMeasuresNumber measures preceding the last one
+  // this occurs after an empty measure has just been created,
+  // hence the repeated measure/measures is/are the
+  // measuresRepeatMeasuresNumber measures preceding the last one
 
-        int
-          lastSegmentMeasuresNumber =
-            fVoiceLastSegment->
-              getSegmentMeasuresList ().size (),
-          availableMeasuresNumber =
-            lastSegmentMeasuresNumber - 1;
+  int
+    lastSegmentMeasuresNumber =
+      fVoiceLastSegment->
+        getSegmentMeasuresList ().size (),
+    availableMeasuresNumber =
+      lastSegmentMeasuresNumber - 1;
 
-        if (
-          availableMeasuresNumber < measuresRepeatMeasuresNumber) {
-          stringstream s;
+  if (
+    availableMeasuresNumber < measuresRepeatMeasuresNumber) {
+    stringstream s;
 
-          s <<
-            "attempting to create a measures repeat with " <<
-            measuresRepeatMeasuresNumber <<
-            " measures while current last segment only has " <<
-            availableMeasuresNumber <<
-            " available";
+    s <<
+      "attempting to create a measures repeat with " <<
+      measuresRepeatMeasuresNumber <<
+      " measures while current last segment only has " <<
+      availableMeasuresNumber <<
+      " available";
 
-          msrInternalError (
-            gOahBasicOptions->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
+    msrInternalError (
+      gOahBasicOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 
-        // grab the just created last measure from the voice,
-        // (i.e. the one containing:
-        //   <measure-repeat ... type="start">2</measure-repeat>)
-        // which is the first replica measure
-        S_msrMeasure
-          firstReplicaMeasure =
-            removeLastMeasureFromVoice (
-              inputLineNumber);
+  // grab the just created last measure from the voice,
+  // (i.e. the one containing:
+  //   <measure-repeat ... type="start">2</measure-repeat>)
+  // which is the first replica measure
+  S_msrMeasure
+    firstReplicaMeasure =
+      removeLastMeasureFromVoice (
+        inputLineNumber);
 
-        // create the measures repeat repeated segment
-        S_msrSegment
-          repeatedSegment =
-            msrSegment::create (
-              inputLineNumber,
-              this);
+  // create the measures repeat repeated segment
+  S_msrSegment
+    repeatedSegment =
+      msrSegment::create (
+        inputLineNumber,
+        this);
 
-        if (! fVoiceFirstSegment) {
-          fVoiceFirstSegment = fVoiceLastSegment;
-        }
+  if (! fVoiceFirstSegment) {
+    fVoiceFirstSegment = fVoiceLastSegment;
+  }
 
-        // remove the repeated measure(s) for the last segment
-        // and prepend them to the repeated segment
+  // remove the repeated measure(s) for the last segment
+  // and prepend them to the repeated segment
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Removing the last " <<
-            singularOrPlural (
-              measuresRepeatMeasuresNumber, "measure", "measures") <<
-            " (to be repeated) from voice \"" <<
-            fVoiceName <<
-            endl;
-        }
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Removing the last " <<
+      singularOrPlural (
+        measuresRepeatMeasuresNumber, "measure", "measures") <<
+      " (to be repeated) from voice \"" <<
+      fVoiceName <<
+      endl;
+  }
 #endif
 
-        for (int i = 0; i< measuresRepeatMeasuresNumber; i++) {
-          S_msrMeasure
-            lastMeasure =
-              removeLastMeasureFromVoice (
-                inputLineNumber);
+  for (int i = 0; i< measuresRepeatMeasuresNumber; i++) {
+    S_msrMeasure
+      lastMeasure =
+        removeLastMeasureFromVoice (
+          inputLineNumber);
 
-          repeatedSegment->
-            prependMeasureToSegment (
-              lastMeasure);
-        } // for
+    repeatedSegment->
+      prependMeasureToSegment (
+        lastMeasure);
+  } // for
 
-        // create the measures repeat
-        if (fVoicePendingMeasuresRepeat) {
-          stringstream s;
+  // create the measures repeat
+  if (fVoicePendingMeasuresRepeat) {
+    stringstream s;
 
-          s <<
-            "attempting to create a measures repeat while another one is pending";
+    s <<
+      "attempting to create a measures repeat while another one is pending";
 
-          msrInternalError (
-            gOahBasicOptions->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
+    msrInternalError (
+      gOahBasicOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 
-        fVoicePendingMeasuresRepeat =
-          msrMeasuresRepeat::create (
-            inputLineNumber,
-            measuresRepeatMeasuresNumber,
-            measuresRepeatSlashesNumber,
-            this);
+  fVoicePendingMeasuresRepeat =
+    msrMeasuresRepeat::create (
+      inputLineNumber,
+      measuresRepeatMeasuresNumber,
+      measuresRepeatSlashesNumber,
+      this);
 
-        // create the measures repeat pattern
+  // create the measures repeat pattern
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Creating a measures repeat pattern in voice \"" <<
-            fVoiceName <<
-            "\"" <<
-            endl;
-        }
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Creating a measures repeat pattern in voice \"" <<
+      fVoiceName <<
+      "\"" <<
+      endl;
+  }
 #endif
 
-        S_msrMeasuresRepeatPattern
-          measuresRepeatPattern =
-            msrMeasuresRepeatPattern::create (
-              inputLineNumber,
-              fVoicePendingMeasuresRepeat);
+  S_msrMeasuresRepeatPattern
+    measuresRepeatPattern =
+      msrMeasuresRepeatPattern::create (
+        inputLineNumber,
+        fVoicePendingMeasuresRepeat);
 
-        // set the repeated segment as the measures repeat pattern segment
-        measuresRepeatPattern->
-          setMeasuresRepeatPatternSegment (
-            repeatedSegment);
+  // set the repeated segment as the measures repeat pattern segment
+  measuresRepeatPattern->
+    setMeasuresRepeatPatternSegment (
+      repeatedSegment);
 
-        // set the measures repeat pattern
-        fVoicePendingMeasuresRepeat->
-          setMeasuresRepeatPattern (
-            measuresRepeatPattern);
+  // set the measures repeat pattern
+  fVoicePendingMeasuresRepeat->
+    setMeasuresRepeatPattern (
+      measuresRepeatPattern);
 
-        // create a new last segment to collect the measures repeat replicas,
-        // containing the first, yet incomplete, replica
+  // create a new last segment to collect the measures repeat replicas,
+  // containing the first, yet incomplete, replica
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Creating a new last segment with the first replica measure for voice \"" <<
-            fVoiceName << "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Creating a new last segment with the first replica measure for voice \"" <<
+      fVoiceName << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
 #endif
 
-        createNewLastSegmentFromItsFirstMeasureForVoice (
-          inputLineNumber,
-          firstReplicaMeasure,
-          "createMeasuresRepeatFromItsFirstMeasuresInVoice() 2");
+  createNewLastSegmentFromItsFirstMeasureForVoice (
+    inputLineNumber,
+    firstReplicaMeasure,
+    "createMeasuresRepeatFromItsFirstMeasuresInVoice() 2");
 
-        // keep the measures repeat pending
-      }
-      break;
-  } // switch
+  // keep the measures repeat pending
 
   // print resulting voice contents
 #ifdef TRACE_OPTIONS
@@ -5697,145 +5689,148 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
   }
 #endif
 
-  switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
-      {
-        // does the current measures repeat exist?
-        if (! fVoicePendingMeasuresRepeat) {
-          stringstream s;
+  // does the current measures repeat exist?
+  if (! fVoicePendingMeasuresRepeat) {
+    stringstream s;
 
-          s <<
-            "attempting to append a pending measures repeat which doesn't exist";
+    s <<
+      "attempting to append a pending measures repeat which doesn't exist";
 
-          msrInternalError (
-            gOahBasicOptions->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
+    msrInternalError (
+      gOahBasicOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 
-        // fetch the last segment's measure list
-        list<S_msrMeasure>
-          voiceLastSegmentMeasureList =
-            fVoiceLastSegment->
-              getSegmentMeasuresList ();
+  // fetch the last segment's measure list
+  list<S_msrMeasure>
+    voiceLastSegmentMeasureList =
+      fVoiceLastSegment->
+        getSegmentMeasuresList ();
 
-        // grab the just created last measure in the last segment's measure list,
-        // (i.e. the one containing:
-        //   <measure-repeat type="stop"/>)
-        // which is the next measure after the measures repeat
-        if (! voiceLastSegmentMeasureList.size ()) {
-          stringstream s;
+  // grab the just created last measure
+  // in the last segment's measure list,
+  // (i.e. the one containing:
+  //   <measure-repeat type="stop"/>)
+  // which is the next measure after the measures repeat
+  if (! voiceLastSegmentMeasureList.size ()) {
+    stringstream s;
 
-          s <<
-            "attempting to grab first measure of voice last segment, that contains none";
+    s <<
+      "attempting to grab first measure of voice last segment, that contains none";
 
-          msrInternalError (
-            gOahBasicOptions->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
+    msrInternalError (
+      gOahBasicOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 
-        S_msrMeasure
-          nextMeasureAfterMeasuresRepeat =
-            voiceLastSegmentMeasureList.back ();
+  S_msrMeasure
+    nextMeasureAfterMeasuresRepeat =
+      voiceLastSegmentMeasureList.back ();
 
 // BOFBOFBOF JMI
-        // remove the next measure from the last segment's measure list
+  // remove the next measure from the last segment's measure list
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Removing last measure in last segment in voice \"" <<
-            fVoiceName << "\"" <<
-            endl;
-        }
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Removing last measure in last segment" <<
+      nextMeasureAfterMeasuresRepeat <<
+      "in voice \"" <<
+      fVoiceName << "\"" <<
+      endl;
+  }
 #endif
 
-        voiceLastSegmentMeasureList.pop_back ();
-
-        // create the measures repeat replicas contents
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Creating a measures repeat replicas contents for voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-        }
-#endif
-
-        S_msrMeasuresRepeatReplicas
-          measuresRepeatReplicas =
-            msrMeasuresRepeatReplicas::create (
-              inputLineNumber,
-              fVoicePendingMeasuresRepeat);
-
-        // set the voice last segment as the measures repeat replicas segment
-        measuresRepeatReplicas->
-          setMeasuresRepeatReplicasSegment (
-            fVoiceLastSegment);
-
-        fVoicePendingMeasuresRepeat->
-          setMeasuresRepeatReplicas (
-            measuresRepeatReplicas);
+  voiceLastSegmentMeasureList.pop_back ();
 
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Setting pending measures repeat replicas segment in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            endl;
-        }
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    displayVoiceMeasuresRepeatAndVoice (
+      inputLineNumber,
+      "appendPendingMeasuresRepeatToVoice() 2");
+  }
 #endif
 
-        fVoicePendingMeasuresRepeat->
-          setMeasuresRepeatReplicas (
-            measuresRepeatReplicas);
+  // create the measures repeat replicas contents
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Creating a measures repeat replicas contents for voice \"" <<
+      fVoiceName << "\" is:" <<
+      endl;
+  }
+#endif
+
+  S_msrMeasuresRepeatReplicas
+    measuresRepeatReplicas =
+      msrMeasuresRepeatReplicas::create (
+        inputLineNumber,
+        fVoicePendingMeasuresRepeat);
+
+  // set the voice last segment as the measures repeat replicas segment
+  measuresRepeatReplicas->
+    setMeasuresRepeatReplicasSegment (
+      fVoiceLastSegment);
+
+  fVoicePendingMeasuresRepeat->
+    setMeasuresRepeatReplicas (
+      measuresRepeatReplicas);
 
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Setting measures repeat segment to voice last segment for voice \"" <<
-            fVoiceName << "\"" <<
-            endl;
-        }
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Setting pending measures repeat replicas segment in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      endl;
+  }
 #endif
 
-        fVoicePendingMeasuresRepeat->
-          getMeasuresRepeatReplicas ()->
-            setMeasuresRepeatReplicasSegment (
-              fVoiceLastSegment);
+  fVoicePendingMeasuresRepeat->
+    setMeasuresRepeatReplicas (
+      measuresRepeatReplicas);
 
-        // forget about this voice last segment
-        fVoiceLastSegment = nullptr; // JMI
-
-        // append pending measures repeat to the voice
-        appendMeasuresRepeatToVoice (
-          inputLineNumber,
-          fVoicePendingMeasuresRepeat);
-
-        // create a new last segment to collect the remainder of the voice,
-        // containing the next, yet incomplete, measure
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
-          gLogOstream <<
-            "Creating a new last segment with the AAA measures repeat next measure for voice \"" <<
-            fVoiceName << "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Setting measures repeat segment to voice last segment for voice \"" <<
+      fVoiceName << "\"" <<
+      endl;
+  }
 #endif
 
-        createNewLastSegmentFromItsFirstMeasureForVoice (
-          inputLineNumber,
-          nextMeasureAfterMeasuresRepeat,
-          "appendPendingMeasuresRepeatToVoice()");
-      }
-      break;
-  } // switch
+  fVoicePendingMeasuresRepeat->
+    getMeasuresRepeatReplicas ()->
+      setMeasuresRepeatReplicasSegment (
+        fVoiceLastSegment);
+
+  // forget about this voice last segment
+  fVoiceLastSegment = nullptr; // JMI
+
+  // append pending measures repeat to the voice
+  appendMeasuresRepeatToVoice (
+    inputLineNumber,
+    fVoicePendingMeasuresRepeat);
+
+  // create a new last segment to collect the remainder of the voice,
+  // containing the next, yet incomplete, measure
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    gLogOstream <<
+      "Creating a new last segment with the AAA measures repeat next measure for voice \"" <<
+      fVoiceName << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  createNewLastSegmentFromItsFirstMeasureForVoice (
+    inputLineNumber,
+    nextMeasureAfterMeasuresRepeat,
+    "appendPendingMeasuresRepeatToVoice() 3");
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasuresRepeats) {
@@ -5848,7 +5843,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
 
     displayVoiceMeasuresRepeatAndVoice (
       inputLineNumber,
-      "appendPendingMeasuresRepeatToVoice() 2");
+      "appendPendingMeasuresRepeatToVoice() 4");
   }
 #endif
 }
@@ -9077,9 +9072,9 @@ void msrVoice::displayVoice (
 {
   gLogOstream <<
     endl <<
-    "*********>> Displaying voice " << context << " \"" <<
+    "*********>> Displaying voice \"" <<
     getVoiceName () <<
-    "\"" <<
+    "\" (" << context << ")" <<
     ", line " << inputLineNumber <<
     " contains:" <<
     endl;

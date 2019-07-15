@@ -5077,10 +5077,10 @@ void msrNote::print (ostream& os)
   // print the harmonies associated to this note if any
   int noteHarmoniesListSize = fNoteHarmoniesList.size ();
 
+  os <<
+    setw (fieldWidth) <<
+    "noteHarmonies";
   if (noteHarmoniesListSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteHarmonies";
     if (noteHarmoniesListSize) {
       os << endl;
       gIndenter++;
@@ -5102,11 +5102,13 @@ void msrNote::print (ostream& os)
       gIndenter--;
     }
     else {
-      os << " : " <<
-        "none" <<
-        endl;
+      os << " : " << "none";
     }
   }
+  else {
+    os << " : " << "none";
+  }
+  os << endl;
 
   // print the figured bass if any
   os <<
@@ -5117,17 +5119,18 @@ void msrNote::print (ostream& os)
       os << endl;
       gIndenter++;
 
-      os << fNoteFiguredBass <<
-        endl;
+      os << fNoteFiguredBass;
 
       gIndenter--;
     }
     else {
-      os << " : " <<
-        "none" <<
-        endl;
+      os << " : " << "none";
     }
   }
+  else {
+    os << " : " << "none";
+  }
+  os << endl;
 
   // print the frame if any
   os <<
@@ -5143,11 +5146,13 @@ void msrNote::print (ostream& os)
       gIndenter--;
     }
     else {
-      os << " : " <<
-        "none" <<
-        endl;
+      os << " : " << "none";
     }
   }
+  else {
+    os << " : " << "none";
+  }
+  os << endl;
 
   // print the syllables associated to this note if any
   int noteSyllablesSize = fNoteSyllables.size ();
