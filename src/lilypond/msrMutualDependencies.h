@@ -646,18 +646,18 @@ class msrMeasure : public msrElement
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
-    enum msrMeasureRepeatContextKind {
-        kMeasureRepeatContextKindUnknown,
-        kMeasureRepeatContextKindNone,
-        kMeasureRepeatContextKindCommonPartLastMeasure,
-        kMeasureRepeatContextKindHookedEndingLastMeasure,
-        kMeasureRepeatContextKindHooklessEndingLastMeasure,
-        kMeasureRepeatContextKindNextMeasureAfterCommonPart,
-        kMeasureRepeatContextKindNextMeasureAfterHookedEnding,
-        kMeasureRepeatContextKindNextMeasureAfterHooklessEnding };
+    enum msrMeasuresRepeatContextKind {
+        kMeasuresRepeatContextKindUnknown,
+        kMeasuresRepeatContextKindNone,
+        kMeasuresRepeatContextKindCommonPartLastMeasure,
+        kMeasuresRepeatContextKindHookedEndingLastMeasure,
+        kMeasuresRepeatContextKindHooklessEndingLastMeasure,
+        kMeasuresRepeatContextKindNextMeasureAfterCommonPart,
+        kMeasuresRepeatContextKindNextMeasureAfterHookedEnding,
+        kMeasuresRepeatContextKindNextMeasureAfterHooklessEnding };
 
-    static string measureRepeatContextKindAsString (
-      msrMeasureRepeatContextKind measureRepeatContextKind);
+    static string measuresRepeatContextKindAsString (
+      msrMeasuresRepeatContextKind measuresRepeatContextKind);
 
     enum msrMeasureEndRegularKind {
         kMeasureEndRegularKindUnknown,
@@ -826,12 +826,12 @@ class msrMeasure : public msrElement
 
     // repeat context
 
-    void                  setMeasureRepeatContextKind (
-                            msrMeasureRepeatContextKind measureRepeatContextKind);
+    void                  setMeasuresRepeatContextKind (
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind);
 
-    msrMeasureRepeatContextKind
-                          getMeasureRepeatContextKind () const
-                              { return fMeasureRepeatContextKind; }
+    msrMeasuresRepeatContextKind
+                          getMeasuresRepeatContextKind () const
+                              { return fMeasuresRepeatContextKind; }
 
   public:
 
@@ -1074,8 +1074,8 @@ class msrMeasure : public msrElement
 
     void                  determineMeasureKindAndPuristNumber (
                             int     inputLineNumber,
-                            msrMeasureRepeatContextKind
-                                    measureRepeatContextKind);
+                            msrMeasuresRepeatContextKind
+                                    measuresRepeatContextKind);
 
     void                  padUpToPositionInMeasure (
                             int      inputLineNumber,
@@ -1087,22 +1087,22 @@ class msrMeasure : public msrElement
 
     void                  finalizeMeasure (
                             int                         inputLineNumber,
-                            msrMeasureRepeatContextKind measureRepeatContextKind,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                      context);
 
     void                  finalizeRegularMeasure (
                             int                         inputLineNumber,
-                            msrMeasureRepeatContextKind measureRepeatContextKind,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                      context);
 
     void                  finalizeHarmonyMeasure (
                             int                         inputLineNumber,
-                            msrMeasureRepeatContextKind measureRepeatContextKind,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                      context);
 
     void                  finalizeFiguredBassMeasure (
                             int                         inputLineNumber,
-                            msrMeasureRepeatContextKind measureRepeatContextKind,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                      context);
 
     void                  finalizeMeasureClone (
@@ -1221,8 +1221,8 @@ class msrMeasure : public msrElement
                           fMeasureEndRegularKind;
 
     // repeat context
-    msrMeasureRepeatContextKind
-                          fMeasureRepeatContextKind;
+    msrMeasuresRepeatContextKind
+                          fMeasuresRepeatContextKind;
 
   public:
 
@@ -5664,7 +5664,7 @@ class msrMeasuresRepeatPattern : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   measuresRepeatPatternMeasuresNumber () const;
+    int                   fetchMeasuresNumber () const;
 
     void                  collectRepeatPatternMeasuresIntoFlatList (
                             int inputLineNumber);
@@ -5751,9 +5751,9 @@ class msrMeasuresRepeatReplicas : public msrElement
     // services
     // ------------------------------------------------------
 
-    int                   measuresRepeatReplicasMeasuresNumber () const;
+    int                   fetchMeasuresNumber () const;
 
-    int                   measuresRepeatReplicasNumber () const;
+    int                   fetchMeasuresRepeatReplicasNumber () const;
 
     void                  collectRepeatReplicasMeasuresIntoFlatList (
                             int inputLineNumber);
@@ -5893,21 +5893,10 @@ class msrMeasuresRepeat : public msrVoiceElement
     // services
     // ------------------------------------------------------
 
-    int                   measuresRepeatPatternMeasuresNumber () const
-                            {
-                              return
-                                fMeasuresRepeatPattern->
-                                  measuresRepeatPatternMeasuresNumber ();
-                            }
+    int                   fetchMeasuresRepeatReplicasNumber () const;
 
-    int                   measuresRepeatReplicasMeasuresNumber () const
-                            {
-                              return
-                                fMeasuresRepeatReplicas->
-                                  measuresRepeatReplicasMeasuresNumber ();
-                            }
-
-    int                   measuresRepeatReplicasNumber () const;
+    int                   fetchMeasuresRepeatPatternMeasuresNumber () const;
+    int                   fetchMeasuresRepeatReplicasMeasuresNumber () const;
 
     void                  collectMeasuresRepeatMeasuresIntoFlatList (
                             int inputLineNumber);

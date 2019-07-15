@@ -440,11 +440,11 @@ void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
     S_msrSegment measuresRepeatPatternSegment)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern segment containing " <<
       singularOrPlural (
-          measuresRepeatPatternMeasuresNumber (),
+        fetchMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -460,14 +460,14 @@ void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
     measuresRepeatPatternSegment;
 }
 
-int msrMeasuresRepeatPattern::measuresRepeatPatternMeasuresNumber () const
+int msrMeasuresRepeatPattern::fetchMeasuresNumber () const
 {
   int result;
 
   if (fMeasuresRepeatPatternSegment) {
     result =
       fMeasuresRepeatPatternSegment->
-      getSegmentMeasuresList ().size ();
+        getSegmentMeasuresList ().size ();
   }
   else {
     result = 0;
@@ -545,7 +545,7 @@ string msrMeasuresRepeatPattern::asString () const
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measuresRepeatPatternMeasuresNumber (),
+      fetchMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
     ")";
@@ -625,11 +625,11 @@ void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
   S_msrSegment measuresRepeatReplicasSegment)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas segment containing " <<
       singularOrPlural (
-          measuresRepeatReplicasMeasuresNumber (),
+        fetchMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -645,14 +645,14 @@ void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
     measuresRepeatReplicasSegment;
 }
 
-int msrMeasuresRepeatReplicas::measuresRepeatReplicasMeasuresNumber () const
+int msrMeasuresRepeatReplicas::fetchMeasuresNumber () const
 {
   int result;
 
   if (fMeasuresRepeatReplicasSegment) {
     result =
       fMeasuresRepeatReplicasSegment->
-      getSegmentMeasuresList ().size ();
+        getSegmentMeasuresList ().size ();
   }
   else {
     result = 0;
@@ -730,7 +730,7 @@ string msrMeasuresRepeatReplicas::asString () const
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measuresRepeatReplicasMeasuresNumber (),
+      fetchMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
     ")";
@@ -858,12 +858,12 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
   S_msrMeasuresRepeatPattern measuresRepeatPattern)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern containing " <<
       singularOrPlural (
         measuresRepeatPattern->
-          measuresRepeatPatternMeasuresNumber (),
+          fetchMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -886,12 +886,12 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
   S_msrMeasuresRepeatReplicas measuresRepeatReplicas)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas containing " <<
       singularOrPlural (
         measuresRepeatReplicas->
-          measuresRepeatReplicasMeasuresNumber (),
+          fetchMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -910,10 +910,10 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
     msrMeasuresRepeat::kMeasuresRepeatBuildPhaseInReplicas;
 }
 
-int msrMeasuresRepeat::measuresRepeatReplicasNumber () const
+int msrMeasuresRepeat::fetchMeasuresRepeatReplicasNumber () const
 {
   int patternMeasuresNumber =
-    measuresRepeatPatternMeasuresNumber ();
+    fetchMeasuresRepeatPatternMeasuresNumber ();
 
   // sanity check
   msrAssert (
@@ -921,9 +921,33 @@ int msrMeasuresRepeat::measuresRepeatReplicasNumber () const
     "patternMeasuresNumber is not positive");
 
   return
-    measuresRepeatReplicasMeasuresNumber ()
-      /
+    fetchMeasuresRepeatReplicasMeasuresNumber ()
+      / // JMI ???
     patternMeasuresNumber;
+}
+
+int msrMeasuresRepeat::fetchMeasuresRepeatPatternMeasuresNumber () const
+{
+  // sanity check
+  msrAssert (
+    fMeasuresRepeatPattern != nullptr,
+    "fMeasuresRepeatPattern is null");
+
+  return
+    fMeasuresRepeatPattern->
+      fetchMeasuresNumber ();
+}
+
+int msrMeasuresRepeat::fetchMeasuresRepeatReplicasMeasuresNumber () const
+{
+  // sanity check
+  msrAssert (
+    fMeasuresRepeatReplicas != nullptr,
+    "fMeasuresRepeatReplicas is null");
+
+  return
+    fMeasuresRepeatReplicas->
+      fetchMeasuresNumber ();
 }
 
 void msrMeasuresRepeat::acceptIn (basevisitor* v)
@@ -1047,16 +1071,16 @@ string msrMeasuresRepeat::asString () const
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measuresRepeatPatternMeasuresNumber (),
+      fetchMeasuresRepeatPatternMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
     ", " <<
     singularOrPlural (
-      measuresRepeatReplicasMeasuresNumber (),
+      fetchMeasuresRepeatReplicasMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
     ", " <<
-    measuresRepeatReplicasNumber () << " replicas" <<
+    fetchMeasuresRepeatReplicasNumber () << " replicas" <<
     ")";
 
   return s.str ();
@@ -1095,24 +1119,21 @@ void msrMeasuresRepeat::print (ostream& os)
 {
   os <<
     "MeasuresRepeat" <<
-    ", line " << fInputLineNumber <<
-    /* JMI ???
     " (" <<
     singularOrPlural (
       fMeasuresRepeatPattern
-        ? measuresRepeatPatternMeasuresNumber ()
+        ? fetchMeasuresRepeatPatternMeasuresNumber ()
         : 0,
       "pattern measure",
       "pattern measures") <<
     ", " <<
     singularOrPlural (
-      fMeasuresRepeatPattern
-        ? measuresRepeatReplicasMeasuresNumber ()
+      fMeasuresRepeatReplicas
+        ? fetchMeasuresRepeatReplicasMeasuresNumber ()
         : 0,
       "replica measure",
       "replicas measures") <<
-    ")" <<
-    */
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;

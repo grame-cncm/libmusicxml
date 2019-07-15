@@ -14528,17 +14528,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  int replicasMeasuresNumber =
-    elt->measuresRepeatReplicasMeasuresNumber ();
+  int repeatReplicasMeasuresNumber =
+    elt->fetchMeasuresRepeatReplicasMeasuresNumber ();
 #endif
 
   int replicasNumber =
-    elt->measuresRepeatReplicasNumber ();
+    elt->fetchMeasuresRepeatReplicasNumber ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasuresRepeats) {
-    int repeatMeasuresNumber =
-      elt->measuresRepeatPatternMeasuresNumber ();
+    int repeatPatternMeasuresNumber =
+      elt->fetchMeasuresRepeatPatternMeasuresNumber ();
 
     fLilypondCodeOstream <<
       "% measures repeat, line " << elt->getInputLineNumber () << ":" <<
@@ -14548,10 +14548,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
 
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
-      "% repeatMeasuresNumber" << " = " << repeatMeasuresNumber <<
+      "% repeatPatternMeasuresNumber" << " = " << repeatPatternMeasuresNumber <<
       endl <<
       setw (fieldWidth) <<
-      "% replicasMeasuresNumber" << " = " << replicasMeasuresNumber <<
+      "% repeatReplicasMeasuresNumber" << " = " << repeatReplicasMeasuresNumber <<
       endl <<
       setw (fieldWidth) <<
       "% replicasNumber" << " = " << replicasNumber <<
@@ -14564,7 +14564,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
       setw (commentFieldWidth) <<
       "% start of measures repeat" <<
       singularOrPlural (
-        elt->measuresRepeatReplicasNumber (),
+        elt->fetchMeasuresRepeatReplicasNumber (),
         "replica",
         "replicas") <<
       ", line " << elt->getInputLineNumber () <<
@@ -14606,7 +14606,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
       setw (commentFieldWidth) << left <<
       "% end of measures repeat" <<
       singularOrPlural (
-        elt->measuresRepeatReplicasNumber (),
+        elt->fetchMeasuresRepeatReplicasNumber (),
         "replica",
         "replicas") <<
       ", line " << elt->getInputLineNumber () <<

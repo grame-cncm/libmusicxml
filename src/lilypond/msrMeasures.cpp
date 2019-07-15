@@ -159,7 +159,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureEndRegularKind = kMeasureEndRegularKindUnknown;
 
   // repeat context
-  fMeasureRepeatContextKind = msrMeasure::kMeasureRepeatContextKindUnknown;
+  fMeasuresRepeatContextKind = msrMeasure::kMeasuresRepeatContextKindUnknown;
 
   // measure finalization
   fMeasureHasBeenFinalized = false;
@@ -455,8 +455,8 @@ void msrMeasure::setMeasureEndRegularKind (
   fMeasureEndRegularKind = measureEndRegularKind;
 }
 
-void msrMeasure::setMeasureRepeatContextKind (
-  msrMeasureRepeatContextKind measureRepeatContextKind)
+void msrMeasure::setMeasuresRepeatContextKind (
+  msrMeasuresRepeatContextKind measuresRepeatContextKind)
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
@@ -464,7 +464,7 @@ void msrMeasure::setMeasureRepeatContextKind (
         "Setting repeat context kind of measure '" <<
         fMeasureNumber <<
         "' to '" <<
-        measureRepeatContextKindAsString (measureRepeatContextKind) <<
+        measuresRepeatContextKindAsString (measuresRepeatContextKind) <<
         "' in segment " <<
         fMeasureSegmentUpLink->asString () <<
         " in voice \"" <<
@@ -477,7 +477,7 @@ void msrMeasure::setMeasureRepeatContextKind (
     }
 #endif
 
-  fMeasureRepeatContextKind = measureRepeatContextKind;
+  fMeasuresRepeatContextKind = measuresRepeatContextKind;
 }
 
 void msrMeasure::setMeasurePuristNumber (
@@ -1157,11 +1157,12 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
 
 #ifdef TRACE_OPTIONS
   if (
-    gMusicXMLOptions->fTraceDivisions
+    gTraceOptions->fTraceWholeNotes
       ||
     gTraceOptions->fTraceTimes
       ||
-    gTraceOptions->fTraceMeasures) {
+    gTraceOptions->fTraceMeasures
+  ) {
     gLogOstream <<
       "Setting measure full measure whole notes from time:" <<
       endl;
@@ -2023,6 +2024,8 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
@@ -2763,8 +2766,8 @@ void msrMeasure::removeElementFromMeasure (
 
 void msrMeasure::determineMeasureKindAndPuristNumber (
   int     inputLineNumber,
-  msrMeasure::msrMeasureRepeatContextKind
-          measureRepeatContextKind)
+  msrMeasure::msrMeasuresRepeatContextKind
+          measuresRepeatContextKind)
 {
   if (fMeasureKindAndPuristNumberHaveBeenDetermined) {
     stringstream s;
@@ -2782,9 +2785,9 @@ if (false)
       s.str ());
   }
 
-  // register measureRepeatContextKind
+  // register measuresRepeatContextKind
 // JMI ???
-  setMeasureRepeatContextKind (measureRepeatContextKind);
+  setMeasuresRepeatContextKind (measuresRepeatContextKind);
 
   // fetch the voice
   S_msrVoice
@@ -2960,20 +2963,20 @@ if (false)
           setMeasureEndRegularKind (kMeasureEndRegularKindNo);
         }
 
-        // set measure's kind according to measureRepeatContextKind
-        switch (measureRepeatContextKind) {
-          case msrMeasure::kMeasureRepeatContextKindUnknown: // JMI ???
+        // set measure's kind according to measuresRepeatContextKind
+        switch (measuresRepeatContextKind) {
+          case msrMeasure::kMeasuresRepeatContextKindUnknown: // JMI ???
             {
               stringstream s;
 
               displayMeasure (
                 inputLineNumber,
-                "determineMeasureKindAndPuristNumber() 5 kMeasureRepeatContextKindUnknown");
+                "determineMeasureKindAndPuristNumber() 5 kMeasuresRepeatContextKindUnknown");
 
               s <<
                 "measure '" <<
                 fMeasureNumber <<
-                "' is kMeasureRepeatContextKindUnknown " <<
+                "' is kMeasuresRepeatContextKindUnknown " <<
                 asShortString () <<
                 ", line " << inputLineNumber;
 
@@ -2989,7 +2992,7 @@ if (false)
             setMeasureKind (kMeasureKindIncompleteStandalone); // JMI
             break;
 
-          case msrMeasure::kMeasureRepeatContextKindNone:
+          case msrMeasure::kMeasuresRepeatContextKindNone:
             // update the voice current measure purist number if relevant
             switch (fMeasureEndRegularKind) {
               case msrMeasure::kMeasureEndRegularKindUnknown:
@@ -3011,28 +3014,28 @@ if (false)
             } // switch
             break;
 
-          case msrMeasure::kMeasureRepeatContextKindCommonPartLastMeasure:
+          case msrMeasure::kMeasuresRepeatContextKindCommonPartLastMeasure:
             setMeasureKind (
               kMeasureKindIncompleteLastInRepeatCommonPart);
             break;
-          case msrMeasure::kMeasureRepeatContextKindHookedEndingLastMeasure:
+          case msrMeasure::kMeasuresRepeatContextKindHookedEndingLastMeasure:
             setMeasureKind (
               kMeasureKindIncompleteLastInRepeatHookedEnding);
             break;
-          case msrMeasure::kMeasureRepeatContextKindHooklessEndingLastMeasure:
+          case msrMeasure::kMeasuresRepeatContextKindHooklessEndingLastMeasure:
             setMeasureKind (
               kMeasureKindIncompleteLastInRepeatHooklessEnding);
             break;
 
-          case msrMeasure::kMeasureRepeatContextKindNextMeasureAfterCommonPart:
+          case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterCommonPart:
             setMeasureKind (
               kMeasureKindIncompleteNextMeasureAfterCommonPart);
             break;
-          case msrMeasure::kMeasureRepeatContextKindNextMeasureAfterHookedEnding:
+          case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterHookedEnding:
             setMeasureKind (
               kMeasureKindIncompleteNextMeasureAfterHookedEnding);
             break;
-          case msrMeasure::kMeasureRepeatContextKindNextMeasureAfterHooklessEnding:
+          case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterHooklessEnding:
             setMeasureKind (
               kMeasureKindIncompleteNextMeasureAfterHooklessEnding);
             break;
@@ -3292,7 +3295,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 
 void msrMeasure::finalizeRegularMeasure (
   int                         inputLineNumber,
-  msrMeasureRepeatContextKind measureRepeatContextKind,
+  msrMeasuresRepeatContextKind measuresRepeatContextKind,
   string                      context)
 {
   // fetch the voice
@@ -3377,6 +3380,7 @@ void msrMeasure::finalizeRegularMeasure (
   }
 #endif
 
+/* JMI
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
     // and then append them
@@ -3450,11 +3454,12 @@ void msrMeasure::finalizeRegularMeasure (
       if (++i == iEnd) break;
     } // for
   }
+*/
 
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
-    measureRepeatContextKind);
+    measuresRepeatContextKind);
 
   // pad measure up to part measure whole notes high tide
   switch (fMeasureKind) {
@@ -4186,7 +4191,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 
 void msrMeasure::finalizeHarmonyMeasure (
   int                         inputLineNumber,
-  msrMeasureRepeatContextKind measureRepeatContextKind,
+  msrMeasuresRepeatContextKind measuresRepeatContextKind,
   string                      context)
 {
   // fetch the voice
@@ -4284,7 +4289,7 @@ void msrMeasure::finalizeHarmonyMeasure (
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
-    measureRepeatContextKind);
+    measuresRepeatContextKind);
 
   // pad measure up to part measure whole notes high tide
   switch (fMeasureKind) {
@@ -4426,7 +4431,7 @@ void msrMeasure::finalizeHarmonyMeasure (
 
 void msrMeasure::finalizeFiguredBassMeasure (
   int                         inputLineNumber,
-  msrMeasureRepeatContextKind measureRepeatContextKind,
+  msrMeasuresRepeatContextKind measuresRepeatContextKind,
   string                      context)
 {
   // fetch the voice
@@ -4524,7 +4529,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
-    measureRepeatContextKind);
+    measuresRepeatContextKind);
 
   // pad measure up to part measure whole notes high tide
   switch (fMeasureKind) {
@@ -4666,7 +4671,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
 void msrMeasure::finalizeMeasure (
   int                         inputLineNumber,
-  msrMeasureRepeatContextKind measureRepeatContextKind,
+  msrMeasuresRepeatContextKind measuresRepeatContextKind,
   string                      context)
 {
   if (false && fMeasureHasBeenFinalized) { // JMI
@@ -4710,19 +4715,19 @@ void msrMeasure::finalizeMeasure (
     case msrVoice::kVoiceRegular:
       finalizeRegularMeasure (
         inputLineNumber,
-        measureRepeatContextKind,
+        measuresRepeatContextKind,
         context);
       break;
     case msrVoice::kVoiceHarmony:
       finalizeHarmonyMeasure (
         inputLineNumber,
-        measureRepeatContextKind,
+        measuresRepeatContextKind,
         context);
       break;
     case msrVoice::kVoiceFiguredBass:
       finalizeFiguredBassMeasure ( // JMI to be seen
         inputLineNumber,
-        measureRepeatContextKind,
+        measuresRepeatContextKind,
         context);
       break;
   } // switch
@@ -4733,6 +4738,24 @@ void msrMeasure::finalizeMeasureClone (
   S_msrMeasure originalMeasure,
   S_msrVoice   voiceClone)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    gLogOstream <<
+      "Finalizing measure clone '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+// JMI      fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
+      voiceClone->getVoiceName () <<
+// JMI      "\" (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     displayMeasure (
@@ -4758,10 +4781,25 @@ void msrMeasure::finalizeMeasureClone (
 
   gIndenter++;
 
+  // fetch the voiceClone's time
+  S_msrTime
+    voiceCurrentTime =
+      voiceClone->getVoiceCurrentTime ();
+
+  if (! voiceCurrentTime) {
+    // take the implicit 4/4 measure whole notes into account
+    fFullMeasureWholeNotes = rational (1, 1);
+  }
+  else {
+    // set the full length from time
+    setFullMeasureWholeNotesFromTime (
+      voiceCurrentTime);
+  }
+
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
-    originalMeasure->getMeasureRepeatContextKind ());
+    originalMeasure->getMeasuresRepeatContextKind ());
 
   // consistency check
   msrMeasure::msrMeasureKind
@@ -4774,28 +4812,27 @@ void msrMeasure::finalizeMeasureClone (
       this->
         displayMeasure (
           inputLineNumber,
-          "finalizeMeasureClone() cloneMeasure");
+          "finalizeMeasureClone() 2 - cloneMeasure");
 
       originalMeasure->
         displayMeasure (
           inputLineNumber,
-          "finalizeMeasureClone() originalMeasure");
+          "finalizeMeasureClone() 3 - originalMeasure");
     }
 #endif
 
     stringstream s;
 
     s <<
-      "*********>> measure '" <<
+      "*********>> measure clone '" <<
       fMeasureNumber <<
-      "': clone measure kind '"<<
+      "': measure kind '"<<
       msrMeasure::measureKindAsString (
         fMeasureKind) <<
-      "' differs for original measure measure kind '" <<
+      "' differs from original measure measure kind '" <<
       msrMeasure::measureKindAsString (
         originalMeasureMeasureKind) <<
-      "'" <<
-      ", line " << inputLineNumber;
+      "', line " << inputLineNumber;
 
  //   msrInternalError ( // JMI
     msrInternalWarning (
@@ -4803,6 +4840,23 @@ void msrMeasure::finalizeMeasureClone (
       inputLineNumber,
  //      __FILE__, __LINE__,
       s.str ());
+
+    if (fFullMeasureWholeNotes.getNumerator () == 0) { // JMI
+      stringstream s;
+
+      s <<
+        "*********>> measure clone '" <<
+        fMeasureNumber <<
+        "' full measure whole notes is 0" <<
+        ", line " << inputLineNumber;
+
+   //   msrInternalError ( // JMI
+      msrInternalWarning (
+        gOahBasicOptions->fInputSourceName,
+        inputLineNumber,
+   //      __FILE__, __LINE__,
+        s.str ());
+    }
   }
 
   fMeasureHasBeenFinalized = true;
@@ -4811,7 +4865,7 @@ void msrMeasure::finalizeMeasureClone (
   if (gTraceOptions->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
-      "finalizeMeasureClone() 2");
+      "finalizeMeasureClone() 4");
   }
 #endif
 
@@ -4974,34 +5028,34 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   return result;
 }
 
-string msrMeasure::measureRepeatContextKindAsString (
-  msrMeasureRepeatContextKind measureRepeatContextKind)
+string msrMeasure::measuresRepeatContextKindAsString (
+  msrMeasuresRepeatContextKind measuresRepeatContextKind)
 {
   string result;
 
-  switch (measureRepeatContextKind) {
-    case msrMeasure::kMeasureRepeatContextKindUnknown:
+  switch (measuresRepeatContextKind) {
+    case msrMeasure::kMeasuresRepeatContextKindUnknown:
       result = "***measureRepeatContextUnknown***";
       break;
-    case msrMeasure::kMeasureRepeatContextKindNone:
+    case msrMeasure::kMeasuresRepeatContextKindNone:
       result = "measureRepeatContextNone";
       break;
-    case msrMeasure::kMeasureRepeatContextKindCommonPartLastMeasure:
+    case msrMeasure::kMeasuresRepeatContextKindCommonPartLastMeasure:
       result = "measureRepeatContextCommonPartLastMeasure";
       break;
-    case msrMeasure::kMeasureRepeatContextKindHookedEndingLastMeasure:
+    case msrMeasure::kMeasuresRepeatContextKindHookedEndingLastMeasure:
       result = "measureRepeatContextHookedEndingLastMeasure";
       break;
-    case msrMeasure::kMeasureRepeatContextKindHooklessEndingLastMeasure:
+    case msrMeasure::kMeasuresRepeatContextKindHooklessEndingLastMeasure:
       result = "measureRepeatContextHooklessEndingLastMeasure";
       break;
-    case msrMeasure::kMeasureRepeatContextKindNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterCommonPart:
       result = "measureRepeatContextNextMeasureAfterCommonPart";
       break;
-    case msrMeasure::kMeasureRepeatContextKindNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterHookedEnding:
       result = "measureRepeatContextNextMeasureAfterHookedEnding";
       break;
-    case msrMeasure::kMeasureRepeatContextKindNextMeasureAfterHooklessEnding:
+    case msrMeasure::kMeasuresRepeatContextKindNextMeasureAfterHooklessEnding:
       result = "measureRepeatContextNextMeasureAfterHooklessEnding";
       break;
   } // switch
@@ -5148,9 +5202,9 @@ void msrMeasure::print (ostream& os)
       fMeasureEndRegularKind) <<
     endl <<
     setw (fieldWidth) <<
-    "measureRepeatContextKind" << " : " <<
-    measureRepeatContextKindAsString (
-      fMeasureRepeatContextKind) <<
+    "measuresRepeatContextKind" << " : " <<
+    measuresRepeatContextKindAsString (
+      fMeasuresRepeatContextKind) <<
     endl <<
 
     setw (fieldWidth) <<
@@ -5339,9 +5393,9 @@ void msrMeasure::shortPrint (ostream& os)
       fMeasureEndRegularKind) <<
     endl <<
     setw (fieldWidth) <<
-    "measureRepeatContextKind" << " : " <<
-    measureRepeatContextKindAsString (
-      fMeasureRepeatContextKind) <<
+    "measuresRepeatContextKind" << " : " <<
+    measuresRepeatContextKindAsString (
+      fMeasuresRepeatContextKind) <<
     endl <<
 
     setw (fieldWidth) <<

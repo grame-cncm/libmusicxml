@@ -3626,7 +3626,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
           lastMeasureInLastSegment->
             finalizeMeasure (
               inputLineNumber,
-              msrMeasure::kMeasureRepeatContextKindNone,
+              msrMeasure::kMeasuresRepeatContextKindNone,
               "handleVoiceLevelRepeatStartInVoice() 2");
 
           // append last segment to initial voice elements list
@@ -3676,7 +3676,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
           lastMeasureInLastSegment->
             finalizeMeasure (
               inputLineNumber,
-              msrMeasure::kMeasureRepeatContextKindNone,
+              msrMeasure::kMeasuresRepeatContextKindNone,
               "handleVoiceLevelRepeatStartInVoice() 5");
 
           // append last segment to initial voice elements list
@@ -3967,7 +3967,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   voiceLastSegmentLastMeasure->
     finalizeMeasure (
       inputLineNumber,
-      msrMeasure::kMeasureRepeatContextKindCommonPartLastMeasure,
+      msrMeasure::kMeasuresRepeatContextKindCommonPartLastMeasure,
       "handleVoiceLevelRepeatEndWithoutStartInVoice() 3"
       );
 
@@ -5404,7 +5404,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
   }
 #endif
 
-  switch (fVoiceKind) {
+  switch (fVoiceKind) { // superfluous JMI ???
     case msrVoice::kVoiceRegular:
     case msrVoice::kVoiceHarmony:
     case msrVoice::kVoiceFiguredBass:
@@ -5464,8 +5464,9 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
         if (gTraceOptions->fTraceMeasuresRepeats) {
           gLogOstream <<
             "Removing the last " <<
-            measuresRepeatMeasuresNumber <<
-            " measures (to be repeated) from voice \"" <<
+            singularOrPlural (
+              measuresRepeatMeasuresNumber, "measure", "measures") <<
+            " (to be repeated) from voice \"" <<
             fVoiceName <<
             endl;
         }
@@ -5507,8 +5508,9 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasuresRepeats) {
           gLogOstream <<
-            "Creating a measures repeat pattern for voice \"" <<
-            fVoiceName << "\" is:" <<
+            "Creating a measures repeat pattern in voice \"" <<
+            fVoiceName <<
+            "\"" <<
             endl;
         }
 #endif
@@ -7177,7 +7179,7 @@ void msrVoice::appendMeasuresRepeatCloneToVoiceClone (
     measuresRepeatClone != nullptr,
     "measuresRepeatClone is null");
 
-  switch (fVoiceKind) {
+  switch (fVoiceKind) { // superflous JMI ???
     case msrVoice::kVoiceRegular:
     case msrVoice::kVoiceHarmony:
     case msrVoice::kVoiceFiguredBass:
@@ -8588,8 +8590,8 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
 void msrVoice::finalizeCurrentMeasureInVoice (
   int inputLineNumber)
 {
-  msrMeasure::msrMeasureRepeatContextKind
-    measureRepeatContextKind = msrMeasure::kMeasureRepeatContextKindNone;
+  msrMeasure::msrMeasuresRepeatContextKind
+    measuresRepeatContextKind = msrMeasure::kMeasuresRepeatContextKindNone;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
@@ -8630,7 +8632,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   fVoiceCurrentMeasure->
     finalizeMeasure (
       inputLineNumber,
-      measureRepeatContextKind,
+      measuresRepeatContextKind,
       "finalizeCurrentMeasureInVoice() 2");
 
 

@@ -8339,6 +8339,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
     fCurrentMeasuresRepeatKind =
       msrMeasuresRepeat::kStartMeasuresRepeat; // JMI
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    fLogOutputStream <<
+      "Creating measures repeat from its first measures" <<
+      "in part " <<
+      fCurrentPart->getPartCombinedName () <<
+      ", fCurrentMeasuresRepeatMeasuresNumber: " <<
+      fCurrentMeasuresRepeatMeasuresNumber <<
+      ", fCurrentMeasuresRepeatSlashesNumber: " <<
+      fCurrentMeasuresRepeatSlashesNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
     fCurrentPart->
       createMeasuresRepeatFromItsFirstMeasuresInPart (
         inputLineNumber,
@@ -8349,6 +8364,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
   else if (measuresRepeatType == "stop") {
     fCurrentMeasuresRepeatKind =
       msrMeasuresRepeat::kStopMeasuresRepeat; // JMI
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    fLogOutputStream <<
+      "Appending measures repeat " <<
+      "to part " <<
+      fCurrentPart->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
 
     fCurrentPart->
       appendPendingMeasuresRepeatToPart (
