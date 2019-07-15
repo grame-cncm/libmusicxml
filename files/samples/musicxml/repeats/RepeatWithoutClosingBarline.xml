@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="2.0">
+ <work>
+  <work-title></work-title>
+ </work>
+ <identification>
+  <creator type="poet">RepeatWithoutClosingBarline</creator>
+  <rights></rights>
+  <encoding>
+   <software>Neuratron PhotoScore</software>
+   <encoding-description>MusicXML 2.0</encoding-description>
+  </encoding>
+  <source>Scanned sheet music</source>
+ </identification>
+ <defaults>
+  <scaling>
+   <millimeters>81</millimeters>
+   <tenths>400</tenths>
+  </scaling>
+  <page-layout>
+   <page-height>1364</page-height>
+   <page-width>1132</page-width>
+  </page-layout>
+ </defaults>
+ <part-list>
+  <score-part id="P2">
+   <part-name></part-name>
+   <part-abbreviation></part-abbreviation>
+   <score-instrument id="P2-I1">
+    <instrument-name></instrument-name>
+   </score-instrument>
+   <midi-instrument id="P2-I1">
+    <midi-channel>2</midi-channel>
+    <midi-program>1</midi-program>
+   </midi-instrument>
+  </score-part>
+ </part-list>
+ <part id="P2">
+  <measure number="1">
+   <attributes>
+    <divisions>2</divisions>
+    <time symbol="cut">
+     <beats>2</beats>
+     <beat-type>2</beat-type>
+    </time>
+    <clef number="1">
+     <sign>F</sign>
+     <line>4</line>
+    </clef>
+   </attributes>
+   <note>
+    <rest/>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+   </note>
+   <note>
+    <rest/>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>2</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <notations>
+     <articulations>
+      <accent/>
+     </articulations>
+    </notations>
+   </note>
+  </measure>
+  <measure number="2">
+   <barline location="left">
+    <bar-style>heavy-light</bar-style>
+    <repeat direction="forward"/>
+   </barline>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>2</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <octave>2</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>2</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>A</step>
+     <octave>2</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+    <barline location="right">
+      <bar-style>light-heavy</bar-style>
+      <repeat direction="backward" winged="none"/>
+    </barline>
+  </measure>
+ </part>
+</score-partwise>
