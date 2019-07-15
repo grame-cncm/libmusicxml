@@ -2928,7 +2928,7 @@ void msrVoice::displayVoiceMeasuresRepeat (
 {
   gLogOstream <<
     endl <<
-    ">>++++++++++++++++ Displaying  voice measures repeats " << context <<
+    ">>++++++++++++++++ Displaying voice measures repeats " << context <<
     endl <<
     "The current voice measures repeat contains " <<
     ", line " << inputLineNumber <<
@@ -5467,7 +5467,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
   }
 #endif
 
-  for (int i = 0; i< measuresRepeatMeasuresNumber; i++) {
+  for (int i = 0; i < measuresRepeatMeasuresNumber; i++) {
     S_msrMeasure
       lastMeasure =
         removeLastMeasureFromVoice (
@@ -5737,10 +5737,14 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
   if (gTraceOptions->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Removing last measure in last segment" <<
-      nextMeasureAfterMeasuresRepeat <<
       "in voice \"" <<
-      fVoiceName << "\"" <<
+      fVoiceName <<
+      "\":" <<
       endl;
+    gIndenter++;
+    gLogOstream <<
+      nextMeasureAfterMeasuresRepeat;
+    gLogOstream << endl;
   }
 #endif
 
