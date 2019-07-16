@@ -167,9 +167,27 @@ lpsrScore::lpsrScore (
       lpsrSchemeVariable::kEndlTwice);
 
   // initialize Scheme functions informations
-  fTongueSchemeFunctionIsNeeded              = false;
-  fCustomShortBarLineSchemeFunctionIsNeeded  = false;
+  // ----------------------------------------
+  // files includes
+  fJianpuFileIncludeIsNeeded = false;
+  // Scheme modules
+  fScmAndAccregSchemeModulesAreNeeded = false;
+  // Scheme functions
+  fTongueSchemeFunctionIsNeeded = false;
+  fCustomShortBarLineSchemeFunctionIsNeeded = false;
   fEditorialAccidentalSchemeFunctionIsNeeded = false;
+  fDynamicsSchemeFunctionIsNeeded = false;
+  fTupletsCurvedBracketsSchemeFunctionIsNeeded = false;
+  fAfterSchemeFunctionIsNeeded = false;
+  fTempoRelationshipSchemeFunctionIsNeeded = false;
+  fGlissandoWithTextSchemeFunctionIsNeeded = false;
+  // markups
+  fDampMarkupIsNeeded = false;
+  fDampAllMarkupIsNeeded = false;
+  // white note heads
+  fWhiteNoteHeadsIsNeeded = false;
+  // jazz chords display
+  fJazzChordsDisplayIsNeeded = false;
 
   if (gLilypondOptions->fLilypondCompileDate) {
     // create the date and time functions

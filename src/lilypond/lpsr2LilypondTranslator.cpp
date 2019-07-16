@@ -10540,7 +10540,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             if (
               gMsrOptions->fTraceMsrVisitors
                 ||
-              gGeneralOptions->ffTraceRestMeasures) {
+              gTraceOptions->ffTraceRestMeasures) {
               gLogOstream <<
                 "% ==> visiting rest measures is ignored" <<
                 endl;
@@ -13922,6 +13922,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarline& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
 {
 #ifdef TRACE_OPTIONS
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> Start visiting msrBarCheck" <<
@@ -13935,10 +13938,33 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
   int nextBarPuristNumber =
     elt->getNextBarPuristNumber ();
 
-  // don't generate a bar check before the end of measure 1 // JMI ???
-  fLilypondCodeOstream <<
-    "| % " << nextBarPuristNumber <<
-    endl;
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceRestMeasures) {
+    fLilypondCodeOstream <<
+      "% nextBarPuristNumber = " <<
+      nextBarPuristNumber <<
+      ", fOnGoingRestMeasures = " <<
+      "fOnGoingVoiceCadenza = " <<
+      booleanAsString (fOnGoingVoiceCadenza) <<
+      ", nextBarPuristNumber = " <<
+      booleanAsString (fOnGoingRestMeasures) <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (
+    ! fOnGoingVoiceCadenza
+      // should be tested in msr2LpsrTranslator.cpp JMI visitEnd (S_msrMeasure&)
+     // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
+    &&
+    ! fOnGoingRestMeasures
+  ) {
+    // don't generate a bar check before the end of measure 1 // JMI ???
+    fLilypondCodeOstream <<
+      "| % " << nextBarPuristNumber <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
@@ -13957,16 +13983,36 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACE_OPTIONS
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> Start visiting msrBarNumberCheck" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  if (! fOnGoingVoiceCadenza) { // should be tested in msr2LpsrTranslator.cpp JMI visitEnd (S_msrMeasure&)
-    // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceRestMeasures) {
+    fLilypondCodeOstream <<
+      "% fOnGoingVoiceCadenza = " <<
+      booleanAsString (fOnGoingVoiceCadenza) <<
+      ", fOnGoingRestMeasures = " <<
+      booleanAsString (fOnGoingRestMeasures) <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (
+    ! fOnGoingVoiceCadenza
+      // should be tested in msr2LpsrTranslator.cpp JMI visitEnd (S_msrMeasure&)
+     // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
+    &&
+    ! fOnGoingRestMeasures
+  ) {
     int nextBarPuristNumber =
       elt->getNextBarPuristNumber ();
 
