@@ -8,8 +8,9 @@
       <part-name>Music</part-name>
     </score-part>
   </part-list>
+    <!--=======================================================-->
   <part id="P1">
-    <measure number="2" width="208">
+    <measure number="1" width="208">
       <attributes>
         <divisions>2</divisions>
         <measure-style>
@@ -79,13 +80,34 @@
         <type>quarter</type>
         <stem>up</stem>
       </note>
+      <note default-x="131">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+      </note>
+      <note default-x="131">
+        <chord/>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+      </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>
         <repeat direction="backward" winged="none"/>
       </barline>
     </measure>
     <!--=======================================================-->
-    <measure number="3" width="208">
+    <measure number="2" width="208">
       <attributes>
         <measure-style>
           <beat-repeat type="stop"/>
@@ -96,9 +118,10 @@
           <step>C</step>
           <octave>4</octave>
         </pitch>
-        <duration>4</duration>
+        <duration>8</duration>
         <type>whole</type>
       </note>
     </measure>
+    <!--=======================================================-->
   </part>
 </score-partwise>
