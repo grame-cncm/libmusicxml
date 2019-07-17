@@ -1237,6 +1237,19 @@ R"(Multiple rests)",
         fTraceRestMeasures,
         fTracePasses));
 
+  // beats repeats
+
+  fTraceBeatsRepeats = boolOptionsInitialValue;
+
+  repeatsTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tbreps", "trace-beats-repeats",
+R"(Beats repeatss)",
+        "traceBeatsRepeats",
+        fTraceBeatsRepeats,
+        fTracePasses));
+
   // slashes
 
   fTraceSlashes = boolOptionsInitialValue;

@@ -248,6 +248,8 @@ class traceOptions : public oahGroup
     bool                  fTraceMeasuresRepeats;
     // rest measures
     bool                  fTraceRestMeasures;
+    // beats repeats
+    bool                  fTraceBeatsRepeats;
     // slashes
     bool                  fTraceSlashes;
 
