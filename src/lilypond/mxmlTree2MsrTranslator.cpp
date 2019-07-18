@@ -60,7 +60,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // measure style handling
   fCurrentSlashTypeKind     = k_NoSlashType;
-  fCurrentSlashUseDotsKind  = k_NoSlashUseDots;
+  fCurrentUseDotsKind  = k_NoUseDots;
   fCurrentSlashUseStemsKind = k_NoSlashUseStems;
 
   fCurrentBeatRepeatSlashes = -1;
@@ -4729,8 +4729,12 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 
     // placement
 
-    string placementString =
-      fCurrentSlurPlacement = elt->getAttributeValue ("placement");
+    string placementString = elt->getAttributeValue ("placement");
+
+    fCurrentDirectionPlacementKind = // use it JMI ???
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
     // a phrasing slur is recognized as such
     // when the nested regular slur start is met
@@ -7428,7 +7432,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   // slurs
 
   fCurrentSlurType = "";
-  fCurrentSlurPlacement = "";
   fCurrentSlurTypeKind = msrSlur::k_NoSlur;
 
   // ligatures
@@ -8264,36 +8267,49 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_style& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_beat_repeat" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
+/*
+<!--
+	The beat-repeat element is used to indicate that a single
+	beat (but possibly many notes) is repeated. Both the start
+	and stop of the beat being repeated should be specified.
+	The slashes attribute specifies the number of slashes to
+	use in the symbol. The use-dots attribute indicates whether
+	or not to use dots as well (for instance, with mixed rhythm
+	patterns). By default, the value for slashes is 1 and the
+	value for use-dots is no.
+-->
+<!ELEMENT beat-repeat ((slash-type, slash-dot*)?, except-voice*)>
+<!ATTLIST beat-repeat
+    type %start-stop; #REQUIRED
+    slashes NMTOKEN #IMPLIED
+    use-dots %yes-no; #IMPLIED
+>
+*/
+
+  // slashes
+
   fCurrentBeatRepeatSlashes = elt->getAttributeIntValue ("slashes", 0);
 
-  string beatRepeatUseDots = elt->getAttributeValue ("use-dots");
+  // use-dots
 
-/* JMI
-  if      (beatRepeatUseDots == "yes")
-    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
-  else if (beatRepeatUseDots == "no")
-    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
-  else {
-    stringstream s;
+  string useDotsString = elt->getAttributeValue ("use-dots");
 
-    s << "beat repeat use dots " << beatRepeatUseDots << " is unknown";
-
-    msrMusicXMLError (
-      gOahBasicOptions->fInputSourceName,
+  fCurrentUseDotsKind =
+    msrUseDotsFromString (
       inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-  */
+      useDotsString);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
@@ -8485,27 +8501,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
 
   // use-dots
 
-  string slashUseDots = elt->getAttributeValue ("use-dots");
+  string useDotsString = elt->getAttributeValue ("use-dots");
 
-  if      (slashUseDots == "yes")
-    fCurrentSlashUseDotsKind = kSlashUseDotsYes;
-  else if (slashUseDots == "no")
-    fCurrentSlashUseDotsKind = kSlashUseDotsNo;
-  else {
-    if (slashUseDots.size ()) {
-      stringstream s;
-
-      s <<
-        "slash use-dots \"" << slashUseDots <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gOahBasicOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+  fCurrentUseDotsKind =
+    msrUseDotsFromString (
+      inputLineNumber,
+      useDotsString);
 
   // use-stems
 
@@ -8621,7 +8622,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_slash& elt )
       msrSlash::create (
         inputLineNumber,
         fCurrentSlashTypeKind,
-        fCurrentSlashUseDotsKind,
+        fCurrentUseDotsKind,
         fCurrentSlashUseStemsKind);
 
   fPendingSlashesList.push_back (slash);
@@ -9752,9 +9753,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
 
   // placement
 
-  string
-    placementString =
-      elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
     placementKind =

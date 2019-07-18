@@ -10807,18 +10807,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           break;
       } // switch
 
-      switch (slash->getSlashUseDotsKind ()) {
-        case k_NoSlashUseDots:
+      switch (slash->getUseDotsKind ()) {
+        case k_NoUseDots:
           break;
 
-        case kSlashUseDotsYes:
+        case kUseDotsYes:
           fLilypondCodeOstream <<
             endl <<
             "\\override Staff.NoteHead.style = #'slash " <<
             endl;
           break;
 
-        case kSlashUseDotsNo:
+        case kUseDotsNo:
           fLilypondCodeOstream <<
             endl <<
             "\\revert Staff.NoteHead.style " <<

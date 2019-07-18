@@ -601,12 +601,16 @@ enum msrSlashTypeKind {
 string msrSlashTypeKindAsString (
   msrSlashTypeKind slashTypeKind);
 
-enum msrSlashUseDotsKind {
-  k_NoSlashUseDots,
-  kSlashUseDotsYes, kSlashUseDotsNo };
+enum msrUseDotsKind {
+  k_NoUseDots,
+  kUseDotsYes, kUseDotsNo };
 
-string msrSlashUseDotsKindAsString (
-  msrSlashUseDotsKind slashUseDotsKind);
+msrUseDotsKind msrUseDotsFromString (
+  int    inputLineNumber,
+  string useDotsString);
+
+string msrUseDotsKindAsString (
+  msrUseDotsKind useDotsKind);
 
 enum msrSlashUseStemsKind {
   k_NoSlashUseStems,

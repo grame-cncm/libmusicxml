@@ -13148,6 +13148,35 @@ string multipleRestMeasuresWholeNotesAsMsrString (
 
 // measure style
 //______________________________________________________________________________
+msrUseDotsKind msrUseDotsFromString (
+  int    inputLineNumber,
+  string useDotsString)
+{
+  msrUseDotsKind result = kUseDotsNo; // default value
+
+  if      (useDotsString == "yes")
+    result = kUseDotsYes;
+  else if (useDotsString == "no")
+    result = kUseDotsNo;
+  else {
+    if (useDotsString.size ()) {
+      stringstream s;
+
+      s <<
+        "use-dots \"" << useDotsString <<
+        "\" is unknown";
+
+      msrMusicXMLError (
+        gOahBasicOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+
 string msrSlashTypeKindAsString (
   msrSlashTypeKind slashTypeKind)
 {
@@ -13168,20 +13197,20 @@ string msrSlashTypeKindAsString (
   return result;
 }
 
-string msrSlashUseDotsKindAsString (
-  msrSlashUseDotsKind slashUseDotsKind)
+string msrUseDotsKindAsString (
+  msrUseDotsKind useDotsKind)
 {
   string result;
 
-  switch (slashUseDotsKind) {
-    case k_NoSlashUseDots:
-      result = "noSlashUseDots";
+  switch (useDotsKind) {
+    case k_NoUseDots:
+      result = "noUseDots";
       break;
-    case kSlashUseDotsYes:
-      result = "slashUseDotsYes";
+    case kUseDotsYes:
+      result = "useDotsYes";
       break;
-    case kSlashUseDotsNo:
-      result = "slashUseDotsNo";
+    case kUseDotsNo:
+      result = "useDotsNo";
       break;
   } // switch
 

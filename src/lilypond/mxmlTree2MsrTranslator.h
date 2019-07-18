@@ -940,23 +940,26 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     msrSlashTypeKind          fCurrentSlashTypeKind;
-    msrSlashUseDotsKind       fCurrentSlashUseDotsKind;
+    msrUseDotsKind       fCurrentUseDotsKind;
     msrSlashUseStemsKind      fCurrentSlashUseStemsKind;
 
+    msrDurationKind           fCurrentSlashGraphicDurationKind;
+    int                       fCurrentSlashDotsNumber;
+
+    // beats repeats
     int                       fCurrentBeatRepeatSlashes;
 
+    // rest measures
     int                       fCurrentRestMeasuresMeasuresNumber;
     int                       fRemainingRestMeasuresMeasuresNumber;
     bool                      fOnGoingRestMeasures;
     bool                      fCurrentRestMeasuresHasBeenCreated;
 
+    // measures repeats
     msrMeasuresRepeat::msrMeasuresRepeatKind
                               fCurrentMeasuresRepeatKind;
     int                       fCurrentMeasuresRepeatMeasuresNumber;
     int                       fCurrentMeasuresRepeatSlashesNumber;
-
-    msrDurationKind           fCurrentSlashGraphicDurationKind;
-    int                       fCurrentSlashDotsNumber;
 
     // staff details handling
     // ------------------------------------------------------
@@ -1910,7 +1913,6 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     string                    fCurrentSlurType;
-    string                    fCurrentSlurPlacement;
     msrSlur::msrSlurTypeKind  fCurrentSlurTypeKind;
     bool                      fOnGoingSlur;
     bool                      fOnGoingSlurHasStanza;

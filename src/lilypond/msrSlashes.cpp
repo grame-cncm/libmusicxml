@@ -28,14 +28,14 @@ namespace MusicXML2
 S_msrSlash msrSlash::create (
   int                  inputLineNumber,
   msrSlashTypeKind     slashTypeKind,
-  msrSlashUseDotsKind  slashUseDotsKind,
+  msrUseDotsKind  useDotsKind,
   msrSlashUseStemsKind slashUseStemsKind)
 {
   msrSlash* o =
     new msrSlash (
       inputLineNumber,
       slashTypeKind,
-      slashUseDotsKind,
+      useDotsKind,
       slashUseStemsKind);
   assert(o!=0);
   return o;
@@ -44,12 +44,12 @@ S_msrSlash msrSlash::create (
 msrSlash::msrSlash (
   int                  inputLineNumber,
   msrSlashTypeKind     slashTypeKind,
-  msrSlashUseDotsKind  slashUseDotsKind,
+  msrUseDotsKind  useDotsKind,
   msrSlashUseStemsKind slashUseStemsKind)
     : msrElement (inputLineNumber)
 {
   fSlashTypeKind     = slashTypeKind;
-  fSlashUseDotsKind  = slashUseDotsKind;
+  fUseDotsKind  = useDotsKind;
   fSlashUseStemsKind = slashUseStemsKind;
 }
 
@@ -113,9 +113,9 @@ string msrSlash::asString () const
     ", slashTypeKind:" <<
     msrSlashTypeKindAsString (
       fSlashTypeKind) <<
-    ", slashUseDotsKind:" <<
-    msrSlashUseDotsKindAsString (
-      fSlashUseDotsKind) <<
+    ", useDotsKind:" <<
+    msrUseDotsKindAsString (
+      fUseDotsKind) <<
     ", slashUseStemsKind:" <<
     msrSlashUseStemsKindAsString (
       fSlashUseStemsKind);
@@ -148,9 +148,9 @@ void msrSlash::print (ostream& os)
       fSlashTypeKind) <<
     endl <<
     setw (fieldWidth) <<
-    "slashUseDotsKind" << " : " <<
-    msrSlashUseDotsKindAsString (
-      fSlashUseDotsKind) <<
+    "useDotsKind" << " : " <<
+    msrUseDotsKindAsString (
+      fUseDotsKind) <<
     endl <<
     setw (fieldWidth) <<
     "slashUseStemsKind" << " : " <<
