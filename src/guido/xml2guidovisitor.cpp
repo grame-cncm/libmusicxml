@@ -132,7 +132,7 @@ namespace MusicXML2
         // IDEA: Treat the FIRST occurence of partID in grouping and get rid of it.
         partGroup* partGroupIt = find_first_of_partID_inGroup(partID);
         
-        if (partGroupIt != NULL)
+        if (partGroupIt != NULL && partGroupIt->guidoRange.size()>0)
         {
             /// something was found. Generate Accolades and BarFormat if any
             
