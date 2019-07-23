@@ -1089,24 +1089,24 @@ class msrMeasure : public msrElement
                             rational positionInMeasureToPadUpTo);
 
     void                  finalizeMeasure (
-                            int                         inputLineNumber,
+                            int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                      context);
+                            string                       context);
 
     void                  finalizeRegularMeasure (
-                            int                         inputLineNumber,
+                            int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                      context);
+                            string                       context);
 
     void                  finalizeHarmonyMeasure (
-                            int                         inputLineNumber,
+                            int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                      context);
+                            string                       context);
 
     void                  finalizeFiguredBassMeasure (
-                            int                         inputLineNumber,
+                            int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                      context);
+                            string                       context);
 
     void                  finalizeMeasureClone (
                             int          inputLineNumber,
@@ -7685,7 +7685,7 @@ class msrVoice : public msrElement
     S_msrTime             getVoiceCurrentTime () const
                               { return fVoiceCurrentTime; }
 
-     // measures
+    // measures
 
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
@@ -7693,6 +7693,10 @@ class msrVoice : public msrElement
     void                  incrementVoiceCurrentMeasurePuristNumber (
                             int    inputLineNumber,
                             string context);
+
+    void                  setVoiceCurrentMeasurePuristNumber (
+                            int measurePuristNumber)
+                              { fVoiceCurrentMeasureNumber = measurePuristNumber; }
 
     const int             getVoiceCurrentMeasurePuristNumber () const
                               { return fVoiceCurrentMeasurePuristNumber; }
@@ -7762,7 +7766,7 @@ class msrVoice : public msrElement
                             // this is a 'purist' measure number,
                             // that starts at 0 if there is an anacrusis,
                             // and 1 otherwise,
-                            // and is shared by incomplete (sub)measure parts
+                            // and is shared by incomplete (sub)measure fragments
 
     // fVoiceCurrentMeasure contains the last measure append to the voice
     S_msrMeasure          fVoiceCurrentMeasure;

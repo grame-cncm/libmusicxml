@@ -2777,12 +2777,22 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       asShortString () <<
       "\" more than once";
 
-if (false)
     msrInternalError (
       gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
+
+/*
+ // JMI   msrInternalError (
+    msrInternalWarning (
+      gOahBasicOptions->fInputSourceName,
+      fInputLineNumber,
+  //    __FILE__, __LINE__,
+      s.str ());
+
+    return;
+    */
   }
 
   // register measuresRepeatContextKind
@@ -2935,6 +2945,8 @@ if (false)
 
         // fix measure purist number
         setMeasurePuristNumber (0);
+
+        // voice current measure purist number remains at 1
       }
 
       else {
@@ -3294,9 +3306,9 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 }
 
 void msrMeasure::finalizeRegularMeasure (
-  int                         inputLineNumber,
+  int                          inputLineNumber,
   msrMeasuresRepeatContextKind measuresRepeatContextKind,
-  string                      context)
+  string                       context)
 {
   // fetch the voice
   S_msrVoice
@@ -4190,9 +4202,9 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 }
 
 void msrMeasure::finalizeHarmonyMeasure (
-  int                         inputLineNumber,
+  int                          inputLineNumber,
   msrMeasuresRepeatContextKind measuresRepeatContextKind,
-  string                      context)
+  string                       context)
 {
   // fetch the voice
   S_msrVoice
@@ -4430,9 +4442,9 @@ void msrMeasure::finalizeHarmonyMeasure (
 }
 
 void msrMeasure::finalizeFiguredBassMeasure (
-  int                         inputLineNumber,
+  int                          inputLineNumber,
   msrMeasuresRepeatContextKind measuresRepeatContextKind,
-  string                      context)
+  string                       context)
 {
   // fetch the voice
   S_msrVoice
@@ -4670,11 +4682,11 @@ void msrMeasure::finalizeFiguredBassMeasure (
 }
 
 void msrMeasure::finalizeMeasure (
-  int                         inputLineNumber,
+  int                          inputLineNumber,
   msrMeasuresRepeatContextKind measuresRepeatContextKind,
-  string                      context)
+  string                       context)
 {
-  if (false && fMeasureHasBeenFinalized) { // JMI
+  if (fMeasureHasBeenFinalized) { // JMI
     stringstream s;
 
     s <<
@@ -4682,11 +4694,14 @@ void msrMeasure::finalizeMeasure (
       asShortString () <<
       " more than once";
 
-    msrInternalError (
+// JMI   msrInternalError (
+    msrInternalWarning (
       gOahBasicOptions->fInputSourceName,
       fInputLineNumber,
-      __FILE__, __LINE__,
+  //    __FILE__, __LINE__,
       s.str ());
+
+    return;
   }
 
   S_msrVoice
@@ -4951,40 +4966,40 @@ string msrMeasure::measureKindAsString (
       result = "***measureKindUnknown***";
       break;
     case msrMeasure::kMeasureKindRegular:
-      result = "measureRegular";
+      result = "measureKindRegular";
       break;
     case msrMeasure::kMeasureKindAnacrusis:
-      result = "measureAnacrusis";
+      result = "measureKindAnacrusis";
       break;
     case msrMeasure::kMeasureKindIncompleteStandalone:
-      result = "measureIncompleteStandalone";
+      result = "measureKindIncompleteStandalone";
       break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-      result = "measureIncompleteLastInRepeatCommonPart";
+      result = "measureKindIncompleteLastInRepeatCommonPart";
       break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-      result = "measureIncompleteLastInRepeatHookedEnding";
+      result = "measureKindIncompleteLastInRepeatHookedEnding";
       break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-      result = "measureIncompleteLastInRepeatHooklessEnding";
+      result = "measureKindIncompleteLastInRepeatHooklessEnding";
       break;
     case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-      result = "measureIncompleteNextMeasureAfterCommonPart";
+      result = "measureKindIncompleteNextMeasureAfterCommonPart";
       break;
     case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-      result = "measureIncompleteNextMeasureAfterHookedEnding";
+      result = "measureKindIncompleteNextMeasureAfterHookedEnding";
       break;
     case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
-      result = "measureIncompleteNextMeasureAfterHooklessEnding";
+      result = "measureKindIncompleteNextMeasureAfterHooklessEnding";
       break;
     case msrMeasure::kMeasureKindOvercomplete:
-      result = "measureOvercomplete";
+      result = "measureKindOvercomplete";
       break;
     case msrMeasure::kMeasureKindCadenza:
-      result = "measureCadenza";
+      result = "measureKindCadenza";
       break;
     case msrMeasure::kMeasureKindMusicallyEmpty:
-      result = "measureMusicallyEmpty";
+      result = "measureKindMusicallyEmpty";
       break;
   } // switch
 
@@ -5184,7 +5199,7 @@ void msrMeasure::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 28;
+  const int fieldWidth = 45;
 
   os << left <<
     setw (fieldWidth) <<

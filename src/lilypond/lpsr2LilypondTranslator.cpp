@@ -14316,6 +14316,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       elt->getRepeatEndingNumber ();
 
   if (repeatEndingNumber.size ()) {
+  /* only if numbers differ JMI ???
     if (repeatEndingInternalNumber == 1) {
       fLilypondCodeOstream <<
         "\\set Score.repeatCommands = #'((volta \"" <<
@@ -14330,6 +14331,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         "\"))" <<
         endl;
     }
+    */
   }
 }
 

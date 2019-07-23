@@ -420,7 +420,8 @@ void msrVoice::initializeVoice (
       getPartCurrentMeasureNumber ();
 
   // set voice current measure purist number
-  fVoiceCurrentMeasurePuristNumber = 1; // default value
+  fVoiceCurrentMeasurePuristNumber = 1; // default value,
+                                        // supposing there's no anacrusis
 
   // music has not been inserted in voice yet
   fMusicHasBeenInsertedInVoice = false;
