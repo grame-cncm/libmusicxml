@@ -81,6 +81,7 @@ class EXP xmlpart2guido :
 	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar;
     
     int fTextTagOpen;
+    int fTupletOpen;    // Number of opened Tuplets
     
     string tempoMetronome;  // parsed during visit of S_Metronome
     bool directionPlacementAbove;
