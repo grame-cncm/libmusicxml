@@ -43,6 +43,7 @@ namespace MusicXML2
         fNonStandardNoteHead = false;
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
+        fTupletOpen = 0;
     }
     
     //______________________________________________________________________________
@@ -61,6 +62,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fTextTagOpen = 0;
         fIgnoreWedgeWithOffset = false;
+        fTupletOpen = 0;
     }
     
     //______________________________________________________________________________
@@ -75,6 +77,7 @@ namespace MusicXML2
         fHasLyrics = false;
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
+        fTupletOpen = 0;
         start (seq);
     }
     
@@ -1510,7 +1513,7 @@ namespace MusicXML2
                 dispNotePar = "\"/1\"";
                 dy1offset-=5;
             }
-            
+
             /// Generate tag and parameters
             // Avoid generating parameter for triplets since Guido does this automatically
             if ((numberOfEventsInTuplet!=3) ||(dispNotePar.size()))
@@ -1534,6 +1537,8 @@ namespace MusicXML2
                     tag->add(guidoparam::create(("position=\""+tupletPlacement+"\""),false));
                 }
                 
+                fTupletOpen++;
+                
                 push (tag);
             }
         }
@@ -1546,6 +1551,7 @@ namespace MusicXML2
             // Do not check for tupletNumber (might cause conflict with nested Tuplets) -- We assume everything is there!
             if (((*i)->getAttributeValue("type") == "stop")) { //&& ((*i)->getAttributeIntValue("number", 1) == fCurrentTupletNumber)) {
                 pop();
+                fTupletOpen--;
             }
         }
     }
@@ -2470,12 +2476,13 @@ namespace MusicXML2
         
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
         
-        //if (fTupletOpened==false)
-        //{
+        // GUID-126: Do not close texts while a Tuplet is nested inside or expect rendering issues with Tuplet texts.
+        if (fTupletOpen <= 0)
+        {
             // this is will close any ongoing Guido TEXT tag once a sequence is embedded
             // In case of ongoing \tuplet, do it after the \tuplet is closed! (Potential Guido parser issue)
             checkTextEnd();
-        //}
+        }
         
         /*
          if (fBeamStack.size()==0)
