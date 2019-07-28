@@ -827,25 +827,38 @@ The default is 'DEFAULT_VALUE'.)",
         fGlobalStaffSize));
 }
 
-void lpsrOptions::initializeLpsrLyricsVersusWordsOptions (
+void lpsrOptions::initializeLpsrWordsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    lyricsVersusWordsSubGroup =
+    subGroup =
       oahSubGroup::create (
-        "Lyrics versus words",
-        "hlyrsvswords", "help-lyrics-vs-words",
+        "Words",
+        "hlpsrwords", "help-lpsr-words",
 R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (lyricsVersusWordsSubGroup);
+  appendSubGroup (subGroup);
 
-  fAddWordsFromTheLyrics = boolOptionsInitialValue;
+  // convert words to tempo
+
+  fConvertWordsToTempo = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtom (
+      oahBooleanAtom::create (
+        "cwtt", "convert-words-to-tempo",
+R"(Convert words to tempo.
+This may come in handy when MusicXML data has been obtained from scanned instrumental music  images.)",
+        "convertWordsToTempo",
+        fConvertWordsToTempo));
 
   // add words from the lyrics
 
-  lyricsVersusWordsSubGroup->
+  fAddWordsFromTheLyrics = boolOptionsInitialValue;
+
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "awftl", "add-words-from-the-lyrics",
@@ -1041,9 +1054,9 @@ void lpsrOptions::initializeLpsrOptions (
   initializeLilypondScoreOutputOptions (
     boolOptionsInitialValue);
 
-  // lyrics versus words
+  // words
   // --------------------------------------
-  initializeLpsrLyricsVersusWordsOptions (
+  initializeLpsrWordsOptions (
     boolOptionsInitialValue);
 
   // languages
@@ -1117,9 +1130,11 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   clone->fGlobalStaffSize =
     fGlobalStaffSize;
 
-  // lyrics vs words
+  // words
   // --------------------------------------
 
+  clone->fConvertWordsToTempo =
+    true;
   clone->fAddWordsFromTheLyrics =
     true;
 
@@ -1302,16 +1317,19 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-  // lyrics vs words
+  // words
   // --------------------------------------
 
   gLogOstream <<
-    "Lyrics vs words:" <<
+    "Words:" <<
     endl;
 
   gIndenter++;
 
   gLogOstream << left <<
+    setw (fieldWidth) << "convertWordsToTempo" << " : " <<
+    booleanAsString (fConvertWordsToTempo) <<
+    endl <<
     setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
     booleanAsString (fAddWordsFromTheLyrics) <<
     endl;

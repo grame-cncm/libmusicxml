@@ -392,7 +392,7 @@ class lpsrOptions : public oahGroup
     void                  initializeLilypondScoreOutputOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLpsrLyricsVersusWordsOptions (
+    void                  initializeLpsrWordsOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrLanguagesOptions (
@@ -451,9 +451,12 @@ class lpsrOptions : public oahGroup
     float                 fGlobalStaffSize;
     float                 fStaffGlobalSizeDefaultValue;
 
-    // lyrics vs words
+    // words
     // --------------------------------------
 
+    // convert words to tempo
+    bool                  fConvertWordsToTempo;
+    // add words from the lyrics
     bool                  fAddWordsFromTheLyrics;
 
     // languages

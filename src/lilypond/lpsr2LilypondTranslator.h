@@ -843,6 +843,10 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     S_msrPart             fCurrentPart; // JMI jamais visitee
 
+    // clefs
+    // ------------------------------------------------------
+    S_msrClef             fCurrentVoiceClef;
+
     // time
     // ------------------------------------------------------
     bool                  fVoiceIsCurrentlySenzaMisura; // JMI

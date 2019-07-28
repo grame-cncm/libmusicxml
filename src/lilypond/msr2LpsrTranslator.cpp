@@ -3230,16 +3230,44 @@ void msr2LpsrTranslator::visitEnd (S_msrOtherDynamics& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrWords" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  if (fOnGoingNote) {
+  if (gLpsrOptions->fConvertWordsToTempo) {
+    // create a tempo containing elt
+    S_msrTempo
+      tempo =
+        msrTempo::create (
+          inputLineNumber,
+          elt);
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
+      fLogOutputStream <<
+        "Converting words '" <<
+        elt->asShortString () <<
+        "' to tempo '" <<
+        tempo->asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // append the tempo to the current voice clone
+    fCurrentVoiceClone->
+      appendTempoToVoice (tempo);
+  }
+
+  else if (fOnGoingNote) {
     fCurrentNonGraceNoteClone->
       appendWordsToNote (elt);
   }

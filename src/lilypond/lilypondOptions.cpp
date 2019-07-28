@@ -1278,25 +1278,40 @@ R"(Generate an ambitus range at the beginning of the staves/voices.)",
         fAmbitusEngraver));
 }
 
-void lilypondOptions::initializeTimeOptions (
+void lilypondOptions::initializeClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    timeSubGroup =
+    subGroup =
       oahSubGroup::create (
-        "Time",
-        "hlpti", "help-lilypond-time",
+        "Clefs, keys, times",
+        "hckt", "help-clefs-keys-times",
 R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (timeSubGroup);
+  appendSubGroup (subGroup);
 
-  // numerical time
+  // clefs
+
+  fCommentClefChanges = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtom (
+      oahBooleanAtom::create (
+        "ccc", "comment-clef-changes",
+R"(Comment clef changes in the LilyPond code.
+They won't show up in the score, but the information is not lost.)",
+        "commentClefChanges",
+        fCommentClefChanges));
+
+  // keys
+
+  // times
 
   fNumericalTime = boolOptionsInitialValue;
 
-  timeSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "numt", "numerical-time",
@@ -2130,7 +2145,7 @@ void lilypondOptions::initializeLilypondOptions (
 
   // time
   // --------------------------------------
-  initializeTimeOptions (
+  initializeClefsKeysTimesOptions (
     boolOptionsInitialValue);
 
   // notes
@@ -2262,7 +2277,14 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fAmbitusEngraver;
 
 
-  // time
+  // clefs
+  // --------------------------------------
+
+  clone->fCommentClefChanges =
+    fCommentClefChanges;
+
+
+  // times
   // --------------------------------------
 
   clone->fNumericalTime =
@@ -2585,10 +2607,26 @@ void lilypondOptions::printOptionsValues (
   gIndenter--;
 
 
-  // time
+  // clefs
   // --------------------------------------
   os <<
-    "Time:" <<
+    "Clefs:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "commentClefChanges" << " : " <<
+      booleanAsString (fCommentClefChanges) <<
+      endl;
+
+  gIndenter--;
+
+
+  // times
+  // --------------------------------------
+  os <<
+    "Times:" <<
     endl;
 
   gIndenter++;
@@ -3073,10 +3111,26 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter--;
 
 
+  // clefs
+  // --------------------------------------
+  gLogOstream <<
+    "Clefs:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "commentClefChanges" << " : " <<
+      booleanAsString (fCommentClefChanges) <<
+      endl;
+
+  gIndenter--;
+
+
   // time
   // --------------------------------------
   gLogOstream <<
-    "Time:" <<
+    "Times:" <<
     endl;
 
   gIndenter++;

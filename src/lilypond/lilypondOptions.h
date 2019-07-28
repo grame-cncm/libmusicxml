@@ -615,7 +615,7 @@ class lilypondOptions : public oahGroup
     void                  initializeEngraversOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeTimeOptions (
+    void                  initializeClefsKeysTimesOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeNotesOptions (
@@ -708,13 +708,17 @@ class lilypondOptions : public oahGroup
     // names
     // --------------------------------------
 
+
     // engravers
     // --------------------------------------
 
     bool                  fAmbitusEngraver;
 
-    // time
+
+    // clefs, keys, times
     // --------------------------------------
+
+    bool                  fCommentClefChanges;
 
     bool                  fNumericalTime;
 

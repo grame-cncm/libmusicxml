@@ -6875,6 +6875,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl;
   }
 
+  // reset fCurrentVoiceClef
+  fCurrentVoiceClef = nullptr;
+
   // reset fCurrentOctaveEntryReference if relevant
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
@@ -8110,9 +8113,39 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
   }
 #endif
 
+  fLilypondCodeOstream << endl;
+
+  // get the clef kind
   msrClef::msrClefKind
     clefKind =
       elt->getClefKind ();
+
+  if (gLilypondOptions->fCommentClefChanges) {
+  /* JMI
+    S_msrClef
+      currentVoiceCurrentClef =
+        fCurrentVoice->getVoiceCurrentClef ();
+*/
+
+    if (
+      fCurrentVoiceClef
+        &&
+      fCurrentVoiceClef->getClefKind () != clefKind
+    ) {
+      // this is a clef change, comment it
+
+      if (gTraceOptions->fTraceClefs) {
+        gLogOstream <<
+          "Commenting clef change from " <<
+          fCurrentVoiceClef->asShortString () <<
+          " to " <<
+          elt->asShortString () <<
+          endl;
+      }
+
+      fLilypondCodeOstream << "% ";
+    }
+  }
 
   if (clefKind != msrClef::k_NoClef) {
     fLilypondCodeOstream <<
@@ -8204,6 +8237,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
     "\"" <<
     endl;
   }
+
+  // register current voice clef
+  fCurrentVoiceClef = elt;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrClef& elt)
@@ -9116,6 +9152,33 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 
   switch (elt->getTempoKind ()) {
     case msrTempo::k_NoTempoKind:
+      break;
+
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+        fLilypondCodeOstream <<
+          "\\tempo ";
+
+        if (tempoWordsListSize) {
+          list<S_msrWords>::const_iterator
+            iBegin = tempoWordsList.begin (),
+            iEnd   = tempoWordsList.end (),
+            i      = iBegin;
+
+          for ( ; ; ) {
+            S_msrWords words = (*i);
+
+            fLilypondCodeOstream <<
+              "\"" << words->getWordsContents () << "\"";
+
+            if (++i == iEnd) break;
+
+            fLilypondCodeOstream <<
+              ' ';
+          } // for
+
+          fLilypondCodeOstream <<
+            endl;
+        }
       break;
 
     case msrTempo::kTempoBeatUnitsPerMinute:

@@ -958,6 +958,19 @@ ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt)
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
   int               inputLineNumber,
+  S_msrWords        tempoWords)
+{
+  msrTempo* o =
+    new msrTempo (
+      inputLineNumber,
+      tempoWords);
+  assert(o!=0);
+
+  return o;
+}
+
+S_msrTempo msrTempo::create (
+  int               inputLineNumber,
   msrDottedDuration tempoBeatUnit,
   string            tempoPerMinute,
   msrTempoParenthesizedKind
@@ -1013,6 +1026,24 @@ S_msrTempo msrTempo::create (
       tempoPlacementKind);
   assert(o!=0);
   return o;
+}
+
+msrTempo::msrTempo (
+  int               inputLineNumber,
+  S_msrWords        tempoWords)
+    : msrMeasureElement (inputLineNumber),
+      fTempoBeatUnit (),
+      fTempoEquivalentBeatUnit ()
+{
+  fTempoKind = kTempoBeatUnitsWordsOnly;
+
+  fTempoPerMinute = "";
+
+  fTempoParenthesizedKind = kTempoParenthesizedNo;
+
+  fTempoPlacementKind = kPlacementAbove;
+
+  fPendingWordsList.push_back (tempoWords);
 }
 
 msrTempo::msrTempo (
@@ -1134,6 +1165,9 @@ void msrTempo::browseData (basevisitor* v)
     case msrTempo::k_NoTempoKind:
       break;
 
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      break;
+
     case msrTempo::kTempoBeatUnitsPerMinute:
       break;
 
@@ -1166,6 +1200,9 @@ string msrTempo::tempoKindAsString (
   switch (tempoKind) {
     case msrTempo::k_NoTempoKind:
       result = "noTempoKind???";
+      break;
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      result = "tempoBeatUnitsWordsOnly";
       break;
     case msrTempo::kTempoBeatUnitsPerMinute:
       result = "tempoBeatUnitsPerMinute";
@@ -1221,9 +1258,27 @@ string msrTempo::asString () const
 
   s <<
     "Tempo" <<
-    ", tempoKind = " << tempoKindAsString (fTempoKind) <<
-    ", " << fTempoBeatUnit << " = " << fTempoPerMinute <<
-    ", fTempoParenthesizedKind = "  <<
+    ", tempoKind: " << tempoKindAsString (fTempoKind),
+    ", wordsList: ";
+
+  if (fPendingWordsList.size ()) {
+    list<S_msrWords>::const_iterator
+      iBegin = fPendingWordsList.begin (),
+      iEnd   = fPendingWordsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+  }
+  else {
+    s << "\"\"";
+  }
+
+  s <<
+    ", " << fTempoBeatUnit << ": " << fTempoPerMinute <<
+    ", tempoParenthesizedKind : "  <<
     tempoParenthesizedKindAsString (fTempoParenthesizedKind) <<
     ", line " << fInputLineNumber;
 
