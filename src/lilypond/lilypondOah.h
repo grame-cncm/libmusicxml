@@ -749,7 +749,7 @@ class lilypondOah : public oahGroup
     lpsrAccidentalStyleKind
                           fAccidentalStyleKind;
 
-    bool                  fCompressRestMeasures;
+    bool                  fCompressFullMeasureRests;
 
     bool                  fInputLineNumbers;
     bool                  fPositionsInMeasures;

@@ -6856,10 +6856,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
-    gLilypondOah->fCompressRestMeasures
+    gLilypondOah->fCompressFullMeasureRests
   ) {
     fLilypondCodeOstream <<
-      "\\compressMMRests" <<
+      "\\compressFullBarRests" <<
       endl;
 
     gIndenter++;
@@ -6935,7 +6935,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
-    gLilypondOah->fCompressRestMeasures
+    gLilypondOah->fCompressFullMeasureRests
   ) {
     fLilypondCodeOstream <<
   // JMI    "}" <<
@@ -10819,10 +10819,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         // JMI
         break;
       case kPrintObjectYes:
+      /* JMI ???
         fLilypondCodeOstream <<
           endl <<
           "\\revert NoteHead.color" <<
           endl;
+          */
         break;
       case kPrintObjectNo:
         fLilypondCodeOstream <<
@@ -14861,10 +14863,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
-    gLilypondOah->fCompressRestMeasures
+    gLilypondOah->fCompressFullMeasureRests
   ) {
     fLilypondCodeOstream <<
-      "\\compressMMRests" <<
+      "\\compressFullBarRests" << // JMI
       endl;
   }
 

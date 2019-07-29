@@ -595,6 +595,9 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrMeasure              fCurrentMeasureClone;
 
+    // full measure rests compression
+    S_msrMeasure              fCurrentRestMeasure;
+    S_msrRestMeasures         fCurrentRestMeasures;
 
     // bar checks
     // ------------------------------------------------------

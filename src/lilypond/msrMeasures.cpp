@@ -127,7 +127,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureFirstInVoice = false; // default value
 
   // single-measure rest?
-  fMeasureIsASingleMeasureRest = false;
+  fMeasureIsAFullMeasureRest = false;
 
   // initialize measure whole notes
   setCurrentMeasureWholeNotes (
@@ -237,8 +237,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 
 /* JMI
   // single-measure rest?
-  newbornClone->fMeasureIsASingleMeasureRest =
-    fMeasureIsASingleMeasureRest;
+  newbornClone->fMeasureIsAFullMeasureRest =
+    fMeasureIsAFullMeasureRest;
 
   // regular measure ends detection // JMI TEMP
   newbornClone->fMeasureEndRegularKind =
@@ -5333,8 +5333,8 @@ void msrMeasure::print (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "measureIsASingleMeasureRest" << " : " <<
-    booleanAsString (fMeasureIsASingleMeasureRest) <<
+    "measureIsAFullMeasureRest" << " : " <<
+    booleanAsString (fMeasureIsAFullMeasureRest) <<
     endl;
 
   os <<
@@ -5438,8 +5438,8 @@ void msrMeasure::shortPrint (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "measureIsASingleMeasureRest" << " : " <<
-    booleanAsString (fMeasureIsASingleMeasureRest) <<
+    "measureIsAFullMeasureRest" << " : " <<
+    booleanAsString (fMeasureIsAFullMeasureRest) <<
     endl <<
 
     setw (fieldWidth) <<

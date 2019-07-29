@@ -1483,16 +1483,15 @@ The default is 'DEFAULT_VALUE'.)",
 
   // rest measures
 
-  fCompressRestMeasures = boolOptionsInitialValue;
+  fCompressFullMeasureRests = boolOptionsInitialValue;
 
   notesSubGroup->
     appendAtom (
       oahBooleanAtom::create (
-        "crmeas", "compressRestMeasures", // JMI
-R"(Generate '\compressMMRests' at the beginning of voices.
-By default, this command is commented.)",
-        "compressRestMeasures",
-        fCompressRestMeasures));
+        "cfmr", "compress-full-measure-rests",
+R"(Compress full measure rests instead of generating successive empty measures.)",
+        "compressFullMeasureRests",
+        fCompressFullMeasureRests));
 
   // input line numbers
 
@@ -1563,7 +1562,7 @@ R"(Generate LilyPond code to show all bar numbers.)",
       oahAtomSynonym::create (
         "amn", "all-measure-numbers",
 R"(Generate LilyPond code to show all measure numbers.
-This option is a synonym to '-abn, -all-bar-numbers')",
+This option is a synonym to '-abn, -all-bar-numbers'.)",
         allBarNumbersAtom));
 }
 
@@ -2340,8 +2339,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   clone->fAccidentalStyleKind =
     fAccidentalStyleKind;
 
-  clone->fCompressRestMeasures =
-    fCompressRestMeasures;
+  clone->fCompressFullMeasureRests =
+    fCompressFullMeasureRests;
 
   clone->fInputLineNumbers =
     true;
@@ -2728,8 +2727,8 @@ void lilypondOah::printAtomOptionsValues (
       fAccidentalStyleKind <<
       endl <<
 
-    setw (valueFieldWidth) << "compressRestMeasures" << " : " <<
-      booleanAsString (fCompressRestMeasures) <<
+    setw (valueFieldWidth) << "compressFullMeasureRests" << " : " <<
+      booleanAsString (fCompressFullMeasureRests) <<
       endl <<
 
     setw (valueFieldWidth) << "inputLineNumbers" << " : " <<
@@ -3212,8 +3211,8 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
       fAccidentalStyleKind <<
       endl <<
 
-    setw (fieldWidth) << "compressRestMeasures" << " : " <<
-      booleanAsString (fCompressRestMeasures) <<
+    setw (fieldWidth) << "compressFullMeasureRests" << " : " <<
+      booleanAsString (fCompressFullMeasureRests) <<
       endl <<
 
     setw (fieldWidth) << "inputLineNumbers" << " : " <<

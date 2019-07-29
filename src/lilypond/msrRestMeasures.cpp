@@ -24,7 +24,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -62,12 +62,12 @@ S_msrRestMeasuresContents msrRestMeasuresContents::createRestMeasuresContentsNew
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     restMeasures != nullptr,
     "restMeasures is null");
-    
+
   S_msrRestMeasuresContents
     newbornClone =
       msrRestMeasuresContents::create (
@@ -93,7 +93,7 @@ void msrRestMeasuresContents::setRestMeasuresContentsSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     restMeasuresContentsSegment != nullptr,
@@ -126,12 +126,12 @@ void msrRestMeasuresContents::acceptIn (basevisitor* v)
       "% ==> msrRestMeasuresContents::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRestMeasuresContents>*
     p =
       dynamic_cast<visitor<S_msrRestMeasuresContents>*> (v)) {
         S_msrRestMeasuresContents elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasuresContents::visitStart ()" <<
@@ -153,7 +153,7 @@ void msrRestMeasuresContents::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRestMeasuresContents>*> (v)) {
         S_msrRestMeasuresContents elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasuresContents::visitEnd ()" <<
@@ -191,7 +191,7 @@ string msrRestMeasuresContents::asString () const
       restMeasuresContentsMeasuresNumber (),
       "contents measure",
       "contents measures") <<
-    ")"; 
+    ")";
 
   return s.str ();
 }
@@ -202,9 +202,9 @@ void msrRestMeasuresContents::print (ostream& os)
     endl <<
     asString () <<
     endl;
-  
+
   gIndenter++;
-  
+
   // print the pattern segment
   os <<
     "Contents segment:";
@@ -216,15 +216,15 @@ void msrRestMeasuresContents::print (ostream& os)
   }
   else {
     os << endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fRestMeasuresContentsSegment;
 
     gIndenter--;
   }
-      
+
   gIndenter--;
 }
 
@@ -251,6 +251,20 @@ S_msrRestMeasures msrRestMeasures::create (
   return o;
 }
 
+S_msrRestMeasures msrRestMeasures::create (
+  int          inputLineNumber,
+  S_msrMeasure restMeasureClone,
+  S_msrVoice   voiceUpLink)
+{
+  msrRestMeasures* o =
+    new msrRestMeasures (
+      inputLineNumber,
+      restMeasureClone,
+      voiceUpLink);
+  assert(o!=0);
+  return o;
+}
+
 msrRestMeasures::msrRestMeasures (
   int        inputLineNumber,
   rational   restMeasuresMeasureSoundingNotes,
@@ -261,10 +275,33 @@ msrRestMeasures::msrRestMeasures (
   fRestMeasuresVoiceUpLink = voiceUpLink;
 
   fRestMeasuresMeasureSoundingNotes = restMeasuresMeasureSoundingNotes;
-  
+
   fRestMeasuresNumber = restMeasuresNumber;
 
   fRestMeasuresLastMeasurePuristNumber = -1;
+}
+
+msrRestMeasures::msrRestMeasures (
+  int          inputLineNumber,
+  S_msrMeasure restMeasureClone,
+  S_msrVoice   voiceUpLink)
+    : msrVoiceElement (inputLineNumber)
+{
+  fRestMeasuresVoiceUpLink = voiceUpLink;
+
+  fRestMeasuresMeasureSoundingNotes =
+    restMeasureClone->
+      getFullMeasureWholeNotes (); // JMI ???
+
+  fRestMeasuresNumber = 1; // will evolve JMI
+
+  fRestMeasuresLastMeasurePuristNumber = -1;
+
+  // create the rest measures contents
+  fRestMeasuresContents =
+    msrRestMeasuresContents::create (
+      inputLineNumber,
+      this);
 }
 
 msrRestMeasures::~msrRestMeasures ()
@@ -282,12 +319,12 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrRestMeasures
     newbornClone =
       msrRestMeasures::create (
@@ -300,7 +337,7 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
   newbornClone->fRestMeasuresNextMeasureNumber =
     fRestMeasuresNextMeasureNumber;
     */
-    
+
   return newbornClone;
 }
 
@@ -319,7 +356,7 @@ void msrRestMeasures::setRestMeasuresContents (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     restMeasuresContents != nullptr,
@@ -357,7 +394,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
     restMeasuresContentsSegment =
       fRestMeasuresContents->
         getRestMeasuresContentsSegment ();
-        
+
   // sanity check
   msrAssert (
     restMeasuresContentsSegment != nullptr,
@@ -371,7 +408,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
 
   // get rest measures contents last measure's purist number
   int lastMeasuresPuristNumber = -1;
-  
+
   if (contentsSegmentMeasuresList.size ()) {
     lastMeasuresPuristNumber =
       contentsSegmentMeasuresList.back ()->
@@ -386,7 +423,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
       " in voice clone '" <<
       asShortString () <<
       "' ";
-      
+
     msrInternalError (
       gExecutableOah->fInputSourceName,
       fInputLineNumber,
@@ -409,6 +446,15 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
     lastMeasuresPuristNumber;
 }
 
+void msrRestMeasures::appendMeasureCloneToRestMeasures (
+  S_msrMeasure measureClone)
+{
+  fRestMeasuresContents->
+    getRestMeasuresContentsSegment ()->
+      appendMeasureToSegment (
+        measureClone);
+}
+
 void msrRestMeasures::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
@@ -416,12 +462,12 @@ void msrRestMeasures::acceptIn (basevisitor* v)
       "% ==> msrRestMeasures::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRestMeasures>*
     p =
       dynamic_cast<visitor<S_msrRestMeasures>*> (v)) {
         S_msrRestMeasures elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasures::visitStart ()" <<
@@ -443,7 +489,7 @@ void msrRestMeasures::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRestMeasures>*> (v)) {
         S_msrRestMeasures elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasures::visitEnd ()" <<
@@ -522,7 +568,7 @@ string msrRestMeasures::asString () const
     fRestMeasuresNextMeasureNumber <<
     "'" <<
     ", line " << fInputLineNumber;
-    
+
   return s.str ();
 }
 
@@ -578,7 +624,7 @@ void msrRestMeasures::print (ostream& os)
     fRestMeasuresNextMeasureNumber <<
     "'" <<
     endl;
-  
+
   // print the voice upLink
   os << left <<
     setw (fieldWidth) <<
@@ -587,7 +633,7 @@ void msrRestMeasures::print (ostream& os)
     fRestMeasuresVoiceUpLink->getVoiceName () <<
     "\"" <<
     endl;
-    
+
   // print the rests contents
   if (! fRestMeasuresContents) {
     os << left <<
@@ -600,7 +646,7 @@ void msrRestMeasures::print (ostream& os)
     os <<
       fRestMeasuresContents;
   }
-      
+
   gIndenter--;
 }
 

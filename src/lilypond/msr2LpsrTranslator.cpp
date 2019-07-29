@@ -2056,13 +2056,65 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       createMeasureNewbornClone (
         fCurrentSegmentClone);
 
-  // append it to the current voice clone
-  fCurrentVoiceClone->
-    appendMeasureCloneToVoiceClone (
-      inputLineNumber,
-      fCurrentMeasureClone);
+  // is this a full measures rest?
+  if (elt->getMeasureIsAFullMeasureRest ()) {
+    // yes
 
-// JMI utile???
+    // should we compress full measures rests?
+    if (gLilypondOah->fCompressFullMeasureRests) {
+      // yes
+
+      if (! fCurrentRestMeasure) {
+        // this is the first full measure rest in the sequence
+
+        // create a rest measures  containing fCurrentMeasureClone
+        fCurrentRestMeasures =
+          msrRestMeasures::create (
+            inputLineNumber,
+            fCurrentMeasureClone,
+            fCurrentVoiceClone);
+
+/* JMI
+        // append the current rest measures to the current voice clone
+        fCurrentVoiceClone->
+          appendRestMeasuresToVoice (
+            inputLineNumber,
+            fCurrentRestMeasures);
+            */
+      }
+
+      else {
+        // this is a subsequent full measure rest, merely append it
+        fCurrentRestMeasures->
+          appendMeasureCloneToRestMeasures (
+            fCurrentMeasureClone);
+      }
+
+      fCurrentRestMeasure = fCurrentMeasureClone;
+    }
+
+    else {
+      // no
+
+      // append current measure clone to the current voice clone
+      fCurrentVoiceClone->
+        appendMeasureCloneToVoiceClone (
+          inputLineNumber,
+          fCurrentMeasureClone);
+    }
+  }
+
+  else {
+    // no
+
+    // append current measure clone to the current voice clone
+    fCurrentVoiceClone->
+      appendMeasureCloneToVoiceClone (
+        inputLineNumber,
+        fCurrentMeasureClone);
+  }
+
+  // JMI superflous???
   fCurrentPartClone->
     setPartCurrentMeasureNumber (
       measureNumber);
@@ -2111,7 +2163,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   bool doCreateABarCheck = false;
 
   switch (elt->getMeasureKind ()) {
-
     case msrMeasure::kMeasureKindUnknown:
       {
         stringstream s;
@@ -2172,6 +2223,52 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       // JMI
       break;
   } // switch
+
+  // is this a full measures rest?
+  if (elt->getMeasureIsAFullMeasureRest ()) {
+    // yes JMI
+
+  }
+
+  else {
+    // no
+
+    // should we compress full measures rests?
+    if (gLilypondOah->fCompressFullMeasureRests) {
+      // yes
+
+      if (fCurrentRestMeasures) {
+        // append the current rest measures to the current voice clone
+        fCurrentVoiceClone->
+          appendRestMeasuresToVoice (
+            inputLineNumber,
+            fCurrentRestMeasures);
+
+        // forget about the current rest measure
+        fCurrentRestMeasure = nullptr;
+
+        // forget about the current rest measures
+        fCurrentRestMeasures = nullptr;
+      }
+
+      else {
+        stringstream s;
+
+        s <<
+          "fCurrentRestMeasures is null upon full measure rest end" <<
+          measureNumber <<
+          "', measurePuristNumber = '" <<
+          measurePuristNumber <<
+          "', line " << inputLineNumber;
+
+        msrInternalError (
+          gExecutableOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+    }
+  }
 
   if (doCreateABarCheck) {
     // create a bar check

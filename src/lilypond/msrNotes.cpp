@@ -1454,7 +1454,7 @@ void msrNote::setNoteOccupiesAFullMeasure ()
   if (fNoteIsARest) {
     // the measure it belongs to is a single-measure rest
     fNoteMeasureUpLink->
-      setMeasureIsASingleMeasureRest ();
+      setMeasureIsAFullMeasureRest ();
   }
 }
 

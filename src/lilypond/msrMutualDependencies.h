@@ -793,11 +793,11 @@ class msrMeasure : public msrElement
     // single-measure rest?
 
 
-    void                  setMeasureIsASingleMeasureRest ()
-                              { fMeasureIsASingleMeasureRest = true; }
+    void                  setMeasureIsAFullMeasureRest ()
+                              { fMeasureIsAFullMeasureRest = true; }
 
-    bool                  getMeasureIsASingleMeasureRest ()
-                             { return fMeasureIsASingleMeasureRest; }
+    bool                  getMeasureIsAFullMeasureRest () const
+                             { return fMeasureIsAFullMeasureRest; }
 
     // measure longest note
 
@@ -866,6 +866,10 @@ class msrMeasure : public msrElement
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
+
+    // rest measures
+
+    bool                  measureIsARestMeasure () const;
 
     // clefs
 
@@ -1198,7 +1202,7 @@ class msrMeasure : public msrElement
 
     // single-measure rest?
 
-    bool                  fMeasureIsASingleMeasureRest;
+    bool                  fMeasureIsAFullMeasureRest;
 
     // chords handling
 
@@ -6066,6 +6070,11 @@ class msrRestMeasures : public msrVoiceElement
       int        restMeasuresNumber,
       S_msrVoice voiceUpLink);
 
+    static SMARTP<msrRestMeasures> create (
+      int          inputLineNumber,
+      S_msrMeasure restMeasureClone,
+      S_msrVoice   voiceUpLink);
+
     SMARTP<msrRestMeasures> createRestMeasuresNewbornClone (
       S_msrVoice containingVoice);
 
@@ -6082,6 +6091,11 @@ class msrRestMeasures : public msrVoiceElement
       rational   restMeasuresMeasureSoundingNotes,
       int        restMeasuresNumber,
       S_msrVoice voiceUpLink);
+
+    msrRestMeasures (
+      int          inputLineNumber,
+      S_msrMeasure restMeasureClone,
+      S_msrVoice   voiceUpLink);
 
     virtual ~msrRestMeasures ();
 
@@ -6121,6 +6135,9 @@ class msrRestMeasures : public msrVoiceElement
 
     // services
     // ------------------------------------------------------
+
+    void                  appendMeasureCloneToRestMeasures (
+                            S_msrMeasure measureClone);
 
     int                   restMeasuresContentsMeasuresNumber () const
                             {
