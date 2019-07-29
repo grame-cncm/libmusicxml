@@ -150,7 +150,7 @@ class traceOah : public oahGroup
 
     void                  printTraceOahValues (int fieldWidth);
 
-    virtual void          printOptionsValues (
+    virtual void          printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 

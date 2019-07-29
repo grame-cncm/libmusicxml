@@ -71,7 +71,7 @@ class brailleUTFKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 
@@ -133,7 +133,7 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 

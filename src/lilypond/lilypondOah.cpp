@@ -113,7 +113,7 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
     endl;
 }
 
-void lilypondScoreOutputKindAtom::printOptionsValues (
+void lilypondScoreOutputKindAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -188,7 +188,7 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondAbsoluteOctaveEntryAtom::printOptionsValues (
+void lilypondAbsoluteOctaveEntryAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -329,7 +329,7 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondRelativeOctaveEntryAtom::printOptionsValues (
+void lilypondRelativeOctaveEntryAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -450,7 +450,7 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondFixedOctaveEntryAtom::printOptionsValues (
+void lilypondFixedOctaveEntryAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -601,7 +601,7 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
     endl;
 }
 
-void lilypondAccidentalStyleKindAtom::printOptionsValues (
+void lilypondAccidentalStyleKindAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -826,7 +826,7 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondChordsDisplayAtom::printOptionsValues (
+void lilypondChordsDisplayAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1029,7 +1029,7 @@ void lilypondMidiTempoAtom::print (ostream& os) const
     endl;
 }
 
-void lilypondMidiTempoAtom::printOptionsValues (
+void lilypondMidiTempoAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1533,7 +1533,7 @@ void lilypondOah::initializeBarsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    barsSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Bars",
         "hlpb", "help-lilypond-bars",
@@ -1541,19 +1541,30 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (barsSubGroup);
+  appendSubGroup (subGroup);
 
   // bar numbers
 
   fShowAllBarNumbers = boolOptionsInitialValue;
 
-  barsSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    allBarNumbersAtom =
       oahBooleanAtom::create (
         "abn", "all-bar-numbers",
 R"(Generate LilyPond code to show all bar numbers.)",
         "showAllBarNumbers",
-        fShowAllBarNumbers));
+        fShowAllBarNumbers);
+
+  subGroup->
+    appendAtom (allBarNumbersAtom);
+
+  subGroup->
+    appendAtom (
+      oahAtomSynonym::create (
+        "amn", "all-measure-numbers",
+R"(Generate LilyPond code to show all measure numbers.
+This option is a synonym to '-abn, -all-bar-numbers')",
+        allBarNumbersAtom));
 }
 
 void lilypondOah::initializeLineBreaksOptions (
@@ -2528,7 +2539,7 @@ string lilypondOah::scoreNotationKindAsString (
   return result;
 }
 
-void lilypondOah::printOptionsValues (
+void lilypondOah::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {

@@ -67,7 +67,7 @@ class extraShowAllChordsStructuresAtom : public oahAtom
 
     void                  printAllChordsStructures (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -135,7 +135,7 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -201,7 +201,7 @@ class extraShowChordDetailsAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -267,7 +267,7 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 

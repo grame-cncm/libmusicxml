@@ -91,7 +91,7 @@ void extraShowAllChordsStructuresAtom::printAllChordsStructures (ostream& os) co
   msrChordStructure::printAllChordsStructures (os);
 }
 
-void extraShowAllChordsStructuresAtom::printOptionsValues (
+void extraShowAllChordsStructuresAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -281,7 +281,7 @@ void extraShowAllChordsContentsAtom::printAllChordsContents (
     semiTonesPitchKind);
 }
 
-void extraShowAllChordsContentsAtom::printOptionsValues (
+void extraShowAllChordsContentsAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -532,7 +532,7 @@ void extraShowChordDetailsAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void extraShowChordDetailsAtom::printOptionsValues (
+void extraShowChordDetailsAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -814,7 +814,7 @@ void extraShowChordAnalysisAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void extraShowChordAnalysisAtom::printOptionsValues (
+void extraShowChordAnalysisAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {

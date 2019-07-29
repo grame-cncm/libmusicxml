@@ -60,7 +60,7 @@ class xml2lyOahVersionAtom : public oahAtom
 
     void                  printVersion (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -112,7 +112,7 @@ class xml2lyOahAboutAtom : public oahAtom
 
     void                  printAbout (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -164,7 +164,7 @@ class xml2lyOahContactAtom : public oahAtom
 
     void                  printContact (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 

@@ -219,7 +219,7 @@ void msrPartRenameAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrPartRenameAtom::printOptionsValues (
+void msrPartRenameAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {
@@ -464,7 +464,7 @@ void msrPartTransposeAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrPartTransposeAtom::printOptionsValues (
+void msrPartTransposeAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {
@@ -634,7 +634,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
     endl;
 }
 
-void msrPitchesLanguageAtom::printOptionsValues (
+void msrPitchesLanguageAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {

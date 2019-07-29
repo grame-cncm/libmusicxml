@@ -136,7 +136,7 @@ void brailleUTFKindAtom::print (ostream& os) const
     endl;
 }
 
-void brailleUTFKindAtom::printOptionsValues (
+void brailleUTFKindAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {
@@ -261,7 +261,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
     endl;
 }
 
-void brailleByteOrderingKindAtom::printOptionsValues (
+void brailleByteOrderingKindAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {

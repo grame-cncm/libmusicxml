@@ -73,7 +73,7 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -127,7 +127,7 @@ class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -196,7 +196,7 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -267,7 +267,7 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -338,7 +338,7 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -413,7 +413,7 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -484,7 +484,7 @@ class lilypondMidiTempoAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -675,7 +675,7 @@ class lilypondOah : public oahGroup
 
     void                  printLilypondOahValues (int fieldWidth);
 
-    virtual void          printOptionsValues (
+    virtual void          printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 

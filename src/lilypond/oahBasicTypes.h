@@ -239,7 +239,7 @@ class oahAtom : public oahOption
 
     void                  print (ostream& os) const;
 
-    virtual void          printOptionsValues (
+    virtual void          printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -252,6 +252,63 @@ class oahAtom : public oahOption
 };
 typedef SMARTP<oahAtom> S_oahAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAtom& elt);
+
+//______________________________________________________________________________
+class oahAtomSynonym : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahAtomSynonym> create (
+      string    shortName,
+      string    longName,
+      string    description,
+      S_oahAtom originalOahAtom);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahAtomSynonym (
+      string    shortName,
+      string    longName,
+      string    description,
+      S_oahAtom originalOahAtom);
+
+    virtual ~oahAtomSynonym ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+     S_oahAtom            getOriginalOahAtom () const
+                              { return fOriginalOahAtom; }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+     S_oahAtom            fOriginalOahAtom;
+};
+typedef SMARTP<oahAtomSynonym> S_oahAtomSynonym;
+EXP ostream& operator<< (ostream& os, const S_oahAtomSynonym& elt);
 
 //______________________________________________________________________________
 class oahOptionsUsageAtom : public oahAtom
@@ -293,7 +350,7 @@ class oahOptionsUsageAtom : public oahAtom
 
     void                  printOptionsUsage (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -345,7 +402,7 @@ class oahOptionsSummaryAtom : public oahAtom
 
     void                  printOptionsSummary (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -403,7 +460,7 @@ class oahAtomWithVariableName : public oahAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -463,7 +520,7 @@ class oahBooleanAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -530,7 +587,7 @@ class oahTwoBooleansAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -603,7 +660,7 @@ class oahThreeBooleansAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -677,7 +734,7 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     void                  printHelp (ostream& os);
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -773,7 +830,7 @@ class oahValuedAtom : public oahAtomWithVariableName
 
     void                  printHelp (ostream& os);
 
-    virtual void          printOptionsValues (
+    virtual void          printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -849,7 +906,7 @@ class oahIntegerAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
   private:
@@ -917,7 +974,7 @@ class oahFloatAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -986,7 +1043,7 @@ class oahStringAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -1057,7 +1114,7 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -1126,7 +1183,7 @@ class oahRationalAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -1195,7 +1252,7 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -1264,7 +1321,7 @@ class oahStringsSetAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -1343,7 +1400,7 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 
     void                  print (ostream& os) const;
 
-    virtual void          printOptionsValues (
+    virtual void          printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
   private:
@@ -1449,7 +1506,7 @@ class oahSubGroup : public oahOption
                             ostream&      os,
                             S_oahSubGroup subGroup) const;
 
-    void                  printOptionsValues (
+    void                  printSubGroupOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -1567,7 +1624,7 @@ class oahGroup : public oahOption
                             ostream&      os,
                             S_oahSubGroup subGroup) const;
 
-    void                  printOptionsValues (
+    void                  printGroupOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 

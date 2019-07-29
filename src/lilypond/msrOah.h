@@ -75,7 +75,7 @@ class msrPartRenameAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 
@@ -157,7 +157,7 @@ class msrPartTransposeAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 
@@ -228,7 +228,7 @@ class msrPitchesLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 

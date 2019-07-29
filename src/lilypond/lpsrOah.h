@@ -74,7 +74,7 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 
@@ -144,7 +144,7 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 
@@ -215,7 +215,7 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 
@@ -286,7 +286,7 @@ class lpsrTransposeAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsValues (
+    void                  printAtomOptionsValues (
                             indentedOstream& os,
                             int      valueFieldWidth) const;
 

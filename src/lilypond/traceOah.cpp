@@ -1873,7 +1873,7 @@ void traceOah::checkOptionsConsistency ()
 }
 
 //______________________________________________________________________________
-void traceOah::printOptionsValues (
+void traceOah::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {

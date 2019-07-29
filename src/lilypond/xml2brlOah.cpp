@@ -107,7 +107,7 @@ void xml2brlOahVersionAtom::printVersion (ostream& os) const
   printVersionsHistory (os);
 }
 
-void xml2brlOahVersionAtom::printOptionsValues (
+void xml2brlOahVersionAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -203,7 +203,7 @@ R"(What xml2brl does:
     endl;
 }
 
-void xml2brlOahAboutAtom::printOptionsValues (
+void xml2brlOahAboutAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -279,7 +279,7 @@ R"(To contact xml2brl maintainers:
     endl;
 }
 
-void xml2brlOahContactAtom::printOptionsValues (
+void xml2brlOahContactAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {

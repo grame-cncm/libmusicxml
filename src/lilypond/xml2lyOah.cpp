@@ -106,7 +106,7 @@ void xml2lyOahVersionAtom::printVersion (ostream& os) const
   printVersionsHistory (os);
 }
 
-void xml2lyOahVersionAtom::printOptionsValues (
+void xml2lyOahVersionAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -196,7 +196,7 @@ R"(What xml2ly does:
     endl;
 }
 
-void xml2lyOahAboutAtom::printOptionsValues (
+void xml2lyOahAboutAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -272,7 +272,7 @@ R"(To contact xml2ly maintainers:
     endl;
 }
 
-void xml2lyOahContactAtom::printOptionsValues (
+void xml2lyOahContactAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {

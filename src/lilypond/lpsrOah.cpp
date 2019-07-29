@@ -159,7 +159,7 @@ void lpsrScoreOutputKindAtom::print (ostream& os) const
     endl;
 }
 
-void lpsrScoreOutputKindAtom::printOptionsValues (
+void lpsrScoreOutputKindAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {
@@ -307,7 +307,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
     endl;
 }
 
-void lpsrPitchesLanguageAtom::printOptionsValues (
+void lpsrPitchesLanguageAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {
@@ -450,7 +450,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
     endl;
 }
 
-void lpsrChordsLanguageAtom::printOptionsValues (
+void lpsrChordsLanguageAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {
@@ -571,7 +571,7 @@ void lpsrTransposeAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lpsrTransposeAtom::printOptionsValues (
+void lpsrTransposeAtom::printAtomOptionsValues (
   indentedOstream& os,
   int      valueFieldWidth) const
 {
