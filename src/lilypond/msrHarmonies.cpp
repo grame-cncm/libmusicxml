@@ -12,14 +12,14 @@
 
 #include "msrMutualDependencies.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -56,8 +56,8 @@ msrHarmonyDegree::msrHarmonyDegree (
   fHarmonyDegreeAlterationKind = harmonyDegreeAlterationKind;
   fHarmonyDegreeTypeKind       = harmonyDegreeTypeKind;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating harmony degree '" <<
       asString () <<
@@ -143,7 +143,7 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
 
 void msrHarmonyDegree::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyDegree::acceptIn ()" <<
       endl;
@@ -154,7 +154,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
         S_msrHarmonyDegree elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyDegree::visitStart ()" <<
             endl;
@@ -165,7 +165,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
 
 void msrHarmonyDegree::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyDegree::acceptOut ()" <<
       endl;
@@ -176,7 +176,7 @@ void msrHarmonyDegree::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
         S_msrHarmonyDegree elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyDegree::visitEnd ()" <<
             endl;
@@ -414,12 +414,12 @@ msrHarmony::msrHarmony (
           fHarmonyInversion <<
           "' is not compatible with bass quaternotes pitch '" <<
           msrQuarterTonesPitchKindAsString (
-            gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+            gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
             fHarmonyBassQuarterTonesPitchKind) <<
           "'";
 
         msrMusicXMLError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -431,8 +431,8 @@ msrHarmony::msrHarmony (
       invertedChordBassQuarterTonesPitchKind;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating harmony " <<
       asString () <<
@@ -447,8 +447,8 @@ msrHarmony::~msrHarmony ()
 S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating a newborn clone of harmony " <<
       asShortString () <<
@@ -485,8 +485,8 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating a deep copy of harmony " <<
       asShortString () <<
@@ -533,8 +533,8 @@ void msrHarmony::setHarmonyPositionInMeasure (
       fHarmonyWholeNotesOffset;
   actualPositionInMeasure.rationalise ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests) {
     gLogOstream <<
       "Setting harmony position in measure of " << asString () <<
       " to '" <<
@@ -554,7 +554,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
 
 void msrHarmony::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmony::acceptIn ()" <<
       endl;
@@ -565,7 +565,7 @@ void msrHarmony::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmony::visitStart ()" <<
             endl;
@@ -576,7 +576,7 @@ void msrHarmony::acceptIn (basevisitor* v)
 
 void msrHarmony::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmony::acceptOut ()" <<
       endl;
@@ -587,7 +587,7 @@ void msrHarmony::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmony::visitEnd ()" <<
             endl;
@@ -621,7 +621,7 @@ string msrHarmony::asString () const
     "Harmony" <<
     ", harmonyRootQuarterTonesPitchKind: " <<
     msrQuarterTonesPitchKindAsString ( // JMI XXL
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyRootQuarterTonesPitchKind) <<
     ", harmonyKind: " <<
     msrHarmonyKindAsShortString (fHarmonyKind) <<
@@ -652,7 +652,7 @@ string msrHarmony::asString () const
     s <<
       ", harmonyBassQuarterTonesPitchKind: " <<
     msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind);
   }
 
@@ -708,7 +708,7 @@ void msrHarmony::print (ostream& os)
     setw (fieldWidth) <<
     "harmonyRoot" << " : " <<
     msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyRootQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
@@ -747,7 +747,7 @@ void msrHarmony::print (ostream& os)
     setw (fieldWidth) <<
     "harmonyBass" << " : " <<
     msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind) <<
     endl;
 

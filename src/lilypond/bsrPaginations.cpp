@@ -17,7 +17,7 @@
 
 #include "messagesHandling.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -103,8 +103,8 @@ int bsrPagination::fetchCellsNumber () const
 
 void bsrPagination::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPagination::acceptIn ()" <<
       endl;
@@ -116,8 +116,8 @@ void bsrPagination::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPagination::visitStart ()" <<
             endl;
@@ -129,8 +129,8 @@ void bsrPagination::acceptIn (basevisitor* v)
 
 void bsrPagination::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPagination::acceptOut ()" <<
       endl;
@@ -142,8 +142,8 @@ void bsrPagination::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPagination::visitEnd ()" <<
             endl;

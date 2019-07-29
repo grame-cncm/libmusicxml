@@ -15,7 +15,7 @@
 
 #include "msrOtherElements.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -44,7 +44,7 @@ msrSegno::~msrSegno ()
 
 void msrSegno::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSegno::acceptIn ()" <<
       endl;
@@ -55,7 +55,7 @@ void msrSegno::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSegno::visitStart ()" <<
             endl;
@@ -66,7 +66,7 @@ void msrSegno::acceptIn (basevisitor* v)
 
 void msrSegno::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSegno::acceptOut ()" <<
       endl;
@@ -77,7 +77,7 @@ void msrSegno::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSegno::visitEnd ()" <<
             endl;
@@ -124,7 +124,7 @@ msrCoda::~msrCoda ()
 
 void msrCoda::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrCoda::acceptIn ()" <<
       endl;
@@ -135,7 +135,7 @@ void msrCoda::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrCoda::visitStart ()" <<
             endl;
@@ -146,7 +146,7 @@ void msrCoda::acceptIn (basevisitor* v)
 
 void msrCoda::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrCoda::acceptOut ()" <<
       endl;
@@ -157,7 +157,7 @@ void msrCoda::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrCoda::visitEnd ()" <<
             endl;
@@ -204,7 +204,7 @@ msrEyeGlasses::~msrEyeGlasses ()
 
 void msrEyeGlasses::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrEyeGlasses::acceptIn ()" <<
       endl;
@@ -215,7 +215,7 @@ void msrEyeGlasses::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrEyeGlasses::visitStart ()" <<
             endl;
@@ -226,7 +226,7 @@ void msrEyeGlasses::acceptIn (basevisitor* v)
 
 void msrEyeGlasses::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrEyeGlasses::acceptOut ()" <<
       endl;
@@ -237,7 +237,7 @@ void msrEyeGlasses::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrEyeGlasses::visitEnd ()" <<
             endl;

@@ -16,7 +16,7 @@
 
 #include "lpsrScheme.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -47,8 +47,8 @@ lpsrLayout::~lpsrLayout ()
 
 void lpsrLayout::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrLayout::acceptIn ()" <<
       endl;
@@ -60,8 +60,8 @@ void lpsrLayout::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrLayout::visitStart ()" <<
             endl;
@@ -73,8 +73,8 @@ void lpsrLayout::acceptIn (basevisitor* v)
 
 void lpsrLayout::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrLayout::acceptOut ()" <<
       endl;
@@ -86,8 +86,8 @@ void lpsrLayout::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrLayout::visitEnd ()" <<
             endl;

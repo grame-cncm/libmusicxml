@@ -12,7 +12,7 @@
 
 #include "lpsrVoices.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -46,8 +46,8 @@ lpsrUseVoiceCommand::~lpsrUseVoiceCommand ()
 
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptIn ()" <<
       endl;
@@ -59,8 +59,8 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart ()" <<
             endl;
@@ -72,8 +72,8 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptOut ()" <<
       endl;
@@ -85,8 +85,8 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd ()" <<
             endl;

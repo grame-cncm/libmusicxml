@@ -19,18 +19,18 @@
 
 #include "utilities.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "generalOptions.h"
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "generalOah.h"
+#include "musicXMLOah.h"
+#include "msrOah.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
-#include "xml2brlOptionsHandling.h"
+#include "xml2brlOah.h"
 
 #include "musicXML2MxmlTreeInterface.h"
 
@@ -50,7 +50,7 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-  S_xml2brlOptionsHandler handler,
+  S_xml2brlOahHandler handler,
   int                    argc,
   char*                  argv [],
   indentedOstream&       logIndentedOutputStream)
@@ -76,7 +76,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
     mxmlTree =
       musicXMLFd2mxmlTree (
         stdin,
-        gMusicXMLOptions,
+        gMusicXMLOah,
         gLogOstream);
   }
 
@@ -109,7 +109,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
     mxmlTree =
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
-        gMusicXMLOptions,
+        gMusicXMLOah,
         gLogOstream);
   }
 
@@ -123,12 +123,12 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
   S_msrScore
     mScore =
       buildMsrSkeletonFromElementsTree (
-        gMsrOptions,
+        gMsrOah,
         mxmlTree,
         gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -136,7 +136,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -162,13 +162,13 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
   S_msrScore  scoreSkeleton)
 {
   populateMsrSkeletonFromMxmlTree (
-    gMsrOptions,
+    gMsrOah,
     mxmlTree,
     scoreSkeleton,
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -176,7 +176,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -188,7 +188,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
 //_______________________________________________________________________________
 void displayMsrScore_OptionalPass (
   S_msrScore   mScore,
-  S_msrOptions msrOpts)
+  S_msrOah msrOpts)
 {
   // display the MSR
   displayMSRPopulatedScore (
@@ -197,7 +197,7 @@ void displayMsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -205,7 +205,7 @@ void displayMsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -217,8 +217,8 @@ void displayMsrScore_OptionalPass (
 //_______________________________________________________________________________
 void displayBsrFirstScore_OptionalPass (
   S_bsrScore   bScore,
-  S_msrOptions msrOpts,
-  S_bsrOptions bsrOpts)
+  S_msrOah msrOpts,
+  S_bsrOah bsrOpts)
 {
   // display it
   displayFirstBsrScore (
@@ -228,7 +228,7 @@ void displayBsrFirstScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -236,7 +236,7 @@ void displayBsrFirstScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -248,8 +248,8 @@ void displayBsrFirstScore_OptionalPass (
 //_______________________________________________________________________________
 void displayBsrFinalizedScore_OptionalPass (
   S_bsrScore   bScore,
-  S_msrOptions msrOpts,
-  S_bsrOptions bsrOpts)
+  S_msrOah msrOpts,
+  S_bsrOah bsrOpts)
 {
   // display it
   displayFinalizedBsrScore (
@@ -259,7 +259,7 @@ void displayBsrFinalizedScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -267,7 +267,7 @@ void displayBsrFinalizedScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -282,17 +282,17 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
 {
   S_bsrScore bScore;
 
-  if (! gBrailleOptions->fNoBrailleCode) {
+  if (! gBrailleOah->fNoBrailleCode) {
     bScore =
       buildBsrScoreFromMsrScore (
         mScore,
-        gMsrOptions,
-        gBsrOptions,
+        gMsrOah,
+        gBsrOah,
         gLogOstream);
   }
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -300,7 +300,7 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -323,8 +323,8 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
 //_______________________________________________________________________________
 void displayFinalizedBsrScore_OptionalPass (
   S_bsrScore   bScore,
-  S_msrOptions msrOpts,
-  S_bsrOptions bsrOpts)
+  S_msrOah msrOpts,
+  S_bsrOah bsrOpts)
 {
   // display it
   displayFinalizedBsrScore (
@@ -334,7 +334,7 @@ void displayFinalizedBsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -342,7 +342,7 @@ void displayFinalizedBsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -357,16 +357,16 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
 {
   S_bsrScore finalizedBsrScore;
 
-  if (! gBrailleOptions->fNoBrailleCode) {
+  if (! gBrailleOah->fNoBrailleCode) {
     finalizedBsrScore =
       generateFinalizedBsrScoreFromBsrScore (
         bScore,
-        gBsrOptions,
+        gBsrOah,
         gLogOstream);
   }
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -374,7 +374,7 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -401,15 +401,15 @@ void convertBsrScoreToBrailleText_Pass4 (
 {
   int outputFileNameSize = outputFileName.size ();
 
-  if (! gBrailleOptions->fNoBrailleCode) {
+  if (! gBrailleOah->fNoBrailleCode) {
     // open output file if need be
     // ------------------------------------------------------
 
     ofstream brailleCodeFileOutputStream;
 
     if (outputFileNameSize) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePasses) {
         gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -442,14 +442,14 @@ void convertBsrScoreToBrailleText_Pass4 (
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
-        gBsrOptions,
+        gBsrOah,
         gLogOstream,
         brailleCodeFileOutputStream);
     }
 
     else {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePasses) {
         gLogOstream <<
           endl <<
           "Braille music will be written to standard output" <<
@@ -467,14 +467,14 @@ void convertBsrScoreToBrailleText_Pass4 (
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
-        gBsrOptions,
+        gBsrOah,
         gLogOstream,
         brailleCodeCoutOutputStream);
     }
 
     if (outputFileNameSize) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePasses) {
         gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -487,7 +487,7 @@ void convertBsrScoreToBrailleText_Pass4 (
   }
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -495,7 +495,7 @@ void convertBsrScoreToBrailleText_Pass4 (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -526,7 +526,7 @@ void convertMusicXMLToBraille (
       convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree);
 
-  if (gMsrOptions->fExit2a) {
+  if (gMsrOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -542,7 +542,7 @@ void convertMusicXMLToBraille (
     mxmlTree,
     mScore);
 
-  if (gMsrOptions->fExit2b) {
+  if (gMsrOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<
@@ -554,20 +554,20 @@ void convertMusicXMLToBraille (
   // display the MSR score summary if requested
   // ------------------------------------------------------
 
-  if (gMsrOptions->fDisplayMsr) {
+  if (gMsrOah->fDisplayMsr) {
     displayMsrScore_OptionalPass (
       mScore,
-      gMsrOptions);
+      gMsrOah);
   }
 
 
   // display the score summary if requested
   // ------------------------------------------------------
 
-  if (gMsrOptions->fDisplayMsrSummary) {
+  if (gMsrOah->fDisplayMsrSummary) {
     // display the score summary
     displayMSRPopulatedScoreSummary (
-      gMsrOptions,
+      gMsrOah,
       mScore,
       gLogOstream);
 
@@ -578,10 +578,10 @@ void convertMusicXMLToBraille (
   // display the score names if requested
   // ------------------------------------------------------
 
-  if (gMsrOptions->fDisplayMsrNames) {
+  if (gMsrOah->fDisplayMsrNames) {
     // display the score name
     displayMSRPopulatedScoreNames (
-      gMsrOptions,
+      gMsrOah,
       mScore,
       gLogOstream);
 
@@ -597,7 +597,7 @@ void convertMusicXMLToBraille (
       convertMsrScoreToBsrScore_Pass3a (
         mScore);
 
-  if (gBsrOptions->fExit3a) {
+  if (gBsrOah->fExit3a) {
     gLogOstream <<
       endl <<
       "Existing after pass 3a as requested" <<
@@ -609,11 +609,11 @@ void convertMusicXMLToBraille (
   // display the first BSR score if requested
   // ------------------------------------------------------
 
-  if (gBsrOptions->fDisplayBsr) {
+  if (gBsrOah->fDisplayBsr) {
     displayBsrFirstScore_OptionalPass (
       firstBsrScore,
-      gMsrOptions,
-      gBsrOptions);
+      gMsrOah,
+      gBsrOah);
   }
 
   // create the finalized BCR from the first BSR (pass 3b)
@@ -624,7 +624,7 @@ void convertMusicXMLToBraille (
       convertBsrScoreToFinalizedScore_Pass3b (
         firstBsrScore);
 
-  if (gBsrOptions->fExit3b) {
+  if (gBsrOah->fExit3b) {
     gLogOstream <<
       endl <<
       "Existing after pass 3b as requested" <<
@@ -636,11 +636,11 @@ void convertMusicXMLToBraille (
   // display the finalized BCR score if requested
   // ------------------------------------------------------
 
-  if (gBsrOptions->fDisplayBsr) {
+  if (gBsrOah->fDisplayBsr) {
     displayFinalizedBsrScore_OptionalPass (
       finalizedBsrScore,
-      gMsrOptions,
-      gBsrOptions);
+      gMsrOah,
+      gBsrOah);
   }
 
 
@@ -658,9 +658,9 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2brlOptionsHandler
+  S_xml2brlOahHandler
     handler =
-      xml2brlOptionsHandler::create (
+      xml2brlOahHandler::create (
         argv [0],
         gOutputOstream);
 
@@ -676,8 +676,8 @@ int main (int argc, char *argv[])
 
 /* JMI
   // print the resulting options
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fDisplayOptionsHandler) {
+#ifdef TRACE_OAH
+  if (gGeneralOah->fDisplayOahHandler) {
     gLogOstream <<
       handler <<
       endl <<
@@ -688,11 +688,11 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gOahBasicOptions->fInputSourceName;
+      gExecutableOah->fInputSourceName;
 
   string
     outputFileName =
-      gXml2brlOptions->fOutputFileName;
+      gXml2brlOah->fOutputFileName;
 
   int
     outputFileNameSize =
@@ -701,17 +701,17 @@ int main (int argc, char *argv[])
   // has quiet mode been requested?
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fQuiet) {
+  if (gGeneralOah->fQuiet) {
     // disable all trace and display options
     handler->
-      enforceOptionsHandlerQuietness ();
+      enforceOahHandlerQuietness ();
   }
 
   // welcome message
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     gLogOstream <<
       "This is xml2brl " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -732,7 +732,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << gGeneralOptions->fTranslationDate <<
+      "Time is " << gGeneralOah->fTranslationDate <<
       endl;
 
     gLogOstream <<
@@ -779,10 +779,10 @@ int main (int argc, char *argv[])
   // print the chosen options if so chosen
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fDisplayOptionsValues) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fDisplayOahValues) {
     handler->
-      printAllOptionsValues (
+      printAllOahValues (
         gLogOstream);
 
     gLogOstream << endl;
@@ -792,8 +792,8 @@ int main (int argc, char *argv[])
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -815,7 +815,7 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fDisplayCPUusage)
+  if (gGeneralOah->fDisplayCPUusage)
     timing::gTiming.print (
       gLogOstream);
 

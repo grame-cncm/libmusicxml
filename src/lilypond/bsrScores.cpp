@@ -17,7 +17,7 @@
 
 #include "bsrScores.h"
 
-#include "brailleOptions.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -48,8 +48,8 @@ bsrScore::bsrScore (
     bsrTranscriptionNotes::create (
       inputLineNumber);
 
-  fBrailleLineLength = gBrailleOptions->fCellsPerLine;
-  fBraillePageLength = gBrailleOptions->fLinesPerPage;
+  fBrailleLineLength = gBrailleOah->fCellsPerLine;
+  fBraillePageLength = gBrailleOah->fLinesPerPage;
 }
 
 bsrScore::~bsrScore ()
@@ -57,8 +57,8 @@ bsrScore::~bsrScore ()
 
 void bsrScore::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrScore::acceptIn ()" <<
       endl;
@@ -70,8 +70,8 @@ void bsrScore::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrScore::visitStart ()" <<
             endl;
@@ -83,8 +83,8 @@ void bsrScore::acceptIn (basevisitor* v)
 
 void bsrScore::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrScore::acceptOut ()" <<
       endl;
@@ -96,8 +96,8 @@ void bsrScore::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrScore::visitEnd ()" <<
             endl;
@@ -109,8 +109,8 @@ void bsrScore::acceptOut (basevisitor* v)
 
 void bsrScore::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
@@ -134,8 +134,8 @@ void bsrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
@@ -160,7 +160,7 @@ void bsrScore::print (ostream& os)
   // print the transcription notes if any
   const int fieldWidth = 19;
 
-  if (fTranscriptionNotes || gBsrOptions->fDisplayBsrDetails) {
+  if (fTranscriptionNotes || gBsrOah->fDisplayBsrDetails) {
     if (fTranscriptionNotes) {
       os <<
         fTranscriptionNotes;
@@ -187,7 +187,7 @@ void bsrScore::print (ostream& os)
   // print the score pages if any
   int scorePagesListSize = fScorePagesList.size ();
 
-  if (scorePagesListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (scorePagesListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "ScorePagesList";

@@ -14,8 +14,8 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -62,8 +62,8 @@ S_bsrLine bsrPageElement::getBsrLineUpLink () const
 
 void bsrPageElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageElement::acceptIn ()" <<
       endl;
@@ -75,8 +75,8 @@ void bsrPageElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageElement::visitStart ()" <<
             endl;
@@ -88,8 +88,8 @@ void bsrPageElement::acceptIn (basevisitor* v)
 
 void bsrPageElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageElement::acceptOut ()" <<
       endl;
@@ -101,8 +101,8 @@ void bsrPageElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageElement::visitEnd ()" <<
             endl;

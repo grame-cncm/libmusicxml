@@ -25,7 +25,7 @@
 
 #include "lpsrContexts.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -59,8 +59,8 @@ lpsrParallelMusicBLock::~lpsrParallelMusicBLock ()
 
 void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptIn ()" <<
       endl;
@@ -72,8 +72,8 @@ void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitStart ()" <<
             endl;
@@ -85,8 +85,8 @@ void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 
 void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptOut ()" <<
       endl;
@@ -98,8 +98,8 @@ void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitEnd ()" <<
             endl;
@@ -111,8 +111,8 @@ void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 
 void lpsrParallelMusicBLock::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrParallelMusicBLock::browseData ()" <<
       endl;
@@ -130,8 +130,8 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrParallelMusicBLock::browseData ()" <<
       endl;

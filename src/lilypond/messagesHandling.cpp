@@ -14,8 +14,8 @@
 
 #include "messagesHandling.h"
 
-#include "musicXMLOptions.h"
-#include "generalOptions.h"
+#include "musicXMLOah.h"
+#include "generalOah.h"
 
 
 using namespace std;
@@ -45,7 +45,7 @@ void msrWarning (
   int    inputLineNumber,
   string message)
 {
-  if (! gGeneralOptions->fQuiet) {
+  if (! gGeneralOah->fQuiet) {
     gLogOstream <<
       "*** " << context << " warning *** " <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
@@ -103,14 +103,14 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! gGeneralOptions->fQuiet) {
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
+  if (! gGeneralOah->fQuiet) {
+    if (gGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    if (! gGeneralOptions->fDontShowErrors) {
+    if (! gGeneralOah->fDontShowErrors) {
       gLogOstream <<
         "### " << context << " ERROR ### " <<
         inputSourceName << ":" << inputLineNumber << ": " << message <<
@@ -137,8 +137,8 @@ void msrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fDontShowErrors) {
-    if (! gGeneralOptions->fDontAbortOnErrors) {
+  if (! gGeneralOah->fDontShowErrors) {
+    if (! gGeneralOah->fDontAbortOnErrors) {
       abort ();
     }
     else {
@@ -163,7 +163,7 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fDontShowErrors) {
+  if (! gGeneralOah->fDontShowErrors) {
     exit (16);
   }
 }
@@ -194,8 +194,8 @@ void msrLimitation (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+    if (gGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -217,8 +217,8 @@ void msrStreamsError (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+    if (gGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -239,8 +239,8 @@ void msrStreamsWarning (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+    if (gGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -265,7 +265,7 @@ void displayWarningsAndErrorsInputLineNumbers ()
   int warningsInputLineNumbersSize =
     gWarningsInputLineNumbers.size ();
     
-  if (warningsInputLineNumbersSize && ! gGeneralOptions->fQuiet) {
+  if (warningsInputLineNumbersSize && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (

@@ -15,7 +15,7 @@
 
 #include "lpsrVarValAssocs.h"
 
-#include "lilypondOptions.h"
+#include "lilypondOah.h"
 
 
 namespace MusicXML2

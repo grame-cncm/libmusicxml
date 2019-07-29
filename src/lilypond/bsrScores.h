@@ -21,7 +21,7 @@
 
 #include "bsrTranscriptionNotes.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 namespace MusicXML2

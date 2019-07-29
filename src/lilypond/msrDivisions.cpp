@@ -16,9 +16,9 @@
 
 #include "msrDivisions.h"
 
-#include "generalOptions.h"
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
+#include "generalOah.h"
+#include "musicXMLOah.h"
+#include "msrOah.h"
 
 #include "messagesHandling.h"
 
@@ -42,8 +42,8 @@ S_msrDivisions msrDivisions::create (
 
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
- if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+ if (gMusicXMLOah->fTraceDivisions) {
     gLogOstream <<
       "Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
@@ -75,8 +75,8 @@ msrDivisions::msrDivisions (
 
 void msrDivisions::initializeDivisions ()
 {
-#ifdef TRACE_OPTIONS
-  if (gMusicXMLOptions->fTraceDivisions && ! gGeneralOptions->fQuiet) {
+#ifdef TRACE_OAH
+  if (gMusicXMLOah->fTraceDivisions && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing divisions" <<
       ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
@@ -138,8 +138,8 @@ void msrDivisions::initializeDivisions ()
   }
 
   // print the durations divisions if needed
-#ifdef TRACE_OPTIONS
-  if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+  if (gMusicXMLOah->fTraceDivisions) {
     printDurationKindsDivisions (gLogOstream);
   }
 #endif
@@ -173,7 +173,7 @@ int msrDivisions::durationKindAsDivisions (
   printDurationKindsDivisions (s);
 
   msrInternalError (
-    gOahBasicOptions->fInputSourceName,
+    gExecutableOah->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -249,8 +249,8 @@ string msrDivisions::divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
 
-#ifdef TRACE_OPTIONS
-  if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+  if (gMusicXMLOah->fTraceDivisions) {
     const int fieldWidth = 16;
 
     gLogOstream <<
@@ -286,7 +286,7 @@ string msrDivisions::divisionsAsMsrString (
       printDurationKindsDivisions (gLogOstream);
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -301,8 +301,8 @@ string msrDivisions::divisionsAsMsrString (
       result =
         msrDurationKindAsString (baseDurationKind);
 
-#ifdef TRACE_OPTIONS
-      if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+      if (gMusicXMLOah->fTraceDivisions) {
         const int fieldWidth = 22;
 
         gLogOstream <<
@@ -338,8 +338,8 @@ string msrDivisions::divisionsAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-#ifdef TRACE_OPTIONS
-    if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+    if (gMusicXMLOah->fTraceDivisions) {
       const int fieldWidth = 22;
 
       gLogOstream <<
@@ -366,8 +366,8 @@ string msrDivisions::divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-#ifdef TRACE_OPTIONS
-      if (gMusicXMLOptions->fTraceDivisions) { // JMI
+#ifdef TRACE_OAH
+      if (gMusicXMLOah->fTraceDivisions) { // JMI
         const int fieldWidth = 22;
 
         gLogOstream <<
@@ -396,8 +396,8 @@ string msrDivisions::divisionsAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
 
-#ifdef TRACE_OPTIONS
-        if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+        if (gMusicXMLOah->fTraceDivisions) {
           const int fieldWidth = 22;
 
           gLogOstream <<
@@ -425,8 +425,8 @@ string msrDivisions::divisionsAsMsrString (
         }
       } // while
 
-#ifdef TRACE_OPTIONS
-      if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+      if (gMusicXMLOah->fTraceDivisions) {
         const int fieldWidth = 24;
 
         gLogOstream <<
@@ -459,8 +459,8 @@ string msrDivisions::divisionsAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-#ifdef TRACE_OPTIONS
-  if (gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+  if (gMusicXMLOah->fTraceDivisions) {
     gLogOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<
@@ -515,7 +515,7 @@ msrDivisions::~msrDivisions ()
 
 void msrDivisions::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDivisions::acceptIn ()" <<
       endl;
@@ -526,7 +526,7 @@ void msrDivisions::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDivisions::visitStart ()" <<
             endl;
@@ -537,7 +537,7 @@ void msrDivisions::acceptIn (basevisitor* v)
 
 void msrDivisions::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDivisions::acceptOut ()" <<
       endl;
@@ -548,7 +548,7 @@ void msrDivisions::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDivisions::visitEnd ()" <<
             endl;

@@ -667,17 +667,17 @@ int consumeDecimalNumber (
 }
 
 //______________________________________________________________________________
-set<int> decipherNumbersSetSpecification (
+set<int> decipherIntegersSetSpecification (
   string theString,
   bool        debugMode)
 {
-//  A numbersSetSpecification sample is: "7,15-19,^16-17"
+//  A integersSetSpecification sample is: "7,15-19,^16-17"
 
   set<int> selectedNumbers;
 
   if (debugMode) {
     gLogOstream <<
-      "--> decipherNumbersSetSpecification, theString = |" << theString <<
+      "--> decipherIntegersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
   }

@@ -14,7 +14,7 @@
 
 #include "bsrCellsLists.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -260,8 +260,8 @@ void bsrCellsList::generateBrailleCode (ostream& os)
 
 void bsrCellsList::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrCellsList::acceptIn ()" <<
       endl;
@@ -273,8 +273,8 @@ void bsrCellsList::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrCellsList::visitStart ()" <<
             endl;
@@ -286,8 +286,8 @@ void bsrCellsList::acceptIn (basevisitor* v)
 
 void bsrCellsList::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrCellsList::acceptOut ()" <<
       endl;
@@ -299,8 +299,8 @@ void bsrCellsList::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrCellsList::visitEnd ()" <<
             endl;

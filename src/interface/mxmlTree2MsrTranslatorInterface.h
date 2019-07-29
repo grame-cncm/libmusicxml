@@ -28,7 +28,7 @@
 
 #include "msr.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 namespace MusicXML2
@@ -36,26 +36,26 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 EXP void populateMsrSkeletonFromMxmlTree (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,
   indentedOstream& logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScore (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScoreSummary (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScoreNames (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream);
 

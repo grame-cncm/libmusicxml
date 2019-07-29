@@ -12,7 +12,7 @@
 
 #include "bsrElements.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -41,8 +41,8 @@ bsrElement::~bsrElement ()
 
 void bsrElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrElement::acceptIn ()" <<
       endl;
@@ -54,8 +54,8 @@ void bsrElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrElement>*> (v)) {
         S_bsrElement elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrElement::visitStart ()" <<
             endl;
@@ -67,8 +67,8 @@ void bsrElement::acceptIn (basevisitor* v)
 
 void bsrElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrElement::acceptOut ()" <<
       endl;
@@ -80,8 +80,8 @@ void bsrElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrElement>*> (v)) {
         S_bsrElement elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrElement::visitEnd ()" <<
             endl;

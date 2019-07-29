@@ -12,14 +12,14 @@
 
 #include "msrPartGroups.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -159,8 +159,8 @@ msrPartGroup::msrPartGroup (
 
   fPartGroupBarlineKind     = partGroupBarlineKind;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -179,8 +179,8 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   S_msrPartGroup partGroupClone,
   S_msrScore     scoreClone)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -282,7 +282,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       getPartGroupCombinedName ();
 
     msrMusicXMLWarning ( // JMI
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -298,8 +298,8 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
         this);
 
   // register it in this part group
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -313,8 +313,8 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
   fPartGroupPartsMap [partID] = part;
   fPartGroupElements.push_back (part);
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     gLogOstream <<
       endl <<
       "After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
@@ -367,8 +367,8 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 void msrPartGroup::appendPartToPartGroup (S_msrPart part)
 {
   // register part in this part group
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -390,8 +390,8 @@ void msrPartGroup::removePartFromPartGroup (
   S_msrPart partToBeRemoved)
 {
   // register part in this part group
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Removing part " <<
       partToBeRemoved->getPartCombinedName () <<
@@ -439,7 +439,7 @@ void msrPartGroup::removePartFromPartGroup (
         " is not a part group nor a part";
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -452,8 +452,8 @@ void msrPartGroup::removePartFromPartGroup (
 void msrPartGroup::prependSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Prepending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -467,8 +467,8 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
 void msrPartGroup::appendSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Appending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -535,7 +535,7 @@ void msrPartGroup::printPartGroupParts (
           " is not a part group nor a part";
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -556,8 +556,8 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
 {
   S_msrPart result;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     gLogOstream <<
       "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
       endl;
@@ -625,7 +625,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         " is not a part group nor a part";
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -677,7 +677,7 @@ void msrPartGroup::collectPartGroupPartsList (
         " is not a part group nor a part";
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -687,7 +687,7 @@ void msrPartGroup::collectPartGroupPartsList (
 
 void msrPartGroup::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPartGroup::acceptIn ()" <<
       endl;
@@ -698,7 +698,7 @@ void msrPartGroup::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPartGroup>*> (v)) {
         S_msrPartGroup elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartGroup::visitStart ()" <<
             endl;
@@ -709,7 +709,7 @@ void msrPartGroup::acceptIn (basevisitor* v)
 
 void msrPartGroup::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPartGroup::acceptOut ()" <<
       endl;
@@ -720,7 +720,7 @@ void msrPartGroup::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPartGroup>*> (v)) {
         S_msrPartGroup elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartGroup::visitEnd ()" <<
             endl;
@@ -731,7 +731,7 @@ void msrPartGroup::acceptOut (basevisitor* v)
 
 void msrPartGroup::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPartGroup::browseData ()" <<
       endl;
@@ -747,7 +747,7 @@ void msrPartGroup::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% <== msrPartGroup::browseData ()" <<
       endl;

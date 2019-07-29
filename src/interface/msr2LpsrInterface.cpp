@@ -22,11 +22,11 @@
 
 #include "versions.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 #include "msr2LpsrInterface.h"
@@ -41,8 +41,8 @@ namespace MusicXML2
 //_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOptions     msrOpts,
-  S_lpsrOptions    lpsrOpts,
+  S_msrOah     msrOpts,
+  S_lpsrOah    lpsrOpts,
   indentedOstream& logOstream)
 {
   // sanity check
@@ -52,8 +52,8 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 
   clock_t startClock = clock ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -100,8 +100,8 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 //_______________________________________________________________________________
 void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions      msrOpts,
-  S_lpsrOptions     lpsrOpts,
+  S_msrOah      msrOpts,
+  S_lpsrOah     lpsrOpts,
   indentedOstream&  logOstream)
 {
   // sanity check

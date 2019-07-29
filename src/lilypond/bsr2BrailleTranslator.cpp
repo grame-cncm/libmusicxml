@@ -16,9 +16,9 @@
 
 #include "bsr2BrailleTranslator.h"
 
-#include "musicXMLOptions.h"
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "musicXMLOah.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -29,34 +29,34 @@ namespace MusicXML2
 //________________________________________________________________________
 bsr2BrailleTranslator::bsr2BrailleTranslator (
   S_bsrScore       bsrScore,
-  S_bsrOptions&    bsrOpts,
+  S_bsrOah&    bsrOpts,
   indentedOstream& logOstream,
   ostream&         brailleCodeOutputStream)
     : fLogOutputStream (
         logOstream)
 {
-  fBsrOptions = bsrOpts;
+  fBsrOah = bsrOpts;
 
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
 
-  switch (gBrailleOptions->fUTFKind) {
+  switch (gBrailleOah->fUTFKind) {
     case kUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
-          gBrailleOptions->fByteOrderingKind,
+          gBrailleOah->fByteOrderingKind,
           brailleCodeOutputStream);
       break;
 
     case kUTF16:
-      switch (gBrailleOptions->fByteOrderingKind) {
+      switch (gBrailleOah->fByteOrderingKind) {
         case kByteOrderingNone:
           break;
 
         case kByteOrderingBigEndian:
           fBrailleGenerator =
             bsrUTF16BigEndianBrailleGenerator::create (
-              gBrailleOptions->fByteOrderingKind,
+              gBrailleOah->fByteOrderingKind,
               brailleCodeOutputStream);
           break;
 
@@ -64,7 +64,7 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
           break;
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (
-              gBrailleOptions->fByteOrderingKind,
+              gBrailleOah->fByteOrderingKind,
               brailleCodeOutputStream);
       } // switch
       break;
@@ -87,8 +87,8 @@ void bsr2BrailleTranslator::generateBrailleCodeFromBsrScore ()
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrScore& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
@@ -99,8 +99,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrScore& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrScore& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
@@ -112,8 +112,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrScore& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrSpaces" <<
       ", line " << elt->getInputLineNumber () <<
@@ -136,8 +136,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrSpaces& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrSpaces" <<
       ", line " << elt->getInputLineNumber () <<
@@ -149,8 +149,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrSpaces& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrBarline& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrBarline" <<
       ", line " << elt->getInputLineNumber () <<
@@ -165,8 +165,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrBarline& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotes& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting S_bsrTranscriptionNotes" <<
       ", line " << elt->getInputLineNumber () <<
@@ -177,8 +177,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotes& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotes& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting S_bsrTranscriptionNotes" <<
       ", line " << elt->getInputLineNumber () <<
@@ -190,8 +190,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotes& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTranscriptionNotesElement" <<
       ", line " << elt->getInputLineNumber () <<
@@ -205,8 +205,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotesElement& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTranscriptionNotesElement" <<
       ", line " << elt->getInputLineNumber () <<
@@ -218,8 +218,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotesElement& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrPage '" <<
       elt->asString () <<
@@ -232,8 +232,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPage '" <<
       elt->asString () <<
@@ -250,8 +250,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrPagination& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrPagination '" <<
       elt->asString () <<
@@ -267,8 +267,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrPagination& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPagination& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPagination '" <<
       elt->asString () <<
@@ -282,8 +282,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPagination& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrPageHeading '" <<
       elt->asString () <<
@@ -299,8 +299,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPageHeading '" <<
       elt->asString () <<
@@ -314,8 +314,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrMusicHeading '" <<
       elt->asString () <<
@@ -347,8 +347,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrMusicHeading '" <<
       elt->asString () <<
@@ -358,7 +358,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (false) { // JMI
     fLogOutputStream <<
       "Generating an EOL after S_bsrMusicHeading" <<
@@ -373,8 +373,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrFootNotes& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrFootNotes '" <<
       elt->asString () <<
@@ -392,8 +392,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrFootNotes& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrFootNotes& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrFootNotes '" <<
       elt->asString () <<
@@ -407,8 +407,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrFootNotes& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrLine '" <<
       elt->asString () <<
@@ -424,8 +424,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrLine '" <<
       elt->asString () <<
@@ -439,8 +439,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrLineContents& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrLineContents '" <<
       elt->asString () <<
@@ -453,8 +453,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrLineContents& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrLineContents '" <<
       elt->asString () <<
@@ -464,7 +464,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (false) { // JMI
     fLogOutputStream <<
       "Generating an EOL after S_bsrLineContents" <<
@@ -479,8 +479,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrMeasure '" <<
       elt->asString () <<
@@ -493,8 +493,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrMeasure '" <<
       elt->asString () <<
@@ -508,8 +508,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrNumber '" <<
       elt->asString () <<
@@ -525,8 +525,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrNumber '" <<
       elt->asString () <<
@@ -540,8 +540,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrWords& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrWords '" <<
       elt->asString () <<
@@ -557,8 +557,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrWords& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrWords& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrWords '" <<
       elt->asString () <<
@@ -572,8 +572,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrWords& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrClef '" <<
       elt->asString () <<
@@ -589,8 +589,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrClef '" <<
       elt->asString () <<
@@ -604,8 +604,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrKey '" <<
       elt->asString () <<
@@ -621,8 +621,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrKey '" <<
       elt->asString () <<
@@ -636,8 +636,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTime " <<
       elt->asString () <<
@@ -652,8 +652,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTime " <<
       elt->asString () <<
@@ -666,8 +666,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTempo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTempo " <<
       elt->asString () <<
@@ -682,8 +682,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrTempo& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTempo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTempo " <<
       elt->asString () <<
@@ -696,8 +696,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrTempo& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrNote " <<
       elt->asString () <<
@@ -712,8 +712,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrNote " <<
       elt->asString () <<

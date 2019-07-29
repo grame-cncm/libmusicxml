@@ -15,7 +15,7 @@
 
 #include "msrLayout.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -44,7 +44,7 @@ msrLayout::~msrLayout ()
 
 void msrLayout::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLayout::acceptIn ()" <<
       endl;
@@ -55,7 +55,7 @@ void msrLayout::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLayout::visitStart ()" <<
             endl;
@@ -66,7 +66,7 @@ void msrLayout::acceptIn (basevisitor* v)
 
 void msrLayout::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLayout::acceptOut ()" <<
       endl;
@@ -77,7 +77,7 @@ void msrLayout::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLayout::visitEnd ()" <<
             endl;

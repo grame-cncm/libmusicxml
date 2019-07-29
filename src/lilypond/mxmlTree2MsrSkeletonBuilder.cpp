@@ -17,15 +17,15 @@
 
 #include "msr2Summary.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
+#include "musicXMLOah.h"
+#include "msrOah.h"
 
 #include "mxmlTree2MsrSkeletonBuilder.h"
 
@@ -81,8 +81,8 @@ string mxmlPartGroupDescr::partGroupDescrAsString () const
     "' -=> " <<
     fPartGroup->getPartGroupCombinedName ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     s <<
       ", positions " <<
       fStartPosition << ".." << fStopPosition;
@@ -662,8 +662,8 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStarted (
   int                  inputLineNumber,
   S_mxmlPartGroupDescr partGroupDescr)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Registering part group descr '" <<
       partGroupDescr->getPartGroupCombinedName () <<
@@ -672,7 +672,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStarted (
       endl;
   }
 
-  if (gTraceOptions->fTracePartGroupsDetails) {
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "BEFORE registering part group " +
@@ -701,8 +701,8 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStarted (
   fStartedPartGroupDescrsMap [partGroupNumber] =
     partGroupDescr;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER registering part group " +
@@ -730,8 +730,8 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStartingList (
   while (true) {
     if (i == iEnd) {
       // append partGroupDescr to the list
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePartGroups) {
         fLogOutputStream <<
           "Appending part group descr " <<
           partGroupDescr->
@@ -753,7 +753,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStartingList (
         " could not be inserted in part groups to be stopped list";
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -771,8 +771,8 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStartingList (
       currentPartGroupDescr->getStopPosition ()
     ) {
       // insert partGroupDescr before currentPartGroupDescr
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePartGroups) {
         fLogOutputStream <<
           "Inserting part group descr " <<
           currentPartGroupDescr->
@@ -811,8 +811,8 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStoppingList (
   while (true) {
     if (i == iEnd) {
       // append partGroupDescr to the list
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePartGroups) {
         fLogOutputStream <<
           "Appending part group descr " <<
           partGroupDescr->
@@ -834,7 +834,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStoppingList (
         " could not be inserted in part groups to be stopped list";
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -852,8 +852,8 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStoppingList (
       currentPartGroupDescr->getStartPosition ()
     ) {
       // insert partGroupDescr before currentPartGroupDescr
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePartGroups) {
         fLogOutputStream <<
           "Inserting part group descr " <<
           currentPartGroupDescr->
@@ -929,8 +929,8 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStopped (
   int                  inputLineNumber,
   S_mxmlPartGroupDescr partGroupDescr)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Registering part group descr '" <<
       partGroupDescr->getPartGroupCombinedName () <<
@@ -952,8 +952,8 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStopped (
       getPartGroup ()->
         getPartGroupNumber ());
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER forgetting part group descr " +
@@ -968,8 +968,8 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStopped (
 void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Creating part group with number '" <<
       fCurrentPartGroupNumber <<
@@ -1011,8 +1011,8 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
         fCurrentPartsPosition) ;
 
   // register it in the part groups data
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Adding part group descr for '" << fCurrentPartGroupNumber <<
       "' to visitor's part groups data" <<
@@ -1026,8 +1026,8 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
     inputLineNumber,
     partGroupDescr);
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handlePartGroupStart()");
@@ -1055,7 +1055,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
 
  // JMI   msrMusicXMLError (
     msrMusicXMLWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -1074,8 +1074,8 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       partGroupDescrToBeStopped);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handlePartGroupStop()");
@@ -1099,8 +1099,8 @@ void mxmlTree2MsrSkeletonBuilder::doNestPartGroupDescrInItsContainer (
         getPartGroup ();
 
   // set currentPartGroup's upLink to containingPartGroupDescr
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Setting the upLink of part group " <<
       partGroupToBeStopped->
@@ -1118,8 +1118,8 @@ void mxmlTree2MsrSkeletonBuilder::doNestPartGroupDescrInItsContainer (
       containingPartGroup);
 
   // appending currentPartGroup to containingPartGroupDescr
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Appending sub part group " <<
       partGroupToBeStopped->
@@ -1154,8 +1154,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
   // create an implicit part group
   fCurrentPartGroupNumber = 0;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Creating an implicit part group with number '" <<
       fCurrentPartGroupNumber <<
@@ -1178,8 +1178,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
       fMsrScore);
 
   // append it to the MSR score
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Appending implicit part group '" <<
       fImplicitPartGroup->getPartGroupNumber () <<
@@ -1203,8 +1203,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
       fCurrentPartsPosition);
 
   // register it in the part groups data
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Adding implicit part group descr for '" <<
       fCurrentPartGroupNumber <<
@@ -1219,8 +1219,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
     inputLineNumber,
     fImplicitPartGroupDescr);
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER creating fImplicitPartGroup");
@@ -1232,8 +1232,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
 void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "doPartGroupsNestingAndPartsAllocation:" <<
       endl;
@@ -1244,8 +1244,8 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
   // since we run through the contents of <part-list />,
   // stored in the data we've built, a second time
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "BEFORE doPartGroupsNestingAndPartsAllocation");
@@ -1278,7 +1278,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
           ", since the stack is empty";
 
         msrMusicXMLError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1335,7 +1335,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               ", since the stack is empty";
 
             msrMusicXMLError (
-              gOahBasicOptions->fInputSourceName,
+              gExecutableOah->fInputSourceName,
               stopInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1347,8 +1347,8 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               partGroupsDescrStackTop =
                 fPartGroupsDescrStack.front ();
 
-#ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+            if (gTraceOah->fTracePartGroups) {
               fLogOutputStream <<
                 "Popping part group " <<
                 partGroupDescr->
@@ -1378,7 +1378,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
                   " into";
 
                 msrInternalError (
-                  gOahBasicOptions->fInputSourceName,
+                  gExecutableOah->fInputSourceName,
                   stopInputLineNumber,
                   __FILE__, __LINE__,
                   s.str ());
@@ -1394,8 +1394,8 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
           }
 
           else {
-#ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+            if (gTraceOah->fTracePartGroups) {
               showPartGroupsData (
                 stopInputLineNumber,
                 "UPON overlapping part groups");
@@ -1465,10 +1465,10 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
   or this MusicXML data is the first-ever real-world case
   of a score exhibiting overlapping part groups.)",
               "EXECUTABLE",
-              gOahBasicOptions->fHandlerExecutableName);
+              gExecutableOah->fHandlerExecutableName);
 
             msrMusicXMLError (
-              gOahBasicOptions->fInputSourceName,
+              gExecutableOah->fInputSourceName,
               stopInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1505,8 +1505,8 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
               partGroupDescr->getPartGroup ();
 
           // make it the new current part group
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTracePartGroups) {
             fLogOutputStream <<
               "Pushing part group descr '" <<
               partGroupDescr->partGroupDescrAsString () <<
@@ -1527,8 +1527,8 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
       }
     }
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTracePartGroupsDetails) {
       stringstream s;
 
       s <<
@@ -1542,8 +1542,8 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
 
   } // for
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER doPartGroupsNestingAndPartsAllocation");
@@ -1662,15 +1662,15 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createFiguredBassVoiceForVoiceIfNotYetDo
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_encoding& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_encoding" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       "*** Analysing S_encoding ***" <<
       ", " << elt->getValue () <<
@@ -1684,15 +1684,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_encoding& elt)
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_partwise& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_score_partwise" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       "Analysing the score partwise" <<
       endl;
@@ -1707,7 +1707,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_partwise& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_score_partwise" <<
       ", line " << inputLineNumber <<
@@ -1731,7 +1731,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_work_number& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_work_number" <<
       ", line " << inputLineNumber <<
@@ -1749,7 +1749,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_work_title& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_work_title" <<
       ", line " << inputLineNumber <<
@@ -1769,7 +1769,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_number& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_movement_number" <<
       ", line " << inputLineNumber <<
@@ -1787,7 +1787,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_title& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_movement_title" <<
       ", line " << inputLineNumber <<
@@ -1813,7 +1813,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_creator" <<
       ", line " << inputLineNumber <<
@@ -1874,7 +1874,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
 
 // JMI    msrMusicXMLError (
     msrMusicXMLWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
 //      __FILE__, __LINE__,
       s.str ());
@@ -1887,7 +1887,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_rights& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_rights" <<
       ", line " << inputLineNumber <<
@@ -1909,7 +1909,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_software" <<
       ", line " << inputLineNumber <<
@@ -1929,18 +1929,18 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
   if (softwareValueToLower.find ("cubase") != string::npos) {
     msrMusicXMLWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       "<software /> contains 'Cubase'");
 
     // the '-cubase' option is set by default,
     // unless '-noCubase' is explicitly set
 
-    if (! gMusicXMLOptions->fNoCubase) {
+    if (! gMusicXMLOah->fNoCubase) {
       // set the '-cubase' option
       S_oahOption
         cubaseOption =
-          gMusicXMLOptions->
+          gMusicXMLOah->
             getHandlerUpLink ()->
               fetchOptionFromMap ("cubase");
 
@@ -1951,8 +1951,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
             dynamic_cast<oahCombinedBooleansAtom*>(&(*cubaseOption))
       ) {
         // handle it at once
-#ifdef TRACE_OPTIONS
-        if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOah) {
           fLogOutputStream <<
             "Setting '-cubase' option" <<
             endl;
@@ -1963,7 +1963,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
           setCombinedBooleanVariables (true);
       }
 
-      gMusicXMLOptions->fCubase = true;
+      gMusicXMLOah->fCubase = true;
     }
   }
 
@@ -1978,7 +1978,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_encoding_date& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_encoding_date" <<
       ", line " << inputLineNumber <<
@@ -1996,7 +1996,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_miscellaneous_field& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_miscellaneous_field" <<
       ", line " << inputLineNumber <<
@@ -2017,7 +2017,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_miscellaneous_field& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_millimeters" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2032,7 +2032,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tenths" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2047,15 +2047,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_scaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGeometry) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGeometry) {
     fLogOutputStream <<
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
@@ -2069,7 +2069,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_margins" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2085,7 +2085,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_distance" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2101,7 +2101,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_top_system_distance" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2117,7 +2117,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_dividers" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2134,7 +2134,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_layout& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_layout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2145,7 +2145,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_layout& elt )
 }
 void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_page_layout& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_page_layout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2157,7 +2157,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_page_layout& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_height" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2175,7 +2175,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_width" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2193,7 +2193,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_left_margin" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2211,7 +2211,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_right_margin" <<
        ", line " << elt->getInputLineNumber () <<
@@ -2229,7 +2229,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_top_margin" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2247,7 +2247,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bottom_margin" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2269,7 +2269,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_credit" <<
       ", line " << inputLineNumber <<
@@ -2290,7 +2290,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_credit_words" <<
       ", line " << inputLineNumber <<
@@ -2406,7 +2406,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_credit& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_credit" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2422,15 +2422,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_credit& elt )
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_list& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_part_list" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       "Analysing part list" <<
       endl;
@@ -2445,7 +2445,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_part_list" <<
       ", line " << inputLineNumber <<
@@ -2469,15 +2469,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
   doPartGroupsNestingAndPartsAllocation (
     inputLineNumber);
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     showPartGroupsData (
       inputLineNumber,
       "Part groups data gathered for score skeleton");
   }
 #endif
 
-  if (gMsrOptions->fDisplayPartGroups) {
+  if (gMsrOah->fDisplayPartGroups) {
     fLogOutputStream <<
       endl <<
       "The implicit part group contains:" <<
@@ -2500,7 +2500,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_part_group" <<
       ", line " << inputLineNumber <<
@@ -2531,7 +2531,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
         "\"";
 
     msrMusicXMLError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2569,7 +2569,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_name& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_group_name" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2581,7 +2581,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_name& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_name_display& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_group_name_display" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2593,7 +2593,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_name_display& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_group_name_display& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_group_name_display" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2608,7 +2608,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_display_text& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_display_text" <<
       ", line " << inputLineNumber <<
@@ -2629,7 +2629,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_display_text& elt)
   }
   else {
     msrMusicXMLError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<display-text /> is out of context");
@@ -2638,7 +2638,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_display_text& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_accidental_text& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accidental_text" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2650,7 +2650,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_accidental_text& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_abbreviation& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_group_abbreviation" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2665,7 +2665,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_group_symbol" <<
       ", line " << inputLineNumber <<
@@ -2701,7 +2701,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
         "unknown part group symbol \"" + groupSymbol + "\"";
 
       msrMusicXMLError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2717,7 +2717,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_group_barline" <<
       ", line " << inputLineNumber <<
@@ -2738,7 +2738,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
       "unknown part group barline \"" + groupBarline + "\"";
 
     msrMusicXMLError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2751,15 +2751,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_part_group" <<
       ", line " << inputLineNumber <<
       endl;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Handling part group '" <<
       fCurrentPartGroupNumber <<
@@ -2803,7 +2803,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_score_part" <<
       ", line " << inputLineNumber <<
@@ -2812,8 +2812,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
 
   fCurrentPartID = elt->getAttributeValue ("id");
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       "Found part name \"" << fCurrentPartID << "\"" <<
       " in part list" <<
@@ -2843,7 +2843,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
       ", line " << inputLineNumber;
 
     msrMusicXMLWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -2862,7 +2862,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_name& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_part_name" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2882,7 +2882,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_name& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_name_display& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_part_name_display" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2894,7 +2894,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_name_display& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_name_display& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_part_name_display" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2906,7 +2906,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_name_display& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_abbreviation& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_part_abbreviation" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2918,7 +2918,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_abbreviation& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_abbreviation_display& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_part_abbreviation_display" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2930,7 +2930,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_abbreviation_display& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_abbreviation_display& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_part_abbreviation_display" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2942,7 +2942,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_abbreviation_display& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_instrument_name& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_instrument_name" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2954,7 +2954,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_instrument_name& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_instrument_abbreviation& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_instrument_abbreviation" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2969,7 +2969,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_score_part" <<
       ", line " << inputLineNumber <<
@@ -2980,8 +2980,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
 
   string partID = elt->getAttributeValue ("id");
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
    fLogOutputStream <<
     "--------------------------------------------" <<
     endl <<
@@ -2995,8 +2995,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   gIndenter++;
 
   // create the part
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
    fLogOutputStream <<
     "--------------------------------------------" <<
     endl <<
@@ -3041,8 +3041,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     fCurrentPartsPosition,
     part);
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handling score part \"" + partID + "\"");
@@ -3058,8 +3058,8 @@ void mxmlTree2MsrSkeletonBuilder::registerPart (
   int       partPosition,
   S_msrPart part)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Registering part " <<
       part->getPartCombinedName () <<
@@ -3091,7 +3091,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_part" <<
       ", line " << inputLineNumber <<
@@ -3101,8 +3101,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   // fCurrentPartID is used throughout
   fCurrentPartID = elt->getAttributeValue ("id");
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << fCurrentPartID << "\"" <<
@@ -3127,7 +3127,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
         "' since it is the only part in the <part-list />";
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -3143,7 +3143,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       s >> fCurrentPartID;
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         "part 'id' is empty, creating one as '" + fCurrentPartID + "'");
     }
@@ -3164,7 +3164,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       "\" is not known in the <part-list />";
 
     msrMusicXMLError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3172,8 +3172,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "--------------------------------------------" <<
@@ -3196,15 +3196,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_part" <<
       ", line " << inputLineNumber <<
       endl;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
       endl <<
@@ -3231,7 +3231,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
         " measures while the other ones have " << fScoreNumberOfMeasures;
 
       msrMusicXMLError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
       __FILE__, __LINE__,
         s.str ());
@@ -3255,7 +3255,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staves& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_direction" <<
       ", line " << inputLineNumber <<
@@ -3264,8 +3264,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staves& elt)
 
   int stavesNumber = int(*elt);
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
     switch (stavesNumber) {
       case 0:
         fLogOutputStream <<
@@ -3309,7 +3309,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staff& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff" <<
       ", line " << inputLineNumber <<
@@ -3341,7 +3341,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staff& elt)
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_voice& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_details" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3368,7 +3368,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_measure" <<
       ", line " << inputLineNumber <<
@@ -3383,8 +3383,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
   fCurrentMeasureNumber = // JMI local variable???
     elt->getAttributeValue ("number");
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << fCurrentMeasureNumber <<
@@ -3401,7 +3401,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_measure& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_measure" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3414,7 +3414,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_measure& elt)
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_note& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_note" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3439,7 +3439,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_note" <<
       ", line " << inputLineNumber <<
@@ -3461,13 +3461,13 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
         fCurrentStaffMusicXMLNumber,
         fCurrentVoiceMusicXMLNumber);
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceNotes
+    gTraceOah->fTraceNotes
       ||
-    gTraceOptions->fTraceStaves
+    gTraceOah->fTraceStaves
       ||
-    gTraceOptions->fTraceVoices
+    gTraceOah->fTraceVoices
     ) {
     fLogOutputStream <<
       "--> S_note, fCurrentStaffMusicXMLNumber = " <<
@@ -3518,7 +3518,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_lyric" <<
       ", line " << inputLineNumber <<
@@ -3533,7 +3533,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
 
     if (fCurrentStanzaNumber.size () == 0) {
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         "lyric number is empty, using \"1\" by default");
 
@@ -3541,8 +3541,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
     }
 
     else {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceLyrics) {
         fLogOutputStream <<
           "--> setting fCurrentStanzaNumber to " <<
           fCurrentStanzaNumber <<
@@ -3565,8 +3565,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
       elt->getAttributeValue ("name");
 
     if (fCurrentStanzaName.size () == 0) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceLyrics) {
         // lyrics names are not so frequent after all...
         stringstream s;
 
@@ -3576,7 +3576,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
           "\" by default";
 
         msrMusicXMLWarning (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -3586,8 +3586,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
     }
 
     else {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceLyrics) {
         fLogOutputStream <<
           "--> setting fCurrentStanzaName to " <<
           fCurrentStanzaName <<
@@ -3609,15 +3609,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_lyric" <<
       ", line " << inputLineNumber <<
       endl;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     fLogOutputStream <<
       endl <<
       "visitEnd ( S_lyric& )" <<
@@ -3669,7 +3669,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_harmony" <<
       ", harmonyVoicesCounter = " << fHarmonyVoicesCounter <<
@@ -3691,7 +3691,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_figured_bass" <<
       ", figuredBassVoicesCounter = " << fFiguredBassVoicesCounter <<

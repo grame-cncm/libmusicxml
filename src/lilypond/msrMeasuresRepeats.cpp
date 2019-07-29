@@ -12,12 +12,12 @@
 
 #include "msrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -60,8 +60,8 @@ void msrMeasuresRepeatElement::appendSegmentToMeasuresRepeatElementsList ( // JM
   S_msrSegment segment,
   string       context)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending segment '" << segment <<
       "' to measuresRepeat element elements list '" << asString () <<
@@ -84,8 +84,8 @@ void msrMeasuresRepeatElement::appendMeasuresRepeatToMeasuresRepeatElementsList 
   S_msrMeasuresRepeat  measuresRepeat,
   string               context)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending measuresRepeat '" << measuresRepeat <<
       "' to measuresRepeat element elements list '" << asString () <<
@@ -108,8 +108,8 @@ void msrMeasuresRepeatElement::appendVoiceElementToMeasuresRepeatElementsList (
   S_msrVoiceElement voiceElement,
   string            context)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending voice element '" << voiceElement <<
       "' to measuresRepeat element elements list '" << asString () <<
@@ -195,7 +195,7 @@ S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote 
           "'";
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -210,7 +210,7 @@ S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote 
 
 void msrMeasuresRepeatElement::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatElement::acceptIn ()" <<
       endl;
@@ -221,7 +221,7 @@ void msrMeasuresRepeatElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeatElement>*> (v)) {
         S_msrMeasuresRepeatElement elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeatElement::visitStart ()" <<
             endl;
@@ -232,7 +232,7 @@ void msrMeasuresRepeatElement::acceptIn (basevisitor* v)
 
 void msrMeasuresRepeatElement::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatElement::acceptOut ()" <<
       endl;
@@ -243,7 +243,7 @@ void msrMeasuresRepeatElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeatElement>*> (v)) {
         S_msrMeasuresRepeatElement elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeatElement::visitEnd ()" <<
             endl;
@@ -439,8 +439,8 @@ msrMeasuresRepeatPattern::~msrMeasuresRepeatPattern ()
 void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
     S_msrSegment measuresRepeatPatternSegment)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern segment containing " <<
       singularOrPlural (
@@ -478,7 +478,7 @@ int msrMeasuresRepeatPattern::fetchMeasuresNumber () const
 
 void msrMeasuresRepeatPattern::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatPattern::acceptIn ()" <<
       endl;
@@ -489,7 +489,7 @@ void msrMeasuresRepeatPattern::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeatPattern>*> (v)) {
         S_msrMeasuresRepeatPattern elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeatPattern::visitStart ()" <<
             endl;
@@ -500,7 +500,7 @@ void msrMeasuresRepeatPattern::acceptIn (basevisitor* v)
 
 void msrMeasuresRepeatPattern::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatPattern::acceptOut ()" <<
       endl;
@@ -511,7 +511,7 @@ void msrMeasuresRepeatPattern::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeatPattern>*> (v)) {
         S_msrMeasuresRepeatPattern elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeatPattern::visitEnd ()" <<
             endl;
@@ -522,7 +522,7 @@ void msrMeasuresRepeatPattern::acceptOut (basevisitor* v)
 
 void msrMeasuresRepeatPattern::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatPattern::browseData ()" <<
       endl;
@@ -624,8 +624,8 @@ msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas ()
 void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
   S_msrSegment measuresRepeatReplicasSegment)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas segment containing " <<
       singularOrPlural (
@@ -663,7 +663,7 @@ int msrMeasuresRepeatReplicas::fetchMeasuresNumber () const
 
 void msrMeasuresRepeatReplicas::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatReplicas::acceptIn ()" <<
       endl;
@@ -674,7 +674,7 @@ void msrMeasuresRepeatReplicas::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeatReplicas>*> (v)) {
         S_msrMeasuresRepeatReplicas elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeatReplicas::visitStart ()" <<
             endl;
@@ -685,7 +685,7 @@ void msrMeasuresRepeatReplicas::acceptIn (basevisitor* v)
 
 void msrMeasuresRepeatReplicas::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatReplicas::acceptOut ()" <<
       endl;
@@ -696,7 +696,7 @@ void msrMeasuresRepeatReplicas::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeatReplicas>*> (v)) {
         S_msrMeasuresRepeatReplicas elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeatReplicas::visitEnd ()" <<
             endl;
@@ -707,7 +707,7 @@ void msrMeasuresRepeatReplicas::acceptOut (basevisitor* v)
 
 void msrMeasuresRepeatReplicas::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeatReplicas::browseData ()" <<
       endl;
@@ -828,8 +828,8 @@ msrMeasuresRepeat::~msrMeasuresRepeat ()
 S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Creating a newborn clone of measures repeat '" <<
       asString () <<
@@ -857,8 +857,8 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
 void msrMeasuresRepeat::setMeasuresRepeatPattern (
   S_msrMeasuresRepeatPattern measuresRepeatPattern)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern containing " <<
       singularOrPlural (
@@ -885,8 +885,8 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
 void msrMeasuresRepeat::setMeasuresRepeatReplicas (
   S_msrMeasuresRepeatReplicas measuresRepeatReplicas)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas containing " <<
       singularOrPlural (
@@ -952,7 +952,7 @@ int msrMeasuresRepeat::fetchMeasuresRepeatReplicasMeasuresNumber () const
 
 void msrMeasuresRepeat::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeat::acceptIn ()" <<
       endl;
@@ -963,7 +963,7 @@ void msrMeasuresRepeat::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeat>*> (v)) {
         S_msrMeasuresRepeat elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeat::visitStart ()" <<
             endl;
@@ -974,7 +974,7 @@ void msrMeasuresRepeat::acceptIn (basevisitor* v)
 
 void msrMeasuresRepeat::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeat::acceptOut ()" <<
       endl;
@@ -985,7 +985,7 @@ void msrMeasuresRepeat::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasuresRepeat>*> (v)) {
         S_msrMeasuresRepeat elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasuresRepeat::visitEnd ()" <<
             endl;
@@ -996,7 +996,7 @@ void msrMeasuresRepeat::acceptOut (basevisitor* v)
 
 void msrMeasuresRepeat::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasuresRepeat::browseData ()" <<
       endl;
@@ -1020,8 +1020,8 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
     score->getInhibitMeasuresRepeatReplicasBrowsing ();
 
   if (inhibitMeasuresRepeatReplicasBrowsing) {
-#ifdef TRACE_OPTIONS
-    if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+    if (gMsrOah->fTraceMsrVisitors || gTraceOah->fTraceMeasuresRepeats) {
       gLogOstream <<
         "% ==> visiting measures repeat replicas is inhibited" <<
         endl;
@@ -1138,8 +1138,8 @@ void msrMeasuresRepeat::print (ostream& os)
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     // print the current measures repeat build phase
     const int fieldWidth = 36;
 

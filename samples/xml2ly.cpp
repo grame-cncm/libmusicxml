@@ -19,18 +19,18 @@
 
 #include "utilities.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "generalOptions.h"
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
-#include "lpsrOptions.h"
-#include "brailleOptions.h"
+#include "generalOah.h"
+#include "musicXMLOah.h"
+#include "msrOah.h"
+#include "lpsrOah.h"
+#include "brailleOah.h"
 
-#include "xml2lyOptionsHandling.h"
+#include "xml2lyOah.h"
 
 #include "musicXML2MxmlTreeInterface.h"
 
@@ -49,7 +49,7 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-  S_xml2lyOptionsHandler handler,
+  S_xml2lyOahHandler handler,
   int                    argc,
   char*                  argv [],
   indentedOstream&       logIndentedOutputStream)
@@ -75,7 +75,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
     mxmlTree =
       musicXMLFd2mxmlTree (
         stdin,
-        gMusicXMLOptions,
+        gMusicXMLOah,
         gLogOstream);
   }
 
@@ -108,7 +108,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
     mxmlTree =
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
-        gMusicXMLOptions,
+        gMusicXMLOah,
         gLogOstream);
   }
 
@@ -122,12 +122,12 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
   S_msrScore
     mScore =
       buildMsrSkeletonFromElementsTree (
-        gMsrOptions,
+        gMsrOah,
         mxmlTree,
         gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -135,7 +135,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -161,13 +161,13 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
   S_msrScore  scoreSkeleton)
 {
   populateMsrSkeletonFromMxmlTree (
-    gMsrOptions,
+    gMsrOah,
     mxmlTree,
     scoreSkeleton,
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -175,7 +175,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -187,7 +187,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
 //_______________________________________________________________________________
 void displayMsrScore_OptionalPass (
   S_msrScore   mScore,
-  S_msrOptions msrOpts)
+  S_msrOah msrOpts)
 {
   // display the MSR
   displayMSRPopulatedScore (
@@ -196,7 +196,7 @@ void displayMsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -204,7 +204,7 @@ void displayMsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -219,7 +219,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
 {
   S_lpsrScore lpScore;
 
-  if (gLilypondOptions->fNoLilypondCode) {
+  if (gLilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
       endl <<
@@ -229,13 +229,13 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
     lpScore =
       buildLpsrScoreFromMsrScore (
         mScore,
-        gMsrOptions,
-        gLpsrOptions,
+        gMsrOah,
+        gLpsrOah,
         gLogOstream);
   }
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -243,7 +243,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -251,7 +251,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
     gIndenter.resetToZero ();
   }
 
-  if (! lpScore && ! gLilypondOptions->fNoLilypondCode) {
+  if (! lpScore && ! gLilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "### Conversion from MSR to LPSR failed ###" <<
       endl <<
@@ -266,8 +266,8 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
 //_______________________________________________________________________________
 void displayLpsrScore_OptionalPass (
   S_lpsrScore   lpScore,
-  S_msrOptions  msrOpts,
-  S_lpsrOptions lpsrOpts)
+  S_msrOah  msrOpts,
+  S_lpsrOah lpsrOpts)
 {
   // display it
   displayLpsrScore (
@@ -277,7 +277,7 @@ void displayLpsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -285,7 +285,7 @@ void displayLpsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -301,7 +301,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
 {
   int outputFileNameSize = outputFileName.size ();
 
-  if (gLilypondOptions->fNoLilypondCode) {
+  if (gLilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc -no-lilypond-code' is set, no LilyPond code is created" <<
       endl <<
@@ -314,8 +314,8 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     ofstream outFileStream;
 
     if (outputFileNameSize) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePasses) {
         gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -346,15 +346,15 @@ void convertLpsrScoreToLilypondCode_Pass4 (
       // convert the LPSR score to LilyPond code
       generateLilypondCodeFromLpsrScore (
         lpScore,
-        gMsrOptions,
-        gLpsrOptions,
+        gMsrOah,
+        gLpsrOah,
         gLogOstream,
         brailleCodeFileOutputStream);
     }
 
     else {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePasses) {
         gLogOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -372,15 +372,15 @@ void convertLpsrScoreToLilypondCode_Pass4 (
       // convert the LPSR score to LilyPond code
       generateLilypondCodeFromLpsrScore (
         lpScore,
-        gMsrOptions,
-        gLpsrOptions,
+        gMsrOah,
+        gLpsrOah,
         gLogOstream,
         brailleCodeCoutOutputStream);
     }
 
     if (outputFileNameSize) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePasses) {
         gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -393,7 +393,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
   }
 
   if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
+    if (! gGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -401,7 +401,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -432,7 +432,7 @@ void convertMusicXMLToLilypond (
       convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree);
 
-  if (gMsrOptions->fExit2a) {
+  if (gMsrOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -448,7 +448,7 @@ void convertMusicXMLToLilypond (
     mxmlTree,
     mScore);
 
-  if (gMsrOptions->fExit2b) {
+  if (gMsrOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<
@@ -461,20 +461,20 @@ void convertMusicXMLToLilypond (
   // display the MSR score summary if requested
   // ------------------------------------------------------
 
-  if (gMsrOptions->fDisplayMsr) {
+  if (gMsrOah->fDisplayMsr) {
     displayMsrScore_OptionalPass (
       mScore,
-      gMsrOptions);
+      gMsrOah);
   }
 
 
   // display the score summary if requested
   // ------------------------------------------------------
 
-  if (gMsrOptions->fDisplayMsrSummary) {
+  if (gMsrOah->fDisplayMsrSummary) {
     // display the score summary
     displayMSRPopulatedScoreSummary (
-      gMsrOptions,
+      gMsrOah,
       mScore,
       gLogOstream);
 
@@ -485,10 +485,10 @@ void convertMusicXMLToLilypond (
   // display the score names if requested
   // ------------------------------------------------------
 
-  if (gMsrOptions->fDisplayMsrNames) {
+  if (gMsrOah->fDisplayMsrNames) {
     // display the score name
     displayMSRPopulatedScoreNames (
-      gMsrOptions,
+      gMsrOah,
       mScore,
       gLogOstream);
 
@@ -504,7 +504,7 @@ void convertMusicXMLToLilypond (
       convertMsrScoreToLpsrScore_Pass3 (
         mScore);
 
-  if (gLpsrOptions->fExit3) {
+  if (gLpsrOah->fExit3) {
     gLogOstream <<
       endl <<
       "Existing after pass 3 as requested" <<
@@ -516,11 +516,11 @@ void convertMusicXMLToLilypond (
   // display the LPSR score if requested
   // ------------------------------------------------------
 
-  if (gLpsrOptions->fDisplayLpsr) {
+  if (gLpsrOah->fDisplayLpsr) {
     displayLpsrScore_OptionalPass (
       lpScore,
-      gMsrOptions,
-      gLpsrOptions);
+      gMsrOah,
+      gLpsrOah);
   }
 
 
@@ -538,9 +538,9 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2lyOptionsHandler
+  S_xml2lyOahHandler
     handler =
-      xml2lyOptionsHandler::create (
+      xml2lyOahHandler::create (
         argv [0],
         gOutputOstream);
 
@@ -556,8 +556,8 @@ int main (int argc, char *argv[])
 
 /* JMI
   // print the resulting options
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fDisplayOptionsHandler) {
+#ifdef TRACE_OAH
+  if (gGeneralOah->fDisplayOahHandler) {
     gLogOstream <<
       handler <<
       endl <<
@@ -568,11 +568,11 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gOahBasicOptions->fInputSourceName;
+      gExecutableOah->fInputSourceName;
 
   string
     outputFileName =
-      gXml2lyOptions->fOutputFileName;
+      gXml2lyOah->fOutputFileName;
 
   int
     outputFileNameSize =
@@ -581,17 +581,17 @@ int main (int argc, char *argv[])
   // has quiet mode been requested?
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fQuiet) {
+  if (gGeneralOah->fQuiet) {
     // disable all trace and display options
     handler->
-      enforceOptionsHandlerQuietness ();
+      enforceOahHandlerQuietness ();
   }
 
   // welcome message
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     gLogOstream <<
       "This is xml2ly " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -612,7 +612,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << gGeneralOptions->fTranslationDate <<
+      "Time is " << gGeneralOah->fTranslationDate <<
       endl;
 
     gLogOstream <<
@@ -659,10 +659,10 @@ int main (int argc, char *argv[])
   // print the chosen options if so chosen
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fDisplayOptionsValues) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fDisplayOahValues) {
     handler->
-      printAllOptionsValues (
+      printAllOahValues (
         gLogOstream);
 
     gLogOstream << endl;
@@ -672,8 +672,8 @@ int main (int argc, char *argv[])
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -695,7 +695,7 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fDisplayCPUusage)
+  if (gGeneralOah->fDisplayCPUusage)
     timing::gTiming.print (
       gLogOstream);
 

@@ -12,7 +12,7 @@
 
 #include "lpsrElements.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -41,8 +41,8 @@ lpsrElement::~lpsrElement ()
 
 void lpsrElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrElement::acceptIn ()" <<
       endl;
@@ -54,8 +54,8 @@ void lpsrElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrElement::visitStart ()" <<
             endl;
@@ -67,8 +67,8 @@ void lpsrElement::acceptIn (basevisitor* v)
 
 void lpsrElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrElement::acceptOut ()" <<
       endl;
@@ -80,8 +80,8 @@ void lpsrElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrElement::visitEnd ()" <<
             endl;

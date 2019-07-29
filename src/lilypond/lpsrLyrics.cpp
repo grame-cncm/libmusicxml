@@ -12,7 +12,7 @@
 
 #include "lpsrLyrics.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -49,8 +49,8 @@ lpsrNewLyricsBlock::~lpsrNewLyricsBlock ()
 
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewLyricsBlock::acceptIn ()" <<
       endl;
@@ -62,8 +62,8 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitStart ()" <<
             endl;
@@ -75,8 +75,8 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewLyricsBlock::acceptOut ()" <<
       endl;
@@ -88,8 +88,8 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitEnd ()" <<
             endl;

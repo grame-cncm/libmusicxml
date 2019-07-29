@@ -14,7 +14,7 @@
 
 #include "lpsrVarValAssocs.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -97,8 +97,8 @@ lpsrVarValAssoc::~lpsrVarValAssoc ()
 
 void lpsrVarValAssoc::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValAssoc::acceptIn ()" <<
       endl;
@@ -110,8 +110,8 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
             endl;
@@ -123,8 +123,8 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
 
 void lpsrVarValAssoc::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValAssoc::acceptOut ()" <<
       endl;
@@ -136,8 +136,8 @@ void lpsrVarValAssoc::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
             endl;
@@ -459,8 +459,8 @@ lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
 
 void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
       endl;
@@ -472,8 +472,8 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
             endl;
@@ -485,8 +485,8 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 
 void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
       endl;
@@ -498,8 +498,8 @@ void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
             endl;

@@ -16,14 +16,14 @@
 
 #include "msr.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -82,8 +82,8 @@ msrScore::~msrScore ()
 
 S_msrScore msrScore::createScoreNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceScore) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceScore) {
     gLogOstream <<
       "Creating a newborn clone of a score" <<
       endl;
@@ -139,7 +139,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
       "' already exists in this score";
 
     msrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       partGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -152,8 +152,8 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 
 void msrScore::appendCreditToScore (S_msrCredit credit)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceCredits) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceCredits) {
     gLogOstream <<
       "Appending credit '" <<
       credit->asString () <<
@@ -171,8 +171,8 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 {
   S_msrPart result;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
     gLogOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
@@ -234,10 +234,10 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
   if (
     ! identification->getWorkTitle ()
       &&
-    gMusicXMLOptions->fUseFilenameAsWorkTitle
+    gMusicXMLOah->fUseFilenameAsWorkTitle
   ) {
     inputSourceName =
-      gOahBasicOptions->fInputSourceName;
+      gExecutableOah->fInputSourceName;
 
     if (inputSourceName == "-") {
       inputSourceName = "Standard input";
@@ -297,8 +297,8 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
 
               switch (topCreditsCounter) {
                 case 1:
-#ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -314,8 +314,8 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                   break;
 
                 case 2:
-#ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -343,8 +343,8 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
 
               switch (bottomCreditsCounter) {
                 case 1:
-#ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -360,8 +360,8 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                   break;
 
                 case 2:
-#ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -447,7 +447,7 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
 
 void msrScore::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScore::acceptIn ()" <<
       endl;
@@ -458,7 +458,7 @@ void msrScore::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScore::visitStart ()" <<
             endl;
@@ -469,7 +469,7 @@ void msrScore::acceptIn (basevisitor* v)
 
 void msrScore::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScore::acceptOut ()" <<
       endl;
@@ -480,7 +480,7 @@ void msrScore::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScore::visitEnd ()" <<
             endl;
@@ -491,7 +491,7 @@ void msrScore::acceptOut (basevisitor* v)
 
 void msrScore::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScore::browseData ()" <<
       endl;
@@ -529,7 +529,7 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% <== msrScore::browseData ()" <<
       endl;

@@ -17,12 +17,12 @@
 
 #include "utilities.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -53,8 +53,8 @@ void msrIdentification::setWorkNumber (
   int    inputLineNumber,
   string val)
   {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting workNumber to \"" << val << "\"" <<
       endl;
@@ -71,8 +71,8 @@ void msrIdentification::setWorkTitle (
   int    inputLineNumber,
   string val)
   {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
@@ -89,8 +89,8 @@ void msrIdentification::setMovementNumber (
   int    inputLineNumber,
   string val)
   {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting movementNumber to \"" << val << "\"" <<
       endl;
@@ -107,8 +107,8 @@ void msrIdentification::setMovementTitle (
   int    inputLineNumber,
   string val)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting movementTitle to \"" << val << "\"" <<
       endl;
@@ -125,8 +125,8 @@ void msrIdentification::setEncodingDate (
   int    inputLineNumber,
   string val)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting encodingDate to \"" << val << "\"" <<
       endl;
@@ -143,8 +143,8 @@ void msrIdentification::setScoreInstrument (
   int    inputLineNumber,
   string val)
 {
- #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+ #ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting scoreInstrument to \"" << val << "\"" <<
       endl;
@@ -161,8 +161,8 @@ void msrIdentification::setMiscellaneousField (
   int    inputLineNumber,
   string val)
 {
- #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+ #ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
@@ -179,8 +179,8 @@ void msrIdentification::addRights (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding right \"" << value << "\"" <<
       endl;
@@ -202,8 +202,8 @@ void msrIdentification::addComposer (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding composer \"" << value << "\"" <<
       endl;
@@ -225,8 +225,8 @@ void msrIdentification::addArranger (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding arranger \"" << value << "\"" <<
       endl;
@@ -248,8 +248,8 @@ void msrIdentification::addLyricist (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding lyricist \"" << value << "\"" <<
       endl;
@@ -271,8 +271,8 @@ void msrIdentification::addPoet (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding poet \"" << value << "\"" <<
       endl;
@@ -294,8 +294,8 @@ void msrIdentification::addTranslator (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding translator \"" << value << "\"" <<
       endl;
@@ -317,8 +317,8 @@ void msrIdentification::addArtist (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding artist \"" << value << "\"" <<
       endl;
@@ -340,8 +340,8 @@ void msrIdentification::addSoftware (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding software \"" << value << "\"" <<
       endl;
@@ -361,7 +361,7 @@ void msrIdentification::addSoftware (
 
 void msrIdentification::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrIdentification::acceptIn ()" <<
       endl;
@@ -372,7 +372,7 @@ void msrIdentification::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrIdentification::visitStart ()" <<
             endl;
@@ -383,7 +383,7 @@ void msrIdentification::acceptIn (basevisitor* v)
 
 void msrIdentification::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrIdentification::acceptOut ()" <<
       endl;
@@ -394,7 +394,7 @@ void msrIdentification::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrIdentification::visitEnd ()" <<
             endl;

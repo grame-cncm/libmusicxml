@@ -15,12 +15,12 @@
 
 #include "msrBeams.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -50,8 +50,8 @@ msrBeam::msrBeam (
   fBeamNumber = number;
   fBeamKind   = beamKind; 
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBeams) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBeams) {
     gLogOstream <<
       "Creating beam '" <<
       this->asString () <<
@@ -66,7 +66,7 @@ msrBeam::~msrBeam ()
 
 void msrBeam::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeam::acceptIn ()" <<
       endl;
@@ -77,7 +77,7 @@ void msrBeam::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeam::visitStart ()" <<
             endl;
@@ -88,7 +88,7 @@ void msrBeam::acceptIn (basevisitor* v)
 
 void msrBeam::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeam::acceptOut ()" <<
       endl;
@@ -99,7 +99,7 @@ void msrBeam::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeam::visitEnd ()" <<
             endl;

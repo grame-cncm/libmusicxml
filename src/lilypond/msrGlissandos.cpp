@@ -12,12 +12,12 @@
 
 #include "msrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -65,8 +65,8 @@ msrGlissando::~msrGlissando ()
 
 S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGlissandos) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGlissandos) {
     gLogOstream <<
       "Creating a newborn clone of glissando '" <<
       asString () <<
@@ -109,7 +109,7 @@ string msrGlissando::glissandoTypeKindAsString (
 
 void msrGlissando::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrGlissando::acceptIn ()" <<
       endl;
@@ -120,7 +120,7 @@ void msrGlissando::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGlissando::visitStart ()" <<
             endl;
@@ -131,7 +131,7 @@ void msrGlissando::acceptIn (basevisitor* v)
 
 void msrGlissando::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrGlissando::acceptOut ()" <<
       endl;
@@ -142,7 +142,7 @@ void msrGlissando::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGlissando::visitEnd ()" <<
             endl;

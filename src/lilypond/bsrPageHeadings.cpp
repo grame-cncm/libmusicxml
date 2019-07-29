@@ -14,13 +14,13 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -46,10 +46,10 @@ bsrPageHeading::bsrPageHeading (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gBrailleOptions->fCellsPerLine)
+        gBrailleOah->fCellsPerLine)
 {
   fPageHeadingTitle = pageHeadingTitle;
-  
+
   fPageHeadingPagination = pageHeadingPagination;
   fPageHeadingNumber     = pageHeadingNumber;
 }
@@ -104,21 +104,21 @@ S_bsrCellsList bsrPageHeading::buildCellsList () const
 
 void bsrPageHeading::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageHeading::acceptIn ()" <<
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrPageHeading>*
     p =
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
-        
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageHeading::visitStart ()" <<
             endl;
@@ -130,8 +130,8 @@ void bsrPageHeading::acceptIn (basevisitor* v)
 
 void bsrPageHeading::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageHeading::acceptOut ()" <<
       endl;
@@ -142,9 +142,9 @@ void bsrPageHeading::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
-      
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageHeading::visitEnd ()" <<
             endl;
@@ -156,8 +156,8 @@ void bsrPageHeading::acceptOut (basevisitor* v)
 
 void bsrPageHeading::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
@@ -170,8 +170,8 @@ void bsrPageHeading::browseData (basevisitor* v)
     browser.browse (*fPageHeadingPagination);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
@@ -196,11 +196,11 @@ string bsrPageHeading::asString () const
     s <<
       "none";
   }
-    
+
   s <<
     ", pageHeadingNumber: " << fPageHeadingNumber <<
     ", line " << fInputLineNumber;
-    
+
   return s.str ();
 }
 
@@ -210,12 +210,12 @@ void bsrPageHeading::print (ostream& os)
     "PageHeading" <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
   const int fieldWidth = 22;
 
-  os << left <<  
+  os << left <<
     setw (fieldWidth) <<
     "pageHeadingTitle" << " : \"" << fPageHeadingTitle << "\"" <<
     endl <<
@@ -225,10 +225,10 @@ void bsrPageHeading::print (ostream& os)
 
   if (fPageHeadingPagination) {
     gIndenter++;
-  
+
     os <<
       fPageHeadingPagination;
-  
+
     gIndenter--;
   }
   else {
@@ -236,12 +236,12 @@ void bsrPageHeading::print (ostream& os)
       " : " << "none" <<
     endl;
   }
-  
-  os << left <<  
+
+  os << left <<
     setw (fieldWidth) <<
     "pageHeadingNumber" << " : " << fPageHeadingNumber <<
     endl;
-  
+
   gIndenter--;
 }
 

@@ -18,9 +18,9 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include "generalOptions.h"
-#include "msrOptions.h"
-#include "lpsrOptions.h"
+#include "generalOah.h"
+#include "msrOah.h"
+#include "lpsrOah.h"
 
 #include "lpsr.h"
 #include "exports.h"
@@ -45,15 +45,15 @@ The library includes a high level API to convert
 //______________________________________________________________________________
 EXP S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOptions     msrOpts,
-  S_lpsrOptions    lpsrOpts,
+  S_msrOah     msrOpts,
+  S_lpsrOah    lpsrOpts,
   indentedOstream& logOstream);
 
 //_______________________________________________________________________________
 EXP void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions      msrOpts,
-  S_lpsrOptions     lpsrOpts,
+  S_msrOah      msrOpts,
+  S_lpsrOah     lpsrOpts,
   indentedOstream&  logOstream);
 
 /*! @} */

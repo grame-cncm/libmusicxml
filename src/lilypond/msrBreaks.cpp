@@ -15,12 +15,12 @@
 
 #include "msrBreaks.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -47,8 +47,8 @@ msrLineBreak::msrLineBreak (
 {
   fNextBarNumber = nextBarNumber; 
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a break before measure " << fNextBarNumber <<
       endl;
@@ -72,7 +72,7 @@ string msrLineBreak::asString () const
 
 void msrLineBreak::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLineBreak::acceptIn ()" <<
       endl;
@@ -83,7 +83,7 @@ void msrLineBreak::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLineBreak::visitStart ()" <<
             endl;
@@ -94,7 +94,7 @@ void msrLineBreak::acceptIn (basevisitor* v)
 
 void msrLineBreak::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLineBreak::acceptOut ()" <<
       endl;
@@ -105,7 +105,7 @@ void msrLineBreak::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLineBreak::visitEnd ()" <<
             endl;
@@ -145,8 +145,8 @@ msrPageBreak::msrPageBreak (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a page break" <<
       endl;
@@ -169,7 +169,7 @@ string msrPageBreak::asString () const
 
 void msrPageBreak::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPageBreak::acceptIn ()" <<
       endl;
@@ -180,7 +180,7 @@ void msrPageBreak::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPageBreak::visitStart ()" <<
             endl;
@@ -191,7 +191,7 @@ void msrPageBreak::acceptIn (basevisitor* v)
 
 void msrPageBreak::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPageBreak::acceptOut ()" <<
       endl;
@@ -202,7 +202,7 @@ void msrPageBreak::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPageBreak::visitEnd ()" <<
             endl;

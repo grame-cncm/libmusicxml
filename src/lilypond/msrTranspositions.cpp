@@ -16,14 +16,14 @@
 
 #include "msrTranspositions.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -60,7 +60,7 @@ msrOctaveShift::~msrOctaveShift ()
 
 void msrOctaveShift::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOctaveShift::acceptIn ()" <<
       endl;
@@ -71,7 +71,7 @@ void msrOctaveShift::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOctaveShift::visitStart ()" <<
             endl;
@@ -82,7 +82,7 @@ void msrOctaveShift::acceptIn (basevisitor* v)
 
 void msrOctaveShift::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOctaveShift::acceptOut ()" <<
       endl;
@@ -93,7 +93,7 @@ void msrOctaveShift::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOctaveShift::visitEnd ()" <<
             endl;
@@ -195,8 +195,8 @@ msrTranspose::msrTranspose (
   fTransposeOctaveChange = transposeOctaveChange;
   fTransposeDouble       = transposeDouble;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTranspositions) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTranspositions) {
     gLogOstream <<
       "Creating transpose '" <<
       asString () <<
@@ -231,7 +231,7 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
 
 void msrTranspose::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTranspose::acceptIn ()" <<
       endl;
@@ -242,7 +242,7 @@ void msrTranspose::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTranspose::visitStart ()" <<
             endl;
@@ -253,7 +253,7 @@ void msrTranspose::acceptIn (basevisitor* v)
 
 void msrTranspose::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTranspose::acceptOut ()" <<
       endl;
@@ -264,7 +264,7 @@ void msrTranspose::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTranspose::visitEnd ()" <<
             endl;

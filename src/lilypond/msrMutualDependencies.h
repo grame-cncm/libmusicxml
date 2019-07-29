@@ -82,7 +82,7 @@
 
 #include "msrMidi.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
 
 namespace MusicXML2

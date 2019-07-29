@@ -16,7 +16,7 @@
 
 #include "msrDynamics.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -153,7 +153,7 @@ string msrDynamics::dynamicsPlacementKindAsString () const
 
 void msrDynamics::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDynamics::acceptIn ()" <<
       endl;
@@ -164,7 +164,7 @@ void msrDynamics::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDynamics::visitStart ()" <<
             endl;
@@ -175,7 +175,7 @@ void msrDynamics::acceptIn (basevisitor* v)
 
 void msrDynamics::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDynamics::acceptOut ()" <<
       endl;
@@ -186,7 +186,7 @@ void msrDynamics::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDynamics::visitEnd ()" <<
             endl;
@@ -254,7 +254,7 @@ string msrOtherDynamics::otherDynamicsPlacementKindAsString () const
 
 void msrOtherDynamics::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOtherDynamics::acceptIn ()" <<
       endl;
@@ -265,7 +265,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOtherDynamics::visitStart ()" <<
             endl;
@@ -276,7 +276,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
 
 void msrOtherDynamics::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOtherDynamics::acceptOut ()" <<
       endl;
@@ -287,7 +287,7 @@ void msrOtherDynamics::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOtherDynamics::visitEnd ()" <<
             endl;
@@ -405,7 +405,7 @@ string msrWedge::wedgeNienteKindAsString (
 
 void msrWedge::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrWedge::acceptIn ()" <<
       endl;
@@ -416,7 +416,7 @@ void msrWedge::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWedge::visitStart ()" <<
             endl;
@@ -427,7 +427,7 @@ void msrWedge::acceptIn (basevisitor* v)
 
 void msrWedge::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrWedge::acceptOut ()" <<
       endl;
@@ -438,7 +438,7 @@ void msrWedge::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWedge::visitEnd ()" <<
             endl;

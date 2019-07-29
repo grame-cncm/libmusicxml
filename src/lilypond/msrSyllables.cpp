@@ -12,12 +12,12 @@
 
 #include "msrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -76,8 +76,8 @@ msrSyllable::msrSyllable (
 
   fSyllableTupletFactor = syllableTupletFactor;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Creating a syllable containing:" <<
       endl;
@@ -97,8 +97,8 @@ msrSyllable::~msrSyllable ()
 S_msrSyllable msrSyllable::createSyllableNewbornClone (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
@@ -145,8 +145,8 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 S_msrSyllable msrSyllable::createSyllableDeepCopy (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
@@ -192,8 +192,8 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 
 void msrSyllable::appendLyricTextToSyllable (string text)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending text \"" <<
       text <<
@@ -230,8 +230,8 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
     appendSyllableToNote (this);
 
   // set it upLink to note
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Setting syllable note upLink for:" <<
       endl;
@@ -251,7 +251,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
 
 void msrSyllable::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSyllable::acceptIn ()" <<
       endl;
@@ -262,7 +262,7 @@ void msrSyllable::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSyllable::visitStart ()" <<
             endl;
@@ -273,7 +273,7 @@ void msrSyllable::acceptIn (basevisitor* v)
 
 void msrSyllable::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSyllable::acceptOut ()" <<
       endl;
@@ -284,7 +284,7 @@ void msrSyllable::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSyllable::visitEnd ()" <<
             endl;
@@ -547,7 +547,7 @@ string msrSyllable::asString () const
 
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -651,7 +651,7 @@ void msrSyllable::print (ostream& os)
 
     case kSyllableNone:
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");

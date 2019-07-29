@@ -14,13 +14,13 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -50,8 +50,8 @@ bsrMeasure::bsrMeasure (
   // initially, fBrailleMeasureNumber is the same as fPrintMeasureNumber
   fBrailleMeasureNumber = fPrintMeasureNumber;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating bsrMeasure '" <<
       asString () <<
@@ -67,8 +67,8 @@ bsrMeasure::~bsrMeasure ()
 
 S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a newborn clone of measure " <<
       asString () <<
@@ -97,8 +97,8 @@ void bsrMeasure::appendLineElementToMeasure (
 
 void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceClefs || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending clef '" <<
       clef->asShortString () <<
@@ -114,8 +114,8 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBarLines || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending barline " <<
       barline->asShortString () <<
@@ -131,8 +131,8 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 
 void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceNumbers || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceNumbers || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending number '" <<
       number->asShortString () <<
@@ -148,8 +148,8 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 
 void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceNumbers || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceNumbers || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending words '" <<
       words->asShortString () <<
@@ -165,8 +165,8 @@ void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -182,8 +182,8 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 
 void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceDynamics || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending dynamics '" <<
       dynamics->asShortString () <<
@@ -223,8 +223,8 @@ int bsrMeasure::fetchCellsNumber () const
 
 void bsrMeasure::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMeasure::acceptIn ()" <<
       endl;
@@ -236,8 +236,8 @@ void bsrMeasure::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMeasure::visitStart ()" <<
             endl;
@@ -249,8 +249,8 @@ void bsrMeasure::acceptIn (basevisitor* v)
 
 void bsrMeasure::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMeasure::acceptOut ()" <<
       endl;
@@ -262,8 +262,8 @@ void bsrMeasure::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMeasure::visitEnd ()" <<
             endl;
@@ -340,7 +340,7 @@ void bsrMeasure::print (ostream& os)
   // print the measure elements if any
   int measureElementsListSize = fMeasureLineElementsList.size ();
 
-  if (measureElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (measureElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
       "MeasureElementsList" <<

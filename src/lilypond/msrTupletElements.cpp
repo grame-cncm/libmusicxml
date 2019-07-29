@@ -14,7 +14,7 @@
 
 #include "msrTupletElements.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -37,7 +37,7 @@ msrTupletElement::~msrTupletElement ()
 /* JMI
 void msrTupletElement::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTupletElement::acceptIn ()" <<
       endl;
@@ -48,7 +48,7 @@ void msrTupletElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTupletElement>*> (v)) {
         S_msrTupletElement elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTupletElement::visitStart ()" <<
             endl;
@@ -59,7 +59,7 @@ void msrTupletElement::acceptIn (basevisitor* v)
 
 void msrTupletElement::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTupletElement::acceptOut ()" <<
       endl;
@@ -70,7 +70,7 @@ void msrTupletElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTupletElement>*> (v)) {
         S_msrTupletElement elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTupletElement::visitEnd ()" <<
             endl;

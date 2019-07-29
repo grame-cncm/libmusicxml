@@ -12,11 +12,11 @@
 
 #include "lpsrComments.h"
 
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -52,8 +52,8 @@ lpsrComment::~lpsrComment ()
 
 void lpsrComment::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrComment::acceptIn ()" <<
       endl;
@@ -65,8 +65,8 @@ void lpsrComment::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrComment::visitStart ()" <<
             endl;
@@ -78,8 +78,8 @@ void lpsrComment::acceptIn (basevisitor* v)
 
 void lpsrComment::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrComment::acceptOut ()" <<
       endl;
@@ -91,8 +91,8 @@ void lpsrComment::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrComment::visitEnd ()" <<
             endl;

@@ -12,14 +12,14 @@
 
 #include "msrMutualDependencies.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -74,8 +74,8 @@ void msrStanza::initializeStanza ()
         makeSingleWordFromString (
           fStanzaNumber));
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Initializing stanza " << getStanzaName () <<
       endl;
@@ -93,8 +93,8 @@ msrStanza::~msrStanza ()
 S_msrStanza msrStanza::createStanzaNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
@@ -139,8 +139,8 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 S_msrStanza msrStanza::createStanzaDeepCopy (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Creating a deep copy of stanza \"" <<
       getStanzaName () <<
@@ -194,8 +194,8 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending syllable '" << syllable->asString () <<
       "' to stanza " << getStanzaName () <<
@@ -226,7 +226,7 @@ void msrStanza::appendSyllableToStanza (
 
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -250,8 +250,8 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -287,8 +287,8 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
@@ -323,8 +323,8 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending 'Measure end' syllable " <<
       " to stanza " << getStanzaName () <<
@@ -364,8 +364,8 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
                   syllableKind,
   rational        wholeNotes)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending '" <<
       msrSyllable::syllableKindAsString (syllableKind) <<
@@ -402,8 +402,8 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
 S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending 'line break' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -438,8 +438,8 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -475,8 +475,8 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending a 'PageBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -520,8 +520,8 @@ void msrStanza::appendPaddingNoteToStanza (
   int divisions,
   int divisionsPerQuarterNote)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Apending padding note of " << divisions <<
       " divisions in stanza \"" <<
@@ -542,7 +542,7 @@ void msrStanza::appendPaddingNoteToStanza (
 
 void msrStanza::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStanza::acceptIn ()" <<
       endl;
@@ -553,7 +553,7 @@ void msrStanza::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStanza::visitStart ()" <<
             endl;
@@ -564,7 +564,7 @@ void msrStanza::acceptIn (basevisitor* v)
 
 void msrStanza::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStanza::acceptOut ()" <<
       endl;
@@ -575,7 +575,7 @@ void msrStanza::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStanza::visitEnd ()" <<
             endl;
@@ -586,7 +586,7 @@ void msrStanza::acceptOut (basevisitor* v)
 
 void msrStanza::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStanza::browseData ()" <<
       endl;
@@ -604,7 +604,7 @@ void msrStanza::browseData (basevisitor* v)
 
   gIndenter--;
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% <== msrStanza::browseData ()" <<
       endl;

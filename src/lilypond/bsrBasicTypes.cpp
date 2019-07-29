@@ -21,13 +21,13 @@
 
 #include "messagesHandling.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "generalOptions.h"
-#include "brailleOptions.h"
+#include "generalOah.h"
+#include "brailleOah.h"
 
 
 //using namespace std;
@@ -345,8 +345,8 @@ void bsrInternalError (
 //______________________________________________________________________________
 void initializeBSRBasicTypes ()
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing BSR basic types handling" <<
       endl;

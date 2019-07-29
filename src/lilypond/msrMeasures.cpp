@@ -14,13 +14,13 @@
 
 #include "msrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
+#include "musicXMLOah.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -80,8 +80,8 @@ void msrMeasure::initializeMeasure ()
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Initializing measure '" <<
       fMeasureNumber <<
@@ -97,8 +97,8 @@ void msrMeasure::initializeMeasure ()
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceRepeats) {
     if (false && fMeasureDebugNumber == 3) { // JMI
       gLogOstream <<
         endl <<
@@ -186,8 +186,8 @@ S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a newborn clone of measure '" <<
       fMeasureNumber <<
@@ -267,8 +267,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 S_msrMeasure msrMeasure::createMeasureDeepCopy (
   S_msrSegment containingSegment)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a deep copy of measure '" <<
       fMeasureNumber <<
@@ -323,8 +323,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     fMeasureElementsList.size ();
 
   if (numberOfMeasureElements) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         singularOrPluralWithoutNumber (
           numberOfMeasureElements, "There is", "There are") <<
@@ -375,8 +375,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       else if (
         S_msrTime time = dynamic_cast<msrTime*>(&(*element))
         ) {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceMeasures) {
           gLogOstream <<
             "Sharing time " <<
             time->asShortString () <<
@@ -407,8 +407,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   }
 
   else {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "There are no elements in measure to be deep copied" <<
         " in segment " <<
@@ -433,8 +433,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 void msrMeasure::setMeasureEndRegularKind (
   msrMeasureEndRegularKind measureEndRegularKind)
 {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting regular kind of measure '" <<
         fMeasureNumber <<
@@ -458,8 +458,8 @@ void msrMeasure::setMeasureEndRegularKind (
 void msrMeasure::setMeasuresRepeatContextKind (
   msrMeasuresRepeatContextKind measuresRepeatContextKind)
 {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting repeat context kind of measure '" <<
         fMeasureNumber <<
@@ -483,8 +483,8 @@ void msrMeasure::setMeasuresRepeatContextKind (
 void msrMeasure::setMeasurePuristNumber (
   int measurePuristNumber)
 {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting purist number of measure '" <<
         fMeasureNumber <<
@@ -507,18 +507,18 @@ void msrMeasure::setMeasurePuristNumber (
 
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 {
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   int inputLineNumber =
     elem->getInputLineNumber ();
 #endif
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures
+    gTraceOah->fTracePositionsInMeasures
 //      ||
-//    gTraceOptions->fTraceForTests
+//    gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Appending element " <<
@@ -548,8 +548,8 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
       S_msrMeasureElement
         measureElement = (*i);
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
         gLogOstream <<
           "Considering delayed " <<
           measureElement->asShortString () <<
@@ -570,8 +570,8 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
       if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotes) { // JMI
         // this is where measureElement should be appended
 
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasures) {
           gLogOstream <<
             "Appending delayed " <<
             measureElement->asShortString () <<
@@ -624,13 +624,13 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
   list<S_msrMeasureElement>::iterator iter,
   S_msrMeasureElement                 elem)
 {
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures
+    gTraceOah->fTracePositionsInMeasures
       ||
-    gTraceOptions->fTraceForTests
+    gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Inserting element " <<
@@ -677,8 +677,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
   int inputLineNumber =
     elem->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Appending element " <<
       elem->asShortString () <<
@@ -713,8 +713,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       S_msrMeasureElement
         measureElement = (*i);
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
         gLogOstream <<
           "Considering delayed " <<
           measureElement->asShortString () <<
@@ -735,8 +735,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotes) { // JMI
         // this is where measureElement should be appended
 
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
           gLogOstream <<
             "Appending delayed " <<
             measureElement->asShortString () <<
@@ -792,8 +792,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         measureElement != nullptr,
         "measureElement is null");
 
-  #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+  #ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
         gLogOstream <<
           "Reverse iteration on measure element:" <<
           endl;
@@ -810,8 +810,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
             barline =
               dynamic_cast<msrBarline*>(&(*measureElement))
       ) {
-  #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+  #ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
           gLogOstream <<
             "Element is a barline actually" <<
             endl;
@@ -819,8 +819,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
   #endif
       }
       else {
-  #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+  #ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
           gLogOstream <<
             "Element is no barline" <<
             endl;
@@ -838,8 +838,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         (i).base ();
 
     // insert elem in the measure elements list before (*i)
-  #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+  #ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
         "Inserting measure element " <<
         elem->asString ();
@@ -865,8 +865,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       elem);
 }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "appendElementAtTheEndOfMeasure() 2");
@@ -876,8 +876,8 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
 void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
@@ -902,8 +902,8 @@ void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
 
 void msrMeasure::setMeasureFirstInVoice ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting measure '" <<
       fMeasureNumber <<
@@ -942,13 +942,13 @@ void msrMeasure::setCurrentMeasureWholeNotes (
       wholeNotes;
   rationalisedCurrentMeasureWholeNotes.rationalise ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceWholeNotes
+    gTraceOah->fTraceWholeNotes
       ||
-    gTraceOptions->fTracePositionsInMeasures
+    gTraceOah->fTracePositionsInMeasures
       ||
-    gMusicXMLOptions->fTraceDivisions
+    gMusicXMLOah->fTraceDivisions
   ) {
     gLogOstream <<
       "Setting current whole notes of measure '" <<
@@ -994,8 +994,8 @@ string msrMeasure::currentMeasureWholeNotesAsMSRString ()
 void msrMeasure::setMeasureKind (
   msrMeasureKind measureKind)
 {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting measure kind of measure '" <<
         fMeasureNumber <<
@@ -1018,8 +1018,8 @@ void msrMeasure::setMeasureKind (
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceClefs || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending clef '" << clef->asString () <<
       "' to measure " <<
@@ -1039,8 +1039,8 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
 
 void msrMeasure::appendKeyToMeasure (S_msrKey key)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending key '" << key->asString () <<
       "' to measure " <<
@@ -1065,8 +1065,8 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     time != nullptr,
     "time is null");
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending time '" <<
       endl;
@@ -1111,8 +1111,8 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
     time != nullptr,
     "time is null");
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending time:" <<
       endl;
@@ -1155,13 +1155,13 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
     time != nullptr,
     "time is null");
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceWholeNotes
+    gTraceOah->fTraceWholeNotes
       ||
-    gTraceOptions->fTraceTimes
+    gTraceOah->fTraceTimes
       ||
-    gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceMeasures
   ) {
     gLogOstream <<
       "Setting measure full measure whole notes from time:" <<
@@ -1206,13 +1206,13 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
             time->
               wholeNotesPerMeasure ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
         if (
-          gMusicXMLOptions->fTraceDivisions
+          gMusicXMLOah->fTraceDivisions
             ||
-          gTraceOptions->fTraceTimes
+          gTraceOah->fTraceTimes
             ||
-          gTraceOptions->fTraceMeasures) {
+          gTraceOah->fTraceMeasures) {
           gLogOstream <<
             "There are " <<
             wholeNotesPerMeasure <<
@@ -1245,13 +1245,13 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
         fFullMeasureWholeNotes =
           wholeNotesPerMeasure;
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
         if (
-          gMusicXMLOptions->fTraceDivisions
+          gMusicXMLOah->fTraceDivisions
             ||
-          gTraceOptions->fTraceTimes
+          gTraceOah->fTraceTimes
             ||
-          gTraceOptions->fTraceMeasures) {
+          gTraceOah->fTraceMeasures) {
           gLogOstream <<
             "Measure '" <<
             fMeasureNumber <<
@@ -1275,13 +1275,13 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
 
       // this measure is senza misura
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
       if (
-        gMusicXMLOptions->fTraceDivisions
+        gMusicXMLOah->fTraceDivisions
           ||
-        gTraceOptions->fTraceTimes
+        gTraceOah->fTraceTimes
           ||
-        gTraceOptions->fTraceMeasures
+        gTraceOah->fTraceMeasures
       ) {
         gLogOstream <<
           "Measure '" <<
@@ -1371,8 +1371,8 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBarLines || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending barline " <<
       barline->asShortString () <<
@@ -1477,13 +1477,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceNotes
+    gTraceOah->fTraceNotes
       ||
-    gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures
+    gTraceOah->fTracePositionsInMeasures
   ) {
     gLogOstream <<
       "Appending note '" << note->asShortString () <<
@@ -1578,7 +1578,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       "' already occured in that same point in time, ignoring it";
 
     msrMusicXMLWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
 //        __FILE__, __LINE__,
       s.str ());
@@ -1645,8 +1645,8 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending padding note '" << note->asShortString () <<
       "' at the end of measure '" <<
@@ -1734,8 +1734,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending note '" << note->asShortString () <<
       "' to measure clone '" <<
@@ -1815,8 +1815,8 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   int inputLineNumber =
     doubleTremolo->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->asShortString () <<
@@ -1893,11 +1893,11 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   // populate measure upLink
   chord->setChordMeasureUpLink (this);
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceChords || gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+    gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Appending chord '" << chord->asString () <<
@@ -1947,11 +1947,11 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   int inputLineNumber =
     tuplet->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceTuplets || gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+    gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Appending tuplet " << tuplet->asString () <<
@@ -2012,11 +2012,11 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+    gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Appending harmony " << harmony->asString () <<
@@ -2074,11 +2074,11 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
 
   // regular insertion in current measure
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+    gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Appending harmony " << harmony->asString () <<
@@ -2127,11 +2127,11 @@ void msrMeasure::appendFiguredBassToMeasure (
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+    gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
@@ -2180,11 +2180,11 @@ void msrMeasure::appendFiguredBassToMeasureClone (
 
   // regular insertion in current measure
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceForTests
+    gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
@@ -2232,8 +2232,8 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   rational   duration,
   S_msrVoice voice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Creating a padding note for voice \"" <<
       voice->getVoiceName () <<
@@ -2309,13 +2309,13 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceMeasures
       ||
-    gTraceOptions->fTracePositionsInMeasures
+    gTraceOah->fTracePositionsInMeasures
       ||
-    gTraceOptions->fTraceWholeNotes
+    gTraceOah->fTraceWholeNotes
   ) {
     this->print (gLogOstream);
 
@@ -2352,8 +2352,8 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
           missingDuration,
           measureVoice);
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures || gMusicXMLOptions->fTraceDivisions) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures || gMusicXMLOah->fTraceDivisions) {
       gLogOstream <<
         "Appending rest" << paddingNote->asString () <<
         " (missingDuration " << missingDuration <<
@@ -2388,8 +2388,8 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
   }
 
   else if (fCurrentMeasureWholeNotes == wholeNotes) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "No need to pad from current measure whole notes '" <<
         fCurrentMeasureWholeNotes <<
@@ -2432,7 +2432,7 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
 
 //    msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
  //     __FILE__, __LINE__,
       s.str ());
@@ -2444,8 +2444,8 @@ void msrMeasure::appendPaddingNoteToMeasure (
   int divisions,
   int divisionsPerQuarterNote)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Appending padding note of " << divisions <<
       " divisions to measure " <<
@@ -2542,8 +2542,8 @@ void msrMeasure::appendPageBreakToMeasure (S_msrPageBreak pageBreak)
 void msrMeasure::appendStaffDetailsToMeasure (
   S_msrStaffDetails staffDetails)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending staff details '" << staffDetails->asShortString () <<
       "' to measure '" <<
@@ -2588,8 +2588,8 @@ void msrMeasure::removeNoteFromMeasure (
   int       inputLineNumber,
   S_msrNote note)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Removing note '" <<
       note->asShortString () <<
@@ -2677,7 +2677,7 @@ void msrMeasure::removeNoteFromMeasure (
     " since it has not been found";
 
   msrInternalError (
-    gOahBasicOptions->fInputSourceName,
+    gExecutableOah->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -2687,8 +2687,8 @@ void msrMeasure::removeElementFromMeasure (
   int          inputLineNumber,
   S_msrElement element)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Removing element:" <<
       endl;
@@ -2758,7 +2758,7 @@ void msrMeasure::removeElementFromMeasure (
     " since it has not been found";
 
   msrInternalError (
-    gOahBasicOptions->fInputSourceName,
+    gExecutableOah->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -2778,7 +2778,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       "\" more than once";
 
     msrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2786,7 +2786,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 /*
  // JMI   msrInternalError (
     msrInternalWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       fInputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -2824,8 +2824,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       fCurrentMeasureWholeNotes;
    newWholeNotesSinceLastRegularMeasureEnd.rationalise ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Determining the measure kind and purist number of measure '" <<
       fMeasureNumber <<
@@ -2862,8 +2862,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
     // empty measure
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresDetails) {
     voice->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
         inputLineNumber,
@@ -2881,13 +2881,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
     if (false) // JMI
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     else
       msrInternalWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         s.str ());
   }
@@ -2994,7 +2994,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
         // JMI      msrInternalError (
               msrInternalWarning (
-                gOahBasicOptions->fInputSourceName,
+                gExecutableOah->fInputSourceName,
                 inputLineNumber,
          //       __FILE__, __LINE__,
                 s.str ());
@@ -3096,8 +3096,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
   fMeasureKindAndPuristNumberHaveBeenDetermined = true;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "determineMeasureKindAndPuristNumber() 7");
@@ -3117,8 +3117,8 @@ void msrMeasure::padUpToPositionInMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
@@ -3135,8 +3135,8 @@ void msrMeasure::padUpToPositionInMeasure (
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionInMeasure() 1");
@@ -3160,8 +3160,8 @@ void msrMeasure::padUpToPositionInMeasure (
           missingDuration,
           measureVoice);
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
        "Appending '" << paddingNote->asString () <<
        " (" << missingDuration << " whole notes)'" <<
@@ -3189,8 +3189,8 @@ void msrMeasure::padUpToPositionInMeasure (
     fMeasureContainsMusic = true;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionInMeasure() 2");
@@ -3204,8 +3204,8 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
   int      inputLineNumber,
   rational positionInMeasureToPadUpTo)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
@@ -3223,8 +3223,8 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfMeasure() 1");
@@ -3246,8 +3246,8 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
         fMeasureSegmentUpLink->
           getSegmentVoiceUpLink ();
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
        "Creating a padding note '" <<
        ", duration: " << duration <<
@@ -3270,8 +3270,8 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
           duration,
           measureVoice);
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
        "Appending '" << paddingNote->asString () <<
        " to finalize \"" << measureVoice->getVoiceName () <<
@@ -3294,8 +3294,8 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
     fMeasureContainsMusic = true;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfMeasure() 2");
@@ -3322,8 +3322,8 @@ void msrMeasure::finalizeRegularMeasure (
       fetchMeasurePartUpLink ()->
         getPartCurrentMeasureWholeNotesHighTide ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing regular measure '" <<
       fMeasureNumber <<
@@ -3343,8 +3343,8 @@ void msrMeasure::finalizeRegularMeasure (
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeRegularMeasure() 1");
@@ -3366,8 +3366,8 @@ void msrMeasure::finalizeRegularMeasure (
       voiceCurrentTime);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
       stringstream s;
 
@@ -3385,7 +3385,7 @@ void msrMeasure::finalizeRegularMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -3405,8 +3405,8 @@ void msrMeasure::finalizeRegularMeasure (
       S_msrMeasureElement
         measureElement = (*i);
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures) {
         gLogOstream <<
           "Considering delayed '" <<
           measureElement->asShortString () <<
@@ -3436,8 +3436,8 @@ void msrMeasure::finalizeRegularMeasure (
           inputLineNumber,
           measureElement->getPositionInMeasure ()); // ??? rational (1, 4));
 
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasures) {
           gLogOstream <<
             "Appending delayed '" <<
             measureElement->asShortString () <<
@@ -3496,8 +3496,8 @@ void msrMeasure::finalizeRegularMeasure (
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures) {
         stringstream s;
 
         s <<
@@ -3514,7 +3514,7 @@ void msrMeasure::finalizeRegularMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -3575,8 +3575,8 @@ void msrMeasure::finalizeRegularMeasure (
         ==
       fFullMeasureWholeNotes
     ) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures) {
         gLogOstream <<
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
@@ -3600,8 +3600,8 @@ void msrMeasure::finalizeRegularMeasure (
 
   fMeasureHasBeenFinalized = true;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeRegularMeasure() 2");
@@ -3624,13 +3624,13 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceHarmonies
+    gTraceOah->fTraceHarmonies
       ||
-    gTraceOptions->fTracePositionsInMeasures
+    gTraceOah->fTracePositionsInMeasures
       ||
-    gTraceOptions->fTraceForTests
+    gTraceOah->fTraceForTests
   ) {
     gLogOstream <<
       "Finalizing harmonies in harmony measure '" <<
@@ -3648,8 +3648,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #endif
 
   if (fMeasureElementsList.size ()) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInHarmonyMeasureFinalization() 1");
@@ -3663,8 +3663,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     fMeasureElementsList.sort (
       msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure);
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInHarmonyMeasureFinalization() 2");
@@ -3701,8 +3701,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         currentHarmony = harmony;
 
         // handle the currentHarmony
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
           gLogOstream <<
             "handleHarmoniesInHarmonyMeasureFinalization() 3" <<
             ", currentHarmony: ";
@@ -3732,8 +3732,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             currentHarmonyNoteUpLink->
               getPositionInMeasure ();
 
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
             gLogOstream <<
               "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
               ", previousHarmony: ";
@@ -3777,8 +3777,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           }
 */
 
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
             gLogOstream <<
               "handleHarmoniesInHarmonyMeasureFinalization() 5" <<
               ", previousHarmony is null, positionInMeasureToPadUpTo: " <<
@@ -3798,8 +3798,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
                   voice);
 
             // insert paddingNote before currentHarmony in the measure's elements list
-#ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
               gLogOstream <<
                 "Inserting first padding note " <<
                 paddingNote->asString () <<
@@ -3818,8 +3818,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               i,
               paddingNote);
 
-#ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
               displayMeasure (
                 inputLineNumber,
                 "handleHarmoniesInHarmonyMeasureFinalization() 6");
@@ -3857,8 +3857,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               positionInMeasureFollowingPreviousHarmony;
           positionsInMeasureDelta.rationalise ();
 
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
             gLogOstream <<
               "handleHarmoniesInHarmonyMeasureFinalization() 7" <<
               ", previousHarmony: ";
@@ -3903,8 +3903,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
                 "handleHarmoniesInHarmonyMeasureFinalization() 8");
 
             // insert paddingNote before currentHarmony in the measure's elements list
-#ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
               gLogOstream <<
                 "Inserting subsequent padding note " <<
                 paddingNote->asString () <<
@@ -3935,7 +3935,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               currentHarmony->asString ();
 
             msrInternalWarning (
-              gOahBasicOptions->fInputSourceName,
+              gExecutableOah->fInputSourceName,
               inputLineNumber,
               s.str ());
 
@@ -3947,8 +3947,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
                 positionsInMeasureDelta;
             reducedSoundingWholeNotes.rationalise ();
 
-#ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
               gLogOstream <<
                 "Reducing the sounding whole notes of harmony " <<
                 previousHarmony->asString () <<
@@ -3972,7 +3972,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
                 " to 0 : leaving it as it is";
 
               msrInternalWarning (
-                gOahBasicOptions->fInputSourceName,
+                gExecutableOah->fInputSourceName,
                 inputLineNumber,
  //  JMI             __FILE__, __LINE__,
                 s.str ());
@@ -4019,8 +4019,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           currentHarmony->
             getHarmonyNoteUpLink ();
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
         gLogOstream <<
           "handleHarmoniesInHarmonyMeasureFinalization() 8888 " <<
           "currentHarmonyNoteUpLink:" <<
@@ -4061,8 +4061,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           currentHarmonyNoteUpLink->
             getNoteMeasureUpLink ();
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
         gLogOstream <<
           "handleHarmoniesInHarmonyMeasureFinalization() 9999 " <<
           "currentHarmonyNoteUpLinkMeasure: " <<
@@ -4085,8 +4085,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           currentHarmonyNoteUpLinkMeasureSoundingWholeNotes;
       positionsInMeasureDelta.rationalise ();
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
         gLogOstream <<
           "handleHarmoniesInHarmonyMeasureFinalization() 9" <<
           ", currentHarmony: ";
@@ -4133,7 +4133,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           asString ();
 
         msrInternalWarning (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           s.str ());
 
@@ -4145,8 +4145,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             positionsInMeasureDelta;
         reducedSoundingWholeNotes.rationalise ();
 
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
           gLogOstream <<
             "Reducing the sounding whole notes of harmony " <<
             currentHarmony->asString () <<
@@ -4170,7 +4170,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             " to 0 : leaving it as it is";
 
           msrInternalWarning (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             inputLineNumber,
 //  JMI             __FILE__, __LINE__,
             s.str ());
@@ -4191,8 +4191,8 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     }
     */
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTracePositionsInMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
       displayMeasure (
         inputLineNumber,
         "handleHarmoniesInHarmonyMeasureFinalization() 10");
@@ -4218,8 +4218,8 @@ void msrMeasure::finalizeHarmonyMeasure (
       fetchMeasurePartUpLink ()->
         getPartCurrentMeasureWholeNotesHighTide ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing harmony measure '" <<
       fMeasureNumber <<
@@ -4239,8 +4239,8 @@ void msrMeasure::finalizeHarmonyMeasure (
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeHarmonyMeasure() 1");
@@ -4262,8 +4262,8 @@ void msrMeasure::finalizeHarmonyMeasure (
       voiceCurrentTime);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
     if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
       stringstream s;
 
@@ -4281,7 +4281,7 @@ void msrMeasure::finalizeHarmonyMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -4326,8 +4326,8 @@ void msrMeasure::finalizeHarmonyMeasure (
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
         stringstream s;
 
         s <<
@@ -4344,7 +4344,7 @@ void msrMeasure::finalizeHarmonyMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -4405,8 +4405,8 @@ void msrMeasure::finalizeHarmonyMeasure (
         ==
       fFullMeasureWholeNotes
     ) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures) {
         gLogOstream <<
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
@@ -4430,8 +4430,8 @@ void msrMeasure::finalizeHarmonyMeasure (
 
   fMeasureHasBeenFinalized = true;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeHarmonyMeasure() 2");
@@ -4458,8 +4458,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
       fetchMeasurePartUpLink ()->
         getPartCurrentMeasureWholeNotesHighTide ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing figured bass measure '" <<
       fMeasureNumber <<
@@ -4479,8 +4479,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeFiguredBassMeasure() 1");
@@ -4502,8 +4502,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
       voiceCurrentTime);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
     if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
       stringstream s;
 
@@ -4521,7 +4521,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -4566,8 +4566,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
         stringstream s;
 
         s <<
@@ -4584,7 +4584,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -4645,8 +4645,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
         ==
       fFullMeasureWholeNotes
     ) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures) {
         gLogOstream <<
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
@@ -4670,8 +4670,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
   fMeasureHasBeenFinalized = true;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeFiguredBassMeasure() 2");
@@ -4696,7 +4696,7 @@ void msrMeasure::finalizeMeasure (
 
 // JMI   msrInternalError (
     msrInternalWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       fInputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -4709,8 +4709,8 @@ void msrMeasure::finalizeMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing measure '" <<
       fMeasureNumber <<
@@ -4753,8 +4753,8 @@ void msrMeasure::finalizeMeasureClone (
   S_msrMeasure originalMeasure,
   S_msrVoice   voiceClone)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing measure clone '" <<
       fMeasureNumber <<
@@ -4771,8 +4771,8 @@ void msrMeasure::finalizeMeasureClone (
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeMeasureClone() 1");
@@ -4788,7 +4788,7 @@ void msrMeasure::finalizeMeasureClone (
       "\" more than once";
 
     msrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4822,8 +4822,8 @@ void msrMeasure::finalizeMeasureClone (
       originalMeasure->getMeasureKind ();
 
   if (fMeasureKind != originalMeasureMeasureKind) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
       this->
         displayMeasure (
           inputLineNumber,
@@ -4851,7 +4851,7 @@ void msrMeasure::finalizeMeasureClone (
 
  //   msrInternalError ( // JMI
     msrInternalWarning (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
  //      __FILE__, __LINE__,
       s.str ());
@@ -4867,7 +4867,7 @@ void msrMeasure::finalizeMeasureClone (
 
    //   msrInternalError ( // JMI
       msrInternalWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
    //      __FILE__, __LINE__,
         s.str ());
@@ -4876,8 +4876,8 @@ void msrMeasure::finalizeMeasureClone (
 
   fMeasureHasBeenFinalized = true;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
       "finalizeMeasureClone() 4");
@@ -4889,7 +4889,7 @@ void msrMeasure::finalizeMeasureClone (
 
 void msrMeasure::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasure::acceptIn ()" <<
       endl;
@@ -4900,7 +4900,7 @@ void msrMeasure::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasure::visitStart ()" <<
             endl;
@@ -4911,7 +4911,7 @@ void msrMeasure::acceptIn (basevisitor* v)
 
 void msrMeasure::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasure::acceptOut ()" <<
       endl;
@@ -4922,7 +4922,7 @@ void msrMeasure::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasure::visitEnd ()" <<
             endl;
@@ -4933,7 +4933,7 @@ void msrMeasure::acceptOut (basevisitor* v)
 
 void msrMeasure::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasure::browseData ()" <<
       endl;
@@ -4949,7 +4949,7 @@ void msrMeasure::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% <== msrMeasure::browseData ()" <<
       endl;
@@ -5239,7 +5239,7 @@ void msrMeasure::print (ostream& os)
     endl;
 
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   // fetch the voice
   S_msrVoice
     voice =
@@ -5452,7 +5452,7 @@ void msrMeasure::shortPrint (ostream& os)
     fFullMeasureWholeNotes <<
     endl;
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   // fetch the voice
   S_msrVoice
     voice =

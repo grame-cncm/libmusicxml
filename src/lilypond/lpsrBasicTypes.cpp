@@ -20,13 +20,13 @@
 #include "msrBasicTypes.h"
 #include "lpsrBasicTypes.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "generalOptions.h"
-#include "lpsrOptions.h"
+#include "generalOah.h"
+#include "lpsrOah.h"
 
 #include "messagesHandling.h"
 
@@ -125,8 +125,8 @@ string wholeNotesAsLilypondString (
 {
   // this algorithm is inspired by musicxml2ly
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> -------------------------------------" <<
       endl <<
@@ -140,8 +140,8 @@ string wholeNotesAsLilypondString (
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> numerator:   " << numerator <<
       endl <<
@@ -170,8 +170,8 @@ string wholeNotesAsLilypondString (
 
   wholeNotes.rationalise ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
@@ -190,8 +190,8 @@ string wholeNotesAsLilypondString (
   bool
     integralNumberOfWholeNotes = denominator == 1;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
@@ -218,8 +218,8 @@ string wholeNotesAsLilypondString (
 
   int  numeratorDots = lpsrNumberOfDots (numerator);
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
@@ -254,7 +254,7 @@ string wholeNotesAsLilypondString (
             " it will be represented using a multiplying factor";
 
           msrMusicXMLWarning (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             inputLineNumber,
             s.str ());
 
@@ -306,8 +306,8 @@ string wholeNotesAsLilypondString (
       result = s.str ();
     }
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotes) {
       stringstream s;
 
       s <<
@@ -331,7 +331,7 @@ string wholeNotesAsLilypondString (
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -341,8 +341,8 @@ string wholeNotesAsLilypondString (
     return result;
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
@@ -356,8 +356,8 @@ string wholeNotesAsLilypondString (
     // adapt the duration to avoid even numerators if can be,
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3\breve, hence \longa.
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotes) {
       gLogOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
@@ -369,8 +369,8 @@ string wholeNotesAsLilypondString (
       numerator /= 2;
       denominatorDurationLog -= 1;
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceWholeNotes) {
         gLogOstream <<
           "--> numerator" << " : " <<
           numerator <<
@@ -387,8 +387,8 @@ string wholeNotesAsLilypondString (
     numeratorDots = lpsrNumberOfDots (numerator);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> numerator" << " : " <<
       numerator <<
@@ -410,8 +410,8 @@ string wholeNotesAsLilypondString (
     // take the dots into account
     denominatorDurationLog -= numeratorDots;
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotes) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -425,8 +425,8 @@ string wholeNotesAsLilypondString (
   }
   else {
     // set the multiplying factor
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotes) {
       gLogOstream <<
         "--> setting the multiplying factor" <<
         endl;
@@ -441,8 +441,8 @@ string wholeNotesAsLilypondString (
     /* JMI
     multiplyingFactor = numerator;
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotes) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -461,8 +461,8 @@ string wholeNotesAsLilypondString (
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceWholeNotes) {
         gLogOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
@@ -477,8 +477,8 @@ string wholeNotesAsLilypondString (
     */
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> numerator " << " : " <<
       numerator <<
@@ -538,8 +538,8 @@ string wholeNotesAsLilypondString (
     */
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceWholeNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> return:" <<
       endl <<
@@ -1182,8 +1182,8 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
       s << "!!!";
   } // switch
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotesOctaveEntry) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotesOctaveEntry) {
     s <<
       " %{ " <<
       semiTonesPitchAndOctave->asString () <<
@@ -1216,8 +1216,8 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ()
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing LPSR basic types handling" <<
       endl;

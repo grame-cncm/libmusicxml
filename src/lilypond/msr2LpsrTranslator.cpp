@@ -18,16 +18,16 @@
 
 #include "msr2LpsrTranslator.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
-#include "lilypondOptions.h"
+#include "musicXMLOah.h"
+#include "msrOah.h"
+#include "lilypondOah.h"
 
 
 using namespace std;
@@ -68,7 +68,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
       fCurrentLpsrBookBlock);
 
   // create the current score block if relevant
-  switch (gLpsrOptions->fScoreOutputKind) {
+  switch (gLpsrOah->fScoreOutputKind) {
     case kScoreOnly:
     case kScoreAndParts:
     case kPartsAndScore:
@@ -196,8 +196,8 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
   // heuristics to determine the number of characters per centimeter
   float charactersPerCemtimeter = 4.0;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGeometry) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGeometry) {
     // get the paper width
     float paperWidth = pageGeometry->getPaperWidth ();
 
@@ -269,8 +269,8 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   S_msrVoice           voiceClone,
   S_msrGraceNotesGroup skipGraceNotesGroup)
 {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceGraceNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "--> prepending a skip graceNotesGroup clone " <<
         skipGraceNotesGroup->asShortString () <<
@@ -325,8 +325,8 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrScore" <<
       ", line " << inputLineNumber <<
@@ -339,81 +339,81 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
     fLpsrScore-> getScoreHeader();
 
   // is there a rights option?
-  if (gLilypondOptions->fRights.size ()) {
+  if (gLilypondOah->fRights.size ()) {
     // define rights
 
     fCurrentLpsrScoreHeader->
       addRights (
         inputLineNumber,
-        gLilypondOptions->fRights);
+        gLilypondOah->fRights);
   }
 
   // is there a composer option?
-  if (gLilypondOptions->fComposer.size ()) {
+  if (gLilypondOah->fComposer.size ()) {
     // define composer
 
     fCurrentLpsrScoreHeader->
       addComposer (
         inputLineNumber,
-        gLilypondOptions->fComposer);
+        gLilypondOah->fComposer);
   }
 
   // is there an arranger option?
-  if (gLilypondOptions->fArranger.size ()) {
+  if (gLilypondOah->fArranger.size ()) {
     // define arranger
 
     fCurrentLpsrScoreHeader->
       addArranger (
         inputLineNumber,
-        gLilypondOptions->fArranger);
+        gLilypondOah->fArranger);
   }
 
   // is there a poet option?
-  if (gLilypondOptions->fPoet.size ()) {
+  if (gLilypondOah->fPoet.size ()) {
     // define poet
 
     fCurrentLpsrScoreHeader->
       addPoet (
         inputLineNumber,
-        gLilypondOptions->fPoet);
+        gLilypondOah->fPoet);
   }
 
   // is there a lyricist option?
-  if (gLilypondOptions->fLyricist.size ()) {
+  if (gLilypondOah->fLyricist.size ()) {
     // define lyricist
 
     fCurrentLpsrScoreHeader->
       addLyricist (
         inputLineNumber,
-        gLilypondOptions->fLyricist);
+        gLilypondOah->fLyricist);
   }
 
   // is there a software option?
-  if (gLilypondOptions->fSoftware.size ()) {
+  if (gLilypondOah->fSoftware.size ()) {
     // define software
 
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOptions->fSoftware);
+        gLilypondOah->fSoftware);
   }
 
   // is the Scheme function 'whiteNoteHeads' to be generated?
-  if (gLilypondOptions->fWhiteNoteHeads) {
+  if (gLilypondOah->fWhiteNoteHeads) {
     fLpsrScore->
       // this score needs the 'whiteNoteHeads' Scheme function
       setWhiteNoteHeadsIsNeeded ();
   }
 
   // is the Scheme function 'jazzChordsDisplay' to be generated?
-  if (gLilypondOptions->fJazzChordsDisplay) {
+  if (gLilypondOah->fJazzChordsDisplay) {
     fLpsrScore->
       // this score needs the 'jazzChordsDisplay' Scheme function
       setJazzChordsDisplayIsNeeded ();
   }
 
   // is Jianpu notation to be generated?
-  if (gLilypondOptions->fJianpu) {
+  if (gLilypondOah->fJianpu) {
     fLpsrScore->
       // this score needs the 'jianpu file include' Scheme function
       setJianpuFileIncludeIsNeeded ();
@@ -432,8 +432,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrScore" <<
       ", line " << inputLineNumber <<
@@ -612,8 +612,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrIdentification" <<
       ", line " << elt->getInputLineNumber () <<
@@ -637,8 +637,8 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrIdentification" <<
       ", line " << elt->getInputLineNumber () <<
@@ -650,8 +650,8 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPageGeometry" <<
       ", line " << elt->getInputLineNumber () <<
@@ -714,13 +714,13 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   float globalStaffSize = 0.0;
 
   if (
-    gLpsrOptions->fGlobalStaffSize
+    gLpsrOah->fGlobalStaffSize
       !=
-    gLpsrOptions->fStaffGlobalSizeDefaultValue
+    gLpsrOah->fStaffGlobalSizeDefaultValue
   ) {
     // the LPSR option value takes precedence
     globalStaffSize =
-      gLpsrOptions->fGlobalStaffSize;
+      gLpsrOah->fGlobalStaffSize;
   }
 
   else {
@@ -768,8 +768,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 {
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPageGeometry" <<
       ", line " << elt->getInputLineNumber () <<
@@ -781,8 +781,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrCredit& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrCredit" <<
       ", line " << elt->getInputLineNumber () <<
@@ -800,8 +800,8 @@ void msr2LpsrTranslator::visitStart (S_msrCredit& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrCredit& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrCredit" <<
       ", line " << elt->getInputLineNumber () <<
@@ -814,8 +814,8 @@ void msr2LpsrTranslator::visitEnd (S_msrCredit& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrCreditWords& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrCreditWords" <<
       ", line " << elt->getInputLineNumber () <<
@@ -833,8 +833,8 @@ void msr2LpsrTranslator::visitStart (S_msrCreditWords& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrCreditWords& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrCreditWords" <<
       ", line " << elt->getInputLineNumber () <<
@@ -846,8 +846,8 @@ void msr2LpsrTranslator::visitEnd (S_msrCreditWords& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPartGroup " <<
       elt->getPartGroupCombinedName () <<
@@ -869,8 +869,8 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 
   // push it onto this visitors's stack,
   // making it the current partGroup block
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     fLogOutputStream <<
       "Pushing part group clone " <<
       partGroupClone->getPartGroupCombinedName () <<
@@ -910,8 +910,8 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPartGroup " <<
       elt->getPartGroupCombinedName () <<
@@ -928,8 +928,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // add the current partgroup clone to the MSR score clone
     // if it is the top-level one, i.e it's alone in the stack
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTracePartGroups) {
       fLogOutputStream <<
         "Adding part group clone " <<
         currentPartGroup->getPartGroupCombinedName () <<
@@ -947,8 +947,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
   else {
 
     // pop current partGroup from this visitors's stack
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTracePartGroups) {
       fLogOutputStream <<
         "Popping part group clone " <<
         fPartGroupsStack.top ()->getPartGroupCombinedName () <<
@@ -974,8 +974,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // add the current partgroup clone to the LPSR score's parallel music
     // if it is the top-level one, i.e it's alone in the stack
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTracePartGroups) {
       fLogOutputStream <<
         "Adding part group block clone for part group " <<
         currentPartGroupBlock->
@@ -987,7 +987,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 #endif
 
     // append the current partgroup block to the current score block if relevant
-    switch (gLpsrOptions->fScoreOutputKind) {
+    switch (gLpsrOah->fScoreOutputKind) {
       case kScoreOnly:
       case kScoreAndParts:
       case kPartsAndScore:
@@ -1002,8 +1002,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
           // append the current partgroup block to the current score block
           // if it is the top-level one, i.e it's alone in the stack JMI
           // JMI BOF if (fPartGroupBlocksStack.size () == 1)
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTracePartGroups || gLpsrOptions->fTraceLpsrBlocks) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTracePartGroups || gLpsrOah->fTraceLpsrBlocks) {
             fLogOutputStream <<
               "Appending part group block for part group " <<
               currentPartGroupBlock->
@@ -1026,7 +1026,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     } // switch
 
     // append the current partgroup block to the current bookpart block if relevant
-    switch (gLpsrOptions->fScoreOutputKind) {
+    switch (gLpsrOah->fScoreOutputKind) {
       case kScoreOnly:
         break;
       case kScoreAndParts:
@@ -1044,8 +1044,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
           // append the current partgroup block to the current bookpart block
           // if it is the top-level one, i.e it's alone in the stack JMI
           // JMI BOF if (fPartGroupBlocksStack.size () == 1)
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTracePartGroups || gLpsrOptions->fTraceLpsrBlocks) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTracePartGroups || gLpsrOah->fTraceLpsrBlocks) {
             fLogOutputStream <<
               "Appending part group block for part group " <<
               currentPartGroupBlock->
@@ -1071,8 +1071,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 
   else {
     // pop current partGroup block from this visitors's stack
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTracePartGroups) {
       fLogOutputStream <<
         "Popping part group block clone for part group " <<
         currentPartGroupBlock->
@@ -1103,8 +1103,8 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
     partCombinedName =
       elt->getPartCombinedName ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPart " <<
       partCombinedName <<
@@ -1113,8 +1113,8 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -1131,8 +1131,8 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fPartGroupsStack.top ());
 
   // add it to the partGroup clone
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       "Adding part clone " <<
       fCurrentPartClone->getPartCombinedName () <<
@@ -1152,8 +1152,8 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fCurrentPartClone);
 
   // append it to the current partGroup block
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
       "Appending part block " <<
       fPartGroupsStack.top ()->getPartGroupCombinedName () <<
@@ -1167,7 +1167,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fCurrentPartBlock);
 
   // create a bookpart block if relevant
-  switch (gLpsrOptions->fScoreOutputKind) {
+  switch (gLpsrOah->fScoreOutputKind) {
     case kScoreOnly:
       break;
     case kScoreAndParts:
@@ -1198,8 +1198,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPart " <<
       elt->getPartCombinedName () <<
@@ -1250,8 +1250,8 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 /* JMI
 void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaffLinesNumber" <<
       ", line " << inputLineNumber <<
@@ -1269,8 +1269,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaffTuning" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1287,8 +1287,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaffDetails" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1301,8 +1301,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrStaffDetails" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1319,8 +1319,8 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaff \"" <<
       elt->getStaffName () << "\"" <<
@@ -1386,7 +1386,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
             fCurrentStaffBlock);
 
         // handle the current staff block
-        switch (gLpsrOptions->fScoreOutputKind) {
+        switch (gLpsrOah->fScoreOutputKind) {
           case kScoreOnly: // default value
             break;
           case kScoreAndParts:
@@ -1458,8 +1458,8 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
 {
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting S_msrStaff \"" <<
       elt->getStaffName () << "\"" <<
@@ -1497,8 +1497,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoice \"" <<
       elt->asString () << "\"" <<
@@ -1576,8 +1576,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             elt->fetchVoicePartUpLink ()->
               getPartCombinedName ();
 
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies) {
             fLogOutputStream <<
               "Creating a ChordNames context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1594,8 +1594,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 elt->getRegularVoiceForHarmonyVoiceBackwardLink ());
 
           // append it to the current part block
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies) {
             fLogOutputStream <<
               "Appending the ChordNames context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1646,8 +1646,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             elt->fetchVoicePartUpLink ()->
               getPartCombinedName ();
 
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies) {
             fLogOutputStream <<
               "Creating a FiguredBass context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1664,8 +1664,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 elt-> getVoiceStaffUpLink ());
 
           // append it to the current part block
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies) {
             fLogOutputStream <<
               "Appending the FiguredBass context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1693,8 +1693,8 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 {
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrVoice \"" <<
       elt->getVoiceName () << "\"" <<
@@ -1721,8 +1721,8 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoiceStaffChange '" <<
       elt->asString () << "'" <<
@@ -1746,8 +1746,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
@@ -1772,8 +1772,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
@@ -1794,8 +1794,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrHarmony '" <<
       elt->asString () <<
@@ -1866,8 +1866,8 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_msrHarmonyDegree '" <<
       elt->asString () <<
@@ -1887,8 +1887,8 @@ void msr2LpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrHarmony '" <<
       elt->asString () <<
@@ -1904,8 +1904,8 @@ void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrFrame& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFrame '" <<
       elt->asString () <<
@@ -1925,8 +1925,8 @@ void msr2LpsrTranslator::visitStart (S_msrFrame& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFiguredBass '" <<
       elt->asString () <<
@@ -1977,8 +1977,8 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrFigure& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFigure '" <<
       elt->asString () <<
@@ -1996,8 +1996,8 @@ void msr2LpsrTranslator::visitStart (S_msrFigure& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrFiguredBass '" <<
       elt->asString () <<
@@ -2025,8 +2025,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasure '" <<
       measureNumber <<
@@ -2037,8 +2037,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<
@@ -2090,8 +2090,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
       measureNumber <<
@@ -2126,7 +2126,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -2205,8 +2205,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStanza \"" <<
       elt->getStanzaName () <<
@@ -2243,8 +2243,8 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrStanza \"" <<
       elt->getStanzaName () <<
@@ -2266,8 +2266,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSyllable" <<
       ", line " << inputLineNumber <<
@@ -2294,7 +2294,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
       appendSyllableToNoteAndSetItsNoteUpLink (
         fCurrentNonGraceNoteClone);
 
-    if (gLpsrOptions->fAddWordsFromTheLyrics) {
+    if (gLpsrOah->fAddWordsFromTheLyrics) {
       // get the syllable texts list
       const list<string>&
         syllableTextsList =
@@ -2307,8 +2307,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
           elt->syllableTextsListAsString();
 
         // create the words
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceWords) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceLyrics || gTraceOah->fTraceWords) {
           fLogOutputStream <<
             "Changing lyrics '" <<
             wordsValue <<
@@ -2336,8 +2336,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
               kXMLLangIt);                   // default value
 
         // append it to the current non-grace note
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceWords) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceLyrics || gTraceOah->fTraceWords) {
           fLogOutputStream <<
             "Appending words '" <<
             words->asShortString () <<
@@ -2375,8 +2375,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSyllable" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2388,8 +2388,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSyllable& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrClef& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrClef" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2403,8 +2403,8 @@ void msr2LpsrTranslator::visitStart (S_msrClef& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrClef& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrClef" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2416,8 +2416,8 @@ void msr2LpsrTranslator::visitEnd (S_msrClef& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrKey& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrKey" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2431,8 +2431,8 @@ void msr2LpsrTranslator::visitStart (S_msrKey& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrKey& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrKey" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2444,8 +2444,8 @@ void msr2LpsrTranslator::visitEnd (S_msrKey& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTime& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTime" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2460,8 +2460,8 @@ void msr2LpsrTranslator::visitStart (S_msrTime& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTime" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2473,8 +2473,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTime& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTranspose& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTranspose" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2489,8 +2489,8 @@ void msr2LpsrTranslator::visitStart (S_msrTranspose& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTranspose& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTranspose" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2502,8 +2502,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTranspose& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPartNameDisplay& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPartNameDisplay" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2519,8 +2519,8 @@ void msr2LpsrTranslator::visitStart (S_msrPartNameDisplay& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPartAbbreviationDisplay" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2536,8 +2536,8 @@ void msr2LpsrTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTempo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2568,8 +2568,8 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTempo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2581,8 +2581,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2596,8 +2596,8 @@ void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2609,8 +2609,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrArticulation" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2630,8 +2630,8 @@ void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrArticulation" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2643,8 +2643,8 @@ void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFermata" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2667,8 +2667,8 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2691,8 +2691,8 @@ void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNonArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2715,8 +2715,8 @@ void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnical" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2776,8 +2776,8 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnical" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2789,8 +2789,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnical& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnicalWithInteger" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2810,8 +2810,8 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnicalWithInteger" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2823,8 +2823,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnicalWithFloat" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2844,8 +2844,8 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnicalWithFloat" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2857,8 +2857,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnicalWithString" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2889,8 +2889,8 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnicalWithString" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2902,8 +2902,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrOrnament" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2923,8 +2923,8 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrOrnament" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2936,8 +2936,8 @@ void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSpanner" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2969,8 +2969,8 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSpanner& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSpanner" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2982,8 +2982,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSpanner& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrGlissando" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3009,8 +3009,8 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrGlissando& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrGlissando" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3022,8 +3022,8 @@ void msr2LpsrTranslator::visitEnd (S_msrGlissando& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlide" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3043,8 +3043,8 @@ void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSlide& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSlide" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3056,8 +3056,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSlide& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3077,8 +3077,8 @@ void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSingleTremolo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3090,8 +3090,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSingleTremolo& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrDoubleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3114,8 +3114,8 @@ void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3137,8 +3137,8 @@ void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3183,8 +3183,8 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrDynamics& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3196,8 +3196,8 @@ void msr2LpsrTranslator::visitEnd (S_msrDynamics& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrOtherDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3217,8 +3217,8 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrOtherDynamics& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrOtherDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3233,8 +3233,8 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrWords" <<
       ", line " << inputLineNumber <<
@@ -3242,7 +3242,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
   }
 #endif
 
-  if (gLpsrOptions->fConvertWordsToTempo) {
+  if (gLpsrOah->fConvertWordsToTempo) {
     // create a tempo containing elt
     S_msrTempo
       tempo =
@@ -3250,8 +3250,8 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
           inputLineNumber,
           elt);
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "Converting words '" <<
         elt->asShortString () <<
@@ -3279,8 +3279,8 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrWords& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrWords" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3292,8 +3292,8 @@ void msr2LpsrTranslator::visitEnd (S_msrWords& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlur" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3332,8 +3332,8 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSlur" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3345,8 +3345,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrLigature" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3366,8 +3366,8 @@ void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrLigature" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3379,8 +3379,8 @@ void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSlash& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlash" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3402,8 +3402,8 @@ void msr2LpsrTranslator::visitStart (S_msrSlash& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrWedge" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3424,8 +3424,8 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrWedge& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrWedge" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3440,8 +3440,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   int inputLineNumber =
     elt->getInputLineNumber () ;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrGraceNotesGroup" <<
       ", line " << inputLineNumber <<
@@ -3453,8 +3453,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
   if (doCreateAGraceNoteClone) {
     // create a clone of this graceNotesGroup
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Creating a clone of grace notes group '" <<
         elt->asShortString () <<
@@ -3489,8 +3489,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   //  }
   }
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 1" <<
       endl <<
@@ -3522,7 +3522,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "' has an empty note upLink";
 
     msrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3531,13 +3531,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   fOnGoingGraceNotesGroup = true;
 
   // is noteNotesGroupIsAttachedTo the first one in its voice?
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceGraceNotes
+    gTraceOah->fTraceGraceNotes
       ||
-    gTraceOptions->fTraceNotes
+    gTraceOah->fTraceNotes
       ||
-    gTraceOptions->fTraceVoices
+    gTraceOah->fTraceVoices
   ) {
     fLogOutputStream <<
       "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
@@ -3558,13 +3558,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceGraceNotes
+    gTraceOah->fTraceGraceNotes
       ||
-    gTraceOptions->fTraceNotes
+    gTraceOah->fTraceNotes
       ||
-    gTraceOptions->fTraceVoices
+    gTraceOah->fTraceVoices
   ) {
     fLogOutputStream <<
       "The first note of voice clone KLJWLPOEF '" <<
@@ -3597,13 +3597,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // skip grace notes in the other voices of the part
 
       // create the skip grace notes group
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
         if (
-            gTraceOptions->fTraceGraceNotes
+            gTraceOah->fTraceGraceNotes
               ||
-            gTraceOptions->fTraceNotes
+            gTraceOah->fTraceNotes
               ||
-            gTraceOptions->fTraceVoices
+            gTraceOah->fTraceVoices
         ) {
           fLogOutputStream <<
             "Creating a skip clone of grace notes group '" <<
@@ -3636,8 +3636,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // fPendingAfterGraceNotesGroup already contains
       // the afterGraceNotesGroup to use
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceGraceNotesGroup) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Optimising grace notes '" <<
           elt->asShortString () <<
@@ -3684,8 +3684,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // skip grace notes in the other voices of the part
 
       // create skip graceNotesGroup clone
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceGraceNotesGroup) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Creating a skip clone of grace notes '" <<
           elt->asShortString () <<
@@ -3717,8 +3717,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
           fetchVoiceLastElement (inputLineNumber);
 
       // create the after grace notes
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceGraceNotesGroup) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Converting grace notes '" <<
           elt->asShortString () <<
@@ -3742,8 +3742,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
             fCurrentVoiceClone);
 
       // append it to the current note clone
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceGraceNotesGroup) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Appending the after grace notes to current note clone" <<
           endl;
@@ -3762,8 +3762,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrGraceNotesGroup" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3771,8 +3771,8 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 2" <<
       endl <<
@@ -3799,8 +3799,8 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   if (fPendingAfterGraceNotesGroup) {
     // remove the current afterGraceNotesGroup note clone
     // from the current voice clone
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceGraceNotesGroup) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceGraceNotesGroup) {
       fLogOutputStream <<
         "Removing the after grace notes element from the current voice clone" <<
         endl;
@@ -3824,8 +3824,8 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNote '" <<
       elt->asString () <<
@@ -3847,8 +3847,8 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   // don't register grace notes as the current note clone,
   // but as the current grace note clone instead
 /* JMI
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone GFFF '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -3884,8 +3884,8 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
         fFirstNoteCloneInVoice =
           fCurrentNonGraceNoteClone;
 
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone RJIRWR '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -3907,8 +3907,8 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       &&
     elt->getNoteTrillOrnament ()) {
     // yes, create the after grace notes
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceNotesGroup) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceNotesGroup) {
       fLogOutputStream <<
         "Optimizing grace notes on trilled note '" <<
         elt->asShortString () <<
@@ -3937,8 +3937,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrNote " <<
       elt->asString () <<
@@ -3947,8 +3947,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotesDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotesDetails) {
     fLogOutputStream <<
       "FAA fCurrentNonGraceNoteClone = " <<
       endl;
@@ -3983,8 +3983,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kRestNote:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending rest note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -3999,8 +3999,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kSkipNote: // JMI
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending skip note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -4015,8 +4015,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kUnpitchedNote:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending unpitched note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -4031,8 +4031,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kStandaloneNote:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending standalone note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -4050,8 +4050,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (fOnGoingDoubleTremolo) {
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
               fCurrentNonGraceNoteClone->asString () <<
@@ -4070,8 +4070,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         }
 
         else if (fCurrentNonGraceNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
               fCurrentNonGraceNoteClone->asString () <<
@@ -4097,7 +4097,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -4112,7 +4112,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of a double tremolo";
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4136,14 +4136,14 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of grace notes";
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
       else {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
           fLogOutputStream <<
             "Appending grace note '" <<
             fCurrentGraceNoteClone->asShortString () <<
@@ -4162,8 +4162,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
     /* JMI ???
       if (fCurrentGraceNotesGroupClone) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -4179,8 +4179,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
 
       else if (fPendingAfterGraceNotes) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -4206,7 +4206,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4231,7 +4231,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4255,7 +4255,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4265,8 +4265,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kTupletMemberNote:
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletMemberUnpitchedNote:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceNotes) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "'' to voice clone " <<
@@ -4345,8 +4345,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrOctaveShift" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4366,8 +4366,8 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrOctaveShift" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4379,8 +4379,8 @@ void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrAccordionRegistration" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4400,8 +4400,8 @@ void msr2LpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrHarpPedalsTuning" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4417,8 +4417,8 @@ void msr2LpsrTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStem& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStem" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4438,8 +4438,8 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrStem& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrStem" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4451,8 +4451,8 @@ void msr2LpsrTranslator::visitEnd (S_msrStem& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4482,8 +4482,8 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4498,8 +4498,8 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrChord" <<
       ", line " << inputLineNumber <<
@@ -4541,7 +4541,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4567,8 +4567,8 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrChord& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrChord" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4582,8 +4582,8 @@ void msr2LpsrTranslator::visitEnd (S_msrChord& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTuplet" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4597,8 +4597,8 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
       elt->createTupletNewbornClone ();
 
   // register it in this visitor
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTuplets) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tupletClone->asString () <<
@@ -4622,8 +4622,8 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTuplet" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4631,8 +4631,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTuplets) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet '" <<
       elt->asString () <<
@@ -4645,8 +4645,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 
   if (fTupletClonesStack.size ()) {
     // tuplet is a nested tuplet
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceTuplets) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "Adding nested tuplet '" <<
       elt->asString () <<
@@ -4664,8 +4664,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
   else {
     // tuplet is a top level tuplet
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceTuplets) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "Adding top level tuplet '" <<
       elt->asString () <<
@@ -4683,8 +4683,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTie& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTie" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4704,8 +4704,8 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTie" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4717,8 +4717,8 @@ void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSegno" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4732,8 +4732,8 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrCoda" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4748,8 +4748,8 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrEyeGlasses& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting eyeGlasses" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4763,8 +4763,8 @@ void msr2LpsrTranslator::visitStart (S_msrEyeGlasses& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrScordatura& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting scordatura" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4778,8 +4778,8 @@ void msr2LpsrTranslator::visitStart (S_msrScordatura& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting pedal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4793,8 +4793,8 @@ void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrDamp& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting damp" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4812,8 +4812,8 @@ void msr2LpsrTranslator::visitStart (S_msrDamp& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrDampAll& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting dampAll" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4832,8 +4832,8 @@ void msr2LpsrTranslator::visitStart (S_msrDampAll& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarCheck" <<
       ", nextBarNumber: " <<
@@ -4849,8 +4849,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBarCheck& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4862,8 +4862,8 @@ void msr2LpsrTranslator::visitEnd (S_msrBarCheck& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarNumberCheck& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarNumberCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4877,8 +4877,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarNumberCheck& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarNumberCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4890,8 +4890,8 @@ void msr2LpsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrLineBreak& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4905,8 +4905,8 @@ void msr2LpsrTranslator::visitStart (S_msrLineBreak& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrLineBreak& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4918,8 +4918,8 @@ void msr2LpsrTranslator::visitEnd (S_msrLineBreak& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPageBreak& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4933,8 +4933,8 @@ void msr2LpsrTranslator::visitStart (S_msrPageBreak& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPageBreak& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4949,8 +4949,8 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeat" <<
       ", line " << inputLineNumber <<
@@ -4958,8 +4958,8 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4979,8 +4979,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeat" <<
       ", line " << inputLineNumber <<
@@ -4988,8 +4988,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5011,8 +5011,8 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeatCommonPart" <<
       ", line " << inputLineNumber <<
@@ -5030,8 +5030,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeatCommonPart" <<
       ", line " << inputLineNumber <<
@@ -5050,8 +5050,8 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeatEnding" <<
       ", line " << inputLineNumber <<
@@ -5060,8 +5060,8 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 #endif
 
   // handle the repeat ending start in the voice clone
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5082,8 +5082,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeatEnding" <<
       ", line " << inputLineNumber <<
@@ -5092,8 +5092,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 #endif
 
   // handle the repeat ending end in the voice clone
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5115,8 +5115,8 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasures& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
@@ -5126,8 +5126,8 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasures& elt)
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRestMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5147,8 +5147,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasures& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
@@ -5158,8 +5158,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasures& elt)
 
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRestMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5179,8 +5179,8 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
@@ -5190,8 +5190,8 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRestMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRestMeasures) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5209,8 +5209,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
@@ -5220,8 +5220,8 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRestMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRestMeasures) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5240,8 +5240,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeat" <<
       ", line " << inputLineNumber <<
@@ -5251,8 +5251,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5272,8 +5272,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasuresRepeat" <<
       ", line " << inputLineNumber <<
@@ -5285,8 +5285,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 
 /* JMI
   // set last segment as the measures repeat pattern segment
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measures repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5296,8 +5296,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 #endif
 */
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5317,8 +5317,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeatPattern" <<
       ", line " << inputLineNumber <<
@@ -5328,8 +5328,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5347,8 +5347,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasuresRepeatPattern" <<
       ", line " << inputLineNumber <<
@@ -5358,8 +5358,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5378,8 +5378,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeatReplicas" <<
       ", line " << inputLineNumber <<
@@ -5389,8 +5389,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 
   gIndenter++;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5408,8 +5408,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting S_msrMeasuresRepeatReplicas" <<
       ", line " << inputLineNumber <<
@@ -5420,8 +5420,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   gIndenter--;
 
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5437,13 +5437,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 {
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarline" <<
       ", line " << inputLineNumber <<
@@ -5451,8 +5451,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarLines) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBarLines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (
@@ -5502,8 +5502,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarline" <<
       ", line " << elt->getInputLineNumber () <<
@@ -5518,8 +5518,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVarValAssoc" <<
       ", line " << inputLineNumber <<
@@ -5650,7 +5650,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -5659,8 +5659,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrVarValAssoc" <<
       ", line " << elt->getInputLineNumber () <<
@@ -5675,8 +5675,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVarValsListAssoc" <<
       ", line " << inputLineNumber <<
@@ -5792,7 +5792,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -5802,8 +5802,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrVarValsListAssoc" <<
       ", line " << elt->getInputLineNumber () <<
@@ -5815,8 +5815,8 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -5831,8 +5831,8 @@ void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 {
   gIndenter--;
 
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -5844,8 +5844,8 @@ void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMidi& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMidi" <<
       ", line " << elt->getInputLineNumber () <<
@@ -5856,8 +5856,8 @@ void msr2LpsrTranslator::visitStart (S_msrMidi& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMidi" <<
       ", line " << elt->getInputLineNumber () <<

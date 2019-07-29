@@ -13,8 +13,8 @@
 #ifndef ___lpsr2LilypondTranslator___
 #define ___lpsr2LilypondTranslator___
 
-#include "msrOptions.h"
-#include "lpsrOptions.h"
+#include "msrOah.h"
+#include "lpsrOah.h"
 
 #include "lpsr.h"
 
@@ -346,8 +346,8 @@ class lpsr2LilypondTranslator :
 
     lpsr2LilypondTranslator (
       S_lpsrScore      lpsrScore,
-      S_msrOptions&    msrOpts,
-      S_lpsrOptions&   lpsrOpts,
+      S_msrOah&    msrOpts,
+      S_lpsrOah&   lpsrOpts,
       indentedOstream& logOstream,
       indentedOstream& lilypondCodeOstream);
 
@@ -817,8 +817,8 @@ class lpsr2LilypondTranslator :
 
   private:
 
-    S_msrOptions          fMsrOptions;
-    S_lpsrOptions         fLpsrOptions;
+    S_msrOah          fMsrOah;
+    S_lpsrOah         fLpsrOah;
 
     indentedOstream&      fLogOutputStream;
     indentedOstream&      fLilypondCodeOstream;
@@ -873,7 +873,7 @@ class lpsr2LilypondTranslator :
           fixed  in fixed mode
     */
     S_msrNote             fCurrentOctaveEntryReference;
-    void                  setCurrentOctaveEntryReferenceFromTheLilypondOptions ();
+    void                  setCurrentOctaveEntryReferenceFromTheLilypondOah ();
 
     // repeats
     // ------------------------------------------------------

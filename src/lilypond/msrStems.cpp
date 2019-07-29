@@ -15,7 +15,7 @@
 
 #include "msrStems.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -48,7 +48,7 @@ msrStem::~msrStem ()
 
 void msrStem::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStem::acceptIn ()" <<
       endl;
@@ -59,7 +59,7 @@ void msrStem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStem::visitStart ()" <<
             endl;
@@ -70,7 +70,7 @@ void msrStem::acceptIn (basevisitor* v)
 
 void msrStem::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStem::acceptOut ()" <<
       endl;
@@ -81,7 +81,7 @@ void msrStem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStem::visitEnd ()" <<
             endl;

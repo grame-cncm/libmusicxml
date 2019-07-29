@@ -14,7 +14,7 @@
 
 #include "msrVoiceElements.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -38,7 +38,7 @@ msrVoiceElement::~msrVoiceElement ()
 /* JMI
 void msrVoiceElement::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrVoiceElement::acceptIn ()" <<
       endl;
@@ -49,7 +49,7 @@ void msrVoiceElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrVoiceElement>*> (v)) {
         S_msrVoiceElement elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrVoiceElement::visitStart ()" <<
             endl;
@@ -60,7 +60,7 @@ void msrVoiceElement::acceptIn (basevisitor* v)
 
 void msrVoiceElement::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrVoiceElement::acceptOut ()" <<
       endl;
@@ -71,7 +71,7 @@ void msrVoiceElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrVoiceElement>*> (v)) {
         S_msrVoiceElement elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrVoiceElement::visitEnd ()" <<
             endl;

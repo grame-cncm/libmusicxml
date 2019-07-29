@@ -14,7 +14,7 @@
 
 #include "msrPartGroupElements.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -37,7 +37,7 @@ msrPartGroupElement::~msrPartGroupElement ()
 /* JMI
 void msrPartGroupElement::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPartGroupElement::acceptIn ()" <<
       endl;
@@ -48,7 +48,7 @@ void msrPartGroupElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPartGroupElement>*> (v)) {
         S_msrPartGroupElement elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartGroupElement::visitStart ()" <<
             endl;
@@ -59,7 +59,7 @@ void msrPartGroupElement::acceptIn (basevisitor* v)
 
 void msrPartGroupElement::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPartGroupElement::acceptOut ()" <<
       endl;
@@ -70,7 +70,7 @@ void msrPartGroupElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPartGroupElement>*> (v)) {
         S_msrPartGroupElement elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartGroupElement::visitEnd ()" <<
             endl;

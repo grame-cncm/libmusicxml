@@ -12,7 +12,7 @@
 
 #include "msrMutualDependencies.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -150,7 +150,7 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
 
 void msrOrnament::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOrnament::acceptIn ()" <<
       endl;
@@ -161,7 +161,7 @@ void msrOrnament::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOrnament::visitStart ()" <<
             endl;
@@ -172,7 +172,7 @@ void msrOrnament::acceptIn (basevisitor* v)
 
 void msrOrnament::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOrnament::acceptOut ()" <<
       endl;
@@ -183,7 +183,7 @@ void msrOrnament::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOrnament::visitEnd ()" <<
             endl;

@@ -14,12 +14,12 @@
 
 #include "lpsrHeaders.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -43,78 +43,78 @@ lpsrHeader::lpsrHeader (
     : lpsrElement (inputLineNumber)
 {
   // grab values from the LilyPond options if any
-  if (gLilypondOptions->fDedication.size ()) {
+  if (gLilypondOah->fDedication.size ()) {
     setLilypondDedication (
       inputLineNumber,
-      gLilypondOptions->fDedication,
+      gLilypondOah->fDedication,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOptions->fPiece.size ()) {
+  if (gLilypondOah->fPiece.size ()) {
     setLilypondPiece (
       inputLineNumber,
-      gLilypondOptions->fPiece,
+      gLilypondOah->fPiece,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOptions->fOpus.size ()) {
+  if (gLilypondOah->fOpus.size ()) {
     setLilypondOpus (
       inputLineNumber,
-      gLilypondOptions->fOpus,
+      gLilypondOah->fOpus,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOptions->fTitle.size ()) {
+  if (gLilypondOah->fTitle.size ()) {
     setLilypondTitle (
       inputLineNumber,
-      gLilypondOptions->fTitle,
+      gLilypondOah->fTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOptions->fSubTitle.size ()) {
+  if (gLilypondOah->fSubTitle.size ()) {
     setLilypondSubTitle (
       inputLineNumber,
-      gLilypondOptions->fSubTitle,
+      gLilypondOah->fSubTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOptions->fSubSubTitle.size ()) {
+  if (gLilypondOah->fSubSubTitle.size ()) {
     setLilypondSubSubTitle (
       inputLineNumber,
-      gLilypondOptions->fSubSubTitle,
+      gLilypondOah->fSubSubTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOptions->fInstrument.size ()) {
+  if (gLilypondOah->fInstrument.size ()) {
     setLilypondInstrument (
       inputLineNumber,
-      gLilypondOptions->fInstrument,
+      gLilypondOah->fInstrument,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOptions->fMeter.size ()) {
+  if (gLilypondOah->fMeter.size ()) {
     setLilypondMeter (
       inputLineNumber,
-      gLilypondOptions->fMeter,
+      gLilypondOah->fMeter,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOptions->fCopyright.size ()) {
+  if (gLilypondOah->fCopyright.size ()) {
     setLilypondCopyright (
       inputLineNumber,
-      gLilypondOptions->fCopyright,
+      gLilypondOah->fCopyright,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOptions->fTagline.size ()) {
+  if (gLilypondOah->fTagline.size ()) {
     setLilypondTagline (
       inputLineNumber,
-      gLilypondOptions->fTagline,
+      gLilypondOah->fTagline,
       kFontStyleNone,
       kFontWeightNone);
   }
@@ -501,8 +501,8 @@ void lpsrHeader::addRights (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding right \"" <<
       value <<
@@ -527,8 +527,8 @@ void lpsrHeader::addComposer (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding composer \"" <<
       value <<
@@ -553,8 +553,8 @@ void lpsrHeader::addArranger (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding arranger \"" <<
       value <<
@@ -579,8 +579,8 @@ void lpsrHeader::addLyricist (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding lyricist \"" <<
       value <<
@@ -605,8 +605,8 @@ void lpsrHeader::addPoet (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding poet \"" <<
       value <<
@@ -631,8 +631,8 @@ void lpsrHeader::addTranslator (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding translator \"" <<
       value <<
@@ -657,8 +657,8 @@ void lpsrHeader::addArtist (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding artist \"" <<
       value <<
@@ -683,8 +683,8 @@ void lpsrHeader::addSoftware (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding software \"" <<
       value <<
@@ -963,8 +963,8 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
 
 void lpsrHeader::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrHeader::acceptIn ()" <<
       endl;
@@ -976,8 +976,8 @@ void lpsrHeader::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrHeader::visitStart ()" <<
             endl;
@@ -989,8 +989,8 @@ void lpsrHeader::acceptIn (basevisitor* v)
 
 void lpsrHeader::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrHeader::acceptOut ()" <<
       endl;
@@ -1002,8 +1002,8 @@ void lpsrHeader::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrHeader::visitEnd ()" <<
             endl;

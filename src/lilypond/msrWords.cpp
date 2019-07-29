@@ -16,7 +16,7 @@
 
 #include "msrWords.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -87,7 +87,7 @@ msrWords::~msrWords ()
 
 void msrWords::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrWords::acceptIn ()" <<
       endl;
@@ -98,7 +98,7 @@ void msrWords::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWords::visitStart ()" <<
             endl;
@@ -109,7 +109,7 @@ void msrWords::acceptIn (basevisitor* v)
 
 void msrWords::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrWords::acceptOut ()" <<
       endl;
@@ -120,7 +120,7 @@ void msrWords::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWords::visitEnd ()" <<
             endl;

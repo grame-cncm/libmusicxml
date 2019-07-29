@@ -17,15 +17,15 @@
 
 #include "messagesHandling.h"
 
-#include "oahBasicOptions.h"
-#include "generalOptions.h"
+#include "executableOah.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -51,8 +51,8 @@ bsrTimeItem::bsrTimeItem (
 {
   fTimeBeatValue = -1;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
@@ -99,8 +99,8 @@ bool bsrTimeItem::isEqualTo (S_bsrTimeItem otherTimeItem) const
 
 void bsrTimeItem::appendBeatsNumber (int beatsNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending beat number '" <<
       beatsNumber <<
@@ -118,8 +118,8 @@ void bsrTimeItem::appendBeatsNumber (int beatsNumber)
 
 void bsrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
@@ -147,8 +147,8 @@ int bsrTimeItem::getTimeBeatsNumber () const
 
 void bsrTimeItem::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTimeItem::acceptIn ()" <<
       endl;
@@ -160,8 +160,8 @@ void bsrTimeItem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTimeItem::visitStart ()" <<
             endl;
@@ -173,8 +173,8 @@ void bsrTimeItem::acceptIn (basevisitor* v)
 
 void bsrTimeItem::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTimeItem::acceptOut ()" <<
       endl;
@@ -186,8 +186,8 @@ void bsrTimeItem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTimeItem::visitEnd ()" <<
             endl;
@@ -217,7 +217,7 @@ string bsrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -287,8 +287,8 @@ bsrTime::bsrTime (
 {
   fTimeKind = timeKind;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Creating bsrTimes '" <<
       asString () <<
@@ -304,8 +304,8 @@ bsrTime::~bsrTime ()
 
 void bsrTime::appendTimeItem (S_bsrTimeItem timeItem)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending time item '" <<
       timeItem->asString () <<
@@ -366,7 +366,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gOahBasicOptions->fInputSourceName,
+                gExecutableOah->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -490,7 +490,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrMusicXMLWarning (
-                        gOahBasicOptions->fInputSourceName,
+                        gExecutableOah->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }
@@ -558,7 +558,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gOahBasicOptions->fInputSourceName,
+                gExecutableOah->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -619,7 +619,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrMusicXMLWarning (
-                        gOahBasicOptions->fInputSourceName,
+                        gExecutableOah->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }
@@ -666,8 +666,8 @@ int bsrTime::fetchCellsNumber() const
 
 void bsrTime::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTime::acceptIn ()" <<
       endl;
@@ -679,8 +679,8 @@ void bsrTime::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTime::visitStart ()" <<
             endl;
@@ -692,8 +692,8 @@ void bsrTime::acceptIn (basevisitor* v)
 
 void bsrTime::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTime::acceptOut ()" <<
       endl;
@@ -705,8 +705,8 @@ void bsrTime::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTime::visitEnd ()" <<
             endl;

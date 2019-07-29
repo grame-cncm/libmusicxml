@@ -12,12 +12,12 @@
 
 #include "msrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -67,8 +67,8 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   S_msrElement doubleTremoloFirstElement,
   S_msrElement doubleTremoloSecondElement)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Creating a newborn clone of a double tremolo" <<
       endl;
@@ -117,8 +117,8 @@ msrDoubleTremolo::~msrDoubleTremolo ()
 
 void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Setting note " << note->asShortString () <<
       " as first element of double tremolo " <<
@@ -197,7 +197,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
       "line " << inputLineNumber;
 
     msrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -206,8 +206,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   fDoubleTremoloNumberOfRepeats =
     numberOfRepeatsAsRational.getNumerator ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Setting notes double tremolo number of repeats to '" <<
       fDoubleTremoloNumberOfRepeats <<
@@ -224,8 +224,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
   S_msrNote note)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Setting note " << note->asShortString () <<
       " as second element of double tremolo " <<
@@ -258,8 +258,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
 
   // check that expected double tremolo sounding whole notes
   // match the known double tremolo sounding whole notes
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Checking notes double tremolo second note duration"<<
       ", doubleTremoloNumberOfRepeats = '" <<
@@ -296,7 +296,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
     gIndenter--;
 
     msrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -311,8 +311,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
 void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
   S_msrChord chord)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
     gLogOstream <<
       "Setting chord " << chord->asString () <<
       " as first element of double tremolo " <<
@@ -365,7 +365,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
       gIndenter--;
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         chord->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -379,8 +379,8 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
 
 void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
     gLogOstream <<
       "Setting chord " << chord->asString () <<
       " as second element of double tremolo " <<
@@ -424,7 +424,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
       gIndenter--;
 
       msrInternalError (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         chord->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -453,7 +453,7 @@ void msrDoubleTremolo::setDoubleTremoloMeasureNumber (
 
 void msrDoubleTremolo::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDoubleTremolo::acceptIn ()" <<
       endl;
@@ -464,7 +464,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
         S_msrDoubleTremolo elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDoubleTremolo::visitStart ()" <<
             endl;
@@ -475,7 +475,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v)
 
 void msrDoubleTremolo::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDoubleTremolo::acceptOut ()" <<
       endl;
@@ -486,7 +486,7 @@ void msrDoubleTremolo::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
         S_msrDoubleTremolo elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDoubleTremolo::visitEnd ()" <<
             endl;
@@ -577,7 +577,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "notes double tremolo first element should be a note");
@@ -594,7 +594,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "chords double tremolo first element should be a chord");
@@ -618,7 +618,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "notes double tremolo second element should be a note");
@@ -635,7 +635,7 @@ string msrDoubleTremolo::asString () const
         }
         else {
           msrInternalError (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "chords double tremolo second element should be a chord");

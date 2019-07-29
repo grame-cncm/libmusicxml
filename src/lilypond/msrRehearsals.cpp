@@ -15,7 +15,7 @@
 
 #include "msrRehearsals.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -59,7 +59,7 @@ msrRehearsal::~msrRehearsal ()
 
 void msrRehearsal::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRehearsal::acceptIn ()" <<
       endl;
@@ -70,7 +70,7 @@ void msrRehearsal::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRehearsal::visitStart ()" <<
             endl;
@@ -81,7 +81,7 @@ void msrRehearsal::acceptIn (basevisitor* v)
 
 void msrRehearsal::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRehearsal::acceptOut ()" <<
       endl;
@@ -92,7 +92,7 @@ void msrRehearsal::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRehearsal::visitEnd ()" <<
             endl;

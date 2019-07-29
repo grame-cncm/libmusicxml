@@ -41,8 +41,8 @@ The library includes a high level API to convert
 //______________________________________________________________________________
 EXP void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions      msrOpts,
-  S_lpsrOptions     lpsrOpts,
+  S_msrOah      msrOpts,
+  S_lpsrOah     lpsrOpts,
   indentedOstream&  logOstream,
   indentedOstream&  lilypondCodeOstream);
 

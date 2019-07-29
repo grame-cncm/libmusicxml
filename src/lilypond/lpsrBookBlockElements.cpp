@@ -14,11 +14,11 @@
 
 #include "version.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 
@@ -53,8 +53,8 @@ lpsrBookBlockElement::~lpsrBookBlockElement ()
 
 void lpsrBookBlockElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookBlockElement::acceptIn ()" <<
       endl;
@@ -66,8 +66,8 @@ void lpsrBookBlockElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrBookBlockElement>*> (v)) {
         S_lpsrBookBlockElement elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBookBlockElement::visitStart ()" <<
             endl;
@@ -79,8 +79,8 @@ void lpsrBookBlockElement::acceptIn (basevisitor* v)
 
 void lpsrBookBlockElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookBlockElement::acceptOut ()" <<
       endl;
@@ -92,8 +92,8 @@ void lpsrBookBlockElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrBookBlockElement>*> (v)) {
         S_lpsrBookBlockElement elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBookBlockElement::visitEnd ()" <<
             endl;
@@ -105,8 +105,8 @@ void lpsrBookBlockElement::acceptOut (basevisitor* v)
 
 void lpsrBookBlockElement::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookBlockElement::browseData ()" <<
       endl;
@@ -131,8 +131,8 @@ void lpsrBookBlockElement::browseData (basevisitor* v)
   } // for
 */
 
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrBookBlockElement::browseData ()" <<
       endl;
@@ -177,8 +177,8 @@ lpsrScoreBlock::lpsrScoreBlock (
       inputLineNumber);
 
   // create the score block midi
-  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
+  string midiTempoDuration  = gLilypondOah->fMidiTempo.first;
+  int    midiTempoPerSecond = gLilypondOah->fMidiTempo.second;
 
   fScoreBlockMidi =
     msrMidi::create (
@@ -193,8 +193,8 @@ lpsrScoreBlock::~lpsrScoreBlock ()
 void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -214,8 +214,8 @@ void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
 void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -233,8 +233,8 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
 void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<
@@ -250,8 +250,8 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
 
 void lpsrScoreBlock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreBlock::acceptIn ()" <<
       endl;
@@ -263,8 +263,8 @@ void lpsrScoreBlock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
         S_lpsrScoreBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrScoreBlock::visitStart ()" <<
             endl;
@@ -276,8 +276,8 @@ void lpsrScoreBlock::acceptIn (basevisitor* v)
 
 void lpsrScoreBlock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreBlock::acceptOut ()" <<
       endl;
@@ -289,8 +289,8 @@ void lpsrScoreBlock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
         S_lpsrScoreBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrScoreBlock::visitEnd ()" <<
             endl;
@@ -302,8 +302,8 @@ void lpsrScoreBlock::acceptOut (basevisitor* v)
 
 void lpsrScoreBlock::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreBlock::browseData ()" <<
       endl;
@@ -339,8 +339,8 @@ void lpsrScoreBlock::browseData (basevisitor* v)
     browser.browse (*fScoreBlockMidi);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrScoreBlock::browseData ()" <<
       endl;
@@ -402,8 +402,8 @@ lpsrBookPartBlock::~lpsrBookPartBlock ()
 void lpsrBookPartBlock::appendPartGroupBlockToBookPartBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -423,8 +423,8 @@ void lpsrBookPartBlock::appendPartGroupBlockToBookPartBlock (
 void lpsrBookPartBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -442,8 +442,8 @@ void lpsrBookPartBlock::appendVoiceUseToParallelMusicBLock (
 void lpsrBookPartBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<
@@ -459,8 +459,8 @@ void lpsrBookPartBlock::appendLyricsUseToParallelMusicBLock (
 
 void lpsrBookPartBlock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookPartBlock::acceptIn ()" <<
       endl;
@@ -472,8 +472,8 @@ void lpsrBookPartBlock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrBookPartBlock>*> (v)) {
         S_lpsrBookPartBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBookPartBlock::visitStart ()" <<
             endl;
@@ -485,8 +485,8 @@ void lpsrBookPartBlock::acceptIn (basevisitor* v)
 
 void lpsrBookPartBlock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookPartBlock::acceptOut ()" <<
       endl;
@@ -498,8 +498,8 @@ void lpsrBookPartBlock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrBookPartBlock>*> (v)) {
         S_lpsrBookPartBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBookPartBlock::visitEnd ()" <<
             endl;
@@ -511,8 +511,8 @@ void lpsrBookPartBlock::acceptOut (basevisitor* v)
 
 void lpsrBookPartBlock::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookPartBlock::browseData ()" <<
       endl;
@@ -525,8 +525,8 @@ void lpsrBookPartBlock::browseData (basevisitor* v)
     browser.browse (*fBookBlockElementParallelMusicBlock);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrBookPartBlock::browseData ()" <<
       endl;
@@ -592,8 +592,8 @@ lpsrBookBlock::~lpsrBookBlock ()
 void lpsrBookBlock::appendPartGroupBlockToBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -614,8 +614,8 @@ void lpsrBookBlock::appendBookBlockElementToBookBlockElementsList (
   S_lpsrBookBlockElement bookBlockElement)
 {
 /* JMI
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrBlocks) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrBlocks) {
     gLogOstream <<
       "Appending book block element  " <<
        bookBlockElement-> asString () <<
@@ -631,8 +631,8 @@ void lpsrBookBlock::appendBookBlockElementToBookBlockElementsList (
 void lpsrBookBlock::appendLpsrScoreBlockToBookBlockElementsList (
   S_lpsrScoreBlock scoreBlock)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrBlocks) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrBlocks) {
     gLogOstream <<
       "Appending score block element  " <<
        scoreBlock-> asString () <<
@@ -648,8 +648,8 @@ void lpsrBookBlock::appendLpsrScoreBlockToBookBlockElementsList (
 void lpsrBookBlock::appendLpsrBookPartBlockToBookBlockElementsList (
   S_lpsrBookPartBlock bookPartBlock)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrBlocks) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrBlocks) {
     gLogOstream <<
       "Appending book part block element  " <<
        bookPartBlock-> asString () <<
@@ -666,8 +666,8 @@ void lpsrBookBlock::appendLpsrBookPartBlockToBookBlockElementsList (
 void lpsrBookBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -685,8 +685,8 @@ void lpsrBookBlock::appendVoiceUseToParallelMusicBLock (
 void lpsrBookBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<
@@ -702,8 +702,8 @@ void lpsrBookBlock::appendLyricsUseToParallelMusicBLock (
 
 void lpsrBookBlock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookBlock::acceptIn ()" <<
       endl;
@@ -715,8 +715,8 @@ void lpsrBookBlock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrBookBlock>*> (v)) {
         S_lpsrBookBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBookBlock::visitStart ()" <<
             endl;
@@ -728,8 +728,8 @@ void lpsrBookBlock::acceptIn (basevisitor* v)
 
 void lpsrBookBlock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookBlock::acceptOut ()" <<
       endl;
@@ -741,8 +741,8 @@ void lpsrBookBlock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrBookBlock>*> (v)) {
         S_lpsrBookBlock elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBookBlock::visitEnd ()" <<
             endl;
@@ -754,8 +754,8 @@ void lpsrBookBlock::acceptOut (basevisitor* v)
 
 void lpsrBookBlock::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBookBlock::browseData ()" <<
       endl;
@@ -784,8 +784,8 @@ void lpsrBookBlock::browseData (basevisitor* v)
     browser.browse (*fBookBlockPaper);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrBookBlock::browseData ()" <<
       endl;

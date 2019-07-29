@@ -14,12 +14,12 @@
 
 #include "lpsrPapers.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -60,8 +60,8 @@ lpsrPaper::lpsrPaper (
 S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
 {
 /* JMI ???
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePapers) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePapers) {
     gLogOstream <<
       "Creating a newborn clone of a paper" <<
       endl;
@@ -106,8 +106,8 @@ lpsrPaper::~lpsrPaper ()
 
 void lpsrPaper::setIndent (float val)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGeometry) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGeometry) {
     gLogOstream <<
       "Setting paper indent to " << val <<
       endl;
@@ -119,8 +119,8 @@ void lpsrPaper::setIndent (float val)
 
 void lpsrPaper::setShortIndent (float val)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGeometry) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGeometry) {
     gLogOstream <<
       "Setting paper short indent to " << val <<
       endl;
@@ -132,8 +132,8 @@ void lpsrPaper::setShortIndent (float val)
 
 void lpsrPaper::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPaper::acceptIn ()" <<
       endl;
@@ -145,8 +145,8 @@ void lpsrPaper::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPaper::visitStart ()" <<
             endl;
@@ -158,8 +158,8 @@ void lpsrPaper::acceptIn (basevisitor* v)
 
 void lpsrPaper::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPaper::acceptOut ()" <<
       endl;
@@ -171,8 +171,8 @@ void lpsrPaper::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPaper::visitEnd ()" <<
             endl;

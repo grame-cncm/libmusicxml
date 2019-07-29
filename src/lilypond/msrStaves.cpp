@@ -12,13 +12,13 @@
 
 #include "msrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
+#include "musicXMLOah.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -69,8 +69,8 @@ msrStaff::msrStaff (
   // do other initializations
   initializeStaff ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Creating staff \"" << asString () <<
       "\" in part " <<
@@ -159,7 +159,7 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_FIGURED_BASS_STAFF_NUMBER;
 
         msrInternalError (
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -193,8 +193,8 @@ void msrStaff::initializeStaff ()
           getPartCurrentClef ();
 
     if (clef) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceClefs || gTraceOah->fTraceStaves) {
         gLogOstream <<
           "Appending part clef '" << clef->asString () <<
           "' as initial clef to staff \"" <<
@@ -218,8 +218,8 @@ void msrStaff::initializeStaff ()
           getPartCurrentKey ();
 
     if (key) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceKeys) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves || gTraceOah->fTraceKeys) {
         gLogOstream <<
           "Appending part key '" << key->asString () <<
           "' as initial key to staff \"" <<
@@ -242,8 +242,8 @@ void msrStaff::initializeStaff ()
           getPartCurrentTranspose ();
 
     if (transpose) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves /* JMI ||       gTraceOptions->fTraceTransposes */) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves /* JMI ||       gTraceOah->fTraceTransposes */) {
         gLogOstream <<
           "Appending part transpose '" << transpose->asString () <<
           "' as initial transpose to staff \"" <<
@@ -280,8 +280,8 @@ msrStaff::~msrStaff ()
 S_msrStaff msrStaff::createStaffNewbornClone (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Creating a newborn clone of staff \"" <<
       fStaffName <<
@@ -389,8 +389,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Creating and appending measure '" <<
       measureNumber <<
@@ -416,8 +416,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
 
     switch (voice->getVoiceKind ()) {
       case msrVoice::kVoiceRegular:
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasures || gTraceOah->fTraceStaves) {
           gLogOstream <<
             "Propagating the creation and appending of measure '" <<
             measureNumber <<
@@ -447,8 +447,8 @@ void msrStaff::setNextMeasureNumberInStaff (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
@@ -473,8 +473,8 @@ void msrStaff::setNextMeasureNumberInStaff (
       voice != nullptr,
       "voice is null");
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures || gTraceOah->fTraceStaves) {
       gLogOstream <<
         "Propagating the setting of next measure number '" <<
         nextMeasureNumber <<
@@ -504,8 +504,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
     case msrVoice::kVoiceRegular:
       fStaffRegularVoicesCounter++;
 
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
         gLogOstream <<
           "Creating regular voice number '" <<
           voiceNumber <<
@@ -524,8 +524,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       break;
 
     case msrVoice::kVoiceHarmony:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
         gLogOstream <<
           "Creating harmony voice number '" <<
           voiceNumber <<
@@ -542,8 +542,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       break;
 
     case msrVoice::kVoiceFiguredBass:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
         gLogOstream <<
           "Creating figured bass voice number '" <<
           voiceNumber <<
@@ -583,7 +583,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       /* JMI ???
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -604,8 +604,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
   switch (voiceKind) {
     case msrVoice::kVoiceRegular:
       // register the voice by its relative number
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceVoices) {
         gLogOstream <<
           "Voice " << voiceNumber <<
           " in staff " << getStaffName () <<
@@ -641,8 +641,8 @@ void msrStaff::registerVoiceByItsNumber (
   int        voiceNumber,
   S_msrVoice voice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Registering voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
@@ -664,8 +664,8 @@ void msrStaff::registerVoiceByItsNumber (
       break;
 
     case msrVoice::kVoiceHarmony:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
         gLogOstream <<
           "Sorting the voices in staff \"" <<
           getStaffName () << "\"" <<
@@ -733,8 +733,8 @@ void msrStaff::registerVoiceByItsNumber (
       break;
 
     case msrVoice::kVoiceFiguredBass:
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
         gLogOstream <<
           "Sorting the voices in staff \"" <<
           getStaffName () << "\"" <<
@@ -757,8 +757,8 @@ void msrStaff::registerVoiceInRegularVoicesMap (
   int        voiceNumber,
   S_msrVoice voice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Registering regular voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
@@ -782,8 +782,8 @@ void msrStaff::registerVoiceInAllVoicesList (
   int        voiceNumber,
   S_msrVoice voice)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Registering voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
@@ -802,8 +802,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
 {
   S_msrVoice result; // JMI avoid repetitive messages!
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Fetching voice number " <<
       voiceNumber <<
@@ -825,8 +825,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
       (*i).second->getVoiceNumber ()
         ==
       voiceNumber) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
           gLogOstream <<
             "Voice " << voiceNumber <<
             " in staff \"" << getStaffName () << "\"" <<
@@ -847,8 +847,8 @@ void msrStaff::addAVoiceToStaffIfItHasNone (
   int inputLineNumber)
 {
   if (fStaffAllVoicesMap.size () == 0) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
       gLogOstream <<
         "Staff \"" <<
         getStaffName () <<
@@ -906,7 +906,7 @@ void msrStaff::registerVoiceInStaff (
           /* JMI ???
         msrMusicXMLError (
     // JMI    msrMusicXMLWarning ( JMI
-          gOahBasicOptions->fInputSourceName,
+          gExecutableOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -921,8 +921,8 @@ void msrStaff::registerVoiceInStaff (
   } // switch
 
   // register voice in this staff
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " <<
@@ -947,8 +947,8 @@ void msrStaff::registerVoiceInStaff (
         int voiceNumber = voice->getVoiceNumber ();
 
         // register the voice by its number
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceVoices) {
           gLogOstream <<
             "Registering regular voice '" << voiceNumber <<
             "' " << voice->getVoiceName () <<
@@ -977,13 +977,13 @@ void msrStaff::padUpToCurrentMeasureWholeNotesInStaff (
   int      inputLineNumber,
   rational wholeNotes)
 {
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   if (
-    gTraceOptions->fTraceStaves
+    gTraceOah->fTraceStaves
       ||
-    gTraceOptions->fTraceMeasures
+    gTraceOah->fTraceMeasures
       ||
-    gMusicXMLOptions->fTraceBackup
+    gMusicXMLOah->fTraceBackup
   ) {
     gLogOstream <<
       "Padding up to current measure whole notes '" << wholeNotes <<
@@ -1011,8 +1011,8 @@ void msrStaff::padUpToCurrentMeasureWholeNotesInStaff (
 
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceClefs || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Appending clef '" << clef->asString () <<
       "' to staff \"" <<
@@ -1032,7 +1032,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
   if (fStaffCurrentClef) {
     if (
-      gMusicXMLOptions->fIgnoreRedundantClefs
+      gMusicXMLOah->fIgnoreRedundantClefs
         &&
       clef->isEqualTo (fStaffCurrentClef)
     ) {
@@ -1073,8 +1073,8 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
   }
 
   else {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceClefs || gTraceOah->fTraceStaves) {
       gLogOstream <<
         "Clef '" <<
         clef->asString () <<
@@ -1092,8 +1092,8 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
 void msrStaff::appendKeyToStaff (S_msrKey  key)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Appending key '" << key->asString () <<
       "' to staff \"" <<
@@ -1111,7 +1111,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
   if (fStaffCurrentKey) {
     if (
-      gMusicXMLOptions->fIgnoreRedundantKeys
+      gMusicXMLOah->fIgnoreRedundantKeys
         &&
       fStaffCurrentKey->isEqualTo (key)
     ) {
@@ -1120,8 +1120,8 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
     else {
       if (key->isEqualTo (fStaffCurrentKey)) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceKeys || gTraceOah->fTraceStaves) {
           gLogOstream <<
             "Key '" <<
             key->asString () <<
@@ -1158,8 +1158,8 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
 void msrStaff::appendTimeToStaff (S_msrTime time)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Appending time '" << time->asString () <<
       "' to staff \"" <<
@@ -1176,7 +1176,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
   if (fStaffCurrentTime) {
     if (
-      gMusicXMLOptions->fIgnoreRedundantTimes
+      gMusicXMLOah->fIgnoreRedundantTimes
         &&
       fStaffCurrentTime->isEqualTo (time)
     ) {
@@ -1185,8 +1185,8 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
     else {
       if (time->isEqualTo (fStaffCurrentTime)) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceTimes || gTraceOah->fTraceStaves) {
           gLogOstream <<
             "Time '" <<
             time->asString () <<
@@ -1223,8 +1223,8 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
 void msrStaff::appendTimeToStaffClone (S_msrTime time)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Appending time '" << time->asString () <<
       "' to staff clone \"" <<
@@ -1257,8 +1257,8 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
 void msrStaff::nestContentsIntoNewRepeatInStaff (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Nesting contents into new repeat in staff \"" <<
       getStaffName () <<
@@ -1283,8 +1283,8 @@ void msrStaff::nestContentsIntoNewRepeatInStaff (
 void msrStaff::handleRepeatStartInStaff (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Handling repeat start in staff \"" <<
       getStaffName () <<
@@ -1315,8 +1315,8 @@ void msrStaff::handleRepeatEndInStaff (
   string measureNumber,
   int    repeatTimes)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Handling a repeat end in staff \"" <<
       getStaffName () <<
@@ -1347,8 +1347,8 @@ void msrStaff::handleRepeatEndInStaff (
 void msrStaff::handleRepeatEndingStartInStaff (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Handling a repeat ending start in staff \"" <<
       getStaffName () <<
@@ -1380,8 +1380,8 @@ void msrStaff::handleRepeatEndingEndInStaff (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Handling a " <<
       msrRepeatEnding::repeatEndingKindAsString (
@@ -1418,8 +1418,8 @@ void msrStaff::finalizeRepeatEndInStaff (
   string measureNumber,
   int    repeatTimes)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Finalizing a repeat upon its end in staff \"" <<
       getStaffName () <<
@@ -1453,8 +1453,8 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
   int measuresRepeatMeasuresNumber,
   int measuresRepeatSlashes)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Creating a measures repeat from it's first measure in staff \"" <<
       getStaffName () <<
@@ -1480,8 +1480,8 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
 void msrStaff::appendPendingMeasuresRepeatToStaff (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Appending the pending measures repeat to staff \"" <<
       getStaffName () <<
@@ -1506,8 +1506,8 @@ void msrStaff::createRestMeasuresInStaff (
   int inputLineNumber,
   int restMeasuresMeasuresNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Creating a multiple rest in staff \"" <<
       getStaffName () <<
@@ -1537,8 +1537,8 @@ void msrStaff::createRestMeasuresInStaff (
 void msrStaff::appendPendingRestMeasuresToStaff (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Appending the pending multiple rest to staff \"" <<
       getStaffName () <<
@@ -1563,8 +1563,8 @@ void msrStaff::appendRestMeasuresCloneToStaff (
   int               inputLineNumber,
   S_msrRestMeasures restMeasures)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Appending multiple rest '" <<
       restMeasures->asString () <<
@@ -1591,8 +1591,8 @@ void msrStaff::appendRepeatCloneToStaff (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Appending repeat clone to staff \"" <<
       getStaffName () <<
@@ -1616,8 +1616,8 @@ void msrStaff::appendRepeatCloneToStaff (
 void msrStaff::appendRepeatEndingCloneToStaff (
   S_msrRepeatEnding repeatEndingClone)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Appending a repeat ending clone to staff \"" <<
       getStaffName () <<
@@ -1645,8 +1645,8 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending barline " << barline->asString () <<
       " to staff " <<
@@ -1674,8 +1674,8 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 void msrStaff::appendTransposeToStaff (
   S_msrTranspose transpose)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Setting transpose '" <<
       transpose->asString () <<
@@ -1696,8 +1696,8 @@ void msrStaff::appendTransposeToStaff (
 
   else {
     if (transpose->isEqualTo (fStaffCurrentTranspose)) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceStaves) {
         gLogOstream <<
           "Transpose '" <<
           transpose->asString () <<
@@ -1725,8 +1725,8 @@ void msrStaff::appendTransposeToStaff (
 void msrStaff::appendPartNameDisplayToStaff (
   S_msrPartNameDisplay partNameDisplay)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Setting part name display '" <<
       partNameDisplay->asString () <<
@@ -1748,8 +1748,8 @@ void msrStaff::appendPartNameDisplayToStaff (
 
   else {
     if (partNameDisplay->isEqualTo (fStaffCurrentTranspose)) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceStaves) {
         gLogOstream <<
           "Transpose '" <<
           partNameDisplay->asString () <<
@@ -1778,8 +1778,8 @@ void msrStaff::appendPartNameDisplayToStaff (
 void msrStaff::appendPartAbbreviationDisplayToStaff (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Setting part abbreviation display '" <<
       partAbbreviationDisplay->asString () <<
@@ -1801,8 +1801,8 @@ void msrStaff::appendPartAbbreviationDisplayToStaff (
 
   else {
     if (partAbbreviationDisplay->isEqualTo (fStaffCurrentTranspose)) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceStaves) {
         gLogOstream <<
           "Transpose '" <<
           transpose->asString () <<
@@ -1831,8 +1831,8 @@ void msrStaff::appendPartAbbreviationDisplayToStaff (
 void msrStaff::appendStaffDetailsToStaff (
   S_msrStaffDetails staffDetails)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Appending staff details '" <<
       staffDetails->asShortString () <<
@@ -1855,7 +1855,7 @@ void msrStaff::appendStaffDetailsToStaff (
   // set staff kind accordingly if relevant
   switch (staffDetails->getStaffLinesNumber ()) {
     case 1:
-      if (gMsrOptions->fCreateSingleLineStavesAsRythmic) {
+      if (gMsrOah->fCreateSingleLineStavesAsRythmic) {
         fStaffKind = msrStaff::kStaffRythmic;
       }
       else {
@@ -1866,8 +1866,8 @@ void msrStaff::appendStaffDetailsToStaff (
       ;
   } // switch
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Setting staff kind to '" <<
       staffKindAsString (fStaffKind) <<
@@ -1975,15 +1975,15 @@ void msrStaff::appendHarpPedalsTuningToStaff (
 void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   rational
     partCurrentMeasureWholeNotesHighTide =
       fStaffPartUpLink->
         getPartCurrentMeasureWholeNotesHighTide ();
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Finalizing current measure in staff \"" <<
       getStaffName () <<
@@ -2153,8 +2153,8 @@ bool msrStaff::compareVoicesToHaveFiguredBassesBelowCorrespondingVoice (
 
 void msrStaff::finalizeStaff (int inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Finalizing staff \"" <<
       getStaffName () << "\"" <<
@@ -2166,8 +2166,8 @@ void msrStaff::finalizeStaff (int inputLineNumber)
   gIndenter++;
 
   // finalize the voices
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Finalizing the voices in staff \"" <<
       getStaffName () << "\"" <<
@@ -2194,7 +2194,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
 
 void msrStaff::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaff::acceptIn ()" <<
       endl;
@@ -2205,7 +2205,7 @@ void msrStaff::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaff::visitStart ()" <<
             endl;
@@ -2216,7 +2216,7 @@ void msrStaff::acceptIn (basevisitor* v)
 
 void msrStaff::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaff::acceptOut ()" <<
       endl;
@@ -2227,7 +2227,7 @@ void msrStaff::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaff::visitEnd ()" <<
             endl;
@@ -2238,7 +2238,7 @@ void msrStaff::acceptOut (basevisitor* v)
 
 void msrStaff::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaff::browseData ()" <<
       endl;
@@ -2295,7 +2295,7 @@ void msrStaff::browseData (basevisitor* v)
     } // for
   }
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% <== msrStaff::browseData ()" <<
       endl;
@@ -2377,8 +2377,8 @@ void msrStaff::print (ostream& os)
     endl;
 
   // print current the staff clef if any
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceClefs) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceClefs) {
     os << left <<
       setw (fieldWidth) <<
       "staffCurrentClef" << " : ";
@@ -2399,8 +2399,8 @@ void msrStaff::print (ostream& os)
 #endif
 
   // print the current staff key if any
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
     os << left <<
       setw (fieldWidth) <<
       "staffCurrentKey" << " : ";
@@ -2421,8 +2421,8 @@ void msrStaff::print (ostream& os)
 #endif
 
   // print the current staff time if any
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
     os << left <<
       setw (fieldWidth) <<
       "staffCurrentTime" << " : ";
@@ -2442,8 +2442,8 @@ void msrStaff::print (ostream& os)
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaffDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaffDetails) {
     // print the staff details if any
     if (fCurrentStaffStaffDetails) {
       os <<
@@ -2561,7 +2561,7 @@ os <<
 
         case msrVoice::kVoiceHarmony:
           if (
-            gMsrOptions->fShowHarmonyVoices
+            gMsrOah->fShowHarmonyVoices
               ||
             voice->getMusicHasBeenInsertedInVoice ())
             os <<
@@ -2570,7 +2570,7 @@ os <<
 
         case msrVoice::kVoiceFiguredBass:
           if (
-            gMsrOptions->fShowFiguredBassVoices
+            gMsrOah->fShowFiguredBassVoices
               ||
             voice->getMusicHasBeenInsertedInVoice ())
             os <<
@@ -2703,8 +2703,8 @@ msrVoiceStaffChange::~msrVoiceStaffChange ()
 
 S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
     gLogOstream <<
       "Creating a newborn clone of voice staff change '" <<
       asString () <<
@@ -2724,7 +2724,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 
 void msrVoiceStaffChange::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrVoiceStaffChange::acceptIn ()" <<
       endl;
@@ -2735,7 +2735,7 @@ void msrVoiceStaffChange::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrVoiceStaffChange>*> (v)) {
         S_msrVoiceStaffChange elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrVoiceStaffChange::visitStart ()" <<
             endl;
@@ -2746,7 +2746,7 @@ void msrVoiceStaffChange::acceptIn (basevisitor* v)
 
 void msrVoiceStaffChange::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrVoiceStaffChange::acceptOut ()" <<
       endl;
@@ -2757,7 +2757,7 @@ void msrVoiceStaffChange::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrVoiceStaffChange>*> (v)) {
         S_msrVoiceStaffChange elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrVoiceStaffChange::visitEnd ()" <<
             endl;

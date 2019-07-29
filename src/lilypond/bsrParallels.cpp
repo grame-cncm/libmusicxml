@@ -14,8 +14,8 @@
 
 #include "bsrParallels.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -42,8 +42,8 @@ bsrParallel::bsrParallel (
 
 bsrParallel::~bsrParallel ()
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceParallels) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceParallels) {
     gLogOstream <<
       "Creating bsrParallel '" <<
       asString () <<
@@ -56,8 +56,8 @@ bsrParallel::~bsrParallel ()
 
 void bsrParallel::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
@@ -69,8 +69,8 @@ void bsrParallel::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
@@ -82,8 +82,8 @@ void bsrParallel::acceptIn (basevisitor* v)
 
 void bsrParallel::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
@@ -95,8 +95,8 @@ void bsrParallel::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;
@@ -158,7 +158,7 @@ void bsrParallel::print (ostream& os)
   // print the parallel elements if any
   int parallelElementsListSize = fParallelElementsList.size ();
   
-  if (parallelElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (parallelElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "fParallelElementsList";

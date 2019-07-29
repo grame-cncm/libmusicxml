@@ -17,8 +17,8 @@
 
 #include "utilities.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -60,8 +60,8 @@ S_bsrCellsList bsrTranscriptionNotesElement::buildCellsList () const
 
 void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptIn ()" <<
       endl;
@@ -73,8 +73,8 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitStart ()" <<
             endl;
@@ -86,8 +86,8 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 
 void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptOut ()" <<
       endl;
@@ -99,8 +99,8 @@ void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitEnd ()" <<
             endl;
@@ -165,7 +165,7 @@ bsrTranscriptionNotes::bsrTranscriptionNotes (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gBrailleOptions->fCellsPerLine)
+        gBrailleOah->fCellsPerLine)
 {}
 
 bsrTranscriptionNotes::~bsrTranscriptionNotes ()
@@ -173,8 +173,8 @@ bsrTranscriptionNotes::~bsrTranscriptionNotes ()
 
 void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotes::acceptIn ()" <<
       endl;
@@ -186,8 +186,8 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitStart ()" <<
             endl;
@@ -199,8 +199,8 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 
 void bsrTranscriptionNotes::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotes::acceptOut ()" <<
       endl;
@@ -212,8 +212,8 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitEnd ()" <<
             endl;
@@ -249,7 +249,7 @@ void bsrTranscriptionNotes::print (ostream& os)
 
   int transcriptionNotesElementsListSize = fTranscriptionNotesElementsList.size ();
   
-  if (transcriptionNotesElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (transcriptionNotesElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "transcriptionNotesElementsList" << " : " <<

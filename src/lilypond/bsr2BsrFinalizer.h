@@ -15,7 +15,7 @@
 
 #include "bsr.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 namespace MusicXML2
@@ -60,7 +60,7 @@ class bsr2BsrFinalizer :
   public:
 
     bsr2BsrFinalizer (
-      S_bsrOptions&    bsrOpts,
+      S_bsrOah&    bsrOpts,
       indentedOstream& logOstream,
       S_bsrScore       bScore);
 
@@ -166,7 +166,7 @@ class bsr2BsrFinalizer :
     // options
     // ------------------------------------------------------
 
-    S_bsrOptions          fBsrOptions;
+    S_bsrOah          fBsrOah;
 
     // log output stream
     // ------------------------------------------------------

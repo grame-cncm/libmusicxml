@@ -14,16 +14,16 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "oahBasicOptions.h"
-#include "generalOptions.h"
+#include "executableOah.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -58,8 +58,8 @@ bsrLineContents::~bsrLineContents ()
 
 S_bsrLineContents bsrLineContents::createLineNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceLines) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceLines) {
     gLogOstream <<
       "Creating a newborn clone of line " <<
       asString () <<
@@ -98,8 +98,8 @@ void bsrLineContents::appendLineElementToLineContents (
 void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
   S_bsrLineElement lineElement)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Inserting line element '" <<
       lineElement->asShortString () <<
@@ -130,7 +130,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
       "' before its last element";
 
     bsrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       lineElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -156,8 +156,8 @@ int bsrLineContents::fetchCellsNumber () const
 
 void bsrLineContents::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrLineContents::acceptIn ()" <<
       endl;
@@ -169,8 +169,8 @@ void bsrLineContents::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrLineContents::visitStart ()" <<
             endl;
@@ -182,8 +182,8 @@ void bsrLineContents::acceptIn (basevisitor* v)
 
 void bsrLineContents::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrLineContents::acceptOut ()" <<
       endl;
@@ -195,8 +195,8 @@ void bsrLineContents::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrLineContents::visitEnd ()" <<
             endl;
@@ -286,7 +286,7 @@ void bsrLineContents::print (ostream& os)
   os << endl;
 
   // print the line elements if any
-  if (lineElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (lineElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
       "LineElementsList" <<
@@ -353,8 +353,8 @@ bsrLine::bsrLine (
 
   fASpaceIsNeededInLine = true;
 
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceLines) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceLines) {
     gLogOstream <<
       "Creating bsrLine '" <<
       asString () <<
@@ -370,8 +370,8 @@ bsrLine::~bsrLine ()
 
 S_bsrLine bsrLine::createLineNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceLines) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceLines) {
     gLogOstream <<
       "Creating a newborn clone of line " <<
       asString () <<
@@ -465,8 +465,8 @@ void bsrLine::insertElementBeforeLastElementOfLine (
 
 void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceSpaces || gBsrOptions->fTraceLines) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceSpaces || gBsrOah->fTraceLines) {
     gLogOstream <<
       "Appending spaces '" <<
       spaces->asShortString () <<
@@ -482,8 +482,8 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 
 void bsrLine::appendKeyToLine (S_bsrKey key)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending key '" <<
       key->asShortString () <<
@@ -500,8 +500,8 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 
 void bsrLine::appendTimeToLine (S_bsrTime time)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending time '" <<
       time->asShortString () <<
@@ -518,8 +518,8 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
 
 void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Inserting time '" <<
       time->asShortString () <<
@@ -536,8 +536,8 @@ void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 
 void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTempos || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending tempo '" <<
       tempo->asShortString () <<
@@ -554,8 +554,8 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gBsrOptions->fTraceLines) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gBsrOah->fTraceLines) {
     gLogOstream <<
       "Appending line '" <<
       measure->asShortString () <<
@@ -619,8 +619,8 @@ void bsrLine::appendLineElementToLastMeasureOfLine (
 
 void bsrLine::appendNoteToLine (S_bsrNote note)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -685,8 +685,8 @@ int bsrLine::fetchCellsNumber () const
 
 void bsrLine::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrLine::acceptIn ()" <<
       endl;
@@ -698,8 +698,8 @@ void bsrLine::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrLine::visitStart ()" <<
             endl;
@@ -711,8 +711,8 @@ void bsrLine::acceptIn (basevisitor* v)
 
 void bsrLine::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrLine::acceptOut ()" <<
       endl;
@@ -724,8 +724,8 @@ void bsrLine::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrLine::visitEnd ()" <<
             endl;
@@ -798,7 +798,7 @@ void bsrLine::print (ostream& os)
   os << endl;
 
   // print the line contents if any
-  if (lineContentsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (lineContentsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
       "LineContentsList" <<

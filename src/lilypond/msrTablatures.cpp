@@ -16,14 +16,14 @@
 
 #include "msrTablatures.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 #include "messagesHandling.h"
 
@@ -68,8 +68,8 @@ msrFrameNote::msrFrameNote (
 
   fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating frame note '" <<
       asString () <<
@@ -121,7 +121,7 @@ string msrFrameNote::asString () const
 
 void msrFrameNote::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrameNote::acceptIn ()" <<
       endl;
@@ -132,7 +132,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrameNote::visitStart ()" <<
             endl;
@@ -143,7 +143,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
 
 void msrFrameNote::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrameNote::acceptOut ()" <<
       endl;
@@ -154,7 +154,7 @@ void msrFrameNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrameNote::visitEnd ()" <<
             endl;
@@ -233,8 +233,8 @@ msrFrame::msrFrame (
 
   fFrameContainsFingerings = false;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating frame '" <<
       asString () <<
@@ -276,7 +276,7 @@ void msrFrame::appendFrameNoteToFrame (
             frameNote;
 
           msrMusicXMLError (
-            gOahBasicOptions->fInputSourceName,
+            gExecutableOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -305,7 +305,7 @@ void msrFrame::appendFrameNoteToFrame (
               barreStartFretNumber;
 
             msrMusicXMLError (
-              gOahBasicOptions->fInputSourceName,
+              gExecutableOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -353,7 +353,7 @@ string msrFrame::asString () const
 
 void msrFrame::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrame::acceptIn ()" <<
       endl;
@@ -364,7 +364,7 @@ void msrFrame::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrame::visitStart ()" <<
             endl;
@@ -375,7 +375,7 @@ void msrFrame::acceptIn (basevisitor* v)
 
 void msrFrame::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrame::acceptOut ()" <<
       endl;
@@ -386,7 +386,7 @@ void msrFrame::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrame::visitEnd ()" <<
             endl;

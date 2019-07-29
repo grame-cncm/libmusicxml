@@ -365,7 +365,7 @@ std::string int2EnglishWord (int n);
 std::string stringNumbersToEnglishWords (std::string str);
 
 //______________________________________________________________________________
-std::set<int> decipherNumbersSetSpecification (
+std::set<int> decipherIntegersSetSpecification (
   std::string theSpecification,
   bool   debugMode = false);
 

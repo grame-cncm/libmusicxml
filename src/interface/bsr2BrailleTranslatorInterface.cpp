@@ -16,11 +16,11 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 #include "bsr2BrailleTranslator.h"
@@ -36,7 +36,7 @@ namespace MusicXML2
 //_______________________________________________________________________________
 void generateBrailleCodeFromBsrScore (
   const S_bsrScore bScore,
-  S_bsrOptions     bsrOpts,
+  S_bsrOah     bsrOpts,
   indentedOstream& logOstream,
   ostream&         brailleCodeOutputStream)
 {
@@ -50,8 +50,8 @@ void generateBrailleCodeFromBsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     logOstream <<
       endl <<
       separator <<
@@ -74,7 +74,7 @@ void generateBrailleCodeFromBsrScore (
 
 /*
   const S_bsrScore bScore,
-  S_bsrOptions     bsrOpts,
+  S_bsrOah     bsrOpts,
   indentedOstream& logOstream,
   ostream&         brailleCodeOutputStream);
 */

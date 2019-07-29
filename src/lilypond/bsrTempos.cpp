@@ -18,14 +18,14 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -202,8 +202,8 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         unsigned smSize = sm.size ();
 
         if (smSize == 3) {
-#ifdef TRACE_OPTIONS
-          if (gOahBasicOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+#ifdef TRACE_OAH
+          if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
             gLogOstream <<
               "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<
@@ -293,8 +293,8 @@ int bsrTempo::fetchCellsNumber() const
 
 void bsrTempo::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTempo::acceptIn ()" <<
       endl;
@@ -306,8 +306,8 @@ void bsrTempo::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTempo::visitStart ()" <<
             endl;
@@ -319,8 +319,8 @@ void bsrTempo::acceptIn (basevisitor* v)
 
 void bsrTempo::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTempo::acceptOut ()" <<
       endl;
@@ -332,8 +332,8 @@ void bsrTempo::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTempo::visitEnd ()" <<
             endl;

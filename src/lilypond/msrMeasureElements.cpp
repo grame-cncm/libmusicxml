@@ -14,12 +14,12 @@
 
 #include "msrMeasureElements.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 #include "messagesHandling.h"
 
@@ -46,8 +46,8 @@ void msrMeasureElement::setPositionInMeasure (
   rational positionInMeasure,
   string   context)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting position in measure of " <<
       asString () <<
@@ -75,8 +75,8 @@ void msrMeasureElement::setSoundingWholeNotes (
   rational wholeNotes,
   string   context)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting sounding whole notes of " <<
       asString () <<
@@ -110,8 +110,8 @@ bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (
 
 void msrMeasureElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasureElement::acceptIn ()" <<
       endl;
@@ -123,8 +123,8 @@ void msrMeasureElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
         S_msrMeasureElement elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasureElement::visitStart ()" <<
             endl;
@@ -136,8 +136,8 @@ void msrMeasureElement::acceptIn (basevisitor* v)
 
 void msrMeasureElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasureElement::acceptOut ()" <<
       endl;
@@ -149,8 +149,8 @@ void msrMeasureElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
         S_msrMeasureElement elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gMsrOptions->fTraceMsrVisitors) {
+#ifdef TRACE_OAH
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasureElement::visitEnd ()" <<
             endl;

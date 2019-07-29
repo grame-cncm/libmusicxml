@@ -14,8 +14,8 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -59,8 +59,8 @@ S_bsrLine bsrLineElement::getBsrLineUpLink () const
 
 void bsrLineElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrLineElement::acceptIn ()" <<
       endl;
@@ -72,8 +72,8 @@ void bsrLineElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrLineElement::visitStart ()" <<
             endl;
@@ -85,8 +85,8 @@ void bsrLineElement::acceptIn (basevisitor* v)
 
 void bsrLineElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrLineElement::acceptOut ()" <<
       endl;
@@ -98,8 +98,8 @@ void bsrLineElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrLineElement::visitEnd ()" <<
             endl;

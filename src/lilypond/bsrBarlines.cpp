@@ -17,12 +17,12 @@
 
 #include "messagesHandling.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -52,8 +52,8 @@ bsrBarline::bsrBarline (
 
   fBarlineCellsList = buildCellsList ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarLines) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBarLines) {
     gLogOstream <<
       "Creating bsrBarline '" <<
       asString () <<
@@ -113,8 +113,8 @@ int bsrBarline::fetchCellsNumber() const
 
 void bsrBarline::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrBarline::acceptIn ()" <<
       endl;
@@ -126,8 +126,8 @@ void bsrBarline::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrBarline::visitStart ()" <<
             endl;
@@ -139,8 +139,8 @@ void bsrBarline::acceptIn (basevisitor* v)
 
 void bsrBarline::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrBarline::acceptOut ()" <<
       endl;
@@ -152,8 +152,8 @@ void bsrBarline::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrBarline::visitEnd ()" <<
             endl;

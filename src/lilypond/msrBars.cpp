@@ -16,12 +16,12 @@
 
 #include "msrBars.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -55,8 +55,8 @@ msrBarCheck::msrBarCheck (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a bar check without next bar number" <<
       endl;
@@ -71,8 +71,8 @@ msrBarCheck::msrBarCheck (
 {
   fNextBarPuristNumber = nextBarPuristNumber;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a bar check with next bar number '" <<
       fNextBarPuristNumber <<
@@ -87,8 +87,8 @@ msrBarCheck::~msrBarCheck ()
 
 void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting bar check next bar number to '" <<
       puristNumber <<
@@ -102,7 +102,7 @@ void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 
 void msrBarCheck::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBarCheck::acceptIn ()" <<
       endl;
@@ -113,7 +113,7 @@ void msrBarCheck::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBarCheck::visitStart ()" <<
             endl;
@@ -124,7 +124,7 @@ void msrBarCheck::acceptIn (basevisitor* v)
 
 void msrBarCheck::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBarCheck::acceptOut ()" <<
       endl;
@@ -135,7 +135,7 @@ void msrBarCheck::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBarCheck::visitEnd ()" <<
             endl;
@@ -197,7 +197,7 @@ msrBarNumberCheck::~msrBarNumberCheck ()
 
 void msrBarNumberCheck::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBarNumberCheck::acceptIn ()" <<
       endl;
@@ -208,7 +208,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBarNumberCheck::visitStart ()" <<
             endl;
@@ -219,7 +219,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
 
 void msrBarNumberCheck::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBarNumberCheck::acceptOut ()" <<
       endl;
@@ -230,7 +230,7 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBarNumberCheck::visitEnd ()" <<
             endl;
@@ -339,7 +339,7 @@ msrBarline::~msrBarline ()
 
 void msrBarline::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBarline::acceptIn ()" <<
       endl;
@@ -350,7 +350,7 @@ void msrBarline::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBarline::visitStart ()" <<
             endl;
@@ -361,7 +361,7 @@ void msrBarline::acceptIn (basevisitor* v)
 
 void msrBarline::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBarline::acceptOut ()" <<
       endl;
@@ -372,7 +372,7 @@ void msrBarline::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBarline::visitEnd ()" <<
             endl;

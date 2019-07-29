@@ -16,15 +16,15 @@
 
 #include "msrPageGeometry.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
-#include "lpsrOptions.h"
+#include "msrOah.h"
+#include "lpsrOah.h"
 
 #include "messagesHandling.h"
 
@@ -104,7 +104,7 @@ S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
 float msrPageGeometry::fetchGlobalStaffSize () const
 {
   const float optionsGlobalStaffSize =
-    gLpsrOptions->fGlobalStaffSize;
+    gLpsrOah->fGlobalStaffSize;
 
   const float defaultTenthsToMillimetersRatio = 0.175;
 
@@ -113,8 +113,8 @@ float msrPageGeometry::fetchGlobalStaffSize () const
 
   float staffSize = optionsGlobalStaffSize * ratio;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGeometry) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGeometry) {
     gLogOstream <<
       "fetchGlobalStaffSize():" <<
       endl;
@@ -143,8 +143,8 @@ float msrPageGeometry::fetchGlobalStaffSize () const
 #endif
 
   if (staffSize < 1.0 || staffSize > 100.0) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceGeometry) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceGeometry) {
       stringstream s;
 
       s <<
@@ -153,7 +153,7 @@ float msrPageGeometry::fetchGlobalStaffSize () const
         endl;
 
       msrMusicXMLWarning (
-        gOahBasicOptions->fInputSourceName,
+        gExecutableOah->fInputSourceName,
         fInputLineNumber,
         s.str ());
     }
@@ -167,7 +167,7 @@ float msrPageGeometry::fetchGlobalStaffSize () const
 
 void msrPageGeometry::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPageGeometry::acceptIn ()" <<
       endl;
@@ -178,7 +178,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPageGeometry::visitStart ()" <<
             endl;
@@ -189,7 +189,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
 
 void msrPageGeometry::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrPageGeometry::acceptOut ()" <<
       endl;
@@ -200,7 +200,7 @@ void msrPageGeometry::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPageGeometry::visitEnd ()" <<
             endl;

@@ -17,8 +17,8 @@
 
 #include "utilities.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -54,8 +54,8 @@ bsrFootNotesElement::~bsrFootNotesElement ()
 
 void bsrFootNotesElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotesElement::acceptIn ()" <<
       endl;
@@ -67,8 +67,8 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotesElement>*> (v)) {
         S_bsrFootNotesElement elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotesElement::visitStart ()" <<
             endl;
@@ -80,8 +80,8 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
 
 void bsrFootNotesElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotesElement::acceptOut ()" <<
       endl;
@@ -93,8 +93,8 @@ void bsrFootNotesElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotesElement>*> (v)) {
         S_bsrFootNotesElement elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotesElement::visitEnd ()" <<
             endl;
@@ -159,7 +159,7 @@ bsrFootNotes::bsrFootNotes (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gBrailleOptions->fCellsPerLine)
+        gBrailleOah->fCellsPerLine)
 {}
 
 bsrFootNotes::~bsrFootNotes ()
@@ -167,8 +167,8 @@ bsrFootNotes::~bsrFootNotes ()
 
 void bsrFootNotes::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotes::acceptIn ()" <<
       endl;
@@ -180,8 +180,8 @@ void bsrFootNotes::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotes>*> (v)) {
         S_bsrFootNotes elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotes::visitStart ()" <<
             endl;
@@ -193,8 +193,8 @@ void bsrFootNotes::acceptIn (basevisitor* v)
 
 void bsrFootNotes::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotes::acceptOut ()" <<
       endl;
@@ -206,8 +206,8 @@ void bsrFootNotes::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotes>*> (v)) {
         S_bsrFootNotes elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotes::visitEnd ()" <<
             endl;
@@ -243,7 +243,7 @@ void bsrFootNotes::print (ostream& os)
 
   int footNotesElementsListSize = fFootNotesElementsList.size ();
   
-  if (footNotesElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (footNotesElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "footNotesElementsList" << " : " <<

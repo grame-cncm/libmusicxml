@@ -21,9 +21,9 @@
 #include "bsr.h"
 #include "exports.h"
 
-#include "generalOptions.h"
-#include "msrOptions.h"
-#include "bsrOptions.h"
+#include "generalOah.h"
+#include "msrOah.h"
+#include "bsrOah.h"
 
 
 namespace MusicXML2 
@@ -41,15 +41,15 @@ The library includes a high level API to convert
 //______________________________________________________________________________
 EXP S_bsrScore buildBsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOptions     msrOpts,
-  S_bsrOptions     bsrOpts,
+  S_msrOah     msrOpts,
+  S_bsrOah     bsrOpts,
   indentedOstream& logOstream);
 
 //_______________________________________________________________________________
 EXP void displayFirstBsrScore (
   const S_bsrScore bScore,
-  S_msrOptions     msrOpts,
-  S_bsrOptions     bsrOpts,
+  S_msrOah     msrOpts,
+  S_bsrOah     bsrOpts,
   indentedOstream& logOstream);
 
 /*! @} */

@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 #include "msr2Names.h"
 
@@ -24,11 +24,11 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msr2NamesVisitor::msr2NamesVisitor (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   indentedOstream& ios)
     : fMsrNamesOutputStream (ios)
 {
-  fMsrOptions = msrOpts;
+  fMsrOah = msrOpts;
 
   // part groups
   fPartGroupsCounter = 0;
@@ -63,7 +63,7 @@ void msr2NamesVisitor::printNamesFromMsrScore (
 //________________________________________________________________________
 void msr2NamesVisitor::visitStart (S_msrScore& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> Start visiting msrScore" <<
       endl;
@@ -88,7 +88,7 @@ void msr2NamesVisitor::visitEnd (S_msrScore& elt)
 {
   gIndenter--;
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> End visiting msrScore" <<
       endl;
@@ -137,7 +137,7 @@ void msr2NamesVisitor::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2NamesVisitor::visitStart (S_msrPartGroup& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> Start visiting msrPartGroup" <<
       endl;
@@ -187,7 +187,7 @@ void msr2NamesVisitor::visitEnd (S_msrPartGroup& elt)
 {
   gIndenter--;
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> End visiting msrPartGroup" <<
       endl;
@@ -197,7 +197,7 @@ void msr2NamesVisitor::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void msr2NamesVisitor::visitStart (S_msrPart& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> Start visiting msrPart" <<
       endl;
@@ -252,7 +252,7 @@ void msr2NamesVisitor::visitEnd (S_msrPart& elt)
 {
   gIndenter--;
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> End visiting msrPart" <<
       endl;
@@ -262,7 +262,7 @@ void msr2NamesVisitor::visitEnd (S_msrPart& elt)
 //________________________________________________________________________
 void msr2NamesVisitor::visitStart (S_msrStaff& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> Start visiting msrStaff" <<
       endl;
@@ -310,7 +310,7 @@ void msr2NamesVisitor::visitEnd (S_msrStaff& elt)
 {
   gIndenter--;
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> End visiting msrStaff" <<
       endl;
@@ -322,7 +322,7 @@ void msr2NamesVisitor::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2NamesVisitor::visitStart (S_msrVoice& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> Start visiting msrVoice" <<
       endl;
@@ -362,7 +362,7 @@ void msr2NamesVisitor::visitEnd (S_msrVoice& elt)
 {
   gIndenter--;
 
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> End visiting msrVoice" <<
       endl;
@@ -372,7 +372,7 @@ void msr2NamesVisitor::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void msr2NamesVisitor::visitStart (S_msrVarValAssoc& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> Start visiting msrVarValAssoc" <<
       endl;
@@ -405,7 +405,7 @@ void msr2NamesVisitor::visitStart (S_msrVarValAssoc& elt)
 
 void msr2NamesVisitor::visitEnd (S_msrVarValAssoc& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> End visiting msrVarValAssoc" <<
       endl;
@@ -415,7 +415,7 @@ void msr2NamesVisitor::visitEnd (S_msrVarValAssoc& elt)
 //________________________________________________________________________
 void msr2NamesVisitor::visitStart (S_msrVarValsListAssoc& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> Start visiting msrVarValsListAssoc" <<
       endl;
@@ -448,7 +448,7 @@ void msr2NamesVisitor::visitStart (S_msrVarValsListAssoc& elt)
 
 void msr2NamesVisitor::visitEnd (S_msrVarValsListAssoc& elt)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     fMsrNamesOutputStream <<
       "--> End visiting msrVarValsListAssoc" <<
       endl;

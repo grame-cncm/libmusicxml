@@ -14,8 +14,8 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -47,8 +47,8 @@ bsrPage::bsrPage (
   
   fLinesPerPage = linesPerPage;
 
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTracePages) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTracePages) {
     gLogOstream <<
       "Creating bsrPage '" <<
       asString () <<
@@ -64,8 +64,8 @@ bsrPage::~bsrPage ()
 
 S_bsrPage bsrPage::createPageNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTracePages) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTracePages) {
     gLogOstream <<
       "Creating a newborn clone of page " <<
       asString () <<
@@ -103,8 +103,8 @@ int bsrPage::fetchLineContentsNumber ()
 
 void bsrPage::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPage::acceptIn ()" <<
       endl;
@@ -116,8 +116,8 @@ void bsrPage::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPage::visitStart ()" <<
             endl;
@@ -129,8 +129,8 @@ void bsrPage::acceptIn (basevisitor* v)
 
 void bsrPage::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPage::acceptOut ()" <<
       endl;
@@ -142,8 +142,8 @@ void bsrPage::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPage::visitEnd ()" <<
             endl;
@@ -208,7 +208,7 @@ void bsrPage::print (ostream& os)
   // print the page elements if any
   int pageElementsListSize = fPageElementsList.size ();
   
-  if (pageElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (pageElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
       "PageElementsList" <<

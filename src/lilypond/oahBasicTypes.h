@@ -26,7 +26,7 @@
 #include "msrBasicTypes.h"
 #include "lpsrBasicTypes.h"
 
-#include "setTraceOptionsIfDesired.h"
+#include "setTraceOahIfDesired.h"
 
 
 using namespace std;
@@ -1141,44 +1141,44 @@ typedef SMARTP<oahRationalAtom> S_oahRationalAtom;
 EXP ostream& operator<< (ostream& os, const S_oahRationalAtom& elt);
 
 //______________________________________________________________________________
-class oahNumbersSetAtom : public oahValuedAtom
+class oahIntegersSetAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahNumbersSetAtom> create (
+    static SMARTP<oahIntegersSetAtom> create (
       string    shortName,
       string    longName,
       string    description,
       string    valueSpecification,
       string    variableName,
-      set<int>& numbersSetVariable);
+      set<int>& integersSetVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahNumbersSetAtom (
+    oahIntegersSetAtom (
       string    shortName,
       string    longName,
       string    description,
       string    valueSpecification,
       string    variableName,
-      set<int>& numbersSetVariable);
+      set<int>& integersSetVariable);
 
-    virtual ~oahNumbersSetAtom ();
+    virtual ~oahIntegersSetAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setNumbersSetVariable (
+    void                  setIntegersSetVariable (
                             set<int> value)
-                              { fNumbersSetVariable = value; }
+                              { fIntegersSetVariable = value; }
 
     // services
     // ------------------------------------------------------
@@ -1204,10 +1204,10 @@ class oahNumbersSetAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    set<int>&             fNumbersSetVariable;
+    set<int>&             fIntegersSetVariable;
 };
-typedef SMARTP<oahNumbersSetAtom> S_oahNumbersSetAtom;
-EXP ostream& operator<< (ostream& os, const S_oahNumbersSetAtom& elt);
+typedef SMARTP<oahIntegersSetAtom> S_oahIntegersSetAtom;
+EXP ostream& operator<< (ostream& os, const S_oahIntegersSetAtom& elt);
 
 //______________________________________________________________________________
 class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
@@ -1749,7 +1749,7 @@ class EXP oahHandler : public oahOption
                             ostream& os,
                             string   name) const;
 
-    void                  printAllOptionsValues (
+    void                  printAllOahValues (
                             ostream& os) const;
 
     void                  setOptionsHandlerFoundAHelpOption ()
@@ -1840,8 +1840,8 @@ class EXP oahHandler : public oahOption
                             S_oahRationalAtom rationalAtom,
                             string            atomName);
 
-    void                  handleNumbersSetAtomName (
-                            S_oahNumbersSetAtom numbersSetAtom,
+    void                  handleIntegersSetAtomName (
+                            S_oahIntegersSetAtom integersSetAtom,
                             string              atomName);
 
     void                  handleOptionValueOrArgument (

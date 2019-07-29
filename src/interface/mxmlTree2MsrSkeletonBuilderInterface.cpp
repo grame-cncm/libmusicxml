@@ -24,11 +24,11 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
@@ -44,7 +44,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 S_msrScore buildMsrSkeletonFromElementsTree (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   Sxmlelement      mxmlTree,
   indentedOstream& logOstream)
 {
@@ -55,8 +55,8 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     
   clock_t startClock = clock ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   
@@ -112,7 +112,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
 
 //_______________________________________________________________________________
 void displayMsrSkeleton (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream)
 {
@@ -152,7 +152,7 @@ void displayMsrSkeleton (
 /* JMI
 //_______________________________________________________________________________
 void displayMsrSkeletonSummary (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream)
 {
@@ -163,8 +163,8 @@ void displayMsrSkeletonSummary (
     
   clock_t startClock = clock ();
   
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     

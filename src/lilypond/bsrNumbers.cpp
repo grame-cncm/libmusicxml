@@ -17,7 +17,7 @@
 
 #include "messagesHandling.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -142,8 +142,8 @@ int bsrNumber::fetchCellsNumber() const
 
 void bsrNumber::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNumber::acceptIn ()" <<
       endl;
@@ -155,8 +155,8 @@ void bsrNumber::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNumber::visitStart ()" <<
             endl;
@@ -168,8 +168,8 @@ void bsrNumber::acceptIn (basevisitor* v)
 
 void bsrNumber::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNumber::acceptOut ()" <<
       endl;
@@ -181,8 +181,8 @@ void bsrNumber::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNumber::visitEnd ()" <<
             endl;

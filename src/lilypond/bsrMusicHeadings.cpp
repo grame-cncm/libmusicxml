@@ -14,8 +14,8 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "bsrOptions.h"
-#include "brailleOptions.h"
+#include "bsrOah.h"
+#include "brailleOah.h"
 
 
 using namespace std;
@@ -39,7 +39,7 @@ bsrMusicHeading::bsrMusicHeading (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gBrailleOptions->fCellsPerLine)
+        gBrailleOah->fCellsPerLine)
 {}
 
 bsrMusicHeading::~bsrMusicHeading ()
@@ -82,8 +82,8 @@ S_bsrCellsList bsrMusicHeading::buildCellsList () const
 
 void bsrMusicHeading::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMusicHeading::acceptIn ()" <<
       endl;
@@ -95,8 +95,8 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrMusicHeading>*> (v)) {
         S_bsrMusicHeading elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMusicHeading::visitStart ()" <<
             endl;
@@ -108,8 +108,8 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
 
 void bsrMusicHeading::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMusicHeading::acceptOut ()" <<
       endl;
@@ -121,8 +121,8 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrMusicHeading>*> (v)) {
         S_bsrMusicHeading elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMusicHeading::visitEnd ()" <<
             endl;
@@ -134,8 +134,8 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
 
 void bsrMusicHeading::browseData (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
@@ -160,8 +160,8 @@ void bsrMusicHeading::browseData (basevisitor* v)
     browser.browse (*fMusicHeadingTime);
   }
 
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;

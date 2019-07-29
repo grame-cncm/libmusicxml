@@ -17,7 +17,7 @@
 
 #include "messagesHandling.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -831,8 +831,8 @@ int bsrNote::fetchCellsNumber() const
 
 void bsrNote::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNote::acceptIn ()" <<
       endl;
@@ -844,8 +844,8 @@ void bsrNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
         
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNote::visitStart ()" <<
             endl;
@@ -857,8 +857,8 @@ void bsrNote::acceptIn (basevisitor* v)
 
 void bsrNote::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNote::acceptOut ()" <<
       endl;
@@ -870,8 +870,8 @@ void bsrNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
       
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNote::visitEnd ()" <<
             endl;

@@ -12,12 +12,12 @@
 
 #include "msrMutualDependencies.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -65,8 +65,8 @@ msrSlide::~msrSlide ()
 
 S_msrSlide msrSlide::createSlideNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSlides) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSlides) {
     gLogOstream <<
       "Creating a newborn clone of slide '" <<
       asString () <<
@@ -109,7 +109,7 @@ string msrSlide::slideTypeKindAsString (
 
 void msrSlide::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSlide::acceptIn ()" <<
       endl;
@@ -120,7 +120,7 @@ void msrSlide::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlide::visitStart ()" <<
             endl;
@@ -131,7 +131,7 @@ void msrSlide::acceptIn (basevisitor* v)
 
 void msrSlide::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSlide::acceptOut ()" <<
       endl;
@@ -142,7 +142,7 @@ void msrSlide::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlide::visitEnd ()" <<
             endl;

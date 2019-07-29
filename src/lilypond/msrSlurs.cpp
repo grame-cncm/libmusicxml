@@ -15,7 +15,7 @@
 
 #include "msrSlurs.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -54,7 +54,7 @@ msrSlur::~msrSlur ()
 
 void msrSlur::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSlur::acceptIn ()" <<
       endl;
@@ -65,7 +65,7 @@ void msrSlur::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlur::visitStart ()" <<
             endl;
@@ -76,7 +76,7 @@ void msrSlur::acceptIn (basevisitor* v)
 
 void msrSlur::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSlur::acceptOut ()" <<
       endl;
@@ -87,7 +87,7 @@ void msrSlur::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlur::visitEnd ()" <<
             endl;

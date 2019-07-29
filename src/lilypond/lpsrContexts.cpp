@@ -12,7 +12,7 @@
 
 #include "lpsrContexts.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
@@ -54,8 +54,8 @@ lpsrContext::~lpsrContext ()
 
 void lpsrContext::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrContext::acceptIn ()" <<
       endl;
@@ -67,8 +67,8 @@ void lpsrContext::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrContext::visitStart ()" <<
             endl;
@@ -80,8 +80,8 @@ void lpsrContext::acceptIn (basevisitor* v)
 
 void lpsrContext::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrContext::acceptOut ()" <<
       endl;
@@ -93,8 +93,8 @@ void lpsrContext::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrContext::visitEnd ()" <<
             endl;
@@ -227,8 +227,8 @@ lpsrChordNamesContext::~lpsrChordNamesContext ()
 
 void lpsrChordNamesContext::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrChordNamesContext::acceptIn ()" <<
       endl;
@@ -240,8 +240,8 @@ void lpsrChordNamesContext::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrChordNamesContext>*> (v)) {
         S_lpsrChordNamesContext elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrChordNamesContext::visitStart ()" <<
             endl;
@@ -253,8 +253,8 @@ void lpsrChordNamesContext::acceptIn (basevisitor* v)
 
 void lpsrChordNamesContext::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrChordNamesContext::acceptOut ()" <<
       endl;
@@ -266,8 +266,8 @@ void lpsrChordNamesContext::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrChordNamesContext>*> (v)) {
         S_lpsrChordNamesContext elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrChordNamesContext::visitEnd ()" <<
             endl;
@@ -385,8 +385,8 @@ lpsrFiguredBassContext::~lpsrFiguredBassContext ()
 
 void lpsrFiguredBassContext::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrFiguredBassContext::acceptIn ()" <<
       endl;
@@ -398,8 +398,8 @@ void lpsrFiguredBassContext::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrFiguredBassContext>*> (v)) {
         S_lpsrFiguredBassContext elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrFiguredBassContext::visitStart ()" <<
             endl;
@@ -411,8 +411,8 @@ void lpsrFiguredBassContext::acceptIn (basevisitor* v)
 
 void lpsrFiguredBassContext::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrFiguredBassContext::acceptOut ()" <<
       endl;
@@ -424,8 +424,8 @@ void lpsrFiguredBassContext::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrFiguredBassContext>*> (v)) {
         S_lpsrFiguredBassContext elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrFiguredBassContext::visitEnd ()" <<
             endl;

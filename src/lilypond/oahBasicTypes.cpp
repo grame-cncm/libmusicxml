@@ -20,13 +20,13 @@
 #include "utilities.h"
 
 #include "oahBasicTypes.h"
-#include "oahBasicOptions.h"
+#include "executableOah.h"
 
 #include "messagesHandling.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 
@@ -37,6 +37,7 @@ namespace MusicXML2
 Basics:
   - oah (Options And Help) is supposed to be pronouced something close to "whaaaah!"
     The intonation is left to the speaker, though...
+    And as the saying goes: "OAH? oahy not!"
 
   - options handling is organized as a hierarchical, instrospective set of classes.
     Options and their corresponding help are grouped in a single object.
@@ -53,7 +54,7 @@ Basics:
     and a description.
 
   - an oahHandler contains oahGroup's, each handled in a pair or .h/.cpp files,
-    such as msrOptions.h and msrOptions.cpp, and a list of options prefixes.
+    such as msrOah.h and msrOah.cpp, and a list of options prefixes.
 
   - an oahGroup contains oahSubGroup's and an upLink to the containing oahHandler.
 
@@ -78,7 +79,7 @@ Features:
     to supply a string value to be converted into an internal enumerated type.
 
   - oahCombinedBooleansAtom contains a list of atoms to manipulate several atoms as a single one,
-    see the 'cubase' combined booleans atom in musicXMLOptions.cpp.
+    see the 'cubase' combined booleans atom in musicXMLOah.cpp.
 
   - storing options and the corresponding help in oahGroup's makes it easy to re-use them.
     For example, xml2ly and xml2lbr have their three first passes in common,
@@ -435,8 +436,8 @@ void oahAtom::handleOptionName (
   string   optionName,
   ostream& os)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     os <<
       "==> option '" << optionName << "' is of type 'oahAtom'" <<
       endl;
@@ -575,11 +576,11 @@ void oahAtom::handleOptionName (
 
   else if (
     // numbers set atom?
-    S_oahNumbersSetAtom
-      numbersSetAtom =
-        dynamic_cast<oahNumbersSetAtom*>(&(*this))
+    S_oahIntegersSetAtom
+      integersSetAtom =
+        dynamic_cast<oahIntegersSetAtom*>(&(*this))
   ) {
-    numbersSetAtom->handleOptionName (
+    integersSetAtom->handleOptionName (
       optionName,
       os);
   }
@@ -588,8 +589,8 @@ void oahAtom::handleOptionName (
     // atom is of another type,
     // let the oahGroup handle it
 
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       os <<
         "==> atom is of another type" <<
         ", let the oahGroup handle it" <<
@@ -800,7 +801,7 @@ void oahOptionsSummaryAtom::print (ostream& os) const
 void oahOptionsSummaryAtom::printOptionsSummary (ostream& os) const
 {
   os <<
-    gOahBasicOptions->fHandlerExecutableName <<
+    gExecutableOah->fHandlerExecutableName <<
     endl;
 }
 
@@ -1695,8 +1696,8 @@ void oahIntegerAtom::handleValue (
   unsigned smSize = sm.size ();
 
   if (smSize) {
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       os <<
         "There are " << smSize << " matches" <<
         " for integer string '" << theString <<
@@ -1863,8 +1864,8 @@ void oahFloatAtom::handleValue (
   unsigned smSize = sm.size ();
 
   if (smSize) {
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       os <<
         "There are " << smSize << " matches" <<
         " for float string '" << theString <<
@@ -2270,8 +2271,8 @@ void oahRationalAtom::handleValue (
   unsigned smSize = sm.size ();
 
   if (smSize == 3) {
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       os <<
         "There are " << smSize << " matches" <<
         " for rational string '" << theString <<
@@ -2319,8 +2320,8 @@ void oahRationalAtom::handleValue (
     rationalValue =
       rational (numerator, denominator);
 
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     os <<
       "rationalValue = " <<
       rationalValue <<
@@ -2396,57 +2397,57 @@ ostream& operator<< (ostream& os, const S_oahRationalAtom& elt)
 }
 
 //______________________________________________________________________________
-S_oahNumbersSetAtom oahNumbersSetAtom::create (
+S_oahIntegersSetAtom oahIntegersSetAtom::create (
   string    shortName,
   string    longName,
   string    description,
   string    valueSpecification,
   string    variableName,
-  set<int>& numbersSetVariable)
+  set<int>& integersSetVariable)
 {
-  oahNumbersSetAtom* o = new
-    oahNumbersSetAtom (
+  oahIntegersSetAtom* o = new
+    oahIntegersSetAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      numbersSetVariable);
+      integersSetVariable);
   assert(o!=0);
   return o;
 }
 
-oahNumbersSetAtom::oahNumbersSetAtom (
+oahIntegersSetAtom::oahIntegersSetAtom (
   string    shortName,
   string    longName,
   string    description,
   string    valueSpecification,
   string    variableName,
-  set<int>& numbersSetVariable)
+  set<int>& integersSetVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fNumbersSetVariable (
-      numbersSetVariable)
+    fIntegersSetVariable (
+      integersSetVariable)
 {}
 
-oahNumbersSetAtom::~oahNumbersSetAtom ()
+oahIntegersSetAtom::~oahIntegersSetAtom ()
 {}
 
-void oahNumbersSetAtom::handleValue (
+void oahIntegersSetAtom::handleValue (
   string   theString,
   ostream& os)
 {
-  fNumbersSetVariable =
-    decipherNumbersSetSpecification (
+  fIntegersSetVariable =
+    decipherIntegersSetSpecification (
       theString,
       false); // 'true' to debug it
 }
 
-string oahNumbersSetAtom::asShortNamedOptionString () const
+string oahIntegersSetAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
@@ -2455,8 +2456,8 @@ string oahNumbersSetAtom::asShortNamedOptionString () const
     "[";
 
   set<int>::const_iterator
-    iBegin = fNumbersSetVariable.begin (),
-    iEnd   = fNumbersSetVariable.end (),
+    iBegin = fIntegersSetVariable.begin (),
+    iEnd   = fIntegersSetVariable.end (),
     i      = iBegin;
 
   for ( ; ; ) {
@@ -2471,7 +2472,7 @@ string oahNumbersSetAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahNumbersSetAtom::asLongNamedOptionString () const
+string oahIntegersSetAtom::asLongNamedOptionString () const
 {
   stringstream s;
 
@@ -2480,8 +2481,8 @@ string oahNumbersSetAtom::asLongNamedOptionString () const
     "[";
 
   set<int>::const_iterator
-    iBegin = fNumbersSetVariable.begin (),
-    iEnd   = fNumbersSetVariable.end (),
+    iBegin = fIntegersSetVariable.begin (),
+    iEnd   = fIntegersSetVariable.end (),
     i      = iBegin;
 
   for ( ; ; ) {
@@ -2496,12 +2497,12 @@ string oahNumbersSetAtom::asLongNamedOptionString () const
   return s.str ();
 }
 
-void oahNumbersSetAtom::print (ostream& os) const
+void oahIntegersSetAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "NumbersSetAtom:" <<
+    "IntegersSetAtom:" <<
     endl;
 
   gIndenter++;
@@ -2514,10 +2515,10 @@ void oahNumbersSetAtom::print (ostream& os) const
     "fVariableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fNumbersSetVariable" << " : " <<
+    "fIntegersSetVariable" << " : " <<
     endl;
 
-  if (! fNumbersSetVariable.size ()) {
+  if (! fIntegersSetVariable.size ()) {
     os <<
       "none";
   }
@@ -2527,8 +2528,8 @@ void oahNumbersSetAtom::print (ostream& os) const
       "'";
 
     set<int>::const_iterator
-      iBegin = fNumbersSetVariable.begin (),
-      iEnd   = fNumbersSetVariable.end (),
+      iBegin = fIntegersSetVariable.begin (),
+      iEnd   = fIntegersSetVariable.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -2546,7 +2547,7 @@ void oahNumbersSetAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void oahNumbersSetAtom::printOptionsValues (
+void oahIntegersSetAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -2555,7 +2556,7 @@ void oahNumbersSetAtom::printOptionsValues (
     fVariableName <<
     " : ";
 
-  if (! fNumbersSetVariable.size ()) {
+  if (! fIntegersSetVariable.size ()) {
     os <<
       "none";
   }
@@ -2565,8 +2566,8 @@ void oahNumbersSetAtom::printOptionsValues (
       "'";
 
     set<int>::const_iterator
-      iBegin = fNumbersSetVariable.begin (),
-      iEnd   = fNumbersSetVariable.end (),
+      iBegin = fIntegersSetVariable.begin (),
+      iEnd   = fIntegersSetVariable.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -2582,7 +2583,7 @@ void oahNumbersSetAtom::printOptionsValues (
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_oahNumbersSetAtom& elt)
+ostream& operator<< (ostream& os, const S_oahIntegersSetAtom& elt)
 {
   elt->print (os);
   return os;
@@ -3142,8 +3143,8 @@ void oahSubGroup::printSubGroupSpecificHelpOrOptionsSummary (
   ostream&      os,
   S_oahSubGroup subGroup) const
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     os << "oahSubGroup::printSubGroupSpecificHelpOrOptionsSummary" << endl;
   }
 #endif
@@ -3684,8 +3685,8 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
   ostream&      os,
   S_oahSubGroup subGroup) const
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     os << "oahGroup::printGroupAndSubGroupSpecificHelp" << endl;
   }
 #endif
@@ -4465,8 +4466,8 @@ void oahHandler::printHandlerAndGroupAndSubGroupSpecificHelp (
   ostream&      os,
   S_oahSubGroup subGroup) const
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     os << "oahHandler::printHandlerAndGroupAndSubGroupSpecificHelp" << endl;
   }
 #endif
@@ -4507,8 +4508,8 @@ void oahHandler::printOptionSpecificHelp (
   ostream& os,
   string   name) const
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     os << "oahHandler::printOptionSpecificHelp" << endl;
   }
 #endif
@@ -4663,7 +4664,7 @@ void oahHandler::printOptionSpecificHelp (
   }
 }
 
-void oahHandler::printAllOptionsValues (
+void oahHandler::printAllOahValues (
   ostream& os) const
 {
   // print the options handler values header
@@ -5003,7 +5004,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   int   argc,
   char* argv[])
 {
-// JMI  gOahBasicOptions->fTraceOptions = true; // TEMP
+// JMI  gExecutableOah->fTraceOah = true; // TEMP
 
   // fetch program name
   fHandlerExecutableName = string (argv [0]);
@@ -5017,8 +5018,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
     string currentOption = string (argv [n]);
 
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       // print current option
       fHandlerLogOstream <<
         "Command line option " << n <<
@@ -5033,8 +5034,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
       if (currentOption.size () == 1) {
         // this is the stdin indicator
-#ifdef TRACE_OPTIONS
-          if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+          if (gExecutableOah->fTraceOah) {
           fHandlerLogOstream <<
             "'" << currentOption <<
               "' is the '-' stdin indicator" <<
@@ -5064,8 +5065,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
             currentOptionName =
               optionTrailer.substr (1, string::npos);
 
-#ifdef TRACE_OPTIONS
-            if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+            if (gExecutableOah->fTraceOah) {
               fHandlerLogOstream <<
                 "'" << currentOptionName << "' is a double-dashed option" <<
                 endl;
@@ -5077,8 +5078,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
             currentOptionName =
               optionTrailer; //.substr (1, string::npos);
 
-#ifdef TRACE_OPTIONS
-            if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+            if (gExecutableOah->fTraceOah) {
               fHandlerLogOstream <<
                 "'" << currentOptionName << "' is a single-dashed option" <<
                 endl;
@@ -5088,8 +5089,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
         }
 
         else {
-#ifdef TRACE_OPTIONS
-          if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+          if (gExecutableOah->fTraceOah) {
             fHandlerLogOstream <<
               "'-' is the minimal single-dashed option" <<
               endl;
@@ -5104,8 +5105,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
         if (equalsSignPosition != string::npos) {
           // yes
 
-#ifdef TRACE_OPTIONS
-          if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+          if (gExecutableOah->fTraceOah) {
             printKnownPrefixes ();
           }
 #endif
@@ -5117,8 +5118,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
             currentOptionName.substr (equalsSignPosition + 1);
 
 
-#ifdef TRACE_OPTIONS
-          if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+          if (gExecutableOah->fTraceOah) {
             fHandlerLogOstream <<
               "===> equalsSignPosition = '" << equalsSignPosition <<
               "', " <<
@@ -5141,8 +5142,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
           unsigned chunksListSize = chunksList.size ();
 
-#ifdef TRACE_OPTIONS
-          if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+          if (gExecutableOah->fTraceOah) {
             fHandlerLogOstream <<
               "There are " << chunksListSize << " chunks" <<
               " in '" << stringAfterEqualsSign <<
@@ -5190,8 +5191,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
                   uncontractedOptionName =
                     prefix->getPrefixErsatz () + singleOptionName;
 
-#ifdef TRACE_OPTIONS
-                if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+                if (gExecutableOah->fTraceOah) {
                   fHandlerLogOstream <<
                     "Expanding option '" << singleOptionName <<
                     "' to '" << uncontractedOptionName <<
@@ -5246,12 +5247,12 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   unsigned int argumentsVectorSize =
     fHandlerArgumentsVector.size ();
 
-#ifdef TRACE_OPTIONS
+#ifdef TRACE_OAH
   // display arc and argv only now, to wait for the options to have been handled
   if (
-    gOahBasicOptions->fTraceOptions
+    gExecutableOah->fTraceOah
       ||
-    gOahBasicOptions->fShowOptionsAndArguments
+    gExecutableOah->fShowOptionsAndArguments
   ) {
     fHandlerLogOstream <<
       "argc: " << argc <<
@@ -5271,15 +5272,15 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptionsDetails) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahDetails) {
     printKnownPrefixes ();
     printKnownOptions ();
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     // print the arguments vector
     fHandlerLogOstream <<
       "Arguments vector (" <<
@@ -5300,8 +5301,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 #endif
 
   // was this run a 'pure help' one?
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> fHandlerFoundAHelpOption: " <<
       booleanAsString (fHandlerFoundAHelpOption) <<
@@ -5321,11 +5322,11 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   // check the options and arguments
   checkOptionsAndArguments ();
 
-  // store the command line with options in gOahBasicOptions
+  // store the command line with options in gExecutableOah
   // for whoever need them
-  gOahBasicOptions->fCommandLineWithShortOptionsNames =
+  gExecutableOah->fCommandLineWithShortOptionsNames =
       commandLineWithShortNamesAsString ();
-  gOahBasicOptions->fCommandLineWithLongOptionsNames =
+  gExecutableOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
 
   // return arguments vector for handling by caller
@@ -5337,8 +5338,8 @@ void oahHandler::handleHandlerName (
   string       name)
 {
   // print the handler help or help summary
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << name << "' is of type 'oahHandler'" <<
       endl;
@@ -5367,8 +5368,8 @@ void oahHandler::handleGroupName (
   S_oahGroup group,
   string     groupName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << groupName << "' is of type 'oahGroup'" <<
       endl;
@@ -5394,8 +5395,8 @@ void oahHandler::handleSubGroupName (
   S_oahSubGroup subGroup,
   string        subGroupName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << subGroupName << "' is of type 'subGroup'" <<
       endl;
@@ -5432,8 +5433,8 @@ void oahHandler::handleOptionsUsageAtomName (
   S_oahOptionsUsageAtom optionsUsageAtom,
   string                atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahOptionsUsageAtom'" <<
       endl;
@@ -5453,8 +5454,8 @@ void oahHandler::handleOptionsSummaryAtomName (
   S_oahOptionsSummaryAtom optionsSummaryAtom,
   string                  atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahOptionsSummaryAtom'" <<
       endl;
@@ -5473,8 +5474,8 @@ void oahHandler::handleCombinedBooleansAtomName (
   S_oahCombinedBooleansAtom combinedBooleansAtom,
   string                    atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahCombinedBooleansAtom'" <<
       endl;
@@ -5490,8 +5491,8 @@ void oahHandler::handleBooleanAtomName (
   S_oahBooleanAtom booleanAtom,
   string           atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahBooleanAtom'" <<
       endl;
@@ -5507,8 +5508,8 @@ void oahHandler::handleTwoBooleansAtomName (
   S_oahTwoBooleansAtom twoBooleansAtom,
   string               atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahTwoBooleansAtom'" <<
       endl;
@@ -5524,8 +5525,8 @@ void oahHandler::handleThreeBooleansAtomName (
   S_oahThreeBooleansAtom threeBooleansAtom,
   string                 atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahThreeBooleansAtom'" <<
       endl;
@@ -5541,8 +5542,8 @@ void oahHandler::handleOptionNameHelpAtomName (
   S_oahOptionNameHelpAtom optionNameHelpAtom,
   string              atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahOptionNameHelpAtom'" <<
       endl;
@@ -5557,8 +5558,8 @@ void oahHandler::handleIntegerAtomName (
   S_oahIntegerAtom integerAtom,
   string           atomName)
 {
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       fHandlerLogOstream <<
         "==> option '" << atomName << "' is of type 'oahIntegerAtom'" <<
         endl;
@@ -5573,8 +5574,8 @@ void oahHandler::handleFloatAtomName (
   S_oahFloatAtom floatAtom,
   string         atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahFloatAtom'" <<
       endl;
@@ -5589,8 +5590,8 @@ void oahHandler::handleStringAtomName (
   S_oahStringAtom stringAtom,
   string          atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahStringAtom'" <<
       endl;
@@ -5605,8 +5606,8 @@ void oahHandler::handleRationalAtomName (
   S_oahRationalAtom rationalAtom,
   string            atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahRationalAtom'" <<
       endl;
@@ -5617,28 +5618,28 @@ void oahHandler::handleRationalAtomName (
   fPendingValuedAtom = rationalAtom;
 }
 
-void oahHandler::handleNumbersSetAtomName (
-  S_oahNumbersSetAtom numbersSetAtom,
+void oahHandler::handleIntegersSetAtomName (
+  S_oahIntegersSetAtom integersSetAtom,
   string              atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
-      "==> option '" << atomName << "' is of type 'oahNumbersSetAtom'" <<
+      "==> option '" << atomName << "' is of type 'oahIntegersSetAtom'" <<
       endl;
   }
 #endif
 
   // wait until the value is met
-  fPendingValuedAtom = numbersSetAtom;
+  fPendingValuedAtom = integersSetAtom;
 }
 
 void oahHandler::handleAtomName (
   S_oahAtom atom,
   string    atomName)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << atomName << "' is of type 'oahAtom'" <<
       endl;
@@ -5775,12 +5776,12 @@ void oahHandler::handleAtomName (
 
   else if (
     // numbers set atom?
-    S_oahNumbersSetAtom
-      numbersSetAtom =
-        dynamic_cast<oahNumbersSetAtom*>(&(*atom))
+    S_oahIntegersSetAtom
+      integersSetAtom =
+        dynamic_cast<oahIntegersSetAtom*>(&(*atom))
   ) {
-    handleNumbersSetAtomName (
-      numbersSetAtom,
+    handleIntegersSetAtomName (
+      integersSetAtom,
       atomName);
   }
 
@@ -5788,8 +5789,8 @@ void oahHandler::handleAtomName (
     // atom is of another type,
     // let the oahGroup handle it
 
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       fHandlerLogOstream <<
         "==> atom is of another type" <<
         ", let the oahGroup handle it" <<
@@ -5814,8 +5815,8 @@ void oahHandler::handleAtomName (
 void oahHandler::handleOptionName (
   string name)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> handleOptionName (), name = \"" <<
       name <<
@@ -5845,8 +5846,8 @@ void oahHandler::handleOptionName (
 
   else {
     // name is known, let's handle it
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> handleOptionName (), name = \"" <<
       name <<
@@ -5947,8 +5948,8 @@ void oahHandler::handleOptionName (
 void oahHandler::handleOptionValueOrArgument (
   string theString)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> handleOptionValueOrArgument ()" <<
       endl;
@@ -6050,11 +6051,11 @@ void oahHandler::handleOptionValueOrArgument (
 
     else if (
       // numbers set atom?
-      S_oahNumbersSetAtom
-        numbersSetAtom =
-          dynamic_cast<oahNumbersSetAtom*>(&(*fPendingValuedAtom))
+      S_oahIntegersSetAtom
+        integersSetAtom =
+          dynamic_cast<oahIntegersSetAtom*>(&(*fPendingValuedAtom))
     ) {
-      numbersSetAtom->handleValue (
+      integersSetAtom->handleValue (
         theString,
         fHandlerLogOstream);
     }
@@ -6063,8 +6064,8 @@ void oahHandler::handleOptionValueOrArgument (
       // fPendingValuedAtom is of another type,
       // let the oahGroup handle it
 
-#ifdef TRACE_OPTIONS
-      if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+      if (gExecutableOah->fTraceOah) {
         fHandlerLogOstream <<
           "==> fPendingValuedAtom is of another type" <<
           ", let the oahGroup handle it" <<
@@ -6091,8 +6092,8 @@ void oahHandler::handleOptionValueOrArgument (
   else {
     // theString is an argument
 
-#ifdef TRACE_OPTIONS
-      if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+      if (gExecutableOah->fTraceOah) {
         fHandlerLogOstream <<
           "'" << theString << "'" <<
           " is an argument, not an option" <<
@@ -6112,8 +6113,8 @@ void oahAtom::handleOptionName (
   string   optionName,
   ostream& os)
 {
-#ifdef TRACE_OPTIONS
-  if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
       "==> option '" << optionName << "' is of type 'oahAtom'" <<
       endl;
@@ -6250,12 +6251,12 @@ void oahAtom::handleOptionName (
 
   else if (
     // numbers set atom?
-    S_oahNumbersSetAtom
-      numbersSetAtom =
-        dynamic_cast<oahNumbersSetAtom*>(&(*atom))
+    S_oahIntegersSetAtom
+      integersSetAtom =
+        dynamic_cast<oahIntegersSetAtom*>(&(*atom))
   ) {
-    handleNumbersSetAtomName (
-      numbersSetAtom,
+    handleIntegersSetAtomName (
+      integersSetAtom,
       optionName);
   }
 
@@ -6263,8 +6264,8 @@ void oahAtom::handleOptionName (
     // atom is of another type,
     // let the oahGroup handle it
 
-#ifdef TRACE_OPTIONS
-    if (gOahBasicOptions->fTraceOptions) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
       fHandlerLogOstream <<
         "==> atom is of another type" <<
         ", let the oahGroup handle it" <<

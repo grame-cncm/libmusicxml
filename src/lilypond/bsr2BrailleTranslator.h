@@ -15,7 +15,7 @@
 
 #include "bsr.h"
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 #include "bsrBrailleCodeGenerators.h"
 
@@ -65,7 +65,7 @@ class bsr2BrailleTranslator :
 
     bsr2BrailleTranslator (
       S_bsrScore       bsrScore,
-      S_bsrOptions&    bsrOpts,
+      S_bsrOah&    bsrOpts,
       indentedOstream& logOstream,
       ostream&         brailleCodeOutputStream);
 
@@ -136,7 +136,7 @@ class bsr2BrailleTranslator :
 
     S_bsrScore            fVisitedBsrScore;
 
-    S_bsrOptions          fBsrOptions;
+    S_bsrOah          fBsrOah;
 
     indentedOstream&      fLogOutputStream;
 

@@ -16,12 +16,12 @@
 
 #include "msrStavesDetails.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -63,8 +63,8 @@ msrStaffTuning::~ msrStaffTuning ()
 
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaffDetails) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaffDetails) {
     gLogOstream <<
       "Creating a newborn clone of staff tuning '" <<
       asString () <<
@@ -86,7 +86,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 
 void msrStaffTuning::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffTuning::acceptIn ()" <<
       endl;
@@ -97,7 +97,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffTuning::visitStart ()" <<
             endl;
@@ -108,7 +108,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
 
 void msrStaffTuning::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffTuning::acceptOut ()" <<
       endl;
@@ -119,7 +119,7 @@ void msrStaffTuning::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffTuning::visitEnd ()" <<
             endl;
@@ -146,7 +146,7 @@ string msrStaffTuning::asString () const
     ", line " << fStaffTuningLineNumber <<
     ", " <<
     msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fStaffTuningQuarterTonesPitchKind) <<
     ", octave " << fStaffTuningOctave;
 
@@ -172,7 +172,7 @@ void msrStaffTuning::print (ostream& os)
     setw (fieldWidth) <<
     "staffTuningQuarterTonesPitch" << " : " <<
     msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fStaffTuningQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
@@ -225,7 +225,7 @@ msrStaffDetails::~msrStaffDetails ()
 
 void msrStaffDetails::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffDetails::acceptIn ()" <<
       endl;
@@ -236,7 +236,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffDetails::visitStart ()" <<
             endl;
@@ -247,7 +247,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
 
 void msrStaffDetails::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffDetails::acceptOut ()" <<
       endl;
@@ -258,7 +258,7 @@ void msrStaffDetails::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
 
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffDetails::visitEnd ()" <<
             endl;

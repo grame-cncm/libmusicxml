@@ -16,11 +16,11 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 #include "lpsr2LilypondTranslator.h"
@@ -36,8 +36,8 @@ namespace MusicXML2
 //_______________________________________________________________________________
 void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions      msrOpts,
-  S_lpsrOptions     lpsrOpts,
+  S_msrOah      msrOpts,
+  S_lpsrOah     lpsrOpts,
   indentedOstream&  logOstream,
   indentedOstream&  lilypondCodeOstream)
 {
@@ -51,8 +51,8 @@ void generateLilypondCodeFromLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     logOstream <<
       endl <<
       separator <<

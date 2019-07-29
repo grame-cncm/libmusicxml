@@ -66,8 +66,8 @@ lpsrSchemeVariable::~lpsrSchemeVariable ()
 
 void lpsrSchemeVariable::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeVariable::acceptIn ()" <<
       endl;
@@ -79,8 +79,8 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
         S_lpsrSchemeVariable elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
             endl;
@@ -92,8 +92,8 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
 
 void lpsrSchemeVariable::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeVariable::acceptOut ()" <<
       endl;
@@ -105,8 +105,8 @@ void lpsrSchemeVariable::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
         S_lpsrSchemeVariable elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
             endl;
@@ -245,8 +245,8 @@ lpsrSchemeFunction::~lpsrSchemeFunction ()
 
 void lpsrSchemeFunction::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptIn ()" <<
       endl;
@@ -258,8 +258,8 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
             endl;
@@ -271,8 +271,8 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
 
 void lpsrSchemeFunction::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptOut ()" <<
       endl;
@@ -284,8 +284,8 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gLpsrOptions->fTraceLpsrVisitors) {
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<
             endl;

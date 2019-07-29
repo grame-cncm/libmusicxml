@@ -17,15 +17,15 @@
 
 #include "messagesHandling.h"
 
-#include "oahBasicOptions.h"
-#include "generalOptions.h"
+#include "executableOah.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "bsrOptions.h"
+#include "bsrOah.h"
 
 
 using namespace std;
@@ -66,7 +66,7 @@ bsrKey::bsrKey (
       "numberOfAlterations: " << fNumberOfAlterations;
 
     bsrInternalError (
-      gOahBasicOptions->fInputSourceName,
+      gExecutableOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -74,8 +74,8 @@ bsrKey::bsrKey (
 
   fKeyCellsList = buildCellsList ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
     gLogOstream <<
       "Creating bsrKey '" <<
       asString () <<
@@ -170,8 +170,8 @@ int bsrKey::fetchCellsNumber() const
 
 void bsrKey::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrKey::acceptIn ()" <<
       endl;
@@ -183,8 +183,8 @@ void bsrKey::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrKey::visitStart ()" <<
             endl;
@@ -196,8 +196,8 @@ void bsrKey::acceptIn (basevisitor* v)
 
 void bsrKey::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrKey::acceptOut ()" <<
       endl;
@@ -209,8 +209,8 @@ void bsrKey::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
 
-#ifdef TRACE_OPTIONS
-        if (gBsrOptions->fTraceBsrVisitors) {
+#ifdef TRACE_OAH
+        if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrKey::visitEnd ()" <<
             endl;

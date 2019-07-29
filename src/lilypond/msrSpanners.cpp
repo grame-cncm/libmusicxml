@@ -12,7 +12,7 @@
 
 #include "msrMutualDependencies.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
@@ -82,7 +82,7 @@ void msrSpanner::setSpannerOtherEndSideLink (
 
 void msrSpanner::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSpanner::acceptIn ()" <<
       endl;
@@ -93,7 +93,7 @@ void msrSpanner::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSpanner::visitStart ()" <<
             endl;
@@ -104,7 +104,7 @@ void msrSpanner::acceptIn (basevisitor* v)
 
 void msrSpanner::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSpanner::acceptOut ()" <<
       endl;
@@ -115,7 +115,7 @@ void msrSpanner::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSpanner::visitEnd ()" <<
             endl;

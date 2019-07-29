@@ -22,11 +22,11 @@
 
 #include "versions.h"
 
-#include "generalOptions.h"
+#include "generalOah.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 #include "mxmlTree2MsrTranslatorInterface.h"
@@ -43,7 +43,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 void populateMsrSkeletonFromMxmlTree (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,
   indentedOstream& logOstream)
@@ -60,8 +60,8 @@ void populateMsrSkeletonFromMxmlTree (
 
   clock_t startClock = clock ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -102,7 +102,7 @@ void populateMsrSkeletonFromMxmlTree (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScore (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream)
 {
@@ -141,7 +141,7 @@ void displayMSRPopulatedScore (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScoreSummary (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream)
 {
@@ -152,8 +152,8 @@ void displayMSRPopulatedScoreSummary (
 
   clock_t startClock = clock ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -192,7 +192,7 @@ void displayMSRPopulatedScoreSummary (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScoreNames (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logOstream)
 {
@@ -203,8 +203,8 @@ void displayMSRPopulatedScoreNames (
 
   clock_t startClock = clock ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
 

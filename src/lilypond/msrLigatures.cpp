@@ -16,7 +16,7 @@
 
 #include "msrLigatures.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 #include "messagesHandling.h"
 
@@ -84,7 +84,7 @@ void msrLigature::setLigatureOtherEndSideLink (
 
 void msrLigature::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLigature::acceptIn ()" <<
       endl;
@@ -95,7 +95,7 @@ void msrLigature::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLigature::visitStart ()" <<
             endl;
@@ -106,7 +106,7 @@ void msrLigature::acceptIn (basevisitor* v)
 
 void msrLigature::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLigature::acceptOut ()" <<
       endl;
@@ -117,7 +117,7 @@ void msrLigature::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors) {
+        if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLigature::visitEnd ()" <<
             endl;
