@@ -167,7 +167,7 @@ void musicXMLOah::initializeMusicXMLClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    clefsKeysTimesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Clefs, keys, times",
         "hmxmlckt", "help-musicxml-clefs-keys-times",
@@ -175,7 +175,7 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (clefsKeysTimesSubGroup);
+  appendSubGroup (subGroup);
 
   // redundant clefs
 
@@ -187,7 +187,7 @@ R"()",
 R"(Ignore clefs that are the same as the current one.)",
         "ignoreRedundantClefs",
         fIgnoreRedundantClefs);
-  clefsKeysTimesSubGroup->
+  subGroup->
     appendAtom (
       fIgnoreRedundantClefsAtom);
 
@@ -201,7 +201,7 @@ R"(Ignore clefs that are the same as the current one.)",
 R"(Ignore keys that are the same as the current one.)",
         "ignoreRedundantKeys",
         fIgnoreRedundantKeys);
-  clefsKeysTimesSubGroup->
+  subGroup->
     appendAtom (
       fIgnoreRedundantKeysAtom);
 
@@ -215,7 +215,7 @@ R"(Ignore keys that are the same as the current one.)",
 R"(Ignore times that are the same as the current one.)",
         "ignoreRedundantTimes",
         fIgnoreRedundantTimes);
-  clefsKeysTimesSubGroup->
+  subGroup->
     appendAtom (
       fIgnoreRedundantTimesAtom);
 
@@ -234,7 +234,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
   loopOptionsBooleanAtom->
     setIsHidden ();
 
-  clefsKeysTimesSubGroup->
+  subGroup->
     appendAtom (
       loopOptionsBooleanAtom);
 }

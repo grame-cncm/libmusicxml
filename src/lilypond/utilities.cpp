@@ -627,10 +627,10 @@ string stringNumbersToEnglishWords (string str)
 int consumeDecimalNumber (
   string::const_iterator  theStringIterator,
   string::const_iterator& remainingStringIterator,
-  bool   debugMode)
+  bool                    debugMode)
 {
   string::const_iterator cursor = theStringIterator;
-  int    number = 0;
+  int    result = 0;
 
   if (! isdigit (*cursor)) {
     gLogOstream <<
@@ -648,7 +648,7 @@ int consumeDecimalNumber (
         endl;
     }
 
-    number = number*10 + (*cursor-'0');
+    result = result*10 + (*cursor-'0');
 
     cursor++;
   } // while
@@ -657,27 +657,27 @@ int consumeDecimalNumber (
 
   if (debugMode) {
     gLogOstream <<
-      "--> consumeDecimalNumber: number = " << number <<
+      "--> consumeDecimalNumber: result = " << result <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
       endl;
   }
 
-  return number;
+  return result;
 }
 
 //______________________________________________________________________________
-set<int> decipherIntegersSetSpecification (
+set<int> decipherNaturalNumbersSetSpecification (
   string theString,
-  bool        debugMode)
+  bool   debugMode)
 {
-//  A integersSetSpecification sample is: "7,15-19,^16-17"
+  // A naturalNumbersSetSpecification sample is: "7,15-19,^16-17"
 
-  set<int> selectedNumbers;
+  set<int> result;
 
   if (debugMode) {
     gLogOstream <<
-      "--> decipherIntegersSetSpecification, theString = |" << theString <<
+      "--> decipherNaturalNumbersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
   }
@@ -688,7 +688,7 @@ set<int> decipherIntegersSetSpecification (
   while (1) {
     if (debugMode) {
       gLogOstream <<
-        "--> decipherNumbersSpecification: cursor = |" <<
+        "--> decipherNaturalNumbersSetSpecification: cursor = |" <<
         *cursor << "|" <<
         endl;
     }
@@ -710,7 +710,7 @@ set<int> decipherIntegersSetSpecification (
 
       if (debugMode) {
         gLogOstream <<
-          "--> decipherNumbersSpecification after '-' : cursor = |" <<
+          "--> decipherNaturalNumbersSetSpecification after '-' : cursor = |" <<
           *cursor <<
           "|" <<
           endl <<
@@ -727,7 +727,8 @@ set<int> decipherIntegersSetSpecification (
 
     if (debugMode) {
       gLogOstream <<
-        "--> decipherNumbersSpecification, intervalStartNumber = " << intervalStartNumber <<
+        "--> decipherNaturalNumbersSetSpecification" <<
+        ", intervalStartNumber = " << intervalStartNumber <<
         ", intervalEndNumber = " << intervalEndNumber <<
         ": *cursor = |" << *cursor << "|" <<
         endl;
@@ -735,17 +736,17 @@ set<int> decipherIntegersSetSpecification (
 
     for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
       if (negated) {
-        selectedNumbers.erase (i);
+        result.erase (i);
       }
       else {
-        selectedNumbers.insert (i);
+        result.insert (i);
       }
     } // for
 
     if (*cursor != ',') {
       if (debugMode) {
         gLogOstream <<
-          "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
+          "--> decipherNaturalNumbersSetSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
           endl <<
@@ -758,7 +759,7 @@ set<int> decipherIntegersSetSpecification (
 
     if (debugMode) {
       gLogOstream <<
-        "--> decipherNumbersSpecification after ',' : cursor = |" <<
+        "--> decipherNaturalNumbersSetSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
         << endl <<
@@ -773,7 +774,118 @@ set<int> decipherIntegersSetSpecification (
       endl << endl;
   }
 
-  return selectedNumbers;
+  return result;
+}
+
+//______________________________________________________________________________
+string consumeString (
+  string::const_iterator  theStringIterator,
+  string::const_iterator& remainingStringIterator,
+  bool                    debugMode)
+{
+  string::const_iterator cursor = theStringIterator;
+  string    result;
+
+  while ((*cursor) != ',') {
+    if (debugMode) {
+      gLogOstream <<
+        "--> consumeString: cursor = |" <<
+        *cursor <<
+        "|" <<
+        endl;
+    }
+
+    result += (*cursor);
+
+    cursor++;
+  } // while
+
+  remainingStringIterator = cursor;
+
+  if (debugMode) {
+    gLogOstream <<
+      "--> consumeString: result = " << result <<
+      ", *remainingStringIterator = |" << *remainingStringIterator <<
+      "|" <<
+      endl;
+  }
+
+  return result;
+}
+
+//______________________________________________________________________________
+std::set<string> decipherStringsSetSpecification (
+  string theString,
+  bool   debugMode)
+{
+  // A integersSetSpecification sample is: "FOO,159,haLLo"
+
+  set<string> result;
+
+  if (debugMode) {
+    gLogOstream <<
+      "--> decipherStringsSetSpecification, theString = |" << theString <<
+      "|" <<
+      endl;
+  }
+
+  string::const_iterator
+    cursor = theString.begin ();
+
+  while (1) {
+    if (debugMode) {
+      gLogOstream <<
+        "--> decipherStringsSetSpecification: cursor = |" <<
+        *cursor << "|" <<
+        endl;
+    }
+
+    string
+      currentString =
+        consumeString (cursor, cursor, debugMode);
+
+    if (debugMode) {
+      gLogOstream <<
+        "--> decipherStringsSetSpecification" <<
+        ", currentString = " << currentString <<
+        ": *cursor = |" << *cursor << "|" <<
+        endl;
+    }
+
+    result.insert (currentString);
+
+    if (*cursor != ',') {
+      if (debugMode) {
+        gLogOstream <<
+          "--> decipherStringsSetSpecification, after non ',' : cursor = |" <<
+          *cursor <<
+          "|" <<
+          endl <<
+          endl;
+      }
+      break;
+    }
+
+    cursor++;
+
+    if (debugMode) {
+      gLogOstream <<
+        "--> decipherStringsSetSpecification after ',' : cursor = |" <<
+        *cursor <<
+        "|"
+        << endl <<
+        endl;
+    }
+  } // while
+
+  if (* cursor != '\0') {
+    gLogOstream <<
+      "--> Extraneous characters |" << *cursor <<
+      "| in numbers spec" <<
+      endl << endl;
+  }
+
+  return result;
 }
 
 //______________________________________________________________________________

@@ -480,7 +480,7 @@ R"()",
   fExit3a = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    exit2aOptionsBooleanAtom =
+    exit2aOahBooleanAtom =
       oahBooleanAtom::create (
         "e3a", "exit-3a",
 R"(Exit after pass 3a, i.e. after conversion
@@ -490,12 +490,12 @@ of the MSR to the first BSR score.)",
 
   exitAfterSomePassesSubGroup->
     appendAtom (
-      exit2aOptionsBooleanAtom);
+      exit2aOahBooleanAtom);
 
   fExit3b = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    exit2bOptionsBooleanAtom =
+    exit2bOahBooleanAtom =
       oahBooleanAtom::create (
         "e3b", "exit-3b",
 R"(Exit after pass 3b, i.e. after conversion
@@ -505,7 +505,7 @@ of the first BSR to the second BSR.)",
 
   exitAfterSomePassesSubGroup->
     appendAtom (
-      exit2bOptionsBooleanAtom);
+      exit2bOahBooleanAtom);
 }
 
 #ifdef TRACE_OAH

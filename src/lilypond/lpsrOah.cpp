@@ -1021,7 +1021,7 @@ R"()",
   fExit3 = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    exit3OptionsBooleanAtom =
+    exit3OahBooleanAtom =
       oahBooleanAtom::create (
         "e3", "exit-3",
 R"(Exit after pass 3, i.e. after conversion
@@ -1031,7 +1031,7 @@ of the MSR to LPSR.)",
 
   exitAfterSomePassesSubGroup->
     appendAtom (
-      exit3OptionsBooleanAtom);
+      exit3OahBooleanAtom);
 }
 
 void lpsrOah::initializeLpsrOah (

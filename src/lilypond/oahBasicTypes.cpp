@@ -575,12 +575,23 @@ void oahAtom::handleOptionName (
   }
 
   else if (
-    // numbers set atom?
-    S_oahIntegersSetAtom
-      integersSetAtom =
-        dynamic_cast<oahIntegersSetAtom*>(&(*this))
+    // natural numbers set atom?
+    S_oahNaturalNumbersSetAtom
+      naturalNumbersSetAtom =
+        dynamic_cast<oahNaturalNumbersSetAtom*>(&(*this))
   ) {
-    integersSetAtom->handleOptionName (
+    naturalNumbersSetAtom->handleOptionName (
+      optionName,
+      os);
+  }
+
+  else if (
+    // strings set atom?
+    S_oahStringsSetAtom
+      stringsSetAtom =
+        dynamic_cast<oahStringsSetAtom*>(&(*this))
+  ) {
+    stringsSetAtom->handleOptionName (
       optionName,
       os);
   }
@@ -2397,57 +2408,57 @@ ostream& operator<< (ostream& os, const S_oahRationalAtom& elt)
 }
 
 //______________________________________________________________________________
-S_oahIntegersSetAtom oahIntegersSetAtom::create (
+S_oahNaturalNumbersSetAtom oahNaturalNumbersSetAtom::create (
   string    shortName,
   string    longName,
   string    description,
   string    valueSpecification,
   string    variableName,
-  set<int>& integersSetVariable)
+  set<int>& naturalNumbersSetVariable)
 {
-  oahIntegersSetAtom* o = new
-    oahIntegersSetAtom (
+  oahNaturalNumbersSetAtom* o = new
+    oahNaturalNumbersSetAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      integersSetVariable);
+      naturalNumbersSetVariable);
   assert(o!=0);
   return o;
 }
 
-oahIntegersSetAtom::oahIntegersSetAtom (
+oahNaturalNumbersSetAtom::oahNaturalNumbersSetAtom (
   string    shortName,
   string    longName,
   string    description,
   string    valueSpecification,
   string    variableName,
-  set<int>& integersSetVariable)
+  set<int>& naturalNumbersSetVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fIntegersSetVariable (
-      integersSetVariable)
+    fNaturalNumbersSetVariable (
+      naturalNumbersSetVariable)
 {}
 
-oahIntegersSetAtom::~oahIntegersSetAtom ()
+oahNaturalNumbersSetAtom::~oahNaturalNumbersSetAtom ()
 {}
 
-void oahIntegersSetAtom::handleValue (
+void oahNaturalNumbersSetAtom::handleValue (
   string   theString,
   ostream& os)
 {
-  fIntegersSetVariable =
-    decipherIntegersSetSpecification (
+  fNaturalNumbersSetVariable =
+    decipherNaturalNumbersSetSpecification (
       theString,
       false); // 'true' to debug it
 }
 
-string oahIntegersSetAtom::asShortNamedOptionString () const
+string oahNaturalNumbersSetAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
@@ -2456,8 +2467,8 @@ string oahIntegersSetAtom::asShortNamedOptionString () const
     "[";
 
   set<int>::const_iterator
-    iBegin = fIntegersSetVariable.begin (),
-    iEnd   = fIntegersSetVariable.end (),
+    iBegin = fNaturalNumbersSetVariable.begin (),
+    iEnd   = fNaturalNumbersSetVariable.end (),
     i      = iBegin;
 
   for ( ; ; ) {
@@ -2472,7 +2483,7 @@ string oahIntegersSetAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahIntegersSetAtom::asLongNamedOptionString () const
+string oahNaturalNumbersSetAtom::asLongNamedOptionString () const
 {
   stringstream s;
 
@@ -2481,8 +2492,8 @@ string oahIntegersSetAtom::asLongNamedOptionString () const
     "[";
 
   set<int>::const_iterator
-    iBegin = fIntegersSetVariable.begin (),
-    iEnd   = fIntegersSetVariable.end (),
+    iBegin = fNaturalNumbersSetVariable.begin (),
+    iEnd   = fNaturalNumbersSetVariable.end (),
     i      = iBegin;
 
   for ( ; ; ) {
@@ -2497,12 +2508,12 @@ string oahIntegersSetAtom::asLongNamedOptionString () const
   return s.str ();
 }
 
-void oahIntegersSetAtom::print (ostream& os) const
+void oahNaturalNumbersSetAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "IntegersSetAtom:" <<
+    "NaturalNumbersSetAtom:" <<
     endl;
 
   gIndenter++;
@@ -2515,10 +2526,10 @@ void oahIntegersSetAtom::print (ostream& os) const
     "fVariableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fIntegersSetVariable" << " : " <<
+    "fNaturalNumbersSetVariable" << " : " <<
     endl;
 
-  if (! fIntegersSetVariable.size ()) {
+  if (! fNaturalNumbersSetVariable.size ()) {
     os <<
       "none";
   }
@@ -2528,8 +2539,8 @@ void oahIntegersSetAtom::print (ostream& os) const
       "'";
 
     set<int>::const_iterator
-      iBegin = fIntegersSetVariable.begin (),
-      iEnd   = fIntegersSetVariable.end (),
+      iBegin = fNaturalNumbersSetVariable.begin (),
+      iEnd   = fNaturalNumbersSetVariable.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -2547,7 +2558,7 @@ void oahIntegersSetAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void oahIntegersSetAtom::printOptionsValues (
+void oahNaturalNumbersSetAtom::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -2556,7 +2567,7 @@ void oahIntegersSetAtom::printOptionsValues (
     fVariableName <<
     " : ";
 
-  if (! fIntegersSetVariable.size ()) {
+  if (! fNaturalNumbersSetVariable.size ()) {
     os <<
       "none";
   }
@@ -2566,8 +2577,8 @@ void oahIntegersSetAtom::printOptionsValues (
       "'";
 
     set<int>::const_iterator
-      iBegin = fIntegersSetVariable.begin (),
-      iEnd   = fIntegersSetVariable.end (),
+      iBegin = fNaturalNumbersSetVariable.begin (),
+      iEnd   = fNaturalNumbersSetVariable.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -2583,7 +2594,200 @@ void oahIntegersSetAtom::printOptionsValues (
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_oahIntegersSetAtom& elt)
+ostream& operator<< (ostream& os, const S_oahNaturalNumbersSetAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahStringsSetAtom oahStringsSetAtom::create (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringsSetVariable)
+{
+  oahStringsSetAtom* o = new
+    oahStringsSetAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringsSetVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahStringsSetAtom::oahStringsSetAtom (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringsSetVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringsSetVariable (
+      stringsSetVariable)
+{}
+
+oahStringsSetAtom::~oahStringsSetAtom ()
+{}
+
+void oahStringsSetAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  fStringsSetVariable =
+    decipherStringsSetSpecification (
+      theString,
+      false); // 'true' to debug it
+}
+
+string oahStringsSetAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " <<
+    "[";
+
+  set<string>::const_iterator
+    iBegin = fStringsSetVariable.begin (),
+    iEnd   = fStringsSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
+
+string oahStringsSetAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fLongName << " " <<
+    "[";
+
+  set<string>::const_iterator
+    iBegin = fStringsSetVariable.begin (),
+    iEnd   = fStringsSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
+
+void oahStringsSetAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "StringsSetAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringsSetVariable" << " : " <<
+    endl;
+
+  if (! fStringsSetVariable.size ()) {
+    os <<
+      "none";
+  }
+
+  else {
+    os <<
+      "'";
+
+    set<string>::const_iterator
+      iBegin = fStringsSetVariable.begin (),
+      iEnd   = fStringsSetVariable.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os <<
+      "'";
+  }
+
+  os << endl;
+
+  gIndenter--;
+}
+
+void oahStringsSetAtom::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringsSetVariable.size ()) {
+    os <<
+      "none";
+  }
+
+  else {
+    os <<
+      "'";
+
+    set<string>::const_iterator
+      iBegin = fStringsSetVariable.begin (),
+      iEnd   = fStringsSetVariable.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os <<
+      "'";
+  }
+
+  os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahStringsSetAtom& elt)
 {
   elt->print (os);
   return os;
@@ -5618,20 +5822,36 @@ void oahHandler::handleRationalAtomName (
   fPendingValuedAtom = rationalAtom;
 }
 
-void oahHandler::handleIntegersSetAtomName (
-  S_oahIntegersSetAtom integersSetAtom,
-  string              atomName)
+void oahHandler::handleNaturalNumbersSetAtomName (
+  S_oahNaturalNumbersSetAtom naturalNumbersSetAtom,
+  string                     atomName)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
-      "==> option '" << atomName << "' is of type 'oahIntegersSetAtom'" <<
+      "==> option '" << atomName << "' is of type 'oahNaturalNumbersSetAtom'" <<
       endl;
   }
 #endif
 
   // wait until the value is met
-  fPendingValuedAtom = integersSetAtom;
+  fPendingValuedAtom = naturalNumbersSetAtom;
+}
+
+void oahHandler::handleStringsSetAtomName (
+  S_oahStringsSetAtom stringsSetAtom,
+  string              atomName)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    fHandlerLogOstream <<
+      "==> option '" << atomName << "' is of type 'oahStringsSetAtom'" <<
+      endl;
+  }
+#endif
+
+  // wait until the value is met
+  fPendingValuedAtom = stringsSetAtom;
 }
 
 void oahHandler::handleAtomName (
@@ -5775,13 +5995,24 @@ void oahHandler::handleAtomName (
   }
 
   else if (
-    // numbers set atom?
-    S_oahIntegersSetAtom
-      integersSetAtom =
-        dynamic_cast<oahIntegersSetAtom*>(&(*atom))
+    // natural numbers set atom?
+    S_oahNaturalNumbersSetAtom
+      naturalNumbersSetAtom =
+        dynamic_cast<oahNaturalNumbersSetAtom*>(&(*atom))
   ) {
-    handleIntegersSetAtomName (
-      integersSetAtom,
+    handleNaturalNumbersSetAtomName (
+      naturalNumbersSetAtom,
+      atomName);
+  }
+
+  else if (
+    // strings set atom?
+    S_oahStringsSetAtom
+      stringsSetAtom =
+        dynamic_cast<oahStringsSetAtom*>(&(*atom))
+  ) {
+    handleStringsSetAtomName (
+      stringsSetAtom,
       atomName);
   }
 
@@ -6050,12 +6281,23 @@ void oahHandler::handleOptionValueOrArgument (
     }
 
     else if (
-      // numbers set atom?
-      S_oahIntegersSetAtom
-        integersSetAtom =
-          dynamic_cast<oahIntegersSetAtom*>(&(*fPendingValuedAtom))
+      // natural numbers set atom?
+      S_oahNaturalNumbersSetAtom
+        naturalNumbersSetAtom =
+          dynamic_cast<oahNaturalNumbersSetAtom*>(&(*fPendingValuedAtom))
     ) {
-      integersSetAtom->handleValue (
+      naturalNumbersSetAtom->handleValue (
+        theString,
+        fHandlerLogOstream);
+    }
+
+    else if (
+      // strings set atom?
+      S_oahStringsSetAtom
+        stringsSetAtom =
+          dynamic_cast<oahStringsSetAtom*>(&(*fPendingValuedAtom))
+    ) {
+      stringsSetAtom->handleValue (
         theString,
         fHandlerLogOstream);
     }
@@ -6251,12 +6493,12 @@ void oahAtom::handleOptionName (
 
   else if (
     // numbers set atom?
-    S_oahIntegersSetAtom
-      integersSetAtom =
-        dynamic_cast<oahIntegersSetAtom*>(&(*atom))
+    S_oahNaturalNumbersSetAtom
+      naturalNumbersSetAtom =
+        dynamic_cast<oahNaturalNumbersSetAtom*>(&(*atom))
   ) {
-    handleIntegersSetAtomName (
-      integersSetAtom,
+    handleNaturalNumbersSetAtomName (
+      naturalNumbersSetAtom,
       optionName);
   }
 

@@ -1230,7 +1230,7 @@ R"()",
   fExit2a = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    exit2aOptionsBooleanAtom =
+    exit2aOahBooleanAtom =
       oahBooleanAtom::create (
         "e2a", "exit-2a",
 R"(Exit after pass 2a, i.e. after conversion
@@ -1240,14 +1240,14 @@ of the MusicXML tree to an MSR skeleton.)",
 
   exitAfterSomePassesSubGroup->
     appendAtom (
-      exit2aOptionsBooleanAtom);
+      exit2aOahBooleanAtom);
 
   // exit after pass 2b
 
   fExit2b = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    exit2bOptionsBooleanAtom =
+    exit2bOahBooleanAtom =
       oahBooleanAtom::create (
         "e2b", "exit-2b",
 R"(Exit after pass 2b, i.e. after conversion
@@ -1257,7 +1257,7 @@ of the MusicXML tree to MSR.)",
 
   exitAfterSomePassesSubGroup->
     appendAtom (
-      exit2bOptionsBooleanAtom);
+      exit2bOahBooleanAtom);
 }
 
 void msrOah::initializeMsrOah (

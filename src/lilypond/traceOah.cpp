@@ -1321,18 +1321,18 @@ R"(VarValAssocs)",
   fTraceForTests = boolOptionsInitialValue;
 
   S_oahBooleanAtom
-    traceForTestsOptionsBooleanAtom =
+    traceForTestsOahBooleanAtom =
       oahBooleanAtom::create (
         "tft", "trace-for-tests",
 R"(Write a trace for tests to standard error.)",
         "traceForTests",
         fTraceForTests);
-  traceForTestsOptionsBooleanAtom->
+  traceForTestsOahBooleanAtom->
     setIsHidden ();
 
   lowLevelTraceSubGroup->
     appendAtom (
-      traceForTestsOptionsBooleanAtom);
+      traceForTestsOahBooleanAtom);
 
 /* JMI
   // MSR streams
@@ -2835,7 +2835,7 @@ R"()",
 
     traceAndDisplaySubGroup->
       appendAtom (
-        oahIntegersSetAtom::create (
+        oahNaturalNumbersSetAtom::create (
           "tdetail", "trace-detailed",
 R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
 where '^' excludes the corresponding numbers interval

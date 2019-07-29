@@ -1920,7 +1920,7 @@ void lilypondOah::initializeCodeGenerationOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    codeGenerationSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Code generation",
         "hlpcg", "help-lilypond-code-generation",
@@ -1928,13 +1928,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (codeGenerationSubGroup);
+  appendSubGroup (subGroup);
 
   // infos
 
   fXml2lyInfos = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "xi", "xml2ly-infos",
@@ -1946,7 +1946,7 @@ R"(Generate initial comments showing the compilation date and lilypond.)",
 
   fComments = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "com", "comments",
@@ -1957,7 +1957,7 @@ such as '% part P_POne (P1).)",
 
   fGlobal = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "global", "",
@@ -1968,7 +1968,7 @@ at the beginning of all voices.)",
 
   fDisplayMusic = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "dm", "display-music",
@@ -1979,7 +1979,7 @@ for LilyPond to show its internal representation of the music.)",
 
   fNoLilypondCode = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "nolpc", "no-lilypond-code",
@@ -1990,7 +1990,7 @@ That can be useful if only a summary of the score is needed.)",
 
   fNoLilypondLyrics = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "nolpl", "no-lilypond-lyrics",
@@ -2000,7 +2000,7 @@ R"(Don't generate any lyrics in the LilyPond code.)",
 
   fLilypondCompileDate = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "lpcd", "lilypond-compile-date",
@@ -2011,18 +2011,24 @@ when LilyPond creates the score.)",
 
   fDraftMode = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    draftOahBooleanAtom =
       oahBooleanAtom::create (
         "draft", "draft-mode",
 R"(Generate a difficult to use score
 to get only an overview in the resulting PDF file.)",
         "draftMode",
-        fDraftMode));
+        fDraftMode);
+  draftOahBooleanAtom->
+    setIsHidden ();
+
+  subGroup->
+    appendAtom (
+      draftOahBooleanAtom);
 
   fPointAndClickOff = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "paco", "point-and-clic-off",
@@ -2033,7 +2039,7 @@ to reduce the size of the resulting PDF file.)",
 
   fWhiteNoteHeads = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "wnh", "white-note-heads",
