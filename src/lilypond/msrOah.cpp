@@ -1766,7 +1766,7 @@ void msrOah::printMsrOahValues (int fieldWidth)
 }
 
 S_oahValuedAtom msrOah::handleAtom (
-  indentedOstream&  os,
+  ostream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -1829,9 +1829,9 @@ S_oahValuedAtom msrOah::handleAtom (
 }
 
 void msrOah::handleValuedAtomValue (
-  indentedOstream& os,
-  S_oahAtom        atom,
-  string           theString)
+  ostream&  os,
+  S_oahAtom atom,
+  string    theString)
 {
   if (
     // part rename atom?

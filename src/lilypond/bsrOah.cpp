@@ -818,7 +818,7 @@ void bsrOah::printBsrOahValues (int fieldWidth)
 }
 
 S_oahValuedAtom bsrOah::handleAtom (
-  indentedOstream&  os,
+  ostream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -863,10 +863,11 @@ S_oahValuedAtom bsrOah::handleAtom (
 }
 
 void bsrOah::handleValuedAtomValue (
-  indentedOstream&      os,
+  ostream&  os,
   S_oahAtom atom,
-  string        theString)
+  string    theString)
 {
+  // JMI
 }
 
 ostream& operator<< (ostream& os, const S_bsrOah& elt)

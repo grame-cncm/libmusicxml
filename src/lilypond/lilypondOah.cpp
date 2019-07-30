@@ -3746,7 +3746,7 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
 }
 
 S_oahValuedAtom lilypondOah::handleAtom (
-  indentedOstream&  os,
+  ostream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -3791,24 +3791,6 @@ S_oahValuedAtom lilypondOah::handleAtom (
   }
 
   else if (
-    // reset measure number atom?
-    S_lilypondResetMeasureNumberAtom
-      resetMeasureNumberAtom =
-        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = resetMeasureNumberAtom;
-  }
-
-  else if (
     // fixed octave entry atom?
     S_lilypondFixedOctaveEntryAtom
       fixedOctaveEntryAtom =
@@ -3827,6 +3809,24 @@ S_oahValuedAtom lilypondOah::handleAtom (
 
     // wait until the value is met
     result = fixedOctaveEntryAtom;
+  }
+
+  else if (
+    // reset measure number atom?
+    S_lilypondResetMeasureNumberAtom
+      resetMeasureNumberAtom =
+        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
+    ) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
+      os <<
+        "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = resetMeasureNumberAtom;
   }
 
   else if (
@@ -3887,9 +3887,9 @@ S_oahValuedAtom lilypondOah::handleAtom (
 }
 
 void lilypondOah::handleValuedAtomValue (
-  indentedOstream& os,
-  S_oahAtom        atom,
-  string           theString)
+  ostream&  os,
+  S_oahAtom atom,
+  string    theString)
 {
   if (
     // relative octave entry atom?
@@ -3903,23 +3903,23 @@ void lilypondOah::handleValuedAtomValue (
   }
 
   else if (
-    // reset measure number atom?
-    S_lilypondResetMeasureNumberAtom
-      resetMeasureNumberAtom =
-        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
-  ) {
-    resetMeasureNumberAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
     // fixed octave entry atom?
     S_lilypondFixedOctaveEntryAtom
       fixedOctaveEntryAtom =
         dynamic_cast<lilypondFixedOctaveEntryAtom*>(&(*atom))
   ) {
     fixedOctaveEntryAtom->handleValue (
+      theString,
+      os);
+  }
+
+  else if (
+    // reset measure number atom?
+    S_lilypondResetMeasureNumberAtom
+      resetMeasureNumberAtom =
+        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
+  ) {
+    resetMeasureNumberAtom->handleValue (
       theString,
       os);
   }

@@ -616,7 +616,7 @@ void brailleOah::printBrailleOahValues (int fieldWidth)
 }
 
 S_oahValuedAtom brailleOah::handleAtom (
-  indentedOstream&  os,
+  ostream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -661,9 +661,9 @@ S_oahValuedAtom brailleOah::handleAtom (
 }
 
 void brailleOah::handleValuedAtomValue (
-  indentedOstream& os,
-  S_oahAtom        atom,
-  string           theString)
+  ostream&  os,
+  S_oahAtom atom,
+  string    theString)
 {
   if (
     // UTF kind atom?

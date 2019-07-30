@@ -359,13 +359,13 @@ class lpsrOah : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            indentedOstream&  os,
+                            ostream&  os,
                             S_oahAtom atom);
 
     virtual void          handleValuedAtomValue (
-                            indentedOstream& os,
-                            S_oahAtom        atom,
-                            string           theString);
+                            ostream&  os,
+                            S_oahAtom atom,
+                            string    theString);
 
     void                  crackLilypondVersionNumber (
                             string theString,

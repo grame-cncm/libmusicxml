@@ -223,13 +223,13 @@ class bsrOah : public oahGroup
 
     virtual S_oahValuedAtom
                           handleAtom (
-                            indentedOstream&  os,
+                            ostream&  os,
                             S_oahAtom atom);
 
     virtual void          handleValuedAtomValue (
-                            indentedOstream&      os,
+                            ostream&  os,
                             S_oahAtom atom,
-                            string        theString);
+                            string    theString);
 
   private:
 

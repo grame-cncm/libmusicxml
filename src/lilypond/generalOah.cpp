@@ -322,7 +322,7 @@ void generalOah::printGeneralOahValues (int fieldWidth)
 }
 
 S_oahValuedAtom generalOah::handleAtom (
-  indentedOstream&  os,
+  ostream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;

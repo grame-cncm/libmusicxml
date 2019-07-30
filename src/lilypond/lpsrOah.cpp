@@ -1389,7 +1389,7 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 }
 
 S_oahValuedAtom lpsrOah::handleAtom (
-  indentedOstream&  os,
+  ostream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
@@ -1485,9 +1485,9 @@ S_oahValuedAtom lpsrOah::handleAtom (
 }
 
 void lpsrOah::handleValuedAtomValue (
-  indentedOstream& os,
-  S_oahAtom        atom,
-  string           theString)
+  ostream&  os,
+  S_oahAtom atom,
+  string    theString)
 {
   if (
     // LPSR score output kind atom?

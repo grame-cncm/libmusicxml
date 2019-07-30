@@ -477,7 +477,7 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
 }
 
 S_oahValuedAtom musicXMLOah::handleAtom (
-  indentedOstream&  os,
+  ostream&  os,
   S_oahAtom atom)
 {
   S_oahValuedAtom result;
