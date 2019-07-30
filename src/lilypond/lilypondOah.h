@@ -65,7 +65,7 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string  theString,
+                            string   theString,
                             ostream& os);
 
     // print
@@ -188,7 +188,7 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string  theString,
+                            string   theString,
                             ostream& os);
 
     // print
@@ -259,7 +259,7 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string  theString,
+                            string   theString,
                             ostream& os);
 
     // print
@@ -281,6 +281,71 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
 };
 typedef SMARTP<lilypondFixedOctaveEntryAtom> S_lilypondFixedOctaveEntryAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondFixedOctaveEntryAtom& elt);
+
+//______________________________________________________________________________
+class lilypondResetMeasureNumberAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lilypondResetMeasureNumberAtom> create (
+      string         shortName,
+      string         longName,
+      string         description,
+      string         valueSpecification,
+      string         variableName,
+      map<int, int>& lilypondResetMeasureNumberVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lilypondResetMeasureNumberAtom (
+      string         shortName,
+      string         longName,
+      string         description,
+      string         valueSpecification,
+      string         variableName,
+      map<int, int>& lilypondResetMeasureNumberVariable);
+
+    virtual ~lilypondResetMeasureNumberAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<int, int>&  getIntIntMapVariable ()
+                              { return fIntIntMapVariable; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<int, int>&        fIntIntMapVariable;
+};
+typedef SMARTP<lilypondResetMeasureNumberAtom> S_lilypondResetMeasureNumberAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondResetMeasureNumberAtom& elt);
 
 //______________________________________________________________________________
 class lilypondAccidentalStyleKindAtom : public oahValuedAtom
@@ -330,7 +395,7 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string  theString,
+                            string   theString,
                             ostream& os);
 
     // print
@@ -476,7 +541,7 @@ class lilypondMidiTempoAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  handleValue (
-                            string  theString,
+                            string   theString,
                             ostream& os);
 
     // print
@@ -755,10 +820,12 @@ class lilypondOah : public oahGroup
     bool                  fPositionsInMeasures;
 
 
-    // bars
+    // bars and measures
     // --------------------------------------
 
     bool                  fShowAllBarNumbers;
+
+    map<int, int>         fResetMeasureNumberMap;
 
 
     // line breaks

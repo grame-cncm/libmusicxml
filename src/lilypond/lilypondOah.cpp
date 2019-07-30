@@ -74,7 +74,7 @@ lilypondScoreOutputKindAtom::~lilypondScoreOutputKindAtom ()
 {}
 
 void lilypondScoreOutputKindAtom::handleValue (
-  string  theString,
+  string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
@@ -242,7 +242,7 @@ lilypondRelativeOctaveEntryAtom::~lilypondRelativeOctaveEntryAtom ()
 {}
 
 void lilypondRelativeOctaveEntryAtom::handleValue (
-  string  theString,
+  string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
@@ -399,7 +399,7 @@ lilypondFixedOctaveEntryAtom::~lilypondFixedOctaveEntryAtom ()
 {}
 
 void lilypondFixedOctaveEntryAtom::handleValue (
-  string  theString,
+  string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
@@ -477,6 +477,230 @@ ostream& operator<< (ostream& os, const S_lilypondFixedOctaveEntryAtom& elt)
 }
 
 //______________________________________________________________________________
+S_lilypondResetMeasureNumberAtom lilypondResetMeasureNumberAtom::create (
+  string         shortName,
+  string         longName,
+  string         description,
+  string         valueSpecification,
+  string         variableName,
+  map<int, int>& lilypondResetMeasureNumberVariable)
+{
+  lilypondResetMeasureNumberAtom* o = new
+    lilypondResetMeasureNumberAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      lilypondResetMeasureNumberVariable);
+  assert(o!=0);
+  return o;
+}
+
+lilypondResetMeasureNumberAtom::lilypondResetMeasureNumberAtom (
+  string         shortName,
+  string         longName,
+  string         description,
+  string         valueSpecification,
+  string         variableName,
+  map<int, int>& lilypondResetMeasureNumberVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fIntIntMapVariable (
+      lilypondResetMeasureNumberVariable)
+{}
+
+lilypondResetMeasureNumberAtom::~lilypondResetMeasureNumberAtom ()
+{}
+
+void lilypondResetMeasureNumberAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the midi tempo specification
+  // decipher it to extract duration and perSecond values
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:digit:]]+\\.*)"
+    "[[:space:]]*"
+    "="
+    "[[:space:]]*"
+    "([[:digit:]]+)"
+    "[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for MIDI tempo string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "':" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "-resetMeasureNumber argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+    exit (4);
+  }
+
+  int oldMeasureNumber;
+  {
+    stringstream s;
+    s << sm [1];
+    s >> oldMeasureNumber;
+  }
+
+  int newMeasureNumber;
+  {
+    stringstream s;
+    s << sm [2];
+    s >> newMeasureNumber;
+  }
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "oldMeasureNumber  = " <<
+      oldMeasureNumber <<
+      endl <<
+      "newMeasureNumber = " <<
+      newMeasureNumber <<
+      endl;
+
+  fIntIntMapVariable [oldMeasureNumber] = newMeasureNumber;
+  }
+#endif
+}
+
+void lilypondResetMeasureNumberAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsResetMeasureNumberAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fIntIntMapVariable" << " : '" <<
+    endl;
+
+  if (! fIntIntMapVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<int, int>::const_iterator
+      iBegin = fIntIntMapVariable.begin (),
+      iEnd   = fIntIntMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void lilypondResetMeasureNumberAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fIntIntMapVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<int, int>::const_iterator
+      iBegin = fIntIntMapVariable.begin (),
+      iEnd   = fIntIntMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lilypondResetMeasureNumberAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_lilypondAccidentalStyleKindAtom lilypondAccidentalStyleKindAtom::create (
   string             shortName,
   string             longName,
@@ -520,7 +744,7 @@ lilypondAccidentalStyleKindAtom::~lilypondAccidentalStyleKindAtom ()
 {}
 
 void lilypondAccidentalStyleKindAtom::handleValue (
-  string  theString,
+  string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
@@ -665,7 +889,7 @@ lilypondChordsDisplayAtom::~lilypondChordsDisplayAtom ()
 {}
 
 void lilypondChordsDisplayAtom::handleValue (
-  string  theString,
+  string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
@@ -906,7 +1130,7 @@ lilypondMidiTempoAtom::~lilypondMidiTempoAtom ()
 {}
 
 void lilypondMidiTempoAtom::handleValue (
-  string  theString,
+  string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
@@ -1534,15 +1758,15 @@ void lilypondOah::initializeBarsOptions (
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Bars",
-        "hlpb", "help-lilypond-bars",
+        "Bar numbers",
+        "hlpbn", "help-lilypond-bars-numbers",
 R"()",
       kElementVisibilityAlways,
       this);
 
   appendSubGroup (subGroup);
 
-  // bar numbers
+  // all bar numbers
 
   fShowAllBarNumbers = boolOptionsInitialValue;
 
@@ -1557,6 +1781,8 @@ R"(Generate LilyPond code to show all bar numbers.)",
   subGroup->
     appendAtom (allBarNumbersAtom);
 
+  // all measure numbers
+
   subGroup->
     appendAtom (
       oahAtomSynonym::create (
@@ -1564,6 +1790,24 @@ R"(Generate LilyPond code to show all bar numbers.)",
 R"(Generate LilyPond code to show all measure numbers.
 This option is a synonym to '-abn, -all-bar-numbers'.)",
         allBarNumbersAtom));
+
+  // reset measure number
+
+  subGroup->
+    appendAtom (
+      lilypondResetMeasureNumberAtom::create (
+        "rmn", "reset-measure-number",
+R"(Generate a '\set Score.currentBarNumber = #NEW' command
+at the beginning of measure OLD in the LilyPond code.
+RESET_NUMBER_SPEC can be:
+'OLD = NEW'
+or
+"OLD = NEW" .
+Both OLD and NEW are purist (integer) measure numbers, i.e. those displayed by LilyPond.
+There can be several occurrences of this option.)",
+        "RESET_NUMBER_SPEC",
+        "resetMeasureNumberMap",
+        fResetMeasureNumberMap));
 }
 
 void lilypondOah::initializeLineBreaksOptions (
@@ -2096,7 +2340,7 @@ void lilypondOah::initializeMidiOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    midiSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Midi",
         "hlpm", "help-lilypond-midi",
@@ -2104,7 +2348,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (midiSubGroup);
+  appendSubGroup (subGroup);
 
   // midiTempo
 
@@ -2117,7 +2361,7 @@ R"()",
   string midiTempoDefaultValue =
     midiTempoDuration + " = " + to_string (midiTempoPerSecond);
 
-  midiSubGroup->
+  subGroup->
     appendAtom (
       lilypondMidiTempoAtom::create (
         "midi-tempo", "",
@@ -2147,7 +2391,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   fNoMidi = boolOptionsInitialValue;
 
-  midiSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "no-midi", "",
@@ -3547,6 +3791,24 @@ S_oahValuedAtom lilypondOah::handleAtom (
   }
 
   else if (
+    // reset measure number atom?
+    S_lilypondResetMeasureNumberAtom
+      resetMeasureNumberAtom =
+        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
+    ) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
+      os <<
+        "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = resetMeasureNumberAtom;
+  }
+
+  else if (
     // fixed octave entry atom?
     S_lilypondFixedOctaveEntryAtom
       fixedOctaveEntryAtom =
@@ -3640,7 +3902,18 @@ void lilypondOah::handleValuedAtomValue (
       os);
   }
 
-  if (
+  else if (
+    // reset measure number atom?
+    S_lilypondResetMeasureNumberAtom
+      resetMeasureNumberAtom =
+        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
+  ) {
+    resetMeasureNumberAtom->handleValue (
+      theString,
+      os);
+  }
+
+  else if (
     // fixed octave entry atom?
     S_lilypondFixedOctaveEntryAtom
       fixedOctaveEntryAtom =

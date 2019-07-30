@@ -30,13 +30,12 @@ class msrPartRenameAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<msrPartRenameAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, string>&
-                         msrPartRenameVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      map<string, string>& msrPartRenameVariable);
 
   protected:
 
@@ -44,13 +43,12 @@ class msrPartRenameAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     msrPartRenameAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, string>&
-                         msrPartRenameVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      map<string, string>& msrPartRenameVariable);
 
     virtual ~msrPartRenameAtom ();
 

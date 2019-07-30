@@ -35,13 +35,12 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrPartRenameAtom msrPartRenameAtom::create (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  map<string, string>&
-                     msrPartRenameVariable)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  map<string, string>& msrPartRenameVariable)
 {
   msrPartRenameAtom* o = new
     msrPartRenameAtom (
@@ -56,13 +55,12 @@ S_msrPartRenameAtom msrPartRenameAtom::create (
 }
 
 msrPartRenameAtom::msrPartRenameAtom (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  map<string, string>&
-                     msrPartRenameVariable)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  map<string, string>& msrPartRenameVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -235,7 +233,6 @@ void msrPartRenameAtom::printAtomOptionsValues (
   }
   else {
     os << endl;
-
     gIndenter++;
 
     map<string, string>::const_iterator
