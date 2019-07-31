@@ -886,6 +886,19 @@ R"(Voices segments details)",
         fTraceSegments,
         fTracePasses));
 
+  // measure numbers
+
+  fTraceMeasuresNumbers = boolOptionsInitialValue;
+
+  segmentsAndMeasuresTraceSubGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tmn", "trace-measure-numbers",
+R"(Measure numberss)",
+        "traceMeasuresNumbers",
+        fTraceMeasuresNumbers,
+        fTracePasses));
+
   // measures
 
   fTraceMeasures = boolOptionsInitialValue;
@@ -1465,6 +1478,7 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   clone->fTraceVoicesDetails = true;
 
   // measures
+  clone->fTraceMeasuresNumbers = true;
   clone->fTraceMeasures = true;
   clone->fTraceMeasuresDetails = true;
   clone->fTracePositionsInMeasures = true;
@@ -1683,6 +1697,7 @@ void traceOah::setAllGeneralTraceOah (
   fTraceVoicesDetails = boolOptionsInitialValue;
 
   // measures
+  clone->fTraceMeasuresNumbers = boolOptionsInitialValue;
   clone->fTraceMeasures = boolOptionsInitialValue;
   clone->fTraceMeasuresDetails = boolOptionsInitialValue;
   clone->fTracePositionsInMeasures = boolOptionsInitialValue;
@@ -1947,6 +1962,9 @@ void traceOah::printAtomOptionsValues (
     endl <<
 
     // measures
+    setw (valueFieldWidth) << "traceMeasuresNumbers" << " : " <<
+    booleanAsString (fTraceMeasuresNumbers) <<
+    endl <<
     setw (valueFieldWidth) << "traceMeasures" << " : " <<
     booleanAsString (fTraceMeasures) <<
     endl <<
@@ -2361,6 +2379,9 @@ void traceOah::printTraceOahValues (int fieldWidth)
     endl <<
 
     // measures
+    setw (fieldWidth) << "traceMeasuresNumbers" << " : " <<
+    booleanAsString (fTraceMeasuresNumbers) <<
+    endl <<
     setw (fieldWidth) << "traceMeasures" << " : " <<
     booleanAsString (fTraceMeasures) <<
     endl <<

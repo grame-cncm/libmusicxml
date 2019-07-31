@@ -314,12 +314,12 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<lilypondResetMeasureNumberAtom> create (
-      string         shortName,
-      string         longName,
-      string         description,
-      string         valueSpecification,
-      string         variableName,
-      map<int, int>& lilypondResetMeasureNumberVariable);
+      string            shortName,
+      string            longName,
+      string            description,
+      string            valueSpecification,
+      string            variableName,
+      map<string, int>& lilypondResetMeasureNumberVariable);
 
   protected:
 
@@ -327,12 +327,12 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     lilypondResetMeasureNumberAtom (
-      string         shortName,
-      string         longName,
-      string         description,
-      string         valueSpecification,
-      string         variableName,
-      map<int, int>& lilypondResetMeasureNumberVariable);
+      string            shortName,
+      string            longName,
+      string            description,
+      string            valueSpecification,
+      string            variableName,
+      map<string, int>& lilypondResetMeasureNumberVariable);
 
     virtual ~lilypondResetMeasureNumberAtom ();
 
@@ -341,8 +341,9 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    const map<int, int>&  getIntIntMapVariable ()
-                              { return fIntIntMapVariable; }
+    const map<string, int>&
+                          getStringIntMapVariable ()
+                              { return fStringIntMapVariable; }
 
     // services
     // ------------------------------------------------------
@@ -369,7 +370,7 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    map<int, int>&        fIntIntMapVariable;
+    map<string, int>&     fStringIntMapVariable;
 };
 typedef SMARTP<lilypondResetMeasureNumberAtom> S_lilypondResetMeasureNumberAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondResetMeasureNumberAtom& elt);
@@ -854,7 +855,7 @@ class lilypondOah : public oahGroup
 
     bool                  fShowAllBarNumbers;
 
-    map<int, int>         fResetMeasureNumberMap;
+    map<string, int>      fResetMeasureNumberMap;
 
 
     // line breaks

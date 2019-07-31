@@ -7404,8 +7404,68 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
+  // should we reset the measure purist number?
+  map<string, int>::const_iterator
+    it =
+      gLilypondOah->
+        fResetMeasureNumberMap.find (measureNumber);
+
+  if (it != gLilypondOah->fResetMeasureNumberMap.end ()) {
+    // yes, reset measure number
+    int newLilypondMeasureNumber = (*it).second;
+
+    if (to_string (newLilypondMeasureNumber) != measureNumber) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceParts) {
+      if (gTraceOah->fTraceMeasuresNumbers) {
+        fLogOutputStream <<
+          endl <<
+          "Resetting LilyPond measure number from '" <<
+          measureNumber <<
+          "' to " <<
+          newLilypondMeasureNumber <<
+          "', line " << inputLineNumber << " ===-->" <<
+          endl;
+      }
+#endif
+
+      fLilypondCodeOstream <<
+        "\\set Score.currentBarNumber = #" <<
+        newLilypondMeasureNumber <<
+        endl;
+    }
+    else {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasuresNumbers) {
+        fLogOutputStream <<
+          endl <<
+          "Cannot reset measure LilyPond number from '" <<
+          measureNumber <<
+          "' to " <<
+          newLilypondMeasureNumber <<
+          ": they're one and the same" <<
+          "', line " << inputLineNumber << " ===-->" <<
+          endl;
+      }
+#endif
+    }
+  }
+
+  else {
+#ifdef TRACE_OAH
+   if (false && gTraceOah->fTraceMeasuresNumbers) { // JMI
+      fLogOutputStream <<
+        endl <<
+        "Measure number '" <<
+        measureNumber <<
+        "' not found in gLilypondOah->fResetMeasureNumberMap" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
@@ -7417,7 +7477,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       "', onGoingRestMeasures = '" <<
       booleanAsString (
         fOnGoingRestMeasures) <<
-      "' , line " << inputLineNumber << " ===-->" <<
+      "', line " << inputLineNumber << " ===-->" <<
       endl;
   }
 #endif

@@ -5695,7 +5695,10 @@ void oahHandler::handleAtomName (
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
-      "==> option '" << atomName << "' is of type 'oahAtom'" <<
+      "==> oahHandler: handling atomName '" << atomName <<
+      "', atom: "<<
+      atom->asString () <<
+      "'" <<
       endl;
   }
 #endif

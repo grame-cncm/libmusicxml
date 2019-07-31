@@ -523,12 +523,12 @@ ostream& operator<< (ostream& os, const S_lilypondFixedOctaveEntryAtom& elt)
 
 //______________________________________________________________________________
 S_lilypondResetMeasureNumberAtom lilypondResetMeasureNumberAtom::create (
-  string         shortName,
-  string         longName,
-  string         description,
-  string         valueSpecification,
-  string         variableName,
-  map<int, int>& lilypondResetMeasureNumberVariable)
+  string            shortName,
+  string            longName,
+  string            description,
+  string            valueSpecification,
+  string            variableName,
+  map<string, int>& lilypondResetMeasureNumberVariable)
 {
   lilypondResetMeasureNumberAtom* o = new
     lilypondResetMeasureNumberAtom (
@@ -543,19 +543,19 @@ S_lilypondResetMeasureNumberAtom lilypondResetMeasureNumberAtom::create (
 }
 
 lilypondResetMeasureNumberAtom::lilypondResetMeasureNumberAtom (
-  string         shortName,
-  string         longName,
-  string         description,
-  string         valueSpecification,
-  string         variableName,
-  map<int, int>& lilypondResetMeasureNumberVariable)
+  string            shortName,
+  string            longName,
+  string            description,
+  string            valueSpecification,
+  string            variableName,
+  map<string, int>& lilypondResetMeasureNumberVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fIntIntMapVariable (
+    fStringIntMapVariable (
       lilypondResetMeasureNumberVariable)
 {}
 
@@ -613,7 +613,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
   if (gExecutableOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
-      " for MIDI tempo string '" << theString <<
+      " for reset measure number string '" << theString <<
       "' with regex '" << regularExpression <<
       "':" <<
       endl;
@@ -642,31 +642,26 @@ void lilypondResetMeasureNumberAtom::handleValue (
     exit (4);
   }
 
-  int oldMeasureNumber;
-  {
-    stringstream s;
-    s << sm [1];
-    s >> oldMeasureNumber;
-  }
+  string musicXMLMeasureNumber = sm [1];
 
-  int newMeasureNumber;
+  int lilypondMeasureNumber;
   {
     stringstream s;
     s << sm [2];
-    s >> newMeasureNumber;
+    s >> lilypondMeasureNumber;
   }
 
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     os <<
-      "oldMeasureNumber  = " <<
-      oldMeasureNumber <<
+      "musicXMLMeasureNumber  = " <<
+      musicXMLMeasureNumber <<
       endl <<
-      "newMeasureNumber = " <<
-      newMeasureNumber <<
+      "lilypondMeasureNumber = " <<
+      lilypondMeasureNumber <<
       endl;
 
-  fIntIntMapVariable [oldMeasureNumber] = newMeasureNumber;
+  fStringIntMapVariable [musicXMLMeasureNumber] = lilypondMeasureNumber;
   }
 #endif
 }
@@ -689,16 +684,16 @@ void lilypondResetMeasureNumberAtom::print (ostream& os) const
     "fVariableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fIntIntMapVariable" << " : '" <<
+    "fStringIntMapVariable" << " : '" <<
     endl;
 
-  if (! fIntIntMapVariable.size ()) {
+  if (! fStringIntMapVariable.size ()) {
     os << "none";
   }
   else {
-    map<int, int>::const_iterator
-      iBegin = fIntIntMapVariable.begin (),
-      iEnd   = fIntIntMapVariable.end (),
+    map<string, int>::const_iterator
+      iBegin = fStringIntMapVariable.begin (),
+      iEnd   = fStringIntMapVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i).first << " --> " << (*i).second;
@@ -719,7 +714,7 @@ void lilypondResetMeasureNumberAtom::printAtomOptionsValues (
     fVariableName <<
     " : ";
 
-  if (! fIntIntMapVariable.size ()) {
+  if (! fStringIntMapVariable.size ()) {
     os <<
       "none" <<
       endl;
@@ -728,9 +723,9 @@ void lilypondResetMeasureNumberAtom::printAtomOptionsValues (
     os << endl;
     gIndenter++;
 
-    map<int, int>::const_iterator
-      iBegin = fIntIntMapVariable.begin (),
-      iEnd   = fIntIntMapVariable.end (),
+    map<string, int>::const_iterator
+      iBegin = fStringIntMapVariable.begin (),
+      iEnd   = fStringIntMapVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
       os <<
@@ -1883,7 +1878,8 @@ RESET_NUMBER_SPEC can be:
 'OLD = NEW'
 or
 "OLD = NEW" .
-Both OLD and NEW are purist (integer) measure numbers, i.e. those displayed by LilyPond.
+OLD is a MusicXML measure number (a string) and NEW is a LilyPond (integer) measure number.
+This comes in handy when scanning several movements from a single PDF score.
 There can be several occurrences of this option.)",
         "RESET_NUMBER_SPEC",
         "resetMeasureNumberMap",

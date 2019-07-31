@@ -192,6 +192,7 @@ class traceOah : public oahGroup
     bool                  fTraceSegments;
     bool                  fTraceSegmentsDetails;
     // measures
+    bool                  fTraceMeasuresNumbers;
     bool                  fTraceMeasures;
     bool                  fTraceMeasuresDetails;
     bool                  fTracePositionsInMeasures;
