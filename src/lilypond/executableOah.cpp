@@ -176,8 +176,8 @@ R"()",
   traceSubGroup->
     appendAtom (
       oahBooleanAtom::create (
-        "topts", "trace-options",
-R"(Write a trace of options handling to standard error.
+        "toah", "trace-oah",
+R"(Write a trace of options and help handling to standard error.
 This option should best appear first.)",
         "traceOah",
         fTraceOah));
@@ -190,7 +190,7 @@ This option should best appear first.)",
     appendAtom (
       oahBooleanAtom::create (
         "toptsd", "trace-options-details",
-R"(Write a trace of options handling with more details to standard error.
+R"(Write a trace of options and help handling with more details to standard error.
 This option should best appear first.)",
         "traceOahDetails",
         fTraceOahDetails));
@@ -357,17 +357,6 @@ void executableOah::printExecutableOahValues (int valueFieldWidth)
 #endif
 
   gIndenter--;
-}
-
-S_oahValuedAtom executableOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  // JMI ???
-
-  return result;
 }
 
 ostream& operator<< (ostream& os, const S_executableOah& elt)

@@ -77,11 +77,6 @@ class executableOah : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_oahValuedAtom
-                          handleAtom (
-                            ostream&  os,
-                            S_oahAtom atom);
-
   private:
 
     // private services

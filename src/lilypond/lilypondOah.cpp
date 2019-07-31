@@ -73,6 +73,14 @@ lilypondScoreOutputKindAtom::lilypondScoreOutputKindAtom (
 lilypondScoreOutputKindAtom::~lilypondScoreOutputKindAtom ()
 {}
 
+S_oahValuedAtom lilypondScoreOutputKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
 void lilypondScoreOutputKindAtom::handleValue (
   string   theString,
   ostream& os)
@@ -84,7 +92,6 @@ void lilypondScoreOutputKindAtom::handleValue (
       endl;
   }
 #endif
-
 }
 
 void lilypondScoreOutputKindAtom::print (ostream& os) const
@@ -135,35 +142,51 @@ ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt)
 
 //______________________________________________________________________________
 S_lilypondAbsoluteOctaveEntryAtom lilypondAbsoluteOctaveEntryAtom::create (
-  string shortName,
-  string longName,
-  string description,
-  string lilypondAbsoluteOctaveEntryVariableName)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               variableName,
+  lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable)
 {
   lilypondAbsoluteOctaveEntryAtom* o = new
     lilypondAbsoluteOctaveEntryAtom (
       shortName,
       longName,
       description,
-      lilypondAbsoluteOctaveEntryVariableName);
+      variableName,
+      lpsrOctaveEntryKindVariable);
   assert(o!=0);
   return o;
 }
 
 lilypondAbsoluteOctaveEntryAtom::lilypondAbsoluteOctaveEntryAtom (
-  string shortName,
-  string longName,
-  string description,
-  string lilypondAbsoluteOctaveEntryVariableName)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               variableName,
+  lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable)
   : oahAtomWithVariableName (
       shortName,
       longName,
       description,
-      lilypondAbsoluteOctaveEntryVariableName)
+      variableName),
+    fLpsrOctaveEntryKindVariable (
+      lpsrOctaveEntryKindVariable)
 {}
 
 lilypondAbsoluteOctaveEntryAtom::~lilypondAbsoluteOctaveEntryAtom ()
 {}
+
+S_oahValuedAtom lilypondAbsoluteOctaveEntryAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // set octave entry kind at once
+  fLpsrOctaveEntryKindVariable = kOctaveEntryAbsolute;
+
+  // no option value is needed
+  return nullptr;
+}
 
 void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 {
@@ -207,6 +230,7 @@ S_lilypondRelativeOctaveEntryAtom lilypondRelativeOctaveEntryAtom::create (
   string                        description,
   string                        valueSpecification,
   string                        variableName,
+  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable)
 {
   lilypondRelativeOctaveEntryAtom* o = new
@@ -216,6 +240,7 @@ S_lilypondRelativeOctaveEntryAtom lilypondRelativeOctaveEntryAtom::create (
       description,
       valueSpecification,
       variableName,
+      lpsrOctaveEntryKindVariable,
       lilypondRelativeOctaveEntryVariable);
   assert(o!=0);
   return o;
@@ -227,6 +252,7 @@ lilypondRelativeOctaveEntryAtom::lilypondRelativeOctaveEntryAtom (
   string                        description,
   string                        valueSpecification,
   string                        variableName,
+  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
   S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable)
   : oahValuedAtom (
       shortName,
@@ -235,11 +261,24 @@ lilypondRelativeOctaveEntryAtom::lilypondRelativeOctaveEntryAtom (
       valueSpecification,
       variableName),
     fMsrSemiTonesPitchAndOctaveVariable (
-      lilypondRelativeOctaveEntryVariable)
+      lilypondRelativeOctaveEntryVariable),
+    fLpsrOctaveEntryKindVariable (
+      lpsrOctaveEntryKindVariable)
 {}
 
 lilypondRelativeOctaveEntryAtom::~lilypondRelativeOctaveEntryAtom ()
 {}
+
+S_oahValuedAtom lilypondRelativeOctaveEntryAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // set octave entry kind at once
+  fLpsrOctaveEntryKindVariable = kOctaveEntryRelative;
+
+  // an option value is needed
+  return this;
+}
 
 void lilypondRelativeOctaveEntryAtom::handleValue (
   string   theString,
@@ -357,13 +396,13 @@ ostream& operator<< (ostream& os, const S_lilypondRelativeOctaveEntryAtom& elt)
 
 //______________________________________________________________________________
 S_lilypondFixedOctaveEntryAtom lilypondFixedOctaveEntryAtom::create (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  variableName,
-  S_msrSemiTonesPitchAndOctave&
-          lilypondFixedOctaveEntryVariable)
+  string                        shortName,
+  string                        longName,
+  string                        description,
+  string                        valueSpecification,
+  string                        variableName,
+  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+  S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable)
 {
   lilypondFixedOctaveEntryAtom* o = new
     lilypondFixedOctaveEntryAtom (
@@ -372,19 +411,20 @@ S_lilypondFixedOctaveEntryAtom lilypondFixedOctaveEntryAtom::create (
       description,
       valueSpecification,
       variableName,
+      lpsrOctaveEntryKindVariable,
       lilypondFixedOctaveEntryVariable);
   assert(o!=0);
   return o;
 }
 
 lilypondFixedOctaveEntryAtom::lilypondFixedOctaveEntryAtom (
-  string  shortName,
-  string  longName,
-  string  description,
-  string  valueSpecification,
-  string  variableName,
-  S_msrSemiTonesPitchAndOctave&
-          lilypondFixedOctaveEntryVariable)
+  string                        shortName,
+  string                        longName,
+  string                        description,
+  string                        valueSpecification,
+  string                        variableName,
+  lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
+  S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -392,11 +432,24 @@ lilypondFixedOctaveEntryAtom::lilypondFixedOctaveEntryAtom (
       valueSpecification,
       variableName),
     fMsrSemiTonesPitchAndOctaveVariable (
-      lilypondFixedOctaveEntryVariable)
+      lilypondFixedOctaveEntryVariable),
+    fLpsrOctaveEntryKindVariable (
+      lpsrOctaveEntryKindVariable)
 {}
 
 lilypondFixedOctaveEntryAtom::~lilypondFixedOctaveEntryAtom ()
 {}
+
+S_oahValuedAtom lilypondFixedOctaveEntryAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // set octave entry kind at once
+  fLpsrOctaveEntryKindVariable = kOctaveEntryFixed;
+
+  // an option value is needed
+  return this;
+}
 
 void lilypondFixedOctaveEntryAtom::handleValue (
   string   theString,
@@ -412,14 +465,6 @@ void lilypondFixedOctaveEntryAtom::handleValue (
 
   // theString contains the score output kind:
   // is it in the score output kinds map?
-
-#ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
-      endl;
-  }
-#endif
 
   setFixedOctaveEntryVariableValue (
     msrSemiTonesPitchAndOctave::createFromString (
@@ -516,6 +561,14 @@ lilypondResetMeasureNumberAtom::lilypondResetMeasureNumberAtom (
 
 lilypondResetMeasureNumberAtom::~lilypondResetMeasureNumberAtom ()
 {}
+
+S_oahValuedAtom lilypondResetMeasureNumberAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void lilypondResetMeasureNumberAtom::handleValue (
   string   theString,
@@ -743,6 +796,14 @@ lilypondAccidentalStyleKindAtom::lilypondAccidentalStyleKindAtom (
 lilypondAccidentalStyleKindAtom::~lilypondAccidentalStyleKindAtom ()
 {}
 
+S_oahValuedAtom lilypondAccidentalStyleKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
 void lilypondAccidentalStyleKindAtom::handleValue (
   string   theString,
   ostream& os)
@@ -887,6 +948,14 @@ lilypondChordsDisplayAtom::lilypondChordsDisplayAtom (
 
 lilypondChordsDisplayAtom::~lilypondChordsDisplayAtom ()
 {}
+
+S_oahValuedAtom lilypondChordsDisplayAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void lilypondChordsDisplayAtom::handleValue (
   string   theString,
@@ -1129,6 +1198,14 @@ lilypondMidiTempoAtom::lilypondMidiTempoAtom (
 lilypondMidiTempoAtom::~lilypondMidiTempoAtom ()
 {}
 
+S_oahValuedAtom lilypondMidiTempoAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
 void lilypondMidiTempoAtom::handleValue (
   string   theString,
   ostream& os)
@@ -1315,7 +1392,7 @@ void lilypondOah::initializeIdentificationOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    identificationSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Identification",
         "hlpi", "help-lilypond-identification",
@@ -1324,11 +1401,11 @@ thus overriding the ones that may be present in the MSR data.)",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (identificationSubGroup);
+  appendSubGroup (subGroup);
 
   // MusicXML informations
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "rights", "",
@@ -1337,7 +1414,7 @@ R"(Set the 'rights' to STRING in the LilyPond code.)",
         "rights",
         fRights));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "composer", "",
@@ -1346,7 +1423,7 @@ R"(Set the 'composer' to STRING in the LilyPond code.)",
         "composer",
         fComposer));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "arranger", "",
@@ -1355,7 +1432,7 @@ R"(Set the 'arranger' to STRING in the LilyPond code.)",
         "arranger",
         fArranger));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "poet", "",
@@ -1364,7 +1441,7 @@ R"(Set the 'poet' to STRING in the LilyPond code.)",
         "poet",
         fPoet));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "lyricist", "",
@@ -1373,7 +1450,7 @@ R"(Set the 'lyricist' to STRING in the LilyPond code.)",
         "lyricist",
         fLyricist));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "software", "",
@@ -1384,7 +1461,7 @@ R"(Set the 'software' to STRING in the LilyPond code.)",
 
   // LilyPond informations
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "dedication", "",
@@ -1393,7 +1470,7 @@ R"(Set 'dedication' to STRING in the \header.)",
         "dedication",
         fDedication));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "piece", "",
@@ -1402,7 +1479,7 @@ R"(Set 'piece' to STRING in the \header.)",
         "piece",
         fPiece));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "opus", "",
@@ -1411,7 +1488,7 @@ R"(Set 'opus' to STRING in the \header.)",
         "opus",
         fOpus));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "title", "",
@@ -1420,7 +1497,7 @@ R"(Set 'title' to STRING in the \header.)",
         "title",
         fTitle));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "stitle", "subtitle",
@@ -1429,7 +1506,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
         "subTitle",
         fSubTitle));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "sstitle", "subsubtitle",
@@ -1438,7 +1515,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
         "subSubTitle",
         fSubSubTitle));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "instrument", "",
@@ -1447,7 +1524,7 @@ R"(Set 'instrument' to STRING in the \header.)",
         "instrument",
         fInstrument));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "meter", "",
@@ -1456,7 +1533,7 @@ R"(Set 'meter' to STRING in the \header.)",
         "meter",
         fMeter));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "tagline", "",
@@ -1465,7 +1542,7 @@ R"(Set 'tagline' to STRING in the \header.)",
         "tagline",
         fTagline));
 
-  identificationSubGroup->
+  subGroup->
     appendAtom (
       oahStringAtom::create (
         "copyright", "",
@@ -1479,7 +1556,7 @@ void lilypondOah::initializeEngraversOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    engraversSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Engravers",
         "hlpe", "help-lilypond-engravers",
@@ -1487,13 +1564,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (engraversSubGroup);
+  appendSubGroup (subGroup);
 
   // ambitus engraver
 
   fAmbitusEngraver = boolOptionsInitialValue;
 
-  engraversSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "ambitus", "",
@@ -1548,7 +1625,7 @@ void lilypondOah::initializeNotesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    notesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Notes",
         "hlpn", "help-lilypond-notes",
@@ -1556,7 +1633,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (notesSubGroup);
+  appendSubGroup (subGroup);
 
   // octave entry
 
@@ -1573,7 +1650,7 @@ R"()",
       // F under middle C, LilyPond default for relative octave entry
       kF_Natural_STP, 3);
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       lilypondAbsoluteOctaveEntryAtom::create (
         "abs", "absolute",
@@ -1584,9 +1661,10 @@ The default is to use '\relative', with LilyPond's implicit reference 'DEFAULT_V
           msrSemiTonesPitchAndOctaveAsLilypondString (
             gLpsrOah->fLpsrQuarterTonesPitchesLanguageKind,
             fSemiTonesPitchAndOctaveDefaultValue)),
-          "lilypondAbsoluteOctaveEntryAtom"));
+          "fOctaveEntryKind",
+          fOctaveEntryKind));
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       lilypondRelativeOctaveEntryAtom::create (
         "rel", "relative",
@@ -1596,9 +1674,10 @@ It should be placed between double quotes if it contains single quotes, such as:
   -rel "c''")",
         "PITCH_AND_OCTAVE",
         "relativeOctaveEntrySemiTonesPitchAndOctave",
+        fOctaveEntryKind,
         fRelativeOctaveEntrySemiTonesPitchAndOctave));
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       lilypondFixedOctaveEntryAtom::create (
         "fixed", "",
@@ -1608,13 +1687,14 @@ It should be placed between double quotes if it contains single quotes, such as:
   -fixed "c''")",
         "PITCH_AND_OCTAVE",
         "fixedOctaveEntrySemiTonesPitchAndOctave",
+        fOctaveEntryKind,
         fFixedOctaveEntrySemiTonesPitchAndOctave));
 
   // durations
 
   fAllDurations = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "alldurs", "all-durations",
@@ -1628,7 +1708,7 @@ is omitted for code conciseness.)",
 
   fStems = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "stems", "",
@@ -1641,7 +1721,7 @@ By default, LilyPond will take care of that by itself.)",
 
   fNoAutoBeaming  = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "noab", "no-auto-beaming",
@@ -1654,7 +1734,7 @@ to prevent LilyPond from handling beams automatically.)",
 
   fRomanStringNumbers = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "rsn", "roman-string-numbers",
@@ -1667,7 +1747,7 @@ for LilyPond to generate roman instead of arabic string numbers.)",
 
   fAvoidOpenStrings    = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "aos", "avoid-open-strings",
@@ -1684,7 +1764,7 @@ to prevent LilyPond from using open strings.)",
 
   fAccidentalStyleKind = lpsrAccidentalStyleKindDefaultValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       lilypondAccidentalStyleKindAtom::create (
         "as", "accidental-style", // JMI
@@ -1709,7 +1789,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   fCompressFullMeasureRests = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "cfmr", "compress-full-measure-rests",
@@ -1721,7 +1801,7 @@ R"(Compress full measure rests instead of generating successive empty measures.)
 
   fInputLineNumbers = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "iln", "input-line-numbers",
@@ -1738,7 +1818,7 @@ This is useful when debugging EXECUTABLE.)",
 
   fPositionsInMeasures = boolOptionsInitialValue;
 
-  notesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "pim", "positions-in-measures",
@@ -1814,7 +1894,7 @@ void lilypondOah::initializeLineBreaksOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    lineBreaksSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Line breaks",
         "hlplb", "help-lilypond-line-breaks",
@@ -1822,13 +1902,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (lineBreaksSubGroup);
+  appendSubGroup (subGroup);
 
   // lines
 
   fIgnoreLineBreaks = boolOptionsInitialValue;
 
-  lineBreaksSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "ilb", "ignore-line-breaks",
@@ -1839,7 +1919,7 @@ and let LilyPond decide about them.)",
 
   fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
 
-  lineBreaksSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "blairm", "break-lines-at-incomplete-right-measures",
@@ -1850,7 +1930,7 @@ which is handy in popular folk dances and tunes.)",
 
   fSeparatorLineEveryNMeasures         = -1;
 
-  lineBreaksSubGroup->
+  subGroup->
     appendAtom (
       oahIntegerAtom::create (
         "slenm", "separator-line-every-n-measures",
@@ -1866,7 +1946,7 @@ void lilypondOah::initializePageBreaksOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    pageBreaksSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Page breaks",
         "hlppb", "help-lilypond-page-breaks",
@@ -1874,13 +1954,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (pageBreaksSubGroup);
+  appendSubGroup (subGroup);
 
   // pages
 
   fIgnorePageBreaks = boolOptionsInitialValue;
 
-  pageBreaksSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "ipb", "ignore-page-breaks",
@@ -1894,7 +1974,7 @@ void lilypondOah::initializeStavesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    stavesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Staves",
         "hlps", "helpLilypondStaves",
@@ -1902,13 +1982,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (stavesSubGroup);
+  appendSubGroup (subGroup);
 
   // tabs
 
   fModernTab = boolOptionsInitialValue;
 
-  stavesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "mtab", "modernTab",
@@ -1920,7 +2000,7 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
 
   fKeepStaffSize = boolOptionsInitialValue;
 
-  stavesSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "kss", "keep-staff-size",
@@ -1933,7 +2013,7 @@ void lilypondOah::initializeChordsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    chordsSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Chords",
         "hlpc", "help-lilypond-chordss",
@@ -1941,13 +2021,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (chordsSubGroup);
+  appendSubGroup (subGroup);
 
   // arpeggios
 
   fConnectArpeggios = boolOptionsInitialValue;
 
-  chordsSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "conarp", "connect-arpeggios",
@@ -1960,7 +2040,7 @@ void lilypondOah::initializeTupletsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    tupletsSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Tuplets",
         "hlpt", "help-lilypond-tuplets",
@@ -1968,13 +2048,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (tupletsSubGroup);
+  appendSubGroup (subGroup);
 
   // tuplets
 
   fIndentTuplets = boolOptionsInitialValue;
 
-  tupletsSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "itups", "indent-tuplets",
@@ -1988,7 +2068,7 @@ void lilypondOah::initializeRepeatOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    repeatsSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Repeats",
         "hlpr", "help-lilypond-repeats",
@@ -1996,13 +2076,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (repeatsSubGroup);
+  appendSubGroup (subGroup);
 
   // repeats
 
   fKeepRepeatBarlines = boolOptionsInitialValue;
 
-  repeatsSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "krbs", "keep-repeat-barlines",
@@ -2012,7 +2092,7 @@ R"(Generate repeats start and and bar lines even though LilyPond would take care
 
   fRepeatBrackets = boolOptionsInitialValue;
 
-  repeatsSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "rbracks", "repeat-brackets",
@@ -2022,7 +2102,7 @@ R"(Generate repeats with brackets instead of regular bar lines.)",
 
   fIgnoreRepeatNumbers = boolOptionsInitialValue;
 
-  repeatsSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "irn", "ignore-repeat-numbers",
@@ -2035,7 +2115,7 @@ void lilypondOah::initializeOrnamentsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    ornamentsSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Ornaments",
         "hlporns", "help-lilypond-ornaments",
@@ -2043,7 +2123,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (ornamentsSubGroup);
+  appendSubGroup (subGroup);
 
   // ornaments
 
@@ -2054,7 +2134,7 @@ R"()",
       "/" +
     to_string (fDelayedOrnamentsFraction.getDenominator ());
 
-  ornamentsSubGroup->
+  subGroup->
     appendAtom (
       oahRationalAtom::create (
         "dof", "delayed-ornaments-fraction",
@@ -2073,7 +2153,7 @@ void lilypondOah::initializeChordsDisplayOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    chordsDiaplaySubGroup =
+    subGroup =
       oahSubGroup::create (
         "Chords display",
         "hchd", "help-chords-display",
@@ -2081,11 +2161,11 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (chordsDiaplaySubGroup);
+  appendSubGroup (subGroup);
 
   // chords
 
-  chordsDiaplaySubGroup->
+  subGroup->
     appendAtom (
       lilypondChordsDisplayAtom::create (
         "chd", "chords-display",
@@ -2126,7 +2206,7 @@ R"###(  <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"}
   <c e g bes d' fis' a'>1-\markup { \super {"13(" {\small\raise #0.5 \sharp} "11)"} }
   <c e g a d'>1-\markup { \super "6(add9)" })###";
 
-  chordsDiaplaySubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "jchd", "jazz-chords-display",
@@ -2144,7 +2224,7 @@ void lilypondOah::initializeFontsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    fontsSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Fonts",
         "hfonts", "help-fonts",
@@ -2152,13 +2232,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (fontsSubGroup);
+  appendSubGroup (subGroup);
 
   // fonts
 
   fJazzFonts = boolOptionsInitialValue;
 
-  fontsSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "jazz", "jazz-fonts",
@@ -2307,7 +2387,7 @@ void lilypondOah::initializeScoreNotationOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    scoreNotationSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Score notation",
         "hlpsn", "help-lilypond-score-notation",
@@ -2315,7 +2395,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (scoreNotationSubGroup);
+  appendSubGroup (subGroup);
 
   // score notation
 
@@ -2324,7 +2404,7 @@ R"()",
 
   fJianpu = false;
 
-  scoreNotationSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "jianpu", "",
@@ -2364,7 +2444,7 @@ R"()",
   subGroup->
     appendAtom (
       lilypondMidiTempoAtom::create (
-        "midi-tempo", "",
+        "mtempo", "midi-temp",
         replaceSubstringInString (
           replaceSubstringInString (
 R"(Generate a '\tempo' command in the \midi block.
@@ -3743,219 +3823,6 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gIndenter--;
 
   gIndenter--;
-}
-
-S_oahValuedAtom lilypondOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  if (
-    // absolute octave entry atom?
-    S_lilypondAbsoluteOctaveEntryAtom
-      absoluteOctaveEntryKindAtom =
-        dynamic_cast<lilypondAbsoluteOctaveEntryAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondAbsoluteOctaveEntryAtom'" <<
-        endl;
-    }
-#endif
-
-    // set octave entry kind it at once
-    fOctaveEntryKind = kOctaveEntryAbsolute;
-  }
-
-  else if (
-    // relative octave entry atom?
-    S_lilypondRelativeOctaveEntryAtom
-      relativeOctaveEntryAtom =
-        dynamic_cast<lilypondRelativeOctaveEntryAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
-        endl;
-    }
-#endif
-
-    // set octave entry kind it at once
-    fOctaveEntryKind = kOctaveEntryRelative;
-
-    // wait until the value is met
-    result = relativeOctaveEntryAtom;
-  }
-
-  else if (
-    // fixed octave entry atom?
-    S_lilypondFixedOctaveEntryAtom
-      fixedOctaveEntryAtom =
-        dynamic_cast<lilypondFixedOctaveEntryAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondFixedOctaveEntryAtom'" <<
-        endl;
-    }
-#endif
-
-    // set octave entry kind it at once
-    fOctaveEntryKind = kOctaveEntryFixed;
-
-    // wait until the value is met
-    result = fixedOctaveEntryAtom;
-  }
-
-  else if (
-    // reset measure number atom?
-    S_lilypondResetMeasureNumberAtom
-      resetMeasureNumberAtom =
-        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = resetMeasureNumberAtom;
-  }
-
-  else if (
-    // acccidentals style atom?
-    S_lilypondAccidentalStyleKindAtom
-      accidentalStyleKindAtom =
-        dynamic_cast<lilypondAccidentalStyleKindAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondAccidentalStyleKindAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = accidentalStyleKindAtom;
-  }
-
-  else if (
-    // chords display atom?
-    S_lilypondChordsDisplayAtom
-      chordsDisplayAtom =
-        dynamic_cast<lilypondChordsDisplayAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondChordsDisplayAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = chordsDisplayAtom;
-  }
-
-  else if (
-    // midi tempo atom?
-    S_lilypondMidiTempoAtom
-      midiTempoAtom =
-        dynamic_cast<lilypondMidiTempoAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lilypondMidiTempoAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = midiTempoAtom;
-  }
-
-  return result;
-}
-
-void lilypondOah::handleValuedAtomValue (
-  ostream&  os,
-  S_oahAtom atom,
-  string    theString)
-{
-  if (
-    // relative octave entry atom?
-    S_lilypondRelativeOctaveEntryAtom
-      relativeOctaveEntryAtom =
-        dynamic_cast<lilypondRelativeOctaveEntryAtom*>(&(*atom))
-  ) {
-    relativeOctaveEntryAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // fixed octave entry atom?
-    S_lilypondFixedOctaveEntryAtom
-      fixedOctaveEntryAtom =
-        dynamic_cast<lilypondFixedOctaveEntryAtom*>(&(*atom))
-  ) {
-    fixedOctaveEntryAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // reset measure number atom?
-    S_lilypondResetMeasureNumberAtom
-      resetMeasureNumberAtom =
-        dynamic_cast<lilypondResetMeasureNumberAtom*>(&(*atom))
-  ) {
-    resetMeasureNumberAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // accidental style atom?
-    S_lilypondAccidentalStyleKindAtom
-      accidentalStyleKindAtom =
-        dynamic_cast<lilypondAccidentalStyleKindAtom*>(&(*atom))
-  ) {
-    accidentalStyleKindAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // chords display atom?
-    S_lilypondChordsDisplayAtom
-      chordsDisplayAtom =
-        dynamic_cast<lilypondChordsDisplayAtom*>(&(*atom))
-  ) {
-    chordsDisplayAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // midi tempo atom?
-    S_lilypondMidiTempoAtom
-      midiTempoAtom =
-        dynamic_cast<lilypondMidiTempoAtom*>(&(*atom))
-  ) {
-    midiTempoAtom->handleValue (
-      theString,
-      os);
-  }
 }
 
 ostream& operator<< (ostream& os, const S_lilypondOah& elt)

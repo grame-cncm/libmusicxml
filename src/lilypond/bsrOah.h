@@ -221,16 +221,6 @@ class bsrOah : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    virtual S_oahValuedAtom
-                          handleAtom (
-                            ostream&  os,
-                            S_oahAtom atom);
-
-    virtual void          handleValuedAtomValue (
-                            ostream&  os,
-                            S_oahAtom atom,
-                            string    theString);
-
   private:
 
     // private services

@@ -137,7 +137,7 @@ void brailleUTFKindAtom::print (ostream& os) const
 }
 
 void brailleUTFKindAtom::printAtomOptionsValues (
-  indentedOstream& os,
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -262,7 +262,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
 }
 
 void brailleByteOrderingKindAtom::printAtomOptionsValues (
-  indentedOstream& os,
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -613,81 +613,6 @@ void brailleOah::printBrailleOahValues (int fieldWidth)
   gIndenter--;
 
   gIndenter--;
-}
-
-S_oahValuedAtom brailleOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  if (
-    // UTF kind atom?
-    S_brailleUTFKindAtom
-      UTFKindAtom =
-        dynamic_cast<brailleUTFKindAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'brailleUTFKindAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = UTFKindAtom;
-  }
-
-  else if (
-    // byte ordering kind atom?
-    S_brailleByteOrderingKindAtom
-      byteOrderingKindAtom =
-        dynamic_cast<brailleByteOrderingKindAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'brailleUTFKindAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = byteOrderingKindAtom;
-  }
-
-  return result;
-}
-
-void brailleOah::handleValuedAtomValue (
-  ostream&  os,
-  S_oahAtom atom,
-  string    theString)
-{
-  if (
-    // UTF kind atom?
-    S_brailleUTFKindAtom
-      UTFKindAtom =
-        dynamic_cast<brailleUTFKindAtom*>(&(*atom))
-  ) {
-    // theString contains the UTF size
-    UTFKindAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // byte ordering atom?
-    S_brailleByteOrderingKindAtom
-      byteOrderingKindAtom =
-        dynamic_cast<brailleByteOrderingKindAtom*>(&(*atom))
-  ) {
-    // theString contains the byte ordering name
-    byteOrderingKindAtom->handleValue (
-      theString,
-      os);
-  }
 }
 
 ostream& operator<< (ostream& os, const S_brailleOah& elt)

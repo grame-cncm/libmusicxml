@@ -74,6 +74,14 @@ lpsrScoreOutputKindAtom::lpsrScoreOutputKindAtom (
 lpsrScoreOutputKindAtom::~lpsrScoreOutputKindAtom ()
 {}
 
+S_oahValuedAtom lpsrScoreOutputKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
 void lpsrScoreOutputKindAtom::handleValue (
   string   theString,
   ostream& os)
@@ -160,7 +168,7 @@ void lpsrScoreOutputKindAtom::print (ostream& os) const
 }
 
 void lpsrScoreOutputKindAtom::printAtomOptionsValues (
-  indentedOstream& os,
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -221,6 +229,14 @@ lpsrPitchesLanguageAtom::lpsrPitchesLanguageAtom (
 
 lpsrPitchesLanguageAtom::~lpsrPitchesLanguageAtom ()
 {}
+
+S_oahValuedAtom lpsrPitchesLanguageAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void lpsrPitchesLanguageAtom::handleValue (
   string   theString,
@@ -308,7 +324,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
 }
 
 void lpsrPitchesLanguageAtom::printAtomOptionsValues (
-  indentedOstream& os,
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -369,6 +385,14 @@ lpsrChordsLanguageAtom::lpsrChordsLanguageAtom (
 
 lpsrChordsLanguageAtom::~lpsrChordsLanguageAtom ()
 {}
+
+S_oahValuedAtom lpsrChordsLanguageAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void lpsrChordsLanguageAtom::handleValue (
   string   theString,
@@ -451,7 +475,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
 }
 
 void lpsrChordsLanguageAtom::printAtomOptionsValues (
-  indentedOstream& os,
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -513,6 +537,14 @@ lpsrTransposeAtom::lpsrTransposeAtom (
 lpsrTransposeAtom::~lpsrTransposeAtom ()
 {}
 
+S_oahValuedAtom lpsrTransposeAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
 void lpsrTransposeAtom::handleValue (
   string   theString,
   ostream& os)
@@ -572,7 +604,7 @@ void lpsrTransposeAtom::print (ostream& os) const
 }
 
 void lpsrTransposeAtom::printAtomOptionsValues (
-  indentedOstream& os,
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -1386,167 +1418,6 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
 
   gIndenter--;
-}
-
-S_oahValuedAtom lpsrOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  if (
-    // LPSR score output kind atom?
-    S_lpsrScoreOutputKindAtom
-      scoreOutputKindAtom =
-        dynamic_cast<lpsrScoreOutputKindAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = scoreOutputKindAtom;
-  }
-
-  else if (
-    // LPSR pitches language atom?
-    S_lpsrPitchesLanguageAtom
-      pitchesLanguageAtom =
-        dynamic_cast<lpsrPitchesLanguageAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = pitchesLanguageAtom;
-  }
-
-  else if (
-    // chords language atom?
-    S_lpsrChordsLanguageAtom
-      LpsrChordsLanguageAtom =
-        dynamic_cast<lpsrChordsLanguageAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = LpsrChordsLanguageAtom;
-  }
-
-  else if (
-    // transpose atom?
-    S_lpsrTransposeAtom
-      transposeAtom =
-        dynamic_cast<lpsrTransposeAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'lpsrTransposeAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = transposeAtom;
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "INTERNAL OPTION ERROR: "
-      "lpsrOah::handleAtom() cannot handle option atom" <<
-      endl <<
-      atom <<
-      endl;
-
-    optionError (s.str ());
-
-    exit (5);
-  }
-
-  return result;
-}
-
-void lpsrOah::handleValuedAtomValue (
-  ostream&  os,
-  S_oahAtom atom,
-  string    theString)
-{
-  if (
-    // LPSR score output kind atom?
-    S_lpsrScoreOutputKindAtom
-      scoreOutputKindAtom =
-        dynamic_cast<lpsrScoreOutputKindAtom*>(&(*atom))
-  ) {
-    scoreOutputKindAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // LPSR pitches language atom?
-    S_lpsrPitchesLanguageAtom
-      pitchesLanguageKindAtom =
-        dynamic_cast<lpsrPitchesLanguageAtom*>(&(*atom))
-  ) {
-    pitchesLanguageKindAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // chords language atom?
-    S_lpsrChordsLanguageAtom
-      chordsLanguageAtom =
-        dynamic_cast<lpsrChordsLanguageAtom*>(&(*atom))
-  ) {
-    chordsLanguageAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // transpose atom?
-    S_lpsrTransposeAtom
-      transposeAtom =
-        dynamic_cast<lpsrTransposeAtom*>(&(*atom))
-  ) {
-    transposeAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "INTERNAL OPTION ERROR: "
-      "lpsrOah::handleValuedAtomValue() cannot handle option atom" <<
-      endl <<
-      atom <<
-      endl;
-
-    optionError (s.str ());
-
-    exit (5);
-  }
 }
 
 void lpsrOah::crackLilypondVersionNumber (

@@ -66,7 +66,7 @@ void generalOah::initializeGeneralWarningAndErrorsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    warningAndErrorHandlingSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Warnings and errors",
         "hwae", "help-warnings-and-errors",
@@ -74,13 +74,13 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (warningAndErrorHandlingSubGroup);
+  appendSubGroup (subGroup);
 
   // quiet
 
   fQuiet = boolOptionsInitialValue;
 
-  warningAndErrorHandlingSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "q", "quiet",
@@ -92,7 +92,7 @@ R"(Don't issue any warning or error messages.)",
 
   fDontShowErrors = boolOptionsInitialValue;
 
-  warningAndErrorHandlingSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "dse", "dont-show-errors",
@@ -104,7 +104,7 @@ R"(Don't show errors in the log.)",
 
   fDontAbortOnErrors = boolOptionsInitialValue;
 
-  warningAndErrorHandlingSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "daoe", "dont-abort-on-errors",
@@ -120,7 +120,7 @@ This may be useful when debugging EXECUTABLE.)",
 
   fDisplaySourceCodePosition = boolOptionsInitialValue;
 
-  warningAndErrorHandlingSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "dscp", "display-source-code-position",
@@ -138,7 +138,7 @@ void generalOah::initializeGeneralCPUUsageOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    CPUUsageSubGroup =
+    subGroup =
       oahSubGroup::create (
         "CPU usage",
         "hgcpu", "help-general-cpu-usage",
@@ -146,13 +146,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (CPUUsageSubGroup);
+  appendSubGroup (subGroup);
 
   // CPU usage
 
   fDisplayCPUusage = boolOptionsInitialValue;
 
-  CPUUsageSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "dcpuu", "display-cpu-usage",
@@ -319,17 +319,6 @@ void generalOah::printGeneralOahValues (int fieldWidth)
   gIndenter--;
 
   gIndenter--;
-}
-
-S_oahValuedAtom generalOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  // JMI ???
-
-  return result;
 }
 
 ostream& operator<< (ostream& os, const S_generalOah& elt)

@@ -60,6 +60,10 @@ class extraShowAllChordsStructuresAtom : public oahAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     // print
     // ------------------------------------------------------
 
@@ -121,6 +125,10 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     void                  handleValue (
                             string   theString,
@@ -192,6 +200,10 @@ class extraShowChordDetailsAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -257,6 +269,10 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     void                  handleValue (
                             string   theString,
@@ -330,16 +346,6 @@ class extraOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
-
-    virtual S_oahValuedAtom
-                          handleAtom (
-                            ostream&  os,
-                            S_oahAtom atom);
-
-    virtual void          handleValuedAtomValue (
-                            ostream&  os,
-                            S_oahAtom atom,
-                            string    theString);
 
   private:
 

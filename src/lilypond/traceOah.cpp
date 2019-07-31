@@ -2703,17 +2703,6 @@ void traceOah::printTraceOahValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom traceOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  // JMI ???
-
-  return result;
-}
-
 void traceOah::printHelp (ostream& os)
 {
   int undef = 3;

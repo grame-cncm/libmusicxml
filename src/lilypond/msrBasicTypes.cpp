@@ -17603,12 +17603,9 @@ string msrSemiTonesPitchAndOctave::asString () const
 {
   stringstream s;
 
-  const int fieldWidth = 19;
-
   s << left <<
     "SemiTonesPitchAndOctave" <<
     ": " <<
-    setw (fieldWidth) <<
     "semiTonesPitchKind: " <<
     msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
     ", octave: " << fOctave;
@@ -18353,7 +18350,7 @@ void printChordAnalysis (
         }
         else {
           os <<
-            " inversion" << inversion;
+            " inversion " << inversion;
         }
 
         os <<

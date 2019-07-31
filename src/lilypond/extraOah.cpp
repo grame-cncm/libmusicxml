@@ -63,6 +63,17 @@ extraShowAllChordsStructuresAtom::extraShowAllChordsStructuresAtom (
 extraShowAllChordsStructuresAtom::~extraShowAllChordsStructuresAtom ()
 {}
 
+S_oahValuedAtom extraShowAllChordsStructuresAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once
+  printAllChordsStructures (os);
+
+  // no option value is needed
+  return nullptr;
+}
+
 void extraShowAllChordsStructuresAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -144,6 +155,14 @@ extraShowAllChordsContentsAtom::extraShowAllChordsContentsAtom (
 
 extraShowAllChordsContentsAtom::~extraShowAllChordsContentsAtom ()
 {}
+
+S_oahValuedAtom extraShowAllChordsContentsAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void extraShowAllChordsContentsAtom::handleValue (
   string   theString,
@@ -334,6 +353,14 @@ extraShowChordDetailsAtom::extraShowChordDetailsAtom (
 
 extraShowChordDetailsAtom::~extraShowChordDetailsAtom ()
 {}
+
+S_oahValuedAtom extraShowChordDetailsAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void extraShowChordDetailsAtom::handleValue (
   string   theString,
@@ -579,6 +606,14 @@ extraShowChordAnalysisAtom::extraShowChordAnalysisAtom (
 
 extraShowChordAnalysisAtom::~extraShowChordAnalysisAtom ()
 {}
+
+S_oahValuedAtom extraShowChordAnalysisAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void extraShowChordAnalysisAtom::handleValue (
   string   theString,
@@ -865,7 +900,7 @@ void extraOah::initializeExtraShowAllChordsStructuresOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    traceAndDisplaySubGroup =
+    subGroup =
       oahSubGroup::create (
         "Chords structures",
         "hecs", "help-extra-chord-structures",
@@ -873,9 +908,9 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (traceAndDisplaySubGroup);
+  appendSubGroup (subGroup);
 
-  traceAndDisplaySubGroup->
+  subGroup->
     appendAtom (
       extraShowAllChordsStructuresAtom::create (
         "scs", "show-chords-structures",
@@ -886,7 +921,7 @@ void extraOah::initializeExtraShowAllChordsContentsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    workSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Chords contents",
         "hecc", "help-extra-chords-contents",
@@ -913,15 +948,15 @@ HARMONY_NAME should be one of:
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (workSubGroup);
+  appendSubGroup (subGroup);
 
-  workSubGroup->
+  subGroup->
     appendAtom (
       extraShowAllChordsContentsAtom::create (
         "sacc", "show-all-chords-contents",
-R"(Write all chords contents for the given diatonic (semitones) pitch
-in the current language to standard output.)",
-        "pitch",
+R"(Write all chords contents for the given diatonic (semitones) PITCH,
+supplied in the current language to standard output.)",
+        "PITCH",
         "diatonic (semitones) pitch",
         fChordsRootAsString));
 }
@@ -930,7 +965,7 @@ void extraOah::initializeExtraShowChordDetailsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    workSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Chord details",
         "hecd", "help-extra-chords-details",
@@ -938,9 +973,9 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (workSubGroup);
+  appendSubGroup (subGroup);
 
-  workSubGroup->
+  subGroup->
     appendAtom (
       extraShowChordDetailsAtom::create (
         "scd", "show-chord-details",
@@ -967,7 +1002,7 @@ void extraOah::initializeExtraShowChordAnalysisOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    workSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Chord analysis",
         "heca", "help-extra-chords-analysis",
@@ -975,9 +1010,9 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (workSubGroup);
+  appendSubGroup (subGroup);
 
-  workSubGroup->
+  subGroup->
     appendAtom (
       extraShowChordAnalysisAtom::create (
         "sca", "show-chord-analysis", // -sca "c dommin9 0"
@@ -1073,130 +1108,6 @@ void extraOah::printExtraOahValues (int fieldWidth)
   // --------------------------------------
 
   gIndenter--;
-}
-
-S_oahValuedAtom extraOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  if (
-    // show all chords structures atom?
-    S_extraShowAllChordsStructuresAtom
-      showAllChordsStructuresAtom =
-        dynamic_cast<extraShowAllChordsStructuresAtom*>(&(*atom))
-  ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'extraShowAllChordsStructuresAtom'" <<
-        endl;
-    }
-#endif
-
-    // handle it at once
-    showAllChordsStructuresAtom->
-      printAllChordsStructures (os);
-
-    // exit
-    exit (0);
-  }
-
-  else if (
-    // show all chords notes atom?
-    S_extraShowAllChordsContentsAtom
-      showAllChordsContentsAtom =
-        dynamic_cast<extraShowAllChordsContentsAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = showAllChordsContentsAtom;
-  }
-
-  else if (
-    // show chord details atom?
-    S_extraShowChordDetailsAtom
-      showChordDetailsAtom =
-        dynamic_cast<extraShowChordDetailsAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = showChordDetailsAtom;
-  }
-
-  else if (
-    // show chord analysis atom?
-    S_extraShowChordAnalysisAtom
-      showChordAnalysisAtom =
-        dynamic_cast<extraShowChordAnalysisAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = showChordAnalysisAtom;
-  }
-
-  return result;
-}
-
-void extraOah::handleValuedAtomValue (
-  ostream&  os,
-  S_oahAtom atom,
-  string    theString)
-{
-  if (
-    // show all chord contents atom?
-    S_extraShowAllChordsContentsAtom
-      showAllChordsContentsAtom =
-        dynamic_cast<extraShowAllChordsContentsAtom*>(&(*atom))
-  ) {
-    showAllChordsContentsAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // show chord details atom?
-    S_extraShowChordDetailsAtom
-      showChordDetailsAtom =
-        dynamic_cast<extraShowChordDetailsAtom*>(&(*atom))
-  ) {
-    showChordDetailsAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // show chord analysis atom?
-    S_extraShowChordAnalysisAtom
-      showChordAnalysisAtom =
-        dynamic_cast<extraShowChordAnalysisAtom*>(&(*atom))
-  ) {
-    showChordAnalysisAtom->handleValue (
-      theString,
-      os);
-  }
 }
 
 ostream& operator<< (ostream& os, const S_extraOah& elt)

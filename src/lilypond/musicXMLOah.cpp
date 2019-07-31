@@ -293,7 +293,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
   S_oahBooleanAtom
     noCubaseBooleanAtom =
       oahBooleanAtom::create (
-        "noCubase", "",
+        "no-cubase", "",
 R"(Prevents the default 'cubase' option.)",
         "noCubase",
         fNoCubase);
@@ -474,17 +474,6 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
   gIndenter--;
 
   gIndenter--;
-}
-
-S_oahValuedAtom musicXMLOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  // JMI ???
-
-  return result;
 }
 
 ostream& operator<< (ostream& os, const S_musicXMLOah& elt)

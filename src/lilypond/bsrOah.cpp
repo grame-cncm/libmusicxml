@@ -817,59 +817,6 @@ void bsrOah::printBsrOahValues (int fieldWidth)
   gIndenter--;
 }
 
-S_oahValuedAtom bsrOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  if (
-    // BSR texts language atom?
-    S_bsrTextsLanguageAtom
-      textsLanguageAtom =
-        dynamic_cast<bsrTextsLanguageAtom*>(&(*atom))
-  ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'bsrTextsLanguageAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = textsLanguageAtom;
-  }
-
-  else if (
-    // chords language atom?
-    S_bsrTextsLanguageAtom
-      textsLanguageAtom =
-        dynamic_cast<bsrTextsLanguageAtom*>(&(*atom))
-  ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'bsrTextsLanguageAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = textsLanguageAtom;
-  }
-
-  return result;
-}
-
-void bsrOah::handleValuedAtomValue (
-  ostream&  os,
-  S_oahAtom atom,
-  string    theString)
-{
-  // JMI
-}
-
 ostream& operator<< (ostream& os, const S_bsrOah& elt)
 {
   elt->print (os);

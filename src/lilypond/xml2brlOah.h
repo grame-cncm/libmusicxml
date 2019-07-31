@@ -278,11 +278,6 @@ class xml2brlOah : public oahGroup
     // services
     // ------------------------------------------------------
 
-    virtual S_oahValuedAtom
-                          handleAtom (
-                            ostream&  os,
-                            S_oahAtom atom);
-
   public:
 
     // print

@@ -34,33 +34,33 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msrPartRenameAtom msrPartRenameAtom::create (
+S_msrRenamePartAtom msrRenamePartAtom::create (
   string               shortName,
   string               longName,
   string               description,
   string               valueSpecification,
   string               variableName,
-  map<string, string>& msrPartRenameVariable)
+  map<string, string>& stringStringMapVariable)
 {
-  msrPartRenameAtom* o = new
-    msrPartRenameAtom (
+  msrRenamePartAtom* o = new
+    msrRenamePartAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      msrPartRenameVariable);
+      stringStringMapVariable);
   assert(o!=0);
   return o;
 }
 
-msrPartRenameAtom::msrPartRenameAtom (
+msrRenamePartAtom::msrRenamePartAtom (
   string               shortName,
   string               longName,
   string               description,
   string               valueSpecification,
   string               variableName,
-  map<string, string>& msrPartRenameVariable)
+  map<string, string>& stringStringMapVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -68,20 +68,28 @@ msrPartRenameAtom::msrPartRenameAtom (
       valueSpecification,
       variableName),
     fStringStringMapVariable (
-      msrPartRenameVariable)
+      stringStringMapVariable)
 {}
 
-msrPartRenameAtom::~msrPartRenameAtom ()
+msrRenamePartAtom::~msrRenamePartAtom ()
 {}
 
-void msrPartRenameAtom::handleValue (
+S_oahValuedAtom msrRenamePartAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void msrRenamePartAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'msrPartRenameAtom'" <<
+      "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
   }
 #endif
@@ -92,7 +100,7 @@ void msrPartRenameAtom::handleValue (
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'msrPartRenameAtom'" <<
+      "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
   }
 #endif
@@ -178,12 +186,12 @@ void msrPartRenameAtom::handleValue (
   }
 }
 
-void msrPartRenameAtom::print (ostream& os) const
+void msrRenamePartAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "msrPartRenameAtom:" <<
+    "msrRenamePartAtom:" <<
     endl;
 
   gIndenter++;
@@ -217,8 +225,8 @@ void msrPartRenameAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrPartRenameAtom::printAtomOptionsValues (
-  indentedOstream& os,
+void msrRenamePartAtom::printAtomOptionsValues (
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -254,42 +262,42 @@ void msrPartRenameAtom::printAtomOptionsValues (
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrPartRenameAtom& elt)
+ostream& operator<< (ostream& os, const S_msrRenamePartAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrPartTransposeAtom msrPartTransposeAtom::create (
+S_msrTransposePartAtom msrTransposePartAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
-                     msrPartTransposeVariable)
+                     stringMsrSemiTonesPitchAndOctaveVariable)
 {
-  msrPartTransposeAtom* o = new
-    msrPartTransposeAtom (
+  msrTransposePartAtom* o = new
+    msrTransposePartAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      msrPartTransposeVariable);
+      stringMsrSemiTonesPitchAndOctaveVariable);
   assert(o!=0);
   return o;
 }
 
-msrPartTransposeAtom::msrPartTransposeAtom (
+msrTransposePartAtom::msrTransposePartAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
   map<string, S_msrSemiTonesPitchAndOctave>&
-                     msrPartTransposeVariable)
+                     stringMsrSemiTonesPitchAndOctaveVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -297,20 +305,28 @@ msrPartTransposeAtom::msrPartTransposeAtom (
       valueSpecification,
       variableName),
     fStringMsrSemiTonesPitchAndOctaveVariable (
-      msrPartTransposeVariable)
+      stringMsrSemiTonesPitchAndOctaveVariable)
 {}
 
-msrPartTransposeAtom::~msrPartTransposeAtom ()
+msrTransposePartAtom::~msrTransposePartAtom ()
 {}
 
-void msrPartTransposeAtom::handleValue (
+S_oahValuedAtom msrTransposePartAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void msrTransposePartAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'msrPartTransposeAtom'" <<
+      "==> oahAtom is of type 'msrTransposePartAtom'" <<
       endl;
   }
 #endif
@@ -318,15 +334,6 @@ void msrPartTransposeAtom::handleValue (
   // theString contains the part transpose specification
   // decipher it to extract the old and new part names
 
-#ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'S_msrPartTransposeAtom'" <<
-      endl;
-  }
-#endif
-
-/* JMI
   string regularExpression (
     "[[:space:]]*(.*)[[:space:]]*"
     "="
@@ -366,68 +373,57 @@ void msrPartTransposeAtom::handleValue (
     stringstream s;
 
     s <<
-      "-msrPartTranspose argument '" << theString <<
+      "-marTransposePart argument '" << theString <<
       "' is ill-formed";
 
     optionError (s.str ());
-
-    printSubGroupSpecificHelp (
-      os,
-      partTransposeAtom->
-        getSubGroupUpLink ());
-
     exit (4);
   }
 
   string
-    oldPartName = sm [1],
-    newPartName = sm [2];
+    originalPitchName    = sm [1],
+    destinationPitchName = sm [2];
 
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     os <<
-      "--> oldPartName = \"" << oldPartName << "\", " <<
-      "--> newPartName = \"" << newPartName << "\"" <<
+      "--> originalPitchName = \"" << originalPitchName << "\", " <<
+      "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
       endl;
   }
 #endif
 
-  map<string, string>
-    partTransposeVariable =
-      partTransposeAtom->
-        getMsrPartTransposeVariable ();
-
   // is this part name in the part renaming map?
-  map<string, string>::iterator
+  map<string, S_msrSemiTonesPitchAndOctave>::iterator
     it =
-      partTransposeVariable.find (oldPartName);
+      fStringMsrSemiTonesPitchAndOctaveVariable.find (originalPitchName);
 
-  if (it != partTransposeVariable.end ()) {
+  if (it != fStringMsrSemiTonesPitchAndOctaveVariable.end ()) {
     // yes, issue error message
     stringstream s;
 
     s <<
-      "Part \"" << oldPartName << "\" occurs more that one" <<
-      "in the '--partName' option";
+      "Part \"" << originalPitchName << "\" occurs more that one" <<
+      "in the '--transpose-part' option";
 
     optionError (s.str ());
     exit (4);
   }
 
   else {
-    partTransposeAtom->
-      setPartTransposeVariableValue (
-        oldPartName, newPartName);
+    fStringMsrSemiTonesPitchAndOctaveVariable [originalPitchName] =
+      msrSemiTonesPitchAndOctave::createFromString (
+        K_NO_INPUT_LINE_NUMBER,
+        destinationPitchName);
   }
-  */
 }
 
-void msrPartTransposeAtom::print (ostream& os) const
+void msrTransposePartAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsPartTransposeAtom:" <<
+    "msrTransposePartAtom:" <<
     endl;
 
   gIndenter++;
@@ -461,8 +457,8 @@ void msrPartTransposeAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrPartTransposeAtom::printAtomOptionsValues (
-  indentedOstream& os,
+void msrTransposePartAtom::printAtomOptionsValues (
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -499,7 +495,7 @@ void msrPartTransposeAtom::printAtomOptionsValues (
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrPartTransposeAtom& elt)
+ostream& operator<< (ostream& os, const S_msrTransposePartAtom& elt)
 {
   elt->print (os);
   return os;
@@ -547,6 +543,14 @@ msrPitchesLanguageAtom::msrPitchesLanguageAtom (
 
 msrPitchesLanguageAtom::~msrPitchesLanguageAtom ()
 {}
+
+S_oahValuedAtom msrPitchesLanguageAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
 
 void msrPitchesLanguageAtom::handleValue (
   string   theString,
@@ -632,7 +636,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
 }
 
 void msrPitchesLanguageAtom::printAtomOptionsValues (
-  indentedOstream& os,
+  ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
@@ -886,8 +890,8 @@ R"()",
 
   partsSubGroup->
     appendAtom (
-      msrPartRenameAtom::create (
-        "mpr", "msr-part-rename",
+      msrRenamePartAtom::create (
+        "mrp", "msr-rename-part",
         replaceSubstringInString (
 R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after displaying
 the names in the score or a summary of the latter in a first run with options
@@ -900,20 +904,20 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
 DESSUS="Cor anglais"
-EXECUTABLE -msr-part-rename "P1 = ${DESSUS}" .
+EXECUTABLE -msr-rename-part "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
          "EXECUTABLE",
           gExecutableOah->fHandlerExecutableName),
         "PART_RENAME_SPEC",
-        "partRename",
+        "partsRenamingMap",
         fPartsRenamingMap));
 
   // MSR part transpose
 
   partsSubGroup->
     appendAtom (
-      msrPartTransposeAtom::create (
-        "mpt", "msr-part-transpose",
+      msrTransposePartAtom::create (
+        "mtp", "msr-transpose-part",
 R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the MSR data.
 PART_TRANSPOSITION_SPEC can be:
 'ORIGINAL_NAME = TRANSPOSITION'
@@ -928,10 +932,10 @@ For example, 'a', 'f' and 'bes,' can be used respectively
 for instruments in 'a', 'f' and B flat respectively.
 Using double quotes allows for shell variables substitutions, as in:
 SAXOPHONE="bes,"
-EXECUTABLE -msr-part-transpose "P1 ${SAXOPHONE}" .
+EXECUTABLE -msr-transpose-part "P1 ${SAXOPHONE}" .
 There can be several occurrences of this option.)",
         "PART_TRANSPOSITION_SPEC",
-        "partTranspose",
+        "partsTranspositionMap",
         fPartsTranspositionMap));
 }
 
@@ -1550,6 +1554,8 @@ void msrOah::printMsrOahValues (int fieldWidth)
 
   gIndenter++;
 
+  // parts renaming
+
   gLogOstream << left <<
     setw (fieldWidth) << "parts renaming" << " : ";
 
@@ -1572,6 +1578,8 @@ void msrOah::printMsrOahValues (int fieldWidth)
 
   gLogOstream << endl;
 
+  // parts transposition
+
   gLogOstream << left <<
     setw (fieldWidth) << "parts transposition" << " : ";
 
@@ -1588,7 +1596,10 @@ void msrOah::printMsrOahValues (int fieldWidth)
       i++
   ) {
         gLogOstream <<
-          "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
+          "\"" << ((*i).first) <<
+          " = " <<
+          ((*i).second->asString ()) <<
+          "\" ";
     } // for
   }
 
@@ -1763,108 +1774,6 @@ void msrOah::printMsrOahValues (int fieldWidth)
     endl;
 
   gIndenter--;
-}
-
-S_oahValuedAtom msrOah::handleAtom (
-  ostream&  os,
-  S_oahAtom atom)
-{
-  S_oahValuedAtom result;
-
-  if (
-    // part rename atom?
-    S_msrPartRenameAtom
-      partRenameAtom =
-        dynamic_cast<msrPartRenameAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'msrPartRenameAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = partRenameAtom;
-  }
-
-  else if (
-    // part transpose atom?
-    S_msrPartTransposeAtom
-      partTransposeAtom =
-        dynamic_cast<msrPartTransposeAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'msrPartTransposeAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = partTransposeAtom;
-  }
-
-  else if (
-    // pitches language atom?
-    S_msrPitchesLanguageAtom
-      pitchesLanguageAtom =
-        dynamic_cast<msrPitchesLanguageAtom*>(&(*atom))
-    ) {
-#ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
-      os <<
-        "==> oahAtom is of type 'msrPitchesLanguageAtom'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = pitchesLanguageAtom;
-  }
-
-  return result;
-}
-
-void msrOah::handleValuedAtomValue (
-  ostream&  os,
-  S_oahAtom atom,
-  string    theString)
-{
-  if (
-    // part rename atom?
-    S_msrPartRenameAtom
-      partRenameAtom =
-        dynamic_cast<msrPartRenameAtom*>(&(*atom))
-  ) {
-    partRenameAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // part transpose atom?
-    S_msrPartTransposeAtom
-      partTransposeAtom =
-        dynamic_cast<msrPartTransposeAtom*>(&(*atom))
-  ) {
-    partTransposeAtom->handleValue (
-      theString,
-      os);
-  }
-
-  else if (
-    // MSR pitches language atom?
-    S_msrPitchesLanguageAtom
-      pitchesLanguageKindAtom =
-        dynamic_cast<msrPitchesLanguageAtom*>(&(*atom))
-    ) {
-    pitchesLanguageKindAtom->handleValue (
-      theString,
-      os);
-  }
 }
 
 ostream& operator<< (ostream& os, const S_msrOah& elt)

@@ -22,35 +22,35 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrPartRenameAtom : public oahValuedAtom
+class msrRenamePartAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrPartRenameAtom> create (
+    static SMARTP<msrRenamePartAtom> create (
       string               shortName,
       string               longName,
       string               description,
       string               valueSpecification,
       string               variableName,
-      map<string, string>& msrPartRenameVariable);
+      map<string, string>& stringStringMapVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPartRenameAtom (
+    msrRenamePartAtom (
       string               shortName,
       string               longName,
       string               description,
       string               valueSpecification,
       string               variableName,
-      map<string, string>& msrPartRenameVariable);
+      map<string, string>& stringStringMapVariable);
 
-    virtual ~msrPartRenameAtom ();
+    virtual ~msrRenamePartAtom ();
 
   public:
 
@@ -64,6 +64,10 @@ class msrPartRenameAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -74,7 +78,7 @@ class msrPartRenameAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
-                            indentedOstream& os,
+                            ostream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -84,41 +88,41 @@ class msrPartRenameAtom : public oahValuedAtom
 
     map<string, string>&  fStringStringMapVariable;
 };
-typedef SMARTP<msrPartRenameAtom> S_msrPartRenameAtom;
-EXP ostream& operator<< (ostream& os, const S_msrPartRenameAtom& elt);
+typedef SMARTP<msrRenamePartAtom> S_msrRenamePartAtom;
+EXP ostream& operator<< (ostream& os, const S_msrRenamePartAtom& elt);
 
 //______________________________________________________________________________
-class msrPartTransposeAtom : public oahValuedAtom
+class msrTransposePartAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrPartTransposeAtom> create (
+    static SMARTP<msrTransposePartAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
       string             variableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
-                         msrPartTransposeVariable);
+                         stringMsrSemiTonesPitchAndOctaveVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrPartTransposeAtom (
+    msrTransposePartAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
       string             variableName,
       map<string, S_msrSemiTonesPitchAndOctave>&
-                         msrPartTransposeVariable);
+                         stringMsrSemiTonesPitchAndOctaveVariable);
 
-    virtual ~msrPartTransposeAtom ();
+    virtual ~msrTransposePartAtom ();
 
   public:
 
@@ -146,6 +150,10 @@ class msrPartTransposeAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -156,7 +164,7 @@ class msrPartTransposeAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
-                            indentedOstream& os,
+                            ostream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -167,8 +175,8 @@ class msrPartTransposeAtom : public oahValuedAtom
     map<string, S_msrSemiTonesPitchAndOctave>&
                           fStringMsrSemiTonesPitchAndOctaveVariable;
 };
-typedef SMARTP<msrPartTransposeAtom> S_msrPartTransposeAtom;
-EXP ostream& operator<< (ostream& os, const S_msrPartTransposeAtom& elt);
+typedef SMARTP<msrTransposePartAtom> S_msrTransposePartAtom;
+EXP ostream& operator<< (ostream& os, const S_msrTransposePartAtom& elt);
 
 //______________________________________________________________________________
 class msrPitchesLanguageAtom : public oahValuedAtom
@@ -217,6 +225,10 @@ class msrPitchesLanguageAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -227,7 +239,7 @@ class msrPitchesLanguageAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
-                            indentedOstream& os,
+                            ostream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -293,16 +305,6 @@ class msrOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
-
-    virtual S_oahValuedAtom
-                          handleAtom (
-                            ostream&  os,
-                            S_oahAtom atom);
-
-    virtual void          handleValuedAtomValue (
-                            ostream&  os,
-                            S_oahAtom atom,
-                            string    theString);
 
   private:
 

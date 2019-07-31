@@ -46,6 +46,9 @@ const int K_OPTIONS_FIELD_WIDTH = 40;
 class oahOption;
 typedef SMARTP<oahOption> S_oahOption;
 
+class oahValuedAtom;
+typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
+
 class oahSubGroup;
 typedef SMARTP<oahSubGroup> S_oahSubGroup;
 
@@ -138,15 +141,11 @@ class oahOption : public smartable
     virtual int           fetchVariableNameLength () const
                               { return 0; }
 
-/* JMI ???
-    string                operator () () const
-                              { return fDescription; }
-*/
-
     S_oahOption           fetchOptionByName (
                             string name);
 
-    virtual void          handleOptionName (
+    virtual S_oahValuedAtom
+                          handleOptionUnderName (
                             string   optionName,
                             ostream& os);
 
@@ -229,10 +228,6 @@ class oahAtom : public oahOption
 
     void                  registerAtomInHandler (
                             S_oahHandler handler);
-
-    void                  handleOptionName (
-                            string   optionName,
-                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -343,12 +338,16 @@ class oahOptionsUsageAtom : public oahAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     // print
     // ------------------------------------------------------
 
     void                  print (ostream& os) const;
 
-    void                  printOptionsUsage (ostream& os) const;
+//    void                  printOptionsUsage (ostream& os) const;
 
     void                  printAtomOptionsValues (
                             ostream& os,
@@ -394,6 +393,10 @@ class oahOptionsSummaryAtom : public oahAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -515,6 +518,10 @@ class oahBooleanAtom : public oahAtomWithVariableName
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     // print
     // ------------------------------------------------------
 
@@ -581,6 +588,10 @@ class oahTwoBooleansAtom : public oahAtomWithVariableName
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -655,6 +666,10 @@ class oahThreeBooleansAtom : public oahAtomWithVariableName
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     // print
     // ------------------------------------------------------
 
@@ -726,6 +741,10 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     void                  setCombinedBooleanVariables (
                             bool value);
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     // print
     // ------------------------------------------------------
@@ -894,6 +913,10 @@ class oahIntegerAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -961,6 +984,10 @@ class oahFloatAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     void                  handleValue (
                             string   theString,
@@ -1030,6 +1057,10 @@ class oahStringAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     void                  handleValue (
                             string   theString,
@@ -1102,6 +1133,10 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -1170,6 +1205,10 @@ class oahRationalAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     void                  handleValue (
                             string   theString,
@@ -1240,6 +1279,10 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -1308,6 +1351,10 @@ class oahStringsSetAtom : public oahValuedAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     void                  handleValue (
                             string   theString,
@@ -1385,6 +1432,10 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
     void                  handleValue (
                             string   theString,
@@ -1473,7 +1524,7 @@ class oahSubGroup : public oahOption
     S_oahOption           fetchOptionByName (
                             string name);
 
-    void                  handleOptionName (
+    S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
 
@@ -1586,17 +1637,12 @@ class oahGroup : public oahOption
     S_oahOption           fetchOptionByName (
                             string name);
 
-    virtual S_oahValuedAtom
-                          handleAtom (
-                            ostream&  os,
-                            S_oahAtom atom);
-
     virtual void          handleAtomValue (
                             ostream&  os,
                             S_oahAtom atom,
                             string    theString);
 
-    void                  handleOptionName (
+    S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
 
@@ -1921,58 +1967,6 @@ class EXP oahHandler : public oahOption
     void                  handleAtomName (
                             S_oahAtom atom,
                             string    atomName);
-
-    void                  handleOptionsUsageAtomName (
-                            S_oahOptionsUsageAtom optionsUsageAtom,
-                            string                atomName);
-
-    void                  handleOptionsSummaryAtomName (
-                            S_oahOptionsSummaryAtom optionsSummaryAtom,
-                            string                  atomName);
-
-    void                  handleCombinedBooleansAtomName (
-                            S_oahCombinedBooleansAtom combinedBooleansAtom,
-                            string                    atomName);
-
-    void                  handleBooleanAtomName (
-                            S_oahBooleanAtom booleanAtom,
-                            string           atomName);
-
-    void                  handleTwoBooleansAtomName (
-                            S_oahTwoBooleansAtom twoBooleansAtom,
-                            string               atomName);
-
-    void                  handleThreeBooleansAtomName (
-                            S_oahThreeBooleansAtom threeBooleansAtom,
-                            string                 atomName);
-
-    void                  handleOptionNameHelpAtomName (
-                            S_oahOptionNameHelpAtom optionNameHelpAtom,
-                            string                  atomName);
-
-    void                  handleIntegerAtomName (
-                            S_oahIntegerAtom integerAtom,
-                            string           atomName);
-
-    void                  handleFloatAtomName (
-                            S_oahFloatAtom floatAtom,
-                            string         atomName);
-
-    void                  handleStringAtomName (
-                            S_oahStringAtom stringAtom,
-                            string          atomName);
-
-    void                  handleRationalAtomName (
-                            S_oahRationalAtom rationalAtom,
-                            string            atomName);
-
-    void                  handleNaturalNumbersSetAtomName (
-                            S_oahNaturalNumbersSetAtom naturalNumbersSetAtom,
-                            string                     atomName);
-
-    void                  handleStringsSetAtomName (
-                            S_oahStringsSetAtom stringsSetAtom,
-                            string              atomName);
 
     void                  handleOptionValueOrArgument (
                             string theString);

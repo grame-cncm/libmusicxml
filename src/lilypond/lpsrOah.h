@@ -65,6 +65,10 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -75,7 +79,7 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
-                            indentedOstream& os,
+                            ostream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -135,6 +139,10 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -145,7 +153,7 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
-                            indentedOstream& os,
+                            ostream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -206,6 +214,10 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -216,7 +228,7 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
-                            indentedOstream& os,
+                            ostream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -277,6 +289,10 @@ class lpsrTransposeAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
@@ -287,7 +303,7 @@ class lpsrTransposeAtom : public oahValuedAtom
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
-                            indentedOstream& os,
+                            ostream& os,
                             int      valueFieldWidth) const;
 
   private:
@@ -356,16 +372,6 @@ class lpsrOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
-
-    virtual S_oahValuedAtom
-                          handleAtom (
-                            ostream&  os,
-                            S_oahAtom atom);
-
-    virtual void          handleValuedAtomValue (
-                            ostream&  os,
-                            S_oahAtom atom,
-                            string    theString);
 
     void                  crackLilypondVersionNumber (
                             string theString,
