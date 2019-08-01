@@ -7412,9 +7412,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
   if (it != gLilypondOah->fResetMeasureNumberMap.end ()) {
     // yes, reset measure number
-    int newLilypondMeasureNumber = (*it).second;
+    int lilypondMeasureNumber = (*it).second;
 
-    if (to_string (newLilypondMeasureNumber) != measureNumber) {
+    if (to_string (lilypondMeasureNumber) != measureNumber) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceMeasuresNumbers) {
         fLogOutputStream <<
@@ -7422,7 +7422,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "Resetting LilyPond measure number from '" <<
           measureNumber <<
           "' to " <<
-          newLilypondMeasureNumber <<
+          lilypondMeasureNumber <<
           "', line " << inputLineNumber << " ===-->" <<
           endl;
       }
@@ -7430,7 +7430,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
       fLilypondCodeOstream <<
         "\\set Score.currentBarNumber = #" <<
-        newLilypondMeasureNumber <<
+        lilypondMeasureNumber <<
         endl;
     }
     else {
@@ -7441,7 +7441,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "Cannot reset measure LilyPond number from '" <<
           measureNumber <<
           "' to " <<
-          newLilypondMeasureNumber <<
+          lilypondMeasureNumber <<
           ": they're one and the same" <<
           "', line " << inputLineNumber << " ===-->" <<
           endl;
@@ -7449,7 +7449,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 #endif
     }
   }
-
+/* JMI
   else {
 #ifdef TRACE_OAH
    if (false && gTraceOah->fTraceMeasuresNumbers) { // JMI
@@ -7463,6 +7463,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     }
 #endif
   }
+*/
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
@@ -7885,6 +7886,44 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           endl <<
           endl;
     }
+  }
+
+  // should we add a page break?
+  set<string>::const_iterator
+    it =
+      gLilypondOah->
+        fBreakPageAfterMeasureNumberSet.find (measureNumber);
+
+  if (it != gLilypondOah->fBreakPageAfterMeasureNumberSet.end ()) {
+    // yes, generate a page break command
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePageBreaks) {
+        fLogOutputStream <<
+          endl <<
+          "Adding a LilyPond page break after measure number '" <<
+          measureNumber <<
+          "', line " << inputLineNumber << " ===-->" <<
+          endl;
+      }
+#endif
+
+      fLilypondCodeOstream <<
+        "\\pageBreak" <<
+        endl;
+  }
+
+  else {
+#ifdef TRACE_OAH
+   if (false && gTraceOah->fTracePageBreaks) { // JMI
+      fLogOutputStream <<
+        endl <<
+        "Measure number '" <<
+        measureNumber <<
+        "' not found in gLilypondOah->fBreakPageAfterMeasureNumberSet" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
   }
 }
 

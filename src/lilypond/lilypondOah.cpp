@@ -1964,6 +1964,34 @@ R"(Ignore the page breaks from the MusicXML input
 and let LilyPond decide about them.)",
         "ignorePageBreaks",
         fIgnorePageBreaks));
+
+  // break page after measure number
+
+/* JMI
+  subGroup->
+    appendAtom (
+      lilypondBreakPageAfterMeasureNumberAtom::create (
+        "bpamn", "break-page-after-measure-number",
+R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
+NUMBER is a MusicXML measure number (a string).
+This comes in handy when scanning several movements from a single PDF score.
+There can be several occurrences of this option.)",
+        "NUMBER",
+        "breakPageAfterMeasureNumberSet",
+        fBreakPageAfterMeasureNumberSet));
+        */
+
+  subGroup->
+    appendAtom (
+      oahStringsSetElementAtom::create (
+        "bpamn", "break-page-after-measure-number",
+R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
+NUMBER is a MusicXML measure number (a string).
+This comes in handy when scanning several movements from a single PDF score.
+There can be several occurrences of this option.)",
+        "NUMBER",
+        "breakPageAfterMeasureNumberSet",
+        fBreakPageAfterMeasureNumberSet));
 }
 
 void lilypondOah::initializeStavesOptions (
@@ -3859,3 +3887,234 @@ void initializeLilypondOahHandling (
 
 
 }
+
+
+/*
+//______________________________________________________________________________
+S_lilypondBreakPageAfterMeasureNumberAtom lilypondBreakPageAfterMeasureNumberAtom::create (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& fStringSetVariable)
+{
+  lilypondBreakPageAfterMeasureNumberAtom* o = new
+    lilypondBreakPageAfterMeasureNumberAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      fStringSetVariable);
+  assert(o!=0);
+  return o;
+}
+
+lilypondBreakPageAfterMeasureNumberAtom::lilypondBreakPageAfterMeasureNumberAtom (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& fStringSetVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringSetVariable (
+      fStringSetVariable)
+{}
+
+lilypondBreakPageAfterMeasureNumberAtom::~lilypondBreakPageAfterMeasureNumberAtom ()
+{}
+
+S_oahValuedAtom lilypondBreakPageAfterMeasureNumberAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the midi tempo specification
+  // decipher it to extract duration and perSecond values
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:digit:]]+\\.*)"
+    "[[:space:]]*"
+    "="
+    "[[:space:]]*"
+    "([[:digit:]]+)"
+    "[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for reset measure number string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "':" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "-BreakPageAfterMeasureNumber argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+    exit (4);
+  }
+
+  string musicXMLMeasureNumber = sm [1];
+
+  int lilypondMeasureNumber;
+  {
+    stringstream s;
+    s << sm [2];
+    s >> lilypondMeasureNumber;
+  }
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    os <<
+      "musicXMLMeasureNumber  = " <<
+      musicXMLMeasureNumber <<
+      endl <<
+      "lilypondMeasureNumber = " <<
+      lilypondMeasureNumber <<
+      endl;
+
+  fStringSetVariable [musicXMLMeasureNumber] = lilypondMeasureNumber;
+  }
+#endif
+}
+
+void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsBreakPageAfterMeasureNumberAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringSetVariable" << " : '" <<
+    endl;
+
+  if (! fStringSetVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, int>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void lilypondBreakPageAfterMeasureNumberAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringSetVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<string, int>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lilypondBreakPageAfterMeasureNumberAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+*/
+

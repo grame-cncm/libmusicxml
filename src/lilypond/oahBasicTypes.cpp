@@ -2444,6 +2444,257 @@ ostream& operator<< (ostream& os, const S_oahRationalAtom& elt)
 }
 
 //______________________________________________________________________________
+S_oahNaturalNumbersSetElementAtom oahNaturalNumbersSetElementAtom::create (
+  string    shortName,
+  string    longName,
+  string    description,
+  string    valueSpecification,
+  string    variableName,
+  set<int>& naturalNumbersSetVariable)
+{
+  oahNaturalNumbersSetElementAtom* o = new
+    oahNaturalNumbersSetElementAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      naturalNumbersSetVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahNaturalNumbersSetElementAtom::oahNaturalNumbersSetElementAtom (
+  string    shortName,
+  string    longName,
+  string    description,
+  string    valueSpecification,
+  string    variableName,
+  set<int>& naturalNumbersSetVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fNaturalNumbersSetVariable (
+      naturalNumbersSetVariable)
+{}
+
+oahNaturalNumbersSetElementAtom::~oahNaturalNumbersSetElementAtom ()
+{}
+
+S_oahValuedAtom oahNaturalNumbersSetElementAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void oahNaturalNumbersSetElementAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  // theString contains the integer value
+
+  // check whether it is well-formed
+  string regularExpression (
+    "([[:digit:]]+)");
+
+  regex e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+  if (smSize) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
+      os <<
+        "There are " << smSize << " matches" <<
+        " for integer string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      os << endl;
+    }
+#endif
+
+    // leave the low level details to the STL...
+    int integerValue;
+    {
+      stringstream s;
+      s << theString;
+      s >> integerValue;
+    }
+
+    fNaturalNumbersSetVariable.insert (integerValue);
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "integer value '" << theString <<
+      "' for option '" << fetchNames () <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+    exit (4);
+  }
+}
+
+string oahNaturalNumbersSetElementAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " <<
+    "[";
+
+  set<int>::const_iterator
+    iBegin = fNaturalNumbersSetVariable.begin (),
+    iEnd   = fNaturalNumbersSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
+
+string oahNaturalNumbersSetElementAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fLongName << " " <<
+    "[";
+
+  set<int>::const_iterator
+    iBegin = fNaturalNumbersSetVariable.begin (),
+    iEnd   = fNaturalNumbersSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
+
+void oahNaturalNumbersSetElementAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "NaturalNumbersSetElementAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fNaturalNumbersSetVariable" << " : " <<
+    endl;
+
+  if (! fNaturalNumbersSetVariable.size ()) {
+    os <<
+      "none";
+  }
+
+  else {
+    os <<
+      "'";
+
+    set<int>::const_iterator
+      iBegin = fNaturalNumbersSetVariable.begin (),
+      iEnd   = fNaturalNumbersSetVariable.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os <<
+      "'";
+  }
+
+  os << endl;
+
+  gIndenter--;
+}
+
+void oahNaturalNumbersSetElementAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fNaturalNumbersSetVariable.size ()) {
+    os <<
+      "none";
+  }
+
+  else {
+    os <<
+      "'";
+
+    set<int>::const_iterator
+      iBegin = fNaturalNumbersSetVariable.begin (),
+      iEnd   = fNaturalNumbersSetVariable.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os <<
+      "'";
+  }
+
+  os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahNaturalNumbersSetElementAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_oahNaturalNumbersSetAtom oahNaturalNumbersSetAtom::create (
   string    shortName,
   string    longName,
@@ -2645,6 +2896,204 @@ ostream& operator<< (ostream& os, const S_oahNaturalNumbersSetAtom& elt)
 }
 
 //______________________________________________________________________________
+S_oahStringsSetElementAtom oahStringsSetElementAtom::create (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringsSetVariable)
+{
+  oahStringsSetElementAtom* o = new
+    oahStringsSetElementAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringsSetVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahStringsSetElementAtom::oahStringsSetElementAtom (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringsSetVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringsSetVariable (
+      stringsSetVariable)
+{}
+
+oahStringsSetElementAtom::~oahStringsSetElementAtom ()
+{}
+
+S_oahValuedAtom oahStringsSetElementAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void oahStringsSetElementAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  fStringsSetVariable.insert (theString);
+}
+
+string oahStringsSetElementAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fShortName << " " <<
+    "[";
+
+  set<string>::const_iterator
+    iBegin = fStringsSetVariable.begin (),
+    iEnd   = fStringsSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
+
+string oahStringsSetElementAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-"  << fLongName << " " <<
+    "[";
+
+  set<string>::const_iterator
+    iBegin = fStringsSetVariable.begin (),
+    iEnd   = fStringsSetVariable.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  s <<
+    "]";
+
+  return s.str ();
+}
+
+void oahStringsSetElementAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "StringsSetElementAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringsSetVariable" << " : " <<
+    endl;
+
+  if (! fStringsSetVariable.size ()) {
+    os <<
+      "none";
+  }
+
+  else {
+    os <<
+      "'";
+
+    set<string>::const_iterator
+      iBegin = fStringsSetVariable.begin (),
+      iEnd   = fStringsSetVariable.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os <<
+      "'";
+  }
+
+  os << endl;
+
+  gIndenter--;
+}
+
+void oahStringsSetElementAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringsSetVariable.size ()) {
+    os <<
+      "none";
+  }
+
+  else {
+    os <<
+      "'";
+
+    set<string>::const_iterator
+      iBegin = fStringsSetVariable.begin (),
+      iEnd   = fStringsSetVariable.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os <<
+      "'";
+  }
+
+  os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahStringsSetElementAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_oahStringsSetAtom oahStringsSetAtom::create (
   string       shortName,
   string       longName,
@@ -2700,7 +3149,7 @@ void oahStringsSetAtom::handleValue (
   fStringsSetVariable =
     decipherStringsSetSpecification (
       theString,
-      false); // 'true' to debug it
+      true); // 'true' to debug it
 }
 
 string oahStringsSetAtom::asShortNamedOptionString () const
@@ -4934,6 +5383,15 @@ void oahHandler::printAllOahValues (
     ":" <<
     endl;
 
+  int handlerOptionsMapSize =
+    fHandlerOptionsMap.size ();
+
+  os <<
+    "There are " <<
+    handlerOptionsMapSize <<
+    " known options names" <<
+    endl;
+
   // print the options groups values
   if (fHandlerGroupsList.size ()) {
     os << endl;
@@ -5267,6 +5725,19 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
   // fetch program name
   fHandlerExecutableName = string (argv [0]);
+
+  // print the number of option names
+  int handlerOptionsMapSize =
+    fHandlerOptionsMap.size ();
+
+  fHandlerLogOstream <<
+    fHandlerExecutableName <<
+    " features " <<
+    handlerOptionsMapSize <<
+    " options names" <<
+    endl;
+
+  // print the options groups values
 
   // decipher the command options and arguments
   int n = 1;

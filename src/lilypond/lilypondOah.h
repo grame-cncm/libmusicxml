@@ -873,6 +873,8 @@ class lilypondOah : public oahGroup
 
     bool                  fIgnorePageBreaks;
 
+    set<string>           fBreakPageAfterMeasureNumberSet;
+
 
     // staves
     // --------------------------------------
@@ -1018,3 +1020,76 @@ void initializeLilypondOahHandling (
       pickTagline
       pickCopyright
     */
+
+
+/* JMI
+//______________________________________________________________________________
+class lilypondBreakPageAfterMeasureNumberAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lilypondBreakPageAfterMeasureNumberAtom> create (
+      string       shortName,
+      string       longName,
+      string       description,
+      string       valueSpecification,
+      string       variableName,
+      set<string>& S_lilypondAbsoluteOctaveEntryAtomtringSetVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lilypondBreakPageAfterMeasureNumberAtom (
+      string       shortName,
+      string       longName,
+      string       description,
+      string       valueSpecification,
+      string       variableName,
+      set<string>& fStringSetVariable);
+
+    virtual ~lilypondBreakPageAfterMeasureNumberAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const set<string>&    getStringSetVariable ()
+                              { return fStringSetVariable; }
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    set<string>&          fStringSetVariable;
+};
+typedef SMARTP<lilypondBreakPageAfterMeasureNumberAtom> S_lilypondBreakPageAfterMeasureNumberAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondBreakPageAfterMeasureNumberAtom& elt);
+*/
+

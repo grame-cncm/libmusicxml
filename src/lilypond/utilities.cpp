@@ -783,8 +783,10 @@ string consumeString (
   string::const_iterator& remainingStringIterator,
   bool                    debugMode)
 {
+  string result;
+
+/* JMI
   string::const_iterator cursor = theStringIterator;
-  string    result;
 
   while ((*cursor) != ',') {
     if (debugMode) {
@@ -797,7 +799,7 @@ string consumeString (
 
     result += (*cursor);
 
-    cursor++;
+    if (++cursor == theString.end ()) break;
   } // while
 
   remainingStringIterator = cursor;
@@ -809,6 +811,7 @@ string consumeString (
       "|" <<
       endl;
   }
+*/
 
   return result;
 }
@@ -822,6 +825,7 @@ std::set<string> decipherStringsSetSpecification (
 
   set<string> result;
 
+/* JMI
   if (debugMode) {
     gLogOstream <<
       "--> decipherStringsSetSpecification, theString = |" << theString <<
@@ -842,7 +846,7 @@ std::set<string> decipherStringsSetSpecification (
 
     string
       currentString =
-        consumeString (cursor, cursor, debugMode);
+        consumeString (cursor, theString.end (), debugMode);
 
     if (debugMode) {
       gLogOstream <<
@@ -866,7 +870,7 @@ std::set<string> decipherStringsSetSpecification (
       break;
     }
 
-    cursor++;
+    if (++cursor == theString.end ()) break;
 
     if (debugMode) {
       gLogOstream <<
@@ -884,6 +888,7 @@ std::set<string> decipherStringsSetSpecification (
       "| in numbers spec" <<
       endl << endl;
   }
+  */
 
   return result;
 }
