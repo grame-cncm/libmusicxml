@@ -118,6 +118,8 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
       fLpsrScoreOutputKindVariable) <<
     "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void lilypondScoreOutputKindAtom::printAtomOptionsValues (
@@ -528,7 +530,7 @@ S_lilypondResetMeasureNumberAtom lilypondResetMeasureNumberAtom::create (
   string            description,
   string            valueSpecification,
   string            variableName,
-  map<string, int>& lilypondResetMeasureNumberVariable)
+  map<string, int>& stringIntMapVariable)
 {
   lilypondResetMeasureNumberAtom* o = new
     lilypondResetMeasureNumberAtom (
@@ -537,7 +539,7 @@ S_lilypondResetMeasureNumberAtom lilypondResetMeasureNumberAtom::create (
       description,
       valueSpecification,
       variableName,
-      lilypondResetMeasureNumberVariable);
+      stringIntMapVariable);
   assert(o!=0);
   return o;
 }
@@ -548,7 +550,7 @@ lilypondResetMeasureNumberAtom::lilypondResetMeasureNumberAtom (
   string            description,
   string            valueSpecification,
   string            variableName,
-  map<string, int>& lilypondResetMeasureNumberVariable)
+  map<string, int>& stringIntMapVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -556,7 +558,7 @@ lilypondResetMeasureNumberAtom::lilypondResetMeasureNumberAtom (
       valueSpecification,
       variableName),
     fStringIntMapVariable (
-      lilypondResetMeasureNumberVariable)
+      stringIntMapVariable)
 {}
 
 lilypondResetMeasureNumberAtom::~lilypondResetMeasureNumberAtom ()
@@ -654,7 +656,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     os <<
-      "musicXMLMeasureNumber  = " <<
+      "musicXMLMeasureNumber = " <<
       musicXMLMeasureNumber <<
       endl <<
       "lilypondMeasureNumber = " <<
@@ -703,6 +705,8 @@ void lilypondResetMeasureNumberAtom::print (ostream& os) const
   }
 
   os << endl;
+
+  gIndenter--;
 }
 
 void lilypondResetMeasureNumberAtom::printAtomOptionsValues (
@@ -879,6 +883,8 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
       fLpsrAccidentalStyleKindVariable) <<
     "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void lilypondAccidentalStyleKindAtom::printAtomOptionsValues (
@@ -1112,6 +1118,8 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
   } // for
 
   gIndenter--;
+
+  gIndenter--;
 }
 
 void lilypondChordsDisplayAtom::printAtomOptionsValues (
@@ -1323,6 +1331,8 @@ void lilypondMidiTempoAtom::print (ostream& os) const
     fStringIntPairVariable.second <<
     "'" <<
     endl;
+
+  gIndenter--;
 }
 
 void lilypondMidiTempoAtom::printAtomOptionsValues (
@@ -1902,16 +1912,15 @@ R"()",
 
   // lines
 
-  fIgnoreLineBreaks = boolOptionsInitialValue;
+  fIgnoreMusicXMLLineBreaks = boolOptionsInitialValue;
 
   subGroup->
     appendAtom (
       oahBooleanAtom::create (
-        "ilb", "ignore-line-breaks",
-R"(Ignore the line breaks from the MusicXML input
-and let LilyPond decide about them.)",
-        "ignoreLineBreaks",
-        fIgnoreLineBreaks));
+        "imlb", "ignore-musicxml-line-breaks",
+R"(Ignore the line breaks from the MusicXML input - let LilyPond decide about them.)",
+        "ignoreMusicXMLLineBreaks",
+        fIgnoreMusicXMLLineBreaks));
 
   fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
 
@@ -1936,6 +1945,18 @@ Nothing special is done by default.)",
         "N",
         "separatorLineEveryNMeasures",
         fSeparatorLineEveryNMeasures));
+
+  subGroup->
+    appendAtom (
+      oahStringsSetElementAtom::create (
+        "blamn", "break-line-after-measure-number",
+R"(Generate a '\break' command after measure NUMBER in the LilyPond code.
+NUMBER is a MusicXML measure number (a string), to be found in the latter.
+This comes in handy when scanning several movements from a single PDF score.
+There can be several occurrences of this option.)",
+        "NUMBER",
+        "breakLineAfterMeasureNumberSet",
+        fBreakLineAfterMeasureNumberSet));
 }
 
 void lilypondOah::initializePageBreaksOptions (
@@ -1954,16 +1975,15 @@ R"()",
 
   // pages
 
-  fIgnorePageBreaks = boolOptionsInitialValue;
+  fIgnoreMusicXMLPageBreaks = boolOptionsInitialValue;
 
   subGroup->
     appendAtom (
       oahBooleanAtom::create (
-        "ipb", "ignore-page-breaks",
-R"(Ignore the page breaks from the MusicXML input
-and let LilyPond decide about them.)",
-        "ignorePageBreaks",
-        fIgnorePageBreaks));
+        "impb", "ignore-musixcml-page-breaks",
+R"(Ignore the page breaks from the MusicXML input - let LilyPond decide about them.)",
+        "ignoreMusicXMLPageBreaks",
+        fIgnoreMusicXMLPageBreaks));
 
   // break page after measure number
 
@@ -1973,7 +1993,7 @@ and let LilyPond decide about them.)",
       lilypondBreakPageAfterMeasureNumberAtom::create (
         "bpamn", "break-page-after-measure-number",
 R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
-NUMBER is a MusicXML measure number (a string).
+NUMBER is a MusicXML measure number (a string), to be found in the latter.
 This comes in handy when scanning several movements from a single PDF score.
 There can be several occurrences of this option.)",
         "NUMBER",
@@ -1986,7 +2006,7 @@ There can be several occurrences of this option.)",
       oahStringsSetElementAtom::create (
         "bpamn", "break-page-after-measure-number",
 R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
-NUMBER is a MusicXML measure number (a string).
+NUMBER is a MusicXML measure number (a string), to be found in the latter.
 This comes in handy when scanning several movements from a single PDF score.
 There can be several occurrences of this option.)",
         "NUMBER",
@@ -2706,8 +2726,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   // line breaks
   // --------------------------------------
 
-  clone->fIgnoreLineBreaks =
-    fIgnoreLineBreaks;
+  clone->fIgnoreMusicXMLLineBreaks =
+    fIgnoreMusicXMLLineBreaks;
 
   clone->fBreakLinesAtIncompleteRightMeasures =
     fBreakLinesAtIncompleteRightMeasures;
@@ -2719,8 +2739,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   // page breaks
   // --------------------------------------
 
-  clone->fIgnorePageBreaks =
-    fIgnorePageBreaks;
+  clone->fIgnoreMusicXMLPageBreaks =
+    fIgnoreMusicXMLPageBreaks;
 
 
   // staves
@@ -3115,8 +3135,8 @@ void lilypondOah::printAtomOptionsValues (
   gIndenter++;
 
   os << left <<
-    setw (valueFieldWidth) << "ignoreLineBreaks" << " : " <<
-      booleanAsString (fIgnoreLineBreaks) <<
+    setw (valueFieldWidth) << "ignoreMusicXMLLineBreaks" << " : " <<
+      booleanAsString (fIgnoreMusicXMLLineBreaks) <<
       endl <<
 
     setw (valueFieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
@@ -3139,8 +3159,8 @@ void lilypondOah::printAtomOptionsValues (
   gIndenter++;
 
   os << left <<
-    setw (valueFieldWidth) << "ignorePageBreaks" << " : " <<
-    booleanAsString (fIgnorePageBreaks) <<
+    setw (valueFieldWidth) << "ignoreMusicXMLPageBreaks" << " : " <<
+    booleanAsString (fIgnoreMusicXMLPageBreaks) <<
     endl;
 
   gIndenter--;
@@ -3396,6 +3416,8 @@ void lilypondOah::printAtomOptionsValues (
       endl;
 
   gIndenter--;
+
+  gIndenter--;
 }
 
 void lilypondOah::printLilypondOahValues (int fieldWidth)
@@ -3599,8 +3621,8 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
-      booleanAsString (fIgnoreLineBreaks) <<
+    setw (fieldWidth) << "ignoreMusicXMLLineBreaks" << " : " <<
+      booleanAsString (fIgnoreMusicXMLLineBreaks) <<
       endl <<
 
     setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
@@ -3623,8 +3645,8 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "ignorePageBreaks" << " : " <<
-    booleanAsString (fIgnorePageBreaks) <<
+    setw (fieldWidth) << "ignoreMusicXMLPageBreaks" << " : " <<
+    booleanAsString (fIgnoreMusicXMLPageBreaks) <<
     endl;
 
   gIndenter--;
@@ -4072,6 +4094,8 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
   }
 
   os << endl;
+
+  gIndenter--;
 }
 
 void lilypondBreakPageAfterMeasureNumberAtom::printAtomOptionsValues (

@@ -292,7 +292,7 @@ R"(
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOah->fIgnoreLineBreaks
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
           ? lpsrVarValAssoc::kCommentedYes
           : lpsrVarValAssoc::kCommentedNo;
 
@@ -316,7 +316,7 @@ R"(
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOah->fIgnoreLineBreaks
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
           ? lpsrVarValAssoc::kCommentedNo
           : lpsrVarValAssoc::kCommentedYes;
 
@@ -340,7 +340,7 @@ R"(
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOah->fIgnoreLineBreaks
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
           ? lpsrVarValAssoc::kCommentedYes
           : lpsrVarValAssoc::kCommentedNo;
 
@@ -364,7 +364,7 @@ R"(
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOah->fIgnoreLineBreaks
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
           ? lpsrVarValAssoc::kCommentedNo
           : lpsrVarValAssoc::kCommentedYes;
 

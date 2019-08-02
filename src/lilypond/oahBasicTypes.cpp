@@ -6221,16 +6221,6 @@ void oahHandler::handleAtomName (
 void oahHandler::handleOptionName (
   string name)
 {
-#ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
-    fHandlerLogOstream <<
-      "==> handleOptionName (), name = \"" <<
-      name <<
-      "\"" <<
-      endl;
-  }
-#endif
-
   // is name known in options map?
   S_oahOption
     option =
@@ -6255,7 +6245,8 @@ void oahHandler::handleOptionName (
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
     fHandlerLogOstream <<
-      "==> handleOptionName (), name = \"" <<
+      endl <<
+      "==> oahHandler::handleOptionName (), name = \"" <<
       name <<
       "\" is described by option:" <<
       endl;

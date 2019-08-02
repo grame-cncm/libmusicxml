@@ -319,7 +319,7 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
       string            description,
       string            valueSpecification,
       string            variableName,
-      map<string, int>& lilypondResetMeasureNumberVariable);
+      map<string, int>& stringIntMapVariable);
 
   protected:
 
@@ -332,7 +332,7 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
       string            description,
       string            valueSpecification,
       string            variableName,
-      map<string, int>& lilypondResetMeasureNumberVariable);
+      map<string, int>& stringIntMapVariable);
 
     virtual ~lilypondResetMeasureNumberAtom ();
 
@@ -861,17 +861,18 @@ class lilypondOah : public oahGroup
     // line breaks
     // --------------------------------------
 
-    bool                  fIgnoreLineBreaks;
+    bool                  fIgnoreMusicXMLLineBreaks;
 
     bool                  fBreakLinesAtIncompleteRightMeasures;
 
     int                   fSeparatorLineEveryNMeasures;
 
+    set<string>           fBreakLineAfterMeasureNumberSet;
 
     // page breaks
     // --------------------------------------
 
-    bool                  fIgnorePageBreaks;
+    bool                  fIgnoreMusicXMLPageBreaks;
 
     set<string>           fBreakPageAfterMeasureNumberSet;
 

@@ -7385,7 +7385,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasurePuristNumber ();
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (gLpsrOah->fTraceLpsrVisitors || gTraceOah->fTraceMeasuresNumbers) { // JMI
     fLilypondCodeOstream <<
       "% --> Start visiting msrMeasure '" <<
       measureNumber <<
@@ -7672,7 +7672,7 @@ else
             endl;
     */
 
-          // should we generate a break?
+          // should we generate a line break?
           if (gLilypondOah->fBreakLinesAtIncompleteRightMeasures) {
             fLilypondCodeOstream <<
               "\\break" <<
@@ -7888,42 +7888,88 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     }
   }
 
-  // should we add a page break?
-  set<string>::const_iterator
-    it =
-      gLilypondOah->
-        fBreakPageAfterMeasureNumberSet.find (measureNumber);
+  // should we generate a line break?
+  {
+    set<string>::const_iterator
+      it =
+        gLilypondOah->
+          fBreakLineAfterMeasureNumberSet.find (measureNumber);
 
-  if (it != gLilypondOah->fBreakPageAfterMeasureNumberSet.end ()) {
-    // yes, generate a page break command
-#ifdef TRACE_OAH
-      if (gTraceOah->fTracePageBreaks) {
+    if (it != gLilypondOah->fBreakLineAfterMeasureNumberSet.end ()) {
+      // yes, generate a line break command
+  #ifdef TRACE_OAH
+        if (gTraceOah->fTraceLineBreaks) {
+          fLogOutputStream <<
+            endl <<
+            "Adding a LilyPond line break after measure number '" <<
+            measureNumber <<
+            "', line " << inputLineNumber << " ===-->" <<
+            endl;
+        }
+  #endif
+
+        fLilypondCodeOstream <<
+          "\\break" <<
+          endl;
+    }
+
+  /* JMI
+    else {
+  #ifdef TRACE_OAH
+     if (gTraceOah->fTraceLineBreaks) { // JMI
         fLogOutputStream <<
           endl <<
-          "Adding a LilyPond page break after measure number '" <<
+          "Measure number '" <<
           measureNumber <<
-          "', line " << inputLineNumber << " ===-->" <<
+          "' not found in gLilypondOah->fBreakLineAfterMeasureNumberSet" <<
+          ", line " << inputLineNumber <<
           endl;
       }
-#endif
-
-      fLilypondCodeOstream <<
-        "\\pageBreak" <<
-        endl;
+  #endif
+    }
+    */
   }
 
-  else {
-#ifdef TRACE_OAH
-   if (false && gTraceOah->fTracePageBreaks) { // JMI
-      fLogOutputStream <<
-        endl <<
-        "Measure number '" <<
-        measureNumber <<
-        "' not found in gLilypondOah->fBreakPageAfterMeasureNumberSet" <<
-        ", line " << inputLineNumber <<
-        endl;
+  // should we generate a page break?
+  {
+    set<string>::const_iterator
+      it =
+        gLilypondOah->
+          fBreakPageAfterMeasureNumberSet.find (measureNumber);
+
+    if (it != gLilypondOah->fBreakPageAfterMeasureNumberSet.end ()) {
+      // yes, generate a page break command
+  #ifdef TRACE_OAH
+        if (gTraceOah->fTracePageBreaks) {
+          fLogOutputStream <<
+            endl <<
+            "Adding a LilyPond page break after measure number '" <<
+            measureNumber <<
+            "', line " << inputLineNumber << " ===-->" <<
+            endl;
+        }
+  #endif
+
+        fLilypondCodeOstream <<
+          "\\pageBreak" <<
+          endl;
     }
-#endif
+
+  /* JMI
+    else {
+  #ifdef TRACE_OAH
+     if (gTraceOah->fTracePageBreaks) { // JMI
+        fLogOutputStream <<
+          endl <<
+          "Measure number '" <<
+          measureNumber <<
+          "' not found in gLilypondOah->fBreakPageAfterMeasureNumberSet" <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+  #endif
+    }
+ */
   }
 }
 
