@@ -1888,6 +1888,70 @@ void traceOah::checkOptionsConsistency ()
 }
 
 //______________________________________________________________________________
+void traceOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> traceOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_traceOah>*
+    p =
+      dynamic_cast<visitor<S_traceOah>*> (v)) {
+        S_traceOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching traceOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void traceOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> traceOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_traceOah>*
+    p =
+      dynamic_cast<visitor<S_traceOah>*> (v)) {
+        S_traceOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching traceOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void traceOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> traceOah::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+//______________________________________________________________________________
 void traceOah::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const

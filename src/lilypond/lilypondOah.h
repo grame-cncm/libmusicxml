@@ -61,6 +61,8 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
                             lpsrScoreOutputKind value)
                               {  fLpsrScoreOutputKindVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -135,6 +137,8 @@ class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -151,6 +155,8 @@ class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -215,6 +221,8 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
                                 fMsrSemiTonesPitchAndOctaveVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -235,6 +243,8 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -302,6 +312,8 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
                                 fMsrSemiTonesPitchAndOctaveVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -322,6 +334,8 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -385,6 +399,8 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
                           getStringIntMapVariable ()
                               { return fStringIntMapVariable; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -405,6 +421,8 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -469,6 +487,8 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
                                 fLpsrAccidentalStyleKindVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -489,6 +509,8 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -558,6 +580,8 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
                           getStringsPairListVariable ()
                               { return fStringsPairListVariable; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -578,6 +602,8 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -643,6 +669,8 @@ class lilypondMidiTempoAtom : public oahValuedAtom
                           getStringIntPairVariable ()
                               { return fStringIntPairVariable; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -663,6 +691,8 @@ class lilypondMidiTempoAtom : public oahValuedAtom
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------

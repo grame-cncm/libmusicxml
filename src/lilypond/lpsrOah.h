@@ -62,6 +62,8 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
                             lpsrScoreOutputKind value)
                               { fLpsrScoreOutputKindVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -72,6 +74,18 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -136,6 +150,8 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
                                 fMsrQuarterTonesPitchesLanguageKindVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -146,6 +162,18 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -211,6 +239,8 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
                                 fLpsrChordsLanguageKindVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -221,6 +251,18 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -286,6 +328,8 @@ class lpsrTransposeAtom : public oahValuedAtom
                                 fMsrSemiTonesPitchAndOctaveVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -296,6 +340,18 @@ class lpsrTransposeAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -409,6 +465,16 @@ class lpsrOah : public oahGroup
 
     void                  initializeLpsrExitAfterSomePassesOptions (
                             bool boolOptionsInitialValue);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 

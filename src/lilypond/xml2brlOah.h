@@ -50,8 +50,22 @@ class xml2brlOahVersionAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -102,8 +116,22 @@ class xml2brlOahAboutAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -154,8 +182,22 @@ class xml2brlOahContactAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -221,6 +263,18 @@ class EXP xml2brlOahHandler : public oahHandler
 
     void                  checkOptionsAndArguments ();
 
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
     // print
     // ------------------------------------------------------
 
@@ -280,6 +334,16 @@ class xml2brlOah : public oahGroup
 
   public:
 
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
     // print
     // ------------------------------------------------------
 
@@ -292,14 +356,11 @@ class xml2brlOah : public oahGroup
     // input
     // --------------------------------------
 
-
     // output file
     // --------------------------------------
 
     string                fOutputFileName;
     bool                  fAutoOutputFile;
-
-
 };
 typedef SMARTP<xml2brlOah> S_xml2brlOah;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOah& elt);

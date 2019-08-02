@@ -315,6 +315,70 @@ void executableOah::checkOptionsConsistency ()
 }
 
 //______________________________________________________________________________
+void executableOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> executableOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_executableOah>*
+    p =
+      dynamic_cast<visitor<S_executableOah>*> (v)) {
+        S_executableOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching executableOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void executableOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> executableOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_executableOah>*
+    p =
+      dynamic_cast<visitor<S_executableOah>*> (v)) {
+        S_executableOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching executableOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void executableOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> executableOah::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+//______________________________________________________________________________
 void executableOah::printExecutableOahValues (int valueFieldWidth)
 {
   gLogOstream <<

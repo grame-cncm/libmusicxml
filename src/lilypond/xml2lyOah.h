@@ -50,8 +50,20 @@ class xml2lyOahVersionAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -102,8 +114,20 @@ class xml2lyOahAboutAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -154,8 +178,20 @@ class xml2lyOahContactAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -221,6 +257,18 @@ class EXP xml2lyOahHandler : public oahHandler
 
     void                  checkOptionsAndArguments ();
 
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
     // print
     // ------------------------------------------------------
 
@@ -277,6 +325,16 @@ class xml2lyOah : public oahGroup
 
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 

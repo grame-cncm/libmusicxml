@@ -141,6 +141,69 @@ void lpsrScoreOutputKindAtom::handleValue (
     (*it).second);
 }
 
+void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrScoreOutputKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrScoreOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrScoreOutputKindAtom>*> (v)) {
+        S_lpsrScoreOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrScoreOutputKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrScoreOutputKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrScoreOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrScoreOutputKindAtom>*> (v)) {
+        S_lpsrScoreOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrScoreOutputKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrScoreOutputKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrScoreOutputKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lpsrScoreOutputKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -297,6 +360,69 @@ void lpsrPitchesLanguageAtom::handleValue (
     (*it).second);
 }
 
+void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrPitchesLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrPitchesLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrPitchesLanguageAtom>*> (v)) {
+        S_lpsrPitchesLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrPitchesLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrPitchesLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrPitchesLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrPitchesLanguageAtom>*> (v)) {
+        S_lpsrPitchesLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrPitchesLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrPitchesLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrPitchesLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lpsrPitchesLanguageAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -449,6 +575,69 @@ void lpsrChordsLanguageAtom::handleValue (
     (*it).second);
 }
 
+void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrChordsLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrChordsLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrChordsLanguageAtom>*> (v)) {
+        S_lpsrChordsLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrChordsLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrChordsLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrChordsLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrChordsLanguageAtom>*> (v)) {
+        S_lpsrChordsLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrChordsLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrChordsLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrChordsLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lpsrChordsLanguageAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -578,6 +767,69 @@ void lpsrTransposeAtom::handleValue (
   // set the transpose atom variable value
   setMsrSemiTonesPitchAndOctaveVariable (
     semiTonesPitchAndOctave);
+}
+
+void lpsrTransposeAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrTransposeAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrTransposeAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrTransposeAtom>*> (v)) {
+        S_lpsrTransposeAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrTransposeAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrTransposeAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrTransposeAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrTransposeAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrTransposeAtom>*> (v)) {
+        S_lpsrTransposeAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrTransposeAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrTransposeAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrTransposeAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 void lpsrTransposeAtom::print (ostream& os) const
@@ -1242,6 +1494,70 @@ void lpsrOah::enforceQuietness ()
 void lpsrOah::checkOptionsConsistency ()
 {
   // JMI
+}
+
+//______________________________________________________________________________
+void lpsrOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrOah>*
+    p =
+      dynamic_cast<visitor<S_lpsrOah>*> (v)) {
+        S_lpsrOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrOah>*
+    p =
+      dynamic_cast<visitor<S_lpsrOah>*> (v)) {
+        S_lpsrOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lpsrOah::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 //______________________________________________________________________________

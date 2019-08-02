@@ -70,6 +70,69 @@ xml2lyOahVersionAtom::xml2lyOahVersionAtom (
 xml2lyOahVersionAtom::~xml2lyOahVersionAtom ()
 {}
 
+void xml2lyOahVersionAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahVersionAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahVersionAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahVersionAtom>*> (v)) {
+        S_xml2lyOahVersionAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahVersionAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void xml2lyOahVersionAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahVersionAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahVersionAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahVersionAtom>*> (v)) {
+        S_xml2lyOahVersionAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahVersionAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void xml2lyOahVersionAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahVersionAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void xml2lyOahVersionAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -146,6 +209,69 @@ xml2lyOahAboutAtom::xml2lyOahAboutAtom (
 
 xml2lyOahAboutAtom::~xml2lyOahAboutAtom ()
 {}
+
+void xml2lyOahAboutAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahAboutAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahAboutAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahAboutAtom>*> (v)) {
+        S_xml2lyOahAboutAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahAboutAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void xml2lyOahAboutAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahAboutAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahAboutAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahAboutAtom>*> (v)) {
+        S_xml2lyOahAboutAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahAboutAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void xml2lyOahAboutAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahAboutAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
 
 void xml2lyOahAboutAtom::print (ostream& os) const
 {
@@ -236,6 +362,69 @@ xml2lyOahContactAtom::xml2lyOahContactAtom (
 
 xml2lyOahContactAtom::~xml2lyOahContactAtom ()
 {}
+
+void xml2lyOahContactAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahContactAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahContactAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahContactAtom>*> (v)) {
+        S_xml2lyOahContactAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahContactAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void xml2lyOahContactAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahContactAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahContactAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahContactAtom>*> (v)) {
+        S_xml2lyOahContactAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahContactAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void xml2lyOahContactAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahContactAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
 
 void xml2lyOahContactAtom::print (ostream& os) const
 {
@@ -662,6 +851,134 @@ void xml2lyOah::checkOptionsConsistency ()
   gXml2lyOah->
     checkOptionsConsistency ();
     */
+}
+
+//______________________________________________________________________________
+void xml2lyOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOah>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOah>*> (v)) {
+        S_xml2lyOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void xml2lyOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOah>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOah>*> (v)) {
+        S_xml2lyOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void xml2lyOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOah::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+//______________________________________________________________________________
+void xml2lyOahHandler::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahHandler::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahHandler>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahHandler>*> (v)) {
+        S_xml2lyOahHandler elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahHandler::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void xml2lyOahHandler::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahHandler::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2lyOahHandler>*
+    p =
+      dynamic_cast<visitor<S_xml2lyOahHandler>*> (v)) {
+        S_xml2lyOahHandler elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching xml2lyOahHandler::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void xml2lyOahHandler::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> xml2lyOahHandler::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 //______________________________________________________________________________

@@ -186,6 +186,69 @@ void msrRenamePartAtom::handleValue (
   }
 }
 
+void msrRenamePartAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrRenamePartAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrRenamePartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrRenamePartAtom>*> (v)) {
+        S_msrRenamePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrRenamePartAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrRenamePartAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrRenamePartAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrRenamePartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrRenamePartAtom>*> (v)) {
+        S_msrRenamePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrRenamePartAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrRenamePartAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrRenamePartAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void msrRenamePartAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -418,6 +481,69 @@ void msrTransposePartAtom::handleValue (
   }
 }
 
+void msrTransposePartAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrTransposePartAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrTransposePartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrTransposePartAtom>*> (v)) {
+        S_msrTransposePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrTransposePartAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrTransposePartAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrTransposePartAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrTransposePartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrTransposePartAtom>*> (v)) {
+        S_msrTransposePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrTransposePartAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrTransposePartAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrTransposePartAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void msrTransposePartAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -607,6 +733,69 @@ void msrPitchesLanguageAtom::handleValue (
 
   setMsrQuarterTonesPitchesLanguageKindVariable (
     (*it).second);
+}
+
+void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrPitchesLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrPitchesLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_msrPitchesLanguageAtom>*> (v)) {
+        S_msrPitchesLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrPitchesLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrPitchesLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrPitchesLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_msrPitchesLanguageAtom>*> (v)) {
+        S_msrPitchesLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrPitchesLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrPitchesLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrPitchesLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 void msrPitchesLanguageAtom::print (ostream& os) const
@@ -1474,6 +1663,70 @@ void msrOah::enforceQuietness ()
 void msrOah::checkOptionsConsistency ()
 {
   // JMI
+}
+
+//______________________________________________________________________________
+void msrOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrOah>*
+    p =
+      dynamic_cast<visitor<S_msrOah>*> (v)) {
+        S_msrOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrOah>*
+    p =
+      dynamic_cast<visitor<S_msrOah>*> (v)) {
+        S_msrOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrOah::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 //______________________________________________________________________________

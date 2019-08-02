@@ -136,6 +136,16 @@ class traceOah : public oahGroup
 
   public:
 
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
     // print
     // ------------------------------------------------------
 

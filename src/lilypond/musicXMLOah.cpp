@@ -407,6 +407,70 @@ void musicXMLOah::checkOptionsConsistency ()
 }
 
 //______________________________________________________________________________
+void musicXMLOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> musicXMLOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_musicXMLOah>*
+    p =
+      dynamic_cast<visitor<S_musicXMLOah>*> (v)) {
+        S_musicXMLOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching musicXMLOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void musicXMLOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> musicXMLOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_musicXMLOah>*
+    p =
+      dynamic_cast<visitor<S_musicXMLOah>*> (v)) {
+        S_musicXMLOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching musicXMLOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void musicXMLOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> musicXMLOah::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+//______________________________________________________________________________
 void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
 {
   gLogOstream <<

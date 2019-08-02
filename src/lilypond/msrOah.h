@@ -61,6 +61,8 @@ class msrRenamePartAtom : public oahValuedAtom
                           getStringStringMapVariable ()
                               { return fStringStringMapVariable; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -71,6 +73,18 @@ class msrRenamePartAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -147,6 +161,8 @@ class msrTransposePartAtom : public oahValuedAtom
                                   fStringMsrSemiTonesPitchAndOctaveVariable;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -157,6 +173,18 @@ class msrTransposePartAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -222,6 +250,8 @@ class msrPitchesLanguageAtom : public oahValuedAtom
                                 fMsrQuarterTonesPitchesLanguageKindVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -232,6 +262,18 @@ class msrPitchesLanguageAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -348,6 +390,16 @@ class msrOah : public oahGroup
 
     void                  initializeMsrExitAfterSomePassesOptions (
                             bool boolOptionsInitialValue);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 
