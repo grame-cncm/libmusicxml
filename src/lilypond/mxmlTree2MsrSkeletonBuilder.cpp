@@ -1938,7 +1938,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
     if (! gMusicXMLOah->fNoCubase) {
       // set the '-cubase' option
-      S_oahOption
+      S_oahElement
         cubaseOption =
           gMusicXMLOah->
             getHandlerUpLink ()->

@@ -696,7 +696,7 @@ msrOah::~msrOah ()
 void msrOah::initializeMsrTraceOah (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup traceSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Trace",
       "hmsrt", "help-msr-trace",
@@ -704,13 +704,13 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (traceSubGroup);
+  appendSubGroup (subGroup);
 
   // MSR
 
   fTraceMsr          = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tmsr", "trace-msr",
@@ -722,7 +722,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   fTraceMsrVisitors  = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tmsrv", "trace-msr-visitors",

@@ -72,7 +72,7 @@ void musicXMLOah::initializeMusicXMLTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    traceSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Trace",
         "hmxmlt", "help-musicxml-trace",
@@ -80,13 +80,13 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (traceSubGroup);
+  appendSubGroup (subGroup);
 
   // encoding
 
   fTraceEncoding = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahTwoBooleansAtom::create (
         "tenc", "trace-encoding",
@@ -99,7 +99,7 @@ R"(Encoding)",
 
   fTraceDivisions = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahTwoBooleansAtom::create (
         "tdivs", "trace-divisions",
@@ -112,7 +112,7 @@ R"(Divisions)",
 
   fTraceBackup = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahTwoBooleansAtom::create (
         "tbackup", "trace-backup",
@@ -125,7 +125,7 @@ R"(Backup)",
 
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tmxmltv", "trace-musicxml-tree-visitors",

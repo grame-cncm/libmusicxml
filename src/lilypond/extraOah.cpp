@@ -74,6 +74,69 @@ S_oahValuedAtom extraShowAllChordsStructuresAtom::handleOptionUnderName (
   return nullptr;
 }
 
+void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowAllChordsStructuresAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowAllChordsStructuresAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowAllChordsStructuresAtom>*> (v)) {
+        S_extraShowAllChordsStructuresAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowAllChordsStructuresAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowAllChordsStructuresAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowAllChordsStructuresAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowAllChordsStructuresAtom>*> (v)) {
+        S_extraShowAllChordsStructuresAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowAllChordsStructuresAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void extraShowAllChordsStructuresAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowAllChordsStructuresAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void extraShowAllChordsStructuresAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -84,7 +147,7 @@ void extraShowAllChordsStructuresAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -268,6 +331,69 @@ void extraShowAllChordsContentsAtom::handleValue (
   exit (23);
 }
 
+void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowAllChordsContentsAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowAllChordsContentsAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowAllChordsContentsAtom>*> (v)) {
+        S_extraShowAllChordsContentsAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowAllChordsContentsAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowAllChordsContentsAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowAllChordsContentsAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowAllChordsContentsAtom>*> (v)) {
+        S_extraShowAllChordsContentsAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowAllChordsContentsAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void extraShowAllChordsContentsAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowAllChordsContentsAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void extraShowAllChordsContentsAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -278,7 +404,7 @@ void extraShowAllChordsContentsAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -536,6 +662,69 @@ void extraShowChordDetailsAtom::handleValue (
   exit (23);
 }
 
+void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowChordDetailsAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowChordDetailsAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowChordDetailsAtom>*> (v)) {
+        S_extraShowChordDetailsAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowChordDetailsAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowChordDetailsAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowChordDetailsAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowChordDetailsAtom>*> (v)) {
+        S_extraShowChordDetailsAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowChordDetailsAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void extraShowChordDetailsAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowChordDetailsAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void extraShowChordDetailsAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -546,7 +735,7 @@ void extraShowChordDetailsAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -826,6 +1015,69 @@ void extraShowChordAnalysisAtom::handleValue (
   exit (23);
 }
 
+void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowChordAnalysisAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowChordAnalysisAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowChordAnalysisAtom>*> (v)) {
+        S_extraShowChordAnalysisAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowChordAnalysisAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowChordAnalysisAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraShowChordAnalysisAtom>*
+    p =
+      dynamic_cast<visitor<S_extraShowChordAnalysisAtom>*> (v)) {
+        S_extraShowChordAnalysisAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraShowChordAnalysisAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void extraShowChordAnalysisAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraShowChordAnalysisAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void extraShowChordAnalysisAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -836,7 +1088,7 @@ void extraShowChordAnalysisAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -1090,6 +1342,70 @@ void extraOah::enforceQuietness ()
 void extraOah::checkOptionsConsistency ()
 {
   // JMI
+}
+
+//______________________________________________________________________________
+void extraOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraOah>*
+    p =
+      dynamic_cast<visitor<S_extraOah>*> (v)) {
+        S_extraOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void extraOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_extraOah>*
+    p =
+      dynamic_cast<visitor<S_extraOah>*> (v)) {
+        S_extraOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching extraOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void extraOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> extraOah::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 //______________________________________________________________________________

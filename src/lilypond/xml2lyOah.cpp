@@ -80,7 +80,7 @@ void xml2lyOahVersionAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -157,7 +157,7 @@ void xml2lyOahAboutAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -247,7 +247,7 @@ void xml2lyOahContactAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;

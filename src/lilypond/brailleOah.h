@@ -59,12 +59,26 @@ class brailleUTFKindAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -127,6 +141,16 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -203,6 +227,16 @@ class brailleOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   private:
 

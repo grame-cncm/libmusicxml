@@ -2646,6 +2646,9 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
     case msrTempo::k_NoTempoKind:
       break;
 
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      break;
+
     case msrTempo::kTempoBeatUnitsPerMinute:
       break;
 

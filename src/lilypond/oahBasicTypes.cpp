@@ -42,7 +42,7 @@ Basics:
   - options handling is organized as a hierarchical, instrospective set of classes.
     Options and their corresponding help are grouped in a single object.
 
-  - oahOption is the super-class of all options types, including groups and subgroups.
+  - oahElement is the super-class of all options types, including groups and subgroups.
     It contains a short name and a long name, as well as a decription.
     Short and long names can be used and mixed at will in the command line,
     as well as '-' and '--'.
@@ -96,7 +96,7 @@ Handling:
   - contracted forms are expanded in handleOptionName() before the resulting,
     uncontracted options are handled.
 
-  - handleOptionName() fetches the oahOption corresponding to the name from the map,
+  - handleOptionName() fetches the oahElement corresponding to the name from the map,
     determines the type of the latter,
     and delegates the handling to the corresponding object.
 
@@ -119,7 +119,7 @@ Handling:
 
 //______________________________________________________________________________
 string optionVisibilityKindAsString (
-  oahOptionVisibilityKind optionVisibilityKind)
+  oahElementVisibilityKind optionVisibilityKind)
 {
   string result;
 
@@ -137,14 +137,14 @@ string optionVisibilityKindAsString (
 }
 
 //______________________________________________________________________________
-S_oahOption oahOption::create (
+S_oahElement oahElement::create (
   string                  shortName,
   string                  longName,
   string                  description,
-  oahOptionVisibilityKind optionVisibilityKind)
+  oahElementVisibilityKind optionVisibilityKind)
 {
-  oahOption* o = new
-    oahOption (
+  oahElement* o = new
+    oahElement (
       shortName,
       longName,
       description,
@@ -153,28 +153,28 @@ S_oahOption oahOption::create (
   return o;
 }
 
-oahOption::oahOption (
+oahElement::oahElement (
   string                  shortName,
   string                  longName,
   string                  description,
-  oahOptionVisibilityKind optionVisibilityKind)
+  oahElementVisibilityKind optionVisibilityKind)
 {
   fShortName   = shortName;
   fLongName    = longName;
   fDescription = description;
 
-  fOptionVisibilityKind = optionVisibilityKind;
+  fElementVisibilityKind = optionVisibilityKind;
 
   fIsHidden    = false;
 }
 
-oahOption::~oahOption ()
+oahElement::~oahElement ()
 {}
 
-S_oahOption oahOption::fetchOptionByName (
+S_oahElement oahElement::fetchOptionByName (
   string name)
 {
-  S_oahOption result;
+  S_oahElement result;
 
   if (
     name == fShortName
@@ -186,7 +186,7 @@ S_oahOption oahOption::fetchOptionByName (
   return result;
 }
 
-string oahOption::fetchNames () const
+string oahElement::fetchNames () const
 {
   stringstream s;
 
@@ -215,7 +215,7 @@ string oahOption::fetchNames () const
   return s.str ();
 }
 
-string oahOption::fetchNamesInColumns (
+string oahElement::fetchNamesInColumns (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
@@ -247,7 +247,7 @@ string oahOption::fetchNamesInColumns (
   return s.str ();
 }
 
-string oahOption::fetchNamesBetweenParentheses () const
+string oahElement::fetchNamesBetweenParentheses () const
 {
   stringstream s;
 
@@ -259,7 +259,7 @@ string oahOption::fetchNamesBetweenParentheses () const
   return s.str ();
 }
 
-string oahOption::fetchNamesInColumnsBetweenParentheses (
+string oahElement::fetchNamesInColumnsBetweenParentheses (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
@@ -273,7 +273,7 @@ string oahOption::fetchNamesInColumnsBetweenParentheses (
   return s.str ();
 }
 
-S_oahValuedAtom oahOption::handleOptionUnderName (
+S_oahValuedAtom oahElement::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
@@ -295,17 +295,80 @@ S_oahValuedAtom oahOption::handleOptionUnderName (
   return nullptr;
 }
 
-string oahOption::asShortNamedOptionString () const
+void oahElement::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahElement::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahElement>*
+    p =
+      dynamic_cast<visitor<S_oahElement>*> (v)) {
+        S_oahElement elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahElement::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahElement::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahElement::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahElement>*
+    p =
+      dynamic_cast<visitor<S_oahElement>*> (v)) {
+        S_oahElement elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahElement::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahElement::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahElement::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahElement::asShortNamedOptionString () const
 {
   return "-" + fShortName;
 }
 
-string oahOption::asLongNamedOptionString () const
+string oahElement::asLongNamedOptionString () const
 {
   return "-" + fLongName;
 }
 
-string oahOption::asString () const
+string oahElement::asString () const
 {
   stringstream s;
 
@@ -315,7 +378,7 @@ string oahOption::asString () const
   return s.str ();
 }
 
-void oahOption::printOptionHeader (ostream& os) const
+void oahElement::printOptionHeader (ostream& os) const
 {
   os <<
     "-" << fShortName <<
@@ -336,7 +399,7 @@ void oahOption::printOptionHeader (ostream& os) const
   }
 }
 
-void oahOption::printOptionEssentials (
+void oahElement::printOptionEssentials (
   ostream& os,
   int      fieldWidth) const
 {
@@ -360,16 +423,16 @@ void oahOption::printOptionEssentials (
     endl;
 }
 
-void oahOption::print (ostream& os) const
+void oahElement::print (ostream& os) const
 {
   os <<
-    "??? oahOption ???" <<
+    "??? oahElement ???" <<
     endl;
 
   printOptionEssentials (os, 40); // JMI
 }
 
-void oahOption::printHelp (ostream& os)
+void oahElement::printHelp (ostream& os)
 {
   os <<
     fetchNames () <<
@@ -391,7 +454,7 @@ void oahOption::printHelp (ostream& os)
 //  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
-ostream& operator<< (ostream& os, const S_oahOption& elt)
+ostream& operator<< (ostream& os, const S_oahElement& elt)
 {
   elt->print (os);
   return os;
@@ -416,7 +479,7 @@ oahAtom::oahAtom (
   string shortName,
   string longName,
   string description)
-  : oahOption (
+  : oahElement (
       shortName,
       longName,
       description,
@@ -457,7 +520,7 @@ void oahAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter--;
@@ -516,6 +579,69 @@ oahAtomSynonym::oahAtomSynonym (
 oahAtomSynonym::~oahAtomSynonym ()
 {}
 
+void oahAtomSynonym::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahAtomSynonym::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomSynonym>*
+    p =
+      dynamic_cast<visitor<S_oahAtomSynonym>*> (v)) {
+        S_oahAtomSynonym elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahAtomSynonym::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahAtomSynonym::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahAtomSynonym::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomSynonym>*
+    p =
+      dynamic_cast<visitor<S_oahAtomSynonym>*> (v)) {
+        S_oahAtomSynonym elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahAtomSynonym::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahAtomSynonym::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahAtomSynonym::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahAtomSynonym::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -526,7 +652,7 @@ void oahAtomSynonym::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -624,6 +750,69 @@ provided atom values immediately follow the corresponding atoms.)") <<
   return nullptr;
 }
 
+void oahOptionsUsageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionsUsageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionsUsageAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionsUsageAtom>*> (v)) {
+        S_oahOptionsUsageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionsUsageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahOptionsUsageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionsUsageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionsUsageAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionsUsageAtom>*> (v)) {
+        S_oahOptionsUsageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionsUsageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahOptionsUsageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionsUsageAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahOptionsUsageAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -634,7 +823,7 @@ void oahOptionsUsageAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -738,6 +927,69 @@ S_oahValuedAtom oahOptionsSummaryAtom::handleOptionUnderName (
   return nullptr;
 }
 
+void oahOptionsSummaryAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionsSummaryAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionsSummaryAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionsSummaryAtom>*> (v)) {
+        S_oahOptionsSummaryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionsSummaryAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahOptionsSummaryAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionsSummaryAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionsSummaryAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionsSummaryAtom>*> (v)) {
+        S_oahOptionsSummaryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionsSummaryAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahOptionsSummaryAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionsSummaryAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahOptionsSummaryAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -748,7 +1000,7 @@ void oahOptionsSummaryAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -814,6 +1066,69 @@ oahAtomWithVariableName::oahAtomWithVariableName (
 oahAtomWithVariableName::~oahAtomWithVariableName ()
 {}
 
+void oahAtomWithVariableName::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahAtomWithVariableName::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomWithVariableName>*
+    p =
+      dynamic_cast<visitor<S_oahAtomWithVariableName>*> (v)) {
+        S_oahAtomWithVariableName elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahAtomWithVariableName::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahAtomWithVariableName::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahAtomWithVariableName::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomWithVariableName>*
+    p =
+      dynamic_cast<visitor<S_oahAtomWithVariableName>*> (v)) {
+        S_oahAtomWithVariableName elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahAtomWithVariableName::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahAtomWithVariableName::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahAtomWithVariableName::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahAtomWithVariableName::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -824,7 +1139,7 @@ void oahAtomWithVariableName::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -910,6 +1225,69 @@ S_oahValuedAtom oahBooleanAtom::handleOptionUnderName (
   return nullptr;
 }
 
+void oahBooleanAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahBooleanAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahBooleanAtom>*
+    p =
+      dynamic_cast<visitor<S_oahBooleanAtom>*> (v)) {
+        S_oahBooleanAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahBooleanAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahBooleanAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahBooleanAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahBooleanAtom>*
+    p =
+      dynamic_cast<visitor<S_oahBooleanAtom>*> (v)) {
+        S_oahBooleanAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahBooleanAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahBooleanAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahBooleanAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahBooleanAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -920,7 +1298,7 @@ void oahBooleanAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -1016,6 +1394,69 @@ S_oahValuedAtom oahTwoBooleansAtom::handleOptionUnderName (
   return nullptr;
 }
 
+void oahTwoBooleansAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahTwoBooleansAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahTwoBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahTwoBooleansAtom>*> (v)) {
+        S_oahTwoBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahTwoBooleansAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahTwoBooleansAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahTwoBooleansAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahTwoBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahTwoBooleansAtom>*> (v)) {
+        S_oahTwoBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahTwoBooleansAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahTwoBooleansAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahTwoBooleansAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahTwoBooleansAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1026,7 +1467,7 @@ void oahTwoBooleansAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -1126,6 +1567,69 @@ S_oahValuedAtom oahThreeBooleansAtom::handleOptionUnderName (
   return nullptr;
 }
 
+void oahThreeBooleansAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahThreeBooleansAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahThreeBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahThreeBooleansAtom>*> (v)) {
+        S_oahThreeBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahThreeBooleansAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahThreeBooleansAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahThreeBooleansAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahThreeBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahThreeBooleansAtom>*> (v)) {
+        S_oahThreeBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahThreeBooleansAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahThreeBooleansAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahThreeBooleansAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahThreeBooleansAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1136,7 +1640,7 @@ void oahThreeBooleansAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -1244,7 +1748,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
     "handler is null");
 
   // is name known in options map?
-  S_oahOption
+  S_oahElement
     option =
       handler->
         fetchOptionFromMap (
@@ -1331,6 +1835,69 @@ S_oahValuedAtom oahCombinedBooleansAtom::handleOptionUnderName (
 
   // no option value is needed
   return nullptr;
+}
+
+void oahCombinedBooleansAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahCombinedBooleansAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahCombinedBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahCombinedBooleansAtom>*> (v)) {
+        S_oahCombinedBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahCombinedBooleansAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahCombinedBooleansAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahCombinedBooleansAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahCombinedBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahCombinedBooleansAtom>*> (v)) {
+        S_oahCombinedBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahCombinedBooleansAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahCombinedBooleansAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahCombinedBooleansAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 void oahCombinedBooleansAtom::print (ostream& os) const
@@ -1543,6 +2110,69 @@ oahValuedAtom::~oahValuedAtom ()
 void oahValuedAtom::handleDefaultValue ()
 {}
 
+void oahValuedAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahValuedAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahValuedAtom>*
+    p =
+      dynamic_cast<visitor<S_oahValuedAtom>*> (v)) {
+        S_oahValuedAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahValuedAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahValuedAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahValuedAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahValuedAtom>*
+    p =
+      dynamic_cast<visitor<S_oahValuedAtom>*> (v)) {
+        S_oahValuedAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahValuedAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahValuedAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahValuedAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 string oahValuedAtom::oahAtomKindAsString (
   oahValuedAtom::oahValuedAtomKind oahAtomKind)
 {
@@ -1753,6 +2383,69 @@ void oahIntegerAtom::handleValue (
   }
 }
 
+void oahIntegerAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahIntegerAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahIntegerAtom>*
+    p =
+      dynamic_cast<visitor<S_oahIntegerAtom>*> (v)) {
+        S_oahIntegerAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahIntegerAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahIntegerAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahIntegerAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahIntegerAtom>*
+    p =
+      dynamic_cast<visitor<S_oahIntegerAtom>*> (v)) {
+        S_oahIntegerAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahIntegerAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahIntegerAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahIntegerAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 string oahIntegerAtom::asShortNamedOptionString () const
 {
   stringstream s;
@@ -1930,6 +2623,69 @@ void oahFloatAtom::handleValue (
   }
 }
 
+void oahFloatAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahFloatAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahFloatAtom>*
+    p =
+      dynamic_cast<visitor<S_oahFloatAtom>*> (v)) {
+        S_oahFloatAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahFloatAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahFloatAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahFloatAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahFloatAtom>*
+    p =
+      dynamic_cast<visitor<S_oahFloatAtom>*> (v)) {
+        S_oahFloatAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahFloatAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahFloatAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahFloatAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 string oahFloatAtom::asShortNamedOptionString () const
 {
   stringstream s;
@@ -2048,6 +2804,69 @@ void oahStringAtom::handleValue (
   ostream& os)
 {
   fStringVariable = theString;
+}
+
+void oahStringAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringAtom>*> (v)) {
+        S_oahStringAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahStringAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringAtom>*> (v)) {
+        S_oahStringAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahStringAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 string oahStringAtom::asShortNamedOptionString () const
@@ -2178,6 +2997,69 @@ void oahStringWithDefaultValueAtom::handleValue (
   ostream& os)
 {
   oahStringAtom::handleValue (theString, os); // JMI ???
+}
+
+void oahStringWithDefaultValueAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringWithDefaultValueAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringWithDefaultValueAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringWithDefaultValueAtom>*> (v)) {
+        S_oahStringWithDefaultValueAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringWithDefaultValueAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahStringWithDefaultValueAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringWithDefaultValueAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringWithDefaultValueAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringWithDefaultValueAtom>*> (v)) {
+        S_oahStringWithDefaultValueAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringWithDefaultValueAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahStringWithDefaultValueAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringWithDefaultValueAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 string oahStringWithDefaultValueAtom::asShortNamedOptionString () const
@@ -2379,6 +3261,69 @@ void oahRationalAtom::handleValue (
   fRationalVariable = rationalValue;
 }
 
+void oahRationalAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahRationalAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahRationalAtom>*
+    p =
+      dynamic_cast<visitor<S_oahRationalAtom>*> (v)) {
+        S_oahRationalAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahRationalAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahRationalAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahRationalAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahRationalAtom>*
+    p =
+      dynamic_cast<visitor<S_oahRationalAtom>*> (v)) {
+        S_oahRationalAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahRationalAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahRationalAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahRationalAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 string oahRationalAtom::asShortNamedOptionString () const
 {
   stringstream s;
@@ -2550,6 +3495,69 @@ void oahNaturalNumbersSetElementAtom::handleValue (
     optionError (s.str ());
     exit (4);
   }
+}
+
+void oahNaturalNumbersSetElementAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahNaturalNumbersSetElementAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahNaturalNumbersSetElementAtom>*
+    p =
+      dynamic_cast<visitor<S_oahNaturalNumbersSetElementAtom>*> (v)) {
+        S_oahNaturalNumbersSetElementAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahNaturalNumbersSetElementAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahNaturalNumbersSetElementAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahNaturalNumbersSetElementAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahNaturalNumbersSetElementAtom>*
+    p =
+      dynamic_cast<visitor<S_oahNaturalNumbersSetElementAtom>*> (v)) {
+        S_oahNaturalNumbersSetElementAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahNaturalNumbersSetElementAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahNaturalNumbersSetElementAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahNaturalNumbersSetElementAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 string oahNaturalNumbersSetElementAtom::asShortNamedOptionString () const
@@ -2753,6 +3761,69 @@ void oahNaturalNumbersSetAtom::handleValue (
       false); // 'true' to debug it
 }
 
+void oahNaturalNumbersSetAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahNaturalNumbersSetAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahNaturalNumbersSetAtom>*
+    p =
+      dynamic_cast<visitor<S_oahNaturalNumbersSetAtom>*> (v)) {
+        S_oahNaturalNumbersSetAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahNaturalNumbersSetAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahNaturalNumbersSetAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahNaturalNumbersSetAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahNaturalNumbersSetAtom>*
+    p =
+      dynamic_cast<visitor<S_oahNaturalNumbersSetAtom>*> (v)) {
+        S_oahNaturalNumbersSetAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahNaturalNumbersSetAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahNaturalNumbersSetAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahNaturalNumbersSetAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 string oahNaturalNumbersSetAtom::asShortNamedOptionString () const
 {
   stringstream s;
@@ -2949,6 +4020,69 @@ void oahStringsSetElementAtom::handleValue (
   ostream& os)
 {
   fStringsSetVariable.insert (theString);
+}
+
+void oahStringsSetElementAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringsSetElementAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringsSetElementAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringsSetElementAtom>*> (v)) {
+        S_oahStringsSetElementAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringsSetElementAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahStringsSetElementAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringsSetElementAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringsSetElementAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringsSetElementAtom>*> (v)) {
+        S_oahStringsSetElementAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringsSetElementAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahStringsSetElementAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringsSetElementAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 string oahStringsSetElementAtom::asShortNamedOptionString () const
@@ -3150,6 +4284,69 @@ void oahStringsSetAtom::handleValue (
     decipherStringsSetSpecification (
       theString,
       true); // 'true' to debug it
+}
+
+void oahStringsSetAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringsSetAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringsSetAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringsSetAtom>*> (v)) {
+        S_oahStringsSetAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringsSetAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahStringsSetAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringsSetAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringsSetAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringsSetAtom>*> (v)) {
+        S_oahStringsSetAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahStringsSetAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahStringsSetAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahStringsSetAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 string oahStringsSetAtom::asShortNamedOptionString () const
@@ -3369,6 +4566,69 @@ void oahOptionNameHelpAtom::handleDefaultValue ()
       fDefaultStringValue);
 }
 
+void oahOptionNameHelpAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionNameHelpAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionNameHelpAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionNameHelpAtom>*> (v)) {
+        S_oahOptionNameHelpAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionNameHelpAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahOptionNameHelpAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionNameHelpAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionNameHelpAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionNameHelpAtom>*> (v)) {
+        S_oahOptionNameHelpAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionNameHelpAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahOptionNameHelpAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionNameHelpAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 string oahOptionNameHelpAtom::asShortNamedOptionString () const
 {
   stringstream s;
@@ -3424,7 +4684,7 @@ S_oahSubGroup oahSubGroup::create (
   string                  shortName,
   string                  longName,
   string                  description,
-  oahOptionVisibilityKind optionVisibilityKind,
+  oahElementVisibilityKind optionVisibilityKind,
   S_oahGroup              groupUpLink)
 {
   oahSubGroup* o = new
@@ -3444,9 +4704,9 @@ oahSubGroup::oahSubGroup (
   string                  shortName,
   string                  longName,
   string                  description,
-  oahOptionVisibilityKind optionVisibilityKind,
+  oahElementVisibilityKind optionVisibilityKind,
   S_oahGroup              groupUpLink)
-  : oahOption (
+  : oahElement (
       shortName,
       longName,
       description,
@@ -3509,10 +4769,10 @@ void oahSubGroup::appendAtom (
     setSubGroupUpLink (this);
 }
 
-S_oahOption oahSubGroup::fetchOptionByName (
+S_oahElement oahSubGroup::fetchOptionByName (
   string name)
 {
-  S_oahOption result;
+  S_oahElement result;
 
   for (
     list<S_oahAtom>::const_iterator
@@ -3532,6 +4792,69 @@ S_oahOption oahSubGroup::fetchOptionByName (
   return result;
 }
 
+void oahSubGroup::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahSubGroup::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahSubGroup>*
+    p =
+      dynamic_cast<visitor<S_oahSubGroup>*> (v)) {
+        S_oahSubGroup elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahSubGroup::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahSubGroup::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahSubGroup::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahSubGroup>*
+    p =
+      dynamic_cast<visitor<S_oahSubGroup>*> (v)) {
+        S_oahSubGroup elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahSubGroup::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahSubGroup::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahSubGroup::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahSubGroup::print (ostream& os) const
 {
   const int fieldWidth = 27;
@@ -3542,14 +4865,14 @@ void oahSubGroup::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionVisibilityKind" << " : " <<
+    "fElementVisibilityKind" << " : " <<
       optionVisibilityKindAsString (
-        fOptionVisibilityKind) <<
+        fElementVisibilityKind) <<
     endl <<
     endl;
 
@@ -3592,7 +4915,7 @@ void oahSubGroup::printSubGroupHeader (ostream& os) const
     " " <<
     fetchNamesBetweenParentheses ();
 
-  switch (fOptionVisibilityKind) {
+  switch (fElementVisibilityKind) {
     case kElementVisibilityAlways:
       os <<
         ":";
@@ -3618,7 +4941,7 @@ void oahSubGroup::printSubGroupHeaderWithHeaderWidth (
     " " <<
     fetchNamesBetweenParentheses ();
 
-  switch (fOptionVisibilityKind) {
+  switch (fElementVisibilityKind) {
     case kElementVisibilityAlways:
       os <<
         ":";
@@ -3651,7 +4974,7 @@ void oahSubGroup::printHelp (ostream& os)
   }
 
   // print the options atoms if relevant
-  switch (fOptionVisibilityKind) {
+  switch (fElementVisibilityKind) {
     case kElementVisibilityAlways:
       if (fAtomsList.size ()) {
         gIndenter++;
@@ -3712,7 +5035,7 @@ void oahSubGroup::printHelpWithHeaderWidth (
   }
 
   // print the options atoms if relevant
-  switch (fOptionVisibilityKind) {
+  switch (fElementVisibilityKind) {
     case kElementVisibilityAlways:
       if (fAtomsList.size ()) {
         gIndenter++;
@@ -3828,7 +5151,7 @@ void oahSubGroup::printOptionsSummary (
     fetchNamesInColumnsBetweenParentheses (
       maximumShortNameWidth);
 
-  switch (fOptionVisibilityKind) {
+  switch (fElementVisibilityKind) {
     case kElementVisibilityAlways:
       break;
 
@@ -3976,7 +5299,7 @@ S_oahGroup oahGroup::create (
   string                  shortName,
   string                  longName,
   string                  description,
-  oahOptionVisibilityKind optionVisibilityKind,
+  oahElementVisibilityKind optionVisibilityKind,
   S_oahHandler            groupHandlerUpLink)
 {
   oahGroup* o = new
@@ -3996,9 +5319,9 @@ oahGroup::oahGroup (
   string                  shortName,
   string                  longName,
   string                  description,
-  oahOptionVisibilityKind optionVisibilityKind,
+  oahElementVisibilityKind optionVisibilityKind,
   S_oahHandler            groupHandlerUpLink)
-  : oahOption (
+  : oahElement (
       shortName,
       longName,
       description,
@@ -4068,10 +5391,10 @@ void  oahGroup::appendSubGroup (
     setGroupUpLink (this);
 }
 
-S_oahOption oahGroup::fetchOptionByName (
+S_oahElement oahGroup::fetchOptionByName (
   string name)
 {
-  S_oahOption result;
+  S_oahElement result;
 
   for (
     list<S_oahSubGroup>::const_iterator
@@ -4110,6 +5433,69 @@ void oahGroup::handleAtomValue (
 void oahGroup::checkOptionsConsistency ()
 {}
 
+void oahGroup::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahGroup::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahGroup>*
+    p =
+      dynamic_cast<visitor<S_oahGroup>*> (v)) {
+        S_oahGroup elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahGroup::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahGroup::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahGroup::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahGroup>*
+    p =
+      dynamic_cast<visitor<S_oahGroup>*> (v)) {
+        S_oahGroup elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahGroup::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahGroup::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahGroup::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void oahGroup::print (ostream& os) const
 {
   const int fieldWidth = 27;
@@ -4120,7 +5506,7 @@ void oahGroup::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   os <<
@@ -4160,7 +5546,7 @@ void oahGroup::printGroupHeader (ostream& os) const
     " " <<
     fetchNamesBetweenParentheses ();
 
-  switch (fOptionVisibilityKind) {
+  switch (fElementVisibilityKind) {
     case kElementVisibilityAlways:
       os <<
         ":";
@@ -4531,6 +5917,69 @@ S_oahPrefix oahPrefix::fetchOptionByName (
 }
 */
 
+void oahPrefix::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefix::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahPrefix>*
+    p =
+      dynamic_cast<visitor<S_oahPrefix>*> (v)) {
+        S_oahPrefix elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahPrefix::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahPrefix::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefix::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahPrefix>*
+    p =
+      dynamic_cast<visitor<S_oahPrefix>*> (v)) {
+        S_oahPrefix elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahPrefix::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahPrefix::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefix::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 string oahPrefix::prefixNames () const
 {
   stringstream s;
@@ -4711,7 +6160,7 @@ oahHandler::oahHandler (
   string           handlerPreamble,
   string           handlerDescription,
   indentedOstream& handlerLogOstream)
-  : oahOption (
+  : oahElement (
       handlerShortName,
       handlerLongName,
       handlerDescription,
@@ -4793,13 +6242,13 @@ S_oahPrefix oahHandler::fetchPrefixFromMap (
   return result;
 }
 
-S_oahOption oahHandler::fetchOptionFromMap (
+S_oahElement oahHandler::fetchOptionFromMap (
   string name) const
 {
-  S_oahOption result;
+  S_oahElement result;
 
   // is name known in options map?
-  map<string, S_oahOption>::const_iterator
+  map<string, S_oahElement>::const_iterator
     it =
       fHandlerOptionsMap.find (
         name);
@@ -4852,7 +6301,7 @@ string oahHandler::handlerOptionNamesBetweenParentheses () const
 void oahHandler::registerOptionNamesInHandler (
   string      optionShortName,
   string      optionLongName,
-  S_oahOption option)
+  S_oahElement option)
 {
   int
     optionShortNameSize =
@@ -4882,7 +6331,7 @@ void oahHandler::registerOptionNamesInHandler (
   }
 
   for (
-    map<string, S_oahOption>::iterator i =
+    map<string, S_oahElement>::iterator i =
       fHandlerOptionsMap.begin ();
     i != fHandlerOptionsMap.end ();
     i++
@@ -4953,7 +6402,7 @@ void oahHandler::registerOptionNamesInHandler (
 }
 
 void oahHandler::registerOptionInHandler (
-  S_oahOption option)
+  S_oahElement option)
 {
   string
     optionShortName =
@@ -4987,6 +6436,69 @@ void oahHandler::registerOptionInHandler (
         subHeaderSize;
     }
   }
+}
+
+void oahHandler::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahHandler::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahHandler>*
+    p =
+      dynamic_cast<visitor<S_oahHandler>*> (v)) {
+        S_oahHandler elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahHandler::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahHandler::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahHandler::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahHandler>*
+    p =
+      dynamic_cast<visitor<S_oahHandler>*> (v)) {
+        S_oahHandler elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahHandler::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahHandler::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahHandler::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 void oahHandler::print (ostream& os) const
@@ -5106,7 +6618,7 @@ void oahHandler::printHelp (ostream& os)
 //      group->printHelp (os);
 
       // print the options subgroups if relevant
-      switch (group->getOptionVisibilityKind ()) {
+      switch (group->getElementVisibilityKind ()) {
         case kElementVisibilityAlways:
           group->printHelp (os);
           break;
@@ -5223,7 +6735,7 @@ void oahHandler::printOptionSpecificHelp (
 #endif
 
   // is name known in options map?
-  S_oahOption
+  S_oahElement
     option =
       fetchOptionFromMap (name);
 
@@ -5557,12 +7069,12 @@ string oahHandler::commandLineWithShortNamesAsString () const
   if (fHandlerOptionsList.size ()) {
     s << " ";
 
-    list<S_oahOption>::const_iterator
+    list<S_oahElement>::const_iterator
       iBegin = fHandlerOptionsList.begin (),
       iEnd   = fHandlerOptionsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_oahOption option = (*i);
+      S_oahElement option = (*i);
 
       s <<
         option-> asShortNamedOptionString ();
@@ -5602,12 +7114,12 @@ string oahHandler::commandLineWithLongNamesAsString () const
   if (fHandlerOptionsList.size ()) {
     s << " ";
 
-    list<S_oahOption>::const_iterator
+    list<S_oahElement>::const_iterator
       iBegin = fHandlerOptionsList.begin (),
       iEnd   = fHandlerOptionsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_oahOption option = (*i);
+      S_oahElement option = (*i);
 
       s <<
         option-> asLongNamedOptionString ();
@@ -5636,7 +7148,7 @@ void oahHandler::printKnownOptions () const
   gIndenter++;
 
   if (handlerOptionsMapSize) {
-    map<string, S_oahOption>::const_iterator
+    map<string, S_oahElement>::const_iterator
       iBegin = fHandlerOptionsMap.begin (),
       iEnd   = fHandlerOptionsMap.end (),
       i      = iBegin;
@@ -5665,10 +7177,10 @@ void oahHandler::printKnownOptions () const
   gIndenter--;
 }
 
-S_oahOption oahHandler::fetchOptionByName (
+S_oahElement oahHandler::fetchOptionByName (
   string name)
 {
-  S_oahOption result;
+  S_oahElement result;
 
   for (
     list<S_oahGroup>::const_iterator
@@ -5961,7 +7473,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
     }
 
     else {
-      // currentOption is no oahOption,
+      // currentOption is no oahElement,
       // i.e. it is an atom value or an argument
       handleOptionValueOrArgument (currentOption);
     }
@@ -6222,7 +7734,7 @@ void oahHandler::handleOptionName (
   string name)
 {
   // is name known in options map?
-  S_oahOption
+  S_oahElement
     option =
       fetchOptionFromMap (name);
 

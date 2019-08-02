@@ -590,7 +590,7 @@ void lpsrTransposeAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -673,7 +673,7 @@ void lpsrOah::initializeLpsrTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    traceSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Trace",
         "hlpsrtrace", "help-lpsr-trace",
@@ -681,13 +681,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (traceSubGroup);
+  appendSubGroup (subGroup);
 
   // trace- lpsr
 
   fTraceLpsr            = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tlpsr", "trace-lpsr",
@@ -699,7 +699,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   fTraceLilypondVersion = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tlpv", "trace-lilypond-version",
@@ -711,7 +711,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   fTraceLpsrVisitors    = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tlpsrv", "trace-lpsr-visitors",
@@ -723,7 +723,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
 
   fTraceLpsrBlocks      = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tlpsrb", "trace-lpsr-blocks",
@@ -735,7 +735,7 @@ R"(Write a trace of the LPSR blocks to standard error.)",
 
   fTraceSchemeFunctions = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tsf", "trace-scheme-functions",

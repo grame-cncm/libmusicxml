@@ -131,6 +131,8 @@ class executableOah : public oahGroup
     bool                  fTraceOah;
     bool                  fTraceOahDetails;
 
+    bool                  fTraceOahVisitors;
+
     bool                  fDisplayOahValues;
     bool                  fDisplayOptionsHandler;
 #endif

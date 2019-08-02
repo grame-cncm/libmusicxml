@@ -69,6 +69,9 @@ S_bsrCellsList bsrTempo::buildCellsList () const
     case msrTempo::k_NoTempoKind:
       break;
 
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      break;
+
     case msrTempo::kTempoBeatUnitsPerMinute:
       {
         // fetch MSR tempo attributes

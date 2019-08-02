@@ -57,12 +57,26 @@ class extraShowAllChordsStructuresAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -123,6 +137,8 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
                             string value)
                               { fStringVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -133,6 +149,18 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -197,6 +225,8 @@ class extraShowChordDetailsAtom : public oahValuedAtom
                             string value)
                               {  fStringVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -207,6 +237,18 @@ class extraShowChordDetailsAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -267,6 +309,8 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
                             string value)
                               { fStringVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -277,6 +321,18 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -363,6 +419,16 @@ class extraOah : public oahGroup
 
     void                  initializeExtraShowChordAnalysisOptions (
                             bool boolOptionsInitialValue);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 

@@ -254,6 +254,70 @@ void generalOah::checkOptionsConsistency ()
 }
 
 //______________________________________________________________________________
+void generalOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> generalOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_generalOah>*
+    p =
+      dynamic_cast<visitor<S_generalOah>*> (v)) {
+        S_generalOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching generalOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void generalOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> generalOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_generalOah>*
+    p =
+      dynamic_cast<visitor<S_generalOah>*> (v)) {
+        S_generalOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching generalOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void generalOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> generalOah::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+//______________________________________________________________________________
 void generalOah::printGeneralOahValues (int fieldWidth)
 {
   gLogOstream <<

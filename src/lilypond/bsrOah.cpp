@@ -102,6 +102,69 @@ void bsrFacSimileKindAtom::handleValue (
 
 }
 
+void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrFacSimileKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_bsrFacSimileKindAtom>*
+    p =
+      dynamic_cast<visitor<S_bsrFacSimileKindAtom>*> (v)) {
+        S_bsrFacSimileKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching bsrFacSimileKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrFacSimileKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_bsrFacSimileKindAtom>*
+    p =
+      dynamic_cast<visitor<S_bsrFacSimileKindAtom>*> (v)) {
+        S_bsrFacSimileKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching bsrFacSimileKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void bsrFacSimileKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrFacSimileKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void bsrFacSimileKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -203,6 +266,69 @@ void bsrTextsLanguageAtom::handleValue (
   }
 #endif
 
+}
+
+void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrTextsLanguageAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_bsrTextsLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_bsrTextsLanguageAtom>*> (v)) {
+        S_bsrTextsLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching bsrTextsLanguageAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrTextsLanguageAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_bsrTextsLanguageAtom>*
+    p =
+      dynamic_cast<visitor<S_bsrTextsLanguageAtom>*> (v)) {
+        S_bsrTextsLanguageAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching bsrTextsLanguageAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void bsrTextsLanguageAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrTextsLanguageAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 void bsrTextsLanguageAtom::print (ostream& os) const
@@ -513,7 +639,7 @@ void bsrOah::initializeBsrTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    traceSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Trace",
         "hbst", "help-bsr-trace",
@@ -522,13 +648,13 @@ R"(Note: the bsr in this group imply '-tbsr, -trace-bsr'.)",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (traceSubGroup);
+  appendSubGroup (subGroup);
 
   // BSR
 
   fTraceBsr = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tbsr", "trace-bsr",
@@ -540,7 +666,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
 
   fTracePages = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahTwoBooleansAtom::create (
         "tpages", "trace-pages",
@@ -553,7 +679,7 @@ R"()",
 
   fTraceLines = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tlines", "trace-lines",
@@ -565,7 +691,7 @@ R"()",
 
   fTraceSpaces = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tspaces", "trace-spaces",
@@ -577,7 +703,7 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
 
   fTraceNumbers = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tnums", "trace-numbers",
@@ -589,7 +715,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
 
   fTraceParallels = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahTwoBooleansAtom::create (
         "tpars", "trace-parallels",
@@ -602,7 +728,7 @@ R"()",
 
   fTraceBsrVisitors     = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "tbsrv", "trace-bsr-visitors",
@@ -704,6 +830,70 @@ void bsrOah::enforceQuietness ()
 void bsrOah::checkOptionsConsistency ()
 {
   // JMI
+}
+
+//______________________________________________________________________________
+void bsrOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_bsrOah>*
+    p =
+      dynamic_cast<visitor<S_bsrOah>*> (v)) {
+        S_bsrOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching bsrOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void bsrOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_bsrOah>*
+    p =
+      dynamic_cast<visitor<S_bsrOah>*> (v)) {
+        S_bsrOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching bsrOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void bsrOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> bsrOah::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 //______________________________________________________________________________

@@ -110,6 +110,69 @@ void brailleUTFKindAtom::handleValue (
   fBsrUTFKindVariable = UTFKind;
 }
 
+void brailleUTFKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleUTFKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleUTFKindAtom>*
+    p =
+      dynamic_cast<visitor<S_brailleUTFKindAtom>*> (v)) {
+        S_brailleUTFKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleUTFKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void brailleUTFKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleUTFKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleUTFKindAtom>*
+    p =
+      dynamic_cast<visitor<S_brailleUTFKindAtom>*> (v)) {
+        S_brailleUTFKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleUTFKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void brailleUTFKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleUTFKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void brailleUTFKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -235,6 +298,69 @@ void brailleByteOrderingKindAtom::handleValue (
   fBsrByteOrderingKindVariable = byteOrderingKind;
 }
 
+void brailleByteOrderingKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleByteOrderingKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleByteOrderingKindAtom>*
+    p =
+      dynamic_cast<visitor<S_brailleByteOrderingKindAtom>*> (v)) {
+        S_brailleByteOrderingKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleByteOrderingKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void brailleByteOrderingKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleByteOrderingKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleByteOrderingKindAtom>*
+    p =
+      dynamic_cast<visitor<S_brailleByteOrderingKindAtom>*> (v)) {
+        S_brailleByteOrderingKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleByteOrderingKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void brailleByteOrderingKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleByteOrderingKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void brailleByteOrderingKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -317,6 +443,69 @@ R"(These braille control which Braille code is generated.)",
 
 brailleOah::~brailleOah ()
 {}
+
+void brailleOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleOah>*
+    p =
+      dynamic_cast<visitor<S_brailleOah>*> (v)) {
+        S_brailleOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void brailleOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleOah>*
+    p =
+      dynamic_cast<visitor<S_brailleOah>*> (v)) {
+        S_brailleOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void brailleOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleOah::browseData ()" <<
+      endl;
+  }
+#endif
+}
 
 void brailleOah::initializeBrailleUTFEncodingOptions (
   bool boolOptionsInitialValue)

@@ -72,6 +72,16 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
                             string   theString,
                             ostream& os);
 
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
     // print
     // ------------------------------------------------------
 
@@ -131,6 +141,16 @@ class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -205,6 +225,16 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -283,6 +313,16 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
                             string   theString,
                             ostream& os);
 
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
     // print
     // ------------------------------------------------------
 
@@ -355,6 +395,16 @@ class lilypondResetMeasureNumberAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -429,6 +479,16 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -509,6 +569,16 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
                             string  theString,
                             ostream& os);
 
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
     // print
     // ------------------------------------------------------
 
@@ -583,6 +653,16 @@ class lilypondMidiTempoAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
     // print
     // ------------------------------------------------------
@@ -760,6 +840,16 @@ class lilypondOah : public oahGroup
                                 fOctaveEntryKind =
                                   kOctaveEntryAbsolute;
                               }
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 

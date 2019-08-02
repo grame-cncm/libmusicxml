@@ -1258,7 +1258,7 @@ string msrTempo::asString () const
 
   s <<
     "Tempo" <<
-    ", tempoKind: " << tempoKindAsString (fTempoKind),
+    ", tempoKind: " << tempoKindAsString (fTempoKind) <<
     ", wordsList: ";
 
   if (fPendingWordsList.size ()) {

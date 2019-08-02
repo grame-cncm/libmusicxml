@@ -3618,6 +3618,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     case msrTempo::k_NoTempoKind:
       break;
 
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      break;
+
     case msrTempo::kTempoBeatUnitsPerMinute:
       {
         msrDottedDuration

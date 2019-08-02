@@ -94,6 +94,69 @@ void lilypondScoreOutputKindAtom::handleValue (
 #endif
 }
 
+void lilypondScoreOutputKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondScoreOutputKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondScoreOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondScoreOutputKindAtom>*> (v)) {
+        S_lilypondScoreOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondScoreOutputKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondScoreOutputKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondScoreOutputKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondScoreOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondScoreOutputKindAtom>*> (v)) {
+        S_lilypondScoreOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondScoreOutputKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondScoreOutputKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondScoreOutputKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lilypondScoreOutputKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -190,6 +253,69 @@ S_oahValuedAtom lilypondAbsoluteOctaveEntryAtom::handleOptionUnderName (
   return nullptr;
 }
 
+void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondAbsoluteOctaveEntryAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondAbsoluteOctaveEntryAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondAbsoluteOctaveEntryAtom>*> (v)) {
+        S_lilypondAbsoluteOctaveEntryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondAbsoluteOctaveEntryAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondAbsoluteOctaveEntryAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondAbsoluteOctaveEntryAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondAbsoluteOctaveEntryAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondAbsoluteOctaveEntryAtom>*> (v)) {
+        S_lilypondAbsoluteOctaveEntryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondAbsoluteOctaveEntryAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondAbsoluteOctaveEntryAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondAbsoluteOctaveEntryAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -200,7 +326,7 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -262,10 +388,10 @@ lilypondRelativeOctaveEntryAtom::lilypondRelativeOctaveEntryAtom (
       description,
       valueSpecification,
       variableName),
-    fMsrSemiTonesPitchAndOctaveVariable (
-      lilypondRelativeOctaveEntryVariable),
     fLpsrOctaveEntryKindVariable (
-      lpsrOctaveEntryKindVariable)
+      lpsrOctaveEntryKindVariable),
+    fMsrSemiTonesPitchAndOctaveVariable (
+      lilypondRelativeOctaveEntryVariable)
 {}
 
 lilypondRelativeOctaveEntryAtom::~lilypondRelativeOctaveEntryAtom ()
@@ -347,6 +473,69 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
       theString));
 }
 
+void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondRelativeOctaveEntryAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondRelativeOctaveEntryAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondRelativeOctaveEntryAtom>*> (v)) {
+        S_lilypondRelativeOctaveEntryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondRelativeOctaveEntryAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondRelativeOctaveEntryAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondRelativeOctaveEntryAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondRelativeOctaveEntryAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondRelativeOctaveEntryAtom>*> (v)) {
+        S_lilypondRelativeOctaveEntryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondRelativeOctaveEntryAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondRelativeOctaveEntryAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondRelativeOctaveEntryAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -357,7 +546,7 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -433,10 +622,10 @@ lilypondFixedOctaveEntryAtom::lilypondFixedOctaveEntryAtom (
       description,
       valueSpecification,
       variableName),
-    fMsrSemiTonesPitchAndOctaveVariable (
-      lilypondFixedOctaveEntryVariable),
     fLpsrOctaveEntryKindVariable (
-      lpsrOctaveEntryKindVariable)
+      lpsrOctaveEntryKindVariable),
+    fMsrSemiTonesPitchAndOctaveVariable (
+      lilypondFixedOctaveEntryVariable)
 {}
 
 lilypondFixedOctaveEntryAtom::~lilypondFixedOctaveEntryAtom ()
@@ -474,6 +663,69 @@ void lilypondFixedOctaveEntryAtom::handleValue (
       theString));
 }
 
+void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondFixedOctaveEntryAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondFixedOctaveEntryAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondFixedOctaveEntryAtom>*> (v)) {
+        S_lilypondFixedOctaveEntryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondFixedOctaveEntryAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondFixedOctaveEntryAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondFixedOctaveEntryAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondFixedOctaveEntryAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondFixedOctaveEntryAtom>*> (v)) {
+        S_lilypondFixedOctaveEntryAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondFixedOctaveEntryAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondFixedOctaveEntryAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondFixedOctaveEntryAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lilypondFixedOctaveEntryAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -484,7 +736,7 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahOption::printOptionEssentials (
+  oahElement::printOptionEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -664,6 +916,69 @@ void lilypondResetMeasureNumberAtom::handleValue (
       endl;
 
   fStringIntMapVariable [musicXMLMeasureNumber] = lilypondMeasureNumber;
+  }
+#endif
+}
+
+void lilypondResetMeasureNumberAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondResetMeasureNumberAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondResetMeasureNumberAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondResetMeasureNumberAtom>*> (v)) {
+        S_lilypondResetMeasureNumberAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondResetMeasureNumberAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondResetMeasureNumberAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondResetMeasureNumberAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondResetMeasureNumberAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondResetMeasureNumberAtom>*> (v)) {
+        S_lilypondResetMeasureNumberAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondResetMeasureNumberAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondResetMeasureNumberAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondResetMeasureNumberAtom::browseData ()" <<
+      endl;
   }
 #endif
 }
@@ -857,6 +1172,69 @@ void lilypondAccidentalStyleKindAtom::handleValue (
 
   setLpsrAccidentalStyleKindVariable (
     (*it).second);
+}
+
+void lilypondAccidentalStyleKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondAccidentalStyleKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondAccidentalStyleKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondAccidentalStyleKindAtom>*> (v)) {
+        S_lilypondAccidentalStyleKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondAccidentalStyleKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondAccidentalStyleKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondAccidentalStyleKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondAccidentalStyleKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondAccidentalStyleKindAtom>*> (v)) {
+        S_lilypondAccidentalStyleKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondAccidentalStyleKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondAccidentalStyleKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondAccidentalStyleKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 void lilypondAccidentalStyleKindAtom::print (ostream& os) const
@@ -1082,6 +1460,69 @@ void lilypondChordsDisplayAtom::handleValue (
 #endif
 }
 
+void lilypondChordsDisplayAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondChordsDisplayAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondChordsDisplayAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondChordsDisplayAtom>*> (v)) {
+        S_lilypondChordsDisplayAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondChordsDisplayAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondChordsDisplayAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondChordsDisplayAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondChordsDisplayAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondChordsDisplayAtom>*> (v)) {
+        S_lilypondChordsDisplayAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondChordsDisplayAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondChordsDisplayAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondChordsDisplayAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
 void lilypondChordsDisplayAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1303,6 +1744,69 @@ void lilypondMidiTempoAtom::handleValue (
   fStringIntPairVariable =
     pair<string, int> (
       midiTempoDuration, midiTempoPerSecond);
+  }
+#endif
+}
+
+void lilypondMidiTempoAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondMidiTempoAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondMidiTempoAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondMidiTempoAtom>*> (v)) {
+        S_lilypondMidiTempoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondMidiTempoAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondMidiTempoAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondMidiTempoAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondMidiTempoAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondMidiTempoAtom>*> (v)) {
+        S_lilypondMidiTempoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondMidiTempoAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondMidiTempoAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondMidiTempoAtom::browseData ()" <<
+      endl;
   }
 #endif
 }
@@ -2883,6 +3387,70 @@ void lilypondOah::enforceQuietness ()
 void lilypondOah::checkOptionsConsistency ()
 {
   // JMI
+}
+
+//______________________________________________________________________________
+void lilypondOah::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondOah::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondOah>*
+    p =
+      dynamic_cast<visitor<S_lilypondOah>*> (v)) {
+        S_lilypondOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondOah::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondOah::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondOah::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondOah>*
+    p =
+      dynamic_cast<visitor<S_lilypondOah>*> (v)) {
+        S_lilypondOah elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondOah::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondOah::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondOah::browseData ()" <<
+      endl;
+  }
+#endif
 }
 
 //______________________________________________________________________________

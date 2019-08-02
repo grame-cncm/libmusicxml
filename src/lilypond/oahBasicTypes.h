@@ -21,6 +21,9 @@
 #include "smartpointer.h"
 #include "rational.h"
 
+#include "tree_browser.h"
+#include "visitor.h"
+
 #include "utilities.h"
 
 #include "msrBasicTypes.h"
@@ -43,8 +46,8 @@ const int K_OPTIONS_FIELD_WIDTH = 40;
 
 // PRE-declarations for class dependencies
 //______________________________________________________________________________
-class oahOption;
-typedef SMARTP<oahOption> S_oahOption;
+class oahElement;
+typedef SMARTP<oahElement> S_oahElement;
 
 class oahValuedAtom;
 typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
@@ -61,39 +64,39 @@ typedef SMARTP<oahHandler> S_oahHandler;
 // data types
 // ------------------------------------------------------
 
-enum oahOptionVisibilityKind {
+enum oahElementVisibilityKind {
   kElementVisibilityAlways,
   kElementVisibilityHiddenByDefault };
 
 string optionVisibilityKindAsString (
-  oahOptionVisibilityKind optionVisibilityKind);
+  oahElementVisibilityKind optionVisibilityKind);
 
 //______________________________________________________________________________
-class oahOption : public smartable
+class oahElement : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahOption> create (
+    static SMARTP<oahElement> create (
       string                  shortName,
       string                  longName,
       string                  description,
-      oahOptionVisibilityKind optionVisibilityKind);
+      oahElementVisibilityKind optionVisibilityKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahOption (
+    oahElement (
       string                  shortName,
       string                  longName,
       string                  description,
-      oahOptionVisibilityKind optionVisibilityKind);
+      oahElementVisibilityKind optionVisibilityKind);
 
-    virtual ~oahOption ();
+    virtual ~oahElement ();
 
   public:
 
@@ -117,15 +120,17 @@ class oahOption : public smartable
     string                getDescription () const
                               { return fDescription; }
 
-    oahOptionVisibilityKind
-                          getOptionVisibilityKind () const
-                              { return fOptionVisibilityKind; }
+    oahElementVisibilityKind
+                          getElementVisibilityKind () const
+                              { return fElementVisibilityKind; }
 
     void                  setIsHidden ()
                               { fIsHidden = true; }
 
     bool                  getIsHidden () const
                               { return fIsHidden; }
+
+  public:
 
     // services
     // ------------------------------------------------------
@@ -141,13 +146,25 @@ class oahOption : public smartable
     virtual int           fetchVariableNameLength () const
                               { return 0; }
 
-    S_oahOption           fetchOptionByName (
+    S_oahElement           fetchOptionByName (
                             string name);
 
     virtual S_oahValuedAtom
                           handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -179,16 +196,47 @@ class oahOption : public smartable
     string                fLongName;
     string                fDescription;
 
-    oahOptionVisibilityKind
-                          fOptionVisibilityKind;
+    oahElementVisibilityKind
+                          fElementVisibilityKind;
 
     bool                  fIsHidden;
 };
-typedef SMARTP<oahOption> S_oahOption;
-EXP ostream& operator<< (ostream& os, const S_oahOption& elt);
+typedef SMARTP<oahElement> S_oahElement;
+EXP ostream& operator<< (ostream& os, const S_oahElement& elt);
 
 //______________________________________________________________________________
-class oahAtom : public oahOption
+template <typename T> class oahBrowser : public browser<T>
+{
+  protected:
+
+    basevisitor*  fVisitor;
+
+    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (fVisitor); }
+
+  public:
+
+    oahBrowser (basevisitor* v) : fVisitor (v)
+    {}
+
+    virtual ~oahBrowser ()
+    {}
+
+    virtual void          set (basevisitor* v)
+                            { fVisitor = v; }
+
+    virtual               void browse (T& t)
+                            {
+                              enter (t);
+
+                              t.browseData (fVisitor);
+
+                              leave (t);
+                            }
+};
+
+//______________________________________________________________________________
+class oahAtom : public oahElement
 {
   public:
 
@@ -223,11 +271,15 @@ class oahAtom : public oahOption
     S_oahSubGroup         getSubGroupUpLink () const
                               { return fSubGroupUpLink; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     void                  registerAtomInHandler (
                             S_oahHandler handler);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -283,8 +335,22 @@ class oahAtomSynonym : public oahAtom
      S_oahAtom            getOriginalOahAtom () const
                               { return fOriginalOahAtom; }
 
+  public:
+
     // services
     // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -335,12 +401,26 @@ class oahOptionsUsageAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -391,12 +471,26 @@ class oahOptionsSummaryAtom : public oahAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -452,11 +546,25 @@ class oahAtomWithVariableName : public oahAtom
     string                getVariableName () const
                               { return fVariableName; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     virtual int           fetchVariableNameLength () const
                               { return fVariableName.size (); }
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -515,12 +623,26 @@ class oahBooleanAtom : public oahAtomWithVariableName
                             bool value)
                               { fBooleanVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -586,12 +708,26 @@ class oahTwoBooleansAtom : public oahAtomWithVariableName
                                   value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -663,12 +799,26 @@ class oahThreeBooleansAtom : public oahAtomWithVariableName
                                   value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -745,6 +895,18 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -828,6 +990,8 @@ class oahValuedAtom : public oahAtomWithVariableName
     bool                  getValueIsOptional () const
                               { return fValueIsOptional; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -837,6 +1001,18 @@ class oahValuedAtom : public oahAtomWithVariableName
 
     virtual void          handleDefaultValue ();
                             // used only fValueIsOptional is true
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -910,6 +1086,8 @@ class oahIntegerAtom : public oahValuedAtom
                             int value)
                               { fIntegerVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -920,6 +1098,18 @@ class oahIntegerAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -982,6 +1172,8 @@ class oahFloatAtom : public oahValuedAtom
                             float value)
                               { fFloatVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -992,6 +1184,18 @@ class oahFloatAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1055,6 +1259,8 @@ class oahStringAtom : public oahValuedAtom
                             string value)
                               { fStringVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1065,6 +1271,18 @@ class oahStringAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1130,6 +1348,8 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
                             string value)
                               { oahStringAtom::setStringVariable (value); }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1140,6 +1360,18 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1203,6 +1435,8 @@ class oahRationalAtom : public oahValuedAtom
                             rational value)
                               { fRationalVariable = value;  }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1213,6 +1447,18 @@ class oahRationalAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1276,6 +1522,8 @@ class oahNaturalNumbersSetElementAtom : public oahValuedAtom
                             set<int> value)
                               { fNaturalNumbersSetVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1286,6 +1534,18 @@ class oahNaturalNumbersSetElementAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1349,6 +1609,8 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
                             set<int> value)
                               { fNaturalNumbersSetVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1359,6 +1621,18 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1422,6 +1696,8 @@ class oahStringsSetElementAtom : public oahValuedAtom
                             set<string> value)
                               { fStringsSetVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1432,6 +1708,18 @@ class oahStringsSetElementAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1495,6 +1783,8 @@ class oahStringsSetAtom : public oahValuedAtom
                             set<string> value)
                               { fStringsSetVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1505,6 +1795,18 @@ class oahStringsSetAtom : public oahValuedAtom
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1576,6 +1878,8 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1588,6 +1892,18 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
                             ostream& os);
 
     void                  handleDefaultValue ();
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1611,7 +1927,7 @@ typedef SMARTP<oahOptionNameHelpAtom> S_oahOptionNameHelpAtom;
 EXP ostream& operator<< (ostream& os, const S_oahOptionNameHelpAtom& elt);
 
 //_______________________________________________________________________________
-class oahSubGroup : public oahOption
+class oahSubGroup : public oahElement
 {
   public:
 
@@ -1623,7 +1939,7 @@ class oahSubGroup : public oahOption
       string                  shortName,
       string                  longName,
       string                  description,
-      oahOptionVisibilityKind optionVisibilityKind,
+      oahElementVisibilityKind optionVisibilityKind,
       S_oahGroup              groupUpLink);
 
   protected:
@@ -1636,7 +1952,7 @@ class oahSubGroup : public oahOption
       string                  shortName,
       string                  longName,
       string                  description,
-      oahOptionVisibilityKind optionVisibilityKind,
+      oahElementVisibilityKind optionVisibilityKind,
       S_oahGroup              groupUpLink);
 
     virtual ~oahSubGroup ();
@@ -1656,6 +1972,8 @@ class oahSubGroup : public oahOption
     string                getSubGroupHeader () const
                               { return fSubGroupHeader; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -1667,12 +1985,24 @@ class oahSubGroup : public oahOption
     void                  appendAtom (
                             S_oahAtom oahAtom);
 
-    S_oahOption           fetchOptionByName (
+    S_oahElement           fetchOptionByName (
                             string name);
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1722,7 +2052,7 @@ typedef SMARTP<oahSubGroup> S_oahSubGroup;
 EXP ostream& operator<< (ostream& os, const S_oahSubGroup& elt);
 
 //_______________________________________________________________________________
-class oahGroup : public oahOption
+class oahGroup : public oahElement
 {
   public:
 
@@ -1734,7 +2064,7 @@ class oahGroup : public oahOption
       string                  shortName,
       string                  longName,
       string                  description,
-      oahOptionVisibilityKind optionVisibilityKind,
+      oahElementVisibilityKind optionVisibilityKind,
       S_oahHandler            groupHandlerUpLink);
 
   protected:
@@ -1747,7 +2077,7 @@ class oahGroup : public oahOption
       string                  shortName,
       string                  longName,
       string                  description,
-      oahOptionVisibilityKind optionVisibilityKind,
+      oahElementVisibilityKind optionVisibilityKind,
       S_oahHandler            groupHandlerUpLink);
 
     virtual ~oahGroup ();
@@ -1780,7 +2110,7 @@ class oahGroup : public oahOption
     void                  appendSubGroup (
                             S_oahSubGroup subGroup);
 
-    S_oahOption           fetchOptionByName (
+    S_oahElement           fetchOptionByName (
                             string name);
 
     virtual void          handleAtomValue (
@@ -1791,6 +2121,18 @@ class oahGroup : public oahOption
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1908,6 +2250,16 @@ to be developped into :
 
   public:
 
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
     // print
     // ------------------------------------------------------
 
@@ -1933,7 +2285,7 @@ to be developped into :
 EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
 //_______________________________________________________________________________
-class EXP oahHandler : public oahOption
+class EXP oahHandler : public oahElement
 {
   public:
 
@@ -2004,7 +2356,7 @@ class EXP oahHandler : public oahOption
     string                getExecutableName () const
                               { return fHandlerExecutableName; }
 
-    const list<S_oahOption>&
+    const list<S_oahElement>&
                           getHandlerOptionsList () const
                               { return fHandlerOptionsList; }
 
@@ -2029,19 +2381,29 @@ class EXP oahHandler : public oahOption
                             S_oahGroup oahGroup);
 
     void                  registerOptionInHandler (
-                            S_oahOption option);
+                            S_oahElement option);
 
     void                  registerHandlerInItself ();
 
     S_oahPrefix           fetchPrefixFromMap (
                             string name) const;
 
-    S_oahOption           fetchOptionFromMap (
+    S_oahElement           fetchOptionFromMap (
                             string name) const;
 
     const vector<string>  decipherOptionsAndArguments (
                             int   argc,
                             char* argv[]);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 
@@ -2086,13 +2448,13 @@ class EXP oahHandler : public oahOption
     void                  registerOptionNamesInHandler (
                             string      optionShortName,
                             string      optionLongName,
-                            S_oahOption option);
+                            S_oahElement option);
 
     void                  printKnownPrefixes () const;
     void                  printOptionsDefaultValuesInformation () const;
     void                  printKnownOptions () const;
 
-    S_oahOption           fetchOptionByName (
+    S_oahElement           fetchOptionByName (
                             string name);
 
     void                  handleOptionName (
@@ -2140,14 +2502,14 @@ class EXP oahHandler : public oahOption
 
     list<S_oahGroup>      fHandlerGroupsList;
 
-    map<string, S_oahOption>
+    map<string, S_oahElement>
                           fHandlerOptionsMap;
 
     vector<string>        fHandlerArgumentsVector;
 
     string                fHandlerExecutableName;
 
-    list<S_oahOption>     fHandlerOptionsList;
+    list<S_oahElement>     fHandlerOptionsList;
 
     ostream&              fHandlerLogOstream;
 

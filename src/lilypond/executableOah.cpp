@@ -70,7 +70,7 @@ void executableOah::initializeOahBasicHelpOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    helpExecutableOahHelpSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Options help",
         "hboh", "help-basic-options-help",
@@ -78,11 +78,11 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (helpExecutableOahHelpSubGroup);
+  appendSubGroup (subGroup);
 
   // help options
 
-  helpExecutableOahHelpSubGroup->
+  subGroup->
     appendAtom (
       oahOptionsUsageAtom::create (
         "ho", "help-options",
@@ -90,7 +90,7 @@ R"(Print options usage help.)"));
 
   // help summary
 
-  helpExecutableOahHelpSubGroup->
+  subGroup->
     appendAtom (
       oahOptionsSummaryAtom::create (
         "hs", "help-summary",
@@ -119,7 +119,7 @@ OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
   optionNameHelpAtom->
     setValueIsOptional ();
 
-  helpExecutableOahHelpSubGroup->
+  subGroup->
     appendAtom (
       optionNameHelpAtom);
 }
@@ -128,7 +128,7 @@ void executableOah::initializeExecutableOahAndArgumentsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    optionsAndArgumentsSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Options and arguments",
         "oaa", "options-and-arguments",
@@ -136,13 +136,13 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (optionsAndArgumentsSubGroup);
+  appendSubGroup (subGroup);
 
   // options and arguments
 
   fShowOptionsAndArguments = boolOptionsInitialValue;
 
-  optionsAndArgumentsSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "soaa", "show-options-and-arguments",
@@ -159,7 +159,7 @@ void executableOah::initializeOptionsTraceAndDisplayOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    traceSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Options handling",
         "htoh", "help-trace-options-handling",
@@ -167,13 +167,13 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (traceSubGroup);
+  appendSubGroup (subGroup);
 
   // trace options
 
   fTraceOah = boolOptionsInitialValue; // JMI ECURIE
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "toah", "trace-oah",
@@ -186,7 +186,7 @@ This option should best appear first.)",
 
   fTraceOahDetails = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "toptsd", "trace-options-details",
@@ -195,11 +195,23 @@ This option should best appear first.)",
         "traceOahDetails",
         fTraceOahDetails));
 
+  // trace oah visitors
+
+  fTraceOahVisitors    = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtom (
+      oahBooleanAtom::create (
+        "toahv", "trace-oah-visitors",
+R"(Write a trace of the OAH tree visiting activity to standard error.)",
+        "traceOahVisitors",
+        fTraceOahVisitors));
+
   // options values
 
   fDisplayOahValues = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "dov", "display-options-values",
@@ -211,7 +223,7 @@ R"(Write the chosen options values to standard error.)",
 
   fDisplayOptionsHandler = boolOptionsInitialValue;
 
-  traceSubGroup->
+  subGroup->
     appendAtom (
       oahBooleanAtom::create (
         "doh", "display-options-handler",
@@ -277,6 +289,9 @@ S_executableOah executableOah::createCloneWithTrueValues ()
     fTraceOah;
   clone->fTraceOahDetails =
     fTraceOahDetails;
+
+  clone->fTraceOahVisitors =
+    fTraceOahVisitors;
 
   clone->fDisplayOahValues =
     fDisplayOahValues;
@@ -344,6 +359,10 @@ void executableOah::printExecutableOahValues (int valueFieldWidth)
     endl <<
     setw (valueFieldWidth) << "traceOahDetails" << " : " <<
     booleanAsString (fTraceOahDetails) <<
+    endl <<
+
+    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
+    booleanAsString (fTraceOahVisitors) <<
     endl <<
 
     setw (valueFieldWidth) << "displayOptionsValues" << " : " <<

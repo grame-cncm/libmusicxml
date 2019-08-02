@@ -69,12 +69,26 @@ class bsrFacSimileKindAtom : public oahValuedAtom
                             bsrFacSimileKind value)
                               { fBsrFacSimileKindVariable = value; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -139,12 +153,26 @@ class bsrTextsLanguageAtom : public oahValuedAtom
                                 fBsrTextsLanguageKindVariable = value;
                               }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
     void                  handleValue (
                             string   theString,
                             ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -196,6 +224,8 @@ class bsrOah : public oahGroup
 
     virtual ~bsrOah ();
 
+  public:
+
     // set and get
     // ------------------------------------------------------
 
@@ -244,6 +274,16 @@ class bsrOah : public oahGroup
     void                  initializeBsrTraceOah (
                             bool boolOptionsInitialValue);
 #endif
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 
