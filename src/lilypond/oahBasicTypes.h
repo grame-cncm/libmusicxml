@@ -2454,7 +2454,7 @@ class EXP oahHandler : public oahElement
     void                  printOptionsDefaultValuesInformation () const;
     void                  printKnownOptions () const;
 
-    S_oahElement           fetchOptionByName (
+    S_oahElement          fetchOptionByName (
                             string name);
 
     void                  handleOptionName (
@@ -2486,7 +2486,7 @@ class EXP oahHandler : public oahElement
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     string                fHandlerHeader;
@@ -2509,7 +2509,7 @@ class EXP oahHandler : public oahElement
 
     string                fHandlerExecutableName;
 
-    list<S_oahElement>     fHandlerOptionsList;
+    list<S_oahElement>    fHandlerOptionsList;
 
     ostream&              fHandlerLogOstream;
 

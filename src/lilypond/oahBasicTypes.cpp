@@ -640,6 +640,12 @@ void oahAtomSynonym::browseData (basevisitor* v)
       endl;
   }
 #endif
+
+  if (fOriginalOahAtom) {
+    // browse the original atom
+    oahBrowser<oahAtom> browser (v);
+    browser.browse (*fOriginalOahAtom);
+  }
 }
 
 void oahAtomSynonym::print (ostream& os) const
@@ -1898,6 +1904,21 @@ void oahCombinedBooleansAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+
+  // browse the boolean atoms
+  if (fBooleanAtomsList.size ()) {
+    for (
+      list<S_oahBooleanAtom>::const_iterator i = fBooleanAtomsList.begin ();
+      i != fBooleanAtomsList.end ();
+      i++
+    ) {
+      S_oahBooleanAtom booleanAtom = (*i);
+
+      // browse the boolean atom
+      oahBrowser<oahBooleanAtom> browser (v);
+      browser.browse (*(booleanAtom));
+    } // for
+  }
 }
 
 void oahCombinedBooleansAtom::print (ostream& os) const
@@ -4853,6 +4874,21 @@ void oahSubGroup::browseData (basevisitor* v)
       endl;
   }
 #endif
+
+  // browse the atoms
+  if (fAtomsList.size ()) {
+    for (
+      list<S_oahAtom>::const_iterator i = fAtomsList.begin ();
+      i != fAtomsList.end ();
+      i++
+    ) {
+      S_oahAtom atom = (*i);
+
+      // browse the atom
+      oahBrowser<oahAtom> browser (v);
+      browser.browse (*(atom));
+    } // for
+  }
 }
 
 void oahSubGroup::print (ostream& os) const
@@ -5494,6 +5530,21 @@ void oahGroup::browseData (basevisitor* v)
       endl;
   }
 #endif
+
+  // browse the subGroups
+  if (fSubGroupsList.size ()) {
+    for (
+      list<S_oahSubGroup>::const_iterator i = fSubGroupsList.begin ();
+      i != fSubGroupsList.end ();
+      i++
+    ) {
+      S_oahSubGroup subGroup = (*i);
+
+      // browse the subGroup
+      oahBrowser<oahSubGroup> browser (v);
+      browser.browse (*(subGroup));
+    } // for
+  }
 }
 
 void oahGroup::print (ostream& os) const
@@ -6499,6 +6550,36 @@ void oahHandler::browseData (basevisitor* v)
       endl;
   }
 #endif
+
+  // browse the prefixes
+  if (fHandlerPrefixesMap.size ()) {
+    for (
+      map<string, S_oahPrefix>::const_iterator i = fHandlerPrefixesMap.begin ();
+      i != fHandlerPrefixesMap.end ();
+      i++
+    ) {
+      S_oahPrefix prefix = (*i).second;
+
+      // browse the prefix
+      oahBrowser<oahPrefix> browser (v);
+      browser.browse (*(prefix));
+    } // for
+  }
+
+  // browse the groups
+  if (fHandlerGroupsList.size ()) {
+    for (
+      list<S_oahGroup>::const_iterator i = fHandlerGroupsList.begin ();
+      i != fHandlerGroupsList.end ();
+      i++
+    ) {
+      S_oahGroup group = (*i);
+
+      // browse the prefix
+      oahBrowser<oahGroup> browser (v);
+      browser.browse (*(group));
+    } // for
+  }
 }
 
 void oahHandler::print (ostream& os) const
@@ -6897,11 +6978,15 @@ void oahHandler::printAllOahValues (
 
   int handlerOptionsMapSize =
     fHandlerOptionsMap.size ();
+  int handlerOptionsListSize =
+    fHandlerOptionsList.size ();
 
   os <<
     "There are " <<
     handlerOptionsMapSize <<
-    " known options names" <<
+    " known options names for " <<
+    handlerOptionsListSize <<
+    " option elements" <<
     endl;
 
   // print the options groups values
@@ -7137,12 +7222,16 @@ void oahHandler::printKnownOptions () const
 {
   int handlerOptionsMapSize =
     fHandlerOptionsMap.size ();
+  int handlerOptionsListSize =
+    fHandlerOptionsList.size ();
 
   // print the options map
   fHandlerLogOstream <<
     "The " <<
     handlerOptionsMapSize <<
-    " known options are:" <<
+    " known options for the " <<
+    handlerOptionsListSize <<
+    " option elements are:" <<
     endl;
 
   gIndenter++;
@@ -7241,12 +7330,16 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   // print the number of option names
   int handlerOptionsMapSize =
     fHandlerOptionsMap.size ();
+  int handlerOptionsListSize =
+    fHandlerOptionsList.size ();
 
   fHandlerLogOstream <<
     fHandlerExecutableName <<
     " features " <<
     handlerOptionsMapSize <<
-    " options names" <<
+    " options names for " <<
+    handlerOptionsListSize <<
+    " option elements" <<
     endl;
 
   // print the options groups values
