@@ -41,12 +41,15 @@ S_msrBarCheck msrBarCheck::create (
 }
 
 S_msrBarCheck msrBarCheck::createWithNextBarPuristNumber (
-  int inputLineNumber,
-  int nextBarPuristNumber)
+  int    inputLineNumber,
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
 {
   msrBarCheck* o =
     new msrBarCheck (
-      inputLineNumber, nextBarPuristNumber);
+      inputLineNumber,
+      nextBarOriginalNumber,
+      nextBarPuristNumber);
   assert(o!=0);
   return o;
 }
@@ -65,11 +68,13 @@ msrBarCheck::msrBarCheck (
 }
 
 msrBarCheck::msrBarCheck (
-  int inputLineNumber,
-  int nextBarPuristNumber)
+  int    inputLineNumber,
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
     : msrMeasureElement (inputLineNumber)
 {
-  fNextBarPuristNumber = nextBarPuristNumber;
+  fNextBarOriginalNumber = nextBarOriginalNumber;
+  fNextBarPuristNumber   = nextBarPuristNumber;
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {

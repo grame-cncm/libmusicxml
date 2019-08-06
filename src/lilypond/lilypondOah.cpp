@@ -2323,6 +2323,23 @@ This is useful when debugging EXECUTABLE.)",
         "inputLineNumbers",
         fInputLineNumbers));
 
+  // original measure numbers
+
+  fOriginalMeasureNumbers = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtom (
+      oahBooleanAtom::create (
+        "omn", "original-measure-numbers",
+        replaceSubstringInString (
+R"(Generate after each end of measure a comment containing
+its original MusicXML measure number.
+This is useful adding line breaks and page breaks, and when debugging EXECUTABLE.)",
+          "EXECUTABLE",
+          gExecutableOah->fHandlerExecutableName),
+        "originalMeasureNumbers",
+        fOriginalMeasureNumbers));
+
   // positions in the measures
 
   fPositionsInMeasures = boolOptionsInitialValue;
@@ -2392,8 +2409,11 @@ RESET_NUMBER_SPEC can be:
 'OLD = NEW'
 or
 "OLD = NEW" .
-OLD is a MusicXML measure number (a string) and NEW is a LilyPond (integer) measure number.
-This comes in handy when scanning several movements from a single PDF score.
+OLD is the MusicXML original measure number (a string), that can be generated
+in the LilyPond code in '| % ...' comments with option '-omn, -original-measure-numbers'.
+NEW is a LilyPond (integer) measure number.
+This comes in handy when scanning several movements from a single PDF score,
+in which case measure numbers are a single sequence.
 There can be several occurrences of this option.)",
         "RESET_NUMBER_SPEC",
         "resetMeasureNumberMap",
@@ -3216,6 +3236,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
 
   clone->fInputLineNumbers =
     true;
+  clone->fOriginalMeasureNumbers =
+    true;
   clone->fPositionsInMeasures =
     true;
 
@@ -3669,6 +3691,10 @@ void lilypondOah::printAtomOptionsValues (
 
     setw (valueFieldWidth) << "inputLineNumbers" << " : " <<
       booleanAsString (fInputLineNumbers) <<
+      endl <<
+
+    setw (valueFieldWidth) << "originalMeasureNumbers" << " : " <<
+      booleanAsString (fOriginalMeasureNumbers) <<
       endl <<
 
     setw (valueFieldWidth) << "positionsInMeasures" << " : " <<
@@ -4155,6 +4181,10 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
 
     setw (fieldWidth) << "inputLineNumbers" << " : " <<
       booleanAsString (fInputLineNumbers) <<
+      endl <<
+
+    setw (fieldWidth) << "originalMeasureNumbers" << " : " <<
+      booleanAsString (fOriginalMeasureNumbers) <<
       endl <<
 
     setw (fieldWidth) << "notesPositionsInMeasures" << " : " <<

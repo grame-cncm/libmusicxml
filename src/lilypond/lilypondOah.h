@@ -967,6 +967,7 @@ class lilypondOah : public oahGroup
     bool                  fCompressFullMeasureRests;
 
     bool                  fInputLineNumbers;
+    bool                  fOriginalMeasureNumbers;
     bool                  fPositionsInMeasures;
 
 

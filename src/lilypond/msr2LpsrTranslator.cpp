@@ -2138,6 +2138,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureNumber ();
 
+  string
+    nextMeasureNumber =
+      elt->getNextMeasureNumber ();
+
   int
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
@@ -2147,6 +2151,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
       measureNumber <<
+      "', nextMeasureNumber = '" <<
+      nextMeasureNumber <<
       "', measurePuristNumber = '" <<
       measurePuristNumber <<
       "', line " << inputLineNumber <<
@@ -2279,6 +2285,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     fLastBarCheck =
       msrBarCheck::createWithNextBarPuristNumber (
         inputLineNumber,
+        nextMeasureNumber,
         voiceCurrentMeasurePuristNumber);
 
     // append it to the current voice clone

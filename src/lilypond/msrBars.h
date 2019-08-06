@@ -35,8 +35,9 @@ class msrBarCheck : public msrMeasureElement
       int inputLineNumber);
 
     static SMARTP<msrBarCheck> createWithNextBarPuristNumber (
-      int inputLineNumber,
-      int nextBarPuristNumber);
+      int    inputLineNumber,
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
 
   protected:
 
@@ -47,8 +48,9 @@ class msrBarCheck : public msrMeasureElement
       int inputLineNumber);
 
     msrBarCheck (
-      int inputLineNumber,
-      int nextBarPuristNumber);
+      int    inputLineNumber,
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
 
     virtual ~msrBarCheck ();
 
@@ -56,6 +58,9 @@ class msrBarCheck : public msrMeasureElement
 
     // set and get
     // ------------------------------------------------------
+
+    string                getNextBarOriginalNumber () const
+                              { return fNextBarOriginalNumber; }
 
     void                  setNextBarPuristNumber (int puristNumber);
 
@@ -89,6 +94,7 @@ class msrBarCheck : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
+    string               fNextBarOriginalNumber;
     int                  fNextBarPuristNumber;
 };
 typedef SMARTP<msrBarCheck> S_msrBarCheck;

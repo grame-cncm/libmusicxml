@@ -217,14 +217,14 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
         fMeasureNumber,
         containingSegment);
 
+  // next measure number
+  newbornClone->fNextMeasureNumber =
+    fNextMeasureNumber;
+
     /* JMI
   // lengthes
   newbornClone->fFullMeasureWholeNotes =
     fFullMeasureWholeNotes;
-
-  // next measure number
-  newbornClone->fNextMeasureNumber =
-    fNextMeasureNumber;
 
   // measure purist number
   newbornClone->fMeasurePuristNumber = // JMI don't compute that again for clones ???

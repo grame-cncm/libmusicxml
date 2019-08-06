@@ -7385,7 +7385,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasurePuristNumber ();
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors || gTraceOah->fTraceMeasuresNumbers) { // JMI
+  if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> Start visiting msrMeasure '" <<
       measureNumber <<
@@ -14166,13 +14166,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
   if (
     ! fOnGoingVoiceCadenza
       // should be tested in msr2LpsrTranslator.cpp JMI visitEnd (S_msrMeasure&)
-     // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
+      // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
     &&
     ! fOnGoingRestMeasures
   ) {
     // don't generate a bar check before the end of measure 1 // JMI ???
     fLilypondCodeOstream <<
-      "| % " << nextBarPuristNumber <<
+      "| % " << nextBarPuristNumber;
+
+    if (gLilypondOah->fOriginalMeasureNumbers) {
+      // print the original MusicXML measure number as a comment
+      fLilypondCodeOstream <<
+        " (mxml: " << elt->getNextBarOriginalNumber () << ")";
+    }
+
+    fLilypondCodeOstream <<
       endl;
   }
 }
@@ -14258,7 +14266,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrLineBreak& elt)
 #endif
 
   fLilypondCodeOstream <<
-    "\\myBreak | % " << elt->getNextBarNumber () <<
+    "\\myBreak | % " << elt->getNextBarNumber ();
+
+    if (gLilypondOah->fOriginalMeasureNumbers) {
+      // print the original MusicXML measure number as a comment
+      fLilypondCodeOstream <<
+        " (mxml: " << elt->getNextBarNumber () << ")";
+    }
+
+  fLilypondCodeOstream <<
     endl <<
     endl;
 }
@@ -15041,7 +15057,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
   // now we can generate the bar check
   fLilypondCodeOstream <<
     " | % " <<
-    elt->getRestMeasuresLastMeasurePuristMeasureNumber () + 1 <<
+    elt->getRestMeasuresLastMeasurePuristMeasureNumber () + 1;
+
+/* TO BE FINALIZED JMI
+    if (gLilypondOah->fOriginalMeasureNumbers) {
+      // print the original MusicXML measure number as a comment
+      fLilypondCodeOstream <<
+        " (mxml3: " << measureElement->getInputLineNumber () << ")";
+    }
+*/
+
+  fLilypondCodeOstream <<
     endl;
 
   if (gLilypondOah->fComments) {
