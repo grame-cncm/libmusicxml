@@ -204,6 +204,28 @@ void lpsrScoreOutputKindAtom::browseData (basevisitor* v)
 #endif
 }
 
+string lpsrScoreOutputKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
+
+  return s.str ();
+}
+
+string lpsrScoreOutputKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
+
+  return s.str ();
+}
+
 void lpsrScoreOutputKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -423,6 +445,30 @@ void lpsrPitchesLanguageAtom::browseData (basevisitor* v)
 #endif
 }
 
+string lpsrPitchesLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fMsrQuarterTonesPitchesLanguageKindVariable);
+
+  return s.str ();
+}
+
+string lpsrPitchesLanguageAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fMsrQuarterTonesPitchesLanguageKindVariable);
+
+  return s.str ();
+}
+
 void lpsrPitchesLanguageAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -638,6 +684,28 @@ void lpsrChordsLanguageAtom::browseData (basevisitor* v)
 #endif
 }
 
+string lpsrChordsLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    lpsrChordsLanguageKindAsString (fLpsrChordsLanguageKindVariable);
+
+  return s.str ();
+}
+
+string lpsrChordsLanguageAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    lpsrChordsLanguageKindAsString (fLpsrChordsLanguageKindVariable);
+
+  return s.str ();
+}
+
 void lpsrChordsLanguageAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -830,6 +898,28 @@ void lpsrTransposeAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+}
+
+string lpsrTransposeAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    fMsrSemiTonesPitchAndOctaveVariable->asString ();
+
+  return s.str ();
+}
+
+string lpsrTransposeAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    fMsrSemiTonesPitchAndOctaveVariable->asString ();
+
+  return s.str ();
 }
 
 void lpsrTransposeAtom::print (ostream& os) const

@@ -90,6 +90,9 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
@@ -177,6 +180,9 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -267,6 +273,9 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
@@ -355,6 +364,9 @@ class lpsrTransposeAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 

@@ -157,6 +157,28 @@ void lilypondScoreOutputKindAtom::browseData (basevisitor* v)
 #endif
 }
 
+string lilypondScoreOutputKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
+
+  return s.str ();
+}
+
+string lilypondScoreOutputKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
+
+  return s.str ();
+}
+
 void lilypondScoreOutputKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -536,6 +558,28 @@ void lilypondRelativeOctaveEntryAtom::browseData (basevisitor* v)
 #endif
 }
 
+string lilypondRelativeOctaveEntryAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    fMsrSemiTonesPitchAndOctaveVariable->asString ();
+
+  return s.str ();
+}
+
+string lilypondRelativeOctaveEntryAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    fMsrSemiTonesPitchAndOctaveVariable->asString ();
+
+  return s.str ();
+}
+
 void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -724,6 +768,28 @@ void lilypondFixedOctaveEntryAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+}
+
+string lilypondFixedOctaveEntryAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    fMsrSemiTonesPitchAndOctaveVariable->asString ();
+
+  return s.str ();
+}
+
+string lilypondFixedOctaveEntryAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    fMsrSemiTonesPitchAndOctaveVariable->asString ();
+
+  return s.str ();
 }
 
 void lilypondFixedOctaveEntryAtom::print (ostream& os) const
@@ -983,6 +1049,56 @@ void lilypondResetMeasureNumberAtom::browseData (basevisitor* v)
 #endif
 }
 
+string lilypondResetMeasureNumberAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringIntMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, int>::const_iterator
+      iBegin = fStringIntMapVariable.begin (),
+      iEnd   = fStringIntMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string lilypondResetMeasureNumberAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringIntMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, int>::const_iterator
+      iBegin = fStringIntMapVariable.begin (),
+      iEnd   = fStringIntMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
 void lilypondResetMeasureNumberAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1235,6 +1351,28 @@ void lilypondAccidentalStyleKindAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+}
+
+string lilypondAccidentalStyleKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    lpsrAccidentalStyleKindAsString (fLpsrAccidentalStyleKindVariable);
+
+  return s.str ();
+}
+
+string lilypondAccidentalStyleKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    lpsrAccidentalStyleKindAsString (fLpsrAccidentalStyleKindVariable);
+
+  return s.str ();
 }
 
 void lilypondAccidentalStyleKindAtom::print (ostream& os) const
@@ -1523,6 +1661,50 @@ void lilypondChordsDisplayAtom::browseData (basevisitor* v)
 #endif
 }
 
+string lilypondChordsDisplayAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  list<pair<string, string> >::const_iterator
+    iBegin = fStringsPairListVariable.begin (),
+    iEnd   = fStringsPairListVariable.end (),
+    i      = iBegin;
+  for ( ; ; ) {
+    s <<
+      (*i).first << " --> " << (*i).second <<
+      endl;
+    if (++i == iEnd) break;
+    s << ","; // JMI
+  } // for
+
+  return s.str ();
+}
+
+string lilypondChordsDisplayAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  list<pair<string, string> >::const_iterator
+    iBegin = fStringsPairListVariable.begin (),
+    iEnd   = fStringsPairListVariable.end (),
+    i      = iBegin;
+  for ( ; ; ) {
+    s <<
+      (*i).first << " --> " << (*i).second <<
+      endl;
+    if (++i == iEnd) break;
+    s << ","; // JMI
+  } // for
+
+  return s.str ();
+}
+
 void lilypondChordsDisplayAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -1809,6 +1991,32 @@ void lilypondMidiTempoAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+}
+
+string lilypondMidiTempoAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    fStringIntPairVariable.first <<
+    "=" <<
+    fStringIntPairVariable.first;
+
+  return s.str ();
+}
+
+string lilypondMidiTempoAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    fStringIntPairVariable.first <<
+    "=" <<
+    fStringIntPairVariable.first;
+
+  return s.str ();
 }
 
 void lilypondMidiTempoAtom::print (ostream& os) const

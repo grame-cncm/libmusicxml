@@ -249,6 +249,56 @@ void msrRenamePartAtom::browseData (basevisitor* v)
 #endif
 }
 
+string msrRenamePartAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringStringMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fStringStringMapVariable.begin (),
+      iEnd   = fStringStringMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string msrRenamePartAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringStringMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fStringStringMapVariable.begin (),
+      iEnd   = fStringStringMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
 void msrRenamePartAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -544,6 +594,56 @@ void msrTransposePartAtom::browseData (basevisitor* v)
 #endif
 }
 
+string msrTransposePartAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string msrTransposePartAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
 void msrTransposePartAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -796,6 +896,30 @@ void msrPitchesLanguageAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+}
+
+string msrPitchesLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fMsrQuarterTonesPitchesLanguageKindVariable);
+
+  return s.str ();
+}
+
+string msrPitchesLanguageAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fMsrQuarterTonesPitchesLanguageKindVariable);
+
+  return s.str ();
 }
 
 void msrPitchesLanguageAtom::print (ostream& os) const

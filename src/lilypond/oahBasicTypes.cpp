@@ -2472,7 +2472,7 @@ string oahIntegerAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " << fIntegerVariable;
+    "-" << fShortName << " " << fIntegerVariable;
 
   return s.str ();
 }
@@ -2712,7 +2712,7 @@ string oahFloatAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " << fFloatVariable;
+    "-" << fShortName << " " << fFloatVariable;
 
   return s.str ();
 }
@@ -2895,7 +2895,7 @@ string oahStringAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " << fStringVariable;
+    "-" << fShortName << " " << fStringVariable;
 
   return s.str ();
 }
@@ -3088,7 +3088,7 @@ string oahStringWithDefaultValueAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " << fStringVariable;
+    "-" << fShortName << " " << fStringVariable;
 
   return s.str ();
 }
@@ -3350,7 +3350,7 @@ string oahRationalAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " << fRationalVariable;
+    "-" << fShortName << " " << fRationalVariable;
 
   return s.str ();
 }
@@ -3586,7 +3586,7 @@ string oahNaturalNumbersSetElementAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " <<
+    "-" << fShortName << " " <<
     "[";
 
   set<int>::const_iterator
@@ -3611,7 +3611,7 @@ string oahNaturalNumbersSetElementAtom::asLongNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fLongName << " " <<
+    "-" << fLongName << " " <<
     "[";
 
   set<int>::const_iterator
@@ -3850,7 +3850,7 @@ string oahNaturalNumbersSetAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " <<
+    "-" << fShortName << " " <<
     "[";
 
   set<int>::const_iterator
@@ -3875,7 +3875,7 @@ string oahNaturalNumbersSetAtom::asLongNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fLongName << " " <<
+    "-" << fLongName << " " <<
     "[";
 
   set<int>::const_iterator
@@ -4111,7 +4111,7 @@ string oahStringsSetElementAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " <<
+    "-" << fShortName << " " <<
     "[";
 
   set<string>::const_iterator
@@ -4136,7 +4136,7 @@ string oahStringsSetElementAtom::asLongNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fLongName << " " <<
+    "-" << fLongName << " " <<
     "[";
 
   set<string>::const_iterator
@@ -4375,7 +4375,7 @@ string oahStringsSetAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " <<
+    "-" << fShortName << " " <<
     "[";
 
   set<string>::const_iterator
@@ -4400,7 +4400,7 @@ string oahStringsSetAtom::asLongNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fLongName << " " <<
+    "-" << fLongName << " " <<
     "[";
 
   set<string>::const_iterator
@@ -4655,7 +4655,7 @@ string oahOptionNameHelpAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-"  << fShortName << " " << fVariableName;
+    "-" << fShortName << " " << fVariableName;
 
   return s.str ();
 }

@@ -89,6 +89,9 @@ class msrRenamePartAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
@@ -189,6 +192,9 @@ class msrTransposePartAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
@@ -277,6 +283,9 @@ class msrPitchesLanguageAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
