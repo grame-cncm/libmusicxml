@@ -14,10 +14,6 @@
 #define __mxml2MsrTranslatorInterface__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 
 #include "exports.h"

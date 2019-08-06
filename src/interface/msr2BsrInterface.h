@@ -14,10 +14,6 @@
 #define __msr2BsrInterface__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include "bsr.h"
 #include "exports.h"
 
@@ -26,7 +22,7 @@
 #include "bsrOah.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /*!

@@ -3732,9 +3732,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     } // while
   }
 
-if (false) { // JMI
+/* if (true) { // JMI
+*/
   // append the tempo to the pending tempos list
   fPendingTemposList.push_back (fCurrentMetronomeTempo);
+  /*
 }
 else {
   // fetch current direction's voice
@@ -3754,6 +3756,7 @@ else {
   currentDirectionsVoice->
     appendTempoToVoice (fCurrentMetronomeTempo);
   }
+  */
 }
 
 //________________________________________________________________________

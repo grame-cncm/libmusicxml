@@ -14,16 +14,12 @@
 #define __mxmlTree2MsrSkeletonBuilderInterface__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include "msr.h"
 
 #include "msrOah.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /*!

@@ -14,10 +14,6 @@
 #define __lpsr2LilypondInterfact__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include "lpsr.h"
 #include "exports.h"
 

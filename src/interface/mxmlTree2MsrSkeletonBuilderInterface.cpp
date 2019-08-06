@@ -10,10 +10,6 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 
 #include "xml.h"
@@ -39,7 +35,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -52,14 +48,14 @@ S_msrScore buildMsrSkeletonFromElementsTree (
   msrAssert (
     mxmlTree != 0,
     "mxmlTree is null");
-    
+
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-  
+
     logOstream <<
       endl <<
       separator <<
@@ -67,13 +63,13 @@ S_msrScore buildMsrSkeletonFromElementsTree (
       gTab <<
       "Pass 2a: translating the xmlelement tree into an MSR skeleton" <<
       endl;
-    
+
     logOstream <<
       separator <<
       endl;
   }
 #endif
-  
+
   // create an mxmlTree2MsrSkeletonBuilder
   mxmlTree2MsrSkeletonBuilder
     skeletonBuilder (
@@ -98,7 +94,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     startClock,
     endClock);
 
-    
+
   if (msrOpts->fDisplayMsr) {
     // display the MSR skeleton
     displayMsrSkeleton (
@@ -120,12 +116,12 @@ void displayMsrSkeleton (
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
+
   string separator =
     "%--------------------------------------------------------------";
-  
+
   logOstream <<
     endl <<
     separator <<
@@ -160,14 +156,14 @@ void displayMsrSkeletonSummary (
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
+
     logOstream <<
       endl <<
       separator <<
@@ -179,7 +175,7 @@ void displayMsrSkeletonSummary (
       endl;
   }
 #endif
-   
+
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor
     summaryVisitor (
@@ -188,7 +184,7 @@ void displayMsrSkeletonSummary (
 
   summaryVisitor.printSummaryFromMsrScore (
     mScore);
-  
+
   clock_t endClock = clock ();
 
   // register time spent

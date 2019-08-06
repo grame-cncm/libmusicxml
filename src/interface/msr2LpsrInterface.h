@@ -14,10 +14,6 @@
 #define __msr2LpsrInterface__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include "generalOah.h"
 #include "msrOah.h"
 #include "lpsrOah.h"
@@ -26,7 +22,7 @@
 #include "exports.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //#ifdef __cplusplus

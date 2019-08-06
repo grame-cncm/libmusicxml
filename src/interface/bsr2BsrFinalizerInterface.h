@@ -14,10 +14,6 @@
 #define __bsr2BsrFinalizerInterface__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include "bsr.h"
 #include "exports.h"
 

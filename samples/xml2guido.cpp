@@ -7,10 +7,6 @@
   This file is provided as an example of the MusicXML Library use.
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <fstream>
 #include <string>
