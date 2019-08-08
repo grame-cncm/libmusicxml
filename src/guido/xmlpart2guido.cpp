@@ -1418,8 +1418,9 @@ namespace MusicXML2
         }
         
         if (i != tuplets.end()) {
-            /// Determine whether we need Brackets or not
+            /// Determine whether we need Brackets and Numbering
             bool withBracket = ((*i)->getAttributeValue("bracket")=="yes");
+            bool withoutNumbering = ((*i)->getAttributeValue("show-number")=="none");
             /// Get Tuplet Number
             int thisTupletNumber = (*i)->getAttributeIntValue("number", 1);
             /// Get Tuplet Placement and graphic type
@@ -1522,7 +1523,7 @@ namespace MusicXML2
                 /// Add number visualiser
                 stringstream tuplet;
                 if (numberOfEventsInTuplet>1)   // workaround for pianistic Tremolos that come out of Finale as Tuplets!
-                    tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");
+                    tuplet << (withBracket? "-" : "") << (withoutNumbering ? "" : std::to_string(numberOfEventsInTuplet)) << (withBracket? "-" : "");
                 tag->add (guidoparam::create(tuplet.str()));
                 
                 /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
