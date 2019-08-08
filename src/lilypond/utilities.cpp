@@ -1162,11 +1162,11 @@ string singularOrPluralWithoutNumber (
 }
 
 //______________________________________________________________________________
-void optionError (string errorMessage)
+void oahError (string errorMessage)
 {
   gLogOstream <<
     endl <<
-    "### ERROR in the options:" <<
+    "### ERROR in the options and help:" <<
     endl <<
     errorMessage <<
     endl <<

@@ -44,7 +44,7 @@ enum bsrByteOrderingKind {
     kByteOrderingNone,
     kByteOrderingBigEndian, kByteOrderingSmallEndian };
 
-string byteOrderingKindAsString (
+string bsrByteOrderingKindAsString (
   bsrByteOrderingKind byteOrderingKind);
 
 //______________________________________________________________________________

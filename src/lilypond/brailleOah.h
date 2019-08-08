@@ -83,6 +83,9 @@ class brailleUTFKindAtom : public oahValuedAtom
     // print
     // ------------------------------------------------------
 
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
     void                  print (ostream& os) const;
 
     void                  printAtomOptionsValues (
@@ -154,6 +157,9 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 

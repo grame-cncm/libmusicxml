@@ -769,6 +769,8 @@ void msrStaff::registerVoiceInRegularVoicesMap (
   }
 #endif
 
+  fStaffRegularVoicesList.push_back (voice);
+
   fStaffRegularVoicesMap [fStaffRegularVoicesCounter] =
     voice;
 
@@ -839,6 +841,63 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
         break;
     }
   } // for
+
+  return result;
+}
+
+S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
+  int inputLineNumber)
+{
+  S_msrVoice result;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
+    gLogOstream <<
+      "Fetching first regular voice in staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUpLink->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (! fStaffRegularVoicesList.size ()) {
+    stringstream s;
+
+    s <<
+      "staff " << fStaffNumber <<
+      " in part " <<
+      fStaffPartUpLink->getPartCombinedName () <<
+      " doesn't contain any regular voices, cannot fetch the first one" <<
+      ", line " << inputLineNumber;
+
+    msrInternalError ( // JMI ???
+      gExecutableOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+
+  }
+  else {
+    result = fStaffRegularVoicesList.front ();
+
+    // sanity check
+    msrAssert (
+      result->getRegularVoiceStaffSequentialNumber () == 1,
+      "result->getRegularVoiceStaffSequentialNumber () is not equal to 1");
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
+      gLogOstream <<
+        "The first regular voice in staff \"" <<
+        getStaffName () <<
+        "\" is " <<
+        result->asShortString () <<
+        endl;
+    }
+#endif
+  }
 
   return result;
 }
@@ -2460,8 +2519,9 @@ void msrStaff::print (ostream& os)
 
   // print the all voices map
   if (fStaffAllVoicesMap.size ()) {
-    os <<
-      "staffAllVoicesMap" <<
+    os << left <<
+      setw (fieldWidth) <<
+      "staffAllVoicesMap" << " : " <<
       endl;
 
     gIndenter++;
@@ -2491,8 +2551,9 @@ void msrStaff::print (ostream& os)
 
   // print the regular voices map
   if (fStaffAllVoicesMap.size ()) {
-    os <<
-      "staffRegularVoicesMap" <<
+    os << left <<
+      setw (fieldWidth) <<
+      "staffRegularVoicesMap" << " : " <<
       endl;
 
     gIndenter++;
@@ -2512,6 +2573,48 @@ void msrStaff::print (ostream& os)
       msrAssert (
         voice != nullptr,
         "voice is null");
+
+      os <<
+        voiceNumber << " : " <<
+        "regularVoiceStaffSequentialNumber = " <<
+        voice->getRegularVoiceStaffSequentialNumber () <<
+        ", " <<
+        voice->asShortString ();
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+
+  // print the regular voices list
+  if (fStaffRegularVoicesList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "staffRegularVoicesList" << " : " <<
+      endl;
+
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fStaffRegularVoicesList.begin (),
+      iEnd   = fStaffRegularVoicesList.end (),
+      i      = iBegin;
+
+    int voiceNumber = 0;
+
+    for ( ; ; ) {
+      if (i == iEnd) break; // JMI ???
+
+      S_msrVoice voice = (*i);
+
+      // sanity check
+      msrAssert (
+        voice != nullptr,
+        "voice is null");
+
+      voiceNumber++;
 
       os <<
         voiceNumber << " : " <<

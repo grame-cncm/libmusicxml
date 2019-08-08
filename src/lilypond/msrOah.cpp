@@ -147,7 +147,7 @@ void msrRenamePartAtom::handleValue (
       "-msrPartRename argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -177,7 +177,7 @@ void msrRenamePartAtom::handleValue (
       "Part \"" << oldPartName << "\" occurs more that one" <<
       "in the '--partName' option";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -489,7 +489,7 @@ void msrTransposePartAtom::handleValue (
       "-marTransposePart argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -519,7 +519,7 @@ void msrTransposePartAtom::handleValue (
       "Part \"" << originalPitchName << "\" occurs more that one" <<
       "in the '--transpose-part' option";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -827,7 +827,7 @@ void msrPitchesLanguageAtom::handleValue (
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4); // JMI
   }
 
@@ -1156,7 +1156,7 @@ R"()",
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
   }
 
   const msrQuarterTonesPitchesLanguageKind

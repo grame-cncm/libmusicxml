@@ -45,7 +45,7 @@ string bsrUTFKindAsString (
   return result;
 }
 
-string byteOrderingKindAsString (
+string bsrByteOrderingKindAsString (
   bsrByteOrderingKind byteOrderingKind)
 {
   string result;
@@ -148,7 +148,7 @@ string bsrBrailleGenerator::asString () const
   s <<
     "BrailleGenerator" <<
     ", byteOrderingKind: " <<
-    byteOrderingKindAsString (
+    bsrByteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();
@@ -310,7 +310,7 @@ string bsrUTF8BrailleGenerator::asString () const
   s <<
     "UTF8BrailleGenerator" <<
     ", byteOrderingKind: " <<
-    byteOrderingKindAsString (
+    bsrByteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();
@@ -366,7 +366,7 @@ string bsrUTF16BigEndianBrailleGenerator::asString () const
   s <<
     "UTF16BigEndianBrailleGenerator" <<
     ", byteOrderingKind: " <<
-    byteOrderingKindAsString (
+    bsrByteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();
@@ -422,7 +422,7 @@ string bsrUTF16SmallEndianBrailleGenerator::asString () const
   s <<
     "UTF16SmallEndianBrailleGenerator" <<
     ", byteOrderingKind: " <<
-    byteOrderingKindAsString (
+    bsrByteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();

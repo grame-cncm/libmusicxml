@@ -17503,7 +17503,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
               "argument \"" << theString <<
               "\" contains a ',' after a '\\'";
 
-            optionError (s.str ());
+            oahError (s.str ());
 
             exit (4);
           }
@@ -17519,7 +17519,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
               "argument \"" << theString <<
               "\" contains a '\\'' after a ','";
 
-            optionError (s.str ());
+            oahError (s.str ());
 
             exit (4);
           }

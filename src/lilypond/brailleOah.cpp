@@ -103,7 +103,7 @@ void brailleUTFKindAtom::handleValue (
       "The possible values are 8 and 16" <<
       endl;
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -171,6 +171,28 @@ void brailleUTFKindAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+}
+
+string brailleUTFKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    bsrUTFKindAsString (fBsrUTFKindVariable);
+
+  return s.str ();
+}
+
+string brailleUTFKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    bsrUTFKindAsString (fBsrUTFKindVariable);
+
+  return s.str ();
 }
 
 void brailleUTFKindAtom::print (ostream& os) const
@@ -291,7 +313,7 @@ void brailleByteOrderingKindAtom::handleValue (
       "The possible values are big and small" <<
       endl;
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4); // JMI
   }
 
@@ -361,6 +383,28 @@ void brailleByteOrderingKindAtom::browseData (basevisitor* v)
 #endif
 }
 
+string brailleByteOrderingKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    bsrByteOrderingKindAsString (fBsrByteOrderingKindVariable);
+
+  return s.str ();
+}
+
+string brailleByteOrderingKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    bsrByteOrderingKindAsString (fBsrByteOrderingKindVariable);
+
+  return s.str ();
+}
+
 void brailleByteOrderingKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -381,7 +425,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "brailleByteOrderingKindVariable" << " : \"" <<
-    byteOrderingKindAsString (
+    bsrByteOrderingKindAsString (
       fBsrByteOrderingKindVariable) <<
       "\"" <<
     endl;
@@ -395,7 +439,7 @@ void brailleByteOrderingKindAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    byteOrderingKindAsString (
+    bsrByteOrderingKindAsString (
       fBsrByteOrderingKindVariable) <<
     "\"" <<
     endl;
@@ -774,7 +818,7 @@ void brailleOah::printBrailleOahValues (int fieldWidth)
       endl <<
 
     setw (fieldWidth) << "byteOrderingKind" << " : " <<
-      byteOrderingKindAsString (fByteOrderingKind) <<
+      bsrByteOrderingKindAsString (fByteOrderingKind) <<
       endl <<
 
     setw (fieldWidth) << "useEncodingInFileName" << " : " <<

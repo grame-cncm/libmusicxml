@@ -30,7 +30,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-string facSimileKindAsString (
+string bsrFacSimileKindAsString (
   bsrFacSimileKind facSimileKind)
 {
   string result;
@@ -165,6 +165,28 @@ void bsrFacSimileKindAtom::browseData (basevisitor* v)
 #endif
 }
 
+string bsrFacSimileKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    bsrFacSimileKindAsString (fBsrFacSimileKindVariable);
+
+  return s.str ();
+}
+
+string bsrFacSimileKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    bsrFacSimileKindAsString (fBsrFacSimileKindVariable);
+
+  return s.str ();
+}
+
 void bsrFacSimileKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
@@ -185,7 +207,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "bsrFacSimileKindVariable" << " : \"" <<
-    facSimileKindAsString (
+    bsrFacSimileKindAsString (
       fBsrFacSimileKindVariable) <<
       "\"" <<
     endl;
@@ -199,7 +221,7 @@ void bsrFacSimileKindAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    facSimileKindAsString (
+    bsrFacSimileKindAsString (
       fBsrFacSimileKindVariable) <<
     "\"" <<
     endl;
@@ -329,6 +351,28 @@ void bsrTextsLanguageAtom::browseData (basevisitor* v)
       endl;
   }
 #endif
+}
+
+string bsrTextsLanguageAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    bsrTextsLanguageKindAsString (fBsrTextsLanguageKindVariable);
+
+  return s.str ();
+}
+
+string bsrTextsLanguageAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    bsrTextsLanguageKindAsString (fBsrTextsLanguageKindVariable);
+
+  return s.str ();
 }
 
 void bsrTextsLanguageAtom::print (ostream& os) const
@@ -489,7 +533,7 @@ R"()",
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
   }
 
   const bsrTextsLanguageKind

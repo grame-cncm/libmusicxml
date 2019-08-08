@@ -99,7 +99,7 @@ lpsrScore::lpsrScore (
       stringstream s;
 
       s <<
-        "The translation command was:";
+        "The translation command line was:";
 
       fTranslationDateComment =
         lpsrComment::create (

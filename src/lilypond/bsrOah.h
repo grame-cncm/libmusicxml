@@ -26,7 +26,7 @@ namespace MusicXML2
 enum bsrFacSimileKind {
     kFacSimileYes, kFacSimileNo };
 
-string facSimileKindAsString (
+string bsrFacSimileKindAsString (
   bsrFacSimileKind facSimileKind);
 
 //______________________________________________________________________________
@@ -92,6 +92,9 @@ class bsrFacSimileKindAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -176,6 +179,9 @@ class bsrTextsLanguageAtom : public oahValuedAtom
 
     // print
     // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 

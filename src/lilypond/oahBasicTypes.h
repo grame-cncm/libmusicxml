@@ -2356,9 +2356,13 @@ class EXP oahHandler : public oahElement
     string                getExecutableName () const
                               { return fHandlerExecutableName; }
 
-    const list<S_oahElement>&
-                          getHandlerOptionsList () const
-                              { return fHandlerOptionsList; }
+    const multiset<S_oahElement>&
+                          getHandlerRegisteredElementsMultiSet () const
+                              { return fHandlerRegisteredElementsMultiSet; }
+
+    const multiset<S_oahElement>&
+                          getHandlerCommandLineElementsMultiSet () const
+                              { return fHandlerCommandLineElementsMultiSet; }
 
     int                   getMaximumShortNameWidth () const
                               { return fMaximumShortNameWidth; }
@@ -2380,8 +2384,8 @@ class EXP oahHandler : public oahElement
     void                  appendGroupToHandler (
                             S_oahGroup oahGroup);
 
-    void                  registerOptionInHandler (
-                            S_oahElement option);
+    void                  registerElementInHandler (
+                            S_oahElement element);
 
     void                  registerHandlerInItself ();
 
@@ -2445,10 +2449,8 @@ class EXP oahHandler : public oahElement
 
     string                handlerOptionNamesBetweenParentheses () const;
 
-    void                  registerOptionNamesInHandler (
-                            string      optionShortName,
-                            string      optionLongName,
-                            S_oahElement option);
+    void                  registerElementNamesInHandler (
+                            S_oahElement element);
 
     void                  printKnownPrefixes () const;
     void                  printOptionsDefaultValuesInformation () const;
@@ -2503,13 +2505,11 @@ class EXP oahHandler : public oahElement
     list<S_oahGroup>      fHandlerGroupsList;
 
     map<string, S_oahElement>
-                          fHandlerOptionsMap;
+                          fHandlerElementsMap;
 
     vector<string>        fHandlerArgumentsVector;
 
     string                fHandlerExecutableName;
-
-    list<S_oahElement>    fHandlerOptionsList;
 
     ostream&              fHandlerLogOstream;
 
@@ -2531,6 +2531,14 @@ class EXP oahHandler : public oahElement
 
     // private fields
     // ------------------------------------------------------
+
+    // all OAH elements are registered in the handler up initialization
+    multiset<S_oahElement>
+                          fHandlerRegisteredElementsMultiSet;
+
+    // those ones have be used in the command line
+    multiset<S_oahElement>
+                          fHandlerCommandLineElementsMultiSet;
 
     int                   fMaximumSubGroupsHeadersSize;
 

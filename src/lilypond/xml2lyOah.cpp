@@ -745,7 +745,7 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         endl <<
         "cannot be chosen simultaneously";
 
-      optionError (s.str ());
+      oahError (s.str ());
 
       exit (3);
     }
@@ -758,7 +758,7 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         endl <<
         "cannot be used when reading from standard input";
 
-      optionError (s.str ());
+      oahError (s.str ());
 
       exit (4);
     }

@@ -1582,7 +1582,6 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
   int voiceNumber)
 {
   // the voice number is relative to a part,
-  // we'll call it its part-relative ID
 
   // create the staff if not yet done
   S_msrStaff
@@ -1609,6 +1608,30 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
           voiceNumber,
           fCurrentMeasureNumber);
   }
+
+  return voice;
+}
+
+//______________________________________________________________________________
+S_msrVoice mxmlTree2MsrSkeletonBuilder::fetchFirstRegularVoiceFromStaff (
+  int inputLineNumber,
+  int staffNumber)
+{
+  // the voice number is relative to a part,
+
+  // create the staff if not yet done
+  S_msrStaff
+    staff =
+      createStaffInCurrentPartIfNotYetDone (
+        inputLineNumber,
+        staffNumber);
+
+  // fetch the first regular
+  S_msrVoice
+    voice =
+      staff->
+        fetchFirstRegularVoiceFromStaff (
+          inputLineNumber);
 
   return voice;
 }
@@ -3455,7 +3478,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 
   // should the voice be created?
   S_msrVoice
-    voice =
+    noteVoice =
       createRegularVoiceInStaffIfNotYetDone (
         inputLineNumber,
         fCurrentStaffMusicXMLNumber,
@@ -3479,32 +3502,64 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
       "--> S_note, fCurrentVoiceMusicXMLNumber        = " <<
       fCurrentVoiceMusicXMLNumber <<
       endl <<
-      "--> S_note, current voice name  = " <<
-      voice->getVoiceName() <<
+      "--> S_note, current noteVoice name  = " <<
+      noteVoice->getVoiceName() <<
       endl;
   }
 #endif
 
   // are there harmonies attached to the current note?
   if (fThereAreHarmoniesToBeAttachedToCurrentNote) {
+  /* JMI
+    // should the first voice be created?
+    S_msrVoice
+      firstStaffVoice =
+        createRegularVoiceInStaffIfNotYetDone (
+          inputLineNumber,
+          fCurrentStaffMusicXMLNumber,
+          1); // JMI see DTD fCurrentVoiceMusicXMLNumber);
+*/
+
+    S_msrVoice
+      firstStaffVoice =
+        staff->
+          fetchFirstRegularVoiceFromStaff (
+            inputLineNumber);
+
     // should the harmony voice be created?
     S_msrVoice
       harmonyVoice =
         createHarmonyVoiceForVoiceIfNotYetDone (
           inputLineNumber,
-          voice);
+          firstStaffVoice);
 
     fThereAreHarmoniesToBeAttachedToCurrentNote = false;
   }
 
   // are there figured bass attached to the current note?
   if (fThereAreFiguredBassToBeAttachedToCurrentNote) {
+  /* JMI
+    // should voice 1 be created?
+    S_msrVoice
+      firstStaffVoice =
+        createRegularVoiceInStaffIfNotYetDone (
+          inputLineNumber,
+          fCurrentStaffMusicXMLNumber,
+          1); // JMI see DTD fCurrentVoiceMusicXMLNumber);
+*/
+
+    S_msrVoice
+      firstStaffVoice =
+        staff->
+          fetchFirstRegularVoiceFromStaff (
+            inputLineNumber);
+
     // should the figured bass voice be created?
     S_msrVoice
       figuredBassVoice =
         createFiguredBassVoiceForVoiceIfNotYetDone (
           inputLineNumber,
-          voice);
+          firstStaffVoice);
 
     fThereAreFiguredBassToBeAttachedToCurrentNote = false;
   }
@@ -3683,7 +3738,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
   */
 
   // take harmony voice into account
-  fHarmonyVoicesCounter++;
+  fHarmonyVoicesCounter++; // NOT USED JMI
 
   fThereAreHarmoniesToBeAttachedToCurrentNote = true;
 }

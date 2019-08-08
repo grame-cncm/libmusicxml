@@ -798,7 +798,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         endl <<
         "cannot be chosen simultaneously";
 
-      optionError (s.str ());
+      oahError (s.str ());
 
       exit (3);
     }
@@ -811,7 +811,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         endl <<
         "cannot be used when reading from standard input";
 
-      optionError (s.str ());
+      oahError (s.str ());
 
       exit (4);
     }

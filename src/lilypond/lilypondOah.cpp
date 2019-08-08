@@ -482,7 +482,7 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
 
 //     exit (4); // JMI
     abort ();
@@ -958,7 +958,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
       "-resetMeasureNumber argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -1282,7 +1282,7 @@ void lilypondAccidentalStyleKindAtom::handleValue (
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -1574,7 +1574,7 @@ void lilypondChordsDisplayAtom::handleValue (
       "-chords-display argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -1900,7 +1900,7 @@ void lilypondMidiTempoAtom::handleValue (
       "-midiTempo argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -2542,7 +2542,7 @@ This is useful when debugging EXECUTABLE.)",
         replaceSubstringInString (
 R"(Generate after each end of measure a comment containing
 its original MusicXML measure number.
-This is useful adding line breaks and page breaks, and when debugging EXECUTABLE.)",
+This is useful for adding line breaks and page breaks, and when debugging EXECUTABLE.)",
           "EXECUTABLE",
           gExecutableOah->fHandlerExecutableName),
         "originalMeasureNumbers",
@@ -4835,7 +4835,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
       "-BreakPageAfterMeasureNumber argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 

@@ -539,9 +539,20 @@ void mxmlTree2MsrTranslator::checkStep (
 
 //______________________________________________________________________________
 S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
-  int            inputLineNumber,
-  int            staffNumber)
+  int inputLineNumber,
+  int staffNumber)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
+    fLogOutputStream <<
+      "Fetching staff " <<
+      staffNumber <<
+      " from current part" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   // fetch the staff from current part
   S_msrStaff
     staff =
@@ -577,13 +588,25 @@ S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
 }
 
 //______________________________________________________________________________
-S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromPart (
+S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   int inputLineNumber,
   int staffNumber,
   int voiceNumber)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
+    fLogOutputStream <<
+      "Fetching voice " <<
+      voiceNumber <<
+      " in staff " <<
+      staffNumber <<
+      " from current part" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   // the voice number is relative to a part,
-  // we'll call it its part-relative ID
 
   // fetch the staff from current part
   S_msrStaff
@@ -601,7 +624,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromPart (
           voiceNumber);
 
   // sanity check
-  if (! staff) {
+  if (! voice) {
     stringstream s;
 
     s <<
@@ -626,7 +649,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromPart (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceVoices) {
     fLogOutputStream <<
-      "--> fetchVoiceFromPart() returns " <<
+      "--> fetchVoiceFromCurrentPart() returns " <<
       voice->getVoiceName () <<
       endl;
   }
@@ -3742,7 +3765,7 @@ else {
   // fetch current direction's voice
   S_msrVoice
     currentDirectionsVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentDirectionStaffNumber,
         fCurrentDirectionVoiceNumber);
@@ -4491,7 +4514,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
   // fetch the voice to be forwarded
   S_msrVoice
     voiceToBeForwarded =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentForwardStaffNumber,
         fCurrentForwardVoiceNumber);
@@ -5844,7 +5867,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentMusicXMLStaffNumber,
         fCurrentMusicXMLVoiceNumber);
@@ -6147,7 +6170,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     // fetch the voice
     S_msrVoice
       voice =
-        fetchVoiceFromPart (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentStaffNumberToInsertInto,
           fCurrentMusicXMLVoiceNumber);
@@ -10681,7 +10704,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
         // fetch current voice
         S_msrVoice
           currentVoice =
-            fetchVoiceFromPart (
+            fetchVoiceFromCurrentPart (
               inputLineNumber,
               fCurrentStaffNumberToInsertInto, // JMI fCurrentMusicXMLStaffNumber,
               fCurrentMusicXMLVoiceNumber);
@@ -14776,7 +14799,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumberToInsertInto, // fCurrentMusicXMLStaffNumber,
         fCurrentMusicXMLVoiceNumber);
@@ -15616,7 +15639,7 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToNote (
     // fetch the voice ??? JMI
     S_msrVoice
       voice =
-        fetchVoiceFromPart (
+        fetchVoiceFromCurrentPart (
           note->getInputLineNumber (),
           fCurrentMusicXMLStaffNumber,
           fCurrentMusicXMLVoiceNumber);
@@ -16357,7 +16380,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
           // fetch the voice
           S_msrVoice
             voice =
-              fetchVoiceFromPart (
+              fetchVoiceFromCurrentPart (
                 inputLineNumber,
      //     fCurrentMusicXMLStaffNumber, // JMI fCurrentStaffNumberToInsertInto,
                 fCurrentStaffNumberToInsertInto, // JMI fCurrentMusicXMLStaffNumber,
@@ -16471,7 +16494,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
           // fetch the voice
           S_msrVoice
             voice =
-              fetchVoiceFromPart (
+              fetchVoiceFromCurrentPart (
                 inputLineNumber,
      //     fCurrentMusicXMLStaffNumber, // JMI fCurrentStaffNumberToInsertInto,
                 fCurrentStaffNumberToInsertInto, // JMI fCurrentMusicXMLStaffNumber,
@@ -17212,7 +17235,7 @@ void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
       // fetch the voice to insert into
       S_msrVoice
         voiceToInsertInto =
-          fetchVoiceFromPart (
+          fetchVoiceFromCurrentPart (
             inputLineNumber,
             fCurrentStaffNumberToInsertInto,
             fCurrentMusicXMLVoiceNumber);
@@ -17393,7 +17416,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // fetch current note's voice
   S_msrVoice
     currentNoteVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentMusicXMLStaffNumber,
         fCurrentMusicXMLVoiceNumber);
@@ -17430,7 +17453,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
     fLogOutputStream <<
-      "==> fetching voice to insert into" <<
+      "==> fetching voice to insert note into" <<
       ", fCurrentStaffNumberToInsertInto = " <<
       fCurrentStaffNumberToInsertInto <<
       ", fPreviousNoteMusicXMLStaffNumber = " <<
@@ -17444,18 +17467,18 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 #endif
 
-  // fetch voice to insert into
+  // fetch voice to insert note into
   S_msrVoice
-    voiceToInsertInto =
-      fetchVoiceFromPart (
+    voiceToInsertNoteInto =
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumberToInsertInto,
         fCurrentMusicXMLVoiceNumber);
 
   // sanity check
   msrAssert (
-    voiceToInsertInto != nullptr,
-    "voiceToInsertInto is null");
+    voiceToInsertNoteInto != nullptr,
+    "voiceToInsertNoteInto is null");
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
@@ -17468,7 +17491,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       ", fCurrentMusicXMLStaffNumber = " <<
       fCurrentMusicXMLStaffNumber <<
       ", in voice \"" <<
-      voiceToInsertInto->getVoiceName() <<
+      voiceToInsertNoteInto->getVoiceName() <<
       "\"" <<
       /* JMI
       ", fCurrentMusicXMLStaffNumber = " << fCurrentMusicXMLStaffNumber <<
@@ -17484,20 +17507,63 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // attach the pre-pending elements if any to newNote,
   // before the note itself is handled, because that may cause
   // tuplets or chords to be appended to the voice
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+    fLogOutputStream <<
+      "==> fetching voice to insert harmonies, figured basses and/or frames into" <<
+      ", fCurrentStaffNumberToInsertInto = " <<
+      fCurrentStaffNumberToInsertInto <<
+      ", fPreviousNoteMusicXMLStaffNumber = " <<
+      fPreviousNoteMusicXMLStaffNumber <<
+      ", fCurrentMusicXMLStaffNumber = " <<
+      fCurrentMusicXMLStaffNumber <<
+      ", fCurrentMusicXMLVoiceNumber = " <<
+      fCurrentMusicXMLVoiceNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // fetch the staff from current part
+  S_msrStaff
+    staff =
+      fetchStaffFromCurrentPart (
+        inputLineNumber,
+        fCurrentStaffNumberToInsertInto);
+
+  // fetch voice to insert harmonies, figured basses and/or frames into
+  S_msrVoice
+    voiceToInsertHarmoniesFiguredBassesAndOrFramesInto =
+      staff->
+        fetchFirstRegularVoiceFromStaff (
+          inputLineNumber);
+
+    /* JMI
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentStaffNumberToInsertInto,
+        1); // JMI see DTD fCurrentMusicXMLVoiceNumber);
+        */
+
+  // sanity check
+  msrAssert (
+    voiceToInsertHarmoniesFiguredBassesAndOrFramesInto != nullptr,
+    "voiceToInsertHarmoniesFiguredBassesAndOrFramesInto is null");
+
   attachPendingHarmoniesFiguredBassesAndOrFramesToNote (
     inputLineNumber,
     newNote,
-    voiceToInsertInto);
+    voiceToInsertHarmoniesFiguredBassesAndOrFramesInto);
 
   // create a staff change if necessary
   createAStaffChangeIfNecessary (
     inputLineNumber,
     newNote,
-    voiceToInsertInto);
+    voiceToInsertNoteInto);
 
   // handle the pending backup if any
   if (fThereIsAPendingBackup) {
-    voiceToInsertInto->
+    voiceToInsertNoteInto->
       handleBackup (
         inputLineNumber,
         fCurrentBackupDurationDivisions,
@@ -17524,7 +17590,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // only now because attachPendingNoteLevelElementsToNote()
   // may append skip syllables to the notes
   handleLyricsForNote (
-    voiceToInsertInto,
+    voiceToInsertNoteInto,
     newNote);
 
   fOnGoingNote = false;
@@ -17646,6 +17712,11 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       voiceHarmonyVoice =
         voiceToInsertInto->
           getHarmonyVoiceForRegularVoiceForwardLink ();
+
+    // sanity check
+    msrAssert (
+      voiceHarmonyVoice != nullptr,
+      "voiceHarmonyVoice is null");
 
     // set the harmony's voice upLink
     // only now that we know which harmony voice will contain it
@@ -17788,7 +17859,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   // fetch current voice
   S_msrVoice
     currentVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumberToInsertInto,
         fCurrentMusicXMLVoiceNumber);
@@ -18366,7 +18437,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
   S_msrVoice
     currentVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         staffNumberToUse,
         fCurrentMusicXMLVoiceNumber);
@@ -19200,7 +19271,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumberToInsertInto,
         fCurrentMusicXMLVoiceNumber);
@@ -19402,7 +19473,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumberToInsertInto,
         fCurrentMusicXMLVoiceNumber);
@@ -19580,7 +19651,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      fetchVoiceFromPart (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumberToInsertInto, // JMI fCurrentMusicXMLStaffNumber,
         fCurrentMusicXMLVoiceNumber);
@@ -21550,7 +21621,7 @@ void mxmlTree2MsrTranslator::visitStart( S_damp& elt)
     // fetch current voice
     S_msrVoice
       currentVoice =
-        fetchVoiceFromPart (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentMusicXMLStaffNumber,
           fCurrentMusicXMLVoiceNumber);
@@ -21584,7 +21655,7 @@ void mxmlTree2MsrTranslator::visitStart( S_damp_all& elt)
     // fetch current voice
     S_msrVoice
       currentVoice =
-        fetchVoiceFromPart (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentMusicXMLStaffNumber,
           fCurrentMusicXMLVoiceNumber);

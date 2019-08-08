@@ -446,7 +446,7 @@ std::string singularOrPluralWithoutNumber (
   int number, std::string singularName, std::string pluralName);
 
 //______________________________________________________________________________
-void optionError (std::string errorMessage);
+void oahError (std::string errorMessage);
 
 //______________________________________________________________________________
 std::string escapeDoubleQuotes (std::string s);

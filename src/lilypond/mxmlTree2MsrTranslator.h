@@ -995,15 +995,15 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentMusicXMLStaffNumber; // used throughout
 
     S_msrStaff                fetchStaffFromCurrentPart (
-                                int            inputLineNumber,
-                                int            staffNumber);
+                                int inputLineNumber,
+                                int staffNumber);
 
     // voice handling
     // ------------------------------------------------------
 
     int                       fCurrentMusicXMLVoiceNumber; // used throughout
 
-    S_msrVoice                fetchVoiceFromPart (
+    S_msrVoice                fetchVoiceFromCurrentPart (
                                 int inputLineNumber,
                                 int staffNumber,
                                 int voiceNumber);

@@ -576,6 +576,10 @@ class mxmlTree2MsrSkeletonBuilder :
                                 int staffNumber,
                                 int voiceNumber);
 
+    S_msrVoice                fetchFirstRegularVoiceFromStaff (
+                                int inputLineNumber,
+                                int staffNumber);
+
 
     // measures
     // ------------------------------------------------------

@@ -505,7 +505,7 @@ void oahAtom::registerAtomInHandler (
   S_oahHandler handler)
 {
   handler->
-    registerOptionInHandler (this);
+    registerElementInHandler (this);
 
   fHandlerUpLink = handler;
 }
@@ -1771,7 +1771,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
       "INTERNAL ERROR: option name '" << name <<
       "' is unknown";
 
-    optionError (s.str ());
+    oahError (s.str ());
   }
 
   else {
@@ -1795,7 +1795,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
         "option name '" << name <<
         "' is not that of an atom";
 
-      optionError (s.str ());
+      oahError (s.str ());
 
       exit (2);
     }
@@ -2399,7 +2399,7 @@ void oahIntegerAtom::handleValue (
       "' for option '" << fetchNames () <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 }
@@ -2639,7 +2639,7 @@ void oahFloatAtom::handleValue (
       "' for option '" << fetchNames () <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 }
@@ -3247,7 +3247,7 @@ void oahRationalAtom::handleValue (
       "rational atom value '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -3513,7 +3513,7 @@ void oahNaturalNumbersSetElementAtom::handleValue (
       "' for option '" << fetchNames () <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 }
@@ -4756,7 +4756,7 @@ void oahSubGroup::registerSubGroupInHandler (
   S_oahHandler handler)
 {
   handler->
-    registerOptionInHandler (this);
+    registerElementInHandler (this);
 
   fHandlerUpLink = handler;
 
@@ -5395,7 +5395,7 @@ void oahGroup::registerOptionsGroupInHandler (
 
   // register options group in options handler
   handler->
-    registerOptionInHandler (this);
+    registerElementInHandler (this);
 
   for (
     list<S_oahSubGroup>::const_iterator
@@ -6249,11 +6249,11 @@ oahHandler::~oahHandler ()
 void oahHandler::registerHandlerInItself ()
 {
   this->
-    registerOptionInHandler (this);
+    registerElementInHandler (this);
 
 /* JMI ???
   // register the help summary names in handler
-  registerOptionNamesInHandler (
+  registerElementNamesInHandler (
     fHandlerSummaryShortName,
     fHandlerSummaryLongName,
     this);
@@ -6301,10 +6301,10 @@ S_oahElement oahHandler::fetchOptionFromMap (
   // is name known in options map?
   map<string, S_oahElement>::const_iterator
     it =
-      fHandlerOptionsMap.find (
+      fHandlerElementsMap.find (
         name);
 
-  if (it != fHandlerOptionsMap.end ()) {
+  if (it != fHandlerElementsMap.end ()) {
     // yes, name is known in the map
     result = (*it).second;
   }
@@ -6349,129 +6349,128 @@ string oahHandler::handlerOptionNamesBetweenParentheses () const
   return s.str ();
 }
 
-void oahHandler::registerOptionNamesInHandler (
-  string      optionShortName,
-  string      optionLongName,
-  S_oahElement option)
+void oahHandler::registerElementNamesInHandler (
+  S_oahElement element)
 {
-  int
-    optionShortNameSize =
-      optionShortName.size (),
-    optionLongNameSize =
-      optionLongName.size ();
+  string
+    elementShortName =
+      element->getShortName (),
+    elementLongName =
+      element->getLongName ();
 
-  if (optionShortNameSize == 0 && optionLongNameSize == 0) {
+  int
+    elementShortNameSize =
+      elementShortName.size (),
+    elementLongNameSize =
+      elementLongName.size ();
+
+  if (elementShortNameSize == 0 && elementLongNameSize == 0) {
     stringstream s;
 
     s <<
-      "option long name and short name are both empty";
+      "element long name and short name are both empty";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (33);
   }
 
-  if (optionShortName == optionLongName) {
+  if (elementShortName == elementLongName) {
     stringstream s;
 
     s <<
-      "option long name '" << optionLongName << "'" <<
+      "element long name '" << elementLongName << "'" <<
       " is the same as the short name for the same";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (33);
   }
 
   for (
     map<string, S_oahElement>::iterator i =
-      fHandlerOptionsMap.begin ();
-    i != fHandlerOptionsMap.end ();
+      fHandlerElementsMap.begin ();
+    i != fHandlerElementsMap.end ();
     i++
   ) {
 
-    // is optionLongName already in the options names map?
-    if ((*i).first == optionLongName) {
+    // is elementLongName already in the elements names map?
+    if ((*i).first == elementLongName) {
       stringstream s;
 
       s <<
-        "option long name '" << optionLongName << "'" <<
-          " for option short name '" << optionShortName << "'" <<
+        "element long name '" << elementLongName << "'" <<
+          " for element short name '" << elementShortName << "'" <<
         " is specified more that once";
 
-      optionError (s.str ());
+      oahError (s.str ());
       exit (33);
     }
 
-    // is optionShortName already in the options names map?
-    if ((*i).first == optionShortName) {
-      if (optionShortName.size ()) {
+    // is elementShortName already in the elements names map?
+    if ((*i).first == elementShortName) {
+      if (elementShortName.size ()) {
         stringstream s;
 
         s <<
-          "option short name '" << optionShortName << "'" <<
-          " for option long name '" << optionLongName << "'" <<
+          "element short name '" << elementShortName << "'" <<
+          " for element long name '" << elementLongName << "'" <<
           " is specified more that once";
 
-        optionError (s.str ());
+        oahError (s.str ());
         exit (33);
       }
     }
   } // for
 
-  // register option's names
-  if (optionLongNameSize) {
-    fHandlerOptionsMap [optionLongName] =
-      option;
+  // register element's names
+  if (elementLongNameSize) {
+    fHandlerElementsMap [elementLongName] =
+      element;
 
-    if (optionLongNameSize > fMaximumLongNameWidth) {
-      fMaximumLongNameWidth = optionLongNameSize;
+    if (elementLongNameSize > fMaximumLongNameWidth) {
+      fMaximumLongNameWidth = elementLongNameSize;
     }
   }
 
-  if (optionShortNameSize) {
-    fHandlerOptionsMap [optionShortName] =
-      option;
+  if (elementShortNameSize) {
+    fHandlerElementsMap [elementShortName] =
+      element;
 
-    if (optionShortNameSize > fMaximumShortNameWidth) {
-      fMaximumShortNameWidth = optionShortNameSize;
+    if (elementShortNameSize > fMaximumShortNameWidth) {
+      fMaximumShortNameWidth = elementShortNameSize;
     }
   }
 
-  // take option's display variable name length into account
+  // take element's display variable name length into account
   int
-    oahOptionVariableNameLength =
-      option->
+    elementVariableNameLength =
+      element->
         fetchVariableNameLength ();
 
     if (
-      oahOptionVariableNameLength
+      elementVariableNameLength
         >
       fMaximumVariableNameWidth
     ) {
       fMaximumVariableNameWidth =
-        oahOptionVariableNameLength;
+        elementVariableNameLength;
     }
 }
 
-void oahHandler::registerOptionInHandler (
-  S_oahElement option)
+void oahHandler::registerElementInHandler (
+  S_oahElement element)
 {
-  string
-    optionShortName =
-      option->getShortName (),
-    optionLongName =
-      option->getLongName ();
+  // register the element names in handler
+  registerElementNamesInHandler (
+    element);
 
-  // register the option names in handler
-  registerOptionNamesInHandler (
-    optionShortName,
-    optionLongName,
-    option);
+  // insert element into the registered elements multiset
+  fHandlerRegisteredElementsMultiSet.insert (element);
 
   if (
     // subgroup?
     S_oahSubGroup
       subGroup =
-        dynamic_cast<oahSubGroup*>(&(*option))
+        dynamic_cast<oahSubGroup*>(&(*element))
     ) {
 
     string
@@ -6828,7 +6827,7 @@ void oahHandler::printOptionSpecificHelp (
       "option name '" << name <<
       "' is unknown, cannot deliver specific help";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (33);
   }
 
@@ -6959,7 +6958,7 @@ void oahHandler::printOptionSpecificHelp (
         name <<
         "\"";
 
-      optionError (s.str ());
+      oahError (s.str ());
       exit (33);
     }
   }
@@ -6976,17 +6975,14 @@ void oahHandler::printAllOahValues (
     ":" <<
     endl;
 
-  int handlerOptionsMapSize =
-    fHandlerOptionsMap.size ();
-  int handlerOptionsListSize =
-    fHandlerOptionsList.size ();
-
   os <<
     "There are " <<
-    handlerOptionsMapSize <<
+    fHandlerElementsMap.size () <<
     " known options names for " <<
-    handlerOptionsListSize <<
-    " option elements" <<
+    fHandlerRegisteredElementsMultiSet.size () <<
+    " registered elements, " <<
+    fHandlerCommandLineElementsMultiSet.size () <<
+    " of which occur in the command line" <<
     endl;
 
   // print the options groups values
@@ -7044,7 +7040,7 @@ void oahHandler::appendPrefixToHandler (
       "option prefix name '" << prefixName <<
       "' is already known";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (7);
   }
 
@@ -7151,12 +7147,12 @@ string oahHandler::commandLineWithShortNamesAsString () const
     } // for
   }
 
-  if (fHandlerOptionsList.size ()) {
+  if (fHandlerCommandLineElementsMultiSet.size ()) {
     s << " ";
 
-    list<S_oahElement>::const_iterator
-      iBegin = fHandlerOptionsList.begin (),
-      iEnd   = fHandlerOptionsList.end (),
+    multiset<S_oahElement>::const_iterator
+      iBegin = fHandlerCommandLineElementsMultiSet.begin (),
+      iEnd   = fHandlerCommandLineElementsMultiSet.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahElement option = (*i);
@@ -7196,12 +7192,12 @@ string oahHandler::commandLineWithLongNamesAsString () const
     } // for
   }
 
-  if (fHandlerOptionsList.size ()) {
+  if (fHandlerCommandLineElementsMultiSet.size ()) {
     s << " ";
 
-    list<S_oahElement>::const_iterator
-      iBegin = fHandlerOptionsList.begin (),
-      iEnd   = fHandlerOptionsList.end (),
+    multiset<S_oahElement>::const_iterator
+      iBegin = fHandlerCommandLineElementsMultiSet.begin (),
+      iEnd   = fHandlerCommandLineElementsMultiSet.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahElement option = (*i);
@@ -7220,26 +7216,26 @@ string oahHandler::commandLineWithLongNamesAsString () const
 
 void oahHandler::printKnownOptions () const
 {
-  int handlerOptionsMapSize =
-    fHandlerOptionsMap.size ();
-  int handlerOptionsListSize =
-    fHandlerOptionsList.size ();
+  int handlerElementsMapSize =
+    fHandlerElementsMap.size ();
+  int handlerRegisteredElementsMultiSetSize =
+    fHandlerRegisteredElementsMultiSet.size ();
 
   // print the options map
   fHandlerLogOstream <<
     "The " <<
-    handlerOptionsMapSize <<
+    handlerElementsMapSize <<
     " known options for the " <<
-    handlerOptionsListSize <<
-    " option elements are:" <<
+    handlerRegisteredElementsMultiSetSize <<
+    " registered elements are:" <<
     endl;
 
   gIndenter++;
 
-  if (handlerOptionsMapSize) {
+  if (handlerElementsMapSize) {
     map<string, S_oahElement>::const_iterator
-      iBegin = fHandlerOptionsMap.begin (),
-      iEnd   = fHandlerOptionsMap.end (),
+      iBegin = fHandlerElementsMap.begin (),
+      iEnd   = fHandlerElementsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       fHandlerLogOstream <<
@@ -7312,7 +7308,7 @@ void oahHandler::checkMissingPendingValuedAtomValue (
        " expects a value" <<
        " (" << context << ")";
 
-      optionError (s.str ());
+      oahError (s.str ());
       exit (9);
     }
   }
@@ -7327,22 +7323,20 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   // fetch program name
   fHandlerExecutableName = string (argv [0]);
 
+  /* JMI ???
   // print the number of option names
-  int handlerOptionsMapSize =
-    fHandlerOptionsMap.size ();
-  int handlerOptionsListSize =
-    fHandlerOptionsList.size ();
+  int handlerElementsMapSize =
+    fHandlerElementsMap.size ();
 
   fHandlerLogOstream <<
     fHandlerExecutableName <<
     " features " <<
-    handlerOptionsMapSize <<
+    handlerElementsMapSize <<
     " options names for " <<
-    handlerOptionsListSize <<
-    " option elements" <<
+    fHandlerRegisteredElementsMultiSet.size () <<
+    " registered elements" <<
     endl;
-
-  // print the options groups values
+*/
 
   // decipher the command options and arguments
   int n = 1;
@@ -7551,7 +7545,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
               "option prefix '" << prefixName <<
               "' is unknown, see help summary below";
 
-            optionError (s.str ());
+            oahError (s.str ());
           }
 
 
@@ -7841,7 +7835,7 @@ void oahHandler::handleOptionName (
       "option name '" << name <<
       "' is unknown";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (6);
   }
 
@@ -7861,8 +7855,8 @@ void oahHandler::handleOptionName (
   }
 #endif
 
-    // remember this option
-    fHandlerOptionsList.push_back (option);
+    // remember this option as occurring in the command line
+    fHandlerCommandLineElementsMultiSet.insert (option);
 
     // determine option short and long names to be used,
     // in case one of them (short or long) is empty
@@ -7937,7 +7931,7 @@ void oahHandler::handleOptionName (
         "INTERNAL ERROR: option name '" << name <<
         "' cannot be handled";
 
-      optionError (s.str ());
+      oahError (s.str ());
       exit (7);
     }
   }

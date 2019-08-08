@@ -272,7 +272,7 @@ void extraShowAllChordsContentsAtom::handleValue (
           "'" <<
           endl;
 
-        optionError (s.str ());
+        oahError (s.str ());
 
         exit (4);
       }
@@ -316,7 +316,7 @@ void extraShowAllChordsContentsAtom::handleValue (
           "' is no diatonic (semitones) pitch" <<
           endl;
 
-        optionError (s.str ());
+        oahError (s.str ());
 
         exit (4);
       }
@@ -558,7 +558,7 @@ void extraShowChordDetailsAtom::handleValue (
       "-chord details argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -596,7 +596,7 @@ void extraShowChordDetailsAtom::handleValue (
           "'" <<
           endl;
 
-        optionError (s.str ());
+        oahError (s.str ());
 
         exit (4);
       }
@@ -640,7 +640,7 @@ void extraShowChordDetailsAtom::handleValue (
           "' is no diatonic (semitones) pitch" <<
           endl;
 
-        optionError (s.str ());
+        oahError (s.str ());
 
         exit (4);
       }
@@ -877,7 +877,7 @@ void extraShowChordAnalysisAtom::handleValue (
       "chord analysis argument '" << theString <<
       "' is ill-formed";
 
-    optionError (s.str ());
+    oahError (s.str ());
 
 /* JMI ??? should work...
     printSubGroupSpecificHelp (
@@ -933,7 +933,7 @@ void extraShowChordAnalysisAtom::handleValue (
           "'" <<
           endl;
 
-        optionError (s.str ());
+        oahError (s.str ());
 
         exit (4);
       }
@@ -977,7 +977,7 @@ void extraShowChordAnalysisAtom::handleValue (
           "' is no diatonic (semitones) pitch" <<
           endl;
 
-        optionError (s.str ());
+        oahError (s.str ());
 
         exit (4);
       }
@@ -999,7 +999,7 @@ void extraShowChordAnalysisAtom::handleValue (
       "maj, min,aug, dim, dom, maj7, min7, dim7, aug7, halfdim, minmaj7, maj6, min6, dom9, maj9, min9, dom11, maj11, min11, dom13, maj13, min13, sus2, sus4, neapolitan, italian, french, german, pedal, power, tristan, minmaj9, domsus4, domaug5, dommin9, domaug9dim5, domaug9aug5, domaug11 and maj7aug11" <<
       endl;
 
-    optionError (s.str ());
+    oahError (s.str ());
 
     exit (4);
   }

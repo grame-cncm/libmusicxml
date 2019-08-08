@@ -166,9 +166,7 @@ void msrVoice::setVoiceNameFromNumber (
     gLogOstream <<
       "Setting the name of '" <<
       voiceKindAsString () <<
-      "' voice \"" <<
-      "\"" <<
-      " from number: " << voiceNumber <<
+      "' voice from number: " << voiceNumber <<
       endl;
   }
 #endif
@@ -215,6 +213,16 @@ void msrVoice::setVoiceNameFromNumber (
       */
       break;
   } // switch
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
+    gLogOstream <<
+      "The resulting voice name is \"" <<
+      fVoiceName <<
+      "\"" <<
+      endl;
+  }
+#endif
 }
 
 void msrVoice::setVoiceLastSegmentInVoiceClone (
@@ -1145,7 +1153,13 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
     K_VOICE_HARMONY_VOICE_BASE_NUMBER + fVoiceNumber;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceHarmonies) {
+  if (
+    gTraceOah->fTraceHarmonies
+      ||
+    gTraceOah->fTraceVoices
+      ||
+    gTraceOah->fTraceStaves
+  ) {
     gLogOstream <<
       "Creating harmony voice for regular voice \"" <<
       getVoiceName () <<
@@ -1206,7 +1220,8 @@ S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
       ||
     gTraceOah->fTraceVoices
       ||
-    gTraceOah->fTraceStaves) {
+    gTraceOah->fTraceStaves
+  ) {
     gLogOstream <<
       "Creating figured bass voice for regular voice \"" <<
       getVoiceName () <<

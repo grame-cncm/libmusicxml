@@ -8004,6 +8004,9 @@ class msrStaff : public msrElement
                             int inputLineNumber,
                             int voiceNumber);
 
+    S_msrVoice            fetchFirstRegularVoiceFromStaff (
+                            int inputLineNumber);
+
     void                  addAVoiceToStaffIfItHasNone (
                             int inputLineNumber);
 
@@ -8177,6 +8180,10 @@ class msrStaff : public msrElement
     // needed to set the beams orientation (up or down)
     int                   fStaffRegularVoicesCounter;
     map<int, S_msrVoice>  fStaffRegularVoicesMap;
+
+    // harmonies and figured basses should be placed
+    // in the first regular voice of the staff, hence:
+    list <S_msrVoice>     fStaffRegularVoicesList;
 
     // we need to sort the voices by increasing voice numbers,
     // but with harmony voices right before the corresponding regular voices

@@ -131,7 +131,7 @@ void lpsrScoreOutputKindAtom::handleValue (
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
 
 //     exit (4); // JMI
     abort ();
@@ -372,7 +372,7 @@ void lpsrPitchesLanguageAtom::handleValue (
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
 
 //     exit (4); // JMI
     abort ();
@@ -613,7 +613,7 @@ void lpsrChordsLanguageAtom::handleValue (
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
     exit (4);
   }
 
@@ -1224,7 +1224,7 @@ R"()",
       oahBooleanAtom::create (
         "cwtt", "convert-words-to-tempo",
 R"(Convert words to tempo.
-This may come in handy when MusicXML data has been obtained from scanned instrumental music  images.)",
+This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
         "convertWordsToTempo",
         fConvertWordsToTempo));
 
@@ -1277,7 +1277,7 @@ R"()",
 
     gIndenter--;
 
-    optionError (s.str ());
+    oahError (s.str ());
   }
 
   const msrQuarterTonesPitchesLanguageKind
@@ -1951,7 +1951,7 @@ void lpsrOah::crackLilypondVersionNumber (
         "version number argument '" << theString <<
         "' is ill-formed";
 
-      optionError (s.str ());
+      oahError (s.str ());
 
       exit (4);
     }
