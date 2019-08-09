@@ -1324,8 +1324,12 @@ namespace MusicXML2
         /// ! IMPORTANT NOTE from MXML DOC: "Beaming groups are distinguished by being in different voices and/or the presence or absence of grace and cue elements."
         ///             This means that we should treate Grace and Cue elements separately.
         
-        std::vector<S_beam>::const_iterator i = findValue(beams, "begin");
-        if (i != beams.end()) {
+        //std::vector<S_beam>::const_iterator i = findValue(beams, "begin");
+        //if (i != beams.end()) {
+        std::vector<S_beam>::const_iterator i ;
+        for (i = beams.begin(); (i != beams.end()); i++) {
+            if ((*i)->getValue() != "begin")
+                continue;
             // There is a Beam Begin. Creat BeamBegin tag, and add its number to Stack
             int lastBeamInternalNumber = 1;
             if (!fBeamStack.empty()) {
@@ -1333,11 +1337,11 @@ namespace MusicXML2
                 lastBeamInternalNumber = toto.first + 1;
             }
             
-            //cerr << "Measure "<< fMeasNum << " beam BEGIN "<< lastBeamInternalNumber<< " Beam-level="<<(*i)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace;
+            cerr << "Measure "<< fMeasNum << " beam BEGIN "<< lastBeamInternalNumber<< " Beam-level="<<(*i)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace<<endl;
             
             /// Using \beamBegin:NUMBER
             // GUID-79: Guido Engine does not deal well with nested Beams! Just keep the TOP level and store its number for later closing.
-            if ((fBeamOpened == false) || (fInGrace) || (fInCue)) {
+            //if ( (fBeamOpened == false) ||(fInGrace) || (fInCue)) {  // had  for GUID-79
                 stringstream tagName;
                 tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
                 Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
@@ -1352,7 +1356,7 @@ namespace MusicXML2
                 fBeamStack.push(toto2);
                 
                 //cerr << " Created!"<<endl;
-            }
+            //}
         }
         
         if (beams.empty() && fBeamStack.empty() && notevisitor::getType()!=kRest)
@@ -1384,7 +1388,7 @@ namespace MusicXML2
                 
                 /// using \beamEnd:NUMBER
                 // GUID-79: Only close the initial Beam
-                if ((fBeamOpened) || (fInGrace) || (fInCue)) {     // && (fCurrentBeamNumber == lastBeamInternalNumber)
+                //if ( (fBeamOpened) ||(fInGrace) || (fInCue)) {     // && (fCurrentBeamNumber == lastBeamInternalNumber) //  for GUID-79
                     stringstream tagName;
                     tagName << "beamEnd" << ":"<< lastBeamInternalNumber;
                     Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
@@ -1393,7 +1397,7 @@ namespace MusicXML2
                         fBeamOpened = false;
                     }
                     //cerr<< " ---> CLOSED! fBeamOpened="<<fBeamOpened<< " Grace?="<<fInGrace<<" Cue?="<<fInCue<<endl;
-                }
+                //}
                 
                 fBeamStack.pop();
             }
@@ -1420,29 +1424,41 @@ namespace MusicXML2
         if (i != tuplets.end()) {
             /// Determine whether we need Brackets and Numbering
             bool withBracket = ((*i)->getAttributeValue("bracket")=="yes");
-            bool withoutNumbering = ((*i)->getAttributeValue("show-number")=="none");
+            std::string showNumbering = ((*i)->getAttributeValue("show-number"));
             /// Get Tuplet Number
             int thisTupletNumber = (*i)->getAttributeIntValue("number", 1);
             /// Get Tuplet Placement and graphic type
             std::string tupletPlacement = (*i)->getAttributeValue("placement");
             std::string tupletGraphicType = nv.fGraphicType;
-            long numberOfEventsInTuplet = 1;
+            long numberOfEventsInTuplet = nv.getTimeModification().getDenominator();
+            long numberOfNormalNotes = nv.getTimeModification().getNumerator();
             
             bool useDispNoteAttribute = false;
 
-            ///// if "tuplet-actual" is present use its "tuplet-number" otherwise use Time-Modification to get Number of Events in Tuplet
+            ///// if "tuplet-actual" is present override numberOfEventsInTuplet and tupletGraphicType
             auto tuplet_actual = (*i)->find(k_tuplet_actual);
             if ( tuplet_actual != (*i)->end()) {
                 numberOfEventsInTuplet = tuplet_actual->getIntValue(k_tuplet_number, 1);
                 tupletGraphicType = tuplet_actual->getValue(k_tuplet_type);
                 useDispNoteAttribute = true;
-            }else {
-                numberOfEventsInTuplet = nv.getTimeModification().getDenominator();
+            }
+            
+            ///// if "tuplet-normal" is present override numberOfEventsInTuplet and tupletGraphicType
+            auto tuplet_normal = (*i)->find(k_tuplet_normal);
+            if (tuplet_normal != (*i)->end()) {
+                numberOfNormalNotes = tuplet_normal->getIntValue(k_tuplet_number, 1);
             }
 
             //// Rational : If all note durations are equal, then use the dispNote attribute. If not, then don't!
             if (useDispNoteAttribute == false) {
-                long topNoteDur = nv.getDuration();
+                /// Get Top Note Guido Duration
+                rational topNoteDurRational = NoteType::type2rational(NoteType::xml(nv.getGraphicType()));
+                if (topNoteDurRational.getNumerator() == 0)
+                    topNoteDurRational.set (nv.getDuration(), fCurrentDivision*4);
+                topNoteDurRational.rationalise();
+                rational tm = nv.getTimeModification();
+                topNoteDurRational *= tm;topNoteDurRational.rationalise();
+
                 /// Browse through all elements of Tuplet until "stop"!
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
                 if (nextnote != fCurrentMeasure->end()) {
@@ -1452,10 +1468,17 @@ namespace MusicXML2
                 while (nextnote != fCurrentMeasure->end()) {
                     // looking for the next note on the target voice
                     if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
-                        
-                        if ( abs( nextnote->getIntValue(k_duration, 0) - topNoteDur) > (fCurrentDivision/10) ) {
+                        // Get note's Guido Duration
+                        rational nextNoteDur = NoteType::type2rational(NoteType::xml(nextnote->getValue(k_type)));
+                        if (nextNoteDur.getNumerator()==0)
+                            nextNoteDur.set(nextnote->getIntValue(k_duration, 0), fCurrentDivision*4);
+                        nextNoteDur.rationalise();
+                        rational nextNoteTm;
+                        nextNoteTm.set(nextnote->getIntValue(k_normal_notes, 1), nextnote->getIntValue(k_actual_notes, 1));
+                        nextNoteDur *= nextNoteTm; nextNoteDur.rationalise();
+
+                        if ( topNoteDurRational != nextNoteDur ) {
                             useDispNoteAttribute =  false;
-                            cerr <<"TUPLET EVADED DISPNOTE Measure:"<<fMeasNum <<"Division:"<< fCurrentDivision <<"--> topBoteDur:"<<topNoteDur<<" this note dur="<<nextnote->getIntValue(k_duration, 0)<<endl;
                             break;
                         }
                         
@@ -1522,8 +1545,15 @@ namespace MusicXML2
                 Sguidoelement tag = guidotag::create("tuplet");
                 /// Add number visualiser
                 stringstream tuplet;
+                string numbering = std::to_string(numberOfEventsInTuplet);  // default is "actual" for "show-numbering)
+                if (showNumbering=="none") {
+                    numbering = "";
+                }else if (showNumbering == "both") {
+                    numbering = std::to_string(numberOfEventsInTuplet)+":"+std::to_string(numberOfNormalNotes);
+                }
+                
                 if (numberOfEventsInTuplet>1)   // workaround for pianistic Tremolos that come out of Finale as Tuplets!
-                    tuplet << (withBracket? "-" : "") << (withoutNumbering ? "" : std::to_string(numberOfEventsInTuplet)) << (withBracket? "-" : "");
+                    tuplet << (withBracket? "-" : "") << numbering << (withBracket? "-" : "");
                 tag->add (guidoparam::create(tuplet.str()));
                 
                 /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
