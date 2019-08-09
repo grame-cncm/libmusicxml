@@ -1420,24 +1420,29 @@ namespace MusicXML2
         if (i != tuplets.end()) {
             /// Determine whether we need Brackets and Numbering
             bool withBracket = ((*i)->getAttributeValue("bracket")=="yes");
-            bool withoutNumbering = ((*i)->getAttributeValue("show-number")=="none");
+            std::string showNumbering = ((*i)->getAttributeValue("show-number"));
             /// Get Tuplet Number
             int thisTupletNumber = (*i)->getAttributeIntValue("number", 1);
             /// Get Tuplet Placement and graphic type
             std::string tupletPlacement = (*i)->getAttributeValue("placement");
             std::string tupletGraphicType = nv.fGraphicType;
-            long numberOfEventsInTuplet = 1;
+            long numberOfEventsInTuplet = nv.getTimeModification().getDenominator();
+            long numberOfNormalNotes = nv.getTimeModification().getNumerator();
             
             bool useDispNoteAttribute = false;
 
-            ///// if "tuplet-actual" is present use its "tuplet-number" otherwise use Time-Modification to get Number of Events in Tuplet
+            ///// if "tuplet-actual" is present override numberOfEventsInTuplet and tupletGraphicType
             auto tuplet_actual = (*i)->find(k_tuplet_actual);
             if ( tuplet_actual != (*i)->end()) {
                 numberOfEventsInTuplet = tuplet_actual->getIntValue(k_tuplet_number, 1);
                 tupletGraphicType = tuplet_actual->getValue(k_tuplet_type);
                 useDispNoteAttribute = true;
-            }else {
-                numberOfEventsInTuplet = nv.getTimeModification().getDenominator();
+            }
+            
+            ///// if "tuplet-normal" is present override numberOfEventsInTuplet and tupletGraphicType
+            auto tuplet_normal = (*i)->find(k_tuplet_normal);
+            if (tuplet_normal != (*i)->end()) {
+                numberOfNormalNotes = tuplet_normal->getIntValue(k_tuplet_number, 1);
             }
 
             //// Rational : If all note durations are equal, then use the dispNote attribute. If not, then don't!
@@ -1522,8 +1527,15 @@ namespace MusicXML2
                 Sguidoelement tag = guidotag::create("tuplet");
                 /// Add number visualiser
                 stringstream tuplet;
+                string numbering = std::to_string(numberOfEventsInTuplet);  // default is "actual" for "show-numbering)
+                if (showNumbering=="none") {
+                    numbering = "";
+                }else if (showNumbering == "both") {
+                    numbering = std::to_string(numberOfEventsInTuplet)+":"+std::to_string(numberOfNormalNotes);
+                }
+                
                 if (numberOfEventsInTuplet>1)   // workaround for pianistic Tremolos that come out of Finale as Tuplets!
-                    tuplet << (withBracket? "-" : "") << (withoutNumbering ? "" : std::to_string(numberOfEventsInTuplet)) << (withBracket? "-" : "");
+                    tuplet << (withBracket? "-" : "") << numbering << (withBracket? "-" : "");
                 tag->add (guidoparam::create(tuplet.str()));
                 
                 /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
