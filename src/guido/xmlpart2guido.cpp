@@ -1447,7 +1447,14 @@ namespace MusicXML2
 
             //// Rational : If all note durations are equal, then use the dispNote attribute. If not, then don't!
             if (useDispNoteAttribute == false) {
-                long topNoteDur = nv.getDuration();
+                /// Get Top Note Guido Duration
+                rational topNoteDurRational = NoteType::type2rational(NoteType::xml(nv.getGraphicType()));
+                if (topNoteDurRational.getNumerator() == 0)
+                    topNoteDurRational.set (nv.getDuration(), fCurrentDivision*4);
+                topNoteDurRational.rationalise();
+                rational tm = nv.getTimeModification();
+                topNoteDurRational *= tm;topNoteDurRational.rationalise();
+
                 /// Browse through all elements of Tuplet until "stop"!
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
                 if (nextnote != fCurrentMeasure->end()) {
@@ -1457,10 +1464,17 @@ namespace MusicXML2
                 while (nextnote != fCurrentMeasure->end()) {
                     // looking for the next note on the target voice
                     if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
-                        
-                        if ( abs( nextnote->getIntValue(k_duration, 0) - topNoteDur) > (fCurrentDivision/10) ) {
+                        // Get note's Guido Duration
+                        rational nextNoteDur = NoteType::type2rational(NoteType::xml(nextnote->getValue(k_type)));
+                        if (nextNoteDur.getNumerator()==0)
+                            nextNoteDur.set(nextnote->getIntValue(k_duration, 0), fCurrentDivision*4);
+                        nextNoteDur.rationalise();
+                        rational nextNoteTm;
+                        nextNoteTm.set(nextnote->getIntValue(k_normal_notes, 1), nextnote->getIntValue(k_actual_notes, 1));
+                        nextNoteDur *= nextNoteTm; nextNoteDur.rationalise();
+
+                        if ( topNoteDurRational != nextNoteDur ) {
                             useDispNoteAttribute =  false;
-                            cerr <<"TUPLET EVADED DISPNOTE Measure:"<<fMeasNum <<"Division:"<< fCurrentDivision <<"--> topBoteDur:"<<topNoteDur<<" this note dur="<<nextnote->getIntValue(k_duration, 0)<<endl;
                             break;
                         }
                         
