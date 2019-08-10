@@ -7592,7 +7592,7 @@ else
           upbeatDuration =
             wholeNotesAsLilypondString (
               inputLineNumber,
-              elt->getCurrentMeasureWholeNotes ());
+              elt->getCurrentMeasureWholeNotesDuration ());
 
         fLilypondCodeOstream <<
           "\\partial " << upbeatDuration <<
@@ -7609,18 +7609,18 @@ else
     case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       {
         rational
-          currentMeasureWholeNotes =
-            elt->getCurrentMeasureWholeNotes ();
+          currentMeasureWholeNotesDuration =
+            elt->getCurrentMeasureWholeNotesDuration ();
 
         rational
-          fullMeasureWholeNotes =
-            elt->getFullMeasureWholeNotes ();
+          fullMeasureWholeNotesDuration =
+            elt->getFullMeasureWholeNotesDuration ();
 
         // we should set the score current measure whole notes in this case
         rational
-          ratioToFullMeasureWholeNotes =
-            currentMeasureWholeNotes / fullMeasureWholeNotes;
-        ratioToFullMeasureWholeNotes.rationalise ();
+          ratioToFullMeasureWholeNotesDuration =
+            currentMeasureWholeNotesDuration / fullMeasureWholeNotesDuration;
+        ratioToFullMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceMeasuresDetails) {
@@ -7633,22 +7633,22 @@ else
             ", line = " << inputLineNumber <<
             endl <<
             setw (fieldWidth) <<
-            "% currentMeasureWholeNotes" << " = " <<
-            currentMeasureWholeNotes <<
+            "% currentMeasureWholeNotesDuration" << " = " <<
+            currentMeasureWholeNotesDuration <<
             endl <<
             setw (fieldWidth) <<
-            "% fullMeasureWholeNotes" << " = " <<
-            fullMeasureWholeNotes <<
+            "% fullMeasureWholeNotesDuration" << " = " <<
+            fullMeasureWholeNotesDuration <<
             endl <<
             setw (fieldWidth) <<
-            "% ratioToFullMeasureWholeNotes" << " = " <<
-            ratioToFullMeasureWholeNotes <<
+            "% ratioToFullMeasureWholeNotesDuration" << " = " <<
+            ratioToFullMeasureWholeNotesDuration <<
             endl <<
             endl;
         }
 #endif
 
-        if (ratioToFullMeasureWholeNotes == rational (1, 1)) {
+        if (ratioToFullMeasureWholeNotesDuration == rational (1, 1)) {
           stringstream s;
 
           s <<
@@ -7667,7 +7667,7 @@ else
           /* JMI
           fLilypondCodeOstream <<
             "\\set Score.measureLength = #(ly:make-moment " <<
-            currentMeasureWholeNotes.toString () <<
+            currentMeasureWholeNotesDuration.toString () <<
             ")" <<
             endl;
     */
@@ -7731,7 +7731,7 @@ else
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->
-              getFullMeasureWholeNotes ()) <<
+              getFullMeasureWholeNotesDuration ()) <<
           " | " <<
           endl;
       }
@@ -14177,7 +14177,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     if (gLilypondOah->fOriginalMeasureNumbers) {
       // print the original MusicXML measure number as a comment
       fLilypondCodeOstream <<
-        " (mxml: " << elt->getNextBarOriginalNumber () << ")";
+        " (omn: " << elt->getNextBarOriginalNumber () << ")";
     }
 
     fLilypondCodeOstream <<
@@ -14236,7 +14236,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 
     fLilypondCodeOstream <<
       "\\barNumberCheck #" <<
-      nextBarPuristNumber <<
+      nextBarPuristNumber;
+
+    if (gLilypondOah->fOriginalMeasureNumbers) {
+      fLilypondCodeOstream <<
+        " %{omn: " <<
+        elt->getNextBarOriginalNumber () <<
+        "%}";
+    }
+
+    fLilypondCodeOstream <<
       endl;
   }
 }
@@ -14271,7 +14280,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrLineBreak& elt)
     if (gLilypondOah->fOriginalMeasureNumbers) {
       // print the original MusicXML measure number as a comment
       fLilypondCodeOstream <<
-        " (mxml: " << elt->getNextBarNumber () << ")";
+        " (omn: " << elt->getNextBarNumber () << ")";
     }
 
   fLilypondCodeOstream <<

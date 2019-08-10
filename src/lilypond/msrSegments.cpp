@@ -1236,7 +1236,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   gIndenter--;
 }
 
-void msrSegment::padUpToCurrentMeasureWholeNotesInSegment (
+void msrSegment::padUpToPositionInMeasureInSegment (
   int      inputLineNumber,
   rational wholeNotes)
 {
@@ -1302,22 +1302,58 @@ void msrSegment::padUpToCurrentMeasureWholeNotesInSegment (
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
     // pad last measure up to to this actual wholes notes
     fSegmentMeasuresList.back ()->
-      padUpToCurrentMeasureWholeNotesInMeasure (
+      padUpToPositionInMeasureInMeasure (
         inputLineNumber,
         wholeNotes);
   }
 }
 
+void msrSegment::backupByWholeNotesStepLengthInSegment (
+  int      inputLineNumber,
+  rational backupStepLength)
+{
+#ifdef TRACE_OAH
+  if (
+    gTraceOah->fTraceSegments
+      ||
+    gTraceOah->fTraceMeasures
+      ||
+    gMusicXMLOah->fTraceBackup
+  ) {
+    gLogOstream <<
+      "Backing up by a '" <<
+      backupStepLength <<
+      "' whole notes step length in segment '" <<
+      fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
+      "' in voice \"" <<
+      fSegmentVoiceUpLink->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
+    // pad last measure up to to this actual wholes notes
+    fSegmentMeasuresList.back ()->
+      backupByWholeNotesStepLengthInMeasure (
+        inputLineNumber,
+        backupStepLength);
+  }
+}
+
 void msrSegment::appendPaddingNoteToSegment (
-  int inputLineNumber,
-  int divisions,
-  int divisionsPerQuarterNote)
+  int      inputLineNumber,
+  rational forwardStepLength)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceSegments || gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Appendding padding tote of " << divisions <<
-      " divisions to segment '" <<
+      "Appending padding note" <<
+      ", forwardStepLength: " <<
+      forwardStepLength <<
+      ", to segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
       fSegmentDebugNumber <<
@@ -1335,8 +1371,7 @@ void msrSegment::appendPaddingNoteToSegment (
     fSegmentMeasuresList.back ()->
       appendPaddingNoteToMeasure (
         inputLineNumber,
-        divisions,
-        divisionsPerQuarterNote);
+        forwardStepLength);
   }
 
   gIndenter--;
@@ -2310,7 +2345,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
     switch (lastMeasureCreatedForARepeatKind) {
       case msrMeasure::kMeasureCreatedForARepeatNo:
         // is the last measure empty?
- //       if (lastMeasure->getCurrentMeasureWholeNotes ().getNumerator () == 0) { // JMI ???
+ //       if (lastMeasure->getCurrentMeasureWholeNotesDuration ().getNumerator () == 0) { // JMI ???
    //     if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
         if (
           false && // JMI
@@ -2350,7 +2385,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
       case msrMeasure::kMeasureCreatedForARepeatBefore:
         if (
           false && // JMI
-          lastMeasure->getCurrentMeasureWholeNotes ().getNumerator () == 0
+          lastMeasure->getCurrentMeasureWholeNotesDuration ().getNumerator () == 0
         ) {
           // yes, remove it
 #ifdef TRACE_OAH

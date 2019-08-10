@@ -84,7 +84,7 @@ void msrStanza::initializeStanza ()
 
   fStanzaTextPresent = false;
 
-  fStanzaCurrentMeasureWholeNotes = rational (0, 1);
+  fStanzaCurrentMeasureWholeNotesDuration = rational (0, 1);
 }
 
 msrStanza::~msrStanza ()
@@ -242,7 +242,7 @@ void msrStanza::appendSyllableToStanza (
           getNoteSoundingWholeNotes ();
 
   // update the stanza's current measure whole notes
-  fStanzaCurrentMeasureWholeNotes +=syllableSoundingWholeNotes;
+  fStanzaCurrentMeasureWholeNotesDuration +=syllableSoundingWholeNotes;
   */
 }
 
@@ -350,7 +350,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   appendSyllableToStanza (syllable);
 
   // reset current measure whole notes
-  fStanzaCurrentMeasureWholeNotes = rational (0, 1);
+  fStanzaCurrentMeasureWholeNotesDuration = rational (0, 1);
 
   gIndenter--;
 
@@ -508,7 +508,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   return syllable;
 }
 
-void msrStanza::padUpToCurrentMeasureWholeNotesInStanza (
+void msrStanza::padUpToCurrentMeasureWholeNotesDurationInStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
@@ -516,15 +516,16 @@ void msrStanza::padUpToCurrentMeasureWholeNotesInStanza (
 }
 
 void msrStanza::appendPaddingNoteToStanza (
-  int inputLineNumber,
-  int divisions,
-  int divisionsPerQuarterNote)
+  int      inputLineNumber,
+  rational forwardStepLength)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceLyrics || gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Apending padding note of " << divisions <<
-      " divisions in stanza \"" <<
+      "Appending padding note" <<
+      ", forwardStepLength: " <<
+      forwardStepLength <<
+      ", to stanza \"" <<
       fStanzaName <<
       "\" in voice \"" <<
       fStanzaVoiceUpLink->getVoiceName () <<

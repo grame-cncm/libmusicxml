@@ -1162,14 +1162,19 @@ string singularOrPluralWithoutNumber (
 }
 
 //______________________________________________________________________________
+void oahWarning (string warningMessage)
+{
+  gLogOstream <<
+    "*** WARNING in the options and help: " <<
+    warningMessage <<
+    endl;
+}
+
 void oahError (string errorMessage)
 {
   gLogOstream <<
-    endl <<
-    "### ERROR in the options and help:" <<
-    endl <<
+    "### ERROR in the options and help: " <<
     errorMessage <<
-    endl <<
     endl;
 }
 

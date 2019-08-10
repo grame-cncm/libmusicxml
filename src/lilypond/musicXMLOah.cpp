@@ -121,6 +121,19 @@ R"(Backup)",
         fTraceBackup,
         gTraceOah->fTracePasses));
 
+  // forward
+
+  fTraceForward = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtom (
+      oahTwoBooleansAtom::create (
+        "tforward", "trace-forward",
+R"(Forward)",
+        "traceForward",
+        fTraceForward,
+        gTraceOah->fTracePasses));
+
   // MusicXML tree visiting
 
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
@@ -183,7 +196,7 @@ R"()",
 
   fIgnoreRedundantClefsAtom =
       oahBooleanAtom::create (
-        "irc", "ignore-redundant-clefs",
+        "irclef", "ignore-redundant-clefs",
 R"(Ignore clefs that are the same as the current one.)",
         "ignoreRedundantClefs",
         fIgnoreRedundantClefs);
@@ -197,7 +210,7 @@ R"(Ignore clefs that are the same as the current one.)",
 
   fIgnoreRedundantKeysAtom =
       oahBooleanAtom::create (
-        "irk", "ignore-redundant-keys",
+        "irkey", "ignore-redundant-keys",
 R"(Ignore keys that are the same as the current one.)",
         "ignoreRedundantKeys",
         fIgnoreRedundantKeys);
@@ -211,7 +224,7 @@ R"(Ignore keys that are the same as the current one.)",
 
   fIgnoreRedundantTimesAtom =
       oahBooleanAtom::create (
-        "irt", "ignore-redundant-times",
+        "irtime", "ignore-redundant-times",
 R"(Ignore times that are the same as the current one.)",
         "ignoreRedundantTimes",
         fIgnoreRedundantTimes);
@@ -368,6 +381,9 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
 
   clone->fTraceBackup =
     fTraceBackup;
+
+  clone->fTraceForward =
+    fTraceForward;
 #endif
 
   clone->fTraceMusicXMLTreeVisitors =
@@ -391,6 +407,9 @@ void musicXMLOah::setAllMusicXMLTraceOah (
 
     // backup
     fTraceBackup = boolOptionsInitialValue;
+
+    // forward
+    fTraceForward = boolOptionsInitialValue;
 #endif
 }
 
@@ -528,6 +547,10 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
 
     setw (fieldWidth) << "traceBackup" << " : " <<
     booleanAsString (fTraceBackup) <<
+    endl <<
+
+    setw (fieldWidth) << "traceForward" << " : " <<
+    booleanAsString (fTraceForward) <<
     endl <<
 #endif
 

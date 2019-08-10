@@ -94,8 +94,8 @@ class msrBarCheck : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
-    string               fNextBarOriginalNumber;
-    int                  fNextBarPuristNumber;
+    string                fNextBarOriginalNumber;
+    int                   fNextBarPuristNumber;
 };
 typedef SMARTP<msrBarCheck> S_msrBarCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
@@ -109,8 +109,9 @@ class msrBarNumberCheck : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrBarNumberCheck> create (
-      int inputLineNumber,
-      int nextBarPuristNumber);
+      int    inputLineNumber,
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
 
   protected:
 
@@ -118,8 +119,9 @@ class msrBarNumberCheck : public msrMeasureElement
     // ------------------------------------------------------
 
     msrBarNumberCheck (
-      int inputLineNumber,
-      int nextBarPuristNumber);
+      int    inputLineNumber,
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
 
     virtual ~msrBarNumberCheck ();
 
@@ -127,6 +129,9 @@ class msrBarNumberCheck : public msrMeasureElement
 
     // set and get
     // ------------------------------------------------------
+
+    string                getNextBarOriginalNumber () const
+                              { return fNextBarOriginalNumber; }
 
     int                   getNextBarPuristNumber () const
                               { return fNextBarPuristNumber; }
@@ -158,6 +163,7 @@ class msrBarNumberCheck : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
+    string                fNextBarOriginalNumber;
     int                   fNextBarPuristNumber;
 };
 typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;

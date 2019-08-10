@@ -1965,7 +1965,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
         cubaseOption =
           gMusicXMLOah->
             getHandlerUpLink ()->
-              fetchOptionFromMap ("cubase");
+              fetchElementFromMap ("cubase");
 
       if (
         // combined booleans atom?

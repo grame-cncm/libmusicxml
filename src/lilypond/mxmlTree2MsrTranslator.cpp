@@ -328,12 +328,12 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingLigatureHasStanza = false;
 
   // backup handling
-  fCurrentBackupDurationDivisions = -1;
-  fOnGoingBackup                  = false;
-  fThereIsAPendingBackup          = false;
+  fCurrentBackupDivisions = -1;
+  fOnGoingBackup          = false;
+  fThereIsAPendingBackup  = false;
 
   // forward handling
-  fCurrentForwardDurationDivisions = 1;
+  fCurrentForwardDivisions = 1;
 
   fCurrentForwardStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentForwardVoiceNumber = K_NO_VOICE_NUMBER;
@@ -4400,7 +4400,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 #ifdef TRACE_OAH
   if (gMusicXMLOah->fTraceBackup) {
     fLogOutputStream <<
-      "Handling 'backup <<< " << fCurrentBackupDurationDivisions <<
+      "Handling 'backup <<< " << fCurrentBackupDivisions <<
       " divisions >>>" <<
       ", fCurrentStaffNumberToInsertInto = " <<
       fCurrentStaffNumberToInsertInto <<
@@ -4430,7 +4430,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
 {
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors || gMusicXMLOah->fTraceForward) {
     fLogOutputStream <<
       "--> Start visiting S_forward" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4465,7 +4465,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors || gMusicXMLOah->fTraceForward) {
     fLogOutputStream <<
       "--> End visiting S_forward" <<
       ", line " << inputLineNumber <<
@@ -4488,7 +4488,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
     gTraceOah->fTraceLyrics
     ) {
     fLogOutputStream <<
-      "Handling 'forward <<< " << fCurrentBackupDurationDivisions <<
+      "Handling 'forward <<< " << fCurrentBackupDivisions <<
       " divisions >>>" <<
       ", fCurrentForwardStaffNumber = " <<
       fCurrentForwardStaffNumber <<
@@ -4524,12 +4524,28 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
     voiceToBeForwarded != nullptr,
     "voiceToBeForwarded is null");
 
+  // compute the forward step length
+#ifdef TRACE_OAH
+    if (gMusicXMLOah->fTraceForward) {
+      fLogOutputStream <<
+        "--> current forward divisions: " <<
+        fCurrentForwardDivisions <<
+        endl;
+    }
+#endif
+
+  rational
+    forwardStepLength =
+      rational (
+        fCurrentForwardDivisions,
+        fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
+    forwardStepLength.rationalise ();
+
   // append a padding note to the voice to be forwarded
   voiceToBeForwarded ->
     appendPaddingNoteToVoice (
       inputLineNumber,
-      fCurrentForwardDurationDivisions,
-      fCurrentDivisionsPerQuarterNote);
+      forwardStepLength);
 
   // reset staff change detection
  // fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
@@ -7647,11 +7663,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 #endif
 
   if (fOnGoingBackup) {
-    fCurrentBackupDurationDivisions = duration;
+    fCurrentBackupDivisions = duration;
   }
 
   else if (fOnGoingForward) {
-    fCurrentForwardDurationDivisions = duration;
+    fCurrentForwardDivisions = duration;
   }
 
   else if (fOnGoingNote) {
@@ -7670,7 +7686,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
       rational (
         duration,
         fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
-
     fCurrentNoteSoundingWholeNotesFromDuration.rationalise ();
 
 #ifdef TRACE_OAH
@@ -7706,7 +7721,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
       rational (
         duration,
         fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
-
     fCurrentFiguredBassSoundingWholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
@@ -7723,7 +7737,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
       rational (
         duration,
         fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
-
     fCurrentFiguredBassDisplayWholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
@@ -17563,11 +17576,28 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
   // handle the pending backup if any
   if (fThereIsAPendingBackup) {
+#ifdef TRACE_OAH
+    if (gMusicXMLOah->fTraceBackup) {
+      fLogOutputStream <<
+        "--> current backup divisions: " <<
+        fCurrentBackupDivisions <<
+        endl;
+    }
+#endif
+
+    // compute the backup step length
+    rational
+      backupStepLength =
+        rational (
+          fCurrentBackupDivisions,
+          fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
+    backupStepLength.rationalise ();
+
+    // let the voice handle the backup
     voiceToInsertNoteInto->
-      handleBackup (
+      handleBackupInVoice (
         inputLineNumber,
-        fCurrentBackupDurationDivisions,
-        fCurrentDivisionsPerQuarterNote);
+        backupStepLength);
 
     fThereIsAPendingBackup = false;
   }

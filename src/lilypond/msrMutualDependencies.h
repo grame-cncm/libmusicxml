@@ -456,7 +456,7 @@ class msrDoubleTremolo : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
-    // sounding whole notes
+    // sounding whole notes JMI
     // the same as the displayed divisions of both members
 // JMI    rational              fDoubleTremoloSoundingWholeNotes;
     rational              fDoubleTremoloSoundingWholeNotes;
@@ -739,19 +739,19 @@ class msrMeasure : public msrElement
 
     // measure lengthes, in whole notes
 
-    void                  setFullMeasureWholeNotes (
+    void                  setFullMeasureWholeNotesDuration (
                             rational wholeNotes)
-                              { fFullMeasureWholeNotes = wholeNotes; }
+                              { fFullMeasureWholeNotesDuration = wholeNotes; }
 
-    rational              getFullMeasureWholeNotes () const
-                              {  return fFullMeasureWholeNotes; }
+    rational              getFullMeasureWholeNotesDuration () const
+                              {  return fFullMeasureWholeNotesDuration; }
 
-    void                  setCurrentMeasureWholeNotes (
+    void                  setCurrentMeasureWholeNotesDuration (
                             int      inputLineNumber,
                             rational wholeNotes);
 
-    rational              getCurrentMeasureWholeNotes () const
-                              { return fCurrentMeasureWholeNotes; }
+    rational              getCurrentMeasureWholeNotesDuration () const
+                              { return fCurrentMeasureWholeNotesDuration; }
 
     // measure kind
 
@@ -849,23 +849,28 @@ class msrMeasure : public msrElement
 
     // lengthes
 
-    string                fullMeasureWholeNotesAsMSRString ();
+    string                fullMeasureWholeNotesDurationAsMSRString ();
 
-    string                currentMeasureWholeNotesAsMSRString ();
+    string                currentMeasureWholeNotesDurationAsMSRString ();
+
+    // backup and padding
 
     S_msrNote             createPaddingNoteForVoice (
                             int        inputLineNumber,
                             rational   duration,
                             S_msrVoice voice);
 
-    void                  padUpToCurrentMeasureWholeNotesInMeasure (
+    void                  padUpToPositionInMeasureInMeasure (
                             int      inputLineNumber,
                             rational wholeNotes);
 
+    void                  backupByWholeNotesStepLengthInMeasure (
+                            int      inputLineNumber,
+                            rational backupStepLength);
+
     void                  appendPaddingNoteToMeasure (
-                            int inputLineNumber,
-                            int divisions,
-                            int divisionsPerQuarterNote);
+                            int      inputLineNumber,
+                            rational forwardStepLength);
 
     // rest measures
 
@@ -883,7 +888,7 @@ class msrMeasure : public msrElement
 
     void                  appendTimeToMeasure (S_msrTime time);
 
-    void                  setFullMeasureWholeNotesFromTime (
+    void                  setFullMeasureWholeNotesDurationFromTime (
                             S_msrTime time);
 
     void                  appendTimeToMeasureClone (S_msrTime time);
@@ -1164,12 +1169,12 @@ class msrMeasure : public msrElement
 
     // measure lengthes, in whole notes
 
-    rational              fFullMeasureWholeNotes;
+    rational              fFullMeasureWholeNotesDuration;
                             // meaningfull only
                             // when there is a time signature,
                             // but not for cadenzas
 
-    rational              fCurrentMeasureWholeNotes;
+    rational              fCurrentMeasureWholeNotesDuration;
                             // this increases when musical elements
                             // are appended to the measure
 
@@ -1342,14 +1347,17 @@ class msrSegment : public msrVoiceElement
 
     // backup and padding
 
-    void                  padUpToCurrentMeasureWholeNotesInSegment (
+    void                  padUpToPositionInMeasureInSegment (
                             int      inputLineNumber,
                             rational wholeNotes);
 
+    void                  backupByWholeNotesStepLengthInSegment (
+                            int      inputLineNumber,
+                            rational backupStepLength);
+
     void                  appendPaddingNoteToSegment (
-                            int inputLineNumber,
-                            int divisions,
-                            int divisionsPerQuarterNote);
+                            int      inputLineNumber,
+                            rational forwardStepLength);
 
     // measures
 
@@ -4880,14 +4888,13 @@ class msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
-    void                  padUpToCurrentMeasureWholeNotesInStanza ( // JMI
+    void                  padUpToCurrentMeasureWholeNotesDurationInStanza ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
 
     void                  appendPaddingNoteToStanza (
-                            int inputLineNumber,
-                            int divisions,
-                            int divisionsPerQuarterNote);
+                            int      inputLineNumber,
+                            rational forwardStepLength);
 
   public:
 
@@ -4928,7 +4935,7 @@ class msrStanza : public msrElement
     bool                  fStanzaTextPresent;
 
     // current measure whole notes
-    rational              fStanzaCurrentMeasureWholeNotes;
+    rational              fStanzaCurrentMeasureWholeNotesDuration;
 };
 typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
@@ -6957,21 +6964,25 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
-    void                  padUpToCurrentMeasureWholeNotesInVoice (
+    // forward
+
+    void                  appendPaddingNoteToVoice (
                             int      inputLineNumber,
-                            rational wholeNotes);
+                            rational forwardStepLength);
 
-    void                  appendPaddingNoteToVoice ( // for <forward />
-                            int inputLineNumber,
-                            int divisions,
-                            int divisionsPerQuarterNote);
+    // backup and padding
 
-    // backup
+    void                  handleBackupInVoice (
+                            int      inputLineNumber,
+                            rational backupStepLength);
 
-    void                  handleBackup (
-                            int inputLineNumber,
-                            int divisions,
-                            int divisionsPerQuarterNote);
+    void                  padUpToPositionInMeasureInVoice (
+                            int      inputLineNumber,
+                            rational wholeNotesPositionInMeasure);
+
+    void                  backupByWholeNotesStepLengthInVoice (
+                            int      inputLineNumber,
+                            rational backupStepLength);
 
     // clef, key, time
 
@@ -7945,12 +7956,6 @@ class msrStaff : public msrElement
     void                  appendStaffDetailsToStaff (
                             S_msrStaffDetails staffDetails);
 
-    // measures
-
-    void                  padUpToCurrentMeasureWholeNotesInStaff (
-                            int      inputLineNumber,
-                            rational wholeNotes);
-
     // clef, key, time
 
     void                  appendClefToStaff (S_msrClef clef);
@@ -8454,20 +8459,6 @@ class msrPart : public msrPartGroupElement
 
     // measures
 
-    void                  setPartCurrentMeasureWholeNotesHighTide (
-                            int      inputLineNumber,
-                            rational wholeNotes);
-
-    void                  updatePartCurrentMeasureWholeNotesHighTide (
-                            int      inputLineNumber,
-                            rational wholeNotes);
-
-    rational              getPartCurrentMeasureWholeNotesHighTide () const
-                              {
-                                return
-                                  fPartCurrentMeasureWholeNotesHighTide;
-                              }
-
     void                  setPartNumberOfMeasures (
                             int partNumberOfMeasures)
                               {
@@ -8532,12 +8523,6 @@ class msrPart : public msrPartGroupElement
 
     void                  addAVoiceToStavesThatHaveNone (
                             int inputLineNumber);
-
-    // measures
-
-    void                  padUpToCurrentMeasureWholeNotesInPart (
-                            int      inputLineNumber,
-                            rational wholeNotes);
 
     // part name display
 
@@ -8700,16 +8685,7 @@ class msrPart : public msrPartGroupElement
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
-/* JMI
-    // backup
-
-    void                  handleBackup (
-                            int inputLineNumber,
-                            int divisions,
-                            int divisionsPerQuarterNote);
-*/
-
-    // LilyPond issue 34
+    // work around LilyPond issue 34
 
     void                  addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
                             S_msrVoice           graceNotesGroupOriginVoice,
@@ -8781,8 +8757,6 @@ class msrPart : public msrPartGroupElement
     string                fPartCurrentMeasureNumber;
 
     int                   fPartNumberOfMeasures;
-
-    rational              fPartCurrentMeasureWholeNotesHighTide;
 
     // clef, key, time
 

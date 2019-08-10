@@ -128,9 +128,8 @@ string wholeNotesAsLilypondString (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
-      "--> -------------------------------------" <<
-      endl <<
-      "--> wholeNotes: " << wholeNotes <<
+      "--> wholeNotesAsLilypondString() 1 -------------------------------------" <<
+      ", wholeNotes: " << wholeNotes <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -171,7 +170,7 @@ string wholeNotesAsLilypondString (
   wholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
@@ -191,7 +190,7 @@ string wholeNotesAsLilypondString (
     integralNumberOfWholeNotes = denominator == 1;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
@@ -219,7 +218,7 @@ string wholeNotesAsLilypondString (
   int  numeratorDots = lpsrNumberOfDots (numerator);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
@@ -307,7 +306,7 @@ string wholeNotesAsLilypondString (
     }
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       stringstream s;
 
       s <<
@@ -342,7 +341,7 @@ string wholeNotesAsLilypondString (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
@@ -357,7 +356,7 @@ string wholeNotesAsLilypondString (
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3\breve, hence \longa.
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
@@ -370,7 +369,7 @@ string wholeNotesAsLilypondString (
       denominatorDurationLog -= 1;
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotes) {
+      if (gTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> numerator" << " : " <<
           numerator <<
@@ -388,7 +387,7 @@ string wholeNotesAsLilypondString (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator" << " : " <<
       numerator <<
@@ -411,7 +410,7 @@ string wholeNotesAsLilypondString (
     denominatorDurationLog -= numeratorDots;
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -426,7 +425,7 @@ string wholeNotesAsLilypondString (
   else {
     // set the multiplying factor
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> setting the multiplying factor" <<
         endl;
@@ -442,7 +441,7 @@ string wholeNotesAsLilypondString (
     multiplyingFactor = numerator;
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -462,7 +461,7 @@ string wholeNotesAsLilypondString (
       multiplyingFactor /= 2;
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotes) {
+      if (gTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
@@ -478,7 +477,7 @@ string wholeNotesAsLilypondString (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator " << " : " <<
       numerator <<
@@ -538,15 +537,14 @@ string wholeNotesAsLilypondString (
     */
   }
 
+  string result = s.str ();
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
-      "--> return:" <<
-      endl <<
-      "  --> s.str ()     " << " : \"" << s.str () << "\"" <<
-      endl <<
-      "  --> numeratorDots" << " : " << numeratorDots <<
-      endl <<
+      "--> wholeNotesAsLilypondString() 2 -------------------------------------" <<
+     ", result: \"" << result << "\"" <<
+      ", numeratorDots" << " : " << numeratorDots <<
       endl;
   }
 #endif
@@ -554,8 +552,7 @@ string wholeNotesAsLilypondString (
   // return the result
   dotsNumber = numeratorDots;
 
-  return
-    s.str ();
+  return result;
 }
 
 string wholeNotesAsLilypondString (

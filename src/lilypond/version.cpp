@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -46,7 +46,7 @@ void versionInfo::print (ostream& os) const
       setw (7) << fVersionNumber << " " <<
       "(" << fVersionDate << "):" <<
       endl <<
-    
+
   indenter::gIndenter++;
 
   os <<
@@ -74,7 +74,7 @@ void printVersionsHistory (ostream& os)
 {
   os <<
     "Versions history:" <<
-    endl << endl;
+    endl;
 
   indenter::gIndenter++;
 
@@ -85,10 +85,8 @@ void printVersionsHistory (ostream& os)
   for ( ; ; ) {
     (*i).print (os);
     if (++i == iEnd) break;
-    os << endl;
+  // JMI  os << endl;
   } // for
-
-  os << endl;
 
   indenter::gIndenter--;
 }

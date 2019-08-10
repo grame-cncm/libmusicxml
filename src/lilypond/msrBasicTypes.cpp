@@ -12701,7 +12701,8 @@ string wholeNotesAsMsrString (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
-      "--> wholeNotes: " << wholeNotes <<
+      "--> wholeNotesAsMsrString() 1 -------------------------------------" <<
+      ", wholeNotes: " << wholeNotes <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -12746,7 +12747,7 @@ abort ();
   wholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
@@ -12766,7 +12767,7 @@ abort ();
     integralNumberOfWholeNotes = denominator == 1;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
@@ -12794,7 +12795,7 @@ abort ();
   int  numeratorDots = msrNumberOfDots (numerator);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
@@ -12846,7 +12847,7 @@ abort ();
     }
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       stringstream s;
 
       s <<
@@ -12881,7 +12882,7 @@ abort ();
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
@@ -12896,7 +12897,7 @@ abort ();
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3 \breve, hence '\longa.'
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
@@ -12909,7 +12910,7 @@ abort ();
       denominatorDurationLog -= 1;
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotes) {
+      if (gTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> numerator" << " : " <<
           numerator <<
@@ -12927,7 +12928,7 @@ abort ();
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator" << " : " <<
       numerator <<
@@ -12948,7 +12949,7 @@ abort ();
   if (numeratorDots >= 0 && denominatorDurationLog >= numeratorDots) {
     // take the dots into account
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> taking the dots into account" <<
         endl;
@@ -12958,7 +12959,7 @@ abort ();
     denominatorDurationLog -= numeratorDots;
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -12973,7 +12974,7 @@ abort ();
   else {
     // set the multiplying factor
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> setting the multiplying factor" <<
         endl;
@@ -12989,7 +12990,7 @@ abort ();
     multiplyingFactor = numerator;
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotes) {
+    if (gTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -13009,7 +13010,7 @@ abort ();
       multiplyingFactor /= 2;
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotes) {
+      if (gTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
@@ -13025,7 +13026,7 @@ abort ();
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator " << " : " <<
       numerator <<
@@ -13085,15 +13086,14 @@ abort ();
     */
   }
 
+  string result = s.str ();
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
-      "--> return:" <<
-      endl <<
-      "  --> s.str ()     " << " : \"" << s.str () << "\"" <<
-      endl <<
-      "  --> numeratorDots" << " : " << numeratorDots <<
-      endl <<
+      "--> wholeNotesAsMsrString() 2 -------------------------------------" <<
+     ", result: \"" << result << "\"" <<
+      ", numeratorDots" << " : " << numeratorDots <<
       endl;
   }
 #endif
@@ -13101,8 +13101,7 @@ abort ();
   // return the result
   dotsNumber = numeratorDots;
 
-  return
-    s.str ();
+  return result;
 }
 
 string wholeNotesAsMsrString (

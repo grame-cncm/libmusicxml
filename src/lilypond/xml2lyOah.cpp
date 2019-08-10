@@ -70,6 +70,17 @@ xml2lyOahVersionAtom::xml2lyOahVersionAtom (
 xml2lyOahVersionAtom::~xml2lyOahVersionAtom ()
 {}
 
+S_oahValuedAtom xml2lyOahVersionAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once
+  printVersion (os);
+
+  // no option value is needed
+  return nullptr;
+}
+
 void xml2lyOahVersionAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
@@ -210,6 +221,17 @@ xml2lyOahAboutAtom::xml2lyOahAboutAtom (
 xml2lyOahAboutAtom::~xml2lyOahAboutAtom ()
 {}
 
+S_oahValuedAtom xml2lyOahAboutAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once
+  printAbout (os);
+
+  // no option value is needed
+  return nullptr;
+}
+
 void xml2lyOahAboutAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
@@ -318,7 +340,6 @@ R"(What xml2ly does:
     printing views of the internal data or printing a summary of the score.
 
     The activity log and warning/error messages go to standard error.)" <<
-    endl <<
     endl;
 }
 
@@ -362,6 +383,17 @@ xml2lyOahContactAtom::xml2lyOahContactAtom (
 
 xml2lyOahContactAtom::~xml2lyOahContactAtom ()
 {}
+
+S_oahValuedAtom xml2lyOahContactAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once
+  printContact (os);
+
+  // no option value is needed
+  return nullptr;
+}
 
 void xml2lyOahContactAtom::acceptIn (basevisitor* v)
 {
@@ -457,7 +489,6 @@ R"(To contact xml2ly maintainers:
 
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
     and error messages you obtain if relevant.)" <<
-    endl <<
     endl;
 }
 

@@ -2233,7 +2233,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   // is this a full measures rest?
   if (elt->getMeasureIsAFullMeasureRest ()) {
     // yes JMI
-
   }
 
   else {
@@ -2298,6 +2297,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       barNumberCheck_ =
         msrBarNumberCheck::create (
           inputLineNumber,
+          nextMeasureNumber,
           voiceCurrentMeasurePuristNumber);
 
     // append it to the current voice clone

@@ -1032,42 +1032,6 @@ void msrStaff::registerVoiceInStaff (
   } // switch
 }
 
-void msrStaff::padUpToCurrentMeasureWholeNotesInStaff (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceStaves
-      ||
-    gTraceOah->fTraceMeasures
-      ||
-    gMusicXMLOah->fTraceBackup
-  ) {
-    gLogOstream <<
-      "Padding up to current measure whole notes '" << wholeNotes <<
-      "' in staff \"" <<
-      getStaffName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
-    i != fStaffAllVoicesMap.end ();
-    i++
-  ) {
-    S_msrVoice voice = (*i).second;
-    // JMI msrAssert???
-
-    voice->
-      padUpToCurrentMeasureWholeNotesInVoice (
-        inputLineNumber,
-        wholeNotes);
-  } // for
-}
-
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
 #ifdef TRACE_OAH
@@ -2035,21 +1999,11 @@ void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fStaffPartUpLink->
-        getPartCurrentMeasureWholeNotesHighTide ();
-#endif
-
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures || gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Finalizing current measure in staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
-      ", partCurrentMeasureWholeNotesHighTide = " <<
-      partCurrentMeasureWholeNotesHighTide <<
-      ", line " << inputLineNumber <<
       endl;
   }
 #endif

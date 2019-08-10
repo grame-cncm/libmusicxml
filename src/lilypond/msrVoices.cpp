@@ -1826,7 +1826,7 @@ void msrVoice::appendFiguredBassToVoice (
   switch (fVoiceKind) {
     case msrVoice::kVoiceFiguredBass:
       // skip to figured bass note position in the voice
-      padUpToCurrentMeasureWholeNotesInVoice (
+      padUpToPositionInMeasureInVoice (
         inputLineNumber,
         figuredBass->
           getFiguredBassNoteUpLink ()->
@@ -1907,9 +1907,9 @@ void msrVoice::appendFiguredBassToVoiceClone (
   } // switch
 }
 
-void msrVoice::padUpToCurrentMeasureWholeNotesInVoice (
+void msrVoice::padUpToPositionInMeasureInVoice (
   int      inputLineNumber,
-  rational wholeNotes)
+  rational wholeNotesPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (
@@ -1917,11 +1917,12 @@ void msrVoice::padUpToCurrentMeasureWholeNotesInVoice (
       ||
     gTraceOah->fTraceMeasures
       ||
-    gMusicXMLOah->fTraceBackup
+    gTraceOah->fTracePositionsInMeasures
   ) {
     gLogOstream <<
-      "Padding up to current measure whole notes '" << wholeNotes <<
-      "' in voice \"" <<
+      "Padding up to position in measure '" <<
+      wholeNotesPositionInMeasure <<
+      "' whole notes in voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
@@ -1930,12 +1931,18 @@ void msrVoice::padUpToCurrentMeasureWholeNotesInVoice (
 
   gIndenter++;
 
+  // sanity check
+  msrAssert (
+    fVoiceLastSegment != nullptr,
+    "fVoiceLastSegment is null");
+
   // pad up the voice's last segment
   fVoiceLastSegment->
-    padUpToCurrentMeasureWholeNotesInSegment (
-      inputLineNumber, wholeNotes);
+    padUpToPositionInMeasureInSegment (
+      inputLineNumber,
+      wholeNotesPositionInMeasure);
 
-  // pad up the voice's stanzas
+  // pad up the voice's stanzas // JMI ???
   if (fVoiceStanzasMap.size ()) {
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
@@ -1944,27 +1951,69 @@ void msrVoice::padUpToCurrentMeasureWholeNotesInVoice (
   ) {
       S_msrStanza stanza = (*i).second;
 
-      stanza->padUpToCurrentMeasureWholeNotesInStanza (
-        inputLineNumber, wholeNotes);
+      stanza->
+        padUpToCurrentMeasureWholeNotesDurationInStanza (
+          inputLineNumber,
+          wholeNotesPositionInMeasure);
     } // for
   }
 
   gIndenter--;
 }
 
+void msrVoice::backupByWholeNotesStepLengthInVoice (
+  int      inputLineNumber,
+  rational backupStepLength)
+{
+#ifdef TRACE_OAH
+  if (
+    gTraceOah->fTraceVoices
+      ||
+    gTraceOah->fTraceMeasures
+      ||
+    gMusicXMLOah->fTraceBackup
+      ||
+    gTraceOah->fTracePositionsInMeasures
+  ) {
+    gLogOstream <<
+      "Backing up by a '" <<
+      backupStepLength <<
+      "' whole notes step length in voice \"" <<
+      getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // sanity check
+  msrAssert (
+    fVoiceLastSegment != nullptr,
+    "fVoiceLastSegment is null");
+
+  // pad up the voice's last segment
+  fVoiceLastSegment->
+    backupByWholeNotesStepLengthInSegment (
+      inputLineNumber,
+      backupStepLength);
+
+  gIndenter--;
+}
+
 void msrVoice::appendPaddingNoteToVoice (
-  int inputLineNumber,
-  int divisions,
-  int divisionsPerQuarterNote)
+  int      inputLineNumber,
+  rational forwardStepLength)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceVoices || gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Appending padding note of " << divisions <<
-      " divisions to voice \"" <<
+      "Appending padding note" <<
+      ", forwardStepLength: " <<
+      forwardStepLength <<
+      ", to voice \"" <<
       getVoiceName () <<
-      "\", divisions = " << divisions <<
-      ",line " << inputLineNumber <<
+      "\",line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -1975,8 +2024,7 @@ void msrVoice::appendPaddingNoteToVoice (
   fVoiceLastSegment->
     appendPaddingNoteToSegment (
       inputLineNumber,
-      divisions,
-      divisionsPerQuarterNote);
+      forwardStepLength);
 
   // pad up the voice's stanzas
   if (fVoiceStanzasMap.size ()) {
@@ -1989,54 +2037,23 @@ void msrVoice::appendPaddingNoteToVoice (
 
       stanza->appendPaddingNoteToStanza (
         inputLineNumber,
-        divisions,
-        divisionsPerQuarterNote);
+        forwardStepLength);
     } // for
   }
 
   gIndenter--;
 }
 
-void msrVoice:: handleBackup (
-  int inputLineNumber,
-  int divisions,
-  int divisionsPerQuarterNote)
+void msrVoice:: handleBackupInVoice (
+  int      inputLineNumber,
+  rational backupStepLength)
 {
-  // compute the backup step length
-  rational
-    backupStepLength =
-      rational (
-        divisions,
-        divisionsPerQuarterNote * 4); // hence a whole note
-
-  // get the fPartCurrentMeasureWholeNotesHighTide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fVoiceStaffUpLink->
-        getStaffPartUpLink ()->
-          getPartCurrentMeasureWholeNotesHighTide ();
-
-  // determine the measure position 'divisions' backward
-  rational
-    positionInMeasure =
-      partCurrentMeasureWholeNotesHighTide - backupStepLength;
-
-  positionInMeasure.rationalise ();
-
 #ifdef TRACE_OAH
   if (gMusicXMLOah->fTraceBackup) {
     gLogOstream <<
-      "Handling backup, divisions = '" <<
-      divisions <<
-      "', divisionsPerQuarterNote = '" <<
-      divisionsPerQuarterNote <<
-      "', backupStepLength = '" <<
+      "Handling backup by a '" <<
       backupStepLength <<
-      "', partCurrentMeasureWholeNotesHighTide = '" <<
-      partCurrentMeasureWholeNotesHighTide <<
-      "', positionInMeasure = '" <<
-      positionInMeasure <<
-      "' in voice " <<
+      "' whole notes step length in voice " <<
       getVoiceName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -2044,9 +2061,9 @@ void msrVoice:: handleBackup (
 #endif
 
   // bring the voice to that measure position
-  padUpToCurrentMeasureWholeNotesInVoice (
+  backupByWholeNotesStepLengthInVoice (
     inputLineNumber,
-    positionInMeasure);
+    backupStepLength);
 }
 
 void msrVoice::appendTransposeToVoice (
@@ -3636,9 +3653,9 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
 
         // is there a measure splitting?
         if (
-          lastMeasureInLastSegment->getCurrentMeasureWholeNotes ()
+          lastMeasureInLastSegment->getCurrentMeasureWholeNotesDuration ()
             == // JMI SURE ???
-          lastMeasureInLastSegment->getFullMeasureWholeNotes ()
+          lastMeasureInLastSegment->getFullMeasureWholeNotesDuration ()
         ) {
           // yes this measure is not yet complete and should be split
 #ifdef TRACE_OAH
@@ -4338,9 +4355,9 @@ void msrVoice::handleNestedRepeatEndInVoice (
 
   // is there a measure splitting?
   if (
-    voiceLastMeasure->getCurrentMeasureWholeNotes ()
+    voiceLastMeasure->getCurrentMeasureWholeNotesDuration ()
       ==
-    voiceLastMeasure->getFullMeasureWholeNotes ()
+    voiceLastMeasure->getFullMeasureWholeNotesDuration ()
   ) {
     // this measure is incomplete and should be split
 #ifdef TRACE_OAH
@@ -6093,7 +6110,7 @@ void msrVoice::createRestMeasuresInVoice (
         fVoicePendingRestMeasures =
           msrRestMeasures::create (
             inputLineNumber,
-            firstRestMeasure->getFullMeasureWholeNotes (),
+            firstRestMeasure->getFullMeasureWholeNotesDuration (),
             restMeasuresNumber,
             this);
 
@@ -8144,10 +8161,10 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
 
         // fetch last measure's full measure whole notes
         /* JMI
-        int fullMeasureWholeNotes =
+        int fullMeasureWholeNotesDuration =
           fVoiceLastSegment->
             getSegmentMeasuresList ().back ()->
-              getFullMeasureWholeNotes ();
+              getFullMeasureWholeNotesDuration ();
               */
 
 #ifdef TRACE_OAH
@@ -8611,19 +8628,6 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       "\"" <<
       ", line " << inputLineNumber <<
       endl;
-
-    gIndenter++;
-
-    const int fieldWidth = 26;
-
-    gLogOstream << left <<
-      setw (fieldWidth) <<
-      "partCurrentMeasureWholeNotesHighTide" << " = " <<
-      fetchVoicePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide () <<
-      endl;
-
-    gIndenter--;
 
     displayVoice (
       inputLineNumber,

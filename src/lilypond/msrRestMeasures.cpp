@@ -291,7 +291,7 @@ msrRestMeasures::msrRestMeasures (
 
   fRestMeasuresMeasureSoundingNotes =
     restMeasureClone->
-      getFullMeasureWholeNotes (); // JMI ???
+      getFullMeasureWholeNotesDuration (); // JMI ???
 
   fRestMeasuresNumber = 1; // will evolve JMI
 

@@ -55,6 +55,10 @@ class xml2lyOahVersionAtom : public oahAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
   public:
 
     // visitors
@@ -119,6 +123,10 @@ class xml2lyOahAboutAtom : public oahAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
   public:
 
     // visitors
@@ -182,6 +190,10 @@ class xml2lyOahContactAtom : public oahAtom
 
     // services
     // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
   public:
 

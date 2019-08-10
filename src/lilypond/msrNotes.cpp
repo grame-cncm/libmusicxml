@@ -3664,7 +3664,7 @@ void msrNote::print (ostream& os)
       fNoteMeasureUpLink
         ?
           fNoteMeasureUpLink->
-            getFullMeasureWholeNotes ()
+            getFullMeasureWholeNotesDuration ()
         : rational (0, 1); // JMI
 
   // print the note itself

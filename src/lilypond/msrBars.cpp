@@ -59,7 +59,7 @@ msrBarCheck::msrBarCheck (
     : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasuresNumbers) {
     gLogOstream <<
       "Creating a bar check without next bar number" <<
       endl;
@@ -77,9 +77,12 @@ msrBarCheck::msrBarCheck (
   fNextBarPuristNumber   = nextBarPuristNumber;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasuresNumbers) {
     gLogOstream <<
-      "Creating a bar check with next bar number '" <<
+      "Creating a bar check" <<
+      " with next bar original number '" <<
+      nextBarOriginalNumber <<
+      " and next bar purist number '" <<
       fNextBarPuristNumber <<
       "'" <<
       endl;
@@ -93,7 +96,7 @@ msrBarCheck::~msrBarCheck ()
 void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasuresNumbers) {
     gLogOstream <<
       "Setting bar check next bar number to '" <<
       puristNumber <<
@@ -158,6 +161,7 @@ string msrBarCheck::asString () const
 
   s <<
     "BarCheck" <<
+    ", nextBarOriginalNumber = \"" << fNextBarOriginalNumber << "\"" <<
     ", nextBarPuristNumber = \"" << fNextBarPuristNumber << "\"" <<
     ", line " << fInputLineNumber;
 
@@ -179,22 +183,40 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 
 //______________________________________________________________________________
 S_msrBarNumberCheck msrBarNumberCheck::create (
-  int inputLineNumber,
-  int nextBarPuristNumber)
+  int    inputLineNumber,
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
 {
   msrBarNumberCheck* o =
     new msrBarNumberCheck (
-      inputLineNumber, nextBarPuristNumber);
+      inputLineNumber,
+      nextBarOriginalNumber,
+      nextBarPuristNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarNumberCheck::msrBarNumberCheck (
-  int inputLineNumber,
-  int nextBarPuristNumber)
+  int    inputLineNumber,
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
     : msrMeasureElement (inputLineNumber)
 {
-  fNextBarPuristNumber=nextBarPuristNumber;
+  fNextBarOriginalNumber = nextBarOriginalNumber;
+  fNextBarPuristNumber   = nextBarPuristNumber;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresNumbers) {
+    gLogOstream <<
+      "Creating a bar number check" <<
+      " with next bar original number '" <<
+      nextBarOriginalNumber <<
+      " and next bar purist number '" <<
+      fNextBarPuristNumber <<
+      "'" <<
+      endl;
+  }
+#endif
 }
 
 msrBarNumberCheck::~msrBarNumberCheck ()
@@ -253,6 +275,7 @@ string msrBarNumberCheck::asString () const
 
   s <<
     "BarNumberCheck" <<
+    ", nextBarOriginalNumber = \"" << fNextBarOriginalNumber << "\"" <<
     ", nextBarPuristNumber = \"" << fNextBarPuristNumber << "\"";
 
   return s.str ();

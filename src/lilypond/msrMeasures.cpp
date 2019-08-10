@@ -130,7 +130,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureIsAFullMeasureRest = false;
 
   // initialize measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     fInputLineNumber,
     rational (0, 1)); // ready to receive the first note
 
@@ -148,7 +148,7 @@ void msrMeasure::initializeMeasure ()
 
   // set the measure full length if relevant
   if (staffCurrentTime) {
-    setFullMeasureWholeNotesFromTime (
+    setFullMeasureWholeNotesDurationFromTime (
       staffCurrentTime);
   }
 
@@ -223,8 +223,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 
     /* JMI
   // lengthes
-  newbornClone->fFullMeasureWholeNotes =
-    fFullMeasureWholeNotes;
+  newbornClone->fFullMeasureWholeNotesDuration =
+    fFullMeasureWholeNotesDuration;
 
   // measure purist number
   newbornClone->fMeasurePuristNumber = // JMI don't compute that again for clones ???
@@ -246,7 +246,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 */
 
   /*
-  // fCurrentMeasureWholeNotes and fFullMeasureWholeNotes
+  // fCurrentMeasureWholeNotesDuration and fFullMeasureWholeNotesDuration
   // will be computed on the fly
   // when appending notes to the measure newborn clone
 
@@ -299,11 +299,11 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         containingSegment);
 
   // lengthes
-  measureDeepCopy->fFullMeasureWholeNotes =
-    fFullMeasureWholeNotes;
+  measureDeepCopy->fFullMeasureWholeNotesDuration =
+    fFullMeasureWholeNotesDuration;
 
-  measureDeepCopy->fCurrentMeasureWholeNotes =
-    fCurrentMeasureWholeNotes;
+  measureDeepCopy->fCurrentMeasureWholeNotesDuration =
+    fCurrentMeasureWholeNotesDuration;
 
   // measure kind
   measureDeepCopy->fMeasureKind =
@@ -527,10 +527,9 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
       asShortString () <<
       " in voice \"" <<
       fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink ()
-          ->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+        getSegmentVoiceUpLink ()->getVoiceName () <<
+      "\", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -562,12 +561,12 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
           "\", line " << inputLineNumber <<
           ", has position in measure '" <<
           measureElement->getPositionInMeasure () <<
-          ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+          ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
           endl;
       }
 #endif
 
-      if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotes) { // JMI
+      if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotesDuration) { // JMI
         // this is where measureElement should be appended
 
 #ifdef TRACE_OAH
@@ -584,7 +583,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
             "\", line " << inputLineNumber <<
             ", has position in measure '" <<
             measureElement->getPositionInMeasure () <<
-            ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+            ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
             endl;
         }
 #endif
@@ -592,7 +591,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
         // set measureElement's position in measure
         measureElement->
           setPositionInMeasure (
-            fCurrentMeasureWholeNotes,
+            fCurrentMeasureWholeNotesDuration,
             "appendElementToMeasure(), delayed element");
 
         fMeasureElementsList.push_back (measureElement);
@@ -613,7 +612,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
   // set elem's position in measure
   elem->
     setPositionInMeasure (
-      fCurrentMeasureWholeNotes,
+      fCurrentMeasureWholeNotesDuration,
       "appendElementToMeasure()");
 
   fMeasureElementsList.push_back (elem);
@@ -645,8 +644,8 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()
           ->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+      "\", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -659,7 +658,7 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
   // set elem's position in measure
   elem->
     setPositionInMeasure (
-      fCurrentMeasureWholeNotes, // rational (999/1)); // JMI fCurrentMeasureWholeNotes)
+      fCurrentMeasureWholeNotesDuration,
       "insertElementInMeasureBeforeIterator()");
 
   // insert elem in the measure elements list before (*iter)
@@ -667,9 +666,9 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
     iter, elem);
 
   // account for elem's duration in current measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + elem->getSoundingWholeNotes ());
+    fCurrentMeasureWholeNotesDuration + elem->getSoundingWholeNotes ());
 }
 
 void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
@@ -688,10 +687,10 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()
           ->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      ", has position in measure '" <<
+      "\", has position in measure '" <<
       elem->getPositionInMeasure () <<
-      ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+      ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
       endl;
 
   displayMeasure (
@@ -727,12 +726,12 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
           "\", line " << inputLineNumber <<
           ", has position in measure '" <<
           measureElement->getPositionInMeasure () <<
-          ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+          ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
           endl;
       }
 #endif
 
-      if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotes) { // JMI
+      if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotesDuration) { // JMI
         // this is where measureElement should be appended
 
 #ifdef TRACE_OAH
@@ -749,7 +748,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
             "\", line " << inputLineNumber <<
             ", has position in measure '" <<
             measureElement->getPositionInMeasure () <<
-            ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+            ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
             endl;
         }
 #endif
@@ -757,7 +756,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         // set measureElement's position in measure
         measureElement->
           setPositionInMeasure (
-            fCurrentMeasureWholeNotes,
+            fCurrentMeasureWholeNotesDuration,
             "appendElementAtTheEndOfMeasure(), delayed element");
 
         fMeasureElementsList.push_back (measureElement);
@@ -838,7 +837,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         (i).base ();
 
     // insert elem in the measure elements list before (*i)
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
     if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
         "Inserting measure element " <<
@@ -857,7 +856,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       gLogOstream <<
         endl;
     }
-  #endif
+#endif
 
     insertElementInMeasureBeforeIterator (
       inputLineNumber,
@@ -924,23 +923,23 @@ void msrMeasure::setMeasureFirstInVoice ()
   fMeasureFirstInVoice = true;
 }
 
-string msrMeasure::fullMeasureWholeNotesAsMSRString ()
+string msrMeasure::fullMeasureWholeNotesDurationAsMSRString ()
 {
   return
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fFullMeasureWholeNotes);
+      fFullMeasureWholeNotesDuration);
 }
 
-void msrMeasure::setCurrentMeasureWholeNotes (
+void msrMeasure::setCurrentMeasureWholeNotesDuration (
   int      inputLineNumber,
   rational wholeNotes)
 {
   // rationalise the measure whole notes
   rational
-    rationalisedCurrentMeasureWholeNotes =
+    rationalisedCurrentMeasureWholeNotesDuration =
       wholeNotes;
-  rationalisedCurrentMeasureWholeNotes.rationalise ();
+  rationalisedCurrentMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACE_OAH
   if (
@@ -956,11 +955,11 @@ void msrMeasure::setCurrentMeasureWholeNotes (
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' to '"  <<
-      rationalisedCurrentMeasureWholeNotes <<
+      rationalisedCurrentMeasureWholeNotesDuration <<
       "'";
 
     if (
-      rationalisedCurrentMeasureWholeNotes.getDenominator ()
+      rationalisedCurrentMeasureWholeNotesDuration.getDenominator ()
         !=
       wholeNotes.getDenominator ()
     ) {
@@ -979,16 +978,18 @@ void msrMeasure::setCurrentMeasureWholeNotes (
   }
 #endif
 
+//  if (rationalisedCurrentMeasureWholeNotesDuration.getNumerator () == 29) abort (); // JMI
+
   // set measure whole notes
-  fCurrentMeasureWholeNotes = rationalisedCurrentMeasureWholeNotes;
+  fCurrentMeasureWholeNotesDuration = rationalisedCurrentMeasureWholeNotesDuration;
 }
 
-string msrMeasure::currentMeasureWholeNotesAsMSRString ()
+string msrMeasure::currentMeasureWholeNotesDurationAsMSRString ()
 {
   return
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fCurrentMeasureWholeNotes);
+      fCurrentMeasureWholeNotesDuration);
 }
 
 void msrMeasure::setMeasureKind (
@@ -1098,7 +1099,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   appendElementToMeasure (time);
 
   // set the measure whole notes per full measure
-  setFullMeasureWholeNotesFromTime (
+  setFullMeasureWholeNotesDurationFromTime (
     time);
 
   gIndenter--;
@@ -1147,7 +1148,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
   appendElementToMeasure (time);
 }
 
-void msrMeasure::setFullMeasureWholeNotesFromTime (
+void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
   S_msrTime time)
 {
   // sanity check
@@ -1242,7 +1243,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
 #endif
 
         // set full measure whole notes
-        fFullMeasureWholeNotes =
+        fFullMeasureWholeNotesDuration =
           wholeNotesPerMeasure;
 
 #ifdef TRACE_OAH
@@ -1263,7 +1264,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
                 getVoiceName () <<
             "\"" <<
             " has " <<
-            fFullMeasureWholeNotes <<
+            fFullMeasureWholeNotesDuration <<
             " full measure whole notes " <<
             endl;
         }
@@ -1300,7 +1301,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
 
       setMeasureKind (kMeasureKindCadenza);
 
-      fFullMeasureWholeNotes =
+      fFullMeasureWholeNotesDuration =
         rational (INT_MAX, 1);
       break;
   } // switch
@@ -1398,7 +1399,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       // register barline position in measure
       barline->
         setPositionInMeasure (
-          fCurrentMeasureWholeNotes,
+          fCurrentMeasureWholeNotesDuration,
           "appendBarlineToMeasure()");
       break;
 
@@ -1518,14 +1519,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // attached to the note
   note->
     setNotePositionInMeasure (
-      fCurrentMeasureWholeNotes);
-//        + // the offset can be negative
- //     note->getHarmonyWholeNotesOffset ());
-      /* JMI
-    setPositionInMeasure (
-      fCurrentMeasureWholeNotes,
-      "appendElementToMeasure()");
-*/
+      fCurrentMeasureWholeNotesDuration);
+
+  // append it to the measure elements list
   fMeasureElementsList.push_back (note);
 
   // fetch note sounding whole notes
@@ -1538,74 +1534,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       note->noteSoundingWholeNotesAsMsrString ();
 
   // account for note duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + noteSoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
-
-
-  /* JMI
-  // set the harmony's souding whole notes
-  if (harmonyWholeNotesOffset.getNumerator () > 0) {
-    // decrement the harmony's duration as much
-    harmony->
-      setHarmonySoundingWholeNotes (
-        newNoteSoundingWholeNotes
-          -
-        harmonyWholeNotesOffset);
-  }
-  else {
-    harmony->
-      setHarmonySoundingWholeNotes (
-        fCurrentNoteSoundingWholeNotes
-          /
-        pendingHarmoniesNumber);
-  }
-
-  // has the harmony whole notes offset already been used
-  // at the same point in time?
-  if (harmonyWholeNotesOffset == previousHarmonyWhoseNotesOffset) {
-    stringstream s;
-
-    s <<
-      "harmonyWholeNotesOffset '" <<
-      harmonyWholeNotesOffset <<
-      "' already occured in that same point in time, ignoring it";
-
-    msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
-      inputLineNumber,
-//        __FILE__, __LINE__,
-      s.str ());
-  }
-
-  else {
-  }
-*/
-
-
-/* JMI
-  // are there harmonies attached to this note?
-  const list<S_msrHarmony>&
-    noteHarmoniesList =
-      note->getNoteHarmoniesList ();
-
-  if (noteHarmoniesList.size ()) {
-    list<S_msrHarmony>::const_iterator i;
-    for (i=noteHarmoniesList.begin (); i!=noteHarmoniesList.end (); i++) {
-      // set the harmony position in measure, taking it's offset into account
-      (*i)->
-        setPositionInMeasure (
-          note->getPositionInMeasure (),
-          "appendNoteToMeasure()");
-    } // for
-  }
-*/
+    fCurrentMeasureWholeNotesDuration + noteSoundingWholeNotes);
 
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
@@ -1646,7 +1577,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
     note->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Appending padding note '" << note->asShortString () <<
       "' at the end of measure '" <<
@@ -1679,24 +1610,6 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
 
   string noteSoundingWholeNotesAsMsrString =
     note->noteSoundingWholeNotesAsMsrString ();
-
-  // account for note duration in measure whole notes
-  setCurrentMeasureWholeNotes (
-    inputLineNumber,
-    fCurrentMeasureWholeNotes + noteSoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
-
-/* JMI
-  // determine whether the note occupies a full measure
-  if (noteSoundingWholeNotes == fFullMeasureWholeNotes)
-    note->
-      setNoteOccupiesAFullMeasure ();
-  */
 
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
@@ -1782,19 +1695,13 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
         note->getNoteSoundingWholeNotes ();
 
     // account for note duration in measure whole notes
-    setCurrentMeasureWholeNotes (
+    setCurrentMeasureWholeNotesDuration (
       inputLineNumber,
-      fCurrentMeasureWholeNotes + noteSoundingWholeNotes);
-
-    // update part measure whole notes high tide if need be
-    fetchMeasurePartUpLink ()->
-      updatePartCurrentMeasureWholeNotesHighTide (
-        inputLineNumber,
-        fCurrentMeasureWholeNotes);
+      fCurrentMeasureWholeNotesDuration + noteSoundingWholeNotes);
 
   /* JMI
     // determine whether the note occupies a full measure
-    if (noteSoundingWholeNotes == fFullMeasureWholeNotes)
+    if (noteSoundingWholeNotes == fFullMeasureWholeNotesDuration)
       note->
         setNoteOccupiesAFullMeasure ();
       */
@@ -1843,7 +1750,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // register doubleTremolo measure position in measure
   doubleTremolo->
     setDoubleTremoloPositionInMeasure (
-      fCurrentMeasureWholeNotes);
+      fCurrentMeasureWholeNotesDuration);
 
   // copy measure number to first note, that was created beforehand
   doubleTremolo->
@@ -1853,7 +1760,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // copy measure position to first note, that was created beforehand
   doubleTremolo->
     setDoubleTremoloPositionInMeasure (
-      fCurrentMeasureWholeNotes);
+      fCurrentMeasureWholeNotesDuration);
 
   // append the doubleTremolo to the measure elements list
   appendElementToMeasure (doubleTremolo);
@@ -1865,15 +1772,9 @@ void msrMeasure::appendDoubleTremoloToMeasure (
         getDoubleTremoloSoundingWholeNotes ();
 
   // account for doubleTremolo duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + doubleTremoloSoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
+    fCurrentMeasureWholeNotesDuration + doubleTremoloSoundingWholeNotes);
 
   // determine if the doubleTremolo occupies a full measure
 // XXL  JMI  if (doubleTremoloSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
@@ -1924,15 +1825,9 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
         getChordSoundingWholeNotes ();
 
   // account for chord duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + chordSoundingWholeNotes);
-
-  // update part measure whole notes high tide
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
+    fCurrentMeasureWholeNotesDuration + chordSoundingWholeNotes);
 
   // determine if the chord occupies a full measure
 // XXL  JMI  if (chordSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
@@ -1987,19 +1882,13 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     tuplet->
       setTupletMembersPositionInMeasure (
         this,
-        fCurrentMeasureWholeNotes);
+        fCurrentMeasureWholeNotesDuration);
   }
 
-  // account for tuplet duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  // account for tuplet duration in current measure whole notes
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + tupletSoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
+    fCurrentMeasureWholeNotesDuration + tupletSoundingWholeNotes);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2030,7 +1919,8 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
-      "\", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+      "\", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -2053,15 +1943,9 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
         getHarmonySoundingWholeNotes ();
 
   // account for harmony duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + harmonySoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
+    fCurrentMeasureWholeNotesDuration + harmonySoundingWholeNotes);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2092,7 +1976,8 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
-      "\", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+      "\", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -2107,15 +1992,9 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
         getHarmonySoundingWholeNotes ();
 
   // account for harmony duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + harmonySoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
+    fCurrentMeasureWholeNotesDuration + harmonySoundingWholeNotes);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2143,7 +2022,8 @@ void msrMeasure::appendFiguredBassToMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
-      "\", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+      "\", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -2158,15 +2038,9 @@ void msrMeasure::appendFiguredBassToMeasure (
         getFiguredBassSoundingWholeNotes ();
 
   // account for harmony duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + figuredBassSoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
+    fCurrentMeasureWholeNotesDuration + figuredBassSoundingWholeNotes);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2198,7 +2072,8 @@ void msrMeasure::appendFiguredBassToMeasureClone (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
-      "\", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
+      "\", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -2213,15 +2088,9 @@ void msrMeasure::appendFiguredBassToMeasureClone (
         getFiguredBassSoundingWholeNotes ();
 
   // account for harmony duration in measure whole notes
-  setCurrentMeasureWholeNotes (
+  setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    fCurrentMeasureWholeNotes + figuredBassSoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fetchMeasurePartUpLink ()->
-    updatePartCurrentMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fCurrentMeasureWholeNotes);
+    fCurrentMeasureWholeNotesDuration + figuredBassSoundingWholeNotes);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2294,7 +2163,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   return paddingNote;
 }
 
-void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
+void msrMeasure::padUpToPositionInMeasureInMeasure (
   int      inputLineNumber,
   rational wholeNotes)
 {
@@ -2320,7 +2189,8 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
     this->print (gLogOstream);
 
     gLogOstream <<
-      "Padding from current measure whole notes '" << fCurrentMeasureWholeNotes <<
+      "Padding from current measure whole notes '" <<
+      fCurrentMeasureWholeNotesDuration <<
       "' to '" << wholeNotes <<
       "' in measure '" <<
       fMeasureNumber <<
@@ -2335,13 +2205,13 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
   }
 #endif
 
-  if (fCurrentMeasureWholeNotes < wholeNotes) {
+  if (fCurrentMeasureWholeNotesDuration < wholeNotes) {
     gIndenter++;
 
     // appending a padding rest or skip to this measure to reach wholeNotes
     rational
       missingDuration =
-        wholeNotes - fCurrentMeasureWholeNotes;
+        wholeNotes - fCurrentMeasureWholeNotesDuration;
     missingDuration.rationalise ();
 
     // create a rest or a skip depending on measureVoice kind
@@ -2357,7 +2227,7 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
       gLogOstream <<
         "Appending rest" << paddingNote->asString () <<
         " (missingDuration " << missingDuration <<
-        " whole notes) to skip from length '" << fCurrentMeasureWholeNotes <<
+        " whole notes) to skip from length '" << fCurrentMeasureWholeNotesDuration <<
         " to length '" << wholeNotes << "'"
         " in measure '" <<
         fMeasureNumber <<
@@ -2387,12 +2257,12 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
     gIndenter--;
   }
 
-  else if (fCurrentMeasureWholeNotes == wholeNotes) {
+  else if (fCurrentMeasureWholeNotesDuration == wholeNotes) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "No need to pad from current measure whole notes '" <<
-        fCurrentMeasureWholeNotes <<
+        fCurrentMeasureWholeNotesDuration <<
         "' to '" <<
         wholeNotes <<
         "' since they are equal in measure '" <<
@@ -2417,7 +2287,7 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
 
     s <<
         "Cannot pad from current measure whole notes '" <<
-        fCurrentMeasureWholeNotes <<
+        fCurrentMeasureWholeNotesDuration <<
         "' to '" <<
         wholeNotes <<
         "' since the former is larger than the latter in measure '" <<
@@ -2439,16 +2309,76 @@ void msrMeasure::padUpToCurrentMeasureWholeNotesInMeasure (
   }
 }
 
+void msrMeasure::backupByWholeNotesStepLengthInMeasure (
+  int      inputLineNumber,
+  rational backupStepLength)
+{
+  // sanity check
+  msrAssert (
+    backupStepLength.getNumerator () >= 0,
+    "backupStepLength.getNumerator () is negative");
+
+  // fetch the measure voice
+  S_msrVoice
+    measureVoice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+
+#ifdef TRACE_OAH
+  if (
+    gTraceOah->fTraceMeasures
+      ||
+    gTraceOah->fTracePositionsInMeasures
+      ||
+    gMusicXMLOah->fTraceBackup
+      ||
+    gTraceOah->fTraceWholeNotes
+  ) {
+    this->print (gLogOstream);
+
+    gLogOstream <<
+      "Backing up by a '" <<
+      backupStepLength <<
+      "' whole notes step length in measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      ", currentMeasureWholeNotesDuration: '" <<
+      fCurrentMeasureWholeNotesDuration <<
+      ", fullMeasureWholeNotesDuration: '" <<
+      fFullMeasureWholeNotesDuration <<
+      "' in segment " <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      " in voice \"" <<
+      measureVoice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // determine the measure position 'backupStepLength' backward
+  rational
+    positionInMeasure =
+      fFullMeasureWholeNotesDuration - backupStepLength;
+  positionInMeasure.rationalise ();
+
+  // pad up to it
+  padUpToPositionInMeasureInMeasure (
+    inputLineNumber,
+    positionInMeasure);
+}
+
 void msrMeasure::appendPaddingNoteToMeasure (
-  int inputLineNumber,
-  int divisions,
-  int divisionsPerQuarterNote)
+  int      inputLineNumber,
+  rational forwardStepLength)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
-      "Appending padding note of " << divisions <<
-      " divisions to measure " <<
+      "Appending padding note" <<
+      ", forwardStepLength: " <<
+      forwardStepLength <<
+      ", to measure " <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
@@ -2466,13 +2396,6 @@ void msrMeasure::appendPaddingNoteToMeasure (
     measureVoice =
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
-
-  // compute the forward step length
-  rational
-    forwardStepLength =
-      rational (
-        divisions,
-        divisionsPerQuarterNote * 4); // hence a whole note
 
   // create a rest or a skip depending on measureVoice kind
   S_msrNote
@@ -2618,9 +2541,9 @@ void msrMeasure::removeNoteFromMeasure (
       fMeasureElementsList.erase (i);
 
       // update measure whole notes
-      setCurrentMeasureWholeNotes (
+      setCurrentMeasureWholeNotesDuration (
         inputLineNumber,
-        fCurrentMeasureWholeNotes
+        fCurrentMeasureWholeNotesDuration
           -
         fMeasureLastHandledNote->getNoteSoundingWholeNotes ());
 
@@ -2730,9 +2653,9 @@ void msrMeasure::removeElementFromMeasure (
       fMeasureElementsList.erase (i);
 
       // update measure whole notes
-      setCurrentMeasureWholeNotes (
+      setCurrentMeasureWholeNotesDuration (
         inputLineNumber,
-        fCurrentMeasureWholeNotes
+        fCurrentMeasureWholeNotesDuration
           -
         fMeasureLastHandledNote->getNoteSoundingWholeNotes ());
 
@@ -2821,7 +2744,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     newWholeNotesSinceLastRegularMeasureEnd =
       wholeNotesSinceLastRegularMeasureEnd
         +
-      fCurrentMeasureWholeNotes;
+      fCurrentMeasureWholeNotesDuration;
    newWholeNotesSinceLastRegularMeasureEnd.rationalise ();
 
 #ifdef TRACE_OAH
@@ -2831,10 +2754,10 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       fMeasureNumber <<
       "', measureDebugNumber: '" <<
       fMeasureDebugNumber <<
-      "', fullMeasureWholeNotes: " <<
-      fFullMeasureWholeNotes <<
-      "', currentMeasureWholeNotes: " <<
-      fCurrentMeasureWholeNotes <<
+      "', fullMeasureWholeNotesDuration: " <<
+      fFullMeasureWholeNotesDuration <<
+      "', currentMeasureWholeNotesDuration: " <<
+      fCurrentMeasureWholeNotesDuration <<
       ", wholeNotesSinceLastRegularMeasureEnd: " <<
       wholeNotesSinceLastRegularMeasureEnd <<
       ", newWholeNotesSinceLastRegularMeasureEnd: " <<
@@ -2859,7 +2782,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     voice->
       getVoiceCurrentMeasurePuristNumber ());
 
-  if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
+  if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
     // empty measure
 
 #ifdef TRACE_OAH
@@ -2897,7 +2820,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     setMeasureKind (kMeasureKindMusicallyEmpty);
  }
 
-  else if (fCurrentMeasureWholeNotes == fFullMeasureWholeNotes) {
+  else if (fCurrentMeasureWholeNotesDuration == fFullMeasureWholeNotesDuration) {
     // this is a regular measure
 
     // this is a regular measure end
@@ -2931,7 +2854,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         inputLineNumber,
         newWholeNotesSinceLastRegularMeasureEnd);
 
-    if (fCurrentMeasureWholeNotes < fFullMeasureWholeNotes) {
+    if (fCurrentMeasureWholeNotesDuration < fFullMeasureWholeNotesDuration) {
       //  this is an incomplete measure
 
       if (fMeasureFirstInVoice) {
@@ -2953,7 +2876,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         // this is an incomplete measure within the voice
 
         if (
-          newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes
+          newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotesDuration
         ) {
           // this is a regular measure end
           setMeasureEndRegularKind (kMeasureEndRegularKindYes);
@@ -3055,7 +2978,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       }
     }
 
-    else { // fCurrentMeasureWholeNotes > fFullMeasureWholeNotes
+    else { // fCurrentMeasureWholeNotesDuration > fFullMeasureWholeNotesDuration
       // this is an overfull measure
 
       // set it's measure kind
@@ -3145,11 +3068,11 @@ void msrMeasure::padUpToPositionInMeasure (
 
   gIndenter++;
 
-  if (fCurrentMeasureWholeNotes < positionInMeasureToPadUpTo) {
+  if (fCurrentMeasureWholeNotesDuration < positionInMeasureToPadUpTo) {
     // appending a rest to this measure to reach positionInMeasureToPadUpTo
     rational
       missingDuration =
-        positionInMeasureToPadUpTo - fCurrentMeasureWholeNotes;
+        positionInMeasureToPadUpTo - fCurrentMeasureWholeNotesDuration;
     missingDuration.rationalise ();
 
     // create a rest or a skip depending on measureVoice kind
@@ -3170,8 +3093,8 @@ void msrMeasure::padUpToPositionInMeasure (
        fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
-       ", currentMeasureWholeNotes: " <<
-       fCurrentMeasureWholeNotes <<
+       ", currentMeasureWholeNotesDuration: " <<
+       fCurrentMeasureWholeNotesDuration <<
        " % --> @" << fMeasureNumber << // JMI
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
@@ -3233,11 +3156,11 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
 
   gIndenter++;
 
-  if (fCurrentMeasureWholeNotes < positionInMeasureToPadUpTo) {
+  if (fCurrentMeasureWholeNotesDuration < positionInMeasureToPadUpTo) {
     // appending a rest to this measure to reach positionInMeasureToPadUpTo
     rational
       duration =
-        positionInMeasureToPadUpTo - fCurrentMeasureWholeNotes;
+        positionInMeasureToPadUpTo - fCurrentMeasureWholeNotesDuration;
     duration.rationalise ();
 
     // fetch the voice
@@ -3256,8 +3179,8 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
        fMeasureNumber <<
        "', measureDebugNumber: '" <<
        fMeasureDebugNumber <<
-       ", currentMeasureWholeNotes: " <<
-       fCurrentMeasureWholeNotes <<
+       ", currentMeasureWholeNotesDuration: " <<
+       fCurrentMeasureWholeNotesDuration <<
        endl;
    }
 #endif
@@ -3279,8 +3202,8 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
        fMeasureNumber <<
        "', measureDebugNumber: '" <<
        fMeasureDebugNumber <<
-       ", currentMeasureWholeNotes: " <<
-       fCurrentMeasureWholeNotes <<
+       ", currentMeasureWholeNotesDuration: " <<
+       fCurrentMeasureWholeNotesDuration <<
        endl;
    }
 #endif
@@ -3316,12 +3239,6 @@ void msrMeasure::finalizeRegularMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
@@ -3334,8 +3251,6 @@ void msrMeasure::finalizeRegularMeasure (
       "' in voice \"" <<
       voice->getVoiceName () <<
       "\" (" << context << ")" <<
-      ", partCurrentMeasureWholeNotesHighTide = " <<
-      partCurrentMeasureWholeNotesHighTide <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -3358,17 +3273,17 @@ void msrMeasure::finalizeRegularMeasure (
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
-    fFullMeasureWholeNotes = rational (1, 1);
+    fFullMeasureWholeNotesDuration = rational (1, 1);
   }
   else {
     // set the full length from time
-    setFullMeasureWholeNotesFromTime (
+    setFullMeasureWholeNotesDurationFromTime (
       voiceCurrentTime);
   }
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
-    if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
+    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
       stringstream s;
 
       s <<
@@ -3391,82 +3306,6 @@ void msrMeasure::finalizeRegularMeasure (
     }
   }
 #endif
-
-/* JMI
-  if (fMeasurePendingMeasureElementsList.size ()) {
-    // pad measure up to the elements positions in measure,
-    // and then append them
-
-    list<S_msrMeasureElement>::iterator
-      iBegin = fMeasurePendingMeasureElementsList.begin (),
-      iEnd   = fMeasurePendingMeasureElementsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      S_msrMeasureElement
-        measureElement = (*i);
-
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceMeasures) {
-        gLogOstream <<
-          "Considering delayed '" <<
-          measureElement->asShortString () <<
-          "' in measure '" <<
-          asShortString () <<
-          "' in voice \"" <<
-          fMeasureSegmentUpLink->
-            getSegmentVoiceUpLink ()
-              ->getVoiceName () <<
-          "\", line " << inputLineNumber <<
-          ", has position in measure '" <<
-          measureElement->getPositionInMeasure () <<
-          ", currentMeasureWholeNotes = " <<
-          fCurrentMeasureWholeNotes <<
-          ", partCurrentMeasureWholeNotesHighTide = " <<
-          partCurrentMeasureWholeNotesHighTide <<
-          endl;
-      }
-#endif
-
-      if (
-        measureElement->getPositionInMeasure () <= fCurrentMeasureWholeNotes
-      ) { // JMI
-        // this is where measureElement should be appended at last
-
-        padUpToCurrentMeasureWholeNotesInMeasure (
-          inputLineNumber,
-          measureElement->getPositionInMeasure ()); // ??? rational (1, 4));
-
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceMeasures) {
-          gLogOstream <<
-            "Appending delayed '" <<
-            measureElement->asShortString () <<
-            "' in measure '" <<
-            asShortString () <<
-            "' in voice \"" <<
-            fMeasureSegmentUpLink->
-              getSegmentVoiceUpLink ()
-                ->getVoiceName () <<
-            "\", line " << inputLineNumber <<
-            ", has position in measure '" <<
-            measureElement->getPositionInMeasure () <<
-            ", currentMeasureWholeNotes = " << fCurrentMeasureWholeNotes <<
-            ", partCurrentMeasureWholeNotesHighTide = " << partCurrentMeasureWholeNotesHighTide <<
-            endl;
-        }
-#endif
-
-        appendElementToMeasure (measureElement); // JMI
-// JMI        fMeasureElementsList.push_back (measureElement);
-
-        // remove it from the pending measure elements list
-        i = fMeasurePendingMeasureElementsList.erase (i);
-      }
-
-      if (++i == iEnd) break;
-    } // for
-  }
-*/
 
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
@@ -3497,73 +3336,33 @@ void msrMeasure::finalizeRegularMeasure (
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceMeasures) {
-        stringstream s;
+        if (gTraceOah->fTraceMeasures) {
+          stringstream s;
 
-        s <<
-          "measure '" <<
-          fMeasureNumber <<
-          ", measureDebugNumber: '" <<
-          fMeasureDebugNumber <<
-          "' in segment '" <<
-          fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-          "' in voice \"" <<
-          voice->getVoiceName () <<
-          "\" (" << context << context << ")" <<
-          ", line " << inputLineNumber <<
-          " IS MUSICALLY EMPTY";
+          s <<
+            "measure '" <<
+            fMeasureNumber <<
+            ", measureDebugNumber: '" <<
+            fMeasureDebugNumber <<
+            "' in segment '" <<
+            fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+            "' in voice \"" <<
+            voice->getVoiceName () <<
+            "\" (" << context << context << ")" <<
+            ", line " << inputLineNumber <<
+            " IS MUSICALLY EMPTY";
 
-        msrInternalWarning (
-          gExecutableOah->fInputSourceName,
-          inputLineNumber,
-          s.str ());
-      }
+          msrInternalWarning (
+            gExecutableOah->fInputSourceName,
+            inputLineNumber,
+            s.str ());
+        }
 #endif
 
-        // fetch the part measure whole notes high tide
-        rational
-          partCurrentMeasureWholeNotesHighTide =
-            fetchMeasurePartUpLink ()->
-              getPartCurrentMeasureWholeNotesHighTide ();
-
-        // pad up to partCurrentMeasureWholeNotesHighTide if > 0
-        // or fFullMeasureWholeNotes otherwise
-        rational
-          positionToPadUpto =
-            partCurrentMeasureWholeNotesHighTide.getNumerator ()
-              ? partCurrentMeasureWholeNotesHighTide
-              : fFullMeasureWholeNotes;
-
+        // pad up to fFullMeasureWholeNotesDuration
         padUpToPositionInMeasure (
           inputLineNumber,
-          positionToPadUpto);
-
-          /* JMI
-        switch (fMeasureCreatedForARepeatKind) {
-          case msrMeasure::kMeasureKindCreatedForARepeatNo:
-            {
-              // fetch the part measure whole notes high tide
-              rational
-                partCurrentMeasureWholeNotesHighTide =
-                  fetchMeasurePartUpLink ()->
-                    getPartCurrentMeasureWholeNotesHighTide ();
-
-              padUpToPositionInMeasure (
-                inputLineNumber,
-                partCurrentMeasureWholeNotesHighTide);
-            }
-            break;
-
-          case msrMeasure::kMeasureKindCreatedForARepeatBefore:
-          case msrMeasure::kMeasureKindCreatedForARepeatAfter:
-            // such a measure should not be padded with a rest
-            break;
-
-          case msrMeasure::kMeasureKindCreatedForARepeatPadded:
-            // should not occur
-            break;
-        } // switch
-        */
+          fFullMeasureWholeNotesDuration);
       }
       break;
   } // switch
@@ -3573,7 +3372,7 @@ void msrMeasure::finalizeRegularMeasure (
     if (
       fMeasureLongestNote-> getNoteSoundingWholeNotes ()
         ==
-      fFullMeasureWholeNotes
+      fFullMeasureWholeNotesDuration
     ) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceMeasures) {
@@ -3899,7 +3698,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             // set its position in measure
             paddingNote->
               setPositionInMeasure (
-                fCurrentMeasureWholeNotes,
+                fCurrentMeasureWholeNotesDuration,
                 "handleHarmoniesInHarmonyMeasureFinalization() 8");
 
             // insert paddingNote before currentHarmony in the measure's elements list
@@ -4075,7 +3874,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
       rational
         currentHarmonyNoteUpLinkMeasureSoundingWholeNotes =
           currentHarmonyNoteUpLinkMeasure->
-            getCurrentMeasureWholeNotes ();
+            getCurrentMeasureWholeNotesDuration ();
 
       // compute the positions in measure delta
       rational
@@ -4212,12 +4011,6 @@ void msrMeasure::finalizeHarmonyMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
     gLogOstream <<
@@ -4230,8 +4023,6 @@ void msrMeasure::finalizeHarmonyMeasure (
       "' in voice \"" <<
       voice->getVoiceName () <<
       "\" (" << context << ")" <<
-      ", partCurrentMeasureWholeNotesHighTide = " <<
-      partCurrentMeasureWholeNotesHighTide <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -4254,17 +4045,17 @@ void msrMeasure::finalizeHarmonyMeasure (
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
-    fFullMeasureWholeNotes = rational (1, 1);
+    fFullMeasureWholeNotesDuration = rational (1, 1);
   }
   else {
     // set the full length from time
-    setFullMeasureWholeNotesFromTime (
+    setFullMeasureWholeNotesDurationFromTime (
       voiceCurrentTime);
   }
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
-    if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
+    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
       stringstream s;
 
       s <<
@@ -4293,10 +4084,10 @@ void msrMeasure::finalizeHarmonyMeasure (
     inputLineNumber,
     context);
 
-  // pad the measure up
+  // pad the measure up to fFullMeasureWholeNotesDuration
   padUpToPositionAtTheEndOfMeasure (
     inputLineNumber,
-    partCurrentMeasureWholeNotesHighTide);
+    fFullMeasureWholeNotesDuration);
 
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
@@ -4350,50 +4141,10 @@ void msrMeasure::finalizeHarmonyMeasure (
       }
 #endif
 
-        // fetch the part measure whole notes high tide
-        rational
-          partCurrentMeasureWholeNotesHighTide =
-            fetchMeasurePartUpLink ()->
-              getPartCurrentMeasureWholeNotesHighTide ();
-
-        // pad up to partCurrentMeasureWholeNotesHighTide if > 0
-        // or fFullMeasureWholeNotes otherwise
-        rational
-          positionToPadUpto =
-            partCurrentMeasureWholeNotesHighTide.getNumerator ()
-              ? partCurrentMeasureWholeNotesHighTide
-              : fFullMeasureWholeNotes;
-
+        // pad up to fFullMeasureWholeNotesDuration
         padUpToPositionInMeasure (
           inputLineNumber,
-          positionToPadUpto);
-
-          /* JMI
-        switch (fMeasureCreatedForARepeatKind) {
-          case msrMeasure::kMeasureKindCreatedForARepeatNo:
-            {
-              // fetch the part measure whole notes high tide
-              rational
-                partCurrentMeasureWholeNotesHighTide =
-                  fetchMeasurePartUpLink ()->
-                    getPartCurrentMeasureWholeNotesHighTide ();
-
-              padUpToPositionInMeasure (
-                inputLineNumber,
-                partCurrentMeasureWholeNotesHighTide);
-            }
-            break;
-
-          case msrMeasure::kMeasureKindCreatedForARepeatBefore:
-          case msrMeasure::kMeasureKindCreatedForARepeatAfter:
-            // such a measure should not be padded with a rest
-            break;
-
-          case msrMeasure::kMeasureKindCreatedForARepeatPadded:
-            // should not occur
-            break;
-        } // switch
-        */
+          fFullMeasureWholeNotesDuration);
       }
       break;
   } // switch
@@ -4403,7 +4154,7 @@ void msrMeasure::finalizeHarmonyMeasure (
     if (
       fMeasureLongestNote-> getNoteSoundingWholeNotes ()
         ==
-      fFullMeasureWholeNotes
+      fFullMeasureWholeNotesDuration
     ) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceMeasures) {
@@ -4452,12 +4203,6 @@ void msrMeasure::finalizeFiguredBassMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-  // fetch the part measure whole notes high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide =
-      fetchMeasurePartUpLink ()->
-        getPartCurrentMeasureWholeNotesHighTide ();
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
     gLogOstream <<
@@ -4470,8 +4215,6 @@ void msrMeasure::finalizeFiguredBassMeasure (
       "' in voice \"" <<
       voice->getVoiceName () <<
       "\" (" << context << ")" <<
-      ", partCurrentMeasureWholeNotesHighTide = " <<
-      partCurrentMeasureWholeNotesHighTide <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -4494,17 +4237,17 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
-    fFullMeasureWholeNotes = rational (1, 1);
+    fFullMeasureWholeNotesDuration = rational (1, 1);
   }
   else {
     // set the full length from time
-    setFullMeasureWholeNotesFromTime (
+    setFullMeasureWholeNotesDurationFromTime (
       voiceCurrentTime);
   }
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
-    if (fCurrentMeasureWholeNotes.getNumerator () == 0) {
+    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
       stringstream s;
 
       s <<
@@ -4533,10 +4276,10 @@ void msrMeasure::finalizeFiguredBassMeasure (
     inputLineNumber,
     context);
 
-  // pad the measure up
+  // pad the measure up to fFullMeasureWholeNotesDuration
   padUpToPositionAtTheEndOfMeasure (
     inputLineNumber,
-    partCurrentMeasureWholeNotesHighTide);
+    fFullMeasureWholeNotesDuration);
 
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
@@ -4590,50 +4333,10 @@ void msrMeasure::finalizeFiguredBassMeasure (
       }
 #endif
 
-        // fetch the part measure whole notes high tide
-        rational
-          partCurrentMeasureWholeNotesHighTide =
-            fetchMeasurePartUpLink ()->
-              getPartCurrentMeasureWholeNotesHighTide ();
-
-        // pad up to partCurrentMeasureWholeNotesHighTide if > 0
-        // or fFullMeasureWholeNotes otherwise
-        rational
-          positionToPadUpto =
-            partCurrentMeasureWholeNotesHighTide.getNumerator ()
-              ? partCurrentMeasureWholeNotesHighTide
-              : fFullMeasureWholeNotes;
-
+        // pad up to fFullMeasureWholeNotesDuration
         padUpToPositionInMeasure (
           inputLineNumber,
-          positionToPadUpto);
-
-          /* JMI
-        switch (fMeasureCreatedForARepeatKind) {
-          case msrMeasure::kMeasureKindCreatedForARepeatNo:
-            {
-              // fetch the part measure whole notes high tide
-              rational
-                partCurrentMeasureWholeNotesHighTide =
-                  fetchMeasurePartUpLink ()->
-                    getPartCurrentMeasureWholeNotesHighTide ();
-
-              padUpToPositionInMeasure (
-                inputLineNumber,
-                partCurrentMeasureWholeNotesHighTide);
-            }
-            break;
-
-          case msrMeasure::kMeasureKindCreatedForARepeatBefore:
-          case msrMeasure::kMeasureKindCreatedForARepeatAfter:
-            // such a measure should not be padded with a rest
-            break;
-
-          case msrMeasure::kMeasureKindCreatedForARepeatPadded:
-            // should not occur
-            break;
-        } // switch
-        */
+          fFullMeasureWholeNotesDuration);
       }
       break;
   } // switch
@@ -4643,7 +4346,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
     if (
       fMeasureLongestNote-> getNoteSoundingWholeNotes ()
         ==
-      fFullMeasureWholeNotes
+      fFullMeasureWholeNotesDuration
     ) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceMeasures) {
@@ -4803,11 +4506,11 @@ void msrMeasure::finalizeMeasureClone (
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
-    fFullMeasureWholeNotes = rational (1, 1);
+    fFullMeasureWholeNotesDuration = rational (1, 1);
   }
   else {
     // set the full length from time
-    setFullMeasureWholeNotesFromTime (
+    setFullMeasureWholeNotesDurationFromTime (
       voiceCurrentTime);
   }
 
@@ -4856,7 +4559,7 @@ void msrMeasure::finalizeMeasureClone (
  //      __FILE__, __LINE__,
       s.str ());
 
-    if (fFullMeasureWholeNotes.getNumerator () == 0) { // JMI
+    if (fFullMeasureWholeNotesDuration.getNumerator () == 0) { // JMI
       stringstream s;
 
       s <<
@@ -5118,8 +4821,8 @@ string msrMeasure::asShortString () const
     fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
 /* JMI
-    ", currentMeasureWholeNotes: " << fCurrentMeasureWholeNotes <<
-    ", fullMeasureWholeNotes: " << fFullMeasureWholeNotes <<
+    ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
+    ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<
     */
     ", " <<
     singularOrPlural (
@@ -5143,8 +4846,8 @@ string msrMeasure::asString () const
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
-    ", currentMeasureWholeNotes: " << fCurrentMeasureWholeNotes <<
-    ", fullMeasureWholeNotes: " << fFullMeasureWholeNotes <<
+    ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
+    ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -5189,8 +4892,8 @@ void msrMeasure::print (ostream& os)
     "Measure '" <<
     fMeasureNumber <<
     "', " << measureKindAsString () <<
-    ", currentMeasureWholeNotes: " << fCurrentMeasureWholeNotes <<
-    ", fullMeasureWholeNotes: " << fFullMeasureWholeNotes <<
+    ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
+    ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -5292,12 +4995,12 @@ void msrMeasure::print (ostream& os)
     /* JMI
 
     setw (fieldWidth) <<
-    "currentMeasureWholeNotesAsMSRString" << " : " <<
-    currentMeasureWholeNotesAsMSRString () <<
+    "currentMeasureWholeNotesDurationAsMSRString" << " : " <<
+    currentMeasureWholeNotesDurationAsMSRString () <<
     endl <<
     setw (fieldWidth) <<
-    "fullMeasureWholeNotesAsMSRString" << " : " <<
-    fullMeasureWholeNotesAsMSRString () <<
+    "fullMeasureWholeNotesDurationAsMSRString" << " : " <<
+    fullMeasureWholeNotesDurationAsMSRString () <<
     endl <<
       */
 
@@ -5443,13 +5146,13 @@ void msrMeasure::shortPrint (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "currentMeasureWholeNotes" << " : " <<
-    fCurrentMeasureWholeNotes <<
+    "currentMeasureWholeNotesDuration" << " : " <<
+    fCurrentMeasureWholeNotesDuration <<
     endl <<
 
     setw (fieldWidth) <<
-    "fullMeasureWholeNotes" << " : " <<
-    fFullMeasureWholeNotes <<
+    "fullMeasureWholeNotesDuration" << " : " <<
+    fFullMeasureWholeNotesDuration <<
     endl;
 
 #ifdef TRACE_OAH

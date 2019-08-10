@@ -103,11 +103,6 @@ void msrPart::initializePart ()
   // initialize part's number of measures
   fPartNumberOfMeasures = 0;
 
-  // initialize part current measure whole notes high tide
-  setPartCurrentMeasureWholeNotesHighTide (
-    fInputLineNumber,
-    rational (0, 1));
-
   // rest measures
   fPartContainsRestMeasures = false;
 
@@ -292,82 +287,6 @@ void msrPart::addAVoiceToStavesThatHaveNone (
       addAVoiceToStaffIfItHasNone (
         inputLineNumber);
   } // for
-}
-
-void msrPart::setPartCurrentMeasureWholeNotesHighTide (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceDivisions || gTraceOah->fTraceMeasures) {
-    gLogOstream <<
-      "Setting current measure whole notes high tide for part \"" <<
-      getPartCombinedName () <<
-      "\" to " << wholeNotes <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  fPartCurrentMeasureWholeNotesHighTide = wholeNotes;
-}
-
-void msrPart::updatePartCurrentMeasureWholeNotesHighTide (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-  if (wholeNotes > fPartCurrentMeasureWholeNotesHighTide) {
-#ifdef TRACE_OAH
-    if (gMusicXMLOah->fTraceDivisions || gTraceOah->fTraceMeasures) {
-      gLogOstream <<
-        "Updating current measure whole notes high tide for part \"" <<
-        getPartCombinedName () <<
-        "\" to " << wholeNotes <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    fPartCurrentMeasureWholeNotesHighTide = wholeNotes;
-  }
-}
-
-void msrPart::padUpToCurrentMeasureWholeNotesInPart (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceParts
-      ||
-    gTraceOah->fTraceMeasures
-      ||
-    gMusicXMLOah->fTraceBackup
-  ) {
-    gLogOstream <<
-      "Padding up to current measure whole notes '" << wholeNotes <<
-      "' in part \"" <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-
-  // pad the registered staves up to current measure whole notes
-  for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
-    i != fPartStavesMap.end ();
-    i++
-  ) {
-    (*i).second->
-      padUpToCurrentMeasureWholeNotesInStaff (
-        inputLineNumber,
-        wholeNotes);
-  } // for
-
-  gIndenter--;
 }
 
 void msrPart::setPartMsrName (string partMsrName)
@@ -1429,60 +1348,6 @@ void msrPart::appendHarpPedalsTuningToPart (
   } // for
 }
 
-/* JMI
-void msrPart:: handleBackup (
-  int inputLineNumber,
-  int divisions,
-  int divisionsPerQuarterNote)
-{
-  // compute the backup step length
-  rational
-    backupStepLength =
-      rational (
-        divisions,
-        divisionsPerQuarterNote * 4); // hence a whole note
-
-  // determine the measure position 'divisions' backward
-  rational
-    positionInMeasure =
-      fPartCurrentMeasureWholeNotesHighTide - backupStepLength;
-
-  positionInMeasure.rationalise ();
-
-#ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceParts
-      ||
-    gMusicXMLOah->fTraceDivisions
-      ||
-    gMusicXMLOah->fTraceBackup
-      ||
-    gTraceOah->fTraceMeasures) {
-    gLogOstream <<
-      "Handling backup, divisions = '" <<
-      divisions <<
-      "', divisionsPerQuarterNote = '" <<
-      divisionsPerQuarterNote <<
-      "', backupStepLength = '" <<
-      backupStepLength <<
-      "', fPartCurrentMeasureWholeNotesHighTide = '" <<
-      fPartCurrentMeasureWholeNotesHighTide <<
-      "', positionInMeasure = '" <<
-      positionInMeasure <<
-      "' in part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // bring the part to that measure position
-  padUpToCurrentMeasureWholeNotesInPart (
-    inputLineNumber,
-    positionInMeasure);
-}
-*/
-
 void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   S_msrVoice           graceNotesGroupOriginVoice,
   S_msrGraceNotesGroup skipGraceNotesGroup)
@@ -1561,11 +1426,6 @@ void msrPart::finalizeCurrentMeasureInPart (
       finalizeCurrentMeasureInStaff (
         inputLineNumber);
   } // for
-
-  // reset current measure whole notes high tide
-  setPartCurrentMeasureWholeNotesHighTide (
-    fInputLineNumber,
-    rational (0, 1));
 
   gIndenter--;
 }
@@ -1990,7 +1850,6 @@ void msrPart::printSummary (ostream& os)
     ", " <<
     singularOrPlural (
       fPartNumberOfMeasures, "measure", "measure") <<
-    ", length high tide " << fPartCurrentMeasureWholeNotesHighTide <<
     ")" <<
     endl;
 

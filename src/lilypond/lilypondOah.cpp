@@ -877,7 +877,9 @@ lilypondResetMeasureNumberAtom::lilypondResetMeasureNumberAtom (
       variableName),
     fStringIntMapVariable (
       stringIntMapVariable)
-{}
+{
+  fMultipleOccurrencesAllowed = true;
+}
 
 lilypondResetMeasureNumberAtom::~lilypondResetMeasureNumberAtom ()
 {}

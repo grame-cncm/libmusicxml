@@ -138,9 +138,9 @@ string optionVisibilityKindAsString (
 
 //______________________________________________________________________________
 S_oahElement oahElement::create (
-  string                  shortName,
-  string                  longName,
-  string                  description,
+  string                   shortName,
+  string                   longName,
+  string                   description,
   oahElementVisibilityKind optionVisibilityKind)
 {
   oahElement* o = new
@@ -154,9 +154,9 @@ S_oahElement oahElement::create (
 }
 
 oahElement::oahElement (
-  string                  shortName,
-  string                  longName,
-  string                  description,
+  string                   shortName,
+  string                   longName,
+  string                   description,
   oahElementVisibilityKind optionVisibilityKind)
 {
   fShortName   = shortName;
@@ -165,7 +165,9 @@ oahElement::oahElement (
 
   fElementVisibilityKind = optionVisibilityKind;
 
-  fIsHidden    = false;
+  fIsHidden = false;
+
+  fMultipleOccurrencesAllowed = false;
 }
 
 oahElement::~oahElement ()
@@ -420,6 +422,11 @@ void oahElement::printOptionEssentials (
     "fIsHidden" << " : " <<
     booleanAsString (
       fIsHidden) <<
+    endl <<
+    setw (fieldWidth) <<
+    "fMultipleOccurrencesAllowed" << " : " <<
+    booleanAsString (
+      fMultipleOccurrencesAllowed) <<
     endl;
 }
 
@@ -746,7 +753,9 @@ Both '-' and '--' can be used to introduce options in the command line,
 even though the help facility only shows them with '-'.
 
 Command line options and arguments can be placed in any order,
-provided atom values immediately follow the corresponding atoms.)") <<
+provided atom values immediately follow the corresponding atoms.
+
+Some prefixes allow shortcuts, such as '-t=voices,meas' for '-tvoices, -tmeas')") <<
     endl <<
     endl;
 
@@ -1755,12 +1764,11 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
 
   // is name known in options map?
   S_oahElement
-    option =
+    element =
       handler->
-        fetchOptionFromMap (
-          name);
+        fetchElementFromMap (name);
 
-  if (! option) {
+  if (! element) {
     // no, name is unknown in the map
     handler->
       printOptionsSummary ();
@@ -1781,11 +1789,10 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
       // boolean atom?
       S_oahBooleanAtom
         atom =
-          dynamic_cast<oahBooleanAtom*>(&(*option))
+          dynamic_cast<oahBooleanAtom*>(&(*element))
       ) {
-      // handle the option atom
-      fBooleanAtomsList.push_back (
-        atom);
+      // handle the atom
+      fBooleanAtomsList.push_back (atom);
     }
 
     else {
@@ -4023,7 +4030,9 @@ oahStringsSetElementAtom::oahStringsSetElementAtom (
       variableName),
     fStringsSetVariable (
       stringsSetVariable)
-{}
+{
+  fMultipleOccurrencesAllowed = true;
+}
 
 oahStringsSetElementAtom::~oahStringsSetElementAtom ()
 {}
@@ -4119,8 +4128,16 @@ string oahStringsSetElementAtom::asShortNamedOptionString () const
     iEnd   = fStringsSetVariable.end (),
     i      = iBegin;
 
+  string currentValue; // JMI do better
+
   for ( ; ; ) {
-    s << (*i);
+    // write the value only once
+    string theString = (*i);
+
+    if (true || theString != currentValue) {
+      s << theString;
+    }
+    currentValue = theString;
     if (++i == iEnd) break;
     s << " ";
   } // for
@@ -4570,7 +4587,7 @@ void oahOptionNameHelpAtom::handleValue (
 {
   // delegate this to the handler
   fHandlerUpLink->
-    printOptionSpecificHelp (
+    printOptionNameIntrospectiveHelp (
       os,
       theString);
 
@@ -4582,7 +4599,7 @@ void oahOptionNameHelpAtom::handleDefaultValue ()
 {
   // delegate this to the handler
   fHandlerUpLink->
-    printOptionSpecificHelp (
+    printOptionNameIntrospectiveHelp (
       fHandlerUpLink->getHandlerLogOstream (),
       fDefaultStringValue);
 }
@@ -6293,7 +6310,7 @@ S_oahPrefix oahHandler::fetchPrefixFromMap (
   return result;
 }
 
-S_oahElement oahHandler::fetchOptionFromMap (
+S_oahElement oahHandler::fetchElementFromMap (
   string name) const
 {
   S_oahElement result;
@@ -6364,6 +6381,16 @@ void oahHandler::registerElementNamesInHandler (
     elementLongNameSize =
       elementLongName.size ();
 
+  if (elementShortNameSize == 0) {
+    stringstream s;
+
+    s <<
+      "element short name is empty";
+
+    oahError (s.str ());
+    exit (33);
+  }
+
   if (elementShortNameSize == 0 && elementLongNameSize == 0) {
     stringstream s;
 
@@ -6383,6 +6410,16 @@ void oahHandler::registerElementNamesInHandler (
 
     oahError (s.str ());
     exit (33);
+  }
+
+  if (elementLongNameSize == 1) {
+    stringstream s;
+
+    s <<
+      "element long name '" << elementLongName << "'" <<
+      " has only one character";
+
+    oahWarning (s.str ());
   }
 
   for (
@@ -6422,6 +6459,10 @@ void oahHandler::registerElementNamesInHandler (
   } // for
 
   // register element's names
+  if (elementShortNameSize == 1) {
+    fMonoLetterShortNamesSet.insert (elementShortName);
+  }
+
   if (elementLongNameSize) {
     fHandlerElementsMap [elementLongName] =
       element;
@@ -6804,22 +6845,22 @@ void oahHandler::printHandlerAndGroupAndSubGroupSpecificHelp (
   }
 }
 
-void oahHandler::printOptionSpecificHelp (
+void oahHandler::printOptionNameIntrospectiveHelp (
   ostream& os,
   string   name) const
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOah) {
-    os << "oahHandler::printOptionSpecificHelp" << endl;
+    os << "oahHandler::printOptionNameIntrospectiveHelp" << endl;
   }
 #endif
 
   // is name known in options map?
   S_oahElement
-    option =
-      fetchOptionFromMap (name);
+    element =
+      fetchElementFromMap (name);
 
-  if (! option) {
+  if (! element) {
     // name is is not well handled by this options handler
     stringstream s;
 
@@ -6837,7 +6878,7 @@ void oahHandler::printOptionSpecificHelp (
       // handler?
       S_oahHandler
         handler =
-          dynamic_cast<oahHandler*>(&(*option))
+          dynamic_cast<oahHandler*>(&(*element))
     ) {
       // print the option handler help or help summary
       if (
@@ -6862,7 +6903,7 @@ void oahHandler::printOptionSpecificHelp (
       // group?
       S_oahGroup
         group =
-          dynamic_cast<oahGroup*>(&(*option))
+          dynamic_cast<oahGroup*>(&(*element))
     ) {
       // print the help
       fHandlerLogOstream <<
@@ -6884,7 +6925,7 @@ void oahHandler::printOptionSpecificHelp (
       // subgroup?
       S_oahSubGroup
         subGroup =
-          dynamic_cast<oahSubGroup*>(&(*option))
+          dynamic_cast<oahSubGroup*>(&(*element))
     ) {
       // get the options group upLink
       S_oahGroup
@@ -6913,7 +6954,7 @@ void oahHandler::printOptionSpecificHelp (
       // atom?
       S_oahAtom
         atom =
-          dynamic_cast<oahAtom*>(&(*option))
+          dynamic_cast<oahAtom*>(&(*element))
     ) {
       // get the subgroup upLink
       S_oahSubGroup
@@ -6964,7 +7005,7 @@ void oahHandler::printOptionSpecificHelp (
   }
 }
 
-void oahHandler::printAllOahValues (
+void oahHandler::printAllOahCommandLineValues (
   ostream& os) const
 {
   // print the options handler values header
@@ -6984,6 +7025,24 @@ void oahHandler::printAllOahValues (
     fHandlerCommandLineElementsMultiSet.size () <<
     " of which occur in the command line" <<
     endl;
+
+  if (fMonoLetterShortNamesSet.size ()) {
+    os <<
+      "The mono letter short option names are: ";
+
+    set<string>::const_iterator
+      iBegin = fMonoLetterShortNamesSet.begin (),
+      iEnd   = fMonoLetterShortNamesSet.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options group values
+      os << (*i);
+      if (++i == iEnd) break;
+      os << ",";
+    } // for
+
+    os << endl;
+  }
 
   // print the options groups values
   if (fHandlerGroupsList.size ()) {
@@ -7155,10 +7214,10 @@ string oahHandler::commandLineWithShortNamesAsString () const
       iEnd   = fHandlerCommandLineElementsMultiSet.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_oahElement option = (*i);
+      S_oahElement element = (*i);
 
       s <<
-        option-> asShortNamedOptionString ();
+        element-> asShortNamedOptionString ();
 
       if (++i == iEnd) break;
 
@@ -7822,10 +7881,10 @@ void oahHandler::handleOptionName (
 {
   // is name known in options map?
   S_oahElement
-    option =
-      fetchOptionFromMap (name);
+    element =
+      fetchElementFromMap (name);
 
-  if (! option) {
+  if (! element) {
     // name is is not well handled by this options handler
  // JMI   printOptionsSummary ();
 
@@ -7842,35 +7901,56 @@ void oahHandler::handleOptionName (
   else {
     // name is known, let's handle it
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
-    fHandlerLogOstream <<
-      endl <<
-      "==> oahHandler::handleOptionName (), name = \"" <<
-      name <<
-      "\" is described by option:" <<
-      endl;
-    gIndenter++;
-    option->print (fHandlerLogOstream);
-    gIndenter--;
-  }
+    if (gExecutableOah->fTraceOah) {
+      fHandlerLogOstream <<
+        endl <<
+        "==> oahHandler::handleOptionName (), name = \"" <<
+        name <<
+        "\" is described by option:" <<
+        endl;
+      gIndenter++;
+      element->print (fHandlerLogOstream);
+      gIndenter--;
+    }
 #endif
 
-    // remember this option as occurring in the command line
-    fHandlerCommandLineElementsMultiSet.insert (option);
+    // is this element already present in the commande line?
+    multiset<S_oahElement>::const_iterator
+      it =
+        fHandlerCommandLineElementsMultiSet.find (
+          element);
 
-    // determine option short and long names to be used,
+    if (it != fHandlerCommandLineElementsMultiSet.end ()) {
+      // yes, element is known in the multiset
+      if (! element->getMultipleOccurrencesAllowed ()) {
+        stringstream s;
+
+        s <<
+          "element '" <<
+          element->fetchNames () <<
+          "' is already present in the command line";
+
+        oahWarning (
+          s.str ());
+      }
+    }
+
+    // remember this element as occurring in the command line
+    fHandlerCommandLineElementsMultiSet.insert (element);
+
+    // determine element short and long names to be used,
     // in case one of them (short or long) is empty
     string
       shortName =
-        option->getShortName (),
+        element->getShortName (),
       longName =
-        option->getLongName ();
+        element->getLongName ();
 
     string
       shortNameToBeUsed = shortName,
       longNameToBeUsed = longName;
 
-    // replace empty option name if any by the other one,
+    // replace empty element name if any by the other one,
     // since they can't both be empty
     if (! shortNameToBeUsed.size ()) {
       shortNameToBeUsed = longNameToBeUsed;
@@ -7884,7 +7964,7 @@ void oahHandler::handleOptionName (
       // options handler?
       S_oahHandler
         handler =
-          dynamic_cast<oahHandler*>(&(*option))
+          dynamic_cast<oahHandler*>(&(*element))
     ) {
         handleHandlerName (
           handler,
@@ -7895,7 +7975,7 @@ void oahHandler::handleOptionName (
       // options group?
       S_oahGroup
         group =
-          dynamic_cast<oahGroup*>(&(*option))
+          dynamic_cast<oahGroup*>(&(*element))
     ) {
       handleGroupName (
         group,
@@ -7906,7 +7986,7 @@ void oahHandler::handleOptionName (
       // options subgroup?
       S_oahSubGroup
         subGroup =
-          dynamic_cast<oahSubGroup*>(&(*option))
+          dynamic_cast<oahSubGroup*>(&(*element))
     ) {
       handleSubGroupName (
         subGroup,
@@ -7917,7 +7997,7 @@ void oahHandler::handleOptionName (
       // atom?
       S_oahAtom
         atom =
-          dynamic_cast<oahAtom*>(&(*option))
+          dynamic_cast<oahAtom*>(&(*element))
     ) {
       handleAtomName (
         atom,

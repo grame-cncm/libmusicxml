@@ -144,7 +144,7 @@ class musicXMLOah : public oahGroup
     bool                  fNoCubase;
 
 #ifdef TRACE_OAH
-    // specific trace
+    // specific trace JMI move to traceOah
 
     // encoding
     bool                  fTraceEncoding;
@@ -154,6 +154,9 @@ class musicXMLOah : public oahGroup
 
     // backup
     bool                  fTraceBackup;
+
+    // forward
+    bool                  fTraceForward;
 #endif
 
     // to do JMI

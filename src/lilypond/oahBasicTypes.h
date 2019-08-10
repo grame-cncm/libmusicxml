@@ -80,9 +80,9 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     static SMARTP<oahElement> create (
-      string                  shortName,
-      string                  longName,
-      string                  description,
+      string                   shortName,
+      string                   longName,
+      string                   description,
       oahElementVisibilityKind optionVisibilityKind);
 
   protected:
@@ -91,9 +91,9 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     oahElement (
-      string                  shortName,
-      string                  longName,
-      string                  description,
+      string                   shortName,
+      string                   longName,
+      string                   description,
       oahElementVisibilityKind optionVisibilityKind);
 
     virtual ~oahElement ();
@@ -130,6 +130,12 @@ class oahElement : public smartable
     bool                  getIsHidden () const
                               { return fIsHidden; }
 
+    void                  setMultipleOccurrencesAllowed ()
+                              { fMultipleOccurrencesAllowed = true; }
+
+    bool                  getMultipleOccurrencesAllowed () const
+                              { return fMultipleOccurrencesAllowed; }
+
   public:
 
     // services
@@ -146,7 +152,7 @@ class oahElement : public smartable
     virtual int           fetchVariableNameLength () const
                               { return 0; }
 
-    S_oahElement           fetchOptionByName (
+    S_oahElement          fetchOptionByName (
                             string name);
 
     virtual S_oahValuedAtom
@@ -200,6 +206,8 @@ class oahElement : public smartable
                           fElementVisibilityKind;
 
     bool                  fIsHidden;
+
+    bool                  fMultipleOccurrencesAllowed;
 };
 typedef SMARTP<oahElement> S_oahElement;
 EXP ostream& operator<< (ostream& os, const S_oahElement& elt);
@@ -2392,7 +2400,7 @@ class EXP oahHandler : public oahElement
     S_oahPrefix           fetchPrefixFromMap (
                             string name) const;
 
-    S_oahElement           fetchOptionFromMap (
+    S_oahElement           fetchElementFromMap (
                             string name) const;
 
     const vector<string>  decipherOptionsAndArguments (
@@ -2429,11 +2437,11 @@ class EXP oahHandler : public oahElement
                             ostream&      os,
                             S_oahSubGroup subGroup) const;
 
-    void                  printOptionSpecificHelp (
+    void                  printOptionNameIntrospectiveHelp (
                             ostream& os,
                             string   name) const;
 
-    void                  printAllOahValues (
+    void                  printAllOahCommandLineValues (
                             ostream& os) const;
 
     void                  setOptionsHandlerFoundAHelpOption ()
@@ -2539,6 +2547,8 @@ class EXP oahHandler : public oahElement
     // those ones have be used in the command line
     multiset<S_oahElement>
                           fHandlerCommandLineElementsMultiSet;
+
+    set<string>           fMonoLetterShortNamesSet;
 
     int                   fMaximumSubGroupsHeadersSize;
 

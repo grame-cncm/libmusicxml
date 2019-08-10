@@ -71,6 +71,17 @@ xml2brlOahVersionAtom::xml2brlOahVersionAtom (
 xml2brlOahVersionAtom::~xml2brlOahVersionAtom ()
 {}
 
+S_oahValuedAtom xml2brlOahVersionAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once
+  printVersion (os);
+
+  // no option value is needed
+  return nullptr;
+}
+
 void xml2brlOahVersionAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
@@ -211,6 +222,17 @@ xml2brlOahAboutAtom::xml2brlOahAboutAtom (
 xml2brlOahAboutAtom::~xml2brlOahAboutAtom ()
 {}
 
+S_oahValuedAtom xml2brlOahAboutAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once
+  printAbout (os);
+
+  // no option value is needed
+  return nullptr;
+}
+
 void xml2brlOahAboutAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
@@ -325,7 +347,6 @@ R"(What xml2brl does:
     printing views of the internal data or printing a summary of the score.
 
     The activity log and warning/error messages go to standard error.)" <<
-    endl <<
     endl;
 }
 
@@ -369,6 +390,17 @@ xml2brlOahContactAtom::xml2brlOahContactAtom (
 
 xml2brlOahContactAtom::~xml2brlOahContactAtom ()
 {}
+
+S_oahValuedAtom xml2brlOahContactAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once
+  printContact (os);
+
+  // no option value is needed
+  return nullptr;
+}
 
 void xml2brlOahContactAtom::acceptIn (basevisitor* v)
 {
@@ -464,7 +496,6 @@ R"(To contact xml2brl maintainers:
 
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
     and error messages you obtain if relevant.)" <<
-    endl <<
     endl;
 }
 

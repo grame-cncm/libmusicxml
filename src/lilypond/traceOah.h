@@ -269,6 +269,7 @@ class traceOah : public oahGroup
     bool                  fTraceNotesDetails;
     // whole notes
     bool                  fTraceWholeNotes;
+    bool                  fTraceWholeNotesDetails;
     // skip notes
     bool                  fTraceSkipNotes;
     // rest notes

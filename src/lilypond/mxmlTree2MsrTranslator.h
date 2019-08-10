@@ -1962,7 +1962,7 @@ class mxmlTree2MsrTranslator :
     // backup handling
     // ------------------------------------------------------
 
-    int                       fCurrentBackupDurationDivisions;
+    int                       fCurrentBackupDivisions;
     bool                      fOnGoingBackup;
 
     // a backup must remain pending until the next note's voice is known
@@ -1971,7 +1971,7 @@ class mxmlTree2MsrTranslator :
     // forward handling
     // ------------------------------------------------------
 
-    int                       fCurrentForwardDurationDivisions;
+    int                       fCurrentForwardDivisions;
     int                       fCurrentForwardVoiceNumber;
     int                       fCurrentForwardStaffNumber;
     bool                      fOnGoingForward;

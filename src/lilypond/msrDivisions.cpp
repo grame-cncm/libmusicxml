@@ -203,7 +203,7 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
         msrDurationKindAsString (
           msrDurationKind ((*i).first)) <<
         ": " <<
-        setw (4) << right <<
+        setw (5) << right <<
         (*i).second;
 
       if (++i == iEnd) break;

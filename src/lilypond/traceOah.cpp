@@ -1126,6 +1126,18 @@ R"(Whole notes computations (quite verbose)...)",
         fTraceWholeNotes,
         fTracePasses));
 
+  fTraceWholeNotesDetails = boolOptionsInitialValue;
+
+  notessubGroup->
+    appendAtom (
+      oahThreeBooleansAtom::create (
+        "twnd", "trace-whole-notes-details",
+R"(Whole notes computations details (event more verbose)...)",
+        "traceWholeNotesDetails",
+        fTraceWholeNotesDetails,
+        fTraceWholeNotes,
+        fTracePasses));
+
   fTraceRestNotes = boolOptionsInitialValue;
 
   notessubGroup->
@@ -1540,6 +1552,7 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   clone->fTraceNotes = true;
   clone->fTraceNotesDetails = true;
   clone->fTraceWholeNotes = true;
+  clone->fTraceWholeNotesDetails = true;
   clone->fTraceRestNotes = true;
   clone->fTraceSkipNotes = true;
   clone->fTraceNotesOctaveEntry = true;
@@ -1759,6 +1772,7 @@ void traceOah::setAllGeneralTraceOah (
   fTraceNotes = boolOptionsInitialValue;
   fTraceNotesDetails = boolOptionsInitialValue;
   fTraceWholeNotes = boolOptionsInitialValue;
+  fTraceWholeNotesDetails = boolOptionsInitialValue;
   fTraceRestNotes = boolOptionsInitialValue;
   fTraceSkipNotes = boolOptionsInitialValue;
   fTraceNotesOctaveEntry = boolOptionsInitialValue;
@@ -2164,6 +2178,9 @@ void traceOah::printAtomOptionsValues (
     endl <<
     setw (valueFieldWidth) << "traceWholeNotes" << " : " <<
     booleanAsString (fTraceWholeNotes) <<
+    endl <<
+    setw (valueFieldWidth) << "traceWholeNotesDetails" << " : " <<
+    booleanAsString (fTraceWholeNotesDetails) <<
     endl <<
     setw (valueFieldWidth) << "traceRestNotes" << " : " <<
     booleanAsString (fTraceRestNotes) <<
@@ -2581,6 +2598,9 @@ void traceOah::printTraceOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "traceWholeNotes" << " : " <<
     booleanAsString (fTraceWholeNotes) <<
+    endl <<
+    setw (fieldWidth) << "traceWholeNotesDetails" << " : " <<
+    booleanAsString (fTraceWholeNotesDetails) <<
     endl <<
     setw (fieldWidth) << "traceRestNotes" << " : " <<
     booleanAsString (fTraceRestNotes) <<

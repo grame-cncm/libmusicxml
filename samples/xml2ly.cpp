@@ -658,7 +658,7 @@ int main (int argc, char *argv[])
 #ifdef TRACE_OAH
   if (gExecutableOah->fDisplayOahValues) {
     handler->
-      printAllOahValues (
+      printAllOahCommandLineValues (
         gLogOstream);
 
     gLogOstream << endl;

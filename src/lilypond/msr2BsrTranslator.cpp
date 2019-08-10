@@ -3027,13 +3027,6 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
         getMeasureSegmentUpLink ()->
           getSegmentVoiceUpLink ();
 
-  // fetch the part measure position high tide
-  rational
-    partCurrentMeasureWholeNotesHighTide = // JMI
-      fCurrentMeasureClone->
-        fetchMeasurePartUpLink ()->
-          getPartCurrentMeasureWholeNotesHighTide ();
-
   // get the measure number
   string
     measureNumber =
@@ -3042,9 +3035,9 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
 
   // get the current measure whole notes
   rational
-    currentMeasureWholeNotes =
+    currentMeasureWholeNotesDuration =
       fCurrentMeasureClone->
-        getCurrentMeasureWholeNotes ();
+        getCurrentMeasureWholeNotesDuration ();
 
   // get the full current measure whole notes
   rational
@@ -3059,10 +3052,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       "' in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl <<
-      "currentMeasureWholeNotes = " << currentMeasureWholeNotes <<
-      endl <<
-      "partCurrentMeasureWholeNotesHighTide = " <<
-      partCurrentMeasureWholeNotesHighTide <<
+      "currentMeasureWholeNotesDuration = " << currentMeasureWholeNotesDuration <<
       endl;
   }
 #endif
@@ -3072,13 +3062,13 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUnknownMeasure; // JMI
  // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
 
-  if (currentMeasureWholeNotes == measureFullLength ) {
+  if (currentMeasureWholeNotesDuration == measureFullLength ) {
     // this measure is full
     measureKind =
       msrMeasure::kFullMeasure;
   }
 
-  else if (currentMeasureWholeNotes < measureFullLength) {
+  else if (currentMeasureWholeNotesDuration < measureFullLength) {
     / *
     if (fSegmentMeasuresList.size () == 1) { // JMI
       // this is the first measure in the segment
@@ -3098,7 +3088,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUpbeatMeasure; // JMI
   }
 
-  else if (currentMeasureWholeNotes > measureFullLength) {
+  else if (currentMeasureWholeNotesDuration > measureFullLength) {
     // this measure is overfull
     measureKind =
       msrMeasure::kOverfullMeasure;
