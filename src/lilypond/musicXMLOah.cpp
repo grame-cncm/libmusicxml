@@ -213,16 +213,15 @@ R"()",
   // the 'ignore redundant' prefixed booleans atom
 
   S_oahPrefixedBooleansAtom
-    prefixedBooleansAtom =
+    ignoreRedundantPrefixedBooleansAtom =
       oahPrefixedBooleansAtom::create (
-        "ir[ELEMENTS]",
-        "ignore-redundant-[ELEMENTS]",
-        "ignore ELEMENTS that are the same as the current one.",
+        "Ignore ELEMENTS that are the same as the current one.",
+        "ELEMENTS",
         ignoreRedundantPrefix);
 
   subGroup->
     appendAtom (
-      prefixedBooleansAtom);
+      ignoreRedundantPrefixedBooleansAtom);
 
   // redundant clefs
 
@@ -230,7 +229,7 @@ R"()",
 
   fIgnoreRedundantClefsAtom =
     oahBooleanAtom::create (
-      "irclef", "ignore-redundant-clefs",
+      "irclefs", "ignore-redundant-clefs",
 R"(Ignore clefs that are the same as the current one.)",
       "ignoreRedundantClefs",
       fIgnoreRedundantClefs);
@@ -244,7 +243,7 @@ R"(Ignore clefs that are the same as the current one.)",
 
   fIgnoreRedundantKeysAtom =
     oahBooleanAtom::create (
-      "irkey", "ignore-redundant-keys",
+      "irkeys", "ignore-redundant-keys",
 R"(Ignore keys that are the same as the current one.)",
       "ignoreRedundantKeys",
       fIgnoreRedundantKeys);
@@ -258,7 +257,7 @@ R"(Ignore keys that are the same as the current one.)",
 
   fIgnoreRedundantTimesAtom =
     oahBooleanAtom::create (
-      "irtime", "ignore-redundant-times",
+      "irtimes", "ignore-redundant-times",
 R"(Ignore times that are the same as the current one.)",
       "ignoreRedundantTimes",
       fIgnoreRedundantTimes);
@@ -266,15 +265,16 @@ R"(Ignore times that are the same as the current one.)",
     appendAtom (
       fIgnoreRedundantTimesAtom);
 
-  // populate prefixedBooleansAtom
+  // populate ignoreRedundantPrefixedBooleansAtom
+  // this will hide the added boolean atoms
 
-  prefixedBooleansAtom->
+  ignoreRedundantPrefixedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantClefsAtom);
-  prefixedBooleansAtom->
+  ignoreRedundantPrefixedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantKeysAtom);
-  prefixedBooleansAtom->
+  ignoreRedundantPrefixedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantTimesAtom);
 

@@ -2345,30 +2345,29 @@ ostream& operator<< (ostream& os, const S_oahPrefix& elt)
 
 //______________________________________________________________________________
 S_oahPrefixedBooleansAtom oahPrefixedBooleansAtom::create (
-  string      shortName,
-  string      longName,
   string      description,
+  string      suffixName,
   S_oahPrefix prefix)
 {
   oahPrefixedBooleansAtom* o = new
     oahPrefixedBooleansAtom (
-      shortName,
-      longName,
       description,
+      suffixName,
       prefix);
   assert(o!=0);
   return o;
 }
 
 oahPrefixedBooleansAtom::oahPrefixedBooleansAtom (
-  string      shortName,
-  string      longName,
   string      description,
+  string      suffixName,
   S_oahPrefix prefix)
   : oahAtom (
-      shortName,
-      longName,
+      "unusedShortName", // shortName
+      "unusedLongName",  // longName
       description),
+    fSuffixName (
+      suffixName),
     fPrefix (
       prefix)
 {}
@@ -2386,6 +2385,9 @@ void oahPrefixedBooleansAtom::addBooleanAtom (
 
   fBooleanAtomsList.push_back (
     booleanAtom);
+
+  // hide booleanAtom
+  booleanAtom->setIsHidden ();
 }
 
 void oahPrefixedBooleansAtom::addBooleanAtomByName (
@@ -2558,6 +2560,9 @@ void oahPrefixedBooleansAtom::print (ostream& os) const
     os, fieldWidth);
 
   os << left <<
+    "suffixName" << " : " <<
+    fSuffixName <<
+    endl <<
     setw (fieldWidth) <<
     "prefix" << " : ";
   if (fPrefix) {
@@ -2607,8 +2612,17 @@ void oahPrefixedBooleansAtom::print (ostream& os) const
 
 void oahPrefixedBooleansAtom::printHelp (ostream& os)
 {
+  string prefixName =
+    fPrefix->getPrefixName ();
+  string prefixErsatz =
+    fPrefix->getPrefixErsatz ();
+  string prefixDescription =
+    fPrefix->getPrefixDescription ();
+
   os <<
-    fetchNames () <<
+    "-" << prefixName << "<" << fSuffixName << ">" <<
+    ", " <<
+    "-" << prefixErsatz << "<" << fSuffixName << ">" <<
     endl;
 
   if (fDescription.size ()) {
@@ -2621,15 +2635,9 @@ void oahPrefixedBooleansAtom::printHelp (ostream& os)
       endl;
   }
 
-  string prefixName =
-    fPrefix->getPrefixName ();
-  string prefixErsatz =
-    fPrefix->getPrefixErsatz ();
-  string prefixDescription =
-    fPrefix->getPrefixDescription ();
-
   os <<
-    "ELEMENTS can be one of: ";
+    fSuffixName <<
+    " can be one of: ";
 
   if (! fBooleanAtomsList.size ()) {
     os <<
@@ -2656,7 +2664,7 @@ void oahPrefixedBooleansAtom::printHelp (ostream& os)
       string shortNameSuffix =
         shortName.substr (prefixName.size ());
       string longNameSuffix =
-        shortName.substr (prefixName.size ());
+        longName.substr (prefixErsatz.size ());
 
       if (shortNameSuffix != longNameSuffix) {
         stringstream s;
@@ -2697,6 +2705,10 @@ void oahPrefixedBooleansAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
+  // nothing to do, these options values will be printed
+  // by the boolean atoms in the list
+
+/* JMI
   int fieldWidth =
     valueFieldWidth - gIndenter.getIndent () + 1;
 
@@ -2737,7 +2749,7 @@ void oahPrefixedBooleansAtom::printAtomOptionsValues (
   }
 
   gIndenter--;
-
+*/
 }
 
 ostream& operator<< (ostream& os, const S_oahPrefixedBooleansAtom& elt)

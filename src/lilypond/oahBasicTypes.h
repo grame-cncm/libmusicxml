@@ -1054,9 +1054,8 @@ class oahPrefixedBooleansAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahPrefixedBooleansAtom> create (
-      string      shortName,
-      string      longName,
       string      description,
+      string      suffixName,
       S_oahPrefix prefix);
 
   protected:
@@ -1065,9 +1064,8 @@ class oahPrefixedBooleansAtom : public oahAtom
     // ------------------------------------------------------
 
     oahPrefixedBooleansAtom (
-      string      shortName,
-      string      longName,
       string      description,
+      string      suffixName,
       S_oahPrefix prefix);
 
     virtual ~oahPrefixedBooleansAtom ();
@@ -1123,6 +1121,8 @@ class oahPrefixedBooleansAtom : public oahAtom
     // ------------------------------------------------------
 
     S_oahPrefix           fPrefix;
+
+    string                fSuffixName;
 
     list<S_oahBooleanAtom>
                           fBooleanAtomsList;
