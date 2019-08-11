@@ -105,8 +105,8 @@ class oahElement : public smartable
 
     // uplink
     void                  setHandlerUpLink (
-                            S_oahHandler handler)
-                              { fHandlerUpLink = handler; }
+                            S_oahHandler handlerUpLink)
+                              { fHandlerUpLink = handlerUpLink; }
 
     S_oahHandler          getHandlerUpLink () const
                               { return fHandlerUpLink; }
@@ -939,6 +939,196 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
 };
 typedef SMARTP<oahCombinedBooleansAtom> S_oahCombinedBooleansAtom;
 EXP ostream& operator<< (ostream& os, const S_oahCombinedBooleansAtom& elt);
+
+//______________________________________________________________________________
+class oahPrefix;
+typedef SMARTP<oahPrefix> S_oahPrefix;
+
+class oahPrefix : public smartable
+/*
+An options prefix 'trace' --> 'trace-' allows:
+  -trace=abc,def,gh
+to be developped into :
+  -trace-abc -trace-def -trace-gh
+*/
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahPrefix> create (
+      string prefixName,
+      string prefixErsatz,
+      string prefixDescription);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahPrefix (
+      string prefixName,
+      string prefixErsatz,
+      string prefixDescription);
+
+    virtual ~oahPrefix ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getPrefixName () const
+                              { return fPrefixName; }
+
+    string                getPrefixErsatz () const
+                              { return fPrefixErsatz; }
+
+    string                getPrefixDescription () const
+                              { return fPrefixDescription; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    string                prefixNames () const;
+    string                prefixNamesInColumns (
+                            int subGroupsShortNameFieldWidth) const;
+
+    string                prefixNamesBetweenParentheses () const;
+    string                prefixNamesInColumnsBetweenParentheses (
+                            int subGroupsShortNameFieldWidth) const;
+
+    string                operator () () const
+                              { return fPrefixErsatz; }
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          printPrefixHeader (ostream& os) const;
+
+    virtual void          printPrefixEssentials (
+                            ostream& os,
+                            int      fieldWidth) const;
+
+    virtual void          print (ostream& os) const;
+
+    virtual void          printHelp (ostream& os);
+
+  protected:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fPrefixName;
+    string                fPrefixErsatz;
+    string                fPrefixDescription;
+};
+EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
+
+//______________________________________________________________________________
+class oahPrefixedBooleansAtom : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahPrefixedBooleansAtom> create (
+      string      shortName,
+      string      longName,
+      string      description,
+      S_oahPrefix prefix);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahPrefixedBooleansAtom (
+      string      shortName,
+      string      longName,
+      string      description,
+      S_oahPrefix prefix);
+
+    virtual ~oahPrefixedBooleansAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const list<S_oahBooleanAtom>&
+                          getBooleanAtomsList ()
+                              { return fBooleanAtomsList; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  addBooleanAtom (
+                            S_oahBooleanAtom booleanAtom);
+
+    void                  addBooleanAtomByName (
+                            string name);
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printHelp (ostream& os);
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_oahPrefix           fPrefix;
+
+    list<S_oahBooleanAtom>
+                          fBooleanAtomsList;
+};
+typedef SMARTP<oahPrefixedBooleansAtom> S_oahPrefixedBooleansAtom;
+EXP ostream& operator<< (ostream& os, const S_oahPrefixedBooleansAtom& elt);
 
 //______________________________________________________________________________
 class oahValuedAtom : public oahAtomWithVariableName
@@ -2186,111 +2376,6 @@ class oahGroup : public oahElement
 };
 typedef SMARTP<oahGroup> S_oahGroup;
 EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
-
-//______________________________________________________________________________
-class oahPrefix;
-typedef SMARTP<oahPrefix> S_oahPrefix;
-
-class oahPrefix : public smartable
-/*
-An options prefix 'trace' --> 'trace-' allows:
-  -trace=abc,def,gh
-to be developped into :
-  -trace-abc -trace-def -trace-gh
-*/
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<oahPrefix> create (
-      string prefixName,
-      string prefixErsatz,
-      string prefixDescription);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahPrefix (
-      string prefixName,
-      string prefixErsatz,
-      string prefixDescription);
-
-    virtual ~oahPrefix ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    string                getPrefixName () const
-                              { return fPrefixName; }
-
-    string                getPrefixErsatz () const
-                              { return fPrefixErsatz; }
-
-    string                getPrefixDescription () const
-                              { return fPrefixDescription; }
-
-  public:
-
-    // public services
-    // ------------------------------------------------------
-
-  private:
-
-    // private services
-    // ------------------------------------------------------
-
-    string                prefixNames () const;
-    string                prefixNamesInColumns (
-                            int subGroupsShortNameFieldWidth) const;
-
-    string                prefixNamesBetweenParentheses () const;
-    string                prefixNamesInColumnsBetweenParentheses (
-                            int subGroupsShortNameFieldWidth) const;
-
-    string                operator () () const
-                              { return fPrefixErsatz; }
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          printPrefixHeader (ostream& os) const;
-
-    virtual void          printPrefixEssentials (
-                            ostream& os,
-                            int      fieldWidth) const;
-
-    virtual void          print (ostream& os) const;
-
-    virtual void          printHelp (ostream& os);
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-    string                fPrefixName;
-    string                fPrefixErsatz;
-    string                fPrefixDescription;
-};
-EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
 //_______________________________________________________________________________
 class EXP oahHandler : public oahElement

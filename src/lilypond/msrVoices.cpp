@@ -157,6 +157,23 @@ S_msrPart msrVoice::fetchVoicePartUpLink () const
     getStaffPartUpLink ();
 }
 
+void msrVoice::setRegularVoiceStaffSequentialNumber (
+  int regularVoiceStaffSequentialNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
+    gLogOstream <<
+      "Setting the regular voice staff sequential number of voice \"" <<
+      getVoiceName () <<
+      "\" to " << regularVoiceStaffSequentialNumber <<
+      endl;
+  }
+#endif
+
+  fRegularVoiceStaffSequentialNumber =
+    regularVoiceStaffSequentialNumber;
+}
+
 void msrVoice::setVoiceNameFromNumber (
   int inputLineNumber,
   int voiceNumber)
@@ -166,7 +183,7 @@ void msrVoice::setVoiceNameFromNumber (
     gLogOstream <<
       "Setting the name of '" <<
       voiceKindAsString () <<
-      "' voice from number: " << voiceNumber <<
+      "' voice from number " << voiceNumber <<
       endl;
   }
 #endif
@@ -329,7 +346,7 @@ void msrVoice::initializeVoice (
 {
   // the voice staff sequential number will be set
   // when regular voices are added to a staff
-  // in registerVoiceInRegularVoicesMap ()
+  // in registerVoiceInRegularVoicesMapByItsNumberByItsNumber ()
   fRegularVoiceStaffSequentialNumber = -1;
 
   gIndenter++;
@@ -1963,7 +1980,7 @@ void msrVoice::padUpToPositionInMeasureInVoice (
 
 void msrVoice::backupByWholeNotesStepLengthInVoice (
   int      inputLineNumber,
-  rational backupStepLength)
+  rational backupTargetPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (
@@ -1976,8 +1993,8 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
     gTraceOah->fTracePositionsInMeasures
   ) {
     gLogOstream <<
-      "Backing up by a '" <<
-      backupStepLength <<
+      "Backup by a '" <<
+      backupTargetPositionInMeasure <<
       "' whole notes step length in voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -1996,7 +2013,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
   fVoiceLastSegment->
     backupByWholeNotesStepLengthInSegment (
       inputLineNumber,
-      backupStepLength);
+      backupTargetPositionInMeasure);
 
   gIndenter--;
 }
@@ -2046,13 +2063,13 @@ void msrVoice::appendPaddingNoteToVoice (
 
 void msrVoice:: handleBackupInVoice (
   int      inputLineNumber,
-  rational backupStepLength)
+  rational backupTargetPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (gMusicXMLOah->fTraceBackup) {
     gLogOstream <<
       "Handling backup by a '" <<
-      backupStepLength <<
+      backupTargetPositionInMeasure <<
       "' whole notes step length in voice " <<
       getVoiceName () <<
       ", line " << inputLineNumber <<
@@ -2060,10 +2077,96 @@ void msrVoice:: handleBackupInVoice (
   }
 #endif
 
-  // bring the voice to that measure position
-  backupByWholeNotesStepLengthInVoice (
-    inputLineNumber,
-    backupStepLength);
+  // get the current measure whole notes duration from fCurrentVoicePriorToBackup
+  rational
+    currentMeasureWholeNotesDuration =
+      fVoiceLastSegment->
+        fetchLastMeasureFromSegment (
+          inputLineNumber,
+          "computing backup target position in measure")->
+          getCurrentMeasureWholeNotesDuration ();
+  currentMeasureWholeNotesDuration.rationalise ();
+
+  // get the full measure whole notes duration from fCurrentVoicePriorToBackup
+  rational
+    fullMeasureWholeNotesDuration =
+      fVoiceLastSegment->
+        fetchLastMeasureFromSegment (
+          inputLineNumber,
+          "computing backup target position in measure")->
+          getFullMeasureWholeNotesDuration ();
+  fullMeasureWholeNotesDuration.rationalise ();
+
+  // sanity checks
+  if (backupTargetPositionInMeasure.getNumerator () < 0) {
+    stringstream s;
+
+    s <<
+      "backupTargetPositionInMeasure " <<
+      backupTargetPositionInMeasure <<
+      " is negative";
+
+    msrMusicXMLError (
+      gExecutableOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  if (
+    backupTargetPositionInMeasure
+      >=
+    fullMeasureWholeNotesDuration
+  ) {
+    stringstream s;
+
+    s <<
+      "backupTargetPositionInMeasure " <<
+      backupTargetPositionInMeasure <<
+      " is greater than or equal to fullMeasureWholeNotesDuration " <<
+      fullMeasureWholeNotesDuration;
+
+    msrMusicXMLError (
+      gExecutableOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+  else if (
+    backupTargetPositionInMeasure
+      <
+    currentMeasureWholeNotesDuration
+  ) {
+    stringstream s;
+
+    s <<
+      "backupTargetPositionInMeasure: " <<
+      backupTargetPositionInMeasure <<
+      " is smaller than currentMeasureWholeNotesDuration " <<
+      currentMeasureWholeNotesDuration <<
+      ", cannot go prior to it";
+
+    msrMusicXMLError (
+      gExecutableOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // to the backup if necessary
+  if (
+    backupTargetPositionInMeasure
+      >
+    currentMeasureWholeNotesDuration
+  ) {
+    // bring the voice to that measure position
+    backupByWholeNotesStepLengthInVoice (
+      inputLineNumber,
+      backupTargetPositionInMeasure);
+  }
+  else {
+    // we're already at the desired position, do nothing
+  }
 }
 
 void msrVoice::appendTransposeToVoice (

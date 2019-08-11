@@ -186,9 +186,9 @@ class brailleOah : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<brailleOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<brailleOah>        createCloneWithDetailedTrace ();
+    SMARTP<brailleOah>    createCloneWithDetailedTrace ();
 
   public:
 
@@ -208,7 +208,7 @@ class brailleOah : public oahGroup
     // ------------------------------------------------------
 
     brailleOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~brailleOah ();
 

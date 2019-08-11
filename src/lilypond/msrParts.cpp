@@ -275,6 +275,33 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
 }
 */
 
+void msrPart::assignSequentialNumbersToRegularVoicesInPart (
+  int inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts || gTraceOah->fTraceVoices) {
+    gLogOstream <<
+      "Assigning sequential numbers to the regular voices in part \"" <<
+      fPartID <<
+      ", " <<
+      fPartName <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++
+  ) {
+    (*i).second->
+      assignSequentialNumbersToRegularVoicesInStaff (
+        inputLineNumber);
+  } // for
+}
+
 void msrPart::addAVoiceToStavesThatHaveNone (
   int inputLineNumber)
 {

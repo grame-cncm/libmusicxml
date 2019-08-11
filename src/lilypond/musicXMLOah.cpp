@@ -20,6 +20,8 @@
   #include "traceOah.h"
 #endif
 
+#include "messagesHandling.h"
+
 #include "generalOah.h"
 #include "musicXMLOah.h"
 
@@ -36,27 +38,34 @@ S_musicXMLOah gMusicXMLOahUserChoices;
 S_musicXMLOah gMusicXMLOahWithDetailedTrace;
 
 S_musicXMLOah musicXMLOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   musicXMLOah* o = new musicXMLOah(
-    handler);
+    handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 musicXMLOah::musicXMLOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "MusicXML",
     "hmxml", "help-musicxml",
 R"(These options control the way MusicXML data is translated.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
+/* JMI
+  // sanity check
+  msrAssert (
+    handlerUpLink != nullptr,
+    "handlerUpLink is null");
+*/
+
   // append this options group to the options handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -190,16 +199,41 @@ R"()",
 
   appendSubGroup (subGroup);
 
+  // the 'ignore redundant' prefix
+
+  S_oahPrefix
+    ignoreRedundantPrefix =
+      oahPrefix::create (
+        "ir",
+        "ignore-redundant-",
+        "'-ir=abc,xywx,yz' is equivalent to '-irabc, -irxywx, -iryz'");
+  fHandlerUpLink->
+    appendPrefixToHandler (ignoreRedundantPrefix);
+
+  // the 'ignore redundant' prefixed booleans atom
+
+  S_oahPrefixedBooleansAtom
+    prefixedBooleansAtom =
+      oahPrefixedBooleansAtom::create (
+        "ir[ELEMENTS]",
+        "ignore-redundant-[ELEMENTS]",
+        "ignore ELEMENTS that are the same as the current one.",
+        ignoreRedundantPrefix);
+
+  subGroup->
+    appendAtom (
+      prefixedBooleansAtom);
+
   // redundant clefs
 
   fIgnoreRedundantClefs = boolOptionsInitialValue;
 
   fIgnoreRedundantClefsAtom =
-      oahBooleanAtom::create (
-        "irclef", "ignore-redundant-clefs",
+    oahBooleanAtom::create (
+      "irclef", "ignore-redundant-clefs",
 R"(Ignore clefs that are the same as the current one.)",
-        "ignoreRedundantClefs",
-        fIgnoreRedundantClefs);
+      "ignoreRedundantClefs",
+      fIgnoreRedundantClefs);
   subGroup->
     appendAtom (
       fIgnoreRedundantClefsAtom);
@@ -209,11 +243,11 @@ R"(Ignore clefs that are the same as the current one.)",
   fIgnoreRedundantKeys  = boolOptionsInitialValue;
 
   fIgnoreRedundantKeysAtom =
-      oahBooleanAtom::create (
-        "irkey", "ignore-redundant-keys",
+    oahBooleanAtom::create (
+      "irkey", "ignore-redundant-keys",
 R"(Ignore keys that are the same as the current one.)",
-        "ignoreRedundantKeys",
-        fIgnoreRedundantKeys);
+      "ignoreRedundantKeys",
+      fIgnoreRedundantKeys);
   subGroup->
     appendAtom (
       fIgnoreRedundantKeysAtom);
@@ -223,13 +257,25 @@ R"(Ignore keys that are the same as the current one.)",
   fIgnoreRedundantTimes = boolOptionsInitialValue;
 
   fIgnoreRedundantTimesAtom =
-      oahBooleanAtom::create (
-        "irtime", "ignore-redundant-times",
+    oahBooleanAtom::create (
+      "irtime", "ignore-redundant-times",
 R"(Ignore times that are the same as the current one.)",
-        "ignoreRedundantTimes",
-        fIgnoreRedundantTimes);
+      "ignoreRedundantTimes",
+      fIgnoreRedundantTimes);
   subGroup->
     appendAtom (
+      fIgnoreRedundantTimesAtom);
+
+  // populate prefixedBooleansAtom
+
+  prefixedBooleansAtom->
+    addBooleanAtom (
+      fIgnoreRedundantClefsAtom);
+  prefixedBooleansAtom->
+    addBooleanAtom (
+      fIgnoreRedundantKeysAtom);
+  prefixedBooleansAtom->
+    addBooleanAtom (
       fIgnoreRedundantTimesAtom);
 
   // '-loop' is hidden...
@@ -343,6 +389,7 @@ void musicXMLOah::initializeMusicXMLOah (
 
 S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
 {
+/* JMI
   S_musicXMLOah
     clone =
       musicXMLOah::create (0);
@@ -390,6 +437,7 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
     fTraceMusicXMLTreeVisitors;
 
   return clone;
+  */
 }
 
 //______________________________________________________________________________
@@ -594,9 +642,11 @@ void initializeMusicXMLOahHandling (
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
+/* JMI
   gMusicXMLOahWithDetailedTrace =
     gMusicXMLOah->
       createCloneWithDetailedTrace ();
+      */
 }
 
 

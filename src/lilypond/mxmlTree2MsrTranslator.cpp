@@ -4380,6 +4380,13 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
     inputLineNumber);
     */
 
+  // remember the current voice prior to the <backup />
+  fCurrentVoicePriorToBackup =
+    fetchVoiceFromCurrentPart (
+      inputLineNumber,
+      fCurrentStaffNumberToInsertInto,
+      fCurrentMusicXMLVoiceNumber);
+
   fOnGoingBackup = true;
 }
 
@@ -4406,6 +4413,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
       fCurrentStaffNumberToInsertInto <<
       ", fPreviousNoteMusicXMLStaffNumber = " <<
       fPreviousNoteMusicXMLStaffNumber <<
+      ", fCurrentVoicePriorToBackup = " <<
+      fCurrentVoicePriorToBackup <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -17547,16 +17556,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // fetch voice to insert harmonies, figured basses and/or frames into
   S_msrVoice
     voiceToInsertHarmoniesFiguredBassesAndOrFramesInto =
+      voiceToInsertNoteInto;
+      /*  JMI
       staff->
         fetchFirstRegularVoiceFromStaff (
           inputLineNumber);
-
-    /* JMI
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumberToInsertInto,
-        1); // JMI see DTD fCurrentMusicXMLVoiceNumber);
-        */
+          */
 
   // sanity check
   msrAssert (
@@ -17593,11 +17598,46 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
     backupStepLength.rationalise ();
 
+    // get the current measure whole notes duration from fCurrentVoicePriorToBackup
+    rational
+      currentMeasureWholeNotesDuration =
+        fCurrentVoicePriorToBackup->
+          getVoiceLastSegment ()->
+            fetchLastMeasureFromSegment (
+              inputLineNumber,
+              "computing backup target position in measure")->
+              getCurrentMeasureWholeNotesDuration ();
+    currentMeasureWholeNotesDuration.rationalise ();
+
+    // compute the backup target position in measure
+    rational
+      backupTargetPositionInMeasure =
+        currentMeasureWholeNotesDuration
+          -
+        backupStepLength;
+    backupTargetPositionInMeasure.rationalise ();
+
+#ifdef TRACE_OAH
+    if (gMusicXMLOah->fTraceBackup) {
+      fLogOutputStream <<
+        "--> backupStepLength: " <<
+        backupStepLength <<
+        "--> currentMeasureWholeNotesDuration: " <<
+        currentMeasureWholeNotesDuration <<
+        "--> backupTargetPositionInMeasure: " <<
+        backupTargetPositionInMeasure <<
+        endl;
+    }
+#endif
+
     // let the voice handle the backup
     voiceToInsertNoteInto->
       handleBackupInVoice (
         inputLineNumber,
-        backupStepLength);
+        backupTargetPositionInMeasure);
+
+    // forget about fCurrentVoicePriorToBackup
+    fCurrentVoicePriorToBackup = nullptr;
 
     fThereIsAPendingBackup = false;
   }

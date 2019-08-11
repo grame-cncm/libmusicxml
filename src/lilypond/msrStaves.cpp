@@ -604,6 +604,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
   switch (voiceKind) {
     case msrVoice::kVoiceRegular:
       // register the voice by its relative number
+      /* JMI
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceVoices) {
         gLogOstream <<
@@ -614,8 +615,9 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
           endl;
       }
 #endif
+*/
 
-      registerVoiceInRegularVoicesMap (
+      registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
         voiceNumber,
         voice);
       break;
@@ -674,62 +676,12 @@ void msrStaff::registerVoiceByItsNumber (
       }
 #endif
 
-    /* JMI
-      gLogOstream <<
-        endl <<
-        endl <<
-        "@@@@@@@@@@@@@@@@ fStaffAllVoicesList contains initially:" <<
-        endl <<
-        endl;
-
-      for (
-        list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
-        i != fStaffAllVoicesList.end ();
-        i++
-      ) {
-        S_msrVoice
-          voice = (*i);
-
-        gLogOstream <<
-          voice->getVoiceName () <<
-          endl;
-      } // for
-      gLogOstream <<
-        endl <<
-        endl;
-      */
-
       // sort fStaffAllVoicesList, to have harmonies just before
       // the corresponding voice
       if (fStaffAllVoicesList.size ()) {
         fStaffAllVoicesList.sort (
           compareVoicesToHaveHarmoniesAboveCorrespondingVoice);
       }
-
-    /* JMI
-      gLogOstream <<
-        endl <<
-        endl <<
-        "@@@@@@@@@@@@@@@@ fStaffAllVoicesList contains after sort:" <<
-        endl <<
-        endl;
-
-      for (
-        list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
-        i != fStaffAllVoicesList.end ();
-        i++
-      ) {
-        S_msrVoice
-          voice = (*i);
-
-        gLogOstream <<
-          voice->getVoiceName () <<
-          endl;
-      } // for
-      gLogOstream <<
-        endl <<
-        endl;
-        */
       break;
 
     case msrVoice::kVoiceFiguredBass:
@@ -753,7 +705,7 @@ void msrStaff::registerVoiceByItsNumber (
   } // switch
 }
 
-void msrStaff::registerVoiceInRegularVoicesMap (
+void msrStaff::registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
   int        voiceNumber,
   S_msrVoice voice)
 {
@@ -774,10 +726,14 @@ void msrStaff::registerVoiceInRegularVoicesMap (
   fStaffRegularVoicesMap [fStaffRegularVoicesCounter] =
     voice;
 
+  // setRegularVoiceStaffSequentialNumber() will be called in msrStaff::finalizeStaff()
+
+/* JMI
   // set voice staff sequential number
   voice->
     setRegularVoiceStaffSequentialNumber (
       fStaffRegularVoicesCounter);
+      */
 }
 
 void msrStaff::registerVoiceInAllVoicesList (
@@ -845,6 +801,68 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
   return result;
 }
 
+void msrStaff::assignSequentialNumbersToRegularVoicesInStaff (
+  int inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
+    gLogOstream <<
+      "Assigning sequential numbers to the regular voices in staff \"" <<
+      fStaffName <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // assign sequential numbers to the regular voices,
+  // needed to know about voices 1, 2, 3 and 4
+  fStaffRegularVoicesList.sort (
+    compareVoicesByIncreasingNumber);
+
+  if (fStaffRegularVoicesList.size ()) {
+    int voiceSequentialCounter = 0;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fStaffRegularVoicesList.begin (),
+      iEnd   = fStaffRegularVoicesList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      if (i == iEnd) break;
+
+      S_msrVoice voice = (*i);
+
+      // sanity check
+      msrAssert (
+        voice != nullptr,
+        "voice is null");
+
+      voiceSequentialCounter++;
+
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
+        gLogOstream <<
+          "Voice \"" <<
+          voice->getVoiceName () <<
+          "\" gets sequential number " <<
+          voiceSequentialCounter <<
+          " in staff \"" <<
+          fStaffName <<
+          "\"" <<
+          endl;
+      }
+#endif
+
+      voice->
+        setRegularVoiceStaffSequentialNumber (
+          voiceSequentialCounter);
+
+      if (++i == iEnd) break;
+    } // for
+  }
+}
+
 S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
   int inputLineNumber)
 {
@@ -898,6 +916,16 @@ S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
     }
 #endif
   }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices || gTraceOah->fTraceStaves) {
+    gLogOstream <<
+      "--> result = \"" <<
+      result->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
 
   return result;
 }
@@ -1018,7 +1046,7 @@ void msrStaff::registerVoiceInStaff (
         }
 #endif
 
-        registerVoiceInRegularVoicesMap (
+        registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
           voiceNumber,
           voice);
       }
@@ -2063,6 +2091,16 @@ void msrStaff::finalizeCurrentMeasureInStaff (
   } // for
 
   gIndenter--;
+}
+
+bool msrStaff::compareVoicesByIncreasingNumber (
+  const S_msrVoice& first,
+  const S_msrVoice& second)
+{
+  return
+    first->getVoiceNumber ()
+      <
+    second->getVoiceNumber ();
 }
 
 bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (

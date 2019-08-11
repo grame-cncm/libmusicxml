@@ -29,9 +29,9 @@ class generalOah : public oahGroup
   public:
 
     static SMARTP<generalOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<generalOah>        createCloneWithTrueValues (); // JMI
+    SMARTP<generalOah>    createCloneWithTrueValues (); // JMI
 
   public:
 
@@ -47,7 +47,7 @@ class generalOah : public oahGroup
     // ------------------------------------------------------
 
     generalOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~generalOah ();
 

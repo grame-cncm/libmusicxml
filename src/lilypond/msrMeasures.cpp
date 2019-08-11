@@ -2311,12 +2311,12 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
 
 void msrMeasure::backupByWholeNotesStepLengthInMeasure (
   int      inputLineNumber,
-  rational backupStepLength)
+  rational backupTargetPositionInMeasure)
 {
   // sanity check
   msrAssert (
-    backupStepLength.getNumerator () >= 0,
-    "backupStepLength.getNumerator () is negative");
+    backupTargetPositionInMeasure.getNumerator () >= 0,
+    "backupTargetPositionInMeasure.getNumerator () is negative");
 
   // fetch the measure voice
   S_msrVoice
@@ -2337,8 +2337,8 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure (
     this->print (gLogOstream);
 
     gLogOstream <<
-      "Backing up by a '" <<
-      backupStepLength <<
+      "Backup by a '" <<
+      backupTargetPositionInMeasure <<
       "' whole notes step length in measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -2356,10 +2356,10 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure (
   }
 #endif
 
-  // determine the measure position 'backupStepLength' backward
+  // determine the measure position 'backupTargetPositionInMeasure' backward
   rational
     positionInMeasure =
-      fFullMeasureWholeNotesDuration - backupStepLength;
+      fFullMeasureWholeNotesDuration - backupTargetPositionInMeasure;
   positionInMeasure.rationalise ();
 
   // pad up to it
@@ -4892,9 +4892,6 @@ void msrMeasure::print (ostream& os)
     "Measure '" <<
     fMeasureNumber <<
     "', " << measureKindAsString () <<
-    ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
-    ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<
-    ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
     ", line " << fInputLineNumber <<
@@ -4905,6 +4902,15 @@ void msrMeasure::print (ostream& os)
   const int fieldWidth = 45;
 
   os << left <<
+    setw (fieldWidth) <<
+    "currentMeasureWholeNotesDuration" << " : " <<
+    fCurrentMeasureWholeNotesDuration <<
+    endl <<
+    setw (fieldWidth) <<
+    "fullMeasureWholeNotesDuration" << " : " <<
+    fFullMeasureWholeNotesDuration <<
+    endl <<
+
     setw (fieldWidth) <<
     "measurePuristNumber" << " : " <<
     fMeasurePuristNumber <<

@@ -780,9 +780,9 @@ class lilypondOah : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<lilypondOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<lilypondOah>        createCloneWithDetailedTrace ();
+    SMARTP<lilypondOah>   createCloneWithDetailedTrace ();
 
   public:
 
@@ -798,7 +798,7 @@ class lilypondOah : public oahGroup
     // ------------------------------------------------------
 
     lilypondOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~lilypondOah ();
 

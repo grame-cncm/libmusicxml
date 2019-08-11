@@ -457,27 +457,27 @@ S_brailleOah gBrailleOahUserChoices;
 S_brailleOah gBrailleOahWithDetailedTrace;
 
 S_brailleOah brailleOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   brailleOah* o = new brailleOah (
-    handler);
+    handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 brailleOah::brailleOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "Braille",
     "hbrl", "help-braille",
 R"(These braille control which Braille code is generated.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this braille group to the braille handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -763,6 +763,7 @@ void brailleOah::initializeBrailleOah (
 
 S_brailleOah brailleOah::createCloneWithDetailedTrace ()
 {
+/* JMI
   S_brailleOah
     clone =
       brailleOah::create (0);
@@ -782,6 +783,7 @@ S_brailleOah brailleOah::createCloneWithDetailedTrace ()
     fNoBrailleCode;
 
   return clone;
+  */
 }
 
 //______________________________________________________________________________
@@ -879,9 +881,11 @@ void initializeBrailleOahHandling (
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
+/* JMI
   gBrailleOahWithDetailedTrace =
     gBrailleOah->
       createCloneWithDetailedTrace ();
+      */
 }
 
 

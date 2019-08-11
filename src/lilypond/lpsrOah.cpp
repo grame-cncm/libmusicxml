@@ -979,27 +979,27 @@ S_lpsrOah gLpsrOahUserChoices;
 S_lpsrOah gLpsrOahWithDetailedTrace;
 
 S_lpsrOah lpsrOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   lpsrOah* o = new lpsrOah (
-    handler);
+    handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 lpsrOah::lpsrOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "LPSR",
     "hlpsr", "help-lpsr",
 R"(These options control the way LPSR data is handled.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this options group to the options handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -1451,6 +1451,7 @@ void lpsrOah::initializeLpsrOah (
 
 S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
 {
+/* JMI
   S_lpsrOah
     clone =
       lpsrOah::create (0);
@@ -1528,6 +1529,7 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
     fTransposeSemiTonesPitchAndOctave;
 
   return clone;
+  */
 }
 
 //______________________________________________________________________________
@@ -2055,9 +2057,12 @@ void initializeLpsrOahHandling (
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
+
+/* JMI
   gLpsrOahWithDetailedTrace =
     gLpsrOah->
       createCloneWithDetailedTrace ();
+      */
 }
 
 

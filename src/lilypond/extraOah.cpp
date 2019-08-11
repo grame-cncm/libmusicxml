@@ -1115,16 +1115,16 @@ S_extraOah gExtraOahUserChoices;
 S_extraOah gExtraOahWithDetailedTrace;
 
 S_extraOah extraOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   extraOah* o = new extraOah(
-    handler);
+    handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 extraOah::extraOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "Extra",
     "he", "help-extra",
@@ -1132,12 +1132,12 @@ R"(These extra provide features not related to translation from MusicXML to Lily
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this extra group to the extra handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -1314,6 +1314,7 @@ void extraOah::initializeExtraOah (
 
 S_extraOah extraOah::createCloneWithDetailedTrace ()
 {
+/* JMI
   S_extraOah
     clone =
       extraOah::create (0);
@@ -1331,6 +1332,7 @@ S_extraOah extraOah::createCloneWithDetailedTrace ()
   // --------------------------------------
 
   return clone;
+  */
 }
 
 //______________________________________________________________________________
@@ -1457,9 +1459,11 @@ void initializeExtraOahHandling (
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
+/* JMI
   gExtraOahWithDetailedTrace =
     gExtraOah->
       createCloneWithDetailedTrace ();
+      */
 }
 
 

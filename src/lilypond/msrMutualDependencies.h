@@ -866,7 +866,7 @@ class msrMeasure : public msrElement
 
     void                  backupByWholeNotesStepLengthInMeasure (
                             int      inputLineNumber,
-                            rational backupStepLength);
+                            rational backupTargetPositionInMeasure);
 
     void                  appendPaddingNoteToMeasure (
                             int      inputLineNumber,
@@ -1353,7 +1353,7 @@ class msrSegment : public msrVoiceElement
 
     void                  backupByWholeNotesStepLengthInSegment (
                             int      inputLineNumber,
-                            rational backupStepLength);
+                            rational backupTargetPositionInMeasure);
 
     void                  appendPaddingNoteToSegment (
                             int      inputLineNumber,
@@ -6807,11 +6807,7 @@ class msrVoice : public msrElement
                               { return fVoiceNumber; }
 
     void                  setRegularVoiceStaffSequentialNumber (
-                            int regularVoiceStaffSequentialNumber)
-                              {
-                                fRegularVoiceStaffSequentialNumber =
-                                  regularVoiceStaffSequentialNumber;
-                              }
+                            int regularVoiceStaffSequentialNumber);
 
     int                   getRegularVoiceStaffSequentialNumber () const
                               { return fRegularVoiceStaffSequentialNumber; }
@@ -6974,7 +6970,7 @@ class msrVoice : public msrElement
 
     void                  handleBackupInVoice (
                             int      inputLineNumber,
-                            rational backupStepLength);
+                            rational backupTargetPositionInMeasure);
 
     void                  padUpToPositionInMeasureInVoice (
                             int      inputLineNumber,
@@ -6982,7 +6978,7 @@ class msrVoice : public msrElement
 
     void                  backupByWholeNotesStepLengthInVoice (
                             int      inputLineNumber,
-                            rational backupStepLength);
+                            rational backupTargetPositionInMeasure);
 
     // clef, key, time
 
@@ -7942,7 +7938,7 @@ class msrStaff : public msrElement
                               }
 
     const list<S_msrVoice>&
-                          getStaffAllVoicesList () const
+                          getStaffAllVoicesVector () const
                               {
                                 return
                                   fStaffAllVoicesList;
@@ -7997,7 +7993,7 @@ class msrStaff : public msrElement
                             int        voiceNumber,
                             S_msrVoice voice);
 
-    void                  registerVoiceInRegularVoicesMap (
+    void                  registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
                             int        voiceNumber,
                             S_msrVoice voice);
 
@@ -8010,6 +8006,9 @@ class msrStaff : public msrElement
                             int voiceNumber);
 
     S_msrVoice            fetchFirstRegularVoiceFromStaff (
+                            int inputLineNumber);
+
+    void                  assignSequentialNumbersToRegularVoicesInStaff (
                             int inputLineNumber);
 
     void                  addAVoiceToStaffIfItHasNone (
@@ -8188,7 +8187,7 @@ class msrStaff : public msrElement
 
     // harmonies and figured basses should be placed
     // in the first regular voice of the staff, hence:
-    list <S_msrVoice>     fStaffRegularVoicesList;
+    list<S_msrVoice>      fStaffRegularVoicesList;
 
     // we need to sort the voices by increasing voice numbers,
     // but with harmony voices right before the corresponding regular voices
@@ -8243,6 +8242,10 @@ class msrStaff : public msrElement
                               { return fStaffCurrentTranspose; }
 
     // voices ordering in staves
+
+    static bool           compareVoicesByIncreasingNumber (
+                            const S_msrVoice& first,
+                            const S_msrVoice& second);
 
     static bool           compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
                             const S_msrVoice& first,
@@ -8520,6 +8523,9 @@ class msrPart : public msrPartGroupElement
 
     // services
     // ------------------------------------------------------
+
+    void                  assignSequentialNumbersToRegularVoicesInPart (
+                            int inputLineNumber);
 
     void                  addAVoiceToStavesThatHaveNone (
                             int inputLineNumber);

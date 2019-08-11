@@ -426,27 +426,27 @@ S_bsrOah gBsrOahUserChoices;
 S_bsrOah gBsrOahWithDetailedTrace;
 
 S_bsrOah bsrOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   bsrOah* o = new bsrOah (
-    handler);
+    handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 bsrOah::bsrOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "BSR",
     "hbsr", "help-bsr",
 R"(These bsr control the way BSR data is handled.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this bsr group to the bsr handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -815,6 +815,7 @@ void bsrOah::initializeBsrOah (
 
 S_bsrOah bsrOah::createCloneWithDetailedTrace ()
 {
+/* JMI
   S_bsrOah
     clone =
       bsrOah::create (0);
@@ -843,6 +844,7 @@ S_bsrOah bsrOah::createCloneWithDetailedTrace ()
 
 
   return clone;
+  */
 }
 
 //______________________________________________________________________________
@@ -1081,9 +1083,11 @@ void initializeBsrOahHandling (
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
+/* JMI
   gBsrOahWithDetailedTrace =
     gBsrOah->
       createCloneWithDetailedTrace ();
+      */
 }
 
 

@@ -30,9 +30,9 @@ class executableOah : public oahGroup
 
     static SMARTP<executableOah> create (
       string       executableName,
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<executableOah>        createCloneWithTrueValues (); // JMI
+    SMARTP<executableOah> createCloneWithTrueValues (); // JMI
 
   public:
 
@@ -49,7 +49,7 @@ class executableOah : public oahGroup
 
     executableOah (
       string       executableName,
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~executableOah ();
 

@@ -2076,27 +2076,27 @@ S_lilypondOah gLilypondOahUserChoices;
 S_lilypondOah gLilypondOahWithDetailedTrace;
 
 S_lilypondOah lilypondOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   lilypondOah* o = new lilypondOah (
-    handler);
+    handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 lilypondOah::lilypondOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "LilyPond",
     "hlp", "help-lilypond",
 R"(These lilypond control which LilyPond code is generated.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this lilypond group to the lilypond handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -3349,6 +3349,7 @@ void lilypondOah::initializeLilypondOah (
 
 S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
 {
+/* JMI
   S_lilypondOah
     clone =
       lilypondOah::create (0);
@@ -3590,6 +3591,7 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
     fKeepStaffSize;
 
   return clone;
+  */
 }
 
 /* JMI
@@ -4710,9 +4712,11 @@ void initializeLilypondOahHandling (
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
+/* JMI
   gLilypondOahWithDetailedTrace =
     gLilypondOah->
       createCloneWithDetailedTrace ();
+      */
 }
 
 

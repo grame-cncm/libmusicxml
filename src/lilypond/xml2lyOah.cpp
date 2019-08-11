@@ -43,13 +43,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_xml2lyOahVersionAtom xml2lyOahVersionAtom::create (
+S_xml2lyVersionOahAtom xml2lyVersionOahAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2lyOahVersionAtom* o = new
-    xml2lyOahVersionAtom (
+  xml2lyVersionOahAtom* o = new
+    xml2lyVersionOahAtom (
       shortName,
       longName,
       description);
@@ -57,7 +57,7 @@ S_xml2lyOahVersionAtom xml2lyOahVersionAtom::create (
   return o;
 }
 
-xml2lyOahVersionAtom::xml2lyOahVersionAtom (
+xml2lyVersionOahAtom::xml2lyVersionOahAtom (
   string shortName,
   string longName,
   string description)
@@ -67,10 +67,10 @@ xml2lyOahVersionAtom::xml2lyOahVersionAtom (
       description)
 {}
 
-xml2lyOahVersionAtom::~xml2lyOahVersionAtom ()
+xml2lyVersionOahAtom::~xml2lyVersionOahAtom ()
 {}
 
-S_oahValuedAtom xml2lyOahVersionAtom::handleOptionUnderName (
+S_oahValuedAtom xml2lyVersionOahAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
@@ -81,25 +81,25 @@ S_oahValuedAtom xml2lyOahVersionAtom::handleOptionUnderName (
   return nullptr;
 }
 
-void xml2lyOahVersionAtom::acceptIn (basevisitor* v)
+void xml2lyVersionOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahVersionAtom::acceptIn ()" <<
+      "% ==> xml2lyVersionOahAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_xml2lyOahVersionAtom>*
+  if (visitor<S_xml2lyVersionOahAtom>*
     p =
-      dynamic_cast<visitor<S_xml2lyOahVersionAtom>*> (v)) {
-        S_xml2lyOahVersionAtom elem = this;
+      dynamic_cast<visitor<S_xml2lyVersionOahAtom>*> (v)) {
+        S_xml2lyVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2lyOahVersionAtom::visitStart ()" <<
+            "% ==> Launching xml2lyVersionOahAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -107,25 +107,25 @@ void xml2lyOahVersionAtom::acceptIn (basevisitor* v)
   }
 }
 
-void xml2lyOahVersionAtom::acceptOut (basevisitor* v)
+void xml2lyVersionOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahVersionAtom::acceptOut ()" <<
+      "% ==> xml2lyVersionOahAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_xml2lyOahVersionAtom>*
+  if (visitor<S_xml2lyVersionOahAtom>*
     p =
-      dynamic_cast<visitor<S_xml2lyOahVersionAtom>*> (v)) {
-        S_xml2lyOahVersionAtom elem = this;
+      dynamic_cast<visitor<S_xml2lyVersionOahAtom>*> (v)) {
+        S_xml2lyVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2lyOahVersionAtom::visitEnd ()" <<
+            "% ==> Launching xml2lyVersionOahAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -133,23 +133,23 @@ void xml2lyOahVersionAtom::acceptOut (basevisitor* v)
   }
 }
 
-void xml2lyOahVersionAtom::browseData (basevisitor* v)
+void xml2lyVersionOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahVersionAtom::browseData ()" <<
+      "% ==> xml2lyVersionOahAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void xml2lyOahVersionAtom::print (ostream& os) const
+void xml2lyVersionOahAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2lyOahVersionAtom:" <<
+    "xml2lyVersionOahAtom:" <<
     endl;
 
   gIndenter++;
@@ -167,7 +167,7 @@ void xml2lyOahVersionAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2lyOahVersionAtom::printVersion (ostream& os) const
+void xml2lyVersionOahAtom::printVersion (ostream& os) const
 {
   os <<
     endl <<
@@ -180,27 +180,27 @@ void xml2lyOahVersionAtom::printVersion (ostream& os) const
   printVersionsHistory (os);
 }
 
-void xml2lyOahVersionAtom::printAtomOptionsValues (
+void xml2lyVersionOahAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2lyOahVersionAtom& elt)
+ostream& operator<< (ostream& os, const S_xml2lyVersionOahAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_xml2lyOahAboutAtom xml2lyOahAboutAtom::create (
+S_xml2lyAboutOahAtom xml2lyAboutOahAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2lyOahAboutAtom* o = new
-    xml2lyOahAboutAtom (
+  xml2lyAboutOahAtom* o = new
+    xml2lyAboutOahAtom (
       shortName,
       longName,
       description);
@@ -208,7 +208,7 @@ S_xml2lyOahAboutAtom xml2lyOahAboutAtom::create (
   return o;
 }
 
-xml2lyOahAboutAtom::xml2lyOahAboutAtom (
+xml2lyAboutOahAtom::xml2lyAboutOahAtom (
   string shortName,
   string longName,
   string description)
@@ -218,10 +218,10 @@ xml2lyOahAboutAtom::xml2lyOahAboutAtom (
       description)
 {}
 
-xml2lyOahAboutAtom::~xml2lyOahAboutAtom ()
+xml2lyAboutOahAtom::~xml2lyAboutOahAtom ()
 {}
 
-S_oahValuedAtom xml2lyOahAboutAtom::handleOptionUnderName (
+S_oahValuedAtom xml2lyAboutOahAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
@@ -232,25 +232,25 @@ S_oahValuedAtom xml2lyOahAboutAtom::handleOptionUnderName (
   return nullptr;
 }
 
-void xml2lyOahAboutAtom::acceptIn (basevisitor* v)
+void xml2lyAboutOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahAboutAtom::acceptIn ()" <<
+      "% ==> xml2lyAboutOahAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_xml2lyOahAboutAtom>*
+  if (visitor<S_xml2lyAboutOahAtom>*
     p =
-      dynamic_cast<visitor<S_xml2lyOahAboutAtom>*> (v)) {
-        S_xml2lyOahAboutAtom elem = this;
+      dynamic_cast<visitor<S_xml2lyAboutOahAtom>*> (v)) {
+        S_xml2lyAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2lyOahAboutAtom::visitStart ()" <<
+            "% ==> Launching xml2lyAboutOahAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -258,25 +258,25 @@ void xml2lyOahAboutAtom::acceptIn (basevisitor* v)
   }
 }
 
-void xml2lyOahAboutAtom::acceptOut (basevisitor* v)
+void xml2lyAboutOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahAboutAtom::acceptOut ()" <<
+      "% ==> xml2lyAboutOahAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_xml2lyOahAboutAtom>*
+  if (visitor<S_xml2lyAboutOahAtom>*
     p =
-      dynamic_cast<visitor<S_xml2lyOahAboutAtom>*> (v)) {
-        S_xml2lyOahAboutAtom elem = this;
+      dynamic_cast<visitor<S_xml2lyAboutOahAtom>*> (v)) {
+        S_xml2lyAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2lyOahAboutAtom::visitEnd ()" <<
+            "% ==> Launching xml2lyAboutOahAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -284,23 +284,23 @@ void xml2lyOahAboutAtom::acceptOut (basevisitor* v)
   }
 }
 
-void xml2lyOahAboutAtom::browseData (basevisitor* v)
+void xml2lyAboutOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahAboutAtom::browseData ()" <<
+      "% ==> xml2lyAboutOahAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void xml2lyOahAboutAtom::print (ostream& os) const
+void xml2lyAboutOahAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2lyOahAboutAtom:" <<
+    "xml2lyAboutOahAtom:" <<
     endl;
 
   gIndenter++;
@@ -318,7 +318,7 @@ void xml2lyOahAboutAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2lyOahAboutAtom::printAbout (ostream& os) const
+void xml2lyAboutOahAtom::printAbout (ostream& os) const
 {
   os <<
     endl <<
@@ -343,27 +343,27 @@ R"(What xml2ly does:
     endl;
 }
 
-void xml2lyOahAboutAtom::printAtomOptionsValues (
+void xml2lyAboutOahAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2lyOahAboutAtom& elt)
+ostream& operator<< (ostream& os, const S_xml2lyAboutOahAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_xml2lyOahContactAtom xml2lyOahContactAtom::create (
+S_xml2lyContactOahAtom xml2lyContactOahAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  xml2lyOahContactAtom* o = new
-    xml2lyOahContactAtom (
+  xml2lyContactOahAtom* o = new
+    xml2lyContactOahAtom (
       shortName,
       longName,
       description);
@@ -371,7 +371,7 @@ S_xml2lyOahContactAtom xml2lyOahContactAtom::create (
   return o;
 }
 
-xml2lyOahContactAtom::xml2lyOahContactAtom (
+xml2lyContactOahAtom::xml2lyContactOahAtom (
   string shortName,
   string longName,
   string description)
@@ -381,10 +381,10 @@ xml2lyOahContactAtom::xml2lyOahContactAtom (
       description)
 {}
 
-xml2lyOahContactAtom::~xml2lyOahContactAtom ()
+xml2lyContactOahAtom::~xml2lyContactOahAtom ()
 {}
 
-S_oahValuedAtom xml2lyOahContactAtom::handleOptionUnderName (
+S_oahValuedAtom xml2lyContactOahAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
@@ -395,25 +395,25 @@ S_oahValuedAtom xml2lyOahContactAtom::handleOptionUnderName (
   return nullptr;
 }
 
-void xml2lyOahContactAtom::acceptIn (basevisitor* v)
+void xml2lyContactOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahContactAtom::acceptIn ()" <<
+      "% ==> xml2lyContactOahAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_xml2lyOahContactAtom>*
+  if (visitor<S_xml2lyContactOahAtom>*
     p =
-      dynamic_cast<visitor<S_xml2lyOahContactAtom>*> (v)) {
-        S_xml2lyOahContactAtom elem = this;
+      dynamic_cast<visitor<S_xml2lyContactOahAtom>*> (v)) {
+        S_xml2lyContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2lyOahContactAtom::visitStart ()" <<
+            "% ==> Launching xml2lyContactOahAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -421,25 +421,25 @@ void xml2lyOahContactAtom::acceptIn (basevisitor* v)
   }
 }
 
-void xml2lyOahContactAtom::acceptOut (basevisitor* v)
+void xml2lyContactOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahContactAtom::acceptOut ()" <<
+      "% ==> xml2lyContactOahAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_xml2lyOahContactAtom>*
+  if (visitor<S_xml2lyContactOahAtom>*
     p =
-      dynamic_cast<visitor<S_xml2lyOahContactAtom>*> (v)) {
-        S_xml2lyOahContactAtom elem = this;
+      dynamic_cast<visitor<S_xml2lyContactOahAtom>*> (v)) {
+        S_xml2lyContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2lyOahContactAtom::visitEnd ()" <<
+            "% ==> Launching xml2lyContactOahAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -447,23 +447,23 @@ void xml2lyOahContactAtom::acceptOut (basevisitor* v)
   }
 }
 
-void xml2lyOahContactAtom::browseData (basevisitor* v)
+void xml2lyContactOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2lyOahContactAtom::browseData ()" <<
+      "% ==> xml2lyContactOahAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void xml2lyOahContactAtom::print (ostream& os) const
+void xml2lyContactOahAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "xml2lyOahContactAtom:" <<
+    "xml2lyContactOahAtom:" <<
     endl;
 
   gIndenter++;
@@ -481,7 +481,7 @@ void xml2lyOahContactAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void xml2lyOahContactAtom::printContact (ostream& os) const
+void xml2lyContactOahAtom::printContact (ostream& os) const
 {
   os <<
     endl <<
@@ -492,14 +492,14 @@ R"(To contact xml2ly maintainers:
     endl;
 }
 
-void xml2lyOahContactAtom::printAtomOptionsValues (
+void xml2lyContactOahAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_xml2lyOahContactAtom& elt)
+ostream& operator<< (ostream& os, const S_xml2lyContactOahAtom& elt)
 {
   elt->print (os);
   return os;
@@ -1076,28 +1076,28 @@ ostream& operator<< (ostream& os, const S_xml2lyOahHandler& elt)
 S_xml2lyOah gXml2lyOah;
 
 S_xml2lyOah xml2lyOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   xml2lyOah* o = new xml2lyOah (
-    handler);
+    handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
 xml2lyOah::xml2lyOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "xml2ly",
     "hxl", "help-xml2ly",
 R"(Options that are used by xml2ly are grouped here.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this options group to the options handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -1129,7 +1129,7 @@ R"()",
 
     versionSubGroup->
       appendAtom (
-        xml2lyOahVersionAtom::create (
+        xml2lyVersionOahAtom::create (
           "v", "version",
 R"(Display xml2ly's version number and history and exit.)"));
   }
@@ -1154,7 +1154,7 @@ R"()",
 
     aboutSubGroup->
       appendAtom (
-        xml2lyOahAboutAtom::create (
+        xml2lyAboutOahAtom::create (
           "a", "about",
 R"(Display information about xml2ly and exit.)"));
   }
@@ -1179,7 +1179,7 @@ R"()",
 
     contactSubGroup->
       appendAtom (
-        xml2lyOahContactAtom::create (
+        xml2lyContactOahAtom::create (
           "c", "contact",
 R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   }

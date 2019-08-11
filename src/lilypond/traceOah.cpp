@@ -29,17 +29,17 @@ S_traceOah gTraceOah;
 S_traceOah gTraceOahUserChoices;
 
 S_traceOah traceOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   traceOah* o = new traceOah (
-    handler);
+    handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
 traceOah::traceOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "Trace",
     "ht", "help-trace",
@@ -48,11 +48,11 @@ They're provided as a help to the maintainers, as well as for the curious.
 The options in this group can be quite verbose, use with small input data!
 All of them imply '-tpasses, -trace-passes'.)",
     kElementVisibilityHiddenByDefault,
-    handler)
+    handlerUpLink)
 {
   // append this options group to the options handler if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -1445,6 +1445,7 @@ void traceOah::initializeTraceOah (
 
 S_traceOah traceOah::createCloneWithTrueValues ()
 {
+/* JMI
   S_traceOah
     clone =
       traceOah::create (0);
@@ -1662,15 +1663,16 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   // extra chords
   clone->fTraceExtraChords = true;
 
-/* JMI
+/ * JMI
   // msrStreams
   clone->fTraceMsrStreams = true;
-*/
+* /
 
   // midi
   clone->fTraceMidi = true;
 
   return clone;
+  */
 }
 
 /* JMI

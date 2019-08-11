@@ -1310,7 +1310,7 @@ void msrSegment::padUpToPositionInMeasureInSegment (
 
 void msrSegment::backupByWholeNotesStepLengthInSegment (
   int      inputLineNumber,
-  rational backupStepLength)
+  rational backupTargetPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (
@@ -1321,8 +1321,8 @@ void msrSegment::backupByWholeNotesStepLengthInSegment (
     gMusicXMLOah->fTraceBackup
   ) {
     gLogOstream <<
-      "Backing up by a '" <<
-      backupStepLength <<
+      "Backup by a '" <<
+      backupTargetPositionInMeasure <<
       "' whole notes step length in segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -1339,7 +1339,7 @@ void msrSegment::backupByWholeNotesStepLengthInSegment (
     fSegmentMeasuresList.back ()->
       backupByWholeNotesStepLengthInMeasure (
         inputLineNumber,
-        backupStepLength);
+        backupTargetPositionInMeasure);
   }
 }
 

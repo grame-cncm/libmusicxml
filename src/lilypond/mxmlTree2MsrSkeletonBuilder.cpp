@@ -3093,10 +3093,10 @@ void mxmlTree2MsrSkeletonBuilder::registerPart (
   }
 #endif
 
-  // register it parts vector
+  // register part in the parts vector
   fPartsVector.push_back (part);
 
-  // register it parts map
+  // register it in the parts map
   fPartsMap [part->getPartID ()] = part;
 
   // create an empty list for part groups starting at partPosition
@@ -3269,6 +3269,11 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
   // are there more staves in <staves/> that specified with <stave/>?
   fCurrentPart->
     addAVoiceToStavesThatHaveNone (
+      inputLineNumber);
+
+  // assign sequential numbers to the voices in the part
+  fCurrentPart->
+    assignSequentialNumbersToRegularVoicesInPart (
       inputLineNumber);
 }
 
@@ -3518,20 +3523,20 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
           inputLineNumber,
           fCurrentStaffMusicXMLNumber,
           1); // JMI see DTD fCurrentVoiceMusicXMLNumber);
-*/
 
     S_msrVoice
       firstStaffVoice =
         staff->
           fetchFirstRegularVoiceFromStaff (
             inputLineNumber);
+*/
 
     // should the harmony voice be created?
     S_msrVoice
       harmonyVoice =
         createHarmonyVoiceForVoiceIfNotYetDone (
           inputLineNumber,
-          firstStaffVoice);
+          noteVoice);
 
     fThereAreHarmoniesToBeAttachedToCurrentNote = false;
   }
@@ -3546,20 +3551,20 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
           inputLineNumber,
           fCurrentStaffMusicXMLNumber,
           1); // JMI see DTD fCurrentVoiceMusicXMLNumber);
-*/
 
     S_msrVoice
       firstStaffVoice =
         staff->
           fetchFirstRegularVoiceFromStaff (
             inputLineNumber);
+*/
 
     // should the figured bass voice be created?
     S_msrVoice
       figuredBassVoice =
         createFiguredBassVoiceForVoiceIfNotYetDone (
           inputLineNumber,
-          firstStaffVoice);
+          noteVoice);
 
     fThereAreFiguredBassToBeAttachedToCurrentNote = false;
   }

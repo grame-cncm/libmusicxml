@@ -35,9 +35,9 @@ class traceOah : public oahGroup
   public:
 
     static SMARTP<traceOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<traceOah>        createCloneWithTrueValues (); // JMI
+    SMARTP<traceOah>      createCloneWithTrueValues (); // JMI
 
   public:
 
@@ -101,7 +101,7 @@ class traceOah : public oahGroup
     // ------------------------------------------------------
 
     traceOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~traceOah ();
 

@@ -391,9 +391,9 @@ class lpsrOah : public oahGroup
   public:
 
     static SMARTP<lpsrOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<lpsrOah>        createCloneWithDetailedTrace ();
+    SMARTP<lpsrOah>       createCloneWithDetailedTrace ();
 
   public:
 
@@ -409,7 +409,7 @@ class lpsrOah : public oahGroup
     // ------------------------------------------------------
 
     lpsrOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~lpsrOah ();
 

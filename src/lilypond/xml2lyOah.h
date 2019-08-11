@@ -21,14 +21,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class xml2lyOahVersionAtom : public oahAtom
+class xml2lyVersionOahAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyOahVersionAtom> create (
+    static SMARTP<xml2lyVersionOahAtom> create (
       string shortName,
       string longName,
       string description);
@@ -38,12 +38,12 @@ class xml2lyOahVersionAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOahVersionAtom (
+    xml2lyVersionOahAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~xml2lyOahVersionAtom ();
+    virtual ~xml2lyVersionOahAtom ();
 
   public:
 
@@ -85,18 +85,18 @@ class xml2lyOahVersionAtom : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyOahVersionAtom> S_xml2lyOahVersionAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOahVersionAtom& elt);
+typedef SMARTP<xml2lyVersionOahAtom> S_xml2lyVersionOahAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2lyVersionOahAtom& elt);
 
 //______________________________________________________________________________
-class xml2lyOahAboutAtom : public oahAtom
+class xml2lyAboutOahAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyOahAboutAtom> create (
+    static SMARTP<xml2lyAboutOahAtom> create (
       string shortName,
       string longName,
       string description);
@@ -106,12 +106,12 @@ class xml2lyOahAboutAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOahAboutAtom (
+    xml2lyAboutOahAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~xml2lyOahAboutAtom ();
+    virtual ~xml2lyAboutOahAtom ();
 
   public:
 
@@ -153,18 +153,18 @@ class xml2lyOahAboutAtom : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyOahAboutAtom> S_xml2lyOahAboutAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOahAboutAtom& elt);
+typedef SMARTP<xml2lyAboutOahAtom> S_xml2lyAboutOahAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2lyAboutOahAtom& elt);
 
 //______________________________________________________________________________
-class xml2lyOahContactAtom : public oahAtom
+class xml2lyContactOahAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyOahContactAtom> create (
+    static SMARTP<xml2lyContactOahAtom> create (
       string shortName,
       string longName,
       string description);
@@ -174,12 +174,12 @@ class xml2lyOahContactAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOahContactAtom (
+    xml2lyContactOahAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~xml2lyOahContactAtom ();
+    virtual ~xml2lyContactOahAtom ();
 
   public:
 
@@ -221,8 +221,8 @@ class xml2lyOahContactAtom : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyOahContactAtom> S_xml2lyOahContactAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOahContactAtom& elt);
+typedef SMARTP<xml2lyContactOahAtom> S_xml2lyContactOahAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2lyContactOahAtom& elt);
 
 //_______________________________________________________________________________
 class EXP xml2lyOahHandler : public oahHandler
@@ -300,7 +300,7 @@ class xml2lyOah : public oahGroup
   public:
 
     static SMARTP<xml2lyOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
   public:
 
@@ -315,7 +315,7 @@ class xml2lyOah : public oahGroup
     // ------------------------------------------------------
 
     xml2lyOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~xml2lyOah ();
 

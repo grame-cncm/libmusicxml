@@ -78,7 +78,10 @@ Features:
   - a class such as optionsLpsrPitchesLanguageOption is used
     to supply a string value to be converted into an internal enumerated type.
 
-  - oahCombinedBooleansAtom contains a list of atoms to manipulate several atoms as a single one,
+  - oahCombinedBooleansAtom contains a list of boolean atoms to manipulate several such atoms as a single one,
+    see the 'cubase' combined booleans atom in musicXMLOah.cpp.
+
+  - oahPrefixedBooleansAtom contains a list of boolean atoms sharing a common prefix to display such atoms in a compact manner,
     see the 'cubase' combined booleans atom in musicXMLOah.cpp.
 
   - storing options and the corresponding help in oahGroup's makes it easy to re-use them.
@@ -2089,6 +2092,655 @@ void oahCombinedBooleansAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_oahCombinedBooleansAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahPrefix oahPrefix::create (
+  string prefixName,
+  string prefixErsatz,
+  string prefixDescription)
+{
+  oahPrefix* o = new
+    oahPrefix (
+      prefixName,
+      prefixErsatz,
+      prefixDescription);
+  assert(o!=0);
+  return o;
+}
+
+oahPrefix::oahPrefix (
+  string prefixName,
+  string prefixErsatz,
+  string prefixDescription)
+{
+  fPrefixName        = prefixName;
+  fPrefixErsatz      = prefixErsatz;
+  fPrefixDescription = prefixDescription;
+}
+
+oahPrefix::~oahPrefix ()
+{}
+
+/* JMI
+S_oahPrefix oahPrefix::fetchOptionByName (
+  string name)
+{
+  S_oahPrefix result;
+
+  if (name == fPrefixName) {
+    result = this;
+  }
+
+  return result;
+}
+*/
+
+void oahPrefix::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefix::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahPrefix>*
+    p =
+      dynamic_cast<visitor<S_oahPrefix>*> (v)) {
+        S_oahPrefix elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahPrefix::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahPrefix::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefix::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahPrefix>*
+    p =
+      dynamic_cast<visitor<S_oahPrefix>*> (v)) {
+        S_oahPrefix elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahPrefix::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahPrefix::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefix::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahPrefix::prefixNames () const
+{
+  stringstream s;
+
+  if (fPrefixName.size ()) {
+      s <<
+        "-" << fPrefixName;
+  }
+
+  return s.str ();
+}
+
+string oahPrefix::prefixNamesInColumns (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+
+  if (fPrefixName.size ()) {
+      s << left <<
+        setw (subGroupsShortNameFieldWidth) <<
+        "-" + fPrefixName;
+  }
+
+  return s.str ();
+}
+
+string oahPrefix::prefixNamesBetweenParentheses () const
+{
+  stringstream s;
+
+  s <<
+    "(" <<
+    prefixNames () <<
+    ")";
+
+  return s.str ();
+}
+
+string oahPrefix::prefixNamesInColumnsBetweenParentheses (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+
+  s <<
+    "(" <<
+    prefixNamesInColumns (
+      subGroupsShortNameFieldWidth) <<
+    ")";
+
+  return s.str ();
+}
+
+void oahPrefix::printPrefixHeader (ostream& os) const
+{
+  os <<
+    "'" << fPrefixName <<
+    "' translates to '" << fPrefixErsatz <<
+    "':" <<
+    endl;
+
+  if (fPrefixDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter++;
+
+    os <<
+      gIndenter.indentMultiLineString (
+        fPrefixDescription) <<
+      endl;
+
+    gIndenter--;
+  }
+}
+
+void oahPrefix::printPrefixEssentials (
+  ostream& os,
+  int      fieldWidth) const
+{
+  os << left <<
+    setw (fieldWidth) <<
+    "prefixName" << " : " <<
+    fPrefixName <<
+    endl <<
+    setw (fieldWidth) <<
+    "prefixErsatz" << " : " <<
+    fPrefixErsatz <<
+    endl <<
+    setw (fieldWidth) <<
+    "prefixDescription" << " : " <<
+    fPrefixDescription <<
+    endl;
+}
+
+void oahPrefix::print (ostream& os) const
+{
+  os <<
+    "??? oahPrefix ???" <<
+    endl;
+
+  printPrefixEssentials (os, 40); // JMI
+}
+
+void oahPrefix::printHelp (ostream& os)
+{
+  os <<
+    prefixNames () <<
+    endl;
+
+  if (fPrefixErsatz.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+
+    os <<
+      gIndenter.indentMultiLineString (
+        fPrefixErsatz) <<
+      endl;
+
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+
+  if (fPrefixDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+
+    os <<
+      gIndenter.indentMultiLineString (
+        fPrefixDescription) <<
+      endl;
+
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+
+  // register help print action in options handler upLink
+//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+}
+
+ostream& operator<< (ostream& os, const S_oahPrefix& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahPrefixedBooleansAtom oahPrefixedBooleansAtom::create (
+  string      shortName,
+  string      longName,
+  string      description,
+  S_oahPrefix prefix)
+{
+  oahPrefixedBooleansAtom* o = new
+    oahPrefixedBooleansAtom (
+      shortName,
+      longName,
+      description,
+      prefix);
+  assert(o!=0);
+  return o;
+}
+
+oahPrefixedBooleansAtom::oahPrefixedBooleansAtom (
+  string      shortName,
+  string      longName,
+  string      description,
+  S_oahPrefix prefix)
+  : oahAtom (
+      shortName,
+      longName,
+      description),
+    fPrefix (
+      prefix)
+{}
+
+oahPrefixedBooleansAtom::~oahPrefixedBooleansAtom ()
+{}
+
+void oahPrefixedBooleansAtom::addBooleanAtom (
+  S_oahBooleanAtom booleanAtom)
+{
+  // sanity check
+  msrAssert (
+    booleanAtom != nullptr,
+    "booleanAtom is null");
+
+  fBooleanAtomsList.push_back (
+    booleanAtom);
+}
+
+void oahPrefixedBooleansAtom::addBooleanAtomByName (
+  string name)
+{
+  // get the options handler
+  S_oahHandler
+    handler =
+      getSubGroupUpLink ()->
+        getGroupUpLink ()->
+          getHandlerUpLink ();
+
+  // sanity check
+  msrAssert (
+    handler != nullptr,
+    "handler is null");
+
+  // is name known in options map?
+  S_oahElement
+    element =
+      handler->
+        fetchElementFromMap (name);
+
+  if (! element) {
+    // no, name is unknown in the map
+    handler->
+      printOptionsSummary ();
+
+    stringstream s;
+
+    s <<
+      "INTERNAL ERROR: option name '" << name <<
+      "' is unknown";
+
+    oahError (s.str ());
+  }
+
+  else {
+    // name is known, let's handle it
+
+    if (
+      // boolean atom?
+      S_oahBooleanAtom
+        atom =
+          dynamic_cast<oahBooleanAtom*>(&(*element))
+      ) {
+      // handle the atom
+      fBooleanAtomsList.push_back (atom);
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "option name '" << name <<
+        "' is not that of an atom";
+
+      oahError (s.str ());
+
+      exit (2);
+    }
+  }
+}
+
+S_oahValuedAtom oahPrefixedBooleansAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once JMI ???
+
+  // no option value is needed
+  return nullptr;
+}
+
+void oahPrefixedBooleansAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefixedBooleansAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahPrefixedBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahPrefixedBooleansAtom>*> (v)) {
+        S_oahPrefixedBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahPrefixedBooleansAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahPrefixedBooleansAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefixedBooleansAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahPrefixedBooleansAtom>*
+    p =
+      dynamic_cast<visitor<S_oahPrefixedBooleansAtom>*> (v)) {
+        S_oahPrefixedBooleansAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahPrefixedBooleansAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahPrefixedBooleansAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahPrefixedBooleansAtom::browseData ()" <<
+      endl;
+  }
+#endif
+
+  if (fPrefix) {
+    // browse the prefix
+    oahBrowser<oahPrefix> browser (v);
+    browser.browse (*(fPrefix));
+  }
+
+  // browse the boolean atoms
+  if (fBooleanAtomsList.size ()) {
+    for (
+      list<S_oahBooleanAtom>::const_iterator i = fBooleanAtomsList.begin ();
+      i != fBooleanAtomsList.end ();
+      i++
+    ) {
+      S_oahBooleanAtom booleanAtom = (*i);
+
+      // browse the boolean atom
+      oahBrowser<oahBooleanAtom> browser (v);
+      browser.browse (*(booleanAtom));
+    } // for
+  }
+}
+
+void oahPrefixedBooleansAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "PrefixedBooleansAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printOptionEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "prefix" << " : ";
+  if (fPrefix) {
+    os <<
+      fPrefix;
+  }
+  else {
+    os << "null" << endl;
+  }
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fBooleanAtomsList" << " : ";
+
+  if (! fBooleanAtomsList.size ()) {
+    os <<
+      "none";
+  }
+
+  else {
+    os << endl;
+
+    gIndenter++;
+
+    os << "'";
+
+    list<S_oahBooleanAtom>::const_iterator
+      iBegin = fBooleanAtomsList.begin (),
+      iEnd   = fBooleanAtomsList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os << "'";
+
+    gIndenter--;
+  }
+
+  gIndenter--;
+
+  os << endl;
+}
+
+void oahPrefixedBooleansAtom::printHelp (ostream& os)
+{
+  os <<
+    fetchNames () <<
+    endl;
+
+  if (fDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+
+    os <<
+      gIndenter.indentMultiLineString (
+        fDescription) <<
+      endl;
+  }
+
+  string prefixName =
+    fPrefix->getPrefixName ();
+  string prefixErsatz =
+    fPrefix->getPrefixErsatz ();
+  string prefixDescription =
+    fPrefix->getPrefixDescription ();
+
+  os <<
+    "ELEMENTS can be one of: ";
+
+  if (! fBooleanAtomsList.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+
+  else {
+    list<S_oahBooleanAtom>::const_iterator
+      iBegin = fBooleanAtomsList.begin (),
+      iEnd   = fBooleanAtomsList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_oahBooleanAtom booleanAtom = (*i);
+
+      string shortName =
+        booleanAtom->
+          getShortName ();
+      string longName =
+        booleanAtom->
+          getLongName ();
+
+      string shortNameSuffix =
+        shortName.substr (prefixName.size ());
+      string longNameSuffix =
+        shortName.substr (prefixName.size ());
+
+      if (shortNameSuffix != longNameSuffix) {
+        stringstream s;
+
+        s <<
+          "shortNameSuffix '" << shortNameSuffix <<
+          "' and longNameSuffix '" << longNameSuffix <<
+          "' are different";
+
+        oahError (s.str ());
+        exit (4);
+      }
+
+      os <<
+        shortNameSuffix;
+
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        os << " and ";
+      }
+      else {
+        os << ", ";
+      }
+    } // for
+
+    os << "." << endl;
+  }
+
+  if (fDescription.size ()) { // ??? JMI
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+
+  // register help print action in options handler upLink
+//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+}
+
+void oahPrefixedBooleansAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  int fieldWidth =
+    valueFieldWidth - gIndenter.getIndent () + 1;
+
+  gIndenter++; // only now
+
+  if (! fBooleanAtomsList.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+
+  else {
+    list<S_oahBooleanAtom>::const_iterator
+      iBegin = fBooleanAtomsList.begin (),
+      iEnd   = fBooleanAtomsList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_oahAtom
+        atom = (*i);
+
+      if (
+        // boolean atom?
+        S_oahBooleanAtom
+          booleanAtom =
+            dynamic_cast<oahBooleanAtom*>(&(*atom))
+        ) {
+        // print the boolean value
+        booleanAtom->
+          printAtomOptionsValues (
+            os, fieldWidth);
+      }
+
+      if (++i == iEnd) break;
+
+  // JMI    os << endl;
+    } // for
+  }
+
+  gIndenter--;
+
+}
+
+ostream& operator<< (ostream& os, const S_oahPrefixedBooleansAtom& elt)
 {
   elt->print (os);
   return os;
@@ -5938,252 +6590,6 @@ void oahGroup::printGroupOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_oahGroup& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_oahPrefix oahPrefix::create (
-  string prefixName,
-  string prefixErsatz,
-  string prefixDescription)
-{
-  oahPrefix* o = new
-    oahPrefix (
-      prefixName,
-      prefixErsatz,
-      prefixDescription);
-  assert(o!=0);
-  return o;
-}
-
-oahPrefix::oahPrefix (
-  string prefixName,
-  string prefixErsatz,
-  string prefixDescription)
-{
-  fPrefixName        = prefixName;
-  fPrefixErsatz      = prefixErsatz;
-  fPrefixDescription = prefixDescription;
-}
-
-oahPrefix::~oahPrefix ()
-{}
-
-/* JMI
-S_oahPrefix oahPrefix::fetchOptionByName (
-  string name)
-{
-  S_oahPrefix result;
-
-  if (name == fPrefixName) {
-    result = this;
-  }
-
-  return result;
-}
-*/
-
-void oahPrefix::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahPrefix::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahPrefix>*
-    p =
-      dynamic_cast<visitor<S_oahPrefix>*> (v)) {
-        S_oahPrefix elem = this;
-
-#ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching oahPrefix::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahPrefix::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahPrefix::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahPrefix>*
-    p =
-      dynamic_cast<visitor<S_oahPrefix>*> (v)) {
-        S_oahPrefix elem = this;
-
-#ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching oahPrefix::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahPrefix::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahPrefix::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string oahPrefix::prefixNames () const
-{
-  stringstream s;
-
-  if (fPrefixName.size ()) {
-      s <<
-        "-" << fPrefixName;
-  }
-
-  return s.str ();
-}
-
-string oahPrefix::prefixNamesInColumns (
-  int subGroupsShortNameFieldWidth) const
-{
-  stringstream s;
-
-  if (fPrefixName.size ()) {
-      s << left <<
-        setw (subGroupsShortNameFieldWidth) <<
-        "-" + fPrefixName;
-  }
-
-  return s.str ();
-}
-
-string oahPrefix::prefixNamesBetweenParentheses () const
-{
-  stringstream s;
-
-  s <<
-    "(" <<
-    prefixNames () <<
-    ")";
-
-  return s.str ();
-}
-
-string oahPrefix::prefixNamesInColumnsBetweenParentheses (
-  int subGroupsShortNameFieldWidth) const
-{
-  stringstream s;
-
-  s <<
-    "(" <<
-    prefixNamesInColumns (
-      subGroupsShortNameFieldWidth) <<
-    ")";
-
-  return s.str ();
-}
-
-void oahPrefix::printPrefixHeader (ostream& os) const
-{
-  os <<
-    "'" << fPrefixName <<
-    "' translates to '" << fPrefixErsatz <<
-    "':" <<
-    endl;
-
-  if (fPrefixDescription.size ()) {
-    // indent a bit more for readability
-    gIndenter++;
-
-    os <<
-      gIndenter.indentMultiLineString (
-        fPrefixDescription) <<
-      endl;
-
-    gIndenter--;
-  }
-}
-
-void oahPrefix::printPrefixEssentials (
-  ostream& os,
-  int      fieldWidth) const
-{
-  os << left <<
-    setw (fieldWidth) <<
-    "prefixName" << " : " <<
-    fPrefixName <<
-    endl <<
-    setw (fieldWidth) <<
-    "prefixErsatz" << " : " <<
-    fPrefixErsatz <<
-    endl <<
-    setw (fieldWidth) <<
-    "prefixDescription" << " : " <<
-    fPrefixDescription <<
-    endl;
-}
-
-void oahPrefix::print (ostream& os) const
-{
-  os <<
-    "??? oahPrefix ???" <<
-    endl;
-
-  printPrefixEssentials (os, 40); // JMI
-}
-
-void oahPrefix::printHelp (ostream& os)
-{
-  os <<
-    prefixNames () <<
-    endl;
-
-  if (fPrefixErsatz.size ()) {
-    // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-
-    os <<
-      gIndenter.indentMultiLineString (
-        fPrefixErsatz) <<
-      endl;
-
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-  }
-
-  if (fPrefixDescription.size ()) {
-    // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-
-    os <<
-      gIndenter.indentMultiLineString (
-        fPrefixDescription) <<
-      endl;
-
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-  }
-
-  // register help print action in options handler upLink
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
-}
-
-ostream& operator<< (ostream& os, const S_oahPrefix& elt)
 {
   elt->print (os);
   return os;

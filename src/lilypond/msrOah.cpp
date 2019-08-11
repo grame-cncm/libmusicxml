@@ -974,27 +974,27 @@ S_msrOah gMsrOahUserChoices;
 S_msrOah gMsrOahWithDetailedTrace;
 
 S_msrOah msrOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   msrOah* o = new msrOah(
-    handler);
+    handlerUpLink);
   assert(o!=0);
   return o;
 }
 
 msrOah::msrOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "MSR",
     "hmsr", "help-msr",
 R"(These options control the way MSR data is handled.)",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this options group to the options handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -1642,6 +1642,7 @@ void msrOah::initializeMsrOah (
 
 S_msrOah msrOah::createCloneWithDetailedTrace ()
 {
+/* JMI
   S_msrOah
     clone =
       msrOah::create (0);
@@ -1751,6 +1752,7 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
     fShowFiguredBassVoices;
 
   return clone;
+  */
 }
 
 //______________________________________________________________________________
@@ -2184,9 +2186,11 @@ void initializeMsrOahHandling (
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
+/* JMI
   gMsrOahWithDetailedTrace =
     gMsrOah->
       createCloneWithDetailedTrace ();
+      */
 }
 
 

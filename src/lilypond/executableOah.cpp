@@ -31,11 +31,11 @@ S_executableOah gExecutableOahUserChoices;
 
 S_executableOah executableOah::create (
   string       executableName,
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   executableOah* o = new executableOah (
     executableName,
-    handler);
+    handlerUpLink);
   assert(o!=0);
 
   return o;
@@ -43,19 +43,19 @@ S_executableOah executableOah::create (
 
 executableOah::executableOah (
   string       executableName,
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "Basic",
     "hb", "help-basic",
 R"()",
     kElementVisibilityAlways,
-    handler),
+    handlerUpLink),
     fHandlerExecutableName (executableName)
 {
   // append this options group to the options handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -256,6 +256,7 @@ void executableOah::initializeExecutableOah (
 
 S_executableOah executableOah::createCloneWithTrueValues ()
 {
+/* JMI
   S_executableOah
     clone =
       executableOah::create (
@@ -300,6 +301,7 @@ S_executableOah executableOah::createCloneWithTrueValues ()
 #endif
 
   return clone;
+  */
 }
 
 //______________________________________________________________________________

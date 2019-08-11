@@ -310,7 +310,7 @@ class msrOah : public oahGroup
   public:
 
     static SMARTP<msrOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     SMARTP<msrOah>        createCloneWithDetailedTrace ();
 
@@ -328,7 +328,7 @@ class msrOah : public oahGroup
     // ------------------------------------------------------
 
     msrOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~msrOah ();
 

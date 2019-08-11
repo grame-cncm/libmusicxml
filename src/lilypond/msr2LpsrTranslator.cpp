@@ -294,13 +294,13 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
     i++
   ) {
     list<S_msrVoice>
-      staffAllVoicesList =
+      staffAllVoicesVector =
         (*i).second->
-          getStaffAllVoicesList ();
+          getStaffAllVoicesVector ();
 
     for (
-      list<S_msrVoice>::const_iterator j=staffAllVoicesList.begin ();
-      j!=staffAllVoicesList.end ();
+      list<S_msrVoice>::const_iterator j=staffAllVoicesVector.begin ();
+      j!=staffAllVoicesVector.end ();
       j++
     ) {
       S_msrVoice voice = (*j);

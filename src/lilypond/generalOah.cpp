@@ -30,28 +30,28 @@ S_generalOah gGeneralOah;
 S_generalOah gGeneralOahUserChoices;
 
 S_generalOah generalOah::create (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
 {
   generalOah* o = new generalOah (
-    handler);
+    handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
 generalOah::generalOah (
-  S_oahHandler handler)
+  S_oahHandler handlerUpLink)
   : oahGroup (
     "General",
     "hg", "help-general",
 R"()",
     kElementVisibilityAlways,
-    handler)
+    handlerUpLink)
 {
   // append this options group to the options handler
   // if relevant
-  if (handler) {
-    handler->
+  if (handlerUpLink) {
+    handlerUpLink->
       appendGroupToHandler (this);
   }
 
@@ -192,6 +192,7 @@ void generalOah::initializeGeneralOah (
 
 S_generalOah generalOah::createCloneWithTrueValues ()
 {
+/* JMI
   S_generalOah
     clone =
       generalOah::create (
@@ -220,6 +221,7 @@ S_generalOah generalOah::createCloneWithTrueValues ()
   clone->fDisplayCPUusage = true;
 
   return clone;
+  */
 }
 
   /* JMI

@@ -208,7 +208,7 @@ class bsrOah : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<bsrOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     SMARTP<bsrOah>        createCloneWithDetailedTrace ();
 
@@ -226,7 +226,7 @@ class bsrOah : public oahGroup
     // ------------------------------------------------------
 
     bsrOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~bsrOah ();
 

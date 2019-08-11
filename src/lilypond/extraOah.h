@@ -362,9 +362,9 @@ class extraOah : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<extraOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<extraOah>        createCloneWithDetailedTrace ();
+    SMARTP<extraOah>      createCloneWithDetailedTrace ();
 
   private:
 
@@ -380,7 +380,7 @@ class extraOah : public oahGroup
     // ------------------------------------------------------
 
     extraOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~extraOah ();
 

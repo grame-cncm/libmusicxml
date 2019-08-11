@@ -29,9 +29,9 @@ class musicXMLOah : public oahGroup
     // ------------------------------------------------------
 
     static SMARTP<musicXMLOah> create (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
-    SMARTP<musicXMLOah>        createCloneWithDetailedTrace ();
+    SMARTP<musicXMLOah>   createCloneWithDetailedTrace ();
 
   private:
 
@@ -47,7 +47,7 @@ class musicXMLOah : public oahGroup
     // ------------------------------------------------------
 
     musicXMLOah (
-      S_oahHandler handler);
+      S_oahHandler handlerUpLink);
 
     virtual ~musicXMLOah ();
 
