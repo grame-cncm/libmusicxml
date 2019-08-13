@@ -661,7 +661,7 @@ class oahBooleanAtom : public oahAtomWithVariableName
                             ostream& os,
                             int      valueFieldWidth) const;
 
-  private:
+  protected:
 
     // fields
     // ------------------------------------------------------
@@ -672,7 +672,7 @@ typedef SMARTP<oahBooleanAtom> S_oahBooleanAtom;
 EXP ostream& operator<< (ostream& os, const S_oahBooleanAtom& elt);
 
 //______________________________________________________________________________
-class oahTwoBooleansAtom : public oahAtomWithVariableName
+class oahTwoBooleansAtom : public oahBooleanAtom
 {
   public:
 
@@ -751,15 +751,13 @@ class oahTwoBooleansAtom : public oahAtomWithVariableName
     // fields
     // ------------------------------------------------------
 
-    bool&                 fBooleanVariable;
-
     bool&                 fBooleanSecondaryVariable;
 };
 typedef SMARTP<oahTwoBooleansAtom> S_oahTwoBooleansAtom;
 EXP ostream& operator<< (ostream& os, const S_oahTwoBooleansAtom& elt);
 
 //______________________________________________________________________________
-class oahThreeBooleansAtom : public oahAtomWithVariableName
+class oahThreeBooleansAtom : public oahBooleanAtom
 {
   public:
 
@@ -841,8 +839,6 @@ class oahThreeBooleansAtom : public oahAtomWithVariableName
 
     // fields
     // ------------------------------------------------------
-
-    bool&                 fBooleanVariable;
 
     bool&                 fBooleanSecondaryVariable;
     bool&                 fBooleanTertiaryVariable;
@@ -1046,29 +1042,33 @@ to be developped into :
 EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
 //______________________________________________________________________________
-class oahPrefixedBooleansAtom : public oahAtom
+class oahMultiplexBooleansAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahPrefixedBooleansAtom> create (
+    static SMARTP<oahMultiplexBooleansAtom> create (
       string      description,
-      string      suffixName,
-      S_oahPrefix prefix);
+      string      shortSuffixDescriptor,
+      string      longSuffixDescriptor,
+      S_oahPrefix shortNamesPrefix,
+      S_oahPrefix longNamesPrefix);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahPrefixedBooleansAtom (
+    oahMultiplexBooleansAtom (
       string      description,
-      string      suffixName,
-      S_oahPrefix prefix);
+      string      shortSuffixDescriptor,
+      string      longSuffixDescriptor,
+      S_oahPrefix shortNamesPrefix,
+      S_oahPrefix longNamesPrefix);
 
-    virtual ~oahPrefixedBooleansAtom ();
+    virtual ~oahMultiplexBooleansAtom ();
 
   public:
 
@@ -1120,15 +1120,23 @@ class oahPrefixedBooleansAtom : public oahAtom
     // fields
     // ------------------------------------------------------
 
-    S_oahPrefix           fPrefix;
+    S_oahPrefix           fShortNamesPrefix;
+    S_oahPrefix           fLongNamesPrefix;
 
-    string                fSuffixName;
+    string                fShortSuffixDescriptor;
+    string                fLongSuffixDescriptor;
 
     list<S_oahBooleanAtom>
                           fBooleanAtomsList;
+
+    string                fShortNamesPrefixName;
+    string                fLongNamesPrefixName;
+
+    list<string>          fShortNamesSuffixes;
+    list<string>          fLongNamesSuffixes;
 };
-typedef SMARTP<oahPrefixedBooleansAtom> S_oahPrefixedBooleansAtom;
-EXP ostream& operator<< (ostream& os, const S_oahPrefixedBooleansAtom& elt);
+typedef SMARTP<oahMultiplexBooleansAtom> S_oahMultiplexBooleansAtom;
+EXP ostream& operator<< (ostream& os, const S_oahMultiplexBooleansAtom& elt);
 
 //______________________________________________________________________________
 class oahValuedAtom : public oahAtomWithVariableName
@@ -2183,7 +2191,7 @@ class oahSubGroup : public oahElement
     void                  appendAtom (
                             S_oahAtom oahAtom);
 
-    S_oahElement           fetchOptionByName (
+    S_oahElement          fetchOptionByName (
                             string name);
 
     S_oahValuedAtom       handleOptionUnderName (
@@ -2308,7 +2316,7 @@ class oahGroup : public oahElement
     void                  appendSubGroup (
                             S_oahSubGroup subGroup);
 
-    S_oahElement           fetchOptionByName (
+    S_oahElement          fetchOptionByName (
                             string name);
 
     virtual void          handleAtomValue (
@@ -2474,6 +2482,9 @@ class EXP oahHandler : public oahElement
     void                  appendPrefixToHandler (
                             S_oahPrefix prefix);
 
+    S_oahPrefix           fetchPrefixInMapByItsName (
+                            string prefixName);
+
     void                  appendGroupToHandler (
                             S_oahGroup oahGroup);
 
@@ -2485,7 +2496,7 @@ class EXP oahHandler : public oahElement
     S_oahPrefix           fetchPrefixFromMap (
                             string name) const;
 
-    S_oahElement           fetchElementFromMap (
+    S_oahElement          fetchElementFromMap (
                             string name) const;
 
     const vector<string>  decipherOptionsAndArguments (

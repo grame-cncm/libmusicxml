@@ -81,7 +81,7 @@ Features:
   - oahCombinedBooleansAtom contains a list of boolean atoms to manipulate several such atoms as a single one,
     see the 'cubase' combined booleans atom in musicXMLOah.cpp.
 
-  - oahPrefixedBooleansAtom contains a list of boolean atoms sharing a common prefix to display such atoms in a compact manner,
+  - oahMultiplexBooleansAtom contains a list of boolean atoms sharing a common prefix to display such atoms in a compact manner,
     see the 'cubase' combined booleans atom in musicXMLOah.cpp.
 
   - storing options and the corresponding help in oahGroup's makes it easy to re-use them.
@@ -1387,12 +1387,11 @@ oahTwoBooleansAtom::oahTwoBooleansAtom (
   string variableName,
   bool&  booleanVariable,
   bool&  booleanSecondaryVariable)
-  : oahAtomWithVariableName (
+  : oahBooleanAtom (
       shortName,
       longName,
       description,
-      variableName),
-    fBooleanVariable (
+      variableName,
       booleanVariable),
     fBooleanSecondaryVariable (
       booleanSecondaryVariable)
@@ -1503,6 +1502,9 @@ void oahTwoBooleansAtom::print (ostream& os) const
     "fBooleanVariable" << " : " <<
     booleanAsString (
       fBooleanVariable) <<
+    "fBooleanSecondaryVariable" << " : " <<
+    booleanAsString (
+      fBooleanSecondaryVariable) <<
     endl;
 
   gIndenter--;
@@ -1558,12 +1560,11 @@ oahThreeBooleansAtom::oahThreeBooleansAtom (
   bool&  booleanVariable,
   bool&  booleanSecondaryVariable,
   bool&  booleanTertiaryVariable)
-  : oahAtomWithVariableName (
+  : oahBooleanAtom (
       shortName,
       longName,
       description,
-      variableName),
-    fBooleanVariable (
+      variableName,
       booleanVariable),
     fBooleanSecondaryVariable (
       booleanSecondaryVariable),
@@ -1677,6 +1678,12 @@ void oahThreeBooleansAtom::print (ostream& os) const
     "fBooleanVariable" << " : " <<
     booleanAsString (
       fBooleanVariable) <<
+    "fBooleanSecondaryVariable" << " : " <<
+    booleanAsString (
+      fBooleanSecondaryVariable) <<
+    "fBooleanTertiaryVariable" << " : " <<
+    booleanAsString (
+      fBooleanTertiaryVariable) <<
     endl;
 
   gIndenter--;
@@ -2344,38 +2351,64 @@ ostream& operator<< (ostream& os, const S_oahPrefix& elt)
 }
 
 //______________________________________________________________________________
-S_oahPrefixedBooleansAtom oahPrefixedBooleansAtom::create (
+S_oahMultiplexBooleansAtom oahMultiplexBooleansAtom::create (
   string      description,
-  string      suffixName,
-  S_oahPrefix prefix)
+  string      shortSuffixDescriptor,
+  string      longSuffixDescriptor,
+  S_oahPrefix shortNamesPrefix,
+  S_oahPrefix longNamesPrefix)
 {
-  oahPrefixedBooleansAtom* o = new
-    oahPrefixedBooleansAtom (
+  oahMultiplexBooleansAtom* o = new
+    oahMultiplexBooleansAtom (
       description,
-      suffixName,
-      prefix);
+      shortSuffixDescriptor,
+      longSuffixDescriptor,
+      shortNamesPrefix,
+      longNamesPrefix);
   assert(o!=0);
   return o;
 }
 
-oahPrefixedBooleansAtom::oahPrefixedBooleansAtom (
+oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
   string      description,
-  string      suffixName,
-  S_oahPrefix prefix)
+  string      shortSuffixDescriptor,
+  string      longSuffixDescriptor,
+  S_oahPrefix shortNamesPrefix,
+  S_oahPrefix longNamesPrefix)
   : oahAtom (
-      "unusedShortName", // shortName
-      "unusedLongName",  // longName
+      "unusedShortName_" + shortSuffixDescriptor + "_" + description,
+        // a unique shortName hopefully
+      "unusedLongName_" + longSuffixDescriptor + "_" + description,
+        // a unique longName hopefully
       description),
-    fSuffixName (
-      suffixName),
-    fPrefix (
-      prefix)
+    fShortSuffixDescriptor (
+      shortSuffixDescriptor),
+    fLongSuffixDescriptor (
+      longSuffixDescriptor),
+    fShortNamesPrefix (
+      shortNamesPrefix),
+    fLongNamesPrefix (
+      longNamesPrefix)
+{
+  // sanity checks
+  msrAssert (
+    fShortNamesPrefix != nullptr,
+    "fShortNamesPrefix is null");
+  msrAssert (
+    fLongNamesPrefix != nullptr,
+    "fLongNamesPrefix is null");
+
+  // get prefixes names
+  fShortNamesPrefixName =
+    fShortNamesPrefix->getPrefixName ();
+  fLongNamesPrefixName =
+    fLongNamesPrefix->getPrefixName ();
+}
+
+oahMultiplexBooleansAtom::~oahMultiplexBooleansAtom ()
 {}
 
-oahPrefixedBooleansAtom::~oahPrefixedBooleansAtom ()
-{}
-
-void oahPrefixedBooleansAtom::addBooleanAtom (
+void oahMultiplexBooleansAtom::addBooleanAtom (
   S_oahBooleanAtom booleanAtom)
 {
   // sanity check
@@ -2383,14 +2416,122 @@ void oahPrefixedBooleansAtom::addBooleanAtom (
     booleanAtom != nullptr,
     "booleanAtom is null");
 
+  // short name consistency check
+  {
+    string booleanAtomShortName =
+      booleanAtom->getShortName ();
+
+    std::size_t found =
+      booleanAtomShortName.find (fShortNamesPrefixName);
+
+    if (found == string::npos) {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option name '" << booleanAtomShortName <<
+        "' is different that the short names prefix name '" <<
+        fShortNamesPrefixName <<
+        "'";
+
+      oahError (s.str ());
+    }
+    else if (found != 0) {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option name '" << booleanAtomShortName <<
+        "' doesn't start by the short names prefix name '" <<
+        fShortNamesPrefixName <<
+        "'";
+
+      oahError (s.str ());
+    }
+    else {
+      string booleanAtomShortNameSuffix =
+        booleanAtomShortName.substr (
+          fShortNamesPrefixName.size ());
+
+      if (booleanAtomShortNameSuffix.size () == 0) {
+        stringstream s;
+
+        s <<
+          "INTERNAL ERROR: option name '" << booleanAtomShortName <<
+          "' is nothing more than the short names prefix name '" <<
+          fShortNamesPrefixName <<
+          "'";
+
+        oahError (s.str ());
+      }
+      else {
+        // register this boolean atom's suffix in the list
+        fShortNamesSuffixes.push_back (booleanAtomShortNameSuffix);
+      }
+    }
+  }
+
+  // long name consistency check
+  {
+
+    string booleanAtomLongName =
+      booleanAtom->getLongName ();
+
+    std::size_t found =
+      booleanAtomLongName.find (fLongNamesPrefixName);
+
+    if (found == string::npos) {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option name '" << booleanAtomLongName <<
+        "' is different that the long names prefix name '" <<
+        fLongNamesPrefixName <<
+        "'";
+
+      oahError (s.str ());
+    }
+    else if (found != 0) {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option name '" << booleanAtomLongName <<
+        "' doesn't start by the long names prefix name '" <<
+        fLongNamesPrefixName <<
+        "'";
+
+      oahError (s.str ());
+    }
+    else {
+      string booleanAtomLongNameSuffix =
+        booleanAtomLongName.substr (
+          fLongNamesPrefixName.size ());
+
+      if (booleanAtomLongNameSuffix.size () == 0) {
+        stringstream s;
+
+        s <<
+          "INTERNAL ERROR: option name '" << booleanAtomLongName <<
+          "' is nothing more than the long names prefix name '" <<
+          fLongNamesPrefixName <<
+          "'";
+
+        oahError (s.str ());
+      }
+      else {
+        // register this boolean atom's suffix in the list
+        fLongNamesSuffixes.push_back (booleanAtomLongNameSuffix);
+      }
+    }
+  }
+
+  // append the boolean atom to the list
   fBooleanAtomsList.push_back (
     booleanAtom);
 
-  // hide booleanAtom
+  // hide it
   booleanAtom->setIsHidden ();
 }
 
-void oahPrefixedBooleansAtom::addBooleanAtomByName (
+void oahMultiplexBooleansAtom::addBooleanAtomByName (
   string name)
 {
   // get the options handler
@@ -2434,8 +2575,8 @@ void oahPrefixedBooleansAtom::addBooleanAtomByName (
         atom =
           dynamic_cast<oahBooleanAtom*>(&(*element))
       ) {
-      // handle the atom
-      fBooleanAtomsList.push_back (atom);
+      // add the boolean atom
+      addBooleanAtom (atom);
     }
 
     else {
@@ -2452,7 +2593,7 @@ void oahPrefixedBooleansAtom::addBooleanAtomByName (
   }
 }
 
-S_oahValuedAtom oahPrefixedBooleansAtom::handleOptionUnderName (
+S_oahValuedAtom oahMultiplexBooleansAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
@@ -2462,25 +2603,25 @@ S_oahValuedAtom oahPrefixedBooleansAtom::handleOptionUnderName (
   return nullptr;
 }
 
-void oahPrefixedBooleansAtom::acceptIn (basevisitor* v)
+void oahMultiplexBooleansAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahPrefixedBooleansAtom::acceptIn ()" <<
+      "% ==> oahMultiplexBooleansAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahPrefixedBooleansAtom>*
+  if (visitor<S_oahMultiplexBooleansAtom>*
     p =
-      dynamic_cast<visitor<S_oahPrefixedBooleansAtom>*> (v)) {
-        S_oahPrefixedBooleansAtom elem = this;
+      dynamic_cast<visitor<S_oahMultiplexBooleansAtom>*> (v)) {
+        S_oahMultiplexBooleansAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahPrefixedBooleansAtom::visitStart ()" <<
+            "% ==> Launching oahMultiplexBooleansAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -2488,25 +2629,25 @@ void oahPrefixedBooleansAtom::acceptIn (basevisitor* v)
   }
 }
 
-void oahPrefixedBooleansAtom::acceptOut (basevisitor* v)
+void oahMultiplexBooleansAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahPrefixedBooleansAtom::acceptOut ()" <<
+      "% ==> oahMultiplexBooleansAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahPrefixedBooleansAtom>*
+  if (visitor<S_oahMultiplexBooleansAtom>*
     p =
-      dynamic_cast<visitor<S_oahPrefixedBooleansAtom>*> (v)) {
-        S_oahPrefixedBooleansAtom elem = this;
+      dynamic_cast<visitor<S_oahMultiplexBooleansAtom>*> (v)) {
+        S_oahMultiplexBooleansAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gExecutableOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahPrefixedBooleansAtom::visitEnd ()" <<
+            "% ==> Launching oahMultiplexBooleansAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -2514,20 +2655,26 @@ void oahPrefixedBooleansAtom::acceptOut (basevisitor* v)
   }
 }
 
-void oahPrefixedBooleansAtom::browseData (basevisitor* v)
+void oahMultiplexBooleansAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gExecutableOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahPrefixedBooleansAtom::browseData ()" <<
+      "% ==> oahMultiplexBooleansAtom::browseData ()" <<
       endl;
   }
 #endif
 
-  if (fPrefix) {
-    // browse the prefix
+  if (fShortNamesPrefix) {
+    // browse the short names prefix
     oahBrowser<oahPrefix> browser (v);
-    browser.browse (*(fPrefix));
+    browser.browse (*(fShortNamesPrefix));
+  }
+
+  if (fLongNamesPrefix) {
+    // browse the long names prefix
+    oahBrowser<oahPrefix> browser (v);
+    browser.browse (*(fLongNamesPrefix));
   }
 
   // browse the boolean atoms
@@ -2546,12 +2693,12 @@ void oahPrefixedBooleansAtom::browseData (basevisitor* v)
   }
 }
 
-void oahPrefixedBooleansAtom::print (ostream& os) const
+void oahMultiplexBooleansAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "PrefixedBooleansAtom:" <<
+    "MultiplexBooleansAtom:" <<
     endl;
 
   gIndenter++;
@@ -2560,14 +2707,28 @@ void oahPrefixedBooleansAtom::print (ostream& os) const
     os, fieldWidth);
 
   os << left <<
-    "suffixName" << " : " <<
-    fSuffixName <<
+    "shortSuffixDescriptor" << " : " <<
+    fShortSuffixDescriptor <<
     endl <<
+    "longSuffixDescriptor" << " : " <<
+    fLongSuffixDescriptor <<
+    endl;
+
+  os << left <<
     setw (fieldWidth) <<
-    "prefix" << " : ";
-  if (fPrefix) {
-    os <<
-      fPrefix;
+    "shortNamesPrefix" << " : ";
+  if (fShortNamesPrefix) {
+    os << fShortNamesPrefix;
+  }
+  else {
+    os << "null" << endl;
+  }
+
+  os << left <<
+    setw (fieldWidth) <<
+    "longNamesPrefix" << " : ";
+  if (fLongNamesPrefix) {
+    os << fLongNamesPrefix;
   }
   else {
     os << "null" << endl;
@@ -2578,8 +2739,7 @@ void oahPrefixedBooleansAtom::print (ostream& os) const
     "fBooleanAtomsList" << " : ";
 
   if (! fBooleanAtomsList.size ()) {
-    os <<
-      "none";
+    os << "none";
   }
 
   else {
@@ -2610,19 +2770,12 @@ void oahPrefixedBooleansAtom::print (ostream& os) const
   os << endl;
 }
 
-void oahPrefixedBooleansAtom::printHelp (ostream& os)
+void oahMultiplexBooleansAtom::printHelp (ostream& os)
 {
-  string prefixName =
-    fPrefix->getPrefixName ();
-  string prefixErsatz =
-    fPrefix->getPrefixErsatz ();
-  string prefixDescription =
-    fPrefix->getPrefixDescription ();
-
   os <<
-    "-" << prefixName << "<" << fSuffixName << ">" <<
+    "-" << fShortNamesPrefixName << "<" << fShortSuffixDescriptor << ">" <<
     ", " <<
-    "-" << prefixErsatz << "<" << fSuffixName << ">" <<
+    "-" << fLongNamesPrefixName << "<" << fLongSuffixDescriptor << ">" <<
     endl;
 
   if (fDescription.size ()) {
@@ -2636,51 +2789,22 @@ void oahPrefixedBooleansAtom::printHelp (ostream& os)
   }
 
   os <<
-    fSuffixName <<
+    fShortSuffixDescriptor <<
     " can be one of: ";
 
-  if (! fBooleanAtomsList.size ()) {
+  if (! fShortNamesSuffixes.size ()) {
     os <<
       "none" <<
       endl;
   }
-
   else {
-    list<S_oahBooleanAtom>::const_iterator
-      iBegin = fBooleanAtomsList.begin (),
-      iEnd   = fBooleanAtomsList.end (),
+    list<string>::const_iterator
+      iBegin = fShortNamesSuffixes.begin (),
+      iEnd   = fShortNamesSuffixes.end (),
       i      = iBegin;
 
     for ( ; ; ) {
-      S_oahBooleanAtom booleanAtom = (*i);
-
-      string shortName =
-        booleanAtom->
-          getShortName ();
-      string longName =
-        booleanAtom->
-          getLongName ();
-
-      string shortNameSuffix =
-        shortName.substr (prefixName.size ());
-      string longNameSuffix =
-        longName.substr (prefixErsatz.size ());
-
-      if (shortNameSuffix != longNameSuffix) {
-        stringstream s;
-
-        s <<
-          "shortNameSuffix '" << shortNameSuffix <<
-          "' and longNameSuffix '" << longNameSuffix <<
-          "' are different";
-
-        oahError (s.str ());
-        exit (4);
-      }
-
-      os <<
-        shortNameSuffix;
-
+      os << (*i);
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
         os << " and ";
@@ -2693,6 +2817,37 @@ void oahPrefixedBooleansAtom::printHelp (ostream& os)
     os << "." << endl;
   }
 
+  if (fLongSuffixDescriptor != fShortSuffixDescriptor) {
+    os <<
+      fLongSuffixDescriptor <<
+      " can be one of: ";
+
+    if (! fLongNamesSuffixes.size ()) {
+      os <<
+        "none" <<
+        endl;
+    }
+    else {
+      list<string>::const_iterator
+        iBegin = fLongNamesSuffixes.begin (),
+        iEnd   = fLongNamesSuffixes.end (),
+        i      = iBegin;
+
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        if (next (i) == iEnd) {
+          os << " and ";
+        }
+        else {
+          os << ", ";
+        }
+      } // for
+
+      os << "." << endl;
+    }
+  }
+
   if (fDescription.size ()) { // ??? JMI
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
@@ -2701,58 +2856,15 @@ void oahPrefixedBooleansAtom::printHelp (ostream& os)
 //  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
-void oahPrefixedBooleansAtom::printAtomOptionsValues (
+void oahMultiplexBooleansAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to do, these options values will be printed
   // by the boolean atoms in the list
-
-/* JMI
-  int fieldWidth =
-    valueFieldWidth - gIndenter.getIndent () + 1;
-
-  gIndenter++; // only now
-
-  if (! fBooleanAtomsList.size ()) {
-    os <<
-      "none" <<
-      endl;
-  }
-
-  else {
-    list<S_oahBooleanAtom>::const_iterator
-      iBegin = fBooleanAtomsList.begin (),
-      iEnd   = fBooleanAtomsList.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      S_oahAtom
-        atom = (*i);
-
-      if (
-        // boolean atom?
-        S_oahBooleanAtom
-          booleanAtom =
-            dynamic_cast<oahBooleanAtom*>(&(*atom))
-        ) {
-        // print the boolean value
-        booleanAtom->
-          printAtomOptionsValues (
-            os, fieldWidth);
-      }
-
-      if (++i == iEnd) break;
-
-  // JMI    os << endl;
-    } // for
-  }
-
-  gIndenter--;
-*/
 }
 
-ostream& operator<< (ostream& os, const S_oahPrefixedBooleansAtom& elt)
+ostream& operator<< (ostream& os, const S_oahMultiplexBooleansAtom& elt)
 {
   elt->print (os);
   return os;
@@ -7501,8 +7613,6 @@ void oahHandler::appendPrefixToHandler (
 
   string prefixName = prefix->getPrefixName ();
 
-  S_oahPrefix result;
-
   // is prefixName already known in options map?
   map<string, S_oahPrefix>::const_iterator
     it =
@@ -7524,6 +7634,25 @@ void oahHandler::appendPrefixToHandler (
   // register prefix in the options prefixes map
   fHandlerPrefixesMap [prefix->getPrefixName ()] =
     prefix;
+}
+
+S_oahPrefix oahHandler::fetchPrefixInMapByItsName (
+  string prefixName)
+{
+  S_oahPrefix result;
+
+  // is prefixName already known in options map?
+  map<string, S_oahPrefix>::const_iterator
+    it =
+      fHandlerPrefixesMap.find (
+        prefixName);
+
+  if (it != fHandlerPrefixesMap.end ()) {
+    // prefixName is already known in the map
+    result = (*it).second;
+  }
+
+  return result;
 }
 
 void oahHandler::appendGroupToHandler (
@@ -8103,6 +8232,18 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
       } // for
       gIndenter--;
     }
+  }
+#endif
+
+  // print the chosen options if so chosen
+  // ------------------------------------------------------
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fDisplayOahValues) {
+    printAllOahCommandLineValues (
+      gLogOstream);
+
+    gLogOstream << endl;
   }
 #endif
 

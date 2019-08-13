@@ -549,8 +549,6 @@ Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
     ios)
 {
-  initializeOptionsHandler (executableName);
-
   // append the help options prefixes
   S_oahPrefix
     helpPrefix =
@@ -584,6 +582,9 @@ Option '-h, -help' prints the full help,
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
+
+  // initialize the handler only now, since it may use prefixes
+  initializeOptionsHandler (executableName);
 }
 
 xml2brlOahHandler::~xml2brlOahHandler ()

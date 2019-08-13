@@ -540,9 +540,7 @@ Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
     ios)
 {
-  initializeOptionsHandler (executableName);
-
-  // append the help options prefixes
+  // create and append the help options prefixes
   S_oahPrefix
     helpPrefix =
       oahPrefix::create (
@@ -559,7 +557,7 @@ Option '-h, -help' prints the full help,
         "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'");
   appendPrefixToHandler (hPrefix);
 
-  // append the trace options prefixes
+  // create and append the trace options prefixes
   S_oahPrefix
     tracePrefix =
       oahPrefix::create (
@@ -575,6 +573,9 @@ Option '-h, -help' prints the full help,
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
+
+  // initialize the handler only now, since it may use prefixes
+  initializeOptionsHandler (executableName);
 }
 
 xml2lyOahHandler::~xml2lyOahHandler ()

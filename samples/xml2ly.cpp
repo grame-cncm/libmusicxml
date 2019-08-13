@@ -652,19 +652,6 @@ int main (int argc, char *argv[])
   }
 #endif
 
-  // print the chosen options if so chosen
-  // ------------------------------------------------------
-
-#ifdef TRACE_OAH
-  if (gExecutableOah->fDisplayOahValues) {
-    handler->
-      printAllOahCommandLineValues (
-        gLogOstream);
-
-    gLogOstream << endl;
-  }
-#endif
-
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 

@@ -91,44 +91,92 @@ R"()",
 
   appendSubGroup (subGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
+  // the 'MusicXML' prefixed booleans atom
+
+  S_oahMultiplexBooleansAtom
+    musicXMLMultiplexBooleansAtom =
+      oahMultiplexBooleansAtom::create (
+        "Trace SHORT_ELEMENT_NAME/LONG_ELEMENT_NAME when analyzing MusicXML data.",
+        "SHORT_ELEMENT_NAME",
+        "LONG_ELEMENT_NAME",
+        shortTracePrefix,
+        longTracePrefix);
+
+  subGroup->
+    appendAtom (
+      musicXMLMultiplexBooleansAtom);
+
   // encoding
 
   fTraceEncoding = boolOptionsInitialValue;
 
-  subGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    traceEncodingAtom =
       oahTwoBooleansAtom::create (
         "tenc", "trace-encoding",
 R"(Encoding)",
         "traceEncoding",
         fTraceEncoding,
-        gTraceOah->fTracePasses));
+        gTraceOah->fTracePasses);
+  subGroup->
+    appendAtom (
+      traceEncodingAtom);
 
   // divisions
 
   fTraceDivisions = boolOptionsInitialValue;
 
-  subGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    traceDivisionsAtom =
       oahTwoBooleansAtom::create (
         "tdivs", "trace-divisions",
 R"(Divisions)",
         "traceDivisions",
         fTraceDivisions,
-        gTraceOah->fTracePasses));
+        gTraceOah->fTracePasses);
+  subGroup->
+    appendAtom (
+      traceDivisionsAtom);
 
   // backup
 
   fTraceBackup = boolOptionsInitialValue;
 
-  subGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    traceBackupAtom =
       oahTwoBooleansAtom::create (
         "tbackup", "trace-backup",
 R"(Backup)",
         "traceBackup",
         fTraceBackup,
-        gTraceOah->fTracePasses));
+        gTraceOah->fTracePasses);
+  subGroup->
+    appendAtom (
+      traceBackupAtom);
 
   // forward
 
@@ -142,6 +190,19 @@ R"(Forward)",
         "traceForward",
         fTraceForward,
         gTraceOah->fTracePasses));
+
+  // populate musicXMLMultiplexBooleansAtom
+  // this will hide the added boolean atoms
+
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceEncodingAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceDivisionsAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceBackupAtom);
 
   // MusicXML tree visiting
 
@@ -199,29 +260,42 @@ R"()",
 
   appendSubGroup (subGroup);
 
+  // the 'ir' prefix
+
+  S_oahPrefix
+    shortIgnoreRedundantPrefix =
+      oahPrefix::create (
+        "ir",
+        "ir",
+        "'-ir=abc,xywx,yz' is equivalent to '-irabc, -irxywx, -iryz'");
+  fHandlerUpLink->
+    appendPrefixToHandler (shortIgnoreRedundantPrefix);
+
   // the 'ignore redundant' prefix
 
   S_oahPrefix
-    ignoreRedundantPrefix =
+    longIgnoreRedundantPrefix =
       oahPrefix::create (
-        "ir",
+        "ignore-redundant",
         "ignore-redundant-",
         "'-ir=abc,xywx,yz' is equivalent to '-irabc, -irxywx, -iryz'");
   fHandlerUpLink->
-    appendPrefixToHandler (ignoreRedundantPrefix);
+    appendPrefixToHandler (longIgnoreRedundantPrefix);
 
   // the 'ignore redundant' prefixed booleans atom
 
-  S_oahPrefixedBooleansAtom
-    ignoreRedundantPrefixedBooleansAtom =
-      oahPrefixedBooleansAtom::create (
+  S_oahMultiplexBooleansAtom
+    ignoreRedundantMultiplexBooleansAtom =
+      oahMultiplexBooleansAtom::create (
         "Ignore ELEMENTS that are the same as the current one.",
         "ELEMENTS",
-        ignoreRedundantPrefix);
+        "ELEMENTS",
+        shortIgnoreRedundantPrefix,
+        longIgnoreRedundantPrefix);
 
   subGroup->
     appendAtom (
-      ignoreRedundantPrefixedBooleansAtom);
+      ignoreRedundantMultiplexBooleansAtom);
 
   // redundant clefs
 
@@ -265,16 +339,16 @@ R"(Ignore times that are the same as the current one.)",
     appendAtom (
       fIgnoreRedundantTimesAtom);
 
-  // populate ignoreRedundantPrefixedBooleansAtom
+  // populate ignoreRedundantMultiplexBooleansAtom
   // this will hide the added boolean atoms
 
-  ignoreRedundantPrefixedBooleansAtom->
+  ignoreRedundantMultiplexBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantClefsAtom);
-  ignoreRedundantPrefixedBooleansAtom->
+  ignoreRedundantMultiplexBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantKeysAtom);
-  ignoreRedundantPrefixedBooleansAtom->
+  ignoreRedundantMultiplexBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantTimesAtom);
 
