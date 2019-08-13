@@ -1129,6 +1129,20 @@ extraOah::extraOah (
     "Extra",
     "he", "help-extra",
 R"(These extra provide features not related to translation from MusicXML to LilyPond.
+In the text below:
+  - ROOT_DIATONIC_PITCH should belong to the names available in
+    the selected MSR pitches language, "nederlands" by default;
+  - other languages can be chosen with the '-mpl, -msrPitchesLanguage' option;
+  - HARMONY_NAME should be one of:
+      MusicXML chords:
+        "maj", "min", "aug", "dim", "dom",
+        "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
+        "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
+        "dom13", "maj13", "min13", "sus2", "sus4",
+        "neapolitan", "italian", "french", "german"
+      Jazz-specific chords:
+        "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
+        "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
     kElementVisibilityAlways,
@@ -1181,22 +1195,7 @@ void extraOah::initializeExtraShowAllChordsContentsOptions (
 //            "HARMONY_KINDS",
 //            existingHarmonyKindsNames ()
 //    HARMONY_KINDS.
-R"(  In the extra below:
-- ROOT_DIATONIC_PITCH should belong to the names available in
-  the selected MSR pitches language, "nederlands" by default.
-- other languages can be chosen with the '-mpl, -msrPitchesLanguage' option.
-
-HARMONY_NAME should be one of:
-   MusicXML chords:
-    "maj", "min", "aug", "dim", "dom",
-    "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
-    "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
-    "dom13", "maj13", "min13", "sus2", "sus4",
-    "neapolitan", "italian", "french", "german"
-  Jazz-specific chords:
-    "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
-    "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
-)",
+R"()",
         kElementVisibilityAlways,
         this);
 
@@ -1234,12 +1233,10 @@ R"()",
         replaceSubstringInString (
 R"(Write the details of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
-
 CHORD_SPEC can be:
 'ROOT_DIATONIC_PITCH HARMONY_NAME'
 or
 "ROOT_DIATONIC_PITCH = HARMONY_NAME"
-
 Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 EXECUTABLE -show-chord-details "bes ${HARMONY}")",
@@ -1271,12 +1268,10 @@ R"()",
         replaceSubstringInString (
 R"(Write an analysis of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
-
 CHORD_SPEC can be:
 'ROOT_DIATONIC_PITCH HARMONY_NAME INVERSION'
 or
 "ROOT_DIATONIC_PITCH = HARMONY_NAME INVERSION"
-
 Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 INVERSION=2

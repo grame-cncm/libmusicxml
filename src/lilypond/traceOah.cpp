@@ -72,7 +72,7 @@ void traceOah::initializeTranspositionsTraceOah (
    transpositionssubGroup =
       oahSubGroup::create (
         "Transpositions",
-        "htt", "help-transpositions-trace",
+        "htt", "help-trace-transpositions",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -113,7 +113,7 @@ void traceOah::initializeAboveStaffTraceOah (
     aboveStaffsubGroup =
       oahSubGroup::create (
         "Above staff",
-        "hast", "help-above-staff-trace",
+        "htas", "help-trace-above-staff",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -180,7 +180,7 @@ void traceOah::initializeBreaksAndBarlinesTraceOah (
     breaksAndBarlinessubGroup =
       oahSubGroup::create (
         "Breaks and barlines",
-        "hbt", "help-breaks-and-barlines-trace",
+        "htbab", "help-trace-breaks-and-barlines",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -248,7 +248,7 @@ void traceOah::initializeClefsToTemposTraceOah (
     clefsToTempossubGroup =
       oahSubGroup::create (
         "Clefs to tempos",
-        "hcttt", "help-clefs-to-tempos-trace",
+        "htctt", "help-trace-clefs-to-tempos",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -315,7 +315,7 @@ void traceOah::initializeInterNotesTraceOah (
     interNotessubGroup =
       oahSubGroup::create (
         "Inter-notes",
-        "hint", "help-inter-notes-trace",
+        "htin", "help-trace-inter-notes",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -356,7 +356,7 @@ void traceOah::initializeSpannersTraceOah (
     spannerssubGroup =
       oahSubGroup::create (
         "Spanners",
-        "hst", "help-spanners-trace",
+        "hts", "help-trace-spanners",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -423,7 +423,7 @@ void traceOah::initializeHarmoniesAndFiguredBassesTraceOah (
     harmoniesAndFiguredBassessubGroup =
       oahSubGroup::create (
         "Harmonies and figured basses",
-        "hhafbt", "help-harmonies-and-figured-basses-trace",
+        "hthafb", "help-trace-harmonies-and-figured-basses",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -464,7 +464,7 @@ void traceOah::initializeCreditsToWordsTraceOah (
     creditsToWordssubGroup =
       oahSubGroup::create (
         "Credits to words",
-        "hctwt", "help-credits-to-words-trace",
+        "htctw", "help-trace-credits-to-words",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -531,7 +531,7 @@ void traceOah::initializeChordsAndTupletsTraceOah (
     chordsAndTupletssubGroup =
       oahSubGroup::create (
         "Chords and tuplets",
-        "hcatt", "help-chords-and-tuplets-trace",
+        "htcat", "help-trace-chords-and-tuplets",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -613,7 +613,7 @@ void traceOah::initializeInstrumentsTraceOah (
     instrumentssubGroup =
       oahSubGroup::create (
         "Instruments",
-        "hit", "help-instruments-trace-trace",
+        "hti", "help-trace-instruments",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -759,7 +759,7 @@ void traceOah::initializeNotesAttachmentsTraceOah (
     notesAttachmentssubGroup =
       oahSubGroup::create (
         "Notes attachments",
-        "hnat", "help-notes-attachments-trace",
+        "htna", "help-trace-notes-attachments",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -852,7 +852,7 @@ void traceOah::initializeSegmentsAndMeasuresTraceOah (
     segmentsAndMeasuressubGroup =
       oahSubGroup::create (
         "Segments and measures",
-        "hsamt", "help-segments-and-measures-trace",
+        "htsam", "help-trace-segments-and-measures",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -949,7 +949,7 @@ void traceOah::initializeScoreToVoicesTraceOah (
     scoreToVoicessubGroup =
       oahSubGroup::create (
         "Score to voices",
-        "hstvt", "help-score-to-voices-trace",
+        "htstv", "help-trace-score-to-voices",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -988,7 +988,7 @@ R"(Part groups)",
       oahThreeBooleansAtom::create (
         "tpgroupsd", "trace-part-groups-details",
 R"(Part groups with more details.
-This option implies '-tpgrps, -tracePartGroups'.)",
+This option implies '-tpgrps, -trace-part-groups'.)",
         "tracePartGroupsDetails",
         fTracePartGroupsDetails,
         fTracePartGroups,
@@ -1068,7 +1068,7 @@ R"(Voices)",
       oahThreeBooleansAtom::create (
         "tvoicesd", "trace-voices-details",
 R"(Voices with more details (quite verbose)..
-This option implies '-tvdetails, -traceVoicesDetails'.)",
+This option implies '-tvoices, -trace-voices'.)",
         "traceVoicesDetails",
         fTraceVoicesDetails,
         fTraceVoices,
@@ -1081,8 +1081,8 @@ void traceOah::initializeNotesTraceOah (
   S_oahSubGroup
     notessubGroup =
       oahSubGroup::create (
-        "Notes trace",
-        "hnt", "help-notes-trace",
+        "Notes",
+        "htn", "help-trace-notes",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -1109,7 +1109,7 @@ R"(Notes)",
       oahThreeBooleansAtom::create (
         "tnotesd", "trace-notes-details",
 R"(Notes with more details, including divisions handling (quite verbose)...
-This option implies '-tnnotes, -traceNotes'.)",
+This option implies '-tnotes, -trace-notes'.)",
         "traceNotesDetails",
         fTraceNotesDetails,
         fTraceNotes,
@@ -1205,7 +1205,7 @@ void traceOah::initializeRepeatsToSlashesTraceOah (
     repeatssubGroup =
       oahSubGroup::create (
         "Repeats to slashes",
-        "hrtst", "help-repeats-to-slashes-trace",
+        "htrts", "help-trace-repeats-to-slashes",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -1296,7 +1296,7 @@ void traceOah::initializeOtherTraceOah (
     lowLevelsubGroup =
       oahSubGroup::create (
         "Other",
-        "hot", "help-other-trace",
+        "hto", "help-trace-other",
 R"()",
       kElementVisibilityHiddenByDefault,
       this);
@@ -1341,7 +1341,7 @@ R"(VarValAssocs)",
         fTraceVarValAssocs,
         fTracePasses));
 
-  // '-trace-for-tests' is hidden...
+  // '-tft, -trace-for-tests' is hidden...
 
   fTraceForTests = boolOptionsInitialValue;
 

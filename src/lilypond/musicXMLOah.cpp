@@ -120,9 +120,9 @@ R"()",
   S_oahMultiplexBooleansAtom
     musicXMLMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
-        "Trace SHORT_ELEMENT_NAME/LONG_ELEMENT_NAME when analyzing MusicXML data.",
-        "SHORT_ELEMENT_NAME",
-        "LONG_ELEMENT_NAME",
+        "Trace SHORT_NAME/LONG_NAME when analyzing MusicXML data.",
+        "SHORT_NAME",
+        "LONG_NAME",
         shortTracePrefix,
         longTracePrefix);
 
@@ -182,14 +182,17 @@ R"(Backup)",
 
   fTraceForward = boolOptionsInitialValue;
 
-  subGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    traceForwardAtom =
       oahTwoBooleansAtom::create (
         "tforward", "trace-forward",
 R"(Forward)",
         "traceForward",
         fTraceForward,
-        gTraceOah->fTracePasses));
+        gTraceOah->fTracePasses);
+  subGroup->
+    appendAtom (
+      traceForwardAtom);
 
   // populate musicXMLMultiplexBooleansAtom
   // this will hide the added boolean atoms
@@ -203,6 +206,9 @@ R"(Forward)",
   musicXMLMultiplexBooleansAtom->
     addBooleanAtom (
       traceBackupAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceForwardAtom);
 
   // MusicXML tree visiting
 
