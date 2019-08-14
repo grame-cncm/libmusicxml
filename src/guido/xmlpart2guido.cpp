@@ -751,7 +751,7 @@ namespace MusicXML2
                 }
                 if (fIgnoreWedgeWithOffset)
                 {
-                    cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
+                    //cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
                     return;         // FIXME: Ignoring Offset wedges à la Verovio
                 }
                 
@@ -1337,7 +1337,7 @@ namespace MusicXML2
                 lastBeamInternalNumber = toto.first + 1;
             }
             
-            cerr << "Measure "<< fMeasNum << " beam BEGIN "<< lastBeamInternalNumber<< " Beam-level="<<(*i)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace<<endl;
+            //cerr << "Measure "<< fMeasNum << " beam BEGIN "<< lastBeamInternalNumber<< " Beam-level="<<(*i)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace<<endl;
             
             /// Using \beamBegin:NUMBER
             // GUID-79: Guido Engine does not deal well with nested Beams! Just keep the TOP level and store its number for later closing.
