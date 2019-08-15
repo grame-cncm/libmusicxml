@@ -469,14 +469,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (traceAndDisplaySubGroup);
+  appendSubGroupToGroup (traceAndDisplaySubGroup);
 
   // BSR
 
   fDisplayBsr = boolOptionsInitialValue;
 
   traceAndDisplaySubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahTwoBooleansAtom::create (
         "dbsr", "display-bsr",
 R"(Write the contents of the BSR data to standard error.)",
@@ -489,7 +489,7 @@ R"(Write the contents of the BSR data to standard error.)",
   fDisplayBsrDetails = boolOptionsInitialValue;
 
   traceAndDisplaySubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahTwoBooleansAtom::create (
         "dbsrd", "display-bsr-details",
 R"(Write the contents of the BSR data with more details to standard error.)",
@@ -510,7 +510,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (languagesSubGroup);
+  appendSubGroupToGroup (languagesSubGroup);
 
   // texts language
 
@@ -541,7 +541,7 @@ R"()",
       fBsrTextsLanguageKind;
 
   languagesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       bsrTextsLanguageAtom::create (
         "btl", "bsr-texts-language",
         replaceSubstringInString (
@@ -577,14 +577,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (miscellaneousGenerationSubGroup);
+  appendSubGroupToGroup (miscellaneousGenerationSubGroup);
 
   // braille lyrics
 
   fNoBrailleLyrics      = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nolpl", "no-braille-lyrics",
 R"(Don't generate any lyrics in the Braille code.)",
@@ -596,7 +596,7 @@ R"(Don't generate any lyrics in the Braille code.)",
   fBrailleCompileDate   = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "lpcd", "braille-compile-date",
 R"(Generate code to include the compilation date
@@ -609,7 +609,7 @@ when Braille creates the score.)",
   fFacSimileKind        = kFacSimileNo;
 
   miscellaneousGenerationSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       bsrFacSimileKindAtom::create (
         "fs", "facsimile",
 R"(Generate facsimile Braille nusic code.
@@ -623,7 +623,7 @@ By default, non-facsimile code is generated.)",
   fIncludeClefs         = boolOptionsInitialValue;
 
   miscellaneousGenerationSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "clefs", "",
 R"(Include clefs in BSR. By default, they are not.)",
@@ -643,7 +643,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (exitAfterSomePassesSubGroup);
+  appendSubGroupToGroup (exitAfterSomePassesSubGroup);
 
   // '-exit-3a' is hidden...
 
@@ -659,7 +659,7 @@ of the MSR to the first BSR score.)",
         fExit3a);
 
   exitAfterSomePassesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       exit2aOahBooleanAtom);
 
   fExit3b = boolOptionsInitialValue;
@@ -674,7 +674,7 @@ of the first BSR to the second BSR.)",
         fExit3b);
 
   exitAfterSomePassesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       exit2bOahBooleanAtom);
 }
 
@@ -692,14 +692,14 @@ R"(Note: the bsr in this group imply '-tbsr, -trace-bsr'.)",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // BSR
 
   fTraceBsr = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tbsr", "trace-bsr",
 R"(Write a trace of the BSR graphs visiting activity to standard error.)",
@@ -711,7 +711,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
   fTracePages = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahTwoBooleansAtom::create (
         "tpages", "trace-pages",
 R"()",
@@ -724,7 +724,7 @@ R"()",
   fTraceLines = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tlines", "trace-lines",
 R"()",
@@ -736,7 +736,7 @@ R"()",
   fTraceSpaces = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tspaces", "trace-spaces",
 R"(Write a trace of the BSR spaces activity to standard error.)",
@@ -748,7 +748,7 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
   fTraceNumbers = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tnums", "trace-numbers",
 R"(Write a trace of the BSR numbers activity to standard error.)",
@@ -760,7 +760,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
   fTraceParallels = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahTwoBooleansAtom::create (
         "tpars", "trace-parallels",
 R"()",
@@ -773,7 +773,7 @@ R"()",
   fTraceBsrVisitors     = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tbsrv", "trace-bsr-visitors",
 R"(Write a trace of the BSR tree visiting activity to standard error.)",

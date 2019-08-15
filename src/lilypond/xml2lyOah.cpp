@@ -1124,12 +1124,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (versionSubGroup);
+    appendSubGroupToGroup (versionSubGroup);
 
     // version
 
     versionSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         xml2lyVersionOahAtom::create (
           "v", "version",
 R"(Display xml2ly's version number and history and exit.)"));
@@ -1149,12 +1149,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (aboutSubGroup);
+    appendSubGroupToGroup (aboutSubGroup);
 
     // about
 
     aboutSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         xml2lyAboutOahAtom::create (
           "a", "about",
 R"(Display information about xml2ly and exit.)"));
@@ -1174,12 +1174,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (contactSubGroup);
+    appendSubGroupToGroup (contactSubGroup);
 
     // contact
 
     contactSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         xml2lyContactOahAtom::create (
           "c", "contact",
 R"(Display information about how to contacct xml2ly maintainers and exit.)"));
@@ -1199,12 +1199,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (outputFileSubGroup);
+    appendSubGroupToGroup (outputFileSubGroup);
 
     // output filename
 
     outputFileSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         oahStringAtom::create (
           "o", "output-file-name",
 R"(Write LilyPond code to file FILENAME instead of standard output.)",
@@ -1217,7 +1217,7 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
     fAutoOutputFileName = false;
 
     outputFileSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         oahBooleanAtom::create (
           "aofn", "auto-output-file-name",
 R"(This option can only be used when reading from a file.

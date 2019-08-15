@@ -1112,12 +1112,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (versionSubGroup);
+    appendSubGroupToGroup (versionSubGroup);
 
     // version
 
     versionSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         xml2brlVersionOahAtom::create (
           "v", "version",
 R"(Display xml2brl's version number and history and exit.)"));
@@ -1137,12 +1137,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (aboutSubGroup);
+    appendSubGroupToGroup (aboutSubGroup);
 
     // about
 
     aboutSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         xml2brlAboutOahAtom::create (
           "a", "about",
 R"(Display information about xml2brl and exit.)"));
@@ -1162,12 +1162,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (contactSubGroup);
+    appendSubGroupToGroup (contactSubGroup);
 
     // contact
 
     contactSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         xml2brlContactOahAtom::create (
           "c", "contact",
 R"(Display information about how to contacct xml2brl maintainers and exit.)"));
@@ -1187,12 +1187,12 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroup (outputFileSubGroup);
+    appendSubGroupToGroup (outputFileSubGroup);
 
     // output filename
 
     outputFileSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         oahStringAtom::create (
           "o", "output-file-name",
 R"(Write Braille music to file FILENAME instead of standard output.)",
@@ -1205,7 +1205,7 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
     fAutoOutputFile = false;
 
     outputFileSubGroup->
-      appendAtom (
+      appendAtomToSubGroup (
         oahBooleanAtom::create (
           "aofn", "auto-output-file-name",
 R"(This option can only be used when reading from a file.

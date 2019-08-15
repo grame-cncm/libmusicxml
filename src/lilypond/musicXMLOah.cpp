@@ -89,7 +89,7 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // fetch the 't' prefix
 
@@ -115,7 +115,7 @@ R"()",
     longTracePrefix != nullptr,
     "longTracePrefix is null");
 
-  // the 'MusicXML' prefixed booleans atom
+  // the 'MusicXML' multiplex booleans atom
 
   S_oahMultiplexBooleansAtom
     musicXMLMultiplexBooleansAtom =
@@ -127,7 +127,7 @@ R"()",
         longTracePrefix);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       musicXMLMultiplexBooleansAtom);
 
   // encoding
@@ -143,7 +143,7 @@ R"(Encoding)",
         fTraceEncoding,
         gTraceOah->fTracePasses);
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       traceEncodingAtom);
 
   // divisions
@@ -159,7 +159,7 @@ R"(Divisions)",
         fTraceDivisions,
         gTraceOah->fTracePasses);
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       traceDivisionsAtom);
 
   // backup
@@ -175,7 +175,7 @@ R"(Backup)",
         fTraceBackup,
         gTraceOah->fTracePasses);
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       traceBackupAtom);
 
   // forward
@@ -191,7 +191,7 @@ R"(Forward)",
         fTraceForward,
         gTraceOah->fTracePasses);
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       traceForwardAtom);
 
   // populate musicXMLMultiplexBooleansAtom
@@ -215,7 +215,7 @@ R"(Forward)",
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tmxmltv", "trace-musicxml-tree-visitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
@@ -236,14 +236,14 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (workSubGroup);
+  appendSubGroupToGroup (workSubGroup);
 
   // file name as work title
 
   fUseFilenameAsWorkTitle = false;
 
   workSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ufawt", "use-filename-as-work-title",
 R"(Use the file name as work title if there is none in the MusicXML data.
@@ -264,7 +264,7 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // the 'ir' prefix
 
@@ -277,18 +277,18 @@ R"()",
   fHandlerUpLink->
     appendPrefixToHandler (shortIgnoreRedundantPrefix);
 
-  // the 'ignore redundant' prefix
+  // the 'ignore-redundant' prefix
 
   S_oahPrefix
     longIgnoreRedundantPrefix =
       oahPrefix::create (
         "ignore-redundant",
         "ignore-redundant-",
-        "'-ir=abc,xywx,yz' is equivalent to '-irabc, -irxywx, -iryz'");
+        "'-ignore-redundant=abc,xywx,yz' is equivalent to '-ignore-redundant-abc, -ignore-redundant-xywx, -ignore-redundant-yz'");
   fHandlerUpLink->
     appendPrefixToHandler (longIgnoreRedundantPrefix);
 
-  // the 'ignore redundant' prefixed booleans atom
+  // the 'ignore redundant' multiplex booleans atom
 
   S_oahMultiplexBooleansAtom
     ignoreRedundantMultiplexBooleansAtom =
@@ -300,7 +300,7 @@ R"()",
         longIgnoreRedundantPrefix);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       ignoreRedundantMultiplexBooleansAtom);
 
   // redundant clefs
@@ -314,7 +314,7 @@ R"(Ignore clefs that are the same as the current one.)",
       "ignoreRedundantClefs",
       fIgnoreRedundantClefs);
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       fIgnoreRedundantClefsAtom);
 
   // redundant keys
@@ -328,7 +328,7 @@ R"(Ignore keys that are the same as the current one.)",
       "ignoreRedundantKeys",
       fIgnoreRedundantKeys);
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       fIgnoreRedundantKeysAtom);
 
   // redundant times
@@ -342,7 +342,7 @@ R"(Ignore times that are the same as the current one.)",
       "ignoreRedundantTimes",
       fIgnoreRedundantTimes);
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       fIgnoreRedundantTimesAtom);
 
   // populate ignoreRedundantMultiplexBooleansAtom
@@ -374,7 +374,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
     setIsHidden ();
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       loopOptionsBooleanAtom);
 }
 
@@ -390,7 +390,7 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (combinedSubGroup);
+  appendSubGroupToGroup (combinedSubGroup);
 
   // cubase
 
@@ -407,7 +407,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
         fCubase);
 
   combinedSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       cubaseCombinedBooleansAtom);
 
   // set the '-cubase' option by default
@@ -438,7 +438,7 @@ R"(Prevents the default 'cubase' option.)",
         fNoCubase);
 
   combinedSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       noCubaseBooleanAtom);
  }
 

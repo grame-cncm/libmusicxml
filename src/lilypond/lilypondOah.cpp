@@ -2120,12 +2120,12 @@ thus overriding the ones that may be present in the MSR data.)",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // MusicXML informations
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "rights", "",
 R"(Set the 'rights' to STRING in the LilyPond code.)",
@@ -2134,7 +2134,7 @@ R"(Set the 'rights' to STRING in the LilyPond code.)",
         fRights));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "composer", "",
 R"(Set the 'composer' to STRING in the LilyPond code.)",
@@ -2143,7 +2143,7 @@ R"(Set the 'composer' to STRING in the LilyPond code.)",
         fComposer));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "arranger", "",
 R"(Set the 'arranger' to STRING in the LilyPond code.)",
@@ -2152,7 +2152,7 @@ R"(Set the 'arranger' to STRING in the LilyPond code.)",
         fArranger));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "poet", "",
 R"(Set the 'poet' to STRING in the LilyPond code.)",
@@ -2161,7 +2161,7 @@ R"(Set the 'poet' to STRING in the LilyPond code.)",
         fPoet));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "lyricist", "",
 R"(Set the 'lyricist' to STRING in the LilyPond code.)",
@@ -2170,7 +2170,7 @@ R"(Set the 'lyricist' to STRING in the LilyPond code.)",
         fLyricist));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "software", "",
 R"(Set the 'software' to STRING in the LilyPond code.)",
@@ -2181,7 +2181,7 @@ R"(Set the 'software' to STRING in the LilyPond code.)",
   // LilyPond informations
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "dedication", "",
 R"(Set 'dedication' to STRING in the \header.)",
@@ -2190,7 +2190,7 @@ R"(Set 'dedication' to STRING in the \header.)",
         fDedication));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "piece", "",
 R"(Set 'piece' to STRING in the \header.)",
@@ -2199,7 +2199,7 @@ R"(Set 'piece' to STRING in the \header.)",
         fPiece));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "opus", "",
 R"(Set 'opus' to STRING in the \header.)",
@@ -2208,7 +2208,7 @@ R"(Set 'opus' to STRING in the \header.)",
         fOpus));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "title", "",
 R"(Set 'title' to STRING in the \header.)",
@@ -2217,7 +2217,7 @@ R"(Set 'title' to STRING in the \header.)",
         fTitle));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "stitle", "subtitle",
 R"(Set 'subtitle' to STRING in the \header.)",
@@ -2226,7 +2226,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
         fSubTitle));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "sstitle", "subsubtitle",
 R"(Set 'subsubtitle' to STRING in the \header.)",
@@ -2235,7 +2235,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
         fSubSubTitle));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "instrument", "",
 R"(Set 'instrument' to STRING in the \header.)",
@@ -2244,7 +2244,7 @@ R"(Set 'instrument' to STRING in the \header.)",
         fInstrument));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "meter", "",
 R"(Set 'meter' to STRING in the \header.)",
@@ -2253,7 +2253,7 @@ R"(Set 'meter' to STRING in the \header.)",
         fMeter));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "tagline", "",
 R"(Set 'tagline' to STRING in the \header.)",
@@ -2262,7 +2262,7 @@ R"(Set 'tagline' to STRING in the \header.)",
         fTagline));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "copyright", "",
 R"(Set 'copyright' to STRING in the \header.)",
@@ -2283,14 +2283,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // ambitus engraver
 
   fAmbitusEngraver = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ambitus", "",
 R"(Generate an ambitus range at the beginning of the staves/voices.)",
@@ -2310,14 +2310,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // clefs
 
   fCommentClefChanges = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ccc", "comment-clef-changes",
 R"(Comment clef changes in the LilyPond code.
@@ -2332,7 +2332,7 @@ They won't show up in the score, but the information is not lost.)",
   fNumericalTime = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "numt", "numerical-time",
 R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
@@ -2352,7 +2352,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // octave entry
 
@@ -2370,7 +2370,7 @@ R"()",
       kF_Natural_STP, 3);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondAbsoluteOctaveEntryAtom::create (
         "abs", "absolute",
         replaceSubstringInString (
@@ -2384,7 +2384,7 @@ The default is to use '\relative', with LilyPond's implicit reference 'DEFAULT_V
           fOctaveEntryKind));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondRelativeOctaveEntryAtom::create (
         "rel", "relative",
 R"(Use relative octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
@@ -2397,7 +2397,7 @@ It should be placed between double quotes if it contains single quotes, such as:
         fRelativeOctaveEntrySemiTonesPitchAndOctave));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondFixedOctaveEntryAtom::create (
         "fixed", "",
 R"(Use fixed octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
@@ -2414,7 +2414,7 @@ It should be placed between double quotes if it contains single quotes, such as:
   fAllDurations = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "alldurs", "all-durations",
 R"(Generate all LilyPond durations.
@@ -2428,7 +2428,7 @@ is omitted for code conciseness.)",
   fStems = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "stems", "",
 R"(Generate \stemUp and \stemDown LilyPond commands.
@@ -2441,7 +2441,7 @@ By default, LilyPond will take care of that by itself.)",
   fNoAutoBeaming  = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "noab", "no-auto-beaming",
 R"(Generate '\set Voice.autoBeaming = ##f' in each voice
@@ -2454,7 +2454,7 @@ to prevent LilyPond from handling beams automatically.)",
   fRomanStringNumbers = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "rsn", "roman-string-numbers",
 R"(Generate '\romanStringNumbers' in each voice
@@ -2467,7 +2467,7 @@ for LilyPond to generate roman instead of arabic string numbers.)",
   fAvoidOpenStrings    = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "aos", "avoid-open-strings",
 R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice
@@ -2484,7 +2484,7 @@ to prevent LilyPond from using open strings.)",
   fAccidentalStyleKind = lpsrAccidentalStyleKindDefaultValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondAccidentalStyleKindAtom::create (
         "as", "accidental-style", // JMI
           replaceSubstringInString (
@@ -2509,7 +2509,7 @@ The default is 'DEFAULT_VALUE'.)",
   fCompressFullMeasureRests = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "cfmr", "compress-full-measure-rests",
 R"(Compress full measure rests instead of generating successive empty measures.)",
@@ -2521,7 +2521,7 @@ R"(Compress full measure rests instead of generating successive empty measures.)
   fInputLineNumbers = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "iln", "input-line-numbers",
         replaceSubstringInString (
@@ -2538,7 +2538,7 @@ This is useful when debugging EXECUTABLE.)",
   fOriginalMeasureNumbers = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "omn", "original-measure-numbers",
         replaceSubstringInString (
@@ -2555,7 +2555,7 @@ This is useful for adding line breaks and page breaks, and when debugging EXECUT
   fPositionsInMeasures = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "pim", "positions-in-measures",
         replaceSubstringInString (
@@ -2580,7 +2580,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // all bar numbers
 
@@ -2595,12 +2595,12 @@ R"(Generate LilyPond code to show all bar numbers.)",
         fShowAllBarNumbers);
 
   subGroup->
-    appendAtom (allBarNumbersAtom);
+    appendAtomToSubGroup (allBarNumbersAtom);
 
   // all measure numbers
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahAtomSynonym::create (
         "amn", "all-measure-numbers",
 R"(Generate LilyPond code to show all measure numbers.
@@ -2610,7 +2610,7 @@ This option is a synonym to '-abn, -all-bar-numbers'.)",
   // reset measure number
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondResetMeasureNumberAtom::create (
         "rmn", "reset-measure-number",
 R"(Generate a '\set Score.currentBarNumber = #NEW' command
@@ -2642,14 +2642,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // lines
 
   fIgnoreMusicXMLLineBreaks = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "imlb", "ignore-musicxml-line-breaks",
 R"(Ignore the line breaks from the MusicXML input - let LilyPond decide about them.)",
@@ -2659,7 +2659,7 @@ R"(Ignore the line breaks from the MusicXML input - let LilyPond decide about th
   fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "blairm", "break-lines-at-incomplete-right-measures",
 R"(Generate a '\break' command at the end of incomplete right measures
@@ -2670,7 +2670,7 @@ which is handy in popular folk dances and tunes.)",
   fSeparatorLineEveryNMeasures         = -1;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahIntegerAtom::create (
         "slenm", "separator-line-every-n-measures",
 R"(Generate an additional separator line for readability every N measures,
@@ -2681,7 +2681,7 @@ Nothing special is done by default.)",
         fSeparatorLineEveryNMeasures));
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringsSetElementAtom::create (
         "blamn", "break-line-after-measure-number",
 R"(Generate a '\break' command after measure NUMBER in the LilyPond code.
@@ -2705,14 +2705,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // pages
 
   fIgnoreMusicXMLPageBreaks = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "impb", "ignore-musixcml-page-breaks",
 R"(Ignore the page breaks from the MusicXML input - let LilyPond decide about them.)",
@@ -2723,7 +2723,7 @@ R"(Ignore the page breaks from the MusicXML input - let LilyPond decide about th
 
 /* JMI
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondBreakPageAfterMeasureNumberAtom::create (
         "bpamn", "break-page-after-measure-number",
 R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
@@ -2736,7 +2736,7 @@ There can be several occurrences of this option.)",
         */
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringsSetElementAtom::create (
         "bpamn", "break-page-after-measure-number",
 R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
@@ -2760,14 +2760,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // tabs
 
   fModernTab = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "mtab", "modernTab",
 R"(Generate '\moderntab' instead of the default '\tab'.)",
@@ -2779,7 +2779,7 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
   fKeepStaffSize = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "kss", "keep-staff-size",
 R"(Use the staff size value found in the MusicXML data.)",
@@ -2799,14 +2799,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // arpeggios
 
   fConnectArpeggios = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "conarp", "connect-arpeggios",
 R"(Connect arpeggios across piano staves.)",
@@ -2826,14 +2826,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // tuplets
 
   fIndentTuplets = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "itups", "indent-tuplets",
 R"(Indent tuplets notes on a line of their own,
@@ -2854,14 +2854,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // repeats
 
   fKeepRepeatBarlines = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "krbs", "keep-repeat-barlines",
 R"(Generate repeats start and and bar lines even though LilyPond would take care of them.)",
@@ -2871,7 +2871,7 @@ R"(Generate repeats start and and bar lines even though LilyPond would take care
   fRepeatBrackets = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "rbracks", "repeat-brackets",
 R"(Generate repeats with brackets instead of regular bar lines.)",
@@ -2881,7 +2881,7 @@ R"(Generate repeats with brackets instead of regular bar lines.)",
   fIgnoreRepeatNumbers = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "irn", "ignore-repeat-numbers",
 R"(Ignore repeats numbers and let LilyPond determine them.)",
@@ -2901,7 +2901,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // ornaments
 
@@ -2913,7 +2913,7 @@ R"()",
     to_string (fDelayedOrnamentsFraction.getDenominator ());
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahRationalAtom::create (
         "dof", "delayed-ornaments-fraction",
         replaceSubstringInString (
@@ -2939,12 +2939,12 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // chords
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondChordsDisplayAtom::create (
         "chd", "chords-display",
 /*
@@ -2985,7 +2985,7 @@ R"###(  <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"}
   <c e g a d'>1-\markup { \super "6(add9)" })###";
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "jchd", "jazz-chords-display",
         replaceSubstringInString (
@@ -3010,14 +3010,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // fonts
 
   fJazzFonts = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "jazz", "jazz-fonts",
 R"(Use the LilyJazz font for notes, braces, text and chords.
@@ -3040,14 +3040,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // infos
 
   fXml2lyInfos = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "xi", "xml2ly-infos",
 R"(Generate initial comments showing the compilation date and lilypond.)",
@@ -3059,7 +3059,7 @@ R"(Generate initial comments showing the compilation date and lilypond.)",
   fComments = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "com", "comments",
 R"(Generate comments showing the structure of the score
@@ -3070,7 +3070,7 @@ such as '% part P_POne (P1).)",
   fGlobal = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "global", "",
 R"(Generate a 'global' empty variable and place a use of it
@@ -3081,7 +3081,7 @@ at the beginning of all voices.)",
   fDisplayMusic = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dm", "display-music",
 R"(Place the contents of all voices inside a '\displayMusic' block,
@@ -3092,7 +3092,7 @@ for LilyPond to show its internal representation of the music.)",
   fNoLilypondCode = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nolpc", "no-lilypond-code",
 R"(Don't generate any LilyPond code.
@@ -3103,7 +3103,7 @@ That can be useful if only a summary of the score is needed.)",
   fNoLilypondLyrics = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nolpl", "no-lilypond-lyrics",
 R"(Don't generate any lyrics in the LilyPond code.)",
@@ -3113,7 +3113,7 @@ R"(Don't generate any lyrics in the LilyPond code.)",
   fLilypondCompileDate = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "lpcd", "lilypond-compile-date",
 R"(Generate code to include the compilation date
@@ -3135,13 +3135,13 @@ to get only an overview in the resulting PDF file.)",
     setIsHidden ();
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       draftOahBooleanAtom);
 
   fPointAndClickOff = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "paco", "point-and-clic-off",
 R"(Generate \pointAndClickOff at the beginning of the LilyPond code
@@ -3152,7 +3152,7 @@ to reduce the size of the resulting PDF file.)",
   fWhiteNoteHeads = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "wnh", "white-note-heads",
 R"(Generate Scheme function 'whiteNoteHeads'
@@ -3173,7 +3173,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // score notation
 
@@ -3183,7 +3183,7 @@ R"()",
   fJianpu = false;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "jianpu", "",
 R"(Generate the score using jianpu (numbered) notation
@@ -3206,7 +3206,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // midiTempo
 
@@ -3220,7 +3220,7 @@ R"()",
     midiTempoDuration + " = " + to_string (midiTempoPerSecond);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lilypondMidiTempoAtom::create (
         "mtempo", "midi-temp",
         replaceSubstringInString (
@@ -3250,7 +3250,7 @@ The default is 'DEFAULT_VALUE'.)",
   fNoMidi = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "no-midi", "",
 R"(Generate the '\midi' block as a comment instead of active code.)",

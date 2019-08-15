@@ -2528,7 +2528,7 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
     booleanAtom);
 
   // hide it
-  booleanAtom->setIsHidden ();
+//  booleanAtom->setIsHidden ();
 }
 
 void oahMultiplexBooleansAtom::addBooleanAtomByName (
@@ -5566,7 +5566,7 @@ void oahSubGroup::registerSubGroupInHandler (
   } // for
 }
 
-void oahSubGroup::appendAtom (
+void oahSubGroup::appendAtomToSubGroup (
   S_oahAtom oahAtom)
 {
   // sanity check
@@ -6203,7 +6203,7 @@ void oahGroup::registerOptionsGroupInHandler (
   } // for
 }
 
-void  oahGroup::appendSubGroup (
+void  oahGroup::appendSubGroupToGroup (
   S_oahSubGroup subGroup)
 {
   // sanity check
@@ -6779,6 +6779,8 @@ oahHandler::oahHandler (
 
   fHandlerPreamble =
     handlerPreamble;
+
+  fNowEverythingIsAnArgument = false;
 
   fMaximumSubGroupsHeadersSize = 1;
 
@@ -7982,7 +7984,9 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
       }
 
       else {
-        // this is an option
+        // this is an option, first '-' has been found
+        // and currentOption.size () >= 2
+
         string currentOptionName;
 
         string optionTrailer =
@@ -7994,9 +7998,19 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
           endl;
         */
 
-        if (optionTrailer.size ()) {
-          if (optionTrailer [0] == '-') {
-            // it is a double-dashed option
+        // here, optionTrailer.size () >= 1
+
+        if (optionTrailer [0] == '-') {
+          // this is a double-dashed option, '--' has been found
+
+          if (optionTrailer.size () == 1) {
+            // optionTrailer is '--' alone, that marks the end of the options
+            fNowEverythingIsAnArgument = true;
+            break;
+          }
+
+          else {
+            // optionTrailer is a double-dashed option
             currentOptionName =
               optionTrailer.substr (1, string::npos);
 
@@ -8008,26 +8022,17 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
             }
 #endif
           }
-          else {
-            // it is a single-dashed option
-            currentOptionName =
-              optionTrailer; //.substr (1, string::npos);
-
-#ifdef TRACE_OAH
-            if (gExecutableOah->fTraceOah) {
-              fHandlerLogOstream <<
-                "'" << currentOptionName << "' is a single-dashed option" <<
-                endl;
-            }
-#endif
-          }
         }
 
         else {
+          // it is a single-dashed option
+          currentOptionName =
+            optionTrailer;
+
 #ifdef TRACE_OAH
           if (gExecutableOah->fTraceOah) {
             fHandlerLogOstream <<
-              "'-' is the minimal single-dashed option" <<
+              "'" << currentOptionName << "' is a single-dashed option" <<
               endl;
           }
 #endif

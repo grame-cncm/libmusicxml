@@ -1174,10 +1174,10 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       extraShowAllChordsStructuresAtom::create (
         "scs", "show-chords-structures",
 R"(Write all known chords structures to standard output.)"));
@@ -1199,10 +1199,10 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       extraShowAllChordsContentsAtom::create (
         "sacc", "show-all-chords-contents",
 R"(Write all chords contents for the given diatonic (semitones) PITCH,
@@ -1224,10 +1224,10 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       extraShowChordDetailsAtom::create (
         "scd", "show-chord-details",
         replaceSubstringInString (
@@ -1259,10 +1259,10 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       extraShowChordAnalysisAtom::create (
         "sca", "show-chord-analysis", // -sca "c dommin9 0"
         replaceSubstringInString (

@@ -2188,7 +2188,7 @@ class oahSubGroup : public oahElement
     void                  registerSubGroupInHandler (
                             S_oahHandler handler);
 
-    void                  appendAtom (
+    void                  appendAtomToSubGroup (
                             S_oahAtom oahAtom);
 
     S_oahElement          fetchOptionByName (
@@ -2313,7 +2313,7 @@ class oahGroup : public oahElement
     void                  registerOptionsGroupInHandler (
                             S_oahHandler handler);
 
-    void                  appendSubGroup (
+    void                  appendSubGroupToGroup (
                             S_oahSubGroup subGroup);
 
     S_oahElement          fetchOptionByName (
@@ -2643,6 +2643,8 @@ class EXP oahHandler : public oahElement
     // those ones have be used in the command line
     multiset<S_oahElement>
                           fHandlerCommandLineElementsMultiSet;
+
+    bool                  fNowEverythingIsAnArgument;
 
     set<string>           fMonoLetterShortNamesSet;
 

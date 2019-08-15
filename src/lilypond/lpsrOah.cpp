@@ -1023,14 +1023,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // trace- lpsr
 
   fTraceLpsr            = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tlpsr", "trace-lpsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
@@ -1042,7 +1042,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
   fTraceLilypondVersion = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tlpv", "trace-lilypond-version",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
@@ -1054,7 +1054,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
   fTraceLpsrVisitors    = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tlpsrv", "trace-lpsr-visitors",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
@@ -1066,7 +1066,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
   fTraceLpsrBlocks      = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tlpsrb", "trace-lpsr-blocks",
 R"(Write a trace of the LPSR blocks to standard error.)",
@@ -1078,7 +1078,7 @@ R"(Write a trace of the LPSR blocks to standard error.)",
   fTraceSchemeFunctions = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tsf", "trace-scheme-functions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
@@ -1099,14 +1099,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (displaySubGroup);
+  appendSubGroupToGroup (displaySubGroup);
 
   // display lpsr
 
   fDisplayLpsr = boolOptionsInitialValue;
 
   displaySubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dlpsr", "display-lpsr",
 R"(Write the contents of the LPSR data to standard error.)",
@@ -1126,7 +1126,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (lilypondOutputKindGroup);
+  appendSubGroupToGroup (lilypondOutputKindGroup);
 
   // lilypond version
 
@@ -1135,7 +1135,7 @@ R"()",
   fLilyPondVersion = lilyPondVersionDefaultValue;
 
   lilypondOutputKindGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahStringAtom::create (
         "lpv", "lilypond-version",
         replaceSubstringInString (
@@ -1156,7 +1156,7 @@ The default is 'DEFAULT_VALUE'.)",
   fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 
   lilypondOutputKindGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lpsrScoreOutputKindAtom::create (
         "lpsok", "lpsr-score-output-kind",
         replaceSubstringInString (
@@ -1186,7 +1186,7 @@ The default is 'DEFAULT_VALUE'.)",
   fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
 
   lilypondOutputKindGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahFloatAtom::create (
         "gss", "global-staff-size",
         replaceSubstringInString (
@@ -1213,14 +1213,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // convert words to tempo
 
   fConvertWordsToTempo = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "cwtt", "convert-words-to-tempo",
 R"(Convert words to tempo.
@@ -1233,7 +1233,7 @@ This may come in handy when MusicXML data has been obtained from scanned instrum
   fAddWordsFromTheLyrics = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "awftl", "add-words-from-the-lyrics",
 R"(Add words with the lyrics contents, keeping the latter untouched.
@@ -1254,7 +1254,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (languagesSubGroup);
+  appendSubGroupToGroup (languagesSubGroup);
 
   // lpsr pitches language
 
@@ -1288,7 +1288,7 @@ R"()",
     msrQuarterTonesPitchesLanguageKindDefaultValue;
 
   languagesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lpsrPitchesLanguageAtom::create (
         "lppl", "lpsr-pitches-language",
         replaceSubstringInString (
@@ -1320,7 +1320,7 @@ The default is 'DEFAULT_VALUE'.)",
     lpsrChordsLanguageKindDefaultValue;
 
   languagesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lpsrChordsLanguageAtom::create (
         "lpcl", "lpsr-chords-language",
         replaceSubstringInString (
@@ -1356,12 +1356,12 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (languagesSubGroup);
+  appendSubGroupToGroup (languagesSubGroup);
 
   // lpsr transpose
 
   languagesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       lpsrTransposeAtom::create (
         "lpt", "lpsr-transpose",
 R"(Use TRANSPOSITION to tranpose in the LPSR data,
@@ -1388,7 +1388,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (exitAfterSomePassesSubGroup);
+  appendSubGroupToGroup (exitAfterSomePassesSubGroup);
 
   // exit after pass 3
 
@@ -1404,7 +1404,7 @@ of the MSR to LPSR.)",
         fExit3);
 
   exitAfterSomePassesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       exit3OahBooleanAtom);
 }
 

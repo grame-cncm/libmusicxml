@@ -1017,14 +1017,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // MSR
 
   fTraceMsr          = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tmsr", "trace-msr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
@@ -1036,7 +1036,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
   fTraceMsrVisitors  = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tmsrv", "trace-msr-visitors",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
@@ -1048,7 +1048,7 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
 void msrOah::initializeMsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup displaySubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Display",
       "hmsrtd", "help-msr-trace-and-display",
@@ -1056,14 +1056,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (displaySubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // partgroups
 
   fDisplayPartGroups = boolOptionsInitialValue;
 
-  displaySubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dpg", "display-partgroups",
 R"(Write the structure of the part groups to standard error.)",
@@ -1074,8 +1074,8 @@ R"(Write the structure of the part groups to standard error.)",
 
   fDisplayMsr        = boolOptionsInitialValue;
 
-  displaySubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dmsr", "display-msr",
 R"(Write the contents of the MSR data to standard error.)",
@@ -1086,8 +1086,8 @@ R"(Write the contents of the MSR data to standard error.)",
 
   fDisplayMsrDetails = boolOptionsInitialValue;
 
-  displaySubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahTwoBooleansAtom::create (
         "dmsrd", "display-msr-details",
 R"(Write the contents of the MSR data with more details to standard error.)",
@@ -1099,8 +1099,8 @@ R"(Write the contents of the MSR data with more details to standard error.)",
 
   fDisplayMsrNames   = boolOptionsInitialValue;
 
-  displaySubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dmnames", "display-msr-names",
 R"(Only write a view of the names in the MSR to standard error.
@@ -1112,8 +1112,8 @@ This implies that no LilyPond code is generated.)",
 
   fDisplayMsrSummary = boolOptionsInitialValue;
 
-  displaySubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dmsum", "display-msr-summary",
 R"(Only write a summary of the MSR to standard error.
@@ -1125,7 +1125,7 @@ This implies that no LilyPond code is generated.)",
 void msrOah::initializeMsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup languagesSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Languages",
       "hmsrlang", "help-msr-languages",
@@ -1133,7 +1133,7 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (languagesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // notes pitches
 
@@ -1163,8 +1163,8 @@ R"()",
     msrQuarterTonesPitchesLanguageKindDefaultValue =
       kNederlands; //LilyPond default value
 
-  languagesSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       msrPitchesLanguageAtom::create (
         "mplang", "msr-pitches-language",
         replaceSubstringInString (
@@ -1189,7 +1189,7 @@ The default is 'DEFAULT_VALUE'.)",
 void msrOah::initializeMsrPartsOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup partsSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Parts",
       "hmsrp", "help-msr-parts",
@@ -1197,12 +1197,12 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (partsSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // MSR part rename
 
-  partsSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       msrRenamePartAtom::create (
         "mrp", "msr-rename-part",
         replaceSubstringInString (
@@ -1227,8 +1227,8 @@ There can be several occurrences of this option.)",
 
   // MSR part transpose
 
-  partsSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       msrTransposePartAtom::create (
         "mtp", "msr-transpose-part",
 R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the MSR data.
@@ -1255,7 +1255,7 @@ There can be several occurrences of this option.)",
 void msrOah::initializeMsrStavesOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup stavesSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Staves",
       "hmsrs", "help-msr-staves",
@@ -1263,14 +1263,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (stavesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // single line staves
 
   fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
-  stavesSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "cslsar", "create-single-line-staves-as-rythmic",
 R"(Create staves with a single line as rythmic staves.
@@ -1282,7 +1282,7 @@ By default, drum staves are created in this case.)",
 void msrOah::initializeMsrVoicesOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup voicesSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Voices",
       "hmsrv", "help-msr-voices",
@@ -1290,14 +1290,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (voicesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // staff relative numbers
 
   fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
-  voicesSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "cvsrvn", "create-voices-staff-relative-numbers",
 R"(Generate voices names with numbers relative to their staff.
@@ -1310,7 +1310,7 @@ which may be global to the score.)",
 void msrOah::initializeMsrRepeatsOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup repeatsSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Repeats",
       "hmsrr", "help-msr-repeats",
@@ -1318,14 +1318,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (repeatsSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // barlines
 
   fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
 
-  repeatsSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ciirb", "create-implicit-initial-repeat-barline",
 R"(Create an implicit repeat barline at the beginning of the stave
@@ -1338,7 +1338,7 @@ By default, no such barline is added.)",
 void msrOah::initializeMsrNotesOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup notesSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Notes",
       "hmsrn", "help-msr-notes",
@@ -1346,109 +1346,189 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (notesSubGroup);
+  appendSubGroupToGroup (subGroup);
+
+  // the 'dr' prefix
+
+  S_oahPrefix
+    shortDelayRestsPrefix =
+      oahPrefix::create (
+        "dr",
+        "dr",
+        "'-dr=abc,xywx,yz' is equivalent to '-drabc, -drxywx, -dryz'");
+  fHandlerUpLink->
+    appendPrefixToHandler (shortDelayRestsPrefix);
+
+  // the 'delay-rests' prefix
+
+  S_oahPrefix
+    longDelayRestsPrefix =
+      oahPrefix::create (
+        "delay-rests",
+        "delay-rests-",
+        "'-delay-rests=abc,xywx,yz' is equivalent to '-delay-rests-abc, -delay-rests-xywx, -delay-rests-yz'");
+  fHandlerUpLink->
+    appendPrefixToHandler (longDelayRestsPrefix);
+
+  // the 'delay rests' multiplex booleans atom
+
+  S_oahMultiplexBooleansAtom
+    delayRestsMultiplexBooleansAtom =
+      oahMultiplexBooleansAtom::create (
+        "Delay SHORT_NAME/LONG_NAME that occur on a rest until the next note.",
+        "SHORT_NAME",
+        "LONG_NAME",
+        shortDelayRestsPrefix,
+        longDelayRestsPrefix);
+
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsMultiplexBooleansAtom);
 
   // delay rests dynamics
 
   fDelayRestsDynamics = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsDynamicsAtom =
       oahBooleanAtom::create (
         "drdyns", "delay-rests-dynamics",
 R"()",
         "delayRestsDynamics",
-        fDelayRestsDynamics));
+        fDelayRestsDynamics);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsDynamicsAtom);
 
   // delay rests words
 
   fDelayRestsWords = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsWordsAtom =
       oahBooleanAtom::create (
         "drwords", "delay-rests-words",
 R"()",
         "delayRestsWords",
-        fDelayRestsWords));
+        fDelayRestsWords);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsWordsAtom);
 
   // delay rests beams
 
   fDelayRestsBeams = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsBeamsAtom =
       oahBooleanAtom::create (
         "drbeams", "delay-rests-beams",
 R"()",
         "delayRestsBeams",
-        fDelayRestsBeams));
+        fDelayRestsBeams);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsBeamsAtom);
 
   // delay rests slurs
 
   fDelayRestsSlurs = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsSlursAtom =
       oahBooleanAtom::create (
         "drslurs", "delay-rests-slurs",
 R"()",
         "delayRestsSlurs",
-        fDelayRestsSlurs));
+        fDelayRestsSlurs);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsSlursAtom);
 
   // delay rests ligatures
 
   fDelayRestsLigatures = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsLigaturesAtom =
       oahBooleanAtom::create (
         "drligs", "delay-rests-ligatures",
 R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
         "delayRestsLigatures",
-        fDelayRestsLigatures));
+        fDelayRestsLigatures);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsLigaturesAtom);
 
   // delay rests pedals
 
   fDelayRestsPedals = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsPedalsAtom =
       oahBooleanAtom::create (
         "drpeds", "delay-rests-pedals",
 R"()",
         "delayRestsPedals",
-        fDelayRestsPedals));
+        fDelayRestsPedals);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsPedalsAtom);
 
   // delay rests slashes
 
   fDelayRestsSlashes = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsSlashesAtom =
       oahBooleanAtom::create (
         "drslashes", "delay-rests-slashes",
 R"('<slash/>' in MusicXML)",
         "delayRestsSlashes",
-        fDelayRestsSlashes));
+        fDelayRestsSlashes);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsSlashesAtom);
 
   // delay rests wedges
 
   fDelayRestsWedges = false;
 
-  notesSubGroup->
-    appendAtom (
+  S_oahBooleanAtom
+    delayRestsWedgesAtom =
       oahBooleanAtom::create (
         "drwedges", "delay-rests-wedges",
 R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
         "delayRestsWedges",
-        fDelayRestsWedges));
+        fDelayRestsWedges);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsWedgesAtom);
+
+  // populate delayRestsMultiplexBooleansAtom
+  // this will hide the added boolean atoms
+
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsDynamicsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsWordsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsBeamsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsSlursAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsPedalsAtom);
 }
 
 void msrOah::initializeMsrLyricsOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup lyricsSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Lyrics",
       "hmsrlyrd", "help-msr-lyrics",
@@ -1456,14 +1536,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (lyricsSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // stanzas numbers
 
   fAddStanzasNumbers  = false;
 
-  lyricsSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "asn", "add-stanzas-numbers",
 R"(Add stanzas numbers to lyrics.)",
@@ -1474,7 +1554,7 @@ R"(Add stanzas numbers to lyrics.)",
 void msrOah::initializeMsrHarmoniesOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup harmoniesSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Harmonies",
       "hmsrh", "help-msr-harmonies",
@@ -1482,14 +1562,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (harmoniesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // show harmony voices
 
   fShowHarmonyVoices      = boolOptionsInitialValue;
 
-  harmoniesSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "shv", "show-harmony-voices",
 R"(Show the parts harmony voices in the MSR data
@@ -1501,7 +1581,7 @@ even though it does not contain music.)",
 void msrOah::initializeMsrFiguredBassOptions (
   bool boolOptionsInitialValue)
 {
-  S_oahSubGroup figuredBassSubGroup =
+  S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Figured bass",
       "hmsrfb", "help-msr-figured-bass",
@@ -1509,14 +1589,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (figuredBassSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // show figured bass voices
 
   fShowFiguredBassVoices      = boolOptionsInitialValue;
 
-  figuredBassSubGroup->
-    appendAtom (
+  subGroup->
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "sfbv", "show-figured-bass-voices",
 R"(Show the figured bass harmony voices in the MSR data
@@ -1537,7 +1617,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (exitAfterSomePassesSubGroup);
+  appendSubGroupToGroup (exitAfterSomePassesSubGroup);
 
   // exit after pass 2a
 
@@ -1553,7 +1633,7 @@ of the MusicXML tree to an MSR skeleton.)",
         fExit2a);
 
   exitAfterSomePassesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       exit2aOahBooleanAtom);
 
   // exit after pass 2b
@@ -1570,7 +1650,7 @@ of the MusicXML tree to MSR.)",
         fExit2b);
 
   exitAfterSomePassesSubGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       exit2bOahBooleanAtom);
 }
 

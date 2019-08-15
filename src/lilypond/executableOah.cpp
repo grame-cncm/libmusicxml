@@ -78,12 +78,12 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // help options
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahOptionsUsageAtom::create (
         "ho", "help-options",
 R"(Print options usage help.)"));
@@ -91,7 +91,7 @@ R"(Print options usage help.)"));
   // help summary
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahOptionsSummaryAtom::create (
         "hs", "help-summary",
 R"(Display a help summary and exit.)"));
@@ -120,7 +120,7 @@ OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
     setValueIsOptional ();
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       optionNameHelpAtom);
 }
 
@@ -136,14 +136,14 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // options and arguments
 
   fShowOptionsAndArguments = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "soaa", "show-options-and-arguments",
         replaceSubstringInString (
@@ -167,14 +167,14 @@ R"()",
     kElementVisibilityAlways,
     this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // trace options
 
   fTraceOah = boolOptionsInitialValue; // JMI ECURIE
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "toah", "trace-oah",
 R"(Write a trace of options and help handling to standard error.
@@ -187,7 +187,7 @@ This option should best appear first.)",
   fTraceOahDetails = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "toptsd", "trace-options-details",
 R"(Write a trace of options and help handling with more details to standard error.
@@ -200,7 +200,7 @@ This option should best appear first.)",
   fTraceOahVisitors    = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "toahv", "trace-oah-visitors",
 R"(Write a trace of the OAH tree visiting activity to standard error.)",
@@ -212,7 +212,7 @@ R"(Write a trace of the OAH tree visiting activity to standard error.)",
   fDisplayOahValues = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dov", "display-options-values",
 R"(Write the chosen options values to standard error.)",
@@ -224,7 +224,7 @@ R"(Write the chosen options values to standard error.)",
   fDisplayOptionsHandler = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "doh", "display-options-handler",
 R"(Write the contents of the options handler to standard error.)",

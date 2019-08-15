@@ -74,14 +74,14 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // quiet
 
   fQuiet = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "q", "quiet",
 R"(Don't issue any warning or error messages.)",
@@ -93,7 +93,7 @@ R"(Don't issue any warning or error messages.)",
   fDontShowErrors = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dse", "dont-show-errors",
 R"(Don't show errors in the log.)",
@@ -105,7 +105,7 @@ R"(Don't show errors in the log.)",
   fDontAbortOnErrors = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "daoe", "dont-abort-on-errors",
         replaceSubstringInString (
@@ -121,7 +121,7 @@ This may be useful when debugging EXECUTABLE.)",
   fDisplaySourceCodePosition = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dscp", "display-source-code-position",
         replaceSubstringInString (
@@ -146,14 +146,14 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroup (subGroup);
+  appendSubGroupToGroup (subGroup);
 
   // CPU usage
 
   fDisplayCPUusage = boolOptionsInitialValue;
 
   subGroup->
-    appendAtom (
+    appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dcpuu", "display-cpu-usage",
 R"(Write information about CPU usage to standard error.)",
