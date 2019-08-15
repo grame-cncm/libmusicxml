@@ -19,6 +19,8 @@
 
 #include "generalOah.h"
 
+#include "messagesHandling.h"
+
 using namespace std;
 
 namespace MusicXML2
@@ -120,6 +122,30 @@ R"()",
 
   appendSubGroupToGroup (aboveStaffsubGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
   // rehearsals
 
   fTraceRehearsals = boolOptionsInitialValue;
@@ -186,6 +212,30 @@ R"()",
       this);
 
   appendSubGroupToGroup (breaksAndBarlinessubGroup);
+
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
 
   // line breaks
 
@@ -255,6 +305,30 @@ R"()",
 
   appendSubGroupToGroup (clefsToTempossubGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
   // clefs
 
   fTraceClefs = boolOptionsInitialValue;
@@ -322,6 +396,30 @@ R"()",
 
   appendSubGroupToGroup (interNotessubGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
   // ties
 
   fTraceTies = boolOptionsInitialValue;
@@ -362,6 +460,30 @@ R"()",
       this);
 
   appendSubGroupToGroup (spannerssubGroup);
+
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
 
   // spanners
 
@@ -471,6 +593,30 @@ R"()",
 
   appendSubGroupToGroup (creditsToWordssubGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
   // credits
 
   fTraceCredits = boolOptionsInitialValue;
@@ -537,6 +683,30 @@ R"()",
       this);
 
   appendSubGroupToGroup (chordsAndTupletssubGroup);
+
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
 
   // chords
 
@@ -619,6 +789,30 @@ R"()",
       this);
 
   appendSubGroupToGroup (instrumentssubGroup);
+
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
 
   // frames
 
@@ -766,6 +960,30 @@ R"()",
 
   appendSubGroupToGroup (notesAttachmentssubGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
   // stems
 
   fTraceStems = boolOptionsInitialValue;
@@ -858,6 +1076,30 @@ R"()",
       this);
 
   appendSubGroupToGroup (segmentsAndMeasuressubGroup);
+
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
 
   // segments
 
@@ -1089,6 +1331,30 @@ R"()",
 
   appendSubGroupToGroup (notessubGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
   // notes
 
   fTraceNotes = boolOptionsInitialValue;
@@ -1212,6 +1478,30 @@ R"()",
 
   appendSubGroupToGroup (repeatssubGroup);
 
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
+
   // repeats
 
   fTraceRepeats = boolOptionsInitialValue;
@@ -1302,6 +1592,30 @@ R"()",
       this);
 
   appendSubGroupToGroup (lowLevelsubGroup);
+
+  // fetch the 't' prefix
+
+  S_oahPrefix
+    shortTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "t");
+
+  msrAssert (
+    shortTracePrefix != nullptr,
+    "shortTracePrefix is null");
+
+  // fetch the 'trace' prefix
+
+  S_oahPrefix
+    longTracePrefix =
+      fHandlerUpLink->
+        fetchPrefixInMapByItsName (
+          "trace");
+
+  msrAssert (
+    longTracePrefix != nullptr,
+    "longTracePrefix is null");
 
   // passes
 
