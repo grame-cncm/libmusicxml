@@ -1399,6 +1399,9 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       delayRestsDynamicsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsDynamicsAtom);
 
   // delay rests words
 
@@ -1413,6 +1416,9 @@ R"()",
         fDelayRestsWords);
   subGroup->
     appendAtomToSubGroup (
+      delayRestsWordsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
       delayRestsWordsAtom);
 
   // delay rests beams
@@ -1429,6 +1435,9 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       delayRestsBeamsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsBeamsAtom);
 
   // delay rests slurs
 
@@ -1443,6 +1452,9 @@ R"()",
         fDelayRestsSlurs);
   subGroup->
     appendAtomToSubGroup (
+      delayRestsSlursAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
       delayRestsSlursAtom);
 
   // delay rests ligatures
@@ -1459,6 +1471,9 @@ R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
   subGroup->
     appendAtomToSubGroup (
       delayRestsLigaturesAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsLigaturesAtom);
 
   // delay rests pedals
 
@@ -1473,6 +1488,9 @@ R"()",
         fDelayRestsPedals);
   subGroup->
     appendAtomToSubGroup (
+      delayRestsPedalsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
       delayRestsPedalsAtom);
 
   // delay rests slashes
@@ -1504,25 +1522,9 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
   subGroup->
     appendAtomToSubGroup (
       delayRestsWedgesAtom);
-
-  // populate delayRestsMultiplexBooleansAtom
-  // this will hide the added boolean atoms
-
   delayRestsMultiplexBooleansAtom->
     addBooleanAtom (
-      delayRestsDynamicsAtom);
-  delayRestsMultiplexBooleansAtom->
-    addBooleanAtom (
-      delayRestsWordsAtom);
-  delayRestsMultiplexBooleansAtom->
-    addBooleanAtom (
-      delayRestsBeamsAtom);
-  delayRestsMultiplexBooleansAtom->
-    addBooleanAtom (
-      delayRestsSlursAtom);
-  delayRestsMultiplexBooleansAtom->
-    addBooleanAtom (
-      delayRestsPedalsAtom);
+      delayRestsWedgesAtom);
 }
 
 void msrOah::initializeMsrLyricsOptions (

@@ -407,6 +407,9 @@ class traceOah : public oahGroup
     // private work fields
     // --------------------------------------
 
+    S_oahPrefix           fShortTracePrefix;
+    S_oahPrefix           fLongTracePrefix;
+
     int                   fMaximumSubGroupHeaderLength;
 };
 typedef SMARTP<traceOah> S_traceOah;

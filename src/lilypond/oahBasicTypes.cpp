@@ -1487,11 +1487,12 @@ void oahTwoBooleansAtom::print (ostream& os) const
   oahElement::printOptionEssentials (
     os, fieldWidth);
 
-  gIndenter++;
   os <<
+    setw (fieldWidth) <<
+    "fDescription" << " : " <<
     gIndenter.indentMultiLineString (
-      fDescription);
-  gIndenter--;
+      fDescription) <<
+    endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1502,6 +1503,8 @@ void oahTwoBooleansAtom::print (ostream& os) const
     "fBooleanVariable" << " : " <<
     booleanAsString (
       fBooleanVariable) <<
+    endl <<
+    setw (fieldWidth) <<
     "fBooleanSecondaryVariable" << " : " <<
     booleanAsString (
       fBooleanSecondaryVariable) <<
@@ -1662,12 +1665,12 @@ void oahThreeBooleansAtom::print (ostream& os) const
   oahElement::printOptionEssentials (
     os, fieldWidth);
 
-  gIndenter++;
   os <<
+    setw (fieldWidth) <<
+    "fDescription" << " : " <<
     gIndenter.indentMultiLineString (
       fDescription) <<
     endl;
-  gIndenter--;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1678,9 +1681,13 @@ void oahThreeBooleansAtom::print (ostream& os) const
     "fBooleanVariable" << " : " <<
     booleanAsString (
       fBooleanVariable) <<
+    endl <<
+    setw (fieldWidth) <<
     "fBooleanSecondaryVariable" << " : " <<
     booleanAsString (
       fBooleanSecondaryVariable) <<
+    endl <<
+    setw (fieldWidth) <<
     "fBooleanTertiaryVariable" << " : " <<
     booleanAsString (
       fBooleanTertiaryVariable) <<
@@ -2377,9 +2384,9 @@ oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
   S_oahPrefix longNamesPrefix)
   : oahAtom (
       "unusedShortName_" + shortSuffixDescriptor + "_" + description,
-        // a unique shortName hopefully
+        // should be a unique shortName
       "unusedLongName_" + longSuffixDescriptor + "_" + description,
-        // a unique longName hopefully
+        // should be a unique longName
       description),
     fShortSuffixDescriptor (
       shortSuffixDescriptor),
@@ -2428,10 +2435,12 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
       stringstream s;
 
       s <<
-        "INTERNAL ERROR: option name '" << booleanAtomShortName <<
+        "INTERNAL ERROR: option short name '" << booleanAtomShortName <<
         "' is different that the short names prefix name '" <<
         fShortNamesPrefixName <<
         "'";
+
+      booleanAtom->print (s);
 
       oahError (s.str ());
     }
@@ -2439,10 +2448,12 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
       stringstream s;
 
       s <<
-        "INTERNAL ERROR: option name '" << booleanAtomShortName <<
+        "INTERNAL ERROR: option short name '" << booleanAtomShortName <<
         "' doesn't start by the short names prefix name '" <<
         fShortNamesPrefixName <<
         "'";
+
+      booleanAtom->print (s);
 
       oahError (s.str ());
     }
@@ -2455,10 +2466,12 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
         stringstream s;
 
         s <<
-          "INTERNAL ERROR: option name '" << booleanAtomShortName <<
+          "INTERNAL ERROR: option short name '" << booleanAtomShortName <<
           "' is nothing more than the short names prefix name '" <<
           fShortNamesPrefixName <<
           "'";
+
+        booleanAtom->print (s);
 
         oahError (s.str ());
       }
@@ -2471,55 +2484,76 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
 
   // long name consistency check
   {
-
     string booleanAtomLongName =
       booleanAtom->getLongName ();
 
-    std::size_t found =
-      booleanAtomLongName.find (fLongNamesPrefixName);
+    if (booleanAtomLongName.size ()) {
+      std::size_t found =
+        booleanAtomLongName.find (fLongNamesPrefixName);
 
-    if (found == string::npos) {
-      stringstream s;
-
-      s <<
-        "INTERNAL ERROR: option name '" << booleanAtomLongName <<
-        "' is different that the long names prefix name '" <<
-        fLongNamesPrefixName <<
-        "'";
-
-      oahError (s.str ());
-    }
-    else if (found != 0) {
-      stringstream s;
-
-      s <<
-        "INTERNAL ERROR: option name '" << booleanAtomLongName <<
-        "' doesn't start by the long names prefix name '" <<
-        fLongNamesPrefixName <<
-        "'";
-
-      oahError (s.str ());
-    }
-    else {
-      string booleanAtomLongNameSuffix =
-        booleanAtomLongName.substr (
-          fLongNamesPrefixName.size ());
-
-      if (booleanAtomLongNameSuffix.size () == 0) {
+      if (found == string::npos) {
         stringstream s;
 
         s <<
-          "INTERNAL ERROR: option name '" << booleanAtomLongName <<
-          "' is nothing more than the long names prefix name '" <<
+          "INTERNAL ERROR: option long name '" << booleanAtomLongName <<
+          "' is different that the long names prefix name '" <<
           fLongNamesPrefixName <<
           "'";
+
+        booleanAtom->print (s);
+
+        oahError (s.str ());
+      }
+      else if (found != 0) {
+        stringstream s;
+
+        s <<
+          "INTERNAL ERROR: option long name '" << booleanAtomLongName <<
+          "' doesn't start by the long names prefix name '" <<
+          fLongNamesPrefixName <<
+          "'";
+
+        booleanAtom->print (s);
 
         oahError (s.str ());
       }
       else {
-        // register this boolean atom's suffix in the list
-        fLongNamesSuffixes.push_back (booleanAtomLongNameSuffix);
+        string booleanAtomLongNameSuffix =
+          booleanAtomLongName.substr (
+            fLongNamesPrefixName.size ());
+
+        if (booleanAtomLongNameSuffix.size () == 0) {
+          stringstream s;
+
+          s <<
+            "INTERNAL ERROR: option long name '" << booleanAtomLongName <<
+            "' is nothing more than the long names prefix name '" <<
+            fLongNamesPrefixName <<
+            "'";
+
+          booleanAtom->print (s);
+
+          oahError (s.str ());
+        }
+        else {
+          // register this boolean atom's suffix in the list
+          fLongNamesSuffixes.push_back (booleanAtomLongNameSuffix);
+        }
       }
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option long name '" << booleanAtomLongName <<
+        "' is empty, atom '" <<
+        fLongNamesPrefixName <<
+        "' cannot be used in a multiplex booleans atom";
+
+      booleanAtom->print (s);
+
+      oahError (s.str ());
     }
   }
 

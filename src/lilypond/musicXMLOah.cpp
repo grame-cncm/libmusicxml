@@ -145,6 +145,9 @@ R"(Encoding)",
   subGroup->
     appendAtomToSubGroup (
       traceEncodingAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceEncodingAtom);
 
   // divisions
 
@@ -160,6 +163,9 @@ R"(Divisions)",
         gTraceOah->fTracePasses);
   subGroup->
     appendAtomToSubGroup (
+      traceDivisionsAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
       traceDivisionsAtom);
 
   // backup
@@ -177,6 +183,9 @@ R"(Backup)",
   subGroup->
     appendAtomToSubGroup (
       traceBackupAtom);
+  musicXMLMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceBackupAtom);
 
   // forward
 
@@ -193,19 +202,6 @@ R"(Forward)",
   subGroup->
     appendAtomToSubGroup (
       traceForwardAtom);
-
-  // populate musicXMLMultiplexBooleansAtom
-  // this will hide the added boolean atoms
-
-  musicXMLMultiplexBooleansAtom->
-    addBooleanAtom (
-      traceEncodingAtom);
-  musicXMLMultiplexBooleansAtom->
-    addBooleanAtom (
-      traceDivisionsAtom);
-  musicXMLMultiplexBooleansAtom->
-    addBooleanAtom (
-      traceBackupAtom);
   musicXMLMultiplexBooleansAtom->
     addBooleanAtom (
       traceForwardAtom);
@@ -316,6 +312,9 @@ R"(Ignore clefs that are the same as the current one.)",
   subGroup->
     appendAtomToSubGroup (
       fIgnoreRedundantClefsAtom);
+  ignoreRedundantMultiplexBooleansAtom->
+    addBooleanAtom (
+      fIgnoreRedundantClefsAtom);
 
   // redundant keys
 
@@ -329,6 +328,9 @@ R"(Ignore keys that are the same as the current one.)",
       fIgnoreRedundantKeys);
   subGroup->
     appendAtomToSubGroup (
+      fIgnoreRedundantKeysAtom);
+  ignoreRedundantMultiplexBooleansAtom->
+    addBooleanAtom (
       fIgnoreRedundantKeysAtom);
 
   // redundant times
@@ -344,16 +346,6 @@ R"(Ignore times that are the same as the current one.)",
   subGroup->
     appendAtomToSubGroup (
       fIgnoreRedundantTimesAtom);
-
-  // populate ignoreRedundantMultiplexBooleansAtom
-  // this will hide the added boolean atoms
-
-  ignoreRedundantMultiplexBooleansAtom->
-    addBooleanAtom (
-      fIgnoreRedundantClefsAtom);
-  ignoreRedundantMultiplexBooleansAtom->
-    addBooleanAtom (
-      fIgnoreRedundantKeysAtom);
   ignoreRedundantMultiplexBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantTimesAtom);
@@ -414,7 +406,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
   cubaseCombinedBooleansAtom->
     setCombinedBooleanVariables (fCubase);
 
-  // populate the combined atoms
+  // populate the 'cubase' combined atom
   cubaseCombinedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantClefsAtom);

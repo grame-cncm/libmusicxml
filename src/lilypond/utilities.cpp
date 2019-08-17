@@ -1176,6 +1176,8 @@ void oahError (string errorMessage)
     "### ERROR in the options and help: " <<
     errorMessage <<
     endl;
+
+  exit (33);
 }
 
 //______________________________________________________________________________
