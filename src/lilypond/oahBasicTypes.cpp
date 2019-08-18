@@ -5340,6 +5340,196 @@ ostream& operator<< (ostream& os, const S_oahStringsSetAtom& elt)
 }
 
 //______________________________________________________________________________
+S_oahRGBColorAtom oahRGBColorAtom::create (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  msrRGBColor& RGBColorVariable)
+{
+  oahRGBColorAtom* o = new
+    oahRGBColorAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      RGBColorVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahRGBColorAtom::oahRGBColorAtom (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  msrRGBColor& RGBColorVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fRGBColorVariable (
+      RGBColorVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+oahRGBColorAtom::~oahRGBColorAtom ()
+{}
+
+S_oahValuedAtom oahRGBColorAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void oahRGBColorAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  fRGBColorVariable = msrRGBColor (theString);
+}
+
+void oahRGBColorAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahRGBColorAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahRGBColorAtom>*
+    p =
+      dynamic_cast<visitor<S_oahRGBColorAtom>*> (v)) {
+        S_oahRGBColorAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahRGBColorAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahRGBColorAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahRGBColorAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahRGBColorAtom>*
+    p =
+      dynamic_cast<visitor<S_oahRGBColorAtom>*> (v)) {
+        S_oahRGBColorAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahRGBColorAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahRGBColorAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahRGBColorAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahRGBColorAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    "[" <<
+    fRGBColorVariable.asString () <<
+    "]";
+
+  return s.str ();
+}
+
+string oahRGBColorAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    "[" <<
+    fRGBColorVariable.asString () <<
+    "]";
+
+  return s.str ();
+}
+
+void oahRGBColorAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "RGBColorAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fRGBColorVariable" << " : " <<
+    fRGBColorVariable.asString () <<
+    endl;
+
+  gIndenter--;
+}
+
+void oahRGBColorAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : " <<
+    fRGBColorVariable.asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahRGBColorAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_oahOptionNameHelpAtom oahOptionNameHelpAtom::create (
   string shortName,
   string longName,

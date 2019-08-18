@@ -341,7 +341,6 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a rights option?
   if (gLilypondOah->fRights.size ()) {
     // define rights
-
     fCurrentLpsrScoreHeader->
       addRights (
         inputLineNumber,
@@ -351,7 +350,6 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a composer option?
   if (gLilypondOah->fComposer.size ()) {
     // define composer
-
     fCurrentLpsrScoreHeader->
       addComposer (
         inputLineNumber,
@@ -361,7 +359,6 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there an arranger option?
   if (gLilypondOah->fArranger.size ()) {
     // define arranger
-
     fCurrentLpsrScoreHeader->
       addArranger (
         inputLineNumber,
@@ -371,7 +368,6 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a poet option?
   if (gLilypondOah->fPoet.size ()) {
     // define poet
-
     fCurrentLpsrScoreHeader->
       addPoet (
         inputLineNumber,
@@ -381,7 +377,6 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a lyricist option?
   if (gLilypondOah->fLyricist.size ()) {
     // define lyricist
-
     fCurrentLpsrScoreHeader->
       addLyricist (
         inputLineNumber,
@@ -396,6 +391,87 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
       addSoftware (
         inputLineNumber,
         gLilypondOah->fSoftware);
+  }
+
+  // is there a dedication?
+  if (gLilypondOah->fDedication.size ()) {
+    // define dedication
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fDedication);
+  }
+
+  // is there a piece?
+  if (gLilypondOah->fPiece.size ()) {
+    // define piece
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fPiece);
+  }
+
+  // is there an opus?
+  if (gLilypondOah->fOpus.size ()) {
+    // define opus
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fOpus);
+  }
+
+  // is there a title?
+  if (gLilypondOah->fTitle.size ()) {
+    // define title
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fTitle);
+  }
+
+  // is there a subtitle?
+  if (gLilypondOah->fSubTitle.size ()) {
+    // define subtitle
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fSubTitle);
+  }
+
+  // is there a subsubtitle?
+  if (gLilypondOah->fSubSubTitle.size ()) {
+    // define subsubtitle
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fSubSubTitle);
+  }
+
+  // is there a meter?
+  if (gLilypondOah->fMeter.size ()) {
+    // define meter
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fMeter);
+  }
+
+  // is there a tagline?
+  if (gLilypondOah->fTagline.size ()) {
+    // define tagline
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fTagline);
+  }
+
+  // is there a copyright?
+  if (gLilypondOah->fCopyright.size ()) {
+    // define copyright
+    fCurrentLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOah->fCopyright);
   }
 
   // is the Scheme function 'whiteNoteHeads' to be generated?

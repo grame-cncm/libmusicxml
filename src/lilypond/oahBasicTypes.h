@@ -2037,6 +2037,93 @@ typedef SMARTP<oahStringsSetAtom> S_oahStringsSetAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringsSetAtom& elt);
 
 //______________________________________________________________________________
+class oahRGBColorAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahRGBColorAtom> create (
+      string       shortName,
+      string       longName,
+      string       description,
+      string       valueSpecification,
+      string       variableName,
+      msrRGBColor& RGBColorVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahRGBColorAtom (
+      string       shortName,
+      string       longName,
+      string       description,
+      string       valueSpecification,
+      string       variableName,
+      msrRGBColor& RGBColorVariable);
+
+    virtual ~oahRGBColorAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setRGBColorVariable (
+                            msrRGBColor value)
+                              { fRGBColorVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrRGBColor&          fRGBColorVariable;
+};
+typedef SMARTP<oahRGBColorAtom> S_oahRGBColorAtom;
+EXP ostream& operator<< (ostream& os, const S_oahRGBColorAtom& elt);
+
+//______________________________________________________________________________
 class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 {
 /*

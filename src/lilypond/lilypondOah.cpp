@@ -2115,7 +2115,7 @@ void lilypondOah::initializeIdentificationOptions (
       oahSubGroup::create (
         "Identification",
         "hlpi", "help-lilypond-identification",
-R"(  These lilypond can be used to enforce values in the generated LilyPond code,
+R"(These options can be used to enforce values in the generated LilyPond code,
 thus overriding the ones that may be present in the MSR data.)",
       kElementVisibilityAlways,
       this);
@@ -2128,7 +2128,7 @@ thus overriding the ones that may be present in the MSR data.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "rights", "",
-R"(Set the 'rights' to STRING in the LilyPond code.)",
+R"(Set the 'rights' to STRING in the LilyPond code \header.)",
         "STRING",
         "rights",
         fRights));
@@ -2137,7 +2137,7 @@ R"(Set the 'rights' to STRING in the LilyPond code.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "composer", "",
-R"(Set the 'composer' to STRING in the LilyPond code.)",
+R"(Set the 'composer' to STRING in the LilyPond code \header.)",
         "STRING",
         "composer",
         fComposer));
@@ -2146,7 +2146,7 @@ R"(Set the 'composer' to STRING in the LilyPond code.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "arranger", "",
-R"(Set the 'arranger' to STRING in the LilyPond code.)",
+R"(Set the 'arranger' to STRING in the LilyPond code \header.)",
         "STRING",
         "arranger",
         fArranger));
@@ -2155,7 +2155,7 @@ R"(Set the 'arranger' to STRING in the LilyPond code.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "poet", "",
-R"(Set the 'poet' to STRING in the LilyPond code.)",
+R"(Set the 'poet' to STRING in the LilyPond code \header.)",
         "STRING",
         "poet",
         fPoet));
@@ -2164,7 +2164,7 @@ R"(Set the 'poet' to STRING in the LilyPond code.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "lyricist", "",
-R"(Set the 'lyricist' to STRING in the LilyPond code.)",
+R"(Set the 'lyricist' to STRING in the LilyPond code \header.)",
         "STRING",
         "lyricist",
         fLyricist));
@@ -2173,7 +2173,7 @@ R"(Set the 'lyricist' to STRING in the LilyPond code.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "software", "",
-R"(Set the 'software' to STRING in the LilyPond code.)",
+R"(Set the 'software' to STRING in the LilyPond code \header.)",
         "STRING",
         "software",
         fSoftware));
@@ -2184,7 +2184,7 @@ R"(Set the 'software' to STRING in the LilyPond code.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "dedication", "",
-R"(Set 'dedication' to STRING in the \header.)",
+R"(Set 'dedication' to STRING in the LilyPond code \header.)",
         "STRING",
         "dedication",
         fDedication));
@@ -2193,7 +2193,7 @@ R"(Set 'dedication' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "piece", "",
-R"(Set 'piece' to STRING in the \header.)",
+R"(Set 'piece' to STRING in the LilyPond code \header.)",
         "STRING",
         "piece",
         fPiece));
@@ -2202,7 +2202,7 @@ R"(Set 'piece' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "opus", "",
-R"(Set 'opus' to STRING in the \header.)",
+R"(Set 'opus' to STRING in the LilyPond code \header.)",
         "STRING",
         "opus",
         fOpus));
@@ -2211,7 +2211,7 @@ R"(Set 'opus' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "title", "",
-R"(Set 'title' to STRING in the \header.)",
+R"(Set 'title' to STRING in the LilyPond code \header.)",
         "STRING",
         "title",
         fTitle));
@@ -2220,7 +2220,7 @@ R"(Set 'title' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "stitle", "subtitle",
-R"(Set 'subtitle' to STRING in the \header.)",
+R"(Set 'subtitle' to STRING in the LilyPond code \header.)",
         "STRING",
         "subTitle",
         fSubTitle));
@@ -2229,7 +2229,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "sstitle", "subsubtitle",
-R"(Set 'subsubtitle' to STRING in the \header.)",
+R"(Set 'subsubtitle' to STRING in the LilyPond code \header.)",
         "STRING",
         "subSubTitle",
         fSubSubTitle));
@@ -2238,7 +2238,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "instrument", "",
-R"(Set 'instrument' to STRING in the \header.)",
+R"(Set 'instrument' to STRING in the LilyPond code \header.)",
         "STRING",
         "instrument",
         fInstrument));
@@ -2247,7 +2247,7 @@ R"(Set 'instrument' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "meter", "",
-R"(Set 'meter' to STRING in the \header.)",
+R"(Set 'meter' to STRING in the LilyPond code \header.)",
         "STRING",
         "meter",
         fMeter));
@@ -2256,7 +2256,7 @@ R"(Set 'meter' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "tagline", "",
-R"(Set 'tagline' to STRING in the \header.)",
+R"(Set 'tagline' to STRING in the LilyPond code \header.)",
         "STRING",
         "tagline",
         fTagline));
@@ -2265,7 +2265,7 @@ R"(Set 'tagline' to STRING in the \header.)",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "copyright", "",
-R"(Set 'copyright' to STRING in the \header.)",
+R"(Set 'copyright' to STRING in the LilyPond code \header.)",
         "STRING",
         "copyright",
         fCopyright));
@@ -2785,6 +2785,21 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
 R"(Use the staff size value found in the MusicXML data.)",
         "keepStaffSize",
         fKeepStaffSize));
+
+  // ledger lines
+
+  fKeepStaffSize = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahRGBColorAtom::create (
+        "llc", "ledger-lines-color",
+R"(Use RGB_COLOR for the ledger lines.
+RGB_COLOR should be of the form 'r,g,b',
+with r, g and b being float numbers between 0.0 and 1.0 inclusive.)",
+        "RGB_COLOR",
+        "ledgerLinesRGBColor",
+        fLedgerLinesRGBColor));
 }
 
 void lilypondOah::initializeChordsOptions (

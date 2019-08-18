@@ -377,6 +377,32 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 
+// colors
+//______________________________________________________________________________
+class msrRGBColor {
+  public:
+
+    msrRGBColor ();
+
+    msrRGBColor (
+      float theR,
+      float theG,
+      float theB);
+
+    msrRGBColor (
+      std::string theString);
+
+  public:
+
+    std::string           asString () const;
+
+  public:
+
+    float                 fR;
+    float                 fG;
+    float                 fB;
+};
+
 // fonts
 //______________________________________________________________________________
 class msrFontSize : public smartable

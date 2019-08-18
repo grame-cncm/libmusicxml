@@ -11793,6 +11793,151 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   return result;
 }
 
+// colors
+//______________________________________________________________________________
+msrRGBColor::msrRGBColor ()
+{
+  fR = 0.0;
+  fG = 0.0;
+  fB = 0.0;
+}
+
+msrRGBColor::msrRGBColor (
+  float theR,
+  float theG,
+  float theB)
+{
+  fR = theR;
+  fG = theG;
+  fB = theB;
+}
+
+msrRGBColor::msrRGBColor (
+  std::string theString)
+{
+  string regularExpression (
+    "([[:digit:]]*.[[:space:]]*)"
+    ","
+    "([[:digit:]]*.[[:space:]]*)"
+    ","
+    "([[:digit:]]*.[[:space:]]*)");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    gLogOstream <<
+      "There are " << smSize << " matches" <<
+      " for RGB color string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize == 4) {
+#ifdef TRACE_OAH
+    if (gExecutableOah->fTraceOah) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+      gLogOstream << endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "msrRGBColor string '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+    exit (4);
+  }
+
+  string
+    RString = sm [1],
+    GString = sm [2],
+    BString = sm [3];
+
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOah) {
+    gLogOstream <<
+      "--> RString = \"" << RString << "\", " <<
+      "--> GString = \"" << GString << "\"" <<
+      "--> BString = \"" << BString << "\"" <<
+      endl;
+  }
+#endif
+
+  // are these strings alright?
+  {
+    stringstream s;
+
+    s << RString;
+    s >> fR;
+
+    if (fR < 0.0 || fR > 1.0) {
+      gLogOstream <<
+        "### ERROR: the R component " << fR <<
+        " is not in the [0.0..1.0] interval in '" << theString << "'" <<
+        endl;
+    }
+  }
+  {
+    stringstream s;
+
+    s << GString;
+    s >> fG;
+
+    if (fG < 0.0 || fG > 1.0) {
+      gLogOstream <<
+        "### ERROR: the G component " << fG <<
+        " is not in the [0.0..1.0] interval in '" << theString << "'" <<
+        endl;
+    }
+  }
+  {
+    stringstream s;
+
+    s << BString;
+    s >> fB;
+
+    if (fB < 0.0 || fB > 1.0) {
+      gLogOstream <<
+        "### ERROR: the B component " << fB <<
+        " is not in the [0.0..1.0] interval in '" << theString << "'" <<
+        endl;
+    }
+  }
+
+}
+
+string msrRGBColor::asString () const
+{
+  stringstream s;
+
+  s <<
+    setprecision (2) <<
+    "'" <<
+    fR <<
+    "," <<
+    fG <<
+    "," <<
+    fB <<
+    "'";
+
+  return s.str ();
+}
+
 // font size
 //______________________________________________________________________________
 S_msrFontSize msrFontSize::create (
