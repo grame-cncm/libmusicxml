@@ -4109,6 +4109,8 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
       endl;
   }
   else {
+    os << endl;
+
     list<string>::const_iterator
       iBegin = fAtomNamesList.begin (),
       iEnd   = fAtomNamesList.end (),
