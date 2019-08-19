@@ -2823,8 +2823,9 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
   }
 
   os <<
-    fShortSuffixDescriptor <<
-    " can be one of: ";
+    "The " <<
+    fShortNamesSuffixes.size () <<
+    " known " << fShortSuffixDescriptor << "s are: ";
 
   if (! fShortNamesSuffixes.size ()) {
     os <<
@@ -2853,8 +2854,9 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
 
   if (fLongSuffixDescriptor != fShortSuffixDescriptor) {
     os <<
-      fLongSuffixDescriptor <<
-      " can be one of: ";
+    "The " <<
+    fLongNamesSuffixes.size () <<
+    " known " << fLongSuffixDescriptor << "s are: ";
 
     if (! fLongNamesSuffixes.size ()) {
       os <<
@@ -4097,8 +4099,9 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
   }
 
   os <<
-    fAtomNameDescriptor <<
-    " can be one of: ";
+    "The " <<
+    fAtomNamesList.size () <<
+    " known " << fAtomNameDescriptor << "s are: ";
 
   if (! fAtomNamesList.size ()) {
     os <<

@@ -604,7 +604,7 @@ R"()",
         "bom", "byte-ordering-mark",
 R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
 ahead of the Braille nusic code,
-which can be one of big or small.
+which can be one of 'big' or 'small'.
 By default, BOM is generated.)",
         "BOM_ENDIAN",
         "byteOrderingKind",
