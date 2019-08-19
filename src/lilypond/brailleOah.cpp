@@ -763,7 +763,6 @@ void brailleOah::initializeBrailleOah (
 
 S_brailleOah brailleOah::createCloneWithDetailedTrace ()
 {
-/* JMI
   S_brailleOah
     clone =
       brailleOah::create (0);
@@ -783,7 +782,6 @@ S_brailleOah brailleOah::createCloneWithDetailedTrace ()
     fNoBrailleCode;
 
   return clone;
-  */
 }
 
 //______________________________________________________________________________

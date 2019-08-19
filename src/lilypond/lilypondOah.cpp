@@ -3473,7 +3473,6 @@ void lilypondOah::initializeLilypondOah (
 
 S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
 {
-/* JMI
   S_lilypondOah
     clone =
       lilypondOah::create (0);
@@ -3715,7 +3714,6 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
     fKeepStaffSize;
 
   return clone;
-  */
 }
 
 /* JMI

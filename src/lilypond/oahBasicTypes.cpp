@@ -2833,6 +2833,9 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
       endl;
   }
   else {
+    os << endl;
+    gIndenter++;
+
     list<string>::const_iterator
       iBegin = fShortNamesSuffixes.begin (),
       iEnd   = fShortNamesSuffixes.end (),
@@ -2850,6 +2853,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
     } // for
 
     os << "." << endl;
+    gIndenter--;
   }
 
   if (fLongSuffixDescriptor != fShortSuffixDescriptor) {
@@ -2864,6 +2868,9 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
         endl;
     }
     else {
+      os << endl;
+      gIndenter++;
+
       list<string>::const_iterator
         iBegin = fLongNamesSuffixes.begin (),
         iEnd   = fLongNamesSuffixes.end (),
@@ -2881,6 +2888,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
       } // for
 
       os << "." << endl;
+      gIndenter--;
     }
   }
 
@@ -4110,6 +4118,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
   }
   else {
     os << endl;
+    gIndenter++;
 
     list<string>::const_iterator
       iBegin = fAtomNamesList.begin (),
@@ -4128,6 +4137,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
     } // for
 
     os << "." << endl;
+    gIndenter--;
   }
 
   if (fDescription.size ()) { // ??? JMI

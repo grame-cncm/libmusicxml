@@ -461,7 +461,6 @@ void musicXMLOah::initializeMusicXMLOah (
 
 S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
 {
-/* JMI
   S_musicXMLOah
     clone =
       musicXMLOah::create (0);
@@ -509,7 +508,6 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
     fTraceMusicXMLTreeVisitors;
 
   return clone;
-  */
 }
 
 //______________________________________________________________________________

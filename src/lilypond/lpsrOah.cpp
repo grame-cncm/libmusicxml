@@ -1451,7 +1451,6 @@ void lpsrOah::initializeLpsrOah (
 
 S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
 {
-/* JMI
   S_lpsrOah
     clone =
       lpsrOah::create (0);
@@ -1529,7 +1528,6 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
     fTransposeSemiTonesPitchAndOctave;
 
   return clone;
-  */
 }
 
 //______________________________________________________________________________

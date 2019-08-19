@@ -1309,7 +1309,6 @@ void extraOah::initializeExtraOah (
 
 S_extraOah extraOah::createCloneWithDetailedTrace ()
 {
-/* JMI
   S_extraOah
     clone =
       extraOah::create (0);
@@ -1327,7 +1326,6 @@ S_extraOah extraOah::createCloneWithDetailedTrace ()
   // --------------------------------------
 
   return clone;
-  */
 }
 
 //______________________________________________________________________________

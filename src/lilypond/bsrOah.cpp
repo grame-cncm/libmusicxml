@@ -815,7 +815,6 @@ void bsrOah::initializeBsrOah (
 
 S_bsrOah bsrOah::createCloneWithDetailedTrace ()
 {
-/* JMI
   S_bsrOah
     clone =
       bsrOah::create (0);
@@ -844,7 +843,6 @@ S_bsrOah bsrOah::createCloneWithDetailedTrace ()
 
 
   return clone;
-  */
 }
 
 //______________________________________________________________________________

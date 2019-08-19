@@ -1724,7 +1724,6 @@ void msrOah::initializeMsrOah (
 
 S_msrOah msrOah::createCloneWithDetailedTrace ()
 {
-/* JMI
   S_msrOah
     clone =
       msrOah::create (0);
@@ -1834,7 +1833,6 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
     fShowFiguredBassVoices;
 
   return clone;
-  */
 }
 
 //______________________________________________________________________________
