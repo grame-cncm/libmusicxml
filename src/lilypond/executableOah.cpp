@@ -256,7 +256,6 @@ void executableOah::initializeExecutableOah (
 
 S_executableOah executableOah::createCloneWithTrueValues ()
 {
-/* JMI
   S_executableOah
     clone =
       executableOah::create (
@@ -301,7 +300,6 @@ S_executableOah executableOah::createCloneWithTrueValues ()
 #endif
 
   return clone;
-  */
 }
 
 //______________________________________________________________________________

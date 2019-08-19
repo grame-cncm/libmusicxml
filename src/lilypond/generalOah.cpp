@@ -192,7 +192,6 @@ void generalOah::initializeGeneralOah (
 
 S_generalOah generalOah::createCloneWithTrueValues ()
 {
-/* JMI
   S_generalOah
     clone =
       generalOah::create (
@@ -221,7 +220,6 @@ S_generalOah generalOah::createCloneWithTrueValues ()
   clone->fDisplayCPUusage = true;
 
   return clone;
-  */
 }
 
   /* JMI
