@@ -8296,7 +8296,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
         fCurrentBeamNumber,
         beamKind);
 
-  // color JMI
+  // color JMI ???
 
   fPendingBeamsList.push_back (beam);
 }
@@ -17110,19 +17110,21 @@ void mxmlTree2MsrTranslator::populateNote (
       setNoteStem (fCurrentStem);
   }
 
+/* JMI
   // attach the beams if any to the note
   if (fPendingBeamsList.size ()) {
     for (
       list<S_msrBeam>::const_iterator i=fPendingBeamsList.begin ();
       i!=fPendingBeamsList.end ();
       i++
-  ) {
+    ) {
       newNote->
         appendBeamToNote ((*i));
     } // for
 
     fPendingBeamsList.clear ();
   }
+*/
 
   // attach the articulations if any to the note
   attachCurrentArticulationsToNote (newNote);

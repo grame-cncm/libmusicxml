@@ -348,6 +348,12 @@ R"(What xml2brl does:
 
     The activity log and warning/error messages go to standard error.)" <<
     endl;
+
+  // register 'print about' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void xml2brlAboutOahAtom::printAtomOptionsValues (
@@ -497,6 +503,12 @@ R"(To contact xml2brl maintainers:
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
     and error messages you obtain if relevant.)" <<
     endl;
+
+  // register 'print contact' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void xml2brlContactOahAtom::printAtomOptionsValues (

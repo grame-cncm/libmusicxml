@@ -2187,7 +2187,6 @@ void traceOah::initializeTraceOah (
 
 S_traceOah traceOah::createCloneWithTrueValues ()
 {
-/* JMI
   S_traceOah
     clone =
       traceOah::create (0);
@@ -2405,16 +2404,15 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   // extra chords
   clone->fTraceExtraChords = true;
 
-/ * JMI
+/* JMI
   // msrStreams
   clone->fTraceMsrStreams = true;
-* /
+*/
 
   // midi
   clone->fTraceMidi = true;
 
   return clone;
-  */
 }
 
 /* JMI

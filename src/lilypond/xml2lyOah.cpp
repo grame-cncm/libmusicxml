@@ -341,6 +341,12 @@ R"(What xml2ly does:
 
     The activity log and warning/error messages go to standard error.)" <<
     endl;
+
+  // register 'print about' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void xml2lyAboutOahAtom::printAtomOptionsValues (
@@ -490,6 +496,12 @@ R"(To contact xml2ly maintainers:
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
     and error messages you obtain if relevant.)" <<
     endl;
+
+  // register 'print contact' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void xml2lyContactOahAtom::printAtomOptionsValues (

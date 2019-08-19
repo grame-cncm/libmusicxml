@@ -1967,7 +1967,7 @@ void msrNote::appendBeamToNote (S_msrBeam beam)
       "Adding beam '" <<
       beam->asShortString () <<
       "' to note '" <<
-      asShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -1984,7 +1984,7 @@ void msrNote::appendArticulationToNote (S_msrArticulation art)
       "Adding articulation '" <<
       art->asShortString () <<
       "' to note '" <<
-      asShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -2001,7 +2001,7 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
       "Adding spanner '" <<
       spanner->spannerKindAsString () <<
       "' to note '" <<
-      asShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -2040,7 +2040,7 @@ void msrNote::appendTechnicalToNote (S_msrTechnical technical)
     gLogOstream <<
       "Adding technical '" <<
       technical->asString () <<
-      "' to note '" << asShortString () <<
+      "' to note '" << asString () <<
       "', line " << fInputLineNumber <<
       endl;
   }
@@ -2058,7 +2058,7 @@ void msrNote::appendTechnicalWithIntegerToNote (
     gLogOstream <<
       "Adding technical with integer '" <<
       technicalWithInteger->asString () <<
-      "' to note '" << asShortString () <<
+      "' to note '" << asString () <<
       "', line " << fInputLineNumber <<
       endl;
   }
@@ -2077,7 +2077,7 @@ void msrNote::appendTechnicalWithFloatToNote (
     gLogOstream <<
       "Adding technical with float '" <<
       technicalWithFloat->asString () <<
-      "' to note '" << asShortString () <<
+      "' to note '" << asString () <<
       "', line " << fInputLineNumber <<
       endl;
   }
@@ -2096,7 +2096,7 @@ void msrNote::appendTechnicalWithStringToNote (
     gLogOstream <<
       "Adding technical with string'" <<
       technicalWithString->asString () <<
-      "' to note '" << asShortString () <<
+      "' to note '" << asString () <<
       "', line " << fInputLineNumber <<
       endl;
   }
@@ -2113,9 +2113,9 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
   if (gTraceOah->fTraceOrnaments || gTraceOah->fTraceNotes) {
     gLogOstream <<
       "Adding ornament '" <<
-      ornament->asShortString () <<
+      ornament->asString () <<
       "' to note '" <<
-      asShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -2158,7 +2158,7 @@ void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
       "Adding glissando '" <<
       glissando->asShortString () <<
       "' to note '" <<
-      asShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -2176,7 +2176,7 @@ void msrNote::appendSlideToNote (S_msrSlide slide)
       "Adding slide '" <<
       slide->asShortString () <<
       "' to note '" <<
-      asShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -2195,7 +2195,7 @@ void msrNote::setNoteGraceNotesGroupBefore (
       "Attaching grace notes group '" <<
       graceNotesGroupBefore->asString () <<
       "' before note '" <<
-      asShortString () <<
+      asString () <<
       "', line " << graceNotesGroupBefore->getInputLineNumber () <<
       endl;
   }
@@ -2219,7 +2219,7 @@ void msrNote::setNoteGraceNotesGroupAfter (
       "Attaching grace notes group '" <<
       graceNotesGroupAfter->asString () <<
       "' after note '" <<
-      asShortString () <<
+      asString () <<
       "', line " << graceNotesGroupAfter->getInputLineNumber () <<
       endl;
   }
@@ -2258,7 +2258,7 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
   if (gTraceOah->fTraceTremolos || gTraceOah->fTraceNotes) {
     gLogOstream <<
       "Adding singleTremolo '" << trem->asString () <<
-      "' to note '" << asShortString () <<
+      "' to note '" << asString () <<
       "', line " << trem->getInputLineNumber () <<
       endl;
   }
@@ -2276,7 +2276,7 @@ void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
       "Attaching dynamics '" <<
       dynamics->asString () <<
       "' to note '" <<
-      asShortString () <<
+      asString () <<
       "', line " << dynamics->getInputLineNumber () <<
       endl;
   }
