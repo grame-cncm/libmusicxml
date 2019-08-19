@@ -1513,6 +1513,92 @@ typedef SMARTP<oahStringAtom> S_oahStringAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringAtom& elt);
 
 //______________________________________________________________________________
+class oahMonoplexStringAtom : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahMonoplexStringAtom> create (
+      string      description,
+      string      atomNameDescriptor,
+      string      stringValueDescriptor);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahMonoplexStringAtom (
+      string      description,
+      string      atomNameDescriptor,
+      string      stringValueDescriptor);
+
+    virtual ~oahMonoplexStringAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const list<S_oahStringAtom>&
+                          getStringAtomsList ()
+                              { return fStringAtomsList; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  addStringAtom (
+                            S_oahStringAtom stringAtom);
+
+    void                  addStringAtomByName (
+                            string name);
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printHelp (ostream& os);
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fAtomNameDescriptor;
+    string                fStringValueDescriptor;
+
+    list<S_oahStringAtom>
+                          fStringAtomsList;
+
+    list<string>          fAtomNamesList;
+};
+typedef SMARTP<oahMonoplexStringAtom> S_oahMonoplexStringAtom;
+EXP ostream& operator<< (ostream& os, const S_oahMonoplexStringAtom& elt);
+
+//______________________________________________________________________________
 class oahStringWithDefaultValueAtom : public oahStringAtom
 {
   public:

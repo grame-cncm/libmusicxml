@@ -3776,6 +3776,378 @@ ostream& operator<< (ostream& os, const S_oahStringAtom& elt)
 }
 
 //______________________________________________________________________________
+S_oahMonoplexStringAtom oahMonoplexStringAtom::create (
+  string      description,
+  string      atomNameDescriptor,
+  string      stringValueDescriptor)
+{
+  oahMonoplexStringAtom* o = new
+    oahMonoplexStringAtom (
+      description,
+      atomNameDescriptor,
+      stringValueDescriptor);
+  assert(o!=0);
+  return o;
+}
+
+oahMonoplexStringAtom::oahMonoplexStringAtom (
+  string      description,
+  string      atomNameDescriptor,
+  string      stringValueDescriptor)
+  : oahAtom (
+      "unusedShortName_" + atomNameDescriptor + "_" + description,
+        // should be a unique shortName
+      "unusedLongName_" + atomNameDescriptor + "_" + description,
+        // should be a unique longName
+      description),
+    fAtomNameDescriptor (
+      atomNameDescriptor),
+    fStringValueDescriptor (
+      stringValueDescriptor)
+{
+  // sanity checks
+  msrAssert (
+    stringValueDescriptor.size (),
+    "stringValueDescriptor is empty");
+  msrAssert (
+    stringValueDescriptor.size (),
+    "stringValueDescriptor is empty");
+}
+
+oahMonoplexStringAtom::~oahMonoplexStringAtom ()
+{}
+
+void oahMonoplexStringAtom::addStringAtom (
+  S_oahStringAtom stringAtom)
+{
+  // sanity check
+  msrAssert (
+    stringAtom != nullptr,
+    "stringAtom is null");
+
+  // atom short name consistency check
+  {
+    string stringAtomShortName =
+      stringAtom->getShortName ();
+
+    if (stringAtomShortName.size () == 0) {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option short name '" << stringAtomShortName <<
+        "' is empty";
+
+      stringAtom->print (s);
+
+      oahError (s.str ());
+    }
+    else {
+      // register this string atom's suffix in the list
+      fAtomNamesList.push_back (stringAtomShortName);
+    }
+  }
+
+  // atom long name consistency check
+  {
+    string stringAtomLongName =
+      stringAtom->getLongName ();
+
+    if (stringAtomLongName.size () != 0) {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option long name '" << stringAtomLongName <<
+        "' is not empty";
+
+      stringAtom->print (s);
+
+      oahError (s.str ());
+    }
+  }
+
+  // append the string atom to the list
+  fStringAtomsList.push_back (
+    stringAtom);
+
+  // hide it
+//  stringAtom->setIsHidden ();
+}
+
+void oahMonoplexStringAtom::addStringAtomByName (
+  string name)
+{
+  // get the options handler
+  S_oahHandler
+    handler =
+      getSubGroupUpLink ()->
+        getGroupUpLink ()->
+          getHandlerUpLink ();
+
+  // sanity check
+  msrAssert (
+    handler != nullptr,
+    "handler is null");
+
+  // is name known in options map?
+  S_oahElement
+    element =
+      handler->
+        fetchElementFromMap (name);
+
+  if (! element) {
+    // no, name is unknown in the map
+    handler->
+      printOptionsSummary ();
+
+    stringstream s;
+
+    s <<
+      "INTERNAL ERROR: option name '" << name <<
+      "' is unknown";
+
+    oahError (s.str ());
+  }
+
+  else {
+    // name is known, let's handle it
+
+    if (
+      // string atom?
+      S_oahStringAtom
+        atom =
+          dynamic_cast<oahStringAtom*>(&(*element))
+      ) {
+      // add the string atom
+      addStringAtom (atom);
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "option name '" << name <<
+        "' is not that of an atom";
+
+      oahError (s.str ());
+
+      exit (2);
+    }
+  }
+}
+
+S_oahValuedAtom oahMonoplexStringAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // handle it at once JMI ???
+
+  // no option value is needed
+  return nullptr;
+}
+
+void oahMonoplexStringAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahMonoplexStringAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahMonoplexStringAtom>*
+    p =
+      dynamic_cast<visitor<S_oahMonoplexStringAtom>*> (v)) {
+        S_oahMonoplexStringAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahMonoplexStringAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahMonoplexStringAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahMonoplexStringAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahMonoplexStringAtom>*
+    p =
+      dynamic_cast<visitor<S_oahMonoplexStringAtom>*> (v)) {
+        S_oahMonoplexStringAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gExecutableOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahMonoplexStringAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahMonoplexStringAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gExecutableOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahMonoplexStringAtom::browseData ()" <<
+      endl;
+  }
+#endif
+
+  // browse the string atoms
+  if (fStringAtomsList.size ()) {
+    for (
+      list<S_oahStringAtom>::const_iterator i = fStringAtomsList.begin ();
+      i != fStringAtomsList.end ();
+      i++
+    ) {
+      S_oahStringAtom stringAtom = (*i);
+
+      // browse the string atom
+      oahBrowser<oahStringAtom> browser (v);
+      browser.browse (*(stringAtom));
+    } // for
+  }
+}
+
+void oahMonoplexStringAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "MonoplexStringAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printOptionEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    "atomNameDescriptor" << " : " <<
+    fAtomNameDescriptor <<
+    endl <<
+    "stringValueDescriptor" << " : " <<
+    fStringValueDescriptor <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fStringAtomsList" << " : ";
+
+  if (! fStringAtomsList.size ()) {
+    os << "none";
+  }
+
+  else {
+    os << endl;
+
+    gIndenter++;
+
+    os << "'";
+
+    list<S_oahStringAtom>::const_iterator
+      iBegin = fStringAtomsList.begin (),
+      iEnd   = fStringAtomsList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    os << "'";
+
+    gIndenter--;
+  }
+
+  gIndenter--;
+
+  os << endl;
+}
+
+void oahMonoplexStringAtom::printHelp (ostream& os)
+{
+  os <<
+    "-" << "<" << fAtomNameDescriptor << "> " << fStringValueDescriptor <<
+    endl;
+
+  if (fDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+
+    os <<
+      gIndenter.indentMultiLineString (
+        fDescription) <<
+      endl;
+  }
+
+  os <<
+    fAtomNameDescriptor <<
+    " can be one of: ";
+
+  if (! fAtomNamesList.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    list<string>::const_iterator
+      iBegin = fAtomNamesList.begin (),
+      iEnd   = fAtomNamesList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        os << " and ";
+      }
+      else {
+        os << ", ";
+      }
+    } // for
+
+    os << "." << endl;
+  }
+
+  if (fDescription.size ()) { // ??? JMI
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+
+  // register help print action in options handler upLink
+//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+}
+
+void oahMonoplexStringAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to do, these options values will be printed
+  // by the string atoms in the list
+}
+
+ostream& operator<< (ostream& os, const S_oahMonoplexStringAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_oahStringWithDefaultValueAtom oahStringWithDefaultValueAtom::create (
   string  shortName,
   string  longName,

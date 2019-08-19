@@ -1223,7 +1223,7 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
 R"(This option can only be used when reading from a file.
 Write Braille music to a file in the current working directory.
 The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'ly'
+replacing any suffix after the the '.' by 'brl'
 or adding '.brl' if none is present.)",
           "autoOutputFileName",
           fAutoOutputFile));

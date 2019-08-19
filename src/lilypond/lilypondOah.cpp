@@ -2122,153 +2122,262 @@ thus overriding the ones that may be present in the MSR data.)",
 
   appendSubGroupToGroup (subGroup);
 
-  // MusicXML informations
+  // the 'identification' monoplex string atom
+
+  S_oahMonoplexStringAtom
+    identificationMonoplexStringAtom =
+      oahMonoplexStringAtom::create (
+        "Set HEADER_VAR in the \header in the generated LilyPond code.",
+        "HEADER_VAR",
+        "STRING");
 
   subGroup->
     appendAtomToSubGroup (
+      identificationMonoplexStringAtom);
+
+  // MusicXML informations
+
+  S_oahStringAtom
+    rightsAtom =
       oahStringAtom::create (
         "rights", "",
 R"(Set the 'rights' to STRING in the LilyPond code \header.)",
         "STRING",
         "rights",
-        fRights));
-
+        fRights);
   subGroup->
     appendAtomToSubGroup (
+      rightsAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      rightsAtom);
+
+  S_oahStringAtom
+    composerAtom =
       oahStringAtom::create (
         "composer", "",
 R"(Set the 'composer' to STRING in the LilyPond code \header.)",
         "STRING",
         "composer",
-        fComposer));
-
+        fComposer);
   subGroup->
     appendAtomToSubGroup (
+      composerAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      composerAtom);
+
+  S_oahStringAtom
+    arrangerAtom =
       oahStringAtom::create (
         "arranger", "",
 R"(Set the 'arranger' to STRING in the LilyPond code \header.)",
         "STRING",
         "arranger",
-        fArranger));
-
+        fArranger);
   subGroup->
     appendAtomToSubGroup (
+      arrangerAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      arrangerAtom);
+
+  S_oahStringAtom
+    poetAtom =
       oahStringAtom::create (
         "poet", "",
 R"(Set the 'poet' to STRING in the LilyPond code \header.)",
         "STRING",
         "poet",
-        fPoet));
-
+        fPoet);
   subGroup->
     appendAtomToSubGroup (
+      poetAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      poetAtom);
+
+  S_oahStringAtom
+    lyricistAtom =
       oahStringAtom::create (
         "lyricist", "",
 R"(Set the 'lyricist' to STRING in the LilyPond code \header.)",
         "STRING",
         "lyricist",
-        fLyricist));
-
+        fLyricist);
   subGroup->
     appendAtomToSubGroup (
+      lyricistAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      lyricistAtom);
+
+  S_oahStringAtom
+    softwareAtom =
       oahStringAtom::create (
         "software", "",
 R"(Set the 'software' to STRING in the LilyPond code \header.)",
         "STRING",
         "software",
-        fSoftware));
+        fSoftware);
+  subGroup->
+    appendAtomToSubGroup (
+      softwareAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      softwareAtom);
 
   // LilyPond informations
 
-  subGroup->
-    appendAtomToSubGroup (
+  S_oahStringAtom
+    dedicationAtom =
       oahStringAtom::create (
         "dedication", "",
 R"(Set 'dedication' to STRING in the LilyPond code \header.)",
         "STRING",
         "dedication",
-        fDedication));
-
+        fDedication);
   subGroup->
     appendAtomToSubGroup (
+      dedicationAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      dedicationAtom);
+
+  S_oahStringAtom
+    pieceAtom =
       oahStringAtom::create (
         "piece", "",
 R"(Set 'piece' to STRING in the LilyPond code \header.)",
         "STRING",
         "piece",
-        fPiece));
-
+        fPiece);
   subGroup->
     appendAtomToSubGroup (
+      pieceAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      pieceAtom);
+
+  S_oahStringAtom
+    opusAtom =
       oahStringAtom::create (
         "opus", "",
 R"(Set 'opus' to STRING in the LilyPond code \header.)",
         "STRING",
         "opus",
-        fOpus));
-
+        fOpus);
   subGroup->
     appendAtomToSubGroup (
+      opusAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      opusAtom);
+
+  S_oahStringAtom
+    titleAtom =
       oahStringAtom::create (
         "title", "",
 R"(Set 'title' to STRING in the LilyPond code \header.)",
         "STRING",
         "title",
-        fTitle));
-
+        fTitle);
   subGroup->
     appendAtomToSubGroup (
+      titleAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      titleAtom);
+
+  S_oahStringAtom
+    subtitleAtom =
       oahStringAtom::create (
-        "stitle", "subtitle",
+        "subtitle", "",
 R"(Set 'subtitle' to STRING in the LilyPond code \header.)",
         "STRING",
         "subTitle",
-        fSubTitle));
-
+        fSubTitle);
   subGroup->
     appendAtomToSubGroup (
+      subtitleAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      subtitleAtom);
+
+  S_oahStringAtom
+    subsubtitleAtom =
       oahStringAtom::create (
-        "sstitle", "subsubtitle",
+        "subsubtitle", "",
 R"(Set 'subsubtitle' to STRING in the LilyPond code \header.)",
         "STRING",
         "subSubTitle",
-        fSubSubTitle));
-
+        fSubSubTitle);
   subGroup->
     appendAtomToSubGroup (
+      subsubtitleAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      subsubtitleAtom);
+
+  S_oahStringAtom
+    instrumentAtom =
       oahStringAtom::create (
         "instrument", "",
 R"(Set 'instrument' to STRING in the LilyPond code \header.)",
         "STRING",
         "instrument",
-        fInstrument));
-
+        fInstrument);
   subGroup->
     appendAtomToSubGroup (
+      instrumentAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      instrumentAtom);
+
+  S_oahStringAtom
+    meterAtom =
       oahStringAtom::create (
         "meter", "",
 R"(Set 'meter' to STRING in the LilyPond code \header.)",
         "STRING",
         "meter",
-        fMeter));
-
+        fMeter);
   subGroup->
     appendAtomToSubGroup (
+      meterAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      meterAtom);
+
+  S_oahStringAtom
+    taglineAtom =
       oahStringAtom::create (
         "tagline", "",
 R"(Set 'tagline' to STRING in the LilyPond code \header.)",
         "STRING",
         "tagline",
-        fTagline));
-
+        fTagline);
   subGroup->
     appendAtomToSubGroup (
+      taglineAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      taglineAtom);
+
+  S_oahStringAtom
+    copyrightAtom =
       oahStringAtom::create (
         "copyright", "",
 R"(Set 'copyright' to STRING in the LilyPond code \header.)",
         "STRING",
         "copyright",
-        fCopyright));
+        fCopyright);
+  subGroup->
+    appendAtomToSubGroup (
+      copyrightAtom);
+  identificationMonoplexStringAtom->
+    addStringAtom (
+      copyrightAtom);
 }
 
 void lilypondOah::initializeEngraversOptions (
