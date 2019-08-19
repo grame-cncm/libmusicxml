@@ -495,6 +495,13 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
       setJianpuFileIncludeIsNeeded ();
   }
 
+  // are colored ledger lines to be generated?
+  if (! gLilypondOah->fLedgerLinesRGBColor.isEmpty ()) {
+    fLpsrScore->
+      // this score needs the 'colored ledger lines' Scheme function
+      setColoredLedgerLinesIsNeeded ();
+  }
+
 /* JMI
   // push it onto this visitors's stack,
   // making it the current partGroup block

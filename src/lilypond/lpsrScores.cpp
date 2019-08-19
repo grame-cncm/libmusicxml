@@ -188,6 +188,8 @@ lpsrScore::lpsrScore (
   fWhiteNoteHeadsIsNeeded = false;
   // jazz chords display
   fJazzChordsDisplayIsNeeded = false;
+  // colored ledger lines
+  fColoredLedgerLinesIsNeeded = false;
 
   if (gLilypondOah->fLilypondCompileDate) {
     // create the date and time functions
@@ -551,6 +553,15 @@ void lpsrScore::setJazzChordsDisplayIsNeeded ()
     addJazzChordsDisplayToScore ();
 
     fJazzChordsDisplayIsNeeded = true;
+  }
+}
+
+void lpsrScore::setColoredLedgerLinesIsNeeded ()
+{
+  if (! fColoredLedgerLinesIsNeeded) {
+    addColoredLedgerLinesToScore ();
+
+    fColoredLedgerLinesIsNeeded = true;
   }
 }
 
@@ -1556,6 +1567,74 @@ chExceptions = #( append
   schemeFunctionDescription =
 R"(
 % A function to display the chords in a common Jazz way using \chordmode
+)",
+
+  schemeFunctionCode = s.str ();
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addColoredLedgerLinesToScore ()
+{
+  stringstream s;
+
+  s <<
+R"###(% there is ony one ledger line spanner/grob/stencil
+% produced for each musical system on the page (!)
+% see: ledger-line-spanner.cc for c++ code for ly:ledger-line-spanner::print
+
+#(define (MyLedgerLineSpannerPrint grob)
+   (let*
+    ((stil (ly:ledger-line-spanner::print grob))
+     ;; (ifaces (ly:grob-interfaces grob))
+
+     (noteheads (ly:grob-object grob 'note-heads))
+     (new-stil (box-stencil (stencil-with-color stil  (rgb-color )###";
+
+  s <<
+    gLilypondOah->fLedgerLinesRGBColor.getR () <<
+    " " <<
+    gLilypondOah->fLedgerLinesRGBColor.getG () <<
+    " " <<
+    gLilypondOah->fLedgerLinesRGBColor.getB ();
+
+  s <<
+R"###()) 0.1 1))
+     )
+
+    (display "noteheads: ")(display noteheads)(newline)(newline)
+    ;; (display (ly:grob-properties grob))(newline)(newline)
+    ;; (display ifaces)(newline)(newline)
+
+    new-stil))
+)###";
+
+  string
+    schemeFunctionName =
+      "coloredLedgerLines",
+
+  schemeFunctionDescription =
+R"(
+% A function to color the staves ledger lines other that black
 )",
 
   schemeFunctionCode = s.str ();

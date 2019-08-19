@@ -11797,9 +11797,10 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
 //______________________________________________________________________________
 msrRGBColor::msrRGBColor ()
 {
-  fR = 0.0;
-  fG = 0.0;
-  fB = 0.0;
+  // initializing to negative values for isEmpty()
+  fR = -1.0;
+  fG = -1.0;
+  fB = -1.0;
 }
 
 msrRGBColor::msrRGBColor (
@@ -11816,11 +11817,11 @@ msrRGBColor::msrRGBColor (
   std::string theString)
 {
   string regularExpression (
-    "([[:digit:]]*.[[:space:]]*)"
+    "([[:digit:]]*.[[:digit:]]*)"
     ","
-    "([[:digit:]]*.[[:space:]]*)"
+    "([[:digit:]]*.[[:digit:]]*)"
     ","
-    "([[:digit:]]*.[[:space:]]*)");
+    "([[:digit:]]*.[[:digit:]]*)");
 
   regex  e (regularExpression);
   smatch sm;
@@ -11888,7 +11889,7 @@ msrRGBColor::msrRGBColor (
     if (fR < 0.0 || fR > 1.0) {
       gLogOstream <<
         "### ERROR: the R component " << fR <<
-        " is not in the [0.0..1.0] interval in '" << theString << "'" <<
+        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
         endl;
     }
   }
@@ -11901,7 +11902,7 @@ msrRGBColor::msrRGBColor (
     if (fG < 0.0 || fG > 1.0) {
       gLogOstream <<
         "### ERROR: the G component " << fG <<
-        " is not in the [0.0..1.0] interval in '" << theString << "'" <<
+        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
         endl;
     }
   }
@@ -11914,7 +11915,7 @@ msrRGBColor::msrRGBColor (
     if (fB < 0.0 || fB > 1.0) {
       gLogOstream <<
         "### ERROR: the B component " << fB <<
-        " is not in the [0.0..1.0] interval in '" << theString << "'" <<
+        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
         endl;
     }
   }
@@ -18666,7 +18667,7 @@ void printChordAnalysis (
 
 // colors
 //______________________________________________________________________________
-msrColor::msrColor (
+msrAlphaRGBColor::msrAlphaRGBColor (
   string colorRGB,
   string colorAlpha)
 {
@@ -18674,17 +18675,17 @@ msrColor::msrColor (
   fColorAlpha = colorAlpha;
 }
 
-msrColor::msrColor (
+msrAlphaRGBColor::msrAlphaRGBColor (
   string colorRGB)
 {
   fColorRGB   = colorRGB;
   fColorAlpha = "FF";
 }
 
-msrColor::~msrColor ()
+msrAlphaRGBColor::~msrAlphaRGBColor ()
 {}
 
-string msrColor::asString () const
+string msrAlphaRGBColor::asString () const
 {
   stringstream s;
 
@@ -18696,14 +18697,14 @@ string msrColor::asString () const
   return s.str ();
 }
 
-void msrColor::print (ostream& os)
+void msrAlphaRGBColor::print (ostream& os)
 {
   os <<
     asString () <<
     endl;
 };
 
-ostream& operator<< (ostream& os, msrColor elt)
+ostream& operator<< (ostream& os, msrAlphaRGBColor elt)
 {
   elt.print (os);
   return os;

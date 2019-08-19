@@ -382,6 +382,9 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
 class msrRGBColor {
   public:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrRGBColor ();
 
     msrRGBColor (
@@ -392,11 +395,44 @@ class msrRGBColor {
     msrRGBColor (
       std::string theString);
 
+    // set and get
+    // ------------------------------------------------------
+
+    float                 getR () const
+                              { return fR; }
+
+    float                 getG () const
+                              { return fG; }
+
+    float                 getB () const
+                              { return fB; }
+
   public:
+
+    // services
+    // ------------------------------------------------------
+
+    bool                  isEmpty () const
+                              {
+                                return
+                                  fR < 0.0
+                                    &&
+                                  fG < 0.0
+                                    &&
+                                  fB < 0.0;
+                              }
+
+  public:
+
+    // print
+    // ------------------------------------------------------
 
     std::string           asString () const;
 
-  public:
+  private:
+
+    // fields
+    // ------------------------------------------------------
 
     float                 fR;
     float                 fG;
@@ -1210,21 +1246,21 @@ void printChordAnalysis (
 
 // colors
 //______________________________________________________________________________
-class msrColor
+class msrAlphaRGBColor
 {
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrColor (
+    msrAlphaRGBColor (
       string colorRGB,
       string colorAlpha);
 
-    msrColor (
+    msrAlphaRGBColor (
       string colorRGB);
 
-    virtual ~msrColor ();
+    virtual ~msrAlphaRGBColor ();
 
   public:
 
@@ -1248,23 +1284,13 @@ class msrColor
                                   fColorAlpha.size () == 0;
                               }
 
-    // visitors
-    // ------------------------------------------------------
-
-/* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-*/
-
   public:
 
+    // print
     // ------------------------------------------------------
 
     string                asString () const;
 
-    //virtual
     void                  print (ostream& os);
 
   private:
@@ -1275,7 +1301,7 @@ class msrColor
     string                fColorRGB;   // hexadecimal, 6 digits
     string                fColorAlpha; // hexadecimal, 2 digits
 };
-EXP ostream& operator<< (ostream& os, msrColor elt);
+EXP ostream& operator<< (ostream& os, msrAlphaRGBColor elt);
 
 // score notation kinds
 //______________________________________________________________________________

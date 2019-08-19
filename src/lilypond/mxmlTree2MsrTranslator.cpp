@@ -17030,7 +17030,7 @@ void mxmlTree2MsrTranslator::populateNote (
   // set newNote's color if relevant
   if (fCurrentNoteRGB.size () || fCurrentNoteAlpha.size ()) {
     newNote->setNoteColor (
-      msrColor (
+      msrAlphaRGBColor (
         fCurrentNoteRGB,
         fCurrentNoteAlpha));
   }

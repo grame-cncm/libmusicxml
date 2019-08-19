@@ -235,6 +235,15 @@ class lpsrScore : public lpsrElement
                                   fJazzChordsDisplayIsNeeded;
                               }
 
+    // colored ledger lines
+    void                  setColoredLedgerLinesIsNeeded ();
+
+    bool                  getColoredLedgerLinesIsNeeded () const
+                              {
+                                return
+                                  fColoredLedgerLinesIsNeeded;
+                              }
+
   public:
 
     // public services
@@ -299,6 +308,10 @@ class lpsrScore : public lpsrElement
     // jazz chords display
 
     void                  addJazzChordsDisplayToScore ();
+
+    // colored ledger lines
+
+    void                  addColoredLedgerLinesToScore ();
 
   public:
 
@@ -385,6 +398,9 @@ class lpsrScore : public lpsrElement
 
     // jazz chords display
     bool                  fJazzChordsDisplayIsNeeded;
+
+    // colored ledger lines
+    bool                  fColoredLedgerLinesIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;

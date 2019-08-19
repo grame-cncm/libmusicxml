@@ -41,7 +41,7 @@ class bsrParallel : public bsrElement
 
     static SMARTP<bsrParallel> create (
       int inputLineNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -49,9 +49,9 @@ class bsrParallel : public bsrElement
 
     bsrParallel (
       int inputLineNumber);
-      
+
     virtual ~bsrParallel ();
-  
+
   public:
 
     // set and get
@@ -62,7 +62,7 @@ class bsrParallel : public bsrElement
 
     int                   getBrailleParallelNumber () const
                               { return fBrailleParallelNumber; }
-                              
+
   public:
 
     // public services
@@ -70,9 +70,6 @@ class bsrParallel : public bsrElement
 
     void                  appendLineToParallel (S_bsrLine line)
                               { fParallelElementsList.push_back (line); }
-                              
-  public:
-
 
   public:
 
@@ -85,7 +82,7 @@ class bsrParallel : public bsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -96,7 +93,7 @@ class bsrParallel : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    int                   fPrintParallelNumber;    
+    int                   fPrintParallelNumber;
     int                   fBrailleParallelNumber;
 
     list<S_bsrElement>

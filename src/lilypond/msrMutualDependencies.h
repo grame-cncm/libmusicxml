@@ -3611,10 +3611,10 @@ class msrNote : public msrTupletElement
                               { return fNoteIsFollowedByGraceNotesGroup; }
 
     void                  setNoteColor (
-                            msrColor noteColor)
+                            msrAlphaRGBColor noteColor)
                               { fNoteColor = noteColor; }
 
-    msrColor              getNoteColor () const
+    msrAlphaRGBColor              getNoteColor () const
                               { return fNoteColor; }
 
     // services
@@ -4048,7 +4048,7 @@ class msrNote : public msrTupletElement
     S_msrSpanner          fNoteWavyLineSpannerStop;
 
     // color
-    msrColor              fNoteColor;
+    msrAlphaRGBColor              fNoteColor;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

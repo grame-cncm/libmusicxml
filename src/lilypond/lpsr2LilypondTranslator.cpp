@@ -1066,7 +1066,7 @@ void lpsr2LilypondTranslator::generateNoteHeadColor (
     note->getInputLineNumber ();
 
   // note color, unofficial ??? JMI
-  msrColor
+  msrAlphaRGBColor
     noteColor =
       note->getNoteColor ();
 
@@ -5934,6 +5934,15 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           break;
       } // switch
     }
+  }
+
+  // generate ledger lines coloring code if needed
+  if (fVisitedLpsrScore->getColoredLedgerLinesIsNeeded ()) {
+    fLilypondCodeOstream <<
+      gIndenter.indentMultiLineString (
+R"(  \override LedgerLineSpanner.stencil = #MyLedgerLineSpannerPrint
+  \override LedgerLineSpanner.after-line-breaking = #grob::display-objects)") <<
+      endl;
   }
 
   // generate the 'with' block ending
