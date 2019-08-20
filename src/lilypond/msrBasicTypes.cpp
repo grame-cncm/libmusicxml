@@ -75,7 +75,7 @@ msrXMLLangKind msrXMLLangKindFromString (
         "' should be 'it', 'en', 'de' or 'fr'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4622,7 +4622,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           ", line = " << inputLineNumber;
 
         msrLimitation (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -7513,7 +7513,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           ", line = " << inputLineNumber;
 
         msrLimitation (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -8764,7 +8764,7 @@ string existingHarmonyKinds ()
   return s.str ();
 }
 
-string existingHarmonyKindsNames ()
+string existingHarmonyKindsNames (int namesListMaxLength)
 {
   stringstream s;
 
@@ -8773,8 +8773,17 @@ string existingHarmonyKindsNames ()
       iBegin = gHarmonyKindsNamesList.begin (),
       iEnd   = gHarmonyKindsNamesList.end (),
       i      = iBegin;
+
+    int cumulatedLength = 0;
+
     for ( ; ; ) {
-      s << (*i);
+      string theString = (*i);
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
         s << " and ";
@@ -10437,7 +10446,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10490,7 +10499,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10545,7 +10554,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10598,7 +10607,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10651,7 +10660,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10704,7 +10713,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10757,7 +10766,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10777,7 +10786,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10903,7 +10912,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10921,7 +10930,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -11323,7 +11332,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
   return result;
 }
 
-string existingQuarterTonesPitchesLanguageKinds ()
+string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength)
 {
   stringstream s;
 
@@ -11332,8 +11341,17 @@ string existingQuarterTonesPitchesLanguageKinds ()
       iBegin = gQuarterTonesPitchesLanguageKindsMap.begin (),
       iEnd   = gQuarterTonesPitchesLanguageKindsMap.end (),
       i      = iBegin;
+
+    int cumulatedLength = 0;
+
     for ( ; ; ) {
-      s << (*i).first;
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
         s << " and ";
@@ -11831,7 +11849,7 @@ msrRGBColor::msrRGBColor (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     gLogOstream <<
       "There are " << smSize << " matches" <<
       " for RGB color string '" << theString <<
@@ -11843,7 +11861,7 @@ msrRGBColor::msrRGBColor (
 
   if (smSize == 4) {
 #ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
+    if (gTraceOah->fTraceOah) {
       for (unsigned i = 0; i < smSize; ++i) {
         gLogOstream <<
           "[" << sm [i] << "] ";
@@ -11870,7 +11888,7 @@ msrRGBColor::msrRGBColor (
     BString = sm [3];
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     gLogOstream <<
       "--> RString = \"" << RString << "\", " <<
       "--> GString = \"" << GString << "\"" <<
@@ -12069,7 +12087,7 @@ float msrFontSize::getFontNumericSize ()
           fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           K_NO_INPUT_LINE_NUMBER, // JMI
           __FILE__, __LINE__,
           s.str ());
@@ -12127,7 +12145,7 @@ msrFontStyleKind msrFontStyleKindFromString (
         " should be 'normal' or 'italic'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12178,7 +12196,7 @@ msrFontWeightKind msrFontWeightKindFromString (
         " should be 'normal' or 'bold'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12231,7 +12249,7 @@ msrJustifyKind msrJustifyKindFromString (
         " should be 'left', 'center' or 'right'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12286,7 +12304,7 @@ msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
         " should be 'left', 'center' or 'right'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12341,7 +12359,7 @@ msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
         " should be 'top', 'middle' or 'bottom'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12419,7 +12437,7 @@ msrPrintObjectKind msrPrintObjectKindFromString (
         "\" should be 'above' or 'below'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12470,7 +12488,7 @@ msrPlacementKind msrPlacementKindFromString (
         "\" should be 'above' or 'below'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12558,7 +12576,7 @@ msrDurationKind msrDurationKindFromString (
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12882,7 +12900,7 @@ string wholeNotesAsMsrString (
 
  //   msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -13017,7 +13035,7 @@ abort ();
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -13312,7 +13330,7 @@ msrUseDotsKind msrUseDotsFromString (
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -17136,7 +17154,7 @@ S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
       "', line " << inputLineNumber;
 
     msrLimitation (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -17593,7 +17611,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     gLogOstream <<
       "There are " << smSize << " matches" <<
       " for transposition string '" << theString <<
@@ -17619,7 +17637,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       octaveIndication = sm [2];
 
 #ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
+    if (gTraceOah->fTraceOah) {
       gLogOstream <<
         "--> pitch = \"" << pitch << "\", " <<
         "--> octaveIndication = \"" << octaveIndication << "\"" <<
@@ -17677,7 +17695,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
     } // for
 
 #ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
+    if (gTraceOah->fTraceOah) {
       gLogOstream <<
         "--> semiTonesPitchKind = \"" <<
           msrSemiTonesPitchKindAsString (
@@ -17703,7 +17721,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 
     msrMusicXMLError (
 //    msrMusicXMLWarning ( //  JMI
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -17909,7 +17927,7 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
       "', line " << inputLineNumber;
 
     msrLimitation (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -18733,7 +18751,7 @@ string msrScoreNotationKindAsString (
 void initializeMSRBasicTypes ()
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing MSR basic types handling" <<
       endl;

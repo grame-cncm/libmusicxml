@@ -446,7 +446,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       "' has already been specified";
       
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

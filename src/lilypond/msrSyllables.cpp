@@ -547,7 +547,7 @@ string msrSyllable::asString () const
 
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -651,7 +651,7 @@ void msrSyllable::print (ostream& os)
 
     case kSyllableNone:
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");

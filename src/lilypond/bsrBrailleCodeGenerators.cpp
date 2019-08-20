@@ -17,7 +17,7 @@
 
 #include "messagesHandling.h"
 
-#include "executableOah.h"
+#include "oahOah.h"
 #include "generalOah.h"
 #include "bsrOah.h"
 
@@ -219,7 +219,7 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
           bsrCellKindAsString (cellKind) <<
           "'";
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           -999, // TICINO inputLineNumber,
           __FILE__, __LINE__,
           s.str ());

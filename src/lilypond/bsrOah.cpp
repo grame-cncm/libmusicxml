@@ -93,7 +93,7 @@ void bsrFacSimileKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'bsrFacSimileKindAtom'" <<
       endl;
@@ -105,7 +105,7 @@ void bsrFacSimileKindAtom::handleValue (
 void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrFacSimileKindAtom::acceptIn ()" <<
       endl;
@@ -118,7 +118,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
         S_bsrFacSimileKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFacSimileKindAtom::visitStart ()" <<
             endl;
@@ -131,7 +131,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrFacSimileKindAtom::acceptOut ()" <<
       endl;
@@ -144,7 +144,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
         S_bsrFacSimileKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFacSimileKindAtom::visitEnd ()" <<
             endl;
@@ -157,7 +157,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 void bsrFacSimileKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrFacSimileKindAtom::browseData ()" <<
       endl;
@@ -281,7 +281,7 @@ void bsrTextsLanguageAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'bsrTextsLanguageAtom'" <<
       endl;
@@ -293,7 +293,7 @@ void bsrTextsLanguageAtom::handleValue (
 void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrTextsLanguageAtom::acceptIn ()" <<
       endl;
@@ -306,7 +306,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
         S_bsrTextsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTextsLanguageAtom::visitStart ()" <<
             endl;
@@ -319,7 +319,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrTextsLanguageAtom::acceptOut ()" <<
       endl;
@@ -332,7 +332,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
         S_bsrTextsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTextsLanguageAtom::visitEnd ()" <<
             endl;
@@ -345,7 +345,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 void bsrTextsLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrTextsLanguageAtom::browseData ()" <<
       endl;
@@ -529,7 +529,7 @@ R"()",
     gIndenter++;
 
     s <<
-      existingBsrTextsLanguageKinds ();
+      existingBsrTextsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
@@ -549,14 +549,14 @@ R"()",
             replaceSubstringInString (
 R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
 as well as in the generated braille music.
-The 4 NUMBER texts languages available are:
+The NUMBER texts languages available are:
 TEXT_LANGUAGES.
 english, german, italian and french.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gBsrTextsLanguageKindsMap.size ())),
             "TEXT_LANGUAGES",
-            existingBsrTextsLanguageKinds ()),
+            existingBsrTextsLanguageKinds (K_NAMES_LIST_MAX_LENGTH)),
           "DEFAULT_VALUE",
           bsrTextsLanguageKindAsString (
             bsrTextsLanguageKindDefaultValue)),
@@ -880,7 +880,7 @@ void bsrOah::checkOptionsConsistency ()
 void bsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrOah::acceptIn ()" <<
       endl;
@@ -893,7 +893,7 @@ void bsrOah::acceptIn (basevisitor* v)
         S_bsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching bsrOah::visitStart ()" <<
             endl;
@@ -906,7 +906,7 @@ void bsrOah::acceptIn (basevisitor* v)
 void bsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrOah::acceptOut ()" <<
       endl;
@@ -919,7 +919,7 @@ void bsrOah::acceptOut (basevisitor* v)
         S_bsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching bsrOah::visitEnd ()" <<
             endl;
@@ -932,7 +932,7 @@ void bsrOah::acceptOut (basevisitor* v)
 void bsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> bsrOah::browseData ()" <<
       endl;
@@ -1062,7 +1062,7 @@ void initializeBsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing BSR bsr handling" <<
       endl;

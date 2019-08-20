@@ -425,7 +425,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
       "' ";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());

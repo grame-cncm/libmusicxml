@@ -45,9 +45,10 @@ traceOah::traceOah (
   : oahGroup (
     "Trace",
     "ht", "help-trace",
-R"(There is a range of trace options, showing what's going on during translation.
+R"(There are trace options transversal to the successive passes,
+showing what's going on in the various translation activities.
 They're provided as a help to the maintainers, as well as for the curious.
-The options in this group can be quite verbose, use with small input data!
+The options in this group can be quite verbose, use them with small input data!
 All of them imply '-tpasses, -trace-passes'.)",
     kElementVisibilityHiddenByDefault,
     handlerUpLink)
@@ -76,7 +77,7 @@ void traceOah::initializeTranspositionsTraceOah (
         "Transpositions",
         "htt", "help-trace-transpositions",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -96,6 +97,8 @@ R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
   subGroup->
     appendAtomToSubGroup (
       traceTranspositionsAtom);
+      /* JMI
+      */
 
   // octave shifts
 
@@ -112,6 +115,8 @@ R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
   subGroup->
     appendAtomToSubGroup (
       traceOctaveShiftsAtom);
+            /* JMI
+*/
 }
 
 void traceOah::initializeAboveStaffTraceOah (
@@ -123,7 +128,7 @@ void traceOah::initializeAboveStaffTraceOah (
         "Above staff",
         "htas", "help-trace-above-staff",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -229,7 +234,7 @@ void traceOah::initializeBreaksAndBarlinesTraceOah (
         "Breaks and barlines",
         "htbab", "help-trace-breaks-and-barlines",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -336,7 +341,7 @@ void traceOah::initializeClefsToTemposTraceOah (
         "Clefs to tempos",
         "htctt", "help-trace-clefs-to-tempos",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -442,7 +447,7 @@ void traceOah::initializeInterNotesTraceOah (
         "Inter-notes",
         "htin", "help-trace-inter-notes",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -510,7 +515,7 @@ void traceOah::initializeSpannersTraceOah (
         "Spanners",
         "hts", "help-trace-spanners",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -616,7 +621,7 @@ void traceOah::initializeHarmoniesAndFiguredBassesTraceOah (
         "Harmonies and figured basses",
         "hthafb", "help-trace-harmonies-and-figured-basses",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -651,9 +656,11 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
   subGroup->
     appendAtomToSubGroup (
       traceHarmoniesAtom);
+      /* JMI
   harmoniesAndFiguredBassesMultiplexBooleansAtom->
     addBooleanAtom (
       traceHarmoniesAtom);
+*/
 
   // figured basses
 
@@ -670,9 +677,11 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
   subGroup->
     appendAtomToSubGroup (
       traceFiguredBasseAtom);
+      /* JMI
   harmoniesAndFiguredBassesMultiplexBooleansAtom->
     addBooleanAtom (
       traceFiguredBasseAtom);
+      */
 }
 
 void traceOah::initializeCreditsToWordsTraceOah (
@@ -684,7 +693,7 @@ void traceOah::initializeCreditsToWordsTraceOah (
         "Credits to words",
         "htctw", "help-trace-credits-to-words",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -731,7 +740,7 @@ R"(Credits)",
     traceLyricsBooleanAtom =
       oahTwoBooleansAtom::create (
         "tlyrics", "trace-lyrics",
-R"(Lyrics in MusicXML, stanzas in MSR)",
+R"(Lyrics)",
         "traceLyrics",
         fTraceLyrics,
         fTracePasses);
@@ -790,7 +799,7 @@ void traceOah::initializeChordsAndTupletsTraceOah (
         "Chords and tuplets",
         "htcat", "help-trace-chords-and-tuplets",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -917,7 +926,7 @@ void traceOah::initializeInstrumentsTraceOah (
         "Instruments",
         "hti", "help-trace-instruments",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -952,9 +961,11 @@ R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
   subGroup->
     appendAtomToSubGroup (
       traceFramesBooleanAtom);
+      /* JMI
   instrumentsMultiplexBooleansAtom->
     addBooleanAtom (
       traceFramesBooleanAtom);
+      */
 
   // scordaturas
 
@@ -1138,7 +1149,7 @@ void traceOah::initializeNotesAttachmentsTraceOah (
         "Notes attachments",
         "htna", "help-trace-notes-attachments",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1282,7 +1293,7 @@ void traceOah::initializeSegmentsAndMeasuresTraceOah (
         "Segments and measures",
         "htsam", "help-trace-segments-and-measures",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1430,7 +1441,7 @@ void traceOah::initializeScoreToVoicesTraceOah (
         "Score to voices",
         "htstv", "help-trace-score-to-voices",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1635,7 +1646,7 @@ void traceOah::initializeNotesTraceOah (
         "Notes",
         "htn", "help-trace-notes",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1830,6 +1841,61 @@ R"(Tremolos)",
       traceTremolosBooleanAtom);
 }
 
+void traceOah::initializeOptionsTraceAndDisplayOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Options handling trace",
+        "htoh", "help-trace-options-handling",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // trace options
+
+  fTraceOah = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "toah", "trace-oah",
+R"(Write a trace of options and help handling to standard error.
+This option should best appear first.)",
+        "traceOah",
+        fTraceOah));
+
+  // options details
+
+  fTraceOahDetails = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "toptsd", "trace-options-details",
+R"(Write a trace of options and help handling with more details to standard error.
+This option should best appear first.)",
+        "traceOahDetails",
+        fTraceOahDetails));
+
+  // trace oah visitors
+
+  fTraceOahVisitors    = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "toahv", "trace-oah-visitors",
+R"(Write a trace of the OAH tree visiting activity to standard error.)",
+        "traceOahVisitors",
+        fTraceOahVisitors));
+
+  // fTraceDetailedMeasureNumbersSet is intially empty
+}
+
 void traceOah::initializeRepeatsToSlashesTraceOah (
   bool boolOptionsInitialValue)
 {
@@ -1839,7 +1905,7 @@ void traceOah::initializeRepeatsToSlashesTraceOah (
         "Repeats to slashes",
         "htrts", "help-trace-repeats-to-slashes",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1984,7 +2050,7 @@ void traceOah::initializeOtherTraceOah (
         "Other",
         "hto", "help-trace-other",
 R"()",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2120,6 +2186,10 @@ void traceOah::initializeTraceOah (
     fLongTracePrefix != nullptr,
     "fLongTracePrefix is null");
 
+  // options and help trace and display
+  initializeOptionsTraceAndDisplayOptions (
+    boolOptionsInitialValue);
+
   // score to voices
   initializeScoreToVoicesTraceOah (
     boolOptionsInitialValue);
@@ -2196,8 +2266,14 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   clone->fHandlerUpLink =
     fHandlerUpLink;
 
-  // specific trace
-  // --------------------------------------
+  // options and help trace and display
+  clone->fTraceOah =
+    fTraceOah;
+  clone->fTraceOahDetails =
+    fTraceOahDetails;
+
+  clone->fTraceOahVisitors =
+    fTraceOahVisitors;
 
   // passes
   clone->fTracePasses = true;
@@ -2647,7 +2723,7 @@ void traceOah::checkOptionsConsistency ()
 void traceOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> traceOah::acceptIn ()" <<
       endl;
@@ -2660,7 +2736,7 @@ void traceOah::acceptIn (basevisitor* v)
         S_traceOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching traceOah::visitStart ()" <<
             endl;
@@ -2673,7 +2749,7 @@ void traceOah::acceptIn (basevisitor* v)
 void traceOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> traceOah::acceptOut ()" <<
       endl;
@@ -2686,7 +2762,7 @@ void traceOah::acceptOut (basevisitor* v)
         S_traceOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching traceOah::visitEnd ()" <<
             endl;
@@ -2699,7 +2775,7 @@ void traceOah::acceptOut (basevisitor* v)
 void traceOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> traceOah::browseData ()" <<
       endl;
@@ -2725,12 +2801,23 @@ void traceOah::printAtomOptionsValues (
   gIndenter++;
 
   os << left <<
+    // options and help display
+    setw (valueFieldWidth) << "traceOah" << " : " <<
+    booleanAsString (fTraceOah) <<
+    endl <<
+    setw (valueFieldWidth) << "traceOahDetails" << " : " <<
+    booleanAsString (fTraceOahDetails) <<
+    endl <<
+    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
+    booleanAsString (fTraceOahVisitors) <<
+    endl <<
+
     // passes
     setw (valueFieldWidth) << "tracePasses" << " : " <<
     booleanAsString (fTracePasses) <<
     endl <<
 
-  // for tests, hidden
+    // for tests, hidden
     setw (valueFieldWidth) << "traceForTests" << " : " <<
     booleanAsString (fTraceForTests) <<
     endl <<
@@ -3145,6 +3232,17 @@ void traceOah::printTraceOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
+    // options and help display
+    setw (fieldWidth) << "traceOah" << " : " <<
+    booleanAsString (fTraceOah) <<
+    endl <<
+    setw (fieldWidth) << "traceOahDetails" << " : " <<
+    booleanAsString (fTraceOahDetails) <<
+    endl <<
+    setw (fieldWidth) << "traceOahVisitors" << " : " <<
+    booleanAsString (fTraceOahVisitors) <<
+    endl <<
+
     // passes
     setw (fieldWidth) << "tracePasses" << " : " <<
     booleanAsString (fTracePasses) <<

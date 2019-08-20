@@ -214,7 +214,7 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
           "'";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -649,7 +649,7 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
           "'";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1437,7 +1437,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' right after a repeat has been created";
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1460,7 +1460,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' after a repeat has been completed";
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1481,7 +1481,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' right after the repeat has been created";
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1497,7 +1497,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' right after the repeat common part";
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1516,7 +1516,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' after a repeat has been completed";
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1574,7 +1574,7 @@ void msrRepeat::appendSegmentToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1608,7 +1608,7 @@ void msrRepeat::appendSegmentToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1658,7 +1658,7 @@ void msrRepeat::appendRepeatToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1692,7 +1692,7 @@ void msrRepeat::appendRepeatToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1742,7 +1742,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1776,7 +1776,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1826,7 +1826,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1860,7 +1860,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());

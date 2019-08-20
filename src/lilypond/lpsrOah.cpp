@@ -87,7 +87,7 @@ void lpsrScoreOutputKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
       endl;
@@ -98,7 +98,7 @@ void lpsrScoreOutputKindAtom::handleValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
       endl;
@@ -127,7 +127,7 @@ void lpsrScoreOutputKindAtom::handleValue (
     gIndenter++;
 
     s <<
-      existingLpsrScoreOutputKinds ();
+      existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
@@ -144,7 +144,7 @@ void lpsrScoreOutputKindAtom::handleValue (
 void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreOutputKindAtom::acceptIn ()" <<
       endl;
@@ -157,7 +157,7 @@ void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
         S_lpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrScoreOutputKindAtom::visitStart ()" <<
             endl;
@@ -170,7 +170,7 @@ void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreOutputKindAtom::acceptOut ()" <<
       endl;
@@ -183,7 +183,7 @@ void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
         S_lpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrScoreOutputKindAtom::visitEnd ()" <<
             endl;
@@ -196,7 +196,7 @@ void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 void lpsrScoreOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreOutputKindAtom::browseData ()" <<
       endl;
@@ -328,7 +328,7 @@ void lpsrPitchesLanguageAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
@@ -339,7 +339,7 @@ void lpsrPitchesLanguageAtom::handleValue (
   // is it in the pitches languages map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
@@ -368,7 +368,7 @@ void lpsrPitchesLanguageAtom::handleValue (
     gIndenter++;
 
     s <<
-      existingQuarterTonesPitchesLanguageKinds ();
+      existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
@@ -385,7 +385,7 @@ void lpsrPitchesLanguageAtom::handleValue (
 void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrPitchesLanguageAtom::acceptIn ()" <<
       endl;
@@ -398,7 +398,7 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
         S_lpsrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPitchesLanguageAtom::visitStart ()" <<
             endl;
@@ -411,7 +411,7 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrPitchesLanguageAtom::acceptOut ()" <<
       endl;
@@ -424,7 +424,7 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
         S_lpsrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPitchesLanguageAtom::visitEnd ()" <<
             endl;
@@ -437,7 +437,7 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 void lpsrPitchesLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrPitchesLanguageAtom::browseData ()" <<
       endl;
@@ -571,7 +571,7 @@ void lpsrChordsLanguageAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
@@ -582,7 +582,7 @@ void lpsrChordsLanguageAtom::handleValue (
   // is it in the chords languages map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
@@ -609,7 +609,7 @@ void lpsrChordsLanguageAtom::handleValue (
     gIndenter++;
 
     s <<
-      existingLpsrChordsLanguageKinds ();
+      existingLpsrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
@@ -624,7 +624,7 @@ void lpsrChordsLanguageAtom::handleValue (
 void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrChordsLanguageAtom::acceptIn ()" <<
       endl;
@@ -637,7 +637,7 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
         S_lpsrChordsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrChordsLanguageAtom::visitStart ()" <<
             endl;
@@ -650,7 +650,7 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrChordsLanguageAtom::acceptOut ()" <<
       endl;
@@ -663,7 +663,7 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
         S_lpsrChordsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrChordsLanguageAtom::visitEnd ()" <<
             endl;
@@ -676,7 +676,7 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 void lpsrChordsLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrChordsLanguageAtom::browseData ()" <<
       endl;
@@ -807,7 +807,7 @@ void lpsrTransposeAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
@@ -818,7 +818,7 @@ void lpsrTransposeAtom::handleValue (
   // is it in the chords languages map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
@@ -840,7 +840,7 @@ void lpsrTransposeAtom::handleValue (
 void lpsrTransposeAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrTransposeAtom::acceptIn ()" <<
       endl;
@@ -853,7 +853,7 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
         S_lpsrTransposeAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrTransposeAtom::visitStart ()" <<
             endl;
@@ -866,7 +866,7 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
 void lpsrTransposeAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrTransposeAtom::acceptOut ()" <<
       endl;
@@ -879,7 +879,7 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
         S_lpsrTransposeAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrTransposeAtom::visitEnd ()" <<
             endl;
@@ -892,7 +892,7 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
 void lpsrTransposeAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrTransposeAtom::browseData ()" <<
       endl;
@@ -1045,7 +1045,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tlpv", "trace-lilypond-version",
-R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
+R"(Write a trace of the LilyPond version to standard error.)",
         "traceLilypondVersion",
         fTraceLilypondVersion));
 
@@ -1057,7 +1057,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tlpsrv", "trace-lpsr-visitors",
-R"(Write a trace of the LPSR tree visiting activity to standard error.)",
+R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLpsrVisitors",
         fTraceLpsrVisitors));
 
@@ -1165,14 +1165,14 @@ The default is 'DEFAULT_VALUE'.)",
 R"(Use OUTPUT_KIND to create the LPSR blocks,
 as well as in the generated LilyPond code.
 The NUMBER LilyPond output kinds available are:
-OUTPUT_KINDS.
+  OUTPUT_KINDS.
 '-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
 Otherwise, one file will be generated for each score and/or part.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gLpsrScoreOutputKindsMap.size ())),
             "OUTPUT_KINDS",
-            existingLpsrScoreOutputKinds ()),
+            existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
           "DEFAULT_VALUE",
           lpsrScoreOutputKindAsString (
             lpsrScoreOutputKindDefaultValue)),
@@ -1273,7 +1273,7 @@ R"()",
     gIndenter++;
 
     s <<
-      existingQuarterTonesPitchesLanguageKinds ();
+      existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
@@ -1302,7 +1302,8 @@ The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
             "PITCHES_LANGUAGES",
-            existingQuarterTonesPitchesLanguageKinds ()),
+            gIndenter.indentMultiLineString (
+              existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           "DEFAULT_VALUE",
           msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
@@ -1335,7 +1336,8 @@ The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gLpsrChordsLanguageKindsMap.size ())),
             "CHORDS_LANGUAGES",
-            existingLpsrChordsLanguageKinds ()),
+            gIndenter.indentMultiLineString (
+              existingLpsrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           "DEFAULT_VALUE",
           lpsrChordsLanguageKindAsString (
             lpsrChordsLanguageKindDefaultValue)),
@@ -1590,7 +1592,7 @@ void lpsrOah::checkOptionsConsistency ()
 void lpsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrOah::acceptIn ()" <<
       endl;
@@ -1603,7 +1605,7 @@ void lpsrOah::acceptIn (basevisitor* v)
         S_lpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrOah::visitStart ()" <<
             endl;
@@ -1616,7 +1618,7 @@ void lpsrOah::acceptIn (basevisitor* v)
 void lpsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrOah::acceptOut ()" <<
       endl;
@@ -1629,7 +1631,7 @@ void lpsrOah::acceptOut (basevisitor* v)
         S_lpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrOah::visitEnd ()" <<
             endl;
@@ -1642,7 +1644,7 @@ void lpsrOah::acceptOut (basevisitor* v)
 void lpsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrOah::browseData ()" <<
       endl;
@@ -2036,7 +2038,7 @@ void initializeLpsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing LPSR options handling" <<
       endl;

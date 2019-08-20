@@ -253,7 +253,7 @@ string wholeNotesAsLilypondString (
             " it will be represented using a multiplying factor";
 
           msrMusicXMLWarning (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             s.str ());
 
@@ -330,7 +330,7 @@ string wholeNotesAsLilypondString (
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -708,7 +708,7 @@ void initializeLpsrScoreOutputKindsMap ()
   gLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
 }
 
-string existingLpsrScoreOutputKinds ()
+string existingLpsrScoreOutputKinds (int namesListMaxLength)
 {
   stringstream s;
 
@@ -717,8 +717,53 @@ string existingLpsrScoreOutputKinds ()
       iBegin = gLpsrScoreOutputKindsMap.begin (),
       iEnd   = gLpsrScoreOutputKindsMap.end (),
       i      = iBegin;
+
+    int cumulatedLength = 0;
+
     for ( ; ; ) {
-      s << (*i).first;
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
+      if (++i == iEnd) break;
+
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+    } // for
+
+  /* JMI BUG IN MAP ITERATORS...???
+{
+    list<string> lpsrScoreOutputKindsList;
+    for (
+      map<string, lpsrScoreOutputKind>::const_iterator i = gLpsrScoreOutputKindsMap.begin ();
+      i != gLpsrScoreOutputKindsMap.end ();
+      ++i
+    ) {
+      lpsrScoreOutputKindsList.push_back ((*i).first);
+    } // for
+
+    list<string>::const_iterator
+      iBegin = lpsrScoreOutputKindsList.begin (),
+      iEnd   = lpsrScoreOutputKindsList.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i);
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
         s << " and ";
@@ -727,6 +772,8 @@ string existingLpsrScoreOutputKinds ()
         s << ", ";
       }
     } // for
+}
+*/
   }
 
   return s.str ();
@@ -957,7 +1004,7 @@ void initializeLpsrAccidentalStyleKindsMap ()
   gLpsrAccidentalStyleKindsMap ["forget"] = kForget;
 }
 
-string existingLpsrAccidentalStyleKinds ()
+string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
 {
   stringstream s;
 
@@ -966,9 +1013,19 @@ string existingLpsrAccidentalStyleKinds ()
       iBegin = gLpsrAccidentalStyleKindsMap.begin (),
       iEnd   = gLpsrAccidentalStyleKindsMap.end (),
       i      = iBegin;
+
+    int cumulatedLength = 0;
+
     for ( ; ; ) {
-      s << (*i).first;
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
       if (++i == iEnd) break;
+
       if (next (i) == iEnd) {
         s << " and ";
       }
@@ -1022,7 +1079,7 @@ string lpsrChordsLanguageKindAsString (
   return result;
 }
 
-string existingLpsrChordsLanguageKinds ()
+string existingLpsrChordsLanguageKinds (int namesListMaxLength)
 {
   stringstream s;
 
@@ -1031,9 +1088,17 @@ string existingLpsrChordsLanguageKinds ()
       iBegin = gLpsrChordsLanguageKindsMap.begin (),
       iEnd   = gLpsrChordsLanguageKindsMap.end (),
       i      = iBegin;
+
+    int cumulatedLength = 0;
+
     for ( ; ; ) {
-      s << (*i).first;
-      if (++i == iEnd) break;
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
       if (next (i) == iEnd) {
         s << " and ";
       }
@@ -1214,7 +1279,7 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 void initializeLPSRBasicTypes ()
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing LPSR basic types handling" <<
       endl;

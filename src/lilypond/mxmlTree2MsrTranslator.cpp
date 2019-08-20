@@ -515,7 +515,7 @@ void mxmlTree2MsrTranslator::checkStep (
         " is not a letter from A to G";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -530,7 +530,7 @@ void mxmlTree2MsrTranslator::checkStep (
       " should be a single letter from A to G";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
       s.str ());
@@ -569,7 +569,7 @@ S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
       fCurrentPart->getPartCombinedName ();
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -634,7 +634,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
       "\"";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -721,7 +721,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
         "' since it is the only part in the <part-list />";
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -734,7 +734,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
         "\" not found in score skeleton";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -864,7 +864,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
   // have the divisions been defined alright?
   if (! fCurrentDivisions) {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "no <divisions/> markup found in MusicXML data, exiting");
@@ -910,7 +910,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_divisions& elt )
     fCurrentDivisionsPerQuarterNote > 16383
   ) {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "divisions per quarter note should be between 1 and 16383");
@@ -1022,7 +1022,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1089,7 +1089,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1157,7 +1157,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1191,7 +1191,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
             "\" is unknown";
 
           msrMusicXMLError (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -1223,7 +1223,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
             "\" is unknown";
 
           msrMusicXMLError (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -1252,7 +1252,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1392,7 +1392,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_mode& elt )
       "mode " << mode << " is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1415,7 +1415,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_step& elt )
 
   if (fCurrentHumdrumScotKeyItem) {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "Humdrum/Scot key step found while another one is being handled");
@@ -1467,7 +1467,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
 
   if (! fCurrentHumdrumScotKeyItem) {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "Humdrum/Scot key alter found while no key step is being handled");
@@ -1489,7 +1489,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1545,7 +1545,7 @@ If the cancel attribute is
       "An exception number " << e << " occurred";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1574,7 +1574,7 @@ If the cancel attribute is
       " not found in Humdrum/Scot key items";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1721,7 +1721,7 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
         "unknown key fifths number \"" << fCurrentKeyFifths << "\"";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1775,7 +1775,7 @@ S_msrKey mxmlTree2MsrTranslator::handleHumdrumScotKey (
 
   else
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "Humdrum/Scot key is empty");
@@ -1832,7 +1832,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
         "time symbol " << timeSymbol << " is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1906,7 +1906,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_type& elt )
 
   else {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "beat type doesn't contain any beats numbers");
@@ -1976,7 +1976,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
         "interchangeable symbol " << interchangeableSymbol << " is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2013,7 +2013,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
         "interchangeable symbol " << interchangeableSymbol << " is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2069,7 +2069,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
         "time-relation " << timeRelation << " is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2116,7 +2116,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_time& elt )
     // only a 'semza misura' time may be empty
     if (  fCurrentTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "time is empty");
@@ -2269,7 +2269,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
       " and decrementing octave change by " << octaveOffset;
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -2297,7 +2297,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
       " and incrementing octave change by " << octaveOffset;
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -2474,7 +2474,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
         " should be 'yes' or 'no'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2532,7 +2532,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
       "octave shift size absent, assuming 8";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -2562,7 +2562,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
 
   // JMI    msrMusicXMLError (
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
    //     __FILE__, __LINE__,
         s.str ());
@@ -2595,7 +2595,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
       "\"" << "is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2675,7 +2675,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         " should be 'normal' or 'italic'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2750,7 +2750,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         " should be 'normal' or 'bold'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2868,7 +2868,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_middle& elt )
       ", replaced by 1";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -2913,7 +2913,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
 
   if (fCurrentAccordionNumbersCounter == 0) {
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       "accordion-registration has 0 child element, ignoring it");
   }
@@ -2981,7 +2981,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
         " should be 'yes' or 'no'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -3061,7 +3061,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
       "beat unit dot occurs without prior beat unit";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3176,7 +3176,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
       "\"" << "is not known";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3358,7 +3358,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3403,7 +3403,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3418,7 +3418,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
             " \"yes\" is assumed"; // option ??? JMI
 
           msrMusicXMLWarning (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
@@ -3446,7 +3446,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -3473,7 +3473,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
     else {
       if (tupletShowNumber.size ()) {
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "tuplet show-number \"" + tupletShowNumber + "\" is unknown");
@@ -3630,7 +3630,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         " beat units";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3736,7 +3736,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         " <words/> markups";
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -3863,7 +3863,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
     s << "staff " << fCurrentMusicXMLStaffNumber << " is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3917,7 +3917,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
         s << "show-frets " << showFrets << " unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3960,7 +3960,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
       s << "print-spacing " << printSpacing << " is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4054,7 +4054,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_type& elt )
     s << "staff-type" << staffType << "unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4132,7 +4132,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
     s << "tuning step " << tuningStep << " is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4167,7 +4167,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
     s << "tuning octave " << tuningOctave << " is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4203,7 +4203,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4221,7 +4221,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
     s << "tuning alter " << tuningAlter << " is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4352,7 +4352,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
     s << "voice " << fCurrentMusicXMLVoiceNumber << " is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4616,7 +4616,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
         s << "tied type '" << fCurrentSlurType << "' inside a slur is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4632,7 +4632,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
         s << "tied type '" << fCurrentSlurType << "' inside a ligature is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4766,7 +4766,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
       "ignoring a slur in a chord member note other than the first one";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -4836,7 +4836,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 
       //      msrMusicXMLError ( // JMI
             msrMusicXMLWarning (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
       //        __FILE__, __LINE__,
               s.str ());
@@ -4861,7 +4861,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
               "a standalone slur 'stop' is meaningless, ignoring it";
 
             msrMusicXMLWarning (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               s.str ());
           }
@@ -4924,7 +4924,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             "\" is unknown";
 
           msrMusicXMLError (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -4955,7 +4955,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     else {
       if (slurLineType.size ()) {
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "slur line-type \"" + slurLineType + "\" is unknown");
@@ -5061,7 +5061,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5100,7 +5100,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5130,7 +5130,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
   else {
     if (ligatureLineTypeValue.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "ligature line-type \"" + ligatureLineTypeValue + "\" is unknown");
@@ -5163,7 +5163,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
               "Bracket start found with no placement";
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -5196,7 +5196,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
               "Bracket stop above found with no corresponding bracket start";
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -5219,7 +5219,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
               "Bracket stop below found with no corresponding bracket start";
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -5285,7 +5285,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
         "\", should be 'crescendo', 'diminuendo' or 'stop'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5314,7 +5314,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5344,7 +5344,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
   else {
     if (wedgeLineType.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "wedge line-type \"" + wedgeLineType + "\" is unknown");
@@ -5388,7 +5388,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 
     if (fCurrentStanzaNumber.size () == 0) {
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         "lyric number is empty, using \"1\" by default");
 
@@ -5495,7 +5495,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -5645,7 +5645,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5684,7 +5684,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       "<lyric /> has no <syllabic/> component, using 'single' by default";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -5705,7 +5705,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       " is attached to a rest";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -6048,7 +6048,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
           "' found";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6105,7 +6105,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6229,7 +6229,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
         fCurrentMusicXMLVoiceNumber;
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6310,7 +6310,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
     if (fRemainingRestMeasuresMeasuresNumber <= 0) {
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "remainingRestMeasuresMeasuresNumber problem");
@@ -6438,7 +6438,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
       "\" is unknown in '<print />', should be 'yes', 'no' or empty";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6482,7 +6482,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
       "\" is unknown in '<print />', should be 'yes', 'no' or empty";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6537,7 +6537,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
   }
   else {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "measure-numbering \"" + measureNumberingString + "\" is unknown");
@@ -6615,7 +6615,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
 
    // JMI   msrMusicXMLError (
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
    //     __FILE__, __LINE__,
         s.str ());
@@ -6693,7 +6693,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
   }
   else {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "bar-style \"" + barStyle + "\" is unknown");
@@ -6739,7 +6739,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
     s << "segno is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6781,7 +6781,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
     s << "coda is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6819,7 +6819,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
     s << "eyeGlasses is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6864,7 +6864,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     s << "pedal type '" << type << "' is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6891,7 +6891,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6921,7 +6921,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6947,7 +6947,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     s << "pedal " << pedal->asShortString () << " is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6977,7 +6977,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
 
     if (! fCurrentBarlineEndingNumber.size ()) {
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         "mandatory ending number is missing, assuming \"1\"");
 
@@ -7014,7 +7014,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -7061,7 +7061,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -7105,7 +7105,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -7339,7 +7339,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       barline->asString ();
 
     msrInternalWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -7549,7 +7549,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
       "\" should contain 6 or 8 upper case hexadecimal digits prededed by a '#'";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7611,7 +7611,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_alter& elt)
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7639,7 +7639,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_octave& elt)
       "' is not in the 0..9 range, '0' is assumed";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       s.str ());
 
@@ -7765,7 +7765,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     s << "duration " << duration << " is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7847,7 +7847,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     else {
       if (noteTypeSize.size ()) {
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
             "note type size \"" + noteTypeSize + "\" is unknown");
@@ -7949,7 +7949,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -7974,7 +7974,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -8000,7 +8000,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -8111,7 +8111,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
           "\" is unknown";
 
         msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
           s.str ());
@@ -8142,7 +8142,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
           "\" is unknown";
 
         msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
           s.str ());
@@ -8173,7 +8173,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -8221,7 +8221,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8278,7 +8278,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
       "\"" << "is not known";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8456,7 +8456,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8497,7 +8497,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
         " is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8544,7 +8544,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8576,7 +8576,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8618,7 +8618,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
   else {
     if (slashTypeSize.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
           "slash type size \"" + slashTypeSize + "\" is unknown");
@@ -9277,7 +9277,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
         "arpeggiate direction \"" << directionString << "\"" << "is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -9347,7 +9347,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -9621,7 +9621,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9714,7 +9714,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9756,7 +9756,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -10078,7 +10078,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -10219,7 +10219,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
       "\" is empoty, '" << stringIntegerValue << "' is assumed";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -10260,7 +10260,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10483,7 +10483,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -10513,7 +10513,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -10574,7 +10574,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "--> tremolo value is missing, '" << tremoloMarksNumber << "' assumed";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -10587,7 +10587,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "\" should be between 0 and 8";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10616,7 +10616,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10683,7 +10683,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10764,7 +10764,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           "<tremolo/> start when a current double tremolo is already open";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10794,7 +10794,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           "<tremolo/> stop whit no preceeding <tremolo/> start";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10881,7 +10881,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -10953,7 +10953,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -11001,7 +11001,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
           "wavy-line stop found without corresponding start, ignoring it";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -11396,7 +11396,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12467,7 +12467,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
   else {
     if (slash.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "grace slash \"" + slash + "\" unknown, should be 'yes' or 'no'");
@@ -12602,7 +12602,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12675,7 +12675,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12752,7 +12752,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12800,7 +12800,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12815,7 +12815,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
             " \"yes\" is assumed"; // option ??? JMI
 
           msrMusicXMLWarning (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
@@ -12845,7 +12845,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12937,7 +12937,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12964,7 +12964,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     else {
       if (tupletShowNumber.size ()) {
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "tuplet show-number \"" + tupletShowNumber + "\" is unknown");
@@ -12991,7 +12991,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     else {
       if (tupletShowType.size ()) {
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "tuplet show-type \"" + tupletShowType + "\" is unknown");
@@ -13107,7 +13107,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   }
   else {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "found a tuplet number out of context");
@@ -13153,7 +13153,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
   }
   else {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "found a tuplet number out of context");
@@ -13196,7 +13196,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
   }
   else {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "found a tuplet dot out of context");
@@ -13246,7 +13246,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -13275,7 +13275,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   else {
     if (glissandoLineType.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "glissando line-type \"" + glissandoLineType + "\" is unknown");
@@ -13370,7 +13370,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -13399,7 +13399,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   else {
     if (slideLineType.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "slide line-type \"" + slideLineType + "\" is unknown");
@@ -13516,7 +13516,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
   else {
     if (restMeasure.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "rest measure \"" + restMeasure + "\" is unknown");
@@ -15751,7 +15751,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -15813,7 +15813,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -15875,7 +15875,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -15938,7 +15938,7 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -16000,7 +16000,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -16053,7 +16053,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -16073,7 +16073,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
           "There is 1 pending ligature";
       }
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         note->getInputLineNumber (),
         s.str ());
 
@@ -16223,7 +16223,7 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -16285,7 +16285,7 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -16347,7 +16347,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -16895,7 +16895,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
         "double tremolo note lacks a <type/>"; // JMI a completer
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -17081,7 +17081,7 @@ void mxmlTree2MsrTranslator::populateNote (
             ", using the latter";
 
           msrMusicXMLWarning (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
@@ -18450,7 +18450,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
   if (fCurrentNoteIsARest) {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
@@ -18606,7 +18606,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         "fCurrentMusicXMLVoiceNumber = " << fCurrentMusicXMLVoiceNumber;
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -18799,7 +18799,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
               "' belongs to a double tremolo, but is not marked as such";
 
             msrInternalError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -19051,7 +19051,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             "' cannot be added, tuplets stack is empty";
 
           msrInternalError (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -19075,7 +19075,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 "' cannot be added, tuplets stack is empty";
 
               msrInternalError (
-                gExecutableOah->fInputSourceName,
+                gOahOah->fInputSourceName,
                 inputLineNumber,
                 __FILE__, __LINE__,
                 s.str ());
@@ -19255,7 +19255,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             "one-note tuplet with a non single tremolo contents met";
 
           msrMusicXMLError (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -19334,7 +19334,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   if (fCurrentNoteIsARest) {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
@@ -19370,7 +19370,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         "cannot be added, tuplets stack is empty";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -19536,7 +19536,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 
   if (fCurrentNoteIsARest) {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
@@ -19583,7 +19583,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
           newChordNote->asString ();
 
         msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
           s.str ());
@@ -19657,7 +19657,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
         "cannot be added, tuplets stack is empty";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -20131,7 +20131,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
         "\"" << " is not handled, ignored";
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -20246,7 +20246,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -20356,14 +20356,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
   else {
     if (kind.size ()) {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "harmony kind \"" + kind + "\" os unknown");
     }
     else {
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         "empty harmony kind, replaced by 'major'");
 
@@ -20390,7 +20390,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -20417,7 +20417,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -20444,7 +20444,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -20471,7 +20471,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -20552,7 +20552,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -20613,7 +20613,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -20651,7 +20651,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
 
   else {
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "harmony degree-type \"" + degreeType + "\" is unknown");
@@ -20720,7 +20720,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       &&
     fCurrentHarmonyDegreesList.size () == 0) {
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       "harmony kind is 'other' but there are no harmony degrees, this is strange...");
   }
@@ -20741,7 +20741,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       "', ignoring the latter";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -20848,7 +20848,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies) {
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         "harmony has no degrees contents");
     }
@@ -20950,7 +20950,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -21062,7 +21062,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -21186,7 +21186,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
         " should be 'yes' or 'no'";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -21267,7 +21267,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_prefix& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -21299,7 +21299,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figure_number& elt )
       "' is greater that 13, that's strange...";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -21356,7 +21356,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_suffix& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -21432,7 +21432,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
   // attach pending figures to the figured bass
   if (! fPendingFiguredBassFiguresList.size ()) {
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       "figured-bass has no figures contents FOO, ignoring it");
   }
@@ -21619,7 +21619,7 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

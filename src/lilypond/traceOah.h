@@ -47,6 +47,9 @@ class traceOah : public oahGroup
     void                  initializeTraceOah (
                             bool boolOptionsInitialValue);
 
+    void                  initializeOptionsTraceAndDisplayOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeRepeatsToSlashesTraceOah (
                             bool boolOptionsInitialValue);
 
@@ -160,6 +163,14 @@ class traceOah : public oahGroup
                             int      valueFieldWidth) const;
 
   public:
+
+    // options and help trace
+    // --------------------------------------
+
+    bool                  fTraceOah;
+    bool                  fTraceOahDetails;
+
+    bool                  fTraceOahVisitors;
 
     // other
     // --------------------------------------

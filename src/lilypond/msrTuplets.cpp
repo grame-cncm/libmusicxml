@@ -398,7 +398,7 @@ S_msrNote msrTuplet::fetchTupletFirstNonGraceNote () const
 
   else {
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "cannot access the first note of an empty tuplet");
@@ -439,7 +439,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       }
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "removeFirstNoteFromTuplet () expects a note as the first tuplet element");
@@ -486,7 +486,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       " since it has not been found";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -506,7 +506,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       "\"";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -556,7 +556,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
       }
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "removeLastNoteFromTuplet () expects a note as the last tuplet element");
@@ -576,7 +576,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
       "\"";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -678,7 +678,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
 
     else {
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "tuplet member should be a note, a chord or another tuplet");
@@ -861,7 +861,7 @@ string msrTuplet::asString () const
 
       else {
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tuplet member should be a note, a chord or another tuplet");

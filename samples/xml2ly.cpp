@@ -131,7 +131,7 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -171,7 +171,7 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -200,7 +200,7 @@ void displayMsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -239,7 +239,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -281,7 +281,7 @@ void displayLpsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -397,7 +397,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -564,7 +564,7 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gExecutableOah->fInputSourceName;
+      gOahOah->fInputSourceName;
 
   string
     outputFileName =

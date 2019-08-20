@@ -43,7 +43,7 @@ string lpsrScoreOutputKindAsString (
 extern map<string, lpsrScoreOutputKind>
   gLpsrScoreOutputKindsMap;
 
-string existingLpsrScoreOutputKinds ();
+string existingLpsrScoreOutputKinds (int namesListMaxLength);
 
 void initializeLpsrScoreOutputKindsMap ();
 
@@ -60,7 +60,7 @@ string lpsrOctaveEntryKindAsString (
 extern map<string, lpsrOctaveEntryKind>
   gLpsrOctaveEntryKindsMap;
 
-string existingLpsrOctaveEntryKinds ();
+string existingLpsrOctaveEntryKinds (int namesListMaxLength);
 
 void initializeLpsrOctaveEntryKindsMap ();
 
@@ -86,7 +86,7 @@ string lpsrAccidentalStyleKindAsLilypondString (
 extern map<string, lpsrAccidentalStyleKind>
   gLpsrAccidentalStyleKindsMap;
 
-string existingLpsrAccidentalStyleKinds ();
+string existingLpsrAccidentalStyleKinds (int namesListMaxLength);
 
 void initializeLpsrAccidentalStyleKindsMap ();
 
@@ -102,7 +102,7 @@ string lpsrChordsLanguageKindAsString (
 extern map<string, lpsrChordsLanguageKind>
   gLpsrChordsLanguageKindsMap;
 
-string existingLpsrChordsLanguageKinds ();
+string existingLpsrChordsLanguageKinds (int namesListMaxLength);
 
 void initializeLpsrChordsLanguageKindsMap ();
 

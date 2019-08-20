@@ -109,7 +109,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -227,7 +227,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -300,7 +300,7 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingStaff (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       first->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());

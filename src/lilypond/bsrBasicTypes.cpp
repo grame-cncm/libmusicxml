@@ -243,7 +243,7 @@ string bsrTextsLanguageKindAsString (
   return result;
 }
 
-string existingBsrTextsLanguageKinds ()
+string existingBsrTextsLanguageKinds (int namesListMaxLength)
 {
   stringstream s;
 
@@ -252,9 +252,19 @@ string existingBsrTextsLanguageKinds ()
       iBegin = gBsrTextsLanguageKindsMap.begin (),
       iEnd   = gBsrTextsLanguageKindsMap.end (),
       i      = iBegin;
+
+    int cumulatedLength = 0;
+
     for ( ; ; ) {
-      s << (*i).first;
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
       if (++i == iEnd) break;
+
       if (next (i) == iEnd) {
         s << " and ";
       }
@@ -346,7 +356,7 @@ void bsrInternalError (
 void initializeBSRBasicTypes ()
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing BSR basic types handling" <<
       endl;

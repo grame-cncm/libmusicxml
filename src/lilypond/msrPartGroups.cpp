@@ -282,7 +282,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       getPartGroupCombinedName ();
 
     msrMusicXMLWarning ( // JMI
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -439,7 +439,7 @@ void msrPartGroup::removePartFromPartGroup (
         " is not a part group nor a part";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -535,7 +535,7 @@ void msrPartGroup::printPartGroupParts (
           " is not a part group nor a part";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -625,7 +625,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         " is not a part group nor a part";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -677,7 +677,7 @@ void msrPartGroup::collectPartGroupPartsList (
         " is not a part group nor a part";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());

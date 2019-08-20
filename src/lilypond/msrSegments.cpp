@@ -366,7 +366,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     gIndenter--;
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -419,7 +419,7 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
     gIndenter--;
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -1293,7 +1293,7 @@ void msrSegment::padUpToPositionInMeasureInSegment (
     gIndenter--;
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1423,7 +1423,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       "' occurs twice in a row";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1508,7 +1508,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
   // JMI  msrInternalError (
     msrInternalWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -1858,7 +1858,7 @@ void msrSegment::removeNoteFromSegment (
       " since it is empty";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1902,7 +1902,7 @@ void msrSegment::removeElementFromSegment (
       " since it is empty";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1940,7 +1940,7 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
       "' since it is empty";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2006,7 +2006,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       "' since it is empty";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

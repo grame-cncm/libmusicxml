@@ -159,7 +159,7 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_FIGURED_BASS_STAFF_NUMBER;
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -583,7 +583,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       /* JMI ???
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -891,7 +891,7 @@ S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
       ", line " << inputLineNumber;
 
     msrInternalError ( // JMI ???
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -993,7 +993,7 @@ void msrStaff::registerVoiceInStaff (
           /* JMI ???
         msrMusicXMLError (
     // JMI    msrMusicXMLWarning ( JMI
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());

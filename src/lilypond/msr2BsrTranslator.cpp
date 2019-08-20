@@ -115,7 +115,7 @@ void msr2BsrTranslator::notSupportedMessage (
 {
   // issue a warning message to the output log stream
   bsrMusicXMLWarning (
-    gExecutableOah->fInputSourceName,
+    gOahOah->fInputSourceName,
     inputLineNumber,
     message);
 
@@ -245,7 +245,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
         inputLineNumber,
         "This braille music data created by "
           +
-        gExecutableOah->fHandlerExecutableName);
+        gOahOah->fHandlerExecutableName);
 
   fBsrScore->
     getTranscriptionNotes ()->
@@ -3108,7 +3108,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3157,7 +3157,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -4327,7 +4327,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "' has an empty note upLink";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4903,7 +4903,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -4918,7 +4918,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of a double tremolo";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4942,7 +4942,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of grace notes";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5012,7 +5012,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5037,7 +5037,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5061,7 +5061,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5341,7 +5341,7 @@ void msr2BsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6495,7 +6495,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -6637,7 +6637,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
       }

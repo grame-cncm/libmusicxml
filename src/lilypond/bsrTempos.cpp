@@ -206,7 +206,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
         if (smSize == 3) {
 #ifdef TRACE_OAH
-          if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
             gLogOstream <<
               "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<

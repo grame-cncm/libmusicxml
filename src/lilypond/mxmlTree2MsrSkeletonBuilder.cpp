@@ -753,7 +753,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStartingList (
         " could not be inserted in part groups to be stopped list";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -834,7 +834,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStoppingList (
         " could not be inserted in part groups to be stopped list";
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1055,7 +1055,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
 
  // JMI   msrMusicXMLError (
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -1278,7 +1278,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
           ", since the stack is empty";
 
         msrMusicXMLError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1335,7 +1335,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               ", since the stack is empty";
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               stopInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1378,7 +1378,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
                   " into";
 
                 msrInternalError (
-                  gExecutableOah->fInputSourceName,
+                  gOahOah->fInputSourceName,
                   stopInputLineNumber,
                   __FILE__, __LINE__,
                   s.str ());
@@ -1465,10 +1465,10 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
   or this MusicXML data is the first-ever real-world case
   of a score exhibiting overlapping part groups.)",
               "EXECUTABLE",
-              gExecutableOah->fHandlerExecutableName);
+              gOahOah->fHandlerExecutableName);
 
             msrMusicXMLError (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               stopInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1897,7 +1897,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
 
 // JMI    msrMusicXMLError (
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
 //      __FILE__, __LINE__,
       s.str ());
@@ -1952,7 +1952,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
   if (softwareValueToLower.find ("cubase") != string::npos) {
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       "<software /> contains 'Cubase'");
 
@@ -1975,7 +1975,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
       ) {
         // handle it at once
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOah) {
+        if (gTraceOah->fTraceOah) {
           fLogOutputStream <<
             "Setting '-cubase' option" <<
             endl;
@@ -2554,7 +2554,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
         "\"";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2652,7 +2652,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_display_text& elt)
   }
   else {
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<display-text /> is out of context");
@@ -2724,7 +2724,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
         "unknown part group symbol \"" + groupSymbol + "\"";
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2761,7 +2761,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
       "unknown part group barline \"" + groupBarline + "\"";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2866,7 +2866,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
       ", line " << inputLineNumber;
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -3150,7 +3150,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
         "' since it is the only part in the <part-list />";
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -3166,7 +3166,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       s >> fCurrentPartID;
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         "part 'id' is empty, creating one as '" + fCurrentPartID + "'");
     }
@@ -3187,7 +3187,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       "\" is not known in the <part-list />";
 
     msrMusicXMLError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3254,7 +3254,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
         " measures while the other ones have " << fScoreNumberOfMeasures;
 
       msrMusicXMLError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
       __FILE__, __LINE__,
         s.str ());
@@ -3593,7 +3593,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
 
     if (fCurrentStanzaNumber.size () == 0) {
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         "lyric number is empty, using \"1\" by default");
 
@@ -3636,7 +3636,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
           "\" by default";
 
         msrMusicXMLWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }

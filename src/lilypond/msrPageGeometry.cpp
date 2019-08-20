@@ -153,7 +153,7 @@ float msrPageGeometry::fetchGlobalStaffSize () const
         endl;
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         s.str ());
     }

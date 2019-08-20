@@ -112,7 +112,7 @@ R"(Don't show errors in the log.)",
 R"(Do not abort execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gExecutableOah->fHandlerExecutableName),
+          gOahOah->fHandlerExecutableName),
         "dontAbortOnErrors",
         fDontAbortOnErrors));
 
@@ -129,7 +129,7 @@ R"(Display the source code file name and line number
 in warning and error messages.
 This is useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gExecutableOah->fHandlerExecutableName),
+          gOahOah->fHandlerExecutableName),
         "displaySourceCodePosition",
         fDisplaySourceCodePosition));
 }
@@ -257,7 +257,7 @@ void generalOah::checkOptionsConsistency ()
 void generalOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> generalOah::acceptIn ()" <<
       endl;
@@ -270,7 +270,7 @@ void generalOah::acceptIn (basevisitor* v)
         S_generalOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching generalOah::visitStart ()" <<
             endl;
@@ -283,7 +283,7 @@ void generalOah::acceptIn (basevisitor* v)
 void generalOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> generalOah::acceptOut ()" <<
       endl;
@@ -296,7 +296,7 @@ void generalOah::acceptOut (basevisitor* v)
         S_generalOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching generalOah::visitEnd ()" <<
             endl;
@@ -309,7 +309,7 @@ void generalOah::acceptOut (basevisitor* v)
 void generalOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> generalOah::browseData ()" <<
       endl;

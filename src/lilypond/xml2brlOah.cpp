@@ -24,7 +24,7 @@
 #include "setTraceOahIfDesired.h"
 #include "traceOah.h"
 
-#include "executableOah.h"
+#include "oahOah.h"
 #include "musicXMLOah.h"
 #include "msrOah.h"
 #include "bsrOah.h"
@@ -85,7 +85,7 @@ S_oahValuedAtom xml2brlVersionOahAtom::handleOptionUnderName (
 void xml2brlVersionOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlVersionOahAtom::acceptIn ()" <<
       endl;
@@ -98,7 +98,7 @@ void xml2brlVersionOahAtom::acceptIn (basevisitor* v)
         S_xml2brlVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlVersionOahAtom::visitStart ()" <<
             endl;
@@ -111,7 +111,7 @@ void xml2brlVersionOahAtom::acceptIn (basevisitor* v)
 void xml2brlVersionOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlVersionOahAtom::acceptOut ()" <<
       endl;
@@ -124,7 +124,7 @@ void xml2brlVersionOahAtom::acceptOut (basevisitor* v)
         S_xml2brlVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlVersionOahAtom::visitEnd ()" <<
             endl;
@@ -137,7 +137,7 @@ void xml2brlVersionOahAtom::acceptOut (basevisitor* v)
 void xml2brlVersionOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlVersionOahAtom::browseData ()" <<
       endl;
@@ -236,7 +236,7 @@ S_oahValuedAtom xml2brlAboutOahAtom::handleOptionUnderName (
 void xml2brlAboutOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlAboutOahAtom::acceptIn ()" <<
       endl;
@@ -249,7 +249,7 @@ void xml2brlAboutOahAtom::acceptIn (basevisitor* v)
         S_xml2brlAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlAboutOahAtom::visitStart ()" <<
             endl;
@@ -262,7 +262,7 @@ void xml2brlAboutOahAtom::acceptIn (basevisitor* v)
 void xml2brlAboutOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlAboutOahAtom::acceptOut ()" <<
       endl;
@@ -275,7 +275,7 @@ void xml2brlAboutOahAtom::acceptOut (basevisitor* v)
         S_xml2brlAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlAboutOahAtom::visitEnd ()" <<
             endl;
@@ -288,7 +288,7 @@ void xml2brlAboutOahAtom::acceptOut (basevisitor* v)
 void xml2brlAboutOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlAboutOahAtom::browseData ()" <<
       endl;
@@ -411,7 +411,7 @@ S_oahValuedAtom xml2brlContactOahAtom::handleOptionUnderName (
 void xml2brlContactOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlContactOahAtom::acceptIn ()" <<
       endl;
@@ -424,7 +424,7 @@ void xml2brlContactOahAtom::acceptIn (basevisitor* v)
         S_xml2brlContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlContactOahAtom::visitStart ()" <<
             endl;
@@ -437,7 +437,7 @@ void xml2brlContactOahAtom::acceptIn (basevisitor* v)
 void xml2brlContactOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlContactOahAtom::acceptOut ()" <<
       endl;
@@ -450,7 +450,7 @@ void xml2brlContactOahAtom::acceptOut (basevisitor* v)
         S_xml2brlContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlContactOahAtom::visitEnd ()" <<
             endl;
@@ -463,7 +463,7 @@ void xml2brlContactOahAtom::acceptOut (basevisitor* v)
 void xml2brlContactOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlContactOahAtom::browseData ()" <<
       endl;
@@ -613,7 +613,7 @@ void xml2brlOahHandler::initializeOptionsHandler (
     this);
 #endif
 
-  initializeExecutableOahHandling (
+  initializeOahOahHandling (
     executableName,
     this);
 
@@ -650,7 +650,7 @@ void xml2brlOahHandler::initializeOptionsHandler (
     this);
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     // print the options handler initial state
     fHandlerLogOstream <<
       "xml2brlOahHandler has been initialized as:" <<
@@ -674,7 +674,7 @@ void xml2brlOahHandler::initializeOptionsHandler (
     registerHandlerInItself ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     fHandlerLogOstream <<
       "xml2brlOahHandler help:" <<
       endl;
@@ -692,7 +692,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
     fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     if (argumentsNumber > 0) {
       fHandlerLogOstream <<
         singularOrPluralWithoutNumber (
@@ -720,7 +720,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
     else {
       fHandlerLogOstream <<
         "There are no arguments to " <<
-        gExecutableOah->fHandlerExecutableName <<
+        gOahOah->fHandlerExecutableName <<
         endl;
     }
   }
@@ -742,7 +742,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
 
     case 1:
       // register intput file name
-      gExecutableOah->fInputSourceName =
+      gOahOah->fInputSourceName =
         fHandlerArgumentsVector [0];
       break;
 
@@ -756,7 +756,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         endl;
 
       // register intput file name
-      gExecutableOah->fInputSourceName =
+      gOahOah->fInputSourceName =
         fHandlerArgumentsVector [0];
       break;
   } //  switch
@@ -766,12 +766,12 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
 
   string potentialOutputFileName;
 
-  if (gExecutableOah->fInputSourceName != "-") {
+  if (gOahOah->fInputSourceName != "-") {
     // determine potential output file name,
     // may be set differently by '--ofn, --outputFileName' option
     potentialOutputFileName =
       baseName (
-        gExecutableOah->fInputSourceName);
+        gOahOah->fInputSourceName);
 
     size_t
       posInString =
@@ -847,7 +847,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
       exit (3);
     }
 
-    else if (gExecutableOah->fInputSourceName == "-") {
+    else if (gOahOah->fInputSourceName == "-") {
       stringstream s;
 
       s <<
@@ -953,7 +953,7 @@ void xml2brlOah::checkOptionsConsistency ()
 void xml2brlOahHandler::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlOahHandler::acceptIn ()" <<
       endl;
@@ -966,7 +966,7 @@ void xml2brlOahHandler::acceptIn (basevisitor* v)
         S_xml2brlOahHandler elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlOahHandler::visitStart ()" <<
             endl;
@@ -979,7 +979,7 @@ void xml2brlOahHandler::acceptIn (basevisitor* v)
 void xml2brlOahHandler::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlOahHandler::acceptOut ()" <<
       endl;
@@ -992,7 +992,7 @@ void xml2brlOahHandler::acceptOut (basevisitor* v)
         S_xml2brlOahHandler elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlOahHandler::visitEnd ()" <<
             endl;
@@ -1005,7 +1005,7 @@ void xml2brlOahHandler::acceptOut (basevisitor* v)
 void xml2brlOahHandler::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlOahHandler::browseData ()" <<
       endl;
@@ -1234,7 +1234,7 @@ or adding '.brl' if none is present.)",
 void xml2brlOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlOah::acceptIn ()" <<
       endl;
@@ -1247,7 +1247,7 @@ void xml2brlOah::acceptIn (basevisitor* v)
         S_xml2brlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlOah::visitStart ()" <<
             endl;
@@ -1260,7 +1260,7 @@ void xml2brlOah::acceptIn (basevisitor* v)
 void xml2brlOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlOah::acceptOut ()" <<
       endl;
@@ -1273,7 +1273,7 @@ void xml2brlOah::acceptOut (basevisitor* v)
         S_xml2brlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2brlOah::visitEnd ()" <<
             endl;
@@ -1286,7 +1286,7 @@ void xml2brlOah::acceptOut (basevisitor* v)
 void xml2brlOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2brlOah::browseData ()" <<
       endl;
@@ -1325,7 +1325,7 @@ void initializeXml2brlOah (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing xml2brl options handling" <<
       endl;

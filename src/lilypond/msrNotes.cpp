@@ -2338,7 +2338,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
         ligature->getInputLineNumber ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         ligature->getInputLineNumber (),
         s.str ());
 
@@ -2394,7 +2394,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
         pedal->getInputLineNumber ();
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         pedal->getInputLineNumber (),
         s.str ());
 
@@ -3698,7 +3698,7 @@ void msrNote::print (ostream& os)
 
 // JMI     msrInternalError (
     msrInternalWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
       s.str ());
   }

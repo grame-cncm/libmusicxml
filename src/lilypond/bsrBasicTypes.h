@@ -223,7 +223,7 @@ string bsrTextsLanguageKindAsString (
 extern map<string, bsrTextsLanguageKind>
   gBsrTextsLanguageKindsMap;
 
-string existingBsrTextsLanguageKinds ();
+string existingBsrTextsLanguageKinds (int namesListMaxLength);
 
 void initializeBsrTextsLanguageKindsMap ();
 

@@ -1115,7 +1115,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       ", line " << inputLineNumber;
 
     msrInternalError ( // JMI ???
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1240,7 +1240,7 @@ void msrPart::appendFiguredBassToPart (
           "\"";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1289,7 +1289,7 @@ void msrPart::appendFiguredBassToPartClone (
           "\"";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1513,7 +1513,7 @@ void msrPart::finalizePart (
       " appears in the part list, but doesn't contain any stave";
 
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       s.str ());
   }

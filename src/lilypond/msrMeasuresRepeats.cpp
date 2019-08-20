@@ -195,7 +195,7 @@ S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote 
           "'";
 
         msrInternalError (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());

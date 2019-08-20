@@ -29,6 +29,11 @@ namespace MusicXML2
 
 #define K_NO_INPUT_LINE_NUMBER 0
 
+// names lists max length
+// ------------------------------------------------------
+
+#define K_NAMES_LIST_MAX_LENGTH 50
+
 // XMLLang
 //______________________________________________________________________________
 enum msrXMLLangKind {
@@ -332,8 +337,8 @@ string msrHarmonyKindShortName (
 msrHarmonyKind msrHarmonyKindFromString (
   string theString);
 
-string existingHarmonyKinds ();
-string existingHarmonyKindsNames ();
+string existingHarmonyKinds (int namesListMaxLength);
+string existingHarmonyKindsNames (int namesListMaxLength);
 
 // constant
 const int K_HARMONY_NO_INVERSION = -1;
@@ -1340,7 +1345,7 @@ extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ();
 
-string existingQuarterTonesPitchesLanguageKinds ();
+string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength);
 
 // initialization
 //______________________________________________________________________________

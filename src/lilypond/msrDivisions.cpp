@@ -173,7 +173,7 @@ int msrDivisions::durationKindAsDivisions (
   printDurationKindsDivisions (s);
 
   msrInternalError (
-    gExecutableOah->fInputSourceName,
+    gOahOah->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -286,7 +286,7 @@ string msrDivisions::divisionsAsMsrString (
       printDurationKindsDivisions (gLogOstream);
 
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());

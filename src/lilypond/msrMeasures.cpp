@@ -2302,7 +2302,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
 
 //    msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
  //     __FILE__, __LINE__,
       s.str ());
@@ -2600,7 +2600,7 @@ void msrMeasure::removeNoteFromMeasure (
     " since it has not been found";
 
   msrInternalError (
-    gExecutableOah->fInputSourceName,
+    gOahOah->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -2681,7 +2681,7 @@ void msrMeasure::removeElementFromMeasure (
     " since it has not been found";
 
   msrInternalError (
-    gExecutableOah->fInputSourceName,
+    gOahOah->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -2701,7 +2701,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       "\" more than once";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2709,7 +2709,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 /*
  // JMI   msrInternalError (
     msrInternalWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -2804,13 +2804,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
     if (false) // JMI
       msrInternalError (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     else
       msrInternalWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
   }
@@ -2917,7 +2917,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
         // JMI      msrInternalError (
               msrInternalWarning (
-                gExecutableOah->fInputSourceName,
+                gOahOah->fInputSourceName,
                 inputLineNumber,
          //       __FILE__, __LINE__,
                 s.str ());
@@ -3300,7 +3300,7 @@ void msrMeasure::finalizeRegularMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -3353,7 +3353,7 @@ void msrMeasure::finalizeRegularMeasure (
             " IS MUSICALLY EMPTY";
 
           msrInternalWarning (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
@@ -3734,7 +3734,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
               currentHarmony->asString ();
 
             msrInternalWarning (
-              gExecutableOah->fInputSourceName,
+              gOahOah->fInputSourceName,
               inputLineNumber,
               s.str ());
 
@@ -3771,7 +3771,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
                 " to 0 : leaving it as it is";
 
               msrInternalWarning (
-                gExecutableOah->fInputSourceName,
+                gOahOah->fInputSourceName,
                 inputLineNumber,
  //  JMI             __FILE__, __LINE__,
                 s.str ());
@@ -3932,7 +3932,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           asString ();
 
         msrInternalWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           s.str ());
 
@@ -3969,7 +3969,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             " to 0 : leaving it as it is";
 
           msrInternalWarning (
-            gExecutableOah->fInputSourceName,
+            gOahOah->fInputSourceName,
             inputLineNumber,
 //  JMI             __FILE__, __LINE__,
             s.str ());
@@ -4072,7 +4072,7 @@ void msrMeasure::finalizeHarmonyMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -4135,7 +4135,7 @@ void msrMeasure::finalizeHarmonyMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -4264,7 +4264,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
         endl;
 
       msrMusicXMLWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -4327,7 +4327,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
           " IS MUSICALLY EMPTY";
 
         msrInternalWarning (
-          gExecutableOah->fInputSourceName,
+          gOahOah->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -4399,7 +4399,7 @@ void msrMeasure::finalizeMeasure (
 
 // JMI   msrInternalError (
     msrInternalWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -4491,7 +4491,7 @@ void msrMeasure::finalizeMeasureClone (
       "\" more than once";
 
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4554,7 +4554,7 @@ void msrMeasure::finalizeMeasureClone (
 
  //   msrInternalError ( // JMI
     msrInternalWarning (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
  //      __FILE__, __LINE__,
       s.str ());
@@ -4570,7 +4570,7 @@ void msrMeasure::finalizeMeasureClone (
 
    //   msrInternalError ( // JMI
       msrInternalWarning (
-        gExecutableOah->fInputSourceName,
+        gOahOah->fInputSourceName,
         inputLineNumber,
    //      __FILE__, __LINE__,
         s.str ());

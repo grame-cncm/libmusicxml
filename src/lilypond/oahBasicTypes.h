@@ -2561,6 +2561,16 @@ EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
 //_______________________________________________________________________________
 class EXP oahHandler : public oahElement
 {
+    // data types
+    // ------------------------------------------------------
+
+    enum oahOptionsDefaultValuesStyle {
+        kGNUStyle,
+        kOAHStyle };
+
+    static string optionsDefaultValuesStyleAsString (
+      oahOptionsDefaultValuesStyle optionsDefaultValuesStyle);
+
   public:
 
     // creation
@@ -2803,13 +2813,12 @@ class EXP oahHandler : public oahElement
     int                   getMaximumVariableNameWidth () const
                               { return fMaximumVariableNameWidth; }
 
-
   private:
 
-    // private fields
+    // work fields
     // ------------------------------------------------------
 
-    // all OAH elements are registered in the handler up initialization
+    // all OAH elements are registered in the handler upon initialization
     multiset<S_oahElement>
                           fHandlerRegisteredElementsMultiSet;
 
@@ -2818,6 +2827,9 @@ class EXP oahHandler : public oahElement
                           fHandlerCommandLineElementsMultiSet;
 
     bool                  fNowEverythingIsAnArgument;
+
+    oahOptionsDefaultValuesStyle
+                          fOahOptionsDefaultValuesStyle;
 
     set<string>           fMonoLetterShortNamesSet;
 

@@ -22,7 +22,7 @@
 #include "version.h"
 #include "utilities.h"
 
-#include "executableOah.h"
+#include "oahOah.h"
 #include "generalOah.h"
 
 #include "traceOah.h"
@@ -77,7 +77,7 @@ S_oahValuedAtom extraShowAllChordsStructuresAtom::handleOptionUnderName (
 void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsStructuresAtom::acceptIn ()" <<
       endl;
@@ -90,7 +90,7 @@ void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
         S_extraShowAllChordsStructuresAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsStructuresAtom::visitStart ()" <<
             endl;
@@ -103,7 +103,7 @@ void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
 void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsStructuresAtom::acceptOut ()" <<
       endl;
@@ -116,7 +116,7 @@ void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
         S_extraShowAllChordsStructuresAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsStructuresAtom::visitEnd ()" <<
             endl;
@@ -129,7 +129,7 @@ void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
 void extraShowAllChordsStructuresAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsStructuresAtom::browseData ()" <<
       endl;
@@ -232,7 +232,7 @@ void extraShowAllChordsContentsAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
       endl;
@@ -243,7 +243,7 @@ void extraShowAllChordsContentsAtom::handleValue (
   // is it in the accidental styles map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
       ", theString = \"" << theString << "\"" <<
@@ -334,7 +334,7 @@ void extraShowAllChordsContentsAtom::handleValue (
 void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsContentsAtom::acceptIn ()" <<
       endl;
@@ -347,7 +347,7 @@ void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
         S_extraShowAllChordsContentsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsContentsAtom::visitStart ()" <<
             endl;
@@ -360,7 +360,7 @@ void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
 void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsContentsAtom::acceptOut ()" <<
       endl;
@@ -373,7 +373,7 @@ void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
         S_extraShowAllChordsContentsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsContentsAtom::visitEnd ()" <<
             endl;
@@ -386,7 +386,7 @@ void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
 void extraShowAllChordsContentsAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsContentsAtom::browseData ()" <<
       endl;
@@ -493,7 +493,7 @@ void extraShowChordDetailsAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
       endl;
@@ -503,7 +503,7 @@ void extraShowChordDetailsAtom::handleValue (
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
       ", theString = \"" << theString << "\"" <<
@@ -527,7 +527,7 @@ void extraShowChordDetailsAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
       " for chord details string '" << theString <<
@@ -539,7 +539,7 @@ void extraShowChordDetailsAtom::handleValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
+    if (gTraceOah->fTraceOah) {
       os <<
         smSize << " elements: ";
       for (unsigned i = 0; i < smSize; ++i) {
@@ -567,7 +567,7 @@ void extraShowChordDetailsAtom::handleValue (
     harmonyName = sm [2];
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
@@ -665,7 +665,7 @@ void extraShowChordDetailsAtom::handleValue (
 void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordDetailsAtom::acceptIn ()" <<
       endl;
@@ -678,7 +678,7 @@ void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
         S_extraShowChordDetailsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordDetailsAtom::visitStart ()" <<
             endl;
@@ -691,7 +691,7 @@ void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
 void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordDetailsAtom::acceptOut ()" <<
       endl;
@@ -704,7 +704,7 @@ void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
         S_extraShowChordDetailsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordDetailsAtom::visitEnd ()" <<
             endl;
@@ -717,7 +717,7 @@ void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
 void extraShowChordDetailsAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordDetailsAtom::browseData ()" <<
       endl;
@@ -809,7 +809,7 @@ void extraShowChordAnalysisAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
       endl;
@@ -820,7 +820,7 @@ void extraShowChordAnalysisAtom::handleValue (
   // is it in the accidental styles map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
       ", theString = \"" << theString << "\"" <<
@@ -846,7 +846,7 @@ void extraShowChordAnalysisAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
       " for chord analysis string '" << theString <<
@@ -858,7 +858,7 @@ void extraShowChordAnalysisAtom::handleValue (
 
   if (smSize == 4) {
 #ifdef TRACE_OAH
-    if (gExecutableOah->fTraceOah) {
+    if (gTraceOah->fTraceOah) {
       os <<
         smSize << " elements: ";
       for (unsigned i = 0; i < smSize; ++i) {
@@ -903,7 +903,7 @@ void extraShowChordAnalysisAtom::handleValue (
   s >> inversion;
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
@@ -1018,7 +1018,7 @@ void extraShowChordAnalysisAtom::handleValue (
 void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordAnalysisAtom::acceptIn ()" <<
       endl;
@@ -1031,7 +1031,7 @@ void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
         S_extraShowChordAnalysisAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordAnalysisAtom::visitStart ()" <<
             endl;
@@ -1044,7 +1044,7 @@ void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
 void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordAnalysisAtom::acceptOut ()" <<
       endl;
@@ -1057,7 +1057,7 @@ void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
         S_extraShowChordAnalysisAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordAnalysisAtom::visitEnd ()" <<
             endl;
@@ -1070,7 +1070,7 @@ void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
 void extraShowChordAnalysisAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordAnalysisAtom::browseData ()" <<
       endl;
@@ -1241,7 +1241,7 @@ Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 EXECUTABLE -show-chord-details "bes ${HARMONY}")",
          "EXECUTABLE",
-          gExecutableOah->fHandlerExecutableName),
+          gOahOah->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",
         fChordsRootAsString));
@@ -1277,7 +1277,7 @@ HARMONY="maj7"
 INVERSION=2
 EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
           "EXECUTABLE",
-          gExecutableOah->fHandlerExecutableName),
+          gOahOah->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",
         fChordsRootAsString));
@@ -1343,7 +1343,7 @@ void extraOah::checkOptionsConsistency ()
 void extraOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraOah::acceptIn ()" <<
       endl;
@@ -1356,7 +1356,7 @@ void extraOah::acceptIn (basevisitor* v)
         S_extraOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraOah::visitStart ()" <<
             endl;
@@ -1369,7 +1369,7 @@ void extraOah::acceptIn (basevisitor* v)
 void extraOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraOah::acceptOut ()" <<
       endl;
@@ -1382,7 +1382,7 @@ void extraOah::acceptOut (basevisitor* v)
         S_extraOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraOah::visitEnd ()" <<
             endl;
@@ -1395,7 +1395,7 @@ void extraOah::acceptOut (basevisitor* v)
 void extraOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraOah::browseData ()" <<
       endl;
@@ -1432,7 +1432,7 @@ void initializeExtraOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing extra extra handling" <<
       endl;

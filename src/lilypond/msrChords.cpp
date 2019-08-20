@@ -282,7 +282,7 @@ S_msrNote msrChord::fetchChordFirstNonGraceNote () const
 
   else {
     msrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "cannot access the first note of an empty chord");

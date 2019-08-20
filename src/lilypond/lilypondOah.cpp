@@ -86,7 +86,7 @@ void lilypondScoreOutputKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondScoreOutputKindAtom'" <<
       endl;
@@ -97,7 +97,7 @@ void lilypondScoreOutputKindAtom::handleValue (
 void lilypondScoreOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondScoreOutputKindAtom::acceptIn ()" <<
       endl;
@@ -110,7 +110,7 @@ void lilypondScoreOutputKindAtom::acceptIn (basevisitor* v)
         S_lilypondScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondScoreOutputKindAtom::visitStart ()" <<
             endl;
@@ -123,7 +123,7 @@ void lilypondScoreOutputKindAtom::acceptIn (basevisitor* v)
 void lilypondScoreOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondScoreOutputKindAtom::acceptOut ()" <<
       endl;
@@ -136,7 +136,7 @@ void lilypondScoreOutputKindAtom::acceptOut (basevisitor* v)
         S_lilypondScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondScoreOutputKindAtom::visitEnd ()" <<
             endl;
@@ -149,7 +149,7 @@ void lilypondScoreOutputKindAtom::acceptOut (basevisitor* v)
 void lilypondScoreOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondScoreOutputKindAtom::browseData ()" <<
       endl;
@@ -278,7 +278,7 @@ S_oahValuedAtom lilypondAbsoluteOctaveEntryAtom::handleOptionUnderName (
 void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondAbsoluteOctaveEntryAtom::acceptIn ()" <<
       endl;
@@ -291,7 +291,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
         S_lilypondAbsoluteOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondAbsoluteOctaveEntryAtom::visitStart ()" <<
             endl;
@@ -304,7 +304,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
 void lilypondAbsoluteOctaveEntryAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondAbsoluteOctaveEntryAtom::acceptOut ()" <<
       endl;
@@ -317,7 +317,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptOut (basevisitor* v)
         S_lilypondAbsoluteOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondAbsoluteOctaveEntryAtom::visitEnd ()" <<
             endl;
@@ -330,7 +330,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptOut (basevisitor* v)
 void lilypondAbsoluteOctaveEntryAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondAbsoluteOctaveEntryAtom::browseData ()" <<
       endl;
@@ -435,7 +435,7 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
       endl;
@@ -446,7 +446,7 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
       endl;
@@ -498,7 +498,7 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
 void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondRelativeOctaveEntryAtom::acceptIn ()" <<
       endl;
@@ -511,7 +511,7 @@ void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
         S_lilypondRelativeOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondRelativeOctaveEntryAtom::visitStart ()" <<
             endl;
@@ -524,7 +524,7 @@ void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
 void lilypondRelativeOctaveEntryAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondRelativeOctaveEntryAtom::acceptOut ()" <<
       endl;
@@ -537,7 +537,7 @@ void lilypondRelativeOctaveEntryAtom::acceptOut (basevisitor* v)
         S_lilypondRelativeOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondRelativeOctaveEntryAtom::visitEnd ()" <<
             endl;
@@ -550,7 +550,7 @@ void lilypondRelativeOctaveEntryAtom::acceptOut (basevisitor* v)
 void lilypondRelativeOctaveEntryAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondRelativeOctaveEntryAtom::browseData ()" <<
       endl;
@@ -691,7 +691,7 @@ void lilypondFixedOctaveEntryAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondFixedOctaveEntryAtom'" <<
       endl;
@@ -710,7 +710,7 @@ void lilypondFixedOctaveEntryAtom::handleValue (
 void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondFixedOctaveEntryAtom::acceptIn ()" <<
       endl;
@@ -723,7 +723,7 @@ void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
         S_lilypondFixedOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondFixedOctaveEntryAtom::visitStart ()" <<
             endl;
@@ -736,7 +736,7 @@ void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
 void lilypondFixedOctaveEntryAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondFixedOctaveEntryAtom::acceptOut ()" <<
       endl;
@@ -749,7 +749,7 @@ void lilypondFixedOctaveEntryAtom::acceptOut (basevisitor* v)
         S_lilypondFixedOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondFixedOctaveEntryAtom::visitEnd ()" <<
             endl;
@@ -762,7 +762,7 @@ void lilypondFixedOctaveEntryAtom::acceptOut (basevisitor* v)
 void lilypondFixedOctaveEntryAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondFixedOctaveEntryAtom::browseData ()" <<
       endl;
@@ -897,7 +897,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
       endl;
@@ -908,7 +908,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondResetMeasureNumberAtom'" <<
       endl;
@@ -932,7 +932,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
       " for reset measure number string '" << theString <<
@@ -974,7 +974,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
   }
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "musicXMLMeasureNumber = " <<
       musicXMLMeasureNumber <<
@@ -991,7 +991,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
 void lilypondResetMeasureNumberAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondResetMeasureNumberAtom::acceptIn ()" <<
       endl;
@@ -1004,7 +1004,7 @@ void lilypondResetMeasureNumberAtom::acceptIn (basevisitor* v)
         S_lilypondResetMeasureNumberAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondResetMeasureNumberAtom::visitStart ()" <<
             endl;
@@ -1017,7 +1017,7 @@ void lilypondResetMeasureNumberAtom::acceptIn (basevisitor* v)
 void lilypondResetMeasureNumberAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondResetMeasureNumberAtom::acceptOut ()" <<
       endl;
@@ -1030,7 +1030,7 @@ void lilypondResetMeasureNumberAtom::acceptOut (basevisitor* v)
         S_lilypondResetMeasureNumberAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondResetMeasureNumberAtom::visitEnd ()" <<
             endl;
@@ -1043,7 +1043,7 @@ void lilypondResetMeasureNumberAtom::acceptOut (basevisitor* v)
 void lilypondResetMeasureNumberAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondResetMeasureNumberAtom::browseData ()" <<
       endl;
@@ -1241,7 +1241,7 @@ void lilypondAccidentalStyleKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondAccidentalStyleKindAtom'" <<
       endl;
@@ -1252,7 +1252,7 @@ void lilypondAccidentalStyleKindAtom::handleValue (
   // is it in the accidental styles map?
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondAccidentalStyleKindAtom'" <<
       endl;
@@ -1280,7 +1280,7 @@ void lilypondAccidentalStyleKindAtom::handleValue (
     gIndenter++;
 
     s <<
-      existingLpsrAccidentalStyleKinds ();
+      existingLpsrAccidentalStyleKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
@@ -1295,7 +1295,7 @@ void lilypondAccidentalStyleKindAtom::handleValue (
 void lilypondAccidentalStyleKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondAccidentalStyleKindAtom::acceptIn ()" <<
       endl;
@@ -1308,7 +1308,7 @@ void lilypondAccidentalStyleKindAtom::acceptIn (basevisitor* v)
         S_lilypondAccidentalStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondAccidentalStyleKindAtom::visitStart ()" <<
             endl;
@@ -1321,7 +1321,7 @@ void lilypondAccidentalStyleKindAtom::acceptIn (basevisitor* v)
 void lilypondAccidentalStyleKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondAccidentalStyleKindAtom::acceptOut ()" <<
       endl;
@@ -1334,7 +1334,7 @@ void lilypondAccidentalStyleKindAtom::acceptOut (basevisitor* v)
         S_lilypondAccidentalStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondAccidentalStyleKindAtom::visitEnd ()" <<
             endl;
@@ -1347,7 +1347,7 @@ void lilypondAccidentalStyleKindAtom::acceptOut (basevisitor* v)
 void lilypondAccidentalStyleKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondAccidentalStyleKindAtom::browseData ()" <<
       endl;
@@ -1481,7 +1481,7 @@ void lilypondChordsDisplayAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondChordsDisplayAtom'" <<
       endl;
@@ -1527,7 +1527,7 @@ void lilypondChordsDisplayAtom::handleValue (
   //   '<c ees ges bes> \super {"-7(" {\small\raise #0.5 \flat} "5)"}'
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondChordsDisplayAtom'" <<
       endl;
@@ -1548,7 +1548,7 @@ void lilypondChordsDisplayAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
       " for chords display string '" << theString <<
@@ -1584,7 +1584,7 @@ void lilypondChordsDisplayAtom::handleValue (
   string chordsDisplaycode = sm [2];
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "FAA chordContents  = " <<
       chordContents <<
@@ -1603,7 +1603,7 @@ void lilypondChordsDisplayAtom::handleValue (
 void lilypondChordsDisplayAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondChordsDisplayAtom::acceptIn ()" <<
       endl;
@@ -1616,7 +1616,7 @@ void lilypondChordsDisplayAtom::acceptIn (basevisitor* v)
         S_lilypondChordsDisplayAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondChordsDisplayAtom::visitStart ()" <<
             endl;
@@ -1629,7 +1629,7 @@ void lilypondChordsDisplayAtom::acceptIn (basevisitor* v)
 void lilypondChordsDisplayAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondChordsDisplayAtom::acceptOut ()" <<
       endl;
@@ -1642,7 +1642,7 @@ void lilypondChordsDisplayAtom::acceptOut (basevisitor* v)
         S_lilypondChordsDisplayAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondChordsDisplayAtom::visitEnd ()" <<
             endl;
@@ -1655,7 +1655,7 @@ void lilypondChordsDisplayAtom::acceptOut (basevisitor* v)
 void lilypondChordsDisplayAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondChordsDisplayAtom::browseData ()" <<
       endl;
@@ -1839,7 +1839,7 @@ void lilypondMidiTempoAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondMidiTempoAtom'" <<
       endl;
@@ -1850,7 +1850,7 @@ void lilypondMidiTempoAtom::handleValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondMidiTempoAtom'" <<
       endl;
@@ -1874,7 +1874,7 @@ void lilypondMidiTempoAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
       " for MIDI tempo string '" << theString <<
@@ -1916,7 +1916,7 @@ void lilypondMidiTempoAtom::handleValue (
   }
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "midiTempoDuration  = " <<
       midiTempoDuration <<
@@ -1935,7 +1935,7 @@ void lilypondMidiTempoAtom::handleValue (
 void lilypondMidiTempoAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondMidiTempoAtom::acceptIn ()" <<
       endl;
@@ -1948,7 +1948,7 @@ void lilypondMidiTempoAtom::acceptIn (basevisitor* v)
         S_lilypondMidiTempoAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondMidiTempoAtom::visitStart ()" <<
             endl;
@@ -1961,7 +1961,7 @@ void lilypondMidiTempoAtom::acceptIn (basevisitor* v)
 void lilypondMidiTempoAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondMidiTempoAtom::acceptOut ()" <<
       endl;
@@ -1974,7 +1974,7 @@ void lilypondMidiTempoAtom::acceptOut (basevisitor* v)
         S_lilypondMidiTempoAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondMidiTempoAtom::visitEnd ()" <<
             endl;
@@ -1987,7 +1987,7 @@ void lilypondMidiTempoAtom::acceptOut (basevisitor* v)
 void lilypondMidiTempoAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondMidiTempoAtom::browseData ()" <<
       endl;
@@ -2127,8 +2127,8 @@ thus overriding the ones that may be present in the MSR data.)",
   S_oahMonoplexStringAtom
     identificationMonoplexStringAtom =
       oahMonoplexStringAtom::create (
-        "Set HEADER_VAR in the \header in the generated LilyPond code.",
-        "HEADER_VAR",
+        "Set variable HEADER_VARIABLE in the \header in the generated LilyPond code.",
+        "HEADER_VARIABLE",
         "STRING");
 
   subGroup->
@@ -2605,7 +2605,7 @@ The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gLpsrAccidentalStyleKindsMap.size ())),
             "ACCIDENTAL_STYLES",
-            existingLpsrAccidentalStyleKinds ()),
+            existingLpsrAccidentalStyleKinds (K_NAMES_LIST_MAX_LENGTH)),
           "DEFAULT_VALUE",
           lpsrAccidentalStyleKindAsString (
             lpsrAccidentalStyleKindDefaultValue)),
@@ -2638,7 +2638,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gExecutableOah->fHandlerExecutableName),
+          gOahOah->fHandlerExecutableName),
         "inputLineNumbers",
         fInputLineNumbers));
 
@@ -2655,7 +2655,7 @@ R"(Generate after each end of measure a comment containing
 its original MusicXML measure number.
 This is useful for adding line breaks and page breaks, and when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gExecutableOah->fHandlerExecutableName),
+          gOahOah->fHandlerExecutableName),
         "originalMeasureNumbers",
         fOriginalMeasureNumbers));
 
@@ -2672,7 +2672,7 @@ R"(Generate after each note and barline a comment containing
 its position in the measure.
 This is useful when debugging EXECUTABLE.)",
           "EXECUTABLE",
-          gExecutableOah->fHandlerExecutableName),
+          gOahOah->fHandlerExecutableName),
         "positionsInMeasures",
         fPositionsInMeasures));
 }
@@ -3362,7 +3362,7 @@ PER_SECOND=66
 EXECUTABLE -midiTempo "8. ${PER_SECOND}" .
 The default is 'DEFAULT_VALUE'.)",
             "EXECUTABLE",
-            gExecutableOah->fHandlerExecutableName),
+            gOahOah->fHandlerExecutableName),
           "DEFAULT_VALUE",
           midiTempoDefaultValue),
         "MIDI_TEMPO_SPEC",
@@ -3749,7 +3749,7 @@ void lilypondOah::checkOptionsConsistency ()
 void lilypondOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondOah::acceptIn ()" <<
       endl;
@@ -3762,7 +3762,7 @@ void lilypondOah::acceptIn (basevisitor* v)
         S_lilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondOah::visitStart ()" <<
             endl;
@@ -3775,7 +3775,7 @@ void lilypondOah::acceptIn (basevisitor* v)
 void lilypondOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondOah::acceptOut ()" <<
       endl;
@@ -3788,7 +3788,7 @@ void lilypondOah::acceptOut (basevisitor* v)
         S_lilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gExecutableOah->fTraceOahVisitors) {
+        if (gTraceOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lilypondOah::visitEnd ()" <<
             endl;
@@ -3801,7 +3801,7 @@ void lilypondOah::acceptOut (basevisitor* v)
 void lilypondOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOahVisitors) {
+  if (gTraceOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lilypondOah::browseData ()" <<
       endl;
@@ -4814,7 +4814,7 @@ void initializeLilypondOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing LilyPond lilypond handling" <<
       endl;
@@ -4900,7 +4900,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
       endl;
@@ -4911,7 +4911,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
       endl;
@@ -4935,7 +4935,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
       " for reset measure number string '" << theString <<
@@ -4977,7 +4977,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
   }
 
 #ifdef TRACE_OAH
-  if (gExecutableOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
     os <<
       "musicXMLMeasureNumber  = " <<
       musicXMLMeasureNumber <<

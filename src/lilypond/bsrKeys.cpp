@@ -17,7 +17,7 @@
 
 #include "messagesHandling.h"
 
-#include "executableOah.h"
+#include "oahOah.h"
 #include "generalOah.h"
 
 #include "setTraceOahIfDesired.h"
@@ -66,7 +66,7 @@ bsrKey::bsrKey (
       "numberOfAlterations: " << fNumberOfAlterations;
 
     bsrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

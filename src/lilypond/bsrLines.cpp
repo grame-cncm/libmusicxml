@@ -14,7 +14,7 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "executableOah.h"
+#include "oahOah.h"
 #include "generalOah.h"
 
 #include "setTraceOahIfDesired.h"
@@ -130,7 +130,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
       "' before its last element";
 
     bsrInternalError (
-      gExecutableOah->fInputSourceName,
+      gOahOah->fInputSourceName,
       lineElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
