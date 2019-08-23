@@ -2106,16 +2106,17 @@ void msrVoice:: handleBackupInVoice (
       backupTargetPositionInMeasure <<
       " is negative";
 
-    msrMusicXMLError (
+//    msrMusicXMLError (
+    msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
+ //     __FILE__, __LINE__,
       s.str ());
   }
 
   if (
     backupTargetPositionInMeasure
-      >=
+      >
     fullMeasureWholeNotesDuration
   ) {
     stringstream s;
@@ -2123,13 +2124,14 @@ void msrVoice:: handleBackupInVoice (
     s <<
       "backupTargetPositionInMeasure " <<
       backupTargetPositionInMeasure <<
-      " is greater than or equal to fullMeasureWholeNotesDuration " <<
+      " is greater than fullMeasureWholeNotesDuration " <<
       fullMeasureWholeNotesDuration;
 
-    msrMusicXMLError (
+// JMI   msrMusicXMLError (
+    msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
+   //   __FILE__, __LINE__,
       s.str ());
   }
   else if (
@@ -2146,14 +2148,15 @@ void msrVoice:: handleBackupInVoice (
       currentMeasureWholeNotesDuration <<
       ", cannot go prior to it";
 
-    msrMusicXMLError (
+//  JMI  msrMusicXMLError (
+    msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
+  //    __FILE__, __LINE__,
       s.str ());
   }
 
-  // to the backup if necessary
+  // do the backup if necessary
   if (
     backupTargetPositionInMeasure
       >
