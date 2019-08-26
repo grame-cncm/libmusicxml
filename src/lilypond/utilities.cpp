@@ -1103,10 +1103,15 @@ string quoteString (
 
     else {
       // (*i) is not a letter
-      if ((*i) == ' ')
+      if ((*i) == ' ') {
         result += ' '; // TEMP JMI
-      else
+      }
+      else if ((*i) == '"') {
+        result += "\\\"";
+      }
+      else {
         result += (*i);
+      }
     }
   } // for
 
