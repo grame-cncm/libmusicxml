@@ -64,9 +64,20 @@ help :
 	@echo "   format    source code formatting using clang-format"	
 	@echo "   install   install library, tools and headers"	
 	@echo "   localinstall   install the tools to ~/bin"
+	@echo 	
+	@echo "Options:"
+	@echo "   CMAKEOPT  cmake options passed to cmake by the 'cmake' target"
+	@echo "   GENERATOR the cmake generator. Currently '$(GENERATOR)'"
+	@echo "   PDIR      the generation folder. Currently '$(PDIR)'"
+	@echo "   MSVC      [Windows only] the windows generator. Currently '$(MSVC)'"
 	@echo 
-	@echo "NOTE: windows cmake generator is $(MSVC)"	
-	@echo "      use MSVC=\"another generator\" to change"
+	@echo "CMake options:"
+	@echo "   FMWK 		[MacOS only] Generates a framework on MacOS. Default is on"
+	@echo "   UNIVERSAL [MacOS only] Generates universal binaries. Default is off"
+	@echo "   GDB 		Activates ggdb3 option. Default is off"
+	@echo "   LILY 		Include lilypond part. Default is on"
+	@echo "NOTE:  CMake options can be passed using CMAKEOPT, e.g."	
+	@echo "      'make cmake CMAKEOPT=-DLILY=off'"
 
 
 $(PDIR) :
@@ -77,14 +88,13 @@ $(PDIR) :
 #===============================================================
 js:
 	make -j 4 -C ../javascript/build
-	make -j 4 -C ../javascript/build WASM=yes
 
 #===============================================================
 # building the library on Mac OS X
 #===============================================================
 macos : $(PDIR)/libmusicxml2.xcodeproj
 	cmake --build $(PDIR) --config Release -- -jobs 4
-	cd lib &&  tar czf libmusicxml2.tgz libmusicxml2.framework
+	-cd lib &&  [ -d libmusicxml2.framework ] && tar czf libmusicxml2.tgz libmusicxml2.framework || echo "no framework"
 
 $(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
 	cd $(PDIR) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
