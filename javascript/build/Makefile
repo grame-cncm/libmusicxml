@@ -12,12 +12,19 @@
 # Compilation option -Oz is discouraged, it provoke undefined results and assertion errors at runtime.
 #
 
+LILY    ?= no
 srcdir  := ../../src
 binddir := ../src
 npmdir  := ../npm
-folders := factory guido lib parser elements files interface operations	visitors lilypond
+folders := factory guido lib parser elements files interface operations	visitors
+ifeq ($(LILY), yes)
+	folders := $(folders) lilypond
+	sources := $(wildcard $(srcdir)/*/*.cpp )
+else
+	sources := $(wildcard $(srcdir)/factory/*.cpp  $(srcdir)/guido/*.cpp $(srcdir)/lib/*.cpp  $(srcdir)/parser/*.cpp  $(srcdir)/elements/*.cpp  $(srcdir)/files/*.cpp $(srcdir)/operations/*.cpp $(srcdir)/visitors/*.cpp )
+	sources := $(sources) $(srcdir)/interface/libmusicxml.cpp $(srcdir)/interface/musicxml2guido.cpp
+endif
 subprojects :=  $(patsubst %, $(srcdir)/%, $(folders))
-sources = $(wildcard $(srcdir)/*/*.cpp )    # reject atescofo folder
 bindsrc = $(wildcard $(binddir)/*.cpp) 
 objects = $(patsubst $(srcdir)%, obj%, $(patsubst %.cpp,%.o,$(sources)) $(patsubst $(binddir)%.cpp, obj/binding%.o,$(bindsrc)))
 
@@ -28,17 +35,11 @@ library = libmusicxml
 
 OPTIONS :=  -s ALLOW_MEMORY_GROWTH=0 -s TOTAL_MEMORY=134217728 -s DISABLE_EXCEPTION_CATCHING=1 -s ASSERTIONS=0 -s MODULARIZE=1 -s EXPORT_NAME="'MusicXMLModule'"
 
-WASM ?= no
-ifeq ($(WASM), yes)
-	target = ../$(library).wasm.js
-else
-	target = ../$(library).js
-endif
+target = ../$(library).js
 
 all :
 	make $(target)
 	
-
 ##############################################################
 # publishing to npm
 ##############################################################
@@ -48,20 +49,11 @@ npm: $(npmdir)/$(library).js
 $(npmdir)/$(library).js : ../$(library).js
 	cp ../$(library).js $(npmdir)/$(library).js
 
-
-	
-##############################################################
-# building the library as asm.js
-##############################################################
-../$(library).js : $(objects)
-	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s ASM_JS=1
-
 ##############################################################
 # building the library as web assembly
 ##############################################################
-../$(library).wasm.js : $(objects)
+../$(library).js : $(objects)
 	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s WASM=1
-
 
 clean:
 	rm -f $(objects) $(target)

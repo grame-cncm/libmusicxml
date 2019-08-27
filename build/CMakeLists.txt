@@ -20,6 +20,8 @@ set (XMLVERSION 3.1)
 option ( FMWK 		"Generates a framework on MacOS by default"	on )
 option ( UNIVERSAL 	"Generates universal binaries"	off )
 option ( GDB 		"Activates ggdb3 option"	off )
+option ( LILY 		"Include lilypond part"	on )
+
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
@@ -77,16 +79,26 @@ endif()
 set (LXML 		${CMAKE_CURRENT_SOURCE_DIR}/..)
 set (LXMLSRC 	${LXML}/src)
 set (LXMLSAMPLE ${LXML}/samples)
-set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors lilypond)
+set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
+if (LILY)
+	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond)
+endif()
 
 foreach(folder ${SRCFOLDERS})
 	set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")			# add source files
 endforeach(folder)
-file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 
 foreach(folder ${SRCFOLDERS})
 	set(HEADERS ${HEADERS} "${LXMLSRC}/${folder}/*.h")		# add header files
 endforeach(folder)
+
+if (NOT LILY)
+	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")		
+	set(SRC ${SRC}  "${LXMLSRC}/interface/libmusicxml.cpp" "${LXMLSRC}/interface/musicxml2guido.cpp")
+	set(HEADERS $HEADERS "${LXMLSRC}/interface/libmusicxml.h" "${LXMLSRC}/interface/musicxml2guido.h")
+	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
+endif()
+file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
 foreach(folder ${SRCFOLDERS})
@@ -138,8 +150,12 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xml2ly xmlread xmltranspose xmlversion)
+set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
+if (LILY)
+	set (SAMPLES ${SAMPLES} xml2ly)
+	set (TOOLS  ${TOOLS} xml2ly)
+endif()
 
 if(NOT IOS )
 foreach(sample ${SAMPLES})
