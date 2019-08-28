@@ -41,15 +41,15 @@ The library includes a high level API to convert
 //______________________________________________________________________________
 EXP S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOah     msrOpts,
-  S_lpsrOah    lpsrOpts,
+  S_msrOah         msrOpts,
+  S_lpsrOah        lpsrOpts,
   indentedOstream& logOstream);
 
 //_______________________________________________________________________________
 EXP void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOah      msrOpts,
-  S_lpsrOah     lpsrOpts,
+  S_msrOah          msrOpts,
+  S_lpsrOah         lpsrOpts,
   indentedOstream&  logOstream);
 
 /*! @} */

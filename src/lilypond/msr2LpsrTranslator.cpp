@@ -138,7 +138,7 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
     // create a msrScore browser
     msrBrowser<msrScore> browser (this);
 
-    // browse the score with the browser
+    // browse the visited score with the browser
     browser.browse (*fVisitedMsrScore);
   }
 }
@@ -2747,7 +2747,7 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 
     case msrTempo::kTempoNotesRelationShip:
       fLpsrScore->
-        // this score needs the 'tongue' Scheme function
+        // this score needs the 'tempo relationship' Scheme function
         setTempoRelationshipSchemeFunctionIsNeeded ();
       break;
   } // switch

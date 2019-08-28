@@ -150,6 +150,22 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   S_msrSemiTonesPitchAndOctave       quarterTonesPitchAndOctave);
 
+// lyrics
+//______________________________________________________________________________
+enum lpsrLyricsAlignmentKind {
+  kLyricsAlignmentAutomatic, // default value
+  kLyricsAlignmentManual };
+
+string lpsrLyricsAlignmentKindAsString (
+  lpsrLyricsAlignmentKind lyricsAlignmentKind);
+
+extern map<string, lpsrLyricsAlignmentKind>
+  gLpsrLyricsAlignmentKindsMap;
+
+string existingLpsrLyricsAlignmentKinds (int namesListMaxLength);
+
+void initializeLpsrLyricsAlignmentKindsMap ();
+
 // initialization
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ();

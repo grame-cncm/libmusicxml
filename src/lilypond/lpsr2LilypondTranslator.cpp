@@ -6228,10 +6228,18 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
 
     fLilypondCodeOstream <<
       "\\with {" <<
-      endl <<
-      gTab << "associatedVoice = " <<
-      "\""  << elt->getVoice ()->getVoiceName () << "\"" <<
       endl;
+
+    switch (gLilypondOah->fLyricsAlignmentKind) {
+      case kLyricsAlignmentAutomatic: // default value
+        break;
+      case kLyricsAlignmentManual:
+        fLilypondCodeOstream <<
+          gTab << "associatedVoice = " <<
+          "\""  << elt->getVoice ()->getVoiceName () << "\"" <<
+          endl;
+        break;
+    } // switch
 
     if (gMsrOah->fAddStanzasNumbers) {
       fLilypondCodeOstream <<
@@ -6243,10 +6251,22 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
 
     fLilypondCodeOstream <<
       "}" <<
-      endl <<
-
-      "\\" << stanza->getStanzaName () <<
       endl;
+
+    switch (gLilypondOah->fLyricsAlignmentKind) {
+      case kLyricsAlignmentAutomatic: // default value
+        fLilypondCodeOstream <<
+          "\\lyricsto \"" << elt->getVoice ()->getVoiceName () << "\" {" <<
+          "\\" << stanza->getStanzaName () <<
+          "}" <<
+          endl;
+        break;
+      case kLyricsAlignmentManual:
+        fLilypondCodeOstream <<
+          "\\" << stanza->getStanzaName () <<
+          endl;
+        break;
+    } // switch
 
     gIndenter--;
   }
@@ -8063,9 +8083,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
+          switch (gLilypondOah->fLyricsAlignmentKind) {
+            case kLyricsAlignmentAutomatic: // default value
+              // don't generate a duration for automatic lyrics alignment
+              break;
+            case kLyricsAlignmentManual:
+              fLilypondCodeOstream <<
+                elt->syllableWholeNotesAsMsrString ();
+              break;
+          } // switch
+
           fLilypondCodeOstream <<
-            elt->syllableWholeNotesAsMsrString () <<
             ' ';
+
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
@@ -8123,12 +8153,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllableSkip:
-          // LilyPond ignores the skip duration
-          // when \lyricsto is used
-          fLilypondCodeOstream <<
-            "\\skip" <<
-            elt->syllableWholeNotesAsMsrString () <<
-            ' ';
+          switch (gLilypondOah->fLyricsAlignmentKind) {
+            case kLyricsAlignmentAutomatic: // default value
+              // don't generate skips for automatic lyrics alignment
+              break;
+            case kLyricsAlignmentManual:
+              // LilyPond ignores the skip duration
+              // when \lyricsto is used
+              fLilypondCodeOstream <<
+                "\\skip" <<
+                elt->syllableWholeNotesAsMsrString () <<
+                ' ';
+              break;
+          } // switch
+
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<

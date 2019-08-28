@@ -37,8 +37,8 @@ namespace MusicXML2
 //_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOah     msrOpts,
-  S_lpsrOah    lpsrOpts,
+  S_msrOah         msrOpts,
+  S_lpsrOah        lpsrOpts,
   indentedOstream& logOstream)
 {
   // sanity check
@@ -96,8 +96,8 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 //_______________________________________________________________________________
 void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOah      msrOpts,
-  S_lpsrOah     lpsrOpts,
+  S_msrOah          msrOpts,
+  S_lpsrOah         lpsrOpts,
   indentedOstream&  logOstream)
 {
   // sanity check

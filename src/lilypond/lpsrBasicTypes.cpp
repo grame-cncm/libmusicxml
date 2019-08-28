@@ -646,10 +646,13 @@ void writeTextsListAsLilypondString (
     } // for
   }
 
-  os <<
-  // JMI  quoteStringIfNonAlpha (
-    quoteString (
-      contents);
+  size_t found = contents.find("\"");
+  if (found != std::string::npos) {
+    os << quoteString (contents);
+  }
+  else {
+    os << quoteStringIfNonAlpha (contents); // JMI
+  }
 }
 
 // score output kinds
@@ -819,7 +822,7 @@ void initializeLpsrOctaveEntryKindsMap ()
   gLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
 }
 
-string existingLpsrOctaveEntryKinds ()
+string existingLpsrOctaveEntryKinds (int namesListMaxLength)
 {
   stringstream s;
 
@@ -828,8 +831,17 @@ string existingLpsrOctaveEntryKinds ()
       iBegin = gLpsrOctaveEntryKindsMap.begin (),
       iEnd   = gLpsrOctaveEntryKindsMap.end (),
       i      = iBegin;
+
+    int cumulatedLength = 0;
+
     for ( ; ; ) {
-      s << (*i).first;
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
         s << " and ";
@@ -1275,6 +1287,75 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 }
 */
 
+// lyrics
+//______________________________________________________________________________
+
+map<string, lpsrLyricsAlignmentKind>
+  gLpsrLyricsAlignmentKindsMap;
+
+string lpsrLyricsAlignmentKindAsString (
+  lpsrLyricsAlignmentKind lyricsAlignmentKind)
+{
+  string result;
+
+  // no CamelCase here, these strings are used in the command line options
+
+  switch (lyricsAlignmentKind) {
+    case kLyricsAlignmentAutomatic: // default value
+      result = "automatic";
+      break;
+    case kLyricsAlignmentManual:
+      result = "manual";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeLpsrLyricsAlignmentKindsMap ()
+{
+  // register the LilyPond score output kinds
+  // --------------------------------------
+
+  // no CamelCase here, these strings are used in the command line options
+
+  gLpsrLyricsAlignmentKindsMap ["automatic"] = kLyricsAlignmentAutomatic;
+  gLpsrLyricsAlignmentKindsMap ["manual"]    = kLyricsAlignmentManual;
+}
+
+string existingLpsrLyricsAlignmentKinds (int namesListMaxLength)
+{
+  stringstream s;
+
+  if (gLpsrLyricsAlignmentKindsMap.size ()) {
+    map<string, lpsrLyricsAlignmentKind>::const_iterator
+      iBegin = gLpsrLyricsAlignmentKindsMap.begin (),
+      iEnd   = gLpsrLyricsAlignmentKindsMap.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ()
 {
@@ -1305,6 +1386,12 @@ void initializeLPSRBasicTypes ()
   // ------------------------------------------------------
 
   initializeLpsrChordsLanguageKindsMap ();
+
+
+  // LPSR lyrics alignment kinds handling
+  // ------------------------------------------------------
+
+  initializeLpsrLyricsAlignmentKindsMap ();
 }
 
 

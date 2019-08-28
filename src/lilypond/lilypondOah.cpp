@@ -1786,6 +1786,246 @@ ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt)
 }
 
 //______________________________________________________________________________
+S_lilypondLyricsAlignmentKindAtom lilypondLyricsAlignmentKindAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  lpsrLyricsAlignmentKind&
+                     lilypondLyricsAlignmentKindVariable)
+{
+  lilypondLyricsAlignmentKindAtom* o = new
+    lilypondLyricsAlignmentKindAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      lilypondLyricsAlignmentKindVariable);
+  assert(o!=0);
+  return o;
+}
+
+lilypondLyricsAlignmentKindAtom::lilypondLyricsAlignmentKindAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  lpsrLyricsAlignmentKind&
+                     lilypondLyricsAlignmentKindVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fLpsrLyricsAlignmentKindVariable (
+      lilypondLyricsAlignmentKindVariable)
+{}
+
+lilypondLyricsAlignmentKindAtom::~lilypondLyricsAlignmentKindAtom ()
+{}
+
+S_oahValuedAtom lilypondLyricsAlignmentKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void lilypondLyricsAlignmentKindAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondLyricsAlignmentKindAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the lyrics alignment kinds map?
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondLyricsAlignmentKindAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrLyricsAlignmentKind>::const_iterator
+    it =
+      gLpsrLyricsAlignmentKindsMap.find (
+        theString);
+
+  if (it == gLpsrLyricsAlignmentKindsMap.end ()) {
+    // no, lyrics alignment kind is unknown in the map
+    stringstream s;
+
+    s <<
+      "LPSR lyrics alignment kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrLyricsAlignmentKindsMap.size () - 1 <<
+      " known LPSR lyrics alignment kind are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrLyricsAlignmentKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    gIndenter--;
+
+    oahError (s.str ());
+    exit (4);
+  }
+
+  setLpsrLyricsAlignmentKindVariable (
+    (*it).second);
+}
+
+void lilypondLyricsAlignmentKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondLyricsAlignmentKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondLyricsAlignmentKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondLyricsAlignmentKindAtom>*> (v)) {
+        S_lilypondLyricsAlignmentKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondLyricsAlignmentKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondLyricsAlignmentKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondLyricsAlignmentKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondLyricsAlignmentKindAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondLyricsAlignmentKindAtom>*> (v)) {
+        S_lilypondLyricsAlignmentKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching lilypondLyricsAlignmentKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondLyricsAlignmentKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> lilypondLyricsAlignmentKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string lilypondLyricsAlignmentKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    lpsrLyricsAlignmentKindAsString (fLpsrLyricsAlignmentKindVariable);
+
+  return s.str ();
+}
+
+string lilypondLyricsAlignmentKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    lpsrLyricsAlignmentKindAsString (fLpsrLyricsAlignmentKindVariable);
+
+  return s.str ();
+}
+
+void lilypondLyricsAlignmentKindAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsLyricsAlignmentKindAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fLpsrLyricsAlignmentKindVariable" << " : \"" <<
+    lpsrLyricsAlignmentKindAsString (
+      fLpsrLyricsAlignmentKindVariable) <<
+    "\"" <<
+    endl;
+
+  gIndenter--;
+}
+
+void lilypondLyricsAlignmentKindAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    lpsrLyricsAlignmentKindAsString (
+      fLpsrLyricsAlignmentKindVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_lilypondLyricsAlignmentKindAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_lilypondMidiTempoAtom lilypondMidiTempoAtom::create (
   string             shortName,
   string             longName,
@@ -2127,7 +2367,7 @@ thus overriding the ones that may be present in the MSR data.)",
   S_oahMonoplexStringAtom
     identificationMonoplexStringAtom =
       oahMonoplexStringAtom::create (
-        "Set variable HEADER_VARIABLE in the \header in the generated LilyPond code.",
+        "Set variable HEADER_VARIABLE in the \\header in the generated LilyPond code.",
         "HEADER_VARIABLE",
         "STRING");
 
@@ -3122,6 +3362,50 @@ LILYPOND_CODE)",
         fJazzChordsDisplay));
 }
 
+void lilypondOah::initializeLyricsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Lyrics",
+        "hlyrics", "help-lyrics",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // lyrics
+
+  const lpsrLyricsAlignmentKind
+    lpsrLyricsAlignmentKindDefaultValue =
+      kLyricsAlignmentAutomatic; // default value
+
+  fLyricsAlignmentKind = lpsrLyricsAlignmentKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      lilypondLyricsAlignmentKindAtom::create (
+        "la", "lyrics-alignment", // JMI
+          replaceSubstringInString (
+            replaceSubstringInString (
+              replaceSubstringInString (
+R"(The NUMBER LilyPond lyrics alignment STYLEs available are:
+LYRICS_ALIGNMENT_KINDS.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gLpsrLyricsAlignmentKindsMap.size ())),
+            "LYRICS_ALIGNMENT_KINDS",
+            existingLpsrLyricsAlignmentKinds (K_NAMES_LIST_MAX_LENGTH)),
+          "DEFAULT_VALUE",
+          lpsrLyricsAlignmentKindAsString (
+            lpsrLyricsAlignmentKindDefaultValue)),
+        "STYLE",
+        "lyricsAlignmentKind",
+        fLyricsAlignmentKind));
+}
+
 void lilypondOah::initializeFontsOptions (
   bool boolOptionsInitialValue)
 {
@@ -3450,6 +3734,11 @@ void lilypondOah::initializeLilypondOah (
   initializeChordsDisplayOptions (
     boolOptionsInitialValue);
 
+  // lyrics
+  // --------------------------------------
+  initializeLyricsOptions (
+    boolOptionsInitialValue);
+
   // fonts
   // --------------------------------------
   initializeFontsOptions (
@@ -3697,6 +3986,13 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
 
   clone->fJianpu =
     fJianpu;
+
+
+  // lyrics
+  // --------------------------------------
+
+  clone->fLyricsAlignmentKind =
+    fLyricsAlignmentKind;
 
 
   // midi
@@ -4017,6 +4313,10 @@ void lilypondOah::printAtomOptionsValues (
 
     setw (valueFieldWidth) << "accidentalStyleKind" << " : " <<
       fAccidentalStyleKind <<
+      endl <<
+
+    setw (valueFieldWidth) << "fLyricsAlignmentKind" << " : " <<
+      lpsrLyricsAlignmentKindAsString (fLyricsAlignmentKind) <<
       endl <<
 
     setw (valueFieldWidth) << "compressFullMeasureRests" << " : " <<
@@ -4507,6 +4807,10 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
 
     setw (fieldWidth) << "accidentalStyleKind" << " : " <<
       fAccidentalStyleKind <<
+      endl <<
+
+    setw (fieldWidth) << "lyricsAlignmentKind" << " : " <<
+      lpsrLyricsAlignmentKindAsString (fLyricsAlignmentKind) <<
       endl <<
 
     setw (fieldWidth) << "compressFullMeasureRests" << " : " <<

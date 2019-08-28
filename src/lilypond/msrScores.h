@@ -23,7 +23,7 @@
 #include "msrCredits.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -32,6 +32,9 @@ typedef SMARTP<msrPart> S_msrPart;
 
 class msrPartGroup;
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
 
 //______________________________________________________________________________
 class msrScore : public msrElement
@@ -53,9 +56,9 @@ class msrScore : public msrElement
 
     msrScore (
       int inputLineNumber);
-      
+
     virtual ~msrScore ();
-  
+
   public:
 
     // set and get
@@ -75,6 +78,15 @@ class msrScore : public msrElement
                           getPartGroupsList () const
                               { return fPartGroupsList; }
 
+/* JMI
+    void                  setScoreMasterVoice (
+                            S_msrVoice masterVoice)
+                              { fScoreMasterVoice = masterVoice; }
+
+    S_msrVoice            getScoreMasterVoice () const
+                              { return fScoreMasterVoice; }
+*/
+
     const list<S_msrCredit>&
                           getCreditsList () const
                               { return fCreditsList; }
@@ -85,7 +97,7 @@ class msrScore : public msrElement
                                 fScoreNumberOfMeasures =
                                   scoreNumberOfMeasures;
                               }
-                                  
+
     int                   getScoreNumberOfMeasures () const
                               { return fScoreNumberOfMeasures; }
 
@@ -95,10 +107,10 @@ class msrScore : public msrElement
                                 fStaffContainsRestMeasures =
                                   staffContainsRestMeasures;
                               }
-                                  
+
     bool                  getStaffContainsRestMeasures () const
                               { return fStaffContainsRestMeasures; }
-        
+
     // part group names max length
 
     void                  setScorePartGroupNamesMaxLength (int value)
@@ -108,7 +120,7 @@ class msrScore : public msrElement
                               { return fScorePartGroupNamesMaxLength; }
 
     // part names max length
-    
+
     void                  setScorePartNamesMaxLength (int value)
                               { fScorePartNamesMaxLength = value; }
 
@@ -136,7 +148,7 @@ class msrScore : public msrElement
                                 fInhibitMeasuresRepeatReplicasBrowsing =
                                   true;
                               }
-                            
+
     bool                  getInhibitMeasuresRepeatReplicasBrowsing ()
                             const
                               {
@@ -149,7 +161,7 @@ class msrScore : public msrElement
                                 fInhibitRestMeasuresBrowsing =
                                   true;
                               }
-                            
+
     bool                  getInhibitRestMeasuresBrowsing ()
                             const
                               {
@@ -165,14 +177,14 @@ class msrScore : public msrElement
 
     void                  appendCreditToScore (
                             S_msrCredit credit);
-                              
+
     S_msrPart             fetchPartFromScoreByItsPartID (
                             int    inputLineNumber,
                             string partID);
 
     void                  fetchIdentificationFromCreditsIfAny (
                             int inputLineNumber);
-    
+
     void                  collectScorePartsList (
                             int    inputLineNumber,
                             list<S_msrPart>& partsList);
@@ -193,7 +205,7 @@ class msrScore : public msrElement
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
-    
+
     virtual void          printSummary (ostream& os);
 
   private:
@@ -204,19 +216,24 @@ class msrScore : public msrElement
     S_msrIdentification   fIdentification;
 
     S_msrPageGeometry     fPageGeometry;
-    
+
     list<S_msrCredit>     fCreditsList;
 
     set<S_msrPartGroup>   fScorePartGroupsSet;
-    
+
     list<S_msrPartGroup>  fPartGroupsList;
 
+    // master voice
+
+// JMI
+    S_msrVoice            fScoreMasterVoice;
+
     // number of measures
-    
+
     int                   fScoreNumberOfMeasures;
 
     // rest measures
-    
+
     bool                  fStaffContainsRestMeasures;
 
     // part group names max length
@@ -224,16 +241,16 @@ class msrScore : public msrElement
     int                   fScorePartGroupNamesMaxLength;
 
     // part names max length
-    
+
     int                   fScorePartNamesMaxLength;
 
     // instrument names max lengthes
-    
+
     int                   fScoreInstrumentNamesMaxLength;
     int                   fScoreInstrumentAbbreviationsMaxLength;
 
     // inhibiting browsing
-    
+
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure
     bool                  fInhibitMeasuresRepeatReplicasBrowsing;

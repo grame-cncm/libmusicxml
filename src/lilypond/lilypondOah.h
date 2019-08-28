@@ -644,6 +644,98 @@ typedef SMARTP<lilypondChordsDisplayAtom> S_lilypondChordsDisplayAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt);
 
 //______________________________________________________________________________
+class lilypondLyricsAlignmentKindAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lilypondLyricsAlignmentKindAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      lpsrLyricsAlignmentKind&
+                         lilypondLyricsAlignmentKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lilypondLyricsAlignmentKindAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      lpsrLyricsAlignmentKind&
+                         lilypondLyricsAlignmentKindVariable);
+
+    virtual ~lilypondLyricsAlignmentKindAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setLpsrLyricsAlignmentKindVariable (
+                            lpsrLyricsAlignmentKind value)
+                              {
+                                fLpsrLyricsAlignmentKindVariable = value;
+                              }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    lpsrLyricsAlignmentKind&
+                          fLpsrLyricsAlignmentKindVariable;
+};
+typedef SMARTP<lilypondLyricsAlignmentKindAtom> S_lilypondLyricsAlignmentKindAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondLyricsAlignmentKindAtom& elt);
+
+//______________________________________________________________________________
 class lilypondMidiTempoAtom : public oahValuedAtom
 {
   public:
@@ -874,6 +966,9 @@ class lilypondOah : public oahGroup
     void                  initializeChordsDisplayOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeLyricsOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeFontsOptions (
                             bool boolOptionsInitialValue);
 
@@ -1099,6 +1194,12 @@ class lilypondOah : public oahGroup
     // scoreNotationKind     fScoreNotationKind; JMI ???
     bool                  fJianpu;
 
+
+    // lyrics
+    // --------------------------------------
+
+    lpsrLyricsAlignmentKind
+                          fLyricsAlignmentKind;
 
     // midi
     // --------------------------------------
