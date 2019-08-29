@@ -87,7 +87,7 @@ $(PDIR) :
 # building the javascript library
 #===============================================================
 js:
-	make -j 4 -C ../javascript/build
+	make -C ../javascript
 
 #===============================================================
 # building the library on Mac OS X
