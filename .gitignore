@@ -3,6 +3,7 @@ xcode/
 
 *.o
 *.so
+*.wasm
 
 
 build/libmusicxml2*
