@@ -2,6 +2,11 @@ MusicXML Library
 
 
 ----------------------------------------------------------------------------------------------------
+Version 3.17
+- synchronize npm version and lib version
+- asmjs support dropped (only available as wasm library)
+
+----------------------------------------------------------------------------------------------------
 Version 3.14
 - intended to fix release downgrade only
   (version 3.13 was actually 3.12 the correction was a downgrade to 3.12)
