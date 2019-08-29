@@ -128,6 +128,13 @@ S_msrScore msrScore::createScoreNewbornClone ()
   return newbornClone;
 }
 
+void msrScore::setScoreMasterVoice (
+  S_msrVoice masterVoice)
+{ fScoreMasterVoice = masterVoice; }
+
+S_msrVoice msrScore::getScoreMasterVoice () const
+{ return fScoreMasterVoice; }
+
 void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 {
   if (fScorePartGroupsSet.count (partGroup)) {

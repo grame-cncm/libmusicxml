@@ -3376,7 +3376,7 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // lyrics
+  // lyrics alignment
 
   const lpsrLyricsAlignmentKind
     lpsrLyricsAlignmentKindDefaultValue =

@@ -25,6 +25,246 @@ using namespace std;
 namespace MusicXML2
 {
 
+//______________________________________________________________________________
+S_oahOptionalValuesStyleKindAtom oahOptionalValuesStyleKindAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  oahOptionalValuesStyleKind&
+                     oahOptionalValuesStyleKindVariable)
+{
+  oahOptionalValuesStyleKindAtom* o = new
+    oahOptionalValuesStyleKindAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      oahOptionalValuesStyleKindVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahOptionalValuesStyleKindAtom::oahOptionalValuesStyleKindAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  oahOptionalValuesStyleKind&
+                     oahOptionalValuesStyleKindVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fOahOptionalValuesStyleKindVariable (
+      oahOptionalValuesStyleKindVariable)
+{}
+
+oahOptionalValuesStyleKindAtom::~oahOptionalValuesStyleKindAtom ()
+{}
+
+S_oahValuedAtom oahOptionalValuesStyleKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void oahOptionalValuesStyleKindAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the optional values style kinds map?
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, oahOptionalValuesStyleKind>::const_iterator
+    it =
+      gOahOptionalValuesStyleKindsMap.find (
+        theString);
+
+  if (it == gOahOptionalValuesStyleKindsMap.end ()) {
+    // no, optional values style kind is unknown in the map
+    stringstream s;
+
+    s <<
+      "OAH optional values style kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gOahOptionalValuesStyleKindsMap.size () - 1 <<
+      " known OAH optional values style kind are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingOahOptionalValuesStyleKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    gIndenter--;
+
+    oahError (s.str ());
+    exit (4);
+  }
+
+  setOahOptionalValuesStyleKindVariable (
+    (*it).second);
+}
+
+void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionalValuesStyleKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionalValuesStyleKindAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionalValuesStyleKindAtom>*> (v)) {
+        S_oahOptionalValuesStyleKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionalValuesStyleKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionalValuesStyleKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOptionalValuesStyleKindAtom>*
+    p =
+      dynamic_cast<visitor<S_oahOptionalValuesStyleKindAtom>*> (v)) {
+        S_oahOptionalValuesStyleKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahOptionalValuesStyleKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahOptionalValuesStyleKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahOptionalValuesStyleKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahOptionalValuesStyleKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    oahOptionalValuesStyleKindAsString (fOahOptionalValuesStyleKindVariable);
+
+  return s.str ();
+}
+
+string oahOptionalValuesStyleKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    oahOptionalValuesStyleKindAsString (fOahOptionalValuesStyleKindVariable);
+
+  return s.str ();
+}
+
+void oahOptionalValuesStyleKindAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsOptionalValuesStyleKindAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOahOptionalValuesStyleKindVariable" << " : \"" <<
+    oahOptionalValuesStyleKindAsString (
+      fOahOptionalValuesStyleKindVariable) <<
+    "\"" <<
+    endl;
+
+  gIndenter--;
+}
+
+void oahOptionalValuesStyleKindAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    oahOptionalValuesStyleKindAsString (
+      fOahOptionalValuesStyleKindVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 S_oahOah gOahOah;
 S_oahOah gOahOahUserChoices;
@@ -176,6 +416,35 @@ R"(Print the options and arguments to EXECUTABLE.)",
           fHandlerExecutableName),
         "showOptionsAndArguments",
         fShowOptionsAndArguments));
+
+  // optional values style
+
+  const oahOptionalValuesStyleKind
+    oahOptionalValuesStyleKindDefaultValue =
+      kOptionalValuesStyleGNU; // default value
+
+  fOptionalValuesStyleKind = oahOptionalValuesStyleKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahOptionalValuesStyleKindAtom::create (
+        "ovs", "optional-values-style",
+          replaceSubstringInString (
+            replaceSubstringInString (
+              replaceSubstringInString (
+R"(The NUMBER OAH optional values STYLEs available are:
+OPTIONAL_VALUES_STYLES.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gOahOptionalValuesStyleKindsMap.size ())),
+            "OPTIONAL_VALUES_STYLES",
+            existingOahOptionalValuesStyleKinds (K_NAMES_LIST_MAX_LENGTH)),
+          "DEFAULT_VALUE",
+          oahOptionalValuesStyleKindAsString (
+            oahOptionalValuesStyleKindDefaultValue)),
+        "STYLE",
+        "optionalValuesStyleKind",
+        fOptionalValuesStyleKind));
 }
 
 void oahOah::initializeOahOah (
@@ -213,6 +482,8 @@ S_oahOah oahOah::createCloneWithTrueValues ()
 
   clone->fShowOptionsAndArguments =
     fShowOptionsAndArguments;
+  clone->fOptionalValuesStyleKind =
+    fOptionalValuesStyleKind;
 
   clone->fCommandLineWithShortOptionsNames =
     fCommandLineWithShortOptionsNames;
@@ -331,6 +602,10 @@ void oahOah::printOahOahValues (int valueFieldWidth)
 
     setw (valueFieldWidth) << "showOptionsAndArguments" << " : " <<
     booleanAsString (fShowOptionsAndArguments) <<
+    endl <<
+
+    setw (valueFieldWidth) << "optionalValuesStyleKind" << " : " <<
+    oahOptionalValuesStyleKindAsString (fOptionalValuesStyleKind) <<
     endl;
 
   gIndenter--;

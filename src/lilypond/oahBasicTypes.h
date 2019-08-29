@@ -1249,6 +1249,22 @@ class oahValuedAtom : public oahAtomWithVariableName
 typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
 EXP ostream& operator<< (ostream& os, const S_oahValuedAtom& elt);
 
+// optional values style
+//______________________________________________________________________________
+enum oahOptionalValuesStyleKind {
+  kOptionalValuesStyleGNU, // default value
+  kOptionalValuesStyleOAH };
+
+string oahOptionalValuesStyleKindAsString (
+  oahOptionalValuesStyleKind optionalValuesStyleKind);
+
+extern map<string, oahOptionalValuesStyleKind>
+  gOahOptionalValuesStyleKindsMap;
+
+string existingOahOptionalValuesStyleKinds (int namesListMaxLength);
+
+void initializeOahOptionalValuesStyleKindsMap ();
+
 //______________________________________________________________________________
 class oahIntegerAtom : public oahValuedAtom
 {

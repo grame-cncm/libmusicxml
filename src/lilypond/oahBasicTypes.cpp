@@ -3139,6 +3139,75 @@ ostream& operator<< (ostream& os, const S_oahValuedAtom& elt)
   return os;
 }
 
+// optional values style
+//______________________________________________________________________________
+
+map<string, oahOptionalValuesStyleKind>
+  gOahOptionalValuesStyleKindsMap;
+
+string oahOptionalValuesStyleKindAsString (
+  oahOptionalValuesStyleKind optionalValuesStyleKind)
+{
+  string result;
+
+  // no CamelCase here, these strings are used in the command line options
+
+  switch (optionalValuesStyleKind) {
+    case kOptionalValuesStyleGNU: // default value
+      result = "gnu";
+      break;
+    case kOptionalValuesStyleOAH:
+      result = "oah";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeOahOptionalValuesStyleKindsMap ()
+{
+  // register the optional values style kinds
+  // --------------------------------------
+
+  // no CamelCase here, these strings are used in the command line options
+
+  gOahOptionalValuesStyleKindsMap ["gnu"] = kOptionalValuesStyleGNU;
+  gOahOptionalValuesStyleKindsMap ["oah"] = kOptionalValuesStyleOAH;
+}
+
+string existingOahOptionalValuesStyleKinds (int namesListMaxLength)
+{
+  stringstream s;
+
+  if (gOahOptionalValuesStyleKindsMap.size ()) {
+    map<string, oahOptionalValuesStyleKind>::const_iterator
+      iBegin = gOahOptionalValuesStyleKindsMap.begin (),
+      iEnd   = gOahOptionalValuesStyleKindsMap.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
 //______________________________________________________________________________
 S_oahIntegerAtom oahIntegerAtom::create (
   string shortName,
@@ -7428,6 +7497,9 @@ oahHandler::oahHandler (
   fMaximumVariableNameWidth = 0;
 
   fHandlerFoundAHelpOption = false;
+
+  // initialize the optional values style kinds map
+  initializeOahOptionalValuesStyleKindsMap ();
 }
 
 oahHandler::~oahHandler ()

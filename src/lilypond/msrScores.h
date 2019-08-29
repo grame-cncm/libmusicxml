@@ -78,6 +78,12 @@ class msrScore : public msrElement
                           getPartGroupsList () const
                               { return fPartGroupsList; }
 
+//* JMI
+    void                  setScoreMasterVoice (
+                            S_msrVoice masterVoice);
+
+    S_msrVoice            getScoreMasterVoice () const;
+
 /* JMI
     void                  setScoreMasterVoice (
                             S_msrVoice masterVoice)

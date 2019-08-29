@@ -150,7 +150,7 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   S_msrSemiTonesPitchAndOctave       quarterTonesPitchAndOctave);
 
-// lyrics
+// lyrics alignment
 //______________________________________________________________________________
 enum lpsrLyricsAlignmentKind {
   kLyricsAlignmentAutomatic, // default value

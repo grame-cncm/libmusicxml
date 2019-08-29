@@ -1287,7 +1287,7 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 }
 */
 
-// lyrics
+// lyrics alignment
 //______________________________________________________________________________
 
 map<string, lpsrLyricsAlignmentKind>

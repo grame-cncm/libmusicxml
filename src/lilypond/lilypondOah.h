@@ -1195,7 +1195,7 @@ class lilypondOah : public oahGroup
     bool                  fJianpu;
 
 
-    // lyrics
+    // lyrics alignment
     // --------------------------------------
 
     lpsrLyricsAlignmentKind

@@ -24,6 +24,98 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class oahOptionalValuesStyleKindAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahOptionalValuesStyleKindAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      oahOptionalValuesStyleKind&
+                         oahOptionalValuesStyleKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahOptionalValuesStyleKindAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      oahOptionalValuesStyleKind&
+                         oahOptionalValuesStyleKindVariable);
+
+    virtual ~oahOptionalValuesStyleKindAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setOahOptionalValuesStyleKindVariable (
+                            oahOptionalValuesStyleKind value)
+                              {
+                                fOahOptionalValuesStyleKindVariable = value;
+                              }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    oahOptionalValuesStyleKind&
+                          fOahOptionalValuesStyleKindVariable;
+};
+typedef SMARTP<oahOptionalValuesStyleKindAtom> S_oahOptionalValuesStyleKindAtom;
+EXP ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt);
+
+//______________________________________________________________________________
 class oahOah : public oahGroup
 {
   public:
@@ -120,6 +212,9 @@ class oahOah : public oahGroup
     // --------------------------------------
 
     bool                  fShowOptionsAndArguments;
+
+    oahOptionalValuesStyleKind
+                          fOptionalValuesStyleKind;
 
     string                fCommandLineWithShortOptionsNames;
     string                fCommandLineWithLongOptionsNames;

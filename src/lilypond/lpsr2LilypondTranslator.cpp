@@ -6234,10 +6234,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       case kLyricsAlignmentAutomatic: // default value
         break;
       case kLyricsAlignmentManual:
+      /* JMI
         fLilypondCodeOstream <<
           gTab << "associatedVoice = " <<
           "\""  << elt->getVoice ()->getVoiceName () << "\"" <<
           endl;
+          */
         break;
     } // switch
 
@@ -8109,9 +8111,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
+          switch (gLilypondOah->fLyricsAlignmentKind) {
+            case kLyricsAlignmentAutomatic: // default value
+              // don't generate a duration for automatic lyrics alignment
+              break;
+            case kLyricsAlignmentManual:
+              fLilypondCodeOstream <<
+                elt->syllableWholeNotesAsMsrString ();
+              break;
+          } // switch
+
           fLilypondCodeOstream <<
-            elt->syllableWholeNotesAsMsrString () <<
             " -- ";
+
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
@@ -8125,9 +8137,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
+          switch (gLilypondOah->fLyricsAlignmentKind) {
+            case kLyricsAlignmentAutomatic: // default value
+              // don't generate a duration for automatic lyrics alignment
+              break;
+            case kLyricsAlignmentManual:
+              fLilypondCodeOstream <<
+                elt->syllableWholeNotesAsMsrString ();
+              break;
+          } // switch
+
           fLilypondCodeOstream <<
-            elt->syllableWholeNotesAsMsrString () <<
             " -- ";
+
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
@@ -8141,9 +8163,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
+          switch (gLilypondOah->fLyricsAlignmentKind) {
+            case kLyricsAlignmentAutomatic: // default value
+              // don't generate a duration for automatic lyrics alignment
+              break;
+            case kLyricsAlignmentManual:
+              fLilypondCodeOstream <<
+                elt->syllableWholeNotesAsMsrString ();
+              break;
+          } // switch
+
           fLilypondCodeOstream <<
-            elt->syllableWholeNotesAsMsrString () <<
             ' ';
+
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
