@@ -213,9 +213,6 @@ class oahOah : public oahGroup
 
     bool                  fShowOptionsAndArguments;
 
-    oahOptionalValuesStyleKind
-                          fOptionalValuesStyleKind;
-
     string                fCommandLineWithShortOptionsNames;
     string                fCommandLineWithLongOptionsNames;
 

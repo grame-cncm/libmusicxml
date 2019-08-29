@@ -2656,6 +2656,10 @@ class EXP oahHandler : public oahElement
     string                getExecutableName () const
                               { return fHandlerExecutableName; }
 
+    oahOptionalValuesStyleKind&
+                          getHandlerOptionalValuesStyleKind ()
+                              { return fHandlerOptionalValuesStyleKind; }
+
     const multiset<S_oahElement>&
                           getHandlerRegisteredElementsMultiSet () const
                               { return fHandlerRegisteredElementsMultiSet; }
@@ -2697,6 +2701,14 @@ class EXP oahHandler : public oahElement
 
     S_oahElement          fetchElementFromMap (
                             string name) const;
+
+    void                  handlePrefixName (
+                            string prefixName,
+                            size_t equalsSignPosition,
+                            string stringAfterEqualsSign);
+
+    bool                  optionNameIsASingleCharacterOptionsCluster (
+                            string optionName);
 
     const vector<string>  decipherOptionsAndArguments (
                             int   argc,
@@ -2785,6 +2797,7 @@ class EXP oahHandler : public oahElement
                             string theString);
 
     void                  checkMissingPendingValuedAtomValue (
+                            string atomName,
                             string context);
 
     virtual void          checkOptionsAndArguments () = 0;
@@ -2813,6 +2826,9 @@ class EXP oahHandler : public oahElement
     vector<string>        fHandlerArgumentsVector;
 
     string                fHandlerExecutableName;
+
+    oahOptionalValuesStyleKind
+                          fHandlerOptionalValuesStyleKind;
 
     ostream&              fHandlerLogOstream;
 
@@ -2847,7 +2863,7 @@ class EXP oahHandler : public oahElement
     oahOptionsDefaultValuesStyle
                           fOahOptionsDefaultValuesStyle;
 
-    set<string>           fMonoLetterShortNamesSet;
+    set<string>           fSingleCharacterShortNamesSet;
 
     int                   fMaximumSubGroupsHeadersSize;
 

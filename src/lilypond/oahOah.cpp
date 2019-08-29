@@ -423,7 +423,13 @@ R"(Print the options and arguments to EXECUTABLE.)",
     oahOptionalValuesStyleKindDefaultValue =
       kOptionalValuesStyleGNU; // default value
 
-  fOptionalValuesStyleKind = oahOptionalValuesStyleKindDefaultValue;
+  // the variable to set is in the handler actually
+  oahOptionalValuesStyleKind&
+    optionalValuesStyleKind =
+      fHandlerUpLink->
+        getHandlerOptionalValuesStyleKind ();
+
+  optionalValuesStyleKind = oahOptionalValuesStyleKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
@@ -444,7 +450,7 @@ The default is 'DEFAULT_VALUE'.)",
             oahOptionalValuesStyleKindDefaultValue)),
         "STYLE",
         "optionalValuesStyleKind",
-        fOptionalValuesStyleKind));
+        optionalValuesStyleKind));
 }
 
 void oahOah::initializeOahOah (
@@ -482,8 +488,6 @@ S_oahOah oahOah::createCloneWithTrueValues ()
 
   clone->fShowOptionsAndArguments =
     fShowOptionsAndArguments;
-  clone->fOptionalValuesStyleKind =
-    fOptionalValuesStyleKind;
 
   clone->fCommandLineWithShortOptionsNames =
     fCommandLineWithShortOptionsNames;
@@ -602,10 +606,6 @@ void oahOah::printOahOahValues (int valueFieldWidth)
 
     setw (valueFieldWidth) << "showOptionsAndArguments" << " : " <<
     booleanAsString (fShowOptionsAndArguments) <<
-    endl <<
-
-    setw (valueFieldWidth) << "optionalValuesStyleKind" << " : " <<
-    oahOptionalValuesStyleKindAsString (fOptionalValuesStyleKind) <<
     endl;
 
   gIndenter--;

@@ -7500,6 +7500,9 @@ oahHandler::oahHandler (
 
   // initialize the optional values style kinds map
   initializeOahOptionalValuesStyleKindsMap ();
+
+  // initialize the optional values style kind
+  fHandlerOptionalValuesStyleKind = kOptionalValuesStyleGNU; // default value
 }
 
 oahHandler::~oahHandler ()
@@ -7702,7 +7705,7 @@ void oahHandler::registerElementNamesInHandler (
 
   // register element's names
   if (elementShortNameSize == 1) {
-    fMonoLetterShortNamesSet.insert (elementShortName);
+    fSingleCharacterShortNamesSet.insert (elementShortName);
   }
 
   if (elementLongNameSize) {
@@ -8276,13 +8279,13 @@ void oahHandler::printAllOahCommandLineValues (
     " of which occur in the command line" <<
     endl;
 
-  if (fMonoLetterShortNamesSet.size ()) {
+  if (fSingleCharacterShortNamesSet.size ()) {
     os <<
-      "The mono letter short option names are: ";
+      "The single character short option names are: ";
 
     set<string>::const_iterator
-      iBegin = fMonoLetterShortNamesSet.begin (),
-      iEnd   = fMonoLetterShortNamesSet.end (),
+      iBegin = fSingleCharacterShortNamesSet.begin (),
+      iEnd   = fSingleCharacterShortNamesSet.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options group values
@@ -8629,32 +8632,229 @@ S_oahElement oahHandler::fetchOptionByName (
 }
 
 void oahHandler::checkMissingPendingValuedAtomValue (
+  string atomName,
   string context)
 {
   if (fPendingValuedAtom) {
-    if (fPendingValuedAtom->getValueIsOptional ()) {
+    switch (fHandlerOptionalValuesStyleKind) {
+      case kOptionalValuesStyleGNU: // default value
+        {
+          stringstream s;
+
+          s <<
+            "option name '" << atomName <<
+            "' should be used with a '=' in GNU optional values style";
+
+          oahError (s.str ());
+          exit (6);
+        }
+        break;
+
+      case kOptionalValuesStyleOAH:
       // handle the valued atom using the default value
-      fPendingValuedAtom->
-        handleDefaultValue ();
+        if (fPendingValuedAtom->getValueIsOptional ()) {
+          fPendingValuedAtom->
+            handleDefaultValue ();
 
-      fPendingValuedAtom = nullptr;
-    }
-    else {
-      // an option requiring a value is expecting it,
-      // but another option, an argument or the end of the command line
-      // has been found instead
-      stringstream s;
+          fPendingValuedAtom = nullptr;
+        }
 
-      s <<
-        "option " <<
-       fPendingValuedAtom->asString () <<
-       " expects a value" <<
-       " (" << context << ")";
+        else {
+          // an option requiring a value is expecting it,
+          // but another option, an argument or the end of the command line
+          // has been found instead
+          stringstream s;
 
-      oahError (s.str ());
-      exit (9);
+          s <<
+            "option " <<
+           fPendingValuedAtom->asString () <<
+           " expects a value" <<
+           " (" << context << ")";
+
+          oahError (s.str ());
+          exit (9);
+        }
+        break;
+    } // switch
+
+/*
+    switch (fHandlerOptionalValuesStyleKind) {
+      case kOptionalValuesStyleGNU: // default value
+        {
+          stringstream s;
+
+          s <<
+            "option name '" << name <<
+            "' cannot be used with a '=' in OAH optional values style";
+
+          oahError (s.str ());
+          exit (6);
+        }
+        break;
+      case kOptionalValuesStyleOAH:
+        break;
+    } // switch
+*/
+  }
+}
+
+void oahHandler::handlePrefixName (
+  string prefixName,
+  size_t equalsSignPosition,
+  string stringAfterEqualsSign)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    fHandlerLogOstream <<
+      "===> equalsSignPosition = '" << equalsSignPosition <<
+      "', " <<
+      "===> prefixName = '" << prefixName <<
+      "', " <<
+      "===> stringAfterEqualsSign = '" << stringAfterEqualsSign <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  // split stringAfterEqualsSign into a list of strings
+  // using the comma as separator
+  list<string> chunksList;
+
+  splitStringIntoChunks (
+    stringAfterEqualsSign,
+    ",",
+    chunksList);
+
+  unsigned chunksListSize = chunksList.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    fHandlerLogOstream <<
+      "There are " << chunksListSize << " chunks" <<
+      " in '" << stringAfterEqualsSign <<
+      "'" <<
+      endl;
+
+    gIndenter++;
+
+    list<string>::const_iterator
+      iBegin = chunksList.begin (),
+      iEnd   = chunksList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      fHandlerLogOstream <<
+        "[" << (*i) << "]";
+      if (++i == iEnd) break;
+      fHandlerLogOstream <<
+        " ";
+    } // for
+
+    fHandlerLogOstream << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  S_oahPrefix
+    prefix =
+      fetchPrefixFromMap (prefixName);
+
+  if (prefix) {
+    if (chunksListSize) {
+      // expand the option names contained in chunksList
+      for (
+        list<string>::const_iterator i =
+          chunksList.begin ();
+        i != chunksList.end ();
+        i++
+      ) {
+        string singleOptionName = (*i);
+
+        // build uncontracted option name
+        string
+          uncontractedOptionName =
+            prefix->getPrefixErsatz () + singleOptionName;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOah) {
+          fHandlerLogOstream <<
+            "Expanding option '" << singleOptionName <<
+            "' to '" << uncontractedOptionName <<
+            "'" <<
+            endl;
+        }
+#endif
+
+        // handle the uncontracted option name
+        handleOptionName (uncontractedOptionName);
+      } // for
     }
   }
+
+  else {
+    printKnownPrefixes ();
+
+    stringstream s;
+
+    s <<
+      "option prefix '" << prefixName <<
+      "' is unknown, see help summary below";
+
+    oahError (s.str ());
+  }
+}
+
+bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
+  string optionName)
+{
+  bool result = true;
+
+  set<S_oahElement> cluserElementsSet;
+
+  for (
+    string::const_iterator i = optionName.begin ();
+    i != optionName.end ();
+    i++
+  ) {
+    string singleCharacterString (1, (*i));
+
+    set<string>::const_iterator
+      it =
+        fSingleCharacterShortNamesSet.find (
+          singleCharacterString);
+
+    if (it != fSingleCharacterShortNamesSet.end ()) {
+      // yes, singleCharacterString is known in the set
+      cluserElementsSet.insert (
+        fetchOptionByName (
+          singleCharacterString));
+    }
+    else {
+      // no, singleCharacterString is not known in the set,
+      // optionName is not a cluster
+      result = false;
+      break;
+    }
+
+  } // for
+
+  if (result) {
+    // handle the elements in the cluster
+    for (
+      set<S_oahElement>::const_iterator i = cluserElementsSet.begin ();
+      i != cluserElementsSet.end ();
+      i++
+    ) {
+      S_oahElement element = (*i);
+
+      // handle element name
+      handleOptionName ( // JMI
+        element->getShortName ());
+    } // for
+  }
+
+  return result;
 }
 
 const vector<string> oahHandler::decipherOptionsAndArguments (
@@ -8684,48 +8884,50 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   // decipher the command options and arguments
   int n = 1;
 
+  string lastOptionNameFound;
+
   while (true) {
     if (argv [n] == 0)
       break;
 
-    string currentOption = string (argv [n]);
+    string currentString = string (argv [n]);
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       // print current option
       fHandlerLogOstream <<
         "Command line option " << n <<
-        ": " << currentOption << " "<<
+        ": " << currentString << " "<<
         endl;
     }
 #endif
 
     // handle current option
-    if (currentOption [0] == '-') {
+    if (currentString [0] == '-') {
       // stdin or option?
 
-      if (currentOption.size () == 1) {
+      if (currentString.size () == 1) {
         // this is the stdin indicator
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceOah) {
           fHandlerLogOstream <<
-            "'" << currentOption <<
+            "'" << currentString <<
               "' is the '-' stdin indicator" <<
             endl;
         }
 #endif
 
-        fHandlerArgumentsVector.push_back (currentOption);
+        fHandlerArgumentsVector.push_back (currentString);
       }
 
       else {
         // this is an option, first '-' has been found
-        // and currentOption.size () >= 2
+        // and currentString.size () >= 2
 
         string currentOptionName;
 
         string optionTrailer =
-          currentOption.substr (1, string::npos);
+          currentString.substr (1, string::npos);
 
         /* JMI
         fHandlerLogOstream <<
@@ -8778,137 +8980,128 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
           currentOptionName.find ("=");
 
         if (equalsSignPosition != string::npos) {
-          // yes
+          // yes, there's an equal sign
 
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah) {
-            printKnownPrefixes ();
-          }
-#endif
-
-          // fetch the prefix name and the string after the equals sign
-          string prefixName =
+          // fetch the option name and the string after the equals sign
+          string name =
             currentOptionName.substr (0, equalsSignPosition);
           string stringAfterEqualsSign =
             currentOptionName.substr (equalsSignPosition + 1);
 
-
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah) {
-            fHandlerLogOstream <<
-              "===> equalsSignPosition = '" << equalsSignPosition <<
-              "', " <<
-              "===> prefixName = '" << prefixName <<
-              "', " <<
-              "===> stringAfterEqualsSign = '" << stringAfterEqualsSign <<
-              "'" <<
-              endl;
-          }
-#endif
-
-          // split stringAfterEqualsSign into a list of string
-          // using the comma as separator
-          list<string> chunksList;
-
-          splitStringIntoChunks (
-            stringAfterEqualsSign,
-            ",",
-            chunksList);
-
-          unsigned chunksListSize = chunksList.size ();
-
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah) {
-            fHandlerLogOstream <<
-              "There are " << chunksListSize << " chunks" <<
-              " in '" << stringAfterEqualsSign <<
-              "'" <<
-              endl;
-
-            gIndenter++;
-
-            list<string>::const_iterator
-              iBegin = chunksList.begin (),
-              iEnd   = chunksList.end (),
-              i      = iBegin;
-
-            for ( ; ; ) {
-              fHandlerLogOstream <<
-                "[" << (*i) << "]";
-              if (++i == iEnd) break;
-              fHandlerLogOstream <<
-                " ";
-            } // for
-
-            fHandlerLogOstream << endl;
-
-            gIndenter--;
-          }
-#endif
-
+          // prefixes have precedence over options with optional values
           S_oahPrefix
             prefix =
-              fetchPrefixFromMap (prefixName);
+              fetchPrefixFromMap (name);
 
           if (prefix) {
-            if (chunksListSize) {
-              // expand the option names contained in chunksList
-              for (
-                list<string>::const_iterator i =
-                  chunksList.begin ();
-                i != chunksList.end ();
-                i++
+            // handle prefix name
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceOah) {
+              printKnownPrefixes ();
+            }
+#endif
+            handlePrefixName (
+              name,
+              equalsSignPosition,
+              stringAfterEqualsSign);
+          }
+
+          else {
+            // name is not the name of prefix
+
+            // is is the name of an option?
+            S_oahElement
+              element =
+                fetchOptionByName (name);
+
+            if (element) {
+              // name is the name of an option
+              if (
+                // oahStringWithDefaultValueAtom?
+                S_oahStringWithDefaultValueAtom
+                  stringWithDefaultValueAtom =
+                    dynamic_cast<oahStringWithDefaultValueAtom*>(&(*element))
               ) {
-                string singleOptionName = (*i);
-
-                // build uncontracted option name
-                string
-                  uncontractedOptionName =
-                    prefix->getPrefixErsatz () + singleOptionName;
-
 #ifdef TRACE_OAH
                 if (gTraceOah->fTraceOah) {
                   fHandlerLogOstream <<
-                    "Expanding option '" << singleOptionName <<
-                    "' to '" << uncontractedOptionName <<
-                    "'" <<
+                    "==> option '" <<
+                    name <<
+                    "' is a stringWithDefaultValueAtom" <<
                     endl;
                 }
 #endif
 
-                // handle the uncontracted option name
-                handleOptionName (uncontractedOptionName);
-              } // for
+                // handle the stringWithDefaultValueAtom
+                switch (fHandlerOptionalValuesStyleKind) {
+                  case kOptionalValuesStyleGNU: // default value
+                    stringWithDefaultValueAtom->
+                      handleValue (
+                        stringAfterEqualsSign,
+                        fHandlerLogOstream);
+                    break;
+                  case kOptionalValuesStyleOAH:
+                    {
+                      stringstream s;
+
+                      s <<
+                        "option name '" << name <<
+                        "' cannot be used with a '=' in OAH optional values style";
+
+                      oahError (s.str ());
+                      exit (6);
+                    }
+                    break;
+                } // switch
+              }
+              else {
+                // name is not the name an a stringWithDefaultValueAtom
+                stringstream s;
+
+                s <<
+                  "option name '" << name <<
+                  "' cannot doesn't have default value and thus cannot be used with a '='";
+
+                oahError (s.str ());
+                exit (6);
+              }
+            }
+
+            else {
+              // name is not the name of an option
+              stringstream s;
+
+              s <<
+                "option name '" << name <<
+                "' is not the name of an option FOO";
+
+              oahError (s.str ());
+              exit (6);
             }
           }
-
-          else {
-            printKnownPrefixes ();
-
-            stringstream s;
-
-            s <<
-              "option prefix '" << prefixName <<
-              "' is unknown, see help summary below";
-
-            oahError (s.str ());
-          }
-
-
         }
 
         else {
-          // no
+          // no, there's no equal sign
           // handle the current option name
           handleOptionName (currentOptionName);
         }
+
+        lastOptionNameFound = currentOptionName;
       }
     }
 
     else {
-      // currentOption is no oahElement,
-      // i.e. it is an atom value or an argument
-      handleOptionValueOrArgument (currentOption);
+      // currentString is no oahElement
+
+      // is it a single-character options cluster?
+      if (optionNameIsASingleCharacterOptionsCluster (currentString)) {
+        // the options contained in currentString have been handled already
+      }
+      else {
+        // currentString is an atom value or an argument
+        handleOptionValueOrArgument (currentString);
+      }
     }
 
     // next please
@@ -8917,6 +9110,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
   // is a pending valued atom value missing?
   checkMissingPendingValuedAtomValue (
+    lastOptionNameFound,
     "last option in command line");
 
   unsigned int argumentsVectorSize =
@@ -9159,11 +9353,13 @@ void oahHandler::handleAtomName (
   }
 
   else {
-    // is a pending valued atom value missing?
+    // atom is a plain atom
+    // is the value for a pending valued atom missing?
     string context =
       "before option " + atom->asString ();
 
     checkMissingPendingValuedAtomValue (
+      atomName,
       context);
 
     // delegate the handling to the atom
