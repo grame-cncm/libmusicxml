@@ -47,6 +47,7 @@ help :
 	@echo "   clean        : remove output and object files,"	
 	@echo "   depend       : recompute dependencies,"	
 	@echo "   npmlib       : update lib in npm"	
+	@echo "   test         : run npm test"	
 	@echo "   npm          : publish to npm (use with caution),"	
 	@echo "                  see the npm folder,"	
 	@echo 	
@@ -58,6 +59,9 @@ help :
 ##############################################################
 npm: $(npmdir)/$(library).js
 	npm publish $(npmdir) --access public
+
+test: $(npmdir)/$(library).js
+	cd npm && npm run test
 
 npmlib: $(npmdir)/$(library).js
 

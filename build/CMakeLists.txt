@@ -9,11 +9,20 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.1.4)
-set (STRVERS "v.3.14")
-set (SSTRVERS "3.14")
-set (SOVERS 3)
 set (XMLVERSION 3.1)
+
+set (VERSION 3.1.7)
+macro (get_major_minor_patch version)
+	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\1"  VERSION_MAJOR ${version} )
+	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\2"  VERSION_MINOR ${version} )
+	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\3"  VERSION_PATCH ${version} )
+endmacro()
+get_major_minor_patch( ${VERSION} )
+set (SOVERS ${VERSION_MAJOR})
+set (STRVERS "v.3.17")
+set (SSTRVERS "3.17")
+message (STATUS "Configuring version ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
 
 
 #######################################
