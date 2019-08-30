@@ -2972,6 +2972,37 @@ oahValuedAtom::oahValuedAtom (
 oahValuedAtom::~oahValuedAtom ()
 {}
 
+void oahValuedAtom::setValueIsOptional ()
+{
+  fValueIsOptional = true;
+
+/* JMI
+  // a valued atom with an optional value
+  // should not have the same name as a prefix
+  // since this would create an ambiguity
+  if (fetchPrefixInMapByItsName (fShortName)) {
+    stringstream s;
+
+    s <<
+      "values atom short name '" << fShortName <<
+      "' is already known as a prefix " <<;
+
+    oahError (s.str ());
+    exit (4);
+  }
+  if (fetchPrefixInMapByItsName (fLongName)) {
+    stringstream s;
+
+    s <<
+      "values atom long name '" << fLongName <<
+      "' is already known as a prefix " <<;
+
+    oahError (s.str ());
+    exit (4);
+  }
+  */
+}
+
 void oahValuedAtom::handleDefaultValue ()
 {}
 
@@ -6303,7 +6334,7 @@ S_oahElement oahSubGroup::fetchOptionByName (
     result =
       (*i)->fetchOptionByName (name);
 
-    if (result != 0) {
+    if (result) {
       break;
     }
   } // for
@@ -6880,7 +6911,7 @@ void oahGroup::underlineGroupHeader (ostream& os) const
   os << "--------------------------" << endl;
 }
 
-void oahGroup::registerOptionsGroupInHandler (
+void oahGroup::registerGroupInHandler (
   S_oahHandler handler)
 {
   // sanity check
@@ -6940,7 +6971,7 @@ S_oahElement oahGroup::fetchOptionByName (
     result =
       (*i)->fetchOptionByName (name);
 
-    if (result != 0) {
+    if (result) {
       break;
     }
   } // for
@@ -7530,7 +7561,7 @@ void oahHandler::registerHandlerInItself ()
   ) {
     // register the options group
     (*i)->
-      registerOptionsGroupInHandler (
+      registerGroupInHandler (
         this);
   } // for
  // */
@@ -8640,7 +8671,7 @@ S_oahElement oahHandler::fetchOptionByName (
     result =
       (*i)->fetchOptionByName (name);
 
-    if (result != 0) {
+    if (result) {
       break;
     }
   } // for
@@ -8881,10 +8912,20 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
       S_oahElement element = (*i);
 
       // handle element name
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      fHandlerLogOstream <<
+        "handling single-character options cluster element '" <<
+        element->asString () <<
+        endl;
+    }
+#endif
+
       handleOptionName ( // JMI
         element->getShortName ());
     } // for
   }
+
   else {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
@@ -9061,6 +9102,8 @@ string oahHandler::decipherOption (
 
   // is it a single-character options cluster?
   else if (
+    currentOptionName.size () > 1
+      &&
     optionNameIsASingleCharacterOptionsCluster (currentOptionName)
   ) {
     // the options contained in currentString have been handled already

@@ -1135,7 +1135,9 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
       quarterTonesPitchKindFromSemiTonesPitchKind (
         semiTonesPitchAndOctave->getSemiTonesPitchKind ());
 
-  map<msrQuarterTonesPitchKind, string> *pitchNamesMapPTR = nullptr;
+  map<msrQuarterTonesPitchKind, string>
+    *pitchNamesMapPTR =
+      &gNederlandsPitchNamesMap; // default LilyPond value
 
   // is quarterTonesPitchName in the part renaming map?
   switch (languageKind) {

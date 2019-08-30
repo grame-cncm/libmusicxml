@@ -1190,8 +1190,7 @@ class oahValuedAtom : public oahAtomWithVariableName
     string                getValueSpecification () const
                               { return fValueSpecification; }
 
-    void                  setValueIsOptional ()
-                              { fValueIsOptional = true; }
+    void                  setValueIsOptional ();
 
     bool                  getValueIsOptional () const
                               { return fValueIsOptional; }
@@ -2499,7 +2498,7 @@ class oahGroup : public oahElement
 
     void                  underlineGroupHeader (ostream& os) const;
 
-    void                  registerOptionsGroupInHandler (
+    void                  registerGroupInHandler (
                             S_oahHandler handler);
 
     void                  appendSubGroupToGroup (
