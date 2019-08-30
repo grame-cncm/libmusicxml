@@ -1874,12 +1874,13 @@ This option should best appear first.)",
 
   subGroup->
     appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "toptsd", "trace-options-details",
+      oahTwoBooleansAtom::create (
+        "toahd", "trace-oah-details",
 R"(Write a trace of options and help handling with more details to standard error.
 This option should best appear first.)",
         "traceOahDetails",
-        fTraceOahDetails));
+        fTraceOahDetails,
+        fTraceOah));
 
   // trace oah visitors
 

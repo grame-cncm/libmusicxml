@@ -371,7 +371,8 @@ OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dov", "display-options-values",
-R"(Write the chosen options values to standard error.)",
+R"(Write the chosen options values to standard error.
+This option is best placed early in the command line)",
         "displayOptionsValues",
         fDisplayOahValues));
 

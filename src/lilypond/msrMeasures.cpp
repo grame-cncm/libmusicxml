@@ -1589,6 +1589,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -1604,10 +1605,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
   // if it happens to be the first note of a chord
   appendElementAtTheEndOfMeasure (note);
 
-  // fetch note sounding whole notes
-  rational noteSoundingWholeNotes =
-    note->getNoteSoundingWholeNotes ();
-
+  // fetch note sounding whole notes as string
   string noteSoundingWholeNotesAsMsrString =
     note->noteSoundingWholeNotesAsMsrString ();
 

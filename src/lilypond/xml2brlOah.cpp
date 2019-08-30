@@ -1099,7 +1099,7 @@ R"(Options that are used by xml2brl are grouped here.)",
   // if relevant
   if (handlerUpLink) {
     handlerUpLink->
-      appendGroupToHandler (this);
+      prependGroupToHandler (this);
   }
 
   // initialize it

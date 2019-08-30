@@ -2690,6 +2690,8 @@ class EXP oahHandler : public oahElement
 
     void                  appendGroupToHandler (
                             S_oahGroup oahGroup);
+    void                  prependGroupToHandler (
+                            S_oahGroup oahGroup);
 
     void                  registerElementInHandler (
                             S_oahElement element);
@@ -2713,6 +2715,9 @@ class EXP oahHandler : public oahElement
     const vector<string>  decipherOptionsAndArguments (
                             int   argc,
                             char* argv[]);
+
+    string                decipherOption (
+                            string currentString);
 
   public:
 

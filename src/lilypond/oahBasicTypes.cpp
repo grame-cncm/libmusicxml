@@ -8395,6 +8395,23 @@ void oahHandler::appendGroupToHandler (
     setHandlerUpLink (this);
 }
 
+void oahHandler::prependGroupToHandler (
+  S_oahGroup oahGroup)
+{
+  // sanity check
+  msrAssert (
+    oahGroup != nullptr,
+    "oahGroup is null");
+
+  // prepend the options group
+  fHandlerGroupsList.push_front (
+    oahGroup);
+
+  // set the upLink
+  oahGroup->
+    setHandlerUpLink (this);
+}
+
 void oahHandler::printKnownPrefixes () const
 {
   int oahHandlerPrefixesListSize =
@@ -8808,7 +8825,15 @@ void oahHandler::handlePrefixName (
 bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
   string optionName)
 {
-  bool result = true;
+  bool result = true; // until the contrary is known
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    fHandlerLogOstream <<
+      "Checking whether optionName '" << optionName << "' is a single-character options cluster" <<
+      endl;
+  }
+#endif
 
   set<S_oahElement> cluserElementsSet;
 
@@ -8818,6 +8843,14 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
     i++
   ) {
     string singleCharacterString (1, (*i));
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      fHandlerLogOstream <<
+        "Considering single-character '" << singleCharacterString << "'" <<
+        endl;
+    }
+#endif
 
     set<string>::const_iterator
       it =
@@ -8836,7 +8869,6 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
       result = false;
       break;
     }
-
   } // for
 
   if (result) {
@@ -8853,8 +8885,194 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
         element->getShortName ());
     } // for
   }
+  else {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      fHandlerLogOstream <<
+        "optionName '" << optionName << "' is no single-character options cluster" <<
+        endl;
+    }
+#endif
+  }
 
   return result;
+}
+
+string oahHandler::decipherOption (
+  string currentString)
+{
+  string currentOptionName;
+
+  string optionTrailer =
+    currentString.substr (1, string::npos);
+
+  /* JMI
+  fHandlerLogOstream <<
+    "optionTrailer '" << optionTrailer << "' is preceded by a dash" <<
+    endl;
+  */
+
+  // here, optionTrailer.size () >= 1
+
+  if (optionTrailer [0] == '-') {
+    // this is a double-dashed option, '--' has been found
+
+    if (optionTrailer.size () == 1) {
+      // optionTrailer is '--' alone, that marks the end of the options
+      fNowEverythingIsAnArgument = true;
+
+      return "";
+    }
+
+    else {
+      // optionTrailer is a double-dashed option
+      currentOptionName =
+        optionTrailer.substr (1, string::npos);
+
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceOah) {
+        fHandlerLogOstream <<
+          "'" << currentOptionName << "' is a double-dashed option" <<
+          endl;
+      }
+#endif
+    }
+  }
+
+  else {
+    // it is a single-dashed option
+    currentOptionName =
+      optionTrailer;
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      fHandlerLogOstream <<
+        "'" << currentOptionName << "' is a single-dashed option" <<
+        endl;
+    }
+#endif
+  }
+
+  // does currentOptionName contain an equal sign?
+  size_t equalsSignPosition =
+    currentOptionName.find ("=");
+
+  if (equalsSignPosition != string::npos) {
+    // yes, there's an equal sign
+
+    // fetch the option name and the string after the equals sign
+    string name =
+      currentOptionName.substr (0, equalsSignPosition);
+    string stringAfterEqualsSign =
+      currentOptionName.substr (equalsSignPosition + 1);
+
+    // prefixes have precedence over options with optional values
+    S_oahPrefix
+      prefix =
+        fetchPrefixFromMap (name);
+
+    if (prefix) {
+      // handle prefix name
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceOah) {
+        printKnownPrefixes ();
+      }
+#endif
+      handlePrefixName (
+        name,
+        equalsSignPosition,
+        stringAfterEqualsSign);
+    }
+
+    else {
+      // name is not the name of prefix
+
+      // is is the name of an option?
+      S_oahElement
+        element =
+          fetchOptionByName (name);
+
+      if (element) {
+        // name is the name of an option
+        if (
+          // oahStringWithDefaultValueAtom?
+          S_oahStringWithDefaultValueAtom
+            stringWithDefaultValueAtom =
+              dynamic_cast<oahStringWithDefaultValueAtom*>(&(*element))
+        ) {
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceOah) {
+            fHandlerLogOstream <<
+              "==> option '" <<
+              name <<
+              "' is a stringWithDefaultValueAtom" <<
+              endl;
+          }
+#endif
+
+          // handle the stringWithDefaultValueAtom
+          switch (fHandlerOptionalValuesStyleKind) {
+            case kOptionalValuesStyleGNU: // default value
+              stringWithDefaultValueAtom->
+                handleValue (
+                  stringAfterEqualsSign,
+                  fHandlerLogOstream);
+              break;
+            case kOptionalValuesStyleOAH:
+              {
+                stringstream s;
+
+                s <<
+                  "option name '" << name <<
+                  "' cannot be used with a '=' in OAH optional values style";
+
+                oahError (s.str ());
+                exit (6);
+              }
+              break;
+          } // switch
+        }
+        else {
+          // name is not the name an a stringWithDefaultValueAtom
+          stringstream s;
+
+          s <<
+            "option name '" << name <<
+            "' cannot doesn't have default value and thus cannot be used with a '='";
+
+          oahError (s.str ());
+          exit (6);
+        }
+      }
+
+      else {
+        // name is not the name of an option
+        stringstream s;
+
+        s <<
+          "option name '" << name <<
+          "' is not the name of an option FOO";
+
+        oahError (s.str ());
+        exit (6);
+      }
+    }
+  }
+
+  // is it a single-character options cluster?
+  else if (
+    optionNameIsASingleCharacterOptionsCluster (currentOptionName)
+  ) {
+    // the options contained in currentString have been handled already
+  }
+
+  else {
+    // no, there's no equal sign
+    // handle the current option name
+    handleOptionName (currentOptionName);
+  }
+
+  return currentOptionName;
 }
 
 const vector<string> oahHandler::decipherOptionsAndArguments (
@@ -8924,184 +9142,18 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
         // this is an option, first '-' has been found
         // and currentString.size () >= 2
 
-        string currentOptionName;
-
-        string optionTrailer =
-          currentString.substr (1, string::npos);
-
-        /* JMI
-        fHandlerLogOstream <<
-          "optionTrailer '" << optionTrailer << "' is preceded by a dash" <<
-          endl;
-        */
-
-        // here, optionTrailer.size () >= 1
-
-        if (optionTrailer [0] == '-') {
-          // this is a double-dashed option, '--' has been found
-
-          if (optionTrailer.size () == 1) {
-            // optionTrailer is '--' alone, that marks the end of the options
-            fNowEverythingIsAnArgument = true;
-            break;
-          }
-
-          else {
-            // optionTrailer is a double-dashed option
-            currentOptionName =
-              optionTrailer.substr (1, string::npos);
-
-#ifdef TRACE_OAH
-            if (gTraceOah->fTraceOah) {
-              fHandlerLogOstream <<
-                "'" << currentOptionName << "' is a double-dashed option" <<
-                endl;
-            }
-#endif
-          }
-        }
-
-        else {
-          // it is a single-dashed option
-          currentOptionName =
-            optionTrailer;
-
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah) {
-            fHandlerLogOstream <<
-              "'" << currentOptionName << "' is a single-dashed option" <<
-              endl;
-          }
-#endif
-        }
-
-        // does currentOptionName contain an equal sign?
-        size_t equalsSignPosition =
-          currentOptionName.find ("=");
-
-        if (equalsSignPosition != string::npos) {
-          // yes, there's an equal sign
-
-          // fetch the option name and the string after the equals sign
-          string name =
-            currentOptionName.substr (0, equalsSignPosition);
-          string stringAfterEqualsSign =
-            currentOptionName.substr (equalsSignPosition + 1);
-
-          // prefixes have precedence over options with optional values
-          S_oahPrefix
-            prefix =
-              fetchPrefixFromMap (name);
-
-          if (prefix) {
-            // handle prefix name
-#ifdef TRACE_OAH
-            if (gTraceOah->fTraceOah) {
-              printKnownPrefixes ();
-            }
-#endif
-            handlePrefixName (
-              name,
-              equalsSignPosition,
-              stringAfterEqualsSign);
-          }
-
-          else {
-            // name is not the name of prefix
-
-            // is is the name of an option?
-            S_oahElement
-              element =
-                fetchOptionByName (name);
-
-            if (element) {
-              // name is the name of an option
-              if (
-                // oahStringWithDefaultValueAtom?
-                S_oahStringWithDefaultValueAtom
-                  stringWithDefaultValueAtom =
-                    dynamic_cast<oahStringWithDefaultValueAtom*>(&(*element))
-              ) {
-#ifdef TRACE_OAH
-                if (gTraceOah->fTraceOah) {
-                  fHandlerLogOstream <<
-                    "==> option '" <<
-                    name <<
-                    "' is a stringWithDefaultValueAtom" <<
-                    endl;
-                }
-#endif
-
-                // handle the stringWithDefaultValueAtom
-                switch (fHandlerOptionalValuesStyleKind) {
-                  case kOptionalValuesStyleGNU: // default value
-                    stringWithDefaultValueAtom->
-                      handleValue (
-                        stringAfterEqualsSign,
-                        fHandlerLogOstream);
-                    break;
-                  case kOptionalValuesStyleOAH:
-                    {
-                      stringstream s;
-
-                      s <<
-                        "option name '" << name <<
-                        "' cannot be used with a '=' in OAH optional values style";
-
-                      oahError (s.str ());
-                      exit (6);
-                    }
-                    break;
-                } // switch
-              }
-              else {
-                // name is not the name an a stringWithDefaultValueAtom
-                stringstream s;
-
-                s <<
-                  "option name '" << name <<
-                  "' cannot doesn't have default value and thus cannot be used with a '='";
-
-                oahError (s.str ());
-                exit (6);
-              }
-            }
-
-            else {
-              // name is not the name of an option
-              stringstream s;
-
-              s <<
-                "option name '" << name <<
-                "' is not the name of an option FOO";
-
-              oahError (s.str ());
-              exit (6);
-            }
-          }
-        }
-
-        else {
-          // no, there's no equal sign
-          // handle the current option name
-          handleOptionName (currentOptionName);
-        }
-
-        lastOptionNameFound = currentOptionName;
+        lastOptionNameFound =
+          decipherOption (
+            currentString);
       }
+
+
     }
 
     else {
-      // currentString is no oahElement
-
-      // is it a single-character options cluster?
-      if (optionNameIsASingleCharacterOptionsCluster (currentString)) {
-        // the options contained in currentString have been handled already
-      }
-      else {
-        // currentString is an atom value or an argument
-        handleOptionValueOrArgument (currentString);
-      }
+      // currentString is no oahElement:
+      // it is an atom value or an argument
+      handleOptionValueOrArgument (currentString);
     }
 
     // next please

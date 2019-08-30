@@ -8358,6 +8358,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
     ) {
       // this is a clef change, comment it
 
+#ifdef TRACE_OAH
       if (gTraceOah->fTraceClefs) {
         gLogOstream <<
           "Commenting clef change from " <<
@@ -8366,6 +8367,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
           elt->asShortString () <<
           endl;
       }
+#endif
 
       fLilypondCodeOstream << "% ";
     }
