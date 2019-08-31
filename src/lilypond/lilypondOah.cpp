@@ -483,7 +483,6 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-
 //     exit (4); // JMI
     abort ();
   }

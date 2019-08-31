@@ -1356,7 +1356,7 @@ R"()",
       oahPrefix::create (
         "dr",
         "dr",
-        "'-dr=abc,xywx,yz' is equivalent to '-drabc, -drxywx, -dryz'");
+        "'-dr=abc,yz' is equivalent to '-drabc, -dryz'");
   fHandlerUpLink->
     appendPrefixToHandler (shortDelayRestsPrefix);
 
@@ -1367,7 +1367,7 @@ R"()",
       oahPrefix::create (
         "delay-rests",
         "delay-rests-",
-        "'-delay-rests=abc,xywx,yz' is equivalent to '-delay-rests-abc, -delay-rests-xywx, -delay-rests-yz'");
+        "'-delay-rests=abc,yz' is equivalent to '-delay-rests-abc, -delay-rests-yz'");
   fHandlerUpLink->
     appendPrefixToHandler (longDelayRestsPrefix);
 

@@ -179,6 +179,12 @@ void xml2brlVersionOahAtom::printVersion (ostream& os) const
 
   // print versions history
   printVersionsHistory (os);
+
+  // register 'print version' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void xml2brlVersionOahAtom::printAtomOptionsValues (
@@ -567,7 +573,7 @@ Option '-h, -help' prints the full help,
       oahPrefix::create (
         "help",
         "help-",
-        "'-help=abc,xywx-yz' is equivalent to '-help-abc, -help-xywx-yz'");
+        "'-help=abc,yz' is equivalent to '-help-abc, -help-yz'");
   appendPrefixToHandler (helpPrefix);
 
   S_oahPrefix
@@ -584,7 +590,7 @@ Option '-h, -help' prints the full help,
       oahPrefix::create (
         "trace",
         "trace-",
-        "'-trace=abc,xywx-yz' is equivalent to '-trace-abc, -trace-xywx-yz'");
+        "'-trace=abc,yz' is equivalent to '-trace-abc, -trace-yz'");
   appendPrefixToHandler (tracePrefix);
 
   S_oahPrefix
@@ -825,9 +831,9 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
       } // switch
     }
 
-    // append '.txt' extension
+    // append '.brl' extension
     potentialOutputFileName +=
-      ".txt";
+      ".brl";
   }
 
   // check auto output file option usage
@@ -843,7 +849,6 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         "cannot be chosen simultaneously";
 
       oahError (s.str ());
-
       exit (3);
     }
 
@@ -856,7 +861,6 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         "cannot be used when reading from standard input";
 
       oahError (s.str ());
-
       exit (4);
     }
 
@@ -1132,7 +1136,7 @@ R"()",
       appendAtomToSubGroup (
         xml2brlVersionOahAtom::create (
           "v", "version",
-R"(Display xml2brl's version number and history and exit.)"));
+R"(Display xml2brl's version number and history.)"));
   }
 
 
@@ -1157,7 +1161,7 @@ R"()",
       appendAtomToSubGroup (
         xml2brlAboutOahAtom::create (
           "a", "about",
-R"(Display information about xml2brl and exit.)"));
+R"(Display information about xml2brl.)"));
   }
 
 
@@ -1182,7 +1186,7 @@ R"()",
       appendAtomToSubGroup (
         xml2brlContactOahAtom::create (
           "c", "contact",
-R"(Display information about how to contacct xml2brl maintainers and exit.)"));
+R"(Display information about how to contacct xml2brl maintainers.)"));
   }
 
 

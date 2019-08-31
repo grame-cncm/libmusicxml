@@ -477,12 +477,11 @@ R"()",
 
   traceAndDisplaySubGroup->
     appendAtomToSubGroup (
-      oahTwoBooleansAtom::create (
+      oahBooleanAtom::create (
         "dbsr", "display-bsr",
 R"(Write the contents of the BSR data to standard error.)",
         "displayBsr",
-        fDisplayBsr,
-        gBsrOah->fDisplayBsr));
+        fDisplayBsr));
 
   // BSR details
 
@@ -495,7 +494,7 @@ R"(Write the contents of the BSR data to standard error.)",
 R"(Write the contents of the BSR data with more details to standard error.)",
         "displayBsrDetails",
         fDisplayBsrDetails,
-        gBsrOah->fDisplayBsrDetails));
+        fDisplayBsr));
 }
 
 void bsrOah::initializeBsrLanguagesOptions (
@@ -579,6 +578,54 @@ R"()",
 
   appendSubGroupToGroup (miscellaneousGenerationSubGroup);
 
+  // braille music headings
+
+  fNoBrailleMusicHeadings      = boolOptionsInitialValue;
+
+  miscellaneousGenerationSubGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nmh", "no-music-headings",
+R"(Don't generate any music headings in the Braille code.)",
+        "noBrailleMusicHeadings",
+        fNoBrailleMusicHeadings));
+
+  // braille tempos
+
+  fNoTempos      = boolOptionsInitialValue;
+
+  miscellaneousGenerationSubGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nt", "no-tempos",
+R"(Don't generate any tempos in the Braille code.)",
+        "noTempos",
+        fNoTempos));
+
+  // braille page numbers
+
+  fNoBraillePageNumbers      = boolOptionsInitialValue;
+
+  miscellaneousGenerationSubGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "npn", "no-page-numbers",
+R"(Don't generate any page numbers in the Braille code.)",
+        "noBraillePageNumbers",
+        fNoBraillePageNumbers));
+
+  // braille line numbers
+
+  fNoBrailleLineNumbers      = boolOptionsInitialValue;
+
+  miscellaneousGenerationSubGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nln", "no-line-numbers",
+R"(Don't generate any line numbers in the Braille code.)",
+        "noBrailleLineNumbers",
+        fNoBrailleLineNumbers));
+
   // braille lyrics
 
   fNoBrailleLyrics      = boolOptionsInitialValue;
@@ -586,7 +633,7 @@ R"()",
   miscellaneousGenerationSubGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "nolpl", "no-braille-lyrics",
+        "nl", "no-lyrics",
 R"(Don't generate any lyrics in the Braille code.)",
         "noBrailleLyrics",
         fNoBrailleLyrics));
@@ -997,15 +1044,33 @@ void bsrOah::printBsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
+    setw (fieldWidth) << "noBrailleMusicHeadings" << " : " <<
+      booleanAsString (fNoBrailleMusicHeadings) <<
+      endl <<
+
+    setw (fieldWidth) << "noTempos" << " : " <<
+      booleanAsString (fNoTempos) <<
+      endl <<
+
+    setw (fieldWidth) << "noBraillePageNumbers" << " : " <<
+      booleanAsString (fNoBraillePageNumbers) <<
+      endl <<
+    setw (fieldWidth) << "noBrailleLineNumbers" << " : " <<
+      booleanAsString (fNoBrailleLineNumbers) <<
+      endl <<
+
     setw (fieldWidth) << "noBrailleLyrics" << " : " <<
       booleanAsString (fNoBrailleLyrics) <<
       endl <<
+
     setw (fieldWidth) << "brailleCompileDate" << " : " <<
       booleanAsString (fBrailleCompileDate) <<
       endl <<
+
     setw (fieldWidth) << "facSimileKind" << " : " <<
       booleanAsString (fFacSimileKind) <<
       endl <<
+
     setw (fieldWidth) << "includeClefs" << " : " <<
       booleanAsString (fIncludeClefs) <<
       endl;

@@ -178,6 +178,12 @@ void xml2lyVersionOahAtom::printVersion (ostream& os) const
 
   // print versions history
   printVersionsHistory (os);
+
+  // register 'print version' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void xml2lyVersionOahAtom::printAtomOptionsValues (
@@ -558,7 +564,7 @@ Option '-h, -help' prints the full help,
       oahPrefix::create (
         "help",
         "help-",
-        "'-help=abc,xywx-yz' is equivalent to '-help-abc, -help-xywx-yz'");
+        "'-help=abc,yz' is equivalent to '-help-abc, -help-yz'");
   appendPrefixToHandler (helpPrefix);
 
   S_oahPrefix
@@ -575,7 +581,7 @@ Option '-h, -help' prints the full help,
       oahPrefix::create (
         "trace",
         "trace-",
-        "'-trace=abc,xywx-yz' is equivalent to '-trace-abc, -trace-xywx-yz'");
+        "'-trace=abc,yz' is equivalent to '-trace-abc, -trace-yz'");
   appendPrefixToHandler (tracePrefix);
 
   S_oahPrefix
@@ -790,7 +796,6 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         "cannot be chosen simultaneously";
 
       oahError (s.str ());
-
       exit (3);
     }
 
@@ -803,7 +808,6 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         "cannot be used when reading from standard input";
 
       oahError (s.str ());
-
       exit (4);
     }
 
@@ -1144,7 +1148,7 @@ R"()",
       appendAtomToSubGroup (
         xml2lyVersionOahAtom::create (
           "v", "version",
-R"(Display xml2ly's version number and history and exit.)"));
+R"(Display xml2ly's version number and history.)"));
   }
 
 
@@ -1169,7 +1173,7 @@ R"()",
       appendAtomToSubGroup (
         xml2lyAboutOahAtom::create (
           "a", "about",
-R"(Display information about xml2ly and exit.)"));
+R"(Display information about xml2ly.)"));
   }
 
 
@@ -1194,7 +1198,7 @@ R"()",
       appendAtomToSubGroup (
         xml2lyContactOahAtom::create (
           "c", "contact",
-R"(Display information about how to contacct xml2ly maintainers and exit.)"));
+R"(Display information about how to contacct xml2ly maintainers.)"));
   }
 
 

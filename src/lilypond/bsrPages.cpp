@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -44,7 +44,7 @@ bsrPage::bsrPage (
 {
   fPrintPageNumber   = printPageNumber;
   fBraillePageNumber = fPrintPageNumber; // this will be set by BSR finalizer
-  
+
   fLinesPerPage = linesPerPage;
 
 #ifdef TRACE_OAH
@@ -83,7 +83,7 @@ S_bsrPage bsrPage::createPageNewbornClone ()
   // braille line number
   newbornClone->fBraillePageNumber =
     fBraillePageNumber;
-    
+
   return newbornClone;
 }
 
@@ -110,12 +110,12 @@ void bsrPage::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrPage>*
     p =
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -141,7 +141,7 @@ void bsrPage::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -176,7 +176,7 @@ string bsrPage::asString () const
     ", linesPerPage" << " : " << fLinesPerPage <<
     ", elements: " << fPageElementsList.size () <<
     ", line " << fInputLineNumber;
-    
+
   return s.str ();
 }
 
@@ -184,19 +184,22 @@ void bsrPage::print (ostream& os)
 {
   os <<
     "Page" <<
+    ", printPageNumber: " << fPrintPageNumber <<
     ", lineContentsNumber: " << fetchLineContentsNumber () <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
   // print the page numbers
   const int fieldWidth = 18;
-  
+
   os << left <<
+  /* JMI
     setw (fieldWidth) <<
     "printPageNumber" << " : " << fPrintPageNumber <<
     endl <<
+    */
     setw (fieldWidth) <<
     "braillePageNumber" << " : " << fBraillePageNumber <<
     endl <<
@@ -204,10 +207,10 @@ void bsrPage::print (ostream& os)
     "linesPerPage" << " : " << fLinesPerPage <<
     endl;
   os << endl;
-    
+
   // print the page elements if any
   int pageElementsListSize = fPageElementsList.size ();
-  
+
   if (pageElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
@@ -218,7 +221,7 @@ void bsrPage::print (ostream& os)
     if (pageElementsListSize) {
       os << endl;
       gIndenter++;
-  
+
       list<S_bsrPageElement>::const_iterator
         iBegin = fPageElementsList.begin (),
         iEnd   = fPageElementsList.end (),
@@ -228,7 +231,7 @@ void bsrPage::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-          
+
       gIndenter--;
     }
     else {

@@ -132,9 +132,7 @@ void lpsrScoreOutputKindAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-
-//     exit (4); // JMI
-    abort ();
+    exit (4); // JMI
   }
 
   setLpsrScoreOutputKindVariable (
@@ -373,9 +371,7 @@ void lpsrPitchesLanguageAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-
-//     exit (4); // JMI
-    abort ();
+    exit (4); // JMI
   }
 
   setMsrQuarterTonesPitchesLanguageKindVariable (
@@ -1954,7 +1950,6 @@ void lpsrOah::crackLilypondVersionNumber (
         "' is ill-formed";
 
       oahError (s.str ());
-
       exit (4);
     }
   }

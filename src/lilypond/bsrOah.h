@@ -316,6 +316,13 @@ class bsrOah : public oahGroup
     // miscellaneous
     // --------------------------------------
 
+    bool                  fNoBrailleMusicHeadings;
+
+    bool                  fNoTempos;
+
+    bool                  fNoBraillePageNumbers;
+    bool                  fNoBrailleLineNumbers;
+
     bool                  fNoBrailleLyrics;
 
     bool                  fBrailleCompileDate;

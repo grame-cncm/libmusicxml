@@ -1659,16 +1659,18 @@ void msr2BsrTranslator::visitStart (S_msrTempo& elt)
   }
 #endif
 
-  // create the BSR tempo
-  S_bsrTempo
-    tempo =
-      bsrTempo::create (
-        inputLineNumber,
-        elt);
+  if (! gBsrOah->fNoTempos) {
+    // create the BSR tempo
+    S_bsrTempo
+      tempo =
+        bsrTempo::create (
+          inputLineNumber,
+          elt);
 
-  // append the BSR tempo to the current measure
-  fCurrentLine->
-    appendTempoToLine (tempo);
+    // append the BSR tempo to the current measure
+    fCurrentLine->
+      appendTempoToLine (tempo);
+  }
 }
 
 void msr2BsrTranslator::visitEnd (S_msrTempo& elt)

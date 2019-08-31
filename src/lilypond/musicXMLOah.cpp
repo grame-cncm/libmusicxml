@@ -269,7 +269,7 @@ R"()",
       oahPrefix::create (
         "ir",
         "ir",
-        "'-ir=abc,xywx,yz' is equivalent to '-irabc, -irxywx, -iryz'");
+        "'-ir=abc,yz' is equivalent to '-irabc, -iryz'");
   fHandlerUpLink->
     appendPrefixToHandler (shortIgnoreRedundantPrefix);
 
@@ -280,7 +280,7 @@ R"()",
       oahPrefix::create (
         "ignore-redundant",
         "ignore-redundant-",
-        "'-ignore-redundant=abc,xywx,yz' is equivalent to '-ignore-redundant-abc, -ignore-redundant-xywx, -ignore-redundant-yz'");
+        "'-ignore-redundant=abc,yz' is equivalent to '-ignore-redundant-abc, -ignore-redundant-yz'");
   fHandlerUpLink->
     appendPrefixToHandler (longIgnoreRedundantPrefix);
 

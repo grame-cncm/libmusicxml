@@ -65,226 +65,228 @@ S_bsrCellsList bsrTempo::buildCellsList () const
       bsrCellsList::create (
         fInputLineNumber, kCellWordSign);
 
-  switch (fMsrTempo->getTempoKind ()) {
-    case msrTempo::k_NoTempoKind:
-      break;
+  if (! gBsrOah->fNoTempos) {
+    switch (fMsrTempo->getTempoKind ()) {
+      case msrTempo::k_NoTempoKind:
+        break;
 
-    case msrTempo::kTempoBeatUnitsWordsOnly:
-      break;
+      case msrTempo::kTempoBeatUnitsWordsOnly:
+        break;
 
-    case msrTempo::kTempoBeatUnitsPerMinute:
-      {
-        // fetch MSR tempo attributes
-        const list<S_msrWords>&
-          tempoWordsList =
-            fMsrTempo->getTempoWordsList ();
+      case msrTempo::kTempoBeatUnitsPerMinute:
+  if (false)      { // JMI
+          // fetch MSR tempo attributes
+          const list<S_msrWords>&
+            tempoWordsList =
+              fMsrTempo->getTempoWordsList ();
 
-        msrDottedDuration
-          tempoDottedDuration =
-            fMsrTempo->getTempoBeatUnit ();
+          msrDottedDuration
+            tempoDottedDuration =
+              fMsrTempo->getTempoBeatUnit ();
 
-        // handle tempo words
-        int tempoWordsListSize = tempoWordsList.size ();
+          // handle tempo words
+          int tempoWordsListSize = tempoWordsList.size ();
 
-        if (tempoWordsListSize) {
-          list<S_msrWords>::const_iterator
-            iBegin = tempoWordsList.begin (),
-            iEnd   = tempoWordsList.end (),
-            i      = iBegin;
+          if (tempoWordsListSize) {
+            list<S_msrWords>::const_iterator
+              iBegin = tempoWordsList.begin (),
+              iEnd   = tempoWordsList.end (),
+              i      = iBegin;
 
-          for ( ; ; ) {
-            S_msrWords words = (*i);
+            for ( ; ; ) {
+              S_msrWords words = (*i);
 
-//            fLilypondCodeOstream <<
-   //           "\"" << words->getWordsContents () << "\"";
+  //            fLilypondCodeOstream <<
+     //           "\"" << words->getWordsContents () << "\"";
 
-            if (++i == iEnd) break;
+              if (++i == iEnd) break;
 
-     //       fLilypondCodeOstream <<
-     //         " ";
-          } // for
-        }
-
-        // handle tempo duration and continuation dots number
-        msrDurationKind
-          durationKind =
-            tempoDottedDuration.getDurationKind ();
-        int
-          dotsNumber =
-            tempoDottedDuration.getDotsNumber ();
-
-        // determine the note sign
-        bsrNote::bsrNoteValueKind
-          noteValueKind = bsrNote::kNoteValueNone;
-
-        switch (durationKind) {
-          case k_NoDuration:
-            break;
-
-          case k1024th:
-            break;
-          case k512th:
-            break;
-          case k256th:
-            noteValueKind = bsrNote::kNoteValueC256th;
-            break;
-          case k128th:
-            noteValueKind = bsrNote::kNoteValueC128th;
-            break;
-          case k64th:
-            noteValueKind = bsrNote::kNoteValueC64th;
-            break;
-          case k32nd:
-            noteValueKind = bsrNote::kNoteValueC32nd;
-            break;
-          case k16th:
-            noteValueKind = bsrNote::kNoteValueC16th;
-            break;
-          case kEighth:
-            noteValueKind = bsrNote::kNoteValueC8th;
-            break;
-          case kQuarter:
-            noteValueKind = bsrNote::kNoteValueCQuarter;
-            break;
-          case kHalf:
-            noteValueKind = bsrNote::kNoteValueCHalf;
-            break;
-          case kWhole:
-            noteValueKind = bsrNote::kNoteValueCWhole;
-            break;
-          case kBreve:
-            noteValueKind = bsrNote::kNoteValueCBreve;
-            break;
-          case kLong:
-            break;
-          case kMaxima:
-            break;
-        } // switch
-
-        // create a note to represent the duration
-        S_bsrNote
-          bNote =
-            bsrNote::create (
-              fInputLineNumber,
-              noteValueKind,
-              dotsNumber,
-              bsrNote::kNoteOctaveNone,
-              bsrNote::kNoteOctaveIsNeededNo,
-              bsrNote::kNoteAccidentalNone);
-
-        // append its cells to result
-        result->
-          appendCellsListToCellsList (
-            bNote->fetchCellsList ());
-
-        // append an equals to result
-        result->
-          appendCellKindToCellsList (
-            kCellTempoEquals);
-
-        // handle per minute value
-        string
-          tempoPerMinuteString =
-            fMsrTempo->getTempoPerMinute ();
-
-        int
-          perMinuteMin = -1,
-          perMinuteMax = -1; // may be absent
-
-        // decipher it to extract min and max values
-        string regularExpression (
-          "[[:space:]]*([[:digit:]]+)[[:space:]]*"
-          "-"
-          "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-
-        regex e (regularExpression);
-        smatch sm;
-
-        regex_match (tempoPerMinuteString, sm, e);
-
-        unsigned smSize = sm.size ();
-
-        if (smSize == 3) {
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-            gLogOstream <<
-              "There are " << smSize << " matches" <<
-              " for rational string '" << tempoPerMinuteString <<
-              "' with regex '" << regularExpression <<
-              "'" <<
-              endl;
-
-            for (unsigned i = 0; i < smSize; ++i) {
-              gLogOstream <<
-                "[" << sm [i] << "] ";
+       //       fLilypondCodeOstream <<
+       //         " ";
             } // for
-
-            gLogOstream << endl;
           }
-#endif
 
-          {
-            stringstream s;
-            s << sm [1];
-            s >> perMinuteMin;
-          }
-          {
-            stringstream s;
-            s << sm [2];
-            s >> perMinuteMax;
-          }
-        }
+          // handle tempo duration and continuation dots number
+          msrDurationKind
+            durationKind =
+              tempoDottedDuration.getDurationKind ();
+          int
+            dotsNumber =
+              tempoDottedDuration.getDotsNumber ();
 
-        else if (smSize == 2) { // JMI
-          perMinuteMin = stoi (tempoPerMinuteString);
-        }
+          // determine the note sign
+          bsrNote::bsrNoteValueKind
+            noteValueKind = bsrNote::kNoteValueNone;
 
-        else {
-          // JMI
-        }
+          switch (durationKind) {
+            case k_NoDuration:
+              break;
 
-        // create a number to represent perMinuteMin
-        S_bsrNumber
-          perMinuteNumber =
-            bsrNumber::create (
-              fInputLineNumber,
-              perMinuteMin,
-              bsrNumber::kNumberSignIsNeededYes);
+            case k1024th:
+              break;
+            case k512th:
+              break;
+            case k256th:
+              noteValueKind = bsrNote::kNoteValueC256th;
+              break;
+            case k128th:
+              noteValueKind = bsrNote::kNoteValueC128th;
+              break;
+            case k64th:
+              noteValueKind = bsrNote::kNoteValueC64th;
+              break;
+            case k32nd:
+              noteValueKind = bsrNote::kNoteValueC32nd;
+              break;
+            case k16th:
+              noteValueKind = bsrNote::kNoteValueC16th;
+              break;
+            case kEighth:
+              noteValueKind = bsrNote::kNoteValueC8th;
+              break;
+            case kQuarter:
+              noteValueKind = bsrNote::kNoteValueCQuarter;
+              break;
+            case kHalf:
+              noteValueKind = bsrNote::kNoteValueCHalf;
+              break;
+            case kWhole:
+              noteValueKind = bsrNote::kNoteValueCWhole;
+              break;
+            case kBreve:
+              noteValueKind = bsrNote::kNoteValueCBreve;
+              break;
+            case kLong:
+              break;
+            case kMaxima:
+              break;
+          } // switch
 
-        // append its cells to result
-        result->
-          appendCellsListToCellsList (
-            perMinuteNumber->getNumberCellsList ());
+          // create a note to represent the duration
+          S_bsrNote
+            bNote =
+              bsrNote::create (
+                fInputLineNumber,
+                noteValueKind,
+                dotsNumber,
+                bsrNote::kNoteOctaveNone,
+                bsrNote::kNoteOctaveIsNeededNo,
+                bsrNote::kNoteAccidentalNone);
 
-        if (perMinuteMax > 0) {
-          // append a hyphen to result
+          // append its cells to result
+          result->
+            appendCellsListToCellsList (
+              bNote->fetchCellsList ());
+
+          // append an equals to result
           result->
             appendCellKindToCellsList (
-              kCellTempoHyphen);
+              kCellTempoEquals);
 
-          // create a number to represent perMinuteMax
+          // handle per minute value
+          string
+            tempoPerMinuteString =
+              fMsrTempo->getTempoPerMinute ();
+
+          int
+            perMinuteMin = -1,
+            perMinuteMax = -1; // may be absent
+
+          // decipher it to extract min and max values
+          string regularExpression (
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+            "-"
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+
+          regex e (regularExpression);
+          smatch sm;
+
+          regex_match (tempoPerMinuteString, sm, e);
+
+          unsigned smSize = sm.size ();
+
+          if (smSize == 3) {
+  #ifdef TRACE_OAH
+            if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+              gLogOstream <<
+                "There are " << smSize << " matches" <<
+                " for rational string '" << tempoPerMinuteString <<
+                "' with regex '" << regularExpression <<
+                "'" <<
+                endl;
+
+              for (unsigned i = 0; i < smSize; ++i) {
+                gLogOstream <<
+                  "[" << sm [i] << "] ";
+              } // for
+
+              gLogOstream << endl;
+            }
+  #endif
+
+            {
+              stringstream s;
+              s << sm [1];
+              s >> perMinuteMin;
+            }
+            {
+              stringstream s;
+              s << sm [2];
+              s >> perMinuteMax;
+            }
+          }
+
+          else if (smSize == 2) { // JMI
+            perMinuteMin = stoi (tempoPerMinuteString);
+          }
+
+          else {
+            // JMI
+          }
+
+          // create a number to represent perMinuteMin
           S_bsrNumber
             perMinuteNumber =
               bsrNumber::create (
                 fInputLineNumber,
-                perMinuteMax,
+                perMinuteMin,
                 bsrNumber::kNumberSignIsNeededYes);
 
-          // append a
           // append its cells to result
           result->
             appendCellsListToCellsList (
               perMinuteNumber->getNumberCellsList ());
+
+          if (perMinuteMax > 0) {
+            // append a hyphen to result
+            result->
+              appendCellKindToCellsList (
+                kCellTempoHyphen);
+
+            // create a number to represent perMinuteMax
+            S_bsrNumber
+              perMinuteNumber =
+                bsrNumber::create (
+                  fInputLineNumber,
+                  perMinuteMax,
+                  bsrNumber::kNumberSignIsNeededYes);
+
+            // append a
+            // append its cells to result
+            result->
+              appendCellsListToCellsList (
+                perMinuteNumber->getNumberCellsList ());
+          }
         }
-      }
-      break;
+        break;
 
-    case msrTempo::kTempoBeatUnitsEquivalence:
-      break;
+      case msrTempo::kTempoBeatUnitsEquivalence:
+        break;
 
-    case msrTempo::kTempoNotesRelationShip:
-      break;
-  } // switch
+      case msrTempo::kTempoNotesRelationShip:
+        break;
+    } // switch
+  }
 
   return result;
 }

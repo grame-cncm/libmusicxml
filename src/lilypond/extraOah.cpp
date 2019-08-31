@@ -273,7 +273,6 @@ void extraShowAllChordsContentsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-
         exit (4);
       }
       break;
@@ -317,7 +316,6 @@ void extraShowAllChordsContentsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-
         exit (4);
       }
   } // switch
@@ -597,7 +595,6 @@ void extraShowChordDetailsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-
         exit (4);
       }
       break;
@@ -641,7 +638,6 @@ void extraShowChordDetailsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-
         exit (4);
       }
   } // switch
@@ -934,7 +930,6 @@ void extraShowChordAnalysisAtom::handleValue (
           endl;
 
         oahError (s.str ());
-
         exit (4);
       }
       break;
@@ -978,7 +973,6 @@ void extraShowChordAnalysisAtom::handleValue (
           endl;
 
         oahError (s.str ());
-
         exit (4);
       }
   } // switch
@@ -1000,7 +994,6 @@ void extraShowChordAnalysisAtom::handleValue (
       endl;
 
     oahError (s.str ());
-
     exit (4);
   }
 
@@ -1012,7 +1005,7 @@ void extraShowChordAnalysisAtom::handleValue (
     inversion);
 
   // exit
-  exit (23);
+  exit (23); // JMI
 }
 
 void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)

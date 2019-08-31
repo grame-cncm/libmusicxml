@@ -92,7 +92,7 @@ namespace MusicXML2
   This file declares classes that cannot be placed in 'individual' headers
   due to mutual dependencies, which C++ requires to be in one and the same file.
 
-  It includes the corresponding *_MUT_DEP.h files,
+  It includes the corresponding msr*_MUT_DEP.h files,
   which are meant to be included only in this one.
 */
 

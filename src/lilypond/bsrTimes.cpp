@@ -331,13 +331,15 @@ S_bsrCellsList bsrTime::buildCellsList () const
       break;
 
     case bsrTime::kTimeCommon:
-      result->appendCellKindToCellsList (kDots46);
-      result->appendCellKindToCellsList (kDots14);
+      result->appendCellKindToCellsList (kCellNumberSign);
+      result->appendCellKindToCellsList (kCell4);
+      result->appendCellKindToCellsList (kCellLower4);
       break;
 
     case bsrTime::kTimeCut:
-      result->appendCellKindToCellsList (kDots456);
-      result->appendCellKindToCellsList (kDots14);
+      result->appendCellKindToCellsList (kCellNumberSign);
+      result->appendCellKindToCellsList (kCell2);
+      result->appendCellKindToCellsList (kCellLower2);
       break;
 
     case bsrTime::kTimeNumerical: // JMI ???

@@ -1820,7 +1820,6 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
         "' is not that of an atom";
 
       oahError (s.str ());
-
       exit (2);
     }
   }
@@ -2270,22 +2269,24 @@ string oahPrefix::prefixNamesInColumnsBetweenParentheses (
 
 void oahPrefix::printPrefixHeader (ostream& os) const
 {
+/* JMI
   os <<
     "'" << fPrefixName <<
     "' translates to '" << fPrefixErsatz <<
     "':" <<
     endl;
+*/
 
   if (fPrefixDescription.size ()) {
     // indent a bit more for readability
-    gIndenter++;
+ //   gIndenter++;
 
     os <<
       gIndenter.indentMultiLineString (
         fPrefixDescription) <<
       endl;
 
-    gIndenter--;
+ //   gIndenter--;
   }
 }
 
@@ -2621,7 +2622,6 @@ void oahMultiplexBooleansAtom::addBooleanAtomByName (
         "' is not that of an atom";
 
       oahError (s.str ());
-
       exit (2);
     }
   }
@@ -4056,7 +4056,6 @@ void oahMonoplexStringAtom::addStringAtomByName (
         "' is not that of an atom";
 
       oahError (s.str ());
-
       exit (2);
     }
   }
@@ -8508,11 +8507,9 @@ void oahHandler::printOptionsDefaultValuesInformation () const
   gIndenter++;
 
   fHandlerLogOstream  <<
+    fHandlerExecutableName <<
     gIndenter.indentMultiLineString (
-R"(this is possible only if such an option is followed by another option
-or it is the last one in the command line;
-otherwise the following argument, typically a file name,
-would be taken as the option value.)") <<
+R"( supports two styles for this, see '-ovs, -optional-values-style' option.)") <<
     endl;
 
   gIndenter--;

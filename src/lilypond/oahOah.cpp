@@ -441,7 +441,15 @@ R"(Print the options and arguments to EXECUTABLE.)",
               replaceSubstringInString (
 R"(The NUMBER OAH optional values STYLEs available are:
 OPTIONAL_VALUES_STYLES.
-The default is 'DEFAULT_VALUE'.)",
+The default is 'DEFAULT_VALUE'.
+In GNU style:
+  - the options name alone used the default value;
+  - another value can be supplied with '=VALUE' right after the option name,
+    without any space in-between.
+InOAH style:
+  - the option name followed by another option or that is the last one
+    in the command line uses the default value;
+  - otherwise, the following argument supplies the option value.)",
               "NUMBER",
               to_string (gOahOptionalValuesStyleKindsMap.size ())),
             "OPTIONAL_VALUES_STYLES",

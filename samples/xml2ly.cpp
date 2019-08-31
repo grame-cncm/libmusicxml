@@ -474,7 +474,7 @@ void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    exit (444);
+ // JMI   exit (444);
   }
 
 
@@ -488,7 +488,7 @@ void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    exit (555);
+ // JMI   exit (555);
   }
 
 

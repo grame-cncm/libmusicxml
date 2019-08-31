@@ -640,30 +640,32 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
     result =
       bsrCellsList::create (fInputLineNumber);
 
-  // create the print line number
-  S_bsrNumber
-    printLineNumber =
-      bsrNumber::create (
-        fInputLineNumber,
-        fPrintLineNumber,
-        bsrNumber::kNumberSignIsNeededYes);
-
-  // append it to result
-  result->appendCellsListToCellsList (
-    printLineNumber->fetchCellsList ());
-
-  if (fBrailleLineNumber != fPrintLineNumber) { // JMI
-    // create the braille line number
+  if (! gBsrOah->fNoBrailleLineNumbers) {
+    // create the print line number
     S_bsrNumber
-      brailleLineNumber =
+      printLineNumber =
         bsrNumber::create (
           fInputLineNumber,
-          fBrailleLineNumber,
+          fPrintLineNumber,
           bsrNumber::kNumberSignIsNeededYes);
 
     // append it to result
     result->appendCellsListToCellsList (
-      brailleLineNumber->fetchCellsList ());
+      printLineNumber->fetchCellsList ());
+
+    if (fBrailleLineNumber != fPrintLineNumber) { // JMI
+      // create the braille line number
+      S_bsrNumber
+        brailleLineNumber =
+          bsrNumber::create (
+            fInputLineNumber,
+            fBrailleLineNumber,
+            bsrNumber::kNumberSignIsNeededYes);
+
+      // append it to result
+      result->appendCellsListToCellsList (
+        brailleLineNumber->fetchCellsList ());
+    }
   }
 
   return result;
@@ -769,6 +771,7 @@ void bsrLine::print (ostream& os)
 
   os <<
     "Line" <<
+    ", printLineNumber: " << fPrintLineNumber <<
     ", " <<
     singularOrPlural (
       lineContentsListSize, "lineContent", "lineContents") <<
@@ -777,12 +780,14 @@ void bsrLine::print (ostream& os)
   gIndenter++;
 
   // print the line numbers
-  const int fieldWidth = 18;
+  const int fieldWidth = 20;
 
   os << left <<
+  /* JMI
     setw (fieldWidth) <<
     "printLineNumber" << " : " << fPrintLineNumber <<
     endl <<
+    */
     setw (fieldWidth) <<
     "brailleLineNumber" << " : " << fBrailleLineNumber <<
     endl <<

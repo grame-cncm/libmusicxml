@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -89,12 +89,12 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrMusicHeading>*
     p =
       dynamic_cast<visitor<S_bsrMusicHeading>*> (v)) {
         S_bsrMusicHeading elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -120,7 +120,7 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrMusicHeading>*> (v)) {
         S_bsrMusicHeading elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -212,7 +212,7 @@ string bsrMusicHeading::asString () const
 
   s <<
     ", line " << fInputLineNumber;
-    
+
   return s.str ();
 }
 
@@ -222,7 +222,7 @@ void bsrMusicHeading::print (ostream& os)
     "MusicHeading" <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
 // JMI  const int fieldWidth = 22;
@@ -233,10 +233,10 @@ void bsrMusicHeading::print (ostream& os)
     os << endl;
 
     gIndenter++;
-  
+
     os <<
       fMusicHeadingTempo;
-  
+
     gIndenter--;
   }
   else {
@@ -244,17 +244,17 @@ void bsrMusicHeading::print (ostream& os)
       "none" <<
       endl;
   }
-  
+
   os <<
     "musicHeadingKey: ";
   if (fMusicHeadingKey) {
     os << endl;
 
     gIndenter++;
-  
+
     os <<
       fMusicHeadingKey;
-  
+
     gIndenter--;
   }
   else {
@@ -262,17 +262,17 @@ void bsrMusicHeading::print (ostream& os)
       "none" <<
       endl;
   }
-  
+
   os <<
     "musicHeadingTime: ";
   if (fMusicHeadingTime) {
     os << endl;
 
     gIndenter++;
-  
+
     os <<
       fMusicHeadingTime;
-  
+
     gIndenter--;
   }
   else {
@@ -289,7 +289,7 @@ void bsrMusicHeading::print (ostream& os)
     buildCellsList () <<
     endl;
   gIndenter--;
-  
+
   gIndenter--;
 }
 
