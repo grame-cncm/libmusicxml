@@ -1552,6 +1552,18 @@ R"()",
 R"(Add stanzas numbers to lyrics.)",
         "addStanzasNumbers",
         fAddStanzasNumbers));
+
+  // no MSR lyrics
+
+  fNoMsrLyrics  = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nml", "no-msr-lyrics",
+R"(Don't create lyrics in the MSR.)",
+        "noMsrLyrics",
+        fNoMsrLyrics));
 }
 
 void msrOah::initializeMsrHarmoniesOptions (
@@ -1579,6 +1591,18 @@ R"(Show the parts harmony voices in the MSR data
 even though it does not contain music.)",
         "showHarmonyVoices",
         fShowHarmonyVoices));
+
+  // no MSR harmonies
+
+  fNoMsrHarmonies      = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nmh", "no-msr-harmonies",
+R"(Don't create harmonies in the MSR.)",
+        "noMsrHarmonies",
+        fNoMsrHarmonies));
 }
 
 void msrOah::initializeMsrFiguredBassOptions (
@@ -1820,11 +1844,17 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
   clone->fAddStanzasNumbers =
     fAddStanzasNumbers;
 
+  clone->fNoMsrLyrics =
+    fNoMsrLyrics;
+
   // harmonies
   // --------------------------------------
 
   clone->fShowHarmonyVoices =
     fShowHarmonyVoices;
+
+  clone->fNoMsrHarmonies =
+    fNoMsrHarmonies;
 
 
   // figured bass
@@ -2175,6 +2205,10 @@ void msrOah::printMsrOahValues (int fieldWidth)
   gLogOstream <<
     setw (fieldWidth) << "addStanzasNumbers" << " : " <<
     booleanAsString (fAddStanzasNumbers) <<
+    endl <<
+
+    setw (fieldWidth) << "noMsrLyrics" << " : " <<
+    booleanAsString (fNoMsrLyrics) <<
     endl;
 
   gIndenter--;
@@ -2192,6 +2226,10 @@ void msrOah::printMsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "showHarmonyVoices" << " : " <<
     booleanAsString (fShowHarmonyVoices) <<
+    endl <<
+
+    setw (fieldWidth) << "noMsrHarmonies" << " : " <<
+    booleanAsString (fNoMsrHarmonies) <<
     endl;
 
   gIndenter--;

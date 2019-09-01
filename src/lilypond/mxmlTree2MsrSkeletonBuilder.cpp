@@ -3531,12 +3531,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
             inputLineNumber);
 */
 
-    // should the harmony voice be created?
-    S_msrVoice
-      harmonyVoice =
-        createHarmonyVoiceForVoiceIfNotYetDone (
-          inputLineNumber,
-          noteVoice);
+    if (! gMsrOah->fNoMsrHarmonies) {
+      // should the harmony voice be created?
+      S_msrVoice
+        harmonyVoice =
+          createHarmonyVoiceForVoiceIfNotYetDone (
+            inputLineNumber,
+            noteVoice);
+    }
 
     fThereAreHarmoniesToBeAttachedToCurrentNote = false;
   }
@@ -3708,22 +3710,24 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
   }
 #endif
 
-  // create current voice if need be
-  S_msrVoice
-    currentVoice =
-      createRegularVoiceInStaffIfNotYetDone (
-        inputLineNumber,
-        fCurrentStaffMusicXMLNumber,
-        fCurrentVoiceMusicXMLNumber);
-
-  // create stanzaNumber in current voice if need be
-  S_msrStanza
-    stanza =
-      currentVoice->
-        createStanzaInVoiceIfNotYetDone (
+  if (! gMsrOah->fNoMsrLyrics) {
+    // create current voice if need be
+    S_msrVoice
+      currentVoice =
+        createRegularVoiceInStaffIfNotYetDone (
           inputLineNumber,
-          fCurrentStanzaNumber,
-          fCurrentStanzaName);
+          fCurrentStaffMusicXMLNumber,
+          fCurrentVoiceMusicXMLNumber);
+
+    // create stanzaNumber in current voice if need be
+    S_msrStanza
+      stanza =
+        currentVoice->
+          createStanzaInVoiceIfNotYetDone (
+            inputLineNumber,
+            fCurrentStanzaNumber,
+            fCurrentStanzaName);
+  }
 }
 
 //______________________________________________________________________________

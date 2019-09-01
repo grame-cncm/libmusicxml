@@ -490,11 +490,15 @@ class msrOah : public oahGroup
 
     bool                  fAddStanzasNumbers; // LPSR ??? JMI
 
+    bool                  fNoMsrLyrics;
+
 
     // harmonies
     // --------------------------------------
 
     bool                  fShowHarmonyVoices;
+
+    bool                  fNoMsrHarmonies;
 
 
     // figured bass

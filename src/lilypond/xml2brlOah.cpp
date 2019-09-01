@@ -831,9 +831,9 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
       } // switch
     }
 
-    // append '.brl' extension
+    // append '.txt' extension
     potentialOutputFileName +=
-      ".brl";
+      ".txt";
   }
 
   // check auto output file option usage
