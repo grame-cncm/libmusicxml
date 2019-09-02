@@ -179,7 +179,7 @@ bsrAsciiBrailleGenerator::bsrAsciiBrailleGenerator (
     : bsrBrailleGenerator (
         brailleOutputStream)
 {
-  writeTestData (brailleOutputStream);
+  // JMI writeTestData (brailleOutputStream);
 }
 
 bsrAsciiBrailleGenerator::~bsrAsciiBrailleGenerator ()

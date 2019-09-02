@@ -74,7 +74,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         break;
 
       case msrTempo::kTempoBeatUnitsPerMinute:
-  if (false)      { // JMI
+        {
           // fetch MSR tempo attributes
           const list<S_msrWords>&
             tempoWordsList =
@@ -122,9 +122,9 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             case k_NoDuration:
               break;
 
-            case k1024th:
+            case k1024th: // JMI
               break;
-            case k512th:
+            case k512th: // JMI
               break;
             case k256th:
               noteValueKind = bsrNote::kNoteValueC256th;
@@ -205,9 +205,8 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
           unsigned smSize = sm.size ();
 
-          if (smSize == 3) {
-  #ifdef TRACE_OAH
-            if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceTempos && ! gGeneralOah->fQuiet) {
               gLogOstream <<
                 "There are " << smSize << " matches" <<
                 " for rational string '" << tempoPerMinuteString <<
@@ -222,8 +221,9 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
               gLogOstream << endl;
             }
-  #endif
+#endif
 
+          if (smSize == 3) {
             {
               stringstream s;
               s << sm [1];
@@ -236,13 +236,65 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             }
           }
 
-          else if (smSize == 2) { // JMI
-            perMinuteMin = stoi (tempoPerMinuteString);
+          else {
+          // decipher it to extract min (and only) values
+          string regularExpression (
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+
+          regex e (regularExpression);
+          smatch sm;
+
+          regex_match (tempoPerMinuteString, sm, e);
+
+          unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceTempos && ! gGeneralOah->fQuiet) {
+              gLogOstream <<
+                "There are " << smSize << " matches" <<
+                " for rational string '" << tempoPerMinuteString <<
+                "' with regex '" << regularExpression <<
+                "'" <<
+                endl;
+
+              for (unsigned i = 0; i < smSize; ++i) {
+                gLogOstream <<
+                  "[" << sm [i] << "] ";
+              } // for
+
+              gLogOstream << endl;
+            }
+#endif
+
+            if (smSize == 2) {
+              stringstream s;
+              s << sm [1];
+              s >> perMinuteMin;
+            }
+
+            else {
+              stringstream s;
+
+              s <<
+                "tempoPerMinuteString '" <<
+                tempoPerMinuteString <<
+                "' is ill-formed" <<
+                ", line " << fInputLineNumber;
+
+              msrInternalError (
+                gOahOah->fInputSourceName,
+                fInputLineNumber,
+                __FILE__, __LINE__,
+                s.str ());
+            }
           }
 
-          else {
-            // JMI
-          }
+          gLogOstream << // JMI
+            "% ==> bsrTempo::buildCellsList ()" <<
+            ", tempoPerMinuteString = " << tempoPerMinuteString <<
+            ", perMinuteMin = " << perMinuteMin <<
+            ", perMinuteMax = " << perMinuteMax <<
+            endl;
 
           // create a number to represent perMinuteMin
           S_bsrNumber
@@ -271,7 +323,6 @@ S_bsrCellsList bsrTempo::buildCellsList () const
                   perMinuteMax,
                   bsrNumber::kNumberSignIsNeededYes);
 
-            // append a
             // append its cells to result
             result->
               appendCellsListToCellsList (
