@@ -2151,7 +2151,8 @@ class oahRGBColorAtom : public oahValuedAtom
       string       description,
       string       valueSpecification,
       string       variableName,
-      msrRGBColor& RGBColorVariable);
+      msrRGBColor& RGBColorVariable,
+      bool&        hasBeenSetVariable);
 
   protected:
 
@@ -2164,7 +2165,8 @@ class oahRGBColorAtom : public oahValuedAtom
       string       description,
       string       valueSpecification,
       string       variableName,
-      msrRGBColor& RGBColorVariable);
+      msrRGBColor& RGBColorVariable,
+      bool&        hasBeenSetVariable);
 
     virtual ~oahRGBColorAtom ();
 
@@ -2220,6 +2222,7 @@ class oahRGBColorAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     msrRGBColor&          fRGBColorVariable;
+    bool&                 fHasBeenSetVariable;
 };
 typedef SMARTP<oahRGBColorAtom> S_oahRGBColorAtom;
 EXP ostream& operator<< (ostream& os, const S_oahRGBColorAtom& elt);
@@ -2772,6 +2775,7 @@ class EXP oahHandler : public oahElement
                             S_oahElement element);
 
     void                  printKnownPrefixes () const;
+    void                  printKnownSingleCharacterOptions () const;
     void                  printOptionsDefaultValuesInformation () const;
     void                  printKnownOptions () const;
 
@@ -2822,6 +2826,8 @@ class EXP oahHandler : public oahElement
     map<string, S_oahPrefix>
                           fHandlerPrefixesMap;
 
+    set<string>           fSingleCharacterShortNamesSet;
+
     list<S_oahGroup>      fHandlerGroupsList;
 
     map<string, S_oahElement>
@@ -2866,8 +2872,6 @@ class EXP oahHandler : public oahElement
 
     oahOptionsDefaultValuesStyle
                           fOahOptionsDefaultValuesStyle;
-
-    set<string>           fSingleCharacterShortNamesSet;
 
     int                   fMaximumSubGroupsHeadersSize;
 

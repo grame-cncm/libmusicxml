@@ -426,15 +426,6 @@ void convertBsrScoreToBrailleText_Pass4 (
         exit (9);
       }
 
-/*
-      // create an output stream for the Braille music
-      // to be written to outFileStream
-      ostream
-        brailleCodeFileOutputStream (
-          outFileStream,
-          gIndenter);
-      */
-
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
@@ -567,7 +558,7 @@ void convertMusicXMLToBraille (
       mScore,
       gLogOstream);
 
-    exit (444);
+    exit (44);
   }
 
 
@@ -581,7 +572,7 @@ void convertMusicXMLToBraille (
       mScore,
       gLogOstream);
 
-    exit (555);
+    exit (55);
   }
 
 

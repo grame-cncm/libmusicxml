@@ -301,7 +301,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePartGroups) {
     gLogOstream <<
-      "Adding part " <<
+      "Appending part " <<
       part->getPartCombinedName () <<
       " to part group '" <<
       fPartGroupNumber <<

@@ -3531,7 +3531,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
             inputLineNumber);
 */
 
-    if (! gMsrOah->fNoMsrHarmonies) {
+    if (! gMsrOah->fOmitHarmonies) {
       // should the harmony voice be created?
       S_msrVoice
         harmonyVoice =
@@ -3561,12 +3561,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
             inputLineNumber);
 */
 
-    // should the figured bass voice be created?
-    S_msrVoice
-      figuredBassVoice =
-        createFiguredBassVoiceForVoiceIfNotYetDone (
-          inputLineNumber,
-          noteVoice);
+    if (! gMsrOah->fOmitFiguredBasses) {
+      // should the figured bass voice be created?
+      S_msrVoice
+        figuredBassVoice =
+          createFiguredBassVoiceForVoiceIfNotYetDone (
+            inputLineNumber,
+            noteVoice);
+    }
 
     fThereAreFiguredBassToBeAttachedToCurrentNote = false;
   }
@@ -3710,7 +3712,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
   }
 #endif
 
-  if (! gMsrOah->fNoMsrLyrics) {
+  if (! gMsrOah->fOmitLyrics) {
     // create current voice if need be
     S_msrVoice
       currentVoice =

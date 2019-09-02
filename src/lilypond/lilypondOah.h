@@ -1122,7 +1122,7 @@ class lilypondOah : public oahGroup
     bool                  fKeepStaffSize;
 
     msrRGBColor           fLedgerLinesRGBColor; // #(rgb-color 1.0 0.9 0.5)
-
+    bool                  fLedgerLinesRGBColorHasBeenSet;
 
     // chords
     // --------------------------------------

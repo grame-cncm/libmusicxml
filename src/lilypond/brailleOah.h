@@ -24,6 +24,85 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class brailleOutputKindAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<brailleOutputKindAtom> create (
+      string                shortName,
+      string                longName,
+      string                description,
+      string                valueSpecification,
+      string                variableName,
+      bsrBrailleOutputKind& brailleOutputKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    brailleOutputKindAtom (
+      string                shortName,
+      string                longName,
+      string                description,
+      string                valueSpecification,
+      string                variableName,
+      bsrBrailleOutputKind& brailleOutputKindVariable);
+
+    virtual ~brailleOutputKindAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    bsrBrailleOutputKind& fBrailleOutputKindVariable;
+};
+typedef SMARTP<brailleOutputKindAtom> S_brailleOutputKindAtom;
+EXP ostream& operator<< (ostream& os, const S_brailleOutputKindAtom& elt);
+
+//______________________________________________________________________________
 class brailleUTFKindAtom : public oahValuedAtom
 {
   public:
@@ -32,12 +111,12 @@ class brailleUTFKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<brailleUTFKindAtom> create (
-      string     shortName,
-      string     longName,
-      string     description,
-      string     valueSpecification,
-      string     variableName,
-      bsrUTFKind brailleUTFKindVariable);
+      string      shortName,
+      string      longName,
+      string      description,
+      string      valueSpecification,
+      string      variableName,
+      bsrUTFKind& brailleUTFKindVariable);
 
   protected:
 
@@ -45,12 +124,12 @@ class brailleUTFKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     brailleUTFKindAtom (
-      string     shortName,
-      string     longName,
-      string     description,
-      string     valueSpecification,
-      string     variableName,
-      bsrUTFKind brailleUTFKindVariable);
+      string      shortName,
+      string      longName,
+      string      description,
+      string      valueSpecification,
+      string      variableName,
+      bsrUTFKind& brailleUTFKindVariable);
 
     virtual ~brailleUTFKindAtom ();
 
@@ -97,7 +176,7 @@ class brailleUTFKindAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    bsrUTFKind            fBsrUTFKindVariable;
+    bsrUTFKind&           fBsrUTFKindVariable;
 };
 typedef SMARTP<brailleUTFKindAtom> S_brailleUTFKindAtom;
 EXP ostream& operator<< (ostream& os, const S_brailleUTFKindAtom& elt);
@@ -111,12 +190,12 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<brailleByteOrderingKindAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      bsrByteOrderingKind brailleByteOrderingKindVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      bsrByteOrderingKind& brailleByteOrderingKindVariable);
 
   protected:
 
@@ -124,12 +203,12 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     brailleByteOrderingKindAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      bsrByteOrderingKind brailleByteOrderingKindVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      bsrByteOrderingKind& brailleByteOrderingKindVariable);
 
     virtual ~brailleByteOrderingKindAtom ();
 
@@ -172,7 +251,7 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    bsrByteOrderingKind   fBsrByteOrderingKindVariable;
+    bsrByteOrderingKind&  fBsrByteOrderingKindVariable;
 };
 typedef SMARTP<brailleByteOrderingKindAtom> S_brailleByteOrderingKindAtom;
 EXP ostream& operator<< (ostream& os, const S_brailleByteOrderingKindAtom& elt);
@@ -266,6 +345,11 @@ class brailleOah : public oahGroup
 
   public:
 
+    // braille output kind
+    // --------------------------------------
+
+    bsrBrailleOutputKind  fBrailleOutputKind;
+
     // UTF encoding
     // --------------------------------------
 
@@ -279,7 +363,7 @@ class brailleOah : public oahGroup
     // braille music file name
     // --------------------------------------
 
-    bool                  fUseEncodingInFileName;
+    bool                  fDontUseEncodingInFileName;
 
     // page parameters
     // --------------------------------------

@@ -792,48 +792,59 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
     }
 
     // should encoding be used by the file name?
-    if (gBrailleOah->fUseEncodingInFileName) {
-      switch (gBrailleOah->fUTFKind) {
-        case kUTF8:
-          potentialOutputFileName +=
-            "_UTF8";
+    if (! gBrailleOah->fDontUseEncodingInFileName) {
+      switch (gBrailleOah->fBrailleOutputKind) {
+        case kBrailleOutputAscii:
+          potentialOutputFileName += "_ASCII";
+          break;
+
+        case kBrailleOutputUTF8:
+          potentialOutputFileName += "_UTF8";
+            /* JMI
           switch (gBrailleOah->fByteOrderingKind) {
             case kByteOrderingNone:
               break;
             case kByteOrderingBigEndian:
-              potentialOutputFileName +=
-                "_BE";
+              potentialOutputFileName += "_BE";
               break;
             case kByteOrderingSmallEndian:
               // should not occur JMI
               break;
           } // switch
+          */
           break;
 
-        case kUTF16:
-          potentialOutputFileName +=
-            "_UTF16";
+        case kBrailleOutputUTF16:
+          potentialOutputFileName += "_UTF16";
+            /* JMI
           switch (gBrailleOah->fByteOrderingKind) {
             case kByteOrderingNone:
               break;
 
             case kByteOrderingBigEndian:
-              potentialOutputFileName +=
-                "_BE";
+              potentialOutputFileName += "_BE";
               break;
 
             case kByteOrderingSmallEndian:
-              potentialOutputFileName +=
-                "_SE";
+              potentialOutputFileName += "_SE";
               break;
           } // switch
+          */
           break;
       } // switch
     }
 
-    // append '.txt' extension
-    potentialOutputFileName +=
-      ".txt";
+    // append the file extension
+    switch (gBrailleOah->fBrailleOutputKind) {
+      case kBrailleOutputAscii:
+       potentialOutputFileName += ".brf";
+        break;
+
+      case kBrailleOutputUTF8:
+      case kBrailleOutputUTF16:
+        potentialOutputFileName += ".txt";
+        break;
+    } // switch
   }
 
   // check auto output file option usage
@@ -849,7 +860,6 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         "cannot be chosen simultaneously";
 
       oahError (s.str ());
-      exit (3);
     }
 
     else if (gOahOah->fInputSourceName == "-") {
@@ -861,7 +871,6 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         "cannot be used when reading from standard input";
 
       oahError (s.str ());
-      exit (4);
     }
 
     else {

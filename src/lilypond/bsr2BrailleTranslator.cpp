@@ -40,6 +40,44 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
 
+  switch (gBrailleOah->fBrailleOutputKind) {
+    case kBrailleOutputAscii:
+      fBrailleGenerator =
+        bsrAsciiBrailleGenerator::create (
+          brailleCodeOutputStream);
+      break;
+
+    case kBrailleOutputUTF8:
+      fBrailleGenerator =
+        bsrUTF8BrailleGenerator::create (
+          gBrailleOah->fByteOrderingKind,
+          brailleCodeOutputStream);
+      break;
+
+    case kBrailleOutputUTF16:
+      switch (gBrailleOah->fByteOrderingKind) {
+        case kByteOrderingNone:
+          // JMI ???
+          break;
+
+        case kByteOrderingBigEndian:
+          fBrailleGenerator =
+            bsrUTF16BigEndianBrailleGenerator::create (
+              gBrailleOah->fByteOrderingKind,
+              brailleCodeOutputStream);
+          break;
+
+        case kByteOrderingSmallEndian:
+          break;
+          fBrailleGenerator =
+            bsrUTF16SmallEndianBrailleGenerator::create (
+              gBrailleOah->fByteOrderingKind,
+              brailleCodeOutputStream);
+      } // switch
+      break;
+  } // switch
+
+/* JMI
   switch (gBrailleOah->fUTFKind) {
     case kUTF8:
       fBrailleGenerator =
@@ -69,7 +107,8 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
       } // switch
       break;
   } // switch
-};
+  */
+}
 
 bsr2BrailleTranslator::~bsr2BrailleTranslator ()
 {}

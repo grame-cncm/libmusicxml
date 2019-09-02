@@ -796,7 +796,6 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         "cannot be chosen simultaneously";
 
       oahError (s.str ());
-      exit (3);
     }
 
     else if (gOahOah->fInputSourceName == "-") {
@@ -808,7 +807,6 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         "cannot be used when reading from standard input";
 
       oahError (s.str ());
-      exit (4);
     }
 
     else {

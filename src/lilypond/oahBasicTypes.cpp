@@ -1820,7 +1820,6 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
         "' is not that of an atom";
 
       oahError (s.str ());
-      exit (2);
     }
   }
 }
@@ -2622,7 +2621,6 @@ void oahMultiplexBooleansAtom::addBooleanAtomByName (
         "' is not that of an atom";
 
       oahError (s.str ());
-      exit (2);
     }
   }
 }
@@ -2988,7 +2986,6 @@ void oahValuedAtom::setValueIsOptional ()
       "' is already known as a prefix " <<;
 
     oahError (s.str ());
-    exit (4);
   }
   if (fetchPrefixInMapByItsName (fLongName)) {
     stringstream s;
@@ -2998,7 +2995,6 @@ void oahValuedAtom::setValueIsOptional ()
       "' is already known as a prefix " <<;
 
     oahError (s.str ());
-    exit (4);
   }
   */
 }
@@ -3344,7 +3340,6 @@ void oahIntegerAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 }
 
@@ -3584,7 +3579,6 @@ void oahFloatAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 }
 
@@ -4056,7 +4050,6 @@ void oahMonoplexStringAtom::addStringAtomByName (
         "' is not that of an atom";
 
       oahError (s.str ());
-      exit (2);
     }
   }
 }
@@ -4576,7 +4569,6 @@ void oahRationalAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   int
@@ -4842,7 +4834,6 @@ void oahNaturalNumbersSetElementAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 }
 
@@ -5857,7 +5848,8 @@ S_oahRGBColorAtom oahRGBColorAtom::create (
   string       description,
   string       valueSpecification,
   string       variableName,
-  msrRGBColor& RGBColorVariable)
+  msrRGBColor& RGBColorVariable,
+  bool&        hasBeenSetVariable)
 {
   oahRGBColorAtom* o = new
     oahRGBColorAtom (
@@ -5866,7 +5858,8 @@ S_oahRGBColorAtom oahRGBColorAtom::create (
       description,
       valueSpecification,
       variableName,
-      RGBColorVariable);
+      RGBColorVariable,
+      hasBeenSetVariable);
   assert(o!=0);
   return o;
 }
@@ -5877,7 +5870,8 @@ oahRGBColorAtom::oahRGBColorAtom (
   string       description,
   string       valueSpecification,
   string       variableName,
-  msrRGBColor& RGBColorVariable)
+  msrRGBColor& RGBColorVariable,
+  bool&        hasBeenSetVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -5885,8 +5879,12 @@ oahRGBColorAtom::oahRGBColorAtom (
       valueSpecification,
       variableName),
     fRGBColorVariable (
-      RGBColorVariable)
+      RGBColorVariable),
+    fHasBeenSetVariable (
+      hasBeenSetVariable)
 {
+  fHasBeenSetVariable = false;
+
   fMultipleOccurrencesAllowed = true;
 }
 
@@ -5906,6 +5904,7 @@ void oahRGBColorAtom::handleValue (
   ostream& os)
 {
   fRGBColorVariable = msrRGBColor (theString);
+  fHasBeenSetVariable = true;
 }
 
 void oahRGBColorAtom::acceptIn (basevisitor* v)
@@ -6017,6 +6016,8 @@ void oahRGBColorAtom::print (ostream& os) const
     setw (fieldWidth) <<
     "fRGBColorVariable" << " : " <<
     fRGBColorVariable.asString () <<
+    "fHasBeenSetVariable" << " : " <<
+    booleanAsString (fHasBeenSetVariable) <<
     endl;
 
   gIndenter--;
@@ -6029,6 +6030,11 @@ void oahRGBColorAtom::printAtomOptionsValues (
   os << left <<
     setw (valueFieldWidth) <<
     fVariableName <<
+    " : " <<
+    fRGBColorVariable.asString () <<
+    endl <<
+    setw (valueFieldWidth) <<
+    "hasBeenSetVariable" <<
     " : " <<
     fRGBColorVariable.asString () <<
     endl;
@@ -6102,8 +6108,11 @@ void oahOptionNameHelpAtom::handleValue (
       os,
       theString);
 
-  // exit
-  exit (23);
+  // register 'show all chords contents' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void oahOptionNameHelpAtom::handleDefaultValue ()
@@ -7533,6 +7542,8 @@ oahHandler::oahHandler (
 
   // initialize the optional values style kind
   fHandlerOptionalValuesStyleKind = kOptionalValuesStyleGNU; // default value
+
+  fHandlerCommandLineElementsMultiSet.clear (); // BUG WITHOUT? JMI
 }
 
 oahHandler::~oahHandler ()
@@ -7663,7 +7674,6 @@ void oahHandler::registerElementNamesInHandler (
       "element short name is empty";
 
     oahError (s.str ());
-    exit (33);
   }
 
   if (elementShortNameSize == 0 && elementLongNameSize == 0) {
@@ -7673,7 +7683,6 @@ void oahHandler::registerElementNamesInHandler (
       "element long name and short name are both empty";
 
     oahError (s.str ());
-    exit (33);
   }
 
   if (elementShortName == elementLongName) {
@@ -7684,7 +7693,6 @@ void oahHandler::registerElementNamesInHandler (
       " is the same as the short name for the same";
 
     oahError (s.str ());
-    exit (33);
   }
 
   if (elementLongNameSize == 1) {
@@ -7714,7 +7722,6 @@ void oahHandler::registerElementNamesInHandler (
         " is specified more that once";
 
       oahError (s.str ());
-      exit (33);
     }
 
     // is elementShortName already in the elements names map?
@@ -7728,7 +7735,6 @@ void oahHandler::registerElementNamesInHandler (
           " is specified more that once";
 
         oahError (s.str ());
-        exit (33);
       }
     }
   } // for
@@ -7944,6 +7950,11 @@ void oahHandler::print (ostream& os) const
     printKnownPrefixes ();
   }
 
+  // print the single-character options if any
+  if (fSingleCharacterShortNamesSet.size ()) {
+    printKnownSingleCharacterOptions ();
+  }
+
   // print the options groups if any
   if (fHandlerGroupsList.size ()) {
     os << endl;
@@ -7998,6 +8009,11 @@ void oahHandler::printHelp (ostream& os)
   // print the known options prefixes
   gIndenter++;
   printKnownPrefixes ();
+  gIndenter--;
+
+  // print the single-character options
+  gIndenter++;
+  printKnownSingleCharacterOptions ();
   gIndenter--;
 
   // print information about options default values
@@ -8152,7 +8168,6 @@ void oahHandler::printOptionNameIntrospectiveHelp (
       "' is unknown, cannot deliver specific help";
 
     oahError (s.str ());
-    exit (33);
   }
 
   else {
@@ -8283,7 +8298,6 @@ void oahHandler::printOptionNameIntrospectiveHelp (
         "\"";
 
       oahError (s.str ());
-      exit (33);
     }
   }
 }
@@ -8381,7 +8395,6 @@ void oahHandler::appendPrefixToHandler (
       "' is already known";
 
     oahError (s.str ());
-    exit (7);
   }
 
   // register prefix in the options prefixes map
@@ -8453,10 +8466,10 @@ void oahHandler::printKnownPrefixes () const
     " options prefixes:" <<
     endl;
 
+  // indent a bit more for readability
   gIndenter++;
 
   if (oahHandlerPrefixesListSize) {
-    // indent a bit more for readability
     for (
       map<string, S_oahPrefix>::const_iterator i =
         fHandlerPrefixesMap.begin ();
@@ -8470,6 +8483,8 @@ void oahHandler::printKnownPrefixes () const
         printPrefixHeader (
           fHandlerLogOstream);
     } // for
+
+    fHandlerLogOstream << endl;
   }
   else {
     fHandlerLogOstream <<
@@ -8478,6 +8493,67 @@ void oahHandler::printKnownPrefixes () const
   }
 
   gIndenter--;
+}
+
+void oahHandler::printKnownSingleCharacterOptions () const
+{
+  int oahHandlerPrefixesListSize =
+    fSingleCharacterShortNamesSet.size ();
+
+  fHandlerLogOstream <<
+    "There are " <<
+    oahHandlerPrefixesListSize <<
+    " single-character options:" <<
+    endl;
+
+  // indent a bit more for readability
+  gIndenter++;
+
+  if (oahHandlerPrefixesListSize) {
+    set<string>::const_iterator
+      iBegin = fSingleCharacterShortNamesSet.begin (),
+      iEnd   = fSingleCharacterShortNamesSet.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i);
+
+      fHandlerLogOstream << "-" << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
+      if (++i == iEnd) break;
+
+      if (next (i) == iEnd) {
+        fHandlerLogOstream << " and ";
+      }
+      else {
+        fHandlerLogOstream << ", ";
+      }
+    } // for
+
+    fHandlerLogOstream << endl;
+  }
+  else {
+    fHandlerLogOstream <<
+      "none" <<
+      endl;
+  }
+
+  gIndenter--;
+
+  fHandlerLogOstream <<
+    "They can be clustered. For example:" <<
+    endl <<
+    gTab << "'-vac'" <<
+    endl <<
+    "is equivalent to:" <<
+    endl <<
+    gTab << "'-v, -a, -c'" <<
+    endl;
 }
 
 string oahHandler::optionsDefaultValuesStyleAsString (
@@ -8691,7 +8767,6 @@ void oahHandler::checkMissingPendingValuedAtomValue (
             "' should be used with a '=' in GNU optional values style";
 
           oahError (s.str ());
-          exit (6);
         }
         break;
 
@@ -8700,8 +8775,6 @@ void oahHandler::checkMissingPendingValuedAtomValue (
         if (fPendingValuedAtom->getValueIsOptional ()) {
           fPendingValuedAtom->
             handleDefaultValue ();
-
-          fPendingValuedAtom = nullptr;
         }
 
         else {
@@ -8717,29 +8790,11 @@ void oahHandler::checkMissingPendingValuedAtomValue (
            " (" << context << ")";
 
           oahError (s.str ());
-          exit (9);
         }
         break;
     } // switch
 
-/*
-    switch (fHandlerOptionalValuesStyleKind) {
-      case kOptionalValuesStyleGNU: // default value
-        {
-          stringstream s;
-
-          s <<
-            "option name '" << name <<
-            "' cannot be used with a '=' in OAH optional values style";
-
-          oahError (s.str ());
-          exit (6);
-        }
-        break;
-      case kOptionalValuesStyleOAH:
-        break;
-    } // switch
-*/
+    fPendingValuedAtom = nullptr;
   }
 }
 
@@ -9065,7 +9120,6 @@ string oahHandler::decipherOption (
                   "' cannot be used with a '=' in OAH optional values style";
 
                 oahError (s.str ());
-                exit (6);
               }
               break;
           } // switch
@@ -9079,7 +9133,6 @@ string oahHandler::decipherOption (
             "' cannot doesn't have default value and thus cannot be used with a '='";
 
           oahError (s.str ());
-          exit (6);
         }
       }
 
@@ -9092,7 +9145,6 @@ string oahHandler::decipherOption (
           "' is not the name of an option FOO";
 
         oahError (s.str ());
-        exit (6);
       }
     }
   }
@@ -9236,6 +9288,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOahDetails) {
     printKnownPrefixes ();
+    printKnownSingleCharacterOptions ();
     printKnownOptions ();
   }
 #endif
@@ -9482,7 +9535,6 @@ void oahHandler::handleOptionName (
       "' is unknown";
 
     oahError (s.str ());
-    exit (6);
   }
 
   else {
@@ -9599,7 +9651,6 @@ void oahHandler::handleOptionName (
         "' cannot be handled";
 
       oahError (s.str ());
-      exit (7);
     }
   }
 }

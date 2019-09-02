@@ -204,7 +204,7 @@ class msrPartGroup : public msrPartGroupElement
     // services
     // ------------------------------------------------------
 
-    S_msrPart             appendPartToPartGroupByItsPartID (
+    S_msrPart             appendPartToPartGroupByItsPartID ( // JMI superflous
                             int    inputLineNumber,
                             string partID);
 

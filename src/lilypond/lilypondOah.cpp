@@ -483,7 +483,6 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-//     exit (4); // JMI
     abort ();
   }
 */
@@ -960,7 +959,6 @@ void lilypondResetMeasureNumberAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string musicXMLMeasureNumber = sm [1];
@@ -1284,7 +1282,6 @@ void lilypondAccidentalStyleKindAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-    exit (4);
   }
 
   setLpsrAccidentalStyleKindVariable (
@@ -1576,7 +1573,6 @@ void lilypondChordsDisplayAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string chordContents     = sm [1];
@@ -1884,7 +1880,6 @@ void lilypondLyricsAlignmentKindAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-    exit (4);
   }
 
   setLpsrLyricsAlignmentKindVariable (
@@ -2142,7 +2137,6 @@ void lilypondMidiTempoAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string midiTempoDuration  = sm [1];
@@ -3147,7 +3141,8 @@ RGB_COLOR should be of the form 'r,g,b',
 with r, g and b being float numbers between 0.0 and 1.0 inclusive.)",
         "RGB_COLOR",
         "ledgerLinesRGBColor",
-        fLedgerLinesRGBColor));
+        fLedgerLinesRGBColor,
+        fLedgerLinesRGBColorHasBeenSet));
 }
 
 void lilypondOah::initializeChordsOptions (
@@ -5267,7 +5262,6 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string musicXMLMeasureNumber = sm [1];

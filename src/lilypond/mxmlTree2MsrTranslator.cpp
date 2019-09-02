@@ -832,6 +832,24 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   fCurrentPart->
     finalizePart (
       inputLineNumber);
+
+  // is this part name in the parts omission set?
+  set<string>::iterator
+    it =
+      gMsrOah->fPartsOmissionSet.find (
+        fCurrentPart->
+          getPartID ());
+
+  if (it != gMsrOah->fPartsOmissionSet.end ()) {
+    // the simplest way to omit this part
+    // is to remove it from its part-group
+    // now that is has been completely built and populated
+    fCurrentPart->
+      getPartPartGroupUpLink ()->
+        removePartFromPartGroup (
+          inputLineNumber,
+          fCurrentPart);
+  }
 }
 
 //________________________________________________________________________
@@ -5889,7 +5907,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   }
 #endif
 
-  if (! gMsrOah->fNoMsrLyrics) {
+  if (! gMsrOah->fOmitLyrics) {
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -20751,7 +20769,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       k_NoQuarterTonesPitch_QTP;
   }
 
-  if (! gMsrOah->fNoMsrHarmonies) {
+  if (! gMsrOah->fOmitHarmonies) {
     // create the harmony
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies) {

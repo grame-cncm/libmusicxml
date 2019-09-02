@@ -273,7 +273,6 @@ void extraShowAllChordsContentsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-        exit (4);
       }
       break;
 
@@ -316,7 +315,6 @@ void extraShowAllChordsContentsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-        exit (4);
       }
   } // switch
 
@@ -325,8 +323,11 @@ void extraShowAllChordsContentsAtom::handleValue (
     os,
     semiTonesPitchKind);
 
-  // exit
-  exit (23);
+  // register 'show all chords contents' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
@@ -557,7 +558,6 @@ void extraShowChordDetailsAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string
@@ -595,7 +595,6 @@ void extraShowChordDetailsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-        exit (4);
       }
       break;
 
@@ -638,7 +637,6 @@ void extraShowChordDetailsAtom::handleValue (
           endl;
 
         oahError (s.str ());
-        exit (4);
       }
   } // switch
 
@@ -654,8 +652,11 @@ void extraShowChordDetailsAtom::handleValue (
     semiTonesPitchKind,
     harmonyKind);
 
-  // exit
-  exit (23);
+  // register 'show all chords contents' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
@@ -881,7 +882,6 @@ void extraShowChordAnalysisAtom::handleValue (
       showChordAnalysisAtom->
         getSubGroupUpLink ());
 */
-    exit (4);
   }
 
   string
@@ -930,7 +930,6 @@ void extraShowChordAnalysisAtom::handleValue (
           endl;
 
         oahError (s.str ());
-        exit (4);
       }
       break;
 
@@ -973,7 +972,6 @@ void extraShowChordAnalysisAtom::handleValue (
           endl;
 
         oahError (s.str ());
-        exit (4);
       }
   } // switch
 
@@ -994,7 +992,6 @@ void extraShowChordAnalysisAtom::handleValue (
       endl;
 
     oahError (s.str ());
-    exit (4);
   }
 
   // print the chord analysis
@@ -1004,8 +1001,11 @@ void extraShowChordAnalysisAtom::handleValue (
     harmonyKind,
     inversion);
 
-  // exit
-  exit (23); // JMI
+  // register 'show all chords contents' action in options groups's options handler upLink
+  fSubGroupUpLink->
+    getGroupUpLink ()->
+      getHandlerUpLink ()->
+        setOptionsHandlerFoundAHelpOption ();
 }
 
 void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)

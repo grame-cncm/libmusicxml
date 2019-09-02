@@ -125,7 +125,6 @@ void oahOptionalValuesStyleKindAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-    exit (4);
   }
 
   setOahOptionalValuesStyleKindVariable (

@@ -211,6 +211,22 @@ void brailleCellKindAsUTF16 (bsrCellKind cellKind, ostream& os);
 
 void brailleCellKind (bsrCellKind cellKind, ostream& os);
 
+// braille output kinds
+//______________________________________________________________________________
+enum bsrBrailleOutputKind {
+    kBrailleOutputAscii, // default value
+    kBrailleOutputUTF8, kBrailleOutputUTF16 };
+
+string bsrBrailleOutputKindAsString (
+  bsrBrailleOutputKind brailleOutputKind);
+
+extern map<string, bsrBrailleOutputKind>
+  gBsrBrailleOutputKindsMap;
+
+string existingBsrBrailleOutputKinds (int namesListMaxLength);
+
+void initializeBsrBrailleOutputKindsMap ();
+
 // chords languages
 //______________________________________________________________________________
 enum bsrTextsLanguageKind {

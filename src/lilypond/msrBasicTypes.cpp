@@ -11879,7 +11879,6 @@ msrRGBColor::msrRGBColor (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string
@@ -17667,7 +17666,6 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
               "\" contains a ',' after a '\\'";
 
             oahError (s.str ());
-            exit (4);
           }
 
           octave--;
@@ -17682,7 +17680,6 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
               "\" contains a '\\'' after a ','";
 
             oahError (s.str ());
-            exit (4);
           }
 
           octave++;

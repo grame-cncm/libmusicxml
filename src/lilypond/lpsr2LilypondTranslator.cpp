@@ -1070,7 +1070,8 @@ void lpsr2LilypondTranslator::generateNoteHeadColor (
     noteColor =
       note->getNoteColor ();
 
-  if (! noteColor.isEmpty ()) {
+  if (! noteColor.isEmpty ()) { // JMI
+//  if (gLilypondOah->) { // JMI
     // generate code for color RGB
     string noteRGB = noteColor.getColorRGB ();
 

@@ -206,6 +206,73 @@ string bsrCellKindAsString (bsrCellKind cellKind)
   return result;
 }
 
+// braille output kinds
+//______________________________________________________________________________
+map<string, bsrBrailleOutputKind>
+  gBsrBrailleOutputKindsMap;
+
+void initializeBsrBrailleOutputKindsMap ()
+{
+  gBsrBrailleOutputKindsMap ["ascii"] = kBrailleOutputAscii; // default
+  gBsrBrailleOutputKindsMap ["utf8"] = kBrailleOutputUTF8;
+  gBsrBrailleOutputKindsMap ["utf16"]  = kBrailleOutputUTF16;
+}
+
+string bsrBrailleOutputKindAsString (
+  bsrBrailleOutputKind brailleOutputKind)
+{
+  string result;
+
+  // no CamelCase here, these strings are used in the command line options
+  switch (brailleOutputKind) {
+    case kBrailleOutputAscii:
+      result = "ascii";
+      break;
+    case kBrailleOutputUTF8:
+      result = "utf8";
+      break;
+    case kBrailleOutputUTF16:
+      result = "utf16";
+      break;
+  } // switch
+
+  return result;
+}
+
+string existingBsrBrailleOutputKinds (int namesListMaxLength)
+{
+  stringstream s;
+
+  if (gBsrBrailleOutputKindsMap.size ()) {
+    map<string, bsrBrailleOutputKind>::const_iterator
+      iBegin = gBsrBrailleOutputKindsMap.begin (),
+      iEnd   = gBsrBrailleOutputKindsMap.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
+      if (++i == iEnd) break;
+
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
 // chords languages
 //______________________________________________________________________________
 
@@ -362,6 +429,11 @@ void initializeBSRBasicTypes ()
       endl;
   }
 #endif
+
+  // BSR braille output kinds handling
+  // ------------------------------------------------------
+
+  initializeBsrBrailleOutputKindsMap ();
 
   // BSR texts languages handling
   // ------------------------------------------------------

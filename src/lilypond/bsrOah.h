@@ -320,8 +320,9 @@ class bsrOah : public oahGroup
 
     bool                  fNoTempos;
 
-    bool                  fNoBraillePageNumbers;
-    bool                  fNoBrailleLineNumbers;
+    bool                  fNoPageNumbers;
+    bool                  fNoLineNumbers;
+    bool                  fNoMeasureNumbers;
 
     bool                  fNoBrailleLyrics;
 

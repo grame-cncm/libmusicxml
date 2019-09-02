@@ -32,13 +32,232 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+S_brailleOutputKindAtom brailleOutputKindAtom::create (
+  string                shortName,
+  string                longName,
+  string                description,
+  string                valueSpecification,
+  string                variableName,
+  bsrBrailleOutputKind& brailleOutputKindVariable)
+{
+  brailleOutputKindAtom* o = new
+    brailleOutputKindAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      brailleOutputKindVariable);
+  assert(o!=0);
+  return o;
+}
+
+brailleOutputKindAtom::brailleOutputKindAtom (
+  string                shortName,
+  string                longName,
+  string                description,
+  string                valueSpecification,
+  string                variableName,
+  bsrBrailleOutputKind& brailleOutputKindVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fBrailleOutputKindVariable (
+      brailleOutputKindVariable)
+{}
+
+brailleOutputKindAtom::~brailleOutputKindAtom ()
+{}
+
+void brailleOutputKindAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'brailleOutputKindAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the output kind name:
+  // is it in the  output kinds map?
+
+  map<string, bsrBrailleOutputKind>::const_iterator
+    it =
+      gBsrBrailleOutputKindsMap.find (
+        theString);
+
+  if (it == gBsrBrailleOutputKindsMap.end ()) {
+    // no, optional values style kind is unknown in the map
+    stringstream s;
+
+    s <<
+      "braille ouptput kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gBsrBrailleOutputKindsMap.size () - 1 <<
+      " known braille ouptput kind are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingBsrBrailleOutputKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    gIndenter--;
+
+    oahError (s.str ());
+  }
+
+  fBrailleOutputKindVariable =
+    (*it).second;
+}
+
+void brailleOutputKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleOutputKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_brailleOutputKindAtom>*> (v)) {
+        S_brailleOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleOutputKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void brailleOutputKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleOutputKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_brailleOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_brailleOutputKindAtom>*> (v)) {
+        S_brailleOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching brailleOutputKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void brailleOutputKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> brailleOutputKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string brailleOutputKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    bsrBrailleOutputKindAsString (fBrailleOutputKindVariable);
+
+  return s.str ();
+}
+
+string brailleOutputKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    bsrBrailleOutputKindAsString (fBrailleOutputKindVariable);
+
+  return s.str ();
+}
+
+void brailleOutputKindAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsUTFKindAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "brailleUTFKindVariable" << " : \"" <<
+    bsrBrailleOutputKindAsString (
+      fBrailleOutputKindVariable) <<
+      "\"" <<
+    endl;
+}
+
+void brailleOutputKindAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    bsrBrailleOutputKindAsString (
+      fBrailleOutputKindVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_brailleOutputKindAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_brailleUTFKindAtom brailleUTFKindAtom::create (
-  string     shortName,
-  string     longName,
-  string     description,
-  string     valueSpecification,
-  string     variableName,
-  bsrUTFKind brailleUTFKindVariable)
+  string      shortName,
+  string      longName,
+  string      description,
+  string      valueSpecification,
+  string      variableName,
+  bsrUTFKind& brailleUTFKindVariable)
 {
   brailleUTFKindAtom* o = new
     brailleUTFKindAtom (
@@ -53,12 +272,12 @@ S_brailleUTFKindAtom brailleUTFKindAtom::create (
 }
 
 brailleUTFKindAtom::brailleUTFKindAtom (
-  string     shortName,
-  string     longName,
-  string     description,
-  string     valueSpecification,
-  string     variableName,
-  bsrUTFKind brailleUTFKindVariable)
+  string      shortName,
+  string      longName,
+  string      description,
+  string      valueSpecification,
+  string      variableName,
+  bsrUTFKind& brailleUTFKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -104,7 +323,6 @@ void brailleUTFKindAtom::handleValue (
       endl;
 
     oahError (s.str ());
-    exit (4);
   }
 
   fBsrUTFKindVariable = UTFKind;
@@ -243,12 +461,12 @@ ostream& operator<< (ostream& os, const S_brailleUTFKindAtom& elt)
 
 //______________________________________________________________________________
 S_brailleByteOrderingKindAtom brailleByteOrderingKindAtom::create (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  bsrByteOrderingKind brailleByteOrderingKindVariable)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  bsrByteOrderingKind& brailleByteOrderingKindVariable)
 {
   brailleByteOrderingKindAtom* o = new
     brailleByteOrderingKindAtom (
@@ -263,12 +481,12 @@ S_brailleByteOrderingKindAtom brailleByteOrderingKindAtom::create (
 }
 
 brailleByteOrderingKindAtom::brailleByteOrderingKindAtom (
-  string              shortName,
-  string              longName,
-  string              description,
-  string              valueSpecification,
-  string              variableName,
-  bsrByteOrderingKind brailleByteOrderingKindVariable)
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  bsrByteOrderingKind& brailleByteOrderingKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -314,7 +532,6 @@ void brailleByteOrderingKindAtom::handleValue (
       endl;
 
     oahError (s.str ());
-    exit (4); // JMI
   }
 
   fBsrByteOrderingKindVariable = byteOrderingKind;
@@ -555,7 +772,7 @@ void brailleOah::initializeBrailleUTFEncodingOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    UTFEncodingSubGroup =
+    subGroup =
       oahSubGroup::create (
         "UTF encoding",
         "hlpue", "help-utf-encoding",
@@ -563,13 +780,39 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (UTFEncodingSubGroup);
+  appendSubGroupToGroup (subGroup);
+
+  const bsrBrailleOutputKind
+    bsrBrailleOutputKindDefaultValue =
+      kBrailleOutputAscii; // default value
+
+  subGroup->
+    appendAtomToSubGroup (
+      brailleOutputKindAtom::create (
+        "bok", "braille-output-kind",
+        replaceSubstringInString (
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use OUTPUT_KIND to write the generated braille music to the output.
+The NUMBER output kinds available are:
+BRAILLE_OUTPUT_KINDS.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gBsrBrailleOutputKindsMap.size ())),
+            "BRAILLE_OUTPUT_KINDS",
+            existingBsrBrailleOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
+          "DEFAULT_VALUE",
+          bsrBrailleOutputKindAsString (
+            bsrBrailleOutputKindDefaultValue)),
+        "OUTPUT_KIND",
+        "brailleOutputKind",
+        fBrailleOutputKind));
 
   // UTF encoding
 
   fUTFKind = kUTF8; // default value
 
-  UTFEncodingSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       brailleUTFKindAtom::create (
         "utf", "utf-encoding",
@@ -584,7 +827,7 @@ void brailleOah::initializeBrailleByteOrderingOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    byteOrderingSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Byte ordering",
         "hlpbo", "help-byte-ordering",
@@ -592,20 +835,20 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (byteOrderingSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // byte ordering
 
   fByteOrderingKind = kByteOrderingNone; // default value
 
-  byteOrderingSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       brailleByteOrderingKindAtom::create (
         "bom", "byte-ordering-mark",
 R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
 ahead of the Braille nusic code,
 which can be one of 'big' or 'small'.
-By default, BOM is generated.)",
+By default, a BOM is generated.)",
         "BOM_ENDIAN",
         "byteOrderingKind",
         fByteOrderingKind));
@@ -615,7 +858,7 @@ void brailleOah::initializeBrailleMusicFileNameOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    musicFileNameSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Braille music file name",
         "hlpbmfn", "help-braille-music-file-name",
@@ -623,27 +866,27 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (musicFileNameSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // encoding in file name
 
-  fUseEncodingInFileName = false; // default value
+  fDontUseEncodingInFileName = false; // default value
 
-  musicFileNameSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ueifn", "use-encoding-in-file-name",
-R"(Append a description of the encoding used
+R"(Don't append a description of the encoding used
 and the presence of a BOM if any to the file name.)",
-        "useEncodingInFileName",
-        fUseEncodingInFileName));
+        "dontUseEncodingInFileName",
+        fDontUseEncodingInFileName));
 }
 
 void brailleOah::initializeBraillePageParametersOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    codeGenerationSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Page parameters",
         "hlpbpp", "help-braille-pages-parameters",
@@ -651,12 +894,12 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (codeGenerationSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // cells per line
 
   fCellsPerLine = 30;
-  codeGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahIntegerAtom::create (
         "cpl", "cells-per-line",
@@ -669,7 +912,7 @@ R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
 
   fMeasuresPerLine = 7;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahIntegerAtom::create (
         "mpl", "measures-per-line",
@@ -682,7 +925,7 @@ R"(Set the number of Braille measures per line to N. Default is 7.)",
 
   fLinesPerPage = 27;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahIntegerAtom::create (
         "lpp", "lines-per-page",
@@ -696,7 +939,7 @@ void brailleOah::initializeBrailleCodeGenerationOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    codeGenerationSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Code generation",
         "hlpcg", "help-braille-code-generation",
@@ -704,13 +947,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (codeGenerationSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // xml2brl infos
 
-  fXml2brlInfos         = boolOptionsInitialValue;
+  fXml2brlInfos = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "xi", "xml2brl-infos",
@@ -720,9 +963,9 @@ R"(Generate initial comments showing the compilation date and braille.)",
 
   // braille code
 
-  fNoBrailleCode        = boolOptionsInitialValue;
+  fNoBrailleCode = boolOptionsInitialValue;
 
-  codeGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nolpc", "no-braille-code",
@@ -821,8 +1064,8 @@ void brailleOah::printBrailleOahValues (int fieldWidth)
       bsrByteOrderingKindAsString (fByteOrderingKind) <<
       endl <<
 
-    setw (fieldWidth) << "useEncodingInFileName" << " : " <<
-      booleanAsString (fUseEncodingInFileName) <<
+    setw (fieldWidth) << "dontUseEncodingInFileName" << " : " <<
+      booleanAsString (fDontUseEncodingInFileName) <<
       endl <<
 
     setw (fieldWidth) << "cellsPerLine" << " : " <<
@@ -898,7 +1141,7 @@ void initializeBrailleOahHandling (
     // variables
 
     S_oahSubGroup
-      identificationSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Identification",
           "hlpi", "help-braille-identification",
@@ -908,11 +1151,11 @@ thus overriding the ones that may be present in the MSR data.
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (identificationSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // MusicXML informations
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "rights", "",
@@ -921,7 +1164,7 @@ R"(Set the 'rights' to STRING in the Braille code.)",
           "rights",
           fRights));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "composer", "",
@@ -930,7 +1173,7 @@ R"(Set the 'composer' to STRING in the Braille code.)",
           "composer",
           fComposer));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "arranger", "",
@@ -939,7 +1182,7 @@ R"(Set the 'arranger' to STRING in the Braille code.)",
           "arranger",
           fArranger));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "poet", "",
@@ -948,7 +1191,7 @@ R"(Set the 'poet' to STRING in the Braille code.)",
           "poet",
           fPoet));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "lyricist", "",
@@ -957,7 +1200,7 @@ R"(Set the 'lyricist' to STRING in the Braille code.)",
           "lyricist",
           fLyricist));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "software", "",
@@ -968,7 +1211,7 @@ R"(Set the 'software' to STRING in the Braille code.)",
 
     // Braille informations
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "dedication", "",
@@ -977,7 +1220,7 @@ R"(Set 'dedication' to STRING in the \header.)",
           "dedication",
           fDedication));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "piece", "",
@@ -986,7 +1229,7 @@ R"(Set 'piece' to STRING in the \header.)",
           "piece",
           fPiece));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "opus", "",
@@ -995,7 +1238,7 @@ R"(Set 'opus' to STRING in the \header.)",
           "opus",
           fOpus));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "title", "",
@@ -1004,7 +1247,7 @@ R"(Set 'title' to STRING in the \header.)",
           "title",
           fTitle));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "stitle", "subtitle",
@@ -1013,7 +1256,7 @@ R"(Set 'subtitle' to STRING in the \header.)",
           "subTitle",
           fSubTitle));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "sstitle", "subsubtitle",
@@ -1022,7 +1265,7 @@ R"(Set 'subsubtitle' to STRING in the \header.)",
           "subSubTitle",
           fSubSubTitle));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "instrument", "",
@@ -1031,7 +1274,7 @@ R"(Set 'instrument' to STRING in the \header.)",
           "instrument",
           fInstrument));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "meter", "",
@@ -1040,7 +1283,7 @@ R"(Set 'meter' to STRING in the \header.)",
           "meter",
           fMeter));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "tagline", "",
@@ -1049,7 +1292,7 @@ R"(Set 'tagline' to STRING in the \header.)",
           "tagline",
           fTagline));
 
-    identificationSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "copyright", "",
@@ -1078,7 +1321,7 @@ R"(Set 'copyright' to STRING in the \header.)",
     fInputLineNumbers = boolOptionsInitialValue;
 
     S_oahSubGroup
-      notesSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Notes",
           "hlpn", "help-braille-notes",
@@ -1086,9 +1329,9 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (notesSubGroup);
+    appendSubGroupToGroup (subGroup);
 
-    notesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "abs", "absolute",
@@ -1097,7 +1340,7 @@ By default, relative octaves are generated.)",
           "absoluteOctaves",
           fAbsoluteOctaves));
 
-    notesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "alldurs", "all-durations",
@@ -1107,7 +1350,7 @@ is omitted for code conciseness.)",
           "allDurations",
           fAllDurations));
 
-    notesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "rsn", "roman-string-numbers",
@@ -1116,7 +1359,7 @@ for Braille to generate roman instead of arabic string numbers.)",
           "romanStringNumbers",
           fRomanStringNumbers));
 
-    notesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "aos", "avoid-open-strings",
@@ -1125,7 +1368,7 @@ to prevent Braille from using open strings.)",
           "avoidOpenStrings",
           fAvoidOpenStrings));
 
-    notesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "niln", "note-input-line-numbers",
@@ -1151,7 +1394,7 @@ This is useful when debugging EXECUTABLE.)",
     // braille
 
     S_oahSubGroup
-      barsSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Bars",
           "hlpb", "help-braille-bars",
@@ -1159,9 +1402,9 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (barsSubGroup);
+    appendSubGroupToGroup (subGroup);
 
-    barsSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "abn", "all-bar-numbers",
@@ -1184,7 +1427,7 @@ R"(Generate Braille code to show all bar numbers.)",
     // braille
 
     S_oahSubGroup
-      lineBreaksSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Line breaks",
           "hlplb", "help-braille-line-breaks",
@@ -1192,9 +1435,9 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (lineBreaksSubGroup);
+    appendSubGroupToGroup (subGroup);
 
-    lineBreaksSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "ilb", "ignore-line-breaks",
@@ -1203,7 +1446,7 @@ and let Braille decide about them.)",
           "ignoreLineBreaks",
           fIgnoreLineBreaks));
 
-    lineBreaksSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "blairm", "break-lines-at-incomplete-right-measures",
@@ -1225,7 +1468,7 @@ which is handy in popular folk dances and tunes.)",
     // braille
 
     S_oahSubGroup
-      pageBreaksSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Page breaks",
           "hlppb", "help-braille-page-breaks",
@@ -1233,9 +1476,9 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (pageBreaksSubGroup);
+    appendSubGroupToGroup (subGroup);
 
-    pageBreaksSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "ipb", "ignore-page-breaks",

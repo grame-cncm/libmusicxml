@@ -640,7 +640,7 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
     result =
       bsrCellsList::create (fInputLineNumber);
 
-  if (! gBsrOah->fNoBrailleLineNumbers) {
+  if (! gBsrOah->fNoLineNumbers) {
     // create the print line number
     S_bsrNumber
       printLineNumber =

@@ -95,8 +95,6 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
         0,
         __FILE__, __LINE__,
         s.str ());
-
-      exit (1);
     }
 */
 
@@ -474,7 +472,7 @@ void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
- // JMI   exit (444);
+    exit (19);
   }
 
 
@@ -488,7 +486,7 @@ void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
- // JMI   exit (555);
+    exit (19);
   }
 
 

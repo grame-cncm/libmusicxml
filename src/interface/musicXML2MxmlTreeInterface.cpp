@@ -460,7 +460,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       __FILE__, __LINE__,
       s.str ());
 
-    exit (333);
+    exit (38);
   }
 
   // read the input MusicXML data from the file

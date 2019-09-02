@@ -461,7 +461,7 @@ void bsrOah::initializeBsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    traceAndDisplaySubGroup =
+    subGroup =
       oahSubGroup::create (
         "Display",
         "hbsrtd", "help-bsr-display",
@@ -469,13 +469,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (traceAndDisplaySubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // BSR
 
   fDisplayBsr = boolOptionsInitialValue;
 
-  traceAndDisplaySubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dbsr", "display-bsr",
@@ -487,7 +487,7 @@ R"(Write the contents of the BSR data to standard error.)",
 
   fDisplayBsrDetails = boolOptionsInitialValue;
 
-  traceAndDisplaySubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahTwoBooleansAtom::create (
         "dbsrd", "display-bsr-details",
@@ -501,7 +501,7 @@ void bsrOah::initializeBsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    languagesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Languages",
         "hbsrl", "help-bsr-languages",
@@ -509,7 +509,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (languagesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // texts language
 
@@ -539,7 +539,7 @@ R"()",
     bsrTextsLanguageKindDefaultValue =
       fBsrTextsLanguageKind;
 
-  languagesSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       bsrTextsLanguageAtom::create (
         "btl", "bsr-texts-language",
@@ -550,7 +550,6 @@ R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
 as well as in the generated braille music.
 The NUMBER texts languages available are:
 TEXT_LANGUAGES.
-english, german, italian and french.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gBsrTextsLanguageKindsMap.size ())),
@@ -568,7 +567,7 @@ void bsrOah::initializeBsrMiscellaneousOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    miscellaneousGenerationSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Miscellaneous",
         "hlpm", "help-miscellaneous",
@@ -576,13 +575,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (miscellaneousGenerationSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // braille music headings
 
-  fNoBrailleMusicHeadings      = boolOptionsInitialValue;
+  fNoBrailleMusicHeadings = boolOptionsInitialValue;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nmh", "no-music-headings",
@@ -592,9 +591,9 @@ R"(Don't generate any music headings in the Braille code.)",
 
   // braille tempos
 
-  fNoTempos      = boolOptionsInitialValue;
+  fNoTempos = boolOptionsInitialValue;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nt", "no-tempos",
@@ -604,33 +603,45 @@ R"(Don't generate any tempos in the Braille code.)",
 
   // braille page numbers
 
-  fNoBraillePageNumbers      = boolOptionsInitialValue;
+  fNoPageNumbers = boolOptionsInitialValue;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "npn", "no-page-numbers",
 R"(Don't generate any page numbers in the Braille code.)",
         "noBraillePageNumbers",
-        fNoBraillePageNumbers));
+        fNoPageNumbers));
 
   // braille line numbers
 
-  fNoBrailleLineNumbers      = boolOptionsInitialValue;
+  fNoLineNumbers = boolOptionsInitialValue;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nln", "no-line-numbers",
 R"(Don't generate any line numbers in the Braille code.)",
         "noBrailleLineNumbers",
-        fNoBrailleLineNumbers));
+        fNoLineNumbers));
+
+  // braille measure numbers
+
+  fNoMeasureNumbers = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nmn", "no-measure-numbers",
+R"(Don't generate any measure numbers in the Braille code.)",
+        "noMeasureNumbers",
+        fNoMeasureNumbers));
 
   // braille lyrics
 
-  fNoBrailleLyrics      = boolOptionsInitialValue;
+  fNoBrailleLyrics = boolOptionsInitialValue;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "nl", "no-lyrics",
@@ -640,9 +651,9 @@ R"(Don't generate any lyrics in the Braille code.)",
 
   // braille compile date
 
-  fBrailleCompileDate   = boolOptionsInitialValue;
+  fBrailleCompileDate = boolOptionsInitialValue;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "lpcd", "braille-compile-date",
@@ -653,9 +664,9 @@ when Braille creates the score.)",
 
   // facsimile
 
-  fFacSimileKind        = kFacSimileNo;
+  fFacSimileKind = kFacSimileNo;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       bsrFacSimileKindAtom::create (
         "fs", "facsimile",
@@ -667,9 +678,9 @@ By default, non-facsimile code is generated.)",
 
   // clefs
 
-  fIncludeClefs         = boolOptionsInitialValue;
+  fIncludeClefs = boolOptionsInitialValue;
 
-  miscellaneousGenerationSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "clefs", "",
@@ -682,7 +693,7 @@ void bsrOah::initializeBsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    exitAfterSomePassesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Exit after some passes",
         "hbe", "help-bsr-exit",
@@ -690,7 +701,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // '-exit-3a' is hidden...
 
@@ -705,7 +716,7 @@ of the MSR to the first BSR score.)",
         "exit3a",
         fExit3a);
 
-  exitAfterSomePassesSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       exit2aOahBooleanAtom);
 
@@ -720,7 +731,7 @@ of the first BSR to the second BSR.)",
         "exit3b",
         fExit3b);
 
-  exitAfterSomePassesSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       exit2bOahBooleanAtom);
 }
@@ -1053,10 +1064,13 @@ void bsrOah::printBsrOahValues (int fieldWidth)
       endl <<
 
     setw (fieldWidth) << "noBraillePageNumbers" << " : " <<
-      booleanAsString (fNoBraillePageNumbers) <<
+      booleanAsString (fNoPageNumbers) <<
       endl <<
     setw (fieldWidth) << "noBrailleLineNumbers" << " : " <<
-      booleanAsString (fNoBrailleLineNumbers) <<
+      booleanAsString (fNoLineNumbers) <<
+      endl <<
+    setw (fieldWidth) << "noMeasureNumbers" << " : " <<
+      booleanAsString (fNoMeasureNumbers) <<
       endl <<
 
     setw (fieldWidth) << "noBrailleLyrics" << " : " <<

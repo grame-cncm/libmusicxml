@@ -69,7 +69,9 @@ msrRenamePartAtom::msrRenamePartAtom (
       variableName),
     fStringStringMapVariable (
       stringStringMapVariable)
-{}
+{
+  fMultipleOccurrencesAllowed = true;
+}
 
 msrRenamePartAtom::~msrRenamePartAtom ()
 {}
@@ -148,7 +150,6 @@ void msrRenamePartAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string
@@ -174,11 +175,10 @@ void msrRenamePartAtom::handleValue (
     stringstream s;
 
     s <<
-      "Part \"" << oldPartName << "\" occurs more that one" <<
+      "Part \"" << oldPartName << "\" occurs more that once" <<
       "in the '--partName' option";
 
     oahError (s.str ());
-    exit (4);
   }
 
   else {
@@ -490,7 +490,6 @@ void msrTransposePartAtom::handleValue (
       "' is ill-formed";
 
     oahError (s.str ());
-    exit (4);
   }
 
   string
@@ -516,11 +515,10 @@ void msrTransposePartAtom::handleValue (
     stringstream s;
 
     s <<
-      "Part \"" << originalPitchName << "\" occurs more that one" <<
+      "Part \"" << originalPitchName << "\" occurs more that once" <<
       "in the '--transpose-part' option";
 
     oahError (s.str ());
-    exit (4);
   }
 
   else {
@@ -728,6 +726,292 @@ ostream& operator<< (ostream& os, const S_msrTransposePartAtom& elt)
 }
 
 //______________________________________________________________________________
+S_msrOmitPartAtom msrOmitPartAtom::create (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringSetVariable)
+{
+  msrOmitPartAtom* o = new
+    msrOmitPartAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringSetVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOmitPartAtom::msrOmitPartAtom (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringSetVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringSetVariable (
+      stringSetVariable)
+{}
+
+msrOmitPartAtom::~msrOmitPartAtom ()
+{}
+
+S_oahValuedAtom msrOmitPartAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+  // an option value is needed
+  return this;
+}
+
+void msrOmitPartAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msrOmitPartAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the name of the part to be omitted
+
+  string partName = theString;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> partName = \"" << partName << "\", " <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  set<string>::iterator
+    it =
+      fStringSetVariable.find (partName);
+
+  if (it != fStringSetVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Part \"" << partName << "\" occurs more that once" <<
+      "in the '--msr-omit-part' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringSetVariable.insert (partName);
+  }
+}
+
+void msrOmitPartAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrOmitPartAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrOmitPartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrOmitPartAtom>*> (v)) {
+        S_msrOmitPartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrOmitPartAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrOmitPartAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrOmitPartAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrOmitPartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrOmitPartAtom>*> (v)) {
+        S_msrOmitPartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrOmitPartAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrOmitPartAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrOmitPartAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msrOmitPartAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringSetVariable.size ()) {
+    s << "none";
+  }
+  else {
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string msrOmitPartAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringSetVariable.size ()) {
+    s << "none";
+  }
+  else {
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void msrOmitPartAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "msrOmitPartAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringSetVariable" << " : " <<
+    endl;
+
+  if (! fStringSetVariable.size ()) {
+    os << "none";
+  }
+  else {
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void msrOmitPartAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringSetVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+
+    gIndenter++;
+
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" << (*i) << "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrOmitPartAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrPitchesLanguageAtom msrPitchesLanguageAtom::create (
   string             shortName,
   string             longName,
@@ -828,7 +1112,6 @@ void msrPitchesLanguageAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-    exit (4); // JMI
   }
 
   setMsrQuarterTonesPitchesLanguageKindVariable (
@@ -1200,7 +1483,7 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // MSR part rename
+  // MSR rename part
 
   subGroup->
     appendAtomToSubGroup (
@@ -1226,7 +1509,7 @@ There can be several occurrences of this option.)",
         "partsRenamingMap",
         fPartsRenamingMap));
 
-  // MSR part transpose
+  // MSR transpose part
 
   subGroup->
     appendAtomToSubGroup (
@@ -1251,6 +1534,18 @@ There can be several occurrences of this option.)",
         "PART_TRANSPOSITION_SPEC",
         "partsTranspositionMap",
         fPartsTranspositionMap));
+
+  // MSR omit part
+
+  subGroup->
+    appendAtomToSubGroup (
+      msrOmitPartAtom::create (
+        "mop", "msr-omit-part",
+R"(Omit part PART_NAME.
+There can be several occurrences of this option.)",
+        "PART_NAME",
+        "partsOmissionSet",
+        fPartsOmissionSet));
 }
 
 void msrOah::initializeMsrStavesOptions (
@@ -1543,7 +1838,7 @@ R"()",
 
   // stanzas numbers
 
-  fAddStanzasNumbers  = false;
+  fAddStanzasNumbers = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1553,17 +1848,17 @@ R"(Add stanzas numbers to lyrics.)",
         "addStanzasNumbers",
         fAddStanzasNumbers));
 
-  // no MSR lyrics
+  // omit lyrics
 
-  fNoMsrLyrics  = false;
+  fOmitLyrics = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "nml", "no-msr-lyrics",
+        "ol", "omit-lyrics",
 R"(Don't create lyrics in the MSR.)",
-        "noMsrLyrics",
-        fNoMsrLyrics));
+        "omitLyrics",
+        fOmitLyrics));
 }
 
 void msrOah::initializeMsrHarmoniesOptions (
@@ -1581,7 +1876,7 @@ R"()",
 
   // show harmony voices
 
-  fShowHarmonyVoices      = boolOptionsInitialValue;
+  fShowHarmonyVoices = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1594,15 +1889,15 @@ even though it does not contain music.)",
 
   // no MSR harmonies
 
-  fNoMsrHarmonies      = boolOptionsInitialValue;
+  fOmitHarmonies = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "nmh", "no-msr-harmonies",
+        "oh", "omit-harmonies",
 R"(Don't create harmonies in the MSR.)",
-        "noMsrHarmonies",
-        fNoMsrHarmonies));
+        "omitHarmonies",
+        fOmitHarmonies));
 }
 
 void msrOah::initializeMsrFiguredBassOptions (
@@ -1620,7 +1915,7 @@ R"()",
 
   // show figured bass voices
 
-  fShowFiguredBassVoices      = boolOptionsInitialValue;
+  fShowFiguredBassVoices = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1630,6 +1925,18 @@ R"(Show the figured bass harmony voices in the MSR data
 even though they do not contain music.)",
         "showFiguredBassVoices",
         fShowFiguredBassVoices));
+
+  // omit figured basses
+
+  fOmitFiguredBasses = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "ofb", "omit-figured-basses",
+R"(Don't create figured basses in the MSR.)",
+        "omitFiguredBasses",
+        fOmitFiguredBasses));
 }
 
 void msrOah::initializeMsrExitAfterSomePassesOptions (
@@ -1844,8 +2151,8 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
   clone->fAddStanzasNumbers =
     fAddStanzasNumbers;
 
-  clone->fNoMsrLyrics =
-    fNoMsrLyrics;
+  clone->fOmitLyrics =
+    fOmitLyrics;
 
   // harmonies
   // --------------------------------------
@@ -1853,8 +2160,8 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
   clone->fShowHarmonyVoices =
     fShowHarmonyVoices;
 
-  clone->fNoMsrHarmonies =
-    fNoMsrHarmonies;
+  clone->fOmitHarmonies =
+    fOmitHarmonies;
 
 
   // figured bass
@@ -1862,6 +2169,9 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
 
   clone->fShowFiguredBassVoices =
     fShowFiguredBassVoices;
+
+  clone->fOmitFiguredBasses =
+    fOmitFiguredBasses;
 
   return clone;
 }
@@ -2207,8 +2517,8 @@ void msrOah::printMsrOahValues (int fieldWidth)
     booleanAsString (fAddStanzasNumbers) <<
     endl <<
 
-    setw (fieldWidth) << "noMsrLyrics" << " : " <<
-    booleanAsString (fNoMsrLyrics) <<
+    setw (fieldWidth) << "omitLyrics" << " : " <<
+    booleanAsString (fOmitLyrics) <<
     endl;
 
   gIndenter--;
@@ -2228,8 +2538,8 @@ void msrOah::printMsrOahValues (int fieldWidth)
     booleanAsString (fShowHarmonyVoices) <<
     endl <<
 
-    setw (fieldWidth) << "noMsrHarmonies" << " : " <<
-    booleanAsString (fNoMsrHarmonies) <<
+    setw (fieldWidth) << "omitHarmonies" << " : " <<
+    booleanAsString (fOmitHarmonies) <<
     endl;
 
   gIndenter--;
@@ -2247,6 +2557,10 @@ void msrOah::printMsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
     booleanAsString (fShowFiguredBassVoices) <<
+    endl <<
+
+    setw (fieldWidth) << "omitFiguredBasses" << " : " <<
+    booleanAsString (fOmitFiguredBasses) <<
     endl;
 
   gIndenter--;
