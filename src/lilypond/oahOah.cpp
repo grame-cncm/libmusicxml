@@ -497,6 +497,8 @@ S_oahOah oahOah::createCloneWithTrueValues ()
   clone->fShowOptionsAndArguments =
     fShowOptionsAndArguments;
 
+  clone->fCommandLineAsSupplied =
+    fCommandLineAsSupplied;
   clone->fCommandLineWithShortOptionsNames =
     fCommandLineWithShortOptionsNames;
   clone->fCommandLineWithLongOptionsNames =

@@ -20769,8 +20769,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       k_NoQuarterTonesPitch_QTP;
   }
 
-  if (! gMsrOah->fOmitHarmonies) {
-    // create the harmony
+  if (gMsrOah->fOmitHarmonies) {
+ #ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies) {
+      fLogOutputStream <<
+        "Omitting harmony" <<
+        ", line " <<
+        inputLineNumber <<
+        endl;
+    }
+#endif
+  }
+  else {
+   // create the harmony
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies) {
       fLogOutputStream <<
@@ -20786,7 +20797,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
         setw (fieldWidth) << "fCurrentPart" << " = " <<
         fCurrentPart->getPartCombinedName () <<
         endl <<
-        /*
+        /* JMI
         setw (fieldWidth) << "harmonyVoice" << " = " <<
         harmonyVoice->getVoiceName () <<
         endl <<

@@ -2721,6 +2721,10 @@ class EXP oahHandler : public oahElement
     string                decipherOption (
                             string currentString);
 
+    void                  decipherOptionContainingEqualSign (
+                            string currentOptionName,
+                            size_t equalsSignPosition);
+
   public:
 
     // visitors
@@ -2736,6 +2740,7 @@ class EXP oahHandler : public oahElement
     // print
     // ------------------------------------------------------
 
+    string                commandLineAsSuppliedAsString () const;
     string                commandLineWithShortNamesAsString () const;
     string                commandLineWithLongNamesAsString () const;
 
@@ -2815,6 +2820,8 @@ class EXP oahHandler : public oahElement
     // protected fields
     // ------------------------------------------------------
 
+    string                fCommandLineAsSupplied;
+
     string                fHandlerHeader;
     string                fHandlerValuesHeader;
 
@@ -2861,6 +2868,7 @@ class EXP oahHandler : public oahElement
     // ------------------------------------------------------
 
     // all OAH elements are registered in the handler upon initialization
+    multiset<string>      fHandlerCommandLineNamesMultiSet; // JMI bug in the following?
     multiset<S_oahElement>
                           fHandlerRegisteredElementsMultiSet;
 

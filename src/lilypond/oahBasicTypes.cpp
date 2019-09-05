@@ -7585,8 +7585,6 @@ oahHandler::oahHandler (
 
   // initialize the optional values style kind
   fHandlerOptionalValuesStyleKind = kOptionalValuesStyleGNU; // default value
-
-  fHandlerCommandLineElementsMultiSet.clear (); // BUG WITHOUT? JMI
 }
 
 oahHandler::~oahHandler ()
@@ -8589,11 +8587,11 @@ void oahHandler::printKnownSingleCharacterOptions () const
   gIndenter--;
 
   fHandlerLogOstream <<
-    "They can be clustered. For example:" <<
+    "They can be clustered, such as:" <<
     endl <<
     gTab << "'-vac'" <<
     endl <<
-    "is equivalent to:" <<
+    "which is equivalent to:" <<
     endl <<
     gTab << "'-v, -a, -c'" <<
     endl;
@@ -8632,6 +8630,11 @@ R"( supports two styles for this, see '-ovs, -optional-values-style' option.)") 
     endl;
 
   gIndenter--;
+}
+
+string oahHandler::commandLineAsSuppliedAsString () const
+{
+  return fCommandLineAsSupplied;
 }
 
 string oahHandler::commandLineWithShortNamesAsString () const
@@ -8809,7 +8812,8 @@ void oahHandler::checkMissingPendingValuedAtomValue (
             "option name '" << atomName <<
             "' should be used with a '=' in GNU optional values style";
 
-          oahError (s.str ());
+      // JMI    oahError (s.str ());
+          oahWarning (s.str ());
         }
         break;
 
@@ -9034,9 +9038,128 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
   return result;
 }
 
+void oahHandler::decipherOptionContainingEqualSign (
+  string currentOptionName,
+  size_t equalsSignPosition)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    fHandlerLogOstream <<
+      "deciphering option containing equal sign" <<
+      ", currentOptionName: '" << currentOptionName << "'" <<
+      ", equalsSignPosition:  '" << equalsSignPosition << "'" <<
+      endl;
+  }
+#endif
+
+  // fetch the option name and the string after the equals sign
+  string name =
+    currentOptionName.substr (0, equalsSignPosition);
+  string stringAfterEqualsSign =
+    currentOptionName.substr (equalsSignPosition + 1);
+
+  // prefixes have precedence over options with optional values
+  S_oahPrefix
+    prefix =
+      fetchPrefixFromMap (name);
+
+  if (prefix) {
+    // handle prefix name
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      printKnownPrefixes ();
+    }
+#endif
+
+    handlePrefixName (
+      name,
+      equalsSignPosition,
+      stringAfterEqualsSign);
+  }
+
+  else {
+    // name is not the name of prefix
+
+    // is is the name of an option?
+    S_oahElement
+      element =
+        fetchOptionByName (name);
+
+    if (element) {
+      // name is the name of an option
+      if (
+        // oahStringWithDefaultValueAtom?
+        S_oahStringWithDefaultValueAtom
+          stringWithDefaultValueAtom =
+            dynamic_cast<oahStringWithDefaultValueAtom*>(&(*element))
+      ) {
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOah) {
+          fHandlerLogOstream <<
+            "==> option '" <<
+            name <<
+            "' is a stringWithDefaultValueAtom" <<
+            endl;
+        }
+#endif
+
+        // handle the stringWithDefaultValueAtom
+        switch (fHandlerOptionalValuesStyleKind) {
+          case kOptionalValuesStyleGNU: // default value
+            stringWithDefaultValueAtom->
+              handleValue (
+                stringAfterEqualsSign,
+                fHandlerLogOstream);
+            break;
+          case kOptionalValuesStyleOAH:
+            {
+              stringstream s;
+
+              s <<
+                "option name '" << name <<
+                "' cannot be used with a '=' in OAH optional values style";
+
+              oahError (s.str ());
+            }
+            break;
+        } // switch
+      }
+      else {
+        // name is not the name an a stringWithDefaultValueAtom
+        stringstream s;
+
+        s <<
+          "option name '" << name <<
+          "' cannot doesn't have default value and thus cannot be used with a '='";
+
+        oahError (s.str ());
+      }
+    }
+
+    else {
+      // name is not the name of an option
+      stringstream s;
+
+      s <<
+        "option name '" << name <<
+        "' is not the name of an option FOO";
+
+      oahError (s.str ());
+    }
+  }
+}
+
 string oahHandler::decipherOption (
   string currentString)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    fHandlerLogOstream <<
+      "deciphering currentString '" << currentString << "'" <<
+      endl;
+  }
+#endif
+
   string currentOptionName;
 
   string optionTrailer =
@@ -9095,110 +9218,9 @@ string oahHandler::decipherOption (
 
   if (equalsSignPosition != string::npos) {
     // yes, there's an equal sign
-
-    // fetch the option name and the string after the equals sign
-    string name =
-      currentOptionName.substr (0, equalsSignPosition);
-    string stringAfterEqualsSign =
-      currentOptionName.substr (equalsSignPosition + 1);
-
-    // prefixes have precedence over options with optional values
-    S_oahPrefix
-      prefix =
-        fetchPrefixFromMap (name);
-
-    if (prefix) {
-      // handle prefix name
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceOah) {
-        printKnownPrefixes ();
-      }
-#endif
-      handlePrefixName (
-        name,
-        equalsSignPosition,
-        stringAfterEqualsSign);
-    }
-
-    else {
-      // name is not the name of prefix
-
-      // is is the name of an option?
-      S_oahElement
-        element =
-          fetchOptionByName (name);
-
-      if (element) {
-        // name is the name of an option
-        if (
-          // oahStringWithDefaultValueAtom?
-          S_oahStringWithDefaultValueAtom
-            stringWithDefaultValueAtom =
-              dynamic_cast<oahStringWithDefaultValueAtom*>(&(*element))
-        ) {
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah) {
-            fHandlerLogOstream <<
-              "==> option '" <<
-              name <<
-              "' is a stringWithDefaultValueAtom" <<
-              endl;
-          }
-#endif
-
-          // handle the stringWithDefaultValueAtom
-          switch (fHandlerOptionalValuesStyleKind) {
-            case kOptionalValuesStyleGNU: // default value
-              stringWithDefaultValueAtom->
-                handleValue (
-                  stringAfterEqualsSign,
-                  fHandlerLogOstream);
-              break;
-            case kOptionalValuesStyleOAH:
-              {
-                stringstream s;
-
-                s <<
-                  "option name '" << name <<
-                  "' cannot be used with a '=' in OAH optional values style";
-
-                oahError (s.str ());
-              }
-              break;
-          } // switch
-        }
-        else {
-          // name is not the name an a stringWithDefaultValueAtom
-          stringstream s;
-
-          s <<
-            "option name '" << name <<
-            "' cannot doesn't have default value and thus cannot be used with a '='";
-
-          oahError (s.str ());
-        }
-      }
-
-      else {
-        // name is not the name of an option
-        stringstream s;
-
-        s <<
-          "option name '" << name <<
-          "' is not the name of an option FOO";
-
-        oahError (s.str ());
-      }
-    }
-  }
-
-  // is it a single-character options cluster?
-  else if (
-    currentOptionName.size () > 1
-      &&
-    optionNameIsASingleCharacterOptionsCluster (currentOptionName)
-  ) {
-    // the options contained in currentString have been handled already
+    decipherOptionContainingEqualSign (
+      currentOptionName,
+      equalsSignPosition);
   }
 
   else {
@@ -9214,10 +9236,10 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   int   argc,
   char* argv[])
 {
-// JMI  gTraceOah->fTraceOah = true; // TEMP
-
   // fetch program name
   fHandlerExecutableName = string (argv [0]);
+
+  fCommandLineAsSupplied = fHandlerExecutableName;
 
   /* JMI ???
   // print the number of option names
@@ -9244,6 +9266,9 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
       break;
 
     string currentString = string (argv [n]);
+
+    fCommandLineAsSupplied += " " + currentString;
+
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
@@ -9393,6 +9418,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
   // store the command line with options in gOahOah
   // for whoever need them
+  gOahOah->fCommandLineAsSupplied =
+      commandLineAsSuppliedAsString ();
   gOahOah->fCommandLineWithShortOptionsNames =
       commandLineWithShortNamesAsString ();
   gOahOah->fCommandLineWithLongOptionsNames =
@@ -9562,6 +9589,17 @@ void oahHandler::handleAtomName (
 void oahHandler::handleOptionName (
   string name)
 {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      fHandlerLogOstream <<
+        endl <<
+        "==> oahHandler::handleOptionName (), handling name \"" <<
+        name <<
+        "\"" <<
+        endl;
+    }
+#endif
+
   // is name known in options map?
   S_oahElement
     element =
@@ -9597,6 +9635,29 @@ void oahHandler::handleOptionName (
 #endif
 
     // is this element already present in the commande line?
+    multiset<string>::const_iterator
+      it =
+        fHandlerCommandLineNamesMultiSet.find (
+          name);
+
+    if (it != fHandlerCommandLineNamesMultiSet.end ()) {
+      // yes, element is known in the multiset
+      if (! element->getMultipleOccurrencesAllowed ()) {
+        stringstream s;
+
+        s <<
+          "element '" <<
+          element->fetchNames () <<
+          "' is already present in the command line";
+
+abort ();
+
+        oahWarning (s.str ());
+      }
+    }
+
+/* JMI
+    // is this element already present in the commande line?
     multiset<S_oahElement>::const_iterator
       it =
         fHandlerCommandLineElementsMultiSet.find (
@@ -9612,10 +9673,12 @@ void oahHandler::handleOptionName (
           element->fetchNames () <<
           "' is already present in the command line";
 
-        oahWarning (
-          s.str ());
+abort ();
+
+        oahWarning (s.str ());
       }
     }
+*/
 
     // remember this element as occurring in the command line
     fHandlerCommandLineElementsMultiSet.insert (element);
@@ -9684,6 +9747,15 @@ void oahHandler::handleOptionName (
       handleAtomName (
         atom,
         name);
+    }
+
+    else if (
+      // is it a single-character options cluster?
+      name.size () > 1
+        &&
+      optionNameIsASingleCharacterOptionsCluster (name)
+    ) {
+      // the options contained in name have been handled already
     }
 
     else {

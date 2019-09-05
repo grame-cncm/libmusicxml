@@ -152,8 +152,6 @@ class traceOah : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printHelp (ostream& os);
-
     void                  printTraceOahHelp ();
 
     void                  printTraceOahValues (int fieldWidth);
@@ -420,8 +418,6 @@ class traceOah : public oahGroup
 
     S_oahPrefix           fShortTracePrefix;
     S_oahPrefix           fLongTracePrefix;
-
-    int                   fMaximumSubGroupHeaderLength;
 };
 typedef SMARTP<traceOah> S_traceOah;
 EXP ostream& operator<< (ostream& os, const S_traceOah& elt);

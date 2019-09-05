@@ -1275,7 +1275,7 @@ R"(These options control the way MSR data is handled.)",
     handlerUpLink)
 {
   // append this options group to the options handler
-  // if relevant
+  // if relevant // JMI ???
   if (handlerUpLink) {
     handlerUpLink->
       appendGroupToHandler (this);

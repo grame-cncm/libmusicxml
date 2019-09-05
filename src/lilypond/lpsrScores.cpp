@@ -108,6 +108,21 @@ lpsrScore::lpsrScore (
           lpsrComment::kNoGapAfterwards);
     }
 
+    // create the command line as supplied comment
+    {
+      stringstream s;
+
+      s <<
+        gTab <<
+        gOahOah->fCommandLineAsSupplied;
+
+      fCommandLineAsSuppliedComment =
+        lpsrComment::create (
+          inputLineNumber,
+          s.str (),
+          lpsrComment::kNoGapAfterwards);
+    }
+
     // do the command line long and short options differ?
     bool
       longAndShortOptionsDiffer =
@@ -1768,6 +1783,12 @@ void lpsrScore::browseData (basevisitor* v)
     // browse the translation date comment
     msrBrowser<lpsrComment> browser (v);
     browser.browse (*fTranslationDateComment);
+  }
+
+  if (fCommandLineAsSuppliedComment) {
+    // browse the command line as supplied comment
+    msrBrowser<lpsrComment> browser (v);
+    browser.browse (*fCommandLineAsSuppliedComment);
   }
 
   if (fCommandLineLongOptionsComment) {

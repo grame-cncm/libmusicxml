@@ -3515,23 +3515,18 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 
   // are there harmonies attached to the current note?
   if (fThereAreHarmoniesToBeAttachedToCurrentNote) {
-  /* JMI
-    // should the first voice be created?
-    S_msrVoice
-      firstStaffVoice =
-        createRegularVoiceInStaffIfNotYetDone (
-          inputLineNumber,
-          fCurrentStaffMusicXMLNumber,
-          1); // JMI see DTD fCurrentVoiceMusicXMLNumber);
-
-    S_msrVoice
-      firstStaffVoice =
-        staff->
-          fetchFirstRegularVoiceFromStaff (
-            inputLineNumber);
-*/
-
-    if (! gMsrOah->fOmitHarmonies) {
+    if (gMsrOah->fOmitHarmonies) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceHarmonies) {
+        fLogOutputStream <<
+          "Omitting the harmonies" <<
+          ", line " <<
+          inputLineNumber <<
+          endl;
+      }
+#endif
+    }
+    else {
       // should the harmony voice be created?
       S_msrVoice
         harmonyVoice =
@@ -3545,23 +3540,18 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 
   // are there figured bass attached to the current note?
   if (fThereAreFiguredBassToBeAttachedToCurrentNote) {
-  /* JMI
-    // should voice 1 be created?
-    S_msrVoice
-      firstStaffVoice =
-        createRegularVoiceInStaffIfNotYetDone (
-          inputLineNumber,
-          fCurrentStaffMusicXMLNumber,
-          1); // JMI see DTD fCurrentVoiceMusicXMLNumber);
-
-    S_msrVoice
-      firstStaffVoice =
-        staff->
-          fetchFirstRegularVoiceFromStaff (
-            inputLineNumber);
-*/
-
-    if (! gMsrOah->fOmitFiguredBasses) {
+    if (gMsrOah->fOmitFiguredBasses) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceFiguredBasses) {
+        fLogOutputStream <<
+          "Omitting the figured basses" <<
+          ", line " <<
+          inputLineNumber <<
+          endl;
+      }
+#endif
+    }
+    else {
       // should the figured bass voice be created?
       S_msrVoice
         figuredBassVoice =

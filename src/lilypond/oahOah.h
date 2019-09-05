@@ -213,6 +213,7 @@ class oahOah : public oahGroup
 
     bool                  fShowOptionsAndArguments;
 
+    string                fCommandLineAsSupplied;
     string                fCommandLineWithShortOptionsNames;
     string                fCommandLineWithLongOptionsNames;
 

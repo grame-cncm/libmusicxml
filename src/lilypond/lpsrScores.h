@@ -344,6 +344,7 @@ class lpsrScore : public lpsrElement
     // command line
     S_lpsrComment         fInputSourceNameComment;
     S_lpsrComment         fTranslationDateComment;
+    S_lpsrComment         fCommandLineAsSuppliedComment;
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
 
