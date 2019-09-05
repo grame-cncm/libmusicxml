@@ -257,6 +257,11 @@ R"(\markup {
 
     stringstream s;
 
+/* JMI YES???
+      \fill-line {
+        "https://github.com/grame-cncm/libmusicxml/tree/lilypond - http://www.lilypond.org"
+      }
+*/
     s <<
 R"(\markup {
     \tiny
@@ -271,9 +276,6 @@ R"(\markup {
       currentVersionNumber () <<
       " and engraved by LilyPond \" (lilypond-version))" <<
 R"(
-      }
-      \fill-line {
-        "https://github.com/grame-cncm/libmusicxml/tree/lilypond - http://www.lilypond.org"
       }
       \fill-line { \italic { \modTimeAsString }}
     }

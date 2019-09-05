@@ -7167,6 +7167,7 @@ void oahGroup::printHelp (ostream& os)
   // underline the options group header
   underlineGroupHeader (os);
 
+/* JMI
   // print the options subgroups
   if (fSubGroupsList.size ()) {
     gIndenter++;
@@ -7178,6 +7179,48 @@ void oahGroup::printHelp (ostream& os)
     for ( ; ; ) {
       // print the options subgroup help
       (*i)->printHelp (os);
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+
+    gIndenter--;
+  }
+*/
+
+  // print the options subgroups
+  if (fSubGroupsList.size ()) {
+    // compute the maximun sub group header length
+    int maximumSubGroupHeaderLength = 0;
+
+    for (
+      list<S_oahSubGroup>::const_iterator i = fSubGroupsList.begin ();
+      i != fSubGroupsList.end ();
+      i++
+    ) {
+      string subGroupHeader  = (*i)->getSubGroupHeader ();
+      int subGroupHeaderSize = subGroupHeader.size ();
+
+      if (subGroupHeaderSize > maximumSubGroupHeaderLength) {
+        maximumSubGroupHeaderLength = subGroupHeaderSize;
+      }
+    } // for
+
+    maximumSubGroupHeaderLength += 3; // to have some more spaces
+
+    gIndenter++;
+
+    list<S_oahSubGroup>::const_iterator
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_oahSubGroup subGroup = (*i);
+
+      // print the options subgroup help
+      subGroup->printHelpWithHeaderWidth (
+        os,
+        maximumSubGroupHeaderLength);
+
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
