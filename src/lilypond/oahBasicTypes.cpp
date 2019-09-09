@@ -9182,7 +9182,7 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
 #ifdef TRACE_OAH
     if (true || gTraceOah->fTraceOah) {
       gLogOstream <<
-        "handling single-character options cluster element '" <<
+        "handling single-character options cluster element " <<
         element->asString () <<
         endl;
     }
@@ -9571,7 +9571,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
   }
 #endif
 
-  if (true || fHandlerFoundAHelpOption) {
+  if (fHandlerFoundAHelpOption) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       gLogOstream <<
