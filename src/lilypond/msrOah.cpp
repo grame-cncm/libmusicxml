@@ -80,6 +80,14 @@ S_oahValuedAtom msrRenamePartAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrRenamePartAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -428,6 +436,14 @@ S_oahValuedAtom msrTransposePartAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrTransposePartAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -770,6 +786,14 @@ S_oahValuedAtom msrOmitPartAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrOmitPartAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -1058,6 +1082,14 @@ S_oahValuedAtom msrPitchesLanguageAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrPitchesLanguageAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }

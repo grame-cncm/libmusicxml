@@ -74,6 +74,14 @@ S_oahValuedAtom xml2lyVersionOahAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a xml2lyVersionOahAtom" <<
+      endl;
+  }
+#endif
+
   // handle it at once
   printVersion (os);
 
@@ -231,6 +239,14 @@ S_oahValuedAtom xml2lyAboutOahAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a xml2lyAboutOahAtom" <<
+      endl;
+  }
+#endif
+
   // handle it at once
   printAbout (os);
 
@@ -400,6 +416,14 @@ S_oahValuedAtom xml2lyContactOahAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a xml2lyContactOahAtom" <<
+      endl;
+  }
+#endif
+
   // handle it at once
   printContact (os);
 

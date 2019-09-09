@@ -78,6 +78,14 @@ S_oahValuedAtom lpsrScoreOutputKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lpsrScoreOutputKindAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -316,6 +324,14 @@ S_oahValuedAtom lpsrPitchesLanguageAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lpsrPitchesLanguageAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -556,6 +572,14 @@ S_oahValuedAtom lpsrChordsLanguageAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lpsrChordsLanguageAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -791,6 +815,14 @@ S_oahValuedAtom lpsrTransposeAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lpsrTransposeAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }

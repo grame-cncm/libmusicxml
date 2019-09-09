@@ -67,6 +67,14 @@ S_oahValuedAtom extraShowAllChordsStructuresAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a extraShowAllChordsStructuresAtom" <<
+      endl;
+  }
+#endif
+
   // handle it at once
   printAllChordsStructures (os);
 
@@ -223,6 +231,14 @@ S_oahValuedAtom extraShowAllChordsContentsAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a extraShowAllChordsContentsAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -483,6 +499,14 @@ S_oahValuedAtom extraShowChordDetailsAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a extraShowChordDetailsAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -797,6 +821,14 @@ S_oahValuedAtom extraShowChordAnalysisAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a extraShowChordAnalysisAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }

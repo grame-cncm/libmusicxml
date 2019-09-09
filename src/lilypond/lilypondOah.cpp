@@ -77,6 +77,14 @@ S_oahValuedAtom lilypondScoreOutputKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondScoreOutputKindAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -268,6 +276,14 @@ S_oahValuedAtom lilypondAbsoluteOctaveEntryAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondAbsoluteOctaveEntryAtom" <<
+      endl;
+  }
+#endif
+
   // set octave entry kind at once
   fLpsrOctaveEntryKindVariable = kOctaveEntryAbsolute;
 
@@ -423,6 +439,14 @@ S_oahValuedAtom lilypondRelativeOctaveEntryAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondRelativeOctaveEntryAtom" <<
+      endl;
+  }
+#endif
+
   // set octave entry kind at once
   fLpsrOctaveEntryKindVariable = kOctaveEntryRelative;
 
@@ -677,6 +701,14 @@ S_oahValuedAtom lilypondFixedOctaveEntryAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondFixedOctaveEntryAtom" <<
+      endl;
+  }
+#endif
+
   // set octave entry kind at once
   fLpsrOctaveEntryKindVariable = kOctaveEntryFixed;
 
@@ -886,6 +918,14 @@ S_oahValuedAtom lilypondResetMeasureNumberAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondResetMeasureNumberAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -1229,6 +1269,14 @@ S_oahValuedAtom lilypondAccidentalStyleKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondAccidentalStyleKindAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -1468,6 +1516,14 @@ S_oahValuedAtom lilypondChordsDisplayAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondChordsDisplayAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -1827,6 +1883,14 @@ S_oahValuedAtom lilypondLyricsAlignmentKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondLyricsAlignmentKindAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -2064,6 +2128,14 @@ S_oahValuedAtom lilypondMidiTempoAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondMidiTempoAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
@@ -5189,6 +5261,14 @@ S_oahValuedAtom lilypondBreakPageAfterMeasureNumberAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondBreakPageAfterMeasureNumberAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }

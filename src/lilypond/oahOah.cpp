@@ -72,6 +72,14 @@ S_oahValuedAtom oahOptionalValuesStyleKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a oahOptionalValuesStyleKindAtom" <<
+      endl;
+  }
+#endif
+
   // an option value is needed
   return this;
 }
