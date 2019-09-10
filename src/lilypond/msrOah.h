@@ -577,6 +577,27 @@ class msrOah : public oahGroup
     bool                  fDelayRestsSlashes; // JMI
     bool                  fDelayRestsWedges; // JMI
 
+    // articulations
+    // --------------------------------------
+
+    bool                  fOmitArticulations;
+
+
+    // ornaments
+    // --------------------------------------
+
+
+    bool                  fOmitOrnaments;
+
+    // words
+    // --------------------------------------
+
+    bool                  fOmitWords;
+
+    // wedges
+    // --------------------------------------
+
+    bool                  fOmitWedges;
 
     // lyrics
     // --------------------------------------

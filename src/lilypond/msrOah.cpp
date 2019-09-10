@@ -1853,6 +1853,67 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
   delayRestsMultiplexBooleansAtom->
     addBooleanAtom (
       delayRestsWedgesAtom);
+
+  // omit articulations
+
+  fOmitArticulations = false;
+
+  S_oahBooleanAtom
+    omitArticulationsAtom =
+      oahBooleanAtom::create (
+        "oarts", "omit-articulations",
+R"('<word/>' in MusicXML, '<!' in LilyPond)",
+        "omitArticulations",
+        fOmitArticulations);
+  subGroup->
+    appendAtomToSubGroup (
+      omitArticulationsAtom);
+
+  // omit ornaments
+  // --------------------------------------
+
+  fOmitOrnaments = false;
+
+  S_oahBooleanAtom
+    omitOrnamentsAtom =
+      oahBooleanAtom::create (
+        "oorns", "omit-ornaments",
+R"('<trill-mark/>' in MusicXML, '<!' in LilyPond)",
+        "omitOrnaments",
+        fOmitOrnaments);
+  subGroup->
+    appendAtomToSubGroup (
+      omitOrnamentsAtom);
+
+  // omit words
+
+  fOmitWords = false;
+
+  S_oahBooleanAtom
+    omitWordsAtom =
+      oahBooleanAtom::create (
+        "owords", "omit-words",
+R"('<word/>' in MusicXML, '<!' in LilyPond)",
+        "omitWords",
+        fOmitWords);
+  subGroup->
+    appendAtomToSubGroup (
+      omitWordsAtom);
+
+  // omit wedges
+
+  fOmitWedges = false;
+
+  S_oahBooleanAtom
+    omitWedgesAtom =
+      oahBooleanAtom::create (
+        "owedges", "omit-wedges",
+R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
+        "omitWedges",
+        fOmitWedges);
+  subGroup->
+    appendAtomToSubGroup (
+      omitWedgesAtom);
 }
 
 void msrOah::initializeMsrLyricsOptions (
@@ -2175,6 +2236,18 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
     fDelayRestsSlashes;
   clone->fDelayRestsWedges =
     fDelayRestsWedges;
+
+  clone->fOmitArticulations =
+    fOmitArticulations;
+
+  clone->fOmitOrnaments =
+    fOmitOrnaments;
+
+  clone->fOmitWords =
+    fOmitWords;
+
+  clone->fOmitWedges =
+    fOmitWedges;
 
 
   // lyrics
@@ -2530,6 +2603,74 @@ void msrOah::printMsrOahValues (int fieldWidth)
 
     setw (fieldWidth) << "delayRestsWedges" << " : " <<
     booleanAsString (fDelayRestsWedges) <<
+    endl;
+
+  gIndenter--;
+
+
+  // articulations
+  // --------------------------------------
+
+  gLogOstream <<
+     "Articulations:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "omitArticulations" << " : " <<
+    booleanAsString (fOmitArticulations) <<
+    endl;
+
+  gIndenter--;
+
+
+  // ornaments
+  // --------------------------------------
+
+  gLogOstream <<
+     "Ornaments:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "omitOrnaments" << " : " <<
+    booleanAsString (fOmitOrnaments) <<
+    endl;
+
+  gIndenter--;
+
+
+  // words
+  // --------------------------------------
+
+  gLogOstream <<
+     "Words:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "omitWords" << " : " <<
+    booleanAsString (fOmitWords) <<
+    endl;
+
+  gIndenter--;
+
+
+  // wedges
+  // --------------------------------------
+
+  gLogOstream <<
+     "Wedges:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "omitWedges" << " : " <<
+    booleanAsString (fOmitWedges) <<
     endl;
 
   gIndenter--;

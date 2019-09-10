@@ -2784,34 +2784,36 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         inputLineNumber,
         wordsXMLLangString);
 
-  // create the words
-  if (wordsValue.size ()) {
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceWords) {
-      fLogOutputStream <<
-        "Creating words \"" << wordsValue << "\"" <<
-        ", placement = \"" <<
-        msrPlacementKindAsString (
-          fCurrentDirectionPlacementKind) << "\"" <<
-        endl;
+  if (! gMsrOah->fOmitWords) {
+    // create the words
+    if (wordsValue.size ()) {
+  #ifdef TRACE_OAH
+      if (gTraceOah->fTraceWords) {
+        fLogOutputStream <<
+          "Creating words \"" << wordsValue << "\"" <<
+          ", placement = \"" <<
+          msrPlacementKindAsString (
+            fCurrentDirectionPlacementKind) << "\"" <<
+          endl;
+      }
+  #endif
+
+      S_msrWords
+        words =
+          msrWords::create (
+            inputLineNumber,
+            fCurrentDirectionPlacementKind,
+            wordsValue,
+            justifyKind,
+            horizontalAlignmentKind,
+            verticalAlignmentKind,
+            fontStyleKind,
+            fontSize,
+            fontWeightKind,
+            wordsXMLLangKind);
+
+      fPendingWordsList.push_back (words);
     }
-#endif
-
-    S_msrWords
-      words =
-        msrWords::create (
-          inputLineNumber,
-          fCurrentDirectionPlacementKind,
-          wordsValue,
-          justifyKind,
-          horizontalAlignmentKind,
-          verticalAlignmentKind,
-          fontStyleKind,
-          fontSize,
-          fontWeightKind,
-          wordsXMLLangKind);
-
-    fPendingWordsList.push_back (words);
   }
 }
 
@@ -5371,16 +5373,18 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
 
   // color JMI
 
-  S_msrWedge
-    wedge =
-      msrWedge::create (
-        inputLineNumber,
-        wedgeKind,
-        wedgeNienteKind,
-        wedgeLineTypeKind,
-        fCurrentDirectionPlacementKind);
+  if (! gMsrOah->fOmitWedges) {
+    S_msrWedge
+      wedge =
+        msrWedge::create (
+          inputLineNumber,
+          wedgeKind,
+          wedgeNienteKind,
+          wedgeLineTypeKind,
+          fCurrentDirectionPlacementKind);
 
-  fPendingWedgesList.push_back (wedge);
+    fPendingWedgesList.push_back (wedge);
+  }
 }
 
 //________________________________________________________________________
@@ -8744,7 +8748,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
         msrArticulation::kAccent,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
@@ -8779,7 +8785,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
         msrArticulation::kBreathMark,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
@@ -8814,7 +8822,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
         msrArticulation::kCaesura,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
@@ -8849,7 +8859,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
         msrArticulation::kSpiccato,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
@@ -8884,7 +8896,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
         msrArticulation::kStaccato,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
@@ -8919,7 +8933,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
         msrArticulation::kStaccatissimo,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
@@ -8954,7 +8970,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
         msrArticulation::kStress,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
@@ -8987,7 +9005,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
         msrArticulation::kUnstress,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
@@ -9020,7 +9040,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
         msrArticulation::kDetachedLegato,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
@@ -9056,7 +9078,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
         msrArticulation::kStrongAccent,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
@@ -9093,7 +9117,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
         msrArticulation::kTenuto,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
@@ -9128,7 +9154,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
         msrArticulation::kDoit,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
@@ -9163,7 +9191,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
         msrArticulation::kFalloff,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
@@ -9198,7 +9228,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
         msrArticulation::kPlop,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
@@ -9233,7 +9265,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
         msrArticulation::kScoop,
         placementKind);
 
-  fCurrentArticulations.push_back (articulation);
+  if (! gMsrOah->fOmitArticulations) {
+    fCurrentArticulations.push_back (articulation);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_articulations& elt )
@@ -10857,7 +10891,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
         msrOrnament::kOrnamentTrill,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
@@ -11078,7 +11114,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
         msrOrnament::kOrnamentTurn,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
@@ -11113,7 +11151,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
         msrOrnament::kOrnamentInvertedTurn,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
@@ -11148,7 +11188,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
         msrOrnament::kOrnamentDelayedTurn,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
@@ -11183,7 +11225,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
         msrOrnament::kOrnamentDelayedInvertedTurn,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
@@ -11218,7 +11262,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
         msrOrnament::kOrnamentVerticalTurn,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
@@ -11253,7 +11299,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
         msrOrnament::kOrnamentMordent,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
@@ -11288,7 +11336,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
         msrOrnament::kOrnamentInvertedMordent,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
@@ -11323,7 +11373,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
         msrOrnament::kOrnamentSchleifer,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
@@ -11358,7 +11410,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
         msrOrnament::kOrnamentShake,
         placementKind);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
@@ -11444,7 +11498,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     setOrnamentAccidentalMarkKind (
       currentOrnamentAccidentalMark);
 
-  fCurrentOrnamentsList.push_back (ornament);
+  if (! gMsrOah->fOmitOrnaments) {
+    fCurrentOrnamentsList.push_back (ornament);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_ornaments& elt )
