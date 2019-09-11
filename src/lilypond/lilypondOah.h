@@ -1072,7 +1072,9 @@ class lilypondOah : public oahGroup
     bool                  fAllDurations;
 
     bool                  fStems;
+
     bool                  fNoAutoBeaming;
+    bool                  fNoBeams;
 
     bool                  fRomanStringNumbers;
     bool                  fAvoidOpenStrings;

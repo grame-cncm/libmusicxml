@@ -6099,33 +6099,33 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
 
   switch (staffKind) {
     case msrStaff::kStaffRegular:
-      staffContextName = "\\context Staff";
+      staffContextName = "Staff";
       voiceContextName = "Voice";
       break;
 
     case msrStaff::kStaffTablature:
-      staffContextName = "\\context TabStaff";
+      staffContextName = "TabStaff";
       voiceContextName = "TabVoice";
       break;
 
     case msrStaff::kStaffHarmony:
-      staffContextName = "\\context ChordNames2"; // JMI
+      staffContextName = "ChordNames2"; // JMI
       voiceContextName = "???"; // JMI
       break;
 
     case msrStaff::kStaffFiguredBass:
-      staffContextName = "\\context FiguredBass";
+      staffContextName = "FiguredBass";
       voiceContextName = "???"; // JMI
       break;
 
     case msrStaff::kStaffDrum:
-      staffContextName = "\\context DrumStaff";
+      staffContextName = "DrumStaff";
       voiceContextName = "DrumVoice";
         // the "DrumVoice" alias exists, use it
       break;
 
     case msrStaff::kStaffRythmic:
-      staffContextName = "\\context RhythmicStaff";
+      staffContextName = "RhythmicStaff";
       voiceContextName = "Voice";
         // no "RhythmicVoice" alias exists
       break;
@@ -8051,10 +8051,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
 
   if (! gLilypondOah->fNoLilypondLyrics) {
     if (fGenerateCodeForOngoingNonEmptyStanza) {
- //     gIndenter--; JMI ???
-
       fLilypondCodeOstream <<
-        endl <<
         "}" <<
         endl <<
         endl;
@@ -8218,31 +8215,25 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
               " %}";
           }
 
-          fLilypondCodeOstream << endl;
+      // JMI    fLilypondCodeOstream << endl;
           break;
 
         case msrSyllable::kSyllableLineBreak:
-          if (gLilypondOah->fInputLineNumbers) {
-            // print the measure end line number as a comment
-            fLilypondCodeOstream <<
-              "%{ line break, line " <<
-              elt->getInputLineNumber () <<
-              " %}";
-          }
-
-          fLilypondCodeOstream << endl;
+          // print the measure end line number as a comment
+          fLilypondCodeOstream <<
+            "%{ line break, line " <<
+            elt->getInputLineNumber () <<
+            " %}" <<
+            endl;
           break;
 
         case msrSyllable::kSyllablePageBreak:
-          if (gLilypondOah->fInputLineNumbers) {
-            // print the measure end line number as a comment
-            fLilypondCodeOstream <<
-              "%{ page break, line " <<
-              elt->getInputLineNumber () <<
-              " %}";
-          }
-
-          fLilypondCodeOstream << endl;
+          // print the measure end line number as a comment
+          fLilypondCodeOstream <<
+            "%{ page break, line " <<
+            elt->getInputLineNumber () <<
+            " %}" <<
+            endl;
           break;
 
         case msrSyllable::kSyllableNone: // JMI
@@ -10504,7 +10495,9 @@ void lpsr2LilypondTranslator::generateNoteBeams (S_msrNote note)
 
         case msrBeam::kBeginBeam:
           if (beam->getBeamNumber () == 1)
-            fLilypondCodeOstream << "[ ";
+            if (! gLilypondOah->fNoBeams) {
+              fLilypondCodeOstream << "[ ";
+            }
           break;
 
         case msrBeam::kContinueBeam:
@@ -10512,7 +10505,9 @@ void lpsr2LilypondTranslator::generateNoteBeams (S_msrNote note)
 
         case msrBeam::kEndBeam:
           if (beam->getBeamNumber () == 1)
-            fLilypondCodeOstream << "] ";
+            if (! gLilypondOah->fNoBeams) {
+              fLilypondCodeOstream << "] ";
+            }
           break;
 
         case msrBeam::kForwardHookBeam:

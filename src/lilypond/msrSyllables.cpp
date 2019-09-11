@@ -588,7 +588,7 @@ void msrSyllable::print (ostream& os)
       fSyllableExtendKind) <<
     endl <<
     setw (fieldWidth) <<
-    "texts list" << " : ";
+    "syllableTextsList" << " : ";
 
   writeTextsList (
     fSyllableTextsList,

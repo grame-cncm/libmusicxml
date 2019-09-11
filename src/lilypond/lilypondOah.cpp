@@ -2858,10 +2858,21 @@ By default, LilyPond will take care of that by itself.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "noab", "no-auto-beaming",
-R"(Generate '\set Voice.autoBeaming = ##f' in each voice
+R"(Generate '\set Staff.autoBeaming = ##f' in each voice
 to prevent LilyPond from handling beams automatically.)",
         "noAutoBeaming",
         fNoAutoBeaming));
+
+  fNoBeams  = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nbeams", "no-beams",
+R"(Don't generate beams in the LilyPond code.
+This is handy when the MusicXML data contains beam in vocal voices)",
+        "noBeams",
+        fNoBeams));
 
   // string numbers
 
@@ -3909,8 +3920,11 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
 
   clone->fStems =
     fStems;
+
   clone->fNoAutoBeaming =
     fNoAutoBeaming;
+  clone->fNoBeams =
+    fNoBeams;
 
   clone->fRomanStringNumbers =
     fRomanStringNumbers;
@@ -4366,8 +4380,12 @@ void lilypondOah::printAtomOptionsValues (
     setw (valueFieldWidth) << "stems" << " : " <<
       booleanAsString (fStems) <<
       endl <<
+
     setw (valueFieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (fNoAutoBeaming) <<
+      endl <<
+    setw (valueFieldWidth) << "noBeams" << " : " <<
+      booleanAsString (fNoBeams) <<
       endl <<
 
     setw (valueFieldWidth) << "romanStringNumbers" << " : " <<
@@ -4860,8 +4878,12 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
     setw (fieldWidth) << "stems" << " : " <<
       booleanAsString (fStems) <<
       endl <<
+
     setw (fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (fNoAutoBeaming) <<
+      endl <<
+    setw (fieldWidth) << "noBeams" << " : " <<
+      booleanAsString (fNoBeams) <<
       endl <<
 
     setw (fieldWidth) << "romanStringNumbers" << " : " <<
