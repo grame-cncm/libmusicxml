@@ -2772,13 +2772,13 @@ R"()",
 
   lpsrOctaveEntryKind
     octaveEntryKindDefaultValue =
-      kOctaveEntryRelative; // LilyPond default value
+      kOctaveEntryAbsolute; // relative is LilyPond's default value
   fOctaveEntryKind = octaveEntryKindDefaultValue;
 
   // leave fOctaveEntrySemiTonesPitchAndOctave equal to nullptr here,
-  // since \relative without a pitch and absolute octave
-  // can be used in LilyPond, in which case the pitch and absolute actave is:
-  fSemiTonesPitchAndOctaveDefaultValue =
+  // since \relative without a pitch and absolute octave entry
+  // can be used in LilyPond, in which case the pitch and actave is:
+  fSemiTonesPitchAndOctaveDefaultValue = // JMI
     msrSemiTonesPitchAndOctave::create (
       // F under middle C, LilyPond default for relative octave entry
       kF_Natural_STP, 3);
@@ -2787,13 +2787,7 @@ R"()",
     appendAtomToSubGroup (
       lilypondAbsoluteOctaveEntryAtom::create (
         "abs", "absolute",
-        replaceSubstringInString (
-R"(Use absolute octave entry in the generated LilyPond code.
-The default is to use '\relative', with LilyPond's implicit reference 'DEFAULT_VALUE'.)",
-          "DEFAULT_VALUE",
-          msrSemiTonesPitchAndOctaveAsLilypondString (
-            gLpsrOah->fLpsrQuarterTonesPitchesLanguageKind,
-            fSemiTonesPitchAndOctaveDefaultValue)),
+R"(Use absolute octave entry in the generated LilyPond code.)",
           "fOctaveEntryKind",
           fOctaveEntryKind));
 
@@ -2801,10 +2795,16 @@ The default is to use '\relative', with LilyPond's implicit reference 'DEFAULT_V
     appendAtomToSubGroup (
       lilypondRelativeOctaveEntryAtom::create (
         "rel", "relative",
+        replaceSubstringInString (
 R"(Use relative octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
 PITCH_AND_OCTAVE is made of a diatonic pitch and an optional sequence of commas or single quotes.
 It should be placed between double quotes if it contains single quotes, such as:
-  -rel "c''")",
+  -rel "c''".
+The default is to use LilyPond's implicit reference 'DEFAULT_VALUE'.)",
+          "DEFAULT_VALUE",
+          msrSemiTonesPitchAndOctaveAsLilypondString (
+            gLpsrOah->fLpsrQuarterTonesPitchesLanguageKind,
+            fSemiTonesPitchAndOctaveDefaultValue)),
         "PITCH_AND_OCTAVE",
         "relativeOctaveEntrySemiTonesPitchAndOctave",
         fOctaveEntryKind,
