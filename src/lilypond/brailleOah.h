@@ -328,7 +328,7 @@ class brailleOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  initializeBrailleUTFEncodingOptions (
+    void                  initializeBrailleEncodingOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeBrailleByteOrderingOptions (

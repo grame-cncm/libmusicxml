@@ -2039,7 +2039,7 @@ void msrOah::initializeMsrExitAfterSomePassesOptions (
     exitAfterSomePassesSubGroup =
       oahSubGroup::create (
         "Exit after some passes",
-        "hme", "help-msr-exit",
+        "hmexit", "help-msr-exit",
 R"()",
       kElementVisibilityAlways,
       this);

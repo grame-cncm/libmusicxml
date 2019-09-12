@@ -687,7 +687,7 @@ brailleOah::brailleOah (
   : oahGroup (
     "Braille",
     "hbrl", "help-braille",
-R"(These braille control which Braille code is generated.)",
+R"(These options control how the Braille code is generated.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {
@@ -768,14 +768,14 @@ void brailleOah::browseData (basevisitor* v)
 #endif
 }
 
-void brailleOah::initializeBrailleUTFEncodingOptions (
+void brailleOah::initializeBrailleEncodingOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "UTF encoding",
-        "hlpue", "help-utf-encoding",
+        "Braille encoding",
+        "hbe", "help-braille-encoding",
 R"()",
       kElementVisibilityAlways,
       this);
@@ -808,6 +808,7 @@ The default is 'DEFAULT_VALUE'.)",
         "brailleOutputKind",
         fBrailleOutputKind));
 
+/* JMI
   // UTF encoding
 
   fUTFKind = kUTF8; // default value
@@ -821,11 +822,13 @@ which can be one of 8 or 16. Default value is 8.)",
         "ENCODING_SIZE",
         "UTFKind",
         fUTFKind));
+        */
 }
 
 void brailleOah::initializeBrailleByteOrderingOptions (
   bool boolOptionsInitialValue)
 {
+/* JMI
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
@@ -852,6 +855,7 @@ By default, a BOM is generated.)",
         "BOM_ENDIAN",
         "byteOrderingKind",
         fByteOrderingKind));
+        */
 }
 
 void brailleOah::initializeBrailleMusicFileNameOptions (
@@ -980,7 +984,7 @@ void brailleOah::initializeBrailleOah (
 {
   // UTF encoding
   // --------------------------------------
-  initializeBrailleUTFEncodingOptions (
+  initializeBrailleEncodingOptions (
     boolOptionsInitialValue);
 
   // byte ordering

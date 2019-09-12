@@ -1410,7 +1410,7 @@ void lpsrOah::initializeLpsrExitAfterSomePassesOptions (
     exitAfterSomePassesSubGroup =
       oahSubGroup::create (
         "Exit after some passes",
-        "hlpexit", "help-lpsr-exit",
+        "hlexit", "help-lpsr-exit",
 R"()",
       kElementVisibilityAlways,
       this);

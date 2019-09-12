@@ -696,7 +696,7 @@ void bsrOah::initializeBsrExitAfterSomePassesOptions (
     subGroup =
       oahSubGroup::create (
         "Exit after some passes",
-        "hbe", "help-bsr-exit",
+        "hbexit", "help-bsr-exit",
 R"()",
       kElementVisibilityAlways,
       this);
