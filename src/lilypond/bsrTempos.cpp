@@ -289,12 +289,14 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             }
           }
 
+/* JMI
           gLogOstream << // JMI
             "% ==> bsrTempo::buildCellsList ()" <<
             ", tempoPerMinuteString = " << tempoPerMinuteString <<
             ", perMinuteMin = " << perMinuteMin <<
             ", perMinuteMax = " << perMinuteMax <<
             endl;
+            */
 
           // create a number to represent perMinuteMin
           S_bsrNumber

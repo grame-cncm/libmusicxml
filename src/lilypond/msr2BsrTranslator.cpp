@@ -2518,7 +2518,7 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
   }
 #endif
 
-  if (noteValueSizeKind != fCurrentNoteValueSizeKind) {
+  if (false && noteValueSizeKind != fCurrentNoteValueSizeKind) { // JMI
     fLogOutputStream <<
       "--> note = '" <<
       bNote->asShortString () <<

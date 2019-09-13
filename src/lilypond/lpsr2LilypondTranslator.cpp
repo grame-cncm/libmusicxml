@@ -5441,25 +5441,27 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           break;
       } // switch
 
-      if (doGenerateAWithBlock) {
+      if (false && doGenerateAWithBlock) { // JMI
         fLilypondCodeOstream <<
-          "\\with {" <<
+          "\\with {1" <<
           endl;
       }
 
       gIndenter++;
 
-      if (partGroupName.size ()) {
-        fLilypondCodeOstream <<
-          "instrumentName = " <<
-          nameAsLilypondString (partGroupName) <<
-          endl;
-      }
-      if (partGroupAbbreviation.size ()) {
-        fLilypondCodeOstream <<
-          "shortInstrumentName = " <<
-          nameAsLilypondString (partGroupAbbreviation) <<
-          endl;
+      if (false && doGenerateAWithBlock) { // JMI
+        if (partGroupName.size ()) {
+          fLilypondCodeOstream <<
+            "instrumentName = 1" <<
+            nameAsLilypondString (partGroupName) <<
+            endl;
+        }
+        if (partGroupAbbreviation.size ()) {
+          fLilypondCodeOstream <<
+            "shortInstrumentName = " <<
+            nameAsLilypondString (partGroupAbbreviation) <<
+            endl;
+        }
       }
 
       switch (partGroupSymbolKind) {
@@ -5504,7 +5506,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
       // generate the '\with' block ending
       // if the part group is not implicit
-      if (doGenerateAWithBlock) {
+      if (false && doGenerateAWithBlock) { // JMI
         fLilypondCodeOstream <<
           endl <<
           "}" <<
@@ -5848,6 +5850,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           getPartAbbreviation ();
     }
 
+/* JMI ???
     if (partAbbreviation.size ()) {
       fLilypondCodeOstream <<
         "shortInstrumentName = ";
@@ -5873,6 +5876,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           endl;
       }
     }
+    */
   }
 
   gIndenter--;

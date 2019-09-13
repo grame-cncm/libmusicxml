@@ -75,12 +75,14 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
     int div = n / 10;
     int mod = n % 10;
 
+/* JMI
     gLogOstream << // JMI
       "% ==> numberValueAsCellsList ()" <<
       ", n = " << n <<
       ", div = " << div <<
       ", mod = " << mod <<
       endl;
+*/
 
     bsrCellKind cellKind = kCellUnknown; // SEE TICINO
 

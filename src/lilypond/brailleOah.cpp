@@ -72,6 +72,22 @@ brailleOutputKindAtom::brailleOutputKindAtom (
 brailleOutputKindAtom::~brailleOutputKindAtom ()
 {}
 
+S_oahValuedAtom brailleOutputKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a brailleOutputKindAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
 void brailleOutputKindAtom::handleValue (
   string   theString,
   ostream& os)

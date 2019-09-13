@@ -1153,7 +1153,7 @@ extraOah::extraOah (
   : oahGroup (
     "Extra",
     "he", "help-extra",
-R"(These extra provide features not related to translation from MusicXML to LilyPond.
+R"(These extra provide features not related to translation from MusicXML to other formats.
 In the text below:
   - ROOT_DIATONIC_PITCH should belong to the names available in
     the selected MSR pitches language, "nederlands" by default;

@@ -64,6 +64,10 @@ class brailleOutputKindAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
     void                  handleValue (
                             string   theString,
                             ostream& os);
