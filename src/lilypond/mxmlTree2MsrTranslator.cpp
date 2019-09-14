@@ -5159,6 +5159,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
   // color JMI
 
+  // create the ligature
   S_msrLigature
     ligature =
       msrLigature::create (
@@ -5169,6 +5170,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         ligatureLineTypeKind,
         fCurrentDirectionPlacementKind);
 
+  // append it to the pending ligatures list
   fPendingLigaturesList.push_back (ligature);
 
   switch (fCurrentLigatureKind) {
@@ -5180,13 +5182,17 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             stringstream s;
 
             s <<
-              "Bracket start found with no placement";
+              "Bracket start found with no placement, placing it above by default";
 
-            msrMusicXMLError (
+         // JMI   msrMusicXMLError (
+            msrMusicXMLWarning (
               gOahOah->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
+         //     __FILE__, __LINE__,
               s.str ());
+
+            ligature->setLigaturePlacementKind (kPlacementAbove);
+            fCurrentLigatureStartAbove = ligature;
           }
           break;
 
@@ -5206,6 +5212,44 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
       switch (fCurrentDirectionPlacementKind) {
         case msrPlacementKind::kPlacementNone:
+          {
+            stringstream s;
+
+            s <<
+              "Bracket stop found with no placement, placing it above by default";
+
+         // JMI   msrMusicXMLError (
+            msrMusicXMLWarning (
+              gOahOah->fInputSourceName,
+              inputLineNumber,
+         //     __FILE__, __LINE__,
+              s.str ());
+
+            ligature->setLigaturePlacementKind (kPlacementAbove);
+
+            if (! fCurrentLigatureStartAbove) {
+              stringstream s;
+
+              s <<
+                "Bracket stop above found with no corresponding bracket start";
+
+           // JMI   msrMusicXMLError (
+              msrMusicXMLWarning (
+                gOahOah->fInputSourceName,
+                inputLineNumber,
+           //     __FILE__, __LINE__,
+                s.str ());
+            }
+
+            else {
+              ligature->
+                setLigatureOtherEndSideLink (
+                  fCurrentLigatureStartAbove);
+
+              // forget this ligature spanner start
+              fCurrentLigatureStartAbove = nullptr;
+            }
+          }
           break;
 
         case msrPlacementKind::kPlacementAbove:
@@ -5215,20 +5259,22 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             s <<
               "Bracket stop above found with no corresponding bracket start";
 
-            msrMusicXMLError (
+         // JMI   msrMusicXMLError (
+            msrMusicXMLWarning (
               gOahOah->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
+         //     __FILE__, __LINE__,
               s.str ());
           }
+
           else {
             ligature->
               setLigatureOtherEndSideLink (
                 fCurrentLigatureStartAbove);
-          }
 
-          // forget this ligature spanner start
-          fCurrentLigatureStartAbove = nullptr;
+            // forget this ligature spanner start
+            fCurrentLigatureStartAbove = nullptr;
+          }
           break;
 
         case msrPlacementKind::kPlacementBelow:
@@ -5238,25 +5284,28 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             s <<
               "Bracket stop below found with no corresponding bracket start";
 
-            msrMusicXMLError (
+         // JMI   msrMusicXMLError (
+            msrMusicXMLWarning (
               gOahOah->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
+         //     __FILE__, __LINE__,
               s.str ());
           }
+
           else {
             ligature->
               setLigatureOtherEndSideLink (
                 fCurrentLigatureStartBelow);
-          }
 
-          // forget this ligature spanner start
-          fCurrentLigatureStartBelow = nullptr;
+            // forget this ligature spanner start
+            fCurrentLigatureStartBelow = nullptr;
+          }
           break;
       } // switch
       break;
 
     case msrLigature::kLigatureContinue:
+      // JMI ???
       break;
 
     case msrLigature::kLigatureNone:
@@ -16186,6 +16235,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
         // handle ligature placement kind
         switch (ligaturePlacementKind) {
           case msrPlacementKind::kPlacementNone:
+            // should not occur
             break;
 
           case msrPlacementKind::kPlacementAbove:
@@ -16206,7 +16256,6 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #endif
 
                 note->appendLigatureToNote (ligature);
-                i = fPendingLigaturesList.erase (i);
                 break;
               default:
                 ;
@@ -16231,7 +16280,6 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #endif
 
                 note->appendLigatureToNote (ligature);
-                i = fPendingLigaturesList.erase (i);
                 break;
               default:
                 ;
@@ -16239,19 +16287,10 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
             break;
         } // switch
 
+        i = fPendingLigaturesList.erase (i);
+
         if (++i == iEnd) break;
       } // for
-
-
-  /*    while (fPendingLigaturesList.size ()) {
-        S_msrLigature
-          ligature =
-            fPendingLigaturesList.front ();
-
-        note->appendLigatureToNote (ligature);
-        fPendingLigaturesList.pop_front ();
-      } // while
- */
     }
   }
 }
