@@ -1571,6 +1571,47 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   gIndenter--;
 }
 
+void msrMeasure::accountForTupletMemberNoteDurationInMeasure (
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (
+    gTraceOah->fTraceNotes
+      ||
+    gTraceOah->fTraceMeasures
+      ||
+    gTraceOah->fTracePositionsInMeasures
+  ) {
+    gLogOstream <<
+      "Accounting for the durations of tuplet member note '" <<
+      note->asShortString () <<
+      "' in measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // fetch note sounding whole notes
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes ();
+
+  // account for note duration in measure whole notes
+  setCurrentMeasureWholeNotesDuration (
+    inputLineNumber,
+    fCurrentMeasureWholeNotesDuration + noteSoundingWholeNotes);
+}
+
 void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
 {
   int inputLineNumber =
@@ -1857,6 +1898,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -1869,6 +1911,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // append the tuplet to the measure elements list
   appendElementToMeasure (tuplet);
 
+/* JMI NO, that is too late....
   // fetch tuplet sousnding whole notes
   rational
     tupletSoundingWholeNotes =
@@ -1882,11 +1925,14 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
         this,
         fCurrentMeasureWholeNotesDuration);
   }
+  */
 
+/* JMI NO, the individual members of the tuplet have already been accounted for
   // account for tuplet duration in current measure whole notes
   setCurrentMeasureWholeNotesDuration (
     inputLineNumber,
     fCurrentMeasureWholeNotesDuration + tupletSoundingWholeNotes);
+*/
 
   // this measure contains music
   fMeasureContainsMusic = true;

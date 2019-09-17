@@ -2106,11 +2106,10 @@ void msrVoice:: handleBackupInVoice (
       backupTargetPositionInMeasure <<
       " is negative";
 
-//    msrMusicXMLError (
-    msrMusicXMLWarning (
+    msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
- //     __FILE__, __LINE__,
+      __FILE__, __LINE__,
       s.str ());
   }
 

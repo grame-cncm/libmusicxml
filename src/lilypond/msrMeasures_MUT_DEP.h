@@ -366,6 +366,10 @@ class msrMeasure : public msrElement
     // notes
 
     void                  appendNoteToMeasure (S_msrNote note);
+
+    void                  accountForTupletMemberNoteDurationInMeasure (
+                            S_msrNote note);
+
     void                  appendPaddingNoteAtTheEndOfMeasure (S_msrNote note);
 
     void                  appendNoteToMeasureClone (S_msrNote note);

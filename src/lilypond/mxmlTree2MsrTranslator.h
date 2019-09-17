@@ -1472,8 +1472,8 @@ class mxmlTree2MsrTranslator :
     // notes/rests handling
     // ------------------------------------------------------
 
-    // map<S_msrVoice, S_msrNote> seems buggy in g++ 4.9.x, so
-    // we use a pair containing the staff and voice numbers:
+    // map<S_msrVoice, S_msrNote> seems buggy in g++ 4.9.x,
+    // so we use a pair containing the staff and voice numbers:
     map<pair<int, int>, S_msrNote>
                               fVoicesLastMetNoteMap;
 

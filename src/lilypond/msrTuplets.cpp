@@ -264,7 +264,7 @@ void msrTuplet::addNoteToTuplet (
   note->
     setNoteTupletUpLink (this);
 
-  // account for note duration
+  // account for note duration in tuplet duration
   fSoundingWholeNotes +=
     note->getNoteSoundingWholeNotes ();
   fSoundingWholeNotes.rationalise ();
@@ -272,6 +272,17 @@ void msrTuplet::addNoteToTuplet (
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
+
+  // fetch voice last measure
+  S_msrMeasure
+    voiceLastMeasure =
+      voice->fetchVoiceLastMeasure (
+        note->getInputLineNumber ());
+
+  // account for the duration of note in voice last measure
+  voiceLastMeasure->
+    accountForTupletMemberNoteDurationInMeasure (
+      note);
 }
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)

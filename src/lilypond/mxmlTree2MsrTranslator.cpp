@@ -14803,6 +14803,9 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   // firstNote is the first tuplet note,
   // and is currently at the end of the voice
 
+  int firstNoteInputLineNumber =
+    firstNote->getInputLineNumber ();
+
   // create a tuplet
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTuplets) {
@@ -14832,7 +14835,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   S_msrTuplet
     tuplet =
       msrTuplet::create (
-        firstNote->getInputLineNumber (),
+        firstNoteInputLineNumber,
         fCurrentMeasureNumber,
         fCurrentTupletNumber,
         fCurrentTupletBracketKind,
@@ -14845,11 +14848,19 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
         memberNotesSoundingWholeNotes,
         memberNotesDisplayWholeNotes);
 
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      fetchVoiceFromCurrentPart (
+        firstNoteInputLineNumber,
+        fCurrentStaffNumberToInsertInto, // fCurrentMusicXMLStaffNumber,
+        fCurrentMusicXMLVoiceNumber);
+
   // add note as first note of the stack top tuplet
   tuplet->
     addNoteToTuplet (
       firstNote,
-      nullptr /* JMI */);
+      currentVoice);
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTuplets) {
@@ -19133,10 +19144,19 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           }
 #endif
 
+          // fetch current voice
+          S_msrVoice
+            currentVoice =
+              fetchVoiceFromCurrentPart (
+                inputLineNumber,
+                fCurrentStaffNumberToInsertInto, // fCurrentMusicXMLStaffNumber,
+                fCurrentMusicXMLVoiceNumber);
+
+          // add note to tuplet
           currentTuplet->
             addNoteToTuplet (
               note,
-              nullptr /* JMI */);
+              currentVoice);
 
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceTupletsDetails) {
@@ -19219,10 +19239,19 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               }
 #endif
 
+              // fetch current voice
+              S_msrVoice
+                currentVoice =
+                  fetchVoiceFromCurrentPart (
+                    inputLineNumber,
+                    fCurrentStaffNumberToInsertInto, // fCurrentMusicXMLStaffNumber,
+                    fCurrentMusicXMLVoiceNumber);
+
+              // add note to tuplet
               currentTuplet->
                 addNoteToTuplet (
                   note,
-                  nullptr /* JMI */);
+                  currentVoice);
 
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceTupletsDetails) {
@@ -19315,10 +19344,19 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               }
 #endif
 
+              // fetch current voice
+              S_msrVoice
+                currentVoice =
+                  fetchVoiceFromCurrentPart (
+                    inputLineNumber,
+                    fCurrentStaffNumberToInsertInto, // fCurrentMusicXMLStaffNumber,
+                    fCurrentMusicXMLVoiceNumber);
+
+              // add note to tuplet
               currentTuplet->
                 addNoteToTuplet (
                   note,
-                  nullptr /* JMI */);
+                  currentVoice);
 
 
 #ifdef TRACE_OAH
