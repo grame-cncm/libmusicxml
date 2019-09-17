@@ -4394,12 +4394,6 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
   }
 #endif
 
-/* JMI
-  // handle the pending tuplets if any
-  handleTupletsPendingOnTupletsStack (
-    inputLineNumber);
-    */
-
   // remember the current voice prior to the <backup />
   fCurrentVoicePriorToBackup =
     fetchVoiceFromCurrentPart (
@@ -4577,14 +4571,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
       forwardStepLength);
 
   // reset staff change detection
- // fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
+  // fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
   fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
-
-/* JMI ???
-  // handle the pending tuplets if any
-  handleTupletsPendingOnTupletsStack (
-    inputLineNumber);
-  */
 
   fOnGoingForward = false;
 }
@@ -6325,8 +6313,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
   if (fCurrentATupletStopIsPending) {
     if (fTupletsStack.size ()) { // JMI
-      // finalize the tuplet, only now in case the last element
-      // is actually a chord
+      // finalize the tuplet, only now
+      // in case the last element is actually a chord
       finalizeTupletAndPopItFromTupletsStack (
         inputLineNumber);
     }
@@ -13050,9 +13038,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
 
         fCurrentTupletTypeKind = msrTuplet::kTupletTypeStop;
       }
-
-      // it's now time to set the tuplet position in measure JMI
-
     }
     else {
       stringstream s;
@@ -18120,6 +18105,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 #endif
 
+/* JMI ???
   // handle the pending tuplets if any,
   // unless the current note is a grace note,
   // i.e. it is attached to a tuplet member note JMI
@@ -18127,6 +18113,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     handleTupletsPendingOnTupletsStack (
       inputLineNumber);
   }
+  */
 
   if (fCurrentNoteIsAGraceNote) {
     if (! fPendingGraceNotesGroup) {
