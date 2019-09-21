@@ -2228,6 +2228,8 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
       ||
     gTraceOah->fTracePositionsInMeasures
       ||
+    gMusicXMLOah->fTraceBackup
+      ||
     gTraceOah->fTraceWholeNotes
   ) {
     this->print (gLogOstream);

@@ -282,7 +282,7 @@ class msrVoice : public msrElement
 
     void                  handleBackupInVoice (
                             int      inputLineNumber,
-                            rational backupTargetPositionInMeasure);
+                            rational backupStepLength);
 
     void                  padUpToPositionInMeasureInVoice (
                             int      inputLineNumber,

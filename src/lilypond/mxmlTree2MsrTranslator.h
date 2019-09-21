@@ -1966,6 +1966,11 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingBackup;
     S_msrVoice                fCurrentVoicePriorToBackup;
 
+    void                      handlePendingBackup (
+                                int        inputLineNumber,
+                                S_msrVoice voiceBeforeBackup,
+                                S_msrVoice voiceIntoWichToBackup);
+
     // a backup must remain pending until the next note's voice is known
     bool                      fThereIsAPendingBackup;
 

@@ -4386,7 +4386,7 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors || gMusicXMLOah->fTraceBackup) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_backup" <<
       ", line " << inputLineNumber <<
@@ -4410,7 +4410,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors || gMusicXMLOah->fTraceBackup) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_backup" <<
       ", line " << inputLineNumber <<
@@ -4421,15 +4421,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 #ifdef TRACE_OAH
   if (gMusicXMLOah->fTraceBackup) {
     fLogOutputStream <<
-      "Handling 'backup <<< " << fCurrentBackupDivisions <<
-      " divisions >>>" <<
-      ", fCurrentStaffNumberToInsertInto = " <<
+      "Backup by " << fCurrentBackupDivisions <<
+      " divisions becomes pending" <<
+      ", fCurrentVoicePriorToBackup = \"" <<
+      fCurrentVoicePriorToBackup->getVoiceName () <<
+      "\", fCurrentStaffNumberToInsertInto = " <<
       fCurrentStaffNumberToInsertInto <<
-      ", fPreviousNoteMusicXMLStaffNumber = " <<
-      fPreviousNoteMusicXMLStaffNumber <<
-      ", fCurrentVoicePriorToBackup = " <<
-      fCurrentVoicePriorToBackup <<
-      "', line " << inputLineNumber <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -5167,17 +5165,19 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
       switch (fCurrentDirectionPlacementKind) {
         case msrPlacementKind::kPlacementNone:
           {
-            stringstream s;
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceLigatures) {
+              stringstream s;
 
-            s <<
-              "Bracket start found with no placement, placing it above by default";
+              s <<
+                "Bracket start found with no placement, placing it above by default";
 
-         // JMI   msrMusicXMLError (
-            msrMusicXMLWarning (
-              gOahOah->fInputSourceName,
-              inputLineNumber,
-         //     __FILE__, __LINE__,
-              s.str ());
+              msrMusicXMLWarning (
+                gOahOah->fInputSourceName,
+                inputLineNumber,
+                s.str ());
+            }
+#endif
 
             ligature->setLigaturePlacementKind (kPlacementAbove);
             fCurrentLigatureStartAbove = ligature;
@@ -5201,17 +5201,19 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
       switch (fCurrentDirectionPlacementKind) {
         case msrPlacementKind::kPlacementNone:
           {
-            stringstream s;
+#ifdef TRACE_OAH
+            if (gTraceOah->fTraceLigatures) {
+              stringstream s;
 
-            s <<
-              "Bracket stop found with no placement, placing it above by default";
+              s <<
+                "Bracket stop found with no placement, placing it above by default";
 
-         // JMI   msrMusicXMLError (
-            msrMusicXMLWarning (
-              gOahOah->fInputSourceName,
-              inputLineNumber,
-         //     __FILE__, __LINE__,
-              s.str ());
+              msrMusicXMLWarning (
+                gOahOah->fInputSourceName,
+                inputLineNumber,
+                s.str ());
+            }
+#endif
 
             ligature->setLigaturePlacementKind (kPlacementAbove);
 
@@ -5219,7 +5221,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
               stringstream s;
 
               s <<
-                "Bracket stop above found with no corresponding bracket start";
+                "Bracket 'stop above' found with no corresponding bracket start, ignoring it"; // JMI cannot occur
 
            // JMI   msrMusicXMLError (
               msrMusicXMLWarning (
@@ -5245,7 +5247,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             stringstream s;
 
             s <<
-              "Bracket stop above found with no corresponding bracket start";
+              "Bracket 'stop above' found with no corresponding bracket start, ignoring it";
 
          // JMI   msrMusicXMLError (
             msrMusicXMLWarning (
@@ -5270,7 +5272,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             stringstream s;
 
             s <<
-              "Bracket stop below found with no corresponding bracket start";
+              "Bracket 'stop below' found with no corresponding bracket start, ignoring it";
 
          // JMI   msrMusicXMLError (
             msrMusicXMLWarning (
@@ -5751,22 +5753,26 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   }
 
   if (fCurrentNoteIsARest) {
-    stringstream s;
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceLyrics) {
+      stringstream s;
 
-    s <<
-      "syllable ";
+      s <<
+        "syllable ";
 
-   msrSyllable::writeTextsList (
-    fCurrentLyricTextsList,
-    s);
+     msrSyllable::writeTextsList (
+      fCurrentLyricTextsList,
+      s);
 
-    s <<
-      " is attached to a rest";
+      s <<
+        " is attached to a rest";
 
-    msrMusicXMLWarning (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      s.str ());
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        s.str ());
+    }
+#endif
 
     fCurrentSyllableKind =
       msrSyllable::kSyllableSkip; // kSyllableRest ??? JMI
@@ -15856,25 +15862,29 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
       }
 
       else {
-        stringstream s;
+#ifdef TRACE_OAH
+       if (gTraceOah->fTraceLyrics) {
+          stringstream s;
 
-        int numberOfDynamics = fPendingDynamicsList.size ();
+          int numberOfDynamics = fPendingDynamicsList.size ();
 
-        if (numberOfDynamics > 1) {
+          if (numberOfDynamics > 1) {
+            s <<
+              "there are " << numberOfDynamics << " dynamics";
+          }
+          else {
+            s <<
+              "there is 1 dynamics";
+          }
           s <<
-            "there are " << numberOfDynamics << " dynamics";
-        }
-        else {
-          s <<
-            "there is 1 dynamics";
-        }
-        s <<
-          " attached to a rest";
+            " attached to a rest";
 
-        msrMusicXMLWarning (
-          gOahOah->fInputSourceName,
-          note->getInputLineNumber (),
-          s.str ());
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            note->getInputLineNumber (),
+            s.str ());
+        }
+#endif
       }
     }
 
@@ -15918,25 +15928,29 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
       }
 
       else {
-        stringstream s;
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceDynamics) {
+          stringstream s;
 
-        int numberOfOtherDynamics = fPendingOtherDynamicsList.size ();
+          int numberOfOtherDynamics = fPendingOtherDynamicsList.size ();
 
-        if (numberOfOtherDynamics > 1) {
+          if (numberOfOtherDynamics > 1) {
+            s <<
+              "there are " << numberOfOtherDynamics << " other dynamics";
+          }
+          else {
+            s <<
+              "there is 1 other dynamics";
+          }
           s <<
-            "there are " << numberOfOtherDynamics << " other dynamics";
-        }
-        else {
-          s <<
-            "there is 1 other dynamics";
-        }
-        s <<
-          " attached to a rest";
+            " attached to a rest";
 
-        msrMusicXMLWarning (
-          gOahOah->fInputSourceName,
-          note->getInputLineNumber (),
-          s.str ());
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            note->getInputLineNumber (),
+            s.str ());
+        }
+#endif
       }
     }
 
@@ -15980,25 +15994,29 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
       }
 
       else {
-        stringstream s;
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceWords) {
+          stringstream s;
 
-        int numberOfWords = fPendingWordsList.size ();
+          int numberOfWords = fPendingWordsList.size ();
 
-        if (numberOfWords > 1) {
+          if (numberOfWords > 1) {
+            s <<
+              "there are " << numberOfWords << " words";
+          }
+          else {
+            s <<
+              "there is 1 word";
+          }
           s <<
-            "there are " << numberOfWords << " words";
-        }
-        else {
-          s <<
-            "there is 1 word";
-        }
-        s <<
-          " attached to a rest";
+            " attached to a rest";
 
-        msrMusicXMLWarning (
-          gOahOah->fInputSourceName,
-          note->getInputLineNumber (),
-          s.str ());
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            note->getInputLineNumber (),
+            s.str ());
+        }
+#endif
       }
     }
 
@@ -16043,25 +16061,29 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
       }
 
       else {
-        stringstream s;
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceBeams) {
+          stringstream s;
 
-        int numberOfBeams = fPendingBeamsList.size ();
+          int numberOfBeams = fPendingBeamsList.size ();
 
-        if (numberOfBeams > 1) {
+          if (numberOfBeams > 1) {
+            s <<
+              "there are " << numberOfBeams << " beams";
+          }
+          else {
+            s <<
+              "there is 1 beam";
+          }
           s <<
-            "there are " << numberOfBeams << " beams";
-        }
-        else {
-          s <<
-            "there is 1 beam";
-        }
-        s <<
-          " attached to a rest";
+            " attached to a rest";
 
-        msrMusicXMLWarning (
-          gOahOah->fInputSourceName,
-          note->getInputLineNumber (),
-          s.str ());
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            note->getInputLineNumber (),
+            s.str ());
+        }
+#endif
       }
     }
 
@@ -16158,45 +16180,53 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
       }
 
       else {
-        stringstream s;
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+          stringstream s;
 
-        int numberOfLigatures = fPendingLigaturesList.size ();
+          int numberOfLigatures = fPendingLigaturesList.size ();
 
-        if (numberOfLigatures > 1) {
+          if (numberOfLigatures > 1) {
+            s <<
+              "there are " << numberOfLigatures << " ligatures";
+          }
+          else {
+            s <<
+              "there is 1 ligature";
+          }
           s <<
-            "there are " << numberOfLigatures << " ligatures";
-        }
-        else {
-          s <<
-            "there is 1 ligature";
-        }
-        s <<
-          " attached to a rest";
+            " attached to a rest";
 
-        msrMusicXMLWarning (
-          gOahOah->fInputSourceName,
-          note->getInputLineNumber (),
-          s.str ());
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            note->getInputLineNumber (),
+            s.str ());
+        }
+#endif
       }
     }
 
     if (! delayAttachment) {
-      stringstream s;
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+          stringstream s;
 
-      int numberOfLigatures = fPendingLigaturesList.size ();
+          int numberOfLigatures = fPendingLigaturesList.size ();
 
-      if (numberOfLigatures > 1) {
-        s <<
-          "There are " << numberOfLigatures << " pending ligatures";
+          if (numberOfLigatures > 1) {
+            s <<
+              "There are " << numberOfLigatures << " pending ligatures";
+          }
+          else {
+            s <<
+              "There is 1 pending ligature";
+          }
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            note->getInputLineNumber (),
+            s.str ());
       }
-      else {
-        s <<
-          "There is 1 pending ligature";
-      }
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        note->getInputLineNumber (),
-        s.str ());
+#endif
 
       // append ligatures to note only if they belong to a suitable voice,
       // i.e. above goes to voice 1 or 3, and below to voice 2 or 4
@@ -16220,13 +16250,38 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
             ligature->
               getLigaturePlacementKind ();
 
+        // fetch note's measure
+        S_msrMeasure
+          noteMeasure =
+            note->
+              getNoteMeasureUpLink ();
+
+        // sanity check
+        msrAssert (
+          noteMeasure != nullptr,
+          "noteMeasure is null");
+
+        // fetch note's segment
+        S_msrSegment
+          noteSegment =
+            noteMeasure->
+              getMeasureSegmentUpLink ();
+
+        // sanity check
+        msrAssert (
+          noteSegment != nullptr,
+          "noteSegment is null");
+
         // fetch note's voice
         S_msrVoice
           noteVoice =
-            note->
-              getNoteMeasureUpLink ()->
-                getMeasureSegmentUpLink ()->
-                  getSegmentVoiceUpLink ();
+            noteSegment->
+              getSegmentVoiceUpLink ();
+
+        // sanity check
+        msrAssert (
+          noteVoice != nullptr,
+          "noteVoice is null");
 
         // handle ligature placement kind
         switch (ligaturePlacementKind) {
@@ -16442,25 +16497,29 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
       }
 
       else {
-        stringstream s;
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceWedges) {
+          stringstream s;
 
-        int numberOfWedges = fPendingWedgesList.size ();
+          int numberOfWedges = fPendingWedgesList.size ();
 
-        if (numberOfWedges > 1) {
+          if (numberOfWedges > 1) {
+            s <<
+              "there are " << numberOfWedges << " wedges";
+          }
+          else {
+            s <<
+              "there is 1 wedge";
+          }
           s <<
-            "there are " << numberOfWedges << " wedges";
-        }
-        else {
-          s <<
-            "there is 1 wedge";
-        }
-        s <<
-          " attached to a rest";
+            " attached to a rest";
 
-        msrMusicXMLWarning (
-          gOahOah->fInputSourceName,
-          note->getInputLineNumber (),
-          s.str ());
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            note->getInputLineNumber (),
+            s.str ());
+        }
+#endif
       }
     }
 
@@ -17507,6 +17566,41 @@ void mxmlTree2MsrTranslator::handleNote (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::handlePendingBackup (
+  int        inputLineNumber,
+  S_msrVoice voiceBeforeBackup,
+  S_msrVoice voiceInWichToBackup)
+{
+#ifdef TRACE_OAH
+  if (gMusicXMLOah->fTraceBackup) {
+    fLogOutputStream <<
+      "Handling pending backup" <<
+      ", fCurrentBackupDivisions: " <<
+      fCurrentBackupDivisions <<
+      ", voiceBeforeBackup: " <<
+      voiceBeforeBackup->getVoiceName () <<
+      ", voiceInWichToBackup: " <<
+      voiceInWichToBackup->getVoiceName () <<
+      endl;
+  }
+#endif
+
+  // compute the backup step length
+  rational
+    backupStepLength =
+      rational (
+        fCurrentBackupDivisions,
+        fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
+  backupStepLength.rationalise ();
+
+  // let voiceInWichToBackup handle the backup
+  voiceInWichToBackup->
+    handleBackupInVoice (
+      inputLineNumber,
+      backupStepLength);
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 {
   int inputLineNumber =
@@ -17692,62 +17786,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote,
     voiceToInsertNoteInto);
 
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
   // handle the pending backup if any
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
   if (fThereIsAPendingBackup) {
-#ifdef TRACE_OAH
-    if (gMusicXMLOah->fTraceBackup) {
-      fLogOutputStream <<
-        "--> current backup divisions: " <<
-        fCurrentBackupDivisions <<
-        endl;
-    }
-#endif
-
-    // compute the backup step length
-    rational
-      backupStepLength =
-        rational (
-          fCurrentBackupDivisions,
-          fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
-    backupStepLength.rationalise ();
-
-    // get the current measure whole notes duration from fCurrentVoicePriorToBackup
-    rational
-      currentMeasureWholeNotesDuration =
-        fCurrentVoicePriorToBackup->
-          getVoiceLastSegment ()->
-            fetchLastMeasureFromSegment (
-              inputLineNumber,
-              "computing backup target position in measure")->
-              getCurrentMeasureWholeNotesDuration ();
-    currentMeasureWholeNotesDuration.rationalise ();
-
-    // compute the backup target position in measure
-    rational
-      backupTargetPositionInMeasure =
-        currentMeasureWholeNotesDuration
-          -
-        backupStepLength;
-    backupTargetPositionInMeasure.rationalise ();
-
-#ifdef TRACE_OAH
-    if (gMusicXMLOah->fTraceBackup) {
-      fLogOutputStream <<
-        "--> backupStepLength: " <<
-        backupStepLength <<
-        "--> currentMeasureWholeNotesDuration: " <<
-        currentMeasureWholeNotesDuration <<
-        "--> backupTargetPositionInMeasure: " <<
-        backupTargetPositionInMeasure <<
-        endl;
-    }
-#endif
-
-    // let the voice handle the backup
-    voiceToInsertNoteInto->
-      handleBackupInVoice (
-        inputLineNumber,
-        backupTargetPositionInMeasure);
+    handlePendingBackup (
+      inputLineNumber,
+      fCurrentVoicePriorToBackup,
+      voiceToInsertNoteInto);
 
     // forget about fCurrentVoicePriorToBackup
     fCurrentVoicePriorToBackup = nullptr;

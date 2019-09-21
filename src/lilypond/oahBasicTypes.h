@@ -212,6 +212,17 @@ class oahElement : public smartable
 typedef SMARTP<oahElement> S_oahElement;
 EXP ostream& operator<< (ostream& os, const S_oahElement& elt);
 
+/*
+Because the set needs a comparison functor to work with. If you don't specify one, it will make a default-constructed one. In this case, since you're using a function-pointer type, the default-constructed one will be a null pointer, which can't be called; so instead, you have to provide the correct function pointer at run time.
+
+A better approach might be to use a function class type (a.k.a. functor type); then the function call can be resolved at compile time, and a default-constructed object will do the right thing.
+*/
+struct compareOahElements {
+  bool operator() (
+    const S_oahElement firstElement,
+    const S_oahElement secondElement) const;
+};
+
 //______________________________________________________________________________
 template <typename T> class oahBrowser : public browser<T>
 {
@@ -2662,13 +2673,16 @@ class EXP oahHandler : public oahElement
                           getHandlerOptionalValuesStyleKind ()
                               { return fHandlerOptionalValuesStyleKind; }
 
-    const multiset<S_oahElement>&
-                          getHandlerRegisteredElementsMultiSet () const
-                              { return fHandlerRegisteredElementsMultiSet; }
+    const list<S_oahElement>&
+                          getHandlerRegisteredElementsList () const
+                              { return fHandlerRegisteredElementsList; }
 
-    const multiset<S_oahElement>&
-                          getHandlerCommandLineElementsMultiSet () const
-                              { return fHandlerCommandLineElementsMultiSet; }
+    const list<S_oahElement>&
+                          getHandlerCommandLineElementsList () const
+                              { return fHandlerCommandLineElementsList; }
+    const multiset<S_oahElement, compareOahElements>&
+                          getHandlerCommandLineElementsMultiset () const
+                              { return fHandlerCommandLineElementsMultiset; }
 
     int                   getMaximumShortNameWidth () const
                               { return fMaximumShortNameWidth; }
@@ -2868,13 +2882,12 @@ class EXP oahHandler : public oahElement
     // ------------------------------------------------------
 
     // all OAH elements are registered in the handler upon initialization
-    multiset<string>      fHandlerCommandLineNamesMultiSet; // JMI bug in the following?
-    multiset<S_oahElement>
-                          fHandlerRegisteredElementsMultiSet;
+    list<S_oahElement>    fHandlerRegisteredElementsList;
 
     // those ones have be used in the command line
-    multiset<S_oahElement>
-                          fHandlerCommandLineElementsMultiSet;
+    list<S_oahElement>    fHandlerCommandLineElementsList;
+    multiset<S_oahElement, compareOahElements>
+                          fHandlerCommandLineElementsMultiset;
 
     bool                  fNowEverythingIsAnArgument;
 

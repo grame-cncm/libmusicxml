@@ -2063,39 +2063,55 @@ void msrVoice::appendPaddingNoteToVoice (
 
 void msrVoice:: handleBackupInVoice (
   int      inputLineNumber,
-  rational backupTargetPositionInMeasure)
+  rational backupStepLength)
 {
+  // get the last measure in this voice
+  S_msrMeasure
+    lastMeasureInVoice =
+      fVoiceLastSegment->
+        fetchLastMeasureFromSegment (
+          inputLineNumber,
+          "computing backup target position in measure");
+
+  // get lastMeasureInVoice's current measure whole notes duration
+  rational
+    lastMeasureWholeNotesDuration =
+      lastMeasureInVoice->
+        getCurrentMeasureWholeNotesDuration ();
+  lastMeasureWholeNotesDuration.rationalise ();
+
+  // get lastMeasureInVoice's full measure whole notes duration
+  rational
+    lastMeafureFullMeasureWholeNotesDuration =
+      lastMeasureInVoice->
+        getFullMeasureWholeNotesDuration ();
+  lastMeafureFullMeasureWholeNotesDuration.rationalise ();
+
+  // compute the backup target position in measure
+  rational
+    backupTargetPositionInMeasure =
+      lastMeasureWholeNotesDuration
+        -
+      backupStepLength;
+  backupTargetPositionInMeasure.rationalise ();
+
 #ifdef TRACE_OAH
   if (gMusicXMLOah->fTraceBackup) {
     gLogOstream <<
-      "Handling backup by a '" <<
-      backupTargetPositionInMeasure <<
-      "' whole notes step length in voice " <<
+      "Handling backup in voice \"" <<
       getVoiceName () <<
+      "\", backupStepLength: " <<
+      backupStepLength <<
+      ", lastMeasureWholeNotesDuration: " <<
+      lastMeasureWholeNotesDuration <<
+      ", lastMeafureFullMeasureWholeNotesDuration: " <<
+      lastMeafureFullMeasureWholeNotesDuration <<
+      ",backupTargetPositionInMeasure: " <<
+      backupTargetPositionInMeasure <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
-
-  // get the current measure whole notes duration from fCurrentVoicePriorToBackup
-  rational
-    currentMeasureWholeNotesDuration =
-      fVoiceLastSegment->
-        fetchLastMeasureFromSegment (
-          inputLineNumber,
-          "computing backup target position in measure")->
-          getCurrentMeasureWholeNotesDuration ();
-  currentMeasureWholeNotesDuration.rationalise ();
-
-  // get the full measure whole notes duration from fCurrentVoicePriorToBackup
-  rational
-    fullMeasureWholeNotesDuration =
-      fVoiceLastSegment->
-        fetchLastMeasureFromSegment (
-          inputLineNumber,
-          "computing backup target position in measure")->
-          getFullMeasureWholeNotesDuration ();
-  fullMeasureWholeNotesDuration.rationalise ();
 
   // sanity checks
   if (backupTargetPositionInMeasure.getNumerator () < 0) {
@@ -2116,15 +2132,15 @@ void msrVoice:: handleBackupInVoice (
   if (
     backupTargetPositionInMeasure
       >
-    fullMeasureWholeNotesDuration
+    lastMeafureFullMeasureWholeNotesDuration
   ) {
     stringstream s;
 
     s <<
       "backupTargetPositionInMeasure " <<
       backupTargetPositionInMeasure <<
-      " is greater than fullMeasureWholeNotesDuration " <<
-      fullMeasureWholeNotesDuration;
+      " is greater than lastMeafureFullMeasureWholeNotesDuration " <<
+      lastMeafureFullMeasureWholeNotesDuration;
 
 // JMI   msrMusicXMLError (
     msrMusicXMLWarning (
@@ -2133,33 +2149,36 @@ void msrVoice:: handleBackupInVoice (
    //   __FILE__, __LINE__,
       s.str ());
   }
+
+/* JMI
   else if (
     backupTargetPositionInMeasure
       <
-    currentMeasureWholeNotesDuration
+    lastMeasureWholeNotesDuration
   ) {
     stringstream s;
 
     s <<
       "backupTargetPositionInMeasure: " <<
       backupTargetPositionInMeasure <<
-      " is smaller than currentMeasureWholeNotesDuration " <<
-      currentMeasureWholeNotesDuration <<
+      " is smaller than lastMeasureWholeNotesDuration " <<
+      lastMeasureWholeNotesDuration <<
       ", cannot go prior to it";
 
-//  JMI  msrMusicXMLError (
-    msrMusicXMLWarning (
+    msrMusicXMLError (
+//    msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-  //    __FILE__, __LINE__,
+      __FILE__, __LINE__,
       s.str ());
   }
+*/
 
   // do the backup if necessary
   if (
     backupTargetPositionInMeasure
       >
-    currentMeasureWholeNotesDuration
+    lastMeasureWholeNotesDuration
   ) {
     // bring the voice to that measure position
     backupByWholeNotesStepLengthInVoice (

@@ -551,6 +551,39 @@ ostream& operator<< (ostream& os, const S_oahAtom& elt)
   return os;
 }
 
+bool compareOahElements::operator() (
+  const S_oahElement firstElement,
+  const S_oahElement secondElement) const
+{
+/*
+  Compare:
+  A binary predicate that takes two arguments of the same type as the elements and returns a bool. The expression comp(a,b), where comp is an object of this type and a and b are key values, shall return true if a is considered to go before b in the strict weak ordering the function defines.
+  The multiset object uses this expression to determine both the order the elements follow in the container and whether two element keys are equivalent (by comparing them reflexively: they are equivalent if !comp(a,b) && !comp(b,a)).
+  This can be a function pointer or a function object (see constructor for an example). This defaults to less<T>, which returns the same as applying the less-than operator (a<b).
+  Aliased as member types multiset::key_compare and multiset::value_compare.
+*/
+
+  // let's decide that nullptr (which shouldn't occur too often...)
+  // should go after all non null S_oahAtom values
+
+  bool result;
+
+  if (firstElement) {
+    if (secondElement) {
+      result =
+        firstElement->getShortName () < secondElement->getShortName ();
+    }
+    else {
+      result = true;
+    }
+  }
+  else {
+    result = false;
+  }
+
+  return result;
+}
+
 //______________________________________________________________________________
 S_oahAtomSynonym oahAtomSynonym::create (
   string    shortName,
@@ -7994,8 +8027,8 @@ void oahHandler::registerElementInHandler (
   registerElementNamesInHandler (
     element);
 
-  // insert element into the registered elements multiset
-  fHandlerRegisteredElementsMultiSet.insert (element);
+  // insert element into the registered elements list
+  fHandlerRegisteredElementsList.push_back (element);
 
   if (
     // subgroup?
@@ -8526,9 +8559,9 @@ void oahHandler::printAllOahCommandLineValues (
     "There are " <<
     fHandlerElementsMap.size () <<
     " known options names for " <<
-    fHandlerRegisteredElementsMultiSet.size () <<
+    fHandlerRegisteredElementsList.size () <<
     " registered elements, " <<
-    fHandlerCommandLineElementsMultiSet.size () <<
+    fHandlerCommandLineElementsMultiset.size () <<
     " of which occur in the command line" <<
     endl;
 
@@ -8828,12 +8861,12 @@ string oahHandler::commandLineWithShortNamesAsString () const
     } // for
   }
 
-  if (fHandlerCommandLineElementsMultiSet.size ()) {
+  if (fHandlerCommandLineElementsList.size ()) {
     s << " ";
 
-    multiset<S_oahElement>::const_iterator
-      iBegin = fHandlerCommandLineElementsMultiSet.begin (),
-      iEnd   = fHandlerCommandLineElementsMultiSet.end (),
+    list<S_oahElement>::const_iterator
+      iBegin = fHandlerCommandLineElementsList.begin (),
+      iEnd   = fHandlerCommandLineElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahElement element = (*i);
@@ -8873,12 +8906,12 @@ string oahHandler::commandLineWithLongNamesAsString () const
     } // for
   }
 
-  if (fHandlerCommandLineElementsMultiSet.size ()) {
+  if (fHandlerCommandLineElementsList.size ()) {
     s << " ";
 
-    multiset<S_oahElement>::const_iterator
-      iBegin = fHandlerCommandLineElementsMultiSet.begin (),
-      iEnd   = fHandlerCommandLineElementsMultiSet.end (),
+    list<S_oahElement>::const_iterator
+      iBegin = fHandlerCommandLineElementsList.begin (),
+      iEnd   = fHandlerCommandLineElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_oahElement option = (*i);
@@ -8899,15 +8932,13 @@ void oahHandler::printKnownOptions () const
 {
   int handlerElementsMapSize =
     fHandlerElementsMap.size ();
-  int handlerRegisteredElementsMultiSetSize =
-    fHandlerRegisteredElementsMultiSet.size ();
 
   // print the options map
   gLogOstream <<
     "The " <<
     handlerElementsMapSize <<
     " known options for the " <<
-    handlerRegisteredElementsMultiSetSize <<
+    handlerElementsMapSize <<
     " registered elements are:" <<
     endl;
 
@@ -9420,7 +9451,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
     " features " <<
     handlerElementsMapSize <<
     " options names for " <<
-    fHandlerRegisteredElementsMultiSet.size () <<
+    fHandlerRegisteredElementsMultiset.size () <<
     " registered elements" <<
     endl;
 */
@@ -9836,15 +9867,16 @@ void oahHandler::handleOptionName (
     }
 #endif
 
-if (true) {
+/*
+if (false) {
     // is this element already present in the commande line?
-    multiset<string>::const_iterator
+    list<string>::const_iterator
       it =
-        fHandlerCommandLineNamesMultiSet.find (
+        fHandlerRegisteredElementsMultiset.find (
           name);
 
-    if (it != fHandlerCommandLineNamesMultiSet.end ()) {
-      // yes, element is known in the multiset
+    if (it != fHandlerCommandLineNamesList.end ()) {
+      // yes, element is known in the list
       if (! element->getMultipleOccurrencesAllowed ()) {
         stringstream s;
 
@@ -9860,15 +9892,16 @@ abort ();
     }
 }
 else {
+*/
     // don't use this, BUG in the STL???
     // is this element already present in the commande line?
-    multiset<S_oahElement>::const_iterator
+    multiset<S_oahElement, compareOahElements>::const_iterator
       it =
-        fHandlerCommandLineElementsMultiSet.find (
+        fHandlerCommandLineElementsMultiset.find (
           element);
 
-    if (it != fHandlerCommandLineElementsMultiSet.end ()) {
-      // yes, element is known in the multiset
+    if (it != fHandlerCommandLineElementsMultiset.end ()) {
+      // yes, element is known in the list
       if (! element->getMultipleOccurrencesAllowed ()) {
         stringstream s;
 
@@ -9880,10 +9913,9 @@ else {
         oahWarning (s.str ());
       }
     }
-}
 
     // remember this element as occurring in the command line
-    fHandlerCommandLineElementsMultiSet.insert (element);
+    fHandlerCommandLineElementsMultiset.insert (element);
 
     // determine element short and long names to be used,
     // in case one of them (short or long) is empty

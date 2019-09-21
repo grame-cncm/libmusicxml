@@ -2329,18 +2329,22 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
       // it may happen that a given note has a 'ligature start'
       // and a 'ligature stop' in sequence, ignore both
 
-      stringstream s;
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+        stringstream s;
 
-      s <<
-        "a 'ligature start' is immediately followed by a 'ligature stop'" <<
-        endl <<
-        "with the same number, ignoring both of them at line " <<
-        ligature->getInputLineNumber ();
+        s <<
+          "a 'ligature start' is immediately followed by a 'ligature stop'" <<
+          endl <<
+          "with the same number, ignoring both of them at line " <<
+          ligature->getInputLineNumber ();
 
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        ligature->getInputLineNumber (),
-        s.str ());
+        msrMusicXMLWarning (
+          gOahOah->fInputSourceName,
+          ligature->getInputLineNumber (),
+          s.str ());
+      }
+#endif
 
       // remove 'ligature start'
 #ifdef TRACE_OAH
@@ -2381,22 +2385,26 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
       fNotePedals.back ()->getPedalTypeKind () == msrPedal::kPedalStart
         &&
       pedal->getPedalTypeKind () == msrPedal::kPedalStop
-      ) {
+    ) {
       // it may happen that a given note has a 'pedal start'
       // and a 'pedal stop' in sequence, ignore both            // JMI ???
 
-      stringstream s;
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePedals || gTraceOah->fTraceNotes) {
+        stringstream s;
 
-      s <<
-        "a 'pedal start' is immediately followed by a 'pedal stop'" <<
-        endl <<
-        "with the same number, ignoring both of them at line " <<
-        pedal->getInputLineNumber ();
+        s <<
+          "a 'pedal start' is immediately followed by a 'pedal stop'" <<
+          endl <<
+          "with the same number, ignoring both of them at line " <<
+          pedal->getInputLineNumber ();
 
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        pedal->getInputLineNumber (),
-        s.str ());
+        msrMusicXMLWarning (
+          gOahOah->fInputSourceName,
+          pedal->getInputLineNumber (),
+          s.str ());
+      }
+#endif
 
       // rmeove 'pedal start'
 #ifdef TRACE_OAH
