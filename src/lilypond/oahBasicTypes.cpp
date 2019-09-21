@@ -9867,33 +9867,6 @@ void oahHandler::handleOptionName (
     }
 #endif
 
-/*
-if (false) {
-    // is this element already present in the commande line?
-    list<string>::const_iterator
-      it =
-        fHandlerRegisteredElementsMultiset.find (
-          name);
-
-    if (it != fHandlerCommandLineNamesList.end ()) {
-      // yes, element is known in the list
-      if (! element->getMultipleOccurrencesAllowed ()) {
-        stringstream s;
-
-        s <<
-          "element '" <<
-          element->fetchNames () <<
-          "' is already present in the command line";
-
-abort ();
-
-        oahWarning (s.str ());
-      }
-    }
-}
-else {
-*/
-    // don't use this, BUG in the STL???
     // is this element already present in the commande line?
     multiset<S_oahElement, compareOahElements>::const_iterator
       it =
@@ -9915,6 +9888,7 @@ else {
     }
 
     // remember this element as occurring in the command line
+    fHandlerCommandLineElementsList.push_back (element);
     fHandlerCommandLineElementsMultiset.insert (element);
 
     // determine element short and long names to be used,
