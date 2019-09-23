@@ -1228,29 +1228,6 @@ namespace MusicXML2
         }
         return i;
     }
-
-bool xmlpart2guido::findPreceedingStop ( const std::vector<S_slur>& slurs, const string number, const int index ) const
-{
-    std::vector<S_slur>::const_iterator i;
-    int counter = 0;
-    for (i = slurs.begin(); (i != slurs.end() && (counter < index)); i++) {
-        if (((*i)->getAttributeValue("type") == "stop") && ((*i)->getAttributeValue("number")==number )) {
-            return true;
-        }
-        counter++;
-    }
-    return false;
-}
-
-bool xmlpart2guido::findProceedingStop ( const std::vector<S_slur>& slurs, const string number, const int index ) const
-{
-    for (int i = index; i < slurs.size(); i++) {
-        if ((slurs.at(i)->getAttributeValue("type") == "start") && (slurs.at(i)->getAttributeValue("number")==number )) {
-            return true;
-        }
-    }
-    return false;
-}
     
     //______________________________________________________________________________
     vector<S_tied>::const_iterator xmlpart2guido::findTypeValue ( const std::vector<S_tied>& tied, const string& val ) const
@@ -1316,28 +1293,24 @@ bool xmlpart2guido::findProceedingStop ( const std::vector<S_slur>& slurs, const
            <slur number="1" type="stop"/>
            <slur number="1" placement="above" type="start"/>
          </notations>
-         This particular case can be detected when a "stop" occurs before "start" and shares the same "number" attribute
-         
+
+         This leads to the conclusion that the numbering in Guido and XML can NOT be the same. So we should track them indefinitely!
          */
         std::vector<S_slur>::const_iterator i;
         int counter = 0;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "start") {
-                string tagName = "slurBegin";
-                string num = (*i)->getAttributeValue("number");
-                
-                // find a "stop" with the same number attribute
-                if (findPreceedingStop(slurs, num, counter)) {
-                    // Generate a slurEnd
-                    string tagName = "slurEnd";
-                    string num = (*i)->getAttributeValue("number");
-                    if (num.size()) tagName += ":" + num;
-                    Sguidoelement tagEnd = guidotag::create (tagName);
-                    add(tagEnd);
+                // There is a Beam Begin. Creat BeamBegin tag, and add its number to Stack
+                int lastSlurInternalNumber = 1;
+                if (!fSlurStack.empty()) {
+                    std::pair<int, int> toto = fSlurStack.back();
+                    lastSlurInternalNumber = toto.first + 1;
                 }
                 
-                if (num.size()) tagName += ":" + num;
-                Sguidoelement tag = guidotag::create(tagName);
+                
+                stringstream tagName;
+                tagName << "slurBegin" << ":"<< lastSlurInternalNumber;
+                Sguidoelement tag = guidotag::create(tagName.str());
                 string placement = (*i)->getAttributeValue("placement");
                 string orientation = (*i)->getAttributeValue("placement");
                 if ((placement == "below")||(orientation=="under"))
@@ -1345,6 +1318,10 @@ bool xmlpart2guido::findProceedingStop ( const std::vector<S_slur>& slurs, const
                 if ((placement == "above")||(orientation=="over"))
                     tag->add (guidoparam::create("curve=\"up\"", false));
                 add(tag);
+                
+                // Add to stack:
+                std::pair<int,int> toto2(lastSlurInternalNumber, (*i)->getAttributeIntValue("number", 0));
+                fSlurStack.push_back(toto2);
             }
             counter++;
         }
@@ -1356,18 +1333,43 @@ bool xmlpart2guido::findProceedingStop ( const std::vector<S_slur>& slurs, const
         std::vector<S_slur>::const_iterator i;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "stop") {
-                string tagName = "slurEnd";
-                string num = (*i)->getAttributeValue("number");
-                if (findProceedingStop(slurs, num, counter)) {
-                    break;      // this means that it was already generated! (see slurBegin notes)
+                int lastSlurInternalNumber = 0;
+                std::vector< std::pair<int, int> >::const_iterator slurEndToBeErase;
+                if (!fSlurStack.empty()) {
+                    // find the corresponding open slur in stack that has the same xml-num as this one
+                    int xmlnum = (*i)->getAttributeIntValue("number", 0);
+                    slurEndToBeErase = findSlur(xmlnum);
+                    if (slurEndToBeErase != fSlurStack.end()) {
+                        lastSlurInternalNumber = slurEndToBeErase->first;
+                    }
+                }else {
+                    cerr<< "XML2Guido: Got Slur Stop without a Slur in Stack. Skipping!"<<endl;
+                    return;
                 }
-                if (num.size()) tagName += ":" + num;
-                Sguidoelement tag = guidotag::create (tagName);
+                
+                stringstream tagName;
+                tagName << "slurEnd" << ":"<< lastSlurInternalNumber;
+                Sguidoelement tag = guidotag::create(tagName.str());
                 add(tag);
+                
+                // remove the slur from stack
+                fSlurStack.erase(slurEndToBeErase);
             }
             counter++;
         }
     }
+
+std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( const int xmlnum ) const {
+    std::vector< std::pair<int, int> >::const_iterator i;
+    
+    for (i=fSlurStack.begin(); i != fSlurStack.end(); i++) {
+        if (i->second == xmlnum) {
+            break;
+        }
+    }
+    return i;
+}
+
     
     //______________________________________________________________________________
     void xmlpart2guido::checkBeamBegin ( const std::vector<S_beam>& beams )
