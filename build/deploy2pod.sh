@@ -19,8 +19,8 @@ fi
 bash buildXCodeProject.sh 
 
 ##### Build iphoneos and iphonesimulator
-xcodebuild -project ios/libmusicxml2.xcodeproj  -target musicxml2 -configuration Release -sdk iphoneos clean build 
-xcodebuild -project ios/libmusicxml2.xcodeproj  -target musicxml2 -configuration Release -arch x86_64 -arch i386 only_active_arch=no -sdk iphonesimulator clean build 
+xcodebuild -project iosdir/libmusicxml2.xcodeproj  -target musicxml2 -configuration Release -sdk iphoneos clean build 
+xcodebuild -project iosdir/libmusicxml2.xcodeproj  -target musicxml2 -configuration Release -arch x86_64 -arch i386 only_active_arch=no -sdk iphonesimulator clean build 
 
 
 ##### Move to Pod location
@@ -32,8 +32,8 @@ podsrcpath="$1/GuidoKit/Classes/Libs/libmusicxml"
 
 ##### Make Universal Lib and copy to Pod
 # Check if Release-iphoneos and Release-iphonesimulator libraries exists
-iphonebuildpath="$(pwd)/ios/Release-iphoneos$libname"
-simulatorbuildpath="$(pwd)/ios/Release-iphonesimulator$libname"
+iphonebuildpath="$(pwd)/iosdir/Release-iphoneos$libname"
+simulatorbuildpath="$(pwd)/iosdir/Release-iphonesimulator$libname"
 universalpath="$(pwd)/ios$libname"
 if [ -f "$iphonebuildpath" ]
 then

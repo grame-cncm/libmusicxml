@@ -51,9 +51,9 @@ if(APPLE)
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64  armv7 armv7s") # unsupported on iOS 11.4.0: armv7 armv7s
+		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
-		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.3")
+		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=11.0")
 		set (libtype STATIC)
 		set (FMWK "false")
 	elseif( UNIVERSAL )

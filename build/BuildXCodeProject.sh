@@ -1,11 +1,11 @@
 #!/bin/sh
 
 if [ ! -d ./ios/libmusicxml2.xcodeproj  ]; then
-   if [ ! -d ios  ]; then
-        mkdir ios
+   if [ ! -d iosdir  ]; then
+        mkdir iosdir
    fi
 	cd ./ios
-	cmake .. -G Xcode -DMIDIEXPORT=no -DC++11=yes -DIOS=yes
+	cmake .. -G Xcode -DIOS=yes
 	cd ..
 else
   echo "./libmusicxml/build/ios/libmusicxml2.xcodeproj already  exists"
@@ -16,7 +16,7 @@ if [ ! -d ./macos/libmusicxml2.xcodeproj  ]; then
 		mkdir macos
 	fi
 	cd ./macos
-	cmake .. -G Xcode -DMIDIEXPORT=no -DC++11=yes -DIOS=no
+	cmake .. -G Xcode -DIOS=no
 	cd ..
 else
 	echo "./libmusicxml/build/ios/libmusicxml2.xcodeproj already  exists"
