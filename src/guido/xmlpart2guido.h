@@ -142,6 +142,7 @@ class EXP xmlpart2guido :
 	void checkGrace		 ( const notevisitor& nv );
     void checkGraceEnd(const notevisitor& nv);
 	int  checkFermata	 ( const notevisitor& stem );
+    void checkSlur     ( const std::vector<S_slur>& slurs );
 	void checkSlurBegin	 ( const std::vector<S_slur>& slurs );
 	void checkSlurEnd	 ( const std::vector<S_slur>& slurs );
 	void checkTiedBegin	 ( const std::vector<S_tied>& tied );
@@ -162,6 +163,8 @@ class EXP xmlpart2guido :
 	std::vector<S_beam>::const_iterator findValue ( const std::vector<S_beam>& beams, const std::string& val ) const;
 	std::vector<S_slur>::const_iterator findTypeValue ( const std::vector<S_slur>& slurs, const std::string& val ) const;
 	std::vector<S_tied>::const_iterator findTypeValue ( const std::vector<S_tied>& tied, const std::string& val ) const;
+    bool findPreceedingStop ( const std::vector<S_slur>& slurs, const string number, const int index ) const;
+    bool findProceedingStop ( const std::vector<S_slur>& slurs, const string number, const int index ) const;
     
     /// Lyrics handling by AC
     void checkLyricBegin	 ( const std::vector<S_lyric>& lyrics );

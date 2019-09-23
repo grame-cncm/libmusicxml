@@ -1228,6 +1228,29 @@ namespace MusicXML2
         }
         return i;
     }
+
+bool xmlpart2guido::findPreceedingStop ( const std::vector<S_slur>& slurs, const string number, const int index ) const
+{
+    std::vector<S_slur>::const_iterator i;
+    int counter = 0;
+    for (i = slurs.begin(); (i != slurs.end() && (counter < index)); i++) {
+        if (((*i)->getAttributeValue("type") == "stop") && ((*i)->getAttributeValue("number")==number )) {
+            return true;
+        }
+        counter++;
+    }
+    return false;
+}
+
+bool xmlpart2guido::findProceedingStop ( const std::vector<S_slur>& slurs, const string number, const int index ) const
+{
+    for (int i = index; i < slurs.size(); i++) {
+        if ((slurs.at(i)->getAttributeValue("type") == "start") && (slurs.at(i)->getAttributeValue("number")==number )) {
+            return true;
+        }
+    }
+    return false;
+}
     
     //______________________________________________________________________________
     vector<S_tied>::const_iterator xmlpart2guido::findTypeValue ( const std::vector<S_tied>& tied, const string& val ) const
@@ -1284,11 +1307,35 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::checkSlurBegin ( const std::vector<S_slur>& slurs )
     {
+        /*
+         In Guido, slurBegin should be generated before notename and slurEnd after (or otherwise leading to bad numbering and rendering issues such as big slurs).
+         Whereas in MusicXML, Slurs are attributes of Notations inside a note event.
+         
+         There is one special case where slurEnd should appear before slurBegin: for consecutif slurs where notation is as follows:
+         <notations>
+           <slur number="1" type="stop"/>
+           <slur number="1" placement="above" type="start"/>
+         </notations>
+         This particular case can be detected when a "stop" occurs before "start" and shares the same "number" attribute
+         
+         */
         std::vector<S_slur>::const_iterator i;
+        int counter = 0;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "start") {
                 string tagName = "slurBegin";
                 string num = (*i)->getAttributeValue("number");
+                
+                // find a "stop" with the same number attribute
+                if (findPreceedingStop(slurs, num, counter)) {
+                    // Generate a slurEnd
+                    string tagName = "slurEnd";
+                    string num = (*i)->getAttributeValue("number");
+                    if (num.size()) tagName += ":" + num;
+                    Sguidoelement tagEnd = guidotag::create (tagName);
+                    add(tagEnd);
+                }
+                
                 if (num.size()) tagName += ":" + num;
                 Sguidoelement tag = guidotag::create(tagName);
                 string placement = (*i)->getAttributeValue("placement");
@@ -1299,20 +1346,26 @@ namespace MusicXML2
                     tag->add (guidoparam::create("curve=\"up\"", false));
                 add(tag);
             }
+            counter++;
         }
     }
     
     void xmlpart2guido::checkSlurEnd ( const std::vector<S_slur>& slurs )
     {
+        int counter = 0;
         std::vector<S_slur>::const_iterator i;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "stop") {
                 string tagName = "slurEnd";
                 string num = (*i)->getAttributeValue("number");
+                if (findProceedingStop(slurs, num, counter)) {
+                    break;      // this means that it was already generated! (see slurBegin notes)
+                }
                 if (num.size()) tagName += ":" + num;
                 Sguidoelement tag = guidotag::create (tagName);
                 add(tag);
             }
+            counter++;
         }
     }
     
