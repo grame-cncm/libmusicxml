@@ -2,7 +2,7 @@
 # 
 #
 
-.PHONY : macos ios msys win32 win64 linux android
+.PHONY : msys win32 win64 linux android
 
 PDIR   ?= libdir
 
@@ -29,7 +29,7 @@ endif
 endif
 endif
 
-IOS  := ios
+IOS  := iosdir
 MSVC   ?= Visual Studio 14 2015
 MSVC64 := $(MSVC) Win64
 
@@ -84,9 +84,7 @@ js:
 #===============================================================
 macos : $(PDIR)/libmusicxml2.xcodeproj
 	cmake --build $(PDIR) --config Release -- -jobs 4
-	rm -rf libmusicxml2.framework
-	cp -R $(PDIR)/Release/libmusicxml2.framework .
-	tar czf libmusicxml2.tgz libmusicxml2.framework
+	cd lib &&  tar czf libmusicxml2.tgz libmusicxml2.framework
 
 $(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
 	cd $(PDIR) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
@@ -101,9 +99,8 @@ native: $(PDIR)
 #===============================================================
 # building the library for iOS
 #===============================================================
-$(IOS) : $(IOS)/libmusicxml2.xcodeproj
+ios : $(IOS)/libmusicxml2.xcodeproj
 	cmake --build $(IOS) --config Release -- -jobs 4
-	cp $(IOS)/Release-iphoneos/libmusicxml2.a .
 
 $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(IOS) ] || mkdir $(IOS)
@@ -128,18 +125,13 @@ windows :
 
 win32 : win32/libmusicxml2.sln 
 	cmake --build win32 --config Release -- /maxcpucount:4
-	cp win32/Release/libmusicxml2.dll .
-	cp win32/Release/libmusicxml2.lib .
 
 win32/libmusicxml2.sln : CMakeLists.txt
 	[ -d win32 ] || mkdir win32
 	cd win32 && cmake .. -G "$(MSVC)" $(CMAKEOPT)
 
-
 win64 : win64/libmusicxml2.sln 
 	cmake --build win64 --config Release -- /maxcpucount:4 
-	cp win64/Release/libmusicxml2.dll libmusicxml2-64.dll
-	cp win64/Release/libmusicxml2.lib libmusicxml2-64.lib
 
 win64/libmusicxml2.sln : CMakeLists.txt
 	[ -d win64 ] || mkdir win64
@@ -150,8 +142,6 @@ win64/libmusicxml2.sln : CMakeLists.txt
 #===============================================================
 linux : $(PDIR)/Makefile
 	make -C $(PDIR)
-	rm -rf libmusicxml2*.so*
-	cp -R $(PDIR)/libmusicxml2*.so* .
 
 $(PDIR)/Makefile : $(PDIR) CMakeLists.txt
 	cd $(PDIR) && cmake .. -G "$(GENERATOR)"  $(CMAKEOPT)
@@ -188,4 +178,4 @@ uninstall: $(installLog)
 	rm -f $(installedfiles) $(installLog)
 
 localinstall:
-	cd $(OUTDIR) && cp $(TOOLS) $(HOME)/bin
+	cd bin && cp $(TOOLS) $(HOME)/bin

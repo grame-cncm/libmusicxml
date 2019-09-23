@@ -27,6 +27,10 @@ set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
 set (DTDS   ${ROOT}/dtds/${XMLVERSION})
 set (SCHEMA ${ROOT}/schema/${XMLVERSION})
 
+set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+
+
 #######################################
 set (CMAKE_CXX_STANDARD 11)
 
@@ -110,6 +114,10 @@ add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
+			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
+			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
 			PUBLIC_HEADER "${COREH}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
@@ -138,6 +146,9 @@ if(NOT IOS )
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
 	target_link_libraries( ${sample} ${target})
+	set_target_properties (${sample} PROPERTIES  
+		RUNTIME_OUTPUT_DIRECTORY  ${BINDIR}
+		RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BINDIR})
 	add_dependencies(${sample} ${target})
 endforeach(sample)
 endif()

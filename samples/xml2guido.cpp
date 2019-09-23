@@ -11,6 +11,8 @@
 # pragma warning (disable : 4786)
 #endif
 
+#include <iostream>
+#include <fstream>
 #include <string>
 
 #include <stdlib.h>
@@ -27,8 +29,10 @@ using namespace MusicXML2;
 static void usage() {
 	cerr << "usage: xml2guido [options]  <musicxml file>" << endl;
 	cerr << "       reads stdin when <musicxml file> is '-'" << endl;
-	cerr << "       option: --autobars don't generates barlines" << endl;
-	cerr << "       option: --version print version and exit" << endl;
+	cerr << "       options: --autobars don't generates barlines" << endl;
+	cerr << "                --version print version and exit" << endl;
+	cerr << "                -o file   : write output to file" << endl;
+	cerr << "                -h --help : print this help" << endl;
 	exit(1);
 }
 
@@ -67,6 +71,15 @@ static bool checkOpt(int argc, char *argv[], const string& option)
 }
 
 //_______________________________________________________________________________
+static char* fileOpt(int argc, char *argv[], const string& option)
+{
+	for (int i=1; i<argc;i++) {
+		if (option == argv[i]) return (++i < argc) ? argv[i] : 0;
+	}
+	return 0;
+}
+
+//_______________________________________________________________________________
 static void versionInfo()
 {
 	cout << "xml2guido version " << musicxml2guidoVersionStr() << endl;
@@ -83,20 +96,34 @@ int main(int argc, char *argv[])
 	if (version) versionInfo();
 
 	if (argc < 2) usage();
+	if (checkOpt (argc, argv, "-h") || checkOpt (argc, argv, "--help")) usage();
 
 	bool generateBars = checkOpt (argc, argv, "--autobars");
-	char * file = argv[argc-1];
+	const char * file = argv[argc-1];
+	const char * outfile = fileOpt (argc, argv, "-o");
+	ostream * out = &cout;
+	fstream fout;
+	if (outfile) {
+		fout.open (outfile, ios_base::out);
+		if (!fout.is_open()) {
+			cerr << "can't open output file " << outfile << endl;
+			return -2;
+		}
+		out = &fout;
+	}
 
 	xmlErr err = kNoErr;
 	if (!strcmp(file, "-"))
-		err = musicxmlfd2guido(stdin, generateBars, cout);
+		err = musicxmlfd2guido(stdin, generateBars, *out);
 	else
-		err = musicxmlfile2guido(file, generateBars, cout);
+		err = musicxmlfile2guido(file, generateBars, *out);
 	if (err == kUnsupported)
 		cerr << "unsupported xml format" << endl;
-	else if (err == kUnsupported) {
+	else if (err ) {
 		cerr << "conversion failed" << endl;
 		return -1;
 	}
+
+	if (outfile) fout.close ();
 	return 0;
 }

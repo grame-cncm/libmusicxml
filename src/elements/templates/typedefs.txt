@@ -8,6 +8,6 @@
 namespace MusicXML2 
 {
 
-typedef SMARTP<musicxml<kComment, "comment"> >          S_comment;
-typedef SMARTP<musicxml<kProcessingInstruction, "pi"> > S_processing_instruction;
+typedef SMARTP<musicxml<kComment> >					S_comment;
+typedef SMARTP<musicxml<kProcessingInstruction> >	S_processing_instruction;
 

@@ -672,19 +672,19 @@ namespace MusicXML2
     {
         if (fSkipDirection) return;
         
-        bool wedgeStart = false;
-        
+//        bool wedgeStart = false;
+		
         string type = elt->getAttributeValue("type");
         Sguidoelement tag;
         if (type == "crescendo") {
             tag = guidotag::create("crescBegin");
             fCrescPending = true;
-            wedgeStart = true;
+//            wedgeStart = true;
         }
         else if (type == "diminuendo") {
             tag = guidotag::create("dimBegin");
             fCrescPending = false;
-            wedgeStart = true;
+//            wedgeStart = true;
         }
         else if (type == "stop") {
             if (fIgnoreWedgeWithOffset) {
