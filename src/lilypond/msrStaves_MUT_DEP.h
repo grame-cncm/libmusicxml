@@ -183,6 +183,29 @@ class msrStaff : public msrElement
                                   fStaffAllVoicesList;
                               }
 
+    // staff position in measure
+
+    void                  setStaffCurrentPositionInMeasure (
+                            rational positionInMeasure)
+                              {
+                                fStaffCurrentPositionInMeasure =
+                                  positionInMeasure;
+                              }
+
+    void                  incrementStaffCurrentPositionInMeasure (
+                            rational duration)
+                              {
+                                fStaffCurrentPositionInMeasure += duration;
+                              }
+    void                  decrementStaffCurrentPositionInMeasure (
+                            rational duration)
+                              {
+                                fStaffCurrentPositionInMeasure -= duration;
+                              }
+
+    rational              getStaffCurrentPositionInMeasure () const
+                              { return fStaffCurrentPositionInMeasure; }
+
     // services
     // ------------------------------------------------------
 
@@ -510,6 +533,9 @@ class msrStaff : public msrElement
     // transpose
 
     S_msrTranspose        fStaffCurrentTranspose;
+
+    // position in measure
+    rational              fStaffCurrentPositionInMeasure;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);

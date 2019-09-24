@@ -1647,7 +1647,9 @@ void msrSegment::appendVoiceStaffChangeToSegment (
   gIndenter--;
 }
 
-void msrSegment::appendNoteToSegment (S_msrNote note)
+void msrSegment::appendNoteToSegment (
+  S_msrNote note,
+  rational  staffCurrentPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes || gTraceOah->fTraceSegments) {
@@ -1665,7 +1667,9 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
     "fSegmentMeasuresList is empty");
 
   fSegmentMeasuresList.back ()->
-    appendNoteToMeasure (note);
+    appendNoteToMeasure (
+      note,
+      staffCurrentPositionInMeasure);
 }
 
 void msrSegment::appendNoteToSegmentClone (S_msrNote note)

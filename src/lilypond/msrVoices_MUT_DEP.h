@@ -27,10 +27,10 @@ class msrVoice : public msrElement
       msrVoiceKind voiceKind);
 
     enum msrVoiceRepeatPhaseKind {
-        kVoiceRepeatPhaseNone,
-        kVoiceRepeatPhaseAfterCommonPart,
-        kVoiceRepeatPhaseAfterHookedEnding,
-        kVoiceRepeatPhaseAfterHooklessEnding };
+      kVoiceRepeatPhaseNone,
+      kVoiceRepeatPhaseAfterCommonPart,
+      kVoiceRepeatPhaseAfterHookedEnding,
+      kVoiceRepeatPhaseAfterHooklessEnding };
 
     static string voiceRepeatPhaseKindAsString (
       msrVoiceRepeatPhaseKind

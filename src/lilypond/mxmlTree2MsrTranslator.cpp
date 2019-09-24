@@ -4451,7 +4451,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
 {
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors || gMusicXMLOah->fTraceForward) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_forward" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4486,7 +4486,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors || gMusicXMLOah->fTraceForward) {
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_forward" <<
       ", line " << inputLineNumber <<

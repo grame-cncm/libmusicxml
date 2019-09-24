@@ -35,15 +35,25 @@ class msrNote : public msrTupletElement
     enum msrNoteAccidentalKind {
       kNoteAccidentalNone,
 
-      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentalDoubleSharp, kNoteAccidentalSharpSharp,
+      kNoteAccidentalSharp, kNoteAccidentalNatural,
+      kNoteAccidentalFlat, kNoteAccidentalDoubleSharp,
+      kNoteAccidentalSharpSharp,
       kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
-      kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
+      kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat,
+      kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat,
+      kNoteAccidentalThreeQuartersSharp,
 
       kNoteAccidentalSharpDown, kNoteAccidentalSharpUp,
       kNoteAccidentalNaturalDown, kNoteAccidentalNaturalUp,
-      kNoteAccidentalFlatDown, kNoteAccidentalFlatUp,kNoteAccidentalTripleSharp, kNoteAccidentalTripleFlat,
-      kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp, kNoteAccidentalSlashFlat,kNoteAccidentaldoubleSlashFlat,
-      kNoteAccidentalSharp_1, kNoteAccidentalSharp_2, kNoteAccidentalSharp_3, kNoteAccidentalSharp_5, kNoteAccidentalFlat_1, kNoteAccidentalFlat_2, kNoteAccidentalFlat_3, kNoteAccidentalFlat_4, kNoteAccidentalSori, kNoteAccidentalKoron };
+      kNoteAccidentalFlatDown, kNoteAccidentalFlatUp,
+      kNoteAccidentalTripleSharp, kNoteAccidentalTripleFlat,
+      kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp,
+      kNoteAccidentalSlashFlat,kNoteAccidentaldoubleSlashFlat,
+      kNoteAccidentalSharp_1, kNoteAccidentalSharp_2,
+      kNoteAccidentalSharp_3,  kNoteAccidentalSharp_5,
+      kNoteAccidentalFlat_1, kNoteAccidentalFlat_2,
+      kNoteAccidentalFlat_3, kNoteAccidentalFlat_4,
+      kNoteAccidentalSori, kNoteAccidentalKoron };
 
     static string noteAccidentalKindAsString (
       msrNoteAccidentalKind noteAccidentalKind);

@@ -198,7 +198,10 @@ class msrSegment : public msrVoiceElement
 
     // notes
 
-    void                  appendNoteToSegment      (S_msrNote note);
+    void                  appendNoteToSegment (
+                            S_msrNote note,
+                            rational  staffCurrentPositionInMeasure);
+
     void                  appendNoteToSegmentClone (S_msrNote note);
 
     // tremolos

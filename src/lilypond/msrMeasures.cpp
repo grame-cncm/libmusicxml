@@ -1473,7 +1473,9 @@ void msrMeasure::appendVoiceStaffChangeToMeasure (
   appendElementToMeasure (voiceStaffChange);
 }
 
-void msrMeasure::appendNoteToMeasure (S_msrNote note)
+void msrMeasure::appendNoteToMeasure (
+  S_msrNote note,
+  rational  staffCurrentPositionInMeasure)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -1501,14 +1503,104 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   }
 #endif
 
+  // should a skip/rest note be appended before note?
+  rational
+    positionsDelta =
+      staffCurrentPositionInMeasure
+        -
+      fCurrentMeasureWholeNotesDuration;
+
+  if (positionsDelta.getNumerator () > 0) {
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchMeasureVoiceUpLink ();
+
+    // create a skip note of duration delta
+    S_msrNote
+      paddingNote =
+        msrNote::createSkipNote (
+          inputLineNumber,
+          fMeasureNumber,
+          positionsDelta,
+          positionsDelta,
+          0, // dots number JMI ???
+          voice->
+            getVoiceStaffUpLink ()->getStaffNumber (),
+          voice->
+            getVoiceNumber ());
+
+    // append it to the measure
+    appendNoteOrPaddingToMeasure (
+      paddingNote);
+  }
+
+  else if (positionsDelta.getNumerator () < 0) {
+    stringstream s;
+
+    s <<
+      "staffCurrentPositionInMeasure " <<
+      staffCurrentPositionInMeasure <<
+      " is smaller than fCurrentMeasureWholeNotesDuration " <<
+      fCurrentMeasureWholeNotesDuration <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "', cannot padup in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink () <<
+      "\"";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  else {
+    // this measure is already at the staff current position in measure,
+    // nothing to do
+  }
+
+  // append note to measure
+  appendNoteOrPaddingToMeasure (note);
+}
+
+void msrMeasure::appendNoteOrPaddingToMeasure (
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (
+    gTraceOah->fTraceNotes
+      ||
+    gTraceOah->fTraceMeasures
+      ||
+    gTraceOah->fTracePositionsInMeasures
+  ) {
+    gLogOstream <<
+      "Appending note or padding '" << note->asShortString () <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
   gIndenter++;
 
   // populate measure upLink
   note->
     setNoteMeasureUpLink (this);
 
-  // append the note to the measure elements list
-// JMI  appendElementToMeasure (note);
   // set note's measure number
   note->
     setMeasureNumber (
@@ -1522,6 +1614,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       fCurrentMeasureWholeNotesDuration);
 
   // append it to the measure elements list
+// JMI  appendElementToMeasure (note); ???
   fMeasureElementsList.push_back (note);
 
   // fetch note sounding whole notes
@@ -2285,10 +2378,8 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
     }
 #endif
 
-    // append the rest to the measure elements list
-    // only now to make it possible to remove it afterwards
-    // if it happens to be the first note of a chord
-    appendNoteToMeasure (paddingNote);
+    // append the paddingNote to the measure
+    appendNoteOrPaddingToMeasure (paddingNote);
 
 /* JMI
     // set this measure as being padded // JMI
@@ -2451,10 +2542,8 @@ void msrMeasure::appendPaddingNoteToMeasure (
         forwardStepLength,
         measureVoice);
 
-  // append the rest to the measure elements list
-  // only now to make it possible to remove it afterwards
-  // if it happens to be the first note of a chord
-  appendNoteToMeasure (paddingNote);
+  // append the paddingNote to the measure
+  appendNoteOrPaddingToMeasure (paddingNote);
 
   gIndenter--;
 }
@@ -2638,8 +2727,8 @@ void msrMeasure::removeNoteFromMeasure (
     note <<
     " from measure " <<
     fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
     "' in voice \"" <<
     segmentVoiceUpLink->getVoiceName () <<
     "\"," <<
@@ -3149,10 +3238,8 @@ void msrMeasure::padUpToPositionInMeasure (
    }
 #endif
 
-    // append the rest to the measure elements list
-    // only now to make it possible to remove it afterwards
-    // if it happens to be the first note of a chord
-    appendNoteToMeasure (paddingNote);
+    // append the paddingNote to the measure
+    appendNoteOrPaddingToMeasure (paddingNote);
 
     // this measure contains music
     fMeasureContainsMusic = true;

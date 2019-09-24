@@ -2188,6 +2188,11 @@ void msrVoice:: handleBackupInVoice (
   else {
     // we're already at the desired position, do nothing
   }
+
+  // account for backup in staff
+  fVoiceStaffUpLink->
+    decrementStaffCurrentPositionInMeasure (
+      backupStepLength);
 }
 
 void msrVoice::appendTransposeToVoice (
@@ -2424,7 +2429,29 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   }
 #endif
 
- // JMI if (inputLineNumber == 130) abort ();
+  // fetch the staff current position in measure
+  rational
+    staffCurrentPositionInMeasure =
+      fVoiceStaffUpLink->
+        getStaffCurrentPositionInMeasure ();
+
+  // append the note to the last segment
+  fVoiceLastSegment->
+    appendNoteToSegment (
+      note,
+      staffCurrentPositionInMeasure);
+
+  // is this note the shortest one in this voice?
+  this->
+    registerShortestNoteIfRelevant (note);
+
+  // register note as the last appended one into this voice
+  fVoiceLastAppendedNote = note;
+
+  // account for note's duration in staff
+  fVoiceStaffUpLink->
+    incrementStaffCurrentPositionInMeasure (
+      note->getNoteSoundingWholeNotes ());
 
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
@@ -2482,17 +2509,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       fMusicHasBeenInsertedInVoice = true;
       break;
   } // switch
-
-  // append the note to the last segment
-  fVoiceLastSegment->
-    appendNoteToSegment (note);
-
-  // is this note the shortest one in this voice?
-  this->
-    registerShortestNoteIfRelevant (note);
-
-  // register note as the last appended one into this voice
-  fVoiceLastAppendedNote = note;
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
@@ -2512,6 +2528,17 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   }
 #endif
 
+  // append the note to the last segment
+  fVoiceLastSegment->
+    appendNoteToSegmentClone (note);
+
+  // is this note the shortest one in this voice?
+  this->
+    registerShortestNoteIfRelevant (note);
+
+  // register note as the last appended one into this voice
+  fVoiceLastAppendedNote = note;
+
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
   switch (note->getNoteKind ()) {
@@ -2568,17 +2595,6 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       fMusicHasBeenInsertedInVoice = true;
       break;
   } // switch
-
-  // append the note to the last segment
-  fVoiceLastSegment->
-    appendNoteToSegmentClone (note);
-
-  // is this note the shortest one in this voice?
-  this->
-    registerShortestNoteIfRelevant (note);
-
-  // register note as the last appended one into this voice
-  fVoiceLastAppendedNote = note;
 }
 
 void msrVoice::appendDoubleTremoloToVoice (
