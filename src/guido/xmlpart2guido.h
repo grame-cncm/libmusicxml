@@ -87,7 +87,8 @@ class EXP xmlpart2guido :
     bool directionPlacementAbove;
     
     std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
-    
+    std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
+
     Sguidoelement fLyricOpened;
     
     bool isProcessingChord;
@@ -142,6 +143,7 @@ class EXP xmlpart2guido :
 	void checkGrace		 ( const notevisitor& nv );
     void checkGraceEnd(const notevisitor& nv);
 	int  checkFermata	 ( const notevisitor& stem );
+    void checkSlur     ( const std::vector<S_slur>& slurs );
 	void checkSlurBegin	 ( const std::vector<S_slur>& slurs );
 	void checkSlurEnd	 ( const std::vector<S_slur>& slurs );
 	void checkTiedBegin	 ( const std::vector<S_tied>& tied );
@@ -162,7 +164,8 @@ class EXP xmlpart2guido :
 	std::vector<S_beam>::const_iterator findValue ( const std::vector<S_beam>& beams, const std::string& val ) const;
 	std::vector<S_slur>::const_iterator findTypeValue ( const std::vector<S_slur>& slurs, const std::string& val ) const;
 	std::vector<S_tied>::const_iterator findTypeValue ( const std::vector<S_tied>& tied, const std::string& val ) const;
-    
+    std::vector< std::pair<int, int> >::const_iterator findSlur ( const int xmlnum ) const;
+
     /// Lyrics handling by AC
     void checkLyricBegin	 ( const std::vector<S_lyric>& lyrics );
     void checkLyricEnd	 ( const std::vector<S_lyric>& lyrics );

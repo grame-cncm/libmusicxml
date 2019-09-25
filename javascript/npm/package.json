@@ -1,0 +1,30 @@
+{
+  "name": "@grame/libmusicxml",
+  "version": "3.1.6",
+  "description": "A library to support the MusicXML format.",
+  "main": "libmusicxml.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "cd test; node check.js test.xml"
+  },
+  "homepage": "https://github.com/grame-cncm/libmusicxml#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grame-cncm/libmusicxml.git"
+  },
+  "bugs": { 
+    "url" : "https://github.com/grame-cncm/libmusicxml/issues"
+  },  
+  "keywords": [
+    "MusicXML"
+  ],
+  "author": "D. Fober <fober@grame.fr>",
+  "contributors": [
+    "Jacques Menu",
+    "Arshia Cont",
+    "Jürgen Kilian"
+  ],
+  "license": "MPL-2.0"
+}

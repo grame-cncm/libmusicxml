@@ -8,9 +8,10 @@ xcode/
 build/libmusicxml2*
 build/android/libs
 build/android/obj
-build/macos
-build/macc++11
-build/ios
+build/iosdir
+build/libdir
+build/bin
+build/lib
 packages/libmusicxml-*
 doc/html
 doc/latex
