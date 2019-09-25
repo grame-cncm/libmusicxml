@@ -44,6 +44,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
     }
     
     //______________________________________________________________________________
@@ -63,6 +64,7 @@ namespace MusicXML2
         fTextTagOpen = 0;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
     }
     
     //______________________________________________________________________________
@@ -78,6 +80,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
         start (seq);
     }
     
@@ -2041,8 +2044,19 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 
                 push(tag);
                 return 1;
+            }else if (tremType == "stop") {
+                fTremoloInProgress = false;
+                pop();
             }else
+                /* Notes from MusicXML Doc:
+                 When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
+                 A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
+                 If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+                 */
+                
                 if (tremType == "start") {
+                    fTremoloInProgress = true;
+                    
                     tag = guidotag::create("trem");
                     
                     /// Find "stop" pitch
@@ -2296,6 +2310,9 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             r.rationalise();
             rational tm = nv.getTimeModification();
             r *= tm;
+            if (fTremoloInProgress) {
+                r *= 2.0;
+            }
             r.rationalise();
             dur.set (r.getNumerator(), r.getDenominator(), nv.getDots());
         }
