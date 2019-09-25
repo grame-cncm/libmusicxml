@@ -44,6 +44,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
     }
     
     //______________________________________________________________________________
@@ -63,6 +64,7 @@ namespace MusicXML2
         fTextTagOpen = 0;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
     }
     
     //______________________________________________________________________________
@@ -78,6 +80,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
         start (seq);
     }
     
@@ -2023,6 +2026,12 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
     
     int xmlpart2guido::checkTremolo(const notevisitor& note, const S_note& elt) {
         // Starting FINALE 24, there is Tremolo types "Single", "start" and "stop". The "Start" type should search for a "stop" to construct the tremolo
+        /* Notes from MusicXML Doc:
+         When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
+         A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
+         If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+         */
+                
         if (note.fTremolo) {
             Sguidoelement tag;
             stringstream s;
@@ -2031,7 +2040,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             if (tremType == "single") {
                 tag = guidotag::create("trem");
                 // trem style is the number int value
-                int numDashes = int(*(note.fTremolo));
+                int numDashes = stoi(note.fTremolo->getValue());
                 s << "style=\"";
                 for (int id=0; id<numDashes;id++) {
                     s << "/";
@@ -2043,6 +2052,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 return 1;
             }else
                 if (tremType == "start") {
+                    fTremoloInProgress = true;
                     tag = guidotag::create("trem");
                     
                     /// Find "stop" pitch
@@ -2296,6 +2306,9 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             r.rationalise();
             rational tm = nv.getTimeModification();
             r *= tm;
+            if (fTremoloInProgress) {
+                r *= 2.0;
+            }
             r.rationalise();
             dur.set (r.getNumerator(), r.getDenominator(), nv.getDots());
         }
@@ -2456,10 +2469,6 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         
         if (inChord()) return;					// chord notes have already been handled
         
-        if (fTremolo && (fTremolo->getAttributeValue("type")=="stop")) {
-            return;
-        }
-        
         isProcessingChord = false;
         
         rational thisNoteHeadPosition = fCurrentVoicePosition;
@@ -2499,6 +2508,15 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         }
         if (!scanVoice) return;
         
+        if ((fTremoloInProgress)&&(fTremolo && (fTremolo->getAttributeValue("type")=="stop"))) {
+            fTremoloInProgress = false;
+            pop();
+            checkTupletEnd(notevisitor::getTuplet());
+            checkSlurEnd (notevisitor::getSlur());
+            checkBeamEnd (notevisitor::getBeam());
+            return;
+        }
+        
         checkStaff(notevisitor::getStaff());
         
         checkVoiceTime (fCurrentMeasurePosition, fCurrentVoicePosition);
@@ -2520,7 +2538,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
         
-        pendingPops += checkTremolo(*this, elt);
+        checkTremolo(*this, elt);   // tremolo element will be popped upon "stop"
         
         
         if (notevisitor::getType()==kRest)
@@ -2562,7 +2580,6 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         
         checkTupletEnd(notevisitor::getTuplet());
         checkSlurEnd (notevisitor::getSlur());
-        
         checkBeamEnd (notevisitor::getBeam());
         
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
