@@ -2446,7 +2446,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
   }
 }
 
-void msrMeasure::backupByWholeNotesStepLengthInMeasure (
+void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
   int      inputLineNumber,
   rational backupTargetPositionInMeasure)
 {
@@ -3256,7 +3256,7 @@ void msrMeasure::padUpToPositionInMeasure (
   gIndenter--;
 }
 
-void msrMeasure::padUpToPositionAtTheEndOfMeasure (
+void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
   int      inputLineNumber,
   rational positionInMeasureToPadUpTo)
 {
@@ -3283,7 +3283,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
   if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
-      "padUpToPositionAtTheEndOfMeasure() 1");
+      "padUpToPositionAtTheEndOfTheMeasure() 1");
   }
 #endif
 
@@ -3354,7 +3354,7 @@ void msrMeasure::padUpToPositionAtTheEndOfMeasure (
   if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
-      "padUpToPositionAtTheEndOfMeasure() 2");
+      "padUpToPositionAtTheEndOfTheMeasure() 2");
   }
 #endif
 
@@ -3440,12 +3440,25 @@ void msrMeasure::finalizeRegularMeasure (
   }
 #endif
 
+  // fetch the staff current position in measure
+  rational
+    staffCurrentPositionInMeasure =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()->
+          getVoiceStaffUpLink ()->
+            getStaffCurrentPositionInMeasure ();
+
+  // pad the measure up to the staff current position in measure
+  padUpToPositionAtTheEndOfTheMeasure (
+    inputLineNumber,
+    staffCurrentPositionInMeasure);
+
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
     measuresRepeatContextKind);
 
-  // pad measure up to part measure whole notes high tide
+  // pad measure up to whole measure whole notes high tide
   switch (fMeasureKind) {
     case msrMeasure::kMeasureKindCadenza:
       break;
@@ -3468,6 +3481,7 @@ void msrMeasure::finalizeRegularMeasure (
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
+      /* JMI
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceMeasures) {
           stringstream s;
@@ -3496,6 +3510,7 @@ void msrMeasure::finalizeRegularMeasure (
         padUpToPositionInMeasure (
           inputLineNumber,
           fFullMeasureWholeNotesDuration);
+          */
       }
       break;
   } // switch
@@ -4218,7 +4233,7 @@ void msrMeasure::finalizeHarmonyMeasure (
     context);
 
   // pad the measure up to fFullMeasureWholeNotesDuration
-  padUpToPositionAtTheEndOfMeasure (
+  padUpToPositionAtTheEndOfTheMeasure (
     inputLineNumber,
     fFullMeasureWholeNotesDuration);
 
@@ -4250,6 +4265,7 @@ void msrMeasure::finalizeHarmonyMeasure (
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
+/* JMI
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) {
         stringstream s;
@@ -4278,6 +4294,7 @@ void msrMeasure::finalizeHarmonyMeasure (
         padUpToPositionInMeasure (
           inputLineNumber,
           fFullMeasureWholeNotesDuration);
+          */
       }
       break;
   } // switch
@@ -4410,7 +4427,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
     context);
 
   // pad the measure up to fFullMeasureWholeNotesDuration
-  padUpToPositionAtTheEndOfMeasure (
+  padUpToPositionAtTheEndOfTheMeasure (
     inputLineNumber,
     fFullMeasureWholeNotesDuration);
 
@@ -4442,6 +4459,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
+      /* JMI
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) {
         stringstream s;
@@ -4470,6 +4488,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
         padUpToPositionInMeasure (
           inputLineNumber,
           fFullMeasureWholeNotesDuration);
+          */
       }
       break;
   } // switch

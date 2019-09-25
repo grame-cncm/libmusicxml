@@ -2113,6 +2113,7 @@ void msrVoice:: handleBackupInVoice (
   }
 #endif
 
+/* JMI
   // sanity checks
   if (backupTargetPositionInMeasure.getNumerator () < 0) {
     stringstream s;
@@ -2150,7 +2151,7 @@ void msrVoice:: handleBackupInVoice (
       s.str ());
   }
 
-/* JMI
+/ * JMI
   else if (
     backupTargetPositionInMeasure
       <
@@ -2172,7 +2173,7 @@ void msrVoice:: handleBackupInVoice (
       __FILE__, __LINE__,
       s.str ());
   }
-*/
+* /
 
   // do the backup if necessary
   if (
@@ -2188,6 +2189,7 @@ void msrVoice:: handleBackupInVoice (
   else {
     // we're already at the desired position, do nothing
   }
+*/
 
   // account for backup in staff
   fVoiceStaffUpLink->

@@ -5441,9 +5441,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           break;
       } // switch
 
-      if (false && doGenerateAWithBlock) { // JMI
+      if (doGenerateAWithBlock) {
         fLilypondCodeOstream <<
-          "\\with {1" <<
+          endl <<
+          "\\with {" <<
           endl;
       }
 
@@ -5506,9 +5507,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
       // generate the '\with' block ending
       // if the part group is not implicit
-      if (false && doGenerateAWithBlock) { // JMI
+      if (doGenerateAWithBlock) {
         fLilypondCodeOstream <<
-          endl <<
           "}" <<
           endl;
       }

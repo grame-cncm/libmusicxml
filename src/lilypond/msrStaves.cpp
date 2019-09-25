@@ -271,7 +271,7 @@ void msrStaff::initializeStaff ()
   // rest measures
   fStaffContainsRestMeasures = false;
 
-  // position in measure
+  // current position in measure
   fStaffCurrentPositionInMeasure = rational (0,0);
 
 // JMI  gIndenter--;
@@ -2093,7 +2093,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
     } // switch
   } // for
 
-  // reset position in measure
+  // reset current position in measure
   fStaffCurrentPositionInMeasure = rational (0,0);
 
   gIndenter--;
