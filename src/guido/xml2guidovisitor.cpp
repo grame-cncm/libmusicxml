@@ -236,6 +236,11 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("staff");
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
+            
+            // Add \set<autoHideTiedAccidentals="on"> to avoid repetition of accidentals on ties
+            std::string autoHideTiedAccidentals = "set<autoHideTiedAccidentals=\"on\">";
+            tag = guidotag::create(autoHideTiedAccidentals);
+            add(tag);
                         
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
@@ -247,7 +252,7 @@ namespace MusicXML2
                 if (previousStaffHasLyrics)
                 {
                     tag2->add (guidoparam::create("dy=-5", false));
-                }else if (ps.fStaffDistances.size()> (targetStaff-1)) {
+                }else if (ps.fStaffDistances.size()> size_t(targetStaff-1)) {
                     
                     if (ps.fStaffDistances[targetStaff-1] > 0) {
                         float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;

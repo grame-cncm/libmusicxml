@@ -146,7 +146,8 @@ class EXP indenter
     int                   fIndent;
     std::string           fSpacer;
 };
-std::ostream& operator<< (std::ostream& os, const indenter& idtr);
+
+EXP std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 
 // useful shortcut macros
 #define gIndenter indenter::gIndenter

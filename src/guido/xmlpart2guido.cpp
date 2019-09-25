@@ -672,19 +672,19 @@ namespace MusicXML2
     {
         if (fSkipDirection) return;
         
-        bool wedgeStart = false;
-        
+//        bool wedgeStart = false;
+		
         string type = elt->getAttributeValue("type");
         Sguidoelement tag;
         if (type == "crescendo") {
             tag = guidotag::create("crescBegin");
             fCrescPending = true;
-            wedgeStart = true;
+//            wedgeStart = true;
         }
         else if (type == "diminuendo") {
             tag = guidotag::create("dimBegin");
             fCrescPending = false;
-            wedgeStart = true;
+//            wedgeStart = true;
         }
         else if (type == "stop") {
             if (fIgnoreWedgeWithOffset) {
@@ -1284,13 +1284,33 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::checkSlurBegin ( const std::vector<S_slur>& slurs )
     {
+        /*
+         In Guido, slurBegin should be generated before notename and slurEnd after (or otherwise leading to bad numbering and rendering issues such as big slurs).
+         Whereas in MusicXML, Slurs are attributes of Notations inside a note event.
+         
+         There is one special case where slurEnd should appear before slurBegin: for consecutif slurs where notation is as follows:
+         <notations>
+           <slur number="1" type="stop"/>
+           <slur number="1" placement="above" type="start"/>
+         </notations>
+
+         This leads to the conclusion that the numbering in Guido and XML can NOT be the same. So we should track them indefinitely!
+         */
         std::vector<S_slur>::const_iterator i;
+        int counter = 0;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "start") {
-                string tagName = "slurBegin";
-                string num = (*i)->getAttributeValue("number");
-                if (num.size()) tagName += ":" + num;
-                Sguidoelement tag = guidotag::create(tagName);
+                // There is a Beam Begin. Creat BeamBegin tag, and add its number to Stack
+                int lastSlurInternalNumber = 1;
+                if (!fSlurStack.empty()) {
+                    std::pair<int, int> toto = fSlurStack.back();
+                    lastSlurInternalNumber = toto.first + 1;
+                }
+                
+                
+                stringstream tagName;
+                tagName << "slurBegin" << ":"<< lastSlurInternalNumber;
+                Sguidoelement tag = guidotag::create(tagName.str());
                 string placement = (*i)->getAttributeValue("placement");
                 string orientation = (*i)->getAttributeValue("placement");
                 if ((placement == "below")||(orientation=="under"))
@@ -1298,23 +1318,58 @@ namespace MusicXML2
                 if ((placement == "above")||(orientation=="over"))
                     tag->add (guidoparam::create("curve=\"up\"", false));
                 add(tag);
+                
+                // Add to stack:
+                std::pair<int,int> toto2(lastSlurInternalNumber, (*i)->getAttributeIntValue("number", 0));
+                fSlurStack.push_back(toto2);
             }
+            counter++;
         }
     }
     
     void xmlpart2guido::checkSlurEnd ( const std::vector<S_slur>& slurs )
     {
+        int counter = 0;
         std::vector<S_slur>::const_iterator i;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "stop") {
-                string tagName = "slurEnd";
-                string num = (*i)->getAttributeValue("number");
-                if (num.size()) tagName += ":" + num;
-                Sguidoelement tag = guidotag::create (tagName);
+                int lastSlurInternalNumber = 0;
+                std::vector< std::pair<int, int> >::const_iterator slurEndToBeErase;
+                if (!fSlurStack.empty()) {
+                    // find the corresponding open slur in stack that has the same xml-num as this one
+                    int xmlnum = (*i)->getAttributeIntValue("number", 0);
+                    slurEndToBeErase = findSlur(xmlnum);
+                    if (slurEndToBeErase != fSlurStack.end()) {
+                        lastSlurInternalNumber = slurEndToBeErase->first;
+                    }
+                }else {
+                    cerr<< "XML2Guido: Got Slur Stop without a Slur in Stack. Skipping!"<<endl;
+                    return;
+                }
+                
+                stringstream tagName;
+                tagName << "slurEnd" << ":"<< lastSlurInternalNumber;
+                Sguidoelement tag = guidotag::create(tagName.str());
                 add(tag);
+                
+                // remove the slur from stack
+                fSlurStack.erase(slurEndToBeErase);
             }
+            counter++;
         }
     }
+
+std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( const int xmlnum ) const {
+    std::vector< std::pair<int, int> >::const_iterator i;
+    
+    for (i=fSlurStack.begin(); i != fSlurStack.end(); i++) {
+        if (i->second == xmlnum) {
+            break;
+        }
+    }
+    return i;
+}
+
     
     //______________________________________________________________________________
     void xmlpart2guido::checkBeamBegin ( const std::vector<S_beam>& beams )
@@ -1508,6 +1563,11 @@ namespace MusicXML2
             /// Determine the graphical format inside Tuplet
             std::string dispNotePar ;
             int dy1offset = 6;
+            if (tupletGraphicType=="64th")
+            {
+                dispNotePar = "\"/64\"";
+                dy1offset+=4;
+            }
             if (tupletGraphicType=="32nd")
             {
                 dispNotePar = "\"/32\"";
