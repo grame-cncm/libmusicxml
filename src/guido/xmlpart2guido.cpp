@@ -1563,6 +1563,11 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             /// Determine the graphical format inside Tuplet
             std::string dispNotePar ;
             int dy1offset = 6;
+            if (tupletGraphicType=="64th")
+            {
+                dispNotePar = "\"/64\"";
+                dy1offset+=4;
+            }
             if (tupletGraphicType=="32nd")
             {
                 dispNotePar = "\"/32\"";
