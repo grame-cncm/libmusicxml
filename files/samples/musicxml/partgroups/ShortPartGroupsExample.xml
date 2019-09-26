@@ -226,9 +226,9 @@
         </transpose>
       </attributes>
       <direction placement="above" directive="yes">
-        <direction-type>
+        <!--direction-type>
           <words default-y="40" font-size="6.6" font-weight="bold">Moderato</words>
-        </direction-type>
+        </direction-type-->
         <direction-type>
           <words font-size="6.6" font-weight="normal"> </words>
         </direction-type>

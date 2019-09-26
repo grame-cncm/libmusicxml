@@ -3816,9 +3816,16 @@ string lpsr2LilypondTranslator::generateMultilineName (string theString)
     } // for
 
     s <<
-      " } } " <<
-      "% " << chunksList.size () << " chunk(s)" <<
-      endl;
+      " } } ";
+
+    if (gLilypondOah->fComments) {
+      s <<
+        "% " <<
+        singularOrPlural (
+          chunksList.size (), "chunk", "chunks");
+    }
+
+    s << endl;
   }
 
   return s.str ();
@@ -5345,6 +5352,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
       switch (partGroupSymbolKind) {
         case msrPartGroup::kPartGroupSymbolNone:
+          fLilypondCodeOstream <<
+            "\\new StaffGroup";
           break;
 
         case msrPartGroup::kPartGroupSymbolBrace: // JMI
@@ -5513,7 +5522,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) <<
           " <<" << "% part group " <<
-          partGroup->getPartGroupCombinedName ();
+          partGroup->getPartGroupCombinedNameWithoutEndOfLines ();
       }
       else {
         fLilypondCodeOstream <<
@@ -5575,7 +5584,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) << ">>" <<
           "% part group " <<
-          partGroup->getPartGroupCombinedName ();
+          partGroup->getPartGroupCombinedNameWithoutEndOfLines ();
       }
       else {
         fLilypondCodeOstream <<

@@ -163,6 +163,9 @@ class msrPartGroup : public msrPartGroupElement
 
     string                getPartGroupCombinedName () const;
 
+    string                getPartGroupCombinedNameWithoutEndOfLines () const;
+                            // for comments in LilyPond code
+
     // miscellaneous
 
     string                getPartGroupNameDisplayText () const

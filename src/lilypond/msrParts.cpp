@@ -459,7 +459,10 @@ string msrPart::getPartCombinedName () const
   }
   else {
     s <<
-      "\"" << fPartMsrName << "\"";
+     // JMI "\"" <<
+      fPartMsrName
+     // JMI << "\""
+      ;
   }
 
   s <<

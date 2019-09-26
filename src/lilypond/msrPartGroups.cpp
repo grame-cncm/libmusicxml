@@ -241,6 +241,43 @@ string msrPartGroup::getPartGroupCombinedName () const
   return s.str ();
 }
 
+string msrPartGroup::getPartGroupCombinedNameWithoutEndOfLines () const
+{
+  list<string> chunksList;
+
+  splitRegularStringAtEndOfLines (
+    fPartGroupName,
+    chunksList);
+
+  stringstream s;
+
+  s <<
+    "PartGroup_" << fPartGroupAbsoluteNumber <<
+    " ('" << fPartGroupNumber <<
+    "', partGroupName \"";
+
+  if (chunksList.size ()) {
+    // used the chunks separated by a space
+    list<string>::const_iterator
+      iBegin = chunksList.begin (),
+      iEnd   = chunksList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      s <<(*i);
+      if (++i == iEnd) break;
+      s << ' ';
+    } // for
+  }
+
+  s <<
+    "\"" <<
+    ", partGroupImplicitKind: " <<
+    partGroupImplicitKindAsString ();
+
+  return s.str ();
+}
+
 void msrPartGroup::setPartGroupInstrumentName (
   string partGroupInstrumentName)
 {
@@ -479,17 +516,17 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
   fPartGroupElements.push_back (partGroup);
 }
 
-
 void msrPartGroup::printPartGroupParts (
   int      inputLineNumber,
   ostream& os)
 {
   if (fPartGroupElements.size ()) {
-    for (
-      list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
-      i != fPartGroupElements.end ();
-      i++
-    ) {
+    list<S_msrPartGroupElement>::const_iterator
+      iBegin = fPartGroupElements.begin (),
+      iEnd   = fPartGroupElements.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
       S_msrElement
         element = (*i);
 
@@ -501,7 +538,7 @@ void msrPartGroup::printPartGroupParts (
         // this is a part group
         gLogOstream <<
           nestedPartGroup->
-            getPartGroupCombinedName () <<
+            getPartGroupCombinedNameWithoutEndOfLines () <<
           endl;
 
         gIndenter++;
@@ -540,6 +577,9 @@ void msrPartGroup::printPartGroupParts (
           __FILE__, __LINE__,
           s.str ());
       }
+
+      if (++i == iEnd) break;
+   // JMI   os << endl;
     } // for
   }
 
