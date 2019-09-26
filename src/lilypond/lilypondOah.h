@@ -1120,6 +1120,7 @@ class lilypondOah : public oahGroup
     // --------------------------------------
 
     bool                  fModernTab;
+    bool                  fTabFullNotation;
 
     bool                  fKeepStaffSize;
 

@@ -3199,6 +3199,16 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
         "modernTab",
         fModernTab));
 
+  fTabFullNotation = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "tfn", "tabFullNotation",
+R"(Generate '\tabFullNotation' to obtain more complete tab notation, including note stems.)",
+        "tabFullNotation",
+        fTabFullNotation));
+
   // staves
 
   fKeepStaffSize = boolOptionsInitialValue;
@@ -3978,6 +3988,9 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   clone->fModernTab =
     fModernTab;
 
+  clone->fTabFullNotation =
+    fTabFullNotation;
+
 
   // chords
   // --------------------------------------
@@ -4490,6 +4503,10 @@ void lilypondOah::printAtomOptionsValues (
     setw (valueFieldWidth) << "modernTab" << " : " <<
     booleanAsString (fModernTab) <<
     endl <<
+    setw (valueFieldWidth) << "tabFullNotation" << " : " <<
+    booleanAsString (fTabFullNotation) <<
+    endl <<
+
     setw (valueFieldWidth) << "keepStaffSize" << " : " <<
     booleanAsString (fKeepStaffSize) <<
     endl;
@@ -4987,6 +5004,9 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "modernTab" << " : " <<
     booleanAsString (fModernTab) <<
+    endl <<
+    setw (fieldWidth) << "tabFullNotation" << " : " <<
+    booleanAsString (fTabFullNotation) <<
     endl;
 
   gIndenter--;

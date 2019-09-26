@@ -8376,92 +8376,93 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
 
   if (clefKind != msrClef::k_NoClef) {
     fLilypondCodeOstream <<
-      "\\clef \"";
+      "\\clef ";
 
     switch (clefKind) {
       case msrClef::k_NoClef:
         break;
       case msrClef::kTrebleClef:
-        fLilypondCodeOstream << "treble";
+        fLilypondCodeOstream << "\"treble\"";
         break;
       case msrClef::kSopranoClef:
-        fLilypondCodeOstream << "soprano";
+        fLilypondCodeOstream << "\"soprano\"";
         break;
       case msrClef::kMezzoSopranoClef:
-        fLilypondCodeOstream << "mezzosoprano";
+        fLilypondCodeOstream << "\"mezzosoprano\"";
         break;
       case msrClef::kAltoClef:
-        fLilypondCodeOstream << "alto";
+        fLilypondCodeOstream << "\"alto\"";
         break;
       case msrClef::kTenorClef:
-        fLilypondCodeOstream << "tenor";
+        fLilypondCodeOstream << "\"tenor\"";
         break;
       case msrClef::kBaritoneClef:
-        fLilypondCodeOstream << "baritone";
+        fLilypondCodeOstream << "\"baritone\"";
         break;
       case msrClef::kBassClef:
-        fLilypondCodeOstream << "bass";
+        fLilypondCodeOstream << "\"bass\"";
         break;
       case msrClef::kTrebleLine1Clef:
-        fLilypondCodeOstream << "french";
+        fLilypondCodeOstream << "\"french\"";
         break;
       case msrClef::kTrebleMinus15Clef:
-        fLilypondCodeOstream << "treble_15";
+        fLilypondCodeOstream << "\"treble_15\"";
         break;
       case msrClef::kTrebleMinus8Clef:
-        fLilypondCodeOstream << "treble_8";
+        fLilypondCodeOstream << "\"treble_8\"";
         break;
       case msrClef::kTreblePlus8Clef:
-        fLilypondCodeOstream << "treble^8";
+        fLilypondCodeOstream << "\"treble^8\"";
         break;
       case msrClef::kTreblePlus15Clef:
-        fLilypondCodeOstream << "treble^15";
+        fLilypondCodeOstream << "\"treble^15\"";
         break;
       case msrClef::kBassMinus15Clef:
-        fLilypondCodeOstream << "bass_15";
+        fLilypondCodeOstream << "\"bass_15\"";
         break;
       case msrClef::kBassMinus8Clef:
-        fLilypondCodeOstream << "bass_8";
+        fLilypondCodeOstream << "\"bass_8\"";
         break;
       case msrClef::kBassPlus8Clef:
-        fLilypondCodeOstream << "bass^8";
+        fLilypondCodeOstream << "\"bass^8\"";
         break;
       case msrClef::kBassPlus15Clef:
-        fLilypondCodeOstream << "bass^15";
+        fLilypondCodeOstream << "\"bass^15\"";
         break;
       case msrClef::kVarbaritoneClef:
-        fLilypondCodeOstream << "varbaritone";
+        fLilypondCodeOstream << "\"varbaritone\"";
         break;
+
       case msrClef::kTablature4Clef:
       case msrClef::kTablature5Clef:
       case msrClef::kTablature6Clef:
       case msrClef::kTablature7Clef:
-        fLilypondCodeOstream << "tab";
-        /* JMI ???
         if (gLilypondOah->fModernTab) {
           fLilypondCodeOstream <<
             "\"moderntab\"" <<
-            endl <<
-            "\\tabFullNotation";
+            endl;
         }
         else {
           fLilypondCodeOstream <<
             "\"tab\"" <<
-            endl <<
-            "\\tabFullNotation";
+            endl;
         }
-            */
+        if (gLilypondOah->fTabFullNotation) {
+          fLilypondCodeOstream <<
+            "\\tabFullNotation" <<
+            endl;
+        }
         break;
+
       case msrClef::kPercussionClef:
-        fLilypondCodeOstream << "percussion";
+        fLilypondCodeOstream << "\"percussion\"";
         break;
       case msrClef::kJianpuClef:
-        fLilypondCodeOstream << "%{jianpuClef???%}";
+        fLilypondCodeOstream << "\"%{jianpuClef???%}\"";
         break;
     } // switch
 
   fLilypondCodeOstream <<
-    "\"" <<
     endl;
   }
 
