@@ -177,6 +177,22 @@ class msrPart : public msrPartGroupElement
                           getPartStavesMap ()
                               { return fPartStavesMap; }
 
+    // staff position in measure
+
+    void                  setPartCurrentPositionInMeasure (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
+
+    void                  incrementPartCurrentPositionInMeasure (
+                            int      inputLineNumber,
+                            rational duration);
+    void                  decrementPartCurrentPositionInMeasure (
+                            int      inputLineNumber,
+                            rational duration);
+
+    rational              getPartCurrentPositionInMeasure () const
+                              { return fPartCurrentPositionInMeasure; }
+
     // services
     // ------------------------------------------------------
 
@@ -360,6 +376,10 @@ class msrPart : public msrPartGroupElement
 
                             */
 
+    void                  handleBackupInPart (
+                            int      inputLineNumber,
+                            rational backupStepLength);
+
   public:
 
     // visitors
@@ -516,6 +536,10 @@ class msrPart : public msrPartGroupElement
     // staff details
 
     S_msrStaffDetails     fCurrentPartStaffDetails;
+
+    // position in measure
+
+    rational              fPartCurrentPositionInMeasure;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

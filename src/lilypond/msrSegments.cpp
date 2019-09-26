@@ -1649,7 +1649,7 @@ void msrSegment::appendVoiceStaffChangeToSegment (
 
 void msrSegment::appendNoteToSegment (
   S_msrNote note,
-  rational  staffCurrentPositionInMeasure)
+  rational  partCurrentPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes || gTraceOah->fTraceSegments) {
@@ -1669,7 +1669,7 @@ void msrSegment::appendNoteToSegment (
   fSegmentMeasuresList.back ()->
     appendNoteToMeasure (
       note,
-      staffCurrentPositionInMeasure);
+      partCurrentPositionInMeasure);
 }
 
 void msrSegment::appendNoteToSegmentClone (S_msrNote note)

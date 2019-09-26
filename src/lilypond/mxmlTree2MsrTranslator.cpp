@@ -17593,9 +17593,9 @@ void mxmlTree2MsrTranslator::handlePendingBackup (
         fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
   backupStepLength.rationalise ();
 
-  // let voiceInWichToBackup handle the backup
-  voiceInWichToBackup->
-    handleBackupInVoice (
+  // let fCurrentPart handle the backup
+  fCurrentPart->
+    handleBackupInPart (
       inputLineNumber,
       backupStepLength);
 }

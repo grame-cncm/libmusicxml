@@ -106,6 +106,9 @@ void msrPart::initializePart ()
   // rest measures
   fPartContainsRestMeasures = false;
 
+  // current position in measure
+  fPartCurrentPositionInMeasure = rational (0,0);
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceParts) {
     gLogOstream <<
@@ -274,6 +277,101 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
 #endif
 }
 */
+
+void msrPart::setPartCurrentPositionInMeasure (
+  int      inputLineNumber,
+  rational positionInMeasure)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Setting part current position in measure to " <<
+      positionInMeasure <<
+      " in part " <<
+      getPartCombinedName () <<
+      endl;
+  }
+#endif
+
+  if (positionInMeasure.getNumerator () < 0) {
+    stringstream s;
+
+    s <<
+      "cannot set part current position in measure to " <<
+      positionInMeasure <<
+      " in part " <<
+      getPartCombinedName () <<
+      " since it is negative";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fPartCurrentPositionInMeasure =
+    positionInMeasure;
+}
+
+void msrPart::incrementPartCurrentPositionInMeasure (
+  int      inputLineNumber,
+  rational duration)
+{
+  fPartCurrentPositionInMeasure += duration;
+  fPartCurrentPositionInMeasure.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Incrementing part current position in measure by " <<
+      duration <<
+      " in part " <<
+      getPartCombinedName () <<
+      ", thus setting it to " <<
+      fPartCurrentPositionInMeasure <<
+      endl;
+  }
+#endif
+}
+
+void msrPart::decrementPartCurrentPositionInMeasure (
+  int      inputLineNumber,
+  rational duration)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Decrementing part current position in measure by " <<
+      duration <<
+      " in part " <<
+      getPartCombinedName () <<
+      endl;
+  }
+#endif
+
+  fPartCurrentPositionInMeasure -= duration;
+  fPartCurrentPositionInMeasure.rationalise ();
+
+  if (fPartCurrentPositionInMeasure.getNumerator () < 0) {
+    stringstream s;
+
+    s <<
+      "cannot decrement part current position in measure by " <<
+      duration <<
+      " in part " <<
+      getPartCombinedName () <<
+      " since that sets it to " <<
+      fPartCurrentPositionInMeasure <<
+      ", which is negative ";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
 
 void msrPart::assignSequentialNumbersToRegularVoicesInPart (
   int inputLineNumber)
@@ -1428,6 +1526,16 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   } // for
 }
 
+void msrPart::handleBackupInPart (
+  int      inputLineNumber,
+  rational backupStepLength)
+{
+  // account for backup in part
+  decrementPartCurrentPositionInMeasure (
+    inputLineNumber,
+    backupStepLength);
+}
+
 void msrPart::finalizeCurrentMeasureInPart (
   int    inputLineNumber)
 {
@@ -1533,6 +1641,9 @@ void msrPart::finalizePart (
 
   // set score instrument names max lengthes if relevant
   setPartInstrumentNamesMaxLengthes ();
+
+  // reset current position in measure
+  fPartCurrentPositionInMeasure = rational (0,0);
 
   gIndenter--;
 }
@@ -1729,6 +1840,11 @@ void msrPart::print (ostream& os)
     setw (fieldWidth) <<
     "partContainsRestMeasures" << " : " <<
     booleanAsString (fPartContainsRestMeasures) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partCurrentPositionInMeasure" << " : " <<
+    fPartCurrentPositionInMeasure <<
     endl;
 
   // print current the part clef if any
@@ -1933,9 +2049,14 @@ void msrPart::printSummary (ostream& os)
     fPartNumberOfMeasures <<
     endl <<
 
-    setw (fieldWidth) << "partContainsRestMeasures" << " : " <<
+    setw (fieldWidth) <<
+    "partContainsRestMeasures" << " : " <<
     booleanAsString (fPartContainsRestMeasures) <<
     endl <<
+
+    setw (fieldWidth) <<
+    "partCurrentPositionInMeasure" << " : " <<
+    fPartCurrentPositionInMeasure <<
     endl;
 
   // print the staves

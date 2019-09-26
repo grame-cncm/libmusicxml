@@ -5450,10 +5450,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
       gIndenter++;
 
-      if (false && doGenerateAWithBlock) { // JMI
+      if (doGenerateAWithBlock) { // JMI
         if (partGroupName.size ()) {
           fLilypondCodeOstream <<
-            "instrumentName = 1" <<
+            "instrumentName = " <<
             nameAsLilypondString (partGroupName) <<
             endl;
         }
@@ -5488,16 +5488,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
         case msrPartGroup::kPartGroupSymbolLine:
           fLilypondCodeOstream <<
-            "%kPartGroupSymbolLine" <<
-            endl <<
             "systemStartDelimiter = #'SystemStartBar" <<
             endl;
           break;
 
         case msrPartGroup::kPartGroupSymbolSquare:
           fLilypondCodeOstream <<
-            "%kPartGroupSymbolSquare" <<
-            endl <<
             "systemStartDelimiter = #'SystemStartSquare" <<
             endl;
           break;
@@ -10581,27 +10577,35 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
     4. no slash but slur: \appoggiatura
   */
 
-  if (graceNotesGroup->getGraceNotesGroupIsSlashed ()) {
-    if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
-      fLilypondCodeOstream <<
-        "\\acciaccatura";
-    }
-    else {
-      fLilypondCodeOstream <<
-        "\\slashedGrace";
-    }
-  }
+  switch (graceNotesGroup->getGraceNotesGroupKind ()) {
+    case msrGraceNotesGroup::kGraceNotesGroupBefore:
+      if (graceNotesGroup->getGraceNotesGroupIsSlashed ()) {
+        if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
+          fLilypondCodeOstream <<
+            "\\acciaccatura";
+        }
+        else {
+          fLilypondCodeOstream <<
+            "\\slashedGrace";
+        }
+      }
 
-  else {
-    if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
-      fLilypondCodeOstream <<
-        "\\appoggiatura";
-    }
-    else {
-      fLilypondCodeOstream <<
-        "\\grace";
-    }
-  }
+      else {
+        if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
+          fLilypondCodeOstream <<
+            "\\appoggiatura";
+        }
+        else {
+          fLilypondCodeOstream <<
+            "\\grace";
+        }
+      }
+      break;
+
+    case msrGraceNotesGroup::kGraceNotesGroupAfter:
+      // don't generate anything here
+      break;
+  } // switch
 
   fLilypondCodeOstream <<
     " { ";
@@ -12441,10 +12445,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
-  if (false && elt->getNoteIsFollowedByGraceNotesGroup ()) { // JMI
+  if (elt->getNoteIsFollowedByGraceNotesGroup ()) { // JMI
     if (! elt->getNoteIsARest ()) {
       fLilypondCodeOstream <<
-       " { % NoteIsFollowedByGraceNotesGroup" <<
+       " % NoteIsFollowedByGraceNotesGroup" <<
         endl; // JMI ???
     }
   }
@@ -12457,11 +12461,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   // print the note's grace notes after group closer if any
   if (noteGraceNotesGroupAfter) {
     fLilypondCodeOstream <<
-      "} { ";
+      "} ";
     generateGraceNotesGroup (
       noteGraceNotesGroupAfter);
-    fLilypondCodeOstream <<
-      "} ";
   }
 
   fOnGoingNote = false;

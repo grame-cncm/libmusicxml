@@ -271,9 +271,6 @@ void msrStaff::initializeStaff ()
   // rest measures
   fStaffContainsRestMeasures = false;
 
-  // current position in measure
-  fStaffCurrentPositionInMeasure = rational (0,0);
-
 // JMI  gIndenter--;
 }
 
@@ -898,8 +895,8 @@ S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
-
   }
+
   else {
     result = fStaffRegularVoicesList.front ();
 
@@ -2093,9 +2090,6 @@ void msrStaff::finalizeCurrentMeasureInStaff (
     } // switch
   } // for
 
-  // reset current position in measure
-  fStaffCurrentPositionInMeasure = rational (0,0);
-
   gIndenter--;
 }
 
@@ -2430,8 +2424,6 @@ void msrStaff::print (ostream& os)
     setw (fieldWidth) <<
     "staffInstrumentAbbreviation" << " : \"" <<
     fStaffInstrumentAbbreviation <<
-    "staffCurrentPositionInMeasure" << " : " <<
-    fStaffCurrentPositionInMeasure <<
     endl;
 
   // print current the staff clef if any
@@ -2706,8 +2698,6 @@ void msrStaff::printSummary (ostream& os)
   os <<
     "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" <<
-    "staffCurrentPositionInMeasure: " <<
-    fStaffCurrentPositionInMeasure <<
     endl;
 
 /* JMI

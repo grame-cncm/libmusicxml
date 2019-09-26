@@ -367,7 +367,7 @@ class msrMeasure : public msrElement
 
     void                  appendNoteToMeasure (
                             S_msrNote note,
-                            rational  staffCurrentPositionInMeasure);
+                            rational  partCurrentPositionInMeasure);
 
     void                  appendNoteOrPaddingToMeasure (
                             S_msrNote note);

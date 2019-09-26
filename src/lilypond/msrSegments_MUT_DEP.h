@@ -200,7 +200,7 @@ class msrSegment : public msrVoiceElement
 
     void                  appendNoteToSegment (
                             S_msrNote note,
-                            rational  staffCurrentPositionInMeasure);
+                            rational  partCurrentPositionInMeasure);
 
     void                  appendNoteToSegmentClone (S_msrNote note);
 

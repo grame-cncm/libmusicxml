@@ -1475,7 +1475,7 @@ void msrMeasure::appendVoiceStaffChangeToMeasure (
 
 void msrMeasure::appendNoteToMeasure (
   S_msrNote note,
-  rational  staffCurrentPositionInMeasure)
+  rational  partCurrentPositionInMeasure)
 {
   int inputLineNumber =
     note->getInputLineNumber ();
@@ -1506,7 +1506,7 @@ void msrMeasure::appendNoteToMeasure (
   // should a skip/rest note be appended before note?
   rational
     positionsDelta =
-      staffCurrentPositionInMeasure
+      partCurrentPositionInMeasure
         -
       fCurrentMeasureWholeNotesDuration;
 
@@ -1539,10 +1539,12 @@ void msrMeasure::appendNoteToMeasure (
     stringstream s;
 
     s <<
-      "staffCurrentPositionInMeasure " <<
-      staffCurrentPositionInMeasure <<
+      "partCurrentPositionInMeasure " <<
+      partCurrentPositionInMeasure <<
       " is smaller than fCurrentMeasureWholeNotesDuration " <<
       fCurrentMeasureWholeNotesDuration <<
+      "' in measure '" <<
+      fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "', cannot padup in voice \"" <<
@@ -1558,7 +1560,7 @@ void msrMeasure::appendNoteToMeasure (
   }
 
   else {
-    // this measure is already at the staff current position in measure,
+    // this measure is already at the part current position in measure,
     // nothing to do
   }
 
@@ -3440,18 +3442,19 @@ void msrMeasure::finalizeRegularMeasure (
   }
 #endif
 
-  // fetch the staff current position in measure
+  // fetch the part current position in measure
   rational
-    staffCurrentPositionInMeasure =
+    partCurrentPositionInMeasure =
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ()->
           getVoiceStaffUpLink ()->
-            getStaffCurrentPositionInMeasure ();
+            getStaffPartUpLink ()->
+              getPartCurrentPositionInMeasure ();
 
-  // pad the measure up to the staff current position in measure
+  // pad the measure up to the part current position in measure
   padUpToPositionAtTheEndOfTheMeasure (
     inputLineNumber,
-    staffCurrentPositionInMeasure);
+    partCurrentPositionInMeasure);
 
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (

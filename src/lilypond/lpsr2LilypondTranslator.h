@@ -764,6 +764,7 @@ class lpsr2LilypondTranslator :
     // grace notes
 
     bool                  fOnGoingGraceNotesGroup;
+
     void                  generateGraceNotesGroup (
                             S_msrGraceNotesGroup graceNotesGroup);
 

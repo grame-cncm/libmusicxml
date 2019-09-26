@@ -280,9 +280,11 @@ class msrVoice : public msrElement
 
     // backup and padding
 
+/* JMI
     void                  handleBackupInVoice (
                             int      inputLineNumber,
                             rational backupStepLength);
+                            */
 
     void                  padUpToPositionInMeasureInVoice (
                             int      inputLineNumber,

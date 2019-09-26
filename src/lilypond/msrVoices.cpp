@@ -2061,7 +2061,8 @@ void msrVoice::appendPaddingNoteToVoice (
   gIndenter--;
 }
 
-void msrVoice:: handleBackupInVoice (
+/* JMI
+void msrVoice:: handleBackupInVoice ( // JMI SUPERFLOUS
   int      inputLineNumber,
   rational backupStepLength)
 {
@@ -2113,7 +2114,6 @@ void msrVoice:: handleBackupInVoice (
   }
 #endif
 
-/* JMI
   // sanity checks
   if (backupTargetPositionInMeasure.getNumerator () < 0) {
     stringstream s;
@@ -2189,13 +2189,14 @@ void msrVoice:: handleBackupInVoice (
   else {
     // we're already at the desired position, do nothing
   }
-*/
 
   // account for backup in staff
   fVoiceStaffUpLink->
-    decrementStaffCurrentPositionInMeasure (
+    decrementPartCurrentPositionInMeasure (
+      inputLineNumber,
       backupStepLength);
 }
+*/
 
 void msrVoice::appendTransposeToVoice (
   S_msrTranspose transpose)
@@ -2408,10 +2409,8 @@ void msrVoice::appendVoiceStaffChangeToVoice (
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-#ifdef TRACE_OAH
   int inputLineNumber =
     note->getInputLineNumber ();
-#endif
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
@@ -2431,17 +2430,18 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   }
 #endif
 
-  // fetch the staff current position in measure
+  // fetch the part current position in measure
   rational
-    staffCurrentPositionInMeasure =
+    partCurrentPositionInMeasure =
       fVoiceStaffUpLink->
-        getStaffCurrentPositionInMeasure ();
+        getStaffPartUpLink ()->
+          getPartCurrentPositionInMeasure ();
 
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegment (
       note,
-      staffCurrentPositionInMeasure);
+      partCurrentPositionInMeasure);
 
   // is this note the shortest one in this voice?
   this->
@@ -2452,8 +2452,10 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // account for note's duration in staff
   fVoiceStaffUpLink->
-    incrementStaffCurrentPositionInMeasure (
-      note->getNoteSoundingWholeNotes ());
+    getStaffPartUpLink ()->
+      incrementPartCurrentPositionInMeasure (
+        inputLineNumber,
+        note->getNoteSoundingWholeNotes ());
 
   // register whether music (i.e. not just skips)
   // has been inserted into the voice
@@ -2630,8 +2632,16 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   }
 #endif
 
+  // append chord to voice last segment
   fVoiceLastSegment->
     appendChordToSegment (chord);
+
+  // account for chord duration in the part current position in measure
+  fVoiceStaffUpLink->
+    getStaffPartUpLink ()->
+      incrementPartCurrentPositionInMeasure (
+        chord->getInputLineNumber (),
+        chord->getChordSoundingWholeNotes ());
 
   // get the chord's notes vector
   const vector<S_msrNote>&
@@ -2684,8 +2694,16 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 
   gIndenter++;
 
+  // append tuplet to voice last segment
   fVoiceLastSegment->
     appendTupletToSegment (tuplet);
+
+  // account for tuplet duration in the part current position in measure
+  fVoiceStaffUpLink->
+    getStaffPartUpLink ()->
+      incrementPartCurrentPositionInMeasure (
+        tuplet->getInputLineNumber (),
+        tuplet->getTupletSoundingWholeNotes ());
 
   gIndenter--;
 
@@ -8696,10 +8714,19 @@ void msrVoice::removeNoteFromVoice (
 
   gIndenter++;
 
+  // remove note from voice last segment
   fVoiceLastSegment->
     removeNoteFromSegment (
       inputLineNumber,
       note);
+
+  // update the part current position in measure
+  fVoiceStaffUpLink->
+    getStaffPartUpLink ()->
+      decrementPartCurrentPositionInMeasure (
+        inputLineNumber,
+        note->
+          getNoteSoundingWholeNotes ());
 
   gIndenter--;
 }
