@@ -135,13 +135,16 @@ lpsrScore::lpsrScore (
       stringstream s;
 
       s <<
+        "or, with long option names:" <<
+        endl <<
+        "%" <<
         gTab <<
         gOahOah->fCommandLineWithLongOptionsNames;
 
       if (longAndShortOptionsDiffer) {
         s <<
           endl <<
-          "% or:";
+          "% or, with short option names:";
       }
 
       fCommandLineLongOptionsComment =

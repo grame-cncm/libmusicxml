@@ -1551,6 +1551,9 @@ void msrPart::finalizeCurrentMeasureInPart (
 
   gIndenter++;
 
+  // reset current position in measure
+  fPartCurrentPositionInMeasure = rational (0,0);
+
   // finalize current measure in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -1641,9 +1644,6 @@ void msrPart::finalizePart (
 
   // set score instrument names max lengthes if relevant
   setPartInstrumentNamesMaxLengthes ();
-
-  // reset current position in measure
-  fPartCurrentPositionInMeasure = rational (0,0);
 
   gIndenter--;
 }

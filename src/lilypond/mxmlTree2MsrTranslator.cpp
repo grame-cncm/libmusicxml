@@ -6237,21 +6237,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     ) {
       fLogOutputStream <<
         endl <<
-        endl <<
         "fCurrentGraceNotes IS NOT NULL at the end of measure '" << // JMI
         elt->getAttributeValue ("number") <<
         "'" <<
-        endl <<
         endl;
 
       fLogOutputStream <<
-        endl <<
-        endl <<
-        endl <<
         "+++++++++++++++++" <<
         fCurrentPart <<
-        endl <<
-        endl <<
         endl;
     }
 #endif
@@ -6310,7 +6303,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     // attach it to the note
     noteToAttachTo->
       setNoteGraceNotesGroupAfter (
-// JMI        afterGraceNotesGroup);
         fPendingGraceNotesGroup);
 
     // forget about this grace notes group
