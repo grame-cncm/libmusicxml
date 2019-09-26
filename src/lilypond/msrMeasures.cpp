@@ -1499,6 +1499,7 @@ void msrMeasure::appendNoteToMeasure (
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -1549,8 +1550,12 @@ void msrMeasure::appendNoteToMeasure (
       fMeasureDebugNumber <<
       "', cannot padup in voice \"" <<
       fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink () <<
-      "\"";
+        getSegmentVoiceUpLink ()->getVoiceName () <<
+      "\"" <<
+      ", fCurrentMeasureWholeNotesDuration " << fCurrentMeasureWholeNotesDuration <<
+      ", partCurrentPositionInMeasure " << partCurrentPositionInMeasure <<
+      ", positionsDelta " << positionsDelta <<
+      ", line " << inputLineNumber;
 
     msrInternalError (
       gOahOah->fInputSourceName,

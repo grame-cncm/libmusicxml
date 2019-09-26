@@ -246,6 +246,9 @@ void msrTuplet::addNoteToTuplet (
   S_msrNote  note,
   S_msrVoice voice)
 {
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
@@ -277,12 +280,20 @@ void msrTuplet::addNoteToTuplet (
   S_msrMeasure
     voiceLastMeasure =
       voice->fetchVoiceLastMeasure (
-        note->getInputLineNumber ());
+        inputLineNumber);
 
   // account for the duration of note in voice last measure
   voiceLastMeasure->
     accountForTupletMemberNoteDurationInMeasure (
       note);
+
+  // account for note duration in the part current position in measure
+  voice->
+    getVoiceStaffUpLink ()->
+      getStaffPartUpLink ()->
+        incrementPartCurrentPositionInMeasure (
+          inputLineNumber,
+          note->getNoteSoundingWholeNotes ());
 }
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)
