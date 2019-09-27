@@ -163,9 +163,6 @@ namespace MusicXML2
             fCurrentStaffIndex += offset;
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
-            
-            //// Add staffFormat if needed
-            // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
         }
     }
     
@@ -1346,7 +1343,7 @@ namespace MusicXML2
                         lastSlurInternalNumber = slurEndToBeErase->first;
                     }
                 }else {
-                    cerr<< "XML2Guido: Got Slur Stop without a Slur in Stack. Skipping!"<<endl;
+                    cerr<< "XML2Guido measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop without a Slur in Stack. Skipping!"<<endl;
                     return;
                 }
                 
