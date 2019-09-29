@@ -6535,6 +6535,9 @@ S_oahElement oahSubGroup::fetchOptionByName (
   return result;
 }
 
+void oahSubGroup::checkOptionsConsistency ()
+{}
+
 void oahSubGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
@@ -7198,6 +7201,41 @@ void oahGroup::handleAtomValue (
 
 void oahGroup::checkOptionsConsistency ()
 {}
+
+void oahGroup::checkGroupSubGroupsOptionsConsistency ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "Checking the consistency of OAH group \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // check the subgroups options consistency
+  if (fSubGroupsList.size ()) {
+    for (
+      list<S_oahSubGroup>::const_iterator i = fSubGroupsList.begin ();
+      i != fSubGroupsList.end ();
+      i++
+    ) {
+      S_oahSubGroup subgroup = (*i);
+
+      // check the subgroup
+      subgroup->
+        checkOptionsConsistency ();
+    } // for
+  }
+
+  gIndenter--;
+
+  // check the group's own consistency
+  this->checkOptionsConsistency ();
+}
 
 void oahGroup::acceptIn (basevisitor* v)
 {
@@ -8052,6 +8090,44 @@ void oahHandler::registerElementInHandler (
   }
 }
 
+void oahHandler::checkOptionsConsistency ()
+{}
+
+void oahHandler::checkHandlerGroupsOptionsConsistency ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "Checking the consistency of OAH handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // check the handler groups options consistency
+  if (fHandlerGroupsList.size ()) {
+    for (
+      list<S_oahGroup>::const_iterator i = fHandlerGroupsList.begin ();
+      i != fHandlerGroupsList.end ();
+      i++
+    ) {
+      S_oahGroup group = (*i);
+
+      // check the group
+      group->
+        checkGroupSubGroupsOptionsConsistency ();
+    } // for
+  }
+
+  gIndenter--;
+
+  // the the handler's own consistency
+  this->checkOptionsConsistency ();
+}
+
 void oahHandler::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
@@ -8138,7 +8214,7 @@ void oahHandler::browseData (basevisitor* v)
     ) {
       S_oahGroup group = (*i);
 
-      // browse the prefix
+      // browse the group
       oahBrowser<oahGroup> browser (v);
       browser.browse (*(group));
     } // for
@@ -9596,7 +9672,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> fHandlerFoundAHelpOption: " <<
+      "The value of fHandlerFoundAHelpOption is: " <<
       booleanAsString (fHandlerFoundAHelpOption) <<
       endl;
   }
@@ -9613,6 +9689,9 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
     exit (0);
   }
+
+  // check the consistency of the options
+  checkHandlerGroupsOptionsConsistency ();
 
   // check the options and arguments
   checkOptionsAndArguments ();

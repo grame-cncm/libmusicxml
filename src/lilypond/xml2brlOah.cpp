@@ -952,39 +952,7 @@ void xml2brlOah::enforceQuietness ()
 
 //______________________________________________________________________________
 void xml2brlOah::checkOptionsConsistency ()
-{
-  gLogOstream <<
-    "xml2brlOah::checkOptionsConsistency ()" <<
-    endl;
-
-#ifdef TRACE_OAH
-  gGeneralOah->
-    checkOptionsConsistency ();
-#endif
-
-  gGeneralOah->
-    checkOptionsConsistency ();
-
-  gMusicXMLOah->
-    checkOptionsConsistency ();
-
-  gMsrOah->
-    checkOptionsConsistency ();
-
-  gBsrOah->
-    checkOptionsConsistency ();
-
-  gBrailleOah->
-    checkOptionsConsistency ();
-
-#ifdef EXTRA_OAH
-  gExtraOah->
-    checkOptionsConsistency ();
-#endif
-
-// JMI???  gXml2brlOah-> // TICINO
-//    checkOptionsConsistency ();
-}
+{}
 
 //______________________________________________________________________________
 void xml2brlOahHandler::acceptIn (basevisitor* v)

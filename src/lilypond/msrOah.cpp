@@ -777,7 +777,9 @@ msrOmitPartAtom::msrOmitPartAtom (
       variableName),
     fStringSetVariable (
       stringSetVariable)
-{}
+{
+  fMultipleOccurrencesAllowed = true;
+}
 
 msrOmitPartAtom::~msrOmitPartAtom ()
 {}
@@ -1030,6 +1032,302 @@ void msrOmitPartAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_msrOmitPartAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrKeepPartAtom msrKeepPartAtom::create (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringSetVariable)
+{
+  msrKeepPartAtom* o = new
+    msrKeepPartAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringSetVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrKeepPartAtom::msrKeepPartAtom (
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringSetVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringSetVariable (
+      stringSetVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+msrKeepPartAtom::~msrKeepPartAtom ()
+{}
+
+S_oahValuedAtom msrKeepPartAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrKeepPartAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void msrKeepPartAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msrKeepPartAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the name of the part to be kept
+
+  string partName = theString;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> partName = \"" << partName << "\", " <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  set<string>::iterator
+    it =
+      fStringSetVariable.find (partName);
+
+  if (it != fStringSetVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Part \"" << partName << "\" occurs more that once" <<
+      "in the '--msr-keep-part' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringSetVariable.insert (partName);
+  }
+}
+
+void msrKeepPartAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrKeepPartAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrKeepPartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrKeepPartAtom>*> (v)) {
+        S_msrKeepPartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrKeepPartAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrKeepPartAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrKeepPartAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrKeepPartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrKeepPartAtom>*> (v)) {
+        S_msrKeepPartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrKeepPartAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrKeepPartAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> msrKeepPartAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msrKeepPartAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringSetVariable.size ()) {
+    s << "none";
+  }
+  else {
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string msrKeepPartAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringSetVariable.size ()) {
+    s << "none";
+  }
+  else {
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void msrKeepPartAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "msrKeepPartAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringSetVariable" << " : " <<
+    endl;
+
+  if (! fStringSetVariable.size ()) {
+    os << "none";
+  }
+  else {
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void msrKeepPartAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringSetVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+
+    gIndenter++;
+
+    set<string>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" << (*i) << "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrKeepPartAtom& elt)
 {
   elt->print (os);
   return os;
@@ -1569,15 +1867,37 @@ There can be several occurrences of this option.)",
 
   // MSR omit part
 
+  fOmitPartAtom =
+    msrOmitPartAtom::create (
+      "mop", "msr-omit-part",
+R"(Omit part PART_NAME.
+There can be several occurrences of this option.
+All the parts not omitted are kept.
+This option is incompatible with '-mkp, -msr-keep-part'.)",
+      "PART_NAME",
+      "partsOmitSet",
+      fPartsOmitSet);
+
   subGroup->
     appendAtomToSubGroup (
-      msrOmitPartAtom::create (
-        "mop", "msr-omit-part",
-R"(Omit part PART_NAME.
-There can be several occurrences of this option.)",
-        "PART_NAME",
-        "partsOmissionSet",
-        fPartsOmissionSet));
+      fOmitPartAtom);
+
+  // MSR keep part
+
+  fKeepPartAtom =
+    msrKeepPartAtom::create (
+      "mkp", "msr-keep-part",
+R"(Keep part PART_NAME.
+There can be several occurrences of this option.
+All the parts not kept are omitted.
+This option is incompatible with '-mop, -msr-omit-part'.)",
+      "PART_NAME",
+      "partsKeepSet",
+      fPartsKeepSet);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fKeepPartAtom);
 }
 
 void msrOah::initializeMsrStavesOptions (
@@ -2197,6 +2517,11 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
   clone->fPartsTranspositionMap =
     fPartsTranspositionMap;
 
+  clone->fPartsOmitSet =
+    fPartsOmitSet;
+  clone->fPartsKeepSet =
+    fPartsKeepSet;
+
 
   // staves
   // --------------------------------------
@@ -2314,7 +2639,28 @@ void msrOah::enforceQuietness ()
 //______________________________________________________________________________
 void msrOah::checkOptionsConsistency ()
 {
-  // JMI
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "checking the consistency of OAH group \"" <<
+      fDescription <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  if (fPartsOmitSet.size () > 0 && fPartsKeepSet.size () > 0) {
+    stringstream s;
+
+    s <<
+      "options '" <<
+      fOmitPartAtom->fetchNames () <<
+      "' and '" <<
+      fKeepPartAtom->fetchNames () <<
+      "' are incompatible";
+
+    oahError (s.str ());
+  }
 }
 
 //______________________________________________________________________________
@@ -2468,7 +2814,6 @@ void msrOah::printMsrOahValues (int fieldWidth)
     gLogOstream <<
       "none";
   }
-
   else {
     for (
       map<string, string>::const_iterator i =
@@ -2492,7 +2837,6 @@ void msrOah::printMsrOahValues (int fieldWidth)
     gLogOstream <<
       "none";
   }
-
   else {
     for (
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator i =
@@ -2505,6 +2849,48 @@ void msrOah::printMsrOahValues (int fieldWidth)
           " = " <<
           ((*i).second->asString ()) <<
           "\" ";
+    } // for
+  }
+
+  // parts omitted
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "parts omitted" << " : ";
+
+  if (! fPartsOmitSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsOmitSet.begin ();
+      i != fPartsOmitSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
+    } // for
+  }
+
+  // parts kept
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "parts kept" << " : ";
+
+  if (! fPartsKeepSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsKeepSet.begin ();
+      i != fPartsKeepSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
     } // for
   }
 

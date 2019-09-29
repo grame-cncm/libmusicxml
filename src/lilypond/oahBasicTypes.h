@@ -2382,6 +2382,13 @@ class oahSubGroup : public oahElement
 
   public:
 
+    // consistency check
+    // ------------------------------------------------------
+
+    virtual void          checkOptionsConsistency ();
+
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -2503,7 +2510,9 @@ class oahGroup : public oahElement
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkOptionsConsistency ();
+    void                  checkGroupSubGroupsOptionsConsistency ();
+
+    virtual void          checkOptionsConsistency ();
 
   public:
 
@@ -2623,7 +2632,7 @@ class EXP oahHandler : public oahElement
     // ------------------------------------------------------
 
     oahHandler (
-      string           HandlerHeader,
+      string           handlerHeader,
       string           handlerValuesHeader,
       string           handlerShortName,
       string           handlerLongName,
@@ -2692,6 +2701,15 @@ class EXP oahHandler : public oahElement
 
     int                   getMaximumSubGroupsHeadersSize () const
                               { return fMaximumSubGroupsHeadersSize; }
+
+  public:
+
+    // consistency check
+    // ------------------------------------------------------
+
+    void                  checkHandlerGroupsOptionsConsistency ();
+
+    virtual void          checkOptionsConsistency ();
 
   public:
 

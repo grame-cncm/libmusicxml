@@ -3676,7 +3676,7 @@ void initializeTraceOahHandling (
     gTraceOahUserChoices;
 
   gTraceOah->
-    checkOptionsConsistency ();
+    checkGroupSubGroupsOptionsConsistency ();
 }
 
 

@@ -2043,6 +2043,13 @@ void msrVoice::appendPaddingNoteToVoice (
       inputLineNumber,
       forwardStepLength);
 
+  // account for padding note's duration in staff
+  fVoiceStaffUpLink->
+    getStaffPartUpLink ()->
+      incrementPartCurrentPositionInMeasure (
+        inputLineNumber,
+        forwardStepLength);
+
   // pad up the voice's stanzas
   if (fVoiceStanzasMap.size ()) {
     for (
@@ -2060,143 +2067,6 @@ void msrVoice::appendPaddingNoteToVoice (
 
   gIndenter--;
 }
-
-/* JMI
-void msrVoice:: handleBackupInVoice ( // JMI SUPERFLOUS
-  int      inputLineNumber,
-  rational backupStepLength)
-{
-  // get the last measure in this voice
-  S_msrMeasure
-    lastMeasureInVoice =
-      fVoiceLastSegment->
-        fetchLastMeasureFromSegment (
-          inputLineNumber,
-          "computing backup target position in measure");
-
-  // get lastMeasureInVoice's current measure whole notes duration
-  rational
-    lastMeasureWholeNotesDuration =
-      lastMeasureInVoice->
-        getCurrentMeasureWholeNotesDuration ();
-  lastMeasureWholeNotesDuration.rationalise ();
-
-  // get lastMeasureInVoice's full measure whole notes duration
-  rational
-    lastMeafureFullMeasureWholeNotesDuration =
-      lastMeasureInVoice->
-        getFullMeasureWholeNotesDuration ();
-  lastMeafureFullMeasureWholeNotesDuration.rationalise ();
-
-  // compute the backup target position in measure
-  rational
-    backupTargetPositionInMeasure =
-      lastMeasureWholeNotesDuration
-        -
-      backupStepLength;
-  backupTargetPositionInMeasure.rationalise ();
-
-#ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceBackup) {
-    gLogOstream <<
-      "Handling backup in voice \"" <<
-      getVoiceName () <<
-      "\", backupStepLength: " <<
-      backupStepLength <<
-      ", lastMeasureWholeNotesDuration: " <<
-      lastMeasureWholeNotesDuration <<
-      ", lastMeafureFullMeasureWholeNotesDuration: " <<
-      lastMeafureFullMeasureWholeNotesDuration <<
-      ",backupTargetPositionInMeasure: " <<
-      backupTargetPositionInMeasure <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // sanity checks
-  if (backupTargetPositionInMeasure.getNumerator () < 0) {
-    stringstream s;
-
-    s <<
-      "backupTargetPositionInMeasure " <<
-      backupTargetPositionInMeasure <<
-      " is negative";
-
-    msrMusicXMLError (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  if (
-    backupTargetPositionInMeasure
-      >
-    lastMeafureFullMeasureWholeNotesDuration
-  ) {
-    stringstream s;
-
-    s <<
-      "backupTargetPositionInMeasure " <<
-      backupTargetPositionInMeasure <<
-      " is greater than lastMeafureFullMeasureWholeNotesDuration " <<
-      lastMeafureFullMeasureWholeNotesDuration;
-
-// JMI   msrMusicXMLError (
-    msrMusicXMLWarning (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-   //   __FILE__, __LINE__,
-      s.str ());
-  }
-
-/ * JMI
-  else if (
-    backupTargetPositionInMeasure
-      <
-    lastMeasureWholeNotesDuration
-  ) {
-    stringstream s;
-
-    s <<
-      "backupTargetPositionInMeasure: " <<
-      backupTargetPositionInMeasure <<
-      " is smaller than lastMeasureWholeNotesDuration " <<
-      lastMeasureWholeNotesDuration <<
-      ", cannot go prior to it";
-
-    msrMusicXMLError (
-//    msrMusicXMLWarning (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-* /
-
-  // do the backup if necessary
-  if (
-    backupTargetPositionInMeasure
-      >
-    lastMeasureWholeNotesDuration
-  ) {
-    // bring the voice to that measure position
-    backupByWholeNotesStepLengthInVoice (
-      inputLineNumber,
-      backupTargetPositionInMeasure);
-  }
-  else {
-    // we're already at the desired position, do nothing
-  }
-
-  // account for backup in staff
-  fVoiceStaffUpLink->
-    decrementPartCurrentPositionInMeasure (
-      inputLineNumber,
-      backupStepLength);
-}
-*/
 
 void msrVoice::appendTransposeToVoice (
   S_msrTranspose transpose)

@@ -833,22 +833,44 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     finalizePart (
       inputLineNumber);
 
-  // is this part name in the parts omission set?
-  set<string>::iterator
-    it =
-      gMsrOah->fPartsOmissionSet.find (
-        fCurrentPart->
-          getPartID ());
+  // is this part name in the parts omit set?
+  if (gMsrOah->fPartsOmitSet.size ()) {
+    set<string>::iterator
+      it =
+        gMsrOah->fPartsOmitSet.find (
+          fCurrentPart->
+            getPartID ());
 
-  if (it != gMsrOah->fPartsOmissionSet.end ()) {
-    // the simplest way to omit this part
-    // is to remove it from its part-group
-    // now that is has been completely built and populated
-    fCurrentPart->
-      getPartPartGroupUpLink ()->
-        removePartFromPartGroup (
-          inputLineNumber,
-          fCurrentPart);
+    if (it != gMsrOah->fPartsOmitSet.end ()) {
+      // the simplest way to omit this part
+      // is to remove it from its part-group
+      // now that is has been completely built and populated
+      fCurrentPart->
+        getPartPartGroupUpLink ()->
+          removePartFromPartGroup (
+            inputLineNumber,
+            fCurrentPart);
+    }
+  }
+
+  // is this part name in the parts keep set?
+  if (gMsrOah->fPartsKeepSet.size ()) {
+    set<string>::iterator
+      it =
+        gMsrOah->fPartsKeepSet.find (
+          fCurrentPart->
+            getPartID ());
+
+    if (it == gMsrOah->fPartsKeepSet.end ()) {
+      // the simplest way not to keep this part
+      // is to remove it from its part-group
+      // now that is has been completely built and populated
+      fCurrentPart->
+        getPartPartGroupUpLink ()->
+          removePartFromPartGroup (
+            inputLineNumber,
+            fCurrentPart);
+    }
   }
 }
 
@@ -4394,13 +4416,6 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
   }
 #endif
 
-  // remember the current voice prior to the <backup />
-  fCurrentVoicePriorToBackup =
-    fetchVoiceFromCurrentPart (
-      inputLineNumber,
-      fCurrentStaffNumberToInsertInto,
-      fCurrentMusicXMLVoiceNumber);
-
   fOnGoingBackup = true;
 }
 
@@ -4423,8 +4438,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
     fLogOutputStream <<
       "Backup by " << fCurrentBackupDivisions <<
       " divisions becomes pending" <<
-      ", fCurrentVoicePriorToBackup = \"" <<
-      fCurrentVoicePriorToBackup->getVoiceName () <<
       "\", fCurrentStaffNumberToInsertInto = " <<
       fCurrentStaffNumberToInsertInto <<
       ", line " << inputLineNumber <<
@@ -4570,7 +4583,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 
   // reset staff change detection
   // fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
-  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
+  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER; // JMI ??? no if forward is followed by backup???
 
   fOnGoingForward = false;
 }
@@ -17559,9 +17572,7 @@ void mxmlTree2MsrTranslator::handleNote (
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handlePendingBackup (
-  int        inputLineNumber,
-  S_msrVoice voiceBeforeBackup,
-  S_msrVoice voiceInWichToBackup)
+  int inputLineNumber)
 {
 #ifdef TRACE_OAH
   if (gMusicXMLOah->fTraceBackup) {
@@ -17569,10 +17580,6 @@ void mxmlTree2MsrTranslator::handlePendingBackup (
       "Handling pending backup" <<
       ", fCurrentBackupDivisions: " <<
       fCurrentBackupDivisions <<
-      ", voiceBeforeBackup: " <<
-      voiceBeforeBackup->getVoiceName () <<
-      ", voiceInWichToBackup: " <<
-      voiceInWichToBackup->getVoiceName () <<
       endl;
   }
 #endif
@@ -17786,12 +17793,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
   if (fThereIsAPendingBackup) {
     handlePendingBackup (
-      inputLineNumber,
-      fCurrentVoicePriorToBackup,
-      voiceToInsertNoteInto);
-
-    // forget about fCurrentVoicePriorToBackup
-    fCurrentVoicePriorToBackup = nullptr;
+      inputLineNumber);
 
     fThereIsAPendingBackup = false;
   }

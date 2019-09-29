@@ -673,7 +673,7 @@ void initializeOahOahHandling (
     gOahOahUserChoices;
 
   gOahOah->
-    checkOptionsConsistency ();
+    checkGroupSubGroupsOptionsConsistency ();
 }
 
 

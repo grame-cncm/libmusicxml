@@ -303,6 +303,96 @@ typedef SMARTP<msrOmitPartAtom> S_msrOmitPartAtom;
 EXP ostream& operator<< (ostream& os, const S_msrOmitPartAtom& elt);
 
 //______________________________________________________________________________
+class msrKeepPartAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrKeepPartAtom> create (
+      string       shortName,
+      string       longName,
+      string       description,
+      string       valueSpecification,
+      string       variableName,
+      set<string>& stringSetVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrKeepPartAtom (
+      string       shortName,
+      string       longName,
+      string       description,
+      string       valueSpecification,
+      string       variableName,
+      set<string>& stringSetVariable);
+
+    virtual ~msrKeepPartAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setStringSetVariable (
+                            string  partName)
+                              { fStringSetVariable.insert (partName); }
+
+    const set<string>&    getStringSetVariable ()
+                              { return fStringSetVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    set<string>&          fStringSetVariable;
+};
+typedef SMARTP<msrKeepPartAtom> S_msrKeepPartAtom;
+EXP ostream& operator<< (ostream& os, const S_msrKeepPartAtom& elt);
+
+//______________________________________________________________________________
 class msrPitchesLanguageAtom : public oahValuedAtom
 {
   public:
@@ -544,7 +634,11 @@ class msrOah : public oahGroup
     map<string, S_msrSemiTonesPitchAndOctave>
                           fPartsTranspositionMap;
 
-    set<string>           fPartsOmissionSet;
+    set<string>           fPartsOmitSet;
+    S_msrOmitPartAtom     fOmitPartAtom;
+
+    set<string>           fPartsKeepSet;
+    S_msrKeepPartAtom     fKeepPartAtom;
 
 
     // staves

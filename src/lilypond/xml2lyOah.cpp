@@ -838,16 +838,6 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         potentialOutputFileName;
     }
   }
-
-  // register command line informations in gGeneralOah
-  // ------------------------------------------------------
-
-/* JMI ???
-  gGeneralOah->fCommandLineWithShortOptions =
-    fCommandLineWithShortOptions;
-  gGeneralOah->fCommandLineWithShortOptions =
-    fCommandLineWithShortOptions;
-    */
 }
 
 //______________________________________________________________________________
@@ -888,40 +878,7 @@ void xml2lyOah::enforceQuietness ()
 
 //______________________________________________________________________________
 void xml2lyOah::checkOptionsConsistency ()
-{
-  gLogOstream <<
-    "xml2lyOah::checkOptionsConsistency ()" <<
-    endl;
-
-#ifdef TRACE_OAH
-  gGeneralOah->
-    checkOptionsConsistency ();
-#endif
-  gGeneralOah->
-    checkOptionsConsistency ();
-
-  gMusicXMLOah->
-    checkOptionsConsistency ();
-
-  gMsrOah->
-    checkOptionsConsistency ();
-
-  gLpsrOah->
-    checkOptionsConsistency ();
-
-  gLilypondOah->
-    checkOptionsConsistency ();
-
-#ifdef EXTRA_OAH
-  gExtraOah->
-    checkOptionsConsistency ();
-#endif
-
-/* JMI TICINO
-  gXml2lyOah->
-    checkOptionsConsistency ();
-    */
-}
+{}
 
 //______________________________________________________________________________
 void xml2lyOah::acceptIn (basevisitor* v)
