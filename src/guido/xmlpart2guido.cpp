@@ -2023,6 +2023,19 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             n++;
         }
         
+        if (note.fBowUp || note.fBowDown) {
+            tag = guidotag::create("bow");
+            stringstream s;
+            if (note.fBowUp) {
+                s << "\"up\"";
+            }else {
+                s << "\"down\"";
+            }
+            tag->add (guidoparam::create(s.str(), false));
+            push(tag);
+            n++;
+        }
+        
         return n;
     }
     
