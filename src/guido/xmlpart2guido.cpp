@@ -1881,7 +1881,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
 {
     if (note.fBreathMark) {
         Sguidoelement tag = guidotag::create("breathMark");
-        xml2guidovisitor::addPosY(note.fBreathMark, tag, 0, 1);
+        xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
         add(tag);
     }
         
