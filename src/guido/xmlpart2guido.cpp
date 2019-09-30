@@ -1872,15 +1872,20 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             push(tag);
             n++;
         }
-        if (note.fBreathMark) {
-            Sguidoelement tag = guidotag::create("breathMark");
-            //xml2guidovisitor::addPosition(note.fBreathMark, tag, -3, 0);
-            xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
-            add(tag);
-        }
         
         return n;
     }
+
+/// Articulations that should be generated AFTER the note creation
+void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
+{
+    if (note.fBreathMark) {
+        Sguidoelement tag = guidotag::create("breathMark");
+        xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
+        add(tag);
+    }
+        
+}
     
     //---------------------
     void xmlpart2guido::checkWavyTrillBegin	 ( const notevisitor& nv )
@@ -2535,7 +2540,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
         
-        checkTremolo(*this, elt);   // tremolo element will be popped upon "stop"
+        pendingPops += checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
         
         
         if (notevisitor::getType()==kRest)
@@ -2596,6 +2601,8 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
          // In case of ongoing \Beam, do it after the \beam is closed! (Potential Guido parser issue)
          checkTextEnd();
          }*/
+        
+        checkPostArticulation(*this);
         
         
         fMeasureEmpty = false;

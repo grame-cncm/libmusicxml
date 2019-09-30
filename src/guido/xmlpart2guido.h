@@ -127,6 +127,8 @@ class EXP xmlpart2guido :
 	void stackClean	();
 
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
+    void checkPostArticulation ( const notevisitor& note );      /// Articulations that should be generated in ADD mode after note creation
+
     int  checkChordOrnaments ( const notevisitor& note );			// returns the count of articulations pushed on the stack
     
     std::vector<Sxmlelement>  getChord ( const S_note& note );    // build a chord vector
