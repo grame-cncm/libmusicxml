@@ -2535,7 +2535,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
         
-        checkTremolo(*this, elt);   // tremolo element will be popped upon "stop"
+        pendingPops += checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
         
         
         if (notevisitor::getType()==kRest)
