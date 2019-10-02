@@ -19424,10 +19424,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           s <<
             "one-note tuplet with a non single tremolo contents found";
 
-          msrMusicXMLError (
+     // JMI     msrMusicXMLError (
+          msrMusicXMLWarning (
             gOahOah->fInputSourceName,
             inputLineNumber,
-            __FILE__, __LINE__,
+       //     __FILE__, __LINE__,
             s.str ());
         }
 
