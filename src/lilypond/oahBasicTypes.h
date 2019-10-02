@@ -2516,7 +2516,7 @@ class oahGroup : public oahElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  underlineGroupHeader (ostream& os) const;
@@ -2579,17 +2579,12 @@ class oahGroup : public oahElement
                             ostream& os,
                             int      valueFieldWidth) const;
 
-  private:
-
-    // private fields
-    // ------------------------------------------------------
-
-    string                fGroupHeader;
-
   protected:
 
     // protected fields
     // ------------------------------------------------------
+
+    string                fGroupHeader;
 
     list<S_oahSubGroup>   fSubGroupsList;
 };
@@ -2706,8 +2701,6 @@ class EXP oahHandler : public oahElement
 
     // consistency check
     // ------------------------------------------------------
-
-    void                  checkHandlerGroupsOptionsConsistency ();
 
     virtual void          checkOptionsConsistency ();
 
@@ -2846,6 +2839,8 @@ class EXP oahHandler : public oahElement
                             string context);
 
     virtual void          checkOptionsAndArguments () = 0;
+
+    void                  checkHandlerGroupsOptionsConsistency ();
 
   protected:
 

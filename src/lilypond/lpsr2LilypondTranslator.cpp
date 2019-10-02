@@ -6950,7 +6950,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   } // switch
 
   // reset current voice measures counter
-  fCurrentVoiceMeasuresCounter = 0; // none have been met
+  fCurrentVoiceMeasuresCounter = 0; // none have been found
 
   // force durations to be displayed explicitly
   // at the beginning of the voice

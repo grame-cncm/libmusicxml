@@ -1965,11 +1965,8 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentBackupDivisions;
     bool                      fOnGoingBackup;
 
-    void                      handlePendingBackup (
+    void                      handleBackup (
                                 int inputLineNumber);
-
-    // a backup must remain pending until the next note's voice is known
-    bool                      fThereIsAPendingBackup;
 
     // forward handling
     // ------------------------------------------------------

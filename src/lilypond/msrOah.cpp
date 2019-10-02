@@ -2642,8 +2642,8 @@ void msrOah::checkOptionsConsistency ()
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "checking the consistency of OAH group \"" <<
-      fDescription <<
+      "Checking the consistency of OAH group \"" <<
+      fGroupHeader <<
       "\"" <<
       endl;
   }

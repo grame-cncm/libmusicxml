@@ -671,9 +671,6 @@ void initializeOahOahHandling (
 
   gOahOah =
     gOahOahUserChoices;
-
-  gOahOah->
-    checkGroupSubGroupsOptionsConsistency ();
 }
 
 

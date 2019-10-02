@@ -1078,7 +1078,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
   // append clef to the staff,
   // unless we should ignore redundant clefs
-  // and a clef equal to the current clef is met
+  // and a clef equal to the current clef is found
   bool doAppendClefToStaff = true;
 
   if (fStaffCurrentClef) {

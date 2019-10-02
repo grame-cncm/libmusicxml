@@ -3321,11 +3321,19 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staves& elt)
     int n = 1;
 
     while (n <= stavesNumber) {
+    /* JMI
       fCurrentPart->
         addStaffToPartByItsNumber (
           inputLineNumber,
           msrStaff::kStaffRegular,
           n);
+          */
+      S_msrStaff
+        dummyStaff = // JMI
+          createStaffInCurrentPartIfNotYetDone (
+            inputLineNumber,
+            n);
+
       n++;
     } // while
   }
@@ -3606,7 +3614,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
 #endif
 
       // register it as current stanza number, JMI
-      // that remains set until another positive value is met,
+      // that remains set until another positive value is found,
       // thus allowing a skip syllable to be generated
       // for notes without lyrics
     }
@@ -3651,7 +3659,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
 #endif
 
       // register it as current stanza name, JMI
-      // that remains set another positive value is met,
+      // that remains set another positive value is found,
       // thus allowing a skip syllable to be generated
       // for notes without lyrics
     }

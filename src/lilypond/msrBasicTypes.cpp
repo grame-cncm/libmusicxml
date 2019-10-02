@@ -17658,7 +17658,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       switch (octaveIndication [i]) {
         case ',':
           if (octave > 3) {
-            // a '\'' has been met previously
+            // a '\'' has been found previously
             stringstream s;
 
             s <<
@@ -17672,7 +17672,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
           break;
         case '\'':
           if (octave < 3) {
-            // a ',' has been met previously
+            // a ',' has been found previously
             stringstream s;
 
             s <<

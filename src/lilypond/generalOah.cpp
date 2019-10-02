@@ -404,9 +404,6 @@ void initializeGeneralOahHandling (
 
   gGeneralOah =
     gGeneralOahUserChoices;
-
-  gGeneralOah->
-    checkGroupSubGroupsOptionsConsistency ();
 }
 
 

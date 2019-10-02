@@ -330,7 +330,6 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // backup handling
   fCurrentBackupDivisions = -1;
   fOnGoingBackup          = false;
-  fThereIsAPendingBackup  = false;
 
   // forward handling
   fCurrentForwardDivisions = 1;
@@ -4454,10 +4453,9 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 
   fOnGoingBackup = false;
 
-  // DON't handle the backup right now:
-  // leave it pending until the note that follows,
-  // and then have it handled by the corresponding voice
-  fThereIsAPendingBackup = true;
+  // handle the backup right now:
+  handleBackup (
+    inputLineNumber);
 }
 
 //______________________________________________________________________________
@@ -4810,7 +4808,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
         placementString);
 
     // a phrasing slur is recognized as such
-    // when the nested regular slur start is met
+    // when the nested regular slur start is found
 
     int slurStartsStackSize = fSlurStartsStack.size ();
 
@@ -5480,7 +5478,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 #endif
 
     // register it as current stanza number,
-    // that remains set another positive value is met,
+    // that remains set another positive value is found,
     // thus allowing a skip syllable to be generated
     // for notes without lyrics
   }
@@ -5517,14 +5515,14 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 #endif
 
     // register it as current stanza name,
-    // that remains set another positive value is met,
+    // that remains set another positive value is found,
     // thus allowing a skip syllable to be generated
     // for notes without lyrics
   }
 
   // color JMI
 
-  // forget about any previous texts met,
+  // forget about any previous texts found,
   // in case there are <text> occurrences without <syllabic> around them
   fCurrentLyricTextsList.clear ();
 
@@ -5575,7 +5573,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
       s.str ());
   }
 
-  // forget about any previous texts met
+  // forget about any previous texts found
   fCurrentLyricTextsList.clear ();
 }
 
@@ -6392,7 +6390,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     fRemainingRestMeasuresMeasuresNumber--;
 
     if (fRemainingRestMeasuresMeasuresNumber == 0) {
-      // all rest measures have been met,
+      // all rest measures have been found,
       // the current one is the first after the multiple rest
       fCurrentPart->
         appendPendingRestMeasuresToPart (
@@ -17094,7 +17092,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
 /* JMI
     // set current note sounding and display whole notes
     if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
-      // only <type /> was met, no <duration /> was specified
+      // only <type /> was found, no <duration /> was specified
       fCurrentNoteDisplayWholeNotes =
         fCurrentNoteDisplayWholeNotesFromType;
 
@@ -17102,7 +17100,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
         fCurrentNoteDisplayWholeNotes; // same value by default
     }
     else {
-      // <duration /> was met
+      // <duration /> was found
       fCurrentNoteSoundingWholeNotes =
         fCurrentNoteSoundingWholeNotesFromDuration;
 
@@ -17124,7 +17122,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
 
     /* JMI
     if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
-      // only <type /> was met, no <duration /> was specified
+      // only <type /> was found, no <duration /> was specified
       fCurrentNoteDisplayWholeNotes =
         fCurrentNoteDisplayWholeNotesFromType;
 
@@ -17132,7 +17130,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
         fCurrentNoteDisplayWholeNotes; // same value by default
     }
     else {
-      // <duration /> was met
+      // <duration /> was found
       fCurrentNoteSoundingWholeNotes =
         fCurrentNoteSoundingWholeNotesFromDuration;
 
@@ -17571,7 +17569,7 @@ void mxmlTree2MsrTranslator::handleNote (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::handlePendingBackup (
+void mxmlTree2MsrTranslator::handleBackup (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
@@ -17784,19 +17782,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     inputLineNumber,
     newNote,
     voiceToInsertNoteInto);
-
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  // handle the pending backup if any
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-
-  if (fThereIsAPendingBackup) {
-    handlePendingBackup (
-      inputLineNumber);
-
-    fThereIsAPendingBackup = false;
-  }
 
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
@@ -18047,10 +18032,12 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       }
       else {
         // a rest should become a skip after a <backup /> // JMI
-        noteKind =
+        noteKind = msrNote::kSkipNote; // JMI ???
+        /* JMI
           fThereIsAPendingBackup
             ? msrNote::kSkipNote
             : msrNote::kRestNote;
+            */
       }
 
       newNote->
@@ -19435,7 +19422,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           stringstream s;
 
           s <<
-            "one-note tuplet with a non single tremolo contents met";
+            "one-note tuplet with a non single tremolo contents found";
 
           msrMusicXMLError (
             gOahOah->fInputSourceName,
@@ -21613,7 +21600,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
 #endif
 
   // create the figured bass
-  // if the sounding whole notes is 0/1 (no <duration /> was met), JMI ???
+  // if the sounding whole notes is 0/1 (no <duration /> was found), JMI ???
   // it will be set to the next note's sounding whole notes later
   S_msrFiguredBass
     figuredBass =
@@ -22276,7 +22263,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
     }
 
     // create the figured bass
-    // if the sounding whole notes is 0/1 (no <duration /> was met),
+    // if the sounding whole notes is 0/1 (no <duration /> was found),
     // it will be set to the next note's sounding whole notes later
     S_msrFiguredBass
       figuredBass =
