@@ -12147,9 +12147,25 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         i!=noteOtherDynamics.end ();
         i++
       ) {
+        S_msrOtherDynamics
+          otherDynamics = (*i);
+
+        switch (otherDynamics->getOtherDynamicsPlacementKind ()) {
+          case kPlacementNone:
+            fLilypondCodeOstream << "-";
+            break;
+          case kPlacementAbove:
+            fLilypondCodeOstream << "^";
+            break;
+          case kPlacementBelow:
+            // this is done by LilyPond by default
+            break;
+        } // switch
+
         fLilypondCodeOstream <<
-          "-\\markup { "
-          "\\dynamic \"" << (*i)->getOtherDynamicsString () << "\" } ";
+          "\\otherDynamic \"" <<
+          otherDynamics->getOtherDynamicsString () <<
+          "\" ";
       } // for
     }
   }
@@ -13269,7 +13285,9 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (S_msrChord chord)
       } // switch
 
       fLilypondCodeOstream <<
-        "\\" << otherDynamics->asString () << ' ';
+        "\\otherDynamic \"" <<
+        otherDynamics->getOtherDynamicsString () <<
+        "\" ";
     } // for
   }
 

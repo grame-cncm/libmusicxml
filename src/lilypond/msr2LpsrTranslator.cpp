@@ -3192,7 +3192,7 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
 
   if (elt->getGlissandoTextValue ().size ()) {
     fLpsrScore->
-      // this score needs the 'glissandoWithText' Scheme function
+      // this score needs the 'glissandoWithText' Scheme functions
       addGlissandoWithTextSchemeFunctionsToScore ();
   }
 }
@@ -3403,6 +3403,10 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
     fCurrentChordClone->
       appendOtherDynamicsToChord (elt);
   }
+
+  fLpsrScore->
+    // this score needs the 'otherDynamic' Scheme function
+    setOtherDynamicSchemeFunctionIsNeeded ();
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrOtherDynamics& elt)

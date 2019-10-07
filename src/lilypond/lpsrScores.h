@@ -192,12 +192,21 @@ class lpsrScore : public lpsrElement
                               }
 
     // glissando with text
-    void                  setGlissandoWithTextSchemeFunctionIsNeeded ();
+    void                  setGlissandoWithTextSchemeFunctionsIsNeeded ();
 
-    bool                  getGlissandoWithTextSchemeFunctionIsNeeded () const
+    bool                  getGlissandoWithTextSchemeFunctionsIsNeeded () const
                               {
                                 return
-                                  fGlissandoWithTextSchemeFunctionIsNeeded;
+                                  fGlissandoWithTextSchemeFunctionsIsNeeded;
+                              }
+
+    // other dynamic
+    void                  setOtherDynamicSchemeFunctionIsNeeded ();
+
+    bool                  getOtherDynamicSchemeFunctionIsNeeded () const
+                              {
+                                return
+                                  fOtherDynamicSchemeFunctionIsNeeded;
                               }
 
     // damps
@@ -257,11 +266,11 @@ class lpsrScore : public lpsrElement
                             S_msrStanza stanza)
                               { fScoreElementsList.push_back (stanza); }
 
-    void                  addGlissandoWithTextSchemeFunctionsToScore ();
-
     void                  appendBookBlockToBookBlocksList (
                             S_lpsrBookBlock bookBlock)
                               { fScoreBookBlocksList.push_back (bookBlock); }
+
+    void                  addGlissandoWithTextSchemeFunctionsToScore ();
 
   private:
 
@@ -295,6 +304,8 @@ class lpsrScore : public lpsrElement
     void                  addAfterSchemeFunctionToScore ();
 
     void                  addTempoRelationshipSchemeFunctionToScore ();
+
+    void                  addOtherDynamicSchemeFunctionToScore ();
 
     // markups
 
@@ -388,7 +399,8 @@ class lpsrScore : public lpsrElement
     bool                  fTupletsCurvedBracketsSchemeFunctionIsNeeded;
     bool                  fAfterSchemeFunctionIsNeeded;
     bool                  fTempoRelationshipSchemeFunctionIsNeeded;
-    bool                  fGlissandoWithTextSchemeFunctionIsNeeded;
+    bool                  fGlissandoWithTextSchemeFunctionsIsNeeded;
+    bool                  fOtherDynamicSchemeFunctionIsNeeded;
 
     // markups
     bool                  fDampMarkupIsNeeded;

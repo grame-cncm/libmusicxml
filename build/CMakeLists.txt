@@ -60,7 +60,10 @@ if(APPLE)
     set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
     set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
   endif()
+  # to debug:
   add_definitions(-O0 -g) # JMI
+  # for speed
+#  add_definitions(-O3) # JMI
 
 #########################################
 # windows specific part

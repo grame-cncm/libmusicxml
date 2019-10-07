@@ -198,7 +198,8 @@ lpsrScore::lpsrScore (
   fTupletsCurvedBracketsSchemeFunctionIsNeeded = false;
   fAfterSchemeFunctionIsNeeded = false;
   fTempoRelationshipSchemeFunctionIsNeeded = false;
-  fGlissandoWithTextSchemeFunctionIsNeeded = false;
+  fGlissandoWithTextSchemeFunctionsIsNeeded = false;
+  fOtherDynamicSchemeFunctionIsNeeded = false;
   // markups
   fDampMarkupIsNeeded = false;
   fDampAllMarkupIsNeeded = false;
@@ -220,7 +221,7 @@ lpsrScore::lpsrScore (
   }
 
   if (gLilypondOah->fPointAndClickOff) {
-    // create the glissandoWithText scheme function
+    // create the glissandoWithText scheme functions
     addGlissandoWithTextSchemeFunctionsToScore ();
   }
 
@@ -531,12 +532,21 @@ void lpsrScore::setTempoRelationshipSchemeFunctionIsNeeded ()
   }
 }
 
-void lpsrScore::setGlissandoWithTextSchemeFunctionIsNeeded ()
+void lpsrScore::setGlissandoWithTextSchemeFunctionsIsNeeded ()
 {
-  if (! fGlissandoWithTextSchemeFunctionIsNeeded) {
+  if (! fGlissandoWithTextSchemeFunctionsIsNeeded) {
     addGlissandoWithTextSchemeFunctionsToScore ();
 
-    fGlissandoWithTextSchemeFunctionIsNeeded = true;
+    fGlissandoWithTextSchemeFunctionsIsNeeded = true;
+  }
+}
+
+void lpsrScore::setOtherDynamicSchemeFunctionIsNeeded ()
+{
+  if (! fOtherDynamicSchemeFunctionIsNeeded) {
+    addOtherDynamicSchemeFunctionToScore ();
+
+    fOtherDynamicSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -830,6 +840,66 @@ glissandoTextOn =
       #f)
 
 glissandoTextOff = \revert Glissando.stencil
+)";
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme functions for '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addOtherDynamicSchemeFunctionToScore ()
+{
+  string
+    schemeFunctionName =
+      "otherDynamic",
+
+    schemeFunctionDescription =
+R"(
+% \\otherDynamic to handle any string as dynamics.
+)",
+
+    schemeFunctionCode =
+R"(
+#(use-modules (ice-9 regex))
+
+otherDynamic =
+#(define-event-function (parser location text) (markup?)
+   (if (string? text)
+       (let* ((underscores-replaced
+               (string-map
+                (lambda (x) (if (eq? x #\_) #\space x))
+                text))
+              (split-text (string-split underscores-replaced #\space))
+              (formatted (map
+                          (lambda (word)
+                            (if (string-match "^[mrzfps]*$" word)
+                                (markup #:dynamic word)
+                                (markup #:normal-text #:italic word)))
+                          split-text)))
+         #{
+           #(make-dynamic-script (make-line-markup formatted))
+         #})
+       ;; user provided a full-blown markup, so we don't mess with it:
+       #{
+         #(make-dynamic-script (markup #:normal-text text))
+       #}))
 )";
 
 #ifdef TRACE_OAH
