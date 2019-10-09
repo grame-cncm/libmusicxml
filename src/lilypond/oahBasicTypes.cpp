@@ -9240,6 +9240,11 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
   }
 #endif
 
+  // sanity check
+  msrAssert (
+    optionName.size () != 0,
+    "optionName.size () == 0");
+
   list<S_oahElement> cluserElementsList;
 
   // collect single-character elements in cluserElementsList

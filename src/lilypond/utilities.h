@@ -377,7 +377,7 @@ std::set<std::string> decipherStringsSetSpecification (
 //______________________________________________________________________________
 std::list<int> extractNumbersFromString (
   std::string theString, // can contain "1, 2, 17"
-  bool   debugMode = false);
+  bool        debugMode = false);
 
 //______________________________________________________________________________
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
@@ -425,8 +425,8 @@ inline std::string &trim (std::string &s) {
 //______________________________________________________________________________
 std::pair<std::string, std::string> extractNamesPairFromString (
   std::string theString, // may contain "P1 = Bassoon"
-  char   separator,
-  bool   debugMode = false);
+  char        separator,
+  bool        debugMode = false);
 
 //______________________________________________________________________________
 std::string quoteStringIfNonAlpha (

@@ -1748,7 +1748,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
 
     case msrNote::kSkipNote:
       // print the skip name
-      fLilypondCodeOstream << "s";
+      fLilypondCodeOstream << "s%{1%}";
 
       // print the skip duration
       fLilypondCodeOstream <<
@@ -2056,7 +2056,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         fLilypondCodeOstream <<
           string (
             note->getNoteOccupiesAFullMeasure ()
-              ? "s" // JMI ??? "R"
+              ? "s%{2%}" // JMI ??? "R"
               : "r");
       }
       else {
@@ -2761,7 +2761,7 @@ void lpsr2LilypondTranslator::generateOrnament (
             remainingFraction.getDenominator ();
 
         fLilypondCodeOstream <<
-          "s" <<
+          "s%{3%}" <<
           noteUpLinkDuration <<
           "*" <<
             denominator
@@ -2794,7 +2794,7 @@ void lpsr2LilypondTranslator::generateOrnament (
         // c2*2/3 ( s2*1/3\turn
 
         fLilypondCodeOstream <<
-          "s" <<
+          "s%{4%}" <<
           noteUpLinkDuration <<
           "*1/3" "\\reverseturn ";
       }

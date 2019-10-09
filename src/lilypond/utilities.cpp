@@ -682,96 +682,98 @@ set<int> decipherNaturalNumbersSetSpecification (
       endl;
   }
 
-  string::const_iterator
-    cursor = theString.begin ();
+  if (theString.size ()) {
+    string::const_iterator
+      cursor = theString.begin ();
 
-  while (1) {
-    if (debugMode) {
-      gLogOstream <<
-        "--> decipherNaturalNumbersSetSpecification: cursor = |" <<
-        *cursor << "|" <<
-        endl;
-    }
-
-    int negated = 0;
-
-    if (*cursor == '^') {
-      cursor++;
-      negated = 1;
-    }
-
-    int
-      intervalStartNumber =
-        consumeDecimalNumber (cursor, cursor, debugMode),
-      intervalEndNumber;
-
-    if (*cursor == '-') {
-      cursor++;
-
+    while (1) {
       if (debugMode) {
         gLogOstream <<
-          "--> decipherNaturalNumbersSetSpecification after '-' : cursor = |" <<
-          *cursor <<
-          "|" <<
-          endl <<
+          "--> decipherNaturalNumbersSetSpecification: cursor = |" <<
+          *cursor << "|" <<
           endl;
       }
 
-      intervalEndNumber =
-        consumeDecimalNumber (cursor, cursor, debugMode);
-    }
+      int negated = 0;
 
-    else {
-      intervalEndNumber = intervalStartNumber;
-    }
-
-    if (debugMode) {
-      gLogOstream <<
-        "--> decipherNaturalNumbersSetSpecification" <<
-        ", intervalStartNumber = " << intervalStartNumber <<
-        ", intervalEndNumber = " << intervalEndNumber <<
-        ": *cursor = |" << *cursor << "|" <<
-        endl;
-    }
-
-    for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
-      if (negated) {
-        result.erase (i);
+      if (*cursor == '^') {
+        cursor++;
+        negated = 1;
       }
+
+      int
+        intervalStartNumber =
+          consumeDecimalNumber (cursor, cursor, debugMode),
+        intervalEndNumber;
+
+      if (*cursor == '-') {
+        cursor++;
+
+        if (debugMode) {
+          gLogOstream <<
+            "--> decipherNaturalNumbersSetSpecification after '-' : cursor = |" <<
+            *cursor <<
+            "|" <<
+            endl <<
+            endl;
+        }
+
+        intervalEndNumber =
+          consumeDecimalNumber (cursor, cursor, debugMode);
+      }
+
       else {
-        result.insert (i);
+        intervalEndNumber = intervalStartNumber;
       }
-    } // for
 
-    if (*cursor != ',') {
       if (debugMode) {
         gLogOstream <<
-          "--> decipherNaturalNumbersSetSpecification, after non ',' : cursor = |" <<
-          *cursor <<
-          "|" <<
-          endl <<
+          "--> decipherNaturalNumbersSetSpecification" <<
+          ", intervalStartNumber = " << intervalStartNumber <<
+          ", intervalEndNumber = " << intervalEndNumber <<
+          ": *cursor = |" << *cursor << "|" <<
           endl;
       }
-      break;
-    }
 
-    cursor++;
+      for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
+        if (negated) {
+          result.erase (i);
+        }
+        else {
+          result.insert (i);
+        }
+      } // for
 
-    if (debugMode) {
+      if (*cursor != ',') {
+        if (debugMode) {
+          gLogOstream <<
+            "--> decipherNaturalNumbersSetSpecification, after non ',' : cursor = |" <<
+            *cursor <<
+            "|" <<
+            endl <<
+            endl;
+        }
+        break;
+      }
+
+      cursor++;
+
+      if (debugMode) {
+        gLogOstream <<
+          "--> decipherNaturalNumbersSetSpecification after ',' : cursor = |" <<
+          *cursor <<
+          "|"
+          << endl <<
+          endl;
+      }
+    } // while
+
+    if (* cursor != '\0') {
       gLogOstream <<
-        "--> decipherNaturalNumbersSetSpecification after ',' : cursor = |" <<
-        *cursor <<
-        "|"
-        << endl <<
-        endl;
+        "--> Extraneous characters |" << *cursor <<
+        "| in numbers spec" <<
+        endl << endl;
     }
-  } // while
-
-  if (* cursor != '\0') {
-    gLogOstream <<
-      "--> Extraneous characters |" << *cursor <<
-      "| in numbers spec" <<
-      endl << endl;
   }
 
   return result;
@@ -896,7 +898,7 @@ std::set<string> decipherStringsSetSpecification (
 //______________________________________________________________________________
 list<int> extractNumbersFromString (
   string theString, // can contain "1, 2, 17"
-  bool        debugMode)
+  bool   debugMode)
 {
   list<int> foundNumbers;
 
@@ -907,35 +909,37 @@ list<int> extractNumbersFromString (
       endl;
   }
 
-  string::const_iterator
-    cursor = theString.begin ();
+  if (theString.size ()) {
+    string::const_iterator
+      cursor = theString.begin ();
 
-  while (1) {
-    if (cursor == theString.end ())
-      break;
+    while (1) {
+      if (cursor == theString.end ())
+        break;
 
-    if (debugMode) {
-      gLogOstream <<
-        "--> extractNumbersFromString: cursor = |" <<
-        *cursor << "|" <<
-        endl;
-    }
+      if (debugMode) {
+        gLogOstream <<
+          "--> extractNumbersFromString: cursor = |" <<
+          *cursor << "|" <<
+          endl;
+      }
 
-    if (isdigit (*cursor)) {
-      // consume a decimal number
-      int n = 0;
-      while (isdigit (*cursor)) {
-        n = n * 10 + (*cursor - '0');
+      if (isdigit (*cursor)) {
+        // consume a decimal number
+        int n = 0;
+        while (isdigit (*cursor)) {
+          n = n * 10 + (*cursor - '0');
+          cursor++;
+        } // while
+
+        // append the number to the list
+        foundNumbers.push_back (n);
+      }
+      else {
         cursor++;
-      } // while
-
-      // append the number to the list
-      foundNumbers.push_back (n);
-    }
-    else {
-      cursor++;
-    }
-  } // while
+      }
+    } // while
+  }
 
   return foundNumbers;
 }
@@ -957,84 +961,86 @@ pair<string, string> extractNamesPairFromString (
       endl;
   }
 
-  string::const_iterator
-    cursor = theString.begin ();
+  if (theString.size ()) {
+    string::const_iterator
+      cursor = theString.begin ();
 
-  // fetch name1
-  while (1) {
-    if (cursor == theString.end ())
-      break;
+    // fetch name1
+    while (1) {
+      if (cursor == theString.end ())
+        break;
 
-    if (debugMode) {
+      if (debugMode) {
+        gLogOstream <<
+          "--> extractNamesPairFromString: cursor = |" <<
+          *cursor << "|" <<
+          endl;
+      }
+
+      if ((*cursor) == separator) {
+        // found the separator
+        break;
+      }
+
+      // append the character to name1
+      name1 += *cursor;
+      cursor++;
+    } // while
+
+    name1 = trim (name1);
+    if (! name1.size ()) {
+      // found an empty name1
       gLogOstream <<
-        "--> extractNamesPairFromString: cursor = |" <<
-        *cursor << "|" <<
+        "### ERROR: the first name before the " << separator <<
+        " separator is empty in '" << theString << "'" <<
         endl;
     }
 
-    if ((*cursor) == separator) {
-      // found the separator
-      break;
-    }
-
-    // append the character to name1
-    name1 += *cursor;
-    cursor++;
-  } // while
-
-  name1 = trim (name1);
-  if (! name1.size ()) {
-    // found an empty name1
-    gLogOstream <<
-      "### ERROR: the first name before the " << separator <<
-      " separator is empty in '" << theString << "'" <<
-      endl;
-  }
-
-  if (cursor == theString.end ())
-    gLogOstream <<
-      "### ERROR: the " << separator <<
-      " separator is missing in string '" <<
-      theString << "'" <<
-      endl;
-  else
-    // overtake the separator
-    cursor++;
-
-  // fetch name2
-  while (1) {
     if (cursor == theString.end ())
-      break;
-
-    if (debugMode) {
-      gLogOstream <<
-        "--> extractNamesPairFromString: cursor = |" <<
-        *cursor << "|" <<
-        endl;
-    }
-
-    if ((*cursor) == '=') {
-      // found the separator
       gLogOstream <<
         "### ERROR: the " << separator <<
-        " separator occurs more than once in string '" <<
+        " separator is missing in string '" <<
         theString << "'" <<
         endl;
-      break;
+    else
+      // overtake the separator
+      cursor++;
+
+    // fetch name2
+    while (1) {
+      if (cursor == theString.end ())
+        break;
+
+      if (debugMode) {
+        gLogOstream <<
+          "--> extractNamesPairFromString: cursor = |" <<
+          *cursor << "|" <<
+          endl;
+      }
+
+      if ((*cursor) == '=') {
+        // found the separator
+        gLogOstream <<
+          "### ERROR: the " << separator <<
+          " separator occurs more than once in string '" <<
+          theString << "'" <<
+          endl;
+        break;
+      }
+
+      // append the character to name2
+      name2 += *cursor;
+      cursor++;
+    } // while
+
+    name2 = trim (name2);
+    if (! name2.size ()) {
+      // found an empty name2
+      gLogOstream <<
+        "### ERROR: the second name after the " << separator <<
+        " separator is empty in '" << theString << "'" <<
+        endl;
     }
-
-    // append the character to name2
-    name2 += *cursor;
-    cursor++;
-  } // while
-
-  name2 = trim (name2);
-  if (! name2.size ()) {
-    // found an empty name2
-    gLogOstream <<
-      "### ERROR: the second name after the " << separator <<
-      " separator is empty in '" << theString << "'" <<
-      endl;
   }
 
   return make_pair (name1, name2);
@@ -1048,30 +1054,32 @@ string quoteStringIfNonAlpha (
 
   bool   stringShouldBeQuoted = false;
 
-  for (
-    string::const_iterator i = theString.begin ();
-    i != theString.end ();
-    i++
-  ) {
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
 
-    if (
-      ((*i) >= 'a' && (*i) <= 'z')
-        ||
-      ((*i) >= 'A' && (*i) <= 'Z')) {
-      // (*i) is a letter
-      result += (*i);
-    }
-
-    else {
-      // (*i) is not a letter
-      if ((*i) == ' ')
-        result += ' '; // TEMP JMI
-      else
+      if (
+        ((*i) >= 'a' && (*i) <= 'z')
+          ||
+        ((*i) >= 'A' && (*i) <= 'Z')) {
+        // (*i) is a letter
         result += (*i);
+      }
 
-      stringShouldBeQuoted = true;
-    }
-  } // for
+      else {
+        // (*i) is not a letter
+        if ((*i) == ' ')
+          result += ' '; // TEMP JMI
+        else
+          result += (*i);
+
+        stringShouldBeQuoted = true;
+      }
+    } // for
+  }
 
   if (stringShouldBeQuoted) {
     return "\"" + result + "\"";
@@ -1087,33 +1095,35 @@ string quoteString (
 {
   string result;
 
-  for (
-    string::const_iterator i = theString.begin ();
-    i != theString.end ();
-    i++
-  ) {
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
 
-    if (
-      ((*i) >= 'a' && (*i) <= 'z')
-        ||
-      ((*i) >= 'A' && (*i) <= 'Z')) {
-      // (*i) is a letter
-      result += (*i);
-    }
-
-    else {
-      // (*i) is not a letter
-      if ((*i) == ' ') {
-        result += ' '; // TEMP JMI
-      }
-      else if ((*i) == '"') {
-        result += "\\\"";
-      }
-      else {
+      if (
+        ((*i) >= 'a' && (*i) <= 'z')
+          ||
+        ((*i) >= 'A' && (*i) <= 'Z')) {
+        // (*i) is a letter
         result += (*i);
       }
-    }
-  } // for
+
+      else {
+        // (*i) is not a letter
+        if ((*i) == ' ') {
+          result += ' '; // TEMP JMI
+        }
+        else if ((*i) == '"') {
+          result += "\\\"";
+        }
+        else {
+          result += (*i);
+        }
+      }
+    } // for
+  }
 
   return "\"" + result + "\"";
 }
@@ -1643,15 +1653,17 @@ string makeSingleWordFromString (const string& theString)
 {
   string result;
 
-  for (
-    string::const_iterator i = theString.begin ();
-    i != theString.end ();
-    i++
-  ) {
-    if (isalnum (*i)) {
-      result.push_back ((*i));
-    }
-  } // for
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
+      if (isalnum (*i)) {
+        result.push_back ((*i));
+      }
+    } // for
+  }
 
   return result;
 }

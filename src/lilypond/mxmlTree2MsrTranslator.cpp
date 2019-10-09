@@ -18031,13 +18031,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         noteKind = msrNote::kRestNote; // JMI ??? myfile_utf8.xml
       }
       else {
-        // a rest should become a skip after a <backup /> // JMI
-        noteKind = msrNote::kSkipNote; // JMI ???
-        /* JMI
-          fThereIsAPendingBackup
-            ? msrNote::kSkipNote
-            : msrNote::kRestNote;
-            */
+        noteKind = msrNote::kRestNote;
       }
 
       newNote->
