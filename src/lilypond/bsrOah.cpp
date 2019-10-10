@@ -464,7 +464,7 @@ void bsrOah::initializeBsrDisplayOptions (
     subGroup =
       oahSubGroup::create (
         "Display",
-        "hbsrtd", "help-bsr-display",
+        "hbsrd", "help-bsr-display",
 R"()",
       kElementVisibilityAlways,
       this);

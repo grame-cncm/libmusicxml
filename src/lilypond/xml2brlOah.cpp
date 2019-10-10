@@ -32,6 +32,8 @@
 
 #include "extraOah.h"
 
+#include "manPageOah.h"
+
 #include "version.h"
 #include "utilities.h"
 
@@ -675,6 +677,9 @@ void xml2brlOahHandler::initializeOptionsHandler (
   initializeExtraOahHandling (
     this);
 #endif
+
+  initializeManPageOahHandling (
+    this);
 
   initializeXml2brlOah (
     this);

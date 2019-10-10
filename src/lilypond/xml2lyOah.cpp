@@ -32,6 +32,8 @@
 
 #include "extraOah.h"
 
+#include "manPageOah.h"
+
 #include "version.h"
 #include "msr.h"
 #include "lpsr.h"
@@ -666,6 +668,9 @@ void xml2lyOahHandler::initializeOptionsHandler (
   initializeExtraOahHandling (
     this);
 #endif
+
+  initializeManPageOahHandling (
+    this);
 
   initializeXml2lyOah (
     this);

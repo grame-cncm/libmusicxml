@@ -5052,6 +5052,7 @@ void msrMeasure::print (ostream& os)
     "Measure '" <<
     fMeasureNumber <<
     "', " << measureKindAsString () <<
+    ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
     ", line " << fInputLineNumber <<
