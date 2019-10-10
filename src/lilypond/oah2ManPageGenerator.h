@@ -97,6 +97,8 @@ class oah2ManPageGenerator :
     S_manPageOah          fManPageOpts;
 
     indentedOstream&      fLogOutputStream;
+
+    ostream&              fManPageOutputStream;
 };
 
 

@@ -24,6 +24,7 @@
 
 #include "manPageOah.h"
 
+#include "oah2ManPageGeneratorInterface.h"
 
 using namespace std;
 
@@ -165,15 +166,22 @@ void manPageGenerateAtom::print (ostream& os) const
 
 void manPageGenerateAtom::generateManPageData (ostream& os) const
 {
-  os <<
-    "Generating man page data" <<
-    endl;
+  S_oahHandler
+    handler =
+      fSubGroupUpLink->
+        getGroupUpLink ()->
+          getHandlerUpLink ();
+
+  // generate the man page from the OAH handler
+  generateManPageFromOahHandler (
+    handler,
+    gManPageOah,
+    gLogOstream,
+    gLogOstream); // JMI os);
 
   // register 'generate man page' action in options groups's options handler upLink
-  fSubGroupUpLink->
-    getGroupUpLink ()->
-      getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+  handler->
+    setOptionsHandlerFoundAHelpOption ();
 }
 
 void manPageGenerateAtom::printAtomOptionsValues (
@@ -257,7 +265,7 @@ R"(Write the contents of the OAH data to standard error.)",
     appendAtomToSubGroup (
       manPageGenerateAtom::create (
         "gmp", "generate-man-page",
-R"(Write man page date to standard output.)"));
+R"(Write man page data to standard output.)"));
 }
 
 #ifdef TRACE_OAH

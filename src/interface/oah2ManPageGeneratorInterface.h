@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __bsr2BrailleTranslatorInterface__
-#define __bsr2BrailleTranslatorInterface__
+#ifndef __oah2ManPageGeneratorInterface__
+#define __oah2ManPageGeneratorInterface__
 
 
 #include "bsr.h"
