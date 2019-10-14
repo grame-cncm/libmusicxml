@@ -1288,7 +1288,7 @@ namespace MusicXML2
          In Guido, slurBegin should be generated before notename and slurEnd after (or otherwise leading to bad numbering and rendering issues such as big slurs).
          Whereas in MusicXML, Slurs are attributes of Notations inside a note event.
          
-         There is one special case where slurEnd should appear before slurBegin: for consecutif slurs where notation is as follows:
+         There is one special case where slurEnd might appear before slurBegin: for consecutif slurs where notation is as follows:
          <notations>
            <slur number="1" type="stop"/>
            <slur number="1" placement="above" type="start"/>
@@ -1300,11 +1300,19 @@ namespace MusicXML2
         int counter = 0;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "start") {
-                // There is a Beam Begin. Creat BeamBegin tag, and add its number to Stack
+                // There is a Slur Begin. Creat BeamBegin tag, and add its number to Stack
                 int lastSlurInternalNumber = 1;
                 if (!fSlurStack.empty()) {
                     std::pair<int, int> toto = fSlurStack.back();
                     lastSlurInternalNumber = toto.first + 1;
+                }
+                                
+                // Skip Slur creation, if the CLOSING Slur is not on the same voice/staff (Guido limitation)
+                if (isSlurClosing(*i)==false) {
+                    cerr<< "XML Slur at line:"<< (*i)->getInputLineNumber()<<" measure:"<<fMeasNum << " not closing on same voice! Skipping!"<<endl;
+
+                    counter++;
+                    continue;
                 }
                 
                 
@@ -1326,10 +1334,52 @@ namespace MusicXML2
             counter++;
         }
     }
+
+bool xmlpart2guido::isSlurClosing(S_slur elt) {
+    int internalXMLSlurNumber = elt->getAttributeIntValue("number", 0);
+
+    //cerr<< "\tSearching Slur Closing for line:"<<elt->getInputLineNumber() <<" with number "<<internalXMLSlurNumber<< " on Measure:"<<fMeasNum<< " on voice:"<<fTargetVoice<<endl;
+    ctree<xmlelement>::iterator nextnote = find(fCurrentPart->begin(), fCurrentPart->end(), elt);
+    if (nextnote != fCurrentPart->end()) {
+        nextnote++;    // advance one step
+    }
+    
+    // The first occurence of a slur STOP with the same NUMBER attribute should be considered as the target. Do not go beyond.
+    
+    while (nextnote != fCurrentPart->end()) {
+        // looking for the next note on the target voice
+        if ((nextnote->getType() == k_note)) {
+            int thisNoteVoice = nextnote->getIntValue(k_voice,0);
+            ctree<xmlelement>::iterator iter;
+            iter = nextnote->find(k_notations);
+            if (iter != nextnote->end())
+            {
+                ctree<xmlelement>::iterator iterSlur;
+                iterSlur = iter->find(k_slur);
+                if (iterSlur != iter->end())
+                {
+                    if ((iterSlur->getAttributeValue("type")=="stop") &&
+                        (iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)
+                        ) {
+                        if (thisNoteVoice == fTargetVoice) {
+                            //cerr<< "\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
+
+                            return true;
+                        }else {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        nextnote++;
+    }
+    
+    return false;
+}
     
     void xmlpart2guido::checkSlurEnd ( const std::vector<S_slur>& slurs )
     {
-        int counter = 0;
         std::vector<S_slur>::const_iterator i;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "stop") {
@@ -1341,10 +1391,12 @@ namespace MusicXML2
                     slurEndToBeErase = findSlur(xmlnum);
                     if (slurEndToBeErase != fSlurStack.end()) {
                         lastSlurInternalNumber = slurEndToBeErase->first;
+                    }else {
+                        continue;
                     }
                 }else {
-                    cerr<< "XML2Guido measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop without a Slur in Stack. Skipping!"<<endl;
-                    return;
+                    cerr<< "XML2Guido measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop with number:"<< (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!"<<endl;
+                    continue;
                 }
                 
                 stringstream tagName;
@@ -1355,7 +1407,6 @@ namespace MusicXML2
                 // remove the slur from stack
                 fSlurStack.erase(slurEndToBeErase);
             }
-            counter++;
         }
     }
 
