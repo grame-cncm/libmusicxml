@@ -148,6 +148,7 @@ class EXP xmlpart2guido :
     void checkSlur     ( const std::vector<S_slur>& slurs );
 	void checkSlurBegin	 ( const std::vector<S_slur>& slurs );
 	void checkSlurEnd	 ( const std::vector<S_slur>& slurs );
+    bool isSlurClosing(S_slur elt);
 	void checkTiedBegin	 ( const std::vector<S_tied>& tied );
 	void checkTiedEnd	 ( const std::vector<S_tied>& tied );
 	void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
@@ -227,7 +228,6 @@ class EXP xmlpart2guido :
 		const rational& getTimeSign () const		{ return fCurrentTimeSign; }
         bool fHasLyrics;
         bool hasLyrics() const {return fHasLyrics;}
-//    std::multimap<int, std::pair< rational, string > > staffClefMap;
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
 
     std::string getClef(int staffIndex, rational pos, int measureNum);
