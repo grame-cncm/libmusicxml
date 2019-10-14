@@ -2351,6 +2351,13 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             forcedAccidental = true;
         }
         
+        /// MusicXML from Finale can skip the Cautionary and just enter Accidental for those inclued in the key!
+        if ((forcedAccidental==false) && (nv.fAccidental.empty() == false)) {
+            Sguidoelement accForce = guidotag::create("acc");
+            push(accForce);
+            forcedAccidental = true;
+        }
+        
         /// Add Note head of X offset for note if necessary
         bool noteFormat = false;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
