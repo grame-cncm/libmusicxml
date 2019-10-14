@@ -82,6 +82,8 @@ void notevisitor::reset ()
     fAccidental = "";
     fCautionary = "";
     fFingering = (void*)0;
+    fBowUp = (void*)0;
+    fBowDown = (void*)0;
     fHarmonic = (void*)0;
     fSnapPizzicato = (void*)0;
 }

@@ -78,6 +78,8 @@ class EXP notevisitor :
     public visitor<S_notehead>,
     public visitor<S_tuplet>,
     public visitor<S_fingering>,
+    public visitor<S_up_bow>,
+    public visitor<S_down_bow>,
     public visitor<S_harmonic>,
     public visitor<S_snap_pizzicato>
 {
@@ -104,6 +106,8 @@ class EXP notevisitor :
         S_fingering fFingering;
         S_harmonic fHarmonic;
         S_snap_pizzicato fSnapPizzicato;
+        S_up_bow fBowUp;
+        S_down_bow fBowDown;
 
 		enum	  { C, D, E, F, G, A, B, last=B, diatonicSteps=last };
 		enum type { kUndefinedType, kPitched, kUnpitched, kRest };
@@ -221,6 +225,8 @@ class EXP notevisitor :
         virtual void visitStart( S_mordent& elt )    { fMordent = elt; }
         virtual void visitStart( S_notehead& elt )    { fNotehead = elt; }
         virtual void visitStart( S_fingering& elt)  {fFingering = elt;}
+        virtual void visitStart( S_down_bow& elt)  {fBowDown = elt;}
+        virtual void visitStart( S_up_bow& elt)  {fBowUp = elt;}
         virtual void visitStart( S_harmonic& elt)  {fHarmonic = elt;}
         virtual void visitStart( S_snap_pizzicato& elt)  {fSnapPizzicato = elt;}
 

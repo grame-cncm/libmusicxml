@@ -44,6 +44,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
     }
     
     //______________________________________________________________________________
@@ -63,6 +64,7 @@ namespace MusicXML2
         fTextTagOpen = 0;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
     }
     
     //______________________________________________________________________________
@@ -78,6 +80,7 @@ namespace MusicXML2
         fLyricsManualSpacing = false;
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
+        fTremoloInProgress = false;
         start (seq);
     }
     
@@ -160,9 +163,6 @@ namespace MusicXML2
             fCurrentStaffIndex += offset;
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
-            
-            //// Add staffFormat if needed
-            // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
         }
     }
     
@@ -1288,7 +1288,7 @@ namespace MusicXML2
          In Guido, slurBegin should be generated before notename and slurEnd after (or otherwise leading to bad numbering and rendering issues such as big slurs).
          Whereas in MusicXML, Slurs are attributes of Notations inside a note event.
          
-         There is one special case where slurEnd should appear before slurBegin: for consecutif slurs where notation is as follows:
+         There is one special case where slurEnd might appear before slurBegin: for consecutif slurs where notation is as follows:
          <notations>
            <slur number="1" type="stop"/>
            <slur number="1" placement="above" type="start"/>
@@ -1300,11 +1300,19 @@ namespace MusicXML2
         int counter = 0;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "start") {
-                // There is a Beam Begin. Creat BeamBegin tag, and add its number to Stack
+                // There is a Slur Begin. Creat BeamBegin tag, and add its number to Stack
                 int lastSlurInternalNumber = 1;
                 if (!fSlurStack.empty()) {
                     std::pair<int, int> toto = fSlurStack.back();
                     lastSlurInternalNumber = toto.first + 1;
+                }
+                                
+                // Skip Slur creation, if the CLOSING Slur is not on the same voice/staff (Guido limitation)
+                if (isSlurClosing(*i)==false) {
+                    cerr<< "XML Slur at line:"<< (*i)->getInputLineNumber()<<" measure:"<<fMeasNum << " not closing on same voice! Skipping!"<<endl;
+
+                    counter++;
+                    continue;
                 }
                 
                 
@@ -1326,10 +1334,52 @@ namespace MusicXML2
             counter++;
         }
     }
+
+bool xmlpart2guido::isSlurClosing(S_slur elt) {
+    int internalXMLSlurNumber = elt->getAttributeIntValue("number", 0);
+
+    //cerr<< "\tSearching Slur Closing for line:"<<elt->getInputLineNumber() <<" with number "<<internalXMLSlurNumber<< " on Measure:"<<fMeasNum<< " on voice:"<<fTargetVoice<<endl;
+    ctree<xmlelement>::iterator nextnote = find(fCurrentPart->begin(), fCurrentPart->end(), elt);
+    if (nextnote != fCurrentPart->end()) {
+        nextnote++;    // advance one step
+    }
+    
+    // The first occurence of a slur STOP with the same NUMBER attribute should be considered as the target. Do not go beyond.
+    
+    while (nextnote != fCurrentPart->end()) {
+        // looking for the next note on the target voice
+        if ((nextnote->getType() == k_note)) {
+            int thisNoteVoice = nextnote->getIntValue(k_voice,0);
+            ctree<xmlelement>::iterator iter;
+            iter = nextnote->find(k_notations);
+            if (iter != nextnote->end())
+            {
+                ctree<xmlelement>::iterator iterSlur;
+                iterSlur = iter->find(k_slur);
+                if (iterSlur != iter->end())
+                {
+                    if ((iterSlur->getAttributeValue("type")=="stop") &&
+                        (iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)
+                        ) {
+                        if (thisNoteVoice == fTargetVoice) {
+                            //cerr<< "\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
+
+                            return true;
+                        }else {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        nextnote++;
+    }
+    
+    return false;
+}
     
     void xmlpart2guido::checkSlurEnd ( const std::vector<S_slur>& slurs )
     {
-        int counter = 0;
         std::vector<S_slur>::const_iterator i;
         for (i = slurs.begin(); i != slurs.end(); i++) {
             if ((*i)->getAttributeValue("type") == "stop") {
@@ -1341,10 +1391,12 @@ namespace MusicXML2
                     slurEndToBeErase = findSlur(xmlnum);
                     if (slurEndToBeErase != fSlurStack.end()) {
                         lastSlurInternalNumber = slurEndToBeErase->first;
+                    }else {
+                        continue;
                     }
                 }else {
-                    cerr<< "XML2Guido: Got Slur Stop without a Slur in Stack. Skipping!"<<endl;
-                    return;
+                    cerr<< "XML2Guido measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop with number:"<< (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!"<<endl;
+                    continue;
                 }
                 
                 stringstream tagName;
@@ -1355,7 +1407,6 @@ namespace MusicXML2
                 // remove the slur from stack
                 fSlurStack.erase(slurEndToBeErase);
             }
-            counter++;
         }
     }
 
@@ -1872,15 +1923,20 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             push(tag);
             n++;
         }
-        if (note.fBreathMark) {
-            Sguidoelement tag = guidotag::create("breathMark");
-            //xml2guidovisitor::addPosition(note.fBreathMark, tag, -3, 0);
-            xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
-            add(tag);
-        }
         
         return n;
     }
+
+/// Articulations that should be generated AFTER the note creation
+void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
+{
+    if (note.fBreathMark) {
+        Sguidoelement tag = guidotag::create("breathMark");
+        xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
+        add(tag);
+    }
+        
+}
     
     //---------------------
     void xmlpart2guido::checkWavyTrillBegin	 ( const notevisitor& nv )
@@ -2018,11 +2074,30 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             n++;
         }
         
+        if (note.fBowUp || note.fBowDown) {
+            tag = guidotag::create("bow");
+            stringstream s;
+            if (note.fBowUp) {
+                s << "\"up\"";
+            }else {
+                s << "\"down\"";
+            }
+            tag->add (guidoparam::create(s.str(), false));
+            push(tag);
+            n++;
+        }
+        
         return n;
     }
     
     int xmlpart2guido::checkTremolo(const notevisitor& note, const S_note& elt) {
         // Starting FINALE 24, there is Tremolo types "Single", "start" and "stop". The "Start" type should search for a "stop" to construct the tremolo
+        /* Notes from MusicXML Doc:
+         When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
+         A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
+         If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
+         */
+                
         if (note.fTremolo) {
             Sguidoelement tag;
             stringstream s;
@@ -2031,7 +2106,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             if (tremType == "single") {
                 tag = guidotag::create("trem");
                 // trem style is the number int value
-                int numDashes = int(*(note.fTremolo));
+                int numDashes = stoi(note.fTremolo->getValue());
                 s << "style=\"";
                 for (int id=0; id<numDashes;id++) {
                     s << "/";
@@ -2043,6 +2118,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 return 1;
             }else
                 if (tremType == "start") {
+                    fTremoloInProgress = true;
                     tag = guidotag::create("trem");
                     
                     /// Find "stop" pitch
@@ -2296,6 +2372,9 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             r.rationalise();
             rational tm = nv.getTimeModification();
             r *= tm;
+            if (fTremoloInProgress) {
+                r *= 2.0;
+            }
             r.rationalise();
             dur.set (r.getNumerator(), r.getDenominator(), nv.getDots());
         }
@@ -2318,6 +2397,13 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         bool forcedAccidental = false;
         if (!nv.fCautionary.empty())
         {
+            Sguidoelement accForce = guidotag::create("acc");
+            push(accForce);
+            forcedAccidental = true;
+        }
+        
+        /// MusicXML from Finale can skip the Cautionary and just enter Accidental for those inclued in the key!
+        if ((forcedAccidental==false) && (nv.fAccidental.empty() == false)) {
             Sguidoelement accForce = guidotag::create("acc");
             push(accForce);
             forcedAccidental = true;
@@ -2456,10 +2542,6 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         
         if (inChord()) return;					// chord notes have already been handled
         
-        if (fTremolo && (fTremolo->getAttributeValue("type")=="stop")) {
-            return;
-        }
-        
         isProcessingChord = false;
         
         rational thisNoteHeadPosition = fCurrentVoicePosition;
@@ -2499,6 +2581,15 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         }
         if (!scanVoice) return;
         
+        if ((fTremoloInProgress)&&(fTremolo && (fTremolo->getAttributeValue("type")=="stop"))) {
+            fTremoloInProgress = false;
+            pop();
+            checkTupletEnd(notevisitor::getTuplet());
+            checkSlurEnd (notevisitor::getSlur());
+            checkBeamEnd (notevisitor::getBeam());
+            return;
+        }
+        
         checkStaff(notevisitor::getStaff());
         
         checkVoiceTime (fCurrentMeasurePosition, fCurrentVoicePosition);
@@ -2520,7 +2611,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
         
-        pendingPops += checkTremolo(*this, elt);
+        pendingPops += checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
         
         
         if (notevisitor::getType()==kRest)
@@ -2562,7 +2653,6 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         
         checkTupletEnd(notevisitor::getTuplet());
         checkSlurEnd (notevisitor::getSlur());
-        
         checkBeamEnd (notevisitor::getBeam());
         
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
@@ -2582,6 +2672,8 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
          // In case of ongoing \Beam, do it after the \beam is closed! (Potential Guido parser issue)
          checkTextEnd();
          }*/
+        
+        checkPostArticulation(*this);
         
         
         fMeasureEmpty = false;

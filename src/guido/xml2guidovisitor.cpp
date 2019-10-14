@@ -395,7 +395,7 @@ namespace MusicXML2
      */
     void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier = 1.0)
     {
-        float posy = elt->getAttributeFloatValue("relative-y", 0);
+        float posy = elt->getAttributeFloatValue("relative-y", 0) + elt->getAttributeFloatValue("default-y", 0);
             posy = (posy / 10) * 2;   // convert to half spaces
             posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
             posy = posy * ymultiplier;

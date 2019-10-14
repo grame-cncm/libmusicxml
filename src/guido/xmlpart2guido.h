@@ -78,7 +78,7 @@ class EXP xmlpart2guido :
 //	bool fGenerateStem;
 
 	// internal parsing state
-	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar;
+    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress;
     
     int fTextTagOpen;
     int fTupletOpen;    // Number of opened Tuplets
@@ -127,6 +127,8 @@ class EXP xmlpart2guido :
 	void stackClean	();
 
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
+    void checkPostArticulation ( const notevisitor& note );      /// Articulations that should be generated in ADD mode after note creation
+
     int  checkChordOrnaments ( const notevisitor& note );			// returns the count of articulations pushed on the stack
     
     std::vector<Sxmlelement>  getChord ( const S_note& note );    // build a chord vector
@@ -146,6 +148,7 @@ class EXP xmlpart2guido :
     void checkSlur     ( const std::vector<S_slur>& slurs );
 	void checkSlurBegin	 ( const std::vector<S_slur>& slurs );
 	void checkSlurEnd	 ( const std::vector<S_slur>& slurs );
+    bool isSlurClosing(S_slur elt);
 	void checkTiedBegin	 ( const std::vector<S_tied>& tied );
 	void checkTiedEnd	 ( const std::vector<S_tied>& tied );
 	void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
@@ -225,7 +228,6 @@ class EXP xmlpart2guido :
 		const rational& getTimeSign () const		{ return fCurrentTimeSign; }
         bool fHasLyrics;
         bool hasLyrics() const {return fHasLyrics;}
-//    std::multimap<int, std::pair< rational, string > > staffClefMap;
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
 
     std::string getClef(int staffIndex, rational pos, int measureNum);
