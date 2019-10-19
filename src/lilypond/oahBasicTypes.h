@@ -223,6 +223,7 @@ struct compareOahElements {
     const S_oahElement secondElement) const;
 };
 
+/* JMI
 //______________________________________________________________________________
 template <typename T> class oahBrowser : public browser<T>
 {
@@ -253,6 +254,37 @@ template <typename T> class oahBrowser : public browser<T>
                               leave (t);
                             }
 };
+*/
+
+template <typename T> class oahBrowser : public browser <T>
+{
+  public:
+
+    oahBrowser (basevisitor* v) : fVisitor (v) {}
+
+    virtual ~oahBrowser () {}
+
+  public:
+
+    virtual void set (basevisitor* v) { fVisitor = v; }
+
+    virtual void browse (T& t) {
+      enter (t);
+
+      t.browseData (fVisitor);
+
+      leave (t);
+    }
+
+  protected:
+
+    basevisitor*  fVisitor;
+
+    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
+    virtual void leave (T& t) { t.acceptOut (fVisitor); }
+};
+
+
 
 //______________________________________________________________________________
 class oahAtom : public oahElement
@@ -297,6 +329,16 @@ class oahAtom : public oahElement
 
     void                  registerAtomInHandler (
                             S_oahHandler handler);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 

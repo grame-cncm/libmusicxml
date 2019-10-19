@@ -117,7 +117,7 @@ bsr2BrailleTranslator::~bsr2BrailleTranslator ()
 void bsr2BrailleTranslator::generateBrailleCodeFromBsrScore ()
 {
   if (fVisitedBsrScore) {
-    // browse a bsrScore browser
+    // browse the visited bsrScore
     bsrBrowser<bsrScore> browser (this);
     browser.browse (*fVisitedBsrScore);
   }

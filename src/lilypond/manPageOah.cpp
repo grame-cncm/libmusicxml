@@ -81,7 +81,7 @@ S_oahValuedAtom manPageGenerateAtom::handleOptionUnderName (
 void manPageGenerateAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> manPageGenerateAtom::acceptIn ()" <<
       endl;
@@ -94,7 +94,7 @@ void manPageGenerateAtom::acceptIn (basevisitor* v)
         S_manPageGenerateAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching manPageGenerateAtom::visitStart ()" <<
             endl;
@@ -107,7 +107,7 @@ void manPageGenerateAtom::acceptIn (basevisitor* v)
 void manPageGenerateAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> manPageGenerateAtom::acceptOut ()" <<
       endl;
@@ -120,7 +120,7 @@ void manPageGenerateAtom::acceptOut (basevisitor* v)
         S_manPageGenerateAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching manPageGenerateAtom::visitEnd ()" <<
             endl;
@@ -133,7 +133,7 @@ void manPageGenerateAtom::acceptOut (basevisitor* v)
 void manPageGenerateAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> manPageGenerateAtom::browseData ()" <<
       endl;
@@ -177,7 +177,7 @@ void manPageGenerateAtom::generateManPageData (ostream& os) const
     handler,
     gManPageOah,
     gLogOstream,
-    gLogOstream); // JMI os);
+    os);
 
   // register 'generate man page' action in options groups's options handler upLink
   handler->
@@ -248,6 +248,7 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+/* JMI
   // OAH
 
   fDisplayOah = boolOptionsInitialValue;
@@ -259,6 +260,7 @@ R"()",
 R"(Write the contents of the OAH data to standard error.)",
         "displayOah",
         fDisplayOah));
+*/
 
   // FOO
   subGroup->
@@ -284,19 +286,7 @@ R"(  Note: the options in this group imply '-tmp, -trace-man-page'.)",
 
   appendSubGroupToGroup (subGroup);
 
-/* JMI
-  // OAH visitors
-
-  fTraceOahVisitors     = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "toahv", "trace-oah-visitors",
-R"(Write a trace of the OAH graph visiting activity to standard error.)",
-        "traceOahVisitors",
-        fTraceOahVisitors));
-        */
+  // JMI ???
 }
 #endif
 
@@ -327,12 +317,13 @@ S_manPageOah manPageOah::createCloneWithDetailedTrace ()
   clone->fHandlerUpLink =
     fHandlerUpLink;
 
-
+/* JMI
   // display
   // --------------------------------------
 
   clone->fDisplayOah =
     true;
+*/
 
   return clone;
 }
@@ -340,7 +331,7 @@ S_manPageOah manPageOah::createCloneWithDetailedTrace ()
 //______________________________________________________________________________
 void manPageOah::enforceQuietness ()
 {
-  fDisplayOah = false;
+// JMI  fDisplayOah = false;
 }
 
 //______________________________________________________________________________
@@ -353,7 +344,7 @@ void manPageOah::checkOptionsConsistency ()
 void manPageOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> manPageOah::acceptIn ()" <<
       endl;
@@ -366,7 +357,7 @@ void manPageOah::acceptIn (basevisitor* v)
         S_manPageOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching manPageOah::visitStart ()" <<
             endl;
@@ -379,7 +370,7 @@ void manPageOah::acceptIn (basevisitor* v)
 void manPageOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> manPageOah::acceptOut ()" <<
       endl;
@@ -392,7 +383,7 @@ void manPageOah::acceptOut (basevisitor* v)
         S_manPageOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching manPageOah::visitEnd ()" <<
             endl;
@@ -405,7 +396,7 @@ void manPageOah::acceptOut (basevisitor* v)
 void manPageOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> manPageOah::browseData ()" <<
       endl;
@@ -422,40 +413,7 @@ void manPageOah::printManPageOahValues (int fieldWidth)
 
   gIndenter++;
 
-  // display
-  // --------------------------------------
-  gLogOstream <<
-    "Display:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "displayOah" << " : " <<
-    booleanAsString (fDisplayOah) <<
-    endl;
-
-  gIndenter--;
-
-/* JMI
-  // trace
-  // --------------------------------------
-
-#ifdef TRACE_OAH
-  gLogOstream <<
-    "Trace:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "traceOahVisitors" << " : " <<
-    booleanAsString (fTraceOahVisitors) <<
-    endl;
-
-  gIndenter--;
-#endif
-*/
+  // JMI ???
 
   gIndenter--;
 }

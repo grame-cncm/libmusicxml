@@ -85,7 +85,7 @@ S_oahValuedAtom extraShowAllChordsStructuresAtom::handleOptionUnderName (
 void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsStructuresAtom::acceptIn ()" <<
       endl;
@@ -98,7 +98,7 @@ void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
         S_extraShowAllChordsStructuresAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsStructuresAtom::visitStart ()" <<
             endl;
@@ -111,7 +111,7 @@ void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
 void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsStructuresAtom::acceptOut ()" <<
       endl;
@@ -124,7 +124,7 @@ void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
         S_extraShowAllChordsStructuresAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsStructuresAtom::visitEnd ()" <<
             endl;
@@ -137,7 +137,7 @@ void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
 void extraShowAllChordsStructuresAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsStructuresAtom::browseData ()" <<
       endl;
@@ -349,7 +349,7 @@ void extraShowAllChordsContentsAtom::handleValue (
 void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsContentsAtom::acceptIn ()" <<
       endl;
@@ -362,7 +362,7 @@ void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
         S_extraShowAllChordsContentsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsContentsAtom::visitStart ()" <<
             endl;
@@ -375,7 +375,7 @@ void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
 void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsContentsAtom::acceptOut ()" <<
       endl;
@@ -388,7 +388,7 @@ void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
         S_extraShowAllChordsContentsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowAllChordsContentsAtom::visitEnd ()" <<
             endl;
@@ -401,7 +401,7 @@ void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
 void extraShowAllChordsContentsAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowAllChordsContentsAtom::browseData ()" <<
       endl;
@@ -686,7 +686,7 @@ void extraShowChordDetailsAtom::handleValue (
 void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordDetailsAtom::acceptIn ()" <<
       endl;
@@ -699,7 +699,7 @@ void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
         S_extraShowChordDetailsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordDetailsAtom::visitStart ()" <<
             endl;
@@ -712,7 +712,7 @@ void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
 void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordDetailsAtom::acceptOut ()" <<
       endl;
@@ -725,7 +725,7 @@ void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
         S_extraShowChordDetailsAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordDetailsAtom::visitEnd ()" <<
             endl;
@@ -738,7 +738,7 @@ void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
 void extraShowChordDetailsAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordDetailsAtom::browseData ()" <<
       endl;
@@ -1043,7 +1043,7 @@ void extraShowChordAnalysisAtom::handleValue (
 void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordAnalysisAtom::acceptIn ()" <<
       endl;
@@ -1056,7 +1056,7 @@ void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
         S_extraShowChordAnalysisAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordAnalysisAtom::visitStart ()" <<
             endl;
@@ -1069,7 +1069,7 @@ void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
 void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordAnalysisAtom::acceptOut ()" <<
       endl;
@@ -1082,7 +1082,7 @@ void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
         S_extraShowChordAnalysisAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraShowChordAnalysisAtom::visitEnd ()" <<
             endl;
@@ -1095,7 +1095,7 @@ void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
 void extraShowChordAnalysisAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraShowChordAnalysisAtom::browseData ()" <<
       endl;
@@ -1368,7 +1368,7 @@ void extraOah::checkOptionsConsistency ()
 void extraOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraOah::acceptIn ()" <<
       endl;
@@ -1381,7 +1381,7 @@ void extraOah::acceptIn (basevisitor* v)
         S_extraOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraOah::visitStart ()" <<
             endl;
@@ -1394,7 +1394,7 @@ void extraOah::acceptIn (basevisitor* v)
 void extraOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraOah::acceptOut ()" <<
       endl;
@@ -1407,7 +1407,7 @@ void extraOah::acceptOut (basevisitor* v)
         S_extraOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching extraOah::visitEnd ()" <<
             endl;
@@ -1420,7 +1420,7 @@ void extraOah::acceptOut (basevisitor* v)
 void extraOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> extraOah::browseData ()" <<
       endl;

@@ -168,8 +168,6 @@ class traceOah : public oahGroup
     bool                  fTraceOah;
     bool                  fTraceOahDetails;
 
-    bool                  fTraceOahVisitors;
-
     // other
     // --------------------------------------
 

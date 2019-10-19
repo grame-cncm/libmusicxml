@@ -94,7 +94,7 @@ S_oahValuedAtom xml2lyVersionOahAtom::handleOptionUnderName (
 void xml2lyVersionOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyVersionOahAtom::acceptIn ()" <<
       endl;
@@ -107,7 +107,7 @@ void xml2lyVersionOahAtom::acceptIn (basevisitor* v)
         S_xml2lyVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyVersionOahAtom::visitStart ()" <<
             endl;
@@ -120,7 +120,7 @@ void xml2lyVersionOahAtom::acceptIn (basevisitor* v)
 void xml2lyVersionOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyVersionOahAtom::acceptOut ()" <<
       endl;
@@ -133,7 +133,7 @@ void xml2lyVersionOahAtom::acceptOut (basevisitor* v)
         S_xml2lyVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyVersionOahAtom::visitEnd ()" <<
             endl;
@@ -146,7 +146,7 @@ void xml2lyVersionOahAtom::acceptOut (basevisitor* v)
 void xml2lyVersionOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyVersionOahAtom::browseData ()" <<
       endl;
@@ -259,7 +259,7 @@ S_oahValuedAtom xml2lyAboutOahAtom::handleOptionUnderName (
 void xml2lyAboutOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyAboutOahAtom::acceptIn ()" <<
       endl;
@@ -272,7 +272,7 @@ void xml2lyAboutOahAtom::acceptIn (basevisitor* v)
         S_xml2lyAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyAboutOahAtom::visitStart ()" <<
             endl;
@@ -285,7 +285,7 @@ void xml2lyAboutOahAtom::acceptIn (basevisitor* v)
 void xml2lyAboutOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyAboutOahAtom::acceptOut ()" <<
       endl;
@@ -298,7 +298,7 @@ void xml2lyAboutOahAtom::acceptOut (basevisitor* v)
         S_xml2lyAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyAboutOahAtom::visitEnd ()" <<
             endl;
@@ -311,7 +311,7 @@ void xml2lyAboutOahAtom::acceptOut (basevisitor* v)
 void xml2lyAboutOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyAboutOahAtom::browseData ()" <<
       endl;
@@ -436,7 +436,7 @@ S_oahValuedAtom xml2lyContactOahAtom::handleOptionUnderName (
 void xml2lyContactOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyContactOahAtom::acceptIn ()" <<
       endl;
@@ -449,7 +449,7 @@ void xml2lyContactOahAtom::acceptIn (basevisitor* v)
         S_xml2lyContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyContactOahAtom::visitStart ()" <<
             endl;
@@ -462,7 +462,7 @@ void xml2lyContactOahAtom::acceptIn (basevisitor* v)
 void xml2lyContactOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyContactOahAtom::acceptOut ()" <<
       endl;
@@ -475,7 +475,7 @@ void xml2lyContactOahAtom::acceptOut (basevisitor* v)
         S_xml2lyContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyContactOahAtom::visitEnd ()" <<
             endl;
@@ -488,7 +488,7 @@ void xml2lyContactOahAtom::acceptOut (basevisitor* v)
 void xml2lyContactOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyContactOahAtom::browseData ()" <<
       endl;
@@ -566,7 +566,7 @@ xml2lyOahHandler::xml2lyOahHandler (
   string           executableName,
   indentedOstream& ios)
   : oahHandler (
-    "Available options",
+    executableName + " available options",
     "Options values",
     "h", "help",
     "hs", "helpSummary",
@@ -669,10 +669,10 @@ void xml2lyOahHandler::initializeOptionsHandler (
     this);
 #endif
 
-  initializeManPageOahHandling (
+  initializeXml2lyOah (
     this);
 
-  initializeXml2lyOah (
+  initializeManPageOahHandling (
     this);
 
 #ifdef TRACE_OAH
@@ -889,7 +889,7 @@ void xml2lyOah::checkOptionsConsistency ()
 void xml2lyOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyOah::acceptIn ()" <<
       endl;
@@ -902,7 +902,7 @@ void xml2lyOah::acceptIn (basevisitor* v)
         S_xml2lyOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyOah::visitStart ()" <<
             endl;
@@ -915,7 +915,7 @@ void xml2lyOah::acceptIn (basevisitor* v)
 void xml2lyOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyOah::acceptOut ()" <<
       endl;
@@ -928,7 +928,7 @@ void xml2lyOah::acceptOut (basevisitor* v)
         S_xml2lyOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching xml2lyOah::visitEnd ()" <<
             endl;
@@ -941,76 +941,19 @@ void xml2lyOah::acceptOut (basevisitor* v)
 void xml2lyOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> xml2lyOah::browseData ()" <<
       endl;
   }
 #endif
-}
 
-//______________________________________________________________________________
-void xml2lyOahHandler::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2lyOahHandler::acceptIn ()" <<
-      endl;
-  }
-#endif
+  oahGroup::browseData (v);
 
-  if (visitor<S_xml2lyOahHandler>*
-    p =
-      dynamic_cast<visitor<S_xml2lyOahHandler>*> (v)) {
-        S_xml2lyOahHandler elem = this;
-
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2lyOahHandler::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2lyOahHandler::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2lyOahHandler::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2lyOahHandler>*
-    p =
-      dynamic_cast<visitor<S_xml2lyOahHandler>*> (v)) {
-        S_xml2lyOahHandler elem = this;
-
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2lyOahHandler::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2lyOahHandler::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2lyOahHandler::browseData ()" <<
-      endl;
-  }
-#endif
+  /*
+      string                fOutputFileName;
+    bool                  fAutoOutputFileName;
+*/
 }
 
 //______________________________________________________________________________

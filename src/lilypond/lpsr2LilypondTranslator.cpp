@@ -1699,7 +1699,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
           // print the rest name and duration
           if (note->getNoteOccupiesAFullMeasure ()) {
             fLilypondCodeOstream <<
-              "R" <<
+              "R%{1%}" <<
               /* JMI
               restMeasuresWholeNoteAsLilypondString (
                 inputLineNumber,
@@ -1712,7 +1712,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
 
           else {
             fLilypondCodeOstream <<
-              "r" <<
+              "r%{2%}" <<
               durationAsLilypondString (
                 inputLineNumber,
                 noteSoundingWholeNotes);
@@ -2057,7 +2057,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
           string (
             note->getNoteOccupiesAFullMeasure ()
               ? "s%{2%}" // JMI ??? "R"
-              : "r");
+              : "r%{3%}");
       }
       else {
         fLilypondCodeOstream <<
@@ -2111,8 +2111,8 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         fLilypondCodeOstream <<
           string (
             note->getNoteOccupiesAFullMeasure ()
-              ? "R"
-              : "r");
+              ? "R%{4%}"
+              : "r%{5%}");
       }
       else {
         fLilypondCodeOstream <<
@@ -7767,8 +7767,8 @@ else
         // generate a skip the duration of the measure // JMI ???
         // followed by a bar check
         fLilypondCodeOstream <<
-  // JMI ???        "s" <<
-          "R" <<
+     // JMI     "s%{9%}" <<
+         "R%{6%}" <<
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->
@@ -7894,7 +7894,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
 
       case msrMeasure::kMeasureKindMusicallyEmpty: // should not occur
         fLilypondCodeOstream <<
-          "%{ emptyMeasureKind %} | % " <<
+          "%{ emptyMeasureKind" <<
+          ", line " << inputLineNumber <<
+          " %} | % " <<
           measurePuristNumber + 1 <<
           endl;
         break;
@@ -15154,7 +15156,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
   // generate rest measures only now, in case there are
   // clef, keys or times before them in the first measure
   fLilypondCodeOstream <<
-    "R" <<
+    "R%{7%}" <<
     restMeasuresWholeNoteAsLilypondString (
       inputLineNumber,
       restMeasuresMeasureSoundingNotes);

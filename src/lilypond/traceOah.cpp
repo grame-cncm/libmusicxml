@@ -1880,18 +1880,6 @@ This option should best appear first.)",
         fTraceOahDetails,
         fTraceOah));
 
-  // trace oah visitors
-
-  fTraceOahVisitors    = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "toahv", "trace-oah-visitors",
-R"(Write a trace of the OAH tree visiting activity to standard error.)",
-        "traceOahVisitors",
-        fTraceOahVisitors));
-
   // fTraceDetailedMeasureNumbersSet is intially empty
 }
 
@@ -2270,9 +2258,6 @@ S_traceOah traceOah::createCloneWithTrueValues ()
     fTraceOah;
   clone->fTraceOahDetails =
     fTraceOahDetails;
-
-  clone->fTraceOahVisitors =
-    fTraceOahVisitors;
 
   // passes
   clone->fTracePasses = true;
@@ -2722,7 +2707,7 @@ void traceOah::checkOptionsConsistency ()
 void traceOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> traceOah::acceptIn ()" <<
       endl;
@@ -2735,7 +2720,7 @@ void traceOah::acceptIn (basevisitor* v)
         S_traceOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching traceOah::visitStart ()" <<
             endl;
@@ -2748,7 +2733,7 @@ void traceOah::acceptIn (basevisitor* v)
 void traceOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> traceOah::acceptOut ()" <<
       endl;
@@ -2761,7 +2746,7 @@ void traceOah::acceptOut (basevisitor* v)
         S_traceOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching traceOah::visitEnd ()" <<
             endl;
@@ -2774,12 +2759,14 @@ void traceOah::acceptOut (basevisitor* v)
 void traceOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> traceOah::browseData ()" <<
       endl;
   }
 #endif
+
+  oahGroup::browseData (v);
 }
 
 //______________________________________________________________________________
@@ -2806,9 +2793,6 @@ void traceOah::printAtomOptionsValues (
     endl <<
     setw (valueFieldWidth) << "traceOahDetails" << " : " <<
     booleanAsString (fTraceOahDetails) <<
-    endl <<
-    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
-    booleanAsString (fTraceOahVisitors) <<
     endl <<
 
     // passes
@@ -3237,9 +3221,6 @@ void traceOah::printTraceOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "traceOahDetails" << " : " <<
     booleanAsString (fTraceOahDetails) <<
-    endl <<
-    setw (fieldWidth) << "traceOahVisitors" << " : " <<
-    booleanAsString (fTraceOahVisitors) <<
     endl <<
 
     // passes

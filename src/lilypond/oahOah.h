@@ -100,10 +100,6 @@ class oahOptionalValuesStyleKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
   private:
 
     // fields
@@ -180,6 +176,11 @@ class oahOah : public oahGroup
     void                  initializeOahOahAndArgumentsOptions (
                             bool boolOptionsInitialValue);
 
+#ifdef TRACE_OAH
+    void                  initializeOahTraceOah (
+                            bool boolOptionsInitialValue);
+#endif
+
   public:
 
     // visitors
@@ -198,6 +199,10 @@ class oahOah : public oahGroup
     void                  printOahOahHelp ();
 
     void                  printOahOahValues (int valueFieldWidth);
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   public:
 
@@ -222,7 +227,12 @@ class oahOah : public oahGroup
 
     string                fOptionName; // JMI
 
-    // options and help display
+    // trace
+    // --------------------------------------
+
+    bool                  fTraceOahVisitors;
+
+    // display
     // --------------------------------------
 
     bool                  fDisplayOahValues;

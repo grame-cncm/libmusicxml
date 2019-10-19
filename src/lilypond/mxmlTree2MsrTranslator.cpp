@@ -4812,7 +4812,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 
     int slurStartsStackSize = fSlurStartsStack.size ();
 
-    if      (fCurrentSlurType == "start") {
+    if (fCurrentSlurType == "start") {
       switch (slurStartsStackSize) {
         case 0:
           fCurrentSlurTypeKind = msrSlur::kRegularSlurStart;
@@ -4826,6 +4826,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 
             fCurrentSlurTypeKind = msrSlur::kRegularSlurStart;
 
+/* JMI BUGGED?
             // the stack top is in fact a phrasing slur start
 #ifdef TRACE_OAH
             if (gTraceOah->fTraceSlurs) {
@@ -4841,6 +4842,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             containingSlur->
               setSlurTypeKind (
                 msrSlur::kPhrasingSlurStart);
+                */
           }
           break;
 
@@ -7264,7 +7266,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       &&
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
       &&
-    fCurrentBarlineEndingNumber.size () != 0) {
+    fCurrentBarlineEndingNumber.size () != 0
+  ) {
     // ending start, don't know yet whether it's hooked or hookless
     // ------------------------------------------------------
     handleRepeatEndingStart (barline);
@@ -7278,7 +7281,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       &&
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
+  ) {
     // hooked ending start
     // ------------------------------------------------------
     handleRepeatHookedEndingStart (elt, barline);
@@ -7290,7 +7294,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
+  ) {
     // repeat start
     // ------------------------------------------------------
 
@@ -7303,7 +7308,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
       &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart) { // no forward
+    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
+  ) { // no forward
     // hookless ending start
     // ------------------------------------------------------
     handleRepeatHooklessEndingStart (elt, barline);
@@ -7317,7 +7323,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       &&
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
       &&
-    fCurrentBarlineEndingNumber.size () != 0) {
+    fCurrentBarlineEndingNumber.size () != 0
+  ) {
     // hooked ending end
     // ------------------------------------------------------
 
@@ -7329,7 +7336,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
+  ) {
     // repeat end
     // ------------------------------------------------------
 
@@ -7343,7 +7351,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       &&
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue
       &&
-    fCurrentBarlineEndingNumber.size () != 0) {
+    fCurrentBarlineEndingNumber.size () != 0
+  ) {
     // hookless ending end
     // ------------------------------------------------------
     handleRepeatHooklessEndingEnd (barline);

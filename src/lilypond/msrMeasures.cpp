@@ -2960,6 +2960,18 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
     // set it's measure kind
     setMeasureKind (kMeasureKindMusicallyEmpty);
+
+    // increment voice's current measure purist number
+    voice->
+      incrementVoiceCurrentMeasurePuristNumber (
+        inputLineNumber,
+        "determineMeasureKindAndPuristNumber() 3 kMeasureKindMusicallyEmpty");
+
+    // reset voice whole notes since last regular measure end  // JMI ???
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (
+        inputLineNumber,
+        0);
  }
 
   else if (fCurrentMeasureWholeNotesDuration == fFullMeasureWholeNotesDuration) {
@@ -2978,7 +2990,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
         inputLineNumber,
-        "determineMeasureKindAndPuristNumber() 3 kMeasureEndRegularKindYes");
+        "determineMeasureKindAndPuristNumber() 4 kMeasureEndRegularKindYes");
 
     // reset voice whole notes since last regular measure end
     voice->
@@ -3027,7 +3039,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
           voice->
             incrementVoiceCurrentMeasurePuristNumber (
               inputLineNumber,
-              "determineMeasureKindAndPuristNumber() 4 kMeasureEndRegularKindYes");
+              "determineMeasureKindAndPuristNumber() 5 kMeasureEndRegularKindYes");
 
           // reset voice whole notes since last regular measure end
           voice->
@@ -3048,7 +3060,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
               displayMeasure (
                 inputLineNumber,
-                "determineMeasureKindAndPuristNumber() 5 kMeasuresRepeatContextKindUnknown");
+                "determineMeasureKindAndPuristNumber() 6 kMeasuresRepeatContextKindUnknown");
 
               s <<
                 "measure '" <<
@@ -3133,7 +3145,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       voice->
         incrementVoiceCurrentMeasurePuristNumber (
           inputLineNumber,
-          "determineMeasureKindAndPuristNumber() 6 kMeasureKindOvercomplete");
+          "determineMeasureKindAndPuristNumber() 7 kMeasureKindOvercomplete");
 
       // reset voice whole notes since last regular measure end
       voice->
@@ -3165,7 +3177,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   if (gTraceOah->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
-      "determineMeasureKindAndPuristNumber() 7");
+      "determineMeasureKindAndPuristNumber() 8");
   }
 #endif
 

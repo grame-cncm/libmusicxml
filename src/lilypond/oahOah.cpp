@@ -142,7 +142,7 @@ void oahOptionalValuesStyleKindAtom::handleValue (
 void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptIn ()" <<
       endl;
@@ -155,7 +155,7 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
         S_oahOptionalValuesStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitStart ()" <<
             endl;
@@ -168,7 +168,7 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptOut ()" <<
       endl;
@@ -181,7 +181,7 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
         S_oahOptionalValuesStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitEnd ()" <<
             endl;
@@ -194,7 +194,7 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 void oahOptionalValuesStyleKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::browseData ()" <<
       endl;
@@ -250,20 +250,6 @@ void oahOptionalValuesStyleKindAtom::print (ostream& os) const
     endl;
 
   gIndenter--;
-}
-
-void oahOptionalValuesStyleKindAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : \"" <<
-    oahOptionalValuesStyleKindAsString (
-      fOahOptionalValuesStyleKindVariable) <<
-    "\"" <<
-    endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt)
@@ -469,6 +455,35 @@ InOAH style:
         optionalValuesStyleKind));
 }
 
+#ifdef TRACE_OAH
+void oahOah::initializeOahTraceOah (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Options visitors trace",
+        "htov", "help-trace-options-visitors",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // trace oah visitors
+
+  fTraceOahVisitors    = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "toahv", "trace-oah-visitors",
+R"(Write a trace of the OAH tree visiting activity to standard error.)",
+        "traceOahVisitors",
+        fTraceOahVisitors));
+}
+#endif
+
 void oahOah::initializeOahOah (
   bool boolOptionsInitialValue)
 {
@@ -481,6 +496,13 @@ void oahOah::initializeOahOah (
   // --------------------------------------
   initializeOahOahAndArgumentsOptions (
     boolOptionsInitialValue);
+
+#ifdef TRACE_OAH
+  // trace
+  // --------------------------------------
+  initializeOahTraceOah (
+    boolOptionsInitialValue);
+#endif
 }
 
 S_oahOah oahOah::createCloneWithTrueValues ()
@@ -520,6 +542,12 @@ S_oahOah oahOah::createCloneWithTrueValues ()
   clone->fDisplayOptionsHandler =
     fDisplayOptionsHandler;
 
+  // trace
+  // --------------------------------------
+
+  clone->fTraceOahVisitors =
+    fTraceOahVisitors;
+
   return clone;
 }
 
@@ -539,7 +567,7 @@ void oahOah::checkOptionsConsistency ()
 void oahOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOah::acceptIn ()" <<
       endl;
@@ -552,7 +580,7 @@ void oahOah::acceptIn (basevisitor* v)
         S_oahOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOah::visitStart ()" <<
             endl;
@@ -565,7 +593,7 @@ void oahOah::acceptIn (basevisitor* v)
 void oahOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOah::acceptOut ()" <<
       endl;
@@ -578,7 +606,7 @@ void oahOah::acceptOut (basevisitor* v)
         S_oahOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOah::visitEnd ()" <<
             endl;
@@ -591,12 +619,32 @@ void oahOah::acceptOut (basevisitor* v)
 void oahOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOah::browseData ()" <<
       endl;
   }
 #endif
+}
+
+void oahOah::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+  /* JMI
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    oahOptionalValuesStyleKindAsString (
+      fOahOptionalValuesStyleKindVariable) <<
+    "\"" <<
+    endl <<
+*/
+
+    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
+    booleanAsString (fTraceOahVisitors) <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -643,6 +691,10 @@ void oahOah::printOahOahValues (int valueFieldWidth)
     endl <<
     setw (valueFieldWidth) << "displayOptionsHandler" << " : " <<
     booleanAsString (fDisplayOptionsHandler) <<
+    endl <<
+
+    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
+    booleanAsString (fTraceOahVisitors) <<
     endl;
 
   gIndenter--;

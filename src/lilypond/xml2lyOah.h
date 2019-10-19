@@ -274,11 +274,6 @@ class EXP xml2lyOahHandler : public oahHandler
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
   public:
 
     // print

@@ -184,6 +184,7 @@ class manPageOah : public oahGroup
 
   public:
 
+/* JMI
     // display
     // --------------------------------------
 
@@ -192,11 +193,6 @@ class manPageOah : public oahGroup
     // trace
     // --------------------------------------
 
-/* JMI
-#ifdef TRACE_OAH
-    // visitors
-    bool                  fTraceOahVisitors;
-#endif
 */
 };
 typedef SMARTP<manPageOah> S_manPageOah;

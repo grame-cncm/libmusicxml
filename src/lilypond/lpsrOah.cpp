@@ -149,7 +149,7 @@ void lpsrScoreOutputKindAtom::handleValue (
 void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreOutputKindAtom::acceptIn ()" <<
       endl;
@@ -162,7 +162,7 @@ void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
         S_lpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrScoreOutputKindAtom::visitStart ()" <<
             endl;
@@ -175,7 +175,7 @@ void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreOutputKindAtom::acceptOut ()" <<
       endl;
@@ -188,7 +188,7 @@ void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
         S_lpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrScoreOutputKindAtom::visitEnd ()" <<
             endl;
@@ -201,7 +201,7 @@ void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 void lpsrScoreOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrScoreOutputKindAtom::browseData ()" <<
       endl;
@@ -395,7 +395,7 @@ void lpsrPitchesLanguageAtom::handleValue (
 void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrPitchesLanguageAtom::acceptIn ()" <<
       endl;
@@ -408,7 +408,7 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
         S_lpsrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPitchesLanguageAtom::visitStart ()" <<
             endl;
@@ -421,7 +421,7 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrPitchesLanguageAtom::acceptOut ()" <<
       endl;
@@ -434,7 +434,7 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
         S_lpsrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPitchesLanguageAtom::visitEnd ()" <<
             endl;
@@ -447,7 +447,7 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 void lpsrPitchesLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrPitchesLanguageAtom::browseData ()" <<
       endl;
@@ -641,7 +641,7 @@ void lpsrChordsLanguageAtom::handleValue (
 void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrChordsLanguageAtom::acceptIn ()" <<
       endl;
@@ -654,7 +654,7 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
         S_lpsrChordsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrChordsLanguageAtom::visitStart ()" <<
             endl;
@@ -667,7 +667,7 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrChordsLanguageAtom::acceptOut ()" <<
       endl;
@@ -680,7 +680,7 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
         S_lpsrChordsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrChordsLanguageAtom::visitEnd ()" <<
             endl;
@@ -693,7 +693,7 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 void lpsrChordsLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrChordsLanguageAtom::browseData ()" <<
       endl;
@@ -865,7 +865,7 @@ void lpsrTransposeAtom::handleValue (
 void lpsrTransposeAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrTransposeAtom::acceptIn ()" <<
       endl;
@@ -878,7 +878,7 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
         S_lpsrTransposeAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrTransposeAtom::visitStart ()" <<
             endl;
@@ -891,7 +891,7 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
 void lpsrTransposeAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrTransposeAtom::acceptOut ()" <<
       endl;
@@ -904,7 +904,7 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
         S_lpsrTransposeAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrTransposeAtom::visitEnd ()" <<
             endl;
@@ -917,7 +917,7 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
 void lpsrTransposeAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrTransposeAtom::browseData ()" <<
       endl;
@@ -1617,7 +1617,7 @@ void lpsrOah::checkOptionsConsistency ()
 void lpsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrOah::acceptIn ()" <<
       endl;
@@ -1630,7 +1630,7 @@ void lpsrOah::acceptIn (basevisitor* v)
         S_lpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrOah::visitStart ()" <<
             endl;
@@ -1643,7 +1643,7 @@ void lpsrOah::acceptIn (basevisitor* v)
 void lpsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrOah::acceptOut ()" <<
       endl;
@@ -1656,7 +1656,7 @@ void lpsrOah::acceptOut (basevisitor* v)
         S_lpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrOah::visitEnd ()" <<
             endl;
@@ -1669,7 +1669,7 @@ void lpsrOah::acceptOut (basevisitor* v)
 void lpsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> lpsrOah::browseData ()" <<
       endl;

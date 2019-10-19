@@ -547,7 +547,7 @@ void musicXMLOah::checkOptionsConsistency ()
 void musicXMLOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> musicXMLOah::acceptIn ()" <<
       endl;
@@ -560,7 +560,7 @@ void musicXMLOah::acceptIn (basevisitor* v)
         S_musicXMLOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching musicXMLOah::visitStart ()" <<
             endl;
@@ -573,7 +573,7 @@ void musicXMLOah::acceptIn (basevisitor* v)
 void musicXMLOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> musicXMLOah::acceptOut ()" <<
       endl;
@@ -586,7 +586,7 @@ void musicXMLOah::acceptOut (basevisitor* v)
         S_musicXMLOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching musicXMLOah::visitEnd ()" <<
             endl;
@@ -599,7 +599,7 @@ void musicXMLOah::acceptOut (basevisitor* v)
 void musicXMLOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> musicXMLOah::browseData ()" <<
       endl;

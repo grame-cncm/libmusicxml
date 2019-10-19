@@ -19,7 +19,7 @@
   #include "traceOah.h"
 #endif
 
-#include "oah2ManPageGenerator.h"
+#include "basicOah2ManPageGenerator.h"
 
 #include "oah2ManPageGeneratorInterface.h"
 
@@ -60,8 +60,8 @@ void generateManPageFromOahHandler (
   }
 #endif
 
-  // create an oah2ManPageGenerator
-  oah2ManPageGenerator
+  // create an basicOah2ManPageGenerator
+  basicOah2ManPageGenerator
     generator (
       handler,
       manPageOpts,

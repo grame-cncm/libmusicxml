@@ -197,7 +197,7 @@ void msrRenamePartAtom::handleValue (
 void msrRenamePartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrRenamePartAtom::acceptIn ()" <<
       endl;
@@ -210,7 +210,7 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
         S_msrRenamePartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrRenamePartAtom::visitStart ()" <<
             endl;
@@ -223,7 +223,7 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
 void msrRenamePartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrRenamePartAtom::acceptOut ()" <<
       endl;
@@ -236,7 +236,7 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
         S_msrRenamePartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrRenamePartAtom::visitEnd ()" <<
             endl;
@@ -249,7 +249,7 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
 void msrRenamePartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrRenamePartAtom::browseData ()" <<
       endl;
@@ -548,7 +548,7 @@ void msrTransposePartAtom::handleValue (
 void msrTransposePartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrTransposePartAtom::acceptIn ()" <<
       endl;
@@ -561,7 +561,7 @@ void msrTransposePartAtom::acceptIn (basevisitor* v)
         S_msrTransposePartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrTransposePartAtom::visitStart ()" <<
             endl;
@@ -574,7 +574,7 @@ void msrTransposePartAtom::acceptIn (basevisitor* v)
 void msrTransposePartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrTransposePartAtom::acceptOut ()" <<
       endl;
@@ -587,7 +587,7 @@ void msrTransposePartAtom::acceptOut (basevisitor* v)
         S_msrTransposePartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrTransposePartAtom::visitEnd ()" <<
             endl;
@@ -600,7 +600,7 @@ void msrTransposePartAtom::acceptOut (basevisitor* v)
 void msrTransposePartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrTransposePartAtom::browseData ()" <<
       endl;
@@ -848,7 +848,7 @@ void msrOmitPartAtom::handleValue (
 void msrOmitPartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrOmitPartAtom::acceptIn ()" <<
       endl;
@@ -861,7 +861,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
         S_msrOmitPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrOmitPartAtom::visitStart ()" <<
             endl;
@@ -874,7 +874,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
 void msrOmitPartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrOmitPartAtom::acceptOut ()" <<
       endl;
@@ -887,7 +887,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
         S_msrOmitPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrOmitPartAtom::visitEnd ()" <<
             endl;
@@ -900,7 +900,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
 void msrOmitPartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrOmitPartAtom::browseData ()" <<
       endl;
@@ -1144,7 +1144,7 @@ void msrKeepPartAtom::handleValue (
 void msrKeepPartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrKeepPartAtom::acceptIn ()" <<
       endl;
@@ -1157,7 +1157,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
         S_msrKeepPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrKeepPartAtom::visitStart ()" <<
             endl;
@@ -1170,7 +1170,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
 void msrKeepPartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrKeepPartAtom::acceptOut ()" <<
       endl;
@@ -1183,7 +1183,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
         S_msrKeepPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrKeepPartAtom::visitEnd ()" <<
             endl;
@@ -1196,7 +1196,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
 void msrKeepPartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrKeepPartAtom::browseData ()" <<
       endl;
@@ -1451,7 +1451,7 @@ void msrPitchesLanguageAtom::handleValue (
 void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrPitchesLanguageAtom::acceptIn ()" <<
       endl;
@@ -1464,7 +1464,7 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
         S_msrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrPitchesLanguageAtom::visitStart ()" <<
             endl;
@@ -1477,7 +1477,7 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrPitchesLanguageAtom::acceptOut ()" <<
       endl;
@@ -1490,7 +1490,7 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
         S_msrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrPitchesLanguageAtom::visitEnd ()" <<
             endl;
@@ -1503,7 +1503,7 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 void msrPitchesLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrPitchesLanguageAtom::browseData ()" <<
       endl;
@@ -2667,7 +2667,7 @@ void msrOah::checkOptionsConsistency ()
 void msrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrOah::acceptIn ()" <<
       endl;
@@ -2680,7 +2680,7 @@ void msrOah::acceptIn (basevisitor* v)
         S_msrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrOah::visitStart ()" <<
             endl;
@@ -2693,7 +2693,7 @@ void msrOah::acceptIn (basevisitor* v)
 void msrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrOah::acceptOut ()" <<
       endl;
@@ -2706,7 +2706,7 @@ void msrOah::acceptOut (basevisitor* v)
         S_msrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOahVisitors) {
+        if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching msrOah::visitEnd ()" <<
             endl;
@@ -2719,7 +2719,7 @@ void msrOah::acceptOut (basevisitor* v)
 void msrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahVisitors) {
+  if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> msrOah::browseData ()" <<
       endl;
