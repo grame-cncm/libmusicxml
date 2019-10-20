@@ -575,9 +575,9 @@ R"(
               the MusicXML to LilyPond translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
-
-Usage:
-    xml2ly [options] [MusicXMLFile|-] [options]
+)",
+R"(
+xml2ly [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Option '-h, -help' prints the full help,
@@ -669,10 +669,10 @@ void xml2lyOahHandler::initializeOptionsHandler (
     this);
 #endif
 
-  initializeXml2lyOah (
+  initializeManPageOahHandling (
     this);
 
-  initializeManPageOahHandling (
+  initializeXml2lyOah (
     this);
 
 #ifdef TRACE_OAH
@@ -1078,7 +1078,6 @@ R"()",
 R"(Display xml2ly's version number and history.)"));
   }
 
-
   // about
   // --------------------------------------
 
@@ -1103,7 +1102,6 @@ R"()",
 R"(Display information about xml2ly.)"));
   }
 
-
   // contact
   // --------------------------------------
 
@@ -1127,7 +1125,6 @@ R"()",
           "c", "contact",
 R"(Display information about how to contacct xml2ly maintainers.)"));
   }
-
 
   // output file
   // --------------------------------------

@@ -2659,6 +2659,7 @@ class EXP oahHandler : public oahElement
       string           handlerSummaryShortName,
       string           handlerSummaryLongName,
       string           handlerPreamble,
+      string           handlerUsage,
       string           handlerDescription,
       indentedOstream& handlerLogOstream);
 */
@@ -2676,6 +2677,7 @@ class EXP oahHandler : public oahElement
       string           handlerSummaryShortName,
       string           handlerSummaryLongName,
       string           handlerPreamble,
+      string           handlerUsage,
       string           handlerDescription,
       indentedOstream& handlerLogOstream);
 
@@ -2709,11 +2711,14 @@ class EXP oahHandler : public oahElement
     string                getHandlerPreamble () const
                               { return fHandlerPreamble; }
 
-    ostream&              getHandlerLogOstream ()
-                              { return fHandlerLogOstream; }
+    string                getHandlerUsage () const
+                              { return fHandlerUsage; }
 
     string                getExecutableName () const
                               { return fHandlerExecutableName; }
+
+    ostream&              getHandlerLogOstream ()
+                              { return fHandlerLogOstream; }
 
     oahOptionalValuesStyleKind&
                           getHandlerOptionalValuesStyleKind ()
@@ -2898,6 +2903,8 @@ class EXP oahHandler : public oahElement
     string                fHandlerSummaryLongName;
 
     string                fHandlerPreamble;
+
+    string                fHandlerUsage;
 
     map<string, S_oahPrefix>
                           fHandlerPrefixesMap;

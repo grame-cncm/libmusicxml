@@ -582,9 +582,9 @@ R"(
             the MusicXML to Braille music translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
-
-Usage:
-    xml2brl [options] [MusicXMLFile|-] [options]
+)",
+R"(
+xml2brl [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Options can be written with '-' or '--' at will,
@@ -1149,7 +1149,6 @@ R"()",
 R"(Display xml2brl's version number and history.)"));
   }
 
-
   // about
   // --------------------------------------
 
@@ -1174,7 +1173,6 @@ R"()",
 R"(Display information about xml2brl.)"));
   }
 
-
   // contact
   // --------------------------------------
 
@@ -1198,7 +1196,6 @@ R"()",
           "c", "contact",
 R"(Display information about how to contacct xml2brl maintainers.)"));
   }
-
 
   // output file
   // --------------------------------------

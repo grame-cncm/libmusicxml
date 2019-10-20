@@ -7827,6 +7827,7 @@ S_oahHandler oahHandler::create (
   string           handlerSummaryShortName,
   string           handlerSummaryLongName,
   string           handlerPreamble,
+  string           handlerUsage,
   string           handlerDescription,
   indentedOstream& handlerLogOstream)
 {
@@ -7839,6 +7840,7 @@ S_oahHandler oahHandler::create (
       handlerSummaryShortName,
       handlerSummaryLongName,
       handlerPreamble,
+      handlerUsage,
       handlerDescription,
       handlerLogOstream);
   assert(o!=0);
@@ -7854,6 +7856,7 @@ oahHandler::oahHandler (
   string           handlerSummaryShortName,
   string           handlerSummaryLongName,
   string           handlerPreamble,
+  string           handlerUsage,
   string           handlerDescription,
   indentedOstream& handlerLogOstream)
   : oahElement (
@@ -7877,6 +7880,9 @@ oahHandler::oahHandler (
 
   fHandlerPreamble =
     handlerPreamble;
+
+  fHandlerUsage =
+    handlerUsage;
 
   fNowEverythingIsAnArgument = false;
 
@@ -8374,6 +8380,16 @@ void oahHandler::printHelp (ostream& os)
   os <<
     gIndenter.indentMultiLineString (
       fHandlerPreamble);
+
+  os << endl;
+
+  // print the options handler usage
+  os <<
+    "Usage:" <<
+    endl;
+
+   gIndenter.indentMultiLineString (
+      fHandlerUsage);
 
   os << endl;
 

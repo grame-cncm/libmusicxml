@@ -107,7 +107,11 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
     elt->getHandlerPreamble () <<
     endl <<
 
-    ".SS \"Usage:\"" <<
+    ".SH \"USAGE\"" <<
+    endl <<
+    ".IP" <<
+    endl <<
+    elt->getHandlerUsage () <<
     endl;
 }
 
@@ -150,15 +154,14 @@ void basicOah2ManPageGenerator::visitStart (S_oahGroup& elt)
   }
 #endif
 
-/* JMI
   fLogOutputStream <<
-    "% --> oahGroup" <<
-    ", numberOfSpaces: " << elt->getNumberOfSpaces () <<
-    ", spacesCellsList: " << elt->fetchCellsList () <<
-    " \"" << elt->getGroupHeader () << "\"" <<
+    ".SH " <<
+    elt->getGroupHeader () <<
+    endl <<
+    ".IP" <<
+    endl <<
+    elt->getGroupHeader () <<
     endl;
-*/
-
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahGroup& elt)
@@ -185,6 +188,14 @@ void basicOah2ManPageGenerator::visitStart (S_oahSubGroup& elt)
   }
 #endif
 
+  fLogOutputStream <<
+    ".SH " <<
+    elt->getSubGroupHeader () <<
+    endl <<
+    ".IP" <<
+    endl <<
+    elt->getSubGroupHeader () <<
+    endl;
 }
 
 //________________________________________________________________________
