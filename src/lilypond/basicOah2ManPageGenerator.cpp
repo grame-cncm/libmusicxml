@@ -35,7 +35,7 @@ basicOah2ManPageGenerator::basicOah2ManPageGenerator (
   const S_oahHandler handler,
   S_manPageOah&      manPageOpts,
   indentedOstream&   logOstream,
-  ostream&            manPageOutputStream)
+  ostream&           manPageOutputStream)
     : fLogOutputStream (
         logOstream),
       fManPageOutputStream (

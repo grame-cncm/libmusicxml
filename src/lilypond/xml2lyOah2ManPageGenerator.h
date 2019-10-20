@@ -15,7 +15,7 @@
 
 #include "basicOah2ManPageGenerator.h"
 
-#include "msrOah.h"
+#include "xml2lyOah.h"
 
 
 namespace MusicXML2
@@ -24,15 +24,11 @@ namespace MusicXML2
 //________________________________________________________________________
 class xml2lyOah2ManPageGenerator : public basicOah2ManPageGenerator,
 
-  public visitor<S_msrRenamePartAtom>,
+  public visitor<S_xml2lyVersionOahAtom>,
 
-  public visitor<S_msrTransposePartAtom>,
+  public visitor<S_xml2lyAboutOahAtom>,
 
-  public visitor<S_msrOmitPartAtom>,
-
-  public visitor<S_msrKeepPartAtom>,
-
-  public visitor<S_msrPitchesLanguageAtom>
+  public visitor<S_xml2lyContactOahAtom>
 
 {
   public:
@@ -41,7 +37,7 @@ class xml2lyOah2ManPageGenerator : public basicOah2ManPageGenerator,
       const S_oahHandler handler,
       S_manPageOah&      manPageOpts,
       indentedOstream&   logOstream,
-      ostream&            manPageOutputStream);
+      ostream&           manPageOutputStream);
 
     virtual ~xml2lyOah2ManPageGenerator ();
 
@@ -49,18 +45,13 @@ class xml2lyOah2ManPageGenerator : public basicOah2ManPageGenerator,
 
   protected:
 
-    virtual void visitStart (S_msrRenamePartAtom& elt);
+    virtual void visitStart (S_xml2lyVersionOahAtom& elt);
 
-    virtual void visitStart (S_msrTransposePartAtom& elt);
+    virtual void visitStart (S_xml2lyContactOahAtom& elt);
 
-    virtual void visitStart (S_msrOmitPartAtom& elt);
+    virtual void visitStart (S_xml2lyAboutOahAtom& elt);
 
-    virtual void visitStart (S_msrKeepPartAtom& elt);
-
-    virtual void visitStart (S_msrPitchesLanguageAtom& elt);
-
-
-  private:
+  protected:
 
 };
 

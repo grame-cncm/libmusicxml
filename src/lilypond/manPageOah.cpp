@@ -22,9 +22,10 @@
 
 #include "generalOah.h"
 
-#include "manPageOah.h"
+//#include "manPageOah.h"
 
-#include "oah2ManPageGeneratorInterface.h"
+// JMI#include "basicOah2ManPageGenerator.h"
+#include "xml2lyOah2ManPageGeneratorInterface.h"
 
 using namespace std;
 
@@ -173,7 +174,7 @@ void manPageGenerateAtom::generateManPageData (ostream& os) const
           getHandlerUpLink ();
 
   // generate the man page from the OAH handler
-  generateManPageFromOahHandler (
+  generateXml2lyManPageFromOahHandler (
     handler,
     gManPageOah,
     gLogOstream,

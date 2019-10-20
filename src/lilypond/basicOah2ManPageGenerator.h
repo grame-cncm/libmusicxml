@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___oah2ManPageGenerator___
-#define ___oah2ManPageGenerator___
+#ifndef ___basicOah2ManPageGenerator___
+#define ___basicOah2ManPageGenerator___
 
 #include "oahBasicTypes.h"
 
@@ -78,7 +78,7 @@ class basicOah2ManPageGenerator :
       const S_oahHandler handler,
       S_manPageOah&      manPageOpts,
       indentedOstream&   logOstream,
-      ostream&            manPageOutputStream);
+      ostream&           manPageOutputStream);
 
     virtual ~basicOah2ManPageGenerator ();
 
