@@ -365,7 +365,15 @@ namespace MusicXML2
                 rehearsalValue += ", fsize="+font_size+"pt";
             
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-            xml2guidovisitor::addPosition(elt, tag, -4, -4);
+            //xml2guidovisitor::addPosition(elt, tag, -4, -4);
+            // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
+            float markDx = xPosFromTimePos(elt->getAttributeFloatValue("default-x", 0), elt->getAttributeFloatValue("relative-x", 0));
+            if (markDx != -999) {
+                stringstream s;
+                s << "dx=" << markDx ;
+                tag->add (guidoparam::create(s.str(), false));
+            }
+            xml2guidovisitor::addPosY(elt, tag, -4, 1);
             
             add (tag);
             
@@ -497,7 +505,8 @@ namespace MusicXML2
                                 tag = guidotag::create("text");
                                 tag->add (guidoparam::create(wordParameters.str(), false));
                                 
-                                xml2guidovisitor::addPosX(element, tag, 0);
+                                // FIXME: XML x-pos is from beginning of measure, whereas nested Text in Guido from the notehead
+                                //xml2guidovisitor::addPosX(element, tag, 0);
                                 
                                 // apply inherited Y-position
                                 if (commonDy != 0.0) {
@@ -2267,10 +2276,10 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 s << "position=" << "\"below\"";
                 tag->add (guidoparam::create(s.str(), false));
                 
-                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
+                addPosYforNoteHead(nv, nv.fFermata, tag, 0);
                 
             }else{
-                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
+                addPosYforNoteHead(nv, nv.fFermata, tag, 0);
             }
             push(tag);
             return 1;
@@ -2353,23 +2362,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                  tag->add (guidoparam::create(s.str(), false));
                 xml2guidovisitor::addPosX(fingerings[i], tag, 0);   // xml x-pos can be safely added
                 /// In MusicXML, default-y for Fingering is from TOP of the staff. Dy in Guido is from the NOTEHEAD. Therefore the dy is a function of the Note and the Clef!
-                std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
-                float noteHeadDy = nv.getNoteHeadDy(thisClef);
-                float xmlY = xml2guidovisitor::getYposition(fingerings[i], 0, true); // (fingerings[i], tag, 9, 0);
-                //cerr << "Fingering line:"<< fingerings[i]->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
-                /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
-                float noteDistanceFromStaffTop = 0.0;
-                if (thisClef=="G") {
-                    noteDistanceFromStaffTop = (noteHeadDy - 10.0);
-                }else if (thisClef=="F") {
-                    noteDistanceFromStaffTop = (2.0 - noteHeadDy);
-                }
-                float posy = xmlY - noteDistanceFromStaffTop + 2 ;   // FIXME: +2 offset is experimental!
-                if (posy) {
-                    stringstream s;
-                    s << "dy=" << posy << "hs";
-                    tag->add (guidoparam::create(s.str(), false));
-                }
+                addPosYforNoteHead(nv, fingerings[i], tag, 2);  // FIXME: +2 offset is experimental
                  push(tag);
                 hasFingerings++;
             }
@@ -2711,4 +2704,26 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         }
         return -999;        // This is when the xpos can not be computed
     }
+
+void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
+    std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+    float noteHeadDy = nv.getNoteHeadDy(thisClef);
+    float xmlY = xml2guidovisitor::getYposition(elt, 0, true); // (fingerings[i], tag, 9, 0);
+    /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
+    float noteDistanceFromStaffTop = 0.0;
+    if (thisClef=="G") {
+        noteDistanceFromStaffTop = (noteHeadDy - 10.0);
+    }else if (thisClef=="F") {
+        noteDistanceFromStaffTop = (2.0 - noteHeadDy);
+    }
+    float posy = xmlY - noteDistanceFromStaffTop + offset ;
+    if (posy) {
+        stringstream s;
+        s << "dy=" << posy << "hs";
+        tag->add (guidoparam::create(s.str(), false));
+    }
+    
+    cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
+
+}
 }

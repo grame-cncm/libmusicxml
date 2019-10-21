@@ -562,6 +562,8 @@ float notevisitor::getNoteHeadDy( string fCurClef ) const
                 return base_distance + 3;
             case 'G':
                 return base_distance + 4;
+            case 'A':
+                return base_distance + 5;
             case 'B':
                 return base_distance + 6;
         }

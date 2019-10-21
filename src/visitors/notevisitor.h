@@ -78,6 +78,7 @@ class EXP notevisitor :
     public visitor<S_notehead>,
     public visitor<S_tuplet>,
     public visitor<S_fingering>,
+    public visitor<S_pluck>,
     public visitor<S_up_bow>,
     public visitor<S_down_bow>,
     public visitor<S_harmonic>,
@@ -154,7 +155,7 @@ class EXP notevisitor :
         virtual int  getDots() const		{ return fDots; }
  		virtual void print (std::ostream& out) const;
 
-        virtual const std::vector<S_fingering>& getFingerings() const { return fFingering; }
+        virtual const std::vector<Sxmlelement>& getFingerings() const { return fFingering; }
 		virtual const std::vector<S_tied>&	getTied() const	{ return fTied; }
 		virtual const std::vector<S_slur>&	getSlur() const	{ return fSlur; }
         virtual const std::vector<S_beam>&	getBeam() const	{ return fBeam; }
@@ -226,6 +227,7 @@ class EXP notevisitor :
         virtual void visitStart( S_mordent& elt )    { fMordent = elt; }
         virtual void visitStart( S_notehead& elt )    { fNotehead = elt; }
         virtual void visitStart( S_fingering& elt)  {fFingering.push_back(elt);}
+        virtual void visitStart( S_pluck& elt)  {fFingering.push_back(elt);}
         virtual void visitStart( S_down_bow& elt)  {fBowDown = elt;}
         virtual void visitStart( S_up_bow& elt)  {fBowUp = elt;}
         virtual void visitStart( S_harmonic& elt)  {fHarmonic = elt;}
@@ -249,7 +251,7 @@ class EXP notevisitor :
         std::vector<S_beam>	fBeam;
         std::vector<S_tuplet>	fTuplet;
         std::vector<S_wavy_line>	fWaveLine;
-    std::vector<S_fingering>    fFingering;
+    std::vector<Sxmlelement>    fFingering;
 
 		std::vector<S_lyric>	fLyric;
         std::string fSyllabic;
