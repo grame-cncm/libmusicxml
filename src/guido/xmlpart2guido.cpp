@@ -1186,38 +1186,6 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xmlpart2guido::visitEnd ( S_clef& elt )
-    {
-        int staffnum = elt->getAttributeIntValue("number", 0);
-        if ((staffnum != fTargetStaff) || fNotesOnly) return;
-        
-        stringstream s;
-        if ( clefvisitor::fSign == "G")			s << "g";
-        else if ( clefvisitor::fSign == "F")	s << "f";
-        else if ( clefvisitor::fSign == "C")	s << "c";
-        else if ( clefvisitor::fSign == "percussion")	s << "perc";
-        else if ( clefvisitor::fSign == "TAB")	s << "TAB";
-        else if ( clefvisitor::fSign == "none")	s << "none";
-        else {													// unknown clef sign !!
-            cerr << "warning: unknown clef sign \"" << clefvisitor::fSign << "\"" << endl;
-            return;
-        }
-        
-        string param;
-        if (clefvisitor::fLine != clefvisitor::kStandardLine)
-            s << clefvisitor::fLine;
-        s >> param;
-        if (clefvisitor::fOctaveChange == 1)
-            param += "+8";
-        else if (clefvisitor::fOctaveChange == -1)
-            param += "-8";
-        Sguidoelement tag = guidotag::create("clef");
-        checkStaff (staffnum);
-        tag->add (guidoparam::create(param));
-        //add(tag);
-    }
-    
-    //______________________________________________________________________________
     // tools and methods for converting notes
     //______________________________________________________________________________
     vector<S_slur>::const_iterator xmlpart2guido::findTypeValue ( const std::vector<S_slur>& slurs, const string& val ) const
@@ -2062,18 +2030,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             //n++;
         }
         
-        if (note.fFingering) {
-            tag = guidotag::create("fingering");
-            // Get text value
-            std::string fingeringText = note.fFingering->getValue();
-            stringstream s;
-            s << "text=\"" << fingeringText << "\"";
-            tag->add (guidoparam::create(s.str(), false));
-            xml2guidovisitor::addPlacement(note.fFingering, tag);
-            push(tag);
-            n++;
-        }
-        
         if (note.fBowUp || note.fBowDown) {
             tag = guidotag::create("bow");
             stringstream s;
@@ -2384,7 +2340,40 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     //______________________________________________________________________________
     void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure)
     {
-        //checkTiedBegin (nv.getTied());
+        // Fingering is tied to single notes (in chords)
+        int hasFingerings = 0;  // 0 if none, greater otherwise!
+        if (nv.getFingerings().size()) {
+            auto fingerings = nv.getFingerings();
+            for (int i=0; i < fingerings.size(); i++) {
+                Sguidoelement tag = guidotag::create("fingering");
+                 // Get text value
+                 std::string fingeringText = fingerings[i]->getValue();
+                 stringstream s;
+                 s << "text=\"" << fingeringText << "\"";
+                 tag->add (guidoparam::create(s.str(), false));
+                xml2guidovisitor::addPosX(fingerings[i], tag, 0);   // xml x-pos can be safely added
+                /// In MusicXML, default-y for Fingering is from TOP of the staff. Dy in Guido is from the NOTEHEAD. Therefore the dy is a function of the Note and the Clef!
+                std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+                float noteHeadDy = nv.getNoteHeadDy(thisClef);
+                float xmlY = xml2guidovisitor::getYposition(fingerings[i], 0, true); // (fingerings[i], tag, 9, 0);
+                //cerr << "Fingering line:"<< fingerings[i]->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
+                /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
+                float noteDistanceFromStaffTop = 0.0;
+                if (thisClef=="G") {
+                    noteDistanceFromStaffTop = (noteHeadDy - 10.0);
+                }else if (thisClef=="F") {
+                    noteDistanceFromStaffTop = (2.0 - noteHeadDy);
+                }
+                float posy = xmlY - noteDistanceFromStaffTop + 2 ;   // FIXME: +2 offset is experimental!
+                if (posy) {
+                    stringstream s;
+                    s << "dy=" << posy << "hs";
+                    tag->add (guidoparam::create(s.str(), false));
+                }
+                 push(tag);
+                hasFingerings++;
+            }
+         }
         
         int octave = nv.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
         string accident = alter2accident(nv.getAlter());
@@ -2461,6 +2450,13 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         
         if (forcedAccidental)
             pop();
+        
+        if (hasFingerings > 0) {
+            while (hasFingerings>0) {
+                pop();
+                hasFingerings--;
+            }
+        }
         
         //checkTiedEnd (nv.getTied());
     }

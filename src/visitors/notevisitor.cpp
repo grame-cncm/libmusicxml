@@ -74,6 +74,7 @@ void notevisitor::reset ()
 	fBeam.clear();
     fTuplet.clear();
     fWaveLine.clear();
+    fFingering.clear();
     
     fLyric.clear();
     fSyllabic = "";
@@ -81,7 +82,6 @@ void notevisitor::reset ()
     fGraphicType="";
     fAccidental = "";
     fCautionary = "";
-    fFingering = (void*)0;
     fBowUp = (void*)0;
     fBowDown = (void*)0;
     fHarmonic = (void*)0;
@@ -276,8 +276,6 @@ void notevisitor::visitEnd ( S_note& elt )
     float notevisitor::getRestFormatDy ( string fCurClef ) const
     {
         float restFormatDy = 0.0;
-        //string display_step = elt->getValue(k_display_step);
-        //int display_octave = elt->getIntValue(k_display_octave, 0.0);
         string display_step = fStep;
         int display_octave = fOctave;
         
@@ -526,12 +524,44 @@ void notevisitor::visitEnd ( S_note& elt )
                     break;
             }
             
+            // TODO: Implement other clefs: "violin", "bass", "alto", "tenor", "g+8", "f+8", "f1+8"
+            
             // Got it reversed for F clef
             restFormatDy = -1.0 * restFormatDy;
         }
         
         return restFormatDy;
     }
+
+float notevisitor::getNoteHeadDy( string fCurClef ) const
+{
+    float dY = 0.0;
+    string display_step = fStep;
+    
+    // IN G CLEF: b3=-1, c4=0, D4=1, e4=2, F4=3, g4=4, A4=5, b4=6, c5=7, d5=8, f5=10, g5=11, a5=12 -> Octave is a cycle of 7
+    // IN F CLEF: e4=2 , d4=1, c4=0, b3=-1, a3=-2, g3=-3, f3=-4, d3=-6, b2=-8, g2=-10
+    float base_distance = (float(fOctave) - 4)*7;
+    if ((fCurClef == "G") || (fCurClef == "F")) {
+        switch (display_step[0]) {
+            case 'C':
+                return base_distance + 0;
+            case 'D':
+                return base_distance + 1;
+            case 'E':
+                return base_distance + 2;
+            case 'F':
+                return base_distance + 3;
+            case 'G':
+                return base_distance + 4;
+            case 'B':
+                return base_distance + 6;
+        }
+    }
+    
+    // TODO: Implement other clefs: "violin", "bass", "alto", "tenor", "g+8", "f+8", "f1+8"
+    
+    return dY;
+}
 
 }
 
