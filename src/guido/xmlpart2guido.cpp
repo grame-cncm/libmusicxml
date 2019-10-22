@@ -2711,10 +2711,12 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
     float xmlY = xml2guidovisitor::getYposition(elt, 0, true); // (fingerings[i], tag, 9, 0);
     /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
     float noteDistanceFromStaffTop = 0.0;
-    if (thisClef=="G") {
+    if (thisClef[0]=='G') {
         noteDistanceFromStaffTop = (noteHeadDy - 10.0);
-    }else if (thisClef=="F") {
+    }else if (thisClef[0]=='F') {
         noteDistanceFromStaffTop = (2.0 - noteHeadDy);
+    }else if (thisClef[0]=='C') {
+        noteDistanceFromStaffTop = (noteHeadDy - 10.0);
     }
     float posy = xmlY - noteDistanceFromStaffTop + offset ;
     if (posy) {

@@ -548,9 +548,10 @@ float notevisitor::getNoteHeadDy( string fCurClef ) const
     }
     
     // IN G CLEF: b3=-1, c4=0, D4=1, e4=2, F4=3, g4=4, A4=5, b4=6, c5=7, d5=8, f5=10, g5=11, a5=12 -> Octave is a cycle of 7
-    // IN F CLEF: e4=2 , d4=1, c4=0, b3=-1, a3=-2, g3=-3, f3=-4, d3=-6, b2=-8, g2=-10
+    // IN F CLEF: e4=2 , d4=1, c4=0, b3=-1, a3=-2, g3=-3, f3=-4, d3=-6, b2=-8, g2=-10 (same as G clef)
+    // C CLEF: c4=6, d4=7, e4=8, f4=9, g4=10, a4=11, b4=12, c5=13
     float base_distance = (float(display_octave) - 4)*7;
-    if ((fCurClef == "G") || (fCurClef == "F")) {
+    if ((fCurClef[0] == 'G') || (fCurClef[0] == 'F')) {
         switch (display_step[0]) {
             case 'C':
                 return base_distance + 0;
@@ -566,6 +567,25 @@ float notevisitor::getNoteHeadDy( string fCurClef ) const
                 return base_distance + 5;
             case 'B':
                 return base_distance + 6;
+        }
+    }
+    
+    if (fCurClef[0] == 'C') {
+        switch (display_step[0]) {
+            case 'C':
+                return base_distance + 6;
+            case 'D':
+                return base_distance + 7;
+            case 'E':
+                return base_distance + 8;
+            case 'F':
+                return base_distance + 9;
+            case 'G':
+                return base_distance + 10;
+            case 'A':
+                return base_distance + 11;
+            case 'B':
+                return base_distance + 12;
         }
     }
     
