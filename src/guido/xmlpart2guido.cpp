@@ -1720,51 +1720,10 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             
             fHasLyrics = true;
         }
-        
-        // Alternative 2: Make MIDDLE and BEGIN also a SINGLE
-        
-        /// Alternative 1: The following code corresponds to time-spanned Lyric definition
-        /*if ( (notevisitor::getSyllabic()== "begin") ) {
-         std::string tagtxt("lyrics");
-         lyricParams = "";
-         // replaces Spaces in text by '~' to avoid event progression!
-         std::string newTxt = notevisitor::getLyricText();
-         std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
-         lyricParams += newTxt;
-         Sguidoelement tag = guidotag::create(tagtxt);
-         push (tag);
-         fLyricOpened = fStack.top();
-         }
-         
-         if (notevisitor::getSyllabic()== "middle")
-         {
-         // Should ONLY update tag parameter here!
-         lyricParams += "-";     // space after a word (or syllable) progresses to the following event
-         // replaces Spaces in text by '~' to avoid event progression!
-         std::string newTxt = notevisitor::getLyricText();
-         std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
-         lyricParams += newTxt;
-         }*/
     }
     
     void xmlpart2guido::checkLyricEnd	 ( const std::vector<S_lyric>& lyrics )
     {
-        /*if ( (notevisitor::getSyllabic()== "end") )
-         {
-         lyricParams += "-";     // space after a word (or syllable) progresses to the following event
-         // replaces Spaces in text by '~' to avoid event progression!
-         std::string newTxt = notevisitor::getLyricText();
-         std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
-         lyricParams += newTxt;
-         
-         fLyricOpened->add((guidoparam::create(lyricParams, true)));
-         fLyricOpened->add(guidoparam::create(-3, false));
-         
-         pop();
-         fLyricOpened = NULL;
-         lyricParams="";
-         }*/
-        
         float minDur4Space = 1;
         size_t minStringSize4Space = 2;
         
@@ -2615,8 +2574,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
         
-        pendingPops += checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
-        
+        checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
         
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
