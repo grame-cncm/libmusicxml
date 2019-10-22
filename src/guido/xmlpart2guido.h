@@ -198,7 +198,6 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_rehearsal& elt);
         virtual void visitStart( S_attributes& elt);
 
-		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
 		virtual void visitEnd  ( S_ending& elt);
 		virtual void visitEnd  ( S_key& elt);
@@ -234,6 +233,8 @@ class EXP xmlpart2guido :
 
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
+    
+    void addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset);
     
 };
 
