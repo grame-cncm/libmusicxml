@@ -365,7 +365,15 @@ namespace MusicXML2
                 rehearsalValue += ", fsize="+font_size+"pt";
             
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-            xml2guidovisitor::addPosition(elt, tag, -4, -4);
+            //xml2guidovisitor::addPosition(elt, tag, -4, -4);
+            // FIXME: Researsal is a Direction and its x-pos is from the beginning of measure where in Guido it is from current graphical position!
+            float markDx = xPosFromTimePos(elt->getAttributeFloatValue("default-x", 0), elt->getAttributeFloatValue("relative-x", 0));
+            if (markDx != -999) {
+                stringstream s;
+                s << "dx=" << markDx ;
+                tag->add (guidoparam::create(s.str(), false));
+            }
+            xml2guidovisitor::addPosY(elt, tag, -4, 1);
             
             add (tag);
             
@@ -497,7 +505,8 @@ namespace MusicXML2
                                 tag = guidotag::create("text");
                                 tag->add (guidoparam::create(wordParameters.str(), false));
                                 
-                                xml2guidovisitor::addPosX(element, tag, 0);
+                                // FIXME: XML x-pos is from beginning of measure, whereas nested Text in Guido from the notehead
+                                //xml2guidovisitor::addPosX(element, tag, 0);
                                 
                                 // apply inherited Y-position
                                 if (commonDy != 0.0) {
@@ -1079,7 +1088,7 @@ namespace MusicXML2
             tag->add (guidoparam::create(param));
             add(tag);
             
-            std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign);
+            std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
             staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
             
             /// Search again for other clefs:
@@ -1183,38 +1192,6 @@ namespace MusicXML2
             if (iter->getAttributeValue("print-object")!="no")
                 add(tag);
         }
-    }
-    
-    //______________________________________________________________________________
-    void xmlpart2guido::visitEnd ( S_clef& elt )
-    {
-        int staffnum = elt->getAttributeIntValue("number", 0);
-        if ((staffnum != fTargetStaff) || fNotesOnly) return;
-        
-        stringstream s;
-        if ( clefvisitor::fSign == "G")			s << "g";
-        else if ( clefvisitor::fSign == "F")	s << "f";
-        else if ( clefvisitor::fSign == "C")	s << "c";
-        else if ( clefvisitor::fSign == "percussion")	s << "perc";
-        else if ( clefvisitor::fSign == "TAB")	s << "TAB";
-        else if ( clefvisitor::fSign == "none")	s << "none";
-        else {													// unknown clef sign !!
-            cerr << "warning: unknown clef sign \"" << clefvisitor::fSign << "\"" << endl;
-            return;
-        }
-        
-        string param;
-        if (clefvisitor::fLine != clefvisitor::kStandardLine)
-            s << clefvisitor::fLine;
-        s >> param;
-        if (clefvisitor::fOctaveChange == 1)
-            param += "+8";
-        else if (clefvisitor::fOctaveChange == -1)
-            param += "-8";
-        Sguidoelement tag = guidotag::create("clef");
-        checkStaff (staffnum);
-        tag->add (guidoparam::create(param));
-        //add(tag);
     }
     
     //______________________________________________________________________________
@@ -1743,51 +1720,10 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             
             fHasLyrics = true;
         }
-        
-        // Alternative 2: Make MIDDLE and BEGIN also a SINGLE
-        
-        /// Alternative 1: The following code corresponds to time-spanned Lyric definition
-        /*if ( (notevisitor::getSyllabic()== "begin") ) {
-         std::string tagtxt("lyrics");
-         lyricParams = "";
-         // replaces Spaces in text by '~' to avoid event progression!
-         std::string newTxt = notevisitor::getLyricText();
-         std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
-         lyricParams += newTxt;
-         Sguidoelement tag = guidotag::create(tagtxt);
-         push (tag);
-         fLyricOpened = fStack.top();
-         }
-         
-         if (notevisitor::getSyllabic()== "middle")
-         {
-         // Should ONLY update tag parameter here!
-         lyricParams += "-";     // space after a word (or syllable) progresses to the following event
-         // replaces Spaces in text by '~' to avoid event progression!
-         std::string newTxt = notevisitor::getLyricText();
-         std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
-         lyricParams += newTxt;
-         }*/
     }
     
     void xmlpart2guido::checkLyricEnd	 ( const std::vector<S_lyric>& lyrics )
     {
-        /*if ( (notevisitor::getSyllabic()== "end") )
-         {
-         lyricParams += "-";     // space after a word (or syllable) progresses to the following event
-         // replaces Spaces in text by '~' to avoid event progression!
-         std::string newTxt = notevisitor::getLyricText();
-         std::replace( newTxt.begin(), newTxt.end(), ' ', '~');
-         lyricParams += newTxt;
-         
-         fLyricOpened->add((guidoparam::create(lyricParams, true)));
-         fLyricOpened->add(guidoparam::create(-3, false));
-         
-         pop();
-         fLyricOpened = NULL;
-         lyricParams="";
-         }*/
-        
         float minDur4Space = 1;
         size_t minStringSize4Space = 2;
         
@@ -2062,18 +1998,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             //n++;
         }
         
-        if (note.fFingering) {
-            tag = guidotag::create("fingering");
-            // Get text value
-            std::string fingeringText = note.fFingering->getValue();
-            stringstream s;
-            s << "text=\"" << fingeringText << "\"";
-            tag->add (guidoparam::create(s.str(), false));
-            xml2guidovisitor::addPlacement(note.fFingering, tag);
-            push(tag);
-            n++;
-        }
-        
         if (note.fBowUp || note.fBowDown) {
             tag = guidotag::create("bow");
             stringstream s;
@@ -2311,10 +2235,10 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 s << "position=" << "\"below\"";
                 tag->add (guidoparam::create(s.str(), false));
                 
-                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
+                addPosYforNoteHead(nv, nv.fFermata, tag, 0);
                 
             }else{
-                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
+                addPosYforNoteHead(nv, nv.fFermata, tag, 0);
             }
             push(tag);
             return 1;
@@ -2384,7 +2308,24 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     //______________________________________________________________________________
     void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure)
     {
-        //checkTiedBegin (nv.getTied());
+        // Fingering is tied to single notes (in chords)
+        int hasFingerings = 0;  // 0 if none, greater otherwise!
+        if (nv.getFingerings().size()) {
+            auto fingerings = nv.getFingerings();
+            for (int i=0; i < fingerings.size(); i++) {
+                Sguidoelement tag = guidotag::create("fingering");
+                 // Get text value
+                 std::string fingeringText = fingerings[i]->getValue();
+                 stringstream s;
+                 s << "text=\"" << fingeringText << "\"";
+                 tag->add (guidoparam::create(s.str(), false));
+                xml2guidovisitor::addPosX(fingerings[i], tag, 0);   // xml x-pos can be safely added
+                /// In MusicXML, default-y for Fingering is from TOP of the staff. Dy in Guido is from the NOTEHEAD. Therefore the dy is a function of the Note and the Clef!
+                addPosYforNoteHead(nv, fingerings[i], tag, 2);  // FIXME: +2 offset is experimental
+                 push(tag);
+                hasFingerings++;
+            }
+         }
         
         int octave = nv.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
         string accident = alter2accident(nv.getAlter());
@@ -2462,6 +2403,13 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         if (forcedAccidental)
             pop();
         
+        if (hasFingerings > 0) {
+            while (hasFingerings>0) {
+                pop();
+                hasFingerings--;
+            }
+        }
+        
         //checkTiedEnd (nv.getTied());
     }
     
@@ -2502,7 +2450,22 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         {
             // Check out clef for position and voice
             std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
-            float restformatDy = nv.getRestFormatDy(thisClef);
+            float noteHeadPos=nv.getNoteHeadDy(thisClef);
+            float restformatDy = noteHeadPos;
+            // Rest default position in Guido (dy 0) is the middle line of the staff
+            // in G-Clef, negative is up and positive is down AND -6 offset if counting from G-Clef C4 which is zero for notehead
+            // in C-clef, same but +6 offset
+            if (thisClef[0]=='g') {
+                restformatDy -= 6;
+                restformatDy = restformatDy * -1.0;
+            }else if (thisClef[0]=='f') {
+                restformatDy += 6;
+                restformatDy = restformatDy * -1.0;
+            }else if (thisClef[0]=='c') {
+                restformatDy -= 6;
+                restformatDy = restformatDy * -1.0;
+            }
+            
             if (restformatDy!=0.0)
             {
                 Sguidoelement restFormatTag = guidotag::create("restFormat");
@@ -2611,8 +2574,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
         
-        pendingPops += checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
-        
+        checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
         
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
@@ -2715,4 +2677,28 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         }
         return -999;        // This is when the xpos can not be computed
     }
+
+void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
+    std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+    float noteHeadDy = nv.getNoteHeadDy(thisClef);
+    float xmlY = xml2guidovisitor::getYposition(elt, 0, true);
+    /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
+    float noteDistanceFromStaffTop = 0.0;
+    if (thisClef[0]=='g') {
+        noteDistanceFromStaffTop = (noteHeadDy - 10.0);
+    }else if (thisClef[0]=='f') {
+        noteDistanceFromStaffTop = (2.0 - noteHeadDy);
+    }else if (thisClef[0]=='c') {
+        noteDistanceFromStaffTop = (noteHeadDy - 10.0);
+    }
+    float posy = xmlY - noteDistanceFromStaffTop + offset ;
+    if (posy) {
+        stringstream s;
+        s << "dy=" << posy << "hs";
+        tag->add (guidoparam::create(s.str(), false));
+    }
+    
+    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
+
+}
 }

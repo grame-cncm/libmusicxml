@@ -74,6 +74,7 @@ void notevisitor::reset ()
 	fBeam.clear();
     fTuplet.clear();
     fWaveLine.clear();
+    fFingering.clear();
     
     fLyric.clear();
     fSyllabic = "";
@@ -81,7 +82,6 @@ void notevisitor::reset ()
     fGraphicType="";
     fAccidental = "";
     fCautionary = "";
-    fFingering = (void*)0;
     fBowUp = (void*)0;
     fBowDown = (void*)0;
     fHarmonic = (void*)0;
@@ -271,267 +271,83 @@ void notevisitor::visitEnd ( S_note& elt )
         }else
             return "";
     }
+
+float notevisitor::getNoteHeadDy( string fCurClef ) const
+{
+    float offset = 0.0;
+    string display_step = fStep;
+    int display_octave = fOctave;
     
-    //________________________________________________________________________
-    float notevisitor::getRestFormatDy ( string fCurClef ) const
-    {
-        float restFormatDy = 0.0;
-        //string display_step = elt->getValue(k_display_step);
-        //int display_octave = elt->getIntValue(k_display_octave, 0.0);
-        string display_step = fStep;
-        int display_octave = fOctave;
-        
-        // Now convert to half-space! We'd need the Current Clef info for this!
-        if (display_octave)
-        {
-            // dy 0 is B4, dy=-6 for C4, -4 for E4, -2 for G4 ;
-            // D5-> +2, F5 -> +4
-            switch (display_step[0]) {
-                case 'A':
-                    switch (display_octave) {
-                        case 4:
-                            if (fCurClef == "G")
-                                restFormatDy = -1.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 11.0;
-                            break;
-                        case 5:
-                            restFormatDy = 6.0;
-                            break;
-                            
-                        case 3:
-                            if (fCurClef == "G")
-                                restFormatDy = -8.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 4.0;
-                            break;
-                            
-                        case 2:
-                            if (fCurClef == "G")
-                                restFormatDy = -15.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -3.0;
-                            break;
-                        
-                        // treating F clef directly!
-                        case 1:
-                            restFormatDy = -10.0;
-                            break;
-                            
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                    
-                case 'B':
-                    switch (display_octave) {
-                        case 4:
-                            if (fCurClef == "G")
-                                restFormatDy = 0.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 12.0;
-                            
-                            break;
-                        case 5:
-                            restFormatDy = 7.0;
-                            break;
-                            
-                        case 3:
-                            if (fCurClef == "G")
-                                restFormatDy = -7.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 5.0;
-                            break;
-                            
-                        case 2:
-                            if (fCurClef == "G")
-                                restFormatDy = -14.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -2.0;
-                            break;
-                        // F clef:
-                        case 1:
-                            restFormatDy = -9.0;
-                            break;
-                            
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'C':
-                    switch (display_octave) {
-                        case 4:
-                            if (fCurClef == "G")
-                                restFormatDy = -6.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 6.0;
-                            break;
-                        case 5:
-                            if (fCurClef == "G")
-                                restFormatDy = 1.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 13.0;
-                            break;
-                        case 6:
-                            restFormatDy = 8.0;
-                            break;
-                        case 3:
-                            if (fCurClef == "G")
-                                restFormatDy = -13.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -1.0;
-                            break;
-                        case 2:
-                            if (fCurClef == "G")
-                                restFormatDy = -20.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -8.0;
-                            break;
-                        // F clef:
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                    
-                case 'D':
-                    switch (display_octave) {
-                        case 4:
-                            if (fCurClef == "G")
-                                restFormatDy = -5.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 7.0;
-                            break;
-                        case 5:
-                            restFormatDy = 2.0;
-                            break;
-                        case 6:
-                            restFormatDy = 9.0;
-                            break;
-                        case 3:
-                            if (fCurClef == "G")
-                                restFormatDy = -12.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 0.0;
-                            break;
-                        case 2:
-                            if (fCurClef == "G")
-                                restFormatDy = -19.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -7.0;
-                            break;
-                        // F clef:
-                            
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'E':
-                    switch (display_octave) {
-                        case 4:
-                            if (fCurClef == "G")
-                                restFormatDy = -4.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 8.0;
-                            break;
-                        case 5:
-                            restFormatDy = 3.0;
-                            break;
-                        case 6:
-                            restFormatDy = 10.0;
-                            break;
-                        case 3:
-                            if (fCurClef == "G")
-                                restFormatDy = -11.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 1.0;
-                            break;
-                        case 2:
-                            if (fCurClef == "G")
-                                restFormatDy = -18.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -6.0;
-                            break;
-                        // F clef:
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'F':
-                    switch (display_octave) {
-                        case 4:
-                            if (fCurClef == "G")
-                                restFormatDy = -3.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 9.0;
-                            break;
-                        case 5:
-                            restFormatDy = 4.0;
-                            break;
-                        case 3:
-                            if (fCurClef == "G")
-                                restFormatDy = -10.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 2.0;
-                            break;
-                        case 2:
-                            if (fCurClef == "G")
-                                restFormatDy = -17.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -5.0;
-                            break;
-                        // F clef:
-                            
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                case 'G':
-                    switch (display_octave) {
-                        // G clef:
-                        case 4:
-                            if (fCurClef == "G")
-                                restFormatDy = -2.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 10.0;
-                            break;
-                        case 5:
-                            restFormatDy = 5.0;
-                            break;
-                        case 3:
-                            if (fCurClef == "G")
-                                restFormatDy = -9.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = 3.0;
-                            break;
-                        case 2:
-                            if (fCurClef == "G")
-                                restFormatDy = -22.0;
-                            else if (fCurClef == "F")
-                                restFormatDy = -4.0;
-                            break;
-                        // F clef:
-                        default:
-                            restFormatDy = 0.0;
-                            break;
-                    }
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            // Got it reversed for F clef
-            restFormatDy = -1.0 * restFormatDy;
-        }
-        
-        return restFormatDy;
+    /// Compensate for display octave +8/-8 from clef
+    if (fCurClef.find("+8")!= std::string::npos) {
+        display_octave--;   // on +8, reduce the octave to reflect correct display?!
     }
+    if (fCurClef.find("-8")!= std::string::npos) {
+        display_octave++;
+    }
+    
+    /// Compensate for clef line
+    // For C-clef: C3=0, otherwise it is the difference *(2)
+    // For others, zero is F4 and g2
+    int kLine = atoi(&fCurClef[1]);
+    switch (fCurClef[0]) {
+        case 'g':
+            offset = (2-kLine)*(-2.0);
+            break;
+        case 'c':
+            offset = (3-kLine)*(-2.0);
+            break;
+        case 'f':
+            offset = (4-kLine)*(-2.0);
+            break;
+        default:
+            break;
+    }
+    
+    //cerr<<"\t\t getNoteHeadDy withClef=\""<<fCurClef<<"\" octave:"<<display_octave<<" step:\""<<display_step<<"\""<< " kLine="<<kLine<<endl;
+    // IN G CLEF: b3=-1, c4=0, D4=1, e4=2, F4=3, g4=4, A4=5, b4=6, c5=7, d5=8, f5=10, g5=11, a5=12 -> Octave is a cycle of 7
+    // IN F CLEF: e4=2 , d4=1, c4=0, b3=-1, a3=-2, g3=-3, f3=-4, d3=-6, b2=-8, g2=-10 (same as G clef)
+    // C CLEF: c4=6, d4=7, e4=8, f4=9, g4=10, a4=11, b4=12, c5=13
+    float base_distance = (float(display_octave) - 4)*7;
+    if ((fCurClef[0] == 'g') || (fCurClef[0] == 'f')) {
+        switch (display_step[0]) {
+            case 'C':
+                return base_distance + 0 + offset;
+            case 'D':
+                return base_distance + 1 + offset;
+            case 'E':
+                return base_distance + 2 + offset;
+            case 'F':
+                return base_distance + 3 + offset;
+            case 'G':
+                return base_distance + 4 + offset;
+            case 'A':
+                return base_distance + 5 + offset;
+            case 'B':
+                return base_distance + 6 + offset;
+        }
+    }
+    
+    if (fCurClef[0] == 'c') {
+        switch (display_step[0]) {
+            case 'C':
+                return base_distance + 6 + offset;
+            case 'D':
+                return base_distance + 7 + offset;
+            case 'E':
+                return base_distance + 8 + offset;
+            case 'F':
+                return base_distance + 9 + offset;
+            case 'G':
+                return base_distance + 10 + offset;
+            case 'A':
+                return base_distance + 11 + offset;
+            case 'B':
+                return base_distance + 12 + offset;
+        }
+    }
+    return offset;
+}
 
 }
 
