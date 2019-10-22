@@ -126,7 +126,6 @@ class EXP notevisitor :
         int		getStaff() const	{ return fStaff; }
         int		getVoice() const	{ return fVoice; }
         S_note	getSnote() const	{ return fThisSNote; }
-        float getRestFormatDy(string fCurClef) const;
         float getNoteHeadDy(string fCurClef) const;
         std::string getNoteheadType() const;
 

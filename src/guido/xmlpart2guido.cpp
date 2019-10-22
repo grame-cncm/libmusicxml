@@ -1088,7 +1088,7 @@ namespace MusicXML2
             tag->add (guidoparam::create(param));
             add(tag);
             
-            std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign);
+            std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
             staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
             
             /// Search again for other clefs:
@@ -2491,7 +2491,22 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         {
             // Check out clef for position and voice
             std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
-            float restformatDy = nv.getRestFormatDy(thisClef);
+            float noteHeadPos=nv.getNoteHeadDy(thisClef);
+            float restformatDy = noteHeadPos;
+            // Rest default position in Guido (dy 0) is the middle line of the staff
+            // in G-Clef, negative is up and positive is down AND -6 offset if counting from G-Clef C4 which is zero for notehead
+            // in C-clef, same but +6 offset
+            if (thisClef[0]=='g') {
+                restformatDy -= 6;
+                restformatDy = restformatDy * -1.0;
+            }else if (thisClef[0]=='f') {
+                restformatDy += 6;
+                restformatDy = restformatDy * -1.0;
+            }else if (thisClef[0]=='c') {
+                restformatDy -= 6;
+                restformatDy = restformatDy * -1.0;
+            }
+            
             if (restformatDy!=0.0)
             {
                 Sguidoelement restFormatTag = guidotag::create("restFormat");
@@ -2708,14 +2723,14 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
 void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
     std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
     float noteHeadDy = nv.getNoteHeadDy(thisClef);
-    float xmlY = xml2guidovisitor::getYposition(elt, 0, true); // (fingerings[i], tag, 9, 0);
+    float xmlY = xml2guidovisitor::getYposition(elt, 0, true);
     /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
     float noteDistanceFromStaffTop = 0.0;
-    if (thisClef[0]=='G') {
+    if (thisClef[0]=='g') {
         noteDistanceFromStaffTop = (noteHeadDy - 10.0);
-    }else if (thisClef[0]=='F') {
+    }else if (thisClef[0]=='f') {
         noteDistanceFromStaffTop = (2.0 - noteHeadDy);
-    }else if (thisClef[0]=='C') {
+    }else if (thisClef[0]=='c') {
         noteDistanceFromStaffTop = (noteHeadDy - 10.0);
     }
     float posy = xmlY - noteDistanceFromStaffTop + offset ;
@@ -2725,7 +2740,7 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
         tag->add (guidoparam::create(s.str(), false));
     }
     
-    cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
+    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
 
 }
 }
