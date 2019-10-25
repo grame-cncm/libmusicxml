@@ -2097,7 +2097,8 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                         tag->add (guidoparam::create(s.str(), false));
                         
                         push(tag);
-                        return 1;
+                        // return 0 so that this tag wouldn't be closed by pending Pops. Double-note tremolos are closed using fTremoloInProgress
+                        return 0;
                     }
                     
                 }
@@ -2574,7 +2575,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
         
-        checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
+        pendingPops += checkTremolo(*this, elt);   // non-measured tremolos will be popped upon "stop" and not counted here
         
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
