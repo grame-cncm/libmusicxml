@@ -398,10 +398,19 @@ namespace MusicXML2
         bool generateTempo = false;     // Possible Composite generation of Metronome
         bool generateCompositeDynamic = false;      // true if Dynamic and Word are present all together, resulting into one composite Guido Tag
         string tempoWording;
+        string tempoTextParameters;
         ctree<xmlelement>::iterator ito;
         if (elt->find(k_metronome) != elt->end())
         {
             generateTempo = true;   // this will allow grouping of S_Word and S_Metronome into one tag
+        }
+        /// An S_Word with Sound element in the direction that has a Tempo attribute is NOT a text but a tempo markup
+        if (elt->find(k_sound) != elt->end())
+        {
+            // If "sound" attribute exists then we are in generateTempo
+            if (elt->find(k_sound)->getAttributeIntValue("tempo", 0) > 0) {
+                generateTempo = true;
+            }
         }
         
         /* If we have a combination of k_words and k_dynamics, then the ORDER of appearance is important for Parsing:
@@ -444,7 +453,6 @@ namespace MusicXML2
                         {
                             if (generateTempo) {
                                 tempoWording = element->getValue();
-                                break;
                             }
                             
                             string wordPrefix="";
@@ -467,16 +475,16 @@ namespace MusicXML2
                             }
                             
                             std::stringstream wordParameters;
-                            wordParameters << wordPrefix <<"\"" << element->getValue() << "\"";
+                            std::stringstream parameters;
                             
                             string font_family = element->getAttributeValue("font-family");
                             string font_size = element->getAttributeValue("font-size");
                             string font_weight = element->getAttributeValue("font-weight");
                             string font_style = element->getAttributeValue("font-style");
                             if (font_family.size())
-                                wordParameters << ",font=\""+font_family+"\"";
+                                parameters << ",font=\""+font_family+"\"";
                             if (font_size.size())
-                                wordParameters << ",fsize="+font_size+"pt";
+                                parameters << ",fsize="+font_size+"pt";
                             
                             // Add font styles
                             string fattrib;
@@ -485,7 +493,17 @@ namespace MusicXML2
                             if (font_style=="italic")
                                 fattrib +="i";
                             if (fattrib.size())
-                                wordParameters << ",fattrib=\""+fattrib+"\"";
+                                parameters << ",fattrib=\""+fattrib+"\"";
+                            
+                            if (generateTempo) {
+                                // Convert dy to Guido Tempo Tag origin which is +4hs from top of the staff
+                                float tempoDy = xml2guidovisitor::getYposition(element, -4, true);
+                                parameters << ", dy="<<tempoDy<<"hs";
+                                tempoTextParameters = parameters.str();
+                                break;
+                            }
+                            
+                            wordParameters << wordPrefix <<"\"" << element->getValue() << "\""<< parameters.str();
                             
                             if (generateCompositeDynamic) {
                                 if (tag) {
@@ -587,6 +605,9 @@ namespace MusicXML2
                             else
                                 tempoParams << "\""+tempoMetronome+"\"";
                             
+                            if (tempoTextParameters.size()) {
+                                tempoParams << tempoTextParameters;
+                            }
                             
                             if (tempoParams.str().size())
                             {
@@ -597,11 +618,9 @@ namespace MusicXML2
                             float posy = xml2guidovisitor::getYposition(element, 0, true);
                             if (posy != 0.0) {
                                 // then apply and save
-                                commonDy += xml2guidovisitor::getYposition(element, 11.0, true);  // Should this be additive?
+                                commonDy += xml2guidovisitor::getYposition(element, -4.0, true);  // Should this be additive?
                             }
-                            
-                            elementSpecificYOffset = -19.0;     // heuristics
-                            
+                                                        
                             tempoMetronome.clear();
                             
                             // apply inherited Y-position
@@ -617,6 +636,8 @@ namespace MusicXML2
                             else {
                                 add(tag);
                             }
+                            
+                            generateTempo = false;
                         }
                             
                         default:
@@ -633,6 +654,21 @@ namespace MusicXML2
                 addDelayed(tag, fCurrentOffset);
             else {
                 add(tag);
+            }
+        }
+        
+        // We get to this block is we have a combination of Words AND Sound only (without Metronome)
+        if (generateTempo && tempoWording.size()) {
+            Sguidoelement tempotag = guidotag::create("tempo");
+            std::stringstream tempoParameters;
+            tempoParameters <<"\"" << tempoWording << "\""<< tempoTextParameters;
+
+            tempotag->add (guidoparam::create(tempoParameters.str(), false));
+            
+            if (fCurrentOffset)
+                addDelayed(tempotag, fCurrentOffset);
+            else {
+                add(tempotag);
             }
         }
         
