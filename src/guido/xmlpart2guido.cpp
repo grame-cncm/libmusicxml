@@ -1664,8 +1664,8 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
 
             /// Generate tag and parameters
             // Avoid generating parameter for triplets since Guido does this automatically
-            if ((numberOfEventsInTuplet!=3) ||(dispNotePar.size()))
-            {
+            //if ((numberOfEventsInTuplet!=3) ||(dispNotePar.size()))
+            //{
                 Sguidoelement tag = guidotag::create("tuplet");
                 /// Add number visualiser
                 stringstream tuplet;
@@ -1695,7 +1695,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 fTupletOpen++;
                 
                 push (tag);
-            }
+            //}
         }
     }
     
@@ -1704,7 +1704,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         std::vector<S_tuplet>::const_iterator i;
         for (i = tuplets.begin(); (i != tuplets.end()); i++) {
             // Do not check for tupletNumber (might cause conflict with nested Tuplets) -- We assume everything is there!
-            if (((*i)->getAttributeValue("type") == "stop")) { //&& ((*i)->getAttributeIntValue("number", 1) == fCurrentTupletNumber)) {
+            if (((*i)->getAttributeValue("type") == "stop") && (fTupletOpen>0)) { 
                 pop();
                 fTupletOpen--;
             }
