@@ -74,7 +74,12 @@ class EXP xml2guidovisitor :
 	void start (Sguidoelement& elt)		{ fStack.push(elt); }
 	void add (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
 	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
-	void pop ()							{ fStack.pop(); }
+	void pop ()	{
+        if (fStack.size())
+            fStack.pop();
+        else
+            cerr<<"xml2guido: Pop() called while EMPTY! Please REPORT!"<<endl;
+    }
 
 	void flushHeader	 ( scoreHeader& header );
 	void flushPartHeader ( partHeader& header );
