@@ -52,7 +52,6 @@ xml2lyOah2ManPageGenerator::xml2lyOah2ManPageGenerator (
     : oahVisitor (
         handler),
       basicOah2ManPageGenerator (
-        handler,
         logOstream,
         manPageOutputStream)
 {}

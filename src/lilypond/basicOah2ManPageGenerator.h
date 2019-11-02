@@ -73,13 +73,11 @@ class basicOah2ManPageGenerator :
   public:
 
     basicOah2ManPageGenerator (
-      const S_oahHandler handler,
+ //     const S_oahHandler handler,
       indentedOstream&   logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~basicOah2ManPageGenerator ();
-
-    virtual void generateManPageFromOahHandler ();
 
   protected:
 
@@ -136,8 +134,6 @@ class basicOah2ManPageGenerator :
     virtual void visitStart (S_oahRGBColorAtom& elt);
 
   protected:
-
-    S_oahHandler          fFOOVisitedOahHandler;
 
     indentedOstream&      fLogOutputStream;
 
