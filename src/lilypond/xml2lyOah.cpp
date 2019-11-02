@@ -113,7 +113,6 @@ Option '-h, -help' prints the full help,
     generator =
       xml2lyOah2ManPageGenerator::create (
         this,
-    //    gManPageOah,
         gLogOstream,
         gOutputOstream);
 

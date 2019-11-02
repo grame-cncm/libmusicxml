@@ -960,7 +960,7 @@ class msrVoice : public msrElement
     // not yet stored in fVoiceInitialElementsList,
     // it is thus logically the end of the latter,
     // and is created implicitly for every voice.
-    // Is is needed 'outside' of the 'list<S_msrElement>'
+    // It is needed 'outside' of the 'list<S_msrElement>'
     // because it is not a mere S_msrElement, but a S_msrSegment
     S_msrSegment          fVoiceLastSegment;
 

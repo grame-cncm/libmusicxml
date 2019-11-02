@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class basicOah2ManPageGenerator : public oahVisitor,
+class basicOah2ManPageGenerator :
 
   public visitor<S_oahPrefix>,
 
@@ -137,9 +137,7 @@ class basicOah2ManPageGenerator : public oahVisitor,
 
   protected:
 
-    S_oahHandler          fVisitedOahHandler;
-
-//    S_manPageOah          fManPageOpts;
+    S_oahHandler          fFOOVisitedOahHandler;
 
     indentedOstream&      fLogOutputStream;
 

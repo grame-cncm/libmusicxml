@@ -49,10 +49,12 @@ xml2lyOah2ManPageGenerator::xml2lyOah2ManPageGenerator (
   const S_oahHandler handler,
   indentedOstream&   logOstream,
   ostream&           manPageOutputStream)
-    : basicOah2ManPageGenerator (
-      handler,
-      logOstream,
-      manPageOutputStream)
+    : oahVisitor (
+        handler),
+      basicOah2ManPageGenerator (
+        handler,
+        logOstream,
+        manPageOutputStream)
 {}
 
 xml2lyOah2ManPageGenerator::~xml2lyOah2ManPageGenerator ()
@@ -72,6 +74,15 @@ void xml2lyOah2ManPageGenerator::visitTheHandler ()
     // browse the visited oahHandler
     oahBrowser<oahHandler> browser (this);
     browser.browse (*fVisitedOahHandler);
+  }
+  else {
+    // visited handler is not well handled by this visitor
+    stringstream s;
+
+    s <<
+      "fVisitedOahHandler is null, cannot generate man page data";
+
+    oahError (s.str ());
   }
 }
 

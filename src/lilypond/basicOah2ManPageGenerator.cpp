@@ -35,9 +35,9 @@ basicOah2ManPageGenerator::basicOah2ManPageGenerator (
   const S_oahHandler handler,
   indentedOstream&   logOstream,
   ostream&           manPageOutputStream)
-    : oahVisitor (
-        handler),
-      fLogOutputStream (
+ //   : oahVisitor (
+ //       handler),
+    :  fLogOutputStream (
         logOstream),
       fManPageOutputStream (
         manPageOutputStream)
@@ -56,10 +56,19 @@ void basicOah2ManPageGenerator::generateManPageFromOahHandler ()
     currentVersionNumber () <<
     endl;
 
-  if (fVisitedOahHandler) {
+  if (fFOOVisitedOahHandler) {
     // browse the visited oahHandler
     oahBrowser<oahHandler> browser (this);
-    browser.browse (*fVisitedOahHandler);
+    browser.browse (*fFOOVisitedOahHandler);
+  }
+  else {
+    // visited handler is not well handled by this visitor
+    stringstream s;
+
+    s <<
+      "fFOOVisitedOahHandler is null, cannot generate man page data";
+
+    oahError (s.str ());
   }
 }
 

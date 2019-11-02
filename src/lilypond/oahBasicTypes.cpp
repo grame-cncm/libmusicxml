@@ -8566,7 +8566,7 @@ void oahHandler::printOptionNameIntrospectiveHelp (
       fetchElementFromMap (name);
 
   if (! element) {
-    // name is is not well handled by this options handler
+    // name is not well handled by this options handler
     stringstream s;
 
     s <<
@@ -9449,7 +9449,7 @@ void oahHandler::decipherOptionContainingEqualSign (
   else {
     // name is not the name of prefix
 
-    // is is the name of an option?
+    // is it the name of an option?
     S_oahElement
       element =
         fetchOptionByName (name);
@@ -10011,7 +10011,7 @@ void oahHandler::handleOptionName (
     }
 
     else {
-      // name is is not well handled by this options handler
+      // name is not well handled by this options handler
 
       stringstream s;
 
