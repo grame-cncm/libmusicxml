@@ -38,7 +38,6 @@
 
 #include "bsr2BrailleTranslatorInterface.h"
 
-
 using namespace std;
 
 using namespace MusicXML2;
@@ -47,9 +46,9 @@ using namespace MusicXML2;
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
   S_xml2brlOahHandler handler,
-  int                    argc,
-  char*                  argv [],
-  indentedOstream&       logIndentedOutputStream)
+  int                 argc,
+  char*               argv [],
+  indentedOstream&    logIndentedOutputStream)
 {
   // analyse the options
   vector<string>
@@ -504,7 +503,6 @@ void convertMusicXMLToBraille (
       convertMusicXMLToMxmlTree_Pass1 (
         inputSourceName);
 
-
   // create the MSR skeleton from MusicXML contents (pass 2a)
   // ------------------------------------------------------
 
@@ -521,7 +519,6 @@ void convertMusicXMLToBraille (
     return;
   }
 
-
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
@@ -537,7 +534,6 @@ void convertMusicXMLToBraille (
     return;
   }
 
-
   // display the MSR score summary if requested
   // ------------------------------------------------------
 
@@ -546,7 +542,6 @@ void convertMusicXMLToBraille (
       mScore,
       gMsrOah);
   }
-
 
   // display the score summary if requested
   // ------------------------------------------------------
@@ -561,7 +556,6 @@ void convertMusicXMLToBraille (
     exit (44);
   }
 
-
   // display the score names if requested
   // ------------------------------------------------------
 
@@ -574,7 +568,6 @@ void convertMusicXMLToBraille (
 
     exit (55);
   }
-
 
   // create the BSR from the MSR (pass 3a)
   // ------------------------------------------------------
@@ -591,7 +584,6 @@ void convertMusicXMLToBraille (
       endl;
     return;
   }
-
 
   // display the first BSR score if requested
   // ------------------------------------------------------
@@ -619,7 +611,6 @@ void convertMusicXMLToBraille (
     return;
   }
 
-
   // display the finalized BCR score if requested
   // ------------------------------------------------------
 
@@ -629,7 +620,6 @@ void convertMusicXMLToBraille (
       gMsrOah,
       gBsrOah);
   }
-
 
   // generate Braille music text from the BCR (pass 4)
   // ------------------------------------------------------
@@ -660,18 +650,6 @@ int main (int argc, char *argv[])
         handler,
         argc, argv,
         gLogOstream);
-
-/* JMI
-  // print the resulting options
-#ifdef TRACE_OAH
-  if (gGeneralOah->fDisplayOahHandler) {
-    gLogOstream <<
-      handler <<
-      endl <<
-      endl;
-  }
-#endif
-*/
 
   string
     inputSourceName =
@@ -794,6 +772,7 @@ int main (int argc, char *argv[])
       gLogOstream);
 
   // check indentation
+  // ------------------------------------------------------
   if (gIndenter != 0) {
     gLogOstream <<
       "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<

@@ -13,216 +13,15 @@
 #ifndef ___xml2lyOah___
 #define ___xml2lyOah___
 
-#include "exports.h"
-#include "oahBasicTypes.h"
+//#include "exports.h"
+
+//#include "xml2lyManPageOah.h"
+
+#include "xml2lyOah2ManPageGenerator.h"
 
 
 namespace MusicXML2
 {
-
-//______________________________________________________________________________
-class xml2lyVersionOahAtom : public oahAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<xml2lyVersionOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    xml2lyVersionOahAtom (
-      string shortName,
-      string longName,
-      string description);
-
-    virtual ~xml2lyVersionOahAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printVersion (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-};
-typedef SMARTP<xml2lyVersionOahAtom> S_xml2lyVersionOahAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2lyVersionOahAtom& elt);
-
-//______________________________________________________________________________
-class xml2lyAboutOahAtom : public oahAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<xml2lyAboutOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    xml2lyAboutOahAtom (
-      string shortName,
-      string longName,
-      string description);
-
-    virtual ~xml2lyAboutOahAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printAbout (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-};
-typedef SMARTP<xml2lyAboutOahAtom> S_xml2lyAboutOahAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2lyAboutOahAtom& elt);
-
-//______________________________________________________________________________
-class xml2lyContactOahAtom : public oahAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<xml2lyContactOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    xml2lyContactOahAtom (
-      string shortName,
-      string longName,
-      string description);
-
-    virtual ~xml2lyContactOahAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printContact (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-};
-typedef SMARTP<xml2lyContactOahAtom> S_xml2lyContactOahAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2lyContactOahAtom& elt);
 
 //_______________________________________________________________________________
 class EXP xml2lyOahHandler : public oahHandler
@@ -252,8 +51,10 @@ class EXP xml2lyOahHandler : public oahHandler
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeOptionsHandler (
-                            string executableName);
+    void                  initializeXml2lyOptionsHandler (
+                            string executableName,
+                            S_xml2lyOah2ManPageGenerator
+                                   theOah2ManPageGenerator);
 
   public:
 

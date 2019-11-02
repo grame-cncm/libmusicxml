@@ -2683,14 +2683,6 @@ class EXP oahHandler : public oahElement
 
     virtual ~oahHandler ();
 
-  private:
-
-    // initialization
-    // ------------------------------------------------------
-
-    virtual void          initializeOptionsHandler (
-                            string executableName) = 0;
-
   public:
 
     // set and get

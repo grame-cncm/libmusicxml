@@ -549,7 +549,7 @@ void musicXMLOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> musicXMLOah::acceptIn ()" <<
+      ".\\\" ==> musicXMLOah::acceptIn ()" <<
       endl;
   }
 #endif
@@ -562,7 +562,7 @@ void musicXMLOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching musicXMLOah::visitStart ()" <<
+            ".\\\" ==> Launching musicXMLOah::visitStart ()" <<
             endl;
         }
 #endif
@@ -575,7 +575,7 @@ void musicXMLOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> musicXMLOah::acceptOut ()" <<
+      ".\\\" ==> musicXMLOah::acceptOut ()" <<
       endl;
   }
 #endif
@@ -588,7 +588,7 @@ void musicXMLOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching musicXMLOah::visitEnd ()" <<
+            ".\\\" ==> Launching musicXMLOah::visitEnd ()" <<
             endl;
         }
 #endif
@@ -601,7 +601,7 @@ void musicXMLOah::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> musicXMLOah::browseData ()" <<
+      ".\\\" ==> musicXMLOah::browseData ()" <<
       endl;
   }
 #endif

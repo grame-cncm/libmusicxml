@@ -15,16 +15,14 @@
 
 #include "oahBasicTypes.h"
 
-#include "manPageOah.h"
+#include "oahVisitor.h"
 
 
 namespace MusicXML2
 {
 
 //________________________________________________________________________
-class basicOah2ManPageGenerator :
-
-  public visitor<S_oahHandler>,
+class basicOah2ManPageGenerator : public oahVisitor,
 
   public visitor<S_oahPrefix>,
 
@@ -76,13 +74,12 @@ class basicOah2ManPageGenerator :
 
     basicOah2ManPageGenerator (
       const S_oahHandler handler,
-      S_manPageOah&      manPageOpts,
       indentedOstream&   logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~basicOah2ManPageGenerator ();
 
-    void generateManPageFromOahHandler ();
+    virtual void generateManPageFromOahHandler ();
 
   protected:
 
@@ -142,12 +139,13 @@ class basicOah2ManPageGenerator :
 
     S_oahHandler          fVisitedOahHandler;
 
-    S_manPageOah          fManPageOpts;
+//    S_manPageOah          fManPageOpts;
 
     indentedOstream&      fLogOutputStream;
 
     ostream&              fManPageOutputStream;
 };
+typedef SMARTP<basicOah2ManPageGenerator> S_basicOah2ManPageGenerator;
 
 
 }

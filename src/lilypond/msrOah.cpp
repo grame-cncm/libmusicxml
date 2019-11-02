@@ -199,7 +199,7 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrRenamePartAtom::acceptIn ()" <<
+      ".\\\" ==> msrRenamePartAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -212,7 +212,7 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrRenamePartAtom::visitStart ()" <<
+            ".\\\" ==> Launching msrRenamePartAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -225,7 +225,7 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrRenamePartAtom::acceptOut ()" <<
+      ".\\\" ==> msrRenamePartAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -238,7 +238,7 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrRenamePartAtom::visitEnd ()" <<
+            ".\\\" ==> Launching msrRenamePartAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -251,7 +251,7 @@ void msrRenamePartAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrRenamePartAtom::browseData ()" <<
+      ".\\\" ==> msrRenamePartAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -550,7 +550,7 @@ void msrTransposePartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrTransposePartAtom::acceptIn ()" <<
+      ".\\\" ==> msrTransposePartAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -563,7 +563,7 @@ void msrTransposePartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrTransposePartAtom::visitStart ()" <<
+            ".\\\" ==> Launching msrTransposePartAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -576,7 +576,7 @@ void msrTransposePartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrTransposePartAtom::acceptOut ()" <<
+      ".\\\" ==> msrTransposePartAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -589,7 +589,7 @@ void msrTransposePartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrTransposePartAtom::visitEnd ()" <<
+            ".\\\" ==> Launching msrTransposePartAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -602,7 +602,7 @@ void msrTransposePartAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrTransposePartAtom::browseData ()" <<
+      ".\\\" ==> msrTransposePartAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -850,7 +850,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrOmitPartAtom::acceptIn ()" <<
+      ".\\\" ==> msrOmitPartAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -863,7 +863,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrOmitPartAtom::visitStart ()" <<
+            ".\\\" ==> Launching msrOmitPartAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -876,7 +876,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrOmitPartAtom::acceptOut ()" <<
+      ".\\\" ==> msrOmitPartAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -889,7 +889,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrOmitPartAtom::visitEnd ()" <<
+            ".\\\" ==> Launching msrOmitPartAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -902,7 +902,7 @@ void msrOmitPartAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrOmitPartAtom::browseData ()" <<
+      ".\\\" ==> msrOmitPartAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -1146,7 +1146,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrKeepPartAtom::acceptIn ()" <<
+      ".\\\" ==> msrKeepPartAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1159,7 +1159,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrKeepPartAtom::visitStart ()" <<
+            ".\\\" ==> Launching msrKeepPartAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1172,7 +1172,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrKeepPartAtom::acceptOut ()" <<
+      ".\\\" ==> msrKeepPartAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1185,7 +1185,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrKeepPartAtom::visitEnd ()" <<
+            ".\\\" ==> Launching msrKeepPartAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1198,7 +1198,7 @@ void msrKeepPartAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrKeepPartAtom::browseData ()" <<
+      ".\\\" ==> msrKeepPartAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -1453,7 +1453,7 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrPitchesLanguageAtom::acceptIn ()" <<
+      ".\\\" ==> msrPitchesLanguageAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1466,7 +1466,7 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrPitchesLanguageAtom::visitStart ()" <<
+            ".\\\" ==> Launching msrPitchesLanguageAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1479,7 +1479,7 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrPitchesLanguageAtom::acceptOut ()" <<
+      ".\\\" ==> msrPitchesLanguageAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1492,7 +1492,7 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrPitchesLanguageAtom::visitEnd ()" <<
+            ".\\\" ==> Launching msrPitchesLanguageAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1505,7 +1505,7 @@ void msrPitchesLanguageAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrPitchesLanguageAtom::browseData ()" <<
+      ".\\\" ==> msrPitchesLanguageAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -2220,6 +2220,36 @@ R"('<word/>' in MusicXML, '<!' in LilyPond)",
     appendAtomToSubGroup (
       omitWordsAtom);
 
+  // omit ties
+
+  fOmitTies = false;
+
+  S_oahBooleanAtom
+    omitTiesAtom =
+      oahBooleanAtom::create (
+        "oties", "omit-ties",
+R"()",
+        "omitTies",
+        fOmitTies);
+  subGroup->
+    appendAtomToSubGroup (
+      omitTiesAtom);
+
+  // omit slurs
+
+  fOmitSlurs = false;
+
+  S_oahBooleanAtom
+    omitSlursAtom =
+      oahBooleanAtom::create (
+        "oslurs", "omit-slurs",
+R"()",
+        "omitSlurs",
+        fOmitSlurs);
+  subGroup->
+    appendAtomToSubGroup (
+      omitSlursAtom);
+
   // omit wedges
 
   fOmitWedges = false;
@@ -2571,6 +2601,12 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
   clone->fOmitWords =
     fOmitWords;
 
+  clone->fOmitTies =
+    fOmitTies;
+
+  clone->fOmitSlurs =
+    fOmitSlurs;
+
   clone->fOmitWedges =
     fOmitWedges;
 
@@ -2669,7 +2705,7 @@ void msrOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrOah::acceptIn ()" <<
+      ".\\\" ==> msrOah::acceptIn ()" <<
       endl;
   }
 #endif
@@ -2682,7 +2718,7 @@ void msrOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrOah::visitStart ()" <<
+            ".\\\" ==> Launching msrOah::visitStart ()" <<
             endl;
         }
 #endif
@@ -2695,7 +2731,7 @@ void msrOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrOah::acceptOut ()" <<
+      ".\\\" ==> msrOah::acceptOut ()" <<
       endl;
   }
 #endif
@@ -2708,7 +2744,7 @@ void msrOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching msrOah::visitEnd ()" <<
+            ".\\\" ==> Launching msrOah::visitEnd ()" <<
             endl;
         }
 #endif
@@ -2721,7 +2757,7 @@ void msrOah::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> msrOah::browseData ()" <<
+      ".\\\" ==> msrOah::browseData ()" <<
       endl;
   }
 #endif
@@ -3040,6 +3076,40 @@ void msrOah::printMsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "omitWords" << " : " <<
     booleanAsString (fOmitWords) <<
+    endl;
+
+  gIndenter--;
+
+
+  // ties
+  // --------------------------------------
+
+  gLogOstream <<
+     "Ties:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "omitTies" << " : " <<
+    booleanAsString (fOmitTies) <<
+    endl;
+
+  gIndenter--;
+
+
+  // slurs
+  // --------------------------------------
+
+  gLogOstream <<
+     "Slurs:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "mitSlurs" << " : " <<
+    booleanAsString (fOmitSlurs) <<
     endl;
 
   gIndenter--;

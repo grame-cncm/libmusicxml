@@ -305,7 +305,7 @@ void oahElement::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahElement::acceptIn ()" <<
+      ".\\\" ==> oahElement::acceptIn ()" <<
       endl;
   }
 #endif
@@ -318,7 +318,7 @@ void oahElement::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahElement::visitStart ()" <<
+            ".\\\" ==> Launching oahElement::visitStart ()" <<
             endl;
         }
 #endif
@@ -331,7 +331,7 @@ void oahElement::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahElement::acceptOut ()" <<
+      ".\\\" ==> oahElement::acceptOut ()" <<
       endl;
   }
 #endif
@@ -344,7 +344,7 @@ void oahElement::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahElement::visitEnd ()" <<
+            ".\\\" ==> Launching oahElement::visitEnd ()" <<
             endl;
         }
 #endif
@@ -357,7 +357,7 @@ void oahElement::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahElement::browseData ()" <<
+      ".\\\" ==> oahElement::browseData ()" <<
       endl;
   }
 #endif
@@ -525,7 +525,7 @@ void oahAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtom::acceptIn ()" <<
+      ".\\\" ==> oahAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -538,7 +538,7 @@ void oahAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -551,7 +551,7 @@ void oahAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtom::acceptOut ()" <<
+      ".\\\" ==> oahAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -564,7 +564,7 @@ void oahAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -577,7 +577,7 @@ void oahAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtom::browseData ()" <<
+      ".\\\" ==> oahAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -690,7 +690,7 @@ void oahAtomSynonym::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtomSynonym::acceptIn ()" <<
+      ".\\\" ==> oahAtomSynonym::acceptIn ()" <<
       endl;
   }
 #endif
@@ -703,7 +703,7 @@ void oahAtomSynonym::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahAtomSynonym::visitStart ()" <<
+            ".\\\" ==> Launching oahAtomSynonym::visitStart ()" <<
             endl;
         }
 #endif
@@ -716,7 +716,7 @@ void oahAtomSynonym::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtomSynonym::acceptOut ()" <<
+      ".\\\" ==> oahAtomSynonym::acceptOut ()" <<
       endl;
   }
 #endif
@@ -729,7 +729,7 @@ void oahAtomSynonym::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahAtomSynonym::visitEnd ()" <<
+            ".\\\" ==> Launching oahAtomSynonym::visitEnd ()" <<
             endl;
         }
 #endif
@@ -742,7 +742,7 @@ void oahAtomSynonym::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtomSynonym::browseData ()" <<
+      ".\\\" ==> oahAtomSynonym::browseData ()" <<
       endl;
   }
 #endif
@@ -877,7 +877,7 @@ void oahOptionsUsageAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionsUsageAtom::acceptIn ()" <<
+      ".\\\" ==> oahOptionsUsageAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -890,7 +890,7 @@ void oahOptionsUsageAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOptionsUsageAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahOptionsUsageAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -903,7 +903,7 @@ void oahOptionsUsageAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionsUsageAtom::acceptOut ()" <<
+      ".\\\" ==> oahOptionsUsageAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -916,7 +916,7 @@ void oahOptionsUsageAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOptionsUsageAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahOptionsUsageAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -929,7 +929,7 @@ void oahOptionsUsageAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionsUsageAtom::browseData ()" <<
+      ".\\\" ==> oahOptionsUsageAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -1062,7 +1062,7 @@ void oahOptionsSummaryAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionsSummaryAtom::acceptIn ()" <<
+      ".\\\" ==> oahOptionsSummaryAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1075,7 +1075,7 @@ void oahOptionsSummaryAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOptionsSummaryAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahOptionsSummaryAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1088,7 +1088,7 @@ void oahOptionsSummaryAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionsSummaryAtom::acceptOut ()" <<
+      ".\\\" ==> oahOptionsSummaryAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1101,7 +1101,7 @@ void oahOptionsSummaryAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOptionsSummaryAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahOptionsSummaryAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1114,7 +1114,7 @@ void oahOptionsSummaryAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionsSummaryAtom::browseData ()" <<
+      ".\\\" ==> oahOptionsSummaryAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -1201,7 +1201,7 @@ void oahAtomWithVariableName::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtomWithVariableName::acceptIn ()" <<
+      ".\\\" ==> oahAtomWithVariableName::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1214,7 +1214,7 @@ void oahAtomWithVariableName::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahAtomWithVariableName::visitStart ()" <<
+            ".\\\" ==> Launching oahAtomWithVariableName::visitStart ()" <<
             endl;
         }
 #endif
@@ -1227,7 +1227,7 @@ void oahAtomWithVariableName::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtomWithVariableName::acceptOut ()" <<
+      ".\\\" ==> oahAtomWithVariableName::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1240,7 +1240,7 @@ void oahAtomWithVariableName::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahAtomWithVariableName::visitEnd ()" <<
+            ".\\\" ==> Launching oahAtomWithVariableName::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1253,7 +1253,7 @@ void oahAtomWithVariableName::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahAtomWithVariableName::browseData ()" <<
+      ".\\\" ==> oahAtomWithVariableName::browseData ()" <<
       endl;
   }
 #endif
@@ -1368,7 +1368,7 @@ void oahBooleanAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahBooleanAtom::acceptIn ()" <<
+      ".\\\" ==> oahBooleanAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1381,7 +1381,7 @@ void oahBooleanAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahBooleanAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahBooleanAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1394,7 +1394,7 @@ void oahBooleanAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahBooleanAtom::acceptOut ()" <<
+      ".\\\" ==> oahBooleanAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1407,7 +1407,7 @@ void oahBooleanAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahBooleanAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahBooleanAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1420,7 +1420,7 @@ void oahBooleanAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahBooleanAtom::browseData ()" <<
+      ".\\\" ==> oahBooleanAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -1544,7 +1544,7 @@ void oahTwoBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahTwoBooleansAtom::acceptIn ()" <<
+      ".\\\" ==> oahTwoBooleansAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1557,7 +1557,7 @@ void oahTwoBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahTwoBooleansAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahTwoBooleansAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1570,7 +1570,7 @@ void oahTwoBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahTwoBooleansAtom::acceptOut ()" <<
+      ".\\\" ==> oahTwoBooleansAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1583,7 +1583,7 @@ void oahTwoBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahTwoBooleansAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahTwoBooleansAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1596,7 +1596,7 @@ void oahTwoBooleansAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahTwoBooleansAtom::browseData ()" <<
+      ".\\\" ==> oahTwoBooleansAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -1730,7 +1730,7 @@ void oahThreeBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahThreeBooleansAtom::acceptIn ()" <<
+      ".\\\" ==> oahThreeBooleansAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1743,7 +1743,7 @@ void oahThreeBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahThreeBooleansAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahThreeBooleansAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1756,7 +1756,7 @@ void oahThreeBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahThreeBooleansAtom::acceptOut ()" <<
+      ".\\\" ==> oahThreeBooleansAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1769,7 +1769,7 @@ void oahThreeBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahThreeBooleansAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahThreeBooleansAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1782,7 +1782,7 @@ void oahThreeBooleansAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahThreeBooleansAtom::browseData ()" <<
+      ".\\\" ==> oahThreeBooleansAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -2014,7 +2014,7 @@ void oahCombinedBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahCombinedBooleansAtom::acceptIn ()" <<
+      ".\\\" ==> oahCombinedBooleansAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -2027,7 +2027,7 @@ void oahCombinedBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahCombinedBooleansAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahCombinedBooleansAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -2040,7 +2040,7 @@ void oahCombinedBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahCombinedBooleansAtom::acceptOut ()" <<
+      ".\\\" ==> oahCombinedBooleansAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -2053,7 +2053,7 @@ void oahCombinedBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahCombinedBooleansAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahCombinedBooleansAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -2066,7 +2066,7 @@ void oahCombinedBooleansAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahCombinedBooleansAtom::browseData ()" <<
+      ".\\\" ==> oahCombinedBooleansAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -2300,7 +2300,7 @@ void oahPrefix::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahPrefix::acceptIn ()" <<
+      ".\\\" ==> oahPrefix::acceptIn ()" <<
       endl;
   }
 #endif
@@ -2313,7 +2313,7 @@ void oahPrefix::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahPrefix::visitStart ()" <<
+            ".\\\" ==> Launching oahPrefix::visitStart ()" <<
             endl;
         }
 #endif
@@ -2326,7 +2326,7 @@ void oahPrefix::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahPrefix::acceptOut ()" <<
+      ".\\\" ==> oahPrefix::acceptOut ()" <<
       endl;
   }
 #endif
@@ -2339,7 +2339,7 @@ void oahPrefix::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahPrefix::visitEnd ()" <<
+            ".\\\" ==> Launching oahPrefix::visitEnd ()" <<
             endl;
         }
 #endif
@@ -2352,7 +2352,7 @@ void oahPrefix::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahPrefix::browseData ()" <<
+      ".\\\" ==> oahPrefix::browseData ()" <<
       endl;
   }
 #endif
@@ -2792,7 +2792,7 @@ void oahMultiplexBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahMultiplexBooleansAtom::acceptIn ()" <<
+      ".\\\" ==> oahMultiplexBooleansAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -2805,7 +2805,7 @@ void oahMultiplexBooleansAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahMultiplexBooleansAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahMultiplexBooleansAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -2818,7 +2818,7 @@ void oahMultiplexBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahMultiplexBooleansAtom::acceptOut ()" <<
+      ".\\\" ==> oahMultiplexBooleansAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -2831,7 +2831,7 @@ void oahMultiplexBooleansAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahMultiplexBooleansAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahMultiplexBooleansAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -2844,7 +2844,7 @@ void oahMultiplexBooleansAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahMultiplexBooleansAtom::browseData ()" <<
+      ".\\\" ==> oahMultiplexBooleansAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -3159,7 +3159,7 @@ void oahValuedAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahValuedAtom::acceptIn ()" <<
+      ".\\\" ==> oahValuedAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -3172,7 +3172,7 @@ void oahValuedAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahValuedAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahValuedAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -3185,7 +3185,7 @@ void oahValuedAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahValuedAtom::acceptOut ()" <<
+      ".\\\" ==> oahValuedAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -3198,7 +3198,7 @@ void oahValuedAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahValuedAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahValuedAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -3211,7 +3211,7 @@ void oahValuedAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahValuedAtom::browseData ()" <<
+      ".\\\" ==> oahValuedAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -3508,7 +3508,7 @@ void oahIntegerAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahIntegerAtom::acceptIn ()" <<
+      ".\\\" ==> oahIntegerAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -3521,7 +3521,7 @@ void oahIntegerAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahIntegerAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahIntegerAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -3534,7 +3534,7 @@ void oahIntegerAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahIntegerAtom::acceptOut ()" <<
+      ".\\\" ==> oahIntegerAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -3547,7 +3547,7 @@ void oahIntegerAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahIntegerAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahIntegerAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -3560,7 +3560,7 @@ void oahIntegerAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahIntegerAtom::browseData ()" <<
+      ".\\\" ==> oahIntegerAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -3755,7 +3755,7 @@ void oahFloatAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahFloatAtom::acceptIn ()" <<
+      ".\\\" ==> oahFloatAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -3768,7 +3768,7 @@ void oahFloatAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahFloatAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahFloatAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -3781,7 +3781,7 @@ void oahFloatAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahFloatAtom::acceptOut ()" <<
+      ".\\\" ==> oahFloatAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -3794,7 +3794,7 @@ void oahFloatAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahFloatAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahFloatAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -3807,7 +3807,7 @@ void oahFloatAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahFloatAtom::browseData ()" <<
+      ".\\\" ==> oahFloatAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -3946,7 +3946,7 @@ void oahStringAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringAtom::acceptIn ()" <<
+      ".\\\" ==> oahStringAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -3959,7 +3959,7 @@ void oahStringAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahStringAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -3972,7 +3972,7 @@ void oahStringAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringAtom::acceptOut ()" <<
+      ".\\\" ==> oahStringAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -3985,7 +3985,7 @@ void oahStringAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahStringAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -3998,7 +3998,7 @@ void oahStringAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringAtom::browseData ()" <<
+      ".\\\" ==> oahStringAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -4253,7 +4253,7 @@ void oahMonoplexStringAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahMonoplexStringAtom::acceptIn ()" <<
+      ".\\\" ==> oahMonoplexStringAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -4266,7 +4266,7 @@ void oahMonoplexStringAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahMonoplexStringAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahMonoplexStringAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -4279,7 +4279,7 @@ void oahMonoplexStringAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahMonoplexStringAtom::acceptOut ()" <<
+      ".\\\" ==> oahMonoplexStringAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -4292,7 +4292,7 @@ void oahMonoplexStringAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahMonoplexStringAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahMonoplexStringAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -4305,7 +4305,7 @@ void oahMonoplexStringAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahMonoplexStringAtom::browseData ()" <<
+      ".\\\" ==> oahMonoplexStringAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -4538,7 +4538,7 @@ void oahStringWithDefaultValueAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringWithDefaultValueAtom::acceptIn ()" <<
+      ".\\\" ==> oahStringWithDefaultValueAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -4551,7 +4551,7 @@ void oahStringWithDefaultValueAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringWithDefaultValueAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahStringWithDefaultValueAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -4564,7 +4564,7 @@ void oahStringWithDefaultValueAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringWithDefaultValueAtom::acceptOut ()" <<
+      ".\\\" ==> oahStringWithDefaultValueAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -4577,7 +4577,7 @@ void oahStringWithDefaultValueAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringWithDefaultValueAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahStringWithDefaultValueAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -4590,7 +4590,7 @@ void oahStringWithDefaultValueAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringWithDefaultValueAtom::browseData ()" <<
+      ".\\\" ==> oahStringWithDefaultValueAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -4807,7 +4807,7 @@ void oahRationalAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahRationalAtom::acceptIn ()" <<
+      ".\\\" ==> oahRationalAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -4820,7 +4820,7 @@ void oahRationalAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahRationalAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahRationalAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -4833,7 +4833,7 @@ void oahRationalAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahRationalAtom::acceptOut ()" <<
+      ".\\\" ==> oahRationalAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -4846,7 +4846,7 @@ void oahRationalAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahRationalAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahRationalAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -4859,7 +4859,7 @@ void oahRationalAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahRationalAtom::browseData ()" <<
+      ".\\\" ==> oahRationalAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -5050,7 +5050,7 @@ void oahNaturalNumbersSetElementAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahNaturalNumbersSetElementAtom::acceptIn ()" <<
+      ".\\\" ==> oahNaturalNumbersSetElementAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -5063,7 +5063,7 @@ void oahNaturalNumbersSetElementAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahNaturalNumbersSetElementAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahNaturalNumbersSetElementAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -5076,7 +5076,7 @@ void oahNaturalNumbersSetElementAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahNaturalNumbersSetElementAtom::acceptOut ()" <<
+      ".\\\" ==> oahNaturalNumbersSetElementAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -5089,7 +5089,7 @@ void oahNaturalNumbersSetElementAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahNaturalNumbersSetElementAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahNaturalNumbersSetElementAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -5102,7 +5102,7 @@ void oahNaturalNumbersSetElementAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahNaturalNumbersSetElementAtom::browseData ()" <<
+      ".\\\" ==> oahNaturalNumbersSetElementAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -5322,7 +5322,7 @@ void oahNaturalNumbersSetAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahNaturalNumbersSetAtom::acceptIn ()" <<
+      ".\\\" ==> oahNaturalNumbersSetAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -5335,7 +5335,7 @@ void oahNaturalNumbersSetAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahNaturalNumbersSetAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahNaturalNumbersSetAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -5348,7 +5348,7 @@ void oahNaturalNumbersSetAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahNaturalNumbersSetAtom::acceptOut ()" <<
+      ".\\\" ==> oahNaturalNumbersSetAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -5361,7 +5361,7 @@ void oahNaturalNumbersSetAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahNaturalNumbersSetAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahNaturalNumbersSetAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -5374,7 +5374,7 @@ void oahNaturalNumbersSetAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahNaturalNumbersSetAtom::browseData ()" <<
+      ".\\\" ==> oahNaturalNumbersSetAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -5593,7 +5593,7 @@ void oahStringsSetElementAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringsSetElementAtom::acceptIn ()" <<
+      ".\\\" ==> oahStringsSetElementAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -5606,7 +5606,7 @@ void oahStringsSetElementAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringsSetElementAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahStringsSetElementAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -5619,7 +5619,7 @@ void oahStringsSetElementAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringsSetElementAtom::acceptOut ()" <<
+      ".\\\" ==> oahStringsSetElementAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -5632,7 +5632,7 @@ void oahStringsSetElementAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringsSetElementAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahStringsSetElementAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -5645,7 +5645,7 @@ void oahStringsSetElementAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringsSetElementAtom::browseData ()" <<
+      ".\\\" ==> oahStringsSetElementAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -5873,7 +5873,7 @@ void oahStringsSetAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringsSetAtom::acceptIn ()" <<
+      ".\\\" ==> oahStringsSetAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -5886,7 +5886,7 @@ void oahStringsSetAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringsSetAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahStringsSetAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -5899,7 +5899,7 @@ void oahStringsSetAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringsSetAtom::acceptOut ()" <<
+      ".\\\" ==> oahStringsSetAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -5912,7 +5912,7 @@ void oahStringsSetAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahStringsSetAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahStringsSetAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -5925,7 +5925,7 @@ void oahStringsSetAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahStringsSetAtom::browseData ()" <<
+      ".\\\" ==> oahStringsSetAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -6152,7 +6152,7 @@ void oahRGBColorAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahRGBColorAtom::acceptIn ()" <<
+      ".\\\" ==> oahRGBColorAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -6165,7 +6165,7 @@ void oahRGBColorAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahRGBColorAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahRGBColorAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -6178,7 +6178,7 @@ void oahRGBColorAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahRGBColorAtom::acceptOut ()" <<
+      ".\\\" ==> oahRGBColorAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -6191,7 +6191,7 @@ void oahRGBColorAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahRGBColorAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahRGBColorAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -6204,7 +6204,7 @@ void oahRGBColorAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahRGBColorAtom::browseData ()" <<
+      ".\\\" ==> oahRGBColorAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -6377,7 +6377,7 @@ void oahOptionNameHelpAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionNameHelpAtom::acceptIn ()" <<
+      ".\\\" ==> oahOptionNameHelpAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -6390,7 +6390,7 @@ void oahOptionNameHelpAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOptionNameHelpAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahOptionNameHelpAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -6403,7 +6403,7 @@ void oahOptionNameHelpAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionNameHelpAtom::acceptOut ()" <<
+      ".\\\" ==> oahOptionNameHelpAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -6416,7 +6416,7 @@ void oahOptionNameHelpAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOptionNameHelpAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahOptionNameHelpAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -6429,7 +6429,7 @@ void oahOptionNameHelpAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOptionNameHelpAtom::browseData ()" <<
+      ".\\\" ==> oahOptionNameHelpAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -6606,7 +6606,7 @@ void oahSubGroup::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahSubGroup::acceptIn ()" <<
+      ".\\\" ==> oahSubGroup::acceptIn ()" <<
       endl;
   }
 #endif
@@ -6619,7 +6619,7 @@ void oahSubGroup::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahSubGroup::visitStart ()" <<
+            ".\\\" ==> Launching oahSubGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -6632,7 +6632,7 @@ void oahSubGroup::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahSubGroup::acceptOut ()" <<
+      ".\\\" ==> oahSubGroup::acceptOut ()" <<
       endl;
   }
 #endif
@@ -6645,7 +6645,7 @@ void oahSubGroup::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahSubGroup::visitEnd ()" <<
+            ".\\\" ==> Launching oahSubGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -6658,7 +6658,7 @@ void oahSubGroup::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahSubGroup::browseData ()" <<
+      ".\\\" ==> oahSubGroup::browseData ()" <<
       ", " << fSubGroupHeader <<
       endl;
   }
@@ -6676,7 +6676,7 @@ void oahSubGroup::browseData (basevisitor* v)
       // browse the atom
       /* JMI ???
       gLogOstream <<
-        "% ==> Going to browse atom" <<
+        ".\\\" ==> Going to browse atom" <<
         " '" << atom->fetchNames () << "'" <<
         endl;
         */
@@ -7261,7 +7261,7 @@ void oahGroup::handleAtomValue (
 {
   os <<
     endl <<
-    "---> Options atom '" <<
+    "-==> Options atom '" <<
     atom <<
     "' with value '" <<
     theString <<
@@ -7313,7 +7313,7 @@ void oahGroup::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahGroup::acceptIn ()" <<
+      ".\\\" ==> oahGroup::acceptIn ()" <<
       endl;
   }
 #endif
@@ -7326,7 +7326,7 @@ void oahGroup::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahGroup::visitStart ()" <<
+            ".\\\" ==> Launching oahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -7339,7 +7339,7 @@ void oahGroup::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahGroup::acceptOut ()" <<
+      ".\\\" ==> oahGroup::acceptOut ()" <<
       endl;
   }
 #endif
@@ -7352,7 +7352,7 @@ void oahGroup::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahGroup::visitEnd ()" <<
+            ".\\\" ==> Launching oahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -7365,7 +7365,7 @@ void oahGroup::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahGroup::browseData ()" <<
+      ".\\\" ==> oahGroup::browseData ()" <<
       ", " << fGroupHeader <<
       endl;
   }
@@ -8211,7 +8211,7 @@ void oahHandler::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahHandler::acceptIn ()" <<
+      ".\\\" ==> oahHandler::acceptIn ()" <<
       endl;
   }
 #endif
@@ -8224,7 +8224,7 @@ void oahHandler::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahHandler::visitStart ()" <<
+            ".\\\" ==> Launching oahHandler::visitStart ()" <<
             endl;
         }
 #endif
@@ -8237,7 +8237,7 @@ void oahHandler::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahHandler::acceptOut ()" <<
+      ".\\\" ==> oahHandler::acceptOut ()" <<
       endl;
   }
 #endif
@@ -8250,7 +8250,7 @@ void oahHandler::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahHandler::visitEnd ()" <<
+            ".\\\" ==> Launching oahHandler::visitEnd ()" <<
             endl;
         }
 #endif
@@ -8263,7 +8263,7 @@ void oahHandler::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahHandler::browseData ()" <<
+      ".\\\" ==> oahHandler::browseData ()" <<
       endl;
   }
 #endif
@@ -9115,7 +9115,7 @@ void oahHandler::printKnownOptions () const
       i      = iBegin;
     for ( ; ; ) {
       gLogOstream <<
-        (*i).first << "-->" <<
+        (*i).first << "==>" <<
         endl;
 
       gIndenter++;

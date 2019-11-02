@@ -259,7 +259,7 @@ void generalOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> generalOah::acceptIn ()" <<
+      ".\\\" ==> generalOah::acceptIn ()" <<
       endl;
   }
 #endif
@@ -272,7 +272,7 @@ void generalOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching generalOah::visitStart ()" <<
+            ".\\\" ==> Launching generalOah::visitStart ()" <<
             endl;
         }
 #endif
@@ -285,7 +285,7 @@ void generalOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> generalOah::acceptOut ()" <<
+      ".\\\" ==> generalOah::acceptOut ()" <<
       endl;
   }
 #endif
@@ -298,7 +298,7 @@ void generalOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching generalOah::visitEnd ()" <<
+            ".\\\" ==> Launching generalOah::visitEnd ()" <<
             endl;
         }
 #endif
@@ -311,7 +311,7 @@ void generalOah::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> generalOah::browseData ()" <<
+      ".\\\" ==> generalOah::browseData ()" <<
       endl;
   }
 #endif

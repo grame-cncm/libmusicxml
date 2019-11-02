@@ -688,6 +688,16 @@ class msrOah : public oahGroup
 
     bool                  fOmitWords;
 
+    // ties
+    // --------------------------------------
+
+    bool                  fOmitTies;
+
+    // slurs
+    // --------------------------------------
+
+    bool                  fOmitSlurs;
+
     // wedges
     // --------------------------------------
 

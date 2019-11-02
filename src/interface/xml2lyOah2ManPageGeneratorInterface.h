@@ -35,7 +35,7 @@ The library includes a high level API to convert
 //______________________________________________________________________________
 EXP void generateXml2lyManPageFromOahHandler (
   const S_oahHandler handler,
-  S_manPageOah       manPageOpts,
+  S_xml2lyManPageOah manPageOpts,
   indentedOstream&   logOstream,
   ostream&           manPageOutputStream);
 

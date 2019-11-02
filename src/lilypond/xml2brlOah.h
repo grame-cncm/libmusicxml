@@ -13,222 +13,15 @@
 #ifndef ___xml2brlOah___
 #define ___xml2brlOah___
 
-#include "exports.h"
-#include "oahBasicTypes.h"
+//#include "exports.h"
+
+//#include "xml2lyManPageOah.h"
+
+#include "xml2brlOah2ManPageGenerator.h"
 
 
 namespace MusicXML2
 {
-
-//______________________________________________________________________________
-class xml2brlVersionOahAtom : public oahAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<xml2brlVersionOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    xml2brlVersionOahAtom (
-      string shortName,
-      string longName,
-      string description);
-
-    virtual ~xml2brlVersionOahAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printVersion (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-};
-typedef SMARTP<xml2brlVersionOahAtom> S_xml2brlVersionOahAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2brlVersionOahAtom& elt);
-
-//______________________________________________________________________________
-class xml2brlAboutOahAtom : public oahAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<xml2brlAboutOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    xml2brlAboutOahAtom (
-      string shortName,
-      string longName,
-      string description);
-
-    virtual ~xml2brlAboutOahAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printAbout (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-};
-typedef SMARTP<xml2brlAboutOahAtom> S_xml2brlAboutOahAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2brlAboutOahAtom& elt);
-
-//______________________________________________________________________________
-class xml2brlContactOahAtom : public oahAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<xml2brlContactOahAtom> create (
-      string shortName,
-      string longName,
-      string description);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    xml2brlContactOahAtom (
-      string shortName,
-      string longName,
-      string description);
-
-    virtual ~xml2brlContactOahAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printContact (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-};
-typedef SMARTP<xml2brlContactOahAtom> S_xml2brlContactOahAtom;
-EXP ostream& operator<< (ostream& os, const S_xml2brlContactOahAtom& elt);
 
 //_______________________________________________________________________________
 class EXP xml2brlOahHandler : public oahHandler
@@ -258,8 +51,10 @@ class EXP xml2brlOahHandler : public oahHandler
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeOptionsHandler (
-                            string executableName);
+    void                  initializeXml2brlOptionsHandler (
+                            string executableName,
+                            S_xml2brlOah2ManPageGenerator
+                                   theOah2ManPageGenerator);
 
   public:
 

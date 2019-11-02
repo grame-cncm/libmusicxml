@@ -17,7 +17,9 @@
   #include "traceOah.h"
 #endif
 
-#include "xml2lyOah2ManPageGeneratorInterface.h"
+
+//#include "xml2lyOah.h"
+#include "xml2lyManPageOah.h"
 
 
 using namespace std;
@@ -28,7 +30,7 @@ namespace MusicXML2
 //_______________________________________________________________________________
 void generateXml2lyManPageFromOahHandler (
   const S_oahHandler handler,
-  S_manPageOah       manPageOpts,
+  S_xml2lyManPageOah manPageOpts,
   indentedOstream&   logOstream,
   ostream&           manPageOutputStream)
 {
@@ -56,7 +58,8 @@ void generateXml2lyManPageFromOahHandler (
   }
 #endif
 
-  // create a basicOah2ManPageGenerator
+/* JMI
+  // create an xml2lyOah2ManPageGenerator
   xml2lyOah2ManPageGenerator
     generator (
       handler,
@@ -66,13 +69,14 @@ void generateXml2lyManPageFromOahHandler (
 
   // generate the man page
   generator.generateManPageFromOahHandler ();
+*/
 
   clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
     "Pass 4",
-    "translate BSR to Braille",
+    "write the xml2ly man page data",
     timingItem::kMandatory,
     startClock,
     endClock);

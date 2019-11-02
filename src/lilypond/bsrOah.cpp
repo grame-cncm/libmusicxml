@@ -107,7 +107,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrFacSimileKindAtom::acceptIn ()" <<
+      ".\\\" ==> bsrFacSimileKindAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -120,7 +120,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching bsrFacSimileKindAtom::visitStart ()" <<
+            ".\\\" ==> Launching bsrFacSimileKindAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -133,7 +133,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrFacSimileKindAtom::acceptOut ()" <<
+      ".\\\" ==> bsrFacSimileKindAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -146,7 +146,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching bsrFacSimileKindAtom::visitEnd ()" <<
+            ".\\\" ==> Launching bsrFacSimileKindAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -159,7 +159,7 @@ void bsrFacSimileKindAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrFacSimileKindAtom::browseData ()" <<
+      ".\\\" ==> bsrFacSimileKindAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -295,7 +295,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrTextsLanguageAtom::acceptIn ()" <<
+      ".\\\" ==> bsrTextsLanguageAtom::acceptIn ()" <<
       endl;
   }
 #endif
@@ -308,7 +308,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching bsrTextsLanguageAtom::visitStart ()" <<
+            ".\\\" ==> Launching bsrTextsLanguageAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -321,7 +321,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrTextsLanguageAtom::acceptOut ()" <<
+      ".\\\" ==> bsrTextsLanguageAtom::acceptOut ()" <<
       endl;
   }
 #endif
@@ -334,7 +334,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching bsrTextsLanguageAtom::visitEnd ()" <<
+            ".\\\" ==> Launching bsrTextsLanguageAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -347,7 +347,7 @@ void bsrTextsLanguageAtom::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrTextsLanguageAtom::browseData ()" <<
+      ".\\\" ==> bsrTextsLanguageAtom::browseData ()" <<
       endl;
   }
 #endif
@@ -940,7 +940,7 @@ void bsrOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrOah::acceptIn ()" <<
+      ".\\\" ==> bsrOah::acceptIn ()" <<
       endl;
   }
 #endif
@@ -953,7 +953,7 @@ void bsrOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching bsrOah::visitStart ()" <<
+            ".\\\" ==> Launching bsrOah::visitStart ()" <<
             endl;
         }
 #endif
@@ -966,7 +966,7 @@ void bsrOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrOah::acceptOut ()" <<
+      ".\\\" ==> bsrOah::acceptOut ()" <<
       endl;
   }
 #endif
@@ -979,7 +979,7 @@ void bsrOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching bsrOah::visitEnd ()" <<
+            ".\\\" ==> Launching bsrOah::visitEnd ()" <<
             endl;
         }
 #endif
@@ -992,7 +992,7 @@ void bsrOah::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> bsrOah::browseData ()" <<
+      ".\\\" ==> bsrOah::browseData ()" <<
       endl;
   }
 #endif

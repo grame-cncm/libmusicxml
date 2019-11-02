@@ -10,551 +10,34 @@
   research@grame.fr
 */
 
-#include <sstream>
-
-#include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
-
-#include "libmusicxml.h"
-
-#include "xml2brlOah.h"
-
-#include "generalOah.h"
 
 #include "setTraceOahIfDesired.h"
 #include "traceOah.h"
 
+#include "libmusicxml.h"
+
+#include "msr.h"
+#include "bsr.h"
+
 #include "oahOah.h"
+
+#include "generalOah.h"
 #include "musicXMLOah.h"
 #include "msrOah.h"
 #include "bsrOah.h"
 #include "brailleOah.h"
 
-#include "extraOah.h"
-
-#include "manPageOah.h"
-
 #include "version.h"
-#include "utilities.h"
 
-#include "msr.h"
-#include "bsr.h"
+#include "xml2brlManPageOah.h"
+
+#include "xml2brlOah.h"
 
 using namespace std;
 
 namespace MusicXML2
 {
-
-//______________________________________________________________________________
-S_xml2brlVersionOahAtom xml2brlVersionOahAtom::create (
-  string shortName,
-  string longName,
-  string description)
-{
-  xml2brlVersionOahAtom* o = new
-    xml2brlVersionOahAtom (
-      shortName,
-      longName,
-      description);
-  assert(o!=0);
-  return o;
-}
-
-xml2brlVersionOahAtom::xml2brlVersionOahAtom (
-  string shortName,
-  string longName,
-  string description)
-  : oahAtom (
-      shortName,
-      longName,
-      description)
-{}
-
-xml2brlVersionOahAtom::~xml2brlVersionOahAtom ()
-{}
-
-S_oahValuedAtom xml2brlVersionOahAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a xml2brlVersionOahAtom" <<
-      endl;
-  }
-#endif
-
-  // handle it at once
-  printVersion (os);
-
-  // no option value is needed
-  return nullptr;
-}
-
-void xml2brlVersionOahAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlVersionOahAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlVersionOahAtom>*
-    p =
-      dynamic_cast<visitor<S_xml2brlVersionOahAtom>*> (v)) {
-        S_xml2brlVersionOahAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2brlVersionOahAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2brlVersionOahAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlVersionOahAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlVersionOahAtom>*
-    p =
-      dynamic_cast<visitor<S_xml2brlVersionOahAtom>*> (v)) {
-        S_xml2brlVersionOahAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2brlVersionOahAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2brlVersionOahAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlVersionOahAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-void xml2brlVersionOahAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "xml2brlVersionOahAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  oahElement::printOptionEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
-
-  gIndenter--;
-}
-
-void xml2brlVersionOahAtom::printVersion (ostream& os) const
-{
-  os <<
-    endl <<
-    "This is xml2brl" <<
-    " version " << currentVersionNumber () <<
-    endl <<
-    endl;
-
-  // print versions history
-  printVersionsHistory (os);
-
-  // register 'print version' action in options groups's options handler upLink
-  fSubGroupUpLink->
-    getGroupUpLink ()->
-      getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
-}
-
-void xml2brlVersionOahAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  // nothing to print here
-}
-
-ostream& operator<< (ostream& os, const S_xml2brlVersionOahAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_xml2brlAboutOahAtom xml2brlAboutOahAtom::create (
-  string shortName,
-  string longName,
-  string description)
-{
-  xml2brlAboutOahAtom* o = new
-    xml2brlAboutOahAtom (
-      shortName,
-      longName,
-      description);
-  assert(o!=0);
-  return o;
-}
-
-xml2brlAboutOahAtom::xml2brlAboutOahAtom (
-  string shortName,
-  string longName,
-  string description)
-  : oahAtom (
-      shortName,
-      longName,
-      description)
-{}
-
-xml2brlAboutOahAtom::~xml2brlAboutOahAtom ()
-{}
-
-S_oahValuedAtom xml2brlAboutOahAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a xml2brlAboutOahAtom" <<
-      endl;
-  }
-#endif
-
-  // handle it at once
-  printAbout (os);
-
-  // no option value is needed
-  return nullptr;
-}
-
-void xml2brlAboutOahAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlAboutOahAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlAboutOahAtom>*
-    p =
-      dynamic_cast<visitor<S_xml2brlAboutOahAtom>*> (v)) {
-        S_xml2brlAboutOahAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2brlAboutOahAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2brlAboutOahAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlAboutOahAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlAboutOahAtom>*
-    p =
-      dynamic_cast<visitor<S_xml2brlAboutOahAtom>*> (v)) {
-        S_xml2brlAboutOahAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2brlAboutOahAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2brlAboutOahAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlAboutOahAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-void xml2brlAboutOahAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "xml2brlAboutOahAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  oahElement::printOptionEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
-
-  gIndenter--;
-}
-
-void xml2brlAboutOahAtom::printAbout (ostream& os) const
-{
-  os <<
-    endl <<
-R"(What xml2brl does:
-
-    This multi-pass translator basically performs 6 passes:
-        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
-                 and converts it to a MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
-                 a Music Score Representation (MSR) skeleton;
-        Pass 2b: converts that tree and the skeleton into a
-                 Music Score Representation (MSR);
-        Pass 3a: converts the MSR into a
-                 Braille Score Representation (BSR)
-                 containing one Braille page per MusicXML page;
-        Pass 3b: converts the BSR into to another BSR
-                 with as many Braille pages as needed
-                 to fit the line and page lengthes;
-        Pass 4:  converts the BSR to Unicode text
-                 and writes it to standard output.
-
-    In this preliminary version, pass 3b merely clones the BSR it receives.
-
-    Other passes are performed according to the options, such as
-    printing views of the internal data or printing a summary of the score.
-
-    The activity log and warning/error messages go to standard error.)" <<
-    endl;
-
-  // register 'print about' action in options groups's options handler upLink
-  fSubGroupUpLink->
-    getGroupUpLink ()->
-      getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
-}
-
-void xml2brlAboutOahAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  // nothing to print here
-}
-
-ostream& operator<< (ostream& os, const S_xml2brlAboutOahAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_xml2brlContactOahAtom xml2brlContactOahAtom::create (
-  string shortName,
-  string longName,
-  string description)
-{
-  xml2brlContactOahAtom* o = new
-    xml2brlContactOahAtom (
-      shortName,
-      longName,
-      description);
-  assert(o!=0);
-  return o;
-}
-
-xml2brlContactOahAtom::xml2brlContactOahAtom (
-  string shortName,
-  string longName,
-  string description)
-  : oahAtom (
-      shortName,
-      longName,
-      description)
-{}
-
-xml2brlContactOahAtom::~xml2brlContactOahAtom ()
-{}
-
-S_oahValuedAtom xml2brlContactOahAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a xml2brlContactOahAtom" <<
-      endl;
-  }
-#endif
-
-  // handle it at once
-  printContact (os);
-
-  // no option value is needed
-  return nullptr;
-}
-
-void xml2brlContactOahAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlContactOahAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlContactOahAtom>*
-    p =
-      dynamic_cast<visitor<S_xml2brlContactOahAtom>*> (v)) {
-        S_xml2brlContactOahAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2brlContactOahAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2brlContactOahAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlContactOahAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlContactOahAtom>*
-    p =
-      dynamic_cast<visitor<S_xml2brlContactOahAtom>*> (v)) {
-        S_xml2brlContactOahAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching xml2brlContactOahAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2brlContactOahAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> xml2brlContactOahAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-void xml2brlContactOahAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "xml2brlContactOahAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  oahElement::printOptionEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
-
-  gIndenter--;
-}
-
-void xml2brlContactOahAtom::printContact (ostream& os) const
-{
-  os <<
-    endl <<
-R"(To contact xml2brl maintainers:
-
-    Send a mail to mailto:lilypond-user@gnu.org describing the problem
-    and error messages you obtain if relevant.)" <<
-    endl;
-
-  // register 'print contact' action in options groups's options handler upLink
-  fSubGroupUpLink->
-    getGroupUpLink ()->
-      getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
-}
-
-void xml2brlContactOahAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  // nothing to print here
-}
-
-ostream& operator<< (ostream& os, const S_xml2brlContactOahAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 //______________________________________________________________________________
 S_xml2brlOahHandler xml2brlOahHandler::create (
@@ -627,15 +110,28 @@ Option '-h, -help' prints the full help,
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
 
+  // create an xml2lyOah2ManPageGenerator
+  S_xml2brlOah2ManPageGenerator
+    generator =
+      xml2brlOah2ManPageGenerator::create (
+        this,
+  //      gManPageOah,
+        gLogOstream,
+        gOutputOstream);
+
   // initialize the handler only now, since it may use prefixes
-  initializeOptionsHandler (executableName);
+  initializeXml2brlOptionsHandler (
+    executableName,
+    generator);
 }
 
 xml2brlOahHandler::~xml2brlOahHandler ()
 {}
 
-void xml2brlOahHandler::initializeOptionsHandler (
-  string executableName)
+void xml2brlOahHandler::initializeXml2brlOptionsHandler (
+  string executableName,
+  S_xml2brlOah2ManPageGenerator
+         theOah2ManPageGenerator)
 {
   // initialize options handling, phase 1
   // ------------------------------------------------------
@@ -678,8 +174,9 @@ void xml2brlOahHandler::initializeOptionsHandler (
     this);
 #endif
 
-  initializeManPageOahHandling (
-    this);
+  initializeXml2brlManPageOahHandling (
+    this,
+    theOah2ManPageGenerator);
 
   initializeXml2brlOah (
     this);
@@ -965,7 +462,7 @@ void xml2brlOahHandler::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2brlOahHandler::acceptIn ()" <<
+      ".\\\" ==> xml2brlOahHandler::acceptIn ()" <<
       endl;
   }
 #endif
@@ -978,7 +475,7 @@ void xml2brlOahHandler::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2brlOahHandler::visitStart ()" <<
+            ".\\\" ==> Launching xml2brlOahHandler::visitStart ()" <<
             endl;
         }
 #endif
@@ -991,7 +488,7 @@ void xml2brlOahHandler::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2brlOahHandler::acceptOut ()" <<
+      ".\\\" ==> xml2brlOahHandler::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1004,7 +501,7 @@ void xml2brlOahHandler::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2brlOahHandler::visitEnd ()" <<
+            ".\\\" ==> Launching xml2brlOahHandler::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1017,7 +514,7 @@ void xml2brlOahHandler::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2brlOahHandler::browseData ()" <<
+      ".\\\" ==> xml2brlOahHandler::browseData ()" <<
       endl;
   }
 #endif
@@ -1247,7 +744,7 @@ void xml2brlOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2brlOah::acceptIn ()" <<
+      ".\\\" ==> xml2brlOah::acceptIn ()" <<
       endl;
   }
 #endif
@@ -1260,7 +757,7 @@ void xml2brlOah::acceptIn (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2brlOah::visitStart ()" <<
+            ".\\\" ==> Launching xml2brlOah::visitStart ()" <<
             endl;
         }
 #endif
@@ -1273,7 +770,7 @@ void xml2brlOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2brlOah::acceptOut ()" <<
+      ".\\\" ==> xml2brlOah::acceptOut ()" <<
       endl;
   }
 #endif
@@ -1286,7 +783,7 @@ void xml2brlOah::acceptOut (basevisitor* v)
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching xml2brlOah::visitEnd ()" <<
+            ".\\\" ==> Launching xml2brlOah::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1299,12 +796,20 @@ void xml2brlOah::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> xml2brlOah::browseData ()" <<
+      ".\\\" ==> xml2brlOah::browseData ()" <<
       endl;
   }
 #endif
+
+  oahGroup::browseData (v);
+
+  /*
+    string                fOutputFileName;
+    bool                  fAutoOutputFileName;
+  */
 }
 
+//______________________________________________________________________________
 void xml2brlOah::printXml2brlOahValues (int fieldWidth)
 {
   gLogOstream <<

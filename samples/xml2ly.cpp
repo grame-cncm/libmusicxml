@@ -46,9 +46,9 @@ using namespace MusicXML2;
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
   S_xml2lyOahHandler handler,
-  int                    argc,
-  char*                  argv [],
-  indentedOstream&       logIndentedOutputStream)
+  int                argc,
+  char*              argv [],
+  indentedOstream&   logIndentedOutputStream)
 {
   // analyse the options
   vector<string>
@@ -417,7 +417,6 @@ void convertMusicXMLToLilypond (
       convertMusicXMLToMxmlTree_Pass1 (
         inputSourceName);
 
-
   // create the MSR skeleton from MusicXML contents (pass 2a)
   // ------------------------------------------------------
 
@@ -434,7 +433,6 @@ void convertMusicXMLToLilypond (
     return;
   }
 
-
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
@@ -450,8 +448,6 @@ void convertMusicXMLToLilypond (
     return;
   }
 
-
-
   // display the MSR score summary if requested
   // ------------------------------------------------------
 
@@ -460,7 +456,6 @@ void convertMusicXMLToLilypond (
       mScore,
       gMsrOah);
   }
-
 
   // display the score summary if requested
   // ------------------------------------------------------
@@ -475,7 +470,6 @@ void convertMusicXMLToLilypond (
     exit (19);
   }
 
-
   // display the score names if requested
   // ------------------------------------------------------
 
@@ -488,7 +482,6 @@ void convertMusicXMLToLilypond (
 
     exit (19);
   }
-
 
   // create the LPSR from the MSR (pass 3)
   // ------------------------------------------------------
@@ -506,7 +499,6 @@ void convertMusicXMLToLilypond (
     return;
   }
 
-
   // display the LPSR score if requested
   // ------------------------------------------------------
 
@@ -516,7 +508,6 @@ void convertMusicXMLToLilypond (
       gMsrOah,
       gLpsrOah);
   }
-
 
   // generate LilyPond code from the LPSR (pass 4)
   // ------------------------------------------------------
@@ -547,18 +538,6 @@ int main (int argc, char *argv[])
         handler,
         argc, argv,
         gLogOstream);
-
-/* JMI
-  // print the resulting options
-#ifdef TRACE_OAH
-  if (gGeneralOah->fDisplayOahHandler) {
-    gLogOstream <<
-      handler <<
-      endl <<
-      endl;
-  }
-#endif
-*/
 
   string
     inputSourceName =
@@ -681,6 +660,7 @@ int main (int argc, char *argv[])
       gLogOstream);
 
   // check indentation
+  // ------------------------------------------------------
   if (gIndenter != 0) {
     gLogOstream <<
       "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
