@@ -147,7 +147,7 @@ void extraShowAllChordsStructuresAtom::browseData (basevisitor* v)
 
 void extraShowAllChordsStructuresAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsShowAllChordsStructuresAtom:" <<
@@ -411,7 +411,7 @@ void extraShowAllChordsContentsAtom::browseData (basevisitor* v)
 
 void extraShowAllChordsContentsAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "extraShowAllChordsContentsAtom:" <<
@@ -748,7 +748,7 @@ void extraShowChordDetailsAtom::browseData (basevisitor* v)
 
 void extraShowChordDetailsAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "extraShowChordDetailsAtom:" <<
@@ -1105,7 +1105,7 @@ void extraShowChordAnalysisAtom::browseData (basevisitor* v)
 
 void extraShowChordAnalysisAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "extraShowChordAnalysisAtom:" <<

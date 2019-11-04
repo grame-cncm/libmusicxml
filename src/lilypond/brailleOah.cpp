@@ -222,7 +222,7 @@ string brailleOutputKindAtom::asLongNamedOptionString () const
 
 void brailleOutputKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsUTFKindAtom:" <<
@@ -431,7 +431,7 @@ string brailleUTFKindAtom::asLongNamedOptionString () const
 
 void brailleUTFKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsUTFKindAtom:" <<
@@ -640,7 +640,7 @@ string brailleByteOrderingKindAtom::asLongNamedOptionString () const
 
 void brailleByteOrderingKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsByteOrderingKindAtom:" <<

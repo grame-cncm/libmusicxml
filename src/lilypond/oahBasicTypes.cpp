@@ -33,443 +33,6 @@
 namespace MusicXML2
 {
 
-/*
-Basics:
-  - oah (Options And Help) is supposed to be pronouced something close to "whaaaah!"
-    The intonation is left to the speaker, though...
-    And as the saying goes: "OAH? oahy not!"
-
-  - options handling is organized as a hierarchical, instrospective set of classes.
-    Options and their corresponding help are grouped in a single object.
-
-  - oahElement is the super-class of all options types, including groups and subgroups.
-    It contains a short name and a long name, as well as a decription.
-    Short and long names can be used and mixed at will in the command line,
-    as well as '-' and '--'.
-    The short name is mandatory, but the long name may be empty.
-
-  - prefixes such '-t=' and -help=' allow for a contracted form of options.
-    For example, -t=meas,notes is short for '-t-meas, -tnotes'.
-    An oahPrefix contains the prefix name, the ersatz by which to replace it,
-    and a description.
-
-  - an oahHandler contains oahGroup's, each handled in a pair or .h/.cpp files,
-    such as msrOah.h and msrOah.cpp, and a list of options prefixes.
-
-  - an oahGroup contains oahSubGroup's and an upLink to the containing oahHandler.
-
-  - an oahSubGroup contains oahAtom's and an upLink to the containing oahGroup.
-
-  - each oahAtom is an atomic option to the executable and its corresponding help,
-    and an upLink to the containing oahSubGroup.
-
-Features:
-  - partial help to be obtained, i.e. help about any group, subgroup or atom,
-    showing the path in the hierarchy down to the corresponding option.
-
-  - there are various subclasses of oahAtom such as oahIntegerAtom, oahBooleanAtom
-    and oahRationalAtom to control options values of common types.
-
-  - oahThreeBooleansAtom, for example, allows for three boolean settings
-    to be controlled at once with a single option.
-
-  - oahValuedAtom describes options for which a value is supplied in the command line.
-
-  - a class such as optionsLpsrPitchesLanguageOption is used
-    to supply a string value to be converted into an internal enumerated type.
-
-  - oahCombinedBooleansAtom contains a list of boolean atoms to manipulate several such atoms as a single one,
-    see the 'cubase' combined booleans atom in musicXMLOah.cpp.
-
-  - oahMultiplexBooleansAtom contains a list of boolean atoms sharing a common prefix to display such atoms in a compact manner,
-    see the 'cubase' combined booleans atom in musicXMLOah.cpp.
-
-  - storing options and the corresponding help in oahGroup's makes it easy to re-use them.
-    For example, xml2ly and xml2lbr have their three first passes in common,
-    (up to obtaining the MSR description of the score), as well as the corresponding options and help.
-
-Handling:
-  - each optionOption must have unique short and long names, for consistency.
-
-  - an executable main() call decipherOptionsAndArguments(), in which:
-    - handleOptionName() handles the option names
-    - handleOptionValueOrArgument() handle the values that may follow an atom name
-      and the arguments to the executable.
-
-  - contracted forms are expanded in handleOptionName() before the resulting,
-    uncontracted options are handled.
-
-  - handleOptionName() fetches the oahElement corresponding to the name from the map,
-    determines the type of the latter,
-    and delegates the handling to the corresponding object.
-
-  - handleOptionValueOrArgument() associatiates the value
-    to the (preceding) fPendingValuedAtom if not null,
-    or appends it fHandlerArgumentsVector to otherwise.
-
-  - the printOptionsSummary() methods are used when there are errors in the options used.
-
-  - the printHelp() methods perform the actual help print work
-
-  - options deciphering it done by the handleAtom() methods defined:
-      - in oahBasicTypes.h/.cpp for the predefined ones;
-      - in the various options groups for those specific to the latter.
-
-  - the value following the option name, if any, is taken care of
-    by the handle*AtomValue() methods, using fPendingValuedAtom
-    to hold the valuedAtom until the corresponding value is found.
-*/
-
-//______________________________________________________________________________
-string optionVisibilityKindAsString (
-  oahElementVisibilityKind optionVisibilityKind)
-{
-  string result;
-
-  switch (optionVisibilityKind) {
-    case kElementVisibilityAlways:
-      result = "elementVisibilityAlways";
-      break;
-
-    case kElementVisibilityHiddenByDefault:
-      result = "elementVisibilityHiddenByDefault";
-      break;
-  } // switch
-
-  return result;
-}
-
-//______________________________________________________________________________
-S_oahElement oahElement::create (
-  string                   shortName,
-  string                   longName,
-  string                   description,
-  oahElementVisibilityKind optionVisibilityKind)
-{
-  oahElement* o = new
-    oahElement (
-      shortName,
-      longName,
-      description,
-      optionVisibilityKind);
-  assert(o!=0);
-  return o;
-}
-
-oahElement::oahElement (
-  string                   shortName,
-  string                   longName,
-  string                   description,
-  oahElementVisibilityKind optionVisibilityKind)
-{
-  fShortName   = shortName;
-  fLongName    = longName;
-  fDescription = description;
-
-  fElementVisibilityKind = optionVisibilityKind;
-
-  fIsHidden = false;
-
-  fMultipleOccurrencesAllowed = false;
-}
-
-oahElement::~oahElement ()
-{}
-
-S_oahElement oahElement::fetchOptionByName (
-  string name)
-{
-  S_oahElement result;
-
-  if (
-    name == fShortName
-     ||
-    name == fLongName) {
-    result = this;
-  }
-
-  return result;
-}
-
-string oahElement::fetchNames () const
-{
-  stringstream s;
-
-  if (
-    fShortName.size ()
-        &&
-    fLongName.size ()
-  ) {
-      s <<
-        "-" << fShortName <<
-        ", " <<
-        "-" << fLongName;
-  }
-
-  else {
-    if (fShortName.size ()) {
-      s <<
-      "-" << fShortName;
-    }
-    if (fLongName.size ()) {
-      s <<
-      "-" << fLongName;
-    }
-  }
-
-  return s.str ();
-}
-
-string oahElement::fetchNamesInColumns (
-  int subGroupsShortNameFieldWidth) const
-{
-  stringstream s;
-
-  if (
-    fShortName.size ()
-        &&
-    fLongName.size ()
-    ) {
-      s << left <<
-        setw (subGroupsShortNameFieldWidth) <<
-        "-" + fShortName <<
-        ", " <<
-        "-" << fLongName;
-  }
-
-  else {
-    if (fShortName.size ()) {
-      s << left <<
-        setw (subGroupsShortNameFieldWidth) <<
-          "-" + fShortName;
-    }
-    if (fLongName.size ()) {
-      s <<
-        "-" << fLongName;
-    }
-  }
-
-  return s.str ();
-}
-
-string oahElement::fetchNamesBetweenParentheses () const
-{
-  stringstream s;
-
-  s <<
-    "(" <<
-    fetchNames () <<
-    ")";
-
-  return s.str ();
-}
-
-string oahElement::fetchNamesInColumnsBetweenParentheses (
-  int subGroupsShortNameFieldWidth) const
-{
-  stringstream s;
-
-  s <<
-    "(" <<
-    fetchNamesInColumns (
-      subGroupsShortNameFieldWidth) <<
-    ")";
-
-  return s.str ();
-}
-
-S_oahValuedAtom oahElement::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-  stringstream s;
-
-  s <<
-    "### atom option name " << optionName <<
-    " attached to '" <<
-    this->asString () <<
-    "' is not handled";
-
-  msrInternalError (
-    gOahOah->fInputSourceName,
-    K_NO_INPUT_LINE_NUMBER,
-    __FILE__, __LINE__,
-    s.str ());
-
-  // no option value is needed
-  return nullptr;
-}
-
-void oahElement::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> oahElement::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahElement>*
-    p =
-      dynamic_cast<visitor<S_oahElement>*> (v)) {
-        S_oahElement elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching oahElement::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahElement::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> oahElement::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahElement>*
-    p =
-      dynamic_cast<visitor<S_oahElement>*> (v)) {
-        S_oahElement elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching oahElement::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahElement::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> oahElement::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string oahElement::asShortNamedOptionString () const
-{
-  return "-" + fShortName;
-}
-
-string oahElement::asLongNamedOptionString () const
-{
-  return "-" + fLongName;
-}
-
-string oahElement::asString () const
-{
-  stringstream s;
-
-  s <<
-    "'-" << fLongName << "'"; // JMI
-
-  return s.str ();
-}
-
-void oahElement::printOptionHeader (ostream& os) const
-{
-  os <<
-    "-" << fShortName <<
-    endl <<
-    "-" << fLongName <<
-    endl;
-
-  if (fDescription.size ()) {
-    // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-
-    os <<
-      gIndenter.indentMultiLineString (
-        fDescription) <<
-      endl;
-
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-  }
-}
-
-void oahElement::printOptionEssentials (
-  ostream& os,
-  int      fieldWidth) const
-{
-  os << left <<
-    setw (fieldWidth) <<
-    "fShortName" << " : " <<
-    fShortName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fLongName" << " : " <<
-    fLongName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fDescription" << " : " <<
-    fDescription <<
-    endl <<
-    setw (fieldWidth) <<
-    "fIsHidden" << " : " <<
-    booleanAsString (
-      fIsHidden) <<
-    endl <<
-    setw (fieldWidth) <<
-    "fMultipleOccurrencesAllowed" << " : " <<
-    booleanAsString (
-      fMultipleOccurrencesAllowed) <<
-    endl;
-}
-
-void oahElement::print (ostream& os) const
-{
-  os <<
-    "??? oahElement ???" <<
-    endl;
-
-  printOptionEssentials (os, 40); // JMI
-}
-
-void oahElement::printHelp (ostream& os)
-{
-  os <<
-    fetchNames () <<
-    endl;
-
-  if (fDescription.size ()) {
-    // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-
-    os <<
-      gIndenter.indentMultiLineString (
-        fDescription) <<
-      endl;
-
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-  }
-
-  // register help print action in options handler upLink JMI ???
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
-}
-
-ostream& operator<< (ostream& os, const S_oahElement& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 //______________________________________________________________________________
 S_oahAtom oahAtom::create (
   string shortName,
@@ -756,7 +319,7 @@ void oahAtomSynonym::browseData (basevisitor* v)
 
 void oahAtomSynonym::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "AtomSynonym:" <<
@@ -937,7 +500,7 @@ void oahOptionsUsageAtom::browseData (basevisitor* v)
 
 void oahOptionsUsageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsUsageAtom:" <<
@@ -1122,7 +685,7 @@ void oahOptionsSummaryAtom::browseData (basevisitor* v)
 
 void oahOptionsSummaryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsSummaryAtom:" <<
@@ -1261,7 +824,7 @@ void oahAtomWithVariableName::browseData (basevisitor* v)
 
 void oahAtomWithVariableName::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "AtomWithVariableName:" <<
@@ -1428,7 +991,7 @@ void oahBooleanAtom::browseData (basevisitor* v)
 
 void oahBooleanAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "BooleanAtom:" <<
@@ -1604,7 +1167,7 @@ void oahTwoBooleansAtom::browseData (basevisitor* v)
 
 void oahTwoBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "TwoBooleansAtom:" <<
@@ -1790,7 +1353,7 @@ void oahThreeBooleansAtom::browseData (basevisitor* v)
 
 void oahThreeBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "ThreeBooleansAtom:" <<
@@ -2089,7 +1652,7 @@ void oahCombinedBooleansAtom::browseData (basevisitor* v)
 
 void oahCombinedBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "CombinedBooleansAtom:" <<
@@ -2145,7 +1708,7 @@ void oahCombinedBooleansAtom::printHelp (ostream& os)
 
   if (fDescription.size ()) {
     // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
@@ -2185,7 +1748,7 @@ void oahCombinedBooleansAtom::printHelp (ostream& os)
   }
 
   if (fDescription.size ()) { // ??? JMI
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
   // register help print action in options handler upLink
@@ -2469,26 +2032,26 @@ void oahPrefix::printHelp (ostream& os)
 
   if (fPrefixErsatz.size ()) {
     // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
         fPrefixErsatz) <<
       endl;
 
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
   if (fPrefixDescription.size ()) {
     // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
         fPrefixDescription) <<
       endl;
 
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
   // register help print action in options handler upLink
@@ -2879,7 +2442,7 @@ void oahMultiplexBooleansAtom::browseData (basevisitor* v)
 
 void oahMultiplexBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "MultiplexBooleansAtom:" <<
@@ -2964,7 +2527,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
 
   if (fDescription.size ()) {
     // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
@@ -3060,7 +2623,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
   }
 
   if (fDescription.size ()) { // ??? JMI
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
   // register help print action in options handler upLink
@@ -3281,14 +2844,14 @@ void oahValuedAtom::printHelp (ostream& os)
 
   if (fDescription.size ()) {
     // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
         fDescription) <<
       endl;
 
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
 /* superfluous JMI
@@ -3588,7 +3151,7 @@ string oahIntegerAtom::asLongNamedOptionString () const
 
 void oahIntegerAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "IntegerAtom:" <<
@@ -3835,7 +3398,7 @@ string oahFloatAtom::asLongNamedOptionString () const
 
 void oahFloatAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "FloatAtom:" <<
@@ -4026,7 +3589,7 @@ string oahStringAtom::asLongNamedOptionString () const
 
 void oahStringAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringAtom:" <<
@@ -4328,7 +3891,7 @@ void oahMonoplexStringAtom::browseData (basevisitor* v)
 
 void oahMonoplexStringAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "MonoplexStringAtom:" <<
@@ -4391,7 +3954,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
 
   if (fDescription.size ()) {
     // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
@@ -4442,7 +4005,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
   }
 
   if (fDescription.size ()) { // ??? JMI
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
   // register help print action in options handler upLink
@@ -4618,7 +4181,7 @@ string oahStringWithDefaultValueAtom::asLongNamedOptionString () const
 
 void oahStringWithDefaultValueAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringWithDefaultValueAtom:" <<
@@ -4887,7 +4450,7 @@ string oahRationalAtom::asLongNamedOptionString () const
 
 void oahRationalAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "RationalAtom:" <<
@@ -5160,7 +4723,7 @@ string oahNaturalNumbersSetElementAtom::asLongNamedOptionString () const
 
 void oahNaturalNumbersSetElementAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "NaturalNumbersSetElementAtom:" <<
@@ -5432,7 +4995,7 @@ string oahNaturalNumbersSetAtom::asLongNamedOptionString () const
 
 void oahNaturalNumbersSetAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "NaturalNumbersSetAtom:" <<
@@ -5711,7 +5274,7 @@ string oahStringsSetElementAtom::asLongNamedOptionString () const
 
 void oahStringsSetElementAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringsSetElementAtom:" <<
@@ -5983,7 +5546,7 @@ string oahStringsSetAtom::asLongNamedOptionString () const
 
 void oahStringsSetAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringsSetAtom:" <<
@@ -6238,7 +5801,7 @@ string oahRGBColorAtom::asLongNamedOptionString () const
 
 void oahRGBColorAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "RGBColorAtom:" <<
@@ -6457,7 +6020,7 @@ string oahOptionNameHelpAtom::asLongNamedOptionString () const
 
 void oahOptionNameHelpAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionNameHelpAtom:" <<

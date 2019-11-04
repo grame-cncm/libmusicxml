@@ -147,7 +147,7 @@ void xml2lyManPageGenerateAtom::browseData (basevisitor* v)
 
 void xml2lyManPageGenerateAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "xml2lyManPageGenerateAtom:" <<

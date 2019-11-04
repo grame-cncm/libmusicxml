@@ -189,7 +189,7 @@ string lilypondScoreOutputKindAtom::asLongNamedOptionString () const
 
 void lilypondScoreOutputKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsScoreOutputKindAtom:" <<
@@ -356,7 +356,7 @@ void lilypondAbsoluteOctaveEntryAtom::browseData (basevisitor* v)
 
 void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondAbsoluteOctaveEntryAtom:" <<
@@ -604,7 +604,7 @@ string lilypondRelativeOctaveEntryAtom::asLongNamedOptionString () const
 
 void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondRelativeOctaveEntryAtom:" <<
@@ -824,7 +824,7 @@ string lilypondFixedOctaveEntryAtom::asLongNamedOptionString () const
 
 void lilypondFixedOctaveEntryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondFixedOctaveEntryAtom:" <<
@@ -1140,7 +1140,7 @@ string lilypondResetMeasureNumberAtom::asLongNamedOptionString () const
 
 void lilypondResetMeasureNumberAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsResetMeasureNumberAtom:" <<
@@ -1423,7 +1423,7 @@ string lilypondAccidentalStyleKindAtom::asLongNamedOptionString () const
 
 void lilypondAccidentalStyleKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsAccidentalStyleKindAtom:" <<
@@ -1760,7 +1760,7 @@ string lilypondChordsDisplayAtom::asLongNamedOptionString () const
 
 void lilypondChordsDisplayAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondChordsDisplayAtom:" <<
@@ -2037,7 +2037,7 @@ string lilypondLyricsAlignmentKindAtom::asLongNamedOptionString () const
 
 void lilypondLyricsAlignmentKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsLyricsAlignmentKindAtom:" <<
@@ -2328,7 +2328,7 @@ string lilypondMidiTempoAtom::asLongNamedOptionString () const
 
 void lilypondMidiTempoAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsMidiTempoAtom:" <<
@@ -5412,7 +5412,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
 
 void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsBreakPageAfterMeasureNumberAtom:" <<

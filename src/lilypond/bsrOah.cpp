@@ -189,7 +189,7 @@ string bsrFacSimileKindAtom::asLongNamedOptionString () const
 
 void bsrFacSimileKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsFacSimileKindAtom:" <<
@@ -377,7 +377,7 @@ string bsrTextsLanguageAtom::asLongNamedOptionString () const
 
 void bsrTextsLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsBsrTextsLanguageAtom:" <<

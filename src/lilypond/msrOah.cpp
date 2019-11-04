@@ -309,7 +309,7 @@ string msrRenamePartAtom::asLongNamedOptionString () const
 
 void msrRenamePartAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrRenamePartAtom:" <<
@@ -660,7 +660,7 @@ string msrTransposePartAtom::asLongNamedOptionString () const
 
 void msrTransposePartAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrTransposePartAtom:" <<
@@ -960,7 +960,7 @@ string msrOmitPartAtom::asLongNamedOptionString () const
 
 void msrOmitPartAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrOmitPartAtom:" <<
@@ -1256,7 +1256,7 @@ string msrKeepPartAtom::asLongNamedOptionString () const
 
 void msrKeepPartAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrKeepPartAtom:" <<
@@ -1537,7 +1537,7 @@ string msrPitchesLanguageAtom::asLongNamedOptionString () const
 
 void msrPitchesLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrPitchesLanguageAtom:" <<

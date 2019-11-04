@@ -114,6 +114,19 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlVersionOahAtom& elt)
     endl;
 }
 
+void xml2brlOah2ManPageGenerator::visitEnd (S_xml2brlVersionOahAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fLogOutputStream <<
+      endl <<
+      ".\\\" --> End visiting xml2brlVersionOahAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
 //________________________________________________________________________
 void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlAboutOahAtom& elt)
 {
@@ -144,6 +157,19 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlAboutOahAtom& elt)
     endl;
 }
 
+void xml2brlOah2ManPageGenerator::visitEnd (S_xml2brlAboutOahAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fLogOutputStream <<
+      endl <<
+      ".\\\" --> End visiting xml2brlAboutOahAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
 //________________________________________________________________________
 void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlContactOahAtom& elt)
 {
@@ -172,6 +198,19 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlContactOahAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+}
+
+void xml2brlOah2ManPageGenerator::visitEnd (S_xml2brlContactOahAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fLogOutputStream <<
+      endl <<
+      ".\\\" --> End visiting xml2brlContactOahAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
 }
 
 

@@ -59,10 +59,13 @@ class xml2lyOah2ManPageGenerator : public oahVisitor, basicOah2ManPageGenerator,
     // ------------------------------------------------------
 
     virtual void visitStart (S_xml2lyVersionOahAtom& elt);
+    virtual void visitEnd   (S_xml2lyVersionOahAtom& elt);
 
     virtual void visitStart (S_xml2lyContactOahAtom& elt);
+    virtual void visitEnd   (S_xml2lyContactOahAtom& elt);
 
     virtual void visitStart (S_xml2lyAboutOahAtom& elt);
+    virtual void visitEnd   (S_xml2lyAboutOahAtom& elt);
 
   public:
 

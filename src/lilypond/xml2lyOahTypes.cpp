@@ -139,7 +139,7 @@ void xml2lyVersionOahAtom::browseData (basevisitor* v)
 
 void xml2lyVersionOahAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "xml2lyVersionOahAtom:" <<
@@ -304,7 +304,7 @@ void xml2lyAboutOahAtom::browseData (basevisitor* v)
 
 void xml2lyAboutOahAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "xml2lyAboutOahAtom:" <<
@@ -481,7 +481,7 @@ void xml2lyContactOahAtom::browseData (basevisitor* v)
 
 void xml2lyContactOahAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "xml2lyContactOahAtom:" <<

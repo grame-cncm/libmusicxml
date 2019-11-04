@@ -233,7 +233,7 @@ string lpsrScoreOutputKindAtom::asLongNamedOptionString () const
 
 void lpsrScoreOutputKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsLpsrScoreOutputKindAtom:" <<
@@ -481,7 +481,7 @@ string lpsrPitchesLanguageAtom::asLongNamedOptionString () const
 
 void lpsrPitchesLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsLpsrPitchesLanguageAtom:" <<
@@ -725,7 +725,7 @@ string lpsrChordsLanguageAtom::asLongNamedOptionString () const
 
 void lpsrChordsLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsLpsrChordsLanguageAtom:" <<
@@ -949,7 +949,7 @@ string lpsrTransposeAtom::asLongNamedOptionString () const
 
 void lpsrTransposeAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lpsrTransposeAtom:" <<
