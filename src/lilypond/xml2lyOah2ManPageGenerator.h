@@ -14,6 +14,11 @@
 #define ___xml2lyOah2ManPageGenerator___
 
 #include "basicOah2ManPageGenerator.h"
+#include "msrOah2ManPageGenerator.h"
+#include "lpsrOah2ManPageGenerator.h"
+#include "lilypondOah2ManPageGenerator.h"
+#include "extraOah2ManPageGenerator.h"
+#include "oahOah2ManPageGenerator.h"
 
 #include "xml2lyOahTypes.h"
 
@@ -22,8 +27,17 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class xml2lyOah2ManPageGenerator : public oahVisitor, basicOah2ManPageGenerator,
+class xml2lyOah2ManPageGenerator : public oahVisitor,
 
+  // aggregate needed components' visitors
+  public basicOah2ManPageGenerator,
+  public msrOah2ManPageGenerator,
+  public lpsrOah2ManPageGenerator,
+  public lilypondOah2ManPageGenerator,
+  public extraOah2ManPageGenerator,
+  public oahOah2ManPageGenerator,
+
+  // this man page generator's own visitors
   public visitor<S_xml2lyVersionOahAtom>,
 
   public visitor<S_xml2lyAboutOahAtom>,
@@ -73,6 +87,13 @@ class xml2lyOah2ManPageGenerator : public oahVisitor, basicOah2ManPageGenerator,
     // ------------------------------------------------------
 
     virtual void          visitTheHandler ();
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    indentedOstream&      fXml2lyOah2ManPageOutputStream;
 };
 typedef SMARTP<xml2lyOah2ManPageGenerator> S_xml2lyOah2ManPageGenerator;
 

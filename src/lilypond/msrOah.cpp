@@ -2235,6 +2235,21 @@ R"()",
     appendAtomToSubGroup (
       omitTiesAtom);
 
+  // omit dynamics
+
+  fOmitDynamics = false;
+
+  S_oahBooleanAtom
+    omitDynamicsAtom =
+      oahBooleanAtom::create (
+        "odyns", "omit-dynamics",
+R"()",
+        "omitDynamics",
+        fOmitDynamics);
+  subGroup->
+    appendAtomToSubGroup (
+      omitDynamicsAtom);
+
   // omit slurs
 
   fOmitSlurs = false;
@@ -2298,7 +2313,7 @@ R"(Add stanzas numbers to lyrics.)",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "ol", "omit-lyrics",
+        "olyrics", "omit-lyrics",
 R"(Don't create lyrics in the MSR.)",
         "omitLyrics",
         fOmitLyrics));
@@ -2337,7 +2352,7 @@ even though it does not contain music.)",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "oh", "omit-harmonies",
+        "oharms", "omit-harmonies",
 R"(Don't create harmonies in the MSR.)",
         "omitHarmonies",
         fOmitHarmonies));
@@ -2603,6 +2618,9 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
 
   clone->fOmitTies =
     fOmitTies;
+
+  clone->fOmitDynamics =
+    fOmitDynamics;
 
   clone->fOmitSlurs =
     fOmitSlurs;
@@ -3093,6 +3111,23 @@ void msrOah::printMsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "omitTies" << " : " <<
     booleanAsString (fOmitTies) <<
+    endl;
+
+  gIndenter--;
+
+
+  // dynamics
+  // --------------------------------------
+
+  gLogOstream <<
+     "Dynamics:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "omitDynamics" << " : " <<
+    booleanAsString (fOmitDynamics) <<
     endl;
 
   gIndenter--;

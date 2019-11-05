@@ -108,6 +108,23 @@ Option '-h, -help' prints the full help,
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
 
+  // create and append the omit options prefixes
+  S_oahPrefix
+    omitPrefix =
+      oahPrefix::create (
+        "omit",
+        "omit-",
+        "'-omit=abc,yz' is equivalent to '-omit-abc, -omit-yz'");
+  appendPrefixToHandler (omitPrefix);
+
+  S_oahPrefix
+    oPrefix =
+      oahPrefix::create (
+        "o",
+        "o",
+        "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'");
+  appendPrefixToHandler (oPrefix);
+
   // create an xml2lyOah2ManPageGenerator
   S_xml2lyOah2ManPageGenerator
     generator =

@@ -14,6 +14,11 @@
 #define ___xml2brlOah2ManPageGenerator___
 
 #include "basicOah2ManPageGenerator.h"
+#include "msrOah2ManPageGenerator.h"
+#include "bsrOah2ManPageGenerator.h"
+#include "brailleOah2ManPageGenerator.h"
+#include "extraOah2ManPageGenerator.h"
+#include "oahOah2ManPageGenerator.h"
 
 #include "xml2brlOahTypes.h"
 
@@ -22,8 +27,17 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class xml2brlOah2ManPageGenerator : public oahVisitor, basicOah2ManPageGenerator,
+class xml2brlOah2ManPageGenerator : public oahVisitor,
 
+  // aggregate needed components' visitors
+  public basicOah2ManPageGenerator,
+  public msrOah2ManPageGenerator,
+  public bsrOah2ManPageGenerator,
+  public brailleOah2ManPageGenerator,
+  public extraOah2ManPageGenerator,
+  public oahOah2ManPageGenerator,
+
+  // this man page generator's own visitors
   public visitor<S_xml2brlVersionOahAtom>,
 
   public visitor<S_xml2brlAboutOahAtom>,
@@ -73,6 +87,13 @@ class xml2brlOah2ManPageGenerator : public oahVisitor, basicOah2ManPageGenerator
     // ------------------------------------------------------
 
     virtual void          visitTheHandler ();
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    indentedOstream&      fXml2brlOah2ManPageOutputStream;
 };
 typedef SMARTP<xml2brlOah2ManPageGenerator> S_xml2brlOah2ManPageGenerator;
 

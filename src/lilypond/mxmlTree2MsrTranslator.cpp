@@ -4661,10 +4661,12 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
   // color JMI
 
   if (fCurrentTieKind != msrTie::kTieNone) {
-    fCurrentTie =
-      msrTie::create (
-        inputLineNumber,
-        fCurrentTieKind);
+    if (! gMsrOah->fOmitTies) {
+      fCurrentTie =
+        msrTie::create (
+          inputLineNumber,
+          fCurrentTieKind);
+    }
   }
 }
 
@@ -4987,7 +4989,8 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     if (
       gTraceOah->fTraceNotesDetails
         ||
-      gTraceOah->fTraceSlurs) {
+      gTraceOah->fTraceSlurs
+    ) {
       fLogOutputStream <<
         "slurNumber: " <<
         slurNumber <<
@@ -5001,25 +5004,27 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     }
 #endif
 
-    S_msrSlur
-      slur =
-        msrSlur::create (
-          inputLineNumber,
-          slurNumber,
-          fCurrentSlurTypeKind,
-          slurLineTypeKind);
+    if (! gMsrOah->fOmitSlurs) {
+      S_msrSlur
+        slur =
+          msrSlur::create (
+            inputLineNumber,
+            slurNumber,
+            fCurrentSlurTypeKind,
+            slurLineTypeKind);
 
-    fPendingSlursList.push_back (slur);
+      fPendingSlursList.push_back (slur);
 
-    // push slurs starts onto the stack
-    switch (fCurrentSlurTypeKind) {
-      case msrSlur::kRegularSlurStart:
-      case msrSlur::kPhrasingSlurStart:
-        fSlurStartsStack.push_front (slur);
-        break;
-      default:
-        ;
-    } // switch
+      // push slurs starts onto the stack
+      switch (fCurrentSlurTypeKind) {
+        case msrSlur::kRegularSlurStart:
+        case msrSlur::kPhrasingSlurStart:
+          fSlurStartsStack.push_front (slur);
+          break;
+        default:
+          ;
+      } // switch
+    }
   }
 
 #ifdef TRACE_OAH
@@ -11596,14 +11601,16 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
 {
@@ -11630,14 +11637,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kFF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kFF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
 {
@@ -11664,14 +11673,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kFFF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kFFF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
 {
@@ -11698,14 +11709,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kFFFF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kFFFF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
 {
@@ -11732,14 +11745,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kFFFFF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kFFFFF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
 {
@@ -11766,14 +11781,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kFFFFFF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kFFFFFF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_p& elt)
@@ -11801,14 +11818,16 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
 {
@@ -11835,14 +11854,16 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kPP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kPP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
 {
@@ -11869,14 +11890,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kPPP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kPPP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
 {
@@ -11903,14 +11926,16 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kPPPP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kPPPP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
 {
@@ -11937,14 +11962,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kPPPPP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kPPPPP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
 {
@@ -11971,14 +11998,16 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kPPPPPP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kPPPPPP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 
@@ -12007,14 +12036,16 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kMF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kMF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
 {
@@ -12041,14 +12072,16 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kMP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kMP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
@@ -12076,14 +12109,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kFP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kFP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
 {
@@ -12110,14 +12145,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kFZ,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kFZ,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
@@ -12145,14 +12182,16 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kRF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kRF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
@@ -12180,14 +12219,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kSF,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kSF,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
@@ -12215,14 +12256,16 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kRFZ,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kRFZ,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
@@ -12250,14 +12293,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kSFZ,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kSFZ,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
@@ -12285,14 +12330,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kSFP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kSFP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
@@ -12320,14 +12367,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kSFPP,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kSFPP,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
@@ -12353,14 +12402,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
         placementString);
 
   // create the dynamics
-  S_msrDynamics
-    dynamics =
-      msrDynamics::create (
-        inputLineNumber,
-        msrDynamics::kSFFZ,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrDynamics
+      dynamics =
+        msrDynamics::create (
+          inputLineNumber,
+          msrDynamics::kSFFZ,
+          placementKind);
 
-  fPendingDynamicsList.push_back(dynamics);
+    fPendingDynamicsList.push_back(dynamics);
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
@@ -12390,14 +12441,16 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
         placementString);
 
   // create the other dynamics
-  S_msrOtherDynamics
-    otherDynamics =
-      msrOtherDynamics::create (
-        inputLineNumber,
-        otherDynamicsValue,
-        placementKind);
+  if (! gMsrOah->fOmitDynamics) {
+    S_msrOtherDynamics
+      otherDynamics =
+        msrOtherDynamics::create (
+          inputLineNumber,
+          otherDynamicsValue,
+          placementKind);
 
-  fPendingOtherDynamicsList.push_back(otherDynamics);
+    fPendingOtherDynamicsList.push_back(otherDynamics);
+  }
 }
 
 //______________________________________________________________________________

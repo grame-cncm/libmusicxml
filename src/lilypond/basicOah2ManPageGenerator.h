@@ -156,9 +156,7 @@ class basicOah2ManPageGenerator :
 
   protected:
 
-    indentedOstream&      fLogOutputStream;
-
-    ostream&              fManPageOutputStream;
+    indentedOstream&      fBasicOah2ManPageOutputStream;
 };
 typedef SMARTP<basicOah2ManPageGenerator> S_basicOah2ManPageGenerator;
 

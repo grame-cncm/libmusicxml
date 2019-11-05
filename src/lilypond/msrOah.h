@@ -693,6 +693,11 @@ class msrOah : public oahGroup
 
     bool                  fOmitTies;
 
+    // dynamics
+    // --------------------------------------
+
+    bool                  fOmitDynamics;
+
     // slurs
     // --------------------------------------
 
