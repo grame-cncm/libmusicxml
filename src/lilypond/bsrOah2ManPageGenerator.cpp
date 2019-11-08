@@ -1,0 +1,133 @@
+/*
+  MusicXML Library
+  Copyright (C) Grame 2006-2013
+
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+  Grame Research Laboratory, 11, cours de Verdun Gensoul 69002 Lyon - France
+  research@grame.fr
+*/
+
+#include <iomanip>      // setw, setprecision, ...
+#include <cmath>
+#include <string>
+
+#include "bsrOah2ManPageGenerator.h"
+
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
+
+#include "version.h"
+
+#include "oahOah.h"
+
+using namespace std;
+
+namespace MusicXML2
+{
+
+//________________________________________________________________________
+bsrOah2ManPageGenerator::bsrOah2ManPageGenerator (
+  indentedOstream& logOstream,
+  ostream&         manPageOutputStream)
+    : fBsrOah2ManPageLogOstream (
+        logOstream),
+      fBsrOah2ManPageOutputStream (
+        manPageOutputStream)
+{}
+
+bsrOah2ManPageGenerator::~bsrOah2ManPageGenerator ()
+{}
+
+//________________________________________________________________________
+void bsrOah2ManPageGenerator::visitStart (S_bsrFacSimileKindAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fBsrOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> Start visiting bsrFacSimileKindAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+
+  fBsrOah2ManPageOutputStream <<
+    ".HP" <<
+    endl <<
+    "\\fB\\-" <<
+    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    "\\fR, " <<
+    "\\fB\\-" <<
+    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    "\\fR, " <<
+    endl <<
+
+    ".IP" <<
+    endl <<
+    elt->getDescription () <<
+    endl;
+}
+
+void bsrOah2ManPageGenerator::visitEnd (S_bsrFacSimileKindAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fBsrOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> End visiting bsrFacSimileKindAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void bsrOah2ManPageGenerator::visitStart (S_bsrTextsLanguageAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fBsrOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> Start visiting bsrTextsLanguageAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+
+  fBsrOah2ManPageOutputStream <<
+    ".HP" <<
+    endl <<
+    "\\fB\\-" <<
+    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    "\\fR, " <<
+    "\\fB\\-" <<
+    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    "\\fR, " <<
+    endl <<
+
+    ".IP" <<
+    endl <<
+    elt->getDescription () <<
+    endl;
+}
+
+void bsrOah2ManPageGenerator::visitEnd (S_bsrTextsLanguageAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fBsrOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> End visiting bsrTextsLanguageAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+
+} // namespace

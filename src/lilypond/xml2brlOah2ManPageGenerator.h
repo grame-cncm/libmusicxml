@@ -93,7 +93,8 @@ class xml2brlOah2ManPageGenerator : public oahVisitor,
     // private fields
     // ------------------------------------------------------
 
-    indentedOstream&      fXml2brlOah2ManPageOutputStream;
+    indentedOstream&      fXml2brlOah2ManPageLogOstream;
+    ostream&              fXml2brlOah2ManPageOutputStream;
 };
 typedef SMARTP<xml2brlOah2ManPageGenerator> S_xml2brlOah2ManPageGenerator;
 

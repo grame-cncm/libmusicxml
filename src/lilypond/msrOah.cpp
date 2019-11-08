@@ -2391,7 +2391,7 @@ even though they do not contain music.)",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "ofb", "omit-figured-basses",
+        "ofigbasses", "omit-figured-basses",
 R"(Don't create figured basses in the MSR.)",
         "omitFiguredBasses",
         fOmitFiguredBasses));
