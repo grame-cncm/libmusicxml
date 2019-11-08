@@ -30,12 +30,12 @@ namespace MusicXML2
 class xml2lyOah2ManPageGenerator :
 
   // aggregate needed components' visitors
-  public basicOah2ManPageGenerator,
-  public msrOah2ManPageGenerator,
-  public lpsrOah2ManPageGenerator,
-  public lilypondOah2ManPageGenerator,
-  public extraOah2ManPageGenerator,
-  public oahOah2ManPageGenerator,
+  virtual public basicOah2ManPageGenerator,
+  virtual public msrOah2ManPageGenerator,
+  virtual public lpsrOah2ManPageGenerator,
+  virtual public lilypondOah2ManPageGenerator,
+  virtual public extraOah2ManPageGenerator,
+  virtual public oahOah2ManPageGenerator,
 
   // this man page generator's own visitors
   public visitor<S_xml2lyVersionOahAtom>,

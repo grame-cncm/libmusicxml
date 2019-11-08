@@ -121,7 +121,13 @@ void basicOah2ManPageGenerator::visitStart (S_oahPrefix& elt)
   }
 #endif
 
-//  elt->printPrefixHeader (fOah2ManPageOutputStream);
+  fOah2ManPageOutputStream <<
+    ".PP" <<
+    endl <<
+    elt->getPrefixErsatz () <<
+    " " <<
+    elt->getPrefixDescription () <<
+    endl;
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahPrefix& elt)

@@ -244,6 +244,15 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void set (basevisitor* v) { fVisitor = v; }
 
     virtual void browse (T& t) {
+#ifdef TRACE_OAH
+  //    if (gOahOah->fTraceOahVisitors) {
+        cout <<
+          endl <<
+          ".\\\" --> browse()" <<
+          endl;
+  //    }
+#endif
+
       enter (t);
 
       t.browseData (fVisitor);
@@ -255,8 +264,30 @@ template <typename T> class oahBrowser : public browser <T>
 
     basevisitor*  fVisitor;
 
-    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
-    virtual void leave (T& t) { t.acceptOut (fVisitor); }
+    virtual void enter (T& t) {
+#ifdef TRACE_OAH
+  //    if (gOahOah->fTraceOahVisitors) {
+        cout <<
+          endl <<
+          ".\\\" --> enter()" <<
+          endl;
+  //    }
+#endif
+
+      t.acceptIn  (fVisitor);
+    }
+    virtual void leave (T& t) {
+#ifdef TRACE_OAH
+  //    if (gOahOah->fTraceOahVisitors) {
+        cout <<
+          endl <<
+          ".\\\" --> leave()" <<
+          endl;
+  //    }
+#endif
+
+      t.acceptOut (fVisitor);
+    }
 };
 
 
