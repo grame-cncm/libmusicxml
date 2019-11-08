@@ -32,12 +32,12 @@ namespace MusicXML2
 
 //________________________________________________________________________
 lpsrOah2ManPageGenerator::lpsrOah2ManPageGenerator (
-//  const S_oahHandler handler,
-  indentedOstream& logOstream,
-  ostream&         manPageOutputStream)
-    : fLpsrOah2ManPageLogOstream (
-        logOstream),
-      fLpsrOah2ManPageOutputStream (
+  const S_oahHandler handler,
+  indentedOstream&   logOstream,
+  ostream&           manPageOutputStream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
         manPageOutputStream)
 {}
 
@@ -49,7 +49,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrScoreOutputKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -57,7 +57,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
   }
 #endif
 
-  fLpsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -78,7 +78,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrScoreOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrScoreOutputKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -92,7 +92,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrPitchesLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -100,7 +100,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrPitchesLanguageAtom& elt)
   }
 #endif
 
-  fLpsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -121,7 +121,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrPitchesLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -135,7 +135,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrChordsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrChordsLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -143,7 +143,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrChordsLanguageAtom& elt)
   }
 #endif
 
-  fLpsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -164,7 +164,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrChordsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrChordsLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -178,7 +178,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrTransposeAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrTransposeAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -186,7 +186,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrTransposeAtom& elt)
   }
 #endif
 
-  fLpsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -207,7 +207,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrTransposeAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLpsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrTransposeAtom" <<
       " \"" << elt->fetchNames () << "\"" <<

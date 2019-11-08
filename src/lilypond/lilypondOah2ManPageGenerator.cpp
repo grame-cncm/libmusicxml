@@ -32,12 +32,12 @@ namespace MusicXML2
 
 //________________________________________________________________________
 lilypondOah2ManPageGenerator::lilypondOah2ManPageGenerator (
-//  const S_oahHandler handler,
-  indentedOstream& logOstream,
-  ostream&         manPageOutputStream)
-    : fLilypondOah2ManPageLogOstream (
-        logOstream),
-      fLilypondOah2ManPageOutputStream (
+  const S_oahHandler handler,
+  indentedOstream&   logOstream,
+  ostream&           manPageOutputStream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
         manPageOutputStream)
 {}
 
@@ -49,7 +49,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondScoreOutputKindAtom& el
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondScoreOutputKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -57,7 +57,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondScoreOutputKindAtom& el
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -78,7 +78,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondScoreOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondScoreOutputKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -92,7 +92,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAbsoluteOctaveEntryAtom
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondAbsoluteOctaveEntryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -100,7 +100,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAbsoluteOctaveEntryAtom
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -121,7 +121,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondAbsoluteOctaveEntryAtom& 
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondAbsoluteOctaveEntryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -135,7 +135,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondRelativeOctaveEntryAtom
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondRelativeOctaveEntryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -143,7 +143,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondRelativeOctaveEntryAtom
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -164,7 +164,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondRelativeOctaveEntryAtom& 
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondRelativeOctaveEntryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -178,7 +178,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondFixedOctaveEntryAtom& e
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondFixedOctaveEntryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -186,7 +186,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondFixedOctaveEntryAtom& e
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -207,7 +207,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondFixedOctaveEntryAtom& elt
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondFixedOctaveEntryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -221,7 +221,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondResetMeasureNumberAtom&
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondResetMeasureNumberAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -229,7 +229,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondResetMeasureNumberAtom&
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -250,7 +250,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondResetMeasureNumberAtom& e
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondResetMeasureNumberAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -264,7 +264,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAccidentalStyleKindAtom
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondAccidentalStyleKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -272,7 +272,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAccidentalStyleKindAtom
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -293,7 +293,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondAccidentalStyleKindAtom& 
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondAccidentalStyleKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -307,7 +307,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondChordsDisplayAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondChordsDisplayAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -315,7 +315,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondChordsDisplayAtom& elt)
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -336,7 +336,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondChordsDisplayAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondChordsDisplayAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -350,7 +350,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondLyricsAlignmentKindAtom
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondLyricsAlignmentKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -358,7 +358,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondLyricsAlignmentKindAtom
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -379,7 +379,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondLyricsAlignmentKindAtom& 
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondLyricsAlignmentKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -393,7 +393,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondMidiTempoAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lilypondMidiTempoAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -401,7 +401,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondMidiTempoAtom& elt)
   }
 #endif
 
-  fLilypondOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -422,7 +422,7 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondMidiTempoAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fLilypondOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lilypondMidiTempoAtom" <<
       " \"" << elt->fetchNames () << "\"" <<

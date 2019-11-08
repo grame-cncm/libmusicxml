@@ -15,14 +15,14 @@
 
 #include "lilypondOah.h"
 
-#include "oahVisitor.h"
+#include "oah2ManPageGenerators.h"
 
 
 namespace MusicXML2
 {
 
 //________________________________________________________________________
-class lilypondOah2ManPageGenerator :
+class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_lilypondScoreOutputKindAtom>,
 
@@ -46,6 +46,7 @@ class lilypondOah2ManPageGenerator :
   public:
 
     lilypondOah2ManPageGenerator (
+      const S_oahHandler handler,
       indentedOstream&   logOstream,
       ostream&           manPageOutputStream);
 
@@ -79,11 +80,6 @@ class lilypondOah2ManPageGenerator :
 
     virtual void visitStart (S_lilypondMidiTempoAtom& elt);
     virtual void visitEnd   (S_lilypondMidiTempoAtom& elt);
-
-  protected:
-
-    indentedOstream&      fLilypondOah2ManPageLogOstream;
-    ostream&              fLilypondOah2ManPageOutputStream;
 };
 typedef SMARTP<lilypondOah2ManPageGenerator> S_lilypondOah2ManPageGenerator;
 

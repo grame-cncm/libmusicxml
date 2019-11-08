@@ -32,11 +32,12 @@ namespace MusicXML2
 
 //________________________________________________________________________
 bsrOah2ManPageGenerator::bsrOah2ManPageGenerator (
-  indentedOstream& logOstream,
-  ostream&         manPageOutputStream)
-    : fBsrOah2ManPageLogOstream (
-        logOstream),
-      fBsrOah2ManPageOutputStream (
+  const S_oahHandler handler,
+  indentedOstream&   logOstream,
+  ostream&           manPageOutputStream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
         manPageOutputStream)
 {}
 
@@ -48,7 +49,7 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrFacSimileKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting bsrFacSimileKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -56,7 +57,7 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrFacSimileKindAtom& elt)
   }
 #endif
 
-  fBsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -77,7 +78,7 @@ void bsrOah2ManPageGenerator::visitEnd (S_bsrFacSimileKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting bsrFacSimileKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -91,7 +92,7 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrTextsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting bsrTextsLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -99,7 +100,7 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrTextsLanguageAtom& elt)
   }
 #endif
 
-  fBsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -120,7 +121,7 @@ void bsrOah2ManPageGenerator::visitEnd (S_bsrTextsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting bsrTextsLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<

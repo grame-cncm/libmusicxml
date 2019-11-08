@@ -15,14 +15,14 @@
 
 #include "lpsrOah.h"
 
-#include "oahVisitor.h"
+#include "oah2ManPageGenerators.h"
 
 
 namespace MusicXML2
 {
 
 //________________________________________________________________________
-class lpsrOah2ManPageGenerator :
+class lpsrOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_lpsrScoreOutputKindAtom>,
 
@@ -36,6 +36,7 @@ class lpsrOah2ManPageGenerator :
   public:
 
     lpsrOah2ManPageGenerator (
+      const S_oahHandler handler,
       indentedOstream& logOstream,
       ostream&         manPageOutputStream);
 
@@ -54,11 +55,6 @@ class lpsrOah2ManPageGenerator :
 
     virtual void visitStart (S_lpsrTransposeAtom& elt);
     virtual void visitEnd   (S_lpsrTransposeAtom& elt);
-
-  protected:
-
-    indentedOstream&      fLpsrOah2ManPageLogOstream;
-    ostream&              fLpsrOah2ManPageOutputStream;
 };
 typedef SMARTP<lpsrOah2ManPageGenerator> S_lpsrOah2ManPageGenerator;
 

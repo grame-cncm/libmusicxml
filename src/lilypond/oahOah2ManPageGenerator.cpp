@@ -32,12 +32,13 @@ namespace MusicXML2
 
 //________________________________________________________________________
 oahOah2ManPageGenerator::oahOah2ManPageGenerator (
+  const S_oahHandler handler,
   indentedOstream&   logOstream,
   ostream&           manPageOutputStream)
-    : fOahOah2ManPageLogOstream (
-        logOstream),
-      fOahOah2ManPageOutputStream (
-        logOstream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
+        manPageOutputStream)
 {}
 
 oahOah2ManPageGenerator::~oahOah2ManPageGenerator ()
@@ -48,7 +49,7 @@ void oahOah2ManPageGenerator::visitStart (S_oahOptionalValuesStyleKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fOahOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahOptionalValuesStyleKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -56,7 +57,7 @@ void oahOah2ManPageGenerator::visitStart (S_oahOptionalValuesStyleKindAtom& elt)
   }
 #endif
 
-  fOahOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -77,7 +78,7 @@ void oahOah2ManPageGenerator::visitEnd (S_oahOptionalValuesStyleKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fOahOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahOptionalValuesStyleKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<

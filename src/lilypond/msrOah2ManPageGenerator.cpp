@@ -32,11 +32,12 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msrOah2ManPageGenerator::msrOah2ManPageGenerator (
-  indentedOstream& logOstream,
-  ostream&         manPageOutputStream)
-    : fMsrOah2ManPageLogOstream (
-        logOstream),
-      fMsrOah2ManPageOutputStream (
+  const S_oahHandler handler,
+  indentedOstream&   logOstream,
+  ostream&           manPageOutputStream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
         manPageOutputStream)
 {}
 
@@ -48,7 +49,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrRenamePartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrRenamePartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -56,7 +57,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrRenamePartAtom& elt)
   }
 #endif
 
-  fMsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -77,7 +78,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrRenamePartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrRenamePartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -91,7 +92,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrTransposePartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrTransposePartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -99,7 +100,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrTransposePartAtom& elt)
   }
 #endif
 
-  fMsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -120,7 +121,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrTransposePartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrTransposePartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -134,7 +135,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrOmitPartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrOmitPartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -142,7 +143,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrOmitPartAtom& elt)
   }
 #endif
 
-  fMsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -163,7 +164,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrOmitPartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrOmitPartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -177,7 +178,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrKeepPartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrKeepPartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -185,7 +186,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrKeepPartAtom& elt)
   }
 #endif
 
-  fMsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -206,7 +207,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrKeepPartAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrKeepPartAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -220,7 +221,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrPitchesLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -228,7 +229,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrPitchesLanguageAtom& elt)
   }
 #endif
 
-  fMsrOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -249,7 +250,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fMsrOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrPitchesLanguageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<

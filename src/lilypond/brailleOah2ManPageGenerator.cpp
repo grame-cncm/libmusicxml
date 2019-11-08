@@ -32,11 +32,12 @@ namespace MusicXML2
 
 //________________________________________________________________________
 brailleOah2ManPageGenerator::brailleOah2ManPageGenerator (
-  indentedOstream& logOstream,
-  ostream&         manPageOutputStream)
-    : fBrailleOah2ManPageLogOstream (
-        logOstream),
-      fBrailleOah2ManPageOutputStream (
+  const S_oahHandler handler,
+  indentedOstream&   logOstream,
+  ostream&           manPageOutputStream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
         manPageOutputStream)
 {}
 
@@ -48,7 +49,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBrailleOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting brailleOutputKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -56,7 +57,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleOutputKindAtom& elt)
   }
 #endif
 
-  fBrailleOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -77,7 +78,7 @@ void brailleOah2ManPageGenerator::visitEnd (S_brailleOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBrailleOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting brailleOutputKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -91,7 +92,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleUTFKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBrailleOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting brailleUTFKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -99,7 +100,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleUTFKindAtom& elt)
   }
 #endif
 
-  fBrailleOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -120,7 +121,7 @@ void brailleOah2ManPageGenerator::visitEnd (S_brailleUTFKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBrailleOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting brailleUTFKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -134,7 +135,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleByteOrderingKindAtom& elt
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBrailleOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting brailleByteOrderingKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -142,7 +143,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleByteOrderingKindAtom& elt
   }
 #endif
 
-  fBrailleOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -163,7 +164,7 @@ void brailleOah2ManPageGenerator::visitEnd (S_brailleByteOrderingKindAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBrailleOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting brailleByteOrderingKindAtom" <<
       " \"" << elt->fetchNames () << "\"" <<

@@ -32,11 +32,12 @@ namespace MusicXML2
 
 //________________________________________________________________________
 extraOah2ManPageGenerator::extraOah2ManPageGenerator (
-  indentedOstream& logOstream,
-  ostream&         manPageOutputStream)
-    : fExtraOah2ManPageLogOstream (
-        logOstream),
-      fExtraOah2ManPageOutputStream (
+  const S_oahHandler handler,
+  indentedOstream&   logOstream,
+  ostream&           manPageOutputStream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
         manPageOutputStream)
 {}
 
@@ -48,7 +49,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsStructuresAtom& 
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowAllChordsStructuresAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -56,7 +57,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsStructuresAtom& 
   }
 #endif
 
-  fExtraOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -77,7 +78,7 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsStructuresAtom& el
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowAllChordsStructuresAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -91,7 +92,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsContentsAtom& el
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowAllChordsContentsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -99,7 +100,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsContentsAtom& el
   }
 #endif
 
-  fExtraOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -120,7 +121,7 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsContentsAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowAllChordsContentsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -134,7 +135,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordDetailsAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowChordDetailsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -142,7 +143,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordDetailsAtom& elt)
   }
 #endif
 
-  fExtraOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -163,7 +164,7 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowChordDetailsAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowChordDetailsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -177,7 +178,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordAnalysisAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowChordAnalysisAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -185,7 +186,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordAnalysisAtom& elt)
   }
 #endif
 
-  fExtraOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -206,7 +207,7 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowChordAnalysisAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fExtraOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowChordAnalysisAtom" <<
       " \"" << elt->fetchNames () << "\"" <<

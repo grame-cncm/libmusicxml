@@ -15,14 +15,14 @@
 
 #include "brailleOah.h"
 
-#include "oahVisitor.h"
+#include "oah2ManPageGenerators.h"
 
 
 namespace MusicXML2
 {
 
 //________________________________________________________________________
-class brailleOah2ManPageGenerator :
+class brailleOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_brailleOutputKindAtom>,
 
@@ -34,6 +34,7 @@ class brailleOah2ManPageGenerator :
   public:
 
     brailleOah2ManPageGenerator (
+      const S_oahHandler handler,
       indentedOstream&   logOstream,
       ostream&           manPageOutputStream);
 
@@ -49,11 +50,6 @@ class brailleOah2ManPageGenerator :
 
     virtual void visitStart (S_brailleByteOrderingKindAtom& elt);
     virtual void visitEnd   (S_brailleByteOrderingKindAtom& elt);
-
-  protected:
-
-    indentedOstream&      fBrailleOah2ManPageLogOstream;
-    ostream&              fBrailleOah2ManPageOutputStream;
 };
 typedef SMARTP<brailleOah2ManPageGenerator> S_brailleOah2ManPageGenerator;
 

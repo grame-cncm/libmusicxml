@@ -32,11 +32,12 @@ namespace MusicXML2
 
 //________________________________________________________________________
 basicOah2ManPageGenerator::basicOah2ManPageGenerator (
-  indentedOstream& logOstream,
-  ostream&         manPageOutputStream)
-    : fBasicOah2ManPageLogOstream (
-        logOstream),
-      fBasicOah2ManPageOutputStream (
+  const S_oahHandler handler,
+  indentedOstream&   logOstream,
+  ostream&           manPageOutputStream)
+    : oah2ManPageGenerator (
+        handler,
+        logOstream,
         manPageOutputStream)
 {}
 
@@ -48,7 +49,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahHandler" <<
       " \"" << elt->getHandlerHeader () << "\"" <<
@@ -56,7 +57,8 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
   }
 #endif
 
-  fBasicOah2ManPageOutputStream <<
+/* SEE JMI
+  fOah2ManPageOutputStream <<
     ".TH " <<
     gOahOah->fHandlerExecutableName <<
     " \"" <<
@@ -90,13 +92,14 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
     endl <<
     elt->getHandlerUsage () <<
     endl;
+    */
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahHandler& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahHandler" <<
       " \"" << elt->getHandlerHeader () << "\"" <<
@@ -110,7 +113,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahPrefix& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahPrefix" <<
       " \"" << elt->getPrefixName () << "\"" <<
@@ -118,14 +121,14 @@ void basicOah2ManPageGenerator::visitStart (S_oahPrefix& elt)
   }
 #endif
 
-//  elt->printPrefixHeader (fBasicOah2ManPageOutputStream);
+//  elt->printPrefixHeader (fOah2ManPageOutputStream);
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahPrefix& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahPrefix" <<
       " \"" << elt->getPrefixName () << "\"" <<
@@ -139,7 +142,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahGroup& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahGroup" <<
       " \"" << elt->getGroupHeader () << "\"" <<
@@ -147,7 +150,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahGroup& elt)
   }
 #endif
 
-  fBasicOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".SH " <<
     elt->getGroupHeader () <<
     endl <<
@@ -164,7 +167,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahGroup& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahGroup" <<
       " \"" << elt->getGroupHeader () << "\"" <<
@@ -178,7 +181,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahSubGroup& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahSubGroup" <<
       " \"" << elt->getSubGroupHeader () << "\"" <<
@@ -186,7 +189,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahSubGroup& elt)
   }
 #endif
 
-  fBasicOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".TP" <<
     endl <<
     elt->getSubGroupHeader () <<
@@ -206,7 +209,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahSubGroup& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahSubGroup" <<
       " \"" << elt->getSubGroupHeader () << "\"" <<
@@ -220,7 +223,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting S_oahAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -233,7 +236,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting S_oahAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -247,7 +250,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahAtomWithVariableName& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahAtomWithVariableName" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -261,7 +264,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahAtomWithVariableName& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahAtomWithVariableName" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -275,7 +278,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahAtomSynonym& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahAtomSynonym" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -289,7 +292,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahAtomSynonym& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahAtomSynonym" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -303,7 +306,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahOptionsUsageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahOptionsUsageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -317,7 +320,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahOptionsUsageAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahOptionsUsageAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -331,7 +334,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahOptionsSummaryAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahOptionsSummaryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -345,7 +348,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahOptionsSummaryAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahOptionsSummaryAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -359,7 +362,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahOptionNameHelpAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahOptionNameHelpAtom '" <<
       elt->asString () <<
@@ -374,7 +377,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahOptionNameHelpAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahOptionNameHelpAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -388,7 +391,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahBooleanAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahBooleanAtom '" <<
       elt->asString () <<
@@ -398,7 +401,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahBooleanAtom& elt)
   }
 #endif
 
-  fBasicOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -419,7 +422,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahBooleanAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahBooleanAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -433,7 +436,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahTwoBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahTwoBooleansAtom '" <<
       elt->asString () <<
@@ -443,7 +446,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahTwoBooleansAtom& elt)
   }
 #endif
 
-  fBasicOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -464,7 +467,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahTwoBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahTwoBooleansAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -478,7 +481,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahThreeBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahThreeBooleansAtom '" <<
       elt->asString () <<
@@ -488,7 +491,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahThreeBooleansAtom& elt)
   }
 #endif
 
-  fBasicOah2ManPageOutputStream <<
+  fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
     "\\fB\\-" <<
@@ -509,7 +512,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahThreeBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahThreeBooleansAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -523,7 +526,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahCombinedBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahCombinedBooleansAtom '" <<
       elt->asString () <<
@@ -538,7 +541,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahCombinedBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahCombinedBooleansAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -552,7 +555,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahMultiplexBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahMultiplexBooleansAtom '" <<
       elt->asString () <<
@@ -567,7 +570,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahMultiplexBooleansAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahMultiplexBooleansAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -581,7 +584,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahValuedAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahValuedAtom '" <<
       elt->asString () <<
@@ -596,7 +599,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahValuedAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahValuedAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -610,7 +613,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahIntegerAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahIntegerAtom '" <<
       elt->asString () <<
@@ -625,7 +628,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahIntegerAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahIntegerAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -639,7 +642,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahFloatAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahFloatAtom '" <<
       elt->asString () <<
@@ -654,7 +657,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahFloatAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahFloatAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -668,7 +671,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahStringAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahStringAtom '" <<
       elt->asString () <<
@@ -683,7 +686,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahStringAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahStringAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -697,7 +700,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahRationalAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahRationalAtom '" <<
       elt->asString () <<
@@ -712,7 +715,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahRationalAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahRationalAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -726,7 +729,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahMonoplexStringAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahMonoplexStringAtom '" <<
       elt->asString () <<
@@ -741,7 +744,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahMonoplexStringAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahMonoplexStringAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -755,7 +758,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahStringWithDefaultValueAtom& elt
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahStringWithDefaultValueAtom '" <<
       elt->asString () <<
@@ -770,7 +773,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahStringWithDefaultValueAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahStringWithDefaultValueAtom '" <<
       elt->asString () <<
@@ -787,7 +790,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahNaturalNumbersSetElementAtom& e
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahNaturalNumbersSetElementAtom '" <<
       elt->asString () <<
@@ -802,7 +805,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahNaturalNumbersSetElementAtom& elt
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahNaturalNumbersSetElementAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -816,7 +819,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahNaturalNumbersSetAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahNaturalNumbersSetAtom '" <<
       elt->asString () <<
@@ -831,7 +834,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahNaturalNumbersSetAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahNaturalNumbersSetAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -845,7 +848,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahStringsSetElementAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahStringsSetElementAtom '" <<
       elt->asString () <<
@@ -860,7 +863,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahStringsSetElementAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahStringsSetElementAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -874,7 +877,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahStringsSetAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahStringsSetAtom '" <<
       elt->asString () <<
@@ -889,7 +892,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahStringsSetAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahStringsSetAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -903,7 +906,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahRGBColorAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahRGBColorAtom '" <<
       elt->asString () <<
@@ -918,7 +921,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahRGBColorAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    fBasicOah2ManPageLogOstream <<
+    fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahRGBColorAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
