@@ -35,8 +35,6 @@ class oah2ManPageGenerator : public oahVisitor
 
   protected:
 
-    void                  generateManPageHeader ();
-
   protected:
 
     indentedOstream&      fOah2ManPageLogOstream;

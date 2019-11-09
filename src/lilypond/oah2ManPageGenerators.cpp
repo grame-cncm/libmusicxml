@@ -46,43 +46,5 @@ oah2ManPageGenerator::oah2ManPageGenerator (
 oah2ManPageGenerator::~oah2ManPageGenerator ()
 {}
 
-void oah2ManPageGenerator::generateManPageHeader ()
-{
-  fOah2ManPageOutputStream <<
-    ".TH " <<
-    gOahOah->fHandlerExecutableName <<
-    " \"" <<
-    "1" << // JMI section ???
-    "\" \"" <<
-    "October 2019" <<
-    "\" " <<
-    gOahOah->fHandlerExecutableName <<
-    "\" \"" <<
-    "User Commands" <<
-    "\"" <<
-    endl <<
-
-    ".SH NAME" <<
-    endl <<
-    gOahOah->fHandlerExecutableName <<
-    " \\- manual page for " <<
-    gOahOah->fHandlerExecutableName <<
-    endl <<
-
-    ".SH DESCRIPTION" <<
-    endl <<
-    ".IP" <<
-    endl <<
-    fVisitedOahHandler->getHandlerPreamble () <<
-    endl <<
-
-    ".SH \"USAGE\"" <<
-    endl <<
-    ".IP" <<
-    endl <<
-    fVisitedOahHandler->getHandlerUsage () <<
-    endl;
-}
-
 
 } // namespace

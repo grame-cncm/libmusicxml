@@ -60,8 +60,7 @@ xml2lyOahHandler::xml2lyOahHandler (
     "Options values",
     "h", "help",
     "hs", "helpSummary",
-R"(
-                      Welcome to xml2ly,
+R"(                      Welcome to xml2ly,
               the MusicXML to LilyPond translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond

@@ -60,8 +60,7 @@ xml2brlOahHandler::xml2brlOahHandler (
     "Options values",
     "h", "help",
     "hs", "helpSummary",
-R"(
-                      Welcome to xml2brl,
+R"(                      Welcome to xml2brl,
             the MusicXML to Braille music translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
