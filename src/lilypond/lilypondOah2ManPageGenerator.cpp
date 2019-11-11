@@ -56,7 +56,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondScoreOutputKindAtom& el
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -72,6 +72,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondScoreOutputKindAtom& el
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondScoreOutputKindAtom& elt)
@@ -99,7 +100,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAbsoluteOctaveEntryAtom
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -115,6 +116,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAbsoluteOctaveEntryAtom
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondAbsoluteOctaveEntryAtom& elt)
@@ -142,7 +144,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondRelativeOctaveEntryAtom
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -158,6 +160,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondRelativeOctaveEntryAtom
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondRelativeOctaveEntryAtom& elt)
@@ -185,7 +188,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondFixedOctaveEntryAtom& e
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -201,6 +204,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondFixedOctaveEntryAtom& e
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondFixedOctaveEntryAtom& elt)
@@ -228,7 +232,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondResetMeasureNumberAtom&
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -244,6 +248,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondResetMeasureNumberAtom&
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondResetMeasureNumberAtom& elt)
@@ -271,7 +276,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAccidentalStyleKindAtom
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -287,6 +292,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAccidentalStyleKindAtom
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondAccidentalStyleKindAtom& elt)
@@ -314,7 +320,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondChordsDisplayAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -330,6 +336,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondChordsDisplayAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondChordsDisplayAtom& elt)
@@ -357,7 +364,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondLyricsAlignmentKindAtom
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -373,6 +380,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondLyricsAlignmentKindAtom
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondLyricsAlignmentKindAtom& elt)
@@ -400,7 +408,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondMidiTempoAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -416,6 +424,7 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondMidiTempoAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void lilypondOah2ManPageGenerator::visitEnd (S_lilypondMidiTempoAtom& elt)

@@ -130,7 +130,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahPrefix& elt)
 #endif
 
   fOah2ManPageOutputStream <<
-    ".PP" <<
+    ".IT FL" <<
     endl <<
     elt->getPrefixErsatz () <<
     " " <<
@@ -414,7 +414,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahBooleanAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -430,6 +430,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahBooleanAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahBooleanAtom& elt)
@@ -460,6 +461,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahTwoBooleansAtom& elt)
   }
 #endif
 
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -475,6 +477,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahTwoBooleansAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahTwoBooleansAtom& elt)
@@ -505,6 +508,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahThreeBooleansAtom& elt)
   }
 #endif
 
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -520,6 +524,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahThreeBooleansAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahThreeBooleansAtom& elt)

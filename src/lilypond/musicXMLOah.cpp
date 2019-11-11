@@ -220,14 +220,14 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 }
 #endif
 
-void musicXMLOah::initializeMusicXMLWorkOptions (
+void musicXMLOah::initializeMusicXMLWorkTitleOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     workSubGroup =
       oahSubGroup::create (
-        "Work",
-        "hmxmlw", "help-musicxml-work",
+        "Work title",
+        "hmxmlwt", "help-musicxml-work-title",
 R"()",
         kElementVisibilityAlways,
         this);
@@ -370,6 +370,45 @@ The file name receives a '_loop' suffix. Currently under development.)",
       loopOptionsBooleanAtom);
 }
 
+void musicXMLOah::initializeMusicXMLDynamicsandWedgesOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    workSubGroup =
+      oahSubGroup::create (
+        "Dynamics and wedges",
+        "hmxmldaw", "help-musicxml-dynamics-and-wedges",
+R"()",
+        kElementVisibilityAlways,
+        this);
+
+  appendSubGroupToGroup (workSubGroup);
+
+  // dynamics
+
+  fAllDynamicsBelow = false;
+
+  workSubGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "adb", "all-dynamics-below",
+R"(Ignore dynamics placement and set it to 'below'.)",
+        "allDynamicsBelow",
+        fAllDynamicsBelow));
+
+  // wedges
+
+  fAllWedgesBelow = false;
+
+  workSubGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "awb", "all-wedges-below",
+R"(Ignore wedges placement and set it to 'below'.)",
+        "allWedgesBelow",
+        fAllWedgesBelow));
+}
+
 void musicXMLOah::initializeMusicXMLCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
@@ -445,12 +484,17 @@ void musicXMLOah::initializeMusicXMLOah (
 #endif
 
   // worktitle
-  initializeMusicXMLWorkOptions (
+  initializeMusicXMLWorkTitleOptions (
     boolOptionsInitialValue);
 
   // clefs, keys, times
   // --------------------------------------
   initializeMusicXMLClefsKeysTimesOptions (
+    boolOptionsInitialValue);
+
+  // dynamics and wedges
+  // --------------------------------------
+  initializeMusicXMLDynamicsandWedgesOptions (
     boolOptionsInitialValue);
 
   // combined options
@@ -485,6 +529,14 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
 
   clone->fLoopToMusicXML =
     fLoopToMusicXML;
+
+  // dynamics and wedges
+  // --------------------------------------
+
+  clone->fAllDynamicsBelow =
+    fAllDynamicsBelow;
+  clone->fAllWedgesBelow =
+    fAllWedgesBelow;
 
 
   // trace
@@ -640,6 +692,25 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
 
     setw (fieldWidth) << "loopToMusicXML" << " : " <<
     booleanAsString (fLoopToMusicXML) <<
+    endl;
+
+  gIndenter--;
+
+  // dynamics
+  // --------------------------------------
+
+  gLogOstream <<
+    "Dynamics:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "allDynamicsBelow" << " : " <<
+    booleanAsString (fAllDynamicsBelow) <<
+    endl <<
+    setw (fieldWidth) << "allWedgesBelow" << " : " <<
+    booleanAsString (fAllWedgesBelow) <<
     endl;
 
   gIndenter--;

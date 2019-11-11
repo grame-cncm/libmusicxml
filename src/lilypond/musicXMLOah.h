@@ -88,10 +88,13 @@ class musicXMLOah : public oahGroup
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMusicXMLWorkOptions (
+    void                  initializeMusicXMLWorkTitleOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeMusicXMLClefsKeysTimesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMusicXMLDynamicsandWedgesOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeMusicXMLCombinedOptionsOptions (
@@ -127,6 +130,11 @@ class musicXMLOah : public oahGroup
     // worktitle
 
     bool                  fUseFilenameAsWorkTitle;
+
+    // dynamics and wedges
+
+    bool                  fAllDynamicsBelow;
+    bool                  fAllWedgesBelow;
 
     // clefs, keys, times
 

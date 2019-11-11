@@ -56,7 +56,7 @@ void oahOah2ManPageGenerator::visitStart (S_oahOptionalValuesStyleKindAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -72,6 +72,7 @@ void oahOah2ManPageGenerator::visitStart (S_oahOptionalValuesStyleKindAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void oahOah2ManPageGenerator::visitEnd (S_oahOptionalValuesStyleKindAtom& elt)

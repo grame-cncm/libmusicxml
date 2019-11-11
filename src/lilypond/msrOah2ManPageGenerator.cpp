@@ -56,7 +56,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrRenamePartAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -72,6 +72,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrRenamePartAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void msrOah2ManPageGenerator::visitEnd (S_msrRenamePartAtom& elt)
@@ -99,7 +100,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrTransposePartAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -115,6 +116,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrTransposePartAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void msrOah2ManPageGenerator::visitEnd (S_msrTransposePartAtom& elt)
@@ -142,7 +144,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrOmitPartAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -158,6 +160,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrOmitPartAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void msrOah2ManPageGenerator::visitEnd (S_msrOmitPartAtom& elt)
@@ -185,7 +188,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrKeepPartAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -201,6 +204,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrKeepPartAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void msrOah2ManPageGenerator::visitEnd (S_msrKeepPartAtom& elt)
@@ -228,7 +232,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrPitchesLanguageAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -244,6 +248,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrPitchesLanguageAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void msrOah2ManPageGenerator::visitEnd (S_msrPitchesLanguageAtom& elt)

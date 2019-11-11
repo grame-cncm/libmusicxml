@@ -1515,8 +1515,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
       stringstream s;
 
       s <<
-        "option name '" << name <<
-        "' is not that of an atom";
+        "option name '" << name << "' is not that of an atom";
 
       oahError (s.str ());
     }
@@ -2324,8 +2323,7 @@ void oahMultiplexBooleansAtom::addBooleanAtomByName (
       stringstream s;
 
       s <<
-        "option name '" << name <<
-        "' is not that of an atom";
+        "option name '" << name << "' is not that of an atom";
 
       oahError (s.str ());
     }
@@ -3785,8 +3783,7 @@ void oahMonoplexStringAtom::addStringAtomByName (
       stringstream s;
 
       s <<
-        "option name '" << name <<
-        "' is not that of an atom";
+        "option name '" << name << "' is not that of an atom";
 
       oahError (s.str ());
     }
@@ -6601,7 +6598,7 @@ void oahSubGroup::printSubGroupSpecificHelpOrOptionsSummary (
       subGroup);
   }
   else {
-    printOptionsSummary (os);
+    printOptionsSummary (os); // JMI ???
   }
  }
 
@@ -8133,8 +8130,7 @@ void oahHandler::printOptionNameIntrospectiveHelp (
     stringstream s;
 
     s <<
-      "option name '" << name <<
-      "' is unknown, cannot deliver specific help";
+      "option name '" << name << "' is unknown, cannot deliver specific help";
 
     oahError (s.str ());
   }
@@ -8932,8 +8928,9 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
     }
   } // for
 
-  if (cluserElementsList.size ()) {
-    // handle the elements in cluserElementsList
+  if (cluserElementsList.size () == fSingleCharacterShortNamesSet.size ()) {
+    // all the elements in cluserElementsList are single character options,
+    // handle them
     for (
       list<S_oahElement>::const_iterator i = cluserElementsList.begin ();
       i != cluserElementsList.end ();
@@ -9073,8 +9070,7 @@ void oahHandler::decipherOptionContainingEqualSign (
       stringstream s;
 
       s <<
-        "option name '" << name <<
-        "' is not the name of an option FOO";
+        "option name '" << name << "' is not the name of an option";
 
       oahError (s.str ());
     }
@@ -9570,17 +9566,17 @@ void oahHandler::handleOptionName (
         &&
       optionNameIsASingleCharacterOptionsCluster (name)
     ) {
-      // the options contained in name have just been handled
+      // the options contained in name have just been handled,
+      // do nothing more
     }
 
     else {
-      // name is not well handled by this options handler
+      // name is unknown to this OAH handler
 
       stringstream s;
 
       s <<
-        "option name '" << name <<
-        "' is unknown";
+        "option name '" << name << "' is unknown";
 
       oahError (s.str ());
     }
@@ -9696,8 +9692,7 @@ void oahHandler::handleOptionName (
       stringstream s;
 
       s <<
-        "INTERNAL ERROR: option name '" << name <<
-        "' cannot be handled";
+        "INTERNAL ERROR: option name '" << name << "' cannot be handled";
 
       oahError (s.str ());
     }

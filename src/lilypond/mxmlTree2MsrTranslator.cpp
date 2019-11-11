@@ -5428,7 +5428,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
     }
   }
 
-  // color JMI
+  // color JMI ???
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllWedgesBelow) {
+    fCurrentDirectionPlacementKind = kPlacementBelow;
+  }
 
   if (! gMsrOah->fOmitWedges) {
     S_msrWedge
@@ -11600,6 +11605,11 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -11635,6 +11645,11 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -11672,6 +11687,11 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -11707,6 +11727,11 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -11744,6 +11769,11 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -11779,6 +11809,11 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -11817,6 +11852,11 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -11852,6 +11892,11 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -11889,6 +11934,11 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -11924,6 +11974,11 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -11961,6 +12016,11 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -11996,6 +12056,11 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -12035,6 +12100,11 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -12070,6 +12140,11 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -12108,6 +12183,11 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -12143,6 +12223,11 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -12181,6 +12266,11 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -12217,6 +12307,11 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -12255,6 +12350,11 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -12291,6 +12391,11 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -12329,6 +12434,11 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -12366,6 +12476,11 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
     S_msrDynamics
@@ -12400,6 +12515,11 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -12439,6 +12559,11 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the other dynamics
   if (! gMsrOah->fOmitDynamics) {
@@ -12560,6 +12685,11 @@ void mxmlTree2MsrTranslator::visitStart( S_soft_pedal& elt)
         inputLineNumber,
         placementString);
 
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
+
   // create the other dynamics
   S_msrOtherDynamics
     otherDynamics =
@@ -12591,6 +12721,11 @@ void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
       msrPlacementKindFromString (
         inputLineNumber,
         placementString);
+
+  // should the placement be forced to 'below'?
+  if (gMusicXMLOah->fAllDynamicsBelow) {
+    placementKind = kPlacementBelow;
+  }
 
   // create the other dynamics
   S_msrOtherDynamics

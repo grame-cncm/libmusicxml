@@ -122,7 +122,7 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlVersionOahAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     "\\fB\\-" <<
     replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
@@ -137,6 +137,7 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlVersionOahAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void xml2brlOah2ManPageGenerator::visitEnd (S_xml2brlVersionOahAtom& elt)
@@ -164,7 +165,7 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlAboutOahAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -180,6 +181,7 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlAboutOahAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void xml2brlOah2ManPageGenerator::visitEnd (S_xml2brlAboutOahAtom& elt)
@@ -207,7 +209,7 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlContactOahAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -223,6 +225,7 @@ void xml2brlOah2ManPageGenerator::visitStart (S_xml2brlContactOahAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void xml2brlOah2ManPageGenerator::visitEnd (S_xml2brlContactOahAtom& elt)

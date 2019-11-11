@@ -56,7 +56,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsStructuresAtom& 
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -72,6 +72,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsStructuresAtom& 
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsStructuresAtom& elt)
@@ -99,7 +100,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsContentsAtom& el
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -115,6 +116,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsContentsAtom& el
     endl <<
     elt->getDescription () <<
     endl;
+*/
 }
 
 void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsContentsAtom& elt)
@@ -142,7 +144,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordDetailsAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -158,6 +160,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordDetailsAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void extraOah2ManPageGenerator::visitEnd (S_extraShowChordDetailsAtom& elt)
@@ -185,7 +188,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordAnalysisAtom& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -201,6 +204,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordAnalysisAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
+    */
 }
 
 void extraOah2ManPageGenerator::visitEnd (S_extraShowChordAnalysisAtom& elt)
