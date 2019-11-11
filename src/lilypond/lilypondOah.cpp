@@ -3022,6 +3022,21 @@ R"(Generate LilyPond code to show all bar numbers.)",
   subGroup->
     appendAtomToSubGroup (allBarNumbersAtom);
 
+  // box around next bar number
+
+  fGenerateBoxAroundNextBarNumber = boolOptionsInitialValue;
+
+  S_oahBooleanAtom
+    generateBoxAroundNextBarNumber =
+      oahBooleanAtom::create (
+        "gbanbn", "generate-box-around-next-bar-number",
+R"(Generate LilyPond code to show all bar numbers.)",
+        "generateBoxAroundNextBarNumber",
+        fGenerateBoxAroundNextBarNumber);
+
+  subGroup->
+    appendAtomToSubGroup (generateBoxAroundNextBarNumber);
+
   // all measure numbers
 
   subGroup->
@@ -3955,10 +3970,13 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
     true;
 
 
-  // bars
+  // bars and measures
   // --------------------------------------
 
   clone->fShowAllBarNumbers =
+    true;
+
+  clone->fGenerateBoxAroundNextBarNumber =
     true;
 
 
@@ -4435,7 +4453,7 @@ void lilypondOah::printAtomOptionsValues (
   gIndenter--;
 
 
-  // bars
+  // bars and measures
   // --------------------------------------
   os <<
     "Bars:" <<
@@ -4446,6 +4464,9 @@ void lilypondOah::printAtomOptionsValues (
   os << left <<
     setw (valueFieldWidth) << "showAllBarNumbers" << " : " <<
     booleanAsString (fShowAllBarNumbers) <<
+    endl <<
+    setw (valueFieldWidth) << "generateBoxAroundNextBarNumber" << " : " <<
+    booleanAsString (fGenerateBoxAroundNextBarNumber) <<
     endl;
 
   gIndenter--;
@@ -4937,7 +4958,7 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gIndenter--;
 
 
-  // bars
+  // bars and measures
   // --------------------------------------
   gLogOstream <<
     "Bars:" <<
@@ -4948,6 +4969,9 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "showAllBarNumbers" << " : " <<
     booleanAsString (fShowAllBarNumbers) <<
+    endl <<
+    setw (fieldWidth) << "generateBoxAroundNextBarNumber" << " : " <<
+    booleanAsString (fGenerateBoxAroundNextBarNumber) <<
     endl;
 
   gIndenter--;

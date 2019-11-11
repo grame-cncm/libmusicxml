@@ -1094,6 +1094,8 @@ class lilypondOah : public oahGroup
 
     bool                  fShowAllBarNumbers;
 
+    bool                  fGenerateBoxAroundNextBarNumber;
+
     map<string, int>      fResetMeasureNumberMap;
 
 

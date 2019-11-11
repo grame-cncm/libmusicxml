@@ -205,6 +205,8 @@ lpsrScore::lpsrScore (
   fDampAllMarkupIsNeeded = false;
   // white note heads
   fWhiteNoteHeadsIsNeeded = false;
+    // bar numbers
+  fBoxAroundNextBarNumberIsNeeded = false;
   // jazz chords display
   fJazzChordsDisplayIsNeeded = false;
   // colored ledger lines
@@ -574,6 +576,15 @@ void lpsrScore::setWhiteNoteHeadsIsNeeded ()
     addWhiteNoteHeadsToScore ();
 
     fWhiteNoteHeadsIsNeeded = true;
+  }
+}
+
+void lpsrScore::setBoxAroundNextBarNumberIsNeeded ()
+{
+  if (! fBoxAroundNextBarNumberIsNeeded) {
+    addBoxAroundNextBarNumberToScore ();
+
+    fBoxAroundNextBarNumberIsNeeded = true;
   }
 }
 
@@ -1571,6 +1582,57 @@ whiteNoteHeads =
      \revert NoteHead.text
    #}
    )
+)!";
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addBoxAroundNextBarNumberToScore ()
+{
+  string
+    schemeFunctionName =
+      "boxAroundNextBarNumber",
+
+    schemeFunctionDescription =
+R"(
+    /*
+% Draw a box round the next bar number
+boxAroundNextBarNumber = {
+  \once\override Score.BarNumber.stencil =
+  #(make-stencil-boxer 0.25 0.5 ly:text-interface::print)
+}
+*/
+% A macro to draw a box round the next bar number
+)",
+
+    schemeFunctionCode =
+      // add ! before ( and after ) since the code contains )"
+R"!(
+whiteNoteHeads =
+% Draw a box round the next bar number
+boxAroundNextBarNumber = {
+  \once\override Score.BarNumber.stencil =
+  #(make-stencil-boxer 0.25 0.5 ly:text-interface::print)
+}
 )!";
 
 #ifdef TRACE_OAH

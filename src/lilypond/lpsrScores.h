@@ -235,6 +235,15 @@ class lpsrScore : public lpsrElement
                                   fWhiteNoteHeadsIsNeeded;
                               }
 
+    // bar numbers
+    void                  setBoxAroundNextBarNumberIsNeeded ();
+
+    bool                  getBoxAroundNextBarNumberIsNeeded () const
+                              {
+                                return
+                                  fBoxAroundNextBarNumberIsNeeded;
+                              }
+
     // jazz chords display
     void                  setJazzChordsDisplayIsNeeded ();
 
@@ -315,6 +324,9 @@ class lpsrScore : public lpsrElement
     // white note heads
 
     void                  addWhiteNoteHeadsToScore ();
+
+    // bar numbers
+    void                  addBoxAroundNextBarNumberToScore ();
 
     // jazz chords display
 
@@ -408,6 +420,9 @@ class lpsrScore : public lpsrElement
 
     // white note heads
     bool                  fWhiteNoteHeadsIsNeeded;
+
+    // bar numbers
+    bool                  fBoxAroundNextBarNumberIsNeeded;
 
     // jazz chords display
     bool                  fJazzChordsDisplayIsNeeded;

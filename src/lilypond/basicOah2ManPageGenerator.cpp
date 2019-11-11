@@ -23,7 +23,7 @@
 
 #include "version.h"
 
-#include "oahOah.h"
+#include "generalOah.h"
 
 using namespace std;
 
@@ -63,7 +63,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
     gOahOah->fHandlerExecutableName <<
     currentVersionNumber () <<
     " on " <<
-    gOahOah->fHandlerExecutableName <<
+    gGeneralOah->fTranslationDate <<
     endl;
 
   // the man page header
@@ -73,18 +73,21 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
     " \"" <<
     "1" << // JMI section ???
     "\" \"" <<
-    "October 2019" <<
+    gGeneralOah->fTranslationDate <<
     "\" " <<
     gOahOah->fHandlerExecutableName <<
-    "\" \"" <<
+    " \"" <<
     "User Commands" <<
     "\"" <<
     endl <<
 
     ".SH NAME" <<
     endl <<
+    ".NM " <<
     gOahOah->fHandlerExecutableName <<
-    " \\- manual page for " <<
+    endl <<
+    ".ND " <<
+    "manual page for " <<
     gOahOah->fHandlerExecutableName <<
     endl <<
 
@@ -130,8 +133,8 @@ void basicOah2ManPageGenerator::visitStart (S_oahPrefix& elt)
 #endif
 
   fOah2ManPageOutputStream <<
-    ".IT FL" <<
-    endl <<
+    ".IT FL " <<
+ //   endl <<
     elt->getPrefixErsatz () <<
     " " <<
     elt->getPrefixDescription () <<
@@ -202,7 +205,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahSubGroup& elt)
       endl;
   }
 #endif
-
+/*
   fOah2ManPageOutputStream <<
     ".TP" <<
     endl <<
@@ -217,6 +220,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahSubGroup& elt)
     replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
     "\\fR): " <<
     endl;
+*/
 }
 
 void basicOah2ManPageGenerator::visitEnd (S_oahSubGroup& elt)
