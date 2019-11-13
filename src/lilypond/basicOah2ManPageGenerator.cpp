@@ -661,6 +661,35 @@ void basicOah2ManPageGenerator::visitEnd (S_oahIntegerAtom& elt)
 }
 
 //________________________________________________________________________
+void basicOah2ManPageGenerator::visitStart (S_oahTwoIntegersAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> Start visiting oahTwoIntegersAtom '" <<
+      elt->asString () <<
+      "'" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+void basicOah2ManPageGenerator::visitEnd (S_oahTwoIntegersAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> End visiting oahTwoIntegersAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void basicOah2ManPageGenerator::visitStart (S_oahFloatAtom& elt)
 {
 #ifdef TRACE_OAH
@@ -947,6 +976,35 @@ void basicOah2ManPageGenerator::visitEnd (S_oahRGBColorAtom& elt)
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahRGBColorAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void basicOah2ManPageGenerator::visitStart (S_oahStringAndIntegerAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> Start visiting oahStringAndIntegerAtom '" <<
+      elt->asString () <<
+      "'" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+void basicOah2ManPageGenerator::visitEnd (S_oahStringAndIntegerAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> End visiting oahStringAndIntegerAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }

@@ -1162,7 +1162,7 @@ class oahIntegerAtom : public oahValuedAtom
     void                  printAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  private:
+  protected:
 
     // fields
     // ------------------------------------------------------
@@ -1171,6 +1171,97 @@ class oahIntegerAtom : public oahValuedAtom
 };
 typedef SMARTP<oahIntegerAtom> S_oahIntegerAtom;
 EXP ostream& operator<< (ostream& os, const S_oahIntegerAtom& elt);
+
+//______________________________________________________________________________
+class oahTwoIntegersAtom : public oahIntegerAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahTwoIntegersAtom> create (
+      string shortName,
+      string longName,
+      string description,
+      string valueSpecification,
+      string variableName,
+      int&   integerVariable,
+      int&   integerSecondaryVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahTwoIntegersAtom (
+      string shortName,
+      string longName,
+      string description,
+      string valueSpecification,
+      string variableName,
+      int&   integerVariable,
+      int&   integerSecondaryVariable);
+
+  protected:
+
+
+    virtual ~oahTwoIntegersAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setIntegerVariable (
+                            int value)
+                              { fIntegerVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    int&                  fIntegerSecondaryVariable;
+};
+typedef SMARTP<oahTwoIntegersAtom> S_oahTwoIntegersAtom;
+EXP ostream& operator<< (ostream& os, const S_oahTwoIntegersAtom& elt);
 
 //______________________________________________________________________________
 class oahFloatAtom : public oahValuedAtom
@@ -2045,6 +2136,100 @@ class oahRGBColorAtom : public oahValuedAtom
 };
 typedef SMARTP<oahRGBColorAtom> S_oahRGBColorAtom;
 EXP ostream& operator<< (ostream& os, const S_oahRGBColorAtom& elt);
+
+//______________________________________________________________________________
+class oahStringAndIntegerAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahStringAndIntegerAtom> create (
+      string  shortName,
+      string  longName,
+      string  description,
+      string  valueSpecification,
+      string  variableName,
+      string& stringVariable,
+      int&    integerVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahStringAndIntegerAtom (
+      string  shortName,
+      string  longName,
+      string  description,
+      string  valueSpecification,
+      string  variableName,
+      string& stringVariable,
+      int&    integerVariable);
+
+    virtual ~oahStringAndIntegerAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setStringVariable (
+                            string value)
+                              { fStringVariable = value; }
+
+    void                  setIntegerVariable (
+                            int value)
+                              { fIntegerVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string&               fStringVariable;
+    int&                  fIntegerVariable;
+};
+typedef SMARTP<oahStringAndIntegerAtom> S_oahStringAndIntegerAtom;
+EXP ostream& operator<< (ostream& os, const S_oahStringAndIntegerAtom& elt);
 
 //______________________________________________________________________________
 class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom

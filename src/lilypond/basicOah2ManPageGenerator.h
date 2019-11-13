@@ -53,8 +53,12 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
   public visitor<S_oahValuedAtom>,
 
   public visitor<S_oahIntegerAtom>,
+  public visitor<S_oahTwoIntegersAtom>,
+
   public visitor<S_oahFloatAtom>,
+
   public visitor<S_oahStringAtom>,
+
   public visitor<S_oahRationalAtom>,
 
   public visitor<S_oahMonoplexStringAtom>,
@@ -67,7 +71,9 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
   public visitor<S_oahStringsSetElementAtom>,
   public visitor<S_oahStringsSetAtom>,
 
-  public visitor<S_oahRGBColorAtom>
+  public visitor<S_oahRGBColorAtom>,
+
+  public visitor<S_oahStringAndIntegerAtom>
 
 {
   public:
@@ -129,10 +135,15 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     virtual void visitStart (S_oahIntegerAtom& elt);
     virtual void visitEnd   (S_oahIntegerAtom& elt);
+    virtual void visitStart (S_oahTwoIntegersAtom& elt);
+    virtual void visitEnd   (S_oahTwoIntegersAtom& elt);
+
     virtual void visitStart (S_oahFloatAtom& elt);
     virtual void visitEnd   (S_oahFloatAtom& elt);
+
     virtual void visitStart (S_oahStringAtom& elt);
     virtual void visitEnd   (S_oahStringAtom& elt);
+
     virtual void visitStart (S_oahRationalAtom& elt);
     virtual void visitEnd   (S_oahRationalAtom& elt);
 
@@ -154,6 +165,9 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     virtual void visitStart (S_oahRGBColorAtom& elt);
     virtual void visitEnd   (S_oahRGBColorAtom& elt);
+
+    virtual void visitStart (S_oahStringAndIntegerAtom& elt);
+    virtual void visitEnd   (S_oahStringAndIntegerAtom& elt);
 };
 typedef SMARTP<basicOah2ManPageGenerator> S_basicOah2ManPageGenerator;
 
