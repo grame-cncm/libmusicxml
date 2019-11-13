@@ -12793,18 +12793,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
     }
   }
 
-/*
-      <note>
-        <grace steal-time-previous="20"/>
-        <pitch>
-          <step>G</step>
-          <octave>5</octave>
-        </pitch>
-        <voice>1</voice>
-        <type>16th</type>
-        <staff>1</staff>
-      </note>
-*/
+  // should all grace notes be slashed?
+  if (gMsrOah->fSlashAllGraceNotes) {
+    fCurrentGraceIsSlashed = true;
+  }
 
   fCurrentStealTimeFollowing =
     elt->getAttributeValue ("steal-time-following");
@@ -18358,6 +18350,11 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           msrGraceNotesGroup::kGraceNotesGroupBefore, // default value
           fCurrentGraceIsSlashed,
           currentVoice);
+
+      // should all grace notes be slurred?
+      if (gMsrOah->fSlurAllGraceNotes) {
+        fPendingGraceNotesGroup->setGraceNotesGroupIsTied ();
+      }
 
 /* JMI
       // register that last handled note if any is followed by grace notes

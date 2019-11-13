@@ -671,6 +671,9 @@ class msrOah : public oahGroup
     bool                  fDelayRestsSlashes; // JMI
     bool                  fDelayRestsWedges; // JMI
 
+    bool                  fSlashAllGraceNotes;
+    bool                  fSlurAllGraceNotes;
+
     // articulations
     // --------------------------------------
 

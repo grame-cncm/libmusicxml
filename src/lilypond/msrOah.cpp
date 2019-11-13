@@ -2174,6 +2174,36 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
     addBooleanAtom (
       delayRestsWedgesAtom);
 
+  // slah all grace notes
+
+  fSlashAllGraceNotes = false;
+
+  S_oahBooleanAtom
+    slashAllGraceNotesAtom =
+      oahBooleanAtom::create (
+        "slashagn", "slash-all-grace-notes ",
+R"()",
+        "slashAllGraceNotes",
+        fSlashAllGraceNotes);
+  subGroup->
+    appendAtomToSubGroup (
+      slashAllGraceNotesAtom);
+
+  // slur all grace notes
+
+  fSlurAllGraceNotes = false;
+
+  S_oahBooleanAtom
+    slurAllGraceNotesAtom =
+      oahBooleanAtom::create (
+        "sluragn", "slur-all-grace-notes ",
+R"()",
+        "slurAllGraceNotes",
+        fSlurAllGraceNotes);
+  subGroup->
+    appendAtomToSubGroup (
+      slurAllGraceNotesAtom);
+
   // omit articulations
 
   fOmitArticulations = false;
@@ -2606,6 +2636,11 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
     fDelayRestsSlashes;
   clone->fDelayRestsWedges =
     fDelayRestsWedges;
+
+  clone->fSlashAllGraceNotes =
+    fSlashAllGraceNotes;
+  clone->fSlurAllGraceNotes =
+    fSlurAllGraceNotes;
 
   clone->fOmitArticulations =
     fOmitArticulations;
@@ -3043,6 +3078,13 @@ void msrOah::printMsrOahValues (int fieldWidth)
 
     setw (fieldWidth) << "delayRestsWedges" << " : " <<
     booleanAsString (fDelayRestsWedges) <<
+    endl <<
+
+    setw (fieldWidth) << "slashAllGraceNotes" << " : " <<
+    booleanAsString (fSlashAllGraceNotes) <<
+    endl <<
+    setw (fieldWidth) << "slurAllGraceNotes" << " : " <<
+    booleanAsString (fSlurAllGraceNotes) <<
     endl;
 
   gIndenter--;

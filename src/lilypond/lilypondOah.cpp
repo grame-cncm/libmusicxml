@@ -2788,7 +2788,7 @@ R"()",
       lilypondAbsoluteOctaveEntryAtom::create (
         "abs", "absolute",
 R"(Use absolute octave entry in the generated LilyPond code.)",
-          "fOctaveEntryKind",
+          "octaveEntryKind",
           fOctaveEntryKind));
 
   subGroup->

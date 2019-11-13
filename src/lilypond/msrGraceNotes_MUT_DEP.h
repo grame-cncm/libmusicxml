@@ -79,6 +79,9 @@ class msrGraceNotesGroup : public msrElement
     bool                  getGraceNotesGroupIsSlashed () const
                               { return fGraceNotesGroupIsSlashed; }
 
+    void                  setGraceNotesGroupIsTied ()
+                              { fGraceNotesGroupIsTied = true; }
+
     bool                  getGraceNotesGroupIsTied () const
                               { return fGraceNotesGroupIsTied; }
 
