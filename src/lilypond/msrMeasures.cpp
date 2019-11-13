@@ -1480,6 +1480,12 @@ void msrMeasure::appendNoteToMeasure (
   int inputLineNumber =
     note->getInputLineNumber ();
 
+  rational
+    positionsDelta =
+      partCurrentPositionInMeasure
+        -
+      fCurrentMeasureWholeNotesDuration;
+
 #ifdef TRACE_OAH
   if (
     gTraceOah->fTraceNotes
@@ -1499,18 +1505,18 @@ void msrMeasure::appendNoteToMeasure (
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
+      ", partCurrentPositionInMeasure: " <<
+      partCurrentPositionInMeasure <<
+      ", fCurrentMeasureWholeNotesDuration: " <<
+      fCurrentMeasureWholeNotesDuration <<
+      ", positionsDelta: " <<
+      positionsDelta <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
   // should a skip/rest note be appended before note?
-  rational
-    positionsDelta =
-      partCurrentPositionInMeasure
-        -
-      fCurrentMeasureWholeNotesDuration;
-
   if (positionsDelta.getNumerator () > 0) {
     // fetch the voice
     S_msrVoice
@@ -1598,6 +1604,7 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif

@@ -286,14 +286,6 @@ void msrTuplet::addNoteToTuplet (
   voiceLastMeasure->
     accountForTupletMemberNoteDurationInMeasure (
       note);
-
-  // account for note duration in the part current position in measure
-  voice->
-    getVoiceStaffUpLink ()->
-      getStaffPartUpLink ()->
-        incrementPartCurrentPositionInMeasure (
-          inputLineNumber,
-          note->getNoteSoundingWholeNotes ());
 }
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)

@@ -474,6 +474,13 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
         gLilypondOah->fCopyright);
   }
 
+  // is the LilyPond macro 'boxAroundNextBarNumber' to be generated?
+  if (gLilypondOah->fGenerateBoxAroundNextBarNumber) {
+    fLpsrScore->
+      // this score needs the 'boxAroundNextBarNumber' Scheme function
+      setBoxAroundNextBarNumberIsNeeded ();
+  }
+
   // is the Scheme function 'whiteNoteHeads' to be generated?
   if (gLilypondOah->fWhiteNoteHeads) {
     fLpsrScore->
@@ -2349,11 +2356,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
           measurePuristNumber <<
           "', line " << inputLineNumber;
 
+/* JMI ???
         msrInternalError (
           gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
+          */
       }
     }
   }

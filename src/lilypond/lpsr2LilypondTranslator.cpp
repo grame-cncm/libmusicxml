@@ -6849,6 +6849,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   gIndenter++;
 
+  // use a 'global' macro?
   if (gLilypondOah->fGlobal) {
     fLilypondCodeOstream <<
       "\\global" <<
@@ -6856,6 +6857,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl;
   }
 
+  // \displayMusic?
   if (gLilypondOah->fDisplayMusic) {
     fLilypondCodeOstream <<
       "\\displayMusic {" <<
@@ -6864,6 +6866,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     gIndenter++;
   }
 
+  // language
   fLilypondCodeOstream <<
     "\\language \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
@@ -6872,6 +6875,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     "\"" <<
     endl;
 
+  // chords language
   if (gLpsrOah->fLpsrChordsLanguageKind != k_IgnatzekChords) {
     fLilypondCodeOstream <<
       "\\" <<
@@ -6882,11 +6886,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl;
   }
 
+  // show all bar numbers?
   if (gLilypondOah->fShowAllBarNumbers) {
     fLilypondCodeOstream <<
       "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
       endl <<
       "\\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
+      endl <<
+      endl;
+  }
+
+  // compress full measure rests?
+  if (gLilypondOah->fCompressFullMeasureRests) {
+    fLilypondCodeOstream <<
+      "\\compressFullBarRests" <<
+      endl <<
+      "\\set restNumberThreshold = 0" <<
       endl <<
       endl;
   }

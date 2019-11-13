@@ -3022,21 +3022,6 @@ R"(Generate LilyPond code to show all bar numbers.)",
   subGroup->
     appendAtomToSubGroup (allBarNumbersAtom);
 
-  // box around next bar number
-
-  fGenerateBoxAroundNextBarNumber = boolOptionsInitialValue;
-
-  S_oahBooleanAtom
-    generateBoxAroundNextBarNumber =
-      oahBooleanAtom::create (
-        "gbanbn", "generate-box-around-next-bar-number",
-R"(Generate LilyPond code to show all bar numbers.)",
-        "generateBoxAroundNextBarNumber",
-        fGenerateBoxAroundNextBarNumber);
-
-  subGroup->
-    appendAtomToSubGroup (generateBoxAroundNextBarNumber);
-
   // all measure numbers
 
   subGroup->
@@ -3564,7 +3549,7 @@ R"(Generate initial comments showing the compilation date and lilypond.)",
         "xml2lyInfos",
         fXml2lyInfos));
 
-  // code generation
+  // comments
 
   fComments = boolOptionsInitialValue;
 
@@ -3588,6 +3573,8 @@ at the beginning of all voices.)",
         "global",
         fGlobal));
 
+  // display music
+
   fDisplayMusic = boolOptionsInitialValue;
 
   subGroup->
@@ -3598,6 +3585,8 @@ R"(Place the contents of all voices inside a '\displayMusic' block,
 for LilyPond to show its internal representation of the music.)",
         "displayMusic",
         fDisplayMusic));
+
+  // LilyPond code
 
   fNoLilypondCode = boolOptionsInitialValue;
 
@@ -3610,6 +3599,8 @@ That can be useful if only a summary of the score is needed.)",
         "noLilypondCode",
         fNoLilypondCode));
 
+  // LilyPond lyrics
+
   fNoLilypondLyrics = boolOptionsInitialValue;
 
   subGroup->
@@ -3619,6 +3610,8 @@ That can be useful if only a summary of the score is needed.)",
 R"(Don't generate any lyrics in the LilyPond code.)",
         "noLilypondLyrics",
         fNoLilypondLyrics));
+
+  // compile date
 
   fLilypondCompileDate = boolOptionsInitialValue;
 
@@ -3630,6 +3623,8 @@ R"(Generate code to include the compilation date
 when LilyPond creates the score.)",
         "lilypondCompileDate",
         fLilypondCompileDate));
+
+  // draft mode
 
   fDraftMode = boolOptionsInitialValue;
 
@@ -3648,6 +3643,8 @@ to get only an overview in the resulting PDF file.)",
     appendAtomToSubGroup (
       draftOahBooleanAtom);
 
+  // point and click
+
   fPointAndClickOff = boolOptionsInitialValue;
 
   subGroup->
@@ -3658,6 +3655,23 @@ R"(Generate \pointAndClickOff at the beginning of the LilyPond code
 to reduce the size of the resulting PDF file.)",
         "pointAndClickOff",
         fPointAndClickOff));
+
+  // box around next bar number
+
+  fGenerateBoxAroundNextBarNumber = boolOptionsInitialValue;
+
+  S_oahBooleanAtom
+    generateBoxAroundNextBarNumber =
+      oahBooleanAtom::create (
+        "gbanbn", "generate-box-around-next-bar-number",
+R"(Generate LilyPond code to show all bar numbers.)",
+        "generateBoxAroundNextBarNumber",
+        fGenerateBoxAroundNextBarNumber);
+
+  subGroup->
+    appendAtomToSubGroup (generateBoxAroundNextBarNumber);
+
+  // white note heads
 
   fWhiteNoteHeads = boolOptionsInitialValue;
 

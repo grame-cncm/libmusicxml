@@ -1614,21 +1614,12 @@ void lpsrScore::addBoxAroundNextBarNumberToScore ()
 
     schemeFunctionDescription =
 R"(
-    /*
-% Draw a box round the next bar number
-boxAroundNextBarNumber = {
-  \once\override Score.BarNumber.stencil =
-  #(make-stencil-boxer 0.25 0.5 ly:text-interface::print)
-}
-*/
 % A macro to draw a box round the next bar number
 )",
 
     schemeFunctionCode =
       // add ! before ( and after ) since the code contains )"
 R"!(
-whiteNoteHeads =
-% Draw a box round the next bar number
 boxAroundNextBarNumber = {
   \once\override Score.BarNumber.stencil =
   #(make-stencil-boxer 0.25 0.5 ly:text-interface::print)
