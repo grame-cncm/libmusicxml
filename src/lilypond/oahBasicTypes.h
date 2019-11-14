@@ -2150,8 +2150,9 @@ class oahStringAndIntegerAtom : public oahValuedAtom
       string  longName,
       string  description,
       string  valueSpecification,
-      string  variableName,
+      string  stringVariableName,
       string& stringVariable,
+      string  integerVariableName,
       int&    integerVariable);
 
   protected:
@@ -2164,8 +2165,9 @@ class oahStringAndIntegerAtom : public oahValuedAtom
       string  longName,
       string  description,
       string  valueSpecification,
-      string  variableName,
+      string  stringVariableName,
       string& stringVariable,
+      string  integerVariableName,
       int&    integerVariable);
 
     virtual ~oahStringAndIntegerAtom ();
@@ -2179,9 +2181,127 @@ class oahStringAndIntegerAtom : public oahValuedAtom
                             string value)
                               { fStringVariable = value; }
 
+    string                getStringVariable () const
+                              { return fStringVariable; }
+
     void                  setIntegerVariable (
                             int value)
                               { fIntegerVariable = value; }
+
+    int                   getIntegerVariable () const
+                              { return fIntegerVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fStringVariableName;
+    string&               fStringVariable;
+
+    string                fIntegerVariableName;
+    int&                  fIntegerVariable;
+};
+typedef SMARTP<oahStringAndIntegerAtom> S_oahStringAndIntegerAtom;
+EXP ostream& operator<< (ostream& os, const S_oahStringAndIntegerAtom& elt);
+
+//______________________________________________________________________________
+class oahStringAndTwoIntegersAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahStringAndTwoIntegersAtom> create (
+      string  shortName,
+      string  longName,
+      string  description,
+      string  valueSpecification,
+      string  variableName,
+      string& stringVariable,
+      int&    primaryIntegerVariable,
+      int&    secondaryIntegerVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahStringAndTwoIntegersAtom (
+      string  shortName,
+      string  longName,
+      string  description,
+      string  valueSpecification,
+      string  variableName,
+      string& stringVariable,
+      int&    primaryIntegerVariable,
+      int&    secondaryIntegerVariable);
+
+    virtual ~oahStringAndTwoIntegersAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setStringVariable (
+                            string value)
+                              { fStringVariable = value; }
+
+    string                getStringVariable () const
+                              { return fStringVariable; }
+
+    void                  setPrimaryIntegerVariable (
+                            int value)
+                              { fPrimaryIntegerVariable = value; }
+
+    int                   getPrimaryIntegerVariable () const
+                              { return fPrimaryIntegerVariable; }
+
+    void                  setSecondaryIntegerVariable (
+                            int value)
+                              { fSecondaryIntegerVariable = value; }
+
+    int                   getSecondaryIntegerVariable () const
+                              { return fSecondaryIntegerVariable; }
 
   public:
 
@@ -2226,10 +2346,12 @@ class oahStringAndIntegerAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string&               fStringVariable;
-    int&                  fIntegerVariable;
+
+    int&                  fPrimaryIntegerVariable;
+    int&                  fSecondaryIntegerVariable;
 };
-typedef SMARTP<oahStringAndIntegerAtom> S_oahStringAndIntegerAtom;
-EXP ostream& operator<< (ostream& os, const S_oahStringAndIntegerAtom& elt);
+typedef SMARTP<oahStringAndTwoIntegersAtom> S_oahStringAndTwoIntegersAtom;
+EXP ostream& operator<< (ostream& os, const S_oahStringAndTwoIntegersAtom& elt);
 
 //______________________________________________________________________________
 class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom

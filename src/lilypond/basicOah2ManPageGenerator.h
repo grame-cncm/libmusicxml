@@ -73,7 +73,8 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_oahRGBColorAtom>,
 
-  public visitor<S_oahStringAndIntegerAtom>
+  public visitor<S_oahStringAndIntegerAtom>,
+  public visitor<S_oahStringAndTwoIntegersAtom>
 
 {
   public:
@@ -168,6 +169,9 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     virtual void visitStart (S_oahStringAndIntegerAtom& elt);
     virtual void visitEnd   (S_oahStringAndIntegerAtom& elt);
+
+    virtual void visitStart (S_oahStringAndTwoIntegersAtom& elt);
+    virtual void visitEnd   (S_oahStringAndTwoIntegersAtom& elt);
 };
 typedef SMARTP<basicOah2ManPageGenerator> S_basicOah2ManPageGenerator;
 

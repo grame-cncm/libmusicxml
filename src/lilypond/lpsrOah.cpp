@@ -1226,6 +1226,45 @@ The default is 'DEFAULT_VALUE'.)",
         fGlobalStaffSize));
 }
 
+void lpsrOah::initializeLpsrMeasuresOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Measures",
+        "hlpsrmeasures", "help-lpsr-measures",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // replicate empty measure
+
+  fReplicateEmptyMeasureNumber = boolOptionsInitialValue;
+  fReplicateEmptyMeasureReplicas = 0;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahStringAndIntegerAtom::create (
+        "rem", "replicate-empty-measure",
+R"###(Replicate an empty mesure, adding empty others according to SPECIFICATION.
+SPECIFICATION should be of the form 'MEASURE_NUMBER REPLICATES',
+where MEASURE_NUMBER is a string, and REPLICATES is the number
+of empty measures to add after measure MEASURE_NUMBER.
+MEASURE_NUMBER should be the number of an existing, empty measure,
+and REPLICATES should be at least 1, , such as '17 3'.
+This comes in handly when MusicXML data obtained by scanning contains
+a single empty measure when there were several in the original score.
+This option can be used any number of times.)###",
+        "SPECIFICATION",
+        "replicateEmptyMeasureNumber",
+        fReplicateEmptyMeasureNumber,
+        "replicateEmptyMeasureReplicas",
+        fReplicateEmptyMeasureReplicas));
+}
+
 void lpsrOah::initializeLpsrWordsOptions (
   bool boolOptionsInitialValue)
 {
@@ -1455,6 +1494,11 @@ void lpsrOah::initializeLpsrOah (
   initializeLilypondScoreOutputOptions (
     boolOptionsInitialValue);
 
+  // measures
+  // --------------------------------------
+  initializeLpsrMeasuresOptions (
+    boolOptionsInitialValue);
+
   // words
   // --------------------------------------
   initializeLpsrWordsOptions (
@@ -1530,6 +1574,14 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
 
   clone->fGlobalStaffSize =
     fGlobalStaffSize;
+
+  // measures
+  // --------------------------------------
+
+  clone->fReplicateEmptyMeasureNumber =
+    fReplicateEmptyMeasureNumber;
+  clone->fReplicateEmptyMeasureReplicas =
+    fReplicateEmptyMeasureReplicas;
 
   // words
   // --------------------------------------
@@ -1778,6 +1830,25 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "fGlobalStaffSize" << " : " <<
     fGlobalStaffSize <<
+    endl;
+
+  gIndenter--;
+
+  // measures
+  // --------------------------------------
+
+  gLogOstream <<
+    "Measures:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "replicateEmptyMeasureNumber" << " : " <<
+    fReplicateEmptyMeasureNumber <<
+    endl <<
+    setw (fieldWidth) << "replicateEmptyMeasureReplicas" << " : " <<
+    booleanAsString (fReplicateEmptyMeasureReplicas) <<
     endl;
 
   gIndenter--;

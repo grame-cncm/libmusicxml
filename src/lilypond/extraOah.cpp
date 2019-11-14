@@ -560,18 +560,19 @@ void extraShowChordDetailsAtom::handleValue (
   }
 #endif
 
-  if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
+    os <<
+      smSize << " elements: ";
+    for (unsigned i = 0; i < smSize; ++i) {
       os <<
-        smSize << " elements: ";
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-      os << endl;
-    }
+        "[" << sm [i] << "] ";
+    } // for
+    os << endl;
+  }
 #endif
+
+  if (smSize == 3) { // JMI ???
   }
 
   else {

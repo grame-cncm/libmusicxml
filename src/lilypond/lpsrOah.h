@@ -466,6 +466,9 @@ class lpsrOah : public oahGroup
     void                  initializeLilypondScoreOutputOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeLpsrMeasuresOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeLpsrWordsOptions (
                             bool boolOptionsInitialValue);
 
@@ -534,6 +537,13 @@ class lpsrOah : public oahGroup
 
     float                 fGlobalStaffSize;
     float                 fStaffGlobalSizeDefaultValue;
+
+    // measures
+    // --------------------------------------
+
+    // replicate empty measure
+    string                fReplicateEmptyMeasureNumber;
+    int                   fReplicateEmptyMeasureReplicas;
 
     // words
     // --------------------------------------

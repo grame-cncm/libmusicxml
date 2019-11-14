@@ -3022,25 +3022,25 @@ void oahIntegerAtom::handleValue (
 
   unsigned smSize = sm.size ();
 
-  if (smSize) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for integer string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
       os <<
-        "There are " << smSize << " matches" <<
-        " for integer string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
+        "[" << sm [i] << "] ";
+    } // for
 
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      os << endl;
-    }
+    os << endl;
+  }
 #endif
 
+  if (smSize) {
     // leave the low level details to the STL...
     int integerValue;
     {
@@ -3269,25 +3269,25 @@ void oahTwoIntegersAtom::handleValue (
 
   unsigned smSize = sm.size ();
 
-  if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for integer string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
       os <<
-        "There are " << smSize << " matches" <<
-        " for integer string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
+        "[" << sm [i] << "] ";
+    } // for
 
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      os << endl;
-    }
+    os << endl;
+  }
 #endif
 
+  if (smSize == 3) {
     // leave the low level details to the STL...
     int integerValue;
     {
@@ -3539,25 +3539,25 @@ void oahFloatAtom::handleValue (
 
   unsigned smSize = sm.size ();
 
-  if (smSize) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for float string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
       os <<
-        "There are " << smSize << " matches" <<
-        " for float string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
+        "[" << sm [i] << "] ";
+    } // for
 
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      os << endl;
-    }
+    os << endl;
+  }
 #endif
 
+  if (smSize) {
     // leave the low level details to the STL...
     float floatValue;
     {
@@ -4572,24 +4572,54 @@ void oahRationalAtom::handleValue (
 
   unsigned smSize = sm.size ();
 
-  if (smSize == 3) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for rational string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        "[" << sm [i] << "] ";
+    } // for
+
+    os << endl;
+  }
+#endif
+
+  if (smSize == 3) { // JMI ???
+    int
+      numerator,
+      denominator;
+
+    {
+      stringstream s;
+      s << sm [1];
+      s >> numerator;
+    }
+    {
+      stringstream s;
+      s << sm [2];
+      s >> denominator;
+    }
+
+    rational
+      rationalValue =
+        rational (numerator, denominator);
+
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       os <<
-        "There are " << smSize << " matches" <<
-        " for rational string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
+        "rationalValue = " <<
+        rationalValue <<
         endl;
-
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      os << endl;
     }
 #endif
+
+    fRationalVariable = rationalValue;
   }
 
   else {
@@ -4601,36 +4631,6 @@ void oahRationalAtom::handleValue (
 
     oahError (s.str ());
   }
-
-  int
-    numerator,
-    denominator;
-
-  {
-    stringstream s;
-    s << sm [1];
-    s >> numerator;
-  }
-  {
-    stringstream s;
-    s << sm [2];
-    s >> denominator;
-  }
-
-  rational
-    rationalValue =
-      rational (numerator, denominator);
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "rationalValue = " <<
-      rationalValue <<
-      endl;
-  }
-#endif
-
-  fRationalVariable = rationalValue;
 }
 
 void oahRationalAtom::acceptIn (basevisitor* v)
@@ -4834,25 +4834,25 @@ void oahNaturalNumbersSetElementAtom::handleValue (
 
   unsigned smSize = sm.size ();
 
-  if (smSize) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for integer string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
       os <<
-        "There are " << smSize << " matches" <<
-        " for integer string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
+        "[" << sm [i] << "] ";
+    } // for
 
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      os << endl;
-    }
+    os << endl;
+  }
 #endif
 
+  if (smSize) {
     // leave the low level details to the STL...
     int integerValue;
     {
@@ -6123,8 +6123,9 @@ S_oahStringAndIntegerAtom oahStringAndIntegerAtom::create (
   string  longName,
   string  description,
   string  valueSpecification,
-  string  variableName,
+  string  stringVariableName,
   string& stringVariable,
+  string  integerVariableName,
   int&    integerVariable)
 {
   oahStringAndIntegerAtom* o = new
@@ -6133,8 +6134,9 @@ S_oahStringAndIntegerAtom oahStringAndIntegerAtom::create (
       longName,
       description,
       valueSpecification,
-      variableName,
       stringVariable,
+      stringVariable,
+      integerVariableName,
       integerVariable);
   assert(o!=0);
   return o;
@@ -6145,17 +6147,22 @@ oahStringAndIntegerAtom::oahStringAndIntegerAtom (
   string  longName,
   string  description,
   string  valueSpecification,
-  string  variableName,
+  string  stringVariableName,
   string& stringVariable,
+  string  integerVariableName,
   int&    integerVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
-      variableName),
+      stringVariableName),
+    fStringVariableName (
+      stringVariableName),
     fStringVariable (
       stringVariable),
+    fIntegerVariableName (
+      integerVariableName),
     fIntegerVariable (
       integerVariable)
 {
@@ -6189,7 +6196,7 @@ void oahStringAndIntegerAtom::handleValue (
 
   // check whether it is well-formed
   string regularExpression (
-    "([[:alpha:]]+)[[:space:]]+([[:digit:]]+)");
+    "(.+)[[:space:]]+([[:digit:]]+)");
 
   regex e (regularExpression);
   smatch sm;
@@ -6198,34 +6205,29 @@ void oahStringAndIntegerAtom::handleValue (
 
   unsigned smSize = sm.size ();
 
-  if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for integer string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
       os <<
-        "There are " << smSize << " matches" <<
-        " for integer string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
+        "[" << sm [i] << "] ";
+    } // for
 
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      os << endl;
-    }
+    os << endl;
+  }
 #endif
+
+  if (smSize == 3) {
+    fStringVariable = sm [ 1 ];
 
     // leave the low level details to the STL...
     int integerValue;
-    {
-      stringstream s;
-      s << sm [ 1 ];
-      s >> integerValue;
-    }
-    fStringVariable = integerValue; // JMI
-
     {
       stringstream s;
       s << sm [ 2 ];
@@ -6354,9 +6356,12 @@ void oahStringAndIntegerAtom::print (ostream& os) const
     setw (fieldWidth) <<
     "fVariableName" << " : " <<
     fVariableName <<
+    endl <<
     setw (fieldWidth) <<
     "fStringVariable" << " : " <<
     "\"" << fStringVariable << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
     "fIntegerVariable" << " : " <<
     fIntegerVariable <<
     endl;
@@ -6387,6 +6392,299 @@ void oahStringAndIntegerAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_oahStringAndIntegerAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahStringAndTwoIntegersAtom oahStringAndTwoIntegersAtom::create (
+  string  shortName,
+  string  longName,
+  string  description,
+  string  valueSpecification,
+  string  variableName,
+  string& stringVariable,
+  int&    primaryIntegerVariable,
+  int&    secondaryIntegerVariable)
+{
+  oahStringAndTwoIntegersAtom* o = new
+    oahStringAndTwoIntegersAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringVariable,
+      primaryIntegerVariable,
+      secondaryIntegerVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahStringAndTwoIntegersAtom::oahStringAndTwoIntegersAtom (
+  string  shortName,
+  string  longName,
+  string  description,
+  string  valueSpecification,
+  string  variableName,
+  string& stringVariable,
+  int&    primaryIntegerVariable,
+  int&    secondaryIntegerVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringVariable (
+      stringVariable),
+    fPrimaryIntegerVariable (
+      primaryIntegerVariable),
+    fSecondaryIntegerVariable (
+      secondaryIntegerVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+oahStringAndTwoIntegersAtom::~oahStringAndTwoIntegersAtom ()
+{}
+
+S_oahValuedAtom oahStringAndTwoIntegersAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a oahStringAndTwoIntegersAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void oahStringAndTwoIntegersAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  // theString contains the string and integer values
+
+  // check whether it is well-formed
+  string regularExpression (
+    "([[:alpha:]]+)[[:space:]]+([[:digit:]]+)[[:space:]]+([[:digit:]]+)");
+
+  regex e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for integer string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        "[" << sm [i] << "] ";
+    } // for
+
+    os << endl;
+  }
+#endif
+
+  if (smSize == 4) {
+    fStringVariable = sm [ 1 ];
+
+    // leave the low level details to the STL...
+    int integerValue;
+    {
+      stringstream s;
+      s << sm [ 2 ];
+      s >> integerValue;
+    }
+    fPrimaryIntegerVariable = integerValue; // JMI
+
+    {
+      stringstream s;
+      s << sm [ 3 ];
+      s >> integerValue;
+    }
+    fSecondaryIntegerVariable = integerValue;
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "integer value '" << theString <<
+      "' for option '" << fetchNames () <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+}
+
+void oahStringAndTwoIntegersAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahStringAndTwoIntegersAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringAndTwoIntegersAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringAndTwoIntegersAtom>*> (v)) {
+        S_oahStringAndTwoIntegersAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahStringAndTwoIntegersAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahStringAndTwoIntegersAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahStringAndTwoIntegersAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahStringAndTwoIntegersAtom>*
+    p =
+      dynamic_cast<visitor<S_oahStringAndTwoIntegersAtom>*> (v)) {
+        S_oahStringAndTwoIntegersAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahStringAndTwoIntegersAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahStringAndTwoIntegersAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahStringAndTwoIntegersAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahStringAndTwoIntegersAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    "\"" <<
+    fStringVariable <<
+    "\" " <<
+    fPrimaryIntegerVariable <<
+    " " <<
+    fSecondaryIntegerVariable;
+
+  return s.str ();
+}
+
+string oahStringAndTwoIntegersAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    "\"" <<
+    fStringVariable <<
+    "\" " <<
+    fPrimaryIntegerVariable <<
+    " " <<
+    fSecondaryIntegerVariable;
+
+  return s.str ();
+}
+
+void oahStringAndTwoIntegersAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "StringAndIntegerAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringVariable" << " : " <<
+    "\"" << fStringVariable << "\"" <<
+    "fPrimaryIntegerVariable" << " : " <<
+    fPrimaryIntegerVariable <<
+    "fSecondaryIntegerVariable" << " : " <<
+    fSecondaryIntegerVariable <<
+    endl;
+
+  gIndenter--;
+}
+
+void oahStringAndTwoIntegersAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : " <<
+    "\"" << fStringVariable << "\"" <<
+    endl <<
+    setw (valueFieldWidth) <<
+    "stringVariable" <<
+    " : " <<
+    "\"" << fStringVariable << "\"" <<
+    endl <<
+    setw (valueFieldWidth) <<
+    "primaryIntegerVariable" <<
+    " : " <<
+    fPrimaryIntegerVariable <<
+    endl <<
+    setw (valueFieldWidth) <<
+    "secondaryIntegerVariable" <<
+    " : " <<
+    fSecondaryIntegerVariable <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahStringAndTwoIntegersAtom& elt)
 {
   elt->print (os);
   return os;

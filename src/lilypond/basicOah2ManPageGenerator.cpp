@@ -1011,5 +1011,34 @@ void basicOah2ManPageGenerator::visitEnd (S_oahStringAndIntegerAtom& elt)
 #endif
 }
 
+//________________________________________________________________________
+void basicOah2ManPageGenerator::visitStart (S_oahStringAndTwoIntegersAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> Start visiting oahStringAndTwoIntegersAtom '" <<
+      elt->asString () <<
+      "'" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+void basicOah2ManPageGenerator::visitEnd (S_oahStringAndTwoIntegersAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> End visiting oahStringAndTwoIntegersAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
 
 } // namespace

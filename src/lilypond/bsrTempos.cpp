@@ -206,21 +206,21 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-            if (gTraceOah->fTraceTempos && ! gGeneralOah->fQuiet) {
+          if (gTraceOah->fTraceTempos && ! gGeneralOah->fQuiet) {
+            gLogOstream <<
+              "There are " << smSize << " matches" <<
+              " for rational string '" << tempoPerMinuteString <<
+              "' with regex '" << regularExpression <<
+              "'" <<
+              endl;
+
+            for (unsigned i = 0; i < smSize; ++i) {
               gLogOstream <<
-                "There are " << smSize << " matches" <<
-                " for rational string '" << tempoPerMinuteString <<
-                "' with regex '" << regularExpression <<
-                "'" <<
-                endl;
+                "[" << sm [i] << "] ";
+            } // for
 
-              for (unsigned i = 0; i < smSize; ++i) {
-                gLogOstream <<
-                  "[" << sm [i] << "] ";
-              } // for
-
-              gLogOstream << endl;
-            }
+            gLogOstream << endl;
+          }
 #endif
 
           if (smSize == 3) {
@@ -237,16 +237,16 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           }
 
           else {
-          // decipher it to extract min (and only) values
-          string regularExpression (
-            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+            // decipher it to extract min (and only) values
+            string regularExpression (
+              "[[:space:]]*([[:digit:]]+)[[:space:]]*");
 
-          regex e (regularExpression);
-          smatch sm;
+            regex e (regularExpression);
+            smatch sm;
 
-          regex_match (tempoPerMinuteString, sm, e);
+            regex_match (tempoPerMinuteString, sm, e);
 
-          unsigned smSize = sm.size ();
+            unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
             if (gTraceOah->fTraceTempos && ! gGeneralOah->fQuiet) {
