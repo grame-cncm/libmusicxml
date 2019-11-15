@@ -10566,9 +10566,9 @@ void lpsr2LilypondTranslator::generateNoteSlurs (S_msrNote note)
     ) {
       S_msrSlur slur = (*i);
 
-      /*
-      \slurDashed, \slurDotted, \slurHalfDashed,
-      \slurHalfSolid, \slurDashPattern, \slurSolid
+      /* JMI ???
+        \slurDashed, \slurDotted, \slurHalfDashed,
+        \slurHalfSolid, \slurDashPattern, \slurSolid
       */
 
       switch (slur->getSlurTypeKind ()) {
@@ -10599,10 +10599,12 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
 {
   /*
     1. no slash, no slur: \grace
-    2. slash and slur: \acciaccatura
+    2. slash and slur: \acciaccatura, LilyPond will slur it JMI
     3. slash but no slur: \slashedGrace
-    4. no slash but slur: \appoggiatura
+    4. no slash but slur: \appoggiatura, LilyPond will slur it JMI
   */
+
+  bool doGenerateASlurIfPresent = true;
 
   switch (graceNotesGroup->getGraceNotesGroupKind ()) {
     case msrGraceNotesGroup::kGraceNotesGroupBefore:
@@ -10610,6 +10612,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
         if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
           fLilypondCodeOstream <<
             "\\acciaccatura";
+          doGenerateASlurIfPresent = false;
         }
         else {
           fLilypondCodeOstream <<
@@ -10621,6 +10624,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
         if (graceNotesGroup->getGraceNotesGroupIsTied ()) {
           fLilypondCodeOstream <<
             "\\appoggiatura";
+          doGenerateASlurIfPresent = false;
         }
         else {
           fLilypondCodeOstream <<
@@ -10641,6 +10645,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
   // at the beginning of the grace notes
   fLastMetWholeNotes = rational (0, 1);
 
+  // generate teh notes in the grace notes group
   list<S_msrMeasureElement>&
     graceNotesGroupElementsList =
       graceNotesGroup->
@@ -10678,7 +10683,12 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
 
           // print the note slurs if any,
           // unless the note is chord member
-          if (! note->getNoteBelongsToAChord ()) {
+          // or LilyPond will take care of that
+          if (
+            ! note->getNoteBelongsToAChord ()
+              &&
+            doGenerateASlurIfPresent
+          ) {
             generateNoteSlurs (note);
           }
         }

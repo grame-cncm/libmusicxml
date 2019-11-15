@@ -1952,6 +1952,20 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
       appendHarmonyToVoiceClone (
         fCurrentHarmonyClone);
   }
+
+  else {
+    stringstream s;
+
+    s <<
+      "harmony '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
@@ -2010,6 +2024,20 @@ void msr2LpsrTranslator::visitStart (S_msrFrame& elt)
     fCurrentNonGraceNoteClone->
       setNoteFrame (elt);
   }
+
+  else {
+    stringstream s;
+
+    s <<
+      "frame '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 //________________________________________________________________________
@@ -2062,6 +2090,20 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
     fCurrentVoiceClone->
       appendFiguredBassToVoiceClone (
         fCurrentFiguredBassClone);
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "figured bass '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -2549,6 +2591,19 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
       }
     }
   }
+  else {
+    stringstream s;
+
+    s <<
+      "syllable '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
@@ -2825,6 +2880,19 @@ void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
     fCurrentChordClone->
       appendArticulationToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "articulation '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrArticulation& elt)
@@ -2861,6 +2929,19 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
     fCurrentChordClone->
       appendArticulationToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "fermata '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 //________________________________________________________________________
@@ -2884,6 +2965,19 @@ void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendArticulationToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "arpeggiato '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -2909,6 +3003,19 @@ void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
     fCurrentChordClone->
       appendArticulationToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "nonArpeggiato '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 //________________________________________________________________________
@@ -2930,6 +3037,19 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendTechnicalToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "technical '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   // doest the score need the 'tongue' function?
@@ -3005,6 +3125,19 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
     fCurrentChordClone->
       appendTechnicalWithIntegerToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "technicalWithInteger '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
@@ -3039,6 +3172,19 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
     fCurrentChordClone->
       appendTechnicalWithFloatToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "technicalWithFloat '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
@@ -3072,6 +3218,19 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendTechnicalWithStringToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "technicalWithString '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   switch (elt->getTechnicalWithStringKind ()) {
@@ -3117,6 +3276,19 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendOrnamentToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "ornament '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -3164,6 +3336,19 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
     fCurrentChordClone->
       appendSpannerToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "spanner '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSpanner& elt)
@@ -3197,6 +3382,19 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendGlissandoToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "glissando '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   if (elt->getGlissandoTextValue ().size ()) {
@@ -3238,6 +3436,19 @@ void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
     fCurrentChordClone->
       appendSlideToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "slide '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSlide& elt)
@@ -3271,6 +3482,19 @@ void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       setChordSingleTremolo (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "singleTremolo '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -3378,6 +3602,20 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
     fCurrentChordClone->
       appendDynamicsToChord (elt);
   }
+
+  else {
+    stringstream s;
+
+    s <<
+      "dynamics '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrDynamics& elt)
@@ -3411,6 +3649,19 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendOtherDynamicsToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "otherDynamics '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   fLpsrScore->
@@ -3478,6 +3729,19 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
     fCurrentChordClone->
       appendWordsToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "words '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrWords& elt)
@@ -3507,7 +3771,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
   /*
     Only the  first note of the chord should get the slur notation.
     Some applications print out the slur for all notes,
-    i.e. a stop and a start in sequqnce:
+    i.e. a stop and a start in sequence:
     these should be ignored
   */
 
@@ -3530,6 +3794,20 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendSlurToChord (elt);
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "slur '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -3565,6 +3843,19 @@ void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
     fCurrentChordClone->
       appendLigatureToChord (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "ligature '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
@@ -3595,10 +3886,22 @@ void msr2LpsrTranslator::visitStart (S_msrSlash& elt)
     fCurrentNonGraceNoteClone->
       appendSlashToNote (elt);
   }
-
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendSlashToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "slash '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -3618,10 +3921,22 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
     fCurrentNonGraceNoteClone->
       appendWedgeToNote (elt);
   }
-
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendWedgeToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "wedge '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -4565,6 +4880,19 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
     fCurrentNonGraceNoteClone->
       setNoteOctaveShift (elt);
   }
+  else {
+    stringstream s;
+
+    s <<
+      "octaveShift '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)
@@ -4636,6 +4964,19 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendStemToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "stem '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -4902,6 +5243,19 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendTieToChord (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "tie '" << elt->asShortString () <<
+      "' cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 

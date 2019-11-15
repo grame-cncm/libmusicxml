@@ -3724,6 +3724,7 @@ void msrNote::print (ostream& os)
   }
   os << endl;
 
+  // print note measure uplink
   if (fNoteMeasureUpLink || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
@@ -3748,6 +3749,7 @@ void msrNote::print (ostream& os)
     os << endl;
   }
 
+  // print note chord uplink
   if (fNoteChordUpLink || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
@@ -3765,6 +3767,7 @@ void msrNote::print (ostream& os)
     os << endl;
   }
 
+  // print note grace notes group uplink
   if (fNoteGraceNotesGroupUpLink || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
@@ -3782,6 +3785,7 @@ void msrNote::print (ostream& os)
     os << endl;
   }
 
+  // print note tuplet uplink
   if (fNoteTupletUpLink || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
@@ -3858,7 +3862,7 @@ void msrNote::print (ostream& os)
       break;
     } // switch
 
-  // full measure whole notes,
+  // print note full measure length
   // may be unknown if there is no time signature
   os << left <<
     setw (fieldWidth) <<
@@ -3887,9 +3891,7 @@ void msrNote::print (ostream& os)
     booleanAsString (fNoteBelongsToATuplet) <<
     endl;
 
-  // note measure information
-  // ------------------------------------------------------
-
+  // note occupied a full measure?
   os << left <<
     setw (fieldWidth) <<
     "noteOccupiesAFullMeasure" << " : " <<
@@ -4068,9 +4070,7 @@ void msrNote::print (ostream& os)
       endl;
   }
 
-  // note MSR strings
-
-  // print whole notes durations as MSR string
+  // print whole notes durations as MSR strings
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       break;
@@ -5085,12 +5085,13 @@ void msrNote::print (ostream& os)
   // print the harmonies associated to this note if any
   int noteHarmoniesListSize = fNoteHarmoniesList.size ();
 
-  os <<
-    setw (fieldWidth) <<
-    "noteHarmonies";
   if (noteHarmoniesListSize > 0 || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteHarmonies";
     if (noteHarmoniesListSize) {
       os << endl;
+
       gIndenter++;
 
       list<S_msrHarmony>::const_iterator
@@ -5110,19 +5111,17 @@ void msrNote::print (ostream& os)
       gIndenter--;
     }
     else {
-      os << " : " << "none";
+      os << " : " <<
+        "none" <<
+        endl;
     }
   }
-  else {
-    os << " : " << "none";
-  }
-  os << endl;
 
   // print the figured bass if any
-  os <<
-    setw (fieldWidth) <<
-    "noteFiguredBass";
   if (fNoteFiguredBass || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteFiguredBass";
     if (fNoteFiguredBass) {
       os << endl;
       gIndenter++;
@@ -5132,19 +5131,17 @@ void msrNote::print (ostream& os)
       gIndenter--;
     }
     else {
-      os << " : " << "none";
+      os << " : " <<
+        "none" <<
+        endl;
     }
   }
-  else {
-    os << " : " << "none";
-  }
-  os << endl;
 
-  // print the frame if any
-  os <<
-    setw (fieldWidth) <<
-    "noteFrame";
+  // print the note frame if any
   if (fNoteFrame || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteFrame";
     if (fNoteFrame) {
       os << endl;
       gIndenter++;
@@ -5154,13 +5151,11 @@ void msrNote::print (ostream& os)
       gIndenter--;
     }
     else {
-      os << " : " << "none";
+      os << " : " <<
+        "none" <<
+        endl;
     }
   }
-  else {
-    os << " : " << "none";
-  }
-  os << endl;
 
   // print the syllables associated to this note if any
   int noteSyllablesSize = fNoteSyllables.size ();
