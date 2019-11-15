@@ -448,6 +448,11 @@ class msr2BsrTranslator :
     stack<S_bsrPartGroupBlock>
                               fPartGroupBlocksStack;
                               */
+
+
+    // current ongoing values display
+    // ------------------------------------------------------
+    void                      displayCurrentOnGoingValues ();
 };
 
 

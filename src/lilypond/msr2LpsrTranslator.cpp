@@ -144,7 +144,7 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::displayOnGoingValues ()
+void msr2LpsrTranslator::displayCurrentOnGoingValues ()
 {
   fLogOutputStream <<
     "Ongoing value:" <<
@@ -1935,9 +1935,9 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     fLogOutputStream <<
       "--> Start visiting msrHarmony '" <<
       elt->asString () <<
-      ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
-      ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
+      ", fOnGoingNote: " << booleanAsString (fOnGoingNote) <<
+      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", fOnGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
       "', line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -2021,9 +2021,9 @@ void msr2LpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
     fLogOutputStream <<
       "--> Start visiting S_msrHarmonyDegree '" <<
       elt->asString () <<
-      ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
-      ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
-      ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
+      ", fOnGoingNote: " << booleanAsString (fOnGoingNote) <<
+      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", fOnGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
       "', line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -3843,7 +3843,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
   }
 
   else {
-    displayOnGoingValues ();
+    displayCurrentOnGoingValues ();
 
     stringstream s;
 
@@ -4436,7 +4436,6 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 */
 
   switch (elt->getNoteKind ()) {
-
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
@@ -4503,6 +4502,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  msrNote::msrNoteKind
+    noteKind = elt->getNoteKind ();
+
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4543,7 +4545,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   }
 #endif
 
-  switch (elt->getNoteKind ()) {
+  switch (noteKind) {
 
     case msrNote::k_NoNoteKind:
       break;
@@ -4905,7 +4907,15 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   } // switch
 */
 
-  fOnGoingNote = false;
+  switch (noteKind) {
+    case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    default:
+      fOnGoingNote = false;
+  } // switch
 }
 
 //________________________________________________________________________

@@ -922,6 +922,7 @@ class lpsr2LilypondTranslator :
 
     void                  generateChordInGraceNotesGroup (S_msrChord chord);
 
+
     // tuplets
     // ------------------------------------------------------
 // JMI     S_msrTuplet          fCurrentMsrTupletClone;
@@ -932,33 +933,44 @@ class lpsr2LilypondTranslator :
     S_msrStanza           fCurrentStanzaClone;
     bool                  fGenerateCodeForOngoingNonEmptyStanza;
 
+
     // syllables
     // ------------------------------------------------------
     S_msrSyllable         fCurrentMsrSyllableClone;
 
+
     // score blocks
     // ------------------------------------------------------
     bool                  fOnGoingScoreBlock; // JMI
+
 
     // parallel music
     // ------------------------------------------------------
     S_lpsrParallelMusicBLock
                           fCurrentParallelMusicBLock;
 
+
     // part group blocks
     // ------------------------------------------------------
     int                   fNumberOfPartGroupBlocks;
     int                   fPartGroupBlocksCounter;
+
 
     // part blocks
     // ------------------------------------------------------
     int                   fNumberOfPartGroupBlockElements;
     int                   fPartGroupBlockElementsCounter;
 
+
     // staff blocks
     // ------------------------------------------------------
     int                   fNumberOfStaffBlocksElements;
     int                   fStaffBlocksCounter;
+
+
+    // current ongoing values display
+    // ------------------------------------------------------
+    void                      displayCurrentOnGoingValues ();
 };
 
 

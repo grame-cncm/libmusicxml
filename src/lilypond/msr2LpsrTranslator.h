@@ -681,9 +681,9 @@ class msr2LpsrTranslator :
     bool                      fOnGoingSyllableExtend;
 
 
-    // ongoing settings display
+    // current ongoing values display
     // ------------------------------------------------------
-    void                      displayOnGoingValues ();
+    void                      displayCurrentOnGoingValues ();
 };
 
 

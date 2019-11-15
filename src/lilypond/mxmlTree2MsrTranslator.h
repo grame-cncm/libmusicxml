@@ -1975,6 +1975,11 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentForwardVoiceNumber;
     int                       fCurrentForwardStaffNumber;
     bool                      fOnGoingForward;
+
+
+    // current ongoing values display
+    // ------------------------------------------------------
+    void                      displayCurrentOnGoingValues ();
 };
 
 
