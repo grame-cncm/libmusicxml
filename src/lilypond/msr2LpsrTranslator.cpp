@@ -144,6 +144,52 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::displayOnGoingValues ()
+{
+  fLogOutputStream <<
+    "Ongoing value:" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 25;
+
+  fLogOutputStream <<
+    setw (fieldWidth) <<
+    "fOnGoingIdentification" << ": " << booleanAsString (fOnGoingIdentification) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingStaff" << ": " << booleanAsString (fOnGoingStaff) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingHarmonyVoice" << ": " << booleanAsString (fOnGoingHarmonyVoice) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingFiguredBassVoice" << ": " << booleanAsString (fOnGoingFiguredBassVoice) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingNote" << ": " << booleanAsString (fOnGoingNote) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingDoubleTremolo" << ": " << booleanAsString (fOnGoingDoubleTremolo) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingGraceNotesGroup" << ": " << booleanAsString (fOnGoingGraceNotesGroup) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingChord" << ": " << booleanAsString (fOnGoingChord) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingStanza" << ": " << booleanAsString (fOnGoingStanza) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingSyllableExtend" << ": " << booleanAsString (fOnGoingSyllableExtend) <<
+    endl;
+
+  gIndenter--;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::setPaperIndentsIfNeeded (
   S_msrPageGeometry pageGeometry)
 {
@@ -3797,6 +3843,8 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
   }
 
   else {
+    displayOnGoingValues ();
+
     stringstream s;
 
     s <<

@@ -679,6 +679,11 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrSyllable             fCurrentSyllableClone;
     bool                      fOnGoingSyllableExtend;
+
+
+    // ongoing settings display
+    // ------------------------------------------------------
+    void                      displayOnGoingValues ();
 };
 
 
