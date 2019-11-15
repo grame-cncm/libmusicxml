@@ -2233,7 +2233,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
     elt->
       createMeasureNewbornClone (
         fCurrentSegmentClone);
-
+/* JMI
   // is this a full measures rest?
   if (elt->getMeasureIsAFullMeasureRest ()) {
     // yes
@@ -2252,13 +2252,13 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
             fCurrentMeasureClone,
             fCurrentVoiceClone);
 
-/* JMI
+/ * JMI
         // append the current rest measures to the current voice clone
         fCurrentVoiceClone->
           appendRestMeasuresToVoice (
             inputLineNumber,
             fCurrentRestMeasures);
-            */
+            * /
       }
 
       else {
@@ -2291,6 +2291,13 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
         inputLineNumber,
         fCurrentMeasureClone);
   }
+  */
+
+  // append current measure clone to the current voice clone
+  fCurrentVoiceClone->
+    appendMeasureCloneToVoiceClone (
+      inputLineNumber,
+      fCurrentMeasureClone);
 
   // JMI superflous???
   fCurrentPartClone->
