@@ -860,7 +860,7 @@ void oahAtomWithVariableName::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    "FOO" <<
+    "JMI" << // ???
     endl;
 }
 
@@ -1016,8 +1016,7 @@ void oahBooleanAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "fBooleanVariable" << " : " <<
-    booleanAsString (
-      fBooleanVariable) <<
+    booleanAsString (fBooleanVariable) <<
     endl;
 
   gIndenter--;
@@ -1031,8 +1030,7 @@ void oahBooleanAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    booleanAsString (
-      fBooleanVariable) <<
+    booleanAsString (fBooleanVariable) <<
     endl;
 }
 
@@ -1212,8 +1210,7 @@ void oahTwoBooleansAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    booleanAsString (
-      fBooleanVariable) <<
+    booleanAsString (fBooleanVariable) <<
     endl;
 }
 
@@ -2835,10 +2832,31 @@ void oahValuedAtom::print (ostream& os) const
 void oahValuedAtom::printHelp (ostream& os)
 {
   os <<
-    fetchNames () <<
-    " " <<
-    fValueSpecification <<
-    endl;
+    fetchNames ();
+
+  oahOptionalValuesStyleKind
+    optionalValuesStyleKind =
+      fHandlerUpLink->
+        getHandlerOptionalValuesStyleKind ();
+
+
+if (fValueIsOptional) {
+    switch (optionalValuesStyleKind) {
+      case kOptionalValuesStyleGNU: // default value
+        os <<
+          "[=" << fValueSpecification << "]";
+        break;
+      case kOptionalValuesStyleOAH:
+        os <<
+          " " << fValueSpecification;
+    } // switch
+  }
+  else {
+    os <<
+      " " << fValueSpecification;
+  }
+
+  os << endl;
 
   if (fDescription.size ()) {
     // indent a bit more for readability
@@ -2851,14 +2869,6 @@ void oahValuedAtom::printHelp (ostream& os)
 
     gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
-
-/* superfluous JMI
-  if (fValueIsOptional) {
-    os <<
-      "option value is optional" <<
-      endl;
-  }
-*/
 
   // register help print action in options handler upLink // JMI
 //  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
@@ -6760,7 +6770,7 @@ void oahOptionNameHelpAtom::handleValue (
       os,
       theString);
 
-  // register 'show all chords contents' action in options groups's options handler upLink
+  // register 'option name help' action in options groups's options handler upLink
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->

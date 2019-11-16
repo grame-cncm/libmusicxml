@@ -344,7 +344,7 @@ R"(Print help about OPTION_NAME.
 OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
           defaultOptionName),
-        "[OPTION_NAME]",
+        "OPTION_NAME",
         "optionName",
         fOptionName,
         defaultOptionName);

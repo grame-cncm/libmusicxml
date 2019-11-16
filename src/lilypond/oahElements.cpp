@@ -119,7 +119,7 @@ string oahElement::fetchNames () const
     }
     if (fLongName.size ()) {
       s <<
-      "-" << fLongName;
+        "-" << fLongName;
     }
   }
 
