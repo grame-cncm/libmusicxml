@@ -9122,14 +9122,21 @@ void oahHandler::printAllOahCommandLineValues (
     ":" <<
     endl;
 
+  int
+    handlerCommandLineElementsMultisetSize =
+      fHandlerCommandLineElementsMultiset.size ();
+
   os <<
     "There are " <<
     fHandlerElementsMap.size () <<
     " known options names for " <<
     fHandlerRegisteredElementsList.size () <<
     " registered elements, " <<
-    fHandlerCommandLineElementsMultiset.size () <<
-    " of which occur in the command line" <<
+    handlerCommandLineElementsMultisetSize <<
+    " of which " <<
+    singularOrPluralWithoutNumber (
+      handlerCommandLineElementsMultisetSize, "occurs", "occur") <<
+    " in the command line" <<
     endl;
 
   if (fSingleCharacterShortNamesSet.size ()) {
@@ -9571,20 +9578,26 @@ void oahHandler::checkMissingPendingValuedAtomValue (
   if (fPendingValuedAtom) {
     switch (fHandlerOptionalValuesStyleKind) {
       case kOptionalValuesStyleGNU: // default value
-        {
+        // handle the valued atom using the default value
+        if (fPendingValuedAtom->getValueIsOptional ()) {
+          fPendingValuedAtom->
+            handleDefaultValue ();
+        }
+
+        else {
           stringstream s;
 
           s <<
             "option name '" << atomName <<
             "' should be used with a '=' in GNU optional values style";
 
-      // JMI    oahError (s.str ());
-          oahWarning (s.str ());
+          oahError (s.str ());
+       //   oahWarning (s.str ());
         }
         break;
 
       case kOptionalValuesStyleOAH:
-      // handle the valued atom using the default value
+        // handle the valued atom using the default value
         if (fPendingValuedAtom->getValueIsOptional ()) {
           fPendingValuedAtom->
             handleDefaultValue ();
