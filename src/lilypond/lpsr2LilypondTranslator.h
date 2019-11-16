@@ -664,9 +664,17 @@ class lpsr2LilypondTranslator :
     void                  generateInputLineNumberAndOrPositionInMeasureAsAComment (
                             S_msrMeasureElement measureElement);
 
-    // names
+    // markups
+    enum markupColumnKind {
+      markupColumnKindLeftAligned,
+      markupColumnKindLeftACentered };
 
-    string                generateMultilineName (string theString);
+    string                generateAColumnForMarkup (
+                            string           theString,
+                            markupColumnKind columnKind);
+    string                generateMultilineMarkup (
+                            string           theString,
+                            markupColumnKind columnKind);
 
     // octaves
 

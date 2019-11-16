@@ -3782,12 +3782,21 @@ void lpsr2LilypondTranslator::generateInputLineNumberAndOrPositionInMeasureAsACo
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::generateMultilineName (string theString)
+string lpsr2LilypondTranslator::generateAColumnForMarkup (
+  string           theString,
+  markupColumnKind columnKind)
 {
   stringstream s;
 
-  s <<
-     "\\markup { \\center-column { ";
+  switch (columnKind) {
+    case markupColumnKindLeftAligned:
+      s << "\\column { ";
+      break;
+    case markupColumnKindLeftACentered:
+      s << "\\center-column { ";
+      break;
+  } // switch
+  s << endl;
 
   list<string> chunksList;
 
@@ -3796,12 +3805,6 @@ string lpsr2LilypondTranslator::generateMultilineName (string theString)
     chunksList);
 
   if (chunksList.size ()) {
-    /*
-      \markup { \center-column { // JMI ???
-        \line {"Long"} \line {"Staff"} \line {"Name"}
-        } }
-    */
-
     // generate a markup containing the chunks
     list<string>::const_iterator
       iBegin = chunksList.begin (),
@@ -3812,11 +3815,12 @@ string lpsr2LilypondTranslator::generateMultilineName (string theString)
       s <<
         "\\line { \"" << (*i) << "\" }";
       if (++i == iEnd) break;
-      s << ' ';
+    // JMI ???  s << ' ';
+      s << endl;
     } // for
 
     s <<
-      " } } ";
+      " } ";
 
     if (gLilypondOah->fComments) {
       s <<
@@ -3827,6 +3831,24 @@ string lpsr2LilypondTranslator::generateMultilineName (string theString)
 
     s << endl;
   }
+
+  return s.str ();
+}
+
+//________________________________________________________________________
+string lpsr2LilypondTranslator::generateMultilineMarkup (
+  string           theString,
+  markupColumnKind columnKind)
+{
+  stringstream s;
+
+  s <<
+    "\\markup { " <<
+    generateAColumnForMarkup (
+      theString,
+      columnKind) <<
+    " } " <<
+    endl;
 
   return s.str ();
 }
@@ -3875,7 +3897,9 @@ string lpsr2LilypondTranslator::nameAsLilypondString (
 
   if (endOfLineFound != string::npos) {
     result =
-      generateMultilineName (name);
+      generateMultilineMarkup (
+        name,
+        markupColumnKindLeftACentered); // JMI ???
   }
   else {
     result = "\"" + name + "\"";
@@ -5838,8 +5862,9 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         // and generate a \markup{} // JMI ???
         fLilypondCodeOstream <<
           endl <<
-          generateMultilineName (
-            partName) <<
+          generateMultilineMarkup (
+            partName,
+            markupColumnKindLeftACentered) << // JMI ???
           endl;
       }
     }
@@ -5876,8 +5901,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         // and generate a \markup{} // JMI ???
         fLilypondCodeOstream <<
           endl <<
-          generateMultilineName (
-            partAbbreviation) <<
+          generateMultilineMarkup (partAbbreviation) <<
           endl;
       }
     }
@@ -11868,9 +11892,23 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               break;
           } // switch
 
+          // does wordsContents contains end of lines?
+          size_t endOfLineFound = wordsContents.find ("\n");
+
+          if (endOfLineFound == string::npos) {
+            s <<
+     // JMI         quoteStringIfNonAlpha (wordsContents) <<
+              "\"" << wordsContents << "\"";
+            }
+          else {
+            s <<
+              gIndenter.indentMultiLineString (
+                generateAColumnForMarkup (
+                  wordsContents,
+                  markupColumnKindLeftAligned));
+          }
+
           s <<
-   // JMI         quoteStringIfNonAlpha (wordsContents) <<
-            "\"" << wordsContents << "\"" <<
             " } ";
 
           markup = s.str ();
