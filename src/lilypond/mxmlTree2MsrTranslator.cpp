@@ -18053,11 +18053,6 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
   S_msrNote  newNote,
   S_msrVoice voiceToInsertInto)
 {
-/* JMI ???
-  int pendingHarmoniesNumber =
-    fPendingHarmoniesList.size ();
-*/
-
   rational
     newNoteSoundingWholeNotes =
       newNote->
@@ -18068,14 +18063,6 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       harmony =
         fPendingHarmoniesList.front ();
 
-/* JMI
-    // get that harmony's whole notes offset
-    rational
-      harmonyWholeNotesOffset =
-        harmony->
-          getHarmonyWholeNotesOffset ();
-*/
-
     /*
        MusicXML harmonies don't have a duration,
        and MSR could follow this line, but LilyPond needs one...
@@ -18085,9 +18072,9 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
            at which time their duration may be shortened
            so that the offsets values are enforced
            and they dont overflow the measure
-      It VITAL that harmony measures are finalized
+      It is VITAL that harmony measures are finalized
       AFTER the corresponding measure in the regular voice,
-      this the current sounding whole notes of the latter is needed for that
+      since the current sounding whole notes of the latter is needed for that
     */
 
     // set the harmony's sounding whole notes
@@ -21193,7 +21180,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
     S_msrHarmony
       harmony =
-        msrHarmony::create (
+        msrHarmony::createWithoutVoiceUplink (
           fCurrentHarmonyInputLineNumber,
           // no harmonyVoiceUpLink yet
 

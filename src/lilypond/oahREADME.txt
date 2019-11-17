@@ -1,6 +1,6 @@
 /*
 OAH basics:
-  - oah (Options And Help) is supposed to be pronouced something close to "whaaaah!"
+  - OAH (Options And Help) is supposed to be pronouced something close to "whaaaah!"
     The intonation is left to the speaker, though...
     And as the saying goes: "OAH? oahy not!"
 

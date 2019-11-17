@@ -55,6 +55,9 @@
         <voice>1</voice>
         <type>quarter</type>
       </note>
+      <backup>
+        <duration>2</duration>
+      </backup>
       <note>
         <pitch>
           <step>C</step>
@@ -230,6 +233,9 @@
         <voice>1</voice>
         <type>quarter</type>
       </note>
+      <backup>
+        <duration>2</duration>
+      </backup>
       <note>
         <pitch>
           <step>C</step>

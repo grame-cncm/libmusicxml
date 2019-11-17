@@ -606,7 +606,7 @@ class msr2LpsrTranslator :
 
     // notes
     // ------------------------------------------------------
-    bool                      fOnGoingNote;
+    bool                      fOnGoingNonGraceNote;
 
     // fCurrentNonGraceNoteClone is not used for grace notes,
     // which are visited while the note they're attached to

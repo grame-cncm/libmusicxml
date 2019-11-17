@@ -2568,7 +2568,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
   fVoiceLastSegment->
     appendTupletToSegment (tuplet);
 
-  // account for tuplet duration in the part current position in measure
+  // account for tuplet duration in the part's current position in measure
   fVoiceStaffUpLink->
     getStaffPartUpLink ()->
       incrementPartCurrentPositionInMeasure (
@@ -8657,7 +8657,8 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   int inputLineNumber)
 {
   msrMeasure::msrMeasuresRepeatContextKind
-    measuresRepeatContextKind = msrMeasure::kMeasuresRepeatContextKindNone;
+    measuresRepeatContextKind =
+      msrMeasure::kMeasuresRepeatContextKindNone;
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures || gTraceOah->fTraceVoices) {

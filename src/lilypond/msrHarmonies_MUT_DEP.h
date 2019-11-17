@@ -144,7 +144,7 @@ class msrHarmony : public msrMeasureElement
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrHarmony> create (
+    static SMARTP<msrHarmony> createWithoutVoiceUplink (
       int                      inputLineNumber,
       // no harmonyVoiceUpLink yet
       msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
@@ -167,7 +167,7 @@ class msrHarmony : public msrMeasureElement
     // applications API
     // ------------------------------------------------------
 
-    static SMARTP<msrHarmony> create (
+    static SMARTP<msrHarmony> createWithVoiceUplink (
       int                      inputLineNumber,
       S_msrVoice               harmonyVoiceUpLink,
       msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,

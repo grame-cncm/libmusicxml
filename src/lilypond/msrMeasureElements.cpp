@@ -61,7 +61,7 @@ void msrMeasureElement::setPositionInMeasure (
   }
 #endif
 
-  if (fPositionInMeasure == rational (3, 4) && positionInMeasure == rational (1, 2)) abort ();
+  // JMI ??? if (fPositionInMeasure == rational (3, 4) && positionInMeasure == rational (1, 2)) abort ();
 
   // sanity check
   msrAssert (

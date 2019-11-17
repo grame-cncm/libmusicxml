@@ -257,7 +257,7 @@ ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt)
 }
 
 //______________________________________________________________________________
-S_msrHarmony msrHarmony::create (
+S_msrHarmony msrHarmony::createWithoutVoiceUplink (
   int                      inputLineNumber,
   // no harmonyVoiceUpLink yet
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
@@ -290,7 +290,7 @@ S_msrHarmony msrHarmony::create (
   return o;
 }
 
-S_msrHarmony msrHarmony::create (
+S_msrHarmony msrHarmony::createWithVoiceUplink (
   int                      inputLineNumber,
   S_msrVoice               harmonyVoiceUpLink,
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
@@ -464,7 +464,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 
   S_msrHarmony
     newbornClone =
-      msrHarmony::create (
+      msrHarmony::createWithVoiceUplink (
         fInputLineNumber,
         containingVoice,
         fHarmonyRootQuarterTonesPitchKind,
@@ -502,7 +502,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 
   S_msrHarmony
     harmonyDeepCopy =
-      msrHarmony::create (
+      msrHarmony::createWithVoiceUplink (
         fInputLineNumber,
         containingVoice,
         fHarmonyRootQuarterTonesPitchKind,

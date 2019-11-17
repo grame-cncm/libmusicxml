@@ -144,6 +144,9 @@ class msrMeasure : public msrElement
     void                  setCurrentMeasureWholeNotesDuration (
                             int      inputLineNumber,
                             rational wholeNotes);
+    void                  incrementCurrentMeasureWholeNotesDuration (
+                            int      inputLineNumber,
+                            rational delta);
 
     rational              getCurrentMeasureWholeNotesDuration () const
                               { return fCurrentMeasureWholeNotesDuration; }

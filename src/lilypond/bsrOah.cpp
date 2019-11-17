@@ -745,7 +745,7 @@ void bsrOah::initializeBsrTraceOah (
       oahSubGroup::create (
         "Trace",
         "hbst", "help-bsr-trace",
-R"(  Note: the bsr in this group imply '-tbsr, -trace-bsr'.)",
+R"(  Note: the options in this subgroup imply '-tbsr, -trace-bsr'.)",
 // JMI        kElementVisibilityHiddenByDefault,
       kElementVisibilityAlways,
       this);
