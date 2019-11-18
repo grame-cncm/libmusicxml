@@ -265,8 +265,7 @@ class msrHarmony : public msrMeasureElement
                              { return fHarmonyStaffNumber; }
 
     void                  setHarmonyTupletFactor (
-                            msrTupletFactor tupletFactor)
-                              { fHarmonyTupletFactor = tupletFactor; }
+                            msrTupletFactor tupletFactor);
 
     msrTupletFactor       getHarmonyTupletFactor () const
                               { return fHarmonyTupletFactor; }

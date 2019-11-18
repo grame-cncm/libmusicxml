@@ -336,8 +336,10 @@ msrHarmony::msrHarmony (
   int                      harmonyStaffNumber,
   msrTupletFactor          harmonyTupletFactor,
   rational                 harmonyWholeNotesOffset)
-    : msrMeasureElement (inputLineNumber),
-     fHarmonyTupletFactor (harmonyTupletFactor)
+    : msrMeasureElement (
+        inputLineNumber),
+      fHarmonyTupletFactor (
+        harmonyTupletFactor)
 {
   /* JMI
   // sanity check
@@ -519,6 +521,24 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 
+void msrHarmony::setHarmonyTupletFactor (
+  msrTupletFactor tupletFactor)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "Setting the tuplet factor of harmony " <<
+      asShortString () <<
+      " to " <<
+      tupletFactor.asString () <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
+  fHarmonyTupletFactor = tupletFactor;
+}
+
 void msrHarmony::setHarmonyPositionInMeasure (
   rational positionInMeasure)
 {
@@ -637,8 +657,7 @@ string msrHarmony::asString () const
     fPositionInMeasure <<
 
     ", harmonyKindText: \"" <<
-    fHarmonyKindText << "\"" <<
-    ", line " << fInputLineNumber;
+    fHarmonyKindText << "\"";
 
   s << ", inversion: ";
   if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {
@@ -688,7 +707,9 @@ string msrHarmony::asString () const
     ", harmonyTupletFactor: " <<
     fHarmonyTupletFactor.asString ();
 
-  s << "]";
+  s <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }

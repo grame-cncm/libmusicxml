@@ -615,7 +615,7 @@ void msrSyllable::print (ostream& os)
         endl <<
         setw (fieldWidth) <<
        "syllableTupletFactor" << " : " <<
-        fSyllableTupletFactor;
+        fSyllableTupletFactor.asString ();
      break;
 
     case kSyllableMeasureEnd:

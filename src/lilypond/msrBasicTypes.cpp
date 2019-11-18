@@ -206,7 +206,7 @@ string msrTupletFactor::asString () const
   s <<
     "'" <<
     "tupletActualNotes: " << fTupletActualNotes <<
-    ", tupletNormalNotes" << " : " << fTupletNormalNotes <<
+    ", tupletNormalNotes: " << fTupletNormalNotes <<
     "'";
 
   return s.str ();

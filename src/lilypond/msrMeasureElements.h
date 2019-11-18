@@ -29,9 +29,9 @@ class msrMeasureElement : public msrElement
 
     #define K_NO_MEASURE_NUMBER          "*unknown*"
 
-    #define K_NO_POSITION_MEASURE_NUMBER rational(+222222, 1)
+    #define K_NO_POSITION_MEASURE_NUMBER rational (-222222, 1)
 
-    #define K_NO_WHOLE_NOTES             rational(-444444, 1)
+    #define K_NO_WHOLE_NOTES             rational (-444444, 1)
 
   protected:
 

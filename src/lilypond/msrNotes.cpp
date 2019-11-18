@@ -3611,12 +3611,15 @@ string msrNote::asString () const
 
   s << left <<
     ", positionInMeasure: ";
+    /* JMI
   if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
     s << "unknown (" << fPositionInMeasure << ")";
   }
   else {
     s << fPositionInMeasure;
   }
+  */
+  s << fPositionInMeasure;
 
   if (fNoteOccupiesAFullMeasure) {
     s <<
@@ -3716,12 +3719,15 @@ void msrNote::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : ";
+    /* JMI
   if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
     os << "unknown (" << fPositionInMeasure << ")";
   }
   else {
     os << fPositionInMeasure;
   }
+  */
+  os << fPositionInMeasure;
   os << endl;
 
   // print note measure uplink

@@ -653,6 +653,29 @@ class msrMeasure : public msrElement
     // private work services
     // ------------------------------------------------------
 
+    void                  handleFirstHarmonyInHarmonyMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrHarmony previousHarmony,
+                            S_msrHarmony currentHarmony,
+                            rational     currentHarmonyPositionInMeasure);
+
+    void                  handleSubsequentHarmonyInHarmonyMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrHarmony previousHarmony,
+                            S_msrHarmony currentHarmony,
+                            rational     currentHarmonyPositionInMeasure);
+
+    void                  postHandleLastHarmonyInHarmonyMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            S_msrHarmony currentHarmony);
+
     void                  handleHarmoniesInHarmonyMeasureFinalization (
                             int    inputLineNumber,
                             string context);

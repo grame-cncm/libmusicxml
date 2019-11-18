@@ -1692,7 +1692,7 @@ void msrMeasure::accountForTupletMemberNoteDurationInMeasure (
     gTraceOah->fTracePositionsInMeasures
   ) {
     gLogOstream <<
-      "Accounting for the durations of tuplet member note '" <<
+      "Accounting for the duration of tuplet member note '" <<
       note->asShortString () <<
       "' in measure '" <<
       fMeasureNumber <<
@@ -1706,6 +1706,11 @@ void msrMeasure::accountForTupletMemberNoteDurationInMeasure (
       endl;
   }
 #endif
+
+  // set note's position in measure
+  note->
+    setNotePositionInMeasure (
+      fCurrentMeasureWholeNotesDuration);
 
   // fetch note sounding whole notes
   rational
@@ -3569,6 +3574,406 @@ void msrMeasure::finalizeRegularMeasure (
   gIndenter--;
 }
 
+void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
+  int          inputLineNumber,
+  S_msrVoice   voice,
+  list<S_msrMeasureElement>::iterator&
+               i,
+  S_msrHarmony previousHarmony,
+  S_msrHarmony currentHarmony,
+  rational     currentHarmonyPositionInMeasure)
+{
+  // currentHarmony is the first harmony in the measure
+
+  // the position to pad up to is the minimum
+  // of those of the currentHarmony and currentHarmonyNoteUpLink,
+  // to keep comparison points between the regular voice and its harmony voice
+  rational
+    positionInMeasureToPadUpTo =
+// JMI        currentHarmonyNoteUpLinkPositionInMeasure;
+      currentHarmonyPositionInMeasure;
+
+/* JMI
+  if (
+    currentHarmonyPositionInMeasure
+      <
+    currentHarmonyNoteUpLinkPositionInMeasure
+  ) {
+    positionInMeasureToPadUpTo =
+      currentHarmonyPositionInMeasure;
+  }
+*/
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "handleHarmoniesInHarmonyMeasureFinalization() 5" <<
+      ", previousHarmony is null, positionInMeasureToPadUpTo: " <<
+      positionInMeasureToPadUpTo <<
+      endl;
+  }
+#endif
+
+  // create a padding note
+  if (positionInMeasureToPadUpTo.getNumerator () != 0) {
+    // a padding note is necessary
+    S_msrNote
+      paddingNote =
+        createPaddingNoteForVoice (
+          inputLineNumber,
+          positionInMeasureToPadUpTo,
+          voice);
+
+    // insert paddingNote before currentHarmony in the measure's elements list
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+      gLogOstream <<
+        "Inserting first padding note " <<
+        paddingNote->asString () <<
+        " before currentHarmony " <<
+        currentHarmony->asString () <<
+        " in voice \"" <<
+        voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    // insert paddingNote in the measure elements list before (*i)
+    insertElementInMeasureBeforeIterator (
+      inputLineNumber,
+      i,
+      paddingNote);
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+      displayMeasure (
+        inputLineNumber,
+        "handleHarmoniesInHarmonyMeasureFinalization() 6");
+    }
+#endif
+  }
+}
+
+void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
+  int          inputLineNumber,
+  S_msrVoice   voice,
+  list<S_msrMeasureElement>::iterator&
+               i,
+  S_msrHarmony previousHarmony,
+  S_msrHarmony currentHarmony,
+  rational     currentHarmonyPositionInMeasure)
+{
+  // this is a subsequent harmony in the measure
+
+  // get the previousHarmony's position in the measure
+  rational
+    previousHarmonyPositionInMeasure =
+      previousHarmony->getPositionInMeasure ();
+
+  // get the previousHarmony's duration
+  rational
+    previousHarmonySoundingWholeNotes =
+      previousHarmony->getHarmonySoundingWholeNotes ();
+
+  // compute the position in measure following previousHarmony
+  rational
+    positionInMeasureFollowingPreviousHarmony =
+      previousHarmonyPositionInMeasure
+        +
+      previousHarmonySoundingWholeNotes;
+  positionInMeasureFollowingPreviousHarmony.rationalise ();
+
+  // compute the positions in measure delta
+  rational
+    positionsInMeasureDelta =
+      currentHarmonyPositionInMeasure
+        -
+      positionInMeasureFollowingPreviousHarmony;
+  positionsInMeasureDelta.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "handleHarmoniesInHarmonyMeasureFinalization() 7" <<
+      ", previousHarmony: ";
+
+    if (previousHarmony) {
+      gLogOstream <<
+        previousHarmony->asString ();
+    }
+    else {
+      gLogOstream << "none";
+    }
+
+    gLogOstream <<
+      ", currentHarmony: " <<
+      currentHarmony->asString () <<
+      ", previousHarmonyPositionInMeasure: " <<
+      previousHarmonyPositionInMeasure <<
+      ", currentHarmonyPositionInMeasure: " <<
+      currentHarmonyPositionInMeasure <<
+      ", positionInMeasureFollowingPreviousHarmony: " <<
+      positionInMeasureFollowingPreviousHarmony <<
+      ", positionsInMeasureDelta: " <<
+      positionsInMeasureDelta <<
+      endl;
+  }
+#endif
+
+  // is a padding note needed?
+  if (positionsInMeasureDelta.getNumerator () > 0) {
+    // create a padding note
+    S_msrNote
+      paddingNote =
+        createPaddingNoteForVoice (
+          inputLineNumber,
+          positionsInMeasureDelta,
+          voice);
+
+    // set its position in measure
+    paddingNote->
+      setPositionInMeasure (
+        fCurrentMeasureWholeNotesDuration,
+        "handleHarmoniesInHarmonyMeasureFinalization() 8");
+
+    // insert paddingNote before currentHarmony in the measure's elements list
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+      gLogOstream <<
+        "Inserting subsequent padding note " <<
+        paddingNote->asString () <<
+        " before currentHarmony " <<
+        currentHarmony->asString () <<
+        " in voice \"" <<
+        voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    // insert paddingNote in the measure elements list before (*i)
+    insertElementInMeasureBeforeIterator (
+      inputLineNumber,
+      i,
+      paddingNote);
+  }
+
+  else if (positionsInMeasureDelta.getNumerator () < 0) {
+    // the two harmonies overlap in time
+    stringstream s;
+
+    s <<
+      "Previous harmony " <<
+      previousHarmony->asString () <<
+      " overlaps current harmony " <<
+      currentHarmony->asString ();
+
+    msrInternalWarning (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      s.str ());
+
+    // compute previousHarmony's future sounding whole notes
+    rational
+      reducedSoundingWholeNotes =
+        previousHarmonySoundingWholeNotes
+          + // the delta is negative
+        positionsInMeasureDelta;
+    reducedSoundingWholeNotes.rationalise ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+      gLogOstream <<
+        "Reducing the sounding whole notes of harmony FOO " <<
+        previousHarmony->asString () <<
+        " from " <<
+        previousHarmonySoundingWholeNotes <<
+        " to " <<
+        reducedSoundingWholeNotes <<
+        " in voice \"" <<
+        voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    if (reducedSoundingWholeNotes.getNumerator () == 0) {
+      stringstream s;
+
+      s <<
+        "Cannot reduce the duration of harmony " <<
+        previousHarmony->asShortString () <<
+        " to 0 : leaving it as it is";
+
+      msrInternalWarning (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+//  JMI             __FILE__, __LINE__,
+        s.str ());
+    }
+    else {
+      // set previousHarmony's duration to the reduced value
+      previousHarmony->
+        setHarmonySoundingWholeNotes (
+          reducedSoundingWholeNotes);
+    }
+  }
+}
+
+void msrMeasure::postHandleLastHarmonyInHarmonyMeasure (
+  int          inputLineNumber,
+  S_msrVoice   voice,
+  S_msrHarmony currentHarmony)
+{
+  // does the last harmony in the measure overflow the latter?
+
+  // get the currentHarmony's position in the measure
+  rational
+    currentHarmonyPositionInMeasure =
+      currentHarmony->getPositionInMeasure ();
+
+  // get the currentHarmony's sounding whole notes
+  rational
+    currentHarmonySoundingWholeNotes =
+      currentHarmony->
+        getHarmonySoundingWholeNotes ();
+
+  // compute the position in measure following currentHarmony
+  rational
+    positionInMeasureFollowingCurrentHarmony =
+      currentHarmonyPositionInMeasure
+        +
+      currentHarmonySoundingWholeNotes;
+  positionInMeasureFollowingCurrentHarmony.rationalise ();
+
+  // get the currentHarmony's note uplink
+  S_msrNote
+    currentHarmonyNoteUpLink  =
+      currentHarmony->
+        getHarmonyNoteUpLink ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "handleHarmoniesInHarmonyMeasureFinalization() 8888 " <<
+      "currentHarmonyNoteUpLink:" <<
+      endl;
+    gIndenter++;
+    gLogOstream <<
+      currentHarmonyNoteUpLink <<
+      endl;
+    gIndenter--;
+  }
+#endif
+
+  // compute the positions in measure delta
+  rational
+    positionsInMeasureDelta =
+      positionInMeasureFollowingCurrentHarmony
+        -
+      currentHarmonySoundingWholeNotes;
+  positionsInMeasureDelta.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "handleHarmoniesInHarmonyMeasureFinalization() 9" <<
+      ", currentHarmony: ";
+
+    if (currentHarmony) {
+      gLogOstream <<
+        currentHarmony->asString ();
+    }
+    else {
+      gLogOstream << "none";
+    }
+
+    gLogOstream <<
+      ", currentHarmonyPositionInMeasure: " <<
+      currentHarmonyPositionInMeasure <<
+      ", currentHarmonySoundingWholeNotes: " <<
+      currentHarmonySoundingWholeNotes <<
+      ", positionInMeasureFollowingCurrentHarmony: " <<
+      positionInMeasureFollowingCurrentHarmony <<
+      /* JMI
+      ", positionInMeasureFollowingCurrentHarmonyNoteUpLink: " <<
+      positionInMeasureFollowingCurrentHarmonyNoteUpLink <<
+      ", currentHarmonyNoteUpLinkSoundingWholeNotes: " <<
+      currentHarmonyNoteUpLinkSoundingWholeNotes <<
+      ", positionInMeasureFollowingCurrentHarmonyNoteUpLink: " <<
+      positionInMeasureFollowingCurrentHarmonyNoteUpLink <<
+      */
+      ", currentHarmonySoundingWholeNotes: " <<
+      currentHarmonySoundingWholeNotes <<
+      ", positionsInMeasureDelta: " <<
+      positionsInMeasureDelta <<
+      endl;
+  }
+#endif
+
+  if (positionsInMeasureDelta.getNumerator () > 0) {
+    // the last harmony's duration is too big
+    stringstream s;
+
+    s <<
+      "The last harmony " <<
+      currentHarmony->asString () <<
+      " overflows the current measure " <<
+      asString ();
+
+    msrInternalWarning (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      s.str ());
+
+    // compute currentHarmony's future sounding whole notes
+    rational
+      reducedSoundingWholeNotes =
+        currentHarmonySoundingWholeNotes
+          - // the delta is positive
+        positionsInMeasureDelta;
+    reducedSoundingWholeNotes.rationalise ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+      gLogOstream <<
+        "Reducing the sounding whole notes of harmony FII " <<
+        currentHarmony->asString () <<
+        " from " <<
+        currentHarmonySoundingWholeNotes <<
+        " to " <<
+        reducedSoundingWholeNotes <<
+        " in voice \"" <<
+        voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    if (reducedSoundingWholeNotes.getNumerator () == 0) {
+      stringstream s;
+
+      s <<
+        "Cannot reduce the duration of harmony " <<
+        currentHarmony->asShortString () <<
+        " to 0 : leaving it as it is";
+
+      msrInternalWarning (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+//  JMI             __FILE__, __LINE__,
+        s.str ());
+    }
+    else {
+      // set currentHarmony's duration to the reduced value
+      currentHarmony->
+        setHarmonySoundingWholeNotes (
+          reducedSoundingWholeNotes);
+    }
+  }
+}
+
 void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
   int    inputLineNumber,
   string context)
@@ -3714,234 +4119,23 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
 #endif
 
         if (! previousHarmony) {
-          // currentHarmony is the first harmony in the measure
-
-          // the position to pad up to is the minimum
-          // of those of the currentHarmony and currentHarmonyNoteUpLink,
-          // to keep comparison points between the regular voice and its harmony voice
-          rational
-            positionInMeasureToPadUpTo =
-      // JMI        currentHarmonyNoteUpLinkPositionInMeasure;
-              currentHarmonyPositionInMeasure;
-
-/* JMI
-          if (
-            currentHarmonyPositionInMeasure
-              <
-            currentHarmonyNoteUpLinkPositionInMeasure
-          ) {
-            positionInMeasureToPadUpTo =
-              currentHarmonyPositionInMeasure;
-          }
-*/
-
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-            gLogOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization() 5" <<
-              ", previousHarmony is null, positionInMeasureToPadUpTo: " <<
-              positionInMeasureToPadUpTo <<
-              endl;
-          }
-#endif
-
-          // create a padding note
-          if (positionInMeasureToPadUpTo.getNumerator () != 0) {
-            // a padding note is necessary
-            S_msrNote
-              paddingNote =
-                createPaddingNoteForVoice (
-                  inputLineNumber,
-                  positionInMeasureToPadUpTo,
-                  voice);
-
-            // insert paddingNote before currentHarmony in the measure's elements list
-#ifdef TRACE_OAH
-            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-              gLogOstream <<
-                "Inserting first padding note " <<
-                paddingNote->asString () <<
-                " before currentHarmony " <<
-                currentHarmony->asString () <<
-                " in voice \"" <<
-                voice->getVoiceName () <<
-                "\", line " << inputLineNumber <<
-                endl;
-            }
-#endif
-
-            // insert paddingNote in the measure elements list before (*i)
-            insertElementInMeasureBeforeIterator (
-              inputLineNumber,
-              i,
-              paddingNote);
-
-#ifdef TRACE_OAH
-            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-              displayMeasure (
-                inputLineNumber,
-                "handleHarmoniesInHarmonyMeasureFinalization() 6");
-            }
-#endif
-          }
+          handleFirstHarmonyInHarmonyMeasure (
+            inputLineNumber,
+            voice,
+            i,
+            previousHarmony,
+            currentHarmony,
+            currentHarmonyPositionInMeasure);
         }
 
         else {
-          // this is a subsequent harmony in the measure
-
-          // get the previousHarmony's position in the measure
-          rational
-            previousHarmonyPositionInMeasure =
-              previousHarmony->getPositionInMeasure ();
-
-          // get the previousHarmony's duration
-          rational
-            previousHarmonySoundingWholeNotes =
-              previousHarmony->getHarmonySoundingWholeNotes ();
-
-          // compute the position in measure following previousHarmony
-          rational
-            positionInMeasureFollowingPreviousHarmony =
-              previousHarmonyPositionInMeasure
-                +
-              previousHarmonySoundingWholeNotes;
-          positionInMeasureFollowingPreviousHarmony.rationalise ();
-
-          // compute the positions in measure delta
-          rational
-            positionsInMeasureDelta =
-              currentHarmonyPositionInMeasure
-                -
-              positionInMeasureFollowingPreviousHarmony;
-          positionsInMeasureDelta.rationalise ();
-
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-            gLogOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization() 7" <<
-              ", previousHarmony: ";
-
-            if (previousHarmony) {
-              gLogOstream <<
-                previousHarmony->asString ();
-            }
-            else {
-              gLogOstream << "none";
-            }
-
-            gLogOstream <<
-              ", currentHarmony: " <<
-              currentHarmony->asString () <<
-              ", previousHarmonyPositionInMeasure: " <<
-              previousHarmonyPositionInMeasure <<
-              ", currentHarmonyPositionInMeasure: " <<
-              currentHarmonyPositionInMeasure <<
-              ", positionInMeasureFollowingPreviousHarmony: " <<
-              positionInMeasureFollowingPreviousHarmony <<
-              ", positionsInMeasureDelta: " <<
-              positionsInMeasureDelta <<
-              endl;
-          }
-#endif
-
-          // is a padding note needed?
-          if (positionsInMeasureDelta.getNumerator () > 0) {
-            // create a padding note
-            S_msrNote
-              paddingNote =
-                createPaddingNoteForVoice (
-                  inputLineNumber,
-                  positionsInMeasureDelta,
-                  voice);
-
-            // set its position in measure
-            paddingNote->
-              setPositionInMeasure (
-                fCurrentMeasureWholeNotesDuration,
-                "handleHarmoniesInHarmonyMeasureFinalization() 8");
-
-            // insert paddingNote before currentHarmony in the measure's elements list
-#ifdef TRACE_OAH
-            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-              gLogOstream <<
-                "Inserting subsequent padding note " <<
-                paddingNote->asString () <<
-                " before currentHarmony " <<
-                currentHarmony->asString () <<
-                " in voice \"" <<
-                voice->getVoiceName () <<
-                "\", line " << inputLineNumber <<
-                endl;
-            }
-#endif
-
-            // insert paddingNote in the measure elements list before (*i)
-            insertElementInMeasureBeforeIterator (
-              inputLineNumber,
-              i,
-              paddingNote);
-          }
-
-          else if (positionsInMeasureDelta.getNumerator () < 0) {
-            // the two harmonies overlap in time
-            stringstream s;
-
-            s <<
-              "Previous harmony " <<
-              previousHarmony->asString () <<
-              " overlaps current harmony " <<
-              currentHarmony->asString ();
-
-            msrInternalWarning (
-              gOahOah->fInputSourceName,
-              inputLineNumber,
-              s.str ());
-
-            // compute previousHarmony's future sounding whole notes
-            rational
-              reducedSoundingWholeNotes =
-                previousHarmonySoundingWholeNotes
-                  + // the delta is negative
-                positionsInMeasureDelta;
-            reducedSoundingWholeNotes.rationalise ();
-
-#ifdef TRACE_OAH
-            if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-              gLogOstream <<
-                "Reducing the sounding whole notes of harmony " <<
-                previousHarmony->asString () <<
-                " from " <<
-                previousHarmonySoundingWholeNotes <<
-                " to " <<
-                reducedSoundingWholeNotes <<
-                " in voice \"" <<
-                voice->getVoiceName () <<
-                "\", line " << inputLineNumber <<
-                endl;
-            }
-#endif
-
-            if (reducedSoundingWholeNotes.getNumerator () == 0) {
-              stringstream s;
-
-              s <<
-                "Cannot reduce the duration of harmony " <<
-                previousHarmony->asShortString () <<
-                " to 0 : leaving it as it is";
-
-              msrInternalWarning (
-                gOahOah->fInputSourceName,
-                inputLineNumber,
- //  JMI             __FILE__, __LINE__,
-                s.str ());
-            }
-            else {
-              // set previousHarmony's duration to the reduced value
-              previousHarmony->
-                setHarmonySoundingWholeNotes (
-                  reducedSoundingWholeNotes);
-            }
-          }
+          handleSubsequentHarmonyInHarmonyMeasure (
+            inputLineNumber,
+            voice,
+            i,
+            previousHarmony,
+            currentHarmony,
+            currentHarmonyPositionInMeasure);
         }
 
         previousHarmony = currentHarmony;
@@ -3951,152 +4145,10 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     } // while
 
     if (currentHarmony) {
-      // does the last harmony in the measure overflow the latter?
-
-      // get the currentHarmony's position in the measure
-      rational
-        currentHarmonyPositionInMeasure =
-          currentHarmony->getPositionInMeasure ();
-
-      // get the currentHarmony's sounding whole notes
-      rational
-        currentHarmonySoundingWholeNotes =
-          currentHarmony->
-            getHarmonySoundingWholeNotes ();
-
-      // compute the position in measure following currentHarmony
-      rational
-        positionInMeasureFollowingCurrentHarmony =
-          currentHarmonyPositionInMeasure
-            +
-          currentHarmonySoundingWholeNotes;
-      positionInMeasureFollowingCurrentHarmony.rationalise ();
-
-      // get the currentHarmony's note uplink
-      S_msrNote
-        currentHarmonyNoteUpLink  =
-          currentHarmony->
-            getHarmonyNoteUpLink ();
-
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-        gLogOstream <<
-          "handleHarmoniesInHarmonyMeasureFinalization() 8888 " <<
-          "currentHarmonyNoteUpLink:" <<
-          endl;
-        gIndenter++;
-        gLogOstream <<
-          currentHarmonyNoteUpLink <<
-          endl;
-        gIndenter--;
-      }
-#endif
-
-      // compute the positions in measure delta
-      rational
-        positionsInMeasureDelta =
-          positionInMeasureFollowingCurrentHarmony
-            -
-          currentHarmonySoundingWholeNotes;
-      positionsInMeasureDelta.rationalise ();
-
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-        gLogOstream <<
-          "handleHarmoniesInHarmonyMeasureFinalization() 9" <<
-          ", currentHarmony: ";
-
-        if (currentHarmony) {
-          gLogOstream <<
-            currentHarmony->asString ();
-        }
-        else {
-          gLogOstream << "none";
-        }
-
-        gLogOstream <<
-          ", currentHarmonyPositionInMeasure: " <<
-          currentHarmonyPositionInMeasure <<
-          ", currentHarmonySoundingWholeNotes: " <<
-          currentHarmonySoundingWholeNotes <<
-          ", positionInMeasureFollowingCurrentHarmony: " <<
-          positionInMeasureFollowingCurrentHarmony <<
-          /* JMI
-          ", positionInMeasureFollowingCurrentHarmonyNoteUpLink: " <<
-          positionInMeasureFollowingCurrentHarmonyNoteUpLink <<
-          ", currentHarmonyNoteUpLinkSoundingWholeNotes: " <<
-          currentHarmonyNoteUpLinkSoundingWholeNotes <<
-          ", positionInMeasureFollowingCurrentHarmonyNoteUpLink: " <<
-          positionInMeasureFollowingCurrentHarmonyNoteUpLink <<
-          */
-          ", currentHarmonySoundingWholeNotes: " <<
-          currentHarmonySoundingWholeNotes <<
-          ", positionsInMeasureDelta: " <<
-          positionsInMeasureDelta <<
-          endl;
-      }
-#endif
-
-      if (positionsInMeasureDelta.getNumerator () > 0) {
-        // the last harmony's duration is too big
-        stringstream s;
-
-        s <<
-          "The last harmony " <<
-          currentHarmony->asString () <<
-          " overflows the current measure " <<
-          asString ();
-
-        msrInternalWarning (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-          s.str ());
-
-        // compute currentHarmony's future sounding whole notes
-        rational
-          reducedSoundingWholeNotes =
-            currentHarmonySoundingWholeNotes
-              - // the delta is positive
-            positionsInMeasureDelta;
-        reducedSoundingWholeNotes.rationalise ();
-
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-          gLogOstream <<
-            "Reducing the sounding whole notes of harmony " <<
-            currentHarmony->asString () <<
-            " from " <<
-            currentHarmonySoundingWholeNotes <<
-            " to " <<
-            reducedSoundingWholeNotes <<
-            " in voice \"" <<
-            voice->getVoiceName () <<
-            "\", line " << inputLineNumber <<
-            endl;
-        }
-#endif
-
-        if (reducedSoundingWholeNotes.getNumerator () == 0) {
-          stringstream s;
-
-          s <<
-            "Cannot reduce the duration of harmony " <<
-            currentHarmony->asShortString () <<
-            " to 0 : leaving it as it is";
-
-          msrInternalWarning (
-            gOahOah->fInputSourceName,
-            inputLineNumber,
-//  JMI             __FILE__, __LINE__,
-            s.str ());
-        }
-        else {
-          // set currentHarmony's duration to the reduced value
-          currentHarmony->
-            setHarmonySoundingWholeNotes (
-              reducedSoundingWholeNotes);
-        }
-      }
+      postHandleLastHarmonyInHarmonyMeasure (
+        inputLineNumber,
+        voice,
+        currentHarmony);
     }
 /* JMI
     else {

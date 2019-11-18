@@ -15082,7 +15082,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTupletsDetails) {
     displayTupletsStack (
-      "############## After  createTupletWithItsFirstNoteAndPushItToTupletsStack()");
+      "############## createTupletWithItsFirstNoteAndPushItToTupletsStack() 1");
   }
 #endif
 
@@ -15112,7 +15112,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTupletsDetails) {
     displayLastHandledTupletInVoiceMap (
-      "############## Before fLastHandledTupletInVoiceMap");
+      "############## createTupletWithItsFirstNoteAndPushItToTupletsStack() 2");
   }
 #endif
 }
@@ -19549,7 +19549,6 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 addNoteToTuplet (
                   note,
                   currentVoice);
-
 
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceTupletsDetails) {
