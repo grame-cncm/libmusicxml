@@ -2272,10 +2272,10 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 s << "position=" << "\"below\"";
                 tag->add (guidoparam::create(s.str(), false));
                 
-                addPosYforNoteHead(nv, nv.fFermata, tag, 0);
-                
+                // XML reports distance from top of staff, Guido needs from bottom in Inverted mode. This is offset 8
+                xml2guidovisitor::addPosY(nv.fFermata, tag, 8, 1.0);
             }else{
-                addPosYforNoteHead(nv, nv.fFermata, tag, 0);
+                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
             }
             push(tag);
             return 1;
