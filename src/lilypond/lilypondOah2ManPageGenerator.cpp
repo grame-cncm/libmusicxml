@@ -221,50 +221,6 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondFixedOctaveEntryAtom& elt
 }
 
 //________________________________________________________________________
-void lilypondOah2ManPageGenerator::visitStart (S_lilypondResetMeasureNumberAtom& elt)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    fOah2ManPageLogOstream <<
-      endl <<
-      ".\\\" --> Start visiting lilypondResetMeasureNumberAtom" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-/*
-  fOah2ManPageOutputStream <<
-    ".HP" <<
-    endl <<
-    "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
-    "\\fR, " <<
-    "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
-    "\\fR, " <<
-    endl <<
-
-    ".IP" <<
-    endl <<
-    elt->getDescription () <<
-    endl;
-    */
-}
-
-void lilypondOah2ManPageGenerator::visitEnd (S_lilypondResetMeasureNumberAtom& elt)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    fOah2ManPageLogOstream <<
-      endl <<
-      ".\\\" --> End visiting lilypondResetMeasureNumberAtom" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
 void lilypondOah2ManPageGenerator::visitStart (S_lilypondAccidentalStyleKindAtom& elt)
 {
 #ifdef TRACE_OAH

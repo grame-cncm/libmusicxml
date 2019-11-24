@@ -32,8 +32,6 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_lilypondFixedOctaveEntryAtom>,
 
-  public visitor<S_lilypondResetMeasureNumberAtom>,
-
   public visitor<S_lilypondAccidentalStyleKindAtom>,
 
   public visitor<S_lilypondChordsDisplayAtom>,
@@ -65,9 +63,6 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     virtual void visitStart (S_lilypondFixedOctaveEntryAtom& elt);
     virtual void visitEnd   (S_lilypondFixedOctaveEntryAtom& elt);
-
-    virtual void visitStart (S_lilypondResetMeasureNumberAtom& elt);
-    virtual void visitEnd   (S_lilypondResetMeasureNumberAtom& elt);
 
     virtual void visitStart (S_lilypondAccidentalStyleKindAtom& elt);
     virtual void visitEnd   (S_lilypondAccidentalStyleKindAtom& elt);
