@@ -224,7 +224,7 @@ void musicXMLOah::initializeMusicXMLWorkTitleOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    workSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Work title",
         "hmxmlwt", "help-musicxml-work-title",
@@ -232,13 +232,13 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroupToGroup (workSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // file name as work title
 
   fUseFilenameAsWorkTitle = false;
 
-  workSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ufawt", "use-filename-as-work-title",
@@ -246,6 +246,40 @@ R"(Use the file name as work title if there is none in the MusicXML data.
 Standard input (-) becomes 'Standard input' in that case.)",
         "useFilenameAsWorkTitle",
         fUseFilenameAsWorkTitle));
+}
+
+void musicXMLOah::initializeMusicXMMeasuresOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Measures",
+        "hmxmlm", "help-musicxml-measures",
+R"()",
+        kElementVisibilityAlways,
+        this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // add empty measures
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahStringToIntMapAtom::create (
+        "aem", "add-empty-measures",
+R"###(Add empty mesure according to SPECIFICATION.
+SPECIFICATION should be of the form 'MEASURE_NUMBER MEASURES_TO_ADD',
+where MEASURE_NUMBER is a string, and MEASURES_TO_ADD is the number
+of empty measures to add after measure MEASURE_NUMBER.
+MEASURE_NUMBER should be the number of an existing, empty measure,
+and MEASURES_TO_ADD should be at least 1, , such as '17 3'.
+This comes in handly when MusicXML data obtained by scanning contains
+a single empty measure when there were several in the original score.
+This option can be used any number of times.)###",
+        "SPECIFICATION",
+        "addEmptyMeasuresStringToIntMap",
+        fAddEmptyMeasuresStringToIntMap));
 }
 
 void musicXMLOah::initializeMusicXMLClefsKeysTimesOptions (
@@ -374,7 +408,7 @@ void musicXMLOah::initializeMusicXMLDynamicsandWedgesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    workSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Dynamics and wedges",
         "hmxmldaw", "help-musicxml-dynamics-and-wedges",
@@ -382,13 +416,13 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroupToGroup (workSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // dynamics
 
   fAllDynamicsBelow = false;
 
-  workSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "adb", "all-dynamics-below",
@@ -400,7 +434,7 @@ R"(Ignore dynamics placement and set it to 'below'.)",
 
   fAllWedgesBelow = false;
 
-  workSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "awb", "all-wedges-below",
@@ -413,7 +447,7 @@ void musicXMLOah::initializeMusicXMLCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    combinedSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Combined options",
         "hmxmlco", "help-musicxml-combined-options",
@@ -421,7 +455,7 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroupToGroup (combinedSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // cubase
 
@@ -437,7 +471,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
         "cubase",
         fCubase);
 
-  combinedSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       cubaseCombinedBooleansAtom);
 
@@ -468,7 +502,7 @@ R"(Prevents the default 'cubase' option.)",
         "noCubase",
         fNoCubase);
 
-  combinedSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       noCubaseBooleanAtom);
  }
@@ -485,6 +519,10 @@ void musicXMLOah::initializeMusicXMLOah (
 
   // worktitle
   initializeMusicXMLWorkTitleOptions (
+    boolOptionsInitialValue);
+
+  // measures
+  initializeMusicXMMeasuresOptions (
     boolOptionsInitialValue);
 
   // clefs, keys, times

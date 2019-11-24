@@ -6861,7 +6861,7 @@ void oahStringToIntMapAtom::handleValue (
   }
 #endif
 
-  // theString contains the reset measure number specification
+  // theString contains the string int map specification
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OAH
@@ -6874,10 +6874,10 @@ void oahStringToIntMapAtom::handleValue (
 
   string regularExpression (
     "[[:space:]]*"
-    "([[:digit:]]+\\.*)"
+    "([[:w:]]+)"
     "[[:space:]]*"
-    "="
-    "[[:space:]]*"
+//    "=" JMI
+//    "[[:space:]]*"
     "([[:digit:]]+)"
     "[[:space:]]*");
 

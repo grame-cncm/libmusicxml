@@ -6349,6 +6349,12 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     finalizeCurrentMeasureInPart (
       inputLineNumber);
 
+  // should empty measures be added after this one?
+  if (gMusicXMLOah->fAddEmptyMeasuresStringToIntMap.size ()) {
+    // use fCurrentTime to determine the measure length
+    // ???
+  }
+
   // handle an on going multiple rest if any only now,
   // JMI do it before???
   if (fOnGoingRestMeasures) {

@@ -541,9 +541,12 @@ class lpsrOah : public oahGroup
     // measures
     // --------------------------------------
 
-    // replicate empty measure
+    // replicate empty measure JMI ???
     string                fReplicateEmptyMeasureNumber;
     int                   fReplicateEmptyMeasureReplicas;
+
+    // add empty measures
+    map<string,int>       fAddEmptyMeasuresStringToIntMap;
 
     // words
     // --------------------------------------

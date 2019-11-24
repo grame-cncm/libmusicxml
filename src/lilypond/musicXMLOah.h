@@ -91,6 +91,9 @@ class musicXMLOah : public oahGroup
     void                  initializeMusicXMLWorkTitleOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeMusicXMMeasuresOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeMusicXMLClefsKeysTimesOptions (
                             bool boolOptionsInitialValue);
 
@@ -125,18 +128,29 @@ class musicXMLOah : public oahGroup
     // ------------------------------------------------------
 
     // trace
+    // --------------------------------------
+
     bool                  fTraceMusicXMLTreeVisitors;
 
     // worktitle
+    // --------------------------------------
 
     bool                  fUseFilenameAsWorkTitle;
 
+    // measures
+    // --------------------------------------
+
+    // add empty measures
+    map<string,int>       fAddEmptyMeasuresStringToIntMap;
+
     // dynamics and wedges
+    // --------------------------------------
 
     bool                  fAllDynamicsBelow;
     bool                  fAllWedgesBelow;
 
     // clefs, keys, times
+    // --------------------------------------
 
     bool                  fIgnoreRedundantClefs;
     bool                  fIgnoreRedundantKeys;
@@ -147,12 +161,14 @@ class musicXMLOah : public oahGroup
     S_oahBooleanAtom      fIgnoreRedundantTimesAtom;
 
     // combined options, cubase
+    // --------------------------------------
 
     bool                  fCubase;
     bool                  fNoCubase;
 
 #ifdef TRACE_OAH
     // specific trace JMI move to traceOah
+    // --------------------------------------
 
     // encoding
     bool                  fTraceEncoding;

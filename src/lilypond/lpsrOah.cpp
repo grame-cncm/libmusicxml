@@ -1240,6 +1240,7 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+/* JMI
   // replicate empty measure
 
   fReplicateEmptyMeasureNumber = boolOptionsInitialValue;
@@ -1263,6 +1264,7 @@ This option can be used any number of times.)###",
         fReplicateEmptyMeasureNumber,
         "replicateEmptyMeasureReplicas",
         fReplicateEmptyMeasureReplicas));
+        */
 }
 
 void lpsrOah::initializeLpsrWordsOptions (
@@ -1583,6 +1585,9 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   clone->fReplicateEmptyMeasureReplicas =
     fReplicateEmptyMeasureReplicas;
 
+  clone->fAddEmptyMeasuresStringToIntMap =
+    fAddEmptyMeasuresStringToIntMap;
+
   // words
   // --------------------------------------
 
@@ -1843,6 +1848,7 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
   gIndenter++;
 
+  /* JMI
   gLogOstream << left <<
     setw (fieldWidth) << "replicateEmptyMeasureNumber" << " : " <<
     fReplicateEmptyMeasureNumber <<
@@ -1850,6 +1856,24 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
     setw (fieldWidth) << "replicateEmptyMeasureReplicas" << " : " <<
     booleanAsString (fReplicateEmptyMeasureReplicas) <<
     endl;
+    */
+  gLogOstream << left <<
+    setw (fieldWidth) << "resetMeasureNumberMap" << " : ";
+  if (! fAddEmptyMeasuresStringToIntMap.size ()) {
+    gLogOstream << "empty";
+  }
+  else {
+    map<string, int>::const_iterator
+      iBegin = fAddEmptyMeasuresStringToIntMap.begin (),
+      iEnd   = fAddEmptyMeasuresStringToIntMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogOstream << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      gLogOstream << ",";
+    } // for
+  }
+  gLogOstream << endl;
 
   gIndenter--;
 
