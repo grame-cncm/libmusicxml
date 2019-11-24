@@ -9587,7 +9587,7 @@ void oahHandler::checkMissingPendingValuedAtomValue (
 {
   if (fPendingValuedAtom) {
     switch (fHandlerOptionalValuesStyleKind) {
-      case kOptionalValuesStyleGNU: // default value
+      case kOptionalValuesStyleGNU:
         // handle the valued atom using the default value
         if (fPendingValuedAtom->getValueIsOptional ()) {
           fPendingValuedAtom->
@@ -9595,14 +9595,16 @@ void oahHandler::checkMissingPendingValuedAtomValue (
         }
 
         else {
+        /* JMI
           stringstream s;
 
           s <<
             "option name '" << atomName <<
-            "' should be used with a '=' in GNU optional values style";
+            "' takes an optional value: it should be used with a '=' in GNU optional values style";
 
           oahError (s.str ());
-       //   oahWarning (s.str ());
+       //   oahWarning (s.str ()); // JMI
+       */
         }
         break;
 
@@ -9926,7 +9928,7 @@ void oahHandler::decipherOptionContainingEqualSign (
 
         s <<
           "option name '" << name <<
-          "' cannot doesn't have default value and thus cannot be used with a '='";
+          "' doesn't have a default value and thus cannot be used with a '='";
 
         oahError (s.str ());
       }

@@ -521,7 +521,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   }
 
   // is the LilyPond macro 'boxAroundNextBarNumber' to be generated?
-  if (gLilypondOah->fGenerateBoxAroundNextBarNumber) {
+  if (gLilypondOah->fBoxAroundBarNumberSet.size ()) {
     fLpsrScore->
       // this score needs the 'boxAroundNextBarNumber' Scheme function
       setBoxAroundNextBarNumberIsNeeded ();

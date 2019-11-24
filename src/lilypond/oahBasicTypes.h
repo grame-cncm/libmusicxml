@@ -1024,7 +1024,7 @@ class oahValuedAtom : public oahAtomWithVariableName
                             ostream& os) = 0;
 
     virtual void          handleDefaultValue ();
-                            // used only fValueIsOptional is true
+                            // used only if fValueIsOptional is true
 
   public:
 
@@ -1062,7 +1062,7 @@ class oahValuedAtom : public oahAtomWithVariableName
 
     string                fValueSpecification;
 
-    bool                  fValueIsOptional; // not yet supported JMI
+    bool                  fValueIsOptional;
 };
 typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
 EXP ostream& operator<< (ostream& os, const S_oahValuedAtom& elt);

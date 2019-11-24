@@ -456,6 +456,92 @@ typedef SMARTP<lilypondResetMeasureNumberAtom> S_lilypondResetMeasureNumberAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondResetMeasureNumberAtom& elt);
 
 //______________________________________________________________________________
+class lilypondBoxAroundBarNumberAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lilypondBoxAroundBarNumberAtom> create (
+      string    shortName,
+      string    longName,
+      string    description,
+      string    valueSpecification,
+      string    variableName,
+      set<int>& stringSetVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lilypondBoxAroundBarNumberAtom (
+      string    shortName,
+      string    longName,
+      string    description,
+      string    valueSpecification,
+      string    variableName,
+      set<int>& stringSetVariable);
+
+    virtual ~lilypondBoxAroundBarNumberAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const set<int>&       getStringSetVariable ()
+                              { return fStringSetVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    set<int>&          fStringSetVariable;
+};
+typedef SMARTP<lilypondBoxAroundBarNumberAtom> S_lilypondBoxAroundBarNumberAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondBoxAroundBarNumberAtom& elt);
+
+//______________________________________________________________________________
 class lilypondAccidentalStyleKindAtom : public oahValuedAtom
 {
   public:
@@ -1094,9 +1180,9 @@ class lilypondOah : public oahGroup
 
     bool                  fShowAllBarNumbers;
 
-    bool                  fGenerateBoxAroundNextBarNumber;
-
     map<string, int>      fResetMeasureNumberMap;
+
+    set<int>              fBoxAroundBarNumberSet;
 
 
     // line breaks

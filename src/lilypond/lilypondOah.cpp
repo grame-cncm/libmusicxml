@@ -942,7 +942,7 @@ void lilypondResetMeasureNumberAtom::handleValue (
   }
 #endif
 
-  // theString contains the midi tempo specification
+  // theString contains the reset measure number specification
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OAH
@@ -1019,10 +1019,10 @@ void lilypondResetMeasureNumberAtom::handleValue (
       "lilypondMeasureNumber = " <<
       lilypondMeasureNumber <<
       endl;
-
-  fStringIntMapVariable [musicXMLMeasureNumber] = lilypondMeasureNumber;
   }
 #endif
+
+  fStringIntMapVariable [musicXMLMeasureNumber] = lilypondMeasureNumber;
 }
 
 void lilypondResetMeasureNumberAtom::acceptIn (basevisitor* v)
@@ -1096,7 +1096,7 @@ string lilypondResetMeasureNumberAtom::asShortNamedOptionString () const
     "-" << fShortName << " ";
 
   if (! fStringIntMapVariable.size ()) {
-    s << "none";
+    s << "empty";
   }
   else {
     map<string, int>::const_iterator
@@ -1121,7 +1121,7 @@ string lilypondResetMeasureNumberAtom::asLongNamedOptionString () const
     "-" << fLongName << " ";
 
   if (! fStringIntMapVariable.size ()) {
-    s << "none";
+    s << "empty";
   }
   else {
     map<string, int>::const_iterator
@@ -1156,11 +1156,11 @@ void lilypondResetMeasureNumberAtom::print (ostream& os) const
     "fVariableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fStringIntMapVariable" << " : '" <<
+    "fStringSetVariable" << " : '" <<
     endl;
 
   if (! fStringIntMapVariable.size ()) {
-    os << "none";
+    os << "empty";
   }
   else {
     map<string, int>::const_iterator
@@ -1190,7 +1190,7 @@ void lilypondResetMeasureNumberAtom::printAtomOptionsValues (
 
   if (! fStringIntMapVariable.size ()) {
     os <<
-      "none" <<
+      "empty" <<
       endl;
   }
   else {
@@ -1217,6 +1217,340 @@ void lilypondResetMeasureNumberAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_lilypondResetMeasureNumberAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_lilypondBoxAroundBarNumberAtom lilypondBoxAroundBarNumberAtom::create (
+  string    shortName,
+  string    longName,
+  string    description,
+  string    valueSpecification,
+  string    variableName,
+  set<int>& stringSetVariable)
+{
+  lilypondBoxAroundBarNumberAtom* o = new
+    lilypondBoxAroundBarNumberAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringSetVariable);
+  assert(o!=0);
+  return o;
+}
+
+lilypondBoxAroundBarNumberAtom::lilypondBoxAroundBarNumberAtom (
+  string    shortName,
+  string    longName,
+  string    description,
+  string    valueSpecification,
+  string    variableName,
+  set<int>& stringSetVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringSetVariable (
+      stringSetVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+lilypondBoxAroundBarNumberAtom::~lilypondBoxAroundBarNumberAtom ()
+{}
+
+S_oahValuedAtom lilypondBoxAroundBarNumberAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondBoxAroundBarNumberAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void lilypondBoxAroundBarNumberAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondBoxAroundBarNumberAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the bar number specification
+  // decipher it to extract duration and perSecond values
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondBoxAroundBarNumberAtom'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "([[:digit:]]+)");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for reset measure number string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "':" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  if (smSize != 2) {
+    stringstream s;
+
+    s <<
+      "-boxAroundBarNumber argument '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  int lilypondMeasureNumber;
+  {
+    stringstream s;
+    s << sm [1];
+    s >> lilypondMeasureNumber;
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "lilypondMeasureNumber = " <<
+      lilypondMeasureNumber <<
+      endl;
+  }
+#endif
+
+  fStringSetVariable.insert (lilypondMeasureNumber);
+}
+
+void lilypondBoxAroundBarNumberAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondBoxAroundBarNumberAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondBoxAroundBarNumberAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondBoxAroundBarNumberAtom>*> (v)) {
+        S_lilypondBoxAroundBarNumberAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lilypondBoxAroundBarNumberAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondBoxAroundBarNumberAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondBoxAroundBarNumberAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondBoxAroundBarNumberAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondBoxAroundBarNumberAtom>*> (v)) {
+        S_lilypondBoxAroundBarNumberAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lilypondBoxAroundBarNumberAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondBoxAroundBarNumberAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondBoxAroundBarNumberAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string lilypondBoxAroundBarNumberAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringSetVariable.size ()) {
+    s << "empty";
+  }
+  else {
+    set<int>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string lilypondBoxAroundBarNumberAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringSetVariable.size ()) {
+    s << "empty";
+  }
+  else {
+    set<int>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void lilypondBoxAroundBarNumberAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "OptionsBoxAroundBarNumberAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringSetVariable" << " : '" <<
+    endl;
+
+  if (! fStringSetVariable.size ()) {
+    os << "empty";
+  }
+  else {
+    set<int>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+
+  gIndenter--;
+}
+
+void lilypondBoxAroundBarNumberAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringSetVariable.size ()) {
+    os <<
+      "empty" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    set<int>::const_iterator
+      iBegin = fStringSetVariable.begin (),
+      iEnd   = fStringSetVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i) << endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lilypondBoxAroundBarNumberAtom& elt)
 {
   elt->print (os);
   return os;
@@ -3053,6 +3387,23 @@ There can be several occurrences of this option.)",
         "RESET_NUMBER_SPEC",
         "resetMeasureNumberMap",
         fResetMeasureNumberMap));
+
+  // generate box around bar number
+
+  S_lilypondBoxAroundBarNumberAtom
+    generateBoxAroundBarNumber =
+      lilypondBoxAroundBarNumberAtom::create (
+        "gbabn", "generate-box-around-bar-number",
+R"(Generate a box around LilyPond purist bar number BAR_NUMBER,
+where BAR_NUMBER is an integer.
+This implies that bar numbers are centered on the bars.
+There can be multiple occurrences of this option.)",
+        "BAR_NUMBER",
+        "boxAroundBarNumberSet",
+        fBoxAroundBarNumberSet);
+
+  subGroup->
+    appendAtomToSubGroup (generateBoxAroundBarNumber);
 }
 
 void lilypondOah::initializeLineBreaksOptions (
@@ -3656,21 +4007,6 @@ to reduce the size of the resulting PDF file.)",
         "pointAndClickOff",
         fPointAndClickOff));
 
-  // box around next bar number
-
-  fGenerateBoxAroundNextBarNumber = boolOptionsInitialValue;
-
-  S_oahBooleanAtom
-    generateBoxAroundNextBarNumber =
-      oahBooleanAtom::create (
-        "gbanbn", "generate-box-around-next-bar-number",
-R"(Generate LilyPond code to show all bar numbers.)",
-        "generateBoxAroundNextBarNumber",
-        fGenerateBoxAroundNextBarNumber);
-
-  subGroup->
-    appendAtomToSubGroup (generateBoxAroundNextBarNumber);
-
   // white note heads
 
   fWhiteNoteHeads = boolOptionsInitialValue;
@@ -3990,8 +4326,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   clone->fShowAllBarNumbers =
     true;
 
-  clone->fGenerateBoxAroundNextBarNumber =
-    true;
+  clone->fBoxAroundBarNumberSet =
+    fBoxAroundBarNumberSet;
 
 
   // line breaks
@@ -4478,10 +4814,43 @@ void lilypondOah::printAtomOptionsValues (
   os << left <<
     setw (valueFieldWidth) << "showAllBarNumbers" << " : " <<
     booleanAsString (fShowAllBarNumbers) <<
-    endl <<
-    setw (valueFieldWidth) << "generateBoxAroundNextBarNumber" << " : " <<
-    booleanAsString (fGenerateBoxAroundNextBarNumber) <<
     endl;
+
+  os << left <<
+    setw (valueFieldWidth) << "resetMeasureNumberMap" << " : ";
+  if (! fResetMeasureNumberMap.size ()) {
+    os << "empty";
+  }
+  else {
+    map<string, int>::const_iterator
+      iBegin = fResetMeasureNumberMap.begin (),
+      iEnd   = fResetMeasureNumberMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      os << ",";
+    } // for
+  }
+  os << endl;
+
+  os << left <<
+    setw (valueFieldWidth) << "boxAroundBarNumberSet" << " : ";
+  if (! fBoxAroundBarNumberSet.size ()) {
+    os << "empty";
+  }
+  else {
+    set<int>::const_iterator
+      iBegin = fBoxAroundBarNumberSet.begin (),
+      iEnd   = fBoxAroundBarNumberSet.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << ",";
+    } // for
+  }
+  os << endl;
 
   gIndenter--;
 
@@ -4983,10 +5352,43 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "showAllBarNumbers" << " : " <<
     booleanAsString (fShowAllBarNumbers) <<
-    endl <<
-    setw (fieldWidth) << "generateBoxAroundNextBarNumber" << " : " <<
-    booleanAsString (fGenerateBoxAroundNextBarNumber) <<
     endl;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "resetMeasureNumberMap" << " : ";
+  if (! fResetMeasureNumberMap.size ()) {
+    gLogOstream << "empty";
+  }
+  else {
+    map<string, int>::const_iterator
+      iBegin = fResetMeasureNumberMap.begin (),
+      iEnd   = fResetMeasureNumberMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogOstream << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      gLogOstream << ",";
+    } // for
+  }
+  gLogOstream << endl;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "boxAroundBarNumberSet" << " : ";
+  if (! fBoxAroundBarNumberSet.size ()) {
+    gLogOstream << "empty";
+  }
+  else {
+    set<int>::const_iterator
+      iBegin = fBoxAroundBarNumberSet.begin (),
+      iEnd   = fBoxAroundBarNumberSet.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogOstream << (*i);
+      if (++i == iEnd) break;
+      gLogOstream << ",";
+    } // for
+  }
+  gLogOstream << endl;
 
   gIndenter--;
 
@@ -5418,7 +5820,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
     stringstream s;
 
     s <<
-      "-BreakPageAfterMeasureNumber argument '" << theString <<
+      "-breakPageAfterMeasureNumber argument '" << theString <<
       "' is ill-formed";
 
     oahError (s.str ());

@@ -176,6 +176,1020 @@ ostream& operator<< (ostream& os, msrDottedDuration elt)
   return os;
 }
 
+// semitone pitches and absolute octave
+//______________________________________________________________________________
+S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::create (
+  msrSemiTonesPitchKind semiTonesPitchKind,
+  int                   relativeOctave)
+{
+  msrSemiTonesPitchAndOctave* o =
+    new msrSemiTonesPitchAndOctave (
+      semiTonesPitchKind,
+      relativeOctave);
+  assert(o!=0);
+
+  return o;
+}
+
+S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
+  int    inputLineNumber,
+  string theString)
+{
+  S_msrSemiTonesPitchAndOctave result;
+
+  // decipher theString with a three-number regular expression
+  string regularExpression (
+    "([[:lower:]]+)"
+    "([,\']*)");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "There are " << smSize << " matches" <<
+      " for transposition string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl <<
+      smSize << " elements: ";
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      gLogOstream << endl;
+    }
+#endif
+
+  if (smSize == 3) {
+    // found a well-formed specification,
+    // need to check its ',' and '\'' contents
+    string
+      pitch            = sm [1],
+      octaveIndication = sm [2];
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gLogOstream <<
+        "--> pitch = \"" << pitch << "\", " <<
+        "--> octaveIndication = \"" << octaveIndication << "\"" <<
+        endl;
+    }
+#endif
+
+    // fetch semitones pitch
+    msrSemiTonesPitchKind
+      semiTonesPitchKind =
+        semiTonesPitchKindFromString (
+          pitch);
+
+    // handling ',' and '\'' in octave indication
+    // middle C, LilyPond's c', starts octave 4,
+    // thus a single pitch without any octave indication is in octave 3
+    int octave = 3;
+    for (unsigned int i = 0; i < octaveIndication.size (); i++) {
+      switch (octaveIndication [i]) {
+        case ',':
+          if (octave > 3) {
+            // a '\'' has been found previously
+            stringstream s;
+
+            s <<
+              "argument \"" << theString <<
+              "\" contains a ',' after a '\\'";
+
+            oahError (s.str ());
+          }
+
+          octave--;
+          break;
+        case '\'':
+          if (octave < 3) {
+            // a ',' has been found previously
+            stringstream s;
+
+            s <<
+              "argument \"" << theString <<
+              "\" contains a '\\'' after a ','";
+
+            oahError (s.str ());
+          }
+
+          octave++;
+          break;
+        default:
+          ;
+      } // switch
+    } // for
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gLogOstream <<
+        "--> semiTonesPitchKind = \"" <<
+          msrSemiTonesPitchKindAsString (
+            semiTonesPitchKind) << "\", " <<
+        "--> octave = " << octave <<
+        endl;
+    }
+#endif
+
+    // create the semiTonesPitchAndOctave
+    result =
+      msrSemiTonesPitchAndOctave::create (
+       semiTonesPitchKind,
+       octave);
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "semitones pitch and octave argument '" << theString <<
+      "' is ill-formed";
+
+    msrMusicXMLError (
+//    msrMusicXMLWarning ( //  JMI
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
+  msrSemiTonesPitchKind semiTonesPitchKind,
+  int                   relativeOctave)
+{
+  fSemiTonesPitchKind = semiTonesPitchKind;
+  fOctave            = relativeOctave;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChordsDetails) {
+    gLogOstream <<
+      "==> Creating pitch and octave '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+}
+
+msrSemiTonesPitchAndOctave::~msrSemiTonesPitchAndOctave ()
+{}
+
+S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createSemiTonesPitchAndOctaveNewbornClone ()
+{
+  S_msrSemiTonesPitchAndOctave
+    newbornClone =
+      msrSemiTonesPitchAndOctave::create (
+        fSemiTonesPitchKind,
+        fOctave);
+
+  return newbornClone;
+}
+
+string msrSemiTonesPitchAndOctave::asString () const
+{
+  stringstream s;
+
+  s << left <<
+    "SemiTonesPitchAndOctave" <<
+    ": " <<
+    "semiTonesPitchKind: " <<
+    msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
+    ", octave: " << fOctave;
+
+  return s.str ();
+}
+
+void msrSemiTonesPitchAndOctave::print (ostream& os)
+{
+  os <<
+    "SemiTonesPitchAndOctave" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "semiTonesPitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "octave" << " : " << fOctave <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+// durations
+//______________________________________________________________________________
+msrDurationKind msrDurationKindFromString (
+  int    inputLineNumber,
+  string durationString)
+{
+  msrDurationKind result = k_NoDuration;
+
+  if      (durationString == "maxima") {
+    result = kMaxima;
+  }
+  else if (durationString == "long") {
+    result = kLong;
+  }
+  else if (durationString == "breve") {
+    result = kBreve;
+  }
+  else if (durationString == "whole") {
+    result = kWhole;
+  }
+  else if (durationString == "half") {
+    result = kHalf;
+  }
+  else if (durationString == "quarter") {
+    result = kQuarter;
+  }
+  else if (durationString == "eighth") {
+    result = kEighth;
+  }
+  else if (durationString == "16th") {
+    result = k16th;
+  }
+  else if (durationString == "32nd") {
+    result = k32nd;
+  }
+  else if (durationString == "64th") {
+    result = k64th;
+  }
+  else if (durationString == "128th") {
+    result = k128th;
+  }
+  else if (durationString == "256th") {
+    result = k256th;
+  }
+  else if (durationString == "512th") {
+    result = k512th;
+  }
+  else if (durationString == "1024th") {
+    result = k1024th;
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "durationString \"" << durationString <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
+{
+  rational result;
+
+  switch (durationKind) {
+    case k_NoDuration:
+      result = rational (0, 1);
+      break;
+
+    case k1024th:
+      result = rational (1, 1024);
+      break;
+    case k512th:
+      result = rational (1, 512);
+      break;
+    case k256th:
+      result = rational (1, 256);
+      break;
+    case k128th:
+      result = rational (1, 128);
+      break;
+    case k64th:
+      result = rational (1, 64);
+      break;
+    case k32nd:
+      result = rational (1, 32);
+      break;
+    case k16th:
+      result = rational (1, 16);
+      break;
+    case kEighth:
+      result = rational (1, 8);
+      break;
+    case kQuarter:
+      result = rational (1, 4);
+      break;
+    case kHalf:
+      result = rational (1, 2);
+      break;
+    case kWhole:
+      result = rational (1, 1);
+      break;
+    case kBreve:
+      result = rational (2, 1);
+      break;
+    case kLong:
+      result = rational (4, 1);
+      break;
+    case kMaxima:
+      result = rational (8, 1);
+      break;
+  } // switch
+
+  return result;
+}
+
+msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
+{
+  msrDurationKind result = k_NoDuration;
+
+  if (wholeNotes.getNumerator () == 1) {
+    switch (wholeNotes.getDenominator ()) {
+      case 1:
+        result = kWhole;
+        break;
+      case 2:
+        result = kHalf;
+        break;
+      case 4:
+        result = kQuarter;
+        break;
+      case 8:
+        result = kEighth;
+        break;
+      case 16:
+        result = k16th;
+        break;
+      case 32:
+        result = k32nd;
+        break;
+      case 64:
+        result = k64th;
+        break;
+      case 128:
+        result = k128th;
+        break;
+      case 256:
+        result = k256th;
+        break;
+      case 512:
+        result = k512th;
+        break;
+      case 1024:
+        result = k1024th;
+        break;
+      default:
+        ;
+    } // switch
+  }
+
+  else if (wholeNotes.getDenominator () == 1) {
+    switch (wholeNotes.getNumerator ()) {
+      case 2:
+        result = kBreve;
+        break;
+      case 4:
+        result = kLong;
+        break;
+      case 8:
+        result = kMaxima;
+        break;
+      default:
+        ;
+    } // switch
+  }
+
+  return result;
+}
+
+string msrDurationKindAsString (msrDurationKind durationKind)
+{
+  string result;
+
+  switch (durationKind) {
+    case k_NoDuration:
+      result = "noDuration";
+      break;
+
+    case k1024th:
+      result = "1024";
+      break;
+    case k512th:
+      result = "512";
+      break;
+    case k256th:
+      result = "256";
+      break;
+    case k128th:
+      result = "128";
+      break;
+    case k64th:
+      result = "64";
+      break;
+    case k32nd:
+      result = "32";
+      break;
+    case k16th:
+      result = "16";
+      break;
+    case kEighth:
+      result = "8";
+      break;
+    case kQuarter:
+      result = "4";
+      break;
+    case kHalf:
+      result = "2";
+      break;
+    case kWhole:
+      result = "1";
+      break;
+    case kBreve:
+      result = "Breve";
+      break;
+    case kLong:
+      result = "Long";
+      break;
+    case kMaxima:
+      result = "Maxima";
+      break;
+  } // switch
+
+  return result;
+}
+
+//_______________________________________________________________________________
+int msrDurationBinaryLogarithm (int duration)
+{
+  int result = INT_MIN;
+
+/*
+with MusicXML's limitation to 1024th of a whole note,
+valid denominators binary logarithms, i.e. their exponent, are:
+*/
+
+  switch (duration) {
+    case 1:
+      result = 0;
+      break;
+    case 2:
+      result = 1;
+      break;
+    case 4:
+      result = 2;
+      break;
+    case 8:
+      result = 3;
+      break;
+    case 16:
+      result = 4;
+      break;
+    case 32:
+      result = 5;
+      break;
+    case 64:
+      result = 6;
+      break;
+    case 128:
+      result = 7;
+      break;
+    case 256:
+      result = 8;
+      break;
+    case 512:
+      result = 9;
+      break;
+    case 1024:
+      result = 10;
+      break;
+
+    default:
+      ;
+  } // switch
+
+  return result;
+}
+
+//_______________________________________________________________________________
+int msrNumberOfDots (int n)
+{
+  int  result = INT_MIN;
+
+   switch (n) {
+    case 1:
+      result = 0;
+      break;
+    case 3:
+      result = 1;
+      break;
+    case 7:
+      result = 2;
+      break;
+    case 15:
+      result = 3;
+      break;
+    case 31:
+      result = 4;
+      break;
+    case 63:
+      result = 5;
+      break;
+    case 127:
+      result = 6;
+      break;
+    case 255:
+      result = 7;
+      break;
+    case 511:
+      result = 8;
+      break;
+    case 1023:
+      result = 9;
+      break;
+
+    default:
+      ;
+    } // switch
+
+  return result;
+}
+
+//_______________________________________________________________________________
+string wholeNotesAsMsrString (
+  int      inputLineNumber,
+  rational wholeNotes,
+  int&     dotsNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
+    gLogOstream <<
+      "--> wholeNotesAsMsrString() 1 -------------------------------------" <<
+      ", wholeNotes: " << wholeNotes <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  int
+    numerator    = wholeNotes.getNumerator (),
+    denominator  = wholeNotes.getDenominator ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
+    gLogOstream <<
+      "--> numerator:   " << numerator <<
+      endl <<
+      "--> denominator: " << denominator <<
+      endl <<
+      endl;
+  }
+#endif
+
+  if (numerator == 0) { // JMI TEMP
+    dotsNumber = 0;
+    return "zero";
+  }
+  else if (numerator < 0) {
+    stringstream s;
+
+    s <<
+      "numerator is not positive in wholeNotesAsMsrString()" <<
+      ", wholeNotes = " << wholeNotes;
+
+ //   msrMusicXMLError ( JMI
+    msrMusicXMLWarning (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+  //    __FILE__, __LINE__,
+      s.str ());
+abort ();
+    return "???";
+  }
+
+  wholeNotes.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotesDetails) {
+    gLogOstream <<
+      "--> wholeNotes rationalised: " << wholeNotes <<
+      endl;
+  }
+#endif
+
+  bool
+    rationalHasBeenSimplified =
+      wholeNotes.getNumerator () != numerator; // denominators could be used too
+
+  if (rationalHasBeenSimplified) {
+    numerator    = wholeNotes.getNumerator (),
+    denominator  = wholeNotes.getDenominator ();
+  }
+
+  bool
+    integralNumberOfWholeNotes = denominator == 1;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotesDetails) {
+    gLogOstream <<
+      "--> rationalHasBeenSimplified: " <<
+      booleanAsString (
+        rationalHasBeenSimplified) <<
+      endl <<
+      "--> integralNumberOfWholeNotes: " <<
+      booleanAsString (
+        integralNumberOfWholeNotes) <<
+      endl <<
+      endl;
+  }
+#endif
+
+  /*
+    augmentation dots add half the preceding duration or increment to the duration:
+    they constitue a series of frations or the form '(2^n-1) / 2^n',
+    starting with 3/2, 7/4, 15/8,
+    that tends towards 2 while always remaining less than two.
+
+    with MusicXML's limitation to 1024th of a whole note,
+    with LilyPond's limitation to 128th of a whole note,
+    valid numerators are:
+  */
+
+  int  numeratorDots = msrNumberOfDots (numerator);
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotesDetails) {
+    gLogOstream <<
+      "--> numeratorDots " << " : " << numeratorDots <<
+      endl <<
+      endl;
+  }
+#endif
+
+  /*
+    valid denominators are powers of 2
+
+    the rational representing a dotted duration has to be brought
+    to a value less than two, as explained above
+
+    this is done by changing it denominator in the resulting string:
+
+     whole notes        string
+         3/1              \breve.
+         3/2              1.
+         3/4              2.
+         3/8              4.
+
+         7/1              \longa..
+         7/2              \breve..
+         7/4              1..
+         7/8              2..
+
+    since such resulting denominators can be fractions of wholes notes
+    as well as multiple thereof,
+    we'll be better of using binary logarithms for the computations
+  */
+
+  int denominatorDurationLog =
+    msrDurationBinaryLogarithm (denominator);
+
+  if (denominatorDurationLog == INT_MIN) {
+    string result;
+
+    {
+      stringstream s;
+
+      s <<
+        1 <<
+        "*" <<
+        numerator <<
+        "/" <<
+        denominator;
+
+      result = s.str ();
+    }
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotesDetails) {
+      stringstream s;
+
+      s <<
+        "denominator " << denominator <<
+        " is no power of two between 1 and 128" <<
+   //     " is no power of 2 between 1 and 1024" <<
+        ", whole notes duration " <<
+        numerator << "/" << denominator;
+
+      if (rationalHasBeenSimplified) {
+        s <<
+          " (" << numerator << "/" << denominator << ")" <<
+        endl;
+      }
+
+      s <<
+        " cannot be represented as a dotted power of 2" <<
+        ", " <<
+        result <<
+        " will be used";
+
+   //   msrMusicXMLError ( JMI
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+    //    __FILE__, __LINE__,
+        s.str ());
+    }
+#endif
+
+    return result;
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotesDetails) {
+    gLogOstream <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
+      endl <<
+      endl;
+  }
+#endif
+
+  // bring the resulting fraction to be less that two if needed
+  if (integralNumberOfWholeNotes) {
+    // adapt the duration to avoid even numerators if can be,
+    // since dotted durations cannot be recognized otherwise
+    // 6/1 thus becomes 3 \breve, hence '\longa.'
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotesDetails) {
+      gLogOstream <<
+        "--> integralNumberOfWholeNotes,"
+        " bringing the faction to be less that 2" <<
+        endl;
+    }
+#endif
+
+    while (numerator % 2 == 0) {
+      numerator /= 2;
+      denominatorDurationLog -= 1;
+
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceWholeNotesDetails) {
+        gLogOstream <<
+          "--> numerator" << " : " <<
+          numerator <<
+          endl <<
+          "--> denominatorDurationLog " << " : " <<
+          denominatorDurationLog <<
+          endl <<
+          endl;
+      }
+#endif
+    } // while
+
+    // update the number of dots
+    numeratorDots = msrNumberOfDots (numerator);
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotesDetails) {
+    gLogOstream <<
+      "--> numerator" << " : " <<
+      numerator <<
+      endl <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
+      endl <<
+      "--> numeratorDots " << " : " <<
+      numeratorDots <<
+      endl <<
+      endl;
+  }
+#endif
+
+  // take care of the dots
+  int multiplyingFactor = 1;
+
+  if (numeratorDots >= 0 && denominatorDurationLog >= numeratorDots) {
+    // take the dots into account
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotesDetails) {
+      gLogOstream <<
+        "--> taking the dots into account" <<
+        endl;
+    }
+#endif
+
+    denominatorDurationLog -= numeratorDots;
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotesDetails) {
+      gLogOstream <<
+        "--> denominatorDurationLog" << " : " <<
+        denominatorDurationLog <<
+        endl <<
+        "--> multiplyingFactor " << " : " <<
+        multiplyingFactor <<
+        endl <<
+        endl;
+    }
+#endif
+  }
+  else {
+    // set the multiplying factor
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotesDetails) {
+      gLogOstream <<
+        "--> setting the multiplying factor" <<
+        endl;
+    }
+#endif
+
+    // 5/8 becomes 8*5
+
+    multiplyingFactor = numerator;
+    numerator = 1;
+
+    /* JMI
+    multiplyingFactor = numerator;
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWholeNotesDetails) {
+      gLogOstream <<
+        "--> denominatorDurationLog" << " : " <<
+        denominatorDurationLog <<
+        endl <<
+        "--> multiplyingFactor " << " : " <<
+        multiplyingFactor <<
+        endl <<
+        endl;
+    }
+#endif
+
+    while (multiplyingFactor >= 2) {
+      // double duration
+      denominatorDurationLog--;
+
+      // adapt multiplying factor
+      multiplyingFactor /= 2;
+
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceWholeNotesDetails) {
+        gLogOstream <<
+          "--> denominatorDurationLog" << " : " <<
+          denominatorDurationLog <<
+          endl <<
+          "--> multiplyingFactor " << " : " <<
+          multiplyingFactor <<
+          endl <<
+          endl;
+      }
+#endif
+    } // while
+    */
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotesDetails) {
+    gLogOstream <<
+      "--> numerator " << " : " <<
+      numerator <<
+      endl <<
+      "--> numeratorDots " << " : " <<
+      numeratorDots <<
+      endl <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
+      endl <<
+      "--> multiplyingFactor " << " : " <<
+      multiplyingFactor <<
+      endl <<
+      endl;
+  }
+#endif
+
+  // generate the code for the duration
+  stringstream s;
+
+  switch (denominatorDurationLog) {
+    case -3:
+      s << "\\maxima";
+      break;
+    case -2:
+      s << "\\longa";
+      break;
+    case -1:
+      s << "\\breve";
+      break;
+
+    default:
+      s << (1 << denominatorDurationLog);
+  } // switch
+
+  // append the dots if any
+  if (numeratorDots > 0) {
+    for (int i = 0; i < numeratorDots; i++) {
+      s << ".";
+    } // for
+  }
+
+  if (multiplyingFactor != 1) {
+    // append the multiplying factor
+    s <<
+      "*" << multiplyingFactor;
+
+    /* JMI
+    if (integralNumberOfWholeNotes) {
+      s <<
+        "*" << multiplyingFactor;
+    }
+    else {
+      s <<
+        "*" << multiplyingFactor << "/" << 1; // ??? denominator;
+    }
+    */
+  }
+
+  string result = s.str ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceWholeNotes) {
+    gLogOstream <<
+      "--> wholeNotesAsMsrString() 2 -------------------------------------" <<
+     ", result: \"" << result << "\"" <<
+      ", numeratorDots" << " : " << numeratorDots <<
+      endl;
+  }
+#endif
+
+  // return the result
+  dotsNumber = numeratorDots;
+
+  return result;
+}
+
+string wholeNotesAsMsrString (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  int dotsNumber; // not used
+
+  return
+    wholeNotesAsMsrString (
+      inputLineNumber,
+      wholeNotes,
+      dotsNumber);
+}
+
+string multipleRestMeasuresWholeNotesAsMsrString (
+  int      inputLineNumber, // JMI
+  rational wholeNotes)
+{
+  stringstream s;
+
+  rational
+    denominatorAsFraction =
+      rational (
+        1,
+        wholeNotes.getDenominator ());
+
+  int numberOfWholeNotes =
+    wholeNotes.getNumerator ();
+
+  s <<
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      denominatorAsFraction);
+
+  if (numberOfWholeNotes != 1) {
+    s <<
+      "*" << numberOfWholeNotes;
+  }
+
+  return s.str ();
+}
+
 // tuplet factors
 //______________________________________________________________________________
 msrTupletFactor::msrTupletFactor ()
@@ -11253,7 +12267,7 @@ msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
 
   map<msrQuarterTonesPitchKind, string> *pitchNamesMapPTR;
 
-  // is quarterTonesPitchName in the part renaming map?
+  // select the relevant pitch names map
   switch (languageKind) {
     case kNederlands:
       pitchNamesMapPTR = &gNederlandsPitchNamesMap;
@@ -11373,6 +12387,183 @@ string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
   string result;
+
+  switch (semiTonesPitchKind) {
+    case k_NoSemiTonesPitch_STP:
+      result = "k_NoSemiTonesPitch_STP";
+      break;
+
+    case kC_TripleFlat_STP:
+      result = "C_TripleFlat_STP";
+      break;
+    case kC_DoubleFlat_STP:
+      result = "C_DoubleFlat_STP";
+      break;
+    case kC_Flat_STP:
+      result = "C_Flat_STP";
+      break;
+    case kC_Natural_STP:
+      result = "C_Natural_STP";
+      break;
+    case kC_Sharp_STP:
+      result = "C_Sharp_STP";
+      break;
+    case kC_DoubleSharp_STP:
+      result = "C_DoubleSharp_STP";
+      break;
+    case kC_TripleSharp_STP:
+      result = "C_TripleSharp_STP";
+      break;
+
+    case kD_TripleFlat_STP:
+      result = "D_TripleFlat_STP";
+      break;
+    case kD_DoubleFlat_STP:
+      result = "D_DoubleFlat_STP";
+      break;
+    case kD_Flat_STP:
+      result = "D_Flat_STP";
+      break;
+    case kD_Natural_STP:
+      result = "D_Natural_STP";
+      break;
+    case kD_Sharp_STP:
+      result = "D_Sharp_STP";
+      break;
+    case kD_DoubleSharp_STP:
+      result = "D_DoubleSharp_STP";
+      break;
+    case kD_TripleSharp_STP:
+      result = "D_TripleSharp_STP";
+      break;
+
+    case kE_TripleFlat_STP:
+      result = "E_TripleFlat_STP";
+      break;
+    case kE_DoubleFlat_STP:
+      result = "E_DoubleFlat_STP";
+      break;
+    case kE_Flat_STP:
+      result = "E_Flat_STP";
+      break;
+    case kE_Natural_STP:
+      result = "E_Natural_STP";
+      break;
+    case kE_Sharp_STP:
+      result = "E_Sharp_STP";
+      break;
+    case kE_DoubleSharp_STP:
+      result = "E_DoubleSharp_STP";
+      break;
+    case kE_TripleSharp_STP:
+      result = "E_TripleSharp_STP";
+      break;
+
+    case kF_TripleFlat_STP:
+      result = "F_TripleFlat_STP";
+      break;
+    case kF_DoubleFlat_STP:
+      result = "F_DoubleFlat_STP";
+      break;
+    case kF_Flat_STP:
+      result = "F_Flat_STP";
+      break;
+    case kF_Natural_STP:
+      result = "F_Natural_STP";
+      break;
+    case kF_Sharp_STP:
+      result = "F_Sharp_STP";
+      break;
+    case kF_DoubleSharp_STP:
+      result = "F_DoubleSharp_STP";
+      break;
+    case kF_TripleSharp_STP:
+      result = "F_TripleSharp_STP";
+      break;
+
+    case kG_TripleFlat_STP:
+      result = "G_TripleFlat_STP";
+      break;
+    case kG_DoubleFlat_STP:
+      result = "G_DoubleFlat_STP";
+      break;
+    case kG_Flat_STP:
+      result = "G_Flat_STP";
+      break;
+    case kG_Natural_STP:
+      result = "G_Natural_STP";
+      break;
+    case kG_Sharp_STP:
+      result = "G_Sharp_STP";
+      break;
+    case kG_DoubleSharp_STP:
+      result = "G_DoubleSharp_STP";
+      break;
+    case kG_TripleSharp_STP:
+      result = "G_TripleSharp_STP";
+      break;
+
+    case kA_TripleFlat_STP:
+      result = "A_TripleFlat_STP";
+      break;
+    case kA_DoubleFlat_STP:
+      result = "A_DoubleFlat_STP";
+      break;
+    case kA_Flat_STP:
+      result = "A_Flat_STP";
+      break;
+    case kA_Natural_STP:
+      result = "A_Natural_STP";
+      break;
+    case kA_Sharp_STP:
+      result = "A_Sharp_STP";
+      break;
+    case kA_DoubleSharp_STP:
+      result = "A_DoubleSharp_STP";
+      break;
+    case kA_TripleSharp_STP:
+      result = "A_TripleSharp_STP";
+      break;
+
+    case kB_TripleFlat_STP:
+      result = "B_TripleFlat_STP";
+      break;
+    case kB_DoubleFlat_STP:
+      result = "B_DoubleFlat_STP";
+      break;
+    case kB_Flat_STP:
+      result = "B_Flat_STP";
+      break;
+    case kB_Natural_STP:
+      result = "B_Natural_STP";
+      break;
+    case kB_Sharp_STP:
+      result = "B_Sharp_STP";
+      break;
+    case kB_DoubleSharp_STP:
+      result = "B_DoubleSharp_STP";
+      break;
+    case kB_TripleSharp_STP:
+      result = "B_TripleSharp_STP";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrSemiTonesPitchKindAsFlatsAndSharps (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrSemiTonesPitchKind              semiTonesPitchKind)
+{
+  string result;
+
+/* JMI
+  msrDiatonicPitchKind
+    diatonicPitchKind =
+      diatonicPitchKindFromQuarterTonesPitchKind (
+        inputLineNumber,
+        quarterTonesPitchKind);
+        */
 
   switch (semiTonesPitchKind) {
     case k_NoSemiTonesPitch_STP:
@@ -11809,151 +13000,6 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   } // switch
 
   return result;
-}
-
-// colors
-//______________________________________________________________________________
-msrRGBColor::msrRGBColor ()
-{
-  // initializing to negative values for isEmpty()
-  fR = -1.0;
-  fG = -1.0;
-  fB = -1.0;
-}
-
-msrRGBColor::msrRGBColor (
-  float theR,
-  float theG,
-  float theB)
-{
-  fR = theR;
-  fG = theG;
-  fB = theB;
-}
-
-msrRGBColor::msrRGBColor (
-  std::string theString)
-{
-  string regularExpression (
-    "([[:digit:]]*.[[:digit:]]*)"
-    ","
-    "([[:digit:]]*.[[:digit:]]*)"
-    ","
-    "([[:digit:]]*.[[:digit:]]*)");
-
-  regex  e (regularExpression);
-  smatch sm;
-
-  regex_match (theString, sm, e);
-
-  unsigned smSize = sm.size ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "There are " << smSize << " matches" <<
-      " for RGB color string '" << theString <<
-      "' with regex '" << regularExpression <<
-      "'" <<
-      endl;
-  }
-#endif
-
-  if (smSize == 4) {
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
-      for (unsigned i = 0; i < smSize; ++i) {
-        gLogOstream <<
-          "[" << sm [i] << "] ";
-      } // for
-      gLogOstream << endl;
-    }
-#endif
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "msrRGBColor string '" << theString <<
-      "' is ill-formed";
-
-    oahError (s.str ());
-  }
-
-  string
-    RString = sm [1],
-    GString = sm [2],
-    BString = sm [3];
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "--> RString = \"" << RString << "\", " <<
-      "--> GString = \"" << GString << "\"" <<
-      "--> BString = \"" << BString << "\"" <<
-      endl;
-  }
-#endif
-
-  // are these strings alright?
-  {
-    stringstream s;
-
-    s << RString;
-    s >> fR;
-
-    if (fR < 0.0 || fR > 1.0) {
-      gLogOstream <<
-        "### ERROR: the R component " << fR <<
-        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
-        endl;
-    }
-  }
-  {
-    stringstream s;
-
-    s << GString;
-    s >> fG;
-
-    if (fG < 0.0 || fG > 1.0) {
-      gLogOstream <<
-        "### ERROR: the G component " << fG <<
-        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
-        endl;
-    }
-  }
-  {
-    stringstream s;
-
-    s << BString;
-    s >> fB;
-
-    if (fB < 0.0 || fB > 1.0) {
-      gLogOstream <<
-        "### ERROR: the B component " << fB <<
-        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
-        endl;
-    }
-  }
-
-}
-
-string msrRGBColor::asString () const
-{
-  stringstream s;
-
-  s <<
-    setprecision (2) <<
-    "'" <<
-    fR <<
-    "," <<
-    fG <<
-    "," <<
-    fB <<
-    "'";
-
-  return s.str ();
 }
 
 // font size
@@ -12515,797 +13561,6 @@ string msrPlacementKindAsString (
   } // switch
 
   return result;
-}
-
-// durations
-//______________________________________________________________________________
-msrDurationKind msrDurationKindFromString (
-  int    inputLineNumber,
-  string durationString)
-{
-  msrDurationKind result = k_NoDuration;
-
-  if      (durationString == "maxima") {
-    result = kMaxima;
-  }
-  else if (durationString == "long") {
-    result = kLong;
-  }
-  else if (durationString == "breve") {
-    result = kBreve;
-  }
-  else if (durationString == "whole") {
-    result = kWhole;
-  }
-  else if (durationString == "half") {
-    result = kHalf;
-  }
-  else if (durationString == "quarter") {
-    result = kQuarter;
-  }
-  else if (durationString == "eighth") {
-    result = kEighth;
-  }
-  else if (durationString == "16th") {
-    result = k16th;
-  }
-  else if (durationString == "32nd") {
-    result = k32nd;
-  }
-  else if (durationString == "64th") {
-    result = k64th;
-  }
-  else if (durationString == "128th") {
-    result = k128th;
-  }
-  else if (durationString == "256th") {
-    result = k256th;
-  }
-  else if (durationString == "512th") {
-    result = k512th;
-  }
-  else if (durationString == "1024th") {
-    result = k1024th;
-  }
-  else {
-    stringstream s;
-
-    s <<
-      "durationString \"" << durationString <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  return result;
-}
-
-rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
-{
-  rational result;
-
-  switch (durationKind) {
-    case k_NoDuration:
-      result = rational (0, 1);
-      break;
-
-    case k1024th:
-      result = rational (1, 1024);
-      break;
-    case k512th:
-      result = rational (1, 512);
-      break;
-    case k256th:
-      result = rational (1, 256);
-      break;
-    case k128th:
-      result = rational (1, 128);
-      break;
-    case k64th:
-      result = rational (1, 64);
-      break;
-    case k32nd:
-      result = rational (1, 32);
-      break;
-    case k16th:
-      result = rational (1, 16);
-      break;
-    case kEighth:
-      result = rational (1, 8);
-      break;
-    case kQuarter:
-      result = rational (1, 4);
-      break;
-    case kHalf:
-      result = rational (1, 2);
-      break;
-    case kWhole:
-      result = rational (1, 1);
-      break;
-    case kBreve:
-      result = rational (2, 1);
-      break;
-    case kLong:
-      result = rational (4, 1);
-      break;
-    case kMaxima:
-      result = rational (8, 1);
-      break;
-  } // switch
-
-  return result;
-}
-
-msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
-{
-  msrDurationKind result = k_NoDuration;
-
-  if (wholeNotes.getNumerator () == 1) {
-    switch (wholeNotes.getDenominator ()) {
-      case 1:
-        result = kWhole;
-        break;
-      case 2:
-        result = kHalf;
-        break;
-      case 4:
-        result = kQuarter;
-        break;
-      case 8:
-        result = kEighth;
-        break;
-      case 16:
-        result = k16th;
-        break;
-      case 32:
-        result = k32nd;
-        break;
-      case 64:
-        result = k64th;
-        break;
-      case 128:
-        result = k128th;
-        break;
-      case 256:
-        result = k256th;
-        break;
-      case 512:
-        result = k512th;
-        break;
-      case 1024:
-        result = k1024th;
-        break;
-      default:
-        ;
-    } // switch
-  }
-
-  else if (wholeNotes.getDenominator () == 1) {
-    switch (wholeNotes.getNumerator ()) {
-      case 2:
-        result = kBreve;
-        break;
-      case 4:
-        result = kLong;
-        break;
-      case 8:
-        result = kMaxima;
-        break;
-      default:
-        ;
-    } // switch
-  }
-
-  return result;
-}
-
-string msrDurationKindAsString (msrDurationKind durationKind)
-{
-  string result;
-
-  switch (durationKind) {
-    case k_NoDuration:
-      result = "noDuration";
-      break;
-
-    case k1024th:
-      result = "1024";
-      break;
-    case k512th:
-      result = "512";
-      break;
-    case k256th:
-      result = "256";
-      break;
-    case k128th:
-      result = "128";
-      break;
-    case k64th:
-      result = "64";
-      break;
-    case k32nd:
-      result = "32";
-      break;
-    case k16th:
-      result = "16";
-      break;
-    case kEighth:
-      result = "8";
-      break;
-    case kQuarter:
-      result = "4";
-      break;
-    case kHalf:
-      result = "2";
-      break;
-    case kWhole:
-      result = "1";
-      break;
-    case kBreve:
-      result = "Breve";
-      break;
-    case kLong:
-      result = "Long";
-      break;
-    case kMaxima:
-      result = "Maxima";
-      break;
-  } // switch
-
-  return result;
-}
-
-//_______________________________________________________________________________
-int msrDurationBinaryLogarithm (int duration)
-{
-  int result = INT_MIN;
-
-/*
-with MusicXML's limitation to 1024th of a whole note,
-valid denominators binary logarithms, i.e. their exponent, are:
-*/
-
-  switch (duration) {
-    case 1:
-      result = 0;
-      break;
-    case 2:
-      result = 1;
-      break;
-    case 4:
-      result = 2;
-      break;
-    case 8:
-      result = 3;
-      break;
-    case 16:
-      result = 4;
-      break;
-    case 32:
-      result = 5;
-      break;
-    case 64:
-      result = 6;
-      break;
-    case 128:
-      result = 7;
-      break;
-    case 256:
-      result = 8;
-      break;
-    case 512:
-      result = 9;
-      break;
-    case 1024:
-      result = 10;
-      break;
-
-    default:
-      ;
-  } // switch
-
-  return result;
-}
-
-//_______________________________________________________________________________
-int msrNumberOfDots (int n)
-{
-  int  result = INT_MIN;
-
-   switch (n) {
-    case 1:
-      result = 0;
-      break;
-    case 3:
-      result = 1;
-      break;
-    case 7:
-      result = 2;
-      break;
-    case 15:
-      result = 3;
-      break;
-    case 31:
-      result = 4;
-      break;
-    case 63:
-      result = 5;
-      break;
-    case 127:
-      result = 6;
-      break;
-    case 255:
-      result = 7;
-      break;
-    case 511:
-      result = 8;
-      break;
-    case 1023:
-      result = 9;
-      break;
-
-    default:
-      ;
-    } // switch
-
-  return result;
-}
-
-//_______________________________________________________________________________
-string wholeNotesAsMsrString (
-  int      inputLineNumber,
-  rational wholeNotes,
-  int&     dotsNumber)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
-    gLogOstream <<
-      "--> wholeNotesAsMsrString() 1 -------------------------------------" <<
-      ", wholeNotes: " << wholeNotes <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  int
-    numerator    = wholeNotes.getNumerator (),
-    denominator  = wholeNotes.getDenominator ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
-    gLogOstream <<
-      "--> numerator:   " << numerator <<
-      endl <<
-      "--> denominator: " << denominator <<
-      endl <<
-      endl;
-  }
-#endif
-
-  if (numerator == 0) { // JMI TEMP
-    dotsNumber = 0;
-    return "zero";
-  }
-  else if (numerator < 0) {
-    stringstream s;
-
-    s <<
-      "numerator is not positive in wholeNotesAsMsrString()" <<
-      ", wholeNotes = " << wholeNotes;
-
- //   msrMusicXMLError ( JMI
-    msrMusicXMLWarning (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-  //    __FILE__, __LINE__,
-      s.str ());
-abort ();
-    return "???";
-  }
-
-  wholeNotes.rationalise ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
-    gLogOstream <<
-      "--> wholeNotes rationalised: " << wholeNotes <<
-      endl;
-  }
-#endif
-
-  bool
-    rationalHasBeenSimplified =
-      wholeNotes.getNumerator () != numerator; // denominators could be used too
-
-  if (rationalHasBeenSimplified) {
-    numerator    = wholeNotes.getNumerator (),
-    denominator  = wholeNotes.getDenominator ();
-  }
-
-  bool
-    integralNumberOfWholeNotes = denominator == 1;
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
-    gLogOstream <<
-      "--> rationalHasBeenSimplified: " <<
-      booleanAsString (
-        rationalHasBeenSimplified) <<
-      endl <<
-      "--> integralNumberOfWholeNotes: " <<
-      booleanAsString (
-        integralNumberOfWholeNotes) <<
-      endl <<
-      endl;
-  }
-#endif
-
-  /*
-    augmentation dots add half the preceding duration or increment to the duration:
-    they constitue a series of frations or the form '(2^n-1) / 2^n',
-    starting with 3/2, 7/4, 15/8,
-    that tends towards 2 while always remaining less than two.
-
-    with MusicXML's limitation to 1024th of a whole note,
-    with LilyPond's limitation to 128th of a whole note,
-    valid numerators are:
-  */
-
-  int  numeratorDots = msrNumberOfDots (numerator);
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
-    gLogOstream <<
-      "--> numeratorDots " << " : " << numeratorDots <<
-      endl <<
-      endl;
-  }
-#endif
-
-  /*
-    valid denominators are powers of 2
-
-    the rational representing a dotted duration has to be brought
-    to a value less than two, as explained above
-
-    this is done by changing it denominator in the resulting string:
-
-     whole notes        string
-         3/1              \breve.
-         3/2              1.
-         3/4              2.
-         3/8              4.
-
-         7/1              \longa..
-         7/2              \breve..
-         7/4              1..
-         7/8              2..
-
-    since such resulting denominators can be fractions of wholes notes
-    as well as multiple thereof,
-    we'll be better of using binary logarithms for the computations
-  */
-
-  int denominatorDurationLog =
-    msrDurationBinaryLogarithm (denominator);
-
-  if (denominatorDurationLog == INT_MIN) {
-    string result;
-
-    {
-      stringstream s;
-
-      s <<
-        1 <<
-        "*" <<
-        numerator <<
-        "/" <<
-        denominator;
-
-      result = s.str ();
-    }
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
-      stringstream s;
-
-      s <<
-        "denominator " << denominator <<
-        " is no power of two between 1 and 128" <<
-   //     " is no power of 2 between 1 and 1024" <<
-        ", whole notes duration " <<
-        numerator << "/" << denominator;
-
-      if (rationalHasBeenSimplified) {
-        s <<
-          " (" << numerator << "/" << denominator << ")" <<
-        endl;
-      }
-
-      s <<
-        " cannot be represented as a dotted power of 2" <<
-        ", " <<
-        result <<
-        " will be used";
-
-   //   msrMusicXMLError ( JMI
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-    //    __FILE__, __LINE__,
-        s.str ());
-    }
-#endif
-
-    return result;
-  }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
-    gLogOstream <<
-      "--> denominatorDurationLog" << " : " <<
-      denominatorDurationLog <<
-      endl <<
-      endl;
-  }
-#endif
-
-  // bring the resulting fraction to be less that two if needed
-  if (integralNumberOfWholeNotes) {
-    // adapt the duration to avoid even numerators if can be,
-    // since dotted durations cannot be recognized otherwise
-    // 6/1 thus becomes 3 \breve, hence '\longa.'
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
-      gLogOstream <<
-        "--> integralNumberOfWholeNotes,"
-        " bringing the faction to be less that 2" <<
-        endl;
-    }
-#endif
-
-    while (numerator % 2 == 0) {
-      numerator /= 2;
-      denominatorDurationLog -= 1;
-
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotesDetails) {
-        gLogOstream <<
-          "--> numerator" << " : " <<
-          numerator <<
-          endl <<
-          "--> denominatorDurationLog " << " : " <<
-          denominatorDurationLog <<
-          endl <<
-          endl;
-      }
-#endif
-    } // while
-
-    // update the number of dots
-    numeratorDots = msrNumberOfDots (numerator);
-  }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
-    gLogOstream <<
-      "--> numerator" << " : " <<
-      numerator <<
-      endl <<
-      "--> denominatorDurationLog" << " : " <<
-      denominatorDurationLog <<
-      endl <<
-      "--> numeratorDots " << " : " <<
-      numeratorDots <<
-      endl <<
-      endl;
-  }
-#endif
-
-  // take care of the dots
-  int multiplyingFactor = 1;
-
-  if (numeratorDots >= 0 && denominatorDurationLog >= numeratorDots) {
-    // take the dots into account
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
-      gLogOstream <<
-        "--> taking the dots into account" <<
-        endl;
-    }
-#endif
-
-    denominatorDurationLog -= numeratorDots;
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
-      gLogOstream <<
-        "--> denominatorDurationLog" << " : " <<
-        denominatorDurationLog <<
-        endl <<
-        "--> multiplyingFactor " << " : " <<
-        multiplyingFactor <<
-        endl <<
-        endl;
-    }
-#endif
-  }
-  else {
-    // set the multiplying factor
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
-      gLogOstream <<
-        "--> setting the multiplying factor" <<
-        endl;
-    }
-#endif
-
-    // 5/8 becomes 8*5
-
-    multiplyingFactor = numerator;
-    numerator = 1;
-
-    /* JMI
-    multiplyingFactor = numerator;
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
-      gLogOstream <<
-        "--> denominatorDurationLog" << " : " <<
-        denominatorDurationLog <<
-        endl <<
-        "--> multiplyingFactor " << " : " <<
-        multiplyingFactor <<
-        endl <<
-        endl;
-    }
-#endif
-
-    while (multiplyingFactor >= 2) {
-      // double duration
-      denominatorDurationLog--;
-
-      // adapt multiplying factor
-      multiplyingFactor /= 2;
-
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotesDetails) {
-        gLogOstream <<
-          "--> denominatorDurationLog" << " : " <<
-          denominatorDurationLog <<
-          endl <<
-          "--> multiplyingFactor " << " : " <<
-          multiplyingFactor <<
-          endl <<
-          endl;
-      }
-#endif
-    } // while
-    */
-  }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
-    gLogOstream <<
-      "--> numerator " << " : " <<
-      numerator <<
-      endl <<
-      "--> numeratorDots " << " : " <<
-      numeratorDots <<
-      endl <<
-      "--> denominatorDurationLog" << " : " <<
-      denominatorDurationLog <<
-      endl <<
-      "--> multiplyingFactor " << " : " <<
-      multiplyingFactor <<
-      endl <<
-      endl;
-  }
-#endif
-
-  // generate the code for the duration
-  stringstream s;
-
-  switch (denominatorDurationLog) {
-    case -3:
-      s << "\\maxima";
-      break;
-    case -2:
-      s << "\\longa";
-      break;
-    case -1:
-      s << "\\breve";
-      break;
-
-    default:
-      s << (1 << denominatorDurationLog);
-  } // switch
-
-  // append the dots if any
-  if (numeratorDots > 0) {
-    for (int i = 0; i < numeratorDots; i++) {
-      s << ".";
-    } // for
-  }
-
-  if (multiplyingFactor != 1) {
-    // append the multiplying factor
-    s <<
-      "*" << multiplyingFactor;
-
-    /* JMI
-    if (integralNumberOfWholeNotes) {
-      s <<
-        "*" << multiplyingFactor;
-    }
-    else {
-      s <<
-        "*" << multiplyingFactor << "/" << 1; // ??? denominator;
-    }
-    */
-  }
-
-  string result = s.str ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
-    gLogOstream <<
-      "--> wholeNotesAsMsrString() 2 -------------------------------------" <<
-     ", result: \"" << result << "\"" <<
-      ", numeratorDots" << " : " << numeratorDots <<
-      endl;
-  }
-#endif
-
-  // return the result
-  dotsNumber = numeratorDots;
-
-  return result;
-}
-
-string wholeNotesAsMsrString (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-  int dotsNumber; // not used
-
-  return
-    wholeNotesAsMsrString (
-      inputLineNumber,
-      wholeNotes,
-      dotsNumber);
-}
-
-string multipleRestMeasuresWholeNotesAsMsrString (
-  int      inputLineNumber, // JMI
-  rational wholeNotes)
-{
-  stringstream s;
-
-  rational
-    denominatorAsFraction =
-      rational (
-        1,
-        wholeNotes.getDenominator ());
-
-  int numberOfWholeNotes =
-    wholeNotes.getNumerator ();
-
-  s <<
-    wholeNotesAsLilypondString (
-      inputLineNumber,
-      denominatorAsFraction);
-
-  if (numberOfWholeNotes != 1) {
-    s <<
-      "*" << numberOfWholeNotes;
-  }
-
-  return s.str ();
 }
 
 // measure style
@@ -17576,229 +17831,6 @@ ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& el
 }
 */
 
-// semitone pitches and absolute octave
-//______________________________________________________________________________
-S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::create (
-  msrSemiTonesPitchKind semiTonesPitchKind,
-  int                   relativeOctave)
-{
-  msrSemiTonesPitchAndOctave* o =
-    new msrSemiTonesPitchAndOctave (
-      semiTonesPitchKind,
-      relativeOctave);
-  assert(o!=0);
-
-  return o;
-}
-
-S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
-  int    inputLineNumber,
-  string theString)
-{
-  S_msrSemiTonesPitchAndOctave result;
-
-  // decipher theString with a three-number regular expression
-  string regularExpression (
-    "([[:lower:]]+)"
-    "([,\']*)");
-
-  regex  e (regularExpression);
-  smatch sm;
-
-  regex_match (theString, sm, e);
-
-  unsigned smSize = sm.size ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "There are " << smSize << " matches" <<
-      " for transposition string '" << theString <<
-      "' with regex '" << regularExpression <<
-      "'" <<
-      endl <<
-      smSize << " elements: ";
-
-      for (unsigned i = 0; i < smSize; ++i) {
-        gLogOstream <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      gLogOstream << endl;
-    }
-#endif
-
-  if (smSize == 3) {
-    // found a well-formed specification,
-    // need to check its ',' and '\'' contents
-    string
-      pitch            = sm [1],
-      octaveIndication = sm [2];
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
-      gLogOstream <<
-        "--> pitch = \"" << pitch << "\", " <<
-        "--> octaveIndication = \"" << octaveIndication << "\"" <<
-        endl;
-    }
-#endif
-
-    // fetch semitones pitch
-    msrSemiTonesPitchKind
-      semiTonesPitchKind =
-        semiTonesPitchKindFromString (
-          pitch);
-
-    // handling ',' and '\'' in octave indication
-    // middle C, LilyPond's c', starts octave 4,
-    // thus a single pitch without any octave indication is in octave 3
-    int octave = 3;
-    for (unsigned int i = 0; i < octaveIndication.size (); i++) {
-      switch (octaveIndication [i]) {
-        case ',':
-          if (octave > 3) {
-            // a '\'' has been found previously
-            stringstream s;
-
-            s <<
-              "argument \"" << theString <<
-              "\" contains a ',' after a '\\'";
-
-            oahError (s.str ());
-          }
-
-          octave--;
-          break;
-        case '\'':
-          if (octave < 3) {
-            // a ',' has been found previously
-            stringstream s;
-
-            s <<
-              "argument \"" << theString <<
-              "\" contains a '\\'' after a ','";
-
-            oahError (s.str ());
-          }
-
-          octave++;
-          break;
-        default:
-          ;
-      } // switch
-    } // for
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
-      gLogOstream <<
-        "--> semiTonesPitchKind = \"" <<
-          msrSemiTonesPitchKindAsString (
-            semiTonesPitchKind) << "\", " <<
-        "--> octave = " << octave <<
-        endl;
-    }
-#endif
-
-    // create the semiTonesPitchAndOctave
-    result =
-      msrSemiTonesPitchAndOctave::create (
-       semiTonesPitchKind,
-       octave);
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "semitones pitch and octave argument '" << theString <<
-      "' is ill-formed";
-
-    msrMusicXMLError (
-//    msrMusicXMLWarning ( //  JMI
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  return result;
-}
-
-msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
-  msrSemiTonesPitchKind semiTonesPitchKind,
-  int                   relativeOctave)
-{
-  fSemiTonesPitchKind = semiTonesPitchKind;
-  fOctave            = relativeOctave;
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
-    gLogOstream <<
-      "==> Creating pitch and octave '" <<
-      asString () <<
-      "'" <<
-      endl;
-  }
-#endif
-}
-
-msrSemiTonesPitchAndOctave::~msrSemiTonesPitchAndOctave ()
-{}
-
-S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createSemiTonesPitchAndOctaveNewbornClone ()
-{
-  S_msrSemiTonesPitchAndOctave
-    newbornClone =
-      msrSemiTonesPitchAndOctave::create (
-        fSemiTonesPitchKind,
-        fOctave);
-
-  return newbornClone;
-}
-
-string msrSemiTonesPitchAndOctave::asString () const
-{
-  stringstream s;
-
-  s << left <<
-    "SemiTonesPitchAndOctave" <<
-    ": " <<
-    "semiTonesPitchKind: " <<
-    msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
-    ", octave: " << fOctave;
-
-  return s.str ();
-}
-
-void msrSemiTonesPitchAndOctave::print (ostream& os)
-{
-  os <<
-    "SemiTonesPitchAndOctave" <<
-    endl;
-
-  gIndenter++;
-
-  const int fieldWidth = 22;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "semiTonesPitchKind" << " : " <<
-      msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
-    endl <<
-    setw (fieldWidth) <<
-    "octave" << " : " << fOctave <<
-    endl;
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 //______________________________________________________________________________
 S_msrChordContents msrChordContents::create (
 // JMI  int                   inputLineNumber,
@@ -17955,7 +17987,7 @@ void msrChordContents::printAllChordsContents (
       rootSemiTonesPitchKind) <<
     ")" <<
     */
-    " in language '" <<
+    "' in language '" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       gLpsrOah->
         fLpsrQuarterTonesPitchesLanguageKind) <<
@@ -18258,7 +18290,7 @@ void printChordDetails (
       }
       else {
         os <<
-          " inversion" << inversion;
+          " inversion " << inversion;
       }
 
       os <<
@@ -18431,7 +18463,7 @@ void printChordAnalysis (
         }
         else {
           os <<
-            " inversion" << inversion;
+            " inversion " << inversion;
         }
 
         os <<
@@ -18678,7 +18710,152 @@ void printChordAnalysis (
   gIndenter--;
 }
 
-// colors
+// RGB colors
+//______________________________________________________________________________
+msrRGBColor::msrRGBColor ()
+{
+  // initializing to negative values for isEmpty()
+  fR = -1.0;
+  fG = -1.0;
+  fB = -1.0;
+}
+
+msrRGBColor::msrRGBColor (
+  float theR,
+  float theG,
+  float theB)
+{
+  fR = theR;
+  fG = theG;
+  fB = theB;
+}
+
+msrRGBColor::msrRGBColor (
+  std::string theString)
+{
+  string regularExpression (
+    "([[:digit:]]*.[[:digit:]]*)"
+    ","
+    "([[:digit:]]*.[[:digit:]]*)"
+    ","
+    "([[:digit:]]*.[[:digit:]]*)");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "There are " << smSize << " matches" <<
+      " for RGB color string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize == 4) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+      gLogOstream << endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "msrRGBColor string '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    RString = sm [1],
+    GString = sm [2],
+    BString = sm [3];
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "--> RString = \"" << RString << "\", " <<
+      "--> GString = \"" << GString << "\"" <<
+      "--> BString = \"" << BString << "\"" <<
+      endl;
+  }
+#endif
+
+  // are these strings alright?
+  {
+    stringstream s;
+
+    s << RString;
+    s >> fR;
+
+    if (fR < 0.0 || fR > 1.0) {
+      gLogOstream <<
+        "### ERROR: the R component " << fR <<
+        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
+        endl;
+    }
+  }
+  {
+    stringstream s;
+
+    s << GString;
+    s >> fG;
+
+    if (fG < 0.0 || fG > 1.0) {
+      gLogOstream <<
+        "### ERROR: the G component " << fG <<
+        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
+        endl;
+    }
+  }
+  {
+    stringstream s;
+
+    s << BString;
+    s >> fB;
+
+    if (fB < 0.0 || fB > 1.0) {
+      gLogOstream <<
+        "### ERROR: the B component " << fB <<
+        " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
+        endl;
+    }
+  }
+
+}
+
+string msrRGBColor::asString () const
+{
+  stringstream s;
+
+  s <<
+    setprecision (2) <<
+    "'" <<
+    fR <<
+    "," <<
+    fG <<
+    "," <<
+    fB <<
+    "'";
+
+  return s.str ();
+}
+
+// AlphaRGB colors
 //______________________________________________________________________________
 msrAlphaRGBColor::msrAlphaRGBColor (
   string colorRGB,

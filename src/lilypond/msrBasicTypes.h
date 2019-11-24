@@ -372,9 +372,21 @@ msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   string                             quarterTonesPitchName);
 
+/* JMI
 string msrSemiTonesPitchKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrSemiTonesPitchKind              semiTonesPitchKind);
+  */
+
+string msrSemiTonesPitchKindAsFlatsAndSharps (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrSemiTonesPitchKind              semiTonesPitchKind);
+
+/* JMI
+string msrQuarterTonesPitchKindAsFlatsAndSharps (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrQuarterTonesPitchKind           quarterTonesPitchKind);
+*/
 
 // enharmonies
 //______________________________________________________________________________
@@ -382,67 +394,185 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 
-// colors
+// durations
 //______________________________________________________________________________
-class msrRGBColor {
+enum msrDurationKind {
+  // from longest to shortest for the algorithms
+  kMaxima, kLong, kBreve, kWhole, kHalf,
+  kQuarter,
+  kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
+  k_NoDuration };
+
+msrDurationKind msrDurationKindFromString (
+  int    inputLineNumber,
+  string durationString);
+
+rational msrDurationKindAsWholeNotes (
+  msrDurationKind durationKind);
+
+msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
+
+string msrDurationKindAsString (msrDurationKind durationKind);
+
+// whole notes
+//______________________________________________________________________________
+string wholeNotesAsMsrString (
+  int      inputLineNumber,
+  rational wholeNotes,
+  int&     dotsNumber);
+
+string wholeNotesAsMsrString (
+  int      inputLineNumber,
+  rational wholeNotes);
+
+string multipleRestMeasuresWholeNotesAsMsrString (
+  int      inputLineNumber, // JMI
+  rational wholeNotes);
+
+// dotted durations
+//______________________________________________________________________________
+class msrDottedDuration
+{
+// JMI  protected:
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRGBColor ();
+    msrDottedDuration ();
 
-    msrRGBColor (
-      float theR,
-      float theG,
-      float theB);
+    msrDottedDuration (
+      msrDurationKind durationKind,
+      int             dotsNumber);
 
-    msrRGBColor (
-      std::string theString);
+    virtual ~msrDottedDuration ();
+
+  public:
 
     // set and get
     // ------------------------------------------------------
 
-    float                 getR () const
-                              { return fR; }
+    msrDurationKind       getDurationKind () const
+                              { return fDurationKind; }
 
-    float                 getG () const
-                              { return fG; }
-
-    float                 getB () const
-                              { return fB; }
-
-  public:
+    int                   getDotsNumber () const
+                              { return fDotsNumber; }
 
     // services
     // ------------------------------------------------------
 
-    bool                  isEmpty () const
-                              {
-                                return
-                                  fR < 0.0
-                                    &&
-                                  fG < 0.0
-                                    &&
-                                  fB < 0.0;
-                              }
+    void                  incrDotsNumber ()
+                              { fDotsNumber++; }
+
+    rational              dottedDurationAsWholeNotes (
+                            int inputLineNumber) const;
+
+    // visitors
+    // ------------------------------------------------------
+
+/* JMI
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+*/
 
   public:
 
-    // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    //virtual
+    void                  print (ostream& os);
 
   private:
 
     // fields
     // ------------------------------------------------------
 
-    float                 fR;
-    float                 fG;
-    float                 fB;
+    msrDurationKind       fDurationKind;
+    int                   fDotsNumber;
 };
+EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
+
+// semitone pitches and octave
+// can be used as absolute, relative or fixed reference
+//______________________________________________________________________________
+class msrSemiTonesPitchAndOctave : public smartable
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSemiTonesPitchAndOctave> create (
+      msrSemiTonesPitchKind semiTonesPitchKind,
+      int                   octave);
+
+    SMARTP<msrSemiTonesPitchAndOctave> createSemiTonesPitchAndOctaveNewbornClone ();
+
+    // creation from  a string
+    // ------------------------------------------------------
+
+    static SMARTP<msrSemiTonesPitchAndOctave> createFromString (
+      int    inputLineNumber,
+      string theString);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchAndOctave (
+      msrSemiTonesPitchKind semiTonesPitchKind,
+      int                   octave);
+
+    virtual ~msrSemiTonesPitchAndOctave ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchKind getSemiTonesPitchKind () const
+                              { return fSemiTonesPitchKind; }
+
+    void                  incrementOctave ()
+                              { fOctave++; }
+
+    void                  decrementOctave ()
+                              { fOctave--; }
+
+    int                   getOctave () const
+                              { return fOctave; }
+
+    // services
+    // ------------------------------------------------------
+
+
+    string                semiTonesPitchKindAsString () const;
+    string                semiTonesPitchKindAsShortString () const;
+
+    string                asString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+  public:
+
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchKind fSemiTonesPitchKind;
+    int                   fOctave;
+};
+typedef SMARTP<msrSemiTonesPitchAndOctave> S_msrSemiTonesPitchAndOctave;
+EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt);
 
 // fonts
 //______________________________________________________________________________
@@ -624,41 +754,6 @@ msrPlacementKind msrPlacementKindFromString (
 string msrPlacementKindAsString (
   msrPlacementKind placementKind);
 
-// durations
-//______________________________________________________________________________
-enum msrDurationKind {
-  // from longest to shortest for the algorithms
-  kMaxima, kLong, kBreve, kWhole, kHalf,
-  kQuarter,
-  kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
-  k_NoDuration };
-
-msrDurationKind msrDurationKindFromString (
-  int    inputLineNumber,
-  string durationString);
-
-rational msrDurationKindAsWholeNotes (
-  msrDurationKind durationKind);
-
-msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
-
-string msrDurationKindAsString (msrDurationKind durationKind);
-
-// whole notes
-//______________________________________________________________________________
-string wholeNotesAsMsrString (
-  int      inputLineNumber,
-  rational wholeNotes,
-  int&     dotsNumber);
-
-string wholeNotesAsMsrString (
-  int      inputLineNumber,
-  rational wholeNotes);
-
-string multipleRestMeasuresWholeNotesAsMsrString (
-  int      inputLineNumber, // JMI
-  rational wholeNotes);
-
 // measure style
 //______________________________________________________________________________
 enum msrSlashTypeKind {
@@ -721,71 +816,6 @@ enum msrSpannerTypeKind {
 
 string msrSpannerTypeKindAsString (
   msrSpannerTypeKind spannerTypeKind);
-
-// dotted durations
-//______________________________________________________________________________
-class msrDottedDuration
-{
-// JMI  protected:
-  public:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrDottedDuration ();
-
-    msrDottedDuration (
-      msrDurationKind durationKind,
-      int             dotsNumber);
-
-    virtual ~msrDottedDuration ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrDurationKind       getDurationKind () const
-                              { return fDurationKind; }
-
-    int                   getDotsNumber () const
-                              { return fDotsNumber; }
-
-    // services
-    // ------------------------------------------------------
-
-    void                  incrDotsNumber ()
-                              { fDotsNumber++; }
-
-    rational              dottedDurationAsWholeNotes (
-                            int inputLineNumber) const;
-
-    // visitors
-    // ------------------------------------------------------
-
-/* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-*/
-
-  public:
-
-    // ------------------------------------------------------
-
-    //virtual
-    void                  print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrDurationKind       fDurationKind;
-    int                   fDotsNumber;
-};
-EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
 
 // tuplet factors
 //______________________________________________________________________________
@@ -1071,86 +1101,6 @@ class msrChordStructure : public smartable
 typedef SMARTP<msrChordStructure> S_msrChordStructure;
 EXP ostream& operator<< (ostream& os, const S_msrChordStructure& elt);
 
-// semitone pitches and octave
-// can be used as absolute, relative or fixed reference
-//______________________________________________________________________________
-class msrSemiTonesPitchAndOctave : public smartable
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSemiTonesPitchAndOctave> create (
-      msrSemiTonesPitchKind semiTonesPitchKind,
-      int                   octave);
-
-    SMARTP<msrSemiTonesPitchAndOctave> createSemiTonesPitchAndOctaveNewbornClone ();
-
-    // creation from  a string
-    // ------------------------------------------------------
-
-    static SMARTP<msrSemiTonesPitchAndOctave> createFromString (
-      int    inputLineNumber,
-      string theString);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchAndOctave (
-      msrSemiTonesPitchKind semiTonesPitchKind,
-      int                   octave);
-
-    virtual ~msrSemiTonesPitchAndOctave ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchKind getSemiTonesPitchKind () const
-                              { return fSemiTonesPitchKind; }
-
-    void                  incrementOctave ()
-                              { fOctave++; }
-
-    void                  decrementOctave ()
-                              { fOctave--; }
-
-    int                   getOctave () const
-                              { return fOctave; }
-
-    // services
-    // ------------------------------------------------------
-
-
-    string                semiTonesPitchKindAsString () const;
-    string                semiTonesPitchKindAsShortString () const;
-
-    string                asString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-  public:
-
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchKind fSemiTonesPitchKind;
-    int                   fOctave;
-};
-typedef SMARTP<msrSemiTonesPitchAndOctave> S_msrSemiTonesPitchAndOctave;
-EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt);
-
 // chords contents
 //______________________________________________________________________________
 class msrChordContents : public smartable
@@ -1249,7 +1199,69 @@ void printChordAnalysis (
   msrHarmonyKind        harmonyKind,
   int                   inversion);
 
-// colors
+// RGB colors
+//______________________________________________________________________________
+class msrRGBColor {
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRGBColor ();
+
+    msrRGBColor (
+      float theR,
+      float theG,
+      float theB);
+
+    msrRGBColor (
+      std::string theString);
+
+    // set and get
+    // ------------------------------------------------------
+
+    float                 getR () const
+                              { return fR; }
+
+    float                 getG () const
+                              { return fG; }
+
+    float                 getB () const
+                              { return fB; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    bool                  isEmpty () const
+                              {
+                                return
+                                  fR < 0.0
+                                    &&
+                                  fG < 0.0
+                                    &&
+                                  fB < 0.0;
+                              }
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    std::string           asString () const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    float                 fR;
+    float                 fG;
+    float                 fB;
+};
+
+// AlphaRGB colors
 //______________________________________________________________________________
 class msrAlphaRGBColor
 {

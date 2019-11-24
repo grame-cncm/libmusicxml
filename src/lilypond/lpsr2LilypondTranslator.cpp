@@ -6920,6 +6920,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl;
   }
 
+  // center bar number?
+  if (gLilypondOah->fBoxAroundBarNumberSet.size ()) {
+    // yes, center the boxed bar number
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasuresNumbers) {
+      fLogOutputStream <<
+        endl <<
+        "Centering boxed LilyPond measure numbers" <<
+        ", line " << elt->getInputLineNumber () << " ===-->" <<
+        endl;
+    }
+#endif
+
+    fLilypondCodeOstream <<
+      "\\override Score.BarNumber.self-alignment-X = #CENTER" <<
+      endl;
+  }
+
   // compress full measure rests?
   if (gLilypondOah->fCompressFullMeasureRests) {
     fLilypondCodeOstream <<
@@ -7484,66 +7502,79 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
-  // should we reset the measure purist number?
-  map<string, int>::const_iterator
-    it =
-      gLilypondOah->
-        fResetMeasureNumberMap.find (measureNumber);
+  // should we generated a box around this bar number?
+  {
+    set<int>::const_iterator
+      it =
+        gLilypondOah->
+          fBoxAroundBarNumberSet.find (measurePuristNumber);
 
-  if (it != gLilypondOah->fResetMeasureNumberMap.end ()) {
-    // yes, reset measure number
-    int lilypondMeasureNumber = (*it).second;
-
-    if (to_string (lilypondMeasureNumber) != measureNumber) {
-#ifdef TRACE_OAH
+    if (it != gLilypondOah->fBoxAroundBarNumberSet.end ()) {
+      // yes, generate a box around the bar number
+  #ifdef TRACE_OAH
       if (gTraceOah->fTraceMeasuresNumbers) {
         fLogOutputStream <<
           endl <<
-          "Resetting LilyPond measure number from '" <<
-          measureNumber <<
-          "' to " <<
-          lilypondMeasureNumber <<
+          "Generating a box around LilyPond measure purist number '" <<
+          measurePuristNumber <<
           "', line " << inputLineNumber << " ===-->" <<
           endl;
       }
-#endif
+  #endif
 
       fLilypondCodeOstream <<
-        "\\set Score.currentBarNumber = #" <<
-        lilypondMeasureNumber <<
+        "\\boxAroundNextBarNumber" <<
         endl;
     }
-    else {
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceMeasuresNumbers) {
-        fLogOutputStream <<
-          endl <<
-          "Cannot reset measure LilyPond number from '" <<
-          measureNumber <<
-          "' to " <<
+  }
+
+  // should we reset the measure purist number?
+  {
+    map<string, int>::const_iterator
+      it =
+        gLilypondOah->
+          fResetMeasureNumberMap.find (measureNumber);
+
+    if (it != gLilypondOah->fResetMeasureNumberMap.end ()) {
+      // yes, reset measure number
+      int lilypondMeasureNumber = (*it).second;
+
+      if (to_string (lilypondMeasureNumber) != measureNumber) {
+  #ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasuresNumbers) {
+          fLogOutputStream <<
+            endl <<
+            "Resetting LilyPond measure number from '" <<
+            measureNumber <<
+            "' to " <<
+            lilypondMeasureNumber <<
+            "', line " << inputLineNumber << " ===-->" <<
+            endl;
+        }
+  #endif
+
+        fLilypondCodeOstream <<
+          "\\set Score.currentBarNumber = #" <<
           lilypondMeasureNumber <<
-          ": they're one and the same" <<
-          "', line " << inputLineNumber << " ===-->" <<
           endl;
       }
-#endif
+      else {
+  #ifdef TRACE_OAH
+        if (gTraceOah->fTraceMeasuresNumbers) {
+          fLogOutputStream <<
+            endl <<
+            "Cannot reset measure LilyPond number from '" <<
+            measureNumber <<
+            "' to " <<
+            lilypondMeasureNumber <<
+            ": they're one and the same" <<
+            "', line " << inputLineNumber << " ===-->" <<
+            endl;
+        }
+  #endif
+      }
     }
   }
-/* JMI
-  else {
-#ifdef TRACE_OAH
-   if (false && gTraceOah->fTraceMeasuresNumbers) { // JMI
-      fLogOutputStream <<
-        endl <<
-        "Measure number '" <<
-        measureNumber <<
-        "' not found in gLilypondOah->fResetMeasureNumberMap" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-  }
-*/
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
