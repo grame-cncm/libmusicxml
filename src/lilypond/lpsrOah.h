@@ -463,7 +463,13 @@ class lpsrOah : public oahGroup
     void                  initializeLpsrDisplayOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondScoreOutputOptions (
+    void                  initializeLpsrScoreOutputOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrGlobalStaffSizeOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrPaperOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrMeasuresOptions (
@@ -537,6 +543,15 @@ class lpsrOah : public oahGroup
 
     float                 fGlobalStaffSize;
     float                 fStaffGlobalSizeDefaultValue;
+
+    // paper
+    // --------------------------------------
+
+    bool                  fRaggedBottom;
+    bool                  fRaggedLastBottom;
+
+    int                   fPageCount;   // negative if not specified
+    int                   fSystemCount; // negative if not specified
 
     // measures
     // --------------------------------------

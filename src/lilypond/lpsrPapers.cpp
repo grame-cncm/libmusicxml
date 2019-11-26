@@ -59,16 +59,6 @@ lpsrPaper::lpsrPaper (
 
 S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
 {
-/* JMI ???
-#ifdef TRACE_OAH
-  if (gTraceOah->fTracePapers) {
-    gLogOstream <<
-      "Creating a newborn clone of a paper" <<
-      endl;
-  }
-#endif
-*/
-
   S_lpsrPaper
     newbornClone =
       lpsrPaper::create (

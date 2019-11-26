@@ -6351,11 +6351,16 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
   // should empty measures be added after this one?
   if (gMusicXMLOah->fAddEmptyMeasuresStringToIntMap.size ()) {
-    // use fCurrentTime to determine the measure length
+    if (! fOnGoingRestMeasures) {
     // ???
+    }
+    else {
+      // fRemainingRestMeasuresMeasuresNumber
+    }
+    // use fCurrentTime to determine the measure length
   }
 
-  // handle an on going multiple rest if any only now,
+  // handle an on-going multiple rest if any only now,
   // JMI do it before???
   if (fOnGoingRestMeasures) {
 #ifdef TRACE_OAH
@@ -16994,6 +16999,13 @@ void mxmlTree2MsrTranslator::attachPendingVoiceLevelElementsToVoice (
 void mxmlTree2MsrTranslator::attachPendingNoteLevelElementsToNote (
   S_msrNote note)
 {
+
+  // attach the pending segnos, if any, to the note
+  attachPendingSegnosToNote (note);
+
+  // attach the pending codas, if any, to the note
+  attachPendingCodasToNote (note);
+
   // attach the pending eyeglasses, if any, to the note
   attachPendingEyeGlassesToNote (note);
 

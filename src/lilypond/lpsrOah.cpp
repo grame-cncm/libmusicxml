@@ -1116,7 +1116,7 @@ void lpsrOah::initializeLpsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    displaySubGroup =
+    subGroup =
       oahSubGroup::create (
         "Display",
         "hlpsrd", "help-lpsr-display",
@@ -1124,13 +1124,13 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (displaySubGroup);
+  appendSubGroupToGroup (subGroup);
 
-  // display lpsr
+  // display LPSR
 
   fDisplayLpsr = boolOptionsInitialValue;
 
-  displaySubGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dlpsr", "display-lpsr",
@@ -1139,27 +1139,27 @@ R"(Write the contents of the LPSR data to standard error.)",
         fDisplayLpsr));
 }
 
-void lpsrOah::initializeLilypondScoreOutputOptions (
+void lpsrOah::initializeLpsrScoreOutputOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    lilypondOutputKindGroup =
+    subGroup =
       oahSubGroup::create (
-        "LilyPond score  output",
+        "LilyPond score output",
         "hlpso", "help-lilypond-score-output",
 R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (lilypondOutputKindGroup);
+  appendSubGroupToGroup (subGroup);
 
-  // lilypond version
+  // LilyPond version
 
   string lilyPondVersionDefaultValue = "2.19.83";
 
   fLilyPondVersion = lilyPondVersionDefaultValue;
 
-  lilypondOutputKindGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahStringAtom::create (
         "lpv", "lilypond-version",
@@ -1172,7 +1172,7 @@ The default is 'DEFAULT_VALUE'.)",
         "lilyPondVersion",
         fLilyPondVersion));
 
-  // lpsr score output kind
+  // LPSR score output kind
 
   const lpsrScoreOutputKind
     lpsrScoreOutputKindDefaultValue =
@@ -1180,7 +1180,7 @@ The default is 'DEFAULT_VALUE'.)",
 
   fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 
-  lilypondOutputKindGroup->
+  subGroup->
     appendAtomToSubGroup (
       lpsrScoreOutputKindAtom::create (
         "lpsok", "lpsr-score-output-kind",
@@ -1204,13 +1204,28 @@ The default is 'DEFAULT_VALUE'.)",
         "OUTPUT_KIND",
         "scoreOutputKind",
         fScoreOutputKind));
+}
+
+void lpsrOah::initializeLpsrGlobalStaffSizeOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Global staff size",
+        "hlpsrgss", "help-lpsr-gss",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
 
   // global staff size
 
   fStaffGlobalSizeDefaultValue = 20; // LilyPond default
   fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
 
-  lilypondOutputKindGroup->
+  subGroup->
     appendAtomToSubGroup (
       oahFloatAtom::create (
         "gss", "global-staff-size",
@@ -1224,6 +1239,77 @@ The default is 'DEFAULT_VALUE'.)",
         "FLOAT",
         "globalStaffSize",
         fGlobalStaffSize));
+}
+
+void lpsrOah::initializeLpsrPaperOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Paper",
+        "hlpsrpaper", "help-lpsr-paper",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // ragged bottom
+
+  fRaggedBottom = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "ragged-bottom", "",
+R"(Set the LilyPond 'ragged-bottom' paper variable to '##f' in the LilyPond code.
+LilyPond's default value is '##t'.)",
+        "raggedBottom",
+        fRaggedBottom));
+
+  // ragged last bottom
+
+  fRaggedLastBottom = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "ragged-last-bottom", "",
+R"(Set the LilyPond 'ragged-last-bottom' paper variable to '##f' in the LilyPond code.
+LilyPond's default value is '##t'.)",
+        "raggedLastBottom",
+        fRaggedLastBottom));
+
+  // page count
+
+  fPageCount = -1;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahIntegerAtom::create (
+        "page-count", "",
+R"(Set the LilyPond 'page-count' paper variable to PAGE_COUNT in the LilyPond code.
+PAGE_COUNT should be a positive integer.
+By default, this is left to LilyPond'.)",
+        "PAGE_COUNT",
+        "pageCount",
+        fPageCount));
+
+  // system count
+
+  fSystemCount = -1;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahIntegerAtom::create (
+        "system-count", "",
+R"(Set the LilyPond 'system-count' paper variable to SYSTEM_COUNT in the LilyPond code.
+SYSTEM_COUNT should be a positive integer.
+By default, this is left to LilyPond'.)",
+        "SYSTEM_COUNT",
+        "systemCount",
+        fSystemCount));
 }
 
 void lpsrOah::initializeLpsrMeasuresOptions (
@@ -1240,7 +1326,6 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-/* JMI
   // replicate empty measure
 
   fReplicateEmptyMeasureNumber = boolOptionsInitialValue;
@@ -1264,7 +1349,6 @@ This option can be used any number of times.)###",
         fReplicateEmptyMeasureNumber,
         "replicateEmptyMeasureReplicas",
         fReplicateEmptyMeasureReplicas));
-        */
 }
 
 void lpsrOah::initializeLpsrWordsOptions (
@@ -1312,7 +1396,7 @@ void lpsrOah::initializeLpsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    languagesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Languages",
         "hlpsrl", "help-lpsr-languages",
@@ -1320,7 +1404,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (languagesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // lpsr pitches language
 
@@ -1353,7 +1437,7 @@ R"()",
   fLpsrQuarterTonesPitchesLanguageKind =
     msrQuarterTonesPitchesLanguageKindDefaultValue;
 
-  languagesSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       lpsrPitchesLanguageAtom::create (
         "lppl", "lpsr-pitches-language",
@@ -1386,7 +1470,7 @@ The default is 'DEFAULT_VALUE'.)",
   fLpsrChordsLanguageKind =
     lpsrChordsLanguageKindDefaultValue;
 
-  languagesSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       lpsrChordsLanguageAtom::create (
         "lpcl", "lpsr-chords-language",
@@ -1416,7 +1500,7 @@ void lpsrOah::initializeLpsrTransposeOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    languagesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Transpose",
         "hlpsrt", "help-lpsr-transpose",
@@ -1424,11 +1508,11 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (languagesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // lpsr transpose
 
-  languagesSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       lpsrTransposeAtom::create (
         "lpt", "lpsr-transpose",
@@ -1448,7 +1532,7 @@ void lpsrOah::initializeLpsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
-    exitAfterSomePassesSubGroup =
+    subGroup =
       oahSubGroup::create (
         "Exit after some passes",
         "hlexit", "help-lpsr-exit",
@@ -1456,7 +1540,7 @@ R"()",
       kElementVisibilityAlways,
       this);
 
-  appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+  appendSubGroupToGroup (subGroup);
 
   // exit after pass 3
 
@@ -1471,7 +1555,7 @@ of the MSR to LPSR.)",
         "exit3",
         fExit3);
 
-  exitAfterSomePassesSubGroup->
+  subGroup->
     appendAtomToSubGroup (
       exit3OahBooleanAtom);
 }
@@ -1493,7 +1577,17 @@ void lpsrOah::initializeLpsrOah (
 
   // LilyPond score output
   // --------------------------------------
-  initializeLilypondScoreOutputOptions (
+  initializeLpsrScoreOutputOptions (
+    boolOptionsInitialValue);
+
+  // global staff size
+  // --------------------------------------
+  initializeLpsrGlobalStaffSizeOptions (
+    boolOptionsInitialValue);
+
+  // paper
+  // --------------------------------------
+  initializeLpsrPaperOptions (
     boolOptionsInitialValue);
 
   // measures
@@ -1576,6 +1670,19 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
 
   clone->fGlobalStaffSize =
     fGlobalStaffSize;
+
+  // paper
+  // --------------------------------------
+
+  clone->fRaggedBottom =
+    fRaggedBottom;
+  clone->fRaggedLastBottom =
+    fRaggedLastBottom;
+
+  clone->fPageCount =
+    fPageCount;
+  clone->fSystemCount =
+    fSystemCount;
 
   // measures
   // --------------------------------------
@@ -1827,7 +1934,7 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // --------------------------------------
 
   gLogOstream <<
-    "global staff size:" <<
+    "Global staff size:" <<
     endl;
 
   gIndenter++;
@@ -1835,6 +1942,32 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "fGlobalStaffSize" << " : " <<
     fGlobalStaffSize <<
+    endl;
+
+  gIndenter--;
+
+  // paper
+  // --------------------------------------
+
+  gLogOstream <<
+    "Paper:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "raggedBottom" << " : " <<
+    booleanAsString (fRaggedBottom) <<
+    endl <<
+    setw (fieldWidth) << "raggedLastBottom" << " : " <<
+    booleanAsString (fRaggedLastBottom) <<
+    endl <<
+
+    setw (fieldWidth) << "pageCount" << " : " <<
+    fPageCount <<
+    endl <<
+    setw (fieldWidth) << "systemCount" << " : " <<
+    fSystemCount <<
     endl;
 
   gIndenter--;
@@ -1848,15 +1981,6 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
   gIndenter++;
 
-  /* JMI
-  gLogOstream << left <<
-    setw (fieldWidth) << "replicateEmptyMeasureNumber" << " : " <<
-    fReplicateEmptyMeasureNumber <<
-    endl <<
-    setw (fieldWidth) << "replicateEmptyMeasureReplicas" << " : " <<
-    booleanAsString (fReplicateEmptyMeasureReplicas) <<
-    endl;
-    */
   gLogOstream << left <<
     setw (fieldWidth) << "resetMeasureNumberMap" << " : ";
   if (! fAddEmptyMeasuresStringToIntMap.size ()) {
