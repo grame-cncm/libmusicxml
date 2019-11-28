@@ -157,7 +157,7 @@ class EXP xmlpart2guido :
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
-	void newNote		 ( const notevisitor& nv, rational posInMeasure);
+	void newNote		 ( const notevisitor& nv, rational posInMeasure, const S_note& elt);
     
     int checkTremolo(const notevisitor& note, const S_note& elt);
     
@@ -207,6 +207,8 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_repeat& elt);
 		virtual void visitEnd  ( S_sound& elt);
 		virtual void visitEnd  ( S_time& elt);
+    
+    bool findNextNote(const S_note& elt, ctree<xmlelement>::iterator &nextnote);
     
     rational durationInCue;
     
