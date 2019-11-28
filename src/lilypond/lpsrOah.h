@@ -14,8 +14,10 @@
 #define ___lpsrOah___
 
 #include "lpsrBasicTypes.h"
+
 #include "oahBasicTypes.h"
-#include "exports.h"
+
+#include "oahBasicTypes.h"
 
 namespace MusicXML2
 {
@@ -29,13 +31,12 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<lpsrScoreOutputKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrScoreOutputKind&
-                         lpsrScoreOutputKindKindVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      lpsrScoreOutputKind& lpsrScoreOutputKindKindVariable);
 
   protected:
 
@@ -43,13 +44,12 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     lpsrScoreOutputKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      lpsrScoreOutputKind&
-                         lpsrScoreOutputKindKindVariable);
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      lpsrScoreOutputKind& lpsrScoreOutputKindKindVariable);
 
     virtual ~lpsrScoreOutputKindAtom ();
 
@@ -108,6 +108,93 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
 };
 typedef SMARTP<lpsrScoreOutputKindAtom> S_lpsrScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt);
+
+//______________________________________________________________________________
+class lpsrPaperUnitKindAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrPaperUnitKindAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      lpsrPaperUnitKind& lpsrPaperUnitKindKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrPaperUnitKindAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      lpsrPaperUnitKind& lpsrPaperUnitKindKindVariable);
+
+    virtual ~lpsrPaperUnitKindAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setLpsrPaperUnitKindVariable (
+                            lpsrPaperUnitKind value)
+                              { fLpsrPaperUnitKindVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    lpsrPaperUnitKind&    fLpsrPaperUnitKindVariable;
+};
+typedef SMARTP<lpsrPaperUnitKindAtom> S_lpsrPaperUnitKindAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrPaperUnitKindAtom& elt);
 
 //______________________________________________________________________________
 class lpsrPitchesLanguageAtom : public oahValuedAtom
@@ -547,8 +634,19 @@ class lpsrOah : public oahGroup
     // paper
     // --------------------------------------
 
+    lpsrPaperUnitKind     fPaperUnitKind;
+    lpsrPaperUnitKind     fPaperUnitKindDefaultValue;
+
+    float                 fPaperWidth;  // 0.0 in not specified
+    float                 fPaperHeight; // 0.0 in not specified
+
+    float                 fPaperIndent;
+    float                 fPaperShortIndent;
+
     bool                  fRaggedBottom;
     bool                  fRaggedLastBottom;
+
+    bool                  fTagline;
 
     int                   fPageCount;   // negative if not specified
     int                   fSystemCount; // negative if not specified

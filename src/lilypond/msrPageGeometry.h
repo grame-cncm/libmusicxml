@@ -132,7 +132,7 @@ class msrPageGeometry : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // page height, margins and the like in centimeters are in centimeters
+    // page height, margins and the like are in centimeters
     float                 fPaperWidth;
     float                 fPaperHeight;
 

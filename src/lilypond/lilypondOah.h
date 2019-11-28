@@ -748,7 +748,7 @@ class lilypondOah : public oahGroup
     // ------------------------------------------------------
 
     enum scoreNotationKind {
-      kWesternNotation, kJianpuNotation, kABCNotation }; // JMI
+      kWesternNotation, kJianpuNotation, kABCNotation };
 
     static string scoreNotationKindAsString (
       scoreNotationKind notationKind);

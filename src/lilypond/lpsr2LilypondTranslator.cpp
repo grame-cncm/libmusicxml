@@ -4474,6 +4474,27 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVariable& elt)
 #endif
 }
 
+//______________________________________________________________________________
+string lpsr2LilypondTranslator::paperUnitAsLilypondString (
+  lpsrPaperUnitKind paperUnitKind)
+{
+  string result;
+
+  switch (paperUnitKind) {
+    case kInchUnit:
+      result = "\\in";
+      break;
+    case kCentimeterUnit:
+      result = "\\cm";
+      break;
+    case kMillimeterUnit:
+      result = "\\mm";
+      break;
+  } // switch
+
+  return result;
+}
+
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 {
@@ -4681,12 +4702,16 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   {
     float paperWidth =
       elt->getPaperWidth ();
+    if (gLpsrOah->fPaperWidth > 0.0) {
+      paperWidth = gLpsrOah->fPaperWidth;
+    }
 
     if (paperWidth > 0) {
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "paper-width" << " = " <<
-        setprecision (3) << paperWidth << "\\cm" <<
+        setprecision (3) << paperWidth <<
+        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
         endl;
     }
   }
@@ -4699,7 +4724,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "paper-height" << " = " <<
-        setprecision (3) << paperHeight << "\\cm" <<
+        setprecision (3) << paperHeight <<
+        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
         endl;
     }
   }
@@ -4712,7 +4738,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "top-margin" << " = " <<
-        setprecision (3) << topMargin << "\\cm" <<
+        setprecision (3) << topMargin <<
+        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
         endl;
     }
   }
@@ -4725,7 +4752,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "bottom-margin" << " = " <<
-        setprecision (3) << bottomMargin << "\\cm" <<
+        setprecision (3) << bottomMargin <<
+        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
         endl;
     }
   }
@@ -4738,7 +4766,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "left-margin" << " = " <<
-        setprecision (3) << leftMargin << "\\cm" <<
+        setprecision (3) << leftMargin <<
+        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
         endl;
     }
   }
@@ -4751,7 +4780,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "right-margin" << " = " <<
-      setprecision (3) << rightMargin << "\\cm" <<
+      setprecision (3) << rightMargin <<
+      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
       endl;
     }
   }
@@ -4764,14 +4794,16 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "indent" << " = " <<
-      setprecision (3) << indent << "\\cm" <<
+      setprecision (3) << indent <<
+      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
       endl;
     }
     else {
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "%indent" << " = " <<
-      setprecision (3) << 1.5 << "\\cm" <<
+      setprecision (3) << 1.5 <<
+      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
       endl;
     }
   }
@@ -4784,14 +4816,16 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "short-indent" << " = " <<
-      setprecision (3) << shortIndent << "\\cm" <<
+      setprecision (3) << shortIndent <<
+      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
       endl;
     }
     else {
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "%short-indent" << " = " <<
-      setprecision (3) << 0.0 << "\\cm" <<
+      setprecision (3) << 0.0 <<
+      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
       endl;
     }
   }
@@ -4806,7 +4840,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "between-system-space" << " = " <<
-        setprecision (3) << betweenSystemSpace << "\\cm" <<
+        setprecision (3) << betweenSystemSpace <<
+        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
         endl;
     }
   }
@@ -4819,7 +4854,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream << left <<
         setw (fieldWidth) <<
         "page-top-space" << " = " <<
-        setprecision (3) << pageTopSpace << "\\cm" <<
+        setprecision (3) << pageTopSpace <<
+        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
         endl;
     }
   }

@@ -9505,7 +9505,7 @@ void oahHandler::registerElementNamesInHandler (
       s <<
         "element long name '" << elementLongName << "'" <<
           " for element short name '" << elementShortName << "'" <<
-        " is specified more that once";
+        " is defined more that once";
 
       oahError (s.str ());
     }
@@ -9518,7 +9518,7 @@ void oahHandler::registerElementNamesInHandler (
         s <<
           "element short name '" << elementShortName << "'" <<
           " for element long name '" << elementLongName << "'" <<
-          " is specified more that once";
+          " is defined more that once";
 
         oahError (s.str ());
       }
