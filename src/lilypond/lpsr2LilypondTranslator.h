@@ -659,7 +659,7 @@ class lpsr2LilypondTranslator :
 
     // paper units
     string                paperUnitAsLilypondString (
-                            lpsrPaperUnitKind paperUnitKind);
+                            msrPaperUnitKind paperUnitKind);
 
     // whole notes
     // JMI

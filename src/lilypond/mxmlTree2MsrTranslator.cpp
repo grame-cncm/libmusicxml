@@ -155,7 +155,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // transpose handling
   fCurrentTransposeNumber = -213;
   fCurrentTransposeDiatonic = -214;
-  fCurrentTransposeChromatic = - 215;
+  fCurrentTransposeChromatic = -215;
 
   // direction handling
   fCurrentDirectionStaffNumber = 1; // it may be absent

@@ -4476,7 +4476,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVariable& elt)
 
 //______________________________________________________________________________
 string lpsr2LilypondTranslator::paperUnitAsLilypondString (
-  lpsrPaperUnitKind paperUnitKind)
+  msrPaperUnitKind paperUnitKind)
 {
   string result;
 
@@ -4702,9 +4702,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   {
     float paperWidth =
       elt->getPaperWidth ();
-    if (gLpsrOah->fPaperWidth > 0.0) {
-      paperWidth = gLpsrOah->fPaperWidth;
-    }
 
     if (paperWidth > 0) {
       fLilypondCodeOstream << left <<

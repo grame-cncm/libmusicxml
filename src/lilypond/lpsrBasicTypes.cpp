@@ -782,79 +782,6 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
   return s.str ();
 }
 
-// paper unit kinds
-//______________________________________________________________________________
-
-map<string, lpsrPaperUnitKind>
-  gLpsrPaperUnitKindsMap;
-
-string lpsrPaperUnitKindAsString (
-  lpsrPaperUnitKind paperUnitKind)
-{
-  string result;
-
-  // no CamelCase here, these strings are used in the command line options
-
-  switch (paperUnitKind) {
-    case kInchUnit:
-      result = "in";
-      break;
-    case kCentimeterUnit:
-      result = "cm";
-      break;
-    case kMillimeterUnit: // default value
-      result = "mm";
-      break;
-  } // switch
-
-  return result;
-}
-
-void initializeLpsrPaperUnitKindsMap ()
-{
-  // register the LilyPond score output kinds
-  // --------------------------------------
-
-  // no CamelCase here, these strings are used in the command line options
-
-  gLpsrPaperUnitKindsMap ["in"] = kInchUnit;
-  gLpsrPaperUnitKindsMap ["cm"] = kCentimeterUnit;
-  gLpsrPaperUnitKindsMap ["mm"] = kMillimeterUnit;
-}
-
-string existingLpsrPaperUnitKinds (int namesListMaxLength)
-{
-  stringstream s;
-
-  if (gLpsrPaperUnitKindsMap.size ()) {
-    map<string, lpsrPaperUnitKind>::const_iterator
-      iBegin = gLpsrPaperUnitKindsMap.begin (),
-      iEnd   = gLpsrPaperUnitKindsMap.end (),
-      i      = iBegin;
-
-    int cumulatedLength = 0;
-
-    for ( ; ; ) {
-      string theString = (*i).first;
-
-      s << theString;
-
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
-
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
-        s << " and ";
-      }
-      else {
-        s << ", ";
-      }
-    } // for
-  }
-
-  return s.str ();
-}
-
 // octave entry kinds
 //______________________________________________________________________________
 
@@ -1446,11 +1373,6 @@ void initializeLPSRBasicTypes ()
   // ------------------------------------------------------
 
   initializeLpsrScoreOutputKindsMap ();
-
-  // LPSR paper units handling
-  // ------------------------------------------------------
-
-  initializeLpsrPaperUnitKindsMap ();
 
   // LPSR octave entry handling
   // ------------------------------------------------------

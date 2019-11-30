@@ -807,25 +807,87 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
     setPageGeometry (
       pageGeometryClone);
 
+  // populate page geometry clone
+  msrPaperUnitKind paperUnitKind =
+    elt->getPaperUnitKind ();
+  if (gLpsrOah->fPaperUnitKind != paperUnitKind) {
+    // the paper unit has been specified in an option
+    paperUnitKind = gLpsrOah->fPaperUnitKind;
+  }
+  pageGeometryClone ->
+    setPaperUnitKind (paperUnitKind);
+
   // get LPSR score paper
   S_lpsrPaper
     paper =
       fLpsrScore->getScorePaper ();
 
   // populate paper
+  float paperWidth =
+    elt->getPaperWidth ();
+  if (gLpsrOah->fPaperWidth > 0.0) {
+    paperWidth = gLpsrOah->fPaperWidth;
+  }
   paper ->
-    setPaperWidth (elt->getPaperWidth ());
-  paper->
-    setPaperHeight (elt->getPaperHeight ());
+    setPaperWidth (paperWidth);
 
+  float paperHeight =
+    elt->getPaperHeight ();
+  if (gLpsrOah->fPaperHeight > 0.0) {
+    paperWidth = gLpsrOah->fPaperHeight;
+  }
   paper->
-    setTopMargin (elt->getTopMargin ());
+    setPaperHeight (paperHeight);
+
+/* JMI
+  float topMargin =
+    elt->getTopMargin ();
+  if (gLpsrOah->fTopMargin > 0.0) {
+    topMargin = gLpsrOah->fTopMargin;
+  }
   paper->
-    setBottomMargin (elt->getBottomMargin ());
+    setTopMargin (topMargin);
+
+  float bottomMargin =
+    elt->getBottomMargin ();
+  if (gLpsrOah->fBottomMargin > 0.0) {
+    bottomMargin = gLpsrOah->fBottomMargin;
+  }
   paper->
-    setLeftMargin (elt->getLeftMargin ());
+    setBottomMargin (bottomMargin);
+
+  float leftMargin =
+    elt->getLeftMargin ();
+  if (gLpsrOah->fLeftMargin > 0.0) {
+    leftMargin = gLpsrOah->fLeftMargin;
+  }
   paper->
-    setRightMargin (elt->getRightMargin ());
+    setLeftMargin (leftMargin);
+
+  float rightMargin =
+    elt->getRightMargin ();
+  if (gLpsrOah->fRightMargin > 0.0) {
+    rightMargin = gLpsrOah->fRightMargin;
+  }
+  paper->
+    setRightMargin (rightMargin);
+
+  float indent =
+    elt->getRightMargin ();
+  if (gLpsrOah->fIndent > 0.0) {
+    indent = gLpsrOah->fIndent;
+  }
+  paper->
+    setIndent (rightMargin);
+
+  float shortIndent =
+    elt->getRightMargin ();
+  if (gLpsrOah->fShortIndent > 0.0) {
+    shortIndent = gLpsrOah->fShortIndent;
+  }
+  paper->
+    setShortIndent (rightMargin);
+*/
 
   // set the current book block's paper as a newborn clone of paper
   fCurrentLpsrBookBlock ->

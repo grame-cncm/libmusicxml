@@ -110,44 +110,44 @@ typedef SMARTP<lpsrScoreOutputKindAtom> S_lpsrScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class lpsrPaperUnitKindAtom : public oahValuedAtom
+class msrPaperUnitKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<lpsrPaperUnitKindAtom> create (
+    static SMARTP<msrPaperUnitKindAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
       string             variableName,
-      lpsrPaperUnitKind& lpsrPaperUnitKindKindVariable);
+      msrPaperUnitKind& msrPaperUnitKindKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrPaperUnitKindAtom (
+    msrPaperUnitKindAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
       string             variableName,
-      lpsrPaperUnitKind& lpsrPaperUnitKindKindVariable);
+      msrPaperUnitKind& msrPaperUnitKindKindVariable);
 
-    virtual ~lpsrPaperUnitKindAtom ();
+    virtual ~msrPaperUnitKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setLpsrPaperUnitKindVariable (
-                            lpsrPaperUnitKind value)
-                              { fLpsrPaperUnitKindVariable = value; }
+    void                  setMsrPaperUnitKindVariable (
+                            msrPaperUnitKind value)
+                              { fMsrPaperUnitKindVariable = value; }
 
   public:
 
@@ -191,10 +191,10 @@ class lpsrPaperUnitKindAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    lpsrPaperUnitKind&    fLpsrPaperUnitKindVariable;
+    msrPaperUnitKind&    fMsrPaperUnitKindVariable;
 };
-typedef SMARTP<lpsrPaperUnitKindAtom> S_lpsrPaperUnitKindAtom;
-EXP ostream& operator<< (ostream& os, const S_lpsrPaperUnitKindAtom& elt);
+typedef SMARTP<msrPaperUnitKindAtom> S_msrPaperUnitKindAtom;
+EXP ostream& operator<< (ostream& os, const S_msrPaperUnitKindAtom& elt);
 
 //______________________________________________________________________________
 class lpsrPitchesLanguageAtom : public oahValuedAtom
@@ -634,8 +634,8 @@ class lpsrOah : public oahGroup
     // paper
     // --------------------------------------
 
-    lpsrPaperUnitKind     fPaperUnitKind;
-    lpsrPaperUnitKind     fPaperUnitKindDefaultValue;
+    msrPaperUnitKind      fPaperUnitKind;
+    msrPaperUnitKind      fPaperUnitKindDefaultValue;
 
     float                 fPaperWidth;  // 0.0 in not specified
     float                 fPaperHeight; // 0.0 in not specified

@@ -47,22 +47,6 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength);
 
 void initializeLpsrScoreOutputKindsMap ();
 
-// paper units
-//______________________________________________________________________________
-
-enum lpsrPaperUnitKind {
-  kInchUnit, kCentimeterUnit, kMillimeterUnit };
-
-string lpsrPaperUnitKindAsString (
-  lpsrPaperUnitKind paperUnitKind);
-
-extern map<string, lpsrPaperUnitKind>
-  gLpsrPaperUnitKindsMap;
-
-string existingLpsrPaperUnitKinds (int namesListMaxLength);
-
-void initializeLpsrPaperUnitKindsMap ();
-
 // octave entry
 //______________________________________________________________________________
 enum lpsrOctaveEntryKind {

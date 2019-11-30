@@ -276,54 +276,54 @@ ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt)
 }
 
 //______________________________________________________________________________
-S_lpsrPaperUnitKindAtom lpsrPaperUnitKindAtom::create (
+S_msrPaperUnitKindAtom msrPaperUnitKindAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  lpsrPaperUnitKind& lpsrPaperUnitKindKindVariable)
+  msrPaperUnitKind& msrPaperUnitKindKindVariable)
 {
-  lpsrPaperUnitKindAtom* o = new
-    lpsrPaperUnitKindAtom (
+  msrPaperUnitKindAtom* o = new
+    msrPaperUnitKindAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      lpsrPaperUnitKindKindVariable);
+      msrPaperUnitKindKindVariable);
   assert(o!=0);
   return o;
 }
 
-lpsrPaperUnitKindAtom::lpsrPaperUnitKindAtom (
+msrPaperUnitKindAtom::msrPaperUnitKindAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  lpsrPaperUnitKind& lpsrPaperUnitKindKindVariable)
+  msrPaperUnitKind& msrPaperUnitKindKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fLpsrPaperUnitKindVariable (
-      lpsrPaperUnitKindKindVariable)
+    fMsrPaperUnitKindVariable (
+      msrPaperUnitKindKindVariable)
 {}
 
-lpsrPaperUnitKindAtom::~lpsrPaperUnitKindAtom ()
+msrPaperUnitKindAtom::~msrPaperUnitKindAtom ()
 {}
 
-S_oahValuedAtom lpsrPaperUnitKindAtom::handleOptionUnderName (
+S_oahValuedAtom msrPaperUnitKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrPaperUnitKindAtom" <<
+      "==> option '" << optionName << "' is a msrPaperUnitKindAtom" <<
       endl;
   }
 #endif
@@ -332,14 +332,14 @@ S_oahValuedAtom lpsrPaperUnitKindAtom::handleOptionUnderName (
   return this;
 }
 
-void lpsrPaperUnitKindAtom::handleValue (
+void msrPaperUnitKindAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'lpsrPaperUnitKindAtom'" <<
+      "==> oahAtom is of type 'msrPaperUnitKindAtom'" <<
       endl;
   }
 #endif
@@ -350,17 +350,17 @@ void lpsrPaperUnitKindAtom::handleValue (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'lpsrPaperUnitKindAtom'" <<
+      "==> oahAtom is of type 'msrPaperUnitKindAtom'" <<
       endl;
   }
 #endif
 
-  map<string, lpsrPaperUnitKind>::const_iterator
+  map<string, msrPaperUnitKind>::const_iterator
     it =
-      gLpsrPaperUnitKindsMap.find (
+      gMsrPaperUnitKindsMap.find (
         theString);
 
-  if (it == gLpsrPaperUnitKindsMap.end ()) {
+  if (it == gMsrPaperUnitKindsMap.end ()) {
     // no, score output kind is unknown in the map
 
     stringstream s;
@@ -370,43 +370,43 @@ void lpsrPaperUnitKindAtom::handleValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gLpsrPaperUnitKindsMap.size () <<
+      gMsrPaperUnitKindsMap.size () <<
       " known LPSR score output kinds are:" <<
       endl;
 
     gIndenter++;
 
     s <<
-      existingLpsrPaperUnitKinds (K_NAMES_LIST_MAX_LENGTH);
+      existingMsrPaperUnitKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
     oahError (s.str ());
   }
 
-  setLpsrPaperUnitKindVariable (
+  setMsrPaperUnitKindVariable (
     (*it).second);
 }
 
-void lpsrPaperUnitKindAtom::acceptIn (basevisitor* v)
+void msrPaperUnitKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lpsrPaperUnitKindAtom::acceptIn ()" <<
+      ".\\\" ==> msrPaperUnitKindAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lpsrPaperUnitKindAtom>*
+  if (visitor<S_msrPaperUnitKindAtom>*
     p =
-      dynamic_cast<visitor<S_lpsrPaperUnitKindAtom>*> (v)) {
-        S_lpsrPaperUnitKindAtom elem = this;
+      dynamic_cast<visitor<S_msrPaperUnitKindAtom>*> (v)) {
+        S_msrPaperUnitKindAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lpsrPaperUnitKindAtom::visitStart ()" <<
+            ".\\\" ==> Launching msrPaperUnitKindAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -414,25 +414,25 @@ void lpsrPaperUnitKindAtom::acceptIn (basevisitor* v)
   }
 }
 
-void lpsrPaperUnitKindAtom::acceptOut (basevisitor* v)
+void msrPaperUnitKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lpsrPaperUnitKindAtom::acceptOut ()" <<
+      ".\\\" ==> msrPaperUnitKindAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lpsrPaperUnitKindAtom>*
+  if (visitor<S_msrPaperUnitKindAtom>*
     p =
-      dynamic_cast<visitor<S_lpsrPaperUnitKindAtom>*> (v)) {
-        S_lpsrPaperUnitKindAtom elem = this;
+      dynamic_cast<visitor<S_msrPaperUnitKindAtom>*> (v)) {
+        S_msrPaperUnitKindAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lpsrPaperUnitKindAtom::visitEnd ()" <<
+            ".\\\" ==> Launching msrPaperUnitKindAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -440,45 +440,45 @@ void lpsrPaperUnitKindAtom::acceptOut (basevisitor* v)
   }
 }
 
-void lpsrPaperUnitKindAtom::browseData (basevisitor* v)
+void msrPaperUnitKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lpsrPaperUnitKindAtom::browseData ()" <<
+      ".\\\" ==> msrPaperUnitKindAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-string lpsrPaperUnitKindAtom::asShortNamedOptionString () const
+string msrPaperUnitKindAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fShortName << " " <<
-    lpsrPaperUnitKindAsString (fLpsrPaperUnitKindVariable);
+    msrPaperUnitKindAsString (fMsrPaperUnitKindVariable);
 
   return s.str ();
 }
 
-string lpsrPaperUnitKindAtom::asLongNamedOptionString () const
+string msrPaperUnitKindAtom::asLongNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fLongName << " " <<
-    lpsrPaperUnitKindAsString (fLpsrPaperUnitKindVariable);
+    msrPaperUnitKindAsString (fMsrPaperUnitKindVariable);
 
   return s.str ();
 }
 
-void lpsrPaperUnitKindAtom::print (ostream& os) const
+void msrPaperUnitKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsLpsrPaperUnitKindAtom:" <<
+    "OptionsMsrPaperUnitKindAtom:" <<
     endl;
 
   gIndenter++;
@@ -492,14 +492,14 @@ void lpsrPaperUnitKindAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsLpsrPaperUnitKindVariable" << " : \"" <<
-    lpsrPaperUnitKindAsString (
-      fLpsrPaperUnitKindVariable) <<
+    "fOptionsMsrPaperUnitKindVariable" << " : \"" <<
+    msrPaperUnitKindAsString (
+      fMsrPaperUnitKindVariable) <<
     "\"" <<
     endl;
 }
 
-void lpsrPaperUnitKindAtom::printAtomOptionsValues (
+void msrPaperUnitKindAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -507,13 +507,13 @@ void lpsrPaperUnitKindAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    lpsrPaperUnitKindAsString (
-      fLpsrPaperUnitKindVariable) <<
+    msrPaperUnitKindAsString (
+      fMsrPaperUnitKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrPaperUnitKindAtom& elt)
+ostream& operator<< (ostream& os, const S_msrPaperUnitKindAtom& elt)
 {
   elt->print (os);
   return os;
@@ -1499,12 +1499,12 @@ R"()",
 
   // paper unit kind
 
-  fPaperUnitKindDefaultValue = kMillimeterUnit; // default value
-  fPaperUnitKind = fPaperUnitKindDefaultValue;
+  fPaperUnitKindDefaultValue = gMsrPaperUnitKindDefaultValue;
+  fPaperUnitKind = gMsrPaperUnitKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
-      lpsrPaperUnitKindAtom::create (
+      msrPaperUnitKindAtom::create (
         "paper-unit", "",
         replaceSubstringInString (
           replaceSubstringInString (
@@ -1514,12 +1514,12 @@ The NUMBER LilyPond paper variables units available are:
 PAPER_UNITS.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
-              to_string (gLpsrPaperUnitKindsMap.size ())),
+              to_string (gMsrPaperUnitKindsMap.size ())),
             "PAPER_UNITS",
             gIndenter.indentMultiLineString (
-              existingLpsrPaperUnitKinds (K_NAMES_LIST_MAX_LENGTH))),
+              existingMsrPaperUnitKinds (K_NAMES_LIST_MAX_LENGTH))),
           "DEFAULT_VALUE",
-          lpsrPaperUnitKindAsString (
+          msrPaperUnitKindAsString (
             fPaperUnitKindDefaultValue)),
         "UNIT",
         "paperUnitKind",
@@ -2305,7 +2305,7 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
   gLogOstream << left <<
     setw (fieldWidth) << "paperUnitKind" << " : " <<
-    lpsrPaperUnitKindAsString (fPaperUnitKind) <<
+    msrPaperUnitKindAsString (fPaperUnitKind) <<
     endl <<
 
     setw (fieldWidth) << "paperWidth" << " : " <<

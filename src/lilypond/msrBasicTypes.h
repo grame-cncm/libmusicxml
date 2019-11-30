@@ -574,6 +574,94 @@ class msrSemiTonesPitchAndOctave : public smartable
 typedef SMARTP<msrSemiTonesPitchAndOctave> S_msrSemiTonesPitchAndOctave;
 EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt);
 
+// paper units
+//______________________________________________________________________________
+
+enum msrPaperUnitKind {
+  kInchUnit, kCentimeterUnit, kMillimeterUnit };
+
+string msrPaperUnitKindAsString (
+  msrPaperUnitKind paperUnitKind);
+
+string existingMsrPaperUnitKinds (int namesListMaxLength);
+
+extern msrPaperUnitKind
+  gMsrPaperUnitKindDefaultValue;
+
+extern map<string, msrPaperUnitKind>
+  gMsrPaperUnitKindsMap;
+
+void initializeMsrPaperUnitKindsMap ();
+
+class msrFloatAndMsrPaperUnit : public smartable
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrFloatAndMsrPaperUnit> create (
+      msrPaperUnitKind paperFontSizeKind,
+      float            theFloat);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFloatAndMsrPaperUnit (
+      msrPaperUnitKind paperFontSizeKind,
+      float            theFloat);
+
+    virtual ~msrFloatAndMsrPaperUnit ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setPaperUnitKind (msrPaperUnitKind& value)
+                              { fPaperUnitKind = value; }
+
+    msrPaperUnitKind      getPaperUnitKind () const
+                              { return fPaperUnitKind; }
+
+    void                  setFloat (float& value)
+                              { fFloat = value; }
+
+    float                 getFloat () const
+                              { return fFloat; };
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+                          bool operator== (
+                            const msrFloatAndMsrPaperUnit& other) const
+                              {
+                                return
+                                  fPaperUnitKind == other.fPaperUnitKind
+                                   &&
+                                  fFloat == other.fFloat;
+                              }
+
+                          bool operator!= (
+                            const msrFloatAndMsrPaperUnit& other) const
+                              { return ! ((*this) == other); }
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrPaperUnitKind      fPaperUnitKind;
+
+    float                 fFloat;
+};
+typedef SMARTP<msrFloatAndMsrPaperUnit> S_msrFloatAndMsrPaperUnit;
+EXP ostream& operator<< (ostream& os, const S_msrFloatAndMsrPaperUnit& elt);
+
 // fonts
 //______________________________________________________________________________
 class msrFontSize : public smartable
@@ -631,8 +719,6 @@ class msrFontSize : public smartable
     string                fontSizeKindAsString () const;
 
     string                fontSizeAsString () const;
-
-  public:
 
   public:
 

@@ -59,6 +59,13 @@ class msrPageGeometry : public msrElement
     float                 getTenths () const
                               { return float(fTenths); }
 
+          ; // millimeters by default
+
+    void                  setPaperUnitKind (msrPaperUnitKind val)
+                              { fPaperUnitKind = val; }
+    msrPaperUnitKind      getPaperUnitKind () const
+                              { return fPaperUnitKind; }
+
     void                  setPaperWidth (float val)
                               { fPaperWidth = val; }
     float                 getPaperWidth () const
@@ -132,7 +139,9 @@ class msrPageGeometry : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // page height, margins and the like are in centimeters
+    msrPaperUnitKind      fPaperUnitKind; // millimeters by default
+
+    // page height, margins and the like are in millimeters
     float                 fPaperWidth;
     float                 fPaperHeight;
 

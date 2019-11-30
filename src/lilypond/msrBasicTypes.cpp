@@ -13002,6 +13002,108 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   return result;
 }
 
+// paper unit kinds
+//______________________________________________________________________________
+
+map<string, msrPaperUnitKind>
+  gMsrPaperUnitKindsMap;
+
+msrPaperUnitKind
+  gMsrPaperUnitKindDefaultValue = kMillimeterUnit; // default value
+
+string msrPaperUnitKindAsString (
+  msrPaperUnitKind paperUnitKind)
+{
+  string result;
+
+  // no CamelCase here, these strings are used in the command line options
+
+  switch (paperUnitKind) {
+    case kInchUnit:
+      result = "in";
+      break;
+    case kCentimeterUnit:
+      result = "cm";
+      break;
+    case kMillimeterUnit: // default value
+      result = "mm";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeMsrPaperUnitKindsMap ()
+{
+  // register the LilyPond score output kinds
+  // --------------------------------------
+
+  // no CamelCase here, these strings are used in the command line options
+
+  gMsrPaperUnitKindsMap ["in"] = kInchUnit;
+  gMsrPaperUnitKindsMap ["cm"] = kCentimeterUnit;
+  gMsrPaperUnitKindsMap ["mm"] = kMillimeterUnit;
+}
+
+string existingMsrPaperUnitKinds (int namesListMaxLength)
+{
+  stringstream s;
+
+  if (gMsrPaperUnitKindsMap.size ()) {
+    map<string, msrPaperUnitKind>::const_iterator
+      iBegin = gMsrPaperUnitKindsMap.begin (),
+      iEnd   = gMsrPaperUnitKindsMap.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
+// paper units
+//______________________________________________________________________________
+S_msrFloatAndMsrPaperUnit msrFloatAndMsrPaperUnit::create (
+  msrPaperUnitKind paperFontSizeKind,
+  float            theFloat)
+{
+  msrFloatAndMsrPaperUnit * o =
+    new msrFloatAndMsrPaperUnit (
+      paperFontSizeKind,
+      theFloat);
+  assert(o!=0);
+
+  return o;
+}
+
+msrFloatAndMsrPaperUnit::msrFloatAndMsrPaperUnit (
+  msrPaperUnitKind paperFontSizeKind,
+  float            theFloat)
+{
+  fPaperUnitKind = paperFontSizeKind;
+  fFloat = theFloat;
+}
+
+msrFloatAndMsrPaperUnit::~msrFloatAndMsrPaperUnit ()
+{}
+
 // font size
 //______________________________________________________________________________
 S_msrFontSize msrFontSize::create (
@@ -18944,6 +19046,12 @@ void initializeMSRBasicTypes ()
   // ------------------------------------------------------
 
   initializeChordStructuresMap ();
+
+  // MSR paper units handling
+  // ------------------------------------------------------
+
+  initializeMsrPaperUnitKindsMap ();
+
 }
 
 

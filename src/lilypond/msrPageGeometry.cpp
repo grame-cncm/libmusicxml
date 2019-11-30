@@ -49,16 +49,18 @@ msrPageGeometry::msrPageGeometry (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fPaperWidth   = 21.0; // cm
-  fPaperHeight  = 29.7; // cm
+  fPaperUnitKind = kMillimeterUnit;
 
-  fTopMargin    = -1.0; // cm
-  fBottomMargin = -1.0; // cm
-  fLeftMargin   = -1.0; // cm
-  fRightMargin  = -1.0; // cm
+  fPaperWidth   = 210; // mm
+  fPaperHeight  = 297; // mm
 
-  fBetweenSystemSpace = -1.0; // cm
-  fPageTopSpace       = -1.0; // cm
+  fTopMargin    = -1.0; // mm
+  fBottomMargin = -1.0; // mm
+  fLeftMargin   = -1.0; // mm
+  fRightMargin  = -1.0; // mm
+
+  fBetweenSystemSpace = -1.0; // mm
+  fPageTopSpace       = -1.0; // mm
 
   fMillimeters = -1;
   fTenths      = -1;
@@ -73,6 +75,9 @@ S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
     newbornClone =
       msrPageGeometry::create (
         fInputLineNumber);
+
+  newbornClone->fPaperUnitKind =
+    fPaperUnitKind;
 
   newbornClone->fPaperWidth =
     fPaperWidth;
@@ -222,17 +227,24 @@ void msrPageGeometry::print (ostream& os) {
     "PageGeometry" <<
     endl;
 
-  bool emptyGeometry = true;
+  bool emptyGeometry = true; // JMI
 
   gIndenter++;
 
   const int fieldWidth = 13;
 
+  os << left <<
+    setw (fieldWidth) <<
+    "paperUnitKind" << " : " <<
+    msrPaperUnitKindAsString (fPaperUnitKind) <<
+    endl;
+
   if (fPaperWidth > 0) {
     os << left <<
       setw (fieldWidth) <<
       "paperWidth" << " : " <<
-      setprecision (2) << fPaperWidth << " cm" <<
+      setprecision (2) << fPaperWidth <<
+      msrPaperUnitKindAsString (fPaperUnitKind) <<
       endl;
 
     emptyGeometry = false;
@@ -242,7 +254,8 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "paperHeight" << " : " <<
-      setprecision (2) << fPaperHeight << " cm" <<
+      setprecision (2) << fPaperHeight <<
+      msrPaperUnitKindAsString (fPaperUnitKind) <<
       endl;
 
     emptyGeometry = false;
@@ -252,7 +265,8 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "topMargin" << " : " <<
-      setprecision (2) << fTopMargin << " cm" <<
+      setprecision (2) << fTopMargin <<
+      msrPaperUnitKindAsString (fPaperUnitKind) <<
       endl;
 
     emptyGeometry = false;
@@ -262,7 +276,8 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "bottomMargin" << " : " <<
-      setprecision (2) << fBottomMargin << " cm" <<
+      setprecision (2) << fBottomMargin <<
+      msrPaperUnitKindAsString (fPaperUnitKind) <<
       endl;
 
     emptyGeometry = false;
@@ -272,7 +287,8 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "leftMargin" << " : " <<
-      setprecision (2) << fLeftMargin << " cm" <<
+      setprecision (2) << fLeftMargin <<
+      msrPaperUnitKindAsString (fPaperUnitKind) <<
       endl;
 
     emptyGeometry = false;
@@ -282,13 +298,14 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "rightMargin" << " ; " <<
-      setprecision (2) << fRightMargin << " cm" <<
+      setprecision (2) << fRightMargin <<
+      msrPaperUnitKindAsString (fPaperUnitKind) <<
       endl;
 
     emptyGeometry = false;
   }
 
-
+  // millimeters
   if (fMillimeters > 0) {
     os << left <<
       setw (fieldWidth) <<
@@ -299,6 +316,7 @@ void msrPageGeometry::print (ostream& os) {
     emptyGeometry = false;
   }
 
+  // tenths
   if (fTenths > 0) {
     os << left <<
       setw (fieldWidth) <<
