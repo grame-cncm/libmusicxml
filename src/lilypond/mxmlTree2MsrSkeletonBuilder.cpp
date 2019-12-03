@@ -2103,7 +2103,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
 
   fMsrScore->getPageGeometry ()->
     setBetweenSystemSpace (
-      systemDistance * fCurrentMillimeters / fCurrentTenths / 10);
+      systemDistance * fCurrentMillimeters / fCurrentTenths);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
@@ -2119,7 +2119,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
 
   fMsrScore->getPageGeometry ()->
     setBetweenSystemSpace (
-      systemDistanceTenths * fCurrentMillimeters / fCurrentTenths / 10);
+      systemDistanceTenths * fCurrentMillimeters / fCurrentTenths);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
@@ -2135,7 +2135,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
 
   fMsrScore->getPageGeometry ()->
     setPageTopSpace (
-      topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths / 10);
+      topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
@@ -2151,7 +2151,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
 
   fMsrScore->getPageGeometry ()->
     setPageTopSpace (
-      topSystemDistance * fCurrentMillimeters / fCurrentTenths / 10);
+      topSystemDistance * fCurrentMillimeters / fCurrentTenths);
 }
 
 //______________________________________________________________________________
@@ -2192,7 +2192,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
 
     fMsrScore->getPageGeometry ()->
       setPaperHeight (
-        pageHeight * fCurrentMillimeters / fCurrentTenths / 10);
+        pageHeight * fCurrentMillimeters / fCurrentTenths);
   }
 }
 
@@ -2210,7 +2210,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
 
     fMsrScore->getPageGeometry ()->
       setPaperWidth (
-        pageWidth * fCurrentMillimeters / fCurrentTenths / 10);
+        pageWidth * fCurrentMillimeters / fCurrentTenths);
   }
 }
 
@@ -2228,7 +2228,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
 
     fMsrScore->getPageGeometry ()->
       setLeftMargin (
-        leftMargin * fCurrentMillimeters / fCurrentTenths / 10);
+        leftMargin * fCurrentMillimeters / fCurrentTenths);
   }
 }
 
@@ -2246,7 +2246,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
 
     fMsrScore->getPageGeometry ()->
       setRightMargin (
-        rightMargin * fCurrentMillimeters / fCurrentTenths / 10);
+        rightMargin * fCurrentMillimeters / fCurrentTenths);
   }
 }
 
@@ -2264,7 +2264,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
 
     fMsrScore->getPageGeometry ()->
       setTopMargin (
-        topMargin * fCurrentMillimeters / fCurrentTenths / 10);
+        topMargin * fCurrentMillimeters / fCurrentTenths);
   }
 }
 
@@ -2282,7 +2282,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
 
     fMsrScore->getPageGeometry ()->
       setBottomMargin (
-        bottomMargin * fCurrentMillimeters / fCurrentTenths / 10);
+        bottomMargin * fCurrentMillimeters / fCurrentTenths);
   }
 }
 
