@@ -99,7 +99,7 @@ class msrVarValAssoc : public msrElement
                                     fVarValAssocKind);
                               }
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -192,7 +192,7 @@ class msrVarValsListAssoc : public msrElement
 
     string                varValsListAssocValuesAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

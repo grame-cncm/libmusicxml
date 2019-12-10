@@ -2613,6 +2613,180 @@ typedef SMARTP<oahStringAndTwoIntegersAtom> S_oahStringAndTwoIntegersAtom;
 EXP ostream& operator<< (ostream& os, const S_oahStringAndTwoIntegersAtom& elt);
 
 //______________________________________________________________________________
+class oahLengthUnitKindAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahLengthUnitKindAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      msrLengthUnitKind& lengthUnitKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahLengthUnitKindAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      msrLengthUnitKind& lengthUnitKindVariable);
+
+    virtual ~oahLengthUnitKindAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setLengthUnitKindVariable (
+                            msrLengthUnitKind value)
+                              { fLengthUnitKindVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrLengthUnitKind&    fLengthUnitKindVariable;
+};
+typedef SMARTP<oahLengthUnitKindAtom> S_oahLengthUnitKindAtom;
+EXP ostream& operator<< (ostream& os, const S_oahLengthUnitKindAtom& elt);
+
+//______________________________________________________________________________
+class oahLengthAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahLengthAtom> create (
+      string     shortName,
+      string     longName,
+      string     description,
+      string     valueSpecification,
+      string     variableName,
+      msrLength& lengthVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahLengthAtom (
+      string     shortName,
+      string     longName,
+      string     description,
+      string     valueSpecification,
+      string     variableName,
+      msrLength& lengthVariable);
+
+    virtual ~oahLengthAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setLengthVariable (
+                            msrLength value)
+                              { fLengthVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrLength&            fLengthVariable;
+};
+typedef SMARTP<oahLengthAtom> S_oahLengthAtom;
+EXP ostream& operator<< (ostream& os, const S_oahLengthAtom& elt);
+
+//______________________________________________________________________________
 class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 {
 /*

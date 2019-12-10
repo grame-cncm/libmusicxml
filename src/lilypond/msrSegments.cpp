@@ -2228,7 +2228,7 @@ void msrSegment::displaySegment (
     endl;
 }
 
-void msrSegment::print (ostream& os)
+void msrSegment::print (ostream& os) const
 {
   os <<
     "Segment '" <<
@@ -2278,7 +2278,7 @@ void msrSegment::print (ostream& os)
   gIndenter--;
 }
 
-void msrSegment::shortPrint (ostream& os)
+void msrSegment::shortPrint (ostream& os) const
 {
   os <<
     "Segment '" <<

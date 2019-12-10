@@ -204,7 +204,7 @@ string bsrPageHeading::asString () const
   return s.str ();
 }
 
-void bsrPageHeading::print (ostream& os)
+void bsrPageHeading::print (ostream& os) const
 {
   os <<
     "PageHeading" <<

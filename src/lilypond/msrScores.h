@@ -19,7 +19,7 @@
 #include <set>
 
 #include "msrIdentification.h"
-#include "msrPageGeometry.h"
+#include "msrGeometry.h"
 #include "msrCredits.h"
 
 
@@ -67,12 +67,12 @@ class msrScore : public msrElement
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
 
-    void                  setPageGeometry (
-                            S_msrPageGeometry pageGeometry)
-                              { fPageGeometry = pageGeometry; }
+    void                  setMsrGeometry (
+                            S_msrGeometry geometry)
+                              { fMsrGeometry = geometry; }
 
-    S_msrPageGeometry     getPageGeometry () const
-                              { return fPageGeometry; }
+    S_msrGeometry         getMsrGeometry () const
+                              { return fMsrGeometry; }
 
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
@@ -210,7 +210,7 @@ class msrScore : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
     virtual void          printSummary (ostream& os);
 
@@ -221,7 +221,7 @@ class msrScore : public msrElement
 
     S_msrIdentification   fIdentification;
 
-    S_msrPageGeometry     fPageGeometry;
+    S_msrGeometry         fMsrGeometry;
 
     list<S_msrCredit>     fCreditsList;
 

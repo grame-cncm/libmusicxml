@@ -72,12 +72,12 @@ msrCreditWords::msrCreditWords (
   fCreditWordsFontSize                = creditWordsFontSize;
   fCreditWordsFontWeightKind          = creditWordsFontWeightKind;
   fCreditWordsFontStyleKind           = creditWordsFontStyleKind;
-  
+
   fCreditWordsJustifyKind             = creditWordsJustifyKind;
-  
+
   fCreditWordsHorizontalAlignmentKind = creditWordsHorizontalAlignmentKind;
   fCreditWordsVerticalAlignmentKind   = creditWordsVerticalAlignmentKind;
-  
+
   fCreditWordsXMLLang                 = creditWordsXMLLang;
 }
 
@@ -91,12 +91,12 @@ void msrCreditWords::acceptIn (basevisitor* v)
       "% ==> msrCreditWords::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrCreditWords>*
     p =
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrCreditWords::visitStart ()" <<
@@ -118,7 +118,7 @@ void msrCreditWords::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrCreditWords::visitEnd ()" <<
@@ -131,7 +131,7 @@ void msrCreditWords::acceptOut (basevisitor* v)
 void msrCreditWords::browseData (basevisitor* v)
 {}
 
-void msrCreditWords::print (ostream& os)
+void msrCreditWords::print (ostream& os) const
 {
   os <<
     "CreditWords" <<
@@ -140,7 +140,7 @@ void msrCreditWords::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 35;
-  
+
   os <<
     setw (fieldWidth) <<
     "creditWordsContents" << " : \"" <<
@@ -230,12 +230,12 @@ void msrCredit::acceptIn (basevisitor* v)
       "% ==> msrCredit::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrCredit>*
     p =
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrCredit::visitStart ()" <<
@@ -257,7 +257,7 @@ void msrCredit::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrCredit::visitEnd ()" <<
@@ -270,7 +270,7 @@ void msrCredit::acceptOut (basevisitor* v)
 void msrCredit::browseData (basevisitor* v)
 {
   int n1 = fCreditWordsList.size ();
-  
+
   for (int i = 0; i < n1; i++ ) {
     // browse the credit words
     msrBrowser<msrCreditWords> browser (v);
@@ -288,12 +288,12 @@ string msrCredit::asString () const
 
   if (fCreditWordsList.size ()) {
     s << "[";
-    
+
     vector<S_msrCreditWords>::const_iterator
       iBegin = fCreditWordsList.begin (),
       iEnd   = fCreditWordsList.end (),
       i      = iBegin;
-  
+
     for ( ; ; ) {
       s << "\"" << (*i)->getCreditWordsContents () << "\"";
       if (++i == iEnd) break;
@@ -302,21 +302,21 @@ string msrCredit::asString () const
 
     s << "]";
   }
-  
+
   else
     s << "no credit words";
-    
+
   return s.str ();
 }
 
-void msrCredit::print (ostream& os)
+void msrCredit::print (ostream& os) const
 {
   os <<
     "Credit" <<
     endl;
 
   gIndenter++;
-  
+
   os <<
     "fCreditPageNumber" << " : " << fCreditPageNumber <<
     endl;
@@ -326,14 +326,14 @@ void msrCredit::print (ostream& os)
       iBegin = fCreditWordsList.begin (),
       iEnd   = fCreditWordsList.end (),
       i      = iBegin;
-  
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
   }
-  
+
   gIndenter--;
 }
 

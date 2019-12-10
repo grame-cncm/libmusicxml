@@ -57,7 +57,7 @@ string msrDynamics::dynamicsKindAsString (
   msrDynamicsKind dynamicsKind)
 {
   string result;
-  
+
   switch (dynamicsKind) {
     case msrDynamics::kF:
       result = "f";
@@ -134,7 +134,7 @@ string msrDynamics::dynamicsKindAsString (
     case msrDynamics::k_NoDynamics:
       result = "k_NoDynamics???";
   } // switch
-  
+
   return result;
 }
 
@@ -158,12 +158,12 @@ void msrDynamics::acceptIn (basevisitor* v)
       "% ==> msrDynamics::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrDynamics>*
     p =
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDynamics::visitStart ()" <<
@@ -185,7 +185,7 @@ void msrDynamics::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDynamics::visitEnd ()" <<
@@ -199,13 +199,7 @@ void msrDynamics::acceptOut (basevisitor* v)
 void msrDynamics::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrDynamics& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrDynamics::print (ostream& os)
+void msrDynamics::print (ostream& os) const
 {
   os <<
     "Dynamics" " " <<
@@ -214,6 +208,12 @@ void msrDynamics::print (ostream& os)
     dynamicsPlacementKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrDynamics& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -237,7 +237,7 @@ msrOtherDynamics::msrOtherDynamics (
   msrPlacementKind otherDynamicsPlacementKind)
     : msrElement (inputLineNumber)
 {
-  fOtherDynamicsString = otherDynamicsString; 
+  fOtherDynamicsString = otherDynamicsString;
 
   fOtherDynamicsPlacementKind = otherDynamicsPlacementKind;
 }
@@ -259,12 +259,12 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
       "% ==> msrOtherDynamics::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrOtherDynamics>*
     p =
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOtherDynamics::visitStart ()" <<
@@ -286,7 +286,7 @@ void msrOtherDynamics::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOtherDynamics::visitEnd ()" <<
@@ -300,16 +300,10 @@ void msrOtherDynamics::acceptOut (basevisitor* v)
 void msrOtherDynamics::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrOtherDynamics::asString () const
 {
   stringstream s;
-  
+
   s <<
     "OtherDynamics '" <<
     ", otherDynamicsString: " <<
@@ -321,11 +315,17 @@ string msrOtherDynamics::asString () const
   return s.str ();
 }
 
-void msrOtherDynamics::print (ostream& os)
+void msrOtherDynamics::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -355,19 +355,19 @@ msrWedge::msrWedge (
   msrPlacementKind   wedgePlacementKind)
     : msrElement (inputLineNumber)
 {
-  fWedgeKind          = wedgeKind; 
-  fWedgeNienteKind    = wedgeNienteKind; 
-  fWedgeLineTypeKind  = wedgeLineTypeKind; 
-  fWedgePlacementKind = wedgePlacementKind; 
+  fWedgeKind          = wedgeKind;
+  fWedgeNienteKind    = wedgeNienteKind;
+  fWedgeLineTypeKind  = wedgeLineTypeKind;
+  fWedgePlacementKind = wedgePlacementKind;
 }
 
 msrWedge::~msrWedge ()
 {}
 
-string msrWedge::wedgeKindAsString ()
+string msrWedge::wedgeKindAsString () const
 {
   string result;
-  
+
   switch (fWedgeKind) {
     case msrWedge::kWedgeKindNone:
       result = "wedgeKindNone";
@@ -382,15 +382,15 @@ string msrWedge::wedgeKindAsString ()
       result = "wedgeStop";
       break;
   } // switch
-    
+
   return result;
 }
-    
+
 string msrWedge::wedgeNienteKindAsString (
   msrWedgeNienteKind wedgeNienteKind)
 {
   string result;
-  
+
   switch (wedgeNienteKind) {
     case msrWedge::kWedgeNienteYes:
       result = "kWedgeNienteYes";
@@ -399,7 +399,7 @@ string msrWedge::wedgeNienteKindAsString (
       result = "kWedgeNienteNo";
       break;
   } // switch
-    
+
   return result;
 }
 
@@ -410,12 +410,12 @@ void msrWedge::acceptIn (basevisitor* v)
       "% ==> msrWedge::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrWedge>*
     p =
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWedge::visitStart ()" <<
@@ -437,7 +437,7 @@ void msrWedge::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWedge::visitEnd ()" <<
@@ -450,13 +450,7 @@ void msrWedge::acceptOut (basevisitor* v)
 void msrWedge::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrWedge& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrWedge::print (ostream& os)
+void msrWedge::print (ostream& os) const
 {
   os <<
     "Wedge" " " << wedgeKindAsString () <<
@@ -471,20 +465,26 @@ void msrWedge::print (ostream& os)
     setw (fieldWidth) <<
     "wedgeNienteKind" << " : " <<
     wedgeNienteKindAsString (
-      fWedgeNienteKind) << 
+      fWedgeNienteKind) <<
     endl <<
     setw (fieldWidth) <<
     "wedgeLineTypeKind" << " : " <<
     msrLineTypeKindAsString (
-      fWedgeLineTypeKind) << 
+      fWedgeLineTypeKind) <<
     endl <<
     setw (fieldWidth) <<
     "wedgePlacementKind" << " : " <<
     msrPlacementKindAsString (
-      fWedgePlacementKind) << 
+      fWedgePlacementKind) <<
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrWedge& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

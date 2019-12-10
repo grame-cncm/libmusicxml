@@ -89,7 +89,7 @@ class msrStaffTuning : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   public:
 
@@ -195,7 +195,7 @@ class msrStaffDetails : public msrMeasureElement
                                 fStaffTuningsList.push_back (staffTuning);
                               }
 
-    string                asShortString ();
+    string                asShortString () const;
 
   public:
 
@@ -212,7 +212,7 @@ class msrStaffDetails : public msrMeasureElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

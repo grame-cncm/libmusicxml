@@ -45,7 +45,7 @@ msrLineBreak::msrLineBreak (
   string nextBarNumber)
     : msrMeasureElement (inputLineNumber)
 {
-  fNextBarNumber = nextBarNumber; 
+  fNextBarNumber = nextBarNumber;
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
@@ -77,12 +77,12 @@ void msrLineBreak::acceptIn (basevisitor* v)
       "% ==> msrLineBreak::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrLineBreak>*
     p =
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLineBreak::visitStart ()" <<
@@ -104,7 +104,7 @@ void msrLineBreak::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLineBreak::visitEnd ()" <<
@@ -117,17 +117,17 @@ void msrLineBreak::acceptOut (basevisitor* v)
 void msrLineBreak::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrLineBreak& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrLineBreak::print (ostream& os)
+void msrLineBreak::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrLineBreak& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -174,12 +174,12 @@ void msrPageBreak::acceptIn (basevisitor* v)
       "% ==> msrPageBreak::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrPageBreak>*
     p =
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPageBreak::visitStart ()" <<
@@ -201,7 +201,7 @@ void msrPageBreak::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPageBreak::visitEnd ()" <<
@@ -214,17 +214,17 @@ void msrPageBreak::acceptOut (basevisitor* v)
 void msrPageBreak::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrPageBreak& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrPageBreak::print (ostream& os)
+void msrPageBreak::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrPageBreak& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

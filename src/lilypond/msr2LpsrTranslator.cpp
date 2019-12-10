@@ -191,7 +191,7 @@ void msr2LpsrTranslator::displayCurrentOnGoingValues ()
 
 //________________________________________________________________________
 void msr2LpsrTranslator::setPaperIndentsIfNeeded (
-  S_msrPageGeometry pageGeometry)
+  S_msrGeometry geometry)
 {
   S_lpsrPaper
     paper =
@@ -245,7 +245,9 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceGeometry) {
     // get the paper width
-    float paperWidth = pageGeometry->getPaperWidth ();
+    S_msrLength
+      paperWidth =
+        geometry->getPaperWidth ();
 
     fLogOutputStream <<
       "setPaperIndentsIfNeeded():" <<
@@ -264,6 +266,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       "scorePartNamesMaxLength" << " : " <<
       scorePartNamesMaxLength <<
       endl <<
+
       setw (fieldWidth) <<
       "scoreInstrumentNamesMaxLength" << " : " <<
       scoreInstrumentNamesMaxLength <<
@@ -272,6 +275,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       "scoreInstrumentAbbreviationsMaxLength" << " : " <<
       scoreInstrumentAbbreviationsMaxLength <<
       endl <<
+
       setw (fieldWidth) <<
       "maxValue" << " : " <<
       maxValue <<
@@ -280,19 +284,28 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       "maxShortValue" << " : " <<
       maxShortValue <<
       endl <<
-      setw (fieldWidth) <<
-      "paperWidth" << " : " <<
-      paperWidth <<
-      endl <<
+
       setw (fieldWidth) <<
       "charactersPerCemtimeter" << " : " <<
       charactersPerCemtimeter <<
       endl;
 
+    fLogOutputStream << left <<
+      setw (fieldWidth) <<
+      "paperWidth" << " : ";
+    if (paperWidth) {
+      fLogOutputStream << paperWidth;
+    }
+    else {
+      fLogOutputStream << "none";
+    }
+    fLogOutputStream << endl;
+
     gIndenter--;
   }
 #endif
 
+/* JMI
   // set indent if relevant
   if (maxValue > 0) {
     paper->
@@ -306,6 +319,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       setShortIndent (
         maxShortValue / charactersPerCemtimeter);
   }
+  */
 }
 
 //________________________________________________________________________
@@ -725,7 +739,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
   // set ident and short indent if needed
   setPaperIndentsIfNeeded (
-    elt->getPageGeometry ());
+    elt->getMsrGeometry ());
 
 /* JMI
   // get top level partgroup block from the stack
@@ -784,12 +798,12 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
+void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrPageGeometry" <<
+      "--> Start visiting msrGeometry" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -797,50 +811,45 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 
   gIndenter++;
 
-  // create a page geometry clone
-  S_msrPageGeometry
-    pageGeometryClone =
-      elt->createGeometryNewbornClone ();
+  // create a geometry clone
+  S_msrGeometry
+    geometryClone =
+      elt->createMsrGeometryNewbornClone ();
 
   // register it in current MSR score clone
   fCurrentMsrScoreClone->
-    setPageGeometry (
-      pageGeometryClone);
-
-  // populate page geometry clone
-  msrPaperUnitKind paperUnitKind =
-    elt->getPaperUnitKind ();
-  if (gLpsrOah->fPaperUnitKind != paperUnitKind) {
-    // the paper unit has been specified in an option
-    paperUnitKind = gLpsrOah->fPaperUnitKind;
-  }
-  pageGeometryClone ->
-    setPaperUnitKind (paperUnitKind);
+    setMsrGeometry (
+      geometryClone);
 
   // get LPSR score paper
   S_lpsrPaper
     paper =
       fLpsrScore->getScorePaper ();
 
+  // sanity check
+  msrAssert (
+    paper != nullptr,
+    "paper is null");
+
   // populate paper
-  float paperWidth =
+/* JMI
+  msrLength paperWidth =
     elt->getPaperWidth ();
-  if (gLpsrOah->fPaperWidth > 0.0) {
+  if (gLpsrOah->fPaperWidth.getLengthValue () > 0.0) {
     paperWidth = gLpsrOah->fPaperWidth;
   }
   paper ->
     setPaperWidth (paperWidth);
 
-  float paperHeight =
+  msrLength paperHeight =
     elt->getPaperHeight ();
-  if (gLpsrOah->fPaperHeight > 0.0) {
+  if (gLpsrOah->fPaperHeight.getLengthValue () > 0.0) {
     paperWidth = gLpsrOah->fPaperHeight;
   }
   paper->
     setPaperHeight (paperHeight);
 
-/* JMI
-  float topMargin =
+  msrLength topMargin =
     elt->getTopMargin ();
   if (gLpsrOah->fTopMargin > 0.0) {
     topMargin = gLpsrOah->fTopMargin;
@@ -848,7 +857,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   paper->
     setTopMargin (topMargin);
 
-  float bottomMargin =
+  msrLength bottomMargin =
     elt->getBottomMargin ();
   if (gLpsrOah->fBottomMargin > 0.0) {
     bottomMargin = gLpsrOah->fBottomMargin;
@@ -856,7 +865,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   paper->
     setBottomMargin (bottomMargin);
 
-  float leftMargin =
+  msrLength leftMargin =
     elt->getLeftMargin ();
   if (gLpsrOah->fLeftMargin > 0.0) {
     leftMargin = gLpsrOah->fLeftMargin;
@@ -864,7 +873,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   paper->
     setLeftMargin (leftMargin);
 
-  float rightMargin =
+  msrLength rightMargin =
     elt->getRightMargin ();
   if (gLpsrOah->fRightMargin > 0.0) {
     rightMargin = gLpsrOah->fRightMargin;
@@ -872,7 +881,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   paper->
     setRightMargin (rightMargin);
 
-  float indent =
+  msrLength indent =
     elt->getRightMargin ();
   if (gLpsrOah->fIndent > 0.0) {
     indent = gLpsrOah->fIndent;
@@ -880,7 +889,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   paper->
     setIndent (rightMargin);
 
-  float shortIndent =
+  msrLength shortIndent =
     elt->getRightMargin ();
   if (gLpsrOah->fShortIndent > 0.0) {
     shortIndent = gLpsrOah->fShortIndent;
@@ -953,23 +962,16 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   // populate score block layout
   scoreBlockLayout->
     addSchemeVariable (assoc);
-
-/* JMI
-    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
-    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
-
-    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
-   */
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
+void msr2LpsrTranslator::visitEnd (S_msrGeometry& elt)
 {
   gIndenter--;
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrPageGeometry" <<
+      "--> End visiting msrGeometry" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4491,7 +4493,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
           if (fFirstNoteCloneInVoice) {
             fLogOutputStream <<
-              fFirstNoteCloneInVoice->asShortString ();
+              fFirstNoteCloneInVoice->asShortString () const;
           }
           else {
             fLogOutputStream <<

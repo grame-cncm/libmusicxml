@@ -61,7 +61,7 @@ class bsrPage : public bsrElement
     void                  appendLineToPage (S_bsrLine line)
                               { fPageElementsList.push_back (line); }
 
-    int                   fetchLineContentsNumber ();
+    int                   fetchLineContentsNumber () const;
 
   public:
 
@@ -83,7 +83,7 @@ class bsrPage : public bsrElement
 
     virtual std::string   asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

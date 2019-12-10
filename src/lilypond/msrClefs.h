@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -40,17 +40,17 @@ class msrClef : public msrMeasureElement
       kBassClef,
       kTrebleLine1Clef,
       kTrebleMinus15Clef, kTrebleMinus8Clef,
-      kTreblePlus8Clef, kTreblePlus15Clef, 
+      kTreblePlus8Clef, kTreblePlus15Clef,
       kBassMinus15Clef, kBassMinus8Clef,
       kBassPlus8Clef, kBassPlus15Clef,
       kVarbaritoneClef,
       kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
       kPercussionClef,
       kJianpuClef};
-      
+
     static string clefKindAsString (
       msrClefKind clefKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -66,9 +66,9 @@ class msrClef : public msrMeasureElement
     msrClef (
       int         inputLineNumber,
       msrClefKind clefKind);
-      
+
     virtual ~msrClef ();
-  
+
   public:
 
     // set and get
@@ -76,14 +76,14 @@ class msrClef : public msrMeasureElement
 
     msrClefKind           getClefKind () const
                               { return fClefKind; }
-                
+
     // services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrClef otherClef) const;
 
     bool                  clefIsATablatureClef () const;
-    
+
     bool                  clefIsAPercussionClef () const;
 
   public:
@@ -98,15 +98,20 @@ class msrClef : public msrMeasureElement
 
   public:
 
-    // print
+    // services
     // ------------------------------------------------------
 
     static msrClefKind    clefKindFromString (
                             string theString);
-                            
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

@@ -89,10 +89,10 @@ string msrVoiceElement::asString () const
 string msrVoiceElement::asShortString () const
 {
   // this can be overriden in actual elements
-  return asString ();
+  return asString () const;
 }
 
-void msrVoiceElement::print (ostream& os)
+void msrVoiceElement::print (ostream& os) const
 {
   os << asString () << endl;
 }

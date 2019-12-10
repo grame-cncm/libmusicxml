@@ -150,7 +150,7 @@ string bsrBrailleGenerator::asString () const
   return s.str ();
 }
 
-void bsrBrailleGenerator::print (ostream& os)
+void bsrBrailleGenerator::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -310,7 +310,7 @@ string bsrAsciiBrailleGenerator::asString () const
   return s.str ();
 }
 
-void bsrAsciiBrailleGenerator::print (ostream& os)
+void bsrAsciiBrailleGenerator::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -497,7 +497,7 @@ string bsrUTF8BrailleGenerator::asString () const
   return s.str ();
 }
 
-void bsrUTF8BrailleGenerator::print (ostream& os)
+void bsrUTF8BrailleGenerator::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -578,7 +578,7 @@ string bsrUTF16BigEndianBrailleGenerator::asString () const
   return s.str ();
 }
 
-void bsrUTF16BigEndianBrailleGenerator::print (ostream& os)
+void bsrUTF16BigEndianBrailleGenerator::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -659,7 +659,7 @@ string bsrUTF16SmallEndianBrailleGenerator::asString () const
   return s.str ();
 }
 
-void bsrUTF16SmallEndianBrailleGenerator::print (ostream& os)
+void bsrUTF16SmallEndianBrailleGenerator::print (ostream& os) const
 {
   os <<
     asString () <<

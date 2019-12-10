@@ -302,7 +302,7 @@ string msrRepeatElement::asString () const
   return s.str ();
 }
 
-void msrRepeatElement::print (ostream& os)
+void msrRepeatElement::print (ostream& os) const
 {
   os <<
     "RepeatElement" <<
@@ -360,7 +360,7 @@ void msrRepeatElement::print (ostream& os)
   gIndenter--;
 }
 
-void msrRepeatElement::shortPrint (ostream& os)
+void msrRepeatElement::shortPrint (ostream& os) const
 {
   os <<
     "RepeatElement" <<
@@ -737,7 +737,7 @@ string msrRepeatCommonPart::asString () const
   return s.str ();
 }
 
-void msrRepeatCommonPart::print (ostream& os)
+void msrRepeatCommonPart::print (ostream& os) const
 {
   os <<
     "RepeatCommonPart" <<
@@ -795,7 +795,7 @@ void msrRepeatCommonPart::print (ostream& os)
   gIndenter--;
 }
 
-void msrRepeatCommonPart::shortPrint (ostream& os)
+void msrRepeatCommonPart::shortPrint (ostream& os) const
 {
   os <<
     "RepeatCommonPart" <<
@@ -1126,7 +1126,7 @@ string msrRepeatEnding::asString () const
   return s.str ();
 }
 
-void msrRepeatEnding::print (ostream& os)
+void msrRepeatEnding::print (ostream& os) const
 {
   os <<
     endl <<
@@ -1206,7 +1206,7 @@ void msrRepeatEnding::print (ostream& os)
   gIndenter--;
 }
 
-void msrRepeatEnding::shortPrint (ostream& os)
+void msrRepeatEnding::shortPrint (ostream& os) const
 {
   os <<
     endl <<
@@ -2112,7 +2112,7 @@ void msrRepeat::displayRepeat (
     endl;
 }
 
-void msrRepeat::print (ostream& os)
+void msrRepeat::print (ostream& os) const
 {
   os <<
     "Repeat" <<
@@ -2196,7 +2196,7 @@ void msrRepeat::print (ostream& os)
   gIndenter--;
 }
 
-void msrRepeat::shortPrint (ostream& os)
+void msrRepeat::shortPrint (ostream& os) const
 {
   os <<
     "Repeat" <<

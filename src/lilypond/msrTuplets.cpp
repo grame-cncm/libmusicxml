@@ -892,7 +892,7 @@ string msrTuplet::asString () const
   return s.str ();
 }
 
-void msrTuplet::print (ostream& os)
+void msrTuplet::print (ostream& os) const
 {
   os <<
     "Tuplet " <<

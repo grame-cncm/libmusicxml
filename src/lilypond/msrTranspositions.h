@@ -90,7 +90,7 @@ class msrOctaveShift : public msrMeasureElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -175,7 +175,7 @@ class msrTranspose : public msrMeasureElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

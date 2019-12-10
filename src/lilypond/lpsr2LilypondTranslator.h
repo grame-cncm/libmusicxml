@@ -657,9 +657,9 @@ class lpsr2LilypondTranslator :
                             S_lpsrVarValAssoc lpsrVarValAssoc,
                             int               fieldNameWidth);
 
-    // paper units
-    string                paperUnitAsLilypondString (
-                            msrPaperUnitKind paperUnitKind);
+    // lengths
+    string                lengthUnitAsLilypondString (
+                            msrLengthUnitKind lengthUnitKind);
 
     // whole notes
     // JMI

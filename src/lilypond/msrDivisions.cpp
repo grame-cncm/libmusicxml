@@ -560,12 +560,6 @@ void msrDivisions::acceptOut (basevisitor* v)
 void msrDivisions::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrDivisions& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrDivisions::divisionsAsString () const
 {
   stringstream s;
@@ -578,11 +572,17 @@ string msrDivisions::divisionsAsString () const
   return s.str ();
 }
 
-void msrDivisions::print (ostream& os)
+void msrDivisions::print (ostream& os) const
 {
   os <<
     divisionsAsString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrDivisions& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

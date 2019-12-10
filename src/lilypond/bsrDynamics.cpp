@@ -203,7 +203,7 @@ S_bsrCellsList bsrDynamics::buildCellsList () const
       result =
         bsrCellsList::create (fInputLineNumber);
   } // switch
-  
+
   return result;
 }
 
@@ -221,12 +221,12 @@ void bsrDynamics::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrDynamics>*
     p =
       dynamic_cast<visitor<S_bsrDynamics>*> (v)) {
         S_bsrDynamics elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -252,7 +252,7 @@ void bsrDynamics::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrDynamics>*> (v)) {
         S_bsrDynamics elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -272,7 +272,7 @@ string bsrDynamics::asString () const
   stringstream s;
 
   s <<
-    "Dynamics" << 
+    "Dynamics" <<
     ", dynamicsKind: " <<
     msrDynamics::dynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsCellsList: " <<
@@ -283,10 +283,10 @@ string bsrDynamics::asString () const
   return s.str ();
 }
 
-void bsrDynamics::print (ostream& os)
+void bsrDynamics::print (ostream& os) const
 {
   os <<
-    "Dynamics" << 
+    "Dynamics" <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -306,7 +306,7 @@ void bsrDynamics::print (ostream& os)
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<
     endl;
-        
+
   gIndenter--;
 }
 

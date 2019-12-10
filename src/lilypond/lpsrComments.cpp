@@ -105,7 +105,7 @@ void lpsrComment::acceptOut (basevisitor* v)
 void lpsrComment::browseData (basevisitor* v)
 {}
 
-void lpsrComment::print (ostream& os)
+void lpsrComment::print (ostream& os) const
 {
   os <<
     "Comment" <<

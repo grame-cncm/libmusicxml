@@ -131,12 +131,6 @@ void msrStaffTuning::acceptOut (basevisitor* v)
 void msrStaffTuning::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrStaffTuning& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrStaffTuning::asString () const
 {
   stringstream s;
@@ -153,7 +147,7 @@ string msrStaffTuning::asString () const
   return s.str ();
 }
 
-void msrStaffTuning::print (ostream& os)
+void msrStaffTuning::print (ostream& os) const
 {
   os <<
     "StaffTuning" <<
@@ -181,6 +175,12 @@ void msrStaffTuning::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrStaffTuning& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -342,13 +342,7 @@ string msrStaffDetails::printSpacingKindAsString (
   return result;
 }
 
-ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrStaffDetails::asShortString ()
+string msrStaffDetails::asShortString () const
 {
   stringstream s;
 
@@ -377,7 +371,7 @@ string msrStaffDetails::asShortString ()
   return s.str ();
 }
 
-void msrStaffDetails::print (ostream& os)
+void msrStaffDetails::print (ostream& os) const
 {
   os <<
     "StaffDetails" <<
@@ -439,6 +433,12 @@ void msrStaffDetails::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

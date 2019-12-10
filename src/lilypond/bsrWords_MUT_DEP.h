@@ -69,7 +69,7 @@ class bsrWords : public bsrLineElement
 
     string                asWord () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

@@ -1100,7 +1100,7 @@ void lpsrHeader::browseData (basevisitor* v)
   }
 }
 
-void lpsrHeader::print (ostream& os)
+void lpsrHeader::print (ostream& os) const
 {
   os <<
     "Header" <<

@@ -98,7 +98,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 void lpsrVariableUseCommand::browseData (basevisitor* v)
 {}
 
-void lpsrVariableUseCommand::print (ostream& os)
+void lpsrVariableUseCommand::print (ostream& os) const
 {
   os << "VariableUseCommand" << endl;
   gIndenter++;

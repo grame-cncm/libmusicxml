@@ -65,12 +65,12 @@ void bsrSpaces::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrSpaces>*
     p =
       dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
         S_bsrSpaces elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -101,7 +101,7 @@ void bsrSpaces::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
         S_bsrSpaces elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -130,7 +130,7 @@ string bsrSpaces::asString () const
   return s.str ();
 }
 
-void bsrSpaces::print (ostream& os)
+void bsrSpaces::print (ostream& os) const
 {
   os <<
     "Spaces" <<

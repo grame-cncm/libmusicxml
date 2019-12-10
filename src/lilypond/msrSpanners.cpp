@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -53,9 +53,9 @@ msrSpanner::msrSpanner (
   fSpannerNoteUpLink = spannerNoteUpLink;
 
   fSpannerNumber = spannerNumber;
-  
+
   fSpannerKind = spannerKind;
-  
+
   fSpannerTypeKind = spannerTypeKind;
 
   fSpannerPlacementKind = spannerPlacementKind;
@@ -71,11 +71,11 @@ void msrSpanner::setSpannerOtherEndSideLink (
   msrAssert (
     otherEndSideLink != nullptr,
     "otherEndSideLink is null");
-    
+
   // set the two-way sideLink between both ends of the spanner
   fSpannerOtherEndSideLink =
     otherEndSideLink;
-    
+
   otherEndSideLink->fSpannerOtherEndSideLink =
     this;
 }
@@ -87,12 +87,12 @@ void msrSpanner::acceptIn (basevisitor* v)
       "% ==> msrSpanner::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSpanner>*
     p =
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSpanner::visitStart ()" <<
@@ -114,7 +114,7 @@ void msrSpanner::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSpanner::visitEnd ()" <<
@@ -131,7 +131,7 @@ string msrSpanner::spannerKindAsString (
   msrSpannerKind spannerKind)
 {
   string result;
-  
+
   switch (spannerKind) {
     case msrSpanner::kSpannerDashes:
       result = "spannerDashes";
@@ -168,7 +168,7 @@ string msrSpanner::spannerPlacementKindAsString () const
 string msrSpanner::asShortString () const
 {
   stringstream s;
-  
+
   s <<
     "Spanner" <<
     ", spannerNumber = " << fSpannerNumber <<
@@ -182,7 +182,7 @@ string msrSpanner::asShortString () const
   return s.str ();
 }
 
-void msrSpanner::print (ostream& os)
+void msrSpanner::print (ostream& os) const
 {
   os <<
     "Spanner" <<
@@ -194,7 +194,7 @@ void msrSpanner::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 24;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "spannerPlacementKind" << " : " <<
@@ -227,7 +227,7 @@ void msrSpanner::print (ostream& os)
     " : " << "***none***" <<
     endl;
   }
-  
+
   gIndenter--;
 }
 

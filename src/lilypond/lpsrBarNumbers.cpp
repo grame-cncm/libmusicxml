@@ -98,7 +98,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 void lpsrBarNumberCheck::browseData (basevisitor* v)
 {}
 
-void lpsrBarNumberCheck::print (ostream& os)
+void lpsrBarNumberCheck::print (ostream& os) const
 {
   os <<
     "BarNumberCheck" << " " << fNextBarNumber <<
@@ -185,7 +185,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v)
 void lpsrBarCommand::browseData (basevisitor* v)
 {}
 
-void lpsrBarCommand::print (ostream& os)
+void lpsrBarCommand::print (ostream& os) const
 {
   os <<
     "BarCommand" << " " << "\"|.\"" <<

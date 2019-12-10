@@ -48,7 +48,7 @@ msrBeam::msrBeam (
     : msrElement (inputLineNumber)
 {
   fBeamNumber = number;
-  fBeamKind   = beamKind; 
+  fBeamKind   = beamKind;
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceBeams) {
@@ -71,12 +71,12 @@ void msrBeam::acceptIn (basevisitor* v)
       "% ==> msrBeam::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBeam>*
     p =
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeam::visitStart ()" <<
@@ -98,7 +98,7 @@ void msrBeam::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeam::visitEnd ()" <<
@@ -111,17 +111,11 @@ void msrBeam::acceptOut (basevisitor* v)
 void msrBeam::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBeam& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrBeam::beamKindAsString (
   msrBeamKind beamKind)
 {
   string result;
-  
+
   switch (beamKind) {
     case kBeginBeam:
       result = "begin";
@@ -159,11 +153,17 @@ string msrBeam::asString () const
   return s.str ();
 }
 
-void msrBeam::print (ostream& os)
-{  
+void msrBeam::print (ostream& os) const
+{
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrBeam& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

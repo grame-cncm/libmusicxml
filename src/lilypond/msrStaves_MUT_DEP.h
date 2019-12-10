@@ -56,7 +56,7 @@ class msrVoiceStaffChange : public msrMeasureElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -381,7 +381,7 @@ class msrStaff : public msrElement
 
     string                staffKindAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
     virtual void          printSummary (ostream& os);
 

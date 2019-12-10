@@ -49,12 +49,12 @@ void msrLayout::acceptIn (basevisitor* v)
       "% ==> msrLayout::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrLayout>*
     p =
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLayout::visitStart ()" <<
@@ -76,7 +76,7 @@ void msrLayout::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLayout::visitEnd ()" <<
@@ -89,7 +89,7 @@ void msrLayout::acceptOut (basevisitor* v)
 void msrLayout::browseData (basevisitor* v)
 {
   int n1 = fVarValAssocs.size ();
-  
+
   for (int i = 0; i < n1; i++ ) {
     // browse the stanza
     msrBrowser<msrVarValAssoc> browser (v);
@@ -97,20 +97,14 @@ void msrLayout::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrLayout& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrLayout::print (ostream& os)
+void msrLayout::print (ostream& os) const
 {
   os << "Layout" << endl;
 
   gIndenter++;
 
   int n1 = fVarValAssocs.size ();
-  
+
   for (int i = 0; i < n1; i++ ) {
     os << fVarValAssocs [i];
   } // for
@@ -121,8 +115,14 @@ void msrLayout::print (ostream& os)
     os << fMsrSchemeVarValAssocs[i];
   } // for
   */
-  
+
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrLayout& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

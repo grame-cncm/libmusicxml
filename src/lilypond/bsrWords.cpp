@@ -34,7 +34,7 @@ S_bsrCellsList brailleCharacter (
   S_bsrCellsList
     result =
       bsrCellsList::create (inputLineNumber);
-  
+
   switch (ch) {
     case 'a':
       result->
@@ -149,7 +149,7 @@ S_bsrCellsList brailleCharacter (
       result->
         appendCellKindToCellsList (kCellParenthesis);
       break;
-      
+
 
     default:
       result->
@@ -168,7 +168,7 @@ S_bsrCellsList brailleWord (
       bsrCellsList::create (
         inputLineNumber, kCellWordSign);
 
-  if (str.size ()) {  
+  if (str.size ()) {
     string::const_iterator
       iBegin = str.begin (),
       iEnd   = str.end (),
@@ -180,7 +180,7 @@ S_bsrCellsList brailleWord (
         appendCellsListToCellsList (
           brailleCharacter (
             inputLineNumber, ch));
-          
+
       if (++i == iEnd) break;
     } // for
   }
@@ -224,12 +224,12 @@ void bsrWords::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrWords>*
     p =
       dynamic_cast<visitor<S_bsrWords>*> (v)) {
         S_bsrWords elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -260,7 +260,7 @@ void bsrWords::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrWords>*> (v)) {
         S_bsrWords elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -289,7 +289,7 @@ string bsrWords::asWord () const
   return s.str ();
 }
 
-void bsrWords::print (ostream& os)
+void bsrWords::print (ostream& os) const
 {
   os <<
     "Word" <<

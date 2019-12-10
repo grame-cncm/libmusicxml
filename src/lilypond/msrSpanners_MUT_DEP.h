@@ -105,7 +105,7 @@ class msrSpanner : public msrElement
 
     string                asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
 

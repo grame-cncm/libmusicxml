@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -52,7 +52,7 @@ msrOrnament::~msrOrnament ()
 string msrOrnament::ornamentKindAsString () const
 {
   string result;
-  
+
   switch (fOrnamentKind) {
     case msrOrnament::kOrnamentTrill:
       result = "ornamentTrill";
@@ -105,7 +105,7 @@ string msrOrnament::ornamentPlacementKindAsString () const
 string msrOrnament::ornamentAccidentalMarkAsString () const
 {
   string result;
-  
+
   switch (fOrnamentAccidentalMark) {
     case kTripleFlat:
       result = "tripleFlat";
@@ -155,12 +155,12 @@ void msrOrnament::acceptIn (basevisitor* v)
       "% ==> msrOrnament::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrOrnament>*
     p =
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOrnament::visitStart ()" <<
@@ -182,7 +182,7 @@ void msrOrnament::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOrnament::visitEnd ()" <<
@@ -195,7 +195,7 @@ void msrOrnament::acceptOut (basevisitor* v)
 void msrOrnament::browseData (basevisitor* v)
 {}
 
-void msrOrnament::print (ostream& os)
+void msrOrnament::print (ostream& os) const
 {
   os <<
     "Ornament" <<
@@ -206,7 +206,7 @@ void msrOrnament::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 16;
-  
+
   os <<
     setw (fieldWidth) <<
     "placement" << " : " <<

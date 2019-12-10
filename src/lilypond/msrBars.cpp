@@ -168,7 +168,7 @@ string msrBarCheck::asString () const
   return s.str ();
 }
 
-void msrBarCheck::print (ostream& os)
+void msrBarCheck::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -281,7 +281,7 @@ string msrBarNumberCheck::asString () const
   return s.str ();
 }
 
-void msrBarNumberCheck::print (ostream& os)
+void msrBarNumberCheck::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -717,7 +717,7 @@ string msrBarline::asString () const
   return s.str ();
 }
 
-void msrBarline::print (ostream& os)
+void msrBarline::print (ostream& os) const
 {
   os <<
     "Barline, " <<

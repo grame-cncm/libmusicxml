@@ -94,7 +94,7 @@ class bsrBrailleGenerator : public smartable
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
 
@@ -149,7 +149,7 @@ class bsrAsciiBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -207,7 +207,7 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -267,7 +267,7 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -327,7 +327,7 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

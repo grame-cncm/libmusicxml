@@ -74,7 +74,7 @@ class bsrPageElement : public bsrElement
 
     virtual std::string   asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
 

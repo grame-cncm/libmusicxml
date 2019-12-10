@@ -117,7 +117,7 @@ void lpsrLayout::browseData (basevisitor* v)
   } // for
 }
 
-void lpsrLayout::print (ostream& os)
+void lpsrLayout::print (ostream& os) const
 {
   os <<
     "Layout" <<

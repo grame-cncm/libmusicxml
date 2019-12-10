@@ -329,7 +329,7 @@ string lpsrVarValAssoc::endlKindAsString (
   return result;
 }
 
-void lpsrVarValAssoc::print (ostream& os)
+void lpsrVarValAssoc::print (ostream& os) const
 {
   os <<
     "LPSR VarValAssoc" <<
@@ -571,7 +571,7 @@ string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString () const
   return s.str ();
 }
 
-void lpsrVarValsListAssoc::print (ostream& os)
+void lpsrVarValsListAssoc::print (ostream& os) const
 {
   os <<
     "LPSR VarValsListAssoc" <<

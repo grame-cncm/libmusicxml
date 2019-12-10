@@ -166,13 +166,7 @@ void msrFrameNote::acceptOut (basevisitor* v)
 void msrFrameNote::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrFrameNote& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrFrameNote::print (ostream& os)
+void msrFrameNote::print (ostream& os) const
 {
   os <<
     "FrameNote" <<
@@ -200,6 +194,12 @@ void msrFrameNote::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrFrameNote& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -411,13 +411,7 @@ void msrFrame::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrFrame& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrFrame::print (ostream& os)
+void msrFrame::print (ostream& os) const
 {
   os <<
     "Frame" <<
@@ -519,6 +513,12 @@ void msrFrame::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrFrame& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

@@ -123,9 +123,9 @@ class msrLigature : public msrElement
     // print
     // ------------------------------------------------------
 
-    string                ligatureKindAsString ();
+    string                ligatureKindAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

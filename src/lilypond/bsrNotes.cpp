@@ -59,10 +59,10 @@ bsrNote::bsrNote (
   fNoteDotsNumber = noteDotsNumber;
 
   fNoteValueSizeIsNeeded = false;
-  
+
   fNoteOctaveKind = noteOctaveKind;
   fNoteOctaveIsNeeded = noteOctaveIsNeeded;
-  
+
   fNoteAccidentalKind = noteAccidentalKind;
 }
 
@@ -80,7 +80,7 @@ S_bsrCellsList bsrNote::noteValueKindAsCellsList (
   switch (noteValueKind) {
     case kNoteValueNone:
       break;
-      
+
     case kNoteValueRestBreve:
       result->appendCellKindToCellsList (kDots134);
       result->appendCellKindToCellsList (kDots13);
@@ -389,7 +389,7 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
   S_bsrCellsList
     result =
       bsrCellsList::create (inputLineNumber);
-  
+
   switch (noteOctaveKind) {
     case kNoteOctaveNone:
       break;
@@ -423,7 +423,7 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
       result->appendCellKindToCellsList (kDots6);
       break;
   } // switch
- 
+
   return result;
 }
 
@@ -432,11 +432,11 @@ bsrNote::bsrNoteValueSizeKind bsrNote::noteValueSizeKindFromNoteValueKind (
 {
   bsrNoteValueSizeKind
     result = bsrNote::kNoteValueSizeNone;
-    
+
   switch (noteValueKind) {
     case kNoteValueNone:
       break;
-      
+
     case kNoteValueRestBreve:
       result = bsrNote::kNoteValueSizeLarger;
       break;
@@ -696,7 +696,7 @@ S_bsrCellsList bsrNote::noteValueSizeKindAsCellsList (
   S_bsrCellsList
     result =
       bsrCellsList::create (inputLineNumber);
-  
+
   switch (noteValueSizeKind) {
     case bsrNote::kNoteValueSizeNone:
       break;
@@ -711,7 +711,7 @@ S_bsrCellsList bsrNote::noteValueSizeKindAsCellsList (
       result->appendCellKindToCellsList (kDots2);
       break;
   } // switch
- 
+
   return result;
 }
 
@@ -730,11 +730,11 @@ S_bsrCellsList bsrNote::noteAccidentalKindAsCellsList (
   S_bsrCellsList
     result =
       bsrCellsList::create (inputLineNumber);
-  
+
   switch (noteAccidentalKind) {
     case bsrNote::kNoteAccidentalNone:
       break;
-      
+
     case bsrNote::kNoteAccidentalSharp:
       result->appendCellKindToCellsList (kCellSharp);
       break;
@@ -744,7 +744,7 @@ S_bsrCellsList bsrNote::noteAccidentalKindAsCellsList (
     case bsrNote::kNoteAccidentalFlat:
       result->appendCellKindToCellsList (kCellFlat);
       break;
-      
+
     case bsrNote::kNoteAccidentalDoubleFlat:
       result->appendCellKindToCellsList (kCellFlat);
       result->appendCellKindToCellsList (kCellFlat);
@@ -762,18 +762,18 @@ S_bsrCellsList bsrNote::noteAccidentalKindAsCellsList (
       result->appendCellKindToCellsList (kDots4);
       result->appendCellKindToCellsList (kCellFlat);
       break;
-      
+
     case bsrNote::kNoteAccidentalThreeQuarterSharp:
       result->appendCellKindToCellsList (kDots456);
       result->appendCellKindToCellsList (kCellSharp);
       break;
-      
+
     case bsrNote::kNoteAccidentalThreeQuarterFlat:
       result->appendCellKindToCellsList (kDots456);
       result->appendCellKindToCellsList (kCellFlat);
       break;
   } // switch
- 
+
   return result;
 }
 
@@ -796,11 +796,11 @@ S_bsrCellsList bsrNote::buildCellsList () const
     result->appendCellsListToCellsList (
       noteValueSizeKindAsCellsList ());
   }
-  
+
   // append note accidental if any
   result->appendCellsListToCellsList (
     noteAccidentalKindAsCellsList ());
-  
+
   // append note octave if needed
   switch (fNoteOctaveIsNeeded) {
     case bsrNote::kNoteOctaveIsNeededYes:
@@ -838,12 +838,12 @@ void bsrNote::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrNote>*
     p =
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -869,7 +869,7 @@ void bsrNote::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -888,10 +888,10 @@ string bsrNote::noteValueKindAsString (
   bsrNoteValueKind noteValueKind)
 {
   string result;
-  
+
   switch (noteValueKind) {
     case kNoteValueNone: result = "None"; break;
-      
+
     case kNoteValueRestBreve: result = "RestBreve"; break;
     case kNoteValueRestWhole: result = "RestWhole"; break;
     case kNoteValueRestHalf: result = "RestHalf"; break;
@@ -988,7 +988,7 @@ string bsrNote::noteValueSizeKindAsString (
   bsrNoteValueSizeKind noteValueSizeKind)
 {
   string result;
-  
+
   switch (noteValueSizeKind) {
     case bsrNote::kNoteValueSizeNone:
       result = "None";
@@ -1029,7 +1029,7 @@ string bsrNote::noteOctaveIsNeededAsString (
   bsrNoteOctaveIsNeeded noteOctaveIsNeeded)
 {
   string result;
-  
+
   switch (noteOctaveIsNeeded) {
     case bsrNote::kNoteOctaveIsNeededYes:
       result = "noteOctaveIsNeededYes";
@@ -1046,12 +1046,12 @@ string bsrNote::noteAccidentalKindAsString (
   bsrNoteAccidentalKind noteAccidentalKind)
 {
   string result;
-  
+
   switch (noteAccidentalKind) {
     case bsrNote::kNoteAccidentalNone:
       result = "noteAccidentalNone";
       break;
-      
+
     case bsrNote::kNoteAccidentalSharp:
       result = "noteAccidentalSharp";
       break;
@@ -1061,7 +1061,7 @@ string bsrNote::noteAccidentalKindAsString (
     case bsrNote::kNoteAccidentalFlat:
       result = "noteAccidentalFlat";
       break;
-      
+
     case bsrNote::kNoteAccidentalDoubleFlat:
       result = "noteAccidentalDoubleFlat";
       break;
@@ -1093,7 +1093,7 @@ string bsrNote::asString () const
   stringstream s;
 
   s <<
-    "Note" << 
+    "Note" <<
     ", noteValue: " <<
     noteValueKindAsString (fNoteValueKind) <<
     ", noteDotsNumber: " << fNoteDotsNumber <<
@@ -1113,10 +1113,10 @@ string bsrNote::asString () const
   return s.str ();
 }
 
-void bsrNote::print (ostream& os)
+void bsrNote::print (ostream& os) const
 {
   os <<
-    "Note" << 
+    "Note" <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -1155,7 +1155,7 @@ void bsrNote::print (ostream& os)
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<
     endl;
-        
+
   gIndenter--;
 }
 

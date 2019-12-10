@@ -105,12 +105,6 @@ void msrOctaveShift::acceptOut (basevisitor* v)
 void msrOctaveShift::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrOctaveShift& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrOctaveShift::octaveShiftKindAsString () const
 {
   string result;
@@ -150,7 +144,7 @@ string msrOctaveShift::asString () const
   return s.str ();
 }
 
-void msrOctaveShift::print (ostream& os)
+void msrOctaveShift::print (ostream& os) const
 {
   gIndenter++;
 
@@ -161,6 +155,12 @@ void msrOctaveShift::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrOctaveShift& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -276,12 +276,6 @@ void msrTranspose::acceptOut (basevisitor* v)
 void msrTranspose::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTranspose& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTranspose::asString () const
 {
   stringstream s;
@@ -297,7 +291,7 @@ string msrTranspose::asString () const
   return s.str ();
 }
 
-void msrTranspose::print (ostream& os)
+void msrTranspose::print (ostream& os) const
 {
   const int fieldWidth = 22;
 
@@ -324,6 +318,12 @@ void msrTranspose::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrTranspose& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

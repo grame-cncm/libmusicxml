@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -63,12 +63,12 @@ void bsrParallel::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrParallel>*
     p =
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -94,7 +94,7 @@ void bsrParallel::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -123,7 +123,7 @@ string bsrParallel::parallelLayoutKindAsString (
   bsrParallelLayoutKind parallelLayoutKind)
 {
   string result;
-  
+
   switch (parallelLayoutKind) {
     case bsrParallel::kParallelLayoutBarOverBarKind:
       result = "parallelLayoutBarOverBarKind";
@@ -136,17 +136,17 @@ string bsrParallel::parallelLayoutKindAsString (
   return result;
 }
 
-void bsrParallel::print (ostream& os)
+void bsrParallel::print (ostream& os) const
 {
   os <<
     "Parallel" <<
     endl;
-  
+
   gIndenter++;
 
   // print the parallel numbers
   const int fieldWidth = 18;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "printParallelNumber" << " : " << fPrintParallelNumber <<
@@ -154,10 +154,10 @@ void bsrParallel::print (ostream& os)
     setw (fieldWidth) <<
     "brailleParallelNumber" << " : " << fBrailleParallelNumber <<
     endl;
-  
+
   // print the parallel elements if any
   int parallelElementsListSize = fParallelElementsList.size ();
-  
+
   if (parallelElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
@@ -165,7 +165,7 @@ void bsrParallel::print (ostream& os)
     if (parallelElementsListSize) {
       os << endl;
       gIndenter++;
-  
+
       list<S_bsrElement>::const_iterator
         iBegin = fParallelElementsList.begin (),
         iEnd   = fParallelElementsList.end (),
@@ -175,9 +175,9 @@ void bsrParallel::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-  
+
       os << endl;
-        
+
       gIndenter--;
     }
     else {

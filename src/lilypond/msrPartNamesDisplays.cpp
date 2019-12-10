@@ -53,12 +53,12 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
       "% ==> msrPartNameDisplay::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrPartNameDisplay>*
     p =
       dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
         S_msrPartNameDisplay elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartNameDisplay::visitStart ()" <<
@@ -80,7 +80,7 @@ void msrPartNameDisplay::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
         S_msrPartNameDisplay elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartNameDisplay::visitEnd ()" <<
@@ -101,21 +101,21 @@ string msrPartNameDisplay::asString () const
     "PartNameDisplay" <<
     ", line " << fInputLineNumber <<
     ", partNameDisplayValue: " << fPartNameDisplayValue;
-    
+
   return s.str ();
+}
+
+void msrPartNameDisplay::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPartNameDisplay& elt)
 {
   elt->print (os);
   return os;
-}
-
-void msrPartNameDisplay::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
 }
 
 //______________________________________________________________________________
@@ -148,12 +148,12 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
       "% ==> msrPartAbbreviationDisplay::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrPartAbbreviationDisplay>*
     p =
       dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
         S_msrPartAbbreviationDisplay elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitStart ()" <<
@@ -175,7 +175,7 @@ void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
         S_msrPartAbbreviationDisplay elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitEnd ()" <<
@@ -197,21 +197,21 @@ string msrPartAbbreviationDisplay::asString () const
     ", line " << fInputLineNumber <<
     ", " <<
     "partAbbreviationDisplayValue: " << fPartAbbreviationDisplayValue;
-    
+
   return s.str ();
+}
+
+void msrPartAbbreviationDisplay::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPartAbbreviationDisplay& elt)
 {
   elt->print (os);
   return os;
-}
-
-void msrPartAbbreviationDisplay::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
 }
 
 

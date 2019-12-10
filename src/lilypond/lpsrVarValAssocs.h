@@ -201,14 +201,14 @@ class lpsrVarValAssoc : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    string                lilyPondVarValAssocKindAsString ()
+    string                lilyPondVarValAssocKindAsString () const
                               {
                                 return
                                   lilyPondVarValAssocKindAsString (
                                     fLilyPondVarValAssocKind);
                               }
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -327,7 +327,7 @@ class lpsrVarValsListAssoc : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    string                lilyPondVarValsListAssocKindAsString ()
+    string                lilyPondVarValsListAssocKindAsString () const
                               {
                                 return
                                   lilyPondVarValsListAssocValuesAsString (
@@ -336,7 +336,7 @@ class lpsrVarValsListAssoc : public lpsrElement
 
     string                lilyPondVarValsListAssocValuesAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

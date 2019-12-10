@@ -900,7 +900,7 @@ string msrPartGroup::partGroupBarlineKindAsString (
   return result;
 }
 
-void msrPartGroup::print (ostream& os)
+void msrPartGroup::print (ostream& os) const
 {
   os <<
     "PartGroup" " \"" << getPartGroupCombinedName () <<

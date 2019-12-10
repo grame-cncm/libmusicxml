@@ -484,13 +484,7 @@ void msrIdentification::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrIdentification& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrIdentification::print (ostream& os)
+void msrIdentification::print (ostream& os) const
 {
   os <<
     "Identification" <<
@@ -603,6 +597,12 @@ void msrIdentification::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrIdentification& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

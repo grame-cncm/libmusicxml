@@ -141,6 +141,7 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_tenths>,
   public visitor<S_scaling>,
 
+  public visitor<S_system_layout>,
   public visitor<S_system_margins>,
   public visitor<S_system_distance>,
   public visitor<S_top_system_distance>,
@@ -151,6 +152,7 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_page_layout>,
   public visitor<S_page_height>,
   public visitor<S_page_width>,
+  public visitor<S_page_margins>,
   public visitor<S_left_margin>,
   public visitor<S_right_margin>,
   public visitor<S_top_margin>,
@@ -276,9 +278,14 @@ class mxmlTree2MsrSkeletonBuilder :
     // geometry
     // ------------------------------------------------------
 
+// scaling, margins, layout, divider JMI
+
     virtual void visitStart ( S_millimeters& elt);
     virtual void visitStart ( S_tenths& elt);
     virtual void visitEnd   ( S_scaling& elt);
+
+    virtual void visitStart ( S_system_layout& elt);
+    virtual void visitEnd   ( S_system_layout& elt);
 
     virtual void visitStart ( S_system_margins& elt);
     virtual void visitStart ( S_system_distance& elt);
@@ -292,6 +299,8 @@ class mxmlTree2MsrSkeletonBuilder :
     virtual void visitEnd   ( S_page_layout& elt);
     virtual void visitStart ( S_page_height& elt);
     virtual void visitStart ( S_page_width& elt);
+    virtual void visitStart ( S_page_margins& elt);
+    virtual void visitEnd   ( S_page_margins& elt);
     virtual void visitStart ( S_left_margin& elt);
     virtual void visitStart ( S_right_margin& elt);
     virtual void visitStart ( S_top_margin& elt);
@@ -392,16 +401,18 @@ class mxmlTree2MsrSkeletonBuilder :
     S_msrScore                fMsrScore;
 
 
-    // score handling
-
-    int                       fScoreNumberOfMeasures;
-
     // geometry handling
     // ------------------------------------------------------
 
     float                     fCurrentMillimeters;
     int                       fCurrentTenths;
+
     bool                      fOnGoingPageLayout;
+
+    bool                      fOnGoingPageMargins;
+    msrMarginTypeKind         fCurrentMarginTypeKind;
+
+    bool                      fOnGoingSystemLayout;
 
     // credits handling
     // ------------------------------------------------------
@@ -585,8 +596,9 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
 
     string                    fCurrentMeasureNumber;
-    int                       fPartNumberOfMeasures;
 
+    int                       fScoreNumberOfMeasures;
+    int                       fPartNumberOfMeasures;
 
     // notes handling
     // ------------------------------------------------------

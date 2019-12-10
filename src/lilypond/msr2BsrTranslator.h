@@ -290,7 +290,7 @@ class msr2BsrTranslator :
     // paper
     // ------------------------------------------------------
     void                      setPaperIndentsIfNeeded (
-                                S_msrPageGeometry pageGeometry);
+                                S_msrGeometry geometry);
 
     // credits
     // ------------------------------------------------------
@@ -477,7 +477,7 @@ class msr2BsrTranslator :
 
     // geometry
 
-    public visitor<S_msrPageGeometry>,
+    public visitor<S_msrGeometry>,
 
     // layout
 
@@ -846,8 +846,8 @@ class msr2BsrTranslator :
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
-    virtual void visitStart (S_msrPageGeometry& elt);
-    virtual void visitEnd   (S_msrPageGeometry& elt);
+    virtual void visitStart (S_msrGeometry& elt);
+    virtual void visitEnd   (S_msrGeometry& elt);
 
     virtual void visitStart (S_msrLayout& elt);
     virtual void visitEnd   (S_msrLayout& elt);

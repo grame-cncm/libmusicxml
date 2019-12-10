@@ -283,7 +283,7 @@ string msrMeasuresRepeatElement::asString () const
   return s.str ();
 }
 
-void msrMeasuresRepeatElement::print (ostream& os)
+void msrMeasuresRepeatElement::print (ostream& os) const
 {
   os <<
     "MeasuresRepeatElement" <<
@@ -341,7 +341,7 @@ void msrMeasuresRepeatElement::print (ostream& os)
   gIndenter--;
 }
 
-void msrMeasuresRepeatElement::shortPrint (ostream& os)
+void msrMeasuresRepeatElement::shortPrint (ostream& os) const
 {
   os <<
     "MeasuresRepeatElement" <<
@@ -553,7 +553,7 @@ string msrMeasuresRepeatPattern::asString () const
   return s.str ();
 }
 
-void msrMeasuresRepeatPattern::print (ostream& os)
+void msrMeasuresRepeatPattern::print (ostream& os) const
 {
   os <<
     endl <<
@@ -738,7 +738,7 @@ string msrMeasuresRepeatReplicas::asString () const
   return s.str ();
 }
 
-void msrMeasuresRepeatReplicas::print (ostream& os)
+void msrMeasuresRepeatReplicas::print (ostream& os) const
 {
   os <<
     endl <<
@@ -1115,7 +1115,7 @@ void msrMeasuresRepeat::displayMeasuresRepeat (
     endl;
 }
 
-void msrMeasuresRepeat::print (ostream& os)
+void msrMeasuresRepeat::print (ostream& os) const
 {
   os <<
     "MeasuresRepeat" <<

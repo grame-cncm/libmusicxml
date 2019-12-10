@@ -884,7 +884,7 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

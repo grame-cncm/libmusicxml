@@ -59,12 +59,12 @@ void msrMidi::acceptIn (basevisitor* v)
       "% ==> msrMidi::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrMidi>*
     p =
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMidi::visitStart ()" <<
@@ -86,7 +86,7 @@ void msrMidi::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMidi::visitEnd ()" <<
@@ -99,13 +99,7 @@ void msrMidi::acceptOut (basevisitor* v)
 void msrMidi::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrMidi& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrMidi::print (ostream& os)
+void msrMidi::print (ostream& os) const
 {
   os << "Midi" << endl;
 
@@ -121,9 +115,15 @@ void msrMidi::print (ostream& os)
     "MidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
     endl <<
     endl;
-      
+
   gIndenter--;
-}    
+}
+
+ostream& operator<< (ostream& os, const S_msrMidi& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 
 }

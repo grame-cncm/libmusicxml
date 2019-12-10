@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -56,10 +56,10 @@ msrGraceNotesGroup::msrGraceNotesGroup (
     "graceNotesGroupVoiceUpLink is null");
 
   fGraceNotesGroupVoiceUpLink =
-    graceNotesGroupVoiceUpLink;    
+    graceNotesGroupVoiceUpLink;
 
   fGraceNotesGroupKind = graceNotesGroupKind;
-  
+
   fGraceNotesGroupIsSlashed = graceNotesGroupIsSlashed;
 
   fGraceNotesGroupIsTied = false;
@@ -84,12 +84,12 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrGraceNotesGroup
     newbornClone =
       msrGraceNotesGroup::create (
@@ -100,10 +100,10 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
 
   newbornClone->fGraceNotesGroupIsTied =
     fGraceNotesGroupIsTied;
-    
+
   newbornClone->fGraceNotesGroupIsFollowedByNotes =
     fGraceNotesGroupIsFollowedByNotes;
-    
+
   return newbornClone;
 }
 
@@ -118,7 +118,7 @@ string msrGraceNotesGroup::graceNotesGroupKindAsString (
   msrGraceNotesGroupKind graceNotesGroupKind)
 {
   string result;
-  
+
   switch (graceNotesGroupKind) {
     case msrGraceNotesGroup::kGraceNotesGroupBefore:
       result = "graceNotesGroupBefore";
@@ -160,16 +160,16 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 
   clone->fGraceNotesGroupIsTied =
     fGraceNotesGroupIsTied;
-    
+
   clone->fGraceNotesGroupIsFollowedByNotes =
     fGraceNotesGroupIsFollowedByNotes;
-    
+
   // populating the clone with skips
   for (
     list<S_msrMeasureElement>::const_iterator i=fGraceNotesGroupElementsList.begin ();
     i!=fGraceNotesGroupElementsList.end ();
     i++
-  ) {      
+  ) {
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
     ) {
@@ -189,7 +189,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
       clone->
         appendNoteToGraceNotesGroup (skip);
     }
-  
+
     else if (
       S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
     ) {
@@ -214,16 +214,16 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
       clone->
         appendNoteToGraceNotesGroup (skip);
     }
-    
+
     else {
       msrInternalError (
         gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "grace notes element should be a note or a chord");
-    }    
+    }
   } // for
-    
+
   return clone;
 }
 
@@ -318,7 +318,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
       fInputLineNumber,
       __FILE__, __LINE__,
       "removeLastNoteFromGraceNotesGroup (): grace notes group element should be a note");
-  }   
+  }
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
@@ -344,12 +344,12 @@ void msrGraceNotesGroup::acceptIn (basevisitor* v)
       "% ==> msrGraceNotesGroup::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrGraceNotesGroup>*
     p =
       dynamic_cast<visitor<S_msrGraceNotesGroup>*> (v)) {
         S_msrGraceNotesGroup elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGraceNotesGroup::visitStart ()" <<
@@ -371,7 +371,7 @@ void msrGraceNotesGroup::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrGraceNotesGroup>*> (v)) {
         S_msrGraceNotesGroup elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGraceNotesGroup::visitEnd ()" <<
@@ -419,7 +419,7 @@ string msrGraceNotesGroup::asShortString () const
       s << ", ";
     } // for
   }
-  
+
   return s.str ();
 }
 
@@ -444,11 +444,11 @@ string msrGraceNotesGroup::asString () const
       s << ", ";
     } // for
   }
-  
+
   return s.str ();
 }
 
-void msrGraceNotesGroup::print (ostream& os)
+void msrGraceNotesGroup::print (ostream& os) const
 {
   os <<
     "GraceNotesGroup" <<
@@ -461,7 +461,7 @@ void msrGraceNotesGroup::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 33;
-  
+
   os <<
     setw (fieldWidth) <<
     "graceNotesGroupVoiceUpLink" << " : ";
@@ -474,7 +474,7 @@ void msrGraceNotesGroup::print (ostream& os)
         "none";
     }
   os << endl;
-    
+
   os <<
     setw (fieldWidth) <<
     "graceNotesGroupNoteUpLink" << " : ";
@@ -487,52 +487,52 @@ void msrGraceNotesGroup::print (ostream& os)
         "none";
     }
   os << endl;
-    
+
   os <<
     setw (fieldWidth) <<
     "graceNotesGroupIsSlashed" << " : " <<
     booleanAsString (fGraceNotesGroupIsSlashed) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "graceNotesGroupIsSlashed" << " : " <<
     booleanAsString (fGraceNotesGroupIsSlashed) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "graceNotesGroupIsTied" << " : " <<
     booleanAsString (fGraceNotesGroupIsTied) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "graceNotesGroupIsFollowedByNotes" << " : " <<
     booleanAsString (fGraceNotesGroupIsFollowedByNotes) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "graceNotesGroupMeasureNumber" << " : " <<
     fGraceNotesGroupMeasureNumber <<
     endl;
-  
+
   os <<
     setw (fieldWidth) <<
     "graceNotesGroupElementsList";
   if (fGraceNotesGroupElementsList.size ()) {
     os << endl;
-      
+
     gIndenter++;
-  
+
     list<S_msrMeasureElement>::const_iterator
       iBegin = fGraceNotesGroupElementsList.begin (),
       iEnd   = fGraceNotesGroupElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
-  
+
     gIndenter--;
   }
   else {

@@ -82,7 +82,7 @@ class msrStem : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

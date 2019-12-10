@@ -164,7 +164,7 @@ class msrStanza : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

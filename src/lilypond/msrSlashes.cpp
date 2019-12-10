@@ -63,12 +63,12 @@ void msrSlash::acceptIn (basevisitor* v)
       "% ==> msrSlash::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSlash>*
     p =
       dynamic_cast<visitor<S_msrSlash>*> (v)) {
         S_msrSlash elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlash::visitStart ()" <<
@@ -90,7 +90,7 @@ void msrSlash::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSlash>*> (v)) {
         S_msrSlash elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlash::visitEnd ()" <<
@@ -119,23 +119,17 @@ string msrSlash::asString () const
     ", slashUseStemsKind:" <<
     msrSlashUseStemsKindAsString (
       fSlashUseStemsKind);
-    
+
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrSlash& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrSlash::print (ostream& os)
+void msrSlash::print (ostream& os) const
 {
   os <<
     "Slash" <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
   const int fieldWidth = 18;
@@ -157,8 +151,14 @@ void msrSlash::print (ostream& os)
     msrSlashUseStemsKindAsString (
       fSlashUseStemsKind) <<
     endl;
-      
+
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSlash& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

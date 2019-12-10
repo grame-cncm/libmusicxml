@@ -59,12 +59,12 @@ void msrSlur::acceptIn (basevisitor* v)
       "% ==> msrSlur::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSlur>*
     p =
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlur::visitStart ()" <<
@@ -86,7 +86,7 @@ void msrSlur::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlur::visitEnd ()" <<
@@ -104,7 +104,7 @@ string msrSlur::slurTypeKindAsString (
   msrSlurTypeKind slurTypeKind)
 {
   stringstream s;
-  
+
   switch (slurTypeKind) {
     case msrSlur::kRegularSlurStart:
       s << "regularSlurStart";
@@ -124,10 +124,10 @@ string msrSlur::slurTypeKindAsString (
     case msrSlur::k_NoSlur:
       s << "Slur" << slurTypeKind << "???";
   } // switch
-    
+
   return s.str ();
 }
-      
+
 string msrSlur::slurTypeKindAsString () const
 {
   return slurTypeKindAsString (fSlurTypeKind);
@@ -144,21 +144,21 @@ string msrSlur::asString () const
       fSlurLineTypeKind) <<
     ", slurNumber = " << fSlurNumber <<
     ", line " << fInputLineNumber;
-  
+
   return s.str ();
+}
+
+void msrSlur::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrSlur& elt)
 {
   elt->print (os);
   return os;
-}
-
-void msrSlur::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
 }
 
 

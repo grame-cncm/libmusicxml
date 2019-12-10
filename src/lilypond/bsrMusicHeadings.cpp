@@ -216,7 +216,7 @@ string bsrMusicHeading::asString () const
   return s.str ();
 }
 
-void bsrMusicHeading::print (ostream& os)
+void bsrMusicHeading::print (ostream& os) const
 {
   os <<
     "MusicHeading" <<

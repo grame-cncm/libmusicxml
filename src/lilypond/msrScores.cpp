@@ -52,9 +52,9 @@ msrScore::msrScore (
     msrIdentification::create (
       inputLineNumber);
 
-  // create the page geometry
-  fPageGeometry =
-    msrPageGeometry::create (
+  // create the geometry
+  fMsrGeometry =
+    msrGeometry::create (
       inputLineNumber);
 
   // number of measures
@@ -510,10 +510,10 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fIdentification);
   }
 
-  if (fPageGeometry) {
-    // browse page geometry
-    msrBrowser<msrPageGeometry> browser (v);
-    browser.browse (*fPageGeometry);
+  if (fMsrGeometry) {
+    // browse geometry
+    msrBrowser<msrGeometry> browser (v);
+    browser.browse (*fMsrGeometry);
   }
 
   for (
@@ -543,7 +543,7 @@ void msrScore::browseData (basevisitor* v)
   }
 }
 
-void msrScore::print (ostream& os)
+void msrScore::print (ostream& os) const
 {
   os <<
     "MSR Score" <<
@@ -606,10 +606,10 @@ void msrScore::print (ostream& os)
       fIdentification;
   }
 
-  // print the page geometry if any
-  if (fPageGeometry) {
+  // print the geometry if any
+  if (fMsrGeometry) {
     os <<
-      fPageGeometry;
+      fMsrGeometry;
   }
 
   // print the credits if any
@@ -735,10 +735,10 @@ void msrScore::printSummary (ostream& os)
       fIdentification;
   }
 
-  // print the page geometry if any
-  if (fPageGeometry) {
+  // print the geometry if any
+  if (fMsrGeometry) {
     os <<
-      fPageGeometry;
+      fMsrGeometry;
   }
 
   // print the credits if any

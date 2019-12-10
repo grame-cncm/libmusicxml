@@ -77,12 +77,12 @@ void msrStringTuning::acceptIn (basevisitor* v)
       "% ==> msrStringTuning::acceptIn ()" <<
       endl;
   }
-  
+
   if (visitor<S_msrStringTuning>*
     p =
       dynamic_cast<visitor<S_msrStringTuning>*> (v)) {
         S_msrStringTuning elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStringTuning::visitStart ()" <<
@@ -104,7 +104,7 @@ void msrStringTuning::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrStringTuning>*> (v)) {
         S_msrStringTuning elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStringTuning::visitEnd ()" <<
@@ -117,18 +117,12 @@ void msrStringTuning::acceptOut (basevisitor* v)
 void msrStringTuning::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrStringTuning& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrStringTuning::print (ostream& os)
+void msrStringTuning::print (ostream& os) const
 {
   gIndenter++;
 
   const int fieldWidth = 30;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "stringTuningNumber" << " : " << fStringTuningNumber <<
@@ -149,6 +143,12 @@ void msrStringTuning::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrStringTuning& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -184,12 +184,12 @@ void msrScordatura::acceptIn (basevisitor* v)
       "% ==> msrScordatura::acceptIn ()" <<
       endl;
   }
-  
+
   if (visitor<S_msrScordatura>*
     p =
       dynamic_cast<visitor<S_msrScordatura>*> (v)) {
         S_msrScordatura elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScordatura::visitStart ()" <<
@@ -211,7 +211,7 @@ void msrScordatura::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrScordatura>*> (v)) {
         S_msrScordatura elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScordatura::visitEnd ()" <<
@@ -224,17 +224,10 @@ void msrScordatura::acceptOut (basevisitor* v)
 void msrScordatura::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrScordatura& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-
-void msrScordatura::print (ostream& os)
+void msrScordatura::print (ostream& os) const
 {
   gIndenter++;
-  
+
   os <<
     "Scordatura";
 
@@ -260,6 +253,12 @@ void msrScordatura::print (ostream& os)
       " : no string tunings" <<
       endl;
   }
+}
+
+ostream& operator<< (ostream& os, const S_msrScordatura& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -299,12 +298,12 @@ void msrAccordionRegistration::acceptIn (basevisitor* v)
       "% ==> msrAccordionRegistration::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrAccordionRegistration>*
     p =
       dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
         S_msrAccordionRegistration elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrAccordionRegistration::visitStart ()" <<
@@ -326,7 +325,7 @@ void msrAccordionRegistration::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
         S_msrAccordionRegistration elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrAccordionRegistration::visitEnd ()" <<
@@ -338,12 +337,6 @@ void msrAccordionRegistration::acceptOut (basevisitor* v)
 
 void msrAccordionRegistration::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrAccordionRegistration::asString () const
 {
@@ -359,15 +352,21 @@ string msrAccordionRegistration::asString () const
   return s.str ();
 }
 
-void msrAccordionRegistration::print (ostream& os)
+void msrAccordionRegistration::print (ostream& os) const
 {
   gIndenter++;
-  
+
   os <<
     asString () <<
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -400,7 +399,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
       endl;
   }
 #endif
-  
+
   S_msrHarpPedalsTuning
     newbornClone = 0; // JMI
 
@@ -417,7 +416,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
       endl;
   }
 #endif
-  
+
   S_msrHarpPedalsTuning
     harpPedalsTuningDeepCopy = 0; // JMI
 
@@ -433,7 +432,7 @@ void msrHarpPedalsTuning::addPedalTuning (
   map<msrDiatonicPitchKind, msrAlterationKind>::const_iterator
     it =
       fHarpPedalsAlterationKindsMap.find (diatonicPitchKind);
-        
+
   if (it != fHarpPedalsAlterationKindsMap.end ()) {
     stringstream s;
 
@@ -444,7 +443,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       msrAlterationKindAsString (
         alterationKind) <<
       "' has already been specified";
-      
+
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
@@ -462,12 +461,12 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v)
       "% ==> msrHarpPedalsTuning::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrHarpPedalsTuning>*
     p =
       dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
         S_msrHarpPedalsTuning elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitStart ()" <<
@@ -489,7 +488,7 @@ void msrHarpPedalsTuning::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
         S_msrHarpPedalsTuning elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitEnd ()" <<
@@ -502,12 +501,6 @@ void msrHarpPedalsTuning::acceptOut (basevisitor* v)
 void msrHarpPedalsTuning::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrHarpPedalsTuning::asString () const
 {
   stringstream s;
@@ -516,7 +509,7 @@ string msrHarpPedalsTuning::asString () const
     "HarpPedalsTuning" <<
     ", line " << fInputLineNumber <<
     ", ";
-    
+
   if (fHarpPedalsAlterationKindsMap.size ()) {
     gIndenter++;
 
@@ -524,7 +517,7 @@ string msrHarpPedalsTuning::asString () const
       iBegin = fHarpPedalsAlterationKindsMap.begin (),
       iEnd   = fHarpPedalsAlterationKindsMap.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the pedal and its alteration
       s <<
@@ -544,26 +537,26 @@ string msrHarpPedalsTuning::asString () const
     s <<
       "empty";
   }
-   
+
   return s.str ();
 }
 
-void msrHarpPedalsTuning::print (ostream& os)
+void msrHarpPedalsTuning::print (ostream& os) const
 {
   os <<
     "HarpPedalsTuning" <<
     ", line " << fInputLineNumber;
-    
+
   if (fHarpPedalsAlterationKindsMap.size ()) {
     gIndenter++;
 
     os << endl;
-      
+
     map<msrDiatonicPitchKind, msrAlterationKind>::const_iterator
       iBegin = fHarpPedalsAlterationKindsMap.begin (),
       iEnd   = fHarpPedalsAlterationKindsMap.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the pedal and its alteration
       os <<
@@ -586,6 +579,12 @@ void msrHarpPedalsTuning::print (ostream& os)
   }
 
   os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -618,63 +617,6 @@ msrPedal::msrPedal (
 msrPedal::~msrPedal ()
 {}
 
-string msrPedal::pedalTypeAsString ()
-{
-  string result;
-  
-  switch (fPedalTypeKind) {
-    case kPedalStart:
-      result = "pedalStart";
-      break;
-    case kPedalContinue:
-      result = "pedalContinue";
-      break;
-    case kPedalChange:
-      result = "pedalChange";
-      break;
-    case kPedalStop:
-      result = "pedalStop";
-      break;
-    case k_NoPedalType:
-      result = "noPedalType";
-      break;
-  } // switch
-
-  return result;
-}
-      
-string msrPedal::pedalLineAsString ()
-{
-  string result;
-  
-  switch (fPedalLineKind) {
-    case msrPedal::kPedalLineYes:
-      result = "pedalLineYes";
-      break;
-    case msrPedal::kPedalLineNo:
-      result = "pedalLineNo";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrPedal::pedalSignAsString ()
-{
-  string result;
-  
-  switch (fPedalSignKind) {
-    case msrPedal::kPedalSignYes:
-      result = "pedalSignYes";
-      break;
-    case msrPedal::kPedalSignNo:
-      result = "pedalSignNo";
-      break;
-  } // switch
-
-  return result;
-}
-
 void msrPedal::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
@@ -682,12 +624,12 @@ void msrPedal::acceptIn (basevisitor* v)
       "% ==> msrPedal::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrPedal>*
     p =
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPedal::visitStart ()" <<
@@ -709,7 +651,7 @@ void msrPedal::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrPedal::visitEnd ()" <<
@@ -722,13 +664,64 @@ void msrPedal::acceptOut (basevisitor* v)
 void msrPedal::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrPedal& elt)
+string msrPedal::pedalTypeAsString () const
 {
-  elt->print (os);
-  return os;
+  string result;
+
+  switch (fPedalTypeKind) {
+    case kPedalStart:
+      result = "pedalStart";
+      break;
+    case kPedalContinue:
+      result = "pedalContinue";
+      break;
+    case kPedalChange:
+      result = "pedalChange";
+      break;
+    case kPedalStop:
+      result = "pedalStop";
+      break;
+    case k_NoPedalType:
+      result = "noPedalType";
+      break;
+  } // switch
+
+  return result;
 }
 
-void msrPedal::print (ostream& os)
+string msrPedal::pedalLineAsString () const
+{
+  string result;
+
+  switch (fPedalLineKind) {
+    case msrPedal::kPedalLineYes:
+      result = "pedalLineYes";
+      break;
+    case msrPedal::kPedalLineNo:
+      result = "pedalLineNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrPedal::pedalSignAsString () const
+{
+  string result;
+
+  switch (fPedalSignKind) {
+    case msrPedal::kPedalSignYes:
+      result = "pedalSignYes";
+      break;
+    case msrPedal::kPedalSignNo:
+      result = "pedalSignNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrPedal::print (ostream& os) const
 {
   os <<
     "Pedal" <<
@@ -740,6 +733,12 @@ void msrPedal::print (ostream& os)
     pedalSignAsString () <<
     ", line " << fInputLineNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrPedal& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -768,12 +767,12 @@ void msrDamp::acceptIn (basevisitor* v)
       "% ==> msrDamp::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrDamp>*
     p =
       dynamic_cast<visitor<S_msrDamp>*> (v)) {
         S_msrDamp elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDamp::visitStart ()" <<
@@ -795,7 +794,7 @@ void msrDamp::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrDamp>*> (v)) {
         S_msrDamp elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDamp::visitEnd ()" <<
@@ -808,18 +807,18 @@ void msrDamp::acceptOut (basevisitor* v)
 void msrDamp::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrDamp& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrDamp::print (ostream& os)
+void msrDamp::print (ostream& os) const
 {
   os <<
     "Damp" <<
     ", line " << fInputLineNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrDamp& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -848,12 +847,12 @@ void msrDampAll::acceptIn (basevisitor* v)
       "% ==> msrDampAll::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrDampAll>*
     p =
       dynamic_cast<visitor<S_msrDampAll>*> (v)) {
         S_msrDampAll elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDampAll::visitStart ()" <<
@@ -875,7 +874,7 @@ void msrDampAll::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrDampAll>*> (v)) {
         S_msrDampAll elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDampAll::visitEnd ()" <<
@@ -888,18 +887,18 @@ void msrDampAll::acceptOut (basevisitor* v)
 void msrDampAll::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrDampAll& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrDampAll::print (ostream& os)
+void msrDampAll::print (ostream& os) const
 {
   os <<
     "DampAll" <<
     ", line " << fInputLineNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrDampAll& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

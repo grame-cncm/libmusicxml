@@ -140,7 +140,7 @@ void lpsrBookBlockElement::browseData (basevisitor* v)
 #endif
 }
 
-void lpsrBookBlockElement::print (ostream& os)
+void lpsrBookBlockElement::print (ostream& os) const
 {
   // will never be called since it is overridden in subclasses
 }
@@ -348,7 +348,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
 #endif
 }
 
-void lpsrScoreBlock::print (ostream& os)
+void lpsrScoreBlock::print (ostream& os) const
 {
   os << "ScoreBlock" << endl << endl;
 
@@ -534,7 +534,7 @@ void lpsrBookPartBlock::browseData (basevisitor* v)
 #endif
 }
 
-void lpsrBookPartBlock::print (ostream& os)
+void lpsrBookPartBlock::print (ostream& os) const
 {
   os << "BookPartBlock" << endl << endl;
 
@@ -582,7 +582,7 @@ lpsrBookBlock::lpsrBookBlock (
 
   // don't create the book block element paper
   // it will be created as a new born clone of the the one in the lpsrScore
-  // when the geometry is handled in visitStart (S_msrPageGeometry&)
+  // when the geometry is handled in visitStart (S_msrGeometry&)
 }
 
 lpsrBookBlock::~lpsrBookBlock ()
@@ -793,7 +793,7 @@ void lpsrBookBlock::browseData (basevisitor* v)
 #endif
 }
 
-void lpsrBookBlock::print (ostream& os)
+void lpsrBookBlock::print (ostream& os) const
 {
   os << "BookBlock" << endl << endl;
 

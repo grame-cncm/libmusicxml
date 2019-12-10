@@ -172,7 +172,7 @@ string msrMeasureElement::asShortString () const
   return asString ();
 }
 
-void msrMeasureElement::print (ostream& os)
+void msrMeasureElement::print (ostream& os) const
 {
   os << asString () << endl;
 }

@@ -351,7 +351,7 @@ class lpsrScore : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -372,7 +372,9 @@ class lpsrScore : public lpsrElement
     S_lpsrComment         fCommandLineShortOptionsComment;
 
     // geometry
-    S_lpsrSchemeVariable  fScoreGlobalStaffSizeSchemeVariable;
+    S_lpsrGeometry        fLpsrGeometry;
+
+    S_lpsrSchemeVariable  fScoreGlobalStaffSizeSchemeVariable; // JMI
 
     // LilyPond stuff
     S_lpsrHeader          fScoreHeader;

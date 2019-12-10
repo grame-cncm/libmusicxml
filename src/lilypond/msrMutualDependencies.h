@@ -29,7 +29,7 @@
 #include "msrVarValAssocs.h"
 
 #include "msrIdentification.h"
-#include "msrPageGeometry.h"
+#include "msrGeometry.h"
 #include "msrLayout.h"
 
 #include "msrCredits.h"

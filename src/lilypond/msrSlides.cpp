@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -51,9 +51,9 @@ msrSlide::msrSlide (
   msrLineTypeKind  slideLineTypeKind,
   string           slideTextValue)
     : msrElement (inputLineNumber)
-{  
+{
   fSlideNumber = slideNumber;
-  
+
   fSlideTypeKind     = slideTypeKind;
   fSlideLineTypeKind = slideLineTypeKind;
 
@@ -114,12 +114,12 @@ void msrSlide::acceptIn (basevisitor* v)
       "% ==> msrSlide::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSlide>*
     p =
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlide::visitStart ()" <<
@@ -141,7 +141,7 @@ void msrSlide::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlide::visitEnd ()" <<
@@ -167,11 +167,11 @@ string msrSlide::asString () const
       fSlideLineTypeKind) <<
     ", \"" << fSlideTextValue <<
     "\", line " << fInputLineNumber;
-        
+
   return s.str ();
 }
 
-void msrSlide::print (ostream& os)
+void msrSlide::print (ostream& os) const
 {
   os <<
     "Slide" <<
@@ -181,7 +181,7 @@ void msrSlide::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 22;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "slideNumber " <<

@@ -41,7 +41,7 @@ class msr2LpsrTranslator :
 
   // geometry
 
-  public visitor<S_msrPageGeometry>,
+  public visitor<S_msrGeometry>,
 
   // layout
 
@@ -465,8 +465,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
-    virtual void visitStart (S_msrPageGeometry& elt);
-    virtual void visitEnd   (S_msrPageGeometry& elt);
+    virtual void visitStart (S_msrGeometry& elt);
+    virtual void visitEnd   (S_msrGeometry& elt);
 
     virtual void visitStart (S_msrLayout& elt);
     virtual void visitEnd   (S_msrLayout& elt);
@@ -517,7 +517,7 @@ class msr2LpsrTranslator :
     // paper
     // ------------------------------------------------------
     void                      setPaperIndentsIfNeeded (
-                                S_msrPageGeometry pageGeometry);
+                                S_msrGeometry geometry);
 
     // credits
     // ------------------------------------------------------

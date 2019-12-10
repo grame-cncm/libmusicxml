@@ -254,7 +254,7 @@ string bsrTimeItem::asString () const
   return s.str ();
 }
 
-void bsrTimeItem::print (ostream& os)
+void bsrTimeItem::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -772,7 +772,7 @@ string bsrTime::asString () const
   return s.str ();
 }
 
-void bsrTime::print (ostream& os)
+void bsrTime::print (ostream& os) const
 {
   int timeItemsVectorSize = fTimeItemsVector.size ();
 

@@ -420,7 +420,7 @@ string bsrTempo::asString () const
   return s.str ();
 }
 
-void bsrTempo::print (ostream& os)
+void bsrTempo::print (ostream& os) const
 {
   os <<
     "Tempo" <<

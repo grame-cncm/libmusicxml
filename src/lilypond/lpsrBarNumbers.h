@@ -68,7 +68,7 @@ class lpsrBarNumberCheck : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -123,7 +123,7 @@ class lpsrBarCommand : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

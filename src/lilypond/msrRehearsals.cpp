@@ -64,12 +64,12 @@ void msrRehearsal::acceptIn (basevisitor* v)
       "% ==> msrRehearsal::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRehearsal>*
     p =
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRehearsal::visitStart ()" <<
@@ -91,7 +91,7 @@ void msrRehearsal::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRehearsal::visitEnd ()" <<
@@ -104,17 +104,11 @@ void msrRehearsal::acceptOut (basevisitor* v)
 void msrRehearsal::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrRehearsal& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrRehearsal::rehearsalKindAsString (
   msrRehearsalKind rehearsalKind)
 {
   string result;
-  
+
   switch (rehearsalKind) {
     case msrRehearsal::kNone:
       result = "none";
@@ -142,7 +136,7 @@ string msrRehearsal::rehearsalKindAsString (
   return result;
 }
 
-void msrRehearsal::print (ostream& os)
+void msrRehearsal::print (ostream& os) const
 {
   os <<
     "Rehearsal" << " " << fRehearsalText <<
@@ -151,6 +145,12 @@ void msrRehearsal::print (ostream& os)
     " rehearsalPlacementKind: " <<
     msrPlacementKindAsString (fRehearsalPlacementKind) <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrRehearsal& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

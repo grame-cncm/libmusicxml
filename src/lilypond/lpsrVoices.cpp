@@ -99,7 +99,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 void lpsrUseVoiceCommand::browseData (basevisitor* v)
 {}
 
-void lpsrUseVoiceCommand::print (ostream& os)
+void lpsrUseVoiceCommand::print (ostream& os) const
 {
   os <<
     "UseVoiceCommand" << " \"" <<

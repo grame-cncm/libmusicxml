@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -51,9 +51,9 @@ msrGlissando::msrGlissando (
   msrLineTypeKind      glissandoLineTypeKind,
   string               glissandoTextValue)
     : msrElement (inputLineNumber)
-{  
+{
   fGlissandoNumber = glissandoNumber;
-  
+
   fGlissandoTypeKind     = glissandoTypeKind;
   fGlissandoLineTypeKind = glissandoLineTypeKind;
 
@@ -114,12 +114,12 @@ void msrGlissando::acceptIn (basevisitor* v)
       "% ==> msrGlissando::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrGlissando>*
     p =
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGlissando::visitStart ()" <<
@@ -141,7 +141,7 @@ void msrGlissando::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGlissando::visitEnd ()" <<
@@ -167,11 +167,11 @@ string msrGlissando::asString () const
       fGlissandoLineTypeKind) <<
     ", \"" << fGlissandoTextValue <<
     "\", line " << fInputLineNumber;
-        
+
   return s.str ();
 }
 
-void msrGlissando::print (ostream& os)
+void msrGlissando::print (ostream& os) const
 {
   os <<
     "Glissando" <<
@@ -181,7 +181,7 @@ void msrGlissando::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 22;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "glissandoNumber " <<

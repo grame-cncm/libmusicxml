@@ -136,9 +136,10 @@ rational msrDottedDuration::dottedDurationAsWholeNotes (
   int inputLineNumber) const
 {
   // convert duration into whole notes
-  rational result =
-    msrDurationKindAsWholeNotes (
-      fDurationKind);
+  rational
+    result =
+      msrDurationKindAsWholeNotes (
+        fDurationKind);
 
   // take dots into account if any
   if (fDotsNumber > 0) {
@@ -156,7 +157,7 @@ rational msrDottedDuration::dottedDurationAsWholeNotes (
   return result;
 }
 
-void msrDottedDuration::print (ostream& os)
+void msrDottedDuration::print (ostream& os) const
 {
   const int fieldWidth = 11;
 
@@ -170,7 +171,7 @@ void msrDottedDuration::print (ostream& os)
     endl;
 };
 
-ostream& operator<< (ostream& os, msrDottedDuration elt)
+ostream& operator<< (ostream& os, const msrDottedDuration& elt)
 {
   elt.print (os);
   return os;
@@ -371,7 +372,7 @@ string msrSemiTonesPitchAndOctave::asString () const
   return s.str ();
 }
 
-void msrSemiTonesPitchAndOctave::print (ostream& os)
+void msrSemiTonesPitchAndOctave::print (ostream& os) const
 {
   os <<
     "SemiTonesPitchAndOctave" <<
@@ -1213,6 +1214,9 @@ msrTupletFactor::msrTupletFactor (
   fTupletNormalNotes = rationalTupletFactor.getDenominator ();
 }
 
+msrTupletFactor::~msrTupletFactor ()
+{}
+
 string msrTupletFactor::asString () const
 {
   stringstream s;
@@ -1226,7 +1230,7 @@ string msrTupletFactor::asString () const
   return s.str ();
 }
 
-void msrTupletFactor::print (ostream& os)
+void msrTupletFactor::print (ostream& os) const
 {
   const int fieldWidth = 11;
 
@@ -1239,7 +1243,7 @@ void msrTupletFactor::print (ostream& os)
     endl;
 };
 
-ostream& operator<< (ostream& os, msrTupletFactor elt)
+ostream& operator<< (ostream& os, const msrTupletFactor& elt)
 {
   elt.print (os);
   return os;
@@ -13002,23 +13006,20 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   return result;
 }
 
-// paper unit kinds
+// length units
 //______________________________________________________________________________
 
-map<string, msrPaperUnitKind>
-  gMsrPaperUnitKindsMap;
+map<string, msrLengthUnitKind>
+  gMsrLengthUnitKindsMap;
 
-msrPaperUnitKind
-  gMsrPaperUnitKindDefaultValue = kMillimeterUnit; // default value
-
-string msrPaperUnitKindAsString (
-  msrPaperUnitKind paperUnitKind)
+string msrLengthUnitKindAsString (
+  msrLengthUnitKind lengthUnitKind)
 {
   string result;
 
   // no CamelCase here, these strings are used in the command line options
 
-  switch (paperUnitKind) {
+  switch (lengthUnitKind) {
     case kInchUnit:
       result = "in";
       break;
@@ -13033,26 +13034,26 @@ string msrPaperUnitKindAsString (
   return result;
 }
 
-void initializeMsrPaperUnitKindsMap ()
+void initializeMsrLengthUnitKindsMap ()
 {
   // register the LilyPond score output kinds
   // --------------------------------------
 
   // no CamelCase here, these strings are used in the command line options
 
-  gMsrPaperUnitKindsMap ["in"] = kInchUnit;
-  gMsrPaperUnitKindsMap ["cm"] = kCentimeterUnit;
-  gMsrPaperUnitKindsMap ["mm"] = kMillimeterUnit;
+  gMsrLengthUnitKindsMap ["in"] = kInchUnit;
+  gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
+  gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
 }
 
-string existingMsrPaperUnitKinds (int namesListMaxLength)
+string existingMsrLengthUnitKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gMsrPaperUnitKindsMap.size ()) {
-    map<string, msrPaperUnitKind>::const_iterator
-      iBegin = gMsrPaperUnitKindsMap.begin (),
-      iEnd   = gMsrPaperUnitKindsMap.end (),
+  if (gMsrLengthUnitKindsMap.size ()) {
+    map<string, msrLengthUnitKind>::const_iterator
+      iBegin = gMsrLengthUnitKindsMap.begin (),
+      iEnd   = gMsrLengthUnitKindsMap.end (),
       i      = iBegin;
 
     int cumulatedLength = 0;
@@ -13078,31 +13079,241 @@ string existingMsrPaperUnitKinds (int namesListMaxLength)
   return s.str ();
 }
 
-// paper units
+// lengths
 //______________________________________________________________________________
-S_msrFloatAndMsrPaperUnit msrFloatAndMsrPaperUnit::create (
-  msrPaperUnitKind paperFontSizeKind,
-  float            theFloat)
+S_msrLength msrLength::create (
+  msrLengthUnitKind lengthUnitKind,
+  float             lengthValue)
 {
-  msrFloatAndMsrPaperUnit * o =
-    new msrFloatAndMsrPaperUnit (
-      paperFontSizeKind,
-      theFloat);
+  msrLength * o =
+    new msrLength (
+      lengthUnitKind,
+      lengthValue);
   assert(o!=0);
 
   return o;
 }
 
-msrFloatAndMsrPaperUnit::msrFloatAndMsrPaperUnit (
-  msrPaperUnitKind paperFontSizeKind,
-  float            theFloat)
+msrLength::msrLength (
+  msrLengthUnitKind lengthUnitKind,
+  float             lengthValue)
 {
-  fPaperUnitKind = paperFontSizeKind;
-  fFloat = theFloat;
+  fLengthUnitKind = lengthUnitKind;
+  fLengthValue    = lengthValue;
 }
 
-msrFloatAndMsrPaperUnit::~msrFloatAndMsrPaperUnit ()
+msrLength::msrLength ()
+{
+  fLengthUnitKind = kMillimeterUnit;
+  fLengthValue    = 0.0;
+}
+
+msrLength::~msrLength ()
 {}
+
+void msrLength::convertToLengthUnit (
+  msrLengthUnitKind lengthUnitKind)
+{
+  if (fLengthUnitKind != lengthUnitKind) {
+    switch (lengthUnitKind) {
+      case kInchUnit:
+        switch (fLengthUnitKind) {
+          case kInchUnit:
+            break;
+          case kCentimeterUnit:
+            fLengthValue /= 2.54;
+            break;
+          case kMillimeterUnit:
+            fLengthValue /= 25.4;
+            break;
+        } // switch
+        break;
+
+      case kCentimeterUnit:
+        switch (fLengthUnitKind) {
+          case kInchUnit:
+            fLengthValue *= 2.54;
+            break;
+          case kCentimeterUnit:
+            break;
+          case kMillimeterUnit:
+            fLengthValue /= 10;
+            break;
+        } // switch
+        break;
+
+      case kMillimeterUnit:
+        switch (fLengthUnitKind) {
+          case kInchUnit:
+            fLengthValue *= 25.4;
+            break;
+          case kCentimeterUnit:
+            fLengthValue *= 10;
+            break;
+          case kMillimeterUnit:
+            break;
+        } // switch
+        break;
+    } // switch
+
+    fLengthUnitKind = lengthUnitKind;
+  }
+}
+
+string msrLength::asString () const
+{
+  stringstream s;
+
+  s <<
+    "'" <<
+    setprecision (4) <<
+    fLengthValue <<
+    " " <<
+    msrLengthUnitKindAsString (fLengthUnitKind) <<
+    "'";
+
+  return s.str ();
+}
+
+void msrLength::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+};
+
+ostream& operator<< (ostream& os, const S_msrLength& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+// margins types
+//______________________________________________________________________________
+
+map<string, msrMarginTypeKind>
+  gMsrMarginTypeKindsMap;
+
+string msrMarginTypeKindAsString (
+  msrMarginTypeKind marginTypeKind)
+{
+  string result;
+
+  // no CamelCase here, these strings are used in the command line options
+
+  switch (marginTypeKind) {
+    case kOddMargin:
+      result = "odd";
+      break;
+    case kEvenMargin:
+      result = "even";
+      break;
+    case kBothMargins: // default value
+      result = "both";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeMsrMarginTypeKindsMap ()
+{
+  // register the LilyPond score output kinds
+  // --------------------------------------
+
+  // no CamelCase here, these strings are used in the command line options
+
+  gMsrMarginTypeKindsMap ["odd"] = kOddMargin;
+  gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
+  gMsrMarginTypeKindsMap ["both"] = kBothMargins;
+}
+
+string existingMsrMarginTypeKinds (int namesListMaxLength)
+{
+  stringstream s;
+
+  if (gMsrMarginTypeKindsMap.size ()) {
+    map<string, msrMarginTypeKind>::const_iterator
+      iBegin = gMsrMarginTypeKindsMap.begin (),
+      iEnd   = gMsrMarginTypeKindsMap.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i).first;
+
+      s << theString;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
+// margins
+//______________________________________________________________________________
+S_msrMargin msrMargin::create (
+  msrMarginTypeKind marginTypeKind,
+  msrLength         marginLength)
+{
+  msrMargin * o =
+    new msrMargin (
+      marginTypeKind,
+      marginLength);
+  assert(o!=0);
+
+  return o;
+}
+
+msrMargin::msrMargin (
+  msrMarginTypeKind marginTypeKind,
+  msrLength         marginLength)
+{
+  fMarginTypeKind = marginTypeKind;
+  fMarginLength   = marginLength;
+}
+
+msrMargin::~msrMargin ()
+{}
+
+string msrMargin::asString () const
+{
+  stringstream s;
+
+  s <<
+    "'" <<
+    setprecision (4) <<
+    fMarginLength.asString () <<
+    " " <<
+    msrMarginTypeKindAsString (fMarginTypeKind) <<
+    "'";
+
+  return s.str ();
+}
+
+void msrMargin::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+};
+
+ostream& operator<< (ostream& os, const S_msrMargin& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 // font size
 //______________________________________________________________________________
@@ -13249,7 +13460,7 @@ float msrFontSize::getFontNumericSize ()
   return result;
 }
 
-void msrFontSize::print (ostream& os)
+void msrFontSize::print (ostream& os) const
 {
   switch (fFontSizeKind) {
     case msrFontSize::kFontSizeNone:
@@ -16446,7 +16657,7 @@ void msrChordInterval::browseData (basevisitor* v)
 {}
 */
 
-string msrChordInterval::asString ()
+string msrChordInterval::asString () const
 {
   stringstream s;
 
@@ -16460,7 +16671,7 @@ string msrChordInterval::asString ()
   return s.str ();
 }
 
-string msrChordInterval::asShortString ()
+string msrChordInterval::asShortString () const
 {
   stringstream s;
 
@@ -16474,7 +16685,7 @@ string msrChordInterval::asShortString ()
   return s.str ();
 }
 
-void msrChordInterval::print (ostream& os)
+void msrChordInterval::print (ostream& os) const
 {
   os <<
     "ChordInterval" <<
@@ -17673,7 +17884,7 @@ string msrChordStructure::chordStructureAsString () const
   return s.str ();
 }
 
-void msrChordStructure::print (ostream& os)
+void msrChordStructure::print (ostream& os) const
 {
   os <<
     "ChordStructure" <<
@@ -17813,7 +18024,7 @@ string msrSemiTonesPitchAndAbsoluteOctave::asString () const
   return s.str ();
 }
 
-void msrSemiTonesPitchAndAbsoluteOctave::print (ostream& os)
+void msrSemiTonesPitchAndAbsoluteOctave::print (ostream& os) const
 {
   os <<
     "SemiTonesPitchAndAbsoluteOctave" <<
@@ -17904,7 +18115,7 @@ string msrSemiTonesPitchAndRelativeOctave::asString () const
   return s.str ();
 }
 
-void msrSemiTonesPitchAndRelativeOctave::print (ostream& os)
+void msrSemiTonesPitchAndRelativeOctave::print (ostream& os) const
 {
   os <<
     "SemiTonesPitchAndRelativeOctave" <<
@@ -18226,7 +18437,7 @@ void msrChordContents::browseData (basevisitor* v)
 {}
 */
 
-void msrChordContents::print (ostream& os)
+void msrChordContents::print (ostream& os) const
 {
   os <<
     "ChordContents" <<
@@ -18957,6 +19168,19 @@ string msrRGBColor::asString () const
   return s.str ();
 }
 
+void msrRGBColor::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+};
+
+ostream& operator<< (ostream& os, const msrRGBColor& elt)
+{
+  elt.print (os);
+  return os;
+}
+
 // AlphaRGB colors
 //______________________________________________________________________________
 msrAlphaRGBColor::msrAlphaRGBColor (
@@ -18989,14 +19213,14 @@ string msrAlphaRGBColor::asString () const
   return s.str ();
 }
 
-void msrAlphaRGBColor::print (ostream& os)
+void msrAlphaRGBColor::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
 };
 
-ostream& operator<< (ostream& os, msrAlphaRGBColor elt)
+ostream& operator<< (ostream& os, const msrAlphaRGBColor& elt)
 {
   elt.print (os);
   return os;
@@ -19047,11 +19271,15 @@ void initializeMSRBasicTypes ()
 
   initializeChordStructuresMap ();
 
-  // MSR paper units handling
+  // MSR lengths handling
   // ------------------------------------------------------
 
-  initializeMsrPaperUnitKindsMap ();
+  initializeMsrLengthUnitKindsMap ();
 
+  // MSR margins types handling
+  // ------------------------------------------------------
+
+  initializeMsrMarginTypeKindsMap ();
 }
 
 

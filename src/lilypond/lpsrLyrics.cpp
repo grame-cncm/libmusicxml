@@ -102,7 +102,7 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
 void lpsrNewLyricsBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewLyricsBlock::print (ostream& os)
+void lpsrNewLyricsBlock::print (ostream& os) const
 {
   os <<
     "NewLyricsBlock" << " " <<

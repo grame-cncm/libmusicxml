@@ -38,7 +38,7 @@ S_lpsrScoreOutputKindAtom lpsrScoreOutputKindAtom::create (
   string               description,
   string               valueSpecification,
   string               variableName,
-  lpsrScoreOutputKind& lpsrScoreOutputKindKindVariable)
+  lpsrScoreOutputKind& lpsrScoreOutputKindVariable)
 {
   lpsrScoreOutputKindAtom* o = new
     lpsrScoreOutputKindAtom (
@@ -47,7 +47,7 @@ S_lpsrScoreOutputKindAtom lpsrScoreOutputKindAtom::create (
       description,
       valueSpecification,
       variableName,
-      lpsrScoreOutputKindKindVariable);
+      lpsrScoreOutputKindVariable);
   assert(o!=0);
   return o;
 }
@@ -58,7 +58,7 @@ lpsrScoreOutputKindAtom::lpsrScoreOutputKindAtom (
   string               description,
   string               valueSpecification,
   string               variableName,
-  lpsrScoreOutputKind& lpsrScoreOutputKindKindVariable)
+  lpsrScoreOutputKind& lpsrScoreOutputKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -66,7 +66,7 @@ lpsrScoreOutputKindAtom::lpsrScoreOutputKindAtom (
       valueSpecification,
       variableName),
     fLpsrScoreOutputKindVariable (
-      lpsrScoreOutputKindKindVariable)
+      lpsrScoreOutputKindVariable)
 {}
 
 lpsrScoreOutputKindAtom::~lpsrScoreOutputKindAtom ()
@@ -270,250 +270,6 @@ void lpsrScoreOutputKindAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_msrPaperUnitKindAtom msrPaperUnitKindAtom::create (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  msrPaperUnitKind& msrPaperUnitKindKindVariable)
-{
-  msrPaperUnitKindAtom* o = new
-    msrPaperUnitKindAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      msrPaperUnitKindKindVariable);
-  assert(o!=0);
-  return o;
-}
-
-msrPaperUnitKindAtom::msrPaperUnitKindAtom (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  msrPaperUnitKind& msrPaperUnitKindKindVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fMsrPaperUnitKindVariable (
-      msrPaperUnitKindKindVariable)
-{}
-
-msrPaperUnitKindAtom::~msrPaperUnitKindAtom ()
-{}
-
-S_oahValuedAtom msrPaperUnitKindAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a msrPaperUnitKindAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void msrPaperUnitKindAtom::handleValue (
-  string   theString,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'msrPaperUnitKindAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the score output kind:
-  // is it in the score output kinds map?
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'msrPaperUnitKindAtom'" <<
-      endl;
-  }
-#endif
-
-  map<string, msrPaperUnitKind>::const_iterator
-    it =
-      gMsrPaperUnitKindsMap.find (
-        theString);
-
-  if (it == gMsrPaperUnitKindsMap.end ()) {
-    // no, score output kind is unknown in the map
-
-    stringstream s;
-
-    s <<
-      "LPSR score output kind '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gMsrPaperUnitKindsMap.size () <<
-      " known LPSR score output kinds are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingMsrPaperUnitKinds (K_NAMES_LIST_MAX_LENGTH);
-
-    gIndenter--;
-
-    oahError (s.str ());
-  }
-
-  setMsrPaperUnitKindVariable (
-    (*it).second);
-}
-
-void msrPaperUnitKindAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> msrPaperUnitKindAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msrPaperUnitKindAtom>*
-    p =
-      dynamic_cast<visitor<S_msrPaperUnitKindAtom>*> (v)) {
-        S_msrPaperUnitKindAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching msrPaperUnitKindAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void msrPaperUnitKindAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> msrPaperUnitKindAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_msrPaperUnitKindAtom>*
-    p =
-      dynamic_cast<visitor<S_msrPaperUnitKindAtom>*> (v)) {
-        S_msrPaperUnitKindAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching msrPaperUnitKindAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void msrPaperUnitKindAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> msrPaperUnitKindAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string msrPaperUnitKindAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    msrPaperUnitKindAsString (fMsrPaperUnitKindVariable);
-
-  return s.str ();
-}
-
-string msrPaperUnitKindAtom::asLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    msrPaperUnitKindAsString (fMsrPaperUnitKindVariable);
-
-  return s.str ();
-}
-
-void msrPaperUnitKindAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "OptionsMsrPaperUnitKindAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedAtomEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsMsrPaperUnitKindVariable" << " : \"" <<
-    msrPaperUnitKindAsString (
-      fMsrPaperUnitKindVariable) <<
-    "\"" <<
-    endl;
-}
-
-void msrPaperUnitKindAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : \"" <<
-    msrPaperUnitKindAsString (
-      fMsrPaperUnitKindVariable) <<
-    "\"" <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_msrPaperUnitKindAtom& elt)
 {
   elt->print (os);
   return os;
@@ -1497,41 +1253,43 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // paper unit kind
+  // length unit kind
 
-  fPaperUnitKindDefaultValue = gMsrPaperUnitKindDefaultValue;
-  fPaperUnitKind = gMsrPaperUnitKindDefaultValue;
+  fLengthUnitKindDefaultValue = kMillimeterUnit; // default value;
+  fLengthUnitKind = fLengthUnitKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
-      msrPaperUnitKindAtom::create (
-        "paper-unit", "",
+      oahLengthUnitKindAtom::create (
+        "length-unit", "",
         replaceSubstringInString (
           replaceSubstringInString (
             replaceSubstringInString (
-R"(Set the LilyPond paper variables unit to UNIT in the LilyPond code.
-The NUMBER LilyPond paper variables units available are:
-PAPER_UNITS.
+R"(Set the LilyPond length variables unit to UNIT in the forthcoming options.
+The NUMBER LilyPond length variables units available are:
+LENTGTH_UNITS.
+This option should precede options that set paper size and indents
+if they don't specify a unit.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
-              to_string (gMsrPaperUnitKindsMap.size ())),
-            "PAPER_UNITS",
+              to_string (gMsrLengthUnitKindsMap.size ())),
+            "LENTGTH_UNITS",
             gIndenter.indentMultiLineString (
-              existingMsrPaperUnitKinds (K_NAMES_LIST_MAX_LENGTH))),
+              existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH))),
           "DEFAULT_VALUE",
-          msrPaperUnitKindAsString (
-            fPaperUnitKindDefaultValue)),
+          msrLengthUnitKindAsString (
+            fLengthUnitKindDefaultValue)),
         "UNIT",
-        "paperUnitKind",
-        fPaperUnitKind));
+        "lengthUnitKind",
+        fLengthUnitKind));
 
   // paper width
 
-  fPaperWidth = 0.0;
+  // fPaperWidth is 0.0 mm by default
 
   subGroup->
     appendAtomToSubGroup (
-      oahFloatAtom::create (
+      oahLengthAtom::create (
         "paper-width", "",
 R"(Set the LilyPond 'paper-width' paper variable to WIDTH in the LilyPond code.
 WIDTH should be a positive floating point or integer number.
@@ -1542,11 +1300,11 @@ LilyPond's default value is 297 mm (A4 format).)",
 
   // paper height
 
-  fPaperHeight = 0.0;
+  // fPaperHeight is 0.0 mm by default
 
   subGroup->
     appendAtomToSubGroup (
-      oahFloatAtom::create (
+      oahLengthAtom::create (
         "paper-height", "",
 R"(Set the LilyPond 'paper-width' paper variable to HEIGHT in the LilyPond code.
 HEIGHT should be a positive floating point or integer number.
@@ -1557,11 +1315,11 @@ LilyPond's default value is 210 mm (A4 format).)",
 
   // indent
 
-  fPaperIndent = 0.0;
+  // fPaperIndent is 0.0 mm by default
 
   subGroup->
     appendAtomToSubGroup (
-      oahFloatAtom::create (
+      oahLengthAtom::create (
         "indent", "",
 R"(Set the LilyPond 'indent' paper variable to INDENT in the LilyPond code.
 INDENT should be a floating point or integer number.
@@ -1572,11 +1330,11 @@ LilyPond's default value is 0.0 mm.)",
 
   // short indent
 
-  fPaperIndent = 0.0;
+  // fPaperShortIndent is 0.0 mm by default
 
   subGroup->
     appendAtomToSubGroup (
-      oahFloatAtom::create (
+      oahLengthAtom::create (
         "short-indent", "",
 R"(Set the LilyPond 'short-indent' paper variable to INDENT in the LilyPond code.
 INDENT should be a floating point or integer number.
@@ -2019,6 +1777,21 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   // paper
   // --------------------------------------
 
+  clone->fLengthUnitKind =
+    fLengthUnitKind;
+  clone->fLengthUnitKindDefaultValue =
+    fLengthUnitKindDefaultValue;
+
+  clone->fPaperWidth =
+    fPaperWidth;
+  clone->fPaperHeight =
+    fPaperHeight;
+
+  clone->fPaperIndent =
+    fPaperIndent;
+  clone->fPaperShortIndent =
+    fPaperShortIndent;
+
   clone->fRaggedBottom =
     fRaggedBottom;
   clone->fRaggedLastBottom =
@@ -2304,22 +2077,22 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "paperUnitKind" << " : " <<
-    msrPaperUnitKindAsString (fPaperUnitKind) <<
+    setw (fieldWidth) << "lengthUnitKind" << " : " <<
+    msrLengthUnitKindAsString (fLengthUnitKind) <<
     endl <<
 
     setw (fieldWidth) << "paperWidth" << " : " <<
-    fPaperWidth <<
+    fPaperWidth.asString () <<
     endl <<
     setw (fieldWidth) << "paperHeight" << " : " <<
-    fPaperHeight <<
+    fPaperHeight.asString () <<
     endl <<
 
     setw (fieldWidth) << "paperIndent" << " : " <<
-    fPaperIndent <<
+    fPaperIndent.asString () <<
     endl <<
     setw (fieldWidth) << "paperShortIndent" << " : " <<
-    fPaperShortIndent <<
+    fPaperShortIndent.asString () <<
     endl <<
 
     setw (fieldWidth) << "raggedBottom" << " : " <<

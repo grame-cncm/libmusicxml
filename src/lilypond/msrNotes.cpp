@@ -3668,7 +3668,7 @@ string msrNote::asString () const
   return s.str ();
 }
 
-void msrNote::print (ostream& os)
+void msrNote::print (ostream& os) const
 {
   rational
     measureFullLength =
@@ -5205,7 +5205,7 @@ void msrNote::print (ostream& os)
           ", noteUpLink: " <<
           syllable->
             getSyllableNoteUpLink ()->
-              asShortString ();
+              asShortString () const;
   */
 
         if (++i == iEnd) break;

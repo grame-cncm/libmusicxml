@@ -76,7 +76,7 @@ bool msrClef::isEqualTo (S_msrClef otherClef) const
   if (! otherClef) {
     return false;
   }
-    
+
   return fClefKind == otherClef->fClefKind;
 }
 
@@ -87,12 +87,12 @@ void msrClef::acceptIn (basevisitor* v)
       "% ==> msrClef::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrClef>*
     p =
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrClef::visitStart ()" <<
@@ -114,7 +114,7 @@ void msrClef::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrClef::visitEnd ()" <<
@@ -127,17 +127,11 @@ void msrClef::acceptOut (basevisitor* v)
 void msrClef::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrClef& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrClef::clefKindAsString (
   msrClefKind clefKind)
 {
   string result;
-  
+
   switch (clefKind) {
     case msrClef::k_NoClef:
       result = "none";
@@ -275,17 +269,23 @@ string msrClef::asString () const
 
   s <<
     "Clef" " \"" <<
-    clefKindAsString (fClefKind) << 
+    clefKindAsString (fClefKind) <<
     "\", line " << fInputLineNumber;
 
   return s.str ();
 }
 
-void msrClef::print (ostream& os)
+void msrClef::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrClef& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

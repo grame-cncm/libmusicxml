@@ -143,7 +143,7 @@ void bsrScore::browseData (basevisitor* v)
 #endif
 }
 
-void bsrScore::print (ostream& os)
+void bsrScore::print (ostream& os) const
 {
   os <<
     "BSR Score" <<

@@ -102,7 +102,7 @@ S_bsrCellsList bsrBarline::buildCellsList () const
             kDots126, kDots13, kDots3));
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -125,7 +125,7 @@ void bsrBarline::acceptIn (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -151,7 +151,7 @@ void bsrBarline::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -170,7 +170,7 @@ string bsrBarline::barlineKindAsString (
   bsrBarlineKind barlineKind)
 {
   string result;
- 
+
   switch (barlineKind) {
     case bsrBarline::kBarlineKindNone:
       result = "barlineKindNone";
@@ -205,7 +205,7 @@ string bsrBarline::asString () const
   return s.str ();
 }
 
-void bsrBarline::print (ostream& os)
+void bsrBarline::print (ostream& os) const
 {
   os <<
     "Barline" <<
@@ -213,7 +213,7 @@ void bsrBarline::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 17;
 
   os <<

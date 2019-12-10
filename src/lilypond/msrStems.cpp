@@ -40,7 +40,7 @@ msrStem::msrStem (
   msrStemKind stemKind)
     : msrElement (inputLineNumber)
 {
-  fStemKind   = stemKind; 
+  fStemKind   = stemKind;
 }
 
 msrStem::~msrStem ()
@@ -53,12 +53,12 @@ void msrStem::acceptIn (basevisitor* v)
       "% ==> msrStem::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrStem>*
     p =
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStem::visitStart ()" <<
@@ -80,7 +80,7 @@ void msrStem::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStem::visitEnd ()" <<
@@ -97,7 +97,7 @@ string msrStem::stemKindAsString (
   msrStemKind stemKind)
 {
   string result;
-  
+
   switch (stemKind) {
     case kStemNone:
       result = "stemNone";
@@ -125,11 +125,11 @@ string msrStem::asString () const
     ", fStemKind: " <<
     stemKindAsString (fStemKind) <<
     ", line " << fInputLineNumber;
-        
+
   return s.str ();
 }
 
-void msrStem::print (ostream& os)
+void msrStem::print (ostream& os) const
 {
   os <<
     asString () <<

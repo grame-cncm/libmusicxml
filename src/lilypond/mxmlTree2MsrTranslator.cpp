@@ -20140,7 +20140,7 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoiceMap (string header)
         ", voice " <<  (*i).first.second <<
         endl;
 //        "\"" << (*i).first->getVoiceName () <<
-//        "\" ----> " << (*i).second->asString ();
+//        "\" ----> " << (*i).second->asString () const;
       if (++i == iEnd) break;
       fLogOutputStream << endl;
     } // for

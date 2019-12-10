@@ -263,7 +263,7 @@ class msrPartGroup : public msrPartGroupElement
 
     virtual string        asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
     virtual void          printSummary (ostream& os);
 

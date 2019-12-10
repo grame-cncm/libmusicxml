@@ -478,7 +478,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
 #endif
 }
 
-void lpsrPartBlock::print (ostream& os)
+void lpsrPartBlock::print (ostream& os) const
 {
   os <<
     "PartBlock" << " " <<

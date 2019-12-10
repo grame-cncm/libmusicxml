@@ -94,9 +94,9 @@ class msrMeasuresRepeatElement : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os);
+    virtual void          shortPrint (ostream& os) const;
 
   private:
 
@@ -186,7 +186,7 @@ class msrMeasuresRepeatPattern : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -275,7 +275,7 @@ class msrMeasuresRepeatReplicas : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -422,7 +422,7 @@ class msrMeasuresRepeat : public msrVoiceElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

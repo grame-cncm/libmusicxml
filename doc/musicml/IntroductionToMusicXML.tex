@@ -20,29 +20,14 @@
 \definecolor {lightblue} {rgb} {0.5, 0.5, 1}
 \definecolor {bordeaux} {cmyk} {0, 0.735, 0.270, 0.257}
 
+%\usepackage{textcomp}
+
 \usepackage{url}
 
 \usepackage{graphics}
 \graphicspath{{./}}
 
 \usepackage {listings}
-%\lstset{% general command to set parameter(s)
-%frame=shadowbox, framesep=6pt, rulesep=4pt, rulesepcolor=\color{orange}, 
-%boxpos=c,
-%breaklines=false,
-%numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=2em,
-%tabsize=3,
-%fontadjust=true,
-%basicstyle=\small, 
-%keywordstyle=\color{blue}\bfseries, 
-%identifierstyle= \ttfamily,
-%commentstyle=\color{darkgreen}, 
-%stringstyle=\color{red}, 
-%showstringspaces=false,
-%escapechar=!,
-%mathescape=false
-%} 
-
 
 %\definecolor{codegreen}{rgb}{0,0.8,0}
 \definecolor{codeblue}{rgb}{0,0,0.9}
@@ -63,7 +48,7 @@
   basicstyle=\ttfamily\footnotesize,
   breakatwhitespace=false,         
   breaklines=true,                 
-  captionpos=b,                    
+  captionpos=t,      % top               
   keepspaces=true,                 
   numbers=left,                    
   numbersep=5pt,                  
@@ -96,10 +81,11 @@
 
 \setlength {\parskip} {2.8ex plus \baselineskip minus 2pt}
 
-
 % -------------------------------------------------------------------------
 \begin{document}
 % -------------------------------------------------------------------------
+
+%\noindent
 
 \title{
 Introduction to \mxml\\[5pt]
@@ -110,29 +96,39 @@ Introduction to \mxml\\[5pt]
 Jacques Menu \footnote {Former lecturer in computer science at Centre Universitaire d'Informatique, University of Geneva, Switzerland}
 }
 
+\date {DRAFT -- \today}
+%\date {}
+
 \maketitle
 
 \abstract {
-This document presents a basic view of \mxml\ and a couple of short examples illustrating how \mxml\ represents a music score. Our goal is to give a flavor of what \mxml\ definitions and data look like from a musician's point of view.\\
-All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as '{\tt basic/HelloWorld.xml'}.\\
-The scores fragments shown in this document have been produced by translating the {'\tt .xml}' files to LilyPond syntax, and then creating the graphical score with LilyPond. The translations have been done by {\tt xml2ly}, a prototype tool developed by this author. The reader can handle the {'\tt .xml}' files with their own software tools to compare the results with the ones herein.
+This document presents a basic view of \mxml\ and a couple of short examples illustrating how \mxml\ represents a music score. Our goal is to give a flavor of what \mxml\ definitions and data look like from a musician's point of view.
+
+All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as '{\tt basic/HelloWorld.xml'}.
+
+The scores fragments shown in this document have been produced by translating the {'\tt .xml}' files to LilyPond syntax, and then creating the graphical score with LilyPond. The translations have been done by {\tt xml2ly}, a prototype tool developed by this author. {\tt xml2ly} and these examples are this author's contribution to {\tt libmusicxml2}, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to {\tt libmusicxml2} is \url{https://github.com/grame-cncm/libmusicxml}.
+
+The reader can handle the {'\tt .xml}' file examples with their own software tools to compare the results with the ones herein.
 }
 
-
-%\noindent
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Overview of \mxml\ }
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-\section{What \mxml\ is}
+\subsection{What \mxml\ is}
 % -------------------------------------------------------------------------
 
-\mxml\ ({\it Music eXtended Markup Language}) is a way to represent a music score by a text, readable both by humans and computers. It has been designed by the W3C Music Notation Community Group to help sharing music score files between applications, using export/import commands provided by the latter.
+\mxml\ ({\it Music eXtended Markup Language}) is a specification language meant to represent music scores by texts, readable both by humans and computers. It has been designed by the W3C Music Notation Community Group to help sharing music score files between applications, through export and import commands mechanisms.
 
 The homepage to \mxml\ is \url{https://www.musicxml.com}.
 
-\mxml\ data contains very detailed information about the music score, and is quite verbose by nature.
+\mxml\ data contains very detailed information about the music score, and is quite verbose by nature. This makes creating such data quite difficult by hand, but this should be done by applications actually.
 
 % -------------------------------------------------------------------------
-\section{\mxml\ formal definition}
+\subsection{\mxml\ formal definition}
 % -------------------------------------------------------------------------
 
 As a member of the *XML family of languages, \mxml\ is defined by a DTD ({\it Document Type Definition}), to be found at \url{https://github.com/w3c/musicxml/tree/v3.1}. 
@@ -175,7 +171,7 @@ The syntactical aspects of \mxml\ are quite simple and regular, which makes it e
 It is very difficult though to define the semantics -- the meaning of the sentences -- of an artificial language in a complete and consistent way, i.e. without omitting anything and without contradictions. \mxml\ is no exception to this rule, and there are things unsaid in the DTD, which leaves room to interpretation by the various applications that create or handle \mxml\ data.
 
 % -------------------------------------------------------------------------
-\section{part-wise vs. measure-wise}
+\subsection{Part-wise vs. measurewise descriptions}
 % -------------------------------------------------------------------------
 
 \mxml\ allows the score to be represented as a sequence of parts, each containing a sequence of measures, or as a sequence of measures, each containing a sequence of parts, i.e. data describing the contents of the corresponding measure in a part.
@@ -185,7 +181,7 @@ It seems that measure-wise descriptions have been very little used, and we shall
 As a historical note, an XSL/XSLT script was supplied in the early days of \mxml\ to convert between part-wise and measure-wise representations.
 
 % -------------------------------------------------------------------------
-\section{Markups}
+\subsection{Markups}
 % -------------------------------------------------------------------------
 
 \mxml\ data is made of so-called markups, composed of two parts. The opener is introduced by a '{\tt <}' and closed by a '{\tt >}', as in '{\tt <part-list>}'. The closer and second part is introduced by a '{\tt </}' and closed by a '{\tt >}', as in '{\tt </part-list>}'.
@@ -216,7 +212,7 @@ It is possible to contract an element that contains nothing between its opener a
 \end{lstlisting}
 this way:
 \begin{lstlisting}[language=XML]
-        <dot/>
+        <dot />
 \end{lstlisting}
 
 Comments can be used in \mxml\ data. They start with {'\tt <!--}' and end with {'\tt -->}', as in:
@@ -230,18 +226,38 @@ Comments can span several lines.
 
 The spaces and end of lines between markups are ignored.
 
-\hand {\mxml\ is a representation of HOW TO DRAW a score, which has implications on the kind of markups available, in particular {'\tt <forward>}' and {'\tt <backup>}', which are presented below.
+\hand {\mxml\ is a representation of HOW TO DRAW a score, which has implications on the kind of markups available, in particular {'\tt <forward>}' and {'\tt <backup>}', which are presented at section \ref{forwardAndBackup} %\ContentsPageLink{NAT}{à la}.
 }
 
-Markup are called {'\tt elements}' in the \mxml\ DTD, and we shall use that terminology in the remainder of this paper.
+Markups are called {'\tt elements}' in the \mxml\ DTD, and we shall use that terminology in the remainder of this paper.
 
 % -------------------------------------------------------------------------
-\section{A first example}
+\subsection{Overall structure}
 % -------------------------------------------------------------------------
 
-As is usual in computer science, this example is named '{\tt basic/HelloWorld.xml'}. It is displayed in figure~\ref{helloworld}, together with the resulting graphic score.
+\mxml\ data consists of:
+\begin{itemize}
+\item a {'\tt <?xml>}' element indicating the characters encoding used;
+\item a {'\tt <!DOCTYPE>}' element telling that the data below is in {'\tt score-partwise}' mode; 
+\item a {'\tt <score-partwise>}' element indicating the \mxml\ DTD number that the forthcoming data complies to, and that contains:
 
-The first line specifies the character encoding of the contents below, here UTF-8. Then the '{\tt !DOCTYPE}' element at lines 2 to 4 tells us that this file contains part-wise data conforming to DTD 3.0.
+\begin{itemize}
+\item a {'\tt <part-list>}' element containing the various {'\tt <score-part>}'s in the score;
+\item a sequence of {'\tt <part>}' elements in the order they appear in the score, each one containing the measures in the given part, in order. 
+\end{itemize}
+
+\end{itemize}
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{A complete example}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+As is usual in computer science, this example is named '{\tt basic/HelloWorld.xml'}. It is displayed below, together with the resulting graphic score.
+
+The first line specifies the character encoding of the contents below, here UTF-8. Then the '{\tt !DOCTYPE}' element at lines 2 to 4 tells us that this file contains partwise data conforming to DTD 3.0.
 
 Then the '{\tt <part-list>}' element at lines 7 to 11 contains a list of '{\tt <score-part>}'s with their '{\tt id}' attribute, here '{\tt P1}' alone.
 
@@ -249,11 +265,11 @@ After this, we find the sequence of '{\tt part}'s with their '{\tt id}' attribut
 
 The nesting of elements, such as {'\tt <key>}' containing a {'\tt <fifths>}' element, leads the structure of a \mxml\ representation to be a tree. The way the specification is written conforms to the computer science habit of drawing trees with their root at the top and their leaves at the bottom.
 
-\begin{figure}
-\caption{Contents of {'\tt basic/Helloworld.xml}'}\label{helloworld}
+%\begin{figure}
+%\caption{Contents of {'\tt basic/Helloworld.xml}'}\label{helloworld}
 \includegraphics{HelloWorld.png}
 
-\begin{lstlisting}[language=XML]
+\begin{lstlisting}[language=XML, caption =HelloWorld.xml]
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC
     "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
@@ -297,10 +313,16 @@ The nesting of elements, such as {'\tt <key>}' containing a {'\tt <fifths>}' ele
   </part>
 </score-partwise>
 \end{lstlisting}
-\end{figure}
+%\end{figure}
 
 % -------------------------------------------------------------------------
-\section{Part groups and parts}
+% -------------------------------------------------------------------------
+\section{Top-level structure}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Part groups and parts}
 % -------------------------------------------------------------------------
 
 Part groups are used to structure complex scores, mimicking the way large orchestras are organized. For example, there can be a winds group, containing several groups such as flutes, oboes, horns and bassoons.
@@ -308,7 +330,7 @@ Part groups are used to structure complex scores, mimicking the way large orches
 The \mxml\ DTD state that part groups me be interleaved.
 
 % -------------------------------------------------------------------------
-\section{Staves and voices}
+\subsection{Staves and voices}
 % -------------------------------------------------------------------------
 
 There's no staff or voice component as such in \mxml\ data: one knows they exist because they are mentioned in notes and other elements, such as:
@@ -317,31 +339,37 @@ There's no staff or voice component as such in \mxml\ data: one knows they exist
 \end{lstlisting}
 
 % -------------------------------------------------------------------------
-\section{Clefs}
+% -------------------------------------------------------------------------
+\section{Staff and voice level}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Clefs}
 % -------------------------------------------------------------------------
 
  
 
 % -------------------------------------------------------------------------
-\section{Keys}
+\subsection{Keys}
 % -------------------------------------------------------------------------
 
  
 
 % -------------------------------------------------------------------------
-\section{Time signatures}
+\subsection{Time signatures}
 % -------------------------------------------------------------------------
 
  
 
 % -------------------------------------------------------------------------
-\section{Measures}
+\subsection{Measures}
 % -------------------------------------------------------------------------
 
 Anacruses 
 
 % -------------------------------------------------------------------------
-\section{Numbering}
+\subsection{Numbering}
 % -------------------------------------------------------------------------
 
 The various parts in a (part-wise) \mxml\ descriptions are usually named from '{\tt P1}' on, but any name could be used.
@@ -351,7 +379,13 @@ Measures are usually numbered from {'\tt 1}' up, but these numbers are actually 
 Staves have numbers from {'\tt 1}' up, with stave number {'\tt 1}' the top-most one in a given part.
 
 % -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 \section{Measurements}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Geometrical lengths}
 % -------------------------------------------------------------------------
 
 \mxml\ represents lengths by 10$^{th}$ of in interline space, i.e. the distance between lines in staves. This relative measure unit has the advantage that if does not change if the score is scaled by some factor.
@@ -410,7 +444,7 @@ In order to obtain absolute lengths, \mxml\ specifies how many tenths there are 
 \end{lstlisting}
 
 This leads for example to:
-\begin{lstlisting}[language=XML]
+\begin{lstlisting}[language=XML, caption=Scaling example]
         <scaling>
           <millimeters>7.05556</millimeters>
           <tenths>40</tenths>
@@ -418,7 +452,7 @@ This leads for example to:
 \end{lstlisting}
 
 % -------------------------------------------------------------------------
-\section{Durations}
+\subsection{Notes durations}
 % -------------------------------------------------------------------------
 
 \mxml\ uses a quantization of the duration with the {'\tt <divisions>'} element, which tells how many divisions there are in a quarter note:
@@ -426,22 +460,114 @@ This leads for example to:
        <divisions>2</divisions>
 \end{lstlisting}
 
-This example means that there are 2 division in a quarter note, i.e. the duration quantum is an eigth note. Any multiple of this quantum can be used, but there's no way to express a duration less than an eigth node.
+This example means that there are 2 division in a quarter note, i.e. the duration measure unit is an eigth note. Let's borrow from physics and MIDI terminology and call this a quantum.
+
+Any multiple of this quantum can be used in the \mxml\ data after that specification, but there's no way to express a duration less than an eigth node.
 
 The quantum value has to be computed from the shortest note in the music that follows this element, taking tuplets into account, see below. 
 
-Is it possible to set the quantum to other values later in the \mxml\ data at will if needed.
+Is it possible to set the quantum to other values later in the \mxml\ data at will if needed? The DTD doesn't mentions that, and in practice, all applications support this feature.
 
 % -------------------------------------------------------------------------
-\section{Notes}
+% -------------------------------------------------------------------------
+\section{Note level}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+A note is described by a {'\tt note}' element, such as this snippet from {'\tt basic/MinimalScore.xml}':
+
+\begin{lstlisting}[language=XML, caption =Note example]
+        <divisions>8</divisions>
+        
+      <!-- ... ... ... ... ... -->
+      
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+          <clef-octave-change>-1</clef-octave-change>
+        </clef>
+
+      <!-- ... ... ... ... ... -->
+      
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>28</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <dot />
+        <dot />
+        <accidental>flat</accidental>
+      </note>
+\end{lstlisting}
+
+This is the first note in measure 2 of:\\
+\includegraphics{MinimalScore.png}
+
+In this example, the various sub-elements are:
+%\begin{adjustwidth}{-0.5cm}{-0.5cm}
+\begin{center}
+\footnotesize
+\def \contentsWidth{0.5\textwidth}
+\def \arraystretch{1.3}
+%
+\begin{tabular}[t]{lp{\contentsWidth}}
+\textbf{Fragment}&\textbf{Meaning} \tabularnewline[0.5ex]
+\hline\\[-3.0ex]
+%
+{'\tt <step>E</step>}' & the diatonic pitch of the note, from A to G
+\tabularnewline
+
+{'\tt <alter>-1</alter>}' & the chromatic alteration in
+	number of semitones (e.g., -1 for flat, 1 for sharp)
+\tabularnewline
+
+{'\tt <octave>4</octave>}' & the absolute octave of the note, 0 to 9, where 4 indicates the octave
+	started by middle C
+\tabularnewline
+
+{'\tt <duration>28</duration>}' & the sounding duration of the note, 28 quanta, which is a double dotted half note with 4 quanta per quarter note (16+8+4)
+\tabularnewline
+
+{'\tt <voice>1</voice>}' & the voice number of the note, 1
+\tabularnewline
+
+{'\tt <type>half</type>}' & the display duration of the note, a half note, which determines the note head
+\tabularnewline
+
+\end{tabular}
+\end{center}
+%\end{adjustwidth}
+
+Middle C is the one between the left hand and right hand staves in a typical score. Caution here: octave numbers are absolute, and the treble clef is octaviated!
+
+Voice and staff numbers are optional, in which case the default value is 1.
+
+Having both a sounding and display duration specification is necessary because they do not coincide in the case of dotted notes and tuplets members, see paragraph \ref{tuplets} for the latter.
+
+% -------------------------------------------------------------------------
+\subsection{Notes}
 % -------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-\section{Measures}
+\subsection{Dynamics}
 % -------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-\section{{'\tt <forward>}' and {'\tt <backup>}'}
+\subsection{Articulations}
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Measure level}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{{'\tt <forward>}' and {'\tt <backup>}'}\label{forwardAndBackup}%\ContentsLabel{NAT}
 % -------------------------------------------------------------------------
 
 The {'\tt <forward>}' element is used typically in a second, third or fourth voice which does not contain notes at some point in time. This element allows drawing to continue a bit further in the voice, without drawing rests in-between.
@@ -449,18 +575,24 @@ The {'\tt <forward>}' element is used typically in a second, third or fourth voi
 The {'\tt <backup>}' is needed to move to the left before drawing the next element. This is necessary where there are several voices in a given staff and one switched drawing from one voice to another, whose next element is not at the right of the last one drawn.
 
 % -------------------------------------------------------------------------
-\section{Chords}
+% -------------------------------------------------------------------------
+\section{Aggreggates}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Chords}
 % -------------------------------------------------------------------------
 
 Chords are not evidenced as such in \mxml\ data. Instead, the {'\tt <chord>}' element means that the given note is part of a chord after the first note in the chord has be met. Remember:~\mxml\ is about drawing scores. Put it another way, you know there is a chord upon its second note.
 
-The code for the last three note chord in {'\tt chords/Chords.xml}' is shown in figure~\ref{chords} .
+The code for the last three note chord in {'\tt chords/Chords.xml}' is shown below.
 
-\begin{figure}
-\caption{Last chord from {'\tt chords/Chords.xml}'}\label{chords}
+%\begin{figure}
+%\caption{Last chord from {'\tt chords/Chords.xml}'}\label{chords}
 \includegraphics{Chords.png}
 
-\begin{lstlisting}[language=XML]
+\begin{lstlisting}[language=XML, caption=Chord example]
       <note>
         <pitch>
           <step>B</step>
@@ -497,26 +629,45 @@ The code for the last three note chord in {'\tt chords/Chords.xml}' is shown in 
         <type>half</type>
       </note>
 \end{lstlisting}
-\end{figure}
+%\end{figure}
 
 % -------------------------------------------------------------------------
-\section{Tuplets}
+\subsection{Tuplets}\label{tuplets}
 % -------------------------------------------------------------------------
 
-The situation for tuplets is different than that of the chords: each note in the tuplet has a {'\tt <time-modification>}' element, from the first one on, as shown in figure \ref{tuplets}. This element contains two elements:
+The situation for tuplets is different than that of the chords: there is a {'\tt <tuplet>}' element, with a {'\tt type}' attribute to indicate the note upon which it starts and stops:
+
+\begin{lstlisting}[language=XML]
+        <notations>
+          <tuplet number="1" type="start" />
+        </notations>
+\end{lstlisting}
+
+The {'\tt number}' attribute can be used to describe nested tuplets:
+
+The contents, i.e. the notes in the tuplet, are not nested in the latter: there are placed in sequence between the two {'\tt <tuplet>}' elements that delimitate the tuplet. 
+
+Each note in the tuplet has a {'\tt <time-modification>}' element, from the first one on. This element contains two elements:
 \begin{lstlisting}[language=XML]
         <time-modification>
           <actual-notes>3</actual-notes>
           <normal-notes>2</normal-notes>
         </time-modification>
 \end{lstlisting}
-One should play {'\tt <actual-notes>}' when there usually only {'\tt <normal-notes>}'. The example above is thus that of a triplet of quarter notes, and the duration of the triplet as a whole is that of a half note.
 
-\begin{figure}
-\caption{First tuplet from {'\tt tuplets/Tuplet.xml}'}\label{tuplets}
+One should play {'\tt <actual-notes>}' within the time taken by only {'\tt <normal-notes>}'. The example above is thus that of a triplet.
+
+In the case of {'\tt tuplets/Tuplets.xml}', shown below, the duration of the tuplets member is 20 quanta, i.e. 2/3 of a quarter note, whose duration is 30, and the 'display' duration is a quarter note. The duration of the triplet as a whole is that of a half note, i.e. 60 quanta.
+
+%\begin{figure}
+%\caption{First tuplet from {'\tt tuplets/Tuplet.xml}'}\label{tuplets}
 \includegraphics{Tuplet.png}
 
-\begin{lstlisting}[language=XML]
+\begin{lstlisting}[language=XML, caption=Tuplet example]
+        <divisions>30</divisions>
+
+			<!-- ... ... ... ... ... -->
+			
       <note>
         <pitch>
           <step>B</step>
@@ -560,19 +711,76 @@ One should play {'\tt <actual-notes>}' when there usually only {'\tt <normal-not
         </notations>
       </note>
 \end{lstlisting}
-\end{figure}
-
+%\end{figure}
 
 % -------------------------------------------------------------------------
-\section{Small element, big effect}
+% -------------------------------------------------------------------------
+\section{Spanners}
+% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-In {'\tt harmonies/Inversion.xml}', shown in figure \ref{inversion}, there is a harmony with an {'\tt <inversion>}' element. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
-\begin{figure}
-\caption{Harmony inversion from {'\tt harmonies/Inversion.xml}'}\label{inversion}
-\includegraphics{Inversion.png}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Barlines and repeats}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Creating \mxml\ data}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+This can be done in various ways:
+\begin{itemize}
+\item by hand, using a text editor: possible, but unrealistic for usual scores;
+\item by exporting the score as an \mxml\ text file with a GUI music score editor;
+\item by scanning a graphics files containing a ready-to-print score, with tools such as PhotoScore Ultimate\texttrademark;
+\item by programming an application that outputs \mxml\ text.
+\end{itemize}
+
+This author has performed manual text editing on some of the samples supplied with {\tt libmusicxml2} in order to perform tests and debug {'\tt xml2ly}', but this is a particular case.
+
+Exporting to \mxml\ is probably the most frequent way, and there are applications that do a good job at that. If an application supports say scordaturas in scores, then creating a {'\tt <scordatura>}' element is not very difficult.
+
+Scanning graphical scores is a tough problem:  how do you tell lyrics from annotations such as {'\tt cresc.}' or tempos such as {'\tt Allegro}'? One usually has to manually fix scanning errors and the category of some text fragments after scanning to get good results. And, then, the scanning application should create quality \mxml\ data.
+
+Creating \mxml\ by an application is a matter of computer programming, and requires development skill. As an example, {\tt libmusicxml2ly} supplies the necessary tools, and one can obtain:
 
 \begin{lstlisting}[language=XML]
+        <key>
+          <fifths>1</fifths>
+        </key>
+\end{lstlisting}
+
+with C++ code such as:
+
+\begin{lstlisting}[language=XML]
+  Sxmlelement attributes = factory::instance().create(k_attributes);
+
+  Sxmlelement key = factory::instance().create(k_key);
+  key->push (newElement(k_fifths, "1"));
+  attributes->push (key);
+\end{lstlisting}
+ 
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Importing \mxml\ data}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+Many GUI applications provide a way to import \mxml\ data, often with some limitations. We show some of them here.
+
+% -------------------------------------------------------------------------
+\subsection{Small element, big effect}
+% -------------------------------------------------------------------------
+
+In {'\tt harmonies/Inversion.xml}', shown below, there is a harmony with an {'\tt <inversion>}' element. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
+%\begin{figure}
+%\caption{Harmony inversion from {'\tt harmonies/Inversion.xml}'}\label{inversion}
+\includegraphics{Inversion.png}
+
+\begin{lstlisting}[language=XML, caption = Harmony inversion]
       <harmony>
         <root>
           <root-step>F</root-step>
@@ -582,34 +790,146 @@ In {'\tt harmonies/Inversion.xml}', shown in figure \ref{inversion}, there is a 
         <inversion>2</inversion>
       </harmony>
 \end{lstlisting}
-\end{figure}
+%\end{figure}
 
 % -------------------------------------------------------------------------
-\section{Some elements often not well handled}
+\subsection{Some elements often not well handled}
 % -------------------------------------------------------------------------
 
 There are elements that are not displayed in a "standard" way by the usual music score editors. One of them is the {'\tt <beat-repeat>}'.
 
 
 % -------------------------------------------------------------------------
-\section{Some elements usually not handled}
+\subsection{Some elements usually not handled}
 % -------------------------------------------------------------------------
 
-There are elements that are not displayed in a "standard" way by the usual music score editors. One of them is the scordatura used on fretted string instrument.
+There are elements that are not displayed by the usual music score editors, because there is no "standard" way to do so. One of them is the scordatura used on fretted string instrument.
+
+For example, {'\tt strings/Scordatura.xml}' can be displayed like this using {\tt xml2ly} and LilyPond:
+
+\includegraphics{Scordatura.png}
+
+\begin{lstlisting}[language=XML, caption =Scordatura example]
+          <scordatura>
+              <accord string="6">
+                <tuning-step>D</tuning-step>
+                <tuning-alter>0</tuning-alter>
+                <tuning-octave>3</tuning-octave>
+              </accord>
+              <accord string="5">
+                <tuning-step>A</tuning-step>
+                <tuning-alter>0</tuning-alter>
+                <tuning-octave>3</tuning-octave>
+              </accord>
+              <accord string="4">
+                <tuning-step>D</tuning-step>
+                <tuning-alter>0</tuning-alter>
+                <tuning-octave>4</tuning-octave>
+              </accord>
+              <accord string="3">
+                <tuning-step>G</tuning-step>
+                <tuning-alter>0</tuning-alter>
+                <tuning-octave>4</tuning-octave>
+              </accord>
+              <accord string="2">
+                <tuning-step>B</tuning-step>
+                <tuning-alter>0</tuning-alter>
+                <tuning-octave>4</tuning-octave>
+              </accord>
+              <accord string="1">
+                <tuning-step>E</tuning-step>
+                <tuning-alter>0</tuning-alter>
+                <tuning-octave>5</tuning-octave>
+              </accord>
+          </scordatura>
+
+\end{lstlisting}
 
 
 % -------------------------------------------------------------------------
-\section{Further reading}
+\subsection{A real challenge}
+% -------------------------------------------------------------------------
+
+The contents of {'\tt challenging/BeethovenNinthSymphony.xml}' is nearly 70 megabytes large. It was created by exporting it from Sibelius\texttrademark, and contains the whose score for this symphony. One can imagine the amount of work to create the score with a GUI in the first place, and, of course, there's no way a human could create such \mxml\ data by hand.
+
+The reader is urged to try and import this file in their favorite score editing sofware. This author's experience is that:
+
+\begin{itemize}
+\item Finale\texttrademark 2014 finds it well-formed but too big to be opened;
+\item MuseScore 3.3 opens it, but then working on the file is extremely slow;
+\item musicxml2ly, supplied with LilyPond, converts it to LilyPond syntax as of 2.19.83, but with small issues that can be fixed.
+\end{itemize}
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Conclusion}
+% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 There is a lot of information about \mxml\ on the Internet. And of course, plenty of targeted ready-to-use examples can be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}.
 
 \lstlistoflistings
 
-\listoffigures
+%\listoffigures
 
 \tableofcontents
 
 % -------------------------------------------------------------------------
 \end{document}
 % -------------------------------------------------------------------------
+
+
+%% -------------------------------------------------------------------------
+%% hyperref
+%% -------------------------------------------------------------------------
+%
+%\def\@StructureLinksColor{\ifx\isundefined \StructureLinksColor darkgray \else \StructureLinksColor\fi}
+%
+%\def\@URLColor{\ifx\isundefined \URLColor blue \else \URLColor\fi}
+%
+%\def\@PageLinksColor{\ifx\isundefined \PageLinksColor darkgray \else \PageLinksColor\fi}
+%
+%\def\@ContentsLinksColor{\ifx\isundefined \ContentsLinksColor purple \else \ContentsLinksColor\fi}
+%
+%\def\@TOCLinksColor{\ifx\isundefined \TOCLinksColor purple \else \TOCLinksColor\fi}
+%
+%
+%\hypersetup{
+%	colorlinks=true,
+%	breaklinks=true,
+%	linkcolor=\@StructureLinksColor,
+%	urlcolor=\@URLColor,
+%	pagecolor=\@PageLinksColor
+%	}
+%
+%\newcommand{\ContentsLabel}[1]%
+%	% Arguments: etiquette
+%	{%
+%	\hypertarget{#1}{\label{#1}}%
+%	}
+%
+%\newcommand{\ContentsLink}[2]%
+%	% Arguments: etiquette texteDuLien
+%	{%
+%	\hypersetup{linkcolor=\@ContentsLinksColor}%
+%	\hyperlink{#1}{#2, voir page~\pageref{#1}~\includegraphics{MarquePourLiens}}%
+%	\hypersetup{linkcolor=\@StructureLinksColor}%
+%	}
+%
+%\newcommand{\ContentsPageLink}[2]%
+%	% Arguments: etiquette texteDuLien
+%	{%
+%	\hypersetup{linkcolor=\@PageLinksColor}%
+%	\hyperlink{#1}{#2 page~\pageref{#1}~\includegraphics{MarquePourLiens}}%
+%	\hypersetup{linkcolor=\@StructureLinksColor}%
+%	}
+%
+%\newcommand{\URL}[1]%
+%	% Argument: l'URL
+%	{{\footnotesize \url{#1}}}
+%
+%\newcommand{\RFC}[1]%
+%	% Argument: numero de RFC
+%	{%
+%	\href{http://www.ietf.org/rfc/rfc#1.txt}{RFC~#1~ \includegraphics{MarquePourLiens}}%
+%	}

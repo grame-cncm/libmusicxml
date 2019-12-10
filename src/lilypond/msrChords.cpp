@@ -969,7 +969,7 @@ string msrChord::asShortString () const
   return s.str ();
 }
 
-void msrChord::print (ostream& os)
+void msrChord::print (ostream& os) const
 {
   rational
     chordMeasureFullLength =

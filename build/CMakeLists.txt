@@ -142,7 +142,7 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xml2ly xml2brl xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xml2ly xml2brl xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xml2ly xml2brl xmlread xmltranspose xmlversion)
 
 if(NOT IOS )

@@ -243,7 +243,7 @@ string msrHarmonyDegree::asString () const
   return s.str ();
 }
 
-void msrHarmonyDegree::print (ostream& os)
+void msrHarmonyDegree::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -714,7 +714,7 @@ string msrHarmony::asString () const
   return s.str ();
 }
 
-void msrHarmony::print (ostream& os)
+void msrHarmony::print (ostream& os) const
 {
   os <<
     "Harmony" <<

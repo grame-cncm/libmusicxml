@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -48,7 +48,7 @@ msrAfterGraceNotesGroupContents::msrAfterGraceNotesGroupContents (
   msrAssert(
     afterGraceNotesGroupContentsVoiceUpLink != nullptr,
     "afterGraceNotesGroupContentsVoiceUpLink is null");
-  
+
   // set after notes contents's voice upLink
   fAfterGraceNotesGroupContentsVoiceUpLink =
     afterGraceNotesGroupContentsVoiceUpLink;
@@ -79,13 +79,13 @@ S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGr
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-        
+
   S_msrAfterGraceNotesGroupContents
     newbornClone =
       msrAfterGraceNotesGroupContents::create (
         fInputLineNumber,
         containingVoice);
-    
+
   return newbornClone;
 }
 
@@ -108,12 +108,12 @@ void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
       "% ==> msrAfterGraceNotesGroupContents::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrAfterGraceNotesGroupContents>*
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotesGroupContents>*> (v)) {
         S_msrAfterGraceNotesGroupContents elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrAfterGraceNotesGroupContents::visitStart ()" <<
@@ -135,7 +135,7 @@ void msrAfterGraceNotesGroupContents::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotesGroupContents>*> (v)) {
         S_msrAfterGraceNotesGroupContents elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrAfterGraceNotesGroupContents::visitEnd ()" <<
@@ -176,18 +176,18 @@ string msrAfterGraceNotesGroupContents::asShortString () const
       iBegin = fAfterGraceNotesGroupContentsNotesList.begin (),
       iEnd   = fAfterGraceNotesGroupContentsNotesList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       s << (*i)->asShortString ();
       if (++i == iEnd) break;
       s << " ";
     } // for
   }
-  
+
   return s.str ();
 }
 
-void msrAfterGraceNotesGroupContents::print (ostream& os)
+void msrAfterGraceNotesGroupContents::print (ostream& os) const
 {
   os <<
     "AfterGraceNotesGroupContents" <<
@@ -196,7 +196,7 @@ void msrAfterGraceNotesGroupContents::print (ostream& os)
       fAfterGraceNotesGroupContentsNotesList.size (), "note", "notes") <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
   if (fAfterGraceNotesGroupContentsNotesList.size ()) {
@@ -204,14 +204,14 @@ void msrAfterGraceNotesGroupContents::print (ostream& os)
       iBegin = fAfterGraceNotesGroupContentsNotesList.begin (),
       iEnd   = fAfterGraceNotesGroupContentsNotesList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
    // JMI   os << endl;
     } // for
   }
-  
+
   gIndenter--;
 }
 
@@ -250,7 +250,7 @@ msrAfterGraceNotesGroup::msrAfterGraceNotesGroup (
   msrAssert(
     afterGraceNotesGroupVoiceUpLink != nullptr,
     "afterGraceNotesGroupVoiceUpLink is null");
-  
+
   // set after gracenotes group voice upLink
   fAfterGraceNotesGroupVoiceUpLink =
     afterGraceNotesGroupVoiceUpLink;
@@ -258,7 +258,7 @@ msrAfterGraceNotesGroup::msrAfterGraceNotesGroup (
   // pupulate this after grace notes group
   fAfterGraceNotesGroupElement =
     afterGraceNotesGroupElement;
-    
+
   fAfterGraceNotesGroupIsSlashed =
     afterGraceNotesGroupIsSlashed;
 
@@ -297,12 +297,12 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNew
   msrAssert(
     noteClone != nullptr,
     "noteClone is null");
-    
+
   // sanity check
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-        
+
   S_msrAfterGraceNotesGroup
     newbornClone =
       msrAfterGraceNotesGroup::create (
@@ -310,7 +310,7 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNew
         noteClone,
         fAfterGraceNotesGroupIsSlashed,
         containingVoice);
-  
+
   return newbornClone;
 }
 
@@ -329,12 +329,12 @@ void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
       "% ==> msrAfterGraceNotesGroup::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrAfterGraceNotesGroup>*
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotesGroup>*> (v)) {
         S_msrAfterGraceNotesGroup elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrAfterGraceNotesGroup::visitStart ()" <<
@@ -356,7 +356,7 @@ void msrAfterGraceNotesGroup::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotesGroup>*> (v)) {
         S_msrAfterGraceNotesGroup elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrAfterGraceNotesGroup::visitEnd ()" <<
@@ -395,13 +395,13 @@ string msrAfterGraceNotesGroup::asShortString () const
   return s.str ();
 }
 
-void msrAfterGraceNotesGroup::print (ostream& os)
+void msrAfterGraceNotesGroup::print (ostream& os) const
 {
   os <<
     "AfterGraceNotesGroup" <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
   // print the afterGraceNotesGroup element

@@ -68,9 +68,9 @@ class msrElement : public smartable
     virtual std::string   asShortString () const;
     virtual std::string   asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os);
+    virtual void          shortPrint (ostream& os) const;
 
     virtual void          printSummary (ostream& os) {}
 

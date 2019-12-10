@@ -139,7 +139,7 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
 #endif
 }
 
-void lpsrParallelMusicBLock::print (ostream& os)
+void lpsrParallelMusicBLock::print (ostream& os) const
 {
   os <<
     "ParallelMusicBLock" <<

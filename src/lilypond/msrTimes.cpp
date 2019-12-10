@@ -49,7 +49,7 @@ msrTimeItem::msrTimeItem (
     : msrElement (inputLineNumber)
 {
   fTimeBeatValue = -1;
-  
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTimes) {
     gLogOstream <<
@@ -64,11 +64,11 @@ msrTimeItem::~msrTimeItem ()
 {}
 
 bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
-{  
+{
   if (! otherTimeItem) {
     return false;
   }
-    
+
   if (
     ! (
         fTimeBeatValue == otherTimeItem->fTimeBeatValue
@@ -80,7 +80,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
     ) {
     return false;
   }
-    
+
   for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     if (
       ! (
@@ -92,7 +92,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
       return false;
     }
   } // for
- 
+
   return true;
 }
 
@@ -135,7 +135,7 @@ void msrTimeItem::setTimeBeatValue (int timeBeatValue)
 int msrTimeItem::getTimeBeatsNumber () const
 {
   int result = 0;
-  
+
   for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     result +=
       fTimeBeatsNumbersVector [i];
@@ -151,12 +151,12 @@ void msrTimeItem::acceptIn (basevisitor* v)
       "% ==> msrTimeItem::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTimeItem>*
     p =
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTimeItem::visitStart ()" <<
@@ -178,7 +178,7 @@ void msrTimeItem::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTimeItem::visitEnd ()" <<
@@ -213,12 +213,12 @@ string msrTimeItem::asString () const
       s <<
         "beats numbers: none";
       break;
-      
+
     case 1:
       s <<
         fTimeBeatsNumbersVector [0] << "/" << fTimeBeatValue;
       break;
-      
+
     default:
       s <<
         "beats numbers: ";
@@ -226,7 +226,7 @@ string msrTimeItem::asString () const
       for (int i = 0; i < vectorSize; i++) {
         s <<
           fTimeBeatsNumbersVector [i];
-  
+
         if (i != vectorSize - 1) {
           s <<
             " ";
@@ -236,14 +236,14 @@ string msrTimeItem::asString () const
       s <<
         ", beat value: " << fTimeBeatValue;
   } // switch
-  
+
   s <<
     ", line " << fInputLineNumber;
-     
+
   return s.str ();
 }
 
-void msrTimeItem::print (ostream& os)
+void msrTimeItem::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -274,7 +274,7 @@ msrTime::msrTime (
     : msrMeasureElement (inputLineNumber)
 {
   fTimeSymbolKind = timeSymbolKind;
-    
+
   fTimeIsCompound = false;
 }
 
@@ -283,7 +283,7 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
   if (! otherTime) {
     return false;
   }
-    
+
   if (
     ! (
         fTimeSymbolKind == otherTime->fTimeSymbolKind
@@ -295,7 +295,7 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
     ) {
     return false;
   }
-    
+
   for (unsigned int i = 0; i < fTimeItemsVector.size (); i++) {
     if (
       ! (
@@ -306,7 +306,7 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
       return false;
     }
   } // for
- 
+
   return true;
 }
 
@@ -330,7 +330,7 @@ S_msrTime msrTime::createFourQuartersTime (
     appendBeatsNumber (4);
   timeItem->
     setTimeBeatValue (4);
-        
+
   // append the time item to the time
   time->
     appendTimeItem (timeItem);
@@ -368,7 +368,7 @@ void msrTime::appendTimeItem (
       fTimeIsCompound = true;
     }
   }
-  
+
   else {
     // there are several time items, this time is compound
     fTimeIsCompound = true;
@@ -384,7 +384,7 @@ rational msrTime::wholeNotesPerMeasure () const
   rational result (0, 1); // addition neutral element
 
   int vectorSize = fTimeItemsVector.size ();
-  
+
   if (vectorSize) {
     /* JMI
     // start with first item
@@ -424,7 +424,7 @@ rational msrTime::wholeNotesPerMeasure () const
         endl <<
         endl;
         */
-        
+
     } // for
   }
 
@@ -450,12 +450,12 @@ void msrTime::acceptIn (basevisitor* v)
       "% ==> msrTime::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTime>*
     p =
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTime::visitStart ()" <<
@@ -477,7 +477,7 @@ void msrTime::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTime::visitEnd ()" <<
@@ -494,7 +494,7 @@ string msrTime::timeSymbolKindAsString (
   msrTimeSymbolKind timeSymbolKind)
 {
   string result;
- 
+
   switch (timeSymbolKind) {
     case msrTime::kTimeSymbolCommon:
       result = "timeSymbolCommon";
@@ -526,7 +526,7 @@ string msrTime::timeSeparatorKindAsString (
   msrTimeSeparatorKind timeSeparatorKind)
 {
   string result;
- 
+
   switch (timeSeparatorKind) {
     case msrTime::kTimeSeparatorNone:
       result = "timeSeparatorNone";
@@ -552,7 +552,7 @@ string msrTime::timeRelationKindAsString (
   msrTimeRelationKind timeRelationKind)
 {
   string result;
- 
+
   switch (timeRelationKind) {
     case msrTime::kTimeRelationNone:
       result = "timeRelationNone";
@@ -604,7 +604,7 @@ string msrTime::asString () const
       iBegin = fTimeItemsVector.begin (),
       iEnd   = fTimeItemsVector.end (),
       i      = iBegin;
-  
+
     for ( ; ; ) {
       s << (*i)->asString ();
       if (++i == iEnd) break;
@@ -647,7 +647,7 @@ string msrTime::asShortString () const
   return asString ();
 }
 
-void msrTime::print (ostream& os)
+void msrTime::print (ostream& os) const
 {
   os <<
     "Time" <<
@@ -664,23 +664,23 @@ void msrTime::print (ostream& os)
 
   if (fTimeItemsVector.size ()) {
     os << endl;
-      
+
     gIndenter++;
-    
+
     vector<S_msrTimeItem>::const_iterator
       iBegin = fTimeItemsVector.begin (),
       iEnd   = fTimeItemsVector.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
-    
+
     gIndenter--;
   }
-  
+
   else {
     os <<
       " none" <<

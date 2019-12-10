@@ -110,12 +110,12 @@ void bsrPagination::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrPagination>*
     p =
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -141,7 +141,7 @@ void bsrPagination::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -170,7 +170,7 @@ string bsrPagination::asString () const
   return s.str ();
 }
 
-void bsrPagination::print (ostream& os)
+void bsrPagination::print (ostream& os) const
 {
   os <<
     "Pagination" <<

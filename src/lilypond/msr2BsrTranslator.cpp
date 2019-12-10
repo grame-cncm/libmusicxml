@@ -495,7 +495,7 @@ void msr2BsrTranslator::visitEnd (S_msrScore& elt)
 
   // set ident and short indent if needed
   setPaperIndentsIfNeeded (
-    elt->getPageGeometry ());
+    elt->getGeometry ());
     */
 }
 
@@ -4353,7 +4353,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
     if (noteNotesGroupIsAttachedTo) {
       fLogOutputStream <<
-        noteNotesGroupIsAttachedTo->asShortString ();
+        noteNotesGroupIsAttachedTo->asShortString () const;
     }
     else {
       fLogOutputStream <<
@@ -4380,7 +4380,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
     if (fFirstNoteCloneInVoice) {
       fLogOutputStream <<
-        fFirstNoteCloneInVoice->asShortString ();
+        fFirstNoteCloneInVoice->asShortString () const;
     }
     else {
       fLogOutputStream <<
@@ -4664,7 +4664,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
 
           if (fFirstNoteCloneInVoice) {
             fLogOutputStream <<
-              fFirstNoteCloneInVoice->asShortString ();
+              fFirstNoteCloneInVoice->asShortString () const;
           }
           else {
             fLogOutputStream <<

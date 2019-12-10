@@ -29,32 +29,28 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_lpsrPaper lpsrPaper::create (
-  int inputLineNumber)
+  int            inputLineNumber,
+  S_lpsrGeometry theLpsrGeometry)
 {
   lpsrPaper* o =
     new lpsrPaper (
-      inputLineNumber);
+      inputLineNumber,
+      theLpsrGeometry);
   assert(o!=0);
   return o;
 }
 
 lpsrPaper::lpsrPaper (
-  int inputLineNumber)
-    : msrElement (inputLineNumber)
+  int            inputLineNumber,
+  S_lpsrGeometry theLpsrGeometry)
+    : lpsrElement (inputLineNumber)
 {
-  fPaperWidth   = -1.0;
-  fPaperHeight  = -1.0;
+  // sanity check
+  msrAssert (
+    theLpsrGeometry != nullptr,
+    "theLpsrGeometry is null");
 
-  fTopMargin    = -1.0;
-  fBottomMargin = -1.0;
-  fLeftMargin   = -1.0;
-  fRightMargin  = -1.0;
-
-  fIndent       = -1.0;
-  fShortIndent  = -1.0;
-
-  fBetweenSystemSpace = -1.0;
-  fPageTopSpace = -1.0;
+  fLpsrGeometry = theLpsrGeometry;
 }
 
 S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
@@ -62,31 +58,8 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
   S_lpsrPaper
     newbornClone =
       lpsrPaper::create (
-        fInputLineNumber);
-
-  newbornClone->fPaperWidth =
-    fPaperWidth;
-  newbornClone->fPaperHeight =
-    fPaperHeight;
-
-  newbornClone->fTopMargin =
-    fTopMargin;
-  newbornClone->fBottomMargin =
-    fBottomMargin;
-  newbornClone->fLeftMargin =
-    fLeftMargin;
-  newbornClone->fRightMargin =
-    fRightMargin;
-
-  newbornClone->fIndent =
-    fIndent;
-  newbornClone->fShortIndent =
-    fShortIndent;
-
-  newbornClone->fBetweenSystemSpace =
-    fBetweenSystemSpace;
-  newbornClone->fPageTopSpace =
-    fPageTopSpace;
+        fInputLineNumber,
+        fLpsrGeometry);
 
   return newbornClone;
 }
@@ -94,6 +67,7 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
 lpsrPaper::~lpsrPaper ()
 {}
 
+/*
 void lpsrPaper::setIndent (float val)
 {
 #ifdef TRACE_OAH
@@ -119,6 +93,7 @@ void lpsrPaper::setShortIndent (float val)
 
   fShortIndent = val;
 }
+*/
 
 void lpsrPaper::acceptIn (basevisitor* v)
 {
@@ -175,17 +150,80 @@ void lpsrPaper::acceptOut (basevisitor* v)
 void lpsrPaper::browseData (basevisitor* v)
 {}
 
-void lpsrPaper::print (ostream& os) {
+void lpsrPaper::print (ostream& os) const
+{
   os <<
     "Paper" <<
     endl;
-
-  bool emptyPaper = true;
 
   gIndenter++;
 
   const int fieldWidth = 20;
 
+  bool emptyPaper = true;
+
+  // headers and footers
+  if (fOddHeaderMarkup.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "oddHeaderMarkup" << " : " <<
+      fOddHeaderMarkup <<
+      endl;
+
+    emptyPaper = false;
+  }
+
+  if (fEvenHeaderMarkup.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "evenHeaderMarkup" << " : " <<
+      fEvenHeaderMarkup <<
+      endl;
+
+    emptyPaper = false;
+  }
+
+  if (fOddFooterMarkup.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "oddFooterMarkup" << " : " <<
+      fOddFooterMarkup <<
+      endl;
+
+    emptyPaper = false;
+  }
+
+  if (fEvenFooterMarkup.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "evenFooterMarkup" << " : " <<
+      fEvenFooterMarkup <<
+      endl;
+
+    emptyPaper = false;
+  }
+
+  // otherwise
+  if (emptyPaper) {
+    os <<
+      " " << "nothing specified" <<
+      endl <<
+      endl;
+  }
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrPaper& pap) {
+  pap->print (os);
+  return os;
+}
+
+
+}
+
+
+  /* JMI
   // page width, height and margins
 
   if (fPaperWidth > 0) {
@@ -289,65 +327,4 @@ void lpsrPaper::print (ostream& os) {
 
     emptyPaper = false;
   }
-
-  // headers and footers
-
-  if (fOddHeaderMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "oddHeaderMarkup" << " : " <<
-      fOddHeaderMarkup <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fEvenHeaderMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "evenHeaderMarkup" << " : " <<
-      fEvenHeaderMarkup <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fOddFooterMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "oddFooterMarkup" << " : " <<
-      fOddFooterMarkup <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fEvenFooterMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "evenFooterMarkup" << " : " <<
-      fEvenFooterMarkup <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  // otherwise
-
-  if (emptyPaper) {
-    os <<
-      " " << "nothing specified" <<
-      endl <<
-      endl;
-  }
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_lpsrPaper& pap) {
-  pap->print (os);
-  return os;
-}
-
-
-}
+*/

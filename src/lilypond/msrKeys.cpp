@@ -189,7 +189,7 @@ string msrHumdrumScotKeyItem::asString () const
   return s.str ();
 }
 
-void msrHumdrumScotKeyItem::print (ostream& os)
+void msrHumdrumScotKeyItem::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -447,12 +447,6 @@ void msrKey::acceptOut (basevisitor* v)
 void msrKey::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrKey& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrKey::keyKindAsString (
   msrKeyKind keyKind)
 {
@@ -542,7 +536,7 @@ string msrKey::asString () const
   return s.str ();
 }
 
-void msrKey::print (ostream& os)
+void msrKey::print (ostream& os) const
 {
   os <<
     "Key" <<
@@ -600,6 +594,12 @@ void msrKey::print (ostream& os)
         }
       break;
   } // switch
+}
+
+ostream& operator<< (ostream& os, const S_msrKey& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

@@ -151,6 +151,11 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   // page layout
   fOnGoingPageLayout = false;
 
+  fOnGoingPageMargins = false;
+  fCurrentMarginTypeKind = kBothMargins; // default value
+
+  fOnGoingSystemLayout = false;
+
   // part groups handling
   fPartGroupsCounter = 0;
   fOnGoingPartGroupNameDisplay = false;
@@ -2049,7 +2054,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
 
   fCurrentMillimeters = (float)(*elt);
 
-  fMsrScore->getPageGeometry ()->
+  fMsrScore->getMsrGeometry ()->
     setMillimeters (fCurrentMillimeters);
 }
 
@@ -2064,7 +2069,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
 
   fCurrentTenths = (int)(*elt);
 
-  fMsrScore->getPageGeometry ()->
+  fMsrScore->getMsrGeometry ()->
     setTenths (fCurrentTenths);
 }
 
@@ -2083,10 +2088,44 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
       " millimeters, hence the global staff size is " <<
-      fMsrScore->getPageGeometry ()->fetchGlobalStaffSize () <<
+      fMsrScore->getMsrGeometry ()->fetchGlobalStaffSize () <<
       endl;
   }
 #endif
+}
+
+//______________________________________________________________________________
+/* JMI
+        <system-layout>
+          <system-margins>
+            <left-margin>21.00</left-margin>
+            <right-margin>0.00</right-margin>
+            </system-margins>
+          <top-system-distance>170.00</top-system-distance>
+        </system-layout>
+*/
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_layout& elt )
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_layout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fOnGoingSystemLayout = true;
+}
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_system_layout& elt )
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_system_layout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fOnGoingSystemLayout = false;
 }
 
 //______________________________________________________________________________
@@ -2099,11 +2138,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
       endl;
   }
 
-  int systemDistance = (int)(*elt);
-
-  fMsrScore->getPageGeometry ()->
-    setBetweenSystemSpace (
-      systemDistance * fCurrentMillimeters / fCurrentTenths);
+  if (! fOnGoingSystemLayout) {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<system-margins /> is out of context");
+  }
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
@@ -2115,11 +2156,22 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
       endl;
   }
 
-  int systemDistanceTenths = (int)(*elt);
+  if (fOnGoingSystemLayout) {
+    int systemDistanceTenths = (int)(*elt);
 
-  fMsrScore->getPageGeometry ()->
-    setBetweenSystemSpace (
-      systemDistanceTenths * fCurrentMillimeters / fCurrentTenths);
+    fMsrScore->getMsrGeometry ()->
+      setBetweenSystemSpace (
+        msrLength::create (
+          kMillimeterUnit,
+          systemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<system-distance /> is out of context");
+  }
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
@@ -2131,11 +2183,22 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
       endl;
   }
 
-  int topSystemDistanceTenths = (int)(*elt);
+  if (fOnGoingSystemLayout) {
+    int topSystemDistanceTenths = (int)(*elt);
 
-  fMsrScore->getPageGeometry ()->
-    setPageTopSpace (
-      topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths);
+    fMsrScore->getMsrGeometry ()->
+      setPageTopSpace (
+        msrLength::create (
+          kMillimeterUnit,
+          topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<top-system-distance /> is out of context");
+  }
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
@@ -2149,12 +2212,33 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
 
   int topSystemDistance = (int)(*elt);
 
-  fMsrScore->getPageGeometry ()->
-    setPageTopSpace (
-      topSystemDistance * fCurrentMillimeters / fCurrentTenths);
+  fMsrScore->getMsrGeometry ()->
+    setPageTopSpace ( // JMI
+      msrLength::create (
+        kMillimeterUnit,
+        topSystemDistance * fCurrentMillimeters / fCurrentTenths));
 }
 
 //______________________________________________________________________________
+/* JMI
+    <page-layout>
+      <page-height>1683.36</page-height>
+      <page-width>1190.88</page-width>
+      <page-margins type="even">
+        <left-margin>56.6929</left-margin>
+        <right-margin>56.6929</right-margin>
+        <top-margin>56.6929</top-margin>
+        <bottom-margin>113.386</bottom-margin>
+        </page-margins>
+      <page-margins type="odd">
+        <left-margin>56.6929</left-margin>
+        <right-margin>56.6929</right-margin>
+        <top-margin>56.6929</top-margin>
+        <bottom-margin>113.386</bottom-margin>
+        </page-margins>
+      </page-layout>
+*/
+
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_layout& elt )
 {
   if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
@@ -2190,9 +2274,18 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
   if (fOnGoingPageLayout) {
     int pageHeight = (int)(*elt);
 
-    fMsrScore->getPageGeometry ()->
+    fMsrScore->getMsrGeometry ()->
       setPaperHeight (
-        pageHeight * fCurrentMillimeters / fCurrentTenths);
+        msrLength::create (
+          kMillimeterUnit,
+          pageHeight * fCurrentMillimeters / fCurrentTenths));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<page-height /> is out of context");
   }
 }
 
@@ -2208,10 +2301,78 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
   if (fOnGoingPageLayout) {
     int pageWidth = (int)(*elt);
 
-    fMsrScore->getPageGeometry ()->
+    fMsrScore->getMsrGeometry ()->
       setPaperWidth (
-        pageWidth * fCurrentMillimeters / fCurrentTenths);
+        msrLength::create (
+          kMillimeterUnit,
+          pageWidth * fCurrentMillimeters / fCurrentTenths));
   }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<page-width /> is out of context");
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_margins" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    string pageMarginsType =
+      elt->getAttributeValue ("type");
+
+    fCurrentMarginTypeKind = kBothMargins; // default value
+
+    if      (pageMarginsType == "odd")
+      fCurrentMarginTypeKind = kOddMargin;
+    else if (pageMarginsType == "even")
+      fCurrentMarginTypeKind = kEvenMargin;
+    else if (pageMarginsType == "both")
+      fCurrentMarginTypeKind = kBothMargins;
+    else {
+      stringstream s;
+
+      s <<
+        "unknown page margins type \"" <<
+        pageMarginsType <<
+        "\"";
+
+      msrMusicXMLError (
+        gOahOah->fInputSourceName,
+        elt->getInputLineNumber (),
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<page-margins /> is out of context");
+  }
+
+  fOnGoingPageMargins = true;
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_page_margins& elt )
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_page_margins" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fOnGoingPageMargins = false;
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
@@ -2223,12 +2384,23 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
       endl;
   }
 
-  if (fOnGoingPageLayout) {
+  if (fOnGoingPageMargins) {
     int leftMargin = (int)(*elt);
 
-    fMsrScore->getPageGeometry ()->
+    fMsrScore->getMsrGeometry ()->
       setLeftMargin (
-        leftMargin * fCurrentMillimeters / fCurrentTenths);
+        msrMargin::create (
+          fCurrentMarginTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            leftMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<left-margin /> is out of context");
   }
 }
 
@@ -2241,12 +2413,23 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
      endl;
   }
 
-  if (fOnGoingPageLayout) {
+  if (fOnGoingPageMargins) {
     int rightMargin = (int)(*elt);
 
-    fMsrScore->getPageGeometry ()->
+    fMsrScore->getMsrGeometry ()->
       setRightMargin (
-        rightMargin * fCurrentMillimeters / fCurrentTenths);
+        msrMargin::create (
+          fCurrentMarginTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            rightMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<right-margin /> is out of context");
   }
 }
 
@@ -2259,12 +2442,23 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
       endl;
   }
 
-  if (fOnGoingPageLayout) {
+  if (fOnGoingPageMargins) {
     int topMargin = (int)(*elt);
 
-    fMsrScore->getPageGeometry ()->
+    fMsrScore->getMsrGeometry ()->
       setTopMargin (
-        topMargin * fCurrentMillimeters / fCurrentTenths);
+        msrMargin::create (
+          fCurrentMarginTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            topMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<top-margin /> is out of context");
   }
 }
 
@@ -2277,12 +2471,23 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
       endl;
   }
 
-  if (fOnGoingPageLayout) {
+  if (fOnGoingPageMargins) {
     int bottomMargin = (int)(*elt);
 
-    fMsrScore->getPageGeometry ()->
+    fMsrScore->getMsrGeometry ()->
       setBottomMargin (
-        bottomMargin * fCurrentMillimeters / fCurrentTenths);
+        msrMargin::create (
+          fCurrentMarginTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            bottomMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<bottom-margin /> is out of context");
   }
 }
 
@@ -2550,8 +2755,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
 
     s <<
       "unknown part group type \"" <<
-       partGroupType <<
-        "\"";
+      partGroupType <<
+      "\"";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,

@@ -117,7 +117,7 @@ string msrSingleTremolo::asString () const
   return s.str ();
 }
 
-void msrSingleTremolo::print (ostream& os)
+void msrSingleTremolo::print (ostream& os) const
 {
   os <<
     asString () <<

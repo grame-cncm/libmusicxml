@@ -301,7 +301,7 @@ string bsrMeasure::asString () const
   return s.str ();
 }
 
-void bsrMeasure::print (ostream& os)
+void bsrMeasure::print (ostream& os) const
 {
   os <<
     "Measure" <<

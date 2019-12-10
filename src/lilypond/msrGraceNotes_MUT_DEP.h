@@ -131,7 +131,7 @@ class msrGraceNotesGroup : public msrElement
     string                asShortString () const;
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

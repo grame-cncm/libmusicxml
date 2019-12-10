@@ -40,7 +40,7 @@ msrTie::msrTie (
   msrTieKind tieKind)
     : msrElement (inputLineNumber)
 {
-  fTieKind = tieKind; 
+  fTieKind = tieKind;
 }
 
 msrTie::~msrTie ()
@@ -53,12 +53,12 @@ void msrTie::acceptIn (basevisitor* v)
       "% ==> msrTie::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTie>*
     p =
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTie::visitStart ()" <<
@@ -80,7 +80,7 @@ void msrTie::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTie::visitEnd ()" <<
@@ -93,16 +93,10 @@ void msrTie::acceptOut (basevisitor* v)
 void msrTie::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTie& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTie::tieKindAsString (msrTieKind tieKind)
 {
   stringstream s;
-  
+
   switch (tieKind) {
     case kTieStart:
       s << "tieStart";
@@ -116,8 +110,13 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
     case kTieNone:
       s << "tieNone";
   } // switch
-    
+
   return s.str ();
+}
+
+string msrTie::tieKindAsString () const
+{
+  return tieKindAsString (fTieKind);
 }
 
 string msrTie::asString () const
@@ -127,15 +126,21 @@ string msrTie::asString () const
   s <<
     "Tie" << " " << tieKindAsString () <<
     ", line " << fInputLineNumber;
-        
+
   return s.str ();
 }
 
-void msrTie::print (ostream& os)
+void msrTie::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrTie& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

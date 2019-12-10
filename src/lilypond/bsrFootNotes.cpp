@@ -61,12 +61,12 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrFootNotesElement>*
     p =
       dynamic_cast<visitor<S_bsrFootNotesElement>*> (v)) {
         S_bsrFootNotesElement elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -92,7 +92,7 @@ void bsrFootNotesElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrFootNotesElement>*> (v)) {
         S_bsrFootNotesElement elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -121,7 +121,7 @@ string bsrFootNotesElement::asString () const
   return s.str ();
 }
 
-void bsrFootNotesElement::print (ostream& os)
+void bsrFootNotesElement::print (ostream& os) const
 {
   os <<
     "FootNotesElement" <<
@@ -129,7 +129,7 @@ void bsrFootNotesElement::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   os <<
     "footNoteText " << " : \"" << fFootNoteText << "\"" <<
     endl;
@@ -174,12 +174,12 @@ void bsrFootNotes::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrFootNotes>*
     p =
       dynamic_cast<visitor<S_bsrFootNotes>*> (v)) {
         S_bsrFootNotes elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -205,7 +205,7 @@ void bsrFootNotes::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrFootNotes>*> (v)) {
         S_bsrFootNotes elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -230,28 +230,28 @@ void bsrFootNotes::browseData (basevisitor* v)
   } // for
 }
 
-void bsrFootNotes::print (ostream& os)
+void bsrFootNotes::print (ostream& os) const
 {
   os <<
     "FootNotes" <<
     endl;
 
   gIndenter++;
-  
+
   // print the notes if any
   const int fieldWidth = 19;
 
   int footNotesElementsListSize = fFootNotesElementsList.size ();
-  
+
   if (footNotesElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "footNotesElementsList" << " : " <<
       endl;
-      
+
     if (footNotesElementsListSize) {
       gIndenter++;
-  
+
       list<S_bsrFootNotesElement>::const_iterator
         iBegin = fFootNotesElementsList.begin (),
         iEnd   = fFootNotesElementsList.end (),
@@ -261,7 +261,7 @@ void bsrFootNotes::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-          
+
       gIndenter--;
     }
     else {

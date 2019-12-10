@@ -86,7 +86,7 @@ class bsrParallel : public bsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

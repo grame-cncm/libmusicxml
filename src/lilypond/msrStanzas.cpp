@@ -612,7 +612,7 @@ void msrStanza::browseData (basevisitor* v)
   }
 }
 
-void msrStanza::print (ostream& os)
+void msrStanza::print (ostream& os) const
 {
   os <<
     "Stanza " << getStanzaName () <<

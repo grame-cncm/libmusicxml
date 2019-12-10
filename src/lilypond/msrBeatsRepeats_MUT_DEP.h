@@ -75,7 +75,7 @@ class msrBeatsRepeatPattern : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -164,7 +164,7 @@ class msrBeatsRepeatReplicas : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -311,7 +311,7 @@ class msrBeatsRepeat : public msrVoiceElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

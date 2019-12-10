@@ -9179,7 +9179,7 @@ void msrVoice::displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
     context);
 }
 
-void msrVoice::print (ostream& os)
+void msrVoice::print (ostream& os) const
 {
   os <<
     "Voice \"" << getVoiceName () << "\", " <<

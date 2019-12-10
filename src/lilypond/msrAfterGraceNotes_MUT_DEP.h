@@ -73,7 +73,7 @@ class msrAfterGraceNotesGroupContents : public msrElement
 
     string                asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -164,7 +164,7 @@ class msrAfterGraceNotesGroup : public msrElement
 
     string                asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

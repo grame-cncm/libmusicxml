@@ -88,7 +88,7 @@ class msrTimeItem : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
   
   private:
   
@@ -208,7 +208,7 @@ class msrTime : public msrMeasureElement
 
     string                asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

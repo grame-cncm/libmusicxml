@@ -97,7 +97,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 void lpsrNewStaffgroupBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewStaffgroupBlock::print (ostream& os)
+void lpsrNewStaffgroupBlock::print (ostream& os) const
 {
   os << "NewStaffgroupBlock" << endl;
 
@@ -196,7 +196,7 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 void lpsrNewStaffTuningBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewStaffTuningBlock::print (ostream& os)
+void lpsrNewStaffTuningBlock::print (ostream& os) const
 {
   os << "NewStaffTuningBlock" << endl;
 
@@ -288,7 +288,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 void lpsrNewStaffBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewStaffBlock::print (ostream& os)
+void lpsrNewStaffBlock::print (ostream& os) const
 {
   os << "NewStaffBlock" << endl;
 
@@ -446,7 +446,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
 #endif
 }
 
-void lpsrStaffBlock::print (ostream& os)
+void lpsrStaffBlock::print (ostream& os) const
 {
   os <<
     "StaffBlock for staff \"" <<

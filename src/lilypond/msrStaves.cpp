@@ -2387,7 +2387,7 @@ string msrStaff::staffKindAsString () const
   return staffKindAsString (fStaffKind);
 }
 
-void msrStaff::print (ostream& os)
+void msrStaff::print (ostream& os) const
 {
   os <<
     "Staff " << getStaffName () <<
@@ -2713,7 +2713,7 @@ void msrStaff::printSummary (ostream& os)
 
     gIndenter++;
     for ( ; ; ) {
-      os << (*i)->asString ();
+      os << (*i)->asString () const;
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2876,7 +2876,7 @@ string msrVoiceStaffChange::asString () const
   return s.str ();
 }
 
-void msrVoiceStaffChange::print (ostream& os)
+void msrVoiceStaffChange::print (ostream& os) const
 {
   os <<
     asString () <<

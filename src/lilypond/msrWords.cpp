@@ -67,9 +67,9 @@ msrWords::msrWords (
     : msrElement (inputLineNumber)
 {
   fWordsPlacementKind  = wordsPlacementKind;
-  
+
   fWordsContents = wordsContents;
-  
+
   fWordsJustifyKind = wordsJustifyKind;
 
   fWordsHorizontalAlignmentKind = wordsHorizontalAlignmentKind;
@@ -78,7 +78,7 @@ msrWords::msrWords (
   fWordsFontStyleKind  = wordsFontStyleKind;
   fWordsFontSize       = wordsFontSize;
   fWordsFontWeightKind = wordsFontWeightKind;
-  
+
   fWordsXMLLangKind = wordsXMLLangKind;
 }
 
@@ -92,12 +92,12 @@ void msrWords::acceptIn (basevisitor* v)
       "% ==> msrWords::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrWords>*
     p =
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWords::visitStart ()" <<
@@ -119,7 +119,7 @@ void msrWords::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWords::visitEnd ()" <<
@@ -131,12 +131,6 @@ void msrWords::acceptOut (basevisitor* v)
 
 void msrWords::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrWords& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrWords::wordsPlacementKindAsString () const
 {
@@ -191,7 +185,7 @@ string msrWords::asString () const
   return s.str ();
 }
 
-void msrWords::print (ostream& os)
+void msrWords::print (ostream& os) const
 {
 // JMI  os << asString () << endl;
 
@@ -239,8 +233,14 @@ void msrWords::print (ostream& os)
     "wordsFontXMLLang" << " : " <<
     msrXMLLangKindAsString (fWordsXMLLangKind) <<
     endl;
-  
+
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrWords& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

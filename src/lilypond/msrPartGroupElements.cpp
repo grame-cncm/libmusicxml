@@ -88,7 +88,7 @@ string msrPartGroupElement::asString () const
 string msrPartGroupElement::asShortString () const
 {
   // this can be overriden in actual elements
-  return asString ();
+  return asString () const;
 }
 
 void msrPartGroupElement::print (ostream& os)

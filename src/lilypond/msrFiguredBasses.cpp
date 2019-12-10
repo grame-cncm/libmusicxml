@@ -287,7 +287,7 @@ void msrFigure::acceptOut (basevisitor* v)
 void msrFigure::browseData (basevisitor* v)
 {}
 
-void msrFigure::print (ostream& os)
+void msrFigure::print (ostream& os) const
 {
   os <<
     "Figure" <<
@@ -603,7 +603,7 @@ string msrFiguredBass::asString () const
   return s.str ();
 }
 
-void msrFiguredBass::print (ostream& os)
+void msrFiguredBass::print (ostream& os) const
 {
   os <<
     "FiguredBass" <<

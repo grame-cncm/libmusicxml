@@ -4475,12 +4475,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVariable& elt)
 }
 
 //______________________________________________________________________________
-string lpsr2LilypondTranslator::paperUnitAsLilypondString (
-  msrPaperUnitKind paperUnitKind)
+string lpsr2LilypondTranslator::lengthUnitAsLilypondString (
+  msrLengthUnitKind lengthUnitKind)
 {
   string result;
 
-  switch (paperUnitKind) {
+  switch (lengthUnitKind) {
     case kInchUnit:
       result = "\\in";
       break;
@@ -4697,7 +4697,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 
   const int fieldWidth = 20;
 
-  // page width, height, margins and indents
+/* JMI
+  // get LPSR geometry
+  S_lpsrGeometry theLpsrGeometry =
+    elt->getLpsrGeometry ();
 
   {
     float paperWidth =
@@ -4708,7 +4711,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "paper-width" << " = " <<
         setprecision (3) << paperWidth <<
-        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+        lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
         endl;
     }
   }
@@ -4722,7 +4725,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "paper-height" << " = " <<
         setprecision (3) << paperHeight <<
-        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+        lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
         endl;
     }
   }
@@ -4736,7 +4739,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "top-margin" << " = " <<
         setprecision (3) << topMargin <<
-        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+        lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
         endl;
     }
   }
@@ -4750,7 +4753,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "bottom-margin" << " = " <<
         setprecision (3) << bottomMargin <<
-        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+        lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
         endl;
     }
   }
@@ -4764,7 +4767,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "left-margin" << " = " <<
         setprecision (3) << leftMargin <<
-        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+        lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
         endl;
     }
   }
@@ -4778,7 +4781,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "right-margin" << " = " <<
       setprecision (3) << rightMargin <<
-      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+      lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
       endl;
     }
   }
@@ -4792,7 +4795,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "indent" << " = " <<
       setprecision (3) << indent <<
-      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+      lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
       endl;
     }
     else {
@@ -4800,7 +4803,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "%indent" << " = " <<
       setprecision (3) << 1.5 <<
-      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+      lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
       endl;
     }
   }
@@ -4814,7 +4817,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "short-indent" << " = " <<
       setprecision (3) << shortIndent <<
-      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+      lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
       endl;
     }
     else {
@@ -4822,7 +4825,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "%short-indent" << " = " <<
       setprecision (3) << 0.0 <<
-      paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+      lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
       endl;
     }
   }
@@ -4838,7 +4841,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "between-system-space" << " = " <<
         setprecision (3) << betweenSystemSpace <<
-        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+        lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
         endl;
     }
   }
@@ -4852,10 +4855,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "page-top-space" << " = " <<
         setprecision (3) << pageTopSpace <<
-        paperUnitAsLilypondString (gLpsrOah->fPaperUnitKind) <<
+        lengthUnitAsLilypondString (gLpsrOah->fLengthUnitKind) <<
         endl;
     }
   }
+*/
 
   // headers and footers
 

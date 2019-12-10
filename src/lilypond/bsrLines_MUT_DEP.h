@@ -89,7 +89,7 @@ class bsrLineContents : public bsrElement
 
     virtual std::string   asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
 
@@ -207,7 +207,7 @@ class bsrLine : public bsrPageElement
 
     virtual std::string   asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
 

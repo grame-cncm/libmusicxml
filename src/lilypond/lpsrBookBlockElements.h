@@ -107,7 +107,7 @@ class lpsrBookBlockElement : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
 
@@ -175,7 +175,7 @@ class lpsrScoreBlock : public lpsrBookBlockElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -236,7 +236,7 @@ class lpsrBookPartBlock : public lpsrBookBlockElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -324,7 +324,7 @@ class lpsrBookBlock : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

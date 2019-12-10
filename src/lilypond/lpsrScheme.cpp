@@ -156,7 +156,7 @@ string lpsrSchemeVariable::endlKindAsString (
   return result;
 }
 
-void lpsrSchemeVariable::print (ostream& os)
+void lpsrSchemeVariable::print (ostream& os) const
 {
   os <<
     "SchemeVariable" <<
@@ -298,7 +298,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
 void lpsrSchemeFunction::browseData (basevisitor* v)
 {}
 
-void lpsrSchemeFunction::print (ostream& os)
+void lpsrSchemeFunction::print (ostream& os) const
 {
   os <<
     "SchemeFunction" <<

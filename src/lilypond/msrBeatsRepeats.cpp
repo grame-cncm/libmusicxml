@@ -283,7 +283,7 @@ string msrBeatsRepeatElement::asString () const
   return s.str ();
 }
 
-void msrBeatsRepeatElement::print (ostream& os)
+void msrBeatsRepeatElement::print (ostream& os) const
 {
   os <<
     "BeatsRepeatElement" <<
@@ -553,7 +553,7 @@ string msrBeatsRepeatPattern::asString () const
   return s.str ();
 }
 
-void msrBeatsRepeatPattern::print (ostream& os)
+void msrBeatsRepeatPattern::print (ostream& os) const
 {
   os <<
     endl <<
@@ -738,7 +738,7 @@ string msrBeatsRepeatReplicas::asString () const
   return s.str ();
 }
 
-void msrBeatsRepeatReplicas::print (ostream& os)
+void msrBeatsRepeatReplicas::print (ostream& os) const
 {
   os <<
     endl <<
@@ -1117,7 +1117,7 @@ void msrBeatsRepeat::displayBeatsRepeat (
     endl;
 }
 
-void msrBeatsRepeat::print (ostream& os)
+void msrBeatsRepeat::print (ostream& os) const
 {
   os <<
     "BeatsRepeat" <<

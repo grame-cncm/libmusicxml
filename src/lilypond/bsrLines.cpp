@@ -261,7 +261,7 @@ string bsrLineContents::asString () const
   return asShortString ();
 }
 
-void bsrLineContents::print (ostream& os)
+void bsrLineContents::print (ostream& os) const
 {
   int lineElementsListSize = fLineContentsElementsList.size ();
 
@@ -765,7 +765,7 @@ string bsrLine::asString () const
   return s.str ();
 }
 
-void bsrLine::print (ostream& os)
+void bsrLine::print (ostream& os) const
 {
   int lineContentsListSize = fLineContentsList.size ();
 

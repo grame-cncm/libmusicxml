@@ -647,7 +647,7 @@ string msrDoubleTremolo::asString () const
   return s.str ();
 }
 
-void msrDoubleTremolo::print (ostream& os)
+void msrDoubleTremolo::print (ostream& os) const
 {
   os <<
     "DoubleTremolo" <<

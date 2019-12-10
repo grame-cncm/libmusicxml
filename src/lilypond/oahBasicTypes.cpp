@@ -7715,6 +7715,550 @@ ostream& operator<< (ostream& os, const S_oahStringAndTwoIntegersAtom& elt)
 }
 
 //______________________________________________________________________________
+S_oahLengthUnitKindAtom oahLengthUnitKindAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msrLengthUnitKind& lengthUnitKindVariable)
+{
+  oahLengthUnitKindAtom* o = new
+    oahLengthUnitKindAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      lengthUnitKindVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahLengthUnitKindAtom::oahLengthUnitKindAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  msrLengthUnitKind& lengthUnitKindVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fLengthUnitKindVariable (
+      lengthUnitKindVariable)
+{}
+
+oahLengthUnitKindAtom::~oahLengthUnitKindAtom ()
+{}
+
+S_oahValuedAtom oahLengthUnitKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a oahLengthUnitKindAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void oahLengthUnitKindAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahLengthUnitKindAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the score output kind:
+  // is it in the score output kinds map?
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahLengthUnitKindAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, msrLengthUnitKind>::const_iterator
+    it =
+      gMsrLengthUnitKindsMap.find (
+        theString);
+
+  if (it == gMsrLengthUnitKindsMap.end ()) {
+    // no, score output kind is unknown in the map
+
+    stringstream s;
+
+    s <<
+      "LPSR score output kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gMsrLengthUnitKindsMap.size () <<
+      " known LPSR score output kinds are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    gIndenter--;
+
+    oahError (s.str ());
+  }
+
+  setLengthUnitKindVariable (
+    (*it).second);
+}
+
+void oahLengthUnitKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahLengthUnitKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahLengthUnitKindAtom>*
+    p =
+      dynamic_cast<visitor<S_oahLengthUnitKindAtom>*> (v)) {
+        S_oahLengthUnitKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahLengthUnitKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahLengthUnitKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahLengthUnitKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahLengthUnitKindAtom>*
+    p =
+      dynamic_cast<visitor<S_oahLengthUnitKindAtom>*> (v)) {
+        S_oahLengthUnitKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahLengthUnitKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahLengthUnitKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahLengthUnitKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahLengthUnitKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    msrLengthUnitKindAsString (fLengthUnitKindVariable);
+
+  return s.str ();
+}
+
+string oahLengthUnitKindAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    msrLengthUnitKindAsString (fLengthUnitKindVariable);
+
+  return s.str ();
+}
+
+void oahLengthUnitKindAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "OptionsMsrLengthUnitKindAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsLengthUnitKindVariable" << " : \"" <<
+    msrLengthUnitKindAsString (
+      fLengthUnitKindVariable) <<
+    "\"" <<
+    endl;
+}
+
+void oahLengthUnitKindAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    msrLengthUnitKindAsString (
+      fLengthUnitKindVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahLengthUnitKindAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahLengthAtom oahLengthAtom::create (
+  string     shortName,
+  string     longName,
+  string     description,
+  string     valueSpecification,
+  string     variableName,
+  msrLength& lengthVariable)
+{
+  oahLengthAtom* o = new
+    oahLengthAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      lengthVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahLengthAtom::oahLengthAtom (
+  string     shortName,
+  string     longName,
+  string     description,
+  string     valueSpecification,
+  string     variableName,
+  msrLength& lengthVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fLengthVariable (
+      lengthVariable)
+{}
+
+oahLengthAtom::~oahLengthAtom ()
+{}
+
+S_oahValuedAtom oahLengthAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a oahLengthAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void oahLengthAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahLengthAtom'" <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahLengthAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the score output kind:
+
+  // check whether it is well-formed
+  string regularExpression (
+   // no sign, a '-' would be handled as an option name JMI   "([+|-]?)"
+    "("
+    "[[:digit:]]+)"
+    "."
+    "([[:digit:]]+"
+    ")"
+    "([[alpha]]+)");
+
+  regex e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for integer string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        "[" << sm [i] << "] ";
+    } // for
+
+    os << endl;
+  }
+#endif
+
+  if (smSize == 2) {
+    // leave the low level details to the STL...
+    float floatValue;
+    {
+      stringstream s;
+      s << sm [ 1 ];
+      s >> floatValue;
+    }
+
+    string lengthUnitName = sm [ 2 ];
+
+    // is lengthUnitName known in the the length unit names map?
+    map<string, msrLengthUnitKind>::const_iterator
+      it =
+        gMsrLengthUnitKindsMap.find (
+          lengthUnitName);
+
+    if (it == gMsrLengthUnitKindsMap.end ()) {
+      // no, length unit name is unknown in the map
+
+      stringstream s;
+
+      s <<
+        "length unit name '" << lengthUnitName <<
+        "' is unknown" <<
+        endl <<
+        "The " <<
+        gMsrLengthUnitKindsMap.size () <<
+        " known length unit names are:" <<
+        endl;
+
+      gIndenter++;
+
+      s <<
+        existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH);
+
+      gIndenter--;
+
+      oahError (s.str ());
+    }
+
+    setLengthVariable (
+      msrLength (
+        (*it).second,
+        floatValue));
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "length value '" << theString <<
+      "' for option '" << fetchNames () <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+}
+
+void oahLengthAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahLengthAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahLengthAtom>*
+    p =
+      dynamic_cast<visitor<S_oahLengthAtom>*> (v)) {
+        S_oahLengthAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahLengthAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahLengthAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahLengthAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahLengthAtom>*
+    p =
+      dynamic_cast<visitor<S_oahLengthAtom>*> (v)) {
+        S_oahLengthAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahLengthAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahLengthAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahLengthAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahLengthAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    fLengthVariable.asString ();
+
+  return s.str ();
+}
+
+string oahLengthAtom::asLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    fLengthVariable.asString ();
+
+  return s.str ();
+}
+
+void oahLengthAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "OptionsMsrLengthAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsLengthVariable" << " : " <<
+    fLengthVariable.asString () <<
+    endl;
+}
+
+void oahLengthAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : " <<
+    fLengthVariable.asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahLengthAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_oahOptionNameHelpAtom oahOptionNameHelpAtom::create (
   string shortName,
   string longName,

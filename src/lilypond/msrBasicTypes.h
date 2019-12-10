@@ -482,7 +482,7 @@ class msrDottedDuration
     // ------------------------------------------------------
 
     //virtual
-    void                  print (ostream& os);
+    void                  print (ostream& os) const;
 
   private:
 
@@ -492,7 +492,7 @@ class msrDottedDuration
     msrDurationKind       fDurationKind;
     int                   fDotsNumber;
 };
-EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
+EXP ostream& operator<< (ostream& os, const msrDottedDuration& elt);
 
 // semitone pitches and octave
 // can be used as absolute, relative or fixed reference
@@ -545,23 +545,22 @@ class msrSemiTonesPitchAndOctave : public smartable
     int                   getOctave () const
                               { return fOctave; }
 
+  public:
+
     // services
     // ------------------------------------------------------
-
 
     string                semiTonesPitchKindAsString () const;
     string                semiTonesPitchKindAsShortString () const;
 
     string                asString () const;
 
-    // visitors
-    // ------------------------------------------------------
-
   public:
 
+    // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -574,93 +573,206 @@ class msrSemiTonesPitchAndOctave : public smartable
 typedef SMARTP<msrSemiTonesPitchAndOctave> S_msrSemiTonesPitchAndOctave;
 EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt);
 
-// paper units
+// length units
 //______________________________________________________________________________
 
-enum msrPaperUnitKind {
+enum msrLengthUnitKind {
   kInchUnit, kCentimeterUnit, kMillimeterUnit };
 
-string msrPaperUnitKindAsString (
-  msrPaperUnitKind paperUnitKind);
+string msrLengthUnitKindAsString (
+  msrLengthUnitKind lengthUnitKind);
 
-string existingMsrPaperUnitKinds (int namesListMaxLength);
+string existingMsrLengthUnitKinds (int namesListMaxLength);
 
-extern msrPaperUnitKind
-  gMsrPaperUnitKindDefaultValue;
+extern map<string, msrLengthUnitKind>
+  gMsrLengthUnitKindsMap;
 
-extern map<string, msrPaperUnitKind>
-  gMsrPaperUnitKindsMap;
+void initializeMsrLengthUnitKindsMap ();
 
-void initializeMsrPaperUnitKindsMap ();
+// lengths
+//______________________________________________________________________________
 
-class msrFloatAndMsrPaperUnit : public smartable
+class msrLength : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrFloatAndMsrPaperUnit> create (
-      msrPaperUnitKind paperFontSizeKind,
-      float            theFloat);
+    static SMARTP<msrLength> create (
+      msrLengthUnitKind lengthUnitKind,
+      float             lengthValue);
 
-  protected:
+  public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrFloatAndMsrPaperUnit (
-      msrPaperUnitKind paperFontSizeKind,
-      float            theFloat);
+    msrLength (
+      msrLengthUnitKind lengthUnitKind,
+      float             lengthValue);
 
-    virtual ~msrFloatAndMsrPaperUnit ();
+    msrLength ();
+
+    virtual ~msrLength ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setPaperUnitKind (msrPaperUnitKind& value)
-                              { fPaperUnitKind = value; }
+    void                  setLengthUnitKind (msrLengthUnitKind& value)
+                              { fLengthUnitKind = value; }
 
-    msrPaperUnitKind      getPaperUnitKind () const
-                              { return fPaperUnitKind; }
+    msrLengthUnitKind     getLengthUnitKind () const
+                              { return fLengthUnitKind; }
 
-    void                  setFloat (float& value)
-                              { fFloat = value; }
+    void                  setLengthValue (float& value)
+                              { fLengthValue = value; }
 
-    float                 getFloat () const
-                              { return fFloat; };
+    float                 getLengthValue () const
+                              { return fLengthValue; };
+
+  public:
 
     // services
     // ------------------------------------------------------
 
-  public:
-
                           bool operator== (
-                            const msrFloatAndMsrPaperUnit& other) const
+                            const msrLength& other) const
                               {
                                 return
-                                  fPaperUnitKind == other.fPaperUnitKind
+                                  fLengthUnitKind == other.fLengthUnitKind
                                    &&
-                                  fFloat == other.fFloat;
+                                  fLengthValue == other.fLengthValue;
                               }
 
                           bool operator!= (
-                            const msrFloatAndMsrPaperUnit& other) const
+                            const msrLength& other) const
                               { return ! ((*this) == other); }
+
+    void                  convertToLengthUnit (
+                            msrLengthUnitKind lengthUnitKind);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
 
   private:
 
     // fields
     // ------------------------------------------------------
 
-    msrPaperUnitKind      fPaperUnitKind;
+    msrLengthUnitKind     fLengthUnitKind;
 
-    float                 fFloat;
+    float                 fLengthValue;
 };
-typedef SMARTP<msrFloatAndMsrPaperUnit> S_msrFloatAndMsrPaperUnit;
-EXP ostream& operator<< (ostream& os, const S_msrFloatAndMsrPaperUnit& elt);
+typedef SMARTP<msrLength> S_msrLength;
+EXP ostream& operator<< (ostream& os, const S_msrLength& elt);
+
+// margins types
+//______________________________________________________________________________
+
+enum msrMarginTypeKind {
+  kOddMargin, kEvenMargin, kBothMargins };
+
+string msrMarginTypeKindAsString (
+  msrMarginTypeKind marginTypeKind);
+
+string existingMsrMarginTypeKinds (int namesListMaxLength);
+
+extern map<string, msrMarginTypeKind>
+  gMsrMarginTypeKindsMap;
+
+void initializeMsrMarginTypeKindsMap ();
+
+// margins
+//______________________________________________________________________________
+
+class msrMargin : public smartable
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrMargin> create (
+      msrMarginTypeKind marginTypeKind,
+      msrLength         marginLength);
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMargin (
+      msrMarginTypeKind marginTypeKind,
+      msrLength         marginLength);
+
+    msrMargin ();
+
+    virtual ~msrMargin ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setMarginTypeKind (msrMarginTypeKind& value)
+                              { fMarginTypeKind = value; }
+
+    msrMarginTypeKind     getMarginTypeKind () const
+                              { return fMarginTypeKind; }
+
+    void                  setMarginLength (msrLength& value)
+                              { fMarginLength = value; }
+
+    msrLength             getMarginLength () const
+                              { return fMarginLength; };
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+                          bool operator== (
+                            const msrMargin& other) const
+                              {
+                                return
+                                  fMarginTypeKind == other.fMarginTypeKind
+                                   &&
+                                  fMarginLength == other.fMarginLength;
+                              }
+
+                          bool operator!= (
+                            const msrMargin& other) const
+                              { return ! ((*this) == other); }
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+
+    msrMarginTypeKind     fMarginTypeKind;
+    msrLength             fMarginLength;
+};
+typedef SMARTP<msrMargin> S_msrMargin;
+EXP ostream& operator<< (ostream& os, const S_msrMargin& elt);
 
 // fonts
 //______________________________________________________________________________
@@ -724,7 +836,7 @@ class msrFontSize : public smartable
 
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -907,7 +1019,6 @@ string msrSpannerTypeKindAsString (
 //______________________________________________________________________________
 class msrTupletFactor
 {
-// JMI  protected:
   public:
 
     // constructors/destructor
@@ -922,7 +1033,7 @@ class msrTupletFactor
     msrTupletFactor (
       rational rationalTupletFactor);
 
-// JMI    virtual ~msrTupletFactor ();
+    virtual ~msrTupletFactor ();
 
   public:
 
@@ -974,7 +1085,7 @@ class msrTupletFactor
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -984,7 +1095,7 @@ class msrTupletFactor
     int                   fTupletActualNotes;
     int                   fTupletNormalNotes;
 };
-EXP ostream& operator<< (ostream& os, msrTupletFactor elt);
+EXP ostream& operator<< (ostream& os, const msrTupletFactor& elt);
 
 // chords intervals
 //______________________________________________________________________________
@@ -1063,8 +1174,8 @@ class msrChordInterval : public smartable
     S_msrChordInterval    intervalSum (
                             S_msrChordInterval otherChordInterval);
 
-    string                asString ();
-    string                asShortString ();
+    string                asString () const;
+    string                asShortString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1080,7 +1191,7 @@ class msrChordInterval : public smartable
 
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -1173,7 +1284,7 @@ class msrChordStructure : public smartable
 
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -1256,7 +1367,7 @@ class msrChordContents : public smartable
 
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -1337,6 +1448,8 @@ class msrRGBColor {
 
     std::string           asString () const;
 
+    void                  print (ostream& os) const;
+
   private:
 
     // fields
@@ -1346,6 +1459,7 @@ class msrRGBColor {
     float                 fG;
     float                 fB;
 };
+EXP ostream& operator<< (ostream& os, const msrRGBColor& elt);
 
 // AlphaRGB colors
 //______________________________________________________________________________
@@ -1394,7 +1508,7 @@ class msrAlphaRGBColor
 
     string                asString () const;
 
-    void                  print (ostream& os);
+    void                  print (ostream& os) const;
 
   private:
 
@@ -1404,7 +1518,7 @@ class msrAlphaRGBColor
     string                fColorRGB;   // hexadecimal, 6 digits
     string                fColorAlpha; // hexadecimal, 2 digits
 };
-EXP ostream& operator<< (ostream& os, msrAlphaRGBColor elt);
+EXP ostream& operator<< (ostream& os, const msrAlphaRGBColor& elt);
 
 // score notation kinds
 //______________________________________________________________________________

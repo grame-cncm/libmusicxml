@@ -561,7 +561,7 @@ string msrSyllable::asString () const
   return s.str ();
 }
 
-void msrSyllable::print (ostream& os)
+void msrSyllable::print (ostream& os) const
 {
   os <<
     "Syllable" <<

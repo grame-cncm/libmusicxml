@@ -1764,7 +1764,7 @@ string msrPart::asString () const
   return s.str ();
 }
 
-void msrPart::print (ostream& os)
+void msrPart::print (ostream& os) const
 {
   os <<
     "Part" << " " << fPartMsrName <<

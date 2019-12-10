@@ -87,7 +87,7 @@ class msrBarCheck : public msrMeasureElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -156,7 +156,7 @@ class msrBarNumberCheck : public msrMeasureElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -354,7 +354,7 @@ class msrBarline : public msrMeasureElement
     string                asString () const;
     string                asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

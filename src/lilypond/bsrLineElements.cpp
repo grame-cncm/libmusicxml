@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -66,12 +66,12 @@ void bsrLineElement::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-  
+
   if (visitor<S_bsrLineElement>*
     p =
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -97,7 +97,7 @@ void bsrLineElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -125,7 +125,7 @@ string bsrLineElement::asShortString () const
   return asString ();
 }
 
-void bsrLineElement::print (ostream& os)
+void bsrLineElement::print (ostream& os) const
 {
   os << asString () << endl;
 }

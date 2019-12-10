@@ -65,7 +65,7 @@ class msrSegno : public msrMeasureElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -119,7 +119,7 @@ class msrCoda : public msrMeasureElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -173,7 +173,7 @@ class msrEyeGlasses : public msrMeasureElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -192,7 +192,7 @@ class msrPolyphony : public smartable
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
  
   public:
 

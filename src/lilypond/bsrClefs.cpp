@@ -50,7 +50,7 @@ bsrClef::bsrClef (
   fClefKind = clefKind;
 
   fClefCellsList = buildCellsList ();
-    
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceClefs) {
     gLogOstream <<
@@ -98,7 +98,7 @@ S_bsrCellsList bsrClef::buildCellsList () const
           fInputLineNumber,
           kDots345, kDots346, kDots123);
       break;
-      
+
     case kClefKindGSoprano:
       result =
         bsrCellsList::create (
@@ -117,7 +117,7 @@ S_bsrCellsList bsrClef::buildCellsList () const
           fInputLineNumber,
           kDots345, kDots346, kDots5, kDots123);
       break;
-      
+
     case kClefKindGOttavaAlta:
       result =
         bsrCellsList::create (
@@ -130,7 +130,7 @@ S_bsrCellsList bsrClef::buildCellsList () const
           fInputLineNumber,
           kDots345, kDots34, kDots123, kDots3456, kDots236);
       break;
-      
+
     case kClefKindModifiedBassForRightHandPart:
       result =
         bsrCellsList::create (
@@ -162,12 +162,12 @@ void bsrClef::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrClef>*
     p =
       dynamic_cast<visitor<S_bsrClef>*> (v)) {
         S_bsrClef elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -193,7 +193,7 @@ void bsrClef::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrClef>*> (v)) {
         S_bsrClef elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -213,7 +213,7 @@ string bsrClef::clefKindAsString (
   bsrClefKind clefKind)
 {
   string result;
-  
+
   switch (clefKind) {
     case bsrClef::kClefKindNone:
       result = "***clefNone***";
@@ -268,7 +268,7 @@ string bsrClef::asString () const
   return s.str ();
 }
 
-void bsrClef::print (ostream& os)
+void bsrClef::print (ostream& os) const
 {
   os <<
     "Clef" <<
@@ -278,7 +278,7 @@ void bsrClef::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 16;
-  
+
   os <<
     setw (fieldWidth) <<
     "clefKind" << " : " <<

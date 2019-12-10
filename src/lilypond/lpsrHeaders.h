@@ -341,7 +341,7 @@ class lpsrHeader : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

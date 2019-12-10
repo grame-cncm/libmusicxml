@@ -345,7 +345,7 @@ string bsrCellsList::asShortString () const
   return asString ();
 }
 
-void bsrCellsList::print (ostream& os)
+void bsrCellsList::print (ostream& os) const
 {
   os <<
     "cellsListElements [";

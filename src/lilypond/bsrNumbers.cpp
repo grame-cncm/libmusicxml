@@ -239,7 +239,7 @@ string bsrNumber::asString () const
   return s.str ();
 }
 
-void bsrNumber::print (ostream& os)
+void bsrNumber::print (ostream& os) const
 {
   os <<
     "Number" <<

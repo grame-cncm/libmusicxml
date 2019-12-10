@@ -36,7 +36,7 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
       string               description,
       string               valueSpecification,
       string               variableName,
-      lpsrScoreOutputKind& lpsrScoreOutputKindKindVariable);
+      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
 
   protected:
 
@@ -49,7 +49,7 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
       string               description,
       string               valueSpecification,
       string               variableName,
-      lpsrScoreOutputKind& lpsrScoreOutputKindKindVariable);
+      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
 
     virtual ~lpsrScoreOutputKindAtom ();
 
@@ -108,93 +108,6 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
 };
 typedef SMARTP<lpsrScoreOutputKindAtom> S_lpsrScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt);
-
-//______________________________________________________________________________
-class msrPaperUnitKindAtom : public oahValuedAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<msrPaperUnitKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrPaperUnitKind& msrPaperUnitKindKindVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrPaperUnitKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrPaperUnitKind& msrPaperUnitKindKindVariable);
-
-    virtual ~msrPaperUnitKindAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setMsrPaperUnitKindVariable (
-                            msrPaperUnitKind value)
-                              { fMsrPaperUnitKindVariable = value; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
-
-    void                  print (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrPaperUnitKind&    fMsrPaperUnitKindVariable;
-};
-typedef SMARTP<msrPaperUnitKindAtom> S_msrPaperUnitKindAtom;
-EXP ostream& operator<< (ostream& os, const S_msrPaperUnitKindAtom& elt);
 
 //______________________________________________________________________________
 class lpsrPitchesLanguageAtom : public oahValuedAtom
@@ -634,14 +547,14 @@ class lpsrOah : public oahGroup
     // paper
     // --------------------------------------
 
-    msrPaperUnitKind      fPaperUnitKind;
-    msrPaperUnitKind      fPaperUnitKindDefaultValue;
+    msrLengthUnitKind     fLengthUnitKind;
+    msrLengthUnitKind     fLengthUnitKindDefaultValue;
 
-    float                 fPaperWidth;  // 0.0 in not specified
-    float                 fPaperHeight; // 0.0 in not specified
+    msrLength             fPaperWidth;
+    msrLength             fPaperHeight;
 
-    float                 fPaperIndent;
-    float                 fPaperShortIndent;
+    msrLength             fPaperIndent;
+    msrLength             fPaperShortIndent;
 
     bool                  fRaggedBottom;
     bool                  fRaggedLastBottom;

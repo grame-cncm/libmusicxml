@@ -87,14 +87,15 @@ S_bsrPage bsrPage::createPageNewbornClone ()
   return newbornClone;
 }
 
-int bsrPage::fetchLineContentsNumber ()
+int bsrPage::fetchLineContentsNumber () const
 {
   int result = 0;
 
   for (
     list<S_bsrPageElement>::const_iterator i = fPageElementsList.begin ();
     i != fPageElementsList.end ();
-    i++ ) {
+    i++
+  ) {
     result += (*i)->fetchLineContentsNumber ();
   } // for
 
@@ -180,7 +181,7 @@ string bsrPage::asString () const
   return s.str ();
 }
 
-void bsrPage::print (ostream& os)
+void bsrPage::print (ostream& os) const
 {
   os <<
     "Page" <<

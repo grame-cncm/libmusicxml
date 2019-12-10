@@ -261,7 +261,7 @@ string bsrKey::asString () const
   return s.str ();
 }
 
-void bsrKey::print (ostream& os)
+void bsrKey::print (ostream& os) const
 {
   os <<
     "Key" <<

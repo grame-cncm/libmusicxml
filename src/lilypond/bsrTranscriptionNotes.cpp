@@ -67,12 +67,12 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrTranscriptionNotesElement>*
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -98,7 +98,7 @@ void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -127,7 +127,7 @@ string bsrTranscriptionNotesElement::asString () const
   return s.str ();
 }
 
-void bsrTranscriptionNotesElement::print (ostream& os)
+void bsrTranscriptionNotesElement::print (ostream& os) const
 {
   os <<
     "TranscriptionNotesElement" <<
@@ -135,7 +135,7 @@ void bsrTranscriptionNotesElement::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   os <<
     "transcriptionNoteText " << " : \"" << fTranscriptionNoteText << "\"" <<
     endl;
@@ -180,12 +180,12 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrTranscriptionNotes>*
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
-        
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -211,7 +211,7 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
-      
+
 #ifdef TRACE_OAH
         if (gBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
@@ -236,28 +236,28 @@ void bsrTranscriptionNotes::browseData (basevisitor* v)
   } // for
 }
 
-void bsrTranscriptionNotes::print (ostream& os)
+void bsrTranscriptionNotes::print (ostream& os) const
 {
   os <<
     "TranscriptionNotes" <<
     endl;
 
   gIndenter++;
-  
+
   // print the notes if any
   const int fieldWidth = 19;
 
   int transcriptionNotesElementsListSize = fTranscriptionNotesElementsList.size ();
-  
+
   if (transcriptionNotesElementsListSize || gBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "transcriptionNotesElementsList" << " : " <<
       endl;
-      
+
     if (transcriptionNotesElementsListSize) {
       gIndenter++;
-  
+
       list<S_bsrTranscriptionNotesElement>::const_iterator
         iBegin = fTranscriptionNotesElementsList.begin (),
         iEnd   = fTranscriptionNotesElementsList.end (),
@@ -267,9 +267,9 @@ void bsrTranscriptionNotes::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-  
+
       os << endl;
-        
+
       gIndenter--;
     }
     else {

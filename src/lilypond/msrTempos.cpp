@@ -137,7 +137,7 @@ string msrTempoNote::asString () const
   return s.str ();
 }
 
-void msrTempoNote::print (ostream& os)
+void msrTempoNote::print (ostream& os) const
 {
   os <<
     "TempoNote" <<
@@ -653,21 +653,21 @@ string msrTempoTuplet::asString () const
         S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(*(*i)))
         ) {
         s <<
-          note->asShortString ();
+          note->asShortString () const;
       }
 
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
         ) {
         s <<
-          chord->asString ();
+          chord->asString () const;
       }
 
       else if (
         S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(*(*i)))
         ) {
         s <<
-          tempoTuplet->asString ();
+          tempoTuplet->asString () const;
       }
 
       else {
@@ -689,7 +689,7 @@ string msrTempoTuplet::asString () const
 }
 */
 
-void msrTempoTuplet::print (ostream& os)
+void msrTempoTuplet::print (ostream& os) const
 {
   os <<
     "TempoTuplet " <<
@@ -901,7 +901,7 @@ string msrTempoRelationshipElements::tempoRelationshipElementsKindAsString (
   return result;
 }
 
-void msrTempoRelationshipElements::print (ostream& os)
+void msrTempoRelationshipElements::print (ostream& os) const
 {
   os <<
     "TempoRelationshipElements" <<
@@ -1285,7 +1285,7 @@ string msrTempo::asString () const
   return s.str ();
 }
 
-void msrTempo::print (ostream& os)
+void msrTempo::print (ostream& os) const
 {
   os <<
     "Tempo" <<

@@ -195,7 +195,7 @@ class msrTuplet : public msrTupletElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
     virtual void          printShort (indentedOstream& os);
 

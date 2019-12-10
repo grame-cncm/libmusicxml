@@ -42,12 +42,12 @@ void msrTupletElement::acceptIn (basevisitor* v)
       "% ==> msrTupletElement::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTupletElement>*
     p =
       dynamic_cast<visitor<S_msrTupletElement>*> (v)) {
         S_msrTupletElement elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTupletElement::visitStart ()" <<
@@ -69,7 +69,7 @@ void msrTupletElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTupletElement>*> (v)) {
         S_msrTupletElement elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTupletElement::visitEnd ()" <<
@@ -88,7 +88,7 @@ string msrTupletElement::asString () const
 string msrTupletElement::asShortString () const
 {
   // this can be overriden in actual elements
-  return asString ();
+  return asString () const;
 }
 
 void msrTupletElement::print (ostream& os)

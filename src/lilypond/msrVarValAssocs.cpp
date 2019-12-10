@@ -152,7 +152,7 @@ string msrVarValAssoc::varValAssocKindAsString (
   return result;
 }
 
-void msrVarValAssoc::print (ostream& os)
+void msrVarValAssoc::print (ostream& os) const
 {
   os <<
     "MSR VarValAssoc" <<
@@ -316,7 +316,7 @@ string msrVarValsListAssoc::varValsListAssocValuesAsString () const
   return s.str ();
 }
 
-void msrVarValsListAssoc::print (ostream& os)
+void msrVarValsListAssoc::print (ostream& os) const
 {
   os <<
     "MSR VarValsListAssoc" <<

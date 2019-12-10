@@ -196,7 +196,7 @@ string msrRestMeasuresContents::asString () const
   return s.str ();
 }
 
-void msrRestMeasuresContents::print (ostream& os)
+void msrRestMeasuresContents::print (ostream& os) const
 {
   os <<
     endl <<
@@ -595,7 +595,7 @@ void msrRestMeasures::displayRestMeasures (
     endl;
 }
 
-void msrRestMeasures::print (ostream& os)
+void msrRestMeasures::print (ostream& os) const
 {
   os <<
     "RestMeasures" <<

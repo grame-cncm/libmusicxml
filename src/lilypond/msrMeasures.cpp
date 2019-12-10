@@ -5058,7 +5058,7 @@ void msrMeasure::displayMeasure (
     endl;
 }
 
-void msrMeasure::print (ostream& os)
+void msrMeasure::print (ostream& os) const
 {
   os <<
     "Measure '" <<
@@ -5258,7 +5258,7 @@ void msrMeasure::print (ostream& os)
   gIndenter--;
 }
 
-void msrMeasure::shortPrint (ostream& os)
+void msrMeasure::shortPrint (ostream& os) const
 {
   os <<
     "Measure '" <<

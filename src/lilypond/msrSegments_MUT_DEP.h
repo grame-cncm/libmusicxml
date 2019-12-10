@@ -324,9 +324,9 @@ class msrSegment : public msrVoiceElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os);
+    virtual void          shortPrint (ostream& os) const;
 
   private:
 

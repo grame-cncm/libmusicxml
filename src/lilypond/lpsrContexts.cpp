@@ -141,7 +141,7 @@ string lpsrContext::contextExistingKindAsString (
   return result;
 }
 
-void lpsrContext::print (ostream& os)
+void lpsrContext::print (ostream& os) const
 {
   os <<
     "Context, \"" <<
@@ -280,7 +280,7 @@ void lpsrChordNamesContext::acceptOut (basevisitor* v)
 void lpsrChordNamesContext::browseData (basevisitor* v)
 {}
 
-void lpsrChordNamesContext::print (ostream& os)
+void lpsrChordNamesContext::print (ostream& os) const
 {
   os <<
   /* JMI
@@ -438,7 +438,7 @@ void lpsrFiguredBassContext::acceptOut (basevisitor* v)
 void lpsrFiguredBassContext::browseData (basevisitor* v)
 {}
 
-void lpsrFiguredBassContext::print (ostream& os)
+void lpsrFiguredBassContext::print (ostream& os) const
 {
   os <<
   /* JMI

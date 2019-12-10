@@ -82,7 +82,7 @@ class bsrTranscriptionNotesElement : public bsrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -150,7 +150,7 @@ class bsrTranscriptionNotes : public bsrLine
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

@@ -121,13 +121,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
 #endif
 }
 
-ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& scr)
-{
-  scr->print (os);
-  return os;
-}
-
-void lpsrPartGroupBlock::print (ostream& os)
+void lpsrPartGroupBlock::print (ostream& os) const
 {
   os <<
     endl <<
@@ -155,6 +149,12 @@ void lpsrPartGroupBlock::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& scr)
+{
+  scr->print (os);
+  return os;
 }
 
 

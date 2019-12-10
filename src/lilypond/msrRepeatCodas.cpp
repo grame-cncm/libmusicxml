@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -50,14 +50,14 @@ msrRepeatCoda::msrRepeatCoda (
   msrAssert (
     repeatCodaSegment != nullptr,
     "repeatCodaSegment is null");
-    
+
   fRepeatCodaSegment = repeatCodaSegment;
-  
+
   // sanity check
   msrAssert (
     repeatUpLink != nullptr,
     "repeatUpLink is null");
-    
+
   fRepeatCodaRepeatUpLink = repeatUpLink;
 }
 
@@ -75,12 +75,12 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     containingRepeat != nullptr,
     "containingRepeat is null");
-    
+
   S_msrRepeatCoda
     newbornClone = 0; // JMI
     /*
@@ -91,7 +91,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
             getRepeatCodaSegment (), // JMI
         containingRepeat);
       */
-      
+
   // segment
 
   // upLinks
@@ -110,12 +110,12 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     containingRepeat != nullptr,
     "containingRepeat is null");
-    
+
   S_msrRepeatCoda
     repeatCodaDeepCopy = 0; // JMI
     /* JMI
@@ -126,14 +126,14 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
             getRepeatCodaSegment (), // JMI
         containingRepeat);
     */
-    
+
   // segment
   repeatCodaDeepCopy->fRepeatCodaSegment =
     fRepeatCodaSegment->
       createSegmentDeepCopy (
         fRepeatCodaRepeatUpLink->
           getRepeatVoiceUpLink ());
-    
+
   // upLinks
   repeatCodaDeepCopy->fRepeatCodaRepeatUpLink =
     containingRepeat;
@@ -157,12 +157,12 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
       "% ==> msrRepeatCoda::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRepeatCoda>*
     p =
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
-        
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRepeatCoda::visitStart ()" <<
@@ -184,7 +184,7 @@ void msrRepeatCoda::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
-      
+
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRepeatCoda::visitEnd ()" <<
@@ -213,13 +213,13 @@ string msrRepeatCoda::asString () const
   return s.str ();
 }
 
-void msrRepeatCoda::print (ostream& os)
+void msrRepeatCoda::print (ostream& os) const
 {
   os <<
     endl <<
     asString () <<
     endl;
- 
+
   gIndenter++;
 
   os <<

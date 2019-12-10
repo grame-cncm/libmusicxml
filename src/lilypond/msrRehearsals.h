@@ -18,14 +18,14 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class msrRehearsal : public msrMeasureElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -35,7 +35,7 @@ class msrRehearsal : public msrMeasureElement
 
     static string rehearsalKindAsString (
       msrRehearsalKind rehearsalKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -55,9 +55,9 @@ class msrRehearsal : public msrMeasureElement
       msrRehearsalKind rehearsalKind,
       string           rehearsalText,
       msrPlacementKind rehearsalPlacementKind);
-      
+
     virtual ~msrRehearsal ();
-  
+
   public:
 
     // set and get
@@ -72,7 +72,7 @@ class msrRehearsal : public msrMeasureElement
     // services
     string                getRehearsalText () const
                               { return fRehearsalText; }
-        
+
     // services
     // ------------------------------------------------------
 
@@ -91,7 +91,7 @@ class msrRehearsal : public msrMeasureElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

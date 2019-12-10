@@ -24,77 +24,77 @@ namespace MusicXML2
 class msr2SummaryVisitor :
 
   public visitor<S_msrScore>,
-  
+
   // parts & part groups
 
   public visitor<S_msrPartGroup>,
-  
+
   public visitor<S_msrPart>,
-  
+
   // staves
 
   public visitor<S_msrStaff>,
-  
+
   public visitor<S_msrVoice>,
 
   // lyrics
 
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
-  
+
   public visitor<S_msrClef>,
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
   public visitor<S_msrTempo>,
-  
+
   public visitor<S_msrSegment>,
-    
+
   public visitor<S_msrArticulation>,
 
   public visitor<S_msrDynamics>,
   public visitor<S_msrWedge>,
-  
+
   public visitor<S_msrGraceNotesGroup>,
-  
+
   public visitor<S_msrNote>,
-  
+
   public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
-    
+
   public visitor<S_msrChord>,
-  
+
   public visitor<S_msrTuplet>,
-  
+
   public visitor<S_msrSlur>,
-  
+
   public visitor<S_msrBarline>,
   public visitor<S_msrBarNumberCheck>,
   public visitor<S_msrLineBreak>,
-  
+
   public visitor<S_msrRepeat>,
-    
+
   public visitor<S_msrVarValAssoc>,
   public visitor<S_msrVarValsListAssoc>,
-  
-  public visitor<S_msrPageGeometry>,
+
+  public visitor<S_msrGeometry>,
   public visitor<S_msrLayout>,
-  
+
   public visitor<S_msrMidi>
 
 {
   public:
-  
+
     msr2SummaryVisitor (
       S_msrOah&    msrOpts,
       indentedOstream& ios);
-        
+
     virtual ~msr2SummaryVisitor ();
 
     void printSummaryFromMsrScore (
       const S_msrScore& score);
-    
+
   protected:
-      
+
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
@@ -178,8 +178,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
-    virtual void visitStart (S_msrPageGeometry& elt);
-    virtual void visitEnd   (S_msrPageGeometry& elt);
+    virtual void visitStart (S_msrGeometry& elt);
+    virtual void visitEnd   (S_msrGeometry& elt);
 
     virtual void visitStart (S_msrLayout& elt);
     virtual void visitEnd   (S_msrLayout& elt);
@@ -188,45 +188,45 @@ class msr2SummaryVisitor :
     virtual void visitEnd   (S_msrMidi& elt);
 
   private:
-                     
+
     S_msrOah          fMsrOah;
-    
+
     indentedOstream&      fMsrSummaryOutputStream;
 
     // score
     // ------------------------------------------------------
-    
+
     // part groups
     // ------------------------------------------------------
-    
+
     int                   fPartGroupsCounter;
 
     // parts
     // ------------------------------------------------------
-    
+
     int                   fPartsCounter;
 
     // staves
     // ------------------------------------------------------
-    
+
     int                   fStavesCounter;
-    
+
     // prevent clef, key and time from being handled twice
     bool                  fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
-    
+
     int                   fVoicesCounter;
 
     // stanzas
     // ------------------------------------------------------
-    
+
     int                   fStanzasCounter;
 
     // notes
     // ------------------------------------------------------
-    
+
     int                   fScoreUnpitchedNotesCounter;
     int                   fScoreStandaloneNotesCounter;
     int                   fScoreRestNotesCounter;
@@ -236,13 +236,13 @@ class msr2SummaryVisitor :
 
     // chords
     // ------------------------------------------------------
-    
+
     int                   fScoreChordNotesCounter;
     int                   fScoreChordsCounter;
 
     // tuplets
     // ------------------------------------------------------
-    
+
     int                   fScoreTupletNotesCounter;
     int                   fScoreTupletsCounter;
 };
