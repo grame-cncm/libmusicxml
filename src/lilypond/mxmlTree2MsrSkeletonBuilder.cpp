@@ -148,6 +148,8 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fCurrentMillimeters = -1;
   fCurrentTenths      = -1;
 
+  fOnGoingSystemMargins = false;
+
   // page layout
   fOnGoingPageLayout = false;
 
@@ -1688,28 +1690,6 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createFiguredBassVoiceForVoiceIfNotYetDo
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::visitStart (S_encoding& elt)
-{
-  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_encoding" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceParts) {
-    fLogOutputStream <<
-      "*** Analysing S_encoding ***" <<
-      ", " << elt->getValue () <<
-      endl;
-  }
-#endif
-
-  fScoreNumberOfMeasures = 0;
-}
-
-//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_partwise& elt)
 {
   if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
@@ -1836,6 +1816,48 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_title& elt )
       movementTitle);
 }
 
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_identification& elt )
+{
+/*
+  <identification>
+    <encoding>
+      <software>MuseScore 2.0.3.1</software>
+      <encoding-date>2016-12-15</encoding-date>
+      <supports element="accidental" type="yes"/>
+      <supports element="beam" type="yes"/>
+      <supports element="print" attribute="new-page" type="yes" value="yes"/>
+      <supports element="print" attribute="new-system" type="yes" value="yes"/>
+      <supports element="stem" type="yes"/>
+      </encoding>
+    </identification>
+*/
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_identification" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_identification& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_identification" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+}
+
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
 {
   int inputLineNumber =
@@ -1909,7 +1931,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
   }
 }
 
-//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_rights& elt )
 {
   int inputLineNumber =
@@ -1930,6 +1951,127 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_rights& elt )
     addRights (
       inputLineNumber,
       rightsValue);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_source& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_source" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+/* JMI
+  string rightsValue = elt->getValue ();
+
+  convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
+
+  fMsrScore->getIdentification () ->
+    addRights (
+      inputLineNumber,
+      rightsValue);
+      */
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_relation& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_relation" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+/* JMI
+  string rightsValue = elt->getValue ();
+
+  convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
+
+  fMsrScore->getIdentification () ->
+    addRights (
+      inputLineNumber,
+      rightsValue);
+      */
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart (S_encoding& elt)
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_encoding" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceParts) {
+    fLogOutputStream <<
+      "*** Analysing S_encoding ***" <<
+      ", " << elt->getValue () <<
+      endl;
+  }
+#endif
+
+  fScoreNumberOfMeasures = 0;
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_encoding& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_encoding" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_encoding_date& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_encoding_date" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fMsrScore->getIdentification () ->
+    setEncodingDate (
+      inputLineNumber,
+      elt->getValue ());
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_encoder& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_encoder" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+/* JMI
+  fMsrScore->getIdentification () ->
+    setEncodingDate (
+      inputLineNumber,
+      elt->getValue ());
+      */
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
@@ -2001,24 +2143,87 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
       softwareValue);
 }
 
-void mxmlTree2MsrSkeletonBuilder::visitStart ( S_encoding_date& elt )
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_encoding_description& elt )
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
 
   if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_encoding_date" <<
+      "--> Start visiting S_encoding_description" <<
       ", line " << inputLineNumber <<
       endl;
   }
 
+/* JMI
   fMsrScore->getIdentification () ->
     setEncodingDate (
       inputLineNumber,
       elt->getValue ());
+      */
 }
 
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_supports& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_supports" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+/* JMI
+  fMsrScore->getIdentification () ->
+    setEncodingDate (
+      inputLineNumber,
+      elt->getValue ());
+      */
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_miscellaneous& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_miscellaneous" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+/* JMI
+  string miscellaneousFielValue = elt->getValue ();
+
+  convertHTMLEntitiesToPlainCharacters (
+    miscellaneousFielValue);
+
+  fMsrScore->getIdentification () ->
+    setMiscellaneousField (
+      inputLineNumber,
+      miscellaneousFielValue);
+      */
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_miscellaneous& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_miscellaneous" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_miscellaneous_field& elt )
 {
   int inputLineNumber =
@@ -2133,6 +2338,16 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_system_layout& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
 {
+/*
+        <system-layout>
+          <system-margins>
+            <left-margin>0.00</left-margin>
+            <right-margin>-0.00</right-margin>
+            </system-margins>
+          <top-system-distance>170.00</top-system-distance>
+          </system-layout>
+*/
+
   if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_margins" <<
@@ -2147,6 +2362,28 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
       __FILE__, __LINE__,
       "<system-margins /> is out of context");
   }
+
+  fOnGoingSystemMargins = true;
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_system_margins& elt )
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_system_margins" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (! fOnGoingSystemLayout) {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<system-margins /> is out of context");
+  }
+
+  fOnGoingSystemMargins = false;
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
@@ -2160,7 +2397,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
 
   if (fOnGoingSystemLayout) {
 /*
-    int systemDistanceTenths = (int)(*elt);
+    float systemDistanceTenths = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->
@@ -2201,7 +2438,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
 
   if (fOnGoingSystemLayout) {
 /*
-    int topSystemDistanceTenths = (int)(*elt);
+    float topSystemDistanceTenths = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->
@@ -2325,7 +2562,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
   }
 
   if (fOnGoingPageLayout) {
-    int pageHeight = (int)(*elt);
+    float pageHeight = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->
@@ -2354,7 +2591,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
   }
 
   if (fOnGoingPageLayout) {
-    int pageWidth = (int)(*elt);
+    float pageWidth = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->
@@ -2442,7 +2679,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
   }
 
   if (fOnGoingPageMargins) {
-    int leftMargin = (int)(*elt);
+    float leftMargin = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->
@@ -2453,6 +2690,21 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
               msrLength (
                 kMillimeterUnit,
                 leftMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+  else if (fOnGoingSystemMargins) {
+    float leftMargin = (float)(*elt);
+
+/* JMI
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setLeftMargin (
+            msrMargin::create (
+              fCurrentMarginTypeKind,
+              msrLength (
+                kMillimeterUnit,
+                leftMargin * fCurrentMillimeters / fCurrentTenths)));
+                */
   }
   else {
     msrMusicXMLError (
@@ -2473,7 +2725,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
   }
 
   if (fOnGoingPageMargins) {
-    int rightMargin = (int)(*elt);
+    float rightMargin = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->
@@ -2484,6 +2736,21 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
               msrLength (
                 kMillimeterUnit,
                 rightMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+  else if (fOnGoingSystemMargins) {
+    float rightMargin = (float)(*elt);
+
+/* JMI
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setRightMargin (
+            msrMargin::create (
+              fCurrentMarginTypeKind,
+              msrLength (
+                kMillimeterUnit,
+                rightMargin * fCurrentMillimeters / fCurrentTenths)));
+                */
   }
   else {
     msrMusicXMLError (
@@ -2504,7 +2771,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
   }
 
   if (fOnGoingPageMargins) {
-    int topMargin = (int)(*elt);
+    float topMargin = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->
@@ -2535,7 +2802,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
   }
 
   if (fOnGoingPageMargins) {
-    int bottomMargin = (int)(*elt);
+    float bottomMargin = (float)(*elt);
 
     fMsrScore->
       getMsrGeometry ()->

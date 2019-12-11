@@ -51,6 +51,10 @@ msrGeometry::msrGeometry (
 {
   fMillimeters = -1;
   fTenths      = -1;
+
+  fPageLayout =
+    msrPageLayout::create (
+      inputLineNumber);
 }
 
 msrGeometry::~msrGeometry ()

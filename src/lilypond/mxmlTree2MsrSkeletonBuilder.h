@@ -117,25 +117,45 @@ EXP ostream& operator<< (ostream& os, const S_mxmlPartGroupDescr& elt);
 //________________________________________________________________________
 class mxmlTree2MsrSkeletonBuilder :
 
-  public visitor<S_encoding>,
-
   // score partwise
 
   public visitor<S_score_partwise>,
 
   // rights
+  // ------------------------------------------------------
 
   public visitor<S_work_number>,
   public visitor<S_work_title>,
   public visitor<S_movement_number>,
   public visitor<S_movement_title>,
+
+  // identification
+  // ------------------------------------------------------
+
+  public visitor<S_identification>,
   public visitor<S_creator>,
   public visitor<S_rights>,
-  public visitor<S_software>,
+  public visitor<S_source>,
+  public visitor<S_relation>,
+
+  // encoding
+  // ------------------------------------------------------
+
+  public visitor<S_encoding>,
   public visitor<S_encoding_date>,
+  public visitor<S_encoder>,
+  public visitor<S_software>,
+  public visitor<S_encoding_description>,
+  public visitor<S_supports>,
+
+  // miscellaneous
+  // ------------------------------------------------------
+
+  public visitor<S_miscellaneous>,
   public visitor<S_miscellaneous_field>,
 
   // geometry
+  // ------------------------------------------------------
 
   public visitor<S_millimeters>,
   public visitor<S_tenths>,
@@ -151,6 +171,7 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_right_divider>,
 
   // layout
+  // ------------------------------------------------------
 
   public visitor<S_page_layout>,
   public visitor<S_page_height>,
@@ -162,11 +183,13 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_bottom_margin>,
 
   // credits
+  // ------------------------------------------------------
 
   public visitor<S_credit>,
   public visitor<S_credit_words>,
 
   // parts & part groups
+  // ------------------------------------------------------
 
   public visitor<S_part_list>,
 
@@ -196,23 +219,28 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_part>,
 
   // staves
+  // ------------------------------------------------------
 
   public visitor<S_staves>,
   public visitor<S_staff>,
 
   // voices
+  // ------------------------------------------------------
 
   public visitor<S_voice>,
 
   // measures
+  // ------------------------------------------------------
 
   public visitor<S_measure>,
 
   // notes
+  // ------------------------------------------------------
 
   public visitor<S_note>,
 
   // lyrics
+  // ------------------------------------------------------
 
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
@@ -221,10 +249,12 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_extend>,
 
   // harmonies
+  // ------------------------------------------------------
 
   public visitor<S_harmony>,
 
   // figured bass
+  // ------------------------------------------------------
 
   public visitor<S_figured_bass>
 
@@ -257,26 +287,50 @@ class mxmlTree2MsrSkeletonBuilder :
 
   protected:
 
-    virtual void visitStart ( S_encoding& elt);
-
     // score partwise
+    // ------------------------------------------------------
 
     virtual void visitStart ( S_score_partwise& elt);
     virtual void visitEnd   ( S_score_partwise& elt);
 
-
-    // rights
+    // identification
     // ------------------------------------------------------
+
+    virtual void visitStart ( S_identification& elt);
+    virtual void visitEnd   ( S_identification& elt);
+    virtual void visitStart ( S_creator& elt);
+    virtual void visitStart ( S_rights& elt);
+    virtual void visitStart ( S_source& elt);
+    virtual void visitStart ( S_relation& elt);
+
+    // encoding
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_encoding& elt);
+    virtual void visitEnd   ( S_encoding& elt);
+    virtual void visitStart ( S_encoding_date& elt);
+    virtual void visitStart ( S_encoder& elt);
+    virtual void visitStart ( S_software& elt);
+    virtual void visitStart ( S_encoding_description& elt);
+    virtual void visitStart ( S_supports& elt);
+
+
 
     virtual void visitStart ( S_work_number& elt);
     virtual void visitStart ( S_work_title& elt);
     virtual void visitStart ( S_movement_number& elt);
     virtual void visitStart ( S_movement_title& elt);
-    virtual void visitStart ( S_creator& elt);
-    virtual void visitStart ( S_rights& elt);
-    virtual void visitStart ( S_software& elt);
-    virtual void visitStart ( S_encoding_date& elt);
+
+    // miscellaneous
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_miscellaneous& elt);
+    virtual void visitEnd   ( S_miscellaneous& elt);
     virtual void visitStart ( S_miscellaneous_field& elt);
+
+    // rights
+    // ------------------------------------------------------
+
 
     // geometry
     // ------------------------------------------------------
@@ -291,6 +345,7 @@ class mxmlTree2MsrSkeletonBuilder :
     virtual void visitEnd   ( S_system_layout& elt);
 
     virtual void visitStart ( S_system_margins& elt);
+    virtual void visitEnd   ( S_system_margins& elt);
     virtual void visitStart ( S_system_distance& elt);
     virtual void visitStart ( S_top_system_distance& elt);
 
@@ -420,10 +475,14 @@ class mxmlTree2MsrSkeletonBuilder :
 
     bool                      fOnGoingSystemLayout;
 
+    bool                      fOnGoingSystemMargins;
+
+
     // credits handling
     // ------------------------------------------------------
 
     S_msrCredit               fCurrentCredit;
+
 
     // part groups handling
     // ------------------------------------------------------
