@@ -71,6 +71,11 @@ S_lpsrGeometry lpsrGeometry::createLpsrGeometryNewbornClone ()
         fInputLineNumber,
         fMsrGeometry);
 
+  newbornClone->fBetweenSystemSpace =
+    fBetweenSystemSpace;
+  newbornClone->fPageTopSpace =
+    fPageTopSpace;
+
   return newbornClone;
 }
 
@@ -127,17 +132,41 @@ void lpsrGeometry::print (ostream& os)  const
     "Geometry" <<
     endl;
 
+  const int fieldWidth = 19;
+
   gIndenter++;
 
-  const int fieldWidth = 13;
-
   // MSR geometry
-  os << left <<
+  os <<
     fMsrGeometry <<
     endl;
 
   // LilyPond geometry
   // ???
+
+  // layout
+  os << left <<
+    setw (fieldWidth) <<
+    "betweenSystemSpace" << " : ";
+  if (fBetweenSystemSpace) {
+    os << fBetweenSystemSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageTopSpace" << " : ";
+  if (fPageTopSpace) {
+    os << fPageTopSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
 
   gIndenter--;
 }

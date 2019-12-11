@@ -8038,14 +8038,10 @@ void oahLengthAtom::handleValue (
   // theString contains the score output kind:
 
   // check whether it is well-formed
-  string regularExpression (
    // no sign, a '-' would be handled as an option name JMI   "([+|-]?)"
-    "("
-    "[[:digit:]]+)"
-    "."
-    "([[:digit:]]+"
-    ")"
-    "([[alpha]]+)");
+  string regularExpression (
+    "([[:digit:]]+)(.[[:digit:]]*)?([[:alpha:]]{2,})"
+    );
 
   regex e (regularExpression);
   smatch sm;
@@ -8072,16 +8068,17 @@ void oahLengthAtom::handleValue (
   }
 #endif
 
-  if (smSize == 2) {
+  if (smSize == 4) {
     // leave the low level details to the STL...
     float floatValue;
     {
       stringstream s;
-      s << sm [ 1 ];
+      // concatenate the integer and decimal parts
+      s << sm [ 1 ] << sm [ 2 ];
       s >> floatValue;
     }
 
-    string lengthUnitName = sm [ 2 ];
+    string lengthUnitName = sm [ 3 ];
 
     // is lengthUnitName known in the the length unit names map?
     map<string, msrLengthUnitKind>::const_iterator

@@ -2054,8 +2054,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
 
   fCurrentMillimeters = (float)(*elt);
 
-  fMsrScore->getMsrGeometry ()->
-    setMillimeters (fCurrentMillimeters);
+  fMsrScore->
+    getMsrGeometry ()->
+      setMillimeters (fCurrentMillimeters);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
@@ -2069,8 +2070,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
 
   fCurrentTenths = (int)(*elt);
 
-  fMsrScore->getMsrGeometry ()->
-    setTenths (fCurrentTenths);
+  fMsrScore->
+    getMsrGeometry ()->
+      setTenths (fCurrentTenths);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
@@ -2157,13 +2159,27 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
   }
 
   if (fOnGoingSystemLayout) {
+/*
     int systemDistanceTenths = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setBetweenSystemSpace (
-        msrLength::create (
-          kMillimeterUnit,
-          systemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setBetweenSystemSpace (
+            msrLength::create (
+              kMillimeterUnit,
+              systemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+              */
+    stringstream s;
+
+    s <<
+      "<system-distance /> is not supported yet by " <<
+      gOahOah->fHandlerExecutableName;
+
+    msrMusicXMLWarning (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+     s.str ());
   }
   else {
     msrMusicXMLError (
@@ -2184,13 +2200,26 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
   }
 
   if (fOnGoingSystemLayout) {
+/*
     int topSystemDistanceTenths = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setPageTopSpace (
-        msrLength::create (
-          kMillimeterUnit,
-          topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+    fMsrScore->
+      getMsrGeometry ()->
+        setPageTopSpace (
+          msrLength::create (
+            kMillimeterUnit,
+            topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+          */
+    stringstream s;
+
+    s <<
+      "<top-system-distance /> is not supported yet by " <<
+      gOahOah->fHandlerExecutableName;
+
+    msrMusicXMLWarning (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+     s.str ());
   }
   else {
     msrMusicXMLError (
@@ -2201,6 +2230,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
   }
 }
 
+//______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
 {
   if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
@@ -2210,13 +2240,36 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
       endl;
   }
 
-  int topSystemDistance = (int)(*elt);
+    stringstream s;
 
-  fMsrScore->getMsrGeometry ()->
-    setPageTopSpace ( // JMI
-      msrLength::create (
-        kMillimeterUnit,
-        topSystemDistance * fCurrentMillimeters / fCurrentTenths));
+    s <<
+      "<system-dividers /> is not supported yet by " <<
+      gOahOah->fHandlerExecutableName;
+
+    msrMusicXMLWarning (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+     s.str ());
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_divider& elt )
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_left_divider" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_divider& elt )
+{
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_right_divider" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
 }
 
 //______________________________________________________________________________
@@ -2274,11 +2327,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
   if (fOnGoingPageLayout) {
     int pageHeight = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setPaperHeight (
-        msrLength::create (
-          kMillimeterUnit,
-          pageHeight * fCurrentMillimeters / fCurrentTenths));
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setPageHeight (
+            msrLength::create (
+              kMillimeterUnit,
+              pageHeight * fCurrentMillimeters / fCurrentTenths));
   }
   else {
     msrMusicXMLError (
@@ -2301,11 +2356,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
   if (fOnGoingPageLayout) {
     int pageWidth = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setPaperWidth (
-        msrLength::create (
-          kMillimeterUnit,
-          pageWidth * fCurrentMillimeters / fCurrentTenths));
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setPageWidth (
+            msrLength::create (
+              kMillimeterUnit,
+              pageWidth * fCurrentMillimeters / fCurrentTenths));
   }
   else {
     msrMusicXMLError (
@@ -2387,13 +2444,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
   if (fOnGoingPageMargins) {
     int leftMargin = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setLeftMargin (
-        msrMargin::create (
-          fCurrentMarginTypeKind,
-          msrLength (
-            kMillimeterUnit,
-            leftMargin * fCurrentMillimeters / fCurrentTenths)));
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setLeftMargin (
+            msrMargin::create (
+              fCurrentMarginTypeKind,
+              msrLength (
+                kMillimeterUnit,
+                leftMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else {
     msrMusicXMLError (
@@ -2416,13 +2475,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
   if (fOnGoingPageMargins) {
     int rightMargin = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setRightMargin (
-        msrMargin::create (
-          fCurrentMarginTypeKind,
-          msrLength (
-            kMillimeterUnit,
-            rightMargin * fCurrentMillimeters / fCurrentTenths)));
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setRightMargin (
+            msrMargin::create (
+              fCurrentMarginTypeKind,
+              msrLength (
+                kMillimeterUnit,
+                rightMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else {
     msrMusicXMLError (
@@ -2445,13 +2506,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
   if (fOnGoingPageMargins) {
     int topMargin = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setTopMargin (
-        msrMargin::create (
-          fCurrentMarginTypeKind,
-          msrLength (
-            kMillimeterUnit,
-            topMargin * fCurrentMillimeters / fCurrentTenths)));
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setTopMargin (
+            msrMargin::create (
+              fCurrentMarginTypeKind,
+              msrLength (
+                kMillimeterUnit,
+                topMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else {
     msrMusicXMLError (
@@ -2474,13 +2537,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
   if (fOnGoingPageMargins) {
     int bottomMargin = (int)(*elt);
 
-    fMsrScore->getMsrGeometry ()->
-      setBottomMargin (
-        msrMargin::create (
-          fCurrentMarginTypeKind,
-          msrLength (
-            kMillimeterUnit,
-            bottomMargin * fCurrentMillimeters / fCurrentTenths)));
+    fMsrScore->
+      getMsrGeometry ()->
+        getPageLayout ()->
+          setBottomMargin (
+            msrMargin::create (
+              fCurrentMarginTypeKind,
+              msrLength (
+                kMillimeterUnit,
+                bottomMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else {
     msrMusicXMLError (

@@ -45,7 +45,7 @@ class msr2LpsrTranslator :
 
   // layout
 
-  public visitor<S_msrLayout>,
+  public visitor<S_msrPageLayout>,
 
   // parts & part groups
 
@@ -468,8 +468,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrGeometry& elt);
     virtual void visitEnd   (S_msrGeometry& elt);
 
-    virtual void visitStart (S_msrLayout& elt);
-    virtual void visitEnd   (S_msrLayout& elt);
+    virtual void visitStart (S_msrPageLayout& elt);
+    virtual void visitEnd   (S_msrPageLayout& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);

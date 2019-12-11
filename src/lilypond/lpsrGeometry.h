@@ -56,6 +56,17 @@ class lpsrGeometry : public lpsrElement
                               { return fMsrGeometry; }
 
     // LilyPond geometry
+    // layout JMI ???
+    void                  setBetweenSystemSpace (S_msrLength val)
+                              { fBetweenSystemSpace = val; }
+    S_msrLength           getBetweenSystemSpace () const
+                              { return fBetweenSystemSpace; }
+
+    void                  setPageTopSpace (S_msrLength val)
+                              { fPageTopSpace = val; }
+    S_msrLength           getPageTopSpace () const
+                              { return fPageTopSpace; }
+
 
   public:
 
@@ -85,6 +96,10 @@ class lpsrGeometry : public lpsrElement
 
     // LilyPond geometry
     // JMI ???
+
+    // layout ???
+    S_msrLength           fBetweenSystemSpace;
+    S_msrLength           fPageTopSpace;
 };
 typedef SMARTP<lpsrGeometry> S_lpsrGeometry;
 EXP ostream& operator<< (ostream& os, const S_lpsrGeometry& elt);

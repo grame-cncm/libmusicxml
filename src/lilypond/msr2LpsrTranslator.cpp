@@ -247,11 +247,15 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
     // get the paper width
     S_msrLength
       paperWidth =
-        geometry->getPaperWidth ();
+        geometry->
+          getPageLayout ()->
+            getPageWidth ();
 
-    fLogOutputStream <<
-      "setPaperIndentsIfNeeded():" <<
-      endl;
+    if (paperWidth) {
+      fLogOutputStream <<
+        "setPaperIndentsIfNeeded()" << // JMI ???
+        endl;
+    }
 
     gIndenter++;
 
@@ -6499,12 +6503,12 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
+void msr2LpsrTranslator::visitStart (S_msrPageLayout& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrLayout" <<
+      "--> Start visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -6513,14 +6517,14 @@ void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
   gIndenter++;
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
+void msr2LpsrTranslator::visitEnd (S_msrPageLayout& elt)
 {
   gIndenter--;
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrLayout" <<
+      "--> End visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

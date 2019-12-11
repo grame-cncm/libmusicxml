@@ -99,7 +99,7 @@ void lpsrLayout::acceptOut (basevisitor* v)
 
 void lpsrLayout::browseData (basevisitor* v)
 {
-
+/* JMI
   int lilypondAssocs = flpsrVarValAssocsVector.size ();
 
   for (int i = 0; i < lilypondAssocs; i++ ) {
@@ -115,6 +115,7 @@ void lpsrLayout::browseData (basevisitor* v)
     msrBrowser<lpsrSchemeVariable> browser (v);
     browser.browse (*fLpsrSchemeVariablesVector [i]);
   } // for
+  */
 }
 
 void lpsrLayout::print (ostream& os) const
@@ -132,10 +133,11 @@ void lpsrLayout::print (ostream& os) const
    "layoutGlobalStaffSize" << " : " << fLayoutGlobalStaffSize <<
     endl;
 
-  int lilypondAssocs = flpsrVarValAssocsVector.size ();
+/* JMI
+  int lilypondAssocs = fLpsrVarValAssocsVector.size ();
 
   for (int i = 0; i < lilypondAssocs; i++ ) {
-    os << flpsrVarValAssocsVector [i];
+    os << fLpsrVarValAssocsVector [i];
   } // for
 
   int schemeAssocs = fLpsrSchemeVariablesVector.size ();
@@ -143,6 +145,7 @@ void lpsrLayout::print (ostream& os) const
   for (int i = 0; i < schemeAssocs; i++ ) {
     os << fLpsrSchemeVariablesVector[i];
   } // for
+*/
 
   gIndenter--;
 }

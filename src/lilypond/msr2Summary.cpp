@@ -1144,26 +1144,26 @@ void msr2SummaryVisitor::visitEnd (S_msrGeometry& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrLayout& elt)
+void msr2SummaryVisitor::visitStart (S_msrPageLayout& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> Start visiting msrLayout" <<
+      "--> Start visiting msrPageLayout" <<
       endl;
   }
 
-  fMsrSummaryOutputStream << "Layout" << endl;
+  fMsrSummaryOutputStream << "PageLayout" << endl;
 
   gIndenter++;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrLayout& elt)
+void msr2SummaryVisitor::visitEnd (S_msrPageLayout& elt)
 {
   gIndenter--;
 
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> End visiting msrLayout" <<
+      "--> End visiting msrPageLayout" <<
       endl;
   }
 }

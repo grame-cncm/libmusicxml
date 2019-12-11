@@ -145,7 +145,10 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_system_margins>,
   public visitor<S_system_distance>,
   public visitor<S_top_system_distance>,
+
   public visitor<S_system_dividers>,
+  public visitor<S_left_divider>,
+  public visitor<S_right_divider>,
 
   // layout
 
@@ -278,7 +281,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // geometry
     // ------------------------------------------------------
 
-// scaling, margins, layout, divider JMI
+    // scaling, margins, layout, divider JMI
 
     virtual void visitStart ( S_millimeters& elt);
     virtual void visitStart ( S_tenths& elt);
@@ -290,7 +293,10 @@ class mxmlTree2MsrSkeletonBuilder :
     virtual void visitStart ( S_system_margins& elt);
     virtual void visitStart ( S_system_distance& elt);
     virtual void visitStart ( S_top_system_distance& elt);
+
     virtual void visitStart ( S_system_dividers& elt);
+    virtual void visitStart ( S_left_divider& elt);
+    virtual void visitStart ( S_right_divider& elt);
 
     // layout
     // ------------------------------------------------------

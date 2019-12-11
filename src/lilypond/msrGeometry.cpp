@@ -68,24 +68,8 @@ S_msrGeometry msrGeometry::createMsrGeometryNewbornClone ()
   newbornClone->fTenths =
     fTenths;
 
-  newbornClone->fPaperWidth =
-    fPaperWidth;
-  newbornClone->fPaperHeight =
-    fPaperHeight;
-
-  newbornClone->fTopMargin =
-    fTopMargin;
-  newbornClone->fBottomMargin =
-    fBottomMargin;
-  newbornClone->fLeftMargin =
-    fLeftMargin;
-  newbornClone->fRightMargin =
-    fRightMargin;
-
-  newbornClone->fBetweenSystemSpace =
-    fBetweenSystemSpace;
-  newbornClone->fPageTopSpace =
-    fPageTopSpace;
+  newbornClone->fPageLayout =
+    fPageLayout;
 
   return newbornClone;
 }
@@ -225,95 +209,16 @@ void msrGeometry::print (ostream& os) const
     setprecision (2) << fTenths <<
     endl;
 
-  // page size
+  // page layout
   os << left <<
     setw (fieldWidth) <<
-    "paperWidth" << " : ";
-    if (fPaperWidth) {
-      os << fPaperWidth;
+    "pageLayout" << " : ";
+    if (fPageLayout) {
+      os << fPageLayout;
     }
     else {
       os << "none";
     }
-  os << endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "paperHeight" << " : ";
-    if (fPaperWidth) {
-      os << fPaperHeight;
-    }
-    else {
-      os << "none";
-    }
-  os << endl;
-
-  // margins
-  os << left <<
-    setw (fieldWidth) <<
-    "topMargin" << " : ";
-    if (fTopMargin) {
-      os << fTopMargin;
-    }
-    else {
-      os << "none";
-    }
-  os << endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "bottomMargin" << " : ";
-    if (fBottomMargin) {
-      os << fBottomMargin;
-    }
-    else {
-      os << "none";
-    }
-  os << endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "leftMargin" << " : ";
-    if (fLeftMargin) {
-      os << fLeftMargin;
-    }
-    else {
-      os << "none";
-    }
-  os << endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "rightMargin" << " : ";
-    if (fRightMargin) {
-      os << fRightMargin;
-    }
-    else {
-      os << "none";
-    }
-  os << endl;
-
-  // layout
-  os << left <<
-    setw (fieldWidth) <<
-    "betweenSystemSpace" << " : ";
-  if (fBetweenSystemSpace) {
-    os << fBetweenSystemSpace;
-  }
-  else {
-    os << "none";
-  }
-  os << endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "pageTopSpace" << " : ";
-  if (fPageTopSpace) {
-    os << fPageTopSpace;
-  }
-  else {
-    os << "none";
-  }
   os << endl;
 
   gIndenter--;

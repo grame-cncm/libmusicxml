@@ -27,8 +27,9 @@
 #include "msrVarValAssocs.h"
 
 #include "msrIdentification.h"
+
+#include "msrLayouts.h" // JMI ???
 #include "msrGeometry.h"
-#include "msrLayout.h"
 
 #include "msrCredits.h"
 

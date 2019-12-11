@@ -17,6 +17,8 @@
 
 #include "msrBasicTypes.h"
 
+#include "msrLayouts.h"
+
 
 namespace MusicXML2
 {
@@ -60,48 +62,11 @@ class msrGeometry : public msrElement
     float                 getTenths () const
                               { return float(fTenths); }
 
-    // page size
-    void                  setPaperWidth (S_msrLength val)
-                              { fPaperWidth = val; }
-    S_msrLength           getPaperWidth () const
-                              { return fPaperWidth; }
-
-    void                  setPaperHeight (S_msrLength val)
-                              { fPaperHeight = val; }
-    S_msrLength           getPaperHeight () const
-                              { return fPaperHeight; }
-
-    // margins
-    void                  setTopMargin (S_msrMargin val)
-                              { fTopMargin = val; }
-    S_msrMargin           getTopMargin () const
-                              { return fTopMargin; }
-
-    void                  setBottomMargin (S_msrMargin val)
-                              { fBottomMargin = val; }
-    S_msrMargin           getBottomMargin () const
-                              { return fBottomMargin; }
-
-    void                  setLeftMargin (S_msrMargin val)
-                              { fLeftMargin = val; }
-    S_msrMargin           getLeftMargin () const
-                              { return fLeftMargin; }
-
-    void                  setRightMargin (S_msrMargin val)
-                              { fRightMargin = val; }
-    S_msrMargin           getRightMargin () const
-                              { return fRightMargin; }
-
-    // layout
-    void                  setBetweenSystemSpace (S_msrLength val)
-                              { fBetweenSystemSpace = val; }
-    S_msrLength           getBetweenSystemSpace () const
-                              { return fBetweenSystemSpace; }
-
-    void                  setPageTopSpace (S_msrLength val)
-                              { fPageTopSpace = val; }
-    S_msrLength           getPageTopSpace () const
-                              { return fPageTopSpace; }
+    // page layout
+    void                  setPageLayout (S_msrPageLayout val)
+                              { fPageLayout = val; }
+    S_msrPageLayout       getPageLayout () const
+                              { return fPageLayout; }
 
   public:
 
@@ -137,19 +102,8 @@ class msrGeometry : public msrElement
     float                 fMillimeters;
     int                   fTenths;
 
-    // page size
-    S_msrLength           fPaperWidth;
-    S_msrLength           fPaperHeight;
-
-    // margins
-    S_msrMargin           fTopMargin;
-    S_msrMargin           fBottomMargin;
-    S_msrMargin           fLeftMargin;
-    S_msrMargin           fRightMargin;
-
-    // layout
-    S_msrLength           fBetweenSystemSpace;
-    S_msrLength           fPageTopSpace;
+    // page layout
+    S_msrPageLayout       fPageLayout;
 };
 typedef SMARTP<msrGeometry> S_msrGeometry;
 EXP ostream& operator<< (ostream& os, const S_msrGeometry& elt);

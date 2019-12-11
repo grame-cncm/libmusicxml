@@ -53,14 +53,18 @@ class lpsrLayout : public lpsrElement
     void                  setLayoutGlobalStaffSize (float size)
                               { fLayoutGlobalStaffSize = size; }
 
-    // services JMI ???
+  public:
+
+    // services
     // ------------------------------------------------------
 
+/* JMI
     void                  addLilypondVarValAssoc (
                             S_lpsrVarValAssoc assoc)
                               {
-                                flpsrVarValAssocsVector.push_back (assoc);
+                                fLpsrVarValAssocsVector.push_back (assoc);
                               }
+*/
 
     void                  addSchemeVariable (
                             S_lpsrSchemeVariable assoc)
@@ -93,8 +97,10 @@ class lpsrLayout : public lpsrElement
     float
                           fLayoutGlobalStaffSize;
 
+/* JMI
     vector<S_lpsrVarValAssoc>
-                          flpsrVarValAssocsVector;
+                          fLpsrVarValAssocsVector;
+                          */
     vector<S_lpsrSchemeVariable>
                           fLpsrSchemeVariablesVector;
 };
