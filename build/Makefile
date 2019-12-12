@@ -217,7 +217,6 @@ macpack: $(PACKDIR)/README.html
 	$(MAKE) macos
 	-[ -d $(PACK) ] && rm -rf $(PACK)
 	$(MAKE) install PREFIX=../$(PACK)
-	cp $(PACKDIR)/README.html $(PACK)
 	hdiutil create $(PACK).dmg -fs HFS+ -srcfolder $(PACK) -format UDBZ -ov
 
 linuxpack:
