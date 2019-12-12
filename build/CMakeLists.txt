@@ -36,7 +36,7 @@ option ( BRL 		   "Include braille part"	  off )
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
 set (DTDS   ${ROOT}/dtds/${XMLVERSION})
-set (SCHEMA ${ROOT}/schema/${XMLVERSION})
+set (SCHEMA ${DTDS}/schema)
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -186,35 +186,39 @@ endif()
 
 #######################################
 # install setup
+if (PACK)
+	set (CMAKE_INSTALL_PREFIX .)
+endif()
+
+set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/share/libmusicxml)
+if (WIN32 OR APPLE)
+  set (BINDEST bin)
+  set (LIBDEST bin)
+  set (DOCDIR  .)
+else ()
+  set (LIBDEST lib)
+  set (BINDEST bin)
+endif ()
+
+
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
-if (APPLE)
 install ( TARGETS ${target} 
-	RUNTIME DESTINATION bin 
-    LIBRARY DESTINATION bin 
-    ARCHIVE DESTINATION bin 
+	RUNTIME DESTINATION ${BINDEST} 
+    LIBRARY DESTINATION ${LIBDEST} 
+    ARCHIVE DESTINATION ${LIBDEST} 
     FRAMEWORK DESTINATION lib CONFIGURATIONS Release
     PUBLIC_HEADER DESTINATION include/libmusicxml
 )
-else ()
-install ( TARGETS ${target} 
-	  RUNTIME DESTINATION lib 
-    LIBRARY DESTINATION lib 
-    ARCHIVE DESTINATION lib 
-    PUBLIC_HEADER DESTINATION include/libmusicxml
-)
-endif()
 
 install ( TARGETS ${TOOLS}
-  RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION ${BINDEST}
+    LIBRARY DESTINATION ${LIBDEST}
+    ARCHIVE DESTINATION ${LIBDEST}
 )
-
 
 ####################################
 # install misc files
-set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/share/libmusicxml)
 install (
     DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
     FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
