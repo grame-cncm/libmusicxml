@@ -147,6 +147,7 @@ set_target_properties (${target} PROPERTIES
 )
 endif()
 
+if (NOT WIN32)
 add_library(${staticlib} STATIC ${LIBCONTENT})
 set_target_properties (${staticlib} PROPERTIES
 			VERSION ${VERSION}
@@ -158,11 +159,9 @@ set_target_properties (${staticlib} PROPERTIES
 			PUBLIC_HEADER "${COREH}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
+			OUTPUT_NAME musicxml2
 )
-if (MSVC)
-  set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
 endif()
-set_target_properties( ${staticlib}  PROPERTIES OUTPUT_NAME libmusicxml2)
 
 if (FMWK AND APPLE AND NOT IOS)
 set_target_properties (${target} PROPERTIES
@@ -229,7 +228,12 @@ endif ()
 
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
-install ( TARGETS ${target} ${staticlib}
+if (WIN32)
+	set (INSTALLED ${target})
+else()
+	set (INSTALLED ${target}  ${staticlib})
+endif()
+install ( TARGETS ${INSTALLED}
 	RUNTIME DESTINATION ${BINDEST} 
     LIBRARY DESTINATION ${LIBDEST} 
     ARCHIVE DESTINATION ${LIBDEST} 
