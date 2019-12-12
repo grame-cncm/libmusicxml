@@ -23,6 +23,7 @@ set (STRVERS "v.3.17")
 set (SSTRVERS "3.17")
 message (STATUS "Configuring version ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
+get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
@@ -53,7 +54,6 @@ if(UNIX)
   endif()
 endif()
 
-set (libtype SHARED)
 
 #########################################
 # mac os specific part
@@ -65,7 +65,6 @@ if(APPLE)
     set (CMAKE_OSX_ARCHITECTURES "arm64  armv7 armv7s") # unsupported on iOS 11.4.0: armv7 armv7s
     set (CMAKE_OSX_SYSROOT "iphoneos")
     set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.0")
-    set (libtype STATIC)
   elseif( UNIVERSAL )
     message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")
     set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
@@ -87,33 +86,32 @@ endif()
 
 #######################################
 # set directories, src and headers.
-set (LXML     ${CMAKE_CURRENT_SOURCE_DIR}/..)
-set (LXMLSRC  ${LXML}/src)
-set (LXMLSAMPLE ${LXML}/samples)
+set (SRCDIR  ${ROOT}/src)
+set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
 if (LILY)
 	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond)
 endif()
 
 foreach(folder ${SRCFOLDERS})
-  set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")      # add source files
-endforeach(folder)
+  set(SRC ${SRC} "${SRCDIR}/${folder}/*.cpp")          # add source files
+endforeach()
 
 foreach(folder ${SRCFOLDERS})
-  set(HEADERS ${HEADERS} "${LXMLSRC}/${folder}/*.h")    # add header files
-endforeach(folder)
+  set(HEADERS ${HEADERS} "${SRCDIR}/${folder}/*.h")    # add header files
+endforeach()
 
 if (NOT LILY)
 	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")		
-	set(SRC ${SRC}  "${LXMLSRC}/interface/libmusicxml.cpp" "${LXMLSRC}/interface/musicxml2guido.cpp")
-	set(HEADERS $HEADERS "${LXMLSRC}/interface/libmusicxml.h" "${LXMLSRC}/interface/musicxml2guido.h")
+	set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
+	set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
 	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
 endif()
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
-file (GLOB COREH RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
+file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
 foreach(folder ${SRCFOLDERS})
-  set(INCL ${INCL} "${LXMLSRC}/${folder}")        # add include folders
+  set(INCL ${INCL} "${SRCDIR}/${folder}")        # add include folders
 endforeach(folder)
 
 
@@ -126,14 +124,31 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 #######################################
 if(WIN32 OR MSYS)
   enable_language(RC)
-  set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
+  set(LIBCONTENT ${CORESRC} ${COREH} ${ROOT}/win32/libmusicxml/libmusicxml.rc)
 else()
   set(LIBCONTENT ${CORESRC} ${COREH})
 endif()
 
 set(target musicxml2)
-add_library(${target} ${libtype} ${LIBCONTENT})
+set(staticlib musicxml2static)
+
+if (NOT IOS)
+add_library(${target} SHARED ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES
+			VERSION ${VERSION}
+			SOVERSION ${SOVERS}
+			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
+			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
+			PUBLIC_HEADER "${COREH}"
+			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
+			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
+)
+endif()
+
+add_library(${staticlib} STATIC ${LIBCONTENT})
+set_target_properties (${staticlib} PROPERTIES
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
 			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
@@ -147,6 +162,7 @@ set_target_properties (${target} PROPERTIES
 if (MSVC)
   set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
 endif()
+set_target_properties( ${staticlib}  PROPERTIES OUTPUT_NAME libmusicxml2)
 
 if (FMWK AND APPLE AND NOT IOS)
 set_target_properties (${target} PROPERTIES
@@ -172,10 +188,17 @@ if (BRL)
 	set (TOOLS  ${TOOLS} xml2brl)
 endif()
 
+if (APPLE)
+  set (LINKTO ${staticlib})
+else()
+  set (LINKTO ${target})
+endif()
+
+
 if(NOT IOS )
 foreach(sample ${SAMPLES})
-	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
-	target_link_libraries( ${sample} ${target})
+	add_executable( ${sample} ${SAMPLEDIR}/${sample}.cpp )
+	target_link_libraries( ${sample} ${LINKTO})
 	set_target_properties (${sample} PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY  ${BINDIR}
 		RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BINDIR})
@@ -191,7 +214,10 @@ if (PACK)
 endif()
 
 set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/share/libmusicxml)
-if (WIN32 OR APPLE)
+if (APPLE)
+  set (BINDEST bin)
+  set (LIBDEST lib)
+elseif (WIN32)
   set (BINDEST bin)
   set (LIBDEST bin)
   set (DOCDIR  .)
@@ -203,7 +229,7 @@ endif ()
 
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
-install ( TARGETS ${target} 
+install ( TARGETS ${target} ${staticlib}
 	RUNTIME DESTINATION ${BINDEST} 
     LIBRARY DESTINATION ${LIBDEST} 
     ARCHIVE DESTINATION ${LIBDEST} 
