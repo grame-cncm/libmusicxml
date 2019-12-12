@@ -69,7 +69,7 @@ if(APPLE)
 	elseif( UNIVERSAL )
 		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
 		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
-		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
+		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.10)
 	endif()
 
 #########################################
@@ -182,6 +182,16 @@ endif()
 # install setup
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
+
+if (APPLE)
+install ( TARGETS ${target} 
+	RUNTIME DESTINATION bin 
+    LIBRARY DESTINATION bin 
+    ARCHIVE DESTINATION bin 
+    FRAMEWORK DESTINATION lib CONFIGURATIONS Release
+    PUBLIC_HEADER DESTINATION include/libmusicxml
+)
+else ()
 install ( TARGETS ${target} 
 	RUNTIME DESTINATION lib 
     LIBRARY DESTINATION lib 
@@ -189,6 +199,7 @@ install ( TARGETS ${target}
     FRAMEWORK DESTINATION lib CONFIGURATIONS Release
     PUBLIC_HEADER DESTINATION include/libmusicxml
 )
+endif()
 
 install ( TARGETS ${TOOLS} 
 	RUNTIME DESTINATION bin 
@@ -225,5 +236,31 @@ install (
     FILES ${ROOT}/CHANGELOG.txt  DESTINATION ${DOCDIR}
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
+
+
+####################################
+# cpack section
+####################################
+set (CPACKDEST libMusicXML-${VERSION})
+set (CPACK_PACKAGE_NAME   "libMusicXML")
+set (CPACK_PACKAGE_VENDOR "GRAME")
+set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "libMusicXML - a library and tools to support the MusicXML format.")
+set (CPACK_PACKAGE_VERSION   ${VERSION})
+set (CPACK_PACKAGE_VERSION_MAJOR   ${VERSION_MAJOR})
+set (CPACK_PACKAGE_VERSION_MINOR   ${VERSION_MINOR})
+set (CPACK_PACKAGE_VERSION_PATCH   ${VERSION_PATCH})
+
+set (CPACK_MONOLITHIC_INSTALL true)
+set (CPACK_RESOURCE_FILE_LICENSE  ${ROOT}/license.txt)
+set (CPACK_PACKAGE_INSTALL_DIRECTORY  ${CPACKDEST})
+
+####################################
+# NSIS specific section
+set (CPACK_NSIS_INSTALL_ROOT "C:\\\\Program Files")
+set (CPACK_NSIS_MODIFY_PATH on)
+#set (CPACK_NSIS_MUI_ICON "${ROOT}/Resources/Images/FaustLiveIcon.ico")
+
+include (CPack)
+
 
 endif()

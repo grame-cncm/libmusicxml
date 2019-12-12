@@ -5,6 +5,7 @@
 .PHONY : msys win32 win64 linux android
 
 PDIR   ?= libdir
+VERSION = 3.17
 
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
@@ -13,18 +14,22 @@ ifeq ($(system), Darwin)
 	OUTDIR = $(PDIR)/Release
 	GENERATOR ?= Xcode
 	PREFIX ?= /usr/local
+	NATIVEPACK = macpack
 else
 ifeq ($(system), MINGW)
 	TARGET ?= windows
 	PDIR  ?= win64
+	NATIVEPACK = winpack
 else
 ifeq ($(system), Linux)
 	TARGET ?= linux
 	OUTDIR = $(PDIR)
 	GENERATOR ?= Unix Makefiles
 	PREFIX ?= /usr/local
+	NATIVEPACK = linuxpack
 else
 	TARGET = undefined
+	NATIVEPACK = undefined
 endif
 endif
 endif
@@ -64,12 +69,14 @@ help :
 	@echo "   format    source code formatting using clang-format"	
 	@echo "   install   install library, tools and headers"	
 	@echo "   localinstall   install the tools to ~/bin"
+	@echo "   package   create the libmusicxml-$(VERSION) package"
 	@echo 	
 	@echo "Options:"
 	@echo "   CMAKEOPT  cmake options passed to cmake by the 'cmake' target"
 	@echo "   GENERATOR the cmake generator. Currently '$(GENERATOR)'"
 	@echo "   PDIR      the generation folder. Currently '$(PDIR)'"
 	@echo "   MSVC      [Windows only] the windows generator. Currently '$(MSVC)'"
+	@echo "   PREFIX    the install location prefix. Currently $(PREFIX)'"
 	@echo 
 	@echo "CMake options:"
 	@echo "   FMWK 		[MacOS only] Generates a framework on MacOS. Default is on"
@@ -189,3 +196,36 @@ uninstall: $(installLog)
 
 localinstall:
 	cd bin && cp $(TOOLS) $(HOME)/bin
+
+
+#===============================================================
+# packaging
+#===============================================================
+PACKDIR := ../packages
+PACK := $(PACKDIR)/libmusicxml2-$(VERSION)
+package:
+	$(MAKE) $(NATIVEPACK)
+
+winpack:
+	$(MAKE) win64
+	cd win64 && cpack -G NSIS64
+	mv win64/libmusicxml-*.exe .
+
+macpack: $(PACKDIR)/README.html
+	$(MAKE) cmake CMAKEOPT="-DLILY=on -DFMWK=off"
+	$(MAKE) macos
+	-[ -d $(PACK) ] && rm -rf $(PACK)
+	$(MAKE) install PREFIX=../$(PACK)
+	cp $(PACKDIR)/README.html $(PACK)
+	hdiutil create $(PACKDIR)/libmusicxml-$(VERSION).dmg -fs HFS+ -srcfolder $(PACK) -format UDBZ -ov
+
+linuxpack:
+	@echo Linux packaging not implemented. 
+
+$(PACKDIR)/README.html: $(PACKDIR)/README.md
+	echo "<!DOCTYPE html><html><xmp>" > $@ 
+	cat $< >> $@ 
+	echo "</xmp>" >> $@ 
+	echo "<script src=http://strapdownjs.com/v/0.2/strapdown.js></script>" >> $@ 
+	echo "</html>" >> $@ 
+
