@@ -13,19 +13,19 @@
 #ifndef ___msrRehearsals___
 #define ___msrRehearsals___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrRehearsal : public msrElement
+class msrRehearsal : public msrMeasureElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -35,7 +35,7 @@ class msrRehearsal : public msrElement
 
     static string rehearsalKindAsString (
       msrRehearsalKind rehearsalKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -55,9 +55,9 @@ class msrRehearsal : public msrElement
       msrRehearsalKind rehearsalKind,
       string           rehearsalText,
       msrPlacementKind rehearsalPlacementKind);
-      
+
     virtual ~msrRehearsal ();
-  
+
   public:
 
     // set and get
@@ -72,7 +72,7 @@ class msrRehearsal : public msrElement
     // services
     string                getRehearsalText () const
                               { return fRehearsalText; }
-        
+
     // services
     // ------------------------------------------------------
 
@@ -91,7 +91,7 @@ class msrRehearsal : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

@@ -23,32 +23,70 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
+
+// score output kinds
+//______________________________________________________________________________
+enum lpsrScoreOutputKind {
+  kScoreOnly, // default value
+  kScoreAndParts,
+  kPartsAndScore,
+  kPartsOnly,
+  kScoreAndPartsOneFile,
+  kPartsAndScoreOneFile,
+  kPartsOnlyOneFile };
+
+string lpsrScoreOutputKindAsString (
+  lpsrScoreOutputKind scoreOutputKind);
+
+extern map<string, lpsrScoreOutputKind>
+  gLpsrScoreOutputKindsMap;
+
+string existingLpsrScoreOutputKinds (int namesListMaxLength);
+
+void initializeLpsrScoreOutputKindsMap ();
+
+// octave entry
+//______________________________________________________________________________
+enum lpsrOctaveEntryKind {
+  kOctaveEntryRelative, // default value
+  kOctaveEntryAbsolute,
+  kOctaveEntryFixed };
+
+string lpsrOctaveEntryKindAsString (
+  lpsrOctaveEntryKind octaveEntryKind);
+
+extern map<string, lpsrOctaveEntryKind>
+  gLpsrOctaveEntryKindsMap;
+
+string existingLpsrOctaveEntryKinds (int namesListMaxLength);
+
+void initializeLpsrOctaveEntryKindsMap ();
 
 // accidental styles
 //______________________________________________________________________________
 enum lpsrAccidentalStyleKind {
-  kDefaultStyle,
-  kVoiceStyle,
-  kModernStyle,
-  kModernCautionaryStyle, kModernVoiceStyle, kModernVoiceCautionaryStyle,
-  kPianoStyle, kPianoCautionaryStyle,
-  kNeoModernStyle,
-  kNeoModernCautionaryStyle, kNeoModernVoiceStyle, kNeoModernVoiceCautionaryStyle,
-  kDodecaphonicStyle, kDodecaphonicNoRepeatStyle,
-  kDodecaphonicFirstStyle, kTeachingStyle, kNoResetStyle, kForgetStyle };
+  kDefault,
+  kVoice,
+  kModern,
+  kModernCautionary, kModernVoice, kModernVoiceCautionary,
+  kPiano, kPianoCautionary,
+  kNeoModern,
+  kNeoModernCautionary, kNeoModernVoice, kNeoModernVoiceCautionary,
+  kDodecaphonic, kDodecaphonicNoRepeat,
+  kDodecaphonicFirst, kTeaching, kNoReset, kForget };
 
 string lpsrAccidentalStyleKindAsString (
-  lpsrAccidentalStyleKind styleKind);
+  lpsrAccidentalStyleKind accidentalStyleKind);
 
 string lpsrAccidentalStyleKindAsLilypondString (
-  lpsrAccidentalStyleKind styleKind);
+  lpsrAccidentalStyleKind accidentalStyleKind);
 
 extern map<string, lpsrAccidentalStyleKind>
   gLpsrAccidentalStyleKindsMap;
 
-string existingLpsrAccidentalStyleKinds ();
+string existingLpsrAccidentalStyleKinds (int namesListMaxLength);
 
 void initializeLpsrAccidentalStyleKindsMap ();
 
@@ -57,14 +95,14 @@ void initializeLpsrAccidentalStyleKindsMap ();
 enum lpsrChordsLanguageKind {
   k_IgnatzekChords, // LilyPond default
   k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
-  
+
 string lpsrChordsLanguageKindAsString (
   lpsrChordsLanguageKind languageKind);
 
 extern map<string, lpsrChordsLanguageKind>
   gLpsrChordsLanguageKindsMap;
 
-string existingLpsrChordsLanguageKinds ();
+string existingLpsrChordsLanguageKinds (int namesListMaxLength);
 
 void initializeLpsrChordsLanguageKindsMap ();
 
@@ -90,10 +128,10 @@ string dottedDurationAsLilypondStringWithoutBackSlash (
   int               inputLineNumber,
   msrDottedDuration dottedDuration);
 
-// multiple rests
+// rests measures
 //______________________________________________________________________________
-string multipleRestWholeNoteAsLilypondString (
-  int      inputLineNumber, // JMI
+string restMeasuresWholeNoteAsLilypondString (
+  int      inputLineNumber,
   rational wholeNotes);
 
 // texts lists
@@ -102,6 +140,33 @@ void writeTextsListAsLilypondString (
   const list<string>& textsList,
   ostream&            os);
 
+// pitches and octaves
+//______________________________________________________________________________
+string msrSemiTonesPitchKindAsLilypondString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrSemiTonesPitchKind              semiTonesPitchKind);
+
+string msrSemiTonesPitchAndOctaveAsLilypondString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  S_msrSemiTonesPitchAndOctave       quarterTonesPitchAndOctave);
+
+// lyrics alignment
+//______________________________________________________________________________
+enum lpsrLyricsAlignmentKind {
+  kLyricsAlignmentAutomatic, // default value
+  kLyricsAlignmentManual };
+
+string lpsrLyricsAlignmentKindAsString (
+  lpsrLyricsAlignmentKind lyricsAlignmentKind);
+
+extern map<string, lpsrLyricsAlignmentKind>
+  gLpsrLyricsAlignmentKindsMap;
+
+string existingLpsrLyricsAlignmentKinds (int namesListMaxLength);
+
+void initializeLpsrLyricsAlignmentKindsMap ();
+
+// initialization
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ();
 

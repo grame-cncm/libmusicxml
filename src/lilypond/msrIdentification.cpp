@@ -10,10 +10,6 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
@@ -21,17 +17,18 @@
 
 #include "utilities.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrIdentification msrIdentification::create (
@@ -56,9 +53,9 @@ void msrIdentification::setWorkNumber (
   int    inputLineNumber,
   string val)
   {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Setting workNumber to \"" << val << "\"" <<
       endl;
   }
@@ -74,9 +71,9 @@ void msrIdentification::setWorkTitle (
   int    inputLineNumber,
   string val)
   {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
   }
@@ -92,9 +89,9 @@ void msrIdentification::setMovementNumber (
   int    inputLineNumber,
   string val)
   {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Setting movementNumber to \"" << val << "\"" <<
       endl;
   }
@@ -110,9 +107,9 @@ void msrIdentification::setMovementTitle (
   int    inputLineNumber,
   string val)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Setting movementTitle to \"" << val << "\"" <<
       endl;
   }
@@ -128,9 +125,9 @@ void msrIdentification::setEncodingDate (
   int    inputLineNumber,
   string val)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Setting encodingDate to \"" << val << "\"" <<
       endl;
   }
@@ -146,9 +143,9 @@ void msrIdentification::setScoreInstrument (
   int    inputLineNumber,
   string val)
 {
- #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+ #ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Setting scoreInstrument to \"" << val << "\"" <<
       endl;
   }
@@ -164,9 +161,9 @@ void msrIdentification::setMiscellaneousField (
   int    inputLineNumber,
   string val)
 {
- #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+ #ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
   }
@@ -182,9 +179,9 @@ void msrIdentification::addRights (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Adding right \"" << value << "\"" <<
       endl;
   }
@@ -196,7 +193,7 @@ void msrIdentification::addRights (
         inputLineNumber,
         msrVarValsListAssoc::kRights);
   }
-  
+
   fRights->
     addAssocVariableValue (value);
 }
@@ -205,9 +202,9 @@ void msrIdentification::addComposer (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Adding composer \"" << value << "\"" <<
       endl;
   }
@@ -219,7 +216,7 @@ void msrIdentification::addComposer (
         inputLineNumber,
         msrVarValsListAssoc::kComposer);
   }
-  
+
   fComposers->
     addAssocVariableValue (value);
 }
@@ -228,9 +225,9 @@ void msrIdentification::addArranger (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Adding arranger \"" << value << "\"" <<
       endl;
   }
@@ -242,7 +239,7 @@ void msrIdentification::addArranger (
         inputLineNumber,
         msrVarValsListAssoc::kArranger);
   }
-  
+
   fArrangers->
     addAssocVariableValue (value);
 }
@@ -251,9 +248,9 @@ void msrIdentification::addLyricist (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Adding lyricist \"" << value << "\"" <<
       endl;
   }
@@ -265,7 +262,7 @@ void msrIdentification::addLyricist (
         inputLineNumber,
         msrVarValsListAssoc::kLyricist);
   }
-  
+
   fLyricists->
     addAssocVariableValue (value);
 }
@@ -274,9 +271,9 @@ void msrIdentification::addPoet (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Adding poet \"" << value << "\"" <<
       endl;
   }
@@ -288,7 +285,7 @@ void msrIdentification::addPoet (
         inputLineNumber,
         msrVarValsListAssoc::kPoet);
   }
-  
+
   fPoets->
     addAssocVariableValue (value);
 }
@@ -297,9 +294,9 @@ void msrIdentification::addTranslator (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Adding translator \"" << value << "\"" <<
       endl;
   }
@@ -311,8 +308,31 @@ void msrIdentification::addTranslator (
         inputLineNumber,
         msrVarValsListAssoc::kTranslator);
   }
-  
+
   fTranslators->
+    addAssocVariableValue (value);
+}
+
+void msrIdentification::addArtist (
+  int    inputLineNumber,
+  string value)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
+      "Adding artist \"" << value << "\"" <<
+      endl;
+  }
+#endif
+
+  if (! fArtists) {
+    fArtists =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kArtist);
+  }
+
+  fArtists->
     addAssocVariableValue (value);
 }
 
@@ -320,9 +340,9 @@ void msrIdentification::addSoftware (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
       "Adding software \"" << value << "\"" <<
       endl;
   }
@@ -334,26 +354,26 @@ void msrIdentification::addSoftware (
         inputLineNumber,
         msrVarValsListAssoc::kSoftware);
   }
-  
+
   fSoftwares->
     addAssocVariableValue (value);
 }
 
 void msrIdentification::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrIdentification::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrIdentification>*
     p =
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrIdentification::visitStart ()" <<
             endl;
         }
@@ -363,8 +383,8 @@ void msrIdentification::acceptIn (basevisitor* v)
 
 void msrIdentification::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrIdentification::acceptOut ()" <<
       endl;
   }
@@ -373,9 +393,9 @@ void msrIdentification::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrIdentification::visitEnd ()" <<
             endl;
         }
@@ -414,31 +434,31 @@ void msrIdentification::browseData (basevisitor* v)
     msrBrowser<msrVarValsListAssoc> browser (v);
     browser.browse (*fComposers);
   }
-    
+
   if (fArrangers) {
     // browse fArrangers
     msrBrowser<msrVarValsListAssoc> browser (v);
     browser.browse (*fArrangers);
   }
-    
+
   if (fLyricists) {
     // browse fLyricists
     msrBrowser<msrVarValsListAssoc> browser (v);
     browser.browse (*fLyricists);
   }
-    
+
   if (fPoets) {
     // browse fPoets
     msrBrowser<msrVarValsListAssoc> browser (v);
     browser.browse (*fPoets);
   }
-    
+
   if (fTranslators) {
     // browse fTranslators
     msrBrowser<msrVarValsListAssoc> browser (v);
     browser.browse (*fTranslators);
   }
-    
+
   if (fRights) {
     // browse fRights
     msrBrowser<msrVarValsListAssoc> browser (v);
@@ -464,13 +484,7 @@ void msrIdentification::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrIdentification& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrIdentification::print (ostream& os)
+void msrIdentification::print (ostream& os) const
 {
   os <<
     "Identification" <<
@@ -479,7 +493,7 @@ void msrIdentification::print (ostream& os)
   bool emptyIdentification = true;
 
   gIndenter++;
-  
+
   if (fWorkNumber) {
     os <<
       fWorkNumber <<
@@ -487,7 +501,7 @@ void msrIdentification::print (ostream& os)
 
     emptyIdentification = false;
   }
-  
+
   if (fWorkTitle) {
     os <<
       fWorkTitle <<
@@ -495,7 +509,7 @@ void msrIdentification::print (ostream& os)
 
     emptyIdentification = false;
   }
-    
+
   if (fMovementNumber) {
     os <<
       fMovementNumber <<
@@ -503,7 +517,7 @@ void msrIdentification::print (ostream& os)
 
     emptyIdentification = false;
   }
-    
+
   if (fMovementTitle) {
     os <<
       fMovementTitle <<
@@ -516,62 +530,62 @@ void msrIdentification::print (ostream& os)
     os <<
       fRights <<
       endl;
-      
+
     emptyIdentification = false;
   }
-    
+
   if (fComposers) {
     os <<
       fComposers <<
       endl;
-      
+
     emptyIdentification = false;
   }
-    
+
   if (fArrangers) {
     os <<
       fArrangers <<
       endl;
-      
+
     emptyIdentification = false;
   }
-    
+
   if (fLyricists) {
     os <<
       fLyricists <<
       endl;
-      
+
     emptyIdentification = false;
   }
-    
+
   if (fPoets) {
     os <<
       fPoets <<
       endl;
-      
+
     emptyIdentification = false;
   }
-    
+
   if (fTranslators) {
     os <<
       fTranslators <<
       endl;
-      
+
     emptyIdentification = false;
   }
-    
+
   if (fSoftwares) {
     os <<
       fSoftwares <<
       endl;
     emptyIdentification = false;
   }
-    
+
   if (fEncodingDate) {
     os <<
       fEncodingDate <<
       endl;
-      
+
     emptyIdentification = false;
   }
 
@@ -581,8 +595,14 @@ void msrIdentification::print (ostream& os)
       endl <<
       endl;
   }
-  
+
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrIdentification& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

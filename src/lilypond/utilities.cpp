@@ -10,15 +10,7 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
-#ifdef WIN32
-  // JMI
-#else
-  #include "unistd.h"
-#endif
+ // #include "unistd.h"
 
 #include <iostream>
 #include <sstream>
@@ -34,7 +26,8 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_timingItem timingItem::createTimingItem (
@@ -91,7 +84,7 @@ void timing::appendTimingItem (
         kind,
         startClock,
         endClock);
-    
+
   fTimingItemsList.push_back (timingItem);
 }
 
@@ -113,7 +106,7 @@ void timing::print (ostream& os) const
     totalClock          = 0.0,
     totalMandatoryClock = 0.0,
     totalOptionalClock  = 0.0;
-    
+
   os << endl << "Timing information:" << endl << endl <<
     setw (activityWidth) << "Activity" << "  " <<
     setw (descriptionWidth) << "Description" << "  " <<
@@ -127,7 +120,7 @@ void timing::print (ostream& os) const
   for ( list<S_timingItem>::const_iterator i=fTimingItemsList.begin (); i!=fTimingItemsList.end (); i++) {
     clock_t timingItemClock = (*i)->fEndClock - (*i)->fStartClock;
     totalClock += timingItemClock;
-    
+
     os << left <<
       setw (activityWidth) << (*i)->fActivity << "  " <<
       setw (descriptionWidth) << (*i)->fDescription << "  ";
@@ -162,7 +155,7 @@ void timing::print (ostream& os) const
     "  " <<
     setw (totalOptionalClockWidth)    << "Optional" <<
     endl <<
-    
+
     setw (totalClockWidth) <<
     replicateString ("-", totalClockWidth) <<
     "    " <<
@@ -173,7 +166,7 @@ void timing::print (ostream& os) const
     replicateString ("-", secondsWidth) <<
     setprecision(totalsPrecision) <<
     endl <<
-    
+
     setw (totalClockWidth) <<
     float(totalClock) / CLOCKS_PER_SEC <<
     "    " <<
@@ -191,6 +184,8 @@ timing timing::gTiming;
 //______________________________________________________________________________
 //#define DEBUG_INDENTER
 
+indenter indenter::gIndenter;
+
 indenter::indenter (string spacer)
 {
   fIndent = 0;
@@ -203,9 +198,9 @@ indenter::~indenter ()
 indenter& indenter::operator++ (const int value)
 {
   fIndent++;
-  
+
 #ifdef DEBUG_INDENTER
-  gLogIOstream <<
+  gLogOstream <<
     "% INDENTER: " << fIndent <<
     endl;
 #endif
@@ -218,7 +213,7 @@ indenter& indenter::operator-- (const int value)
   fIndent--;
 
   if (fIndent < 0) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -230,7 +225,7 @@ indenter& indenter::operator-- (const int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogIOstream <<
+    gLogOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -244,7 +239,7 @@ indenter& indenter::increment (int value)
   fIndent += value;
 
   if (fIndent < 0) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -256,7 +251,7 @@ indenter& indenter::increment (int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogIOstream <<
+    gLogOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -270,7 +265,7 @@ indenter& indenter::decrement (int value)
   fIndent -= value;
 
   if (fIndent < 0) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -282,7 +277,7 @@ indenter& indenter::decrement (int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogIOstream <<
+    gLogOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -294,11 +289,11 @@ indenter& indenter::decrement (int value)
 string indenter::indentMultiLineString (string value)
 {
   stringstream  s;
-  
+
   // add indentation ahead of all lines inside 'value'
   istringstream inputStream (value);
   string        line;
-  
+
   while (getline (inputStream, line)) {
     s << line;
 
@@ -317,13 +312,50 @@ ostream& operator<< (ostream& os, const indenter& idtr) {
 }
 
 void indenter::print (ostream& os) const
-{ 
+{
   int i = fIndent;
-  
+
   while (i-- > 0) os << fSpacer;
 }
 
-indenter indenter::gIndenter;
+//______________________________________________________________________________
+int indentedStreamBuf::sync ()
+{
+  // When we sync the stream with fOutputSteam:
+  // 1) output the indentation then the buffer
+  // 2) reset the buffer
+  // 3) flush the actual output stream we are using.
+
+  std::size_t strSize = str ().size ();
+
+  // fetch the last non-space character in the buffer
+  // caution: the '\n' is present as the last character!
+  std::size_t found = str ().find_last_not_of(' ', strSize - 2);
+
+  // this can be uncommented to see low level informations
+  // fOutputSteam << "% strSize: " << strSize << ", found: " << found << '\n';
+
+  // output the indenter
+  fOutputSteam << fIndenter;
+
+  // output the buffer
+  if (found == strSize - 3) {
+    // don't output the trailing spaces, but output the end of line
+    fOutputSteam << str ().substr (0, found + 1) << '\n';
+  }
+  else {
+    // output the whole buffer
+    fOutputSteam << str ();
+  }
+
+  // reset the buffer
+  str ("");
+
+  // flush the output stream
+  fOutputSteam.flush ();
+
+  return 0;
+}
 
 //______________________________________________________________________________
 indentedOstream indentedOstream::gOutputIndentedOstream (
@@ -340,7 +372,7 @@ struct basic_nullbuf : std::basic_streambuf<Ch, Traits>
   typedef std::basic_streambuf<Ch, Traits> base_type;
   typedef typename base_type::int_type int_type;
   typedef typename base_type::traits_type traits_type;
-  
+
   virtual int_type overflow (int_type c) {
     return traits_type::not_eof (c);
   }
@@ -366,9 +398,26 @@ string replicateString (
   int    times)
 {
   string result;
-  
+
   for (int i = 0; i < times; i++)
     result += str;
+
+  return result;
+}
+
+//______________________________________________________________________________
+string replaceSubstringInString (
+  std::string str,
+  std::string subString,
+  std::string ersatz)
+{
+  string result = str;
+
+  size_t found = result.find (subString);
+
+  if (found != string::npos) {
+    result.replace (found, subString.size (), ersatz);
+  }
 
   return result;
 }
@@ -392,7 +441,7 @@ string int2EnglishWord (int n)
     return
       int2EnglishWord (nDiv1000) +
       "Thousand" +
-      int2EnglishWord (nModulo1000);    
+      int2EnglishWord (nModulo1000);
   }
 
   else if (n >= 100) {
@@ -403,7 +452,7 @@ string int2EnglishWord (int n)
     return
       int2EnglishWord (nDiv100) +
       "HundredAnd" +
-      int2EnglishWord (nModulo100);    
+      int2EnglishWord (nModulo100);
   }
 
   else {
@@ -468,12 +517,12 @@ string int2EnglishWord (int n)
       case 19:
         s << "Nineteen";
         break;
-        
+
       default: {
         // n >= 20
         int nDiv10    = n / 10;
         int nModulo10 = n % 10;
-        
+
         switch (nDiv10) {
           case 2:
             s << "Twenty";
@@ -504,7 +553,7 @@ string int2EnglishWord (int n)
       } // default
     } // switch
   }
-  
+
   return s.str ();
 }
 
@@ -514,23 +563,23 @@ string stringNumbersToEnglishWords (string str)
   if (! str.size ()) {
     return "NONE";
   }
-  
+
   enum workState {
     kInitialState, kWorkingOnDigits, kWorkingOnNonDigits };
-      
+
   vector<string> chunks;
   vector<int>    states;
-    
+
   workState state = kInitialState;
-  
+
   string::const_iterator
     iBegin = str.begin (),
     iEnd   = str.end (),
     i      = iBegin;
-    
+
   for ( ; ; ) {
     char ch = (*i);
-    
+
     if( isdigit(ch)) {
       // digit
       if (state != kWorkingOnDigits) {
@@ -553,24 +602,24 @@ string stringNumbersToEnglishWords (string str)
     }
     if (++i == iEnd) break;
   } // for
-   
+
   string result = "";
 
   for (unsigned int i = 0; i < chunks.size (); i++) {
     if (states[i] == kWorkingOnDigits) {
       int integerValue;
-    
+
       istringstream inputStream (chunks[i]);
-    
+
       inputStream >> integerValue;
-      
+
       result += int2EnglishWord (integerValue);
     }
     else {
       result += chunks[i];
     }
   } // for
-    
+
   return result;
 };
 
@@ -578,13 +627,13 @@ string stringNumbersToEnglishWords (string str)
 int consumeDecimalNumber (
   string::const_iterator  theStringIterator,
   string::const_iterator& remainingStringIterator,
-  bool   debugMode)
+  bool                    debugMode)
 {
   string::const_iterator cursor = theStringIterator;
-  int    number = 0;
+  int    result = 0;
 
   if (! isdigit (*cursor)) {
-    gLogIOstream <<
+    gLogOstream <<
       "consumeDecimalNumber (" << *cursor <<
       "), " << *cursor << " is no decimal digit!" <<
       endl;
@@ -592,43 +641,196 @@ int consumeDecimalNumber (
 
   while (isdigit (*cursor)) {
     if (debugMode) {
-      gLogIOstream <<
+      gLogOstream <<
         "--> consumeDecimalNumber: cursor = |" <<
         *cursor <<
         "|" <<
         endl;
     }
 
-    number = number*10 + (*cursor-'0');
-    
+    result = result*10 + (*cursor-'0');
+
     cursor++;
   } // while
 
   remainingStringIterator = cursor;
 
   if (debugMode) {
-    gLogIOstream <<
-      "--> consumeDecimalNumber: number = " << number <<
+    gLogOstream <<
+      "--> consumeDecimalNumber: result = " << result <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
       endl;
   }
 
-  return number;
+  return result;
 }
 
 //______________________________________________________________________________
-set<int> decipherNumbersSetSpecification (
+set<int> decipherNaturalNumbersSetSpecification (
   string theString,
-  bool        debugMode)
+  bool   debugMode)
 {
-//  A numbersSetSpecification sample is: "7,15-19,^16-17"
+  // A naturalNumbersSetSpecification sample is: "7,15-19,^16-17"
 
-  set<int> selectedNumbers;
-  
+  set<int> result;
+
   if (debugMode) {
-    gLogIOstream <<
-      "--> decipherNumbersSetSpecification, theString = |" << theString <<
+    gLogOstream <<
+      "--> decipherNaturalNumbersSetSpecification, theString = |" << theString <<
+      "|" <<
+      endl;
+  }
+
+  if (theString.size ()) {
+    string::const_iterator
+      cursor = theString.begin ();
+
+    while (1) {
+      if (debugMode) {
+        gLogOstream <<
+          "--> decipherNaturalNumbersSetSpecification: cursor = |" <<
+          *cursor << "|" <<
+          endl;
+      }
+
+      int negated = 0;
+
+      if (*cursor == '^') {
+        cursor++;
+        negated = 1;
+      }
+
+      int
+        intervalStartNumber =
+          consumeDecimalNumber (cursor, cursor, debugMode),
+        intervalEndNumber;
+
+      if (*cursor == '-') {
+        cursor++;
+
+        if (debugMode) {
+          gLogOstream <<
+            "--> decipherNaturalNumbersSetSpecification after '-' : cursor = |" <<
+            *cursor <<
+            "|" <<
+            endl <<
+            endl;
+        }
+
+        intervalEndNumber =
+          consumeDecimalNumber (cursor, cursor, debugMode);
+      }
+
+      else {
+        intervalEndNumber = intervalStartNumber;
+      }
+
+      if (debugMode) {
+        gLogOstream <<
+          "--> decipherNaturalNumbersSetSpecification" <<
+          ", intervalStartNumber = " << intervalStartNumber <<
+          ", intervalEndNumber = " << intervalEndNumber <<
+          ": *cursor = |" << *cursor << "|" <<
+          endl;
+      }
+
+      for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
+        if (negated) {
+          result.erase (i);
+        }
+        else {
+          result.insert (i);
+        }
+      } // for
+
+      if (*cursor != ',') {
+        if (debugMode) {
+          gLogOstream <<
+            "--> decipherNaturalNumbersSetSpecification, after non ',' : cursor = |" <<
+            *cursor <<
+            "|" <<
+            endl <<
+            endl;
+        }
+        break;
+      }
+
+      cursor++;
+
+      if (debugMode) {
+        gLogOstream <<
+          "--> decipherNaturalNumbersSetSpecification after ',' : cursor = |" <<
+          *cursor <<
+          "|"
+          << endl <<
+          endl;
+      }
+    } // while
+
+    if (* cursor != '\0') {
+      gLogOstream <<
+        "--> Extraneous characters |" << *cursor <<
+        "| in numbers spec" <<
+        endl << endl;
+    }
+  }
+
+  return result;
+}
+
+//______________________________________________________________________________
+string consumeString (
+  string::const_iterator  theStringIterator,
+  string::const_iterator& remainingStringIterator,
+  bool                    debugMode)
+{
+  string result;
+
+/* JMI
+  string::const_iterator cursor = theStringIterator;
+
+  while ((*cursor) != ',') {
+    if (debugMode) {
+      gLogOstream <<
+        "--> consumeString: cursor = |" <<
+        *cursor <<
+        "|" <<
+        endl;
+    }
+
+    result += (*cursor);
+
+    if (++cursor == theString.end ()) break;
+  } // while
+
+  remainingStringIterator = cursor;
+
+  if (debugMode) {
+    gLogOstream <<
+      "--> consumeString: result = " << result <<
+      ", *remainingStringIterator = |" << *remainingStringIterator <<
+      "|" <<
+      endl;
+  }
+*/
+
+  return result;
+}
+
+//______________________________________________________________________________
+std::set<string> decipherStringsSetSpecification (
+  string theString,
+  bool   debugMode)
+{
+  // A integersSetSpecification sample is: "FOO,159,haLLo"
+
+  set<string> result;
+
+/* JMI
+  if (debugMode) {
+    gLogOstream <<
+      "--> decipherStringsSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
   }
@@ -638,138 +840,106 @@ set<int> decipherNumbersSetSpecification (
 
   while (1) {
     if (debugMode) {
-      gLogIOstream <<
-        "--> decipherNumbersSpecification: cursor = |" <<
+      gLogOstream <<
+        "--> decipherStringsSetSpecification: cursor = |" <<
         *cursor << "|" <<
         endl;
     }
 
-    int negated = 0;
-
-    if (*cursor == '^') {
-      cursor++;
-      negated = 1;
-    }
-
-    int
-      intervalStartNumber =
-        consumeDecimalNumber (cursor, cursor, debugMode),
-      intervalEndNumber;
-
-    if (*cursor == '-') {
-      cursor++;
-
-      if (debugMode) {
-        gLogIOstream <<
-          "--> decipherNumbersSpecification after '-' : cursor = |" <<
-          *cursor <<
-          "|" <<
-          endl <<
-          endl;
-      }
-  
-      intervalEndNumber =
-        consumeDecimalNumber (cursor, cursor, debugMode);
-    }
-
-    else {
-      intervalEndNumber = intervalStartNumber;
-    }
+    string
+      currentString =
+        consumeString (cursor, theString.end (), debugMode);
 
     if (debugMode) {
-      gLogIOstream <<
-        "--> decipherNumbersSpecification, intervalStartNumber = " << intervalStartNumber <<
-        ", intervalEndNumber = " << intervalEndNumber <<
+      gLogOstream <<
+        "--> decipherStringsSetSpecification" <<
+        ", currentString = " << currentString <<
         ": *cursor = |" << *cursor << "|" <<
         endl;
     }
 
-    for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
-      if (negated) {
-        selectedNumbers.erase (i);
-      }
-      else {
-        selectedNumbers.insert (i);
-      }
-    } // for
+    result.insert (currentString);
 
     if (*cursor != ',') {
       if (debugMode) {
-        gLogIOstream <<
-          "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
+        gLogOstream <<
+          "--> decipherStringsSetSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
           endl <<
           endl;
       }
-      break; 
+      break;
     }
 
-    cursor++;
+    if (++cursor == theString.end ()) break;
 
     if (debugMode) {
-      gLogIOstream <<
-        "--> decipherNumbersSpecification after ',' : cursor = |" <<
+      gLogOstream <<
+        "--> decipherStringsSetSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
-        << endl << 
+        << endl <<
         endl;
     }
-  } // while 
+  } // while
 
   if (* cursor != '\0') {
-    gLogIOstream <<
+    gLogOstream <<
       "--> Extraneous characters |" << *cursor <<
       "| in numbers spec" <<
       endl << endl;
   }
+  */
 
-  return selectedNumbers;
+  return result;
 }
 
 //______________________________________________________________________________
 list<int> extractNumbersFromString (
   string theString, // can contain "1, 2, 17"
-  bool        debugMode)
+  bool   debugMode)
 {
   list<int> foundNumbers;
 
   if (debugMode) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> extractNumbersFromString, theString = |" << theString <<
       "|" <<
       endl;
   }
 
-  string::const_iterator
-    cursor = theString.begin ();
+  if (theString.size ()) {
+    string::const_iterator
+      cursor = theString.begin ();
 
-  while (1) {
-    if (cursor == theString.end ())
-      break;
-      
-    if (debugMode) {
-      gLogIOstream <<
-        "--> extractNumbersFromString: cursor = |" <<
-        *cursor << "|" <<
-        endl;
-    }
+    while (1) {
+      if (cursor == theString.end ())
+        break;
 
-    if (isdigit (*cursor)) {
-      // consume a decimal number
-      int n = 0;
-      while (isdigit (*cursor)) {
-        n = n * 10 + (*cursor - '0');
+      if (debugMode) {
+        gLogOstream <<
+          "--> extractNumbersFromString: cursor = |" <<
+          *cursor << "|" <<
+          endl;
+      }
+
+      if (isdigit (*cursor)) {
+        // consume a decimal number
+        int n = 0;
+        while (isdigit (*cursor)) {
+          n = n * 10 + (*cursor - '0');
+          cursor++;
+        } // while
+
+        // append the number to the list
+        foundNumbers.push_back (n);
+      }
+      else {
         cursor++;
-      } // while
-
-      // append the number to the list
-      foundNumbers.push_back (n);
-    }
-    else {
-      cursor++;
-    }
-  } // while
+      }
+    } // while
+  }
 
   return foundNumbers;
 }
@@ -785,90 +955,92 @@ pair<string, string> extractNamesPairFromString (
   string name2;
 
   if (debugMode) {
-    gLogIOstream <<
+    gLogOstream <<
       "--> extractNamesPairFromString, theString = |" << theString <<
       "|" <<
       endl;
   }
 
-  string::const_iterator
-    cursor = theString.begin ();
+  if (theString.size ()) {
+    string::const_iterator
+      cursor = theString.begin ();
 
-  // fetch name1
-  while (1) {
-    if (cursor == theString.end ())
-      break;
-      
-    if (debugMode) {
-      gLogIOstream <<
-        "--> extractNamesPairFromString: cursor = |" <<
-        *cursor << "|" <<
+    // fetch name1
+    while (1) {
+      if (cursor == theString.end ())
+        break;
+
+      if (debugMode) {
+        gLogOstream <<
+          "--> extractNamesPairFromString: cursor = |" <<
+          *cursor << "|" <<
+          endl;
+      }
+
+      if ((*cursor) == separator) {
+        // found the separator
+        break;
+      }
+
+      // append the character to name1
+      name1 += *cursor;
+      cursor++;
+    } // while
+
+    name1 = trim (name1);
+    if (! name1.size ()) {
+      // found an empty name1
+      gLogOstream <<
+        "### ERROR: the first name before the " << separator <<
+        " separator is empty in '" << theString << "'" <<
         endl;
     }
 
-    if ((*cursor) == separator) {
-      // found the separator
-      break;
-    }
-    
-    // append the character to name1
-    name1 += *cursor;
-    cursor++;
-  } // while
-
-  name1 = trim (name1);
-  if (! name1.size ()) {
-    // found an empty name1
-    gLogIOstream <<
-      "### ERROR: the first name before the " << separator <<
-      " separator is empty in '" << theString << "'" <<
-      endl;
-  }
-
-  if (cursor == theString.end ())
-    gLogIOstream <<
-      "### ERROR: the " << separator <<
-      " separator is missing in string '" <<
-      theString << "'" <<
-      endl;
-  else
-    // overtake the separator
-    cursor++;
-
-  // fetch name2
-  while (1) {
     if (cursor == theString.end ())
-      break;
-      
-    if (debugMode) {
-      gLogIOstream <<
-        "--> extractNamesPairFromString: cursor = |" <<
-        *cursor << "|" <<
-        endl;
-    }
-
-    if ((*cursor) == '=') {
-      // found the separator
-      gLogIOstream <<
+      gLogOstream <<
         "### ERROR: the " << separator <<
-        " separator occurs more than once in string '" <<
+        " separator is missing in string '" <<
         theString << "'" <<
         endl;
-      break;
-    }
-    
-    // append the character to name2
-    name2 += *cursor;
-    cursor++;
-  } // while
+    else
+      // overtake the separator
+      cursor++;
 
-  name2 = trim (name2);
-  if (! name2.size ()) {
-    // found an empty name2
-    gLogIOstream <<
-      "### ERROR: the second name after the " << separator <<
-      " separator is empty in '" << theString << "'" <<
-      endl;
+    // fetch name2
+    while (1) {
+      if (cursor == theString.end ())
+        break;
+
+      if (debugMode) {
+        gLogOstream <<
+          "--> extractNamesPairFromString: cursor = |" <<
+          *cursor << "|" <<
+          endl;
+      }
+
+      if ((*cursor) == '=') {
+        // found the separator
+        gLogOstream <<
+          "### ERROR: the " << separator <<
+          " separator occurs more than once in string '" <<
+          theString << "'" <<
+          endl;
+        break;
+      }
+
+      // append the character to name2
+      name2 += *cursor;
+      cursor++;
+    } // while
+
+    name2 = trim (name2);
+    if (! name2.size ()) {
+      // found an empty name2
+      gLogOstream <<
+        "### ERROR: the second name after the " << separator <<
+        " separator is empty in '" << theString << "'" <<
+        endl;
+    }
   }
 
   return make_pair (name1, name2);
@@ -879,32 +1051,35 @@ string quoteStringIfNonAlpha (
   string theString)
 {
   string result;
-  
+
   bool   stringShouldBeQuoted = false;
-  
-  for (
-    string::const_iterator i = theString.begin ();
-    i != theString.end ();
-    i++) {
 
-    if (
-      ((*i) >= 'a' && (*i) <= 'z')
-        ||
-      ((*i) >= 'A' && (*i) <= 'Z')) {
-      // (*i) is a letter
-      result += (*i);
-    }
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
 
-    else {
-      // (*i) is not a letter
-      if ((*i) == ' ')
-        result += " "; // TEMP JMI
-      else
+      if (
+        ((*i) >= 'a' && (*i) <= 'z')
+          ||
+        ((*i) >= 'A' && (*i) <= 'Z')) {
+        // (*i) is a letter
         result += (*i);
+      }
 
-      stringShouldBeQuoted = true;
-    }
-  } // for
+      else {
+        // (*i) is not a letter
+        if ((*i) == ' ')
+          result += ' '; // TEMP JMI
+        else
+          result += (*i);
+
+        stringShouldBeQuoted = true;
+      }
+    } // for
+  }
 
   if (stringShouldBeQuoted) {
     return "\"" + result + "\"";
@@ -919,28 +1094,36 @@ string quoteString (
   string theString)
 {
   string result;
-    
-  for (
-    string::const_iterator i = theString.begin ();
-    i != theString.end ();
-    i++) {
 
-    if (
-      ((*i) >= 'a' && (*i) <= 'z')
-        ||
-      ((*i) >= 'A' && (*i) <= 'Z')) {
-      // (*i) is a letter
-      result += (*i);
-    }
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
 
-    else {
-      // (*i) is not a letter
-      if ((*i) == ' ')
-        result += " "; // TEMP JMI
-      else
+      if (
+        ((*i) >= 'a' && (*i) <= 'z')
+          ||
+        ((*i) >= 'A' && (*i) <= 'Z')) {
+        // (*i) is a letter
         result += (*i);
-    }
-  } // for
+      }
+
+      else {
+        // (*i) is not a letter
+        if ((*i) == ' ') {
+          result += ' '; // TEMP JMI
+        }
+        else if ((*i) == '"') {
+          result += "\\\"";
+        }
+        else {
+          result += (*i);
+        }
+      }
+    } // for
+  }
 
   return "\"" + result + "\"";
 }
@@ -962,8 +1145,8 @@ string singularOrPlural (
   stringstream s;
 
   s <<
-    number << " ";
-  
+    number << ' ';
+
   if (number <= 1) {
     s <<
       singularName;
@@ -972,7 +1155,7 @@ string singularOrPlural (
     s <<
       pluralName;
   }
-      
+
   return s.str ();
 }
 
@@ -989,24 +1172,31 @@ string singularOrPluralWithoutNumber (
     s <<
       pluralName;
   }
-      
+
   return s.str ();
 }
 
 //______________________________________________________________________________
-void optionError (string errorMessage)
+void oahWarning (string warningMessage)
 {
-  gLogIOstream <<
-    endl <<
-    "### ERROR in the options:" <<
-    endl <<
-    errorMessage <<
-    endl <<
+  gLogOstream <<
+    "*** WARNING in the options and help: " <<
+    warningMessage <<
     endl;
 }
 
+void oahError (string errorMessage)
+{
+  gLogOstream <<
+    "### ERROR in the options and help: " <<
+    errorMessage <<
+    endl;
+
+  exit (33);
+}
+
 //______________________________________________________________________________
-string escapeQuotes (string s)
+string escapeDoubleQuotes (string s)
 {
   string result;
 
@@ -1015,6 +1205,21 @@ string escapeQuotes (string s)
     s.end (),
     stringQuoteEscaper (result));
 
+  // replace occurrences of '\\"' by '\"',
+  // in case there were already double quotes in string
+  string
+    lookedFor = "\\\\\"",
+    ersatz    = "\\\"";
+
+  for ( ; ; ) {
+    size_t found = result.find (lookedFor);
+
+    if (found == string::npos)
+      break;
+
+    result.replace (found, lookedFor.size (), ersatz);
+  } // for
+
   return result;
 }
 
@@ -1022,7 +1227,7 @@ string escapeQuotes (string s)
 void convertHTMLEntitiesToPlainCharacters (string& s)
 {
   map<string, string> conversionMap;
-  
+
   conversionMap ["&"] = "&amp;";
   conversionMap ["\""] = "&quot;";
   conversionMap ["'"] = "&apos;";
@@ -1035,7 +1240,7 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
     string
       lookedFor = i->second,
       ersatz    = i->first;
-    
+
     // replace all occurrences of lookedFor by ersatz
     for ( ; ; ) {
       size_t found = s.find (lookedFor);
@@ -1045,26 +1250,143 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
 
       s.replace (found, lookedFor.size (), ersatz);
     } // for
-    
+
   } // for
 }
 
 //______________________________________________________________________________
-void splitRegularStringContainingEndOfLines (
-  string        theString,
-  list<string>& chunksList)
+void splitStringIntoChunks (
+  std::string             theString,
+  std::string             theSeparator,
+  std::list<std::string>& chunksList)
 {
-//#define DEBUG_SPLITTING
+  //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogIOstream <<
+  gLogOstream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
 #endif
 
   int theStringSize = theString.size ();
-  
+
+  size_t currentPosition = 0;
+
+#ifdef DEBUG_SPLITTING
+  string remainder = theString;
+#endif
+
+  int theSeparatorSize = theSeparator.size ();
+
+  map<string, string>::const_iterator i;
+
+  while (1) {
+    size_t found =
+      theString.find (theSeparator, currentPosition);
+
+    if (found == string::npos) {
+      // fetch the last chunk
+      // we have a last chunk
+      // from currentPosition to theStringSize
+      int chunkLength = theStringSize - currentPosition;
+
+      string
+        chunk =
+          theString.substr (
+            currentPosition,
+            chunkLength);
+
+      chunksList.push_back (
+        chunk);
+
+#ifdef DEBUG_SPLITTING
+      gLogOstream <<
+        "theStringSize = " << theStringSize <<
+        endl <<
+        "currentPosition = " << currentPosition <<
+        endl <<
+        "remainder = |" << remainder << "|" <<
+        endl <<
+        "chunkLength = " << chunkLength <<
+        endl <<
+        "chunk = \"" << chunk << "\"" <<
+        endl <<
+        endl;
+#endif
+
+      break;
+    }
+
+    else {
+      // we have a chunk from currentPosition to found
+      int chunkLength = found - currentPosition;
+
+      string
+        chunk =
+          theString.substr (
+            currentPosition,
+            chunkLength);
+
+      // append it to the chunks list
+      chunksList.push_back (
+        chunk);
+
+      // advance the cursor
+      currentPosition +=
+        chunkLength + theSeparatorSize;
+
+      // there can be an end of line JMI
+      if (theString [currentPosition] == '\n')
+        currentPosition++;
+
+#ifdef DEBUG_SPLITTING
+      // set remainder
+      remainder =
+        theString.substr (
+          currentPosition);
+
+      gLogOstream <<
+        "theStringSize = " << theStringSize <<
+        endl <<
+        "currentPosition = " << currentPosition <<
+        endl <<
+        "remainder = |" << remainder << "|" <<
+        endl <<
+        "found = " << found <<
+        endl <<
+        "chunkLength = " << chunkLength <<
+        endl <<
+        "chunk = \"" << chunk << "\"" <<
+        endl <<
+        endl;
+#endif
+    }
+  } // while
+}
+
+//______________________________________________________________________________
+void splitRegularStringAtEndOfLines (
+  string        theString,
+  list<string>& chunksList)
+{
+//#define DEBUG_SPLITTING
+
+#ifdef DEBUG_SPLITTING
+  gLogOstream <<
+    "---> splitting |" << theString << "|" <<
+    endl <<
+    endl;
+#endif
+
+  splitStringIntoChunks (
+    theString,
+    "\n",
+    chunksList);
+
+    /* JMI
+  int theStringSize = theString.size ();
+
   size_t currentPosition = 0;
 
 #ifdef DEBUG_SPLITTING
@@ -1085,18 +1407,18 @@ void splitRegularStringContainingEndOfLines (
       // we have a last chunk
       // from currentPosition to theStringSize
       int chunkLength = theStringSize - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
             currentPosition,
             chunkLength);
-      
+
       chunksList.push_back (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1112,11 +1434,11 @@ void splitRegularStringContainingEndOfLines (
 
       break;
     }
-    
+
     else {
       // we have a chunk from currentPosition to found
       int chunkLength = found - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
@@ -1141,7 +1463,7 @@ void splitRegularStringContainingEndOfLines (
         theString.substr (
           currentPosition);
 
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1154,10 +1476,11 @@ void splitRegularStringContainingEndOfLines (
         endl <<
         "chunk = \"" << chunk << "\"" <<
         endl <<
-        endl;      
+        endl;
 #endif
     }
   } // while
+  */
 }
 
 //______________________________________________________________________________
@@ -1168,22 +1491,22 @@ void splitHTMLStringContainingEndOfLines (
 //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogIOstream <<
+  gLogOstream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
 #endif
 
   int theStringSize = theString.size ();
-  
+
   map<string, string> conversionMap; // JMI
-  
+
   conversionMap ["&"] = "&amp;";
   conversionMap ["\""] = "&quot;";
   conversionMap ["'"] = "&apos;";
   conversionMap ["<"] = "&lt;";
   conversionMap [">"] = "&gt;";
-  
+
   size_t currentPosition = 0;
 
 #ifdef DEBUG_SPLITTING
@@ -1214,18 +1537,18 @@ void splitHTMLStringContainingEndOfLines (
       // we have a last chunk
       // from currentPosition to theStringSize
       int chunkLength = theStringSize - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
             currentPosition,
             chunkLength);
-      
+
       chunksList.push_back (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1241,11 +1564,11 @@ void splitHTMLStringContainingEndOfLines (
 
       break;
     }
-    
+
     else {
       // we have a chunk from currentPosition to found
       int chunkLength = found - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
@@ -1270,7 +1593,7 @@ void splitHTMLStringContainingEndOfLines (
         theString.substr (
           currentPosition);
 
-      gLogIOstream <<
+      gLogOstream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1283,7 +1606,7 @@ void splitHTMLStringContainingEndOfLines (
         endl <<
         "chunk = \"" << chunk << "\"" <<
         endl <<
-        endl;      
+        endl;
 #endif
     }
   } // while
@@ -1330,581 +1653,227 @@ string makeSingleWordFromString (const string& theString)
 {
   string result;
 
-  for (
-    string::const_iterator i = theString.begin ();
-    i != theString.end ();
-    i++) {
-    if (isalnum (*i)) {
-      result.push_back ((*i));
-    }
-  } // for
-  
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
+      if (isalnum (*i)) {
+        result.push_back ((*i));
+      }
+    } // for
+  }
+
   return result;
 }
 
-//______________________________________________________________________________
-/* JMI
-#ifdef WIN32
-  // JMI
-#else
-/ * JMI
-IConv::IConv (const char* to, const char* from) 
-  : fIconvDescriptor (iconv_open (to, from))
-{
-  fInputBufferSize = 1024;
-  fInputBuffer = new char [fInputBufferSize];
-  
-  fOutputBufferSize = 1024;
-  fOutputBuffer = new char [fOutputBufferSize];
-  for (unsigned int i = 0; i < fOutputBufferSize; i++) {
-    fOutputBuffer [i] = '\0';
-  } // for
-}
-    
-IConv::~IConv ()
-{
-  iconv_close (fIconvDescriptor);
-}
-
-bool IConv::convert (char* input, char* output, size_t& outputSize)
-{
-  size_t saveInputSize = strlen (input);
-
-  bool doTrace = false;
-
-  size_t inBytesLeft  = saveInputSize;
-  size_t outBytesLeft = fOutputBufferSize;
-
-  if (doTrace) {
-    gLogIOstream <<
-      "saveInputSize = " << saveInputSize <<
-      endl <<
-      "fInputBufferSize = " << fInputBufferSize <<
-      endl <<
-      "input = *" << input << "*" <<
-      endl <<
-      "inBytesLeft = " << inBytesLeft <<
-      endl <<
-      "outBytesLeft = " << outBytesLeft <<
-      endl <<
-      endl;
-  }
-
-  // is there room enough in fInputBufferSize?
-  if (saveInputSize >= fInputBufferSize) {
-    const size_t newSize = saveInputSize + 1;
-    
-    if (doTrace) {
-      gLogIOstream <<
-        "Bringing fInputBuffer from " <<
-        fInputBufferSize <<
-        " to " <<
-        newSize <<
-        " characters" <<
-        endl;
-    }
-
-    delete [] fInputBuffer;
-
-    fInputBufferSize = newSize;
-    fInputBuffer = new char [fInputBufferSize];
-  }
-
-  // copy input to fInputBufferSize
-  strcpy (fInputBuffer, input);
-                                       
-  // heuristic to have enough room in fOutputBuffer
-  size_t twiceAsMuch = saveInputSize * 2;
-  
-  if (fOutputBufferSize < twiceAsMuch) {
-    if (doTrace) {
-      gLogIOstream <<
-        "Bringing fOutputBuffer from " <<
-        fOutputBufferSize <<
-        " to " <<
-        twiceAsMuch <<
-        " characters" <<
-        endl;
-    }
-    
-    delete [] fOutputBuffer;
-
-    fOutputBufferSize = twiceAsMuch;
-    fOutputBuffer = new char [fOutputBufferSize];
-    for (unsigned int i = 0; i < fOutputBufferSize; i++) {
-      fOutputBuffer [i] = '\0';
-    } // for
-  }
-
-  if (doTrace) {
-    gLogIOstream <<
-      "saveInputSize = " << saveInputSize <<
-      endl <<
-      "fInputBufferSize = " << fInputBufferSize <<
-      endl <<
-      "input = *" << input << "*" <<
-      endl <<
-      "inBytesLeft = " << inBytesLeft <<
-      endl <<
-      "outBytesLeft = " << outBytesLeft <<
-      endl <<
-      endl;
-  }
-
-  // do the conversion
-  if (doTrace) {
-    gLogIOstream <<
-      "Doing the encoding conversion" <<
-      endl <<
-      endl;
-  }
-
-  // we can't pass fInputBuffer and fOutputBuffer to iconv(),
-  // since that would modify them, hence:
-  char* inputBufferAux  = fInputBuffer;
-  char* outputBufferAux = fOutputBuffer;
-  
-  size_t
-    iconvResult =
-      iconv (
-        fIconvDescriptor,
-        &inputBufferAux, &inBytesLeft,
-        &outputBufferAux, &outBytesLeft);
-
-  if (doTrace) {
-    gLogIOstream <<
-      "saveInputSize = " << saveInputSize <<
-      endl <<
-      "fInputBuffer = *" << fInputBuffer << "*" <<
-      endl <<
-      "inputBufferAux = *" << inputBufferAux << "*" <<
-      endl <<
-      "inBytesLeft = " << inBytesLeft <<
-      endl <<
-      "fOutputBuffer = *" << fOutputBuffer << "*" <<
-      endl <<
-       "outputBufferAux = *" << outputBufferAux << "*" <<
-      endl <<
-     "outBytesLeft = " << outBytesLeft <<
-      endl <<
-      endl;
-  }
-
-  // terminate the resulting string  
-  fOutputBuffer [fOutputBufferSize - outBytesLeft + 1] = '\0';
-
-  // copy the result to output
-  strcpy (output, fOutputBuffer);
-  
-  // return boolean result
-  return iconvResult != (size_t)(-1);
-}
-
-bool IConv::convert (std::string& input, std::string& output)
-{
-  size_t saveInputSize     = input.size ();
-
-  bool doTrace = false;
-
-  // is there room enough in fInputBufferSize?
-  if (saveInputSize >= fInputBufferSize) {
-    delete [] fInputBuffer;
-
-    fInputBufferSize = saveInputSize + 1;
-    fInputBuffer = new char [fInputBufferSize];
-  }
-
-  // copy input to fInputBufferSize
-  strcpy (fInputBuffer, (char *) input.c_str ());
-                                       
-  // heuristic to have enough room in fOutputBuffer
-  size_t twiceAsMuch = saveInputSize * 2;
-  
-  if (fOutputBufferSize < twiceAsMuch) {
-    if (doTrace) {
-      gLogIOstream <<
-        "Bringing fOutputBuffer from " <<
-        fOutputBufferSize <<
-        " to " <<
-        twiceAsMuch <<
-        " characters" <<
-        endl;
-    }
-    
-    delete [] fOutputBuffer;
-
-    fOutputBufferSize = twiceAsMuch;
-    fOutputBuffer = new char [fOutputBufferSize];
-    for (unsigned int i = 0; i < fOutputBufferSize; i++) {
-      fOutputBuffer [i] = '\0';
-    } // for
-  }
-
-  if (doTrace) {
-    gLogIOstream <<
-      "input = *" << input << "*" <<
-      endl <<
-      "saveInputSize = " << saveInputSize <<
-      endl <<
-      "fInputBuffer = *" << fInputBuffer << "*" <<
-      endl <<
-      "fOutputBufferSize = *" << fOutputBufferSize << "*" <<
-      endl <<
-      "fOutputBuffer = *" << fOutputBuffer << "*" <<
-      endl <<
-      endl;
-  }
-  
-  size_t inBytesLeft  = saveInputSize;
-  size_t outBytesLeft = fOutputBufferSize;
-
-  // do the conversion
-
-  // we can't pass fInputBuffer and fOutputBuffer to iconv(),
-  // since that would modify them, hence:
-  char* inputBufferAux  = fInputBuffer;
-  char* outputBufferAux = fOutputBuffer;
-  
-  size_t
-    iconvResult =
-      iconv (
-        fIconvDescriptor,
-        &inputBufferAux, &inBytesLeft,
-        &outputBufferAux, &outBytesLeft);
-
-  
-  if (doTrace) {
-    gLogIOstream <<
-      "fInputBuffer = *" << fInputBuffer << "*" <<
-      endl <<
-      "inputBufferAux = *" << inputBufferAux << "*" <<
-      endl <<
-      "inBytesLeft = " << inBytesLeft <<
-      endl <<
-      "fOutputBuffer = *" << fOutputBuffer << "*" <<
-      endl <<
-      "outputBufferAux = *" << outputBufferAux << "*" <<
-      endl <<
-      "outBytesLeft = " << outBytesLeft <<
-      endl <<
-      endl;
-  }
-
-  // terminate the resulting string  
-  fOutputBuffer [fOutputBufferSize - outBytesLeft + 1] = '\0';
-  
-  // copy the result to output
-  output = std::string (fOutputBuffer);
-  
-  // return boolean result
-  return iconvResult != (size_t)(-1);
-}
-* /
-#endif
-*/
-
-//______________________________________________________________________________
-#ifdef WIN32
-  // JMI
-#else
-inline IFdStreambuf::IFdStreambuf(int fd)
-:
-  d_fd (fd)
-{
-  setg (d_buffer, d_buffer + 1, d_buffer + 1);
-}
-
-inline int IFdStreambuf::underflow ()
-{
-  if (read (d_fd, d_buffer, 1) <= 0) {
-    return EOF;
-  }
-
-  setg (d_buffer, d_buffer, d_buffer + 1);
-  
-  return static_cast<unsigned char> (*gptr ());
-}
-#endif
-
-//______________________________________________________________________________
-#ifdef WIN32
-  // JMI
-#else
-S_IFdNStreambuf IFdNStreambuf::create ()
-{
-  IFdNStreambuf* o =
-    new IFdNStreambuf ();
-  assert(o!=0);
-  return o;
-}
-
-S_IFdNStreambuf IFdNStreambuf::create (int fd, size_t bufsize)
-{
-  IFdNStreambuf* o =
-    new IFdNStreambuf (
-      fd, bufsize);
-  assert(o!=0);
-  return o;
-}
-
-inline IFdNStreambuf::IFdNStreambuf ()
-  :
-    d_bufsize (0),
-    d_buffer (0)
-{}
-
-
-inline IFdNStreambuf::IFdNStreambuf (int fd, size_t bufsize)
-{
-  open (fd, bufsize);
-}
-
-IFdNStreambuf::~IFdNStreambuf ()
-{
-  if (d_bufsize) {
-    close (d_fd);
-    delete [] d_buffer;
-  }
-}
-
-void IFdNStreambuf::open(int fd, size_t bufsize)
-{
-  d_fd = fd;
-  d_bufsize = bufsize;
-  
-  d_buffer = new char [d_bufsize];
-  
-  setg (d_buffer, d_buffer + d_bufsize, d_buffer + d_bufsize);
-}
-
-int IFdNStreambuf::underflow()
-{
-  if (gptr() < egptr ()) {
-    return *gptr ();
-  }
-
-  int nread = read (d_fd, d_buffer, d_bufsize);
-
-  if (nread <= 0) {
-    return EOF;
-  }
-
-  setg (d_buffer, d_buffer, d_buffer + nread);
-  
-  return static_cast<unsigned char> (*gptr ());
-}
-
-std::streamsize IFdNStreambuf::xsgetn (char *dest, std::streamsize n)
-{
-  int nread = 0;
-
-  while (n) {
-    if (!in_avail ()) {
-      if (underflow () == EOF)
-        break;
-    }
-
-    int avail = in_avail();
-
-    if (avail > n) {
-      avail = n;
-    }
-
-    memcpy (dest + nread, gptr(), avail);
-    gbump (avail);
-
-    nread += avail;
-    n -= avail;
-  }
-
-  return nread;
-}
-#endif
-
-//______________________________________________________________________________
-#ifdef WIN32
-  // JMI
-#else
-OFdnStreambuf::OFdnStreambuf ()
-  :
-    d_bufsize (0),
-    d_buffer (0)
-{}
-
-OFdnStreambuf::OFdnStreambuf (int fd, size_t bufsize)
-{
-  open(fd, bufsize);
-}
-
-
-OFdnStreambuf::~OFdnStreambuf ()
-{
-  if (d_buffer) {
-    sync ();
-    delete [] d_buffer;
-  }
-}
-
-void OFdnStreambuf::open (int fd, size_t bufsize)
-{
-  d_fd = fd;
-  d_bufsize = bufsize == 0 ? 1 : bufsize;
-
-  d_buffer = new char [d_bufsize];
-  
-  setp (d_buffer, d_buffer + d_bufsize);
-}
-
-int OFdnStreambuf::sync ()
-{
-  if (pptr () > pbase ()) {
-    write (d_fd, d_buffer, pptr () - pbase ());
-    setp (d_buffer, d_buffer + d_bufsize);
-  }
-  
-  return 0;
-}
-
-int OFdnStreambuf::overflow (int c)
-{
-  sync ();
-  
-  if (c != EOF) {
-    *pptr () = c;
-    pbump (1);
-  }
-  return c;
-}
-#endif
-
 
 }
 
 /* JMI
-#ifdef WIN32
-  // JMI
-#else
-
-int main(int argc, char **argv)
+//______________________________________________________________________________
+class EXP segmentedLinesOstream
 {
-  IFdStreambuf fds(STDIN_FILENO);
-  istream      is(&fds);
+/ * JMI NOT DONE
+  // in order to avoid spaces at the end of a line,
+  // an end of segment causes a space to be output later,
+  // by the next '<<' operator
 
-  cout << is.rdbuf();
-}
+--
+*
+Reference for this class:
+  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
-int main(int argc, char **argv)
-{
-                              // internally: 30 char buffer
-  IFdNStreambuf fds(STDIN_FILENO, 30);
+Usage:
+  segmentedLinesOstream myStream (std::cout);
 
-  char buf[80];               // main() reads blocks of 80
-                              // chars
-  while (true)
-  {
-    size_t n = fds.sgetn(buf, 80);
-    if (n == 0)
-        break;
-    cout.write(buf, n);
-  }
-}
-
-int main(int argc, char **argv)
-{
-  OFdnStreambuf   fds(STDOUT_FILENO, 500);
-  ostream         os(&fds);
-
-  switch (argc)
-  {
-    case 1:
-      for (string  s; getline(cin, s); )
-        os << s << '\n';
-      os << "COPIED cin LINE BY LINE\n";
-    break;
-
-    case 2:
-      cin >> os.rdbuf();      // Alternatively, use:  cin >> &fds;
-      os << "COPIED cin BY EXTRACTING TO os.rdbuf()\n";
-    break;
-
-    case 3:
-      os << cin.rdbuf();
-      os << "COPIED cin BY INSERTING cin.rdbuf() into os\n";
-    break;
-  }
-}
-
-
-
-  if (true) {
-    const size_t BUF_SIZE = 1024;
-  
-    char flute  [BUF_SIZE] = "Flöte buffer";
-    char result [BUF_SIZE] = "something else";
-    
-    IConv iConverter ("ISO-8859-1", "UTF8");
-  
-    size_t outsize = BUF_SIZE; // you will need it
-          
-    if (iConverter.convert (flute, result, outsize)) {
-      gLogIOstream <<
-        "Buffer iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-
-  if (true) {
-    string flute = "Flöte string eins";
-    string result;
-
-    IConv iConverter ("ISO-8859-1", "UTF8");
-      
-    if (iConverter.convert (flute, result)) {
-      gLogIOstream <<
-        "String iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-
-  if (true) {
-    string flute = "Flöte string zwei";
-    string result;
-
-    IConv iConverter ("ISO-8859-1", "UTF8");
-
-    if (iConverter.convert (flute, result)) {
-      gLogIOstream <<
-        "String iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-/ * JMI
-      if (errno == EINVAL)
-        error (0, 0, "conversion from '%s' to wchar_t not available",
-               charset);
-      else
-        perror ("iconv_open");
+  myStream <<
+    1 << 2 << 3 << std::endl <<
+    5 << 6 << std::endl <<
+    7 << 8 << std::endl;
 * /
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-#endif
+
+  private:
+    // segmentedLinesOstream just uses an indentedOstream
+    indentedOstream&      fIndentedOstream;
+
+    // an end of segment causes a space to be output by the next '<<' operator
+    bool                  fAtEndOfSegment;
+
+  public:
+
+    // constructor
+    segmentedLinesOstream (
+      indentedOstream& indentedOstream)
+      : fIndentedOstream (indentedOstream)
+        { fAtEndOfSegment = false; }
+
+    // destructor
+    virtual ~segmentedLinesOstream ()
+        {};
+
+    // flush
+    void                  flush ()
+                              { fIndentedOstream.flush (); }
+
+    // set and get
+    indentedOstream&      getIndentedOstream ()
+                              { return fIndentedOstream; }
+
+    // indentation
+    indenter&             getIndenter ()
+                              { return fIndentedOstream.getIndenter (); }
+
+    void                  incrIdentation ()
+                              { fIndentedOstream.incrIdentation (); }
+
+    void                  decrIdentation ()
+                              { fIndentedOstream.decrIdentation (); }
+
+    // segments
+    void                  setAtEndOfSegment (bool value)
+                              { fAtEndOfSegment = value; }
+    bool                  getAtEndOfSegment ()
+                              { return fAtEndOfSegment; }
+};
+
+// '<<' operators to implement segments
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const std::string& str);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str);
+
+// the manipulators
+segmentedLinesOstream& endline (segmentedLinesOstream& os);
+segmentedLinesOstream& endseg (segmentedLinesOstream& os);
 */
+
+
+/* JMI
+  segmentedLinesOstream
+    testSegmentedLinesOstream (fLogOutputStream);
+
+  fLogOutputStream <<
+    "getAtEndOfSegment: " <<
+    booleanAsString (
+      testSegmentedLinesOstream.getAtEndOfSegment ()) <<
+    endl;
+
+  testSegmentedLinesOstream.setAtEndOfSegment (true);
+
+  fLogOutputStream <<
+    "getAtEndOfSegment: " <<
+    booleanAsString (
+      testSegmentedLinesOstream.getAtEndOfSegment ()) <<
+    endl;
+
+  testSegmentedLinesOstream <<
+    "FOO" << endl; // <<
+ //   endline;
+
+  testSegmentedLinesOstream.getIndentedOstream () << flush;
+  */
+
+
+/* JMI
+//______________________________________________________________________________
+// the manipulators
+segmentedLinesOstream& endline (segmentedLinesOstream& os)
+{
+  if (! os.getAtEndOfSegment ()) {
+    // don't output multiple spaces after a segment
+    os.setAtEndOfSegment (true);
+  }
+
+  os.getIndentedOstream () << endl;
+
+  return os;
+}
+
+segmentedLinesOstream& endseg (segmentedLinesOstream& os)
+{
+  if (! os.getAtEndOfSegment ()) {
+    // don't output multiple spaces after a segment
+    os.setAtEndOfSegment (true);
+  }
+
+  return os;
+}
+
+// '<<' operators to implement segments
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << ch;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << i;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << i;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << f;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const string& str)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << str;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << str;
+
+  return os;
+}
+*/
+

@@ -17,8 +17,6 @@
 
 #include "lpsrStaves.h"
 
-#include "xml2lyOptionsHandling.h"
-
 
 namespace MusicXML2
 {
@@ -127,7 +125,7 @@ class lpsrPartBlock : public lpsrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

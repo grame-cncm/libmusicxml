@@ -12,12 +12,12 @@
 
 #include "lpsrLyrics.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -49,44 +49,52 @@ lpsrNewLyricsBlock::~lpsrNewLyricsBlock ()
 
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewLyricsBlock::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrNewLyricsBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewLyricsBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewLyricsBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -94,7 +102,7 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
 void lpsrNewLyricsBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewLyricsBlock::print (ostream& os)
+void lpsrNewLyricsBlock::print (ostream& os) const
 {
   os <<
     "NewLyricsBlock" << " " <<

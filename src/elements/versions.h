@@ -39,6 +39,9 @@ class EXP versions {
     static float    xml2lilypondVersion();
     static const char*  xml2lilypondVersionStr();
     
+    static float    xml2brailleVersion();
+    static const char*  xml2brailleVersionStr();
+    
 //    static float    xml2antescofoVersion();
 //    static const char*  xml2antescofoVersionStr();
 };

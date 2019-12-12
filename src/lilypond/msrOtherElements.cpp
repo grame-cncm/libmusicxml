@@ -10,21 +10,18 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrOtherElements.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrSegno msrSegno::create (
@@ -39,7 +36,7 @@ S_msrSegno msrSegno::create (
 
 msrSegno::msrSegno (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrSegno::~msrSegno ()
@@ -47,19 +44,19 @@ msrSegno::~msrSegno ()
 
 void msrSegno::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrSegno::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSegno>*
     p =
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrSegno::visitStart ()" <<
             endl;
         }
@@ -69,8 +66,8 @@ void msrSegno::acceptIn (basevisitor* v)
 
 void msrSegno::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrSegno::acceptOut ()" <<
       endl;
   }
@@ -79,9 +76,9 @@ void msrSegno::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrSegno::visitEnd ()" <<
             endl;
         }
@@ -92,18 +89,18 @@ void msrSegno::acceptOut (basevisitor* v)
 void msrSegno::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrSegno& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrSegno::print (ostream& os)
+void msrSegno::print (ostream& os) const
 {
   os <<
     "Segno" <<
     ", line " << fInputLineNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrSegno& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -119,7 +116,7 @@ S_msrCoda msrCoda::create (
 
 msrCoda::msrCoda (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrCoda::~msrCoda ()
@@ -127,19 +124,19 @@ msrCoda::~msrCoda ()
 
 void msrCoda::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrCoda::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrCoda>*
     p =
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrCoda::visitStart ()" <<
             endl;
         }
@@ -149,8 +146,8 @@ void msrCoda::acceptIn (basevisitor* v)
 
 void msrCoda::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrCoda::acceptOut ()" <<
       endl;
   }
@@ -159,9 +156,9 @@ void msrCoda::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrCoda::visitEnd ()" <<
             endl;
         }
@@ -172,18 +169,18 @@ void msrCoda::acceptOut (basevisitor* v)
 void msrCoda::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrCoda& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrCoda::print (ostream& os)
+void msrCoda::print (ostream& os) const
 {
   os <<
     "Coda" <<
     ", line " << fInputLineNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrCoda& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -199,7 +196,7 @@ S_msrEyeGlasses msrEyeGlasses::create (
 
 msrEyeGlasses::msrEyeGlasses (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrEyeGlasses::~msrEyeGlasses ()
@@ -207,19 +204,19 @@ msrEyeGlasses::~msrEyeGlasses ()
 
 void msrEyeGlasses::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrEyeGlasses::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrEyeGlasses>*
     p =
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrEyeGlasses::visitStart ()" <<
             endl;
         }
@@ -229,8 +226,8 @@ void msrEyeGlasses::acceptIn (basevisitor* v)
 
 void msrEyeGlasses::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrEyeGlasses::acceptOut ()" <<
       endl;
   }
@@ -239,9 +236,9 @@ void msrEyeGlasses::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrEyeGlasses::visitEnd ()" <<
             endl;
         }
@@ -252,13 +249,7 @@ void msrEyeGlasses::acceptOut (basevisitor* v)
 void msrEyeGlasses::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrEyeGlasses::print (ostream& os)
+void msrEyeGlasses::print (ostream& os) const
 {
   os <<
     "EyeGlasses" <<
@@ -266,9 +257,15 @@ void msrEyeGlasses::print (ostream& os)
     endl;
 }
 
+ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 /*
-void msrPolyphony::print (ostream& os)
+void msrPolyphony::print (ostream& os) const
 {
   const int fieldWidth = 9;
 

@@ -10,35 +10,32 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrSlashes.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrSlash msrSlash::create (
   int                  inputLineNumber,
   msrSlashTypeKind     slashTypeKind,
-  msrSlashUseDotsKind  slashUseDotsKind,
+  msrUseDotsKind  useDotsKind,
   msrSlashUseStemsKind slashUseStemsKind)
 {
   msrSlash* o =
     new msrSlash (
       inputLineNumber,
       slashTypeKind,
-      slashUseDotsKind,
+      useDotsKind,
       slashUseStemsKind);
   assert(o!=0);
   return o;
@@ -47,12 +44,12 @@ S_msrSlash msrSlash::create (
 msrSlash::msrSlash (
   int                  inputLineNumber,
   msrSlashTypeKind     slashTypeKind,
-  msrSlashUseDotsKind  slashUseDotsKind,
+  msrUseDotsKind  useDotsKind,
   msrSlashUseStemsKind slashUseStemsKind)
     : msrElement (inputLineNumber)
 {
   fSlashTypeKind     = slashTypeKind;
-  fSlashUseDotsKind  = slashUseDotsKind;
+  fUseDotsKind  = useDotsKind;
   fSlashUseStemsKind = slashUseStemsKind;
 }
 
@@ -61,19 +58,19 @@ msrSlash::~msrSlash ()
 
 void msrSlash::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrSlash::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSlash>*
     p =
       dynamic_cast<visitor<S_msrSlash>*> (v)) {
         S_msrSlash elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrSlash::visitStart ()" <<
             endl;
         }
@@ -83,8 +80,8 @@ void msrSlash::acceptIn (basevisitor* v)
 
 void msrSlash::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrSlash::acceptOut ()" <<
       endl;
   }
@@ -93,9 +90,9 @@ void msrSlash::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSlash>*> (v)) {
         S_msrSlash elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrSlash::visitEnd ()" <<
             endl;
         }
@@ -116,34 +113,28 @@ string msrSlash::asString () const
     ", slashTypeKind:" <<
     msrSlashTypeKindAsString (
       fSlashTypeKind) <<
-    ", slashUseDotsKind:" <<
-    msrSlashUseDotsKindAsString (
-      fSlashUseDotsKind) <<
+    ", useDotsKind:" <<
+    msrUseDotsKindAsString (
+      fUseDotsKind) <<
     ", slashUseStemsKind:" <<
     msrSlashUseStemsKindAsString (
       fSlashUseStemsKind);
-    
+
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrSlash& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrSlash::print (ostream& os)
+void msrSlash::print (ostream& os) const
 {
   os <<
     "Slash" <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
   const int fieldWidth = 18;
 
-  // print the voice uplink
+  // print the voice upLink
   os << left <<
     setw (fieldWidth) <<
     "slashTypeKind" << " : " <<
@@ -151,17 +142,23 @@ void msrSlash::print (ostream& os)
       fSlashTypeKind) <<
     endl <<
     setw (fieldWidth) <<
-    "slashUseDotsKind" << " : " <<
-    msrSlashUseDotsKindAsString (
-      fSlashUseDotsKind) <<
+    "useDotsKind" << " : " <<
+    msrUseDotsKindAsString (
+      fUseDotsKind) <<
     endl <<
     setw (fieldWidth) <<
     "slashUseStemsKind" << " : " <<
     msrSlashUseStemsKindAsString (
       fSlashUseStemsKind) <<
     endl;
-      
+
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSlash& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

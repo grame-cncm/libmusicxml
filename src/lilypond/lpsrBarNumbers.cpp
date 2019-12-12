@@ -12,12 +12,12 @@
 
 #include "lpsrBarNumbers.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -37,7 +37,7 @@ lpsrBarNumberCheck::lpsrBarNumberCheck (
   int nextBarNumber)
     : lpsrElement (inputLineNumber)
 {
-  fNextBarNumber=nextBarNumber; 
+  fNextBarNumber=nextBarNumber;
 }
 
 lpsrBarNumberCheck::~lpsrBarNumberCheck ()
@@ -45,44 +45,52 @@ lpsrBarNumberCheck::~lpsrBarNumberCheck ()
 
 void lpsrBarNumberCheck::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrBarNumberCheck::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrBarNumberCheck::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -90,7 +98,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 void lpsrBarNumberCheck::browseData (basevisitor* v)
 {}
 
-void lpsrBarNumberCheck::print (ostream& os)
+void lpsrBarNumberCheck::print (ostream& os) const
 {
   os <<
     "BarNumberCheck" << " " << fNextBarNumber <<
@@ -124,44 +132,52 @@ lpsrBarCommand::~lpsrBarCommand ()
 
 void lpsrBarCommand::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrBarCommand::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrBarCommand>*
     p =
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrBarCommand::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrBarCommand::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrBarCommand::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrBarCommand>*
     p =
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrBarCommand::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -169,7 +185,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v)
 void lpsrBarCommand::browseData (basevisitor* v)
 {}
 
-void lpsrBarCommand::print (ostream& os)
+void lpsrBarCommand::print (ostream& os) const
 {
   os <<
     "BarCommand" << " " << "\"|.\"" <<

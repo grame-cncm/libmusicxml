@@ -19,7 +19,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -30,7 +30,7 @@ S_lpsrSchemeVariable lpsrSchemeVariable::create (
   int               inputLineNumber,
   lpsrCommentedKind commentedKind,
   string            variableName,
-  string            value, 
+  string            value,
   string            comment,
   lpsrEndlKind      endlKind)
 {
@@ -46,7 +46,7 @@ lpsrSchemeVariable::lpsrSchemeVariable (
   int               inputLineNumber,
   lpsrCommentedKind commentedKind,
   string            variableName,
-  string            value, 
+  string            value,
   string            comment,
   lpsrEndlKind      endlKind)
     : lpsrElement (inputLineNumber)
@@ -57,11 +57,66 @@ lpsrSchemeVariable::lpsrSchemeVariable (
   fVariableValue = value;
 
   fComment       = comment;
-  
+
   fEndlKind      = endlKind;
 }
 
 lpsrSchemeVariable::~lpsrSchemeVariable ()
+{}
+
+void lpsrSchemeVariable::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% ==> lpsrSchemeVariable::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrSchemeVariable>*
+    p =
+      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
+        S_lpsrSchemeVariable elem = this;
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrSchemeVariable::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% ==> lpsrSchemeVariable::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrSchemeVariable>*
+    p =
+      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
+        S_lpsrSchemeVariable elem = this;
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrSchemeVariable::browseData (basevisitor* v)
 {}
 
 string lpsrSchemeVariable::commentedKindAsString (
@@ -70,11 +125,11 @@ string lpsrSchemeVariable::commentedKindAsString (
   string result;
 
   switch (commentedKind) {
-    case lpsrVarValAssoc::kCommented:
-      result = "commented";
+    case lpsrSchemeVariable::kCommentedYes:
+      result = "commentedYes";
       break;
-    case lpsrVarValAssoc::kUncommented:
-      result = "uncommented";
+    case lpsrSchemeVariable::kCommentedNo:
+      result = "commentedNo";
       break;
   } // switch
 
@@ -87,68 +142,21 @@ string lpsrSchemeVariable::endlKindAsString (
   string result;
 
   switch (endlKind) {
-    case lpsrVarValAssoc::kWithEndl:
-      result = "with end line";
+    case lpsrSchemeVariable::kEndlOnce:
+      result = "endlOnce";
       break;
-    case lpsrVarValAssoc::kWithEndlTwice:
-      result = "with end line twice";
+    case lpsrSchemeVariable::kEndlTwice:
+      result = "endlTwice";
       break;
-    case lpsrVarValAssoc::kWithoutEndl:
-      result = "without end line";
+    case lpsrSchemeVariable::kEndlNone:
+      result = "endlNone";
       break;
   } // switch
 
   return result;
 }
 
-void lpsrSchemeVariable::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrSchemeVariable::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrSchemeVariable>*
-    p =
-      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
-        S_lpsrSchemeVariable elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrSchemeVariable::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrSchemeVariable::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrSchemeVariable>*
-    p =
-      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
-        S_lpsrSchemeVariable elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrSchemeVariable::browseData (basevisitor* v)
-{}
-
-void lpsrSchemeVariable::print (ostream& os)
+void lpsrSchemeVariable::print (ostream& os) const
 {
   os <<
     "SchemeVariable" <<
@@ -174,28 +182,28 @@ void lpsrSchemeVariable::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "variable name" <<
+    "variableName" <<
     " : \"" << variableName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "variable value" <<
+    "variableValue" <<
     " : \"" << variableValue << "\"" <<
     endl <<
 
     setw (fieldWidth) <<
-    "commented kind" << " : " <<
+    "commentedKind" << " : " <<
     commentedKindAsString (fCommentedKind) <<
     endl <<
 
   // backSlashKindAsString ??? JMI
   // varValSeparatorKindAsString ??? JMI
   // quotesKindAsString ??? JMI
-  
+
     setw (fieldWidth) <<
-    "endl kind" << " : " <<
+    "endlKind" << " : " <<
     endlKindAsString (fEndlKind) <<
     endl;
-  
+
   gIndenter--;
 }
 
@@ -237,44 +245,52 @@ lpsrSchemeFunction::~lpsrSchemeFunction ()
 
 void lpsrSchemeFunction::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrSchemeFunction>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrSchemeFunction::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrSchemeFunction>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -282,7 +298,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
 void lpsrSchemeFunction::browseData (basevisitor* v)
 {}
 
-void lpsrSchemeFunction::print (ostream& os)
+void lpsrSchemeFunction::print (ostream& os) const
 {
   os <<
     "SchemeFunction" <<

@@ -19,12 +19,11 @@
 #include <set>
 
 #include "msrIdentification.h"
-#include "msrPageGeometry.h"
+#include "msrGeometry.h"
+#include "msrCredits.h"
 
-#include "msr.h" // TEMP
 
-
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -33,6 +32,9 @@ typedef SMARTP<msrPart> S_msrPart;
 
 class msrPartGroup;
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
 
 //______________________________________________________________________________
 class msrScore : public msrElement
@@ -54,9 +56,9 @@ class msrScore : public msrElement
 
     msrScore (
       int inputLineNumber);
-      
+
     virtual ~msrScore ();
-  
+
   public:
 
     // set and get
@@ -65,16 +67,31 @@ class msrScore : public msrElement
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
 
-    void                  setPageGeometry (
-                            S_msrPageGeometry pageGeometry)
-                              { fPageGeometry = pageGeometry; }
+    void                  setMsrGeometry (
+                            S_msrGeometry geometry)
+                              { fMsrGeometry = geometry; }
 
-    S_msrPageGeometry     getPageGeometry () const
-                              { return fPageGeometry; }
+    S_msrGeometry         getMsrGeometry () const
+                              { return fMsrGeometry; }
 
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
                               { return fPartGroupsList; }
+
+//* JMI
+    void                  setScoreMasterVoice (
+                            S_msrVoice masterVoice);
+
+    S_msrVoice            getScoreMasterVoice () const;
+
+/* JMI
+    void                  setScoreMasterVoice (
+                            S_msrVoice masterVoice)
+                              { fScoreMasterVoice = masterVoice; }
+
+    S_msrVoice            getScoreMasterVoice () const
+                              { return fScoreMasterVoice; }
+*/
 
     const list<S_msrCredit>&
                           getCreditsList () const
@@ -86,10 +103,20 @@ class msrScore : public msrElement
                                 fScoreNumberOfMeasures =
                                   scoreNumberOfMeasures;
                               }
-                                  
+
     int                   getScoreNumberOfMeasures () const
                               { return fScoreNumberOfMeasures; }
-        
+
+    void                  setStaffContainsRestMeasures (
+                            bool staffContainsRestMeasures)
+                              {
+                                fStaffContainsRestMeasures =
+                                  staffContainsRestMeasures;
+                              }
+
+    bool                  getStaffContainsRestMeasures () const
+                              { return fStaffContainsRestMeasures; }
+
     // part group names max length
 
     void                  setScorePartGroupNamesMaxLength (int value)
@@ -99,7 +126,7 @@ class msrScore : public msrElement
                               { return fScorePartGroupNamesMaxLength; }
 
     // part names max length
-    
+
     void                  setScorePartNamesMaxLength (int value)
                               { fScorePartNamesMaxLength = value; }
 
@@ -127,7 +154,7 @@ class msrScore : public msrElement
                                 fInhibitMeasuresRepeatReplicasBrowsing =
                                   true;
                               }
-                            
+
     bool                  getInhibitMeasuresRepeatReplicasBrowsing ()
                             const
                               {
@@ -135,17 +162,17 @@ class msrScore : public msrElement
                                   fInhibitMeasuresRepeatReplicasBrowsing;
                               };
 
-    void                  setInhibitMultipleRestMeasuresBrowsing ()
+    void                  setInhibitRestMeasuresBrowsing ()
                               {
-                                fInhibitMultipleRestMeasuresBrowsing =
+                                fInhibitRestMeasuresBrowsing =
                                   true;
                               }
-                            
-    bool                  getInhibitMultipleRestMeasuresBrowsing ()
+
+    bool                  getInhibitRestMeasuresBrowsing ()
                             const
                               {
                                 return
-                                  fInhibitMultipleRestMeasuresBrowsing;
+                                  fInhibitRestMeasuresBrowsing;
                               };
 
     // services
@@ -156,10 +183,13 @@ class msrScore : public msrElement
 
     void                  appendCreditToScore (
                             S_msrCredit credit);
-                              
+
     S_msrPart             fetchPartFromScoreByItsPartID (
                             int    inputLineNumber,
                             string partID);
+
+    void                  fetchIdentificationFromCreditsIfAny (
+                            int inputLineNumber);
 
     void                  collectScorePartsList (
                             int    inputLineNumber,
@@ -180,8 +210,8 @@ class msrScore : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
-    
+    virtual void          print (ostream& os) const;
+
     virtual void          printSummary (ostream& os);
 
   private:
@@ -191,40 +221,49 @@ class msrScore : public msrElement
 
     S_msrIdentification   fIdentification;
 
-    S_msrPageGeometry     fPageGeometry;
-    
+    S_msrGeometry         fMsrGeometry;
+
     list<S_msrCredit>     fCreditsList;
 
     set<S_msrPartGroup>   fScorePartGroupsSet;
-    
+
     list<S_msrPartGroup>  fPartGroupsList;
 
+    // master voice
+
+// JMI
+    S_msrVoice            fScoreMasterVoice;
+
     // number of measures
-    
+
     int                   fScoreNumberOfMeasures;
+
+    // rest measures
+
+    bool                  fStaffContainsRestMeasures;
 
     // part group names max length
 
     int                   fScorePartGroupNamesMaxLength;
 
     // part names max length
-    
+
     int                   fScorePartNamesMaxLength;
 
     // instrument names max lengthes
-    
+
     int                   fScoreInstrumentNamesMaxLength;
     int                   fScoreInstrumentAbbreviationsMaxLength;
 
     // inhibiting browsing
-    
+
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure
     bool                  fInhibitMeasuresRepeatReplicasBrowsing;
 
     // in <multiple-rest/>, the rest measures are explicit,
     // whereas LilyPond only needs the number of rest measures
-    bool                  fInhibitMultipleRestMeasuresBrowsing;
+    bool                  fInhibitRestMeasuresBrowsing;
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);

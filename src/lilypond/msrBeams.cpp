@@ -10,26 +10,23 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrBeams.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrBeam msrBeam::create (
@@ -51,11 +48,11 @@ msrBeam::msrBeam (
     : msrElement (inputLineNumber)
 {
   fBeamNumber = number;
-  fBeamKind   = beamKind; 
+  fBeamKind   = beamKind;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBeams) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBeams) {
+    gLogOstream <<
       "Creating beam '" <<
       this->asString () <<
       "'" <<
@@ -69,19 +66,19 @@ msrBeam::~msrBeam ()
 
 void msrBeam::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBeam::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBeam>*
     p =
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBeam::visitStart ()" <<
             endl;
         }
@@ -91,8 +88,8 @@ void msrBeam::acceptIn (basevisitor* v)
 
 void msrBeam::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBeam::acceptOut ()" <<
       endl;
   }
@@ -101,9 +98,9 @@ void msrBeam::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBeam::visitEnd ()" <<
             endl;
         }
@@ -114,17 +111,11 @@ void msrBeam::acceptOut (basevisitor* v)
 void msrBeam::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBeam& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrBeam::beamKindAsString (
   msrBeamKind beamKind)
 {
   string result;
-  
+
   switch (beamKind) {
     case kBeginBeam:
       result = "begin";
@@ -162,11 +153,17 @@ string msrBeam::asString () const
   return s.str ();
 }
 
-void msrBeam::print (ostream& os)
-{  
+void msrBeam::print (ostream& os) const
+{
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrBeam& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

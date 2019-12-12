@@ -10,10 +10,6 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 
 #include "xml.h"
@@ -24,11 +20,12 @@
 
 #include "messagesHandling.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "generalOah.h"
 
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
 
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
 
@@ -38,45 +35,45 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
 S_msrScore buildMsrSkeletonFromElementsTree (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   Sxmlelement      mxmlTree,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mxmlTree != 0,
     "mxmlTree is null");
-    
+
   clock_t startClock = clock ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-  
-    logIOstream <<
+
+    logOstream <<
       endl <<
       separator <<
       endl <<
       gTab <<
       "Pass 2a: translating the xmlelement tree into an MSR skeleton" <<
       endl;
-    
-    logIOstream <<
+
+    logOstream <<
       separator <<
       endl;
   }
 #endif
-  
+
   // create an mxmlTree2MsrSkeletonBuilder
   mxmlTree2MsrSkeletonBuilder
     skeletonBuilder (
-      logIOstream);
+      logOstream);
 
   // build the MSR score
   skeletonBuilder.browseMxmlTree (
@@ -97,13 +94,13 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     startClock,
     endClock);
 
-    
+
   if (msrOpts->fDisplayMsr) {
     // display the MSR skeleton
     displayMsrSkeleton (
       msrOpts,
       scoreSkeleton,
-      logIOstream);
+      logOstream);
   }
 
   return scoreSkeleton;
@@ -111,21 +108,21 @@ S_msrScore buildMsrSkeletonFromElementsTree (
 
 //_______________________________________________________________________________
 void displayMsrSkeleton (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
+
   string separator =
     "%--------------------------------------------------------------";
-  
-  logIOstream <<
+
+  logOstream <<
     endl <<
     separator <<
     endl <<
@@ -151,23 +148,23 @@ void displayMsrSkeleton (
 /* JMI
 //_______________________________________________________________________________
 void displayMsrSkeletonSummary (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
-    logIOstream <<
+
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -178,16 +175,16 @@ void displayMsrSkeletonSummary (
       endl;
   }
 #endif
-   
+
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor
     summaryVisitor (
       msrOpts,
-      logIOstream);
+      logOstream);
 
   summaryVisitor.printSummaryFromMsrScore (
     mScore);
-  
+
   clock_t endClock = clock ();
 
   // register time spent

@@ -38,62 +38,68 @@
       </attributes>
       <figured-bass>
         <figure><figure-number>3</figure-number></figure>
-        <duration>4</duration>
+        <duration>8</duration>
       </figured-bass>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
-        <duration>4</duration>
+        <pitch><step>C</step><octave>4</octave></pitch>
+        <duration>8</duration>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>quarter</type>
       </note>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
-        <duration>4</duration>
+        <pitch><step>D</step><octave>4</octave></pitch>
+        <duration>8</duration>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>quarter</type>
       </note>
       <figured-bass>
         <figure><prefix>sharp</prefix><figure-number>1</figure-number></figure>
         <figure><prefix>flat</prefix><figure-number>3</figure-number></figure>
         <figure><prefix>natural</prefix><figure-number>5</figure-number></figure>
-        <duration>6</duration>
+        <duration>8</duration>
       </figured-bass>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
-        <duration>6</duration>
+        <pitch><step>E</step><octave>4</octave></pitch>
+        <duration>8</duration>
         <voice>1</voice>
-        <type>eighth</type>
-        <dot/>
+        <type>quarter</type>
       </note>
       <figured-bass parentheses="yes">
         <figure><figure-number>6</figure-number></figure>
       </figured-bass>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
-        <duration>2</duration>
+        <pitch><step>F</step><octave>4</octave></pitch>
+        <duration>8</duration>
         <voice>1</voice>
-        <type>16th</type>
+        <type>quarter</type>
       </note>
+    </measure>
+    <measure number="2">
       <figured-bass>
         <figure><figure-number>5</figure-number><suffix>slash</suffix></figure>
-        <figure><prefix>flat</prefix><figure-number>127</figure-number><suffix>slash</suffix></figure>
+        <figure><prefix>flat</prefix><figure-number>7</figure-number><suffix>slash</suffix></figure>
         <duration>8</duration>
-      </figured-bass>
-      <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
-        <duration>8</duration>
-        <voice>1</voice>
-        <type>eighth</type>
-        <dot/>
-      </note>
-      <!-- Check how well the application handles an empty element (invalid MusicXML!) -->
-      <figured-bass>
       </figured-bass>
       <note>
         <pitch><step>G</step><octave>4</octave></pitch>
         <duration>8</duration>
         <voice>1</voice>
         <type>quarter</type>
+      </note>
+      <!-- Check how well the application handles an empty element (invalid MusicXML!) -->
+      <figured-bass>
+      </figured-bass>
+      <note>
+        <pitch><step>A</step><octave>4</octave></pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note>
+        <pitch><step>B</step><octave>4</octave></pitch>
+        <duration>16</duration>
+        <voice>1</voice>
+        <type>half</type>
       </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>

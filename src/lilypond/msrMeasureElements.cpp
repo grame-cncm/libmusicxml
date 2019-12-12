@@ -1,0 +1,187 @@
+/*
+  MusicXML Library
+  Copyright (C) Grame 2006-2013
+
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+  Grame Research Laboratory, 11, cours de Verdun Gensoul 69002 Lyon - France
+  research@grame.fr
+*/
+
+#include <climits>      // INT_MIN, INT_MAX
+
+#include "msrMeasureElements.h"
+
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
+
+#include "msrOah.h"
+
+#include "messagesHandling.h"
+
+
+using namespace std;
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+msrMeasureElement::msrMeasureElement (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+  fMeasureNumber      = K_NO_MEASURE_NUMBER;
+  fPositionInMeasure  = K_NO_POSITION_MEASURE_NUMBER;
+  fSoundingWholeNotes = rational (0, 1); // JMI K_NO_WHOLE_NOTES ???
+}
+
+msrMeasureElement::~msrMeasureElement ()
+{}
+
+void msrMeasureElement::setPositionInMeasure (
+  rational positionInMeasure,
+  string   context)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
+    gLogOstream <<
+      "Setting position in measure of " <<
+      asString () <<
+      " to '" << positionInMeasure <<
+      "' in measure '" <<
+      fMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // JMI ??? if (fPositionInMeasure == rational (3, 4) && positionInMeasure == rational (1, 2)) abort ();
+
+  // sanity check
+  msrAssert (
+    positionInMeasure != K_NO_POSITION_MEASURE_NUMBER,
+    "positionInMeasure == K_NO_POSITION_MEASURE_NUMBER");
+
+  fPositionInMeasure = positionInMeasure;
+}
+
+void msrMeasureElement::setSoundingWholeNotes (
+  rational wholeNotes,
+  string   context)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
+    gLogOstream <<
+      "Setting sounding whole notes of " <<
+      asString () <<
+      " to '" << wholeNotes <<
+      "' in measure '" <<
+      fMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    wholeNotes != K_NO_WHOLE_NOTES,
+    "wholeNotes == K_NO_WHOLE_NOTES");
+
+  fSoundingWholeNotes = wholeNotes;
+}
+
+bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (
+  const SMARTP<msrMeasureElement>& first,
+  const SMARTP<msrMeasureElement>& second)
+{
+  return
+    first->getPositionInMeasure ()
+      <
+    second->getPositionInMeasure ();
+}
+
+void msrMeasureElement::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrMeasureElement::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrMeasureElement>*
+    p =
+      dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
+        S_msrMeasureElement elem = this;
+
+#ifdef TRACE_OAH
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrMeasureElement::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrMeasureElement::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrMeasureElement::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrMeasureElement>*
+    p =
+      dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
+        S_msrMeasureElement elem = this;
+
+#ifdef TRACE_OAH
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrMeasureElement::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+string msrMeasureElement::asString () const
+{
+  // this is overriden all in actual elements
+  return "??? msrMeasureElement::asString () ???";
+}
+
+string msrMeasureElement::asShortString () const
+{
+  // this can be overriden in actual elements
+  return asString ();
+}
+
+void msrMeasureElement::print (ostream& os) const
+{
+  os << asString () << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrMeasureElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+
+}

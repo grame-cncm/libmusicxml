@@ -10,21 +10,18 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrStems.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrStem msrStem::create (
@@ -43,7 +40,7 @@ msrStem::msrStem (
   msrStemKind stemKind)
     : msrElement (inputLineNumber)
 {
-  fStemKind   = stemKind; 
+  fStemKind   = stemKind;
 }
 
 msrStem::~msrStem ()
@@ -51,19 +48,19 @@ msrStem::~msrStem ()
 
 void msrStem::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrStem::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrStem>*
     p =
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrStem::visitStart ()" <<
             endl;
         }
@@ -73,8 +70,8 @@ void msrStem::acceptIn (basevisitor* v)
 
 void msrStem::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrStem::acceptOut ()" <<
       endl;
   }
@@ -83,9 +80,9 @@ void msrStem::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrStem::visitEnd ()" <<
             endl;
         }
@@ -100,7 +97,7 @@ string msrStem::stemKindAsString (
   msrStemKind stemKind)
 {
   string result;
-  
+
   switch (stemKind) {
     case kStemNone:
       result = "stemNone";
@@ -128,11 +125,11 @@ string msrStem::asString () const
     ", fStemKind: " <<
     stemKindAsString (fStemKind) <<
     ", line " << fInputLineNumber;
-        
+
   return s.str ();
 }
 
-void msrStem::print (ostream& os)
+void msrStem::print (ostream& os) const
 {
   os <<
     asString () <<

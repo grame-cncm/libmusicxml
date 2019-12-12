@@ -13,7 +13,7 @@
 #ifndef ___msrPartNamesDisplays___
 #define ___msrPartNamesDisplays___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrPartNameDisplay : public msrElement
+class msrPartNameDisplay : public msrMeasureElement
 {
   public:
     
@@ -72,7 +72,7 @@ class msrPartNameDisplay : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -85,7 +85,7 @@ typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
 EXP ostream& operator<< (ostream& os, const S_msrPartNameDisplay& elt);
 
 //______________________________________________________________________________
-class msrPartAbbreviationDisplay : public msrElement
+class msrPartAbbreviationDisplay : public msrMeasureElement
 {
   public:
     
@@ -135,7 +135,7 @@ class msrPartAbbreviationDisplay : public msrElement
 
     string                asString () const;
          
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

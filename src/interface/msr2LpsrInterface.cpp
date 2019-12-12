@@ -10,10 +10,6 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 
 #include "xml.h"
@@ -22,11 +18,12 @@
 
 #include "versions.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "generalOah.h"
 
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
 
 #include "msr2LpsrInterface.h"
 
@@ -34,29 +31,29 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOptions     msrOpts,
-  S_lpsrOptions    lpsrOpts,
-  indentedOstream& logIOstream)
+  S_msrOah         msrOpts,
+  S_lpsrOah        lpsrOpts,
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-      
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-  
-    logIOstream <<
+
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -67,13 +64,13 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl;
   }
 #endif
- 
+
   // create an msr2LpsrTranslator
   msr2LpsrTranslator
     translator (
-      logIOstream,
+      logOstream,
       mScore);
-      
+
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
 
@@ -99,21 +96,21 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 //_______________________________________________________________________________
 void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions      msrOpts,
-  S_lpsrOptions     lpsrOpts,
-  indentedOstream&  logIOstream)
+  S_msrOah          msrOpts,
+  S_lpsrOah         lpsrOpts,
+  indentedOstream&  logOstream)
 {
   // sanity check
   msrAssert (
     lpScore != 0,
     "lpScore is null");
-    
+
   clock_t startClock = clock ();
 
   string separator =
     "%--------------------------------------------------------------";
 
-  logIOstream <<
+  logOstream <<
     separator <<
     endl <<
     gTab <<

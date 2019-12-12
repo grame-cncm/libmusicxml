@@ -10,22 +10,19 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrTechnicals.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrTechnical msrTechnical::create (
@@ -59,7 +56,7 @@ msrTechnical::~msrTechnical ()
 string msrTechnical::technicalKindAsString () const
 {
   string result;
-  
+
   switch (fTechnicalKind) {
     case msrTechnical::kArrow:
       result = "Arrow";
@@ -122,7 +119,7 @@ string msrTechnical::technicalPlacementKindAsString () const
 string msrTechnical::technicalAccidentalMarkKindAsString () const
 {
   string result;
-  
+
   switch (fTechnicalAccidentalMarkKind) {
     case msrTechnical::kNatural:
       result = "natural";
@@ -141,19 +138,19 @@ string msrTechnical::technicalAccidentalMarkKindAsString () const
 
 void msrTechnical::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnical::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTechnical>*
     p =
       dynamic_cast<visitor<S_msrTechnical>*> (v)) {
         S_msrTechnical elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnical::visitStart ()" <<
             endl;
         }
@@ -163,8 +160,8 @@ void msrTechnical::acceptIn (basevisitor* v)
 
 void msrTechnical::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnical::acceptOut ()" <<
       endl;
   }
@@ -173,9 +170,9 @@ void msrTechnical::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTechnical>*> (v)) {
         S_msrTechnical elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnical::visitEnd ()" <<
             endl;
         }
@@ -186,12 +183,6 @@ void msrTechnical::acceptOut (basevisitor* v)
 void msrTechnical::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTechnical& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTechnical::asString () const
 {
   return
@@ -199,7 +190,7 @@ string msrTechnical::asString () const
       fTechnicalPlacementKind);
 }
 
-void msrTechnical::print (ostream& os)
+void msrTechnical::print (ostream& os) const
 {
   os <<
     "Technical" " " <<
@@ -207,6 +198,12 @@ void msrTechnical::print (ostream& os)
     ", line " << fInputLineNumber <<
 //    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrTechnical& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -246,7 +243,7 @@ msrTechnicalWithInteger::~msrTechnicalWithInteger ()
 string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
 {
   string result;
-  
+
   switch (fTechnicalWithIntegerKind) {
     case msrTechnicalWithInteger::kFingering:
       result = "fingering";
@@ -271,19 +268,19 @@ string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () con
 
 void msrTechnicalWithInteger::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnicalWithInteger::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTechnicalWithInteger>*
     p =
       dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
         S_msrTechnicalWithInteger elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitStart ()" <<
             endl;
         }
@@ -293,8 +290,8 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v)
 
 void msrTechnicalWithInteger::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnicalWithInteger::acceptOut ()" <<
       endl;
   }
@@ -303,9 +300,9 @@ void msrTechnicalWithInteger::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
         S_msrTechnicalWithInteger elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitEnd ()" <<
             endl;
         }
@@ -315,12 +312,6 @@ void msrTechnicalWithInteger::acceptOut (basevisitor* v)
 
 void msrTechnicalWithInteger::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrTechnicalWithInteger::asString () const
 {
@@ -336,7 +327,7 @@ string msrTechnicalWithInteger::asString () const
   return s.str ();
 }
 
-void msrTechnicalWithInteger::print (ostream& os)
+void msrTechnicalWithInteger::print (ostream& os) const
 {
   os <<
     "TechnicalWithInteger" <<
@@ -345,15 +336,15 @@ void msrTechnicalWithInteger::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 14;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "value" << " : " <<
     fTechnicalWithIntegerValue <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "placement" << " : " <<
     technicalWithIntegerPlacementKindAsString () <<
@@ -363,6 +354,12 @@ void msrTechnicalWithInteger::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -402,7 +399,7 @@ msrTechnicalWithFloat::~msrTechnicalWithFloat ()
 string msrTechnicalWithFloat::technicalWithFloatKindAsString () const
 {
   string result;
-  
+
   switch (fTechnicalWithFloatKind) {
     case msrTechnicalWithFloat::kBend:
       result = "bend";
@@ -421,19 +418,19 @@ string msrTechnicalWithFloat::technicalWithFloatPlacementKindAsString () const
 
 void msrTechnicalWithFloat::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnicalWithFloat::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTechnicalWithFloat>*
     p =
       dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
         S_msrTechnicalWithFloat elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnicalWithFloat::visitStart ()" <<
             endl;
         }
@@ -443,8 +440,8 @@ void msrTechnicalWithFloat::acceptIn (basevisitor* v)
 
 void msrTechnicalWithFloat::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnicalWithFloat::acceptOut ()" <<
       endl;
   }
@@ -453,9 +450,9 @@ void msrTechnicalWithFloat::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
         S_msrTechnicalWithFloat elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnicalWithFloat::visitEnd ()" <<
             endl;
         }
@@ -465,12 +462,6 @@ void msrTechnicalWithFloat::acceptOut (basevisitor* v)
 
 void msrTechnicalWithFloat::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrTechnicalWithFloat::asString () const
 {
@@ -486,7 +477,7 @@ string msrTechnicalWithFloat::asString () const
   return s.str ();
 }
 
-void msrTechnicalWithFloat::print (ostream& os)
+void msrTechnicalWithFloat::print (ostream& os) const
 {
   os <<
     "TechnicalWithFloat" <<
@@ -495,15 +486,15 @@ void msrTechnicalWithFloat::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 14;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "value" << " : " <<
     fTechnicalWithFloatValue <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "placement" << " : " <<
     technicalWithFloatPlacementKindAsString () <<
@@ -513,6 +504,12 @@ void msrTechnicalWithFloat::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -543,7 +540,7 @@ msrTechnicalWithString::msrTechnicalWithString (
     : msrElement (inputLineNumber)
 {
   fTechnicalWithStringKind = technicalWithStringKind;
-  
+
   fTechnicalWithStringTypeKind = technicalWithStringTypeKind;
 
   fTechnicalWithStringValue = technicalWithStringValue;
@@ -557,7 +554,7 @@ msrTechnicalWithString::~msrTechnicalWithString ()
 string msrTechnicalWithString::technicalWithStringKindAsString () const
 {
   string result;
-  
+
   switch (fTechnicalWithStringKind) {
     case msrTechnicalWithString::kHammerOn:
       result = "HammerOn";
@@ -598,19 +595,19 @@ string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
 
 void msrTechnicalWithString::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnicalWithString::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTechnicalWithString>*
     p =
       dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
         S_msrTechnicalWithString elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnicalWithString::visitStart ()" <<
             endl;
         }
@@ -620,8 +617,8 @@ void msrTechnicalWithString::acceptIn (basevisitor* v)
 
 void msrTechnicalWithString::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTechnicalWithString::acceptOut ()" <<
       endl;
   }
@@ -630,9 +627,9 @@ void msrTechnicalWithString::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
         S_msrTechnicalWithString elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTechnicalWithString::visitEnd ()" <<
             endl;
         }
@@ -642,12 +639,6 @@ void msrTechnicalWithString::acceptOut (basevisitor* v)
 
 void msrTechnicalWithString::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrTechnicalWithString::asString () const
 {
@@ -664,7 +655,7 @@ string msrTechnicalWithString::asString () const
   return s.str ();
 }
 
-void msrTechnicalWithString::print (ostream& os)
+void msrTechnicalWithString::print (ostream& os) const
 {
   os <<
     "TechnicalWithString" <<
@@ -674,16 +665,16 @@ void msrTechnicalWithString::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 14;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "value" << " : \"" <<
     fTechnicalWithStringValue <<
     "\"" <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "placement" << " : " <<
     technicalWithStringPlacementKindAsString () <<
@@ -693,6 +684,12 @@ void msrTechnicalWithString::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

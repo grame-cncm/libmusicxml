@@ -12,16 +12,16 @@
 
 #include "lpsrComments.h"
 
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -52,44 +52,52 @@ lpsrComment::~lpsrComment ()
 
 void lpsrComment::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrComment::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrComment>*
     p =
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrComment::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrComment::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrComment::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrComment>*
     p =
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrComment::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -97,22 +105,21 @@ void lpsrComment::acceptOut (basevisitor* v)
 void lpsrComment::browseData (basevisitor* v)
 {}
 
-void lpsrComment::print (ostream& os)
+void lpsrComment::print (ostream& os) const
 {
   os <<
     "Comment" <<
     endl;
-  
+
   gIndenter++;
-  
+
   os <<
     "% " << fContents <<
     endl;
 
   if (fCommentGapKind == kGapAfterwards)
-    os <<
-      endl;
-  
+    os << endl;
+
   gIndenter--;
 }
 

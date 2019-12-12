@@ -4,7 +4,7 @@
 project(libmusicxml2)
 cmake_minimum_required(VERSION 2.4)
 if(CMAKE_CONFIGURATION_TYPES)
-	set(CMAKE_CONFIGURATION_TYPES Debug Release)
+  set(CMAKE_CONFIGURATION_TYPES Debug Release)
 endif()
 
 #######################################
@@ -26,11 +26,11 @@ message (STATUS "Configuring version ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION
 
 
 #######################################
-option ( FMWK 		"Generates a framework on MacOS by default"	on )
-option ( UNIVERSAL 	"Generates universal binaries"	off )
-option ( GDB 		"Activates ggdb3 option"	off )
-option ( LILY 		"Include lilypond part"	on )
-
+option ( FMWK 		 "Generates a framework on MacOS by default"	off )
+option ( UNIVERSAL "Generates universal binaries"	off )
+option ( GDB 		   "Activates ggdb3 option"	off )
+option ( LILY 		 "Include lilypond part"	on )
+option ( BRL 		   "Include braille part"	  off )
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
@@ -46,11 +46,11 @@ set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set (CMAKE_CXX_STANDARD 11)
 
 if(UNIX)
-	if (GDB)
-		add_definitions(-Wall -DGCC -ggdb3 -Wno-overloaded-virtual)
-	else()
-		add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
-	endif()
+  if (GDB)
+    add_definitions(-Wall -DGCC -ggdb3 -Wno-overloaded-virtual)
+  else()
+    add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
+  endif()
 endif()
 
 set (libtype SHARED)
@@ -59,34 +59,36 @@ set (libtype SHARED)
 # mac os specific part
 #########################################
 if(APPLE)
-	if ( IOS )
-		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
-		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64  armv7 armv7s") # unsupported on iOS 11.4.0: armv7 armv7s
-		set (CMAKE_OSX_SYSROOT "iphoneos")
-		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.0")
-		set (libtype STATIC)
-	elseif( UNIVERSAL )
-		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
-		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
-		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.10)
-	endif()
+  if ( IOS )
+    message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
+    set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
+    set (CMAKE_OSX_ARCHITECTURES "arm64  armv7 armv7s") # unsupported on iOS 11.4.0: armv7 armv7s
+    set (CMAKE_OSX_SYSROOT "iphoneos")
+    set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.0")
+    set (libtype STATIC)
+  elseif( UNIVERSAL )
+    message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")
+    set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
+    set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
+  endif()
+  # to debug:
+  add_definitions(-O0 -g) # JMI
 
 #########################################
 # windows specific part
 #########################################
 elseif(WIN32)
-	add_definitions(-DWINVER=0x0400 -DWIN32)
-	if(MSVC)
-		add_definitions(-DMSVC)
-	endif()
+  add_definitions(-DWINVER=0x0400 -DWIN32)
+  if(MSVC)
+    add_definitions(-DMSVC)
+  endif()
 endif()
 
 
 #######################################
 # set directories, src and headers.
-set (LXML 		${CMAKE_CURRENT_SOURCE_DIR}/..)
-set (LXMLSRC 	${LXML}/src)
+set (LXML     ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set (LXMLSRC  ${LXML}/src)
 set (LXMLSAMPLE ${LXML}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
 if (LILY)
@@ -94,11 +96,11 @@ if (LILY)
 endif()
 
 foreach(folder ${SRCFOLDERS})
-	set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")			# add source files
+  set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")      # add source files
 endforeach(folder)
 
 foreach(folder ${SRCFOLDERS})
-	set(HEADERS ${HEADERS} "${LXMLSRC}/${folder}/*.h")		# add header files
+  set(HEADERS ${HEADERS} "${LXMLSRC}/${folder}/*.h")    # add header files
 endforeach(folder)
 
 if (NOT LILY)
@@ -111,7 +113,7 @@ file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
 foreach(folder ${SRCFOLDERS})
-	set(INCL ${INCL} "${LXMLSRC}/${folder}")				# add include folders
+  set(INCL ${INCL} "${LXMLSRC}/${folder}")        # add include folders
 endforeach(folder)
 
 
@@ -123,15 +125,15 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 
 #######################################
 if(WIN32 OR MSYS)
-	enable_language(RC)
-	set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
+  enable_language(RC)
+  set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
 else()
-	set(LIBCONTENT ${CORESRC} ${COREH})
+  set(LIBCONTENT ${CORESRC} ${COREH})
 endif()
 
 set(target musicxml2)
 add_library(${target} ${libtype} ${LIBCONTENT})
-set_target_properties (${target} PROPERTIES 
+set_target_properties (${target} PROPERTIES
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
 			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
@@ -143,34 +145,38 @@ set_target_properties (${target} PROPERTIES
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
 if (MSVC)
-	set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
+  set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
 endif()
 
 if (FMWK AND APPLE AND NOT IOS)
-set_target_properties (${target} PROPERTIES 
-			OUTPUT_NAME libmusicxml2
-			FRAMEWORK ${FMWK}
-			FRAMEWORK_VERSION ${VERSION}
-			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
-			MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
-			MACOSX_FRAMEWORK_IDENTIFIER ${target}
+set_target_properties (${target} PROPERTIES
+      OUTPUT_NAME libmusicxml2
+      FRAMEWORK ${FMWK}
+      FRAMEWORK_VERSION ${VERSION}
+      MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
+      MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
+      MACOSX_FRAMEWORK_IDENTIFIER ${target}
 )
 endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
 if (LILY)
 	set (SAMPLES ${SAMPLES} xml2ly)
 	set (TOOLS  ${TOOLS} xml2ly)
+endif()
+if (BRL)
+	set (SAMPLES ${SAMPLES} xml2brl)
+	set (TOOLS  ${TOOLS} xml2brl)
 endif()
 
 if(NOT IOS )
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
 	target_link_libraries( ${sample} ${target})
-	set_target_properties (${sample} PROPERTIES  
+	set_target_properties (${sample} PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY  ${BINDIR}
 		RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BINDIR})
 	add_dependencies(${sample} ${target})
@@ -182,7 +188,6 @@ endif()
 # install setup
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
-
 if (APPLE)
 install ( TARGETS ${target} 
 	RUNTIME DESTINATION bin 
@@ -193,18 +198,17 @@ install ( TARGETS ${target}
 )
 else ()
 install ( TARGETS ${target} 
-	RUNTIME DESTINATION lib 
+	  RUNTIME DESTINATION lib 
     LIBRARY DESTINATION lib 
     ARCHIVE DESTINATION lib 
-    FRAMEWORK DESTINATION lib CONFIGURATIONS Release
     PUBLIC_HEADER DESTINATION include/libmusicxml
 )
 endif()
 
-install ( TARGETS ${TOOLS} 
-	RUNTIME DESTINATION bin 
-    LIBRARY DESTINATION lib 
-    ARCHIVE DESTINATION lib 
+install ( TARGETS ${TOOLS}
+  RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
 )
 
 
@@ -215,7 +219,7 @@ install (
     DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
     FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
     DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+      GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
     PATTERN ".DS_Store" EXCLUDE
 )
 
@@ -223,7 +227,7 @@ install (
     DIRECTORY ${DTDS} ${SCHEMA} DESTINATION ${DOCDIR}/schema
     FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
     DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+      GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
     PATTERN ".DS_Store" EXCLUDE
 )
 

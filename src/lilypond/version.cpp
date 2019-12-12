@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -43,17 +43,19 @@ void versionInfo::print (ostream& os) const
 {
   os << left <<
     indenter::gIndenter <<
-      setw (5) << fVersionNumber << " " <<
+      setw (7) << fVersionNumber << " " <<
       "(" << fVersionDate << "):" <<
       endl <<
-    
+
   indenter::gIndenter++;
 
   os <<
     indenter::gIndenter <<
       fVersionDescription;
 
-  indenter::gIndenter--;  
+  indenter::gIndenter--;
+
+  os << endl;
 }
 
 void enlistVersion (
@@ -72,7 +74,7 @@ void printVersionsHistory (ostream& os)
 {
   os <<
     "Versions history:" <<
-    endl << endl;
+    endl;
 
   indenter::gIndenter++;
 
@@ -83,11 +85,8 @@ void printVersionsHistory (ostream& os)
   for ( ; ; ) {
     (*i).print (os);
     if (++i == iEnd) break;
-    os << endl;
+  // JMI  os << endl;
   } // for
-
-  os <<
-    endl << endl;
 
   indenter::gIndenter--;
 }

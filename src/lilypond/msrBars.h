@@ -15,28 +15,29 @@
 
 #include <list>
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrBarCheck : public msrElement
+class msrBarCheck : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrBarCheck> create (
-      int    inputLineNumber);
+      int inputLineNumber);
 
-    static SMARTP<msrBarCheck> createWithNextBarNumber (
+    static SMARTP<msrBarCheck> createWithNextBarPuristNumber (
       int    inputLineNumber,
-      string nextBarNumber);
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
 
   protected:
 
@@ -44,23 +45,27 @@ class msrBarCheck : public msrElement
     // ------------------------------------------------------
 
     msrBarCheck (
-      int    inputLineNumber);
-      
+      int inputLineNumber);
+
     msrBarCheck (
       int    inputLineNumber,
-      string nextBarNumber);
-      
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
+
     virtual ~msrBarCheck ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setNextBarNumber ( string number);
-                              
-    string                getNextBarNumber () const
-                              { return fNextBarNumber; }
+    string                getNextBarOriginalNumber () const
+                              { return fNextBarOriginalNumber; }
+
+    void                  setNextBarPuristNumber (int puristNumber);
+
+    int                   getNextBarPuristNumber () const
+                              { return fNextBarPuristNumber; }
 
     // services
     // ------------------------------------------------------
@@ -82,29 +87,31 @@ class msrBarCheck : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
     // fields
     // ------------------------------------------------------
 
-    string                fNextBarNumber;
+    string                fNextBarOriginalNumber;
+    int                   fNextBarPuristNumber;
 };
 typedef SMARTP<msrBarCheck> S_msrBarCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
 
 //______________________________________________________________________________
-class msrBarNumberCheck : public msrElement
+class msrBarNumberCheck : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrBarNumberCheck> create (
       int    inputLineNumber,
-      string nextBarNumber);
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
 
   protected:
 
@@ -113,17 +120,21 @@ class msrBarNumberCheck : public msrElement
 
     msrBarNumberCheck (
       int    inputLineNumber,
-      string nextBarNumber);
-      
+      string nextBarOriginalNumber,
+      int    nextBarPuristNumber);
+
     virtual ~msrBarNumberCheck ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    string                getNextBarNumber () const
-                              { return fNextBarNumber; }
+    string                getNextBarOriginalNumber () const
+                              { return fNextBarOriginalNumber; }
+
+    int                   getNextBarPuristNumber () const
+                              { return fNextBarPuristNumber; }
 
     // services
     // ------------------------------------------------------
@@ -145,20 +156,21 @@ class msrBarNumberCheck : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
     // fields
     // ------------------------------------------------------
 
-    string                fNextBarNumber;
+    string                fNextBarOriginalNumber;
+    int                   fNextBarPuristNumber;
 };
 typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
 
 //______________________________________________________________________________
-class msrBarline : public msrElement
+class msrBarline : public msrMeasureElement
 {
   public:
 
@@ -170,7 +182,7 @@ class msrBarline : public msrElement
       kBarlineLocationNone,
       kBarlineLocationLeft, kBarlineLocationMiddle, kBarlineLocationRight };
         // kBarlineLocationRight by default
-        
+
     static string barlineLocationKindAsString (
       msrBarlineLocationKind barlineLocationKind);
 
@@ -218,7 +230,7 @@ class msrBarline : public msrElement
       kBarlineCategoryRepeatStart, kBarlineCategoryRepeatEnd,
       kBarlineCategoryHookedEndingStart, kBarlineCategoryHookedEndingEnd,
       kBarlineCategoryHooklessEndingStart, kBarlineCategoryHooklessEndingEnd };
-      
+
     static string barlineCategoryKindAsString (
       msrBarlineCategoryKind barlineCategoryKind);
 
@@ -235,7 +247,7 @@ class msrBarline : public msrElement
 
     static string barlineHasCodaKindAsString (
       msrBarlineHasCodaKind barlineHasCodaKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -244,12 +256,12 @@ class msrBarline : public msrElement
       msrBarlineCategoryKind        barlineCategoryKind,
       msrBarlineHasSegnoKind        barlineHasSegnoKind,
       msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineLocationKind        location,
-      msrBarlineStyleKind           style,
-      msrBarlineEndingTypeKind      endingType,
+      msrBarlineLocationKind        barlineLocationKind,
+      msrBarlineStyleKind           barlineStyleKind,
+      msrBarlineEndingTypeKind      barlineEndingTypeKind,
       string                        endingNumber,
-      msrBarlineRepeatDirectionKind repeatDirection,
-      msrBarlineRepeatWingedKind    repeatWinged,
+      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+      msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
       int                           barlineTimes);
 
   protected:
@@ -262,16 +274,16 @@ class msrBarline : public msrElement
       msrBarlineCategoryKind        barlineCategoryKind,
       msrBarlineHasSegnoKind        barlineHasSegnoKind,
       msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineLocationKind        location,
-      msrBarlineStyleKind           style,
-      msrBarlineEndingTypeKind      endingType,
+      msrBarlineLocationKind        barlineLocationKind,
+      msrBarlineStyleKind           barlineStyleKind,
+      msrBarlineEndingTypeKind      barlineEndingTypeKind,
       string                        endingNumber,
-      msrBarlineRepeatDirectionKind repeatDirection,
-      msrBarlineRepeatWingedKind    repeatWinged,
+      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+      msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
       int                           barlineTimes);
-      
+
     virtual ~msrBarline ();
-  
+
   public:
 
     // set and get
@@ -286,31 +298,31 @@ class msrBarline : public msrElement
     msrBarlineLocationKind
                           getLocation () const // JMI
                               { return fLocationKind; }
-                    
+
     msrBarlineStyleKind   getBarlineStyleKind () const
                               { return fStyleKind; }
-                    
+
     msrBarlineEndingTypeKind
                           getEndingType () const
                               { return fEndingTypeKind; }
-                    
+
     string                getEndingNumber () const
                               { return fEndingNumber; }
-                    
+
     msrBarlineRepeatDirectionKind
                           getRepeatDirection () const
                               { return fRepeatDirectionKind; }
-                    
+
     msrBarlineRepeatWingedKind
                           getRepeatWinged () const
                               { return fRepeatWingedKind; }
-                    
+
     int                   getBarlineTimes () const
                               { return fBarlineTimes; }
-                    
+
     const list<int>&      getEndingNumbersList () const
                               { return fEndingNumbersList; }
-                        
+
     msrBarlineCategoryKind
                           getBarlineCategory () const
                               { return fBarlineCategoryKind; }
@@ -318,35 +330,9 @@ class msrBarline : public msrElement
     void                  setBarlineCategory (
                             msrBarlineCategoryKind barlineCategoryKind)
                               { fBarlineCategoryKind = barlineCategoryKind; }
-    
-    // measure number
-    void                  setBarlineMeasureNumber (
-                            rational positionInMeasure) // JMI virer???
-                              {
-                                fBarlineMeasureNumber =
-                                  positionInMeasure;
-                              }
-                      
-    int                   getBarlineMeasureNumber () const
-                              { return fBarlineMeasureNumber; }
-
-    // position in measure
-    void                  setBarlinePositionInMeasure (
-                            rational positionInMeasure)
-                              {
-                                fBarlinePositionInMeasure =
-                                  positionInMeasure;
-                              }
-                      
-    rational              getBarlinePositionInMeasure ()
-                              { return fBarlinePositionInMeasure; }
 
     // services
     // ------------------------------------------------------
-
-    string                endingNumbersListAsString () const;
-    
-    string                asString () const;
 
   public:
 
@@ -363,7 +349,12 @@ class msrBarline : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    string                endingNumbersListAsString () const;
+
+    string                asString () const;
+    string                asShortString () const;
+
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -379,9 +370,9 @@ class msrBarline : public msrElement
     msrBarlineStyleKind   fStyleKind;
     msrBarlineEndingTypeKind
                           fEndingTypeKind;
-                          
+
     string                fEndingNumber; // may be "1, 2"
-    
+
     msrBarlineRepeatDirectionKind
                           fRepeatDirectionKind;
     msrBarlineRepeatWingedKind
@@ -391,9 +382,6 @@ class msrBarline : public msrElement
 
     msrBarlineCategoryKind
                           fBarlineCategoryKind;
-
-    int                   fBarlineMeasureNumber;
-    rational              fBarlinePositionInMeasure;
 
     // the numbers extracted from fEndingNumber
     list<int>             fEndingNumbersList;
