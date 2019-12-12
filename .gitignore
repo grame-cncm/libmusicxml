@@ -15,6 +15,7 @@ build/bin
 build/lib
 packages/libmusicxml-*
 packages/libmusicxml2-*
+packages/README.html
 doc/html
 doc/latex
 libmusicxml.js
