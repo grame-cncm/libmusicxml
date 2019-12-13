@@ -2276,7 +2276,11 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 // XML reports distance from top of staff, Guido needs from bottom in Inverted mode. This is offset 8
                 xml2guidovisitor::addPosY(nv.fFermata, tag, 8, 1.0);
             }else{
-                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
+                float noteDistanceFromTopStaff = getNoteDistanceFromStaffTop(nv);
+                // Do not infer fermata position if note is above top of the staff. Let guido do it
+                if (noteDistanceFromTopStaff < 2) {
+                    xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
+                }
             }
             push(tag);
             return 1;
@@ -2769,4 +2773,21 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
     //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
 
 }
+
+float xmlpart2guido::getNoteDistanceFromStaffTop(const notevisitor& nv) {
+    std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+    float noteHeadDy = nv.getNoteHeadDy(thisClef);
+    /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
+    float noteDistanceFromStaffTop = 0.0;
+    if (thisClef[0]=='g') {
+        noteDistanceFromStaffTop = (noteHeadDy - 10.0);
+    }else if (thisClef[0]=='f') {
+        noteDistanceFromStaffTop = (2.0 - noteHeadDy);
+    }else if (thisClef[0]=='c') {
+        noteDistanceFromStaffTop = (noteHeadDy - 10.0);
+    }
+    
+    return noteDistanceFromStaffTop;
+}
+
 }

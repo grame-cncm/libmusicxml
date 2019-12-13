@@ -209,6 +209,7 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_time& elt);
     
     bool findNextNote(const S_note& elt, ctree<xmlelement>::iterator &nextnote);
+    float getNoteDistanceFromStaffTop(const notevisitor& nv);
     
     rational durationInCue;
     
