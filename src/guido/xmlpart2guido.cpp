@@ -1273,8 +1273,8 @@ namespace MusicXML2
                 string num = (*i)->getAttributeValue ("number");
                 if (num.size())
                     tag->add (guidoparam::create(num, false));
-                string placement = (*i)->getAttributeValue("placement");
-                if (placement == "below")
+                string placement = (*i)->getAttributeValue("orientation");
+                if (placement == "under")
                     tag->add (guidoparam::create("curve=\"down\"", false));
                 add(tag);
             }
