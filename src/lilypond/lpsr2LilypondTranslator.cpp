@@ -6191,7 +6191,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     case msrStaff::kStaffDrum:
       staffContextName = "DrumStaff";
       voiceContextName = "DrumVoice";
-        // the "DrumVoice" alias exists, use it
+        // the "DrumVoice" alias exists, let's use it
       break;
 
     case msrStaff::kStaffRythmic:

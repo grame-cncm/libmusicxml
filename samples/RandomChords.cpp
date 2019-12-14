@@ -104,57 +104,38 @@ static Sxmlelement makeAttributes() {
 // creates a measure containing random notes
 // the function takes the measure number as an argument
 //------------------------------------------------------------------------
-static Sxmlelement makemeasure(unsigned long num) {
-	Sxmlelement measure = factory::instance().create(k_measure);
-	measure->add (newAttributeI("number", num));
-	if (num==1) {					//  creates specific elements of the first measure
-		measure->push(makeAttributes());		// division, time, clef...
-	}
-	for (int i = 0; i < 4; i++) {		// next adds 4 quarter notes
-		Sxmlelement note = factory::instance().create(k_note);		// creates the note
-		Sxmlelement pitch = factory::instance().create(k_pitch);	// creates a pitch
-		pitch->push (newElement(k_step, randomNote()));				// sets the pitch to a random value
-		pitch->push (newElementI(k_octave, 4 + getrandom(2)));		// sets the octave to a random value
-		note->push (pitch);											// adds the pitch to the note
-		note->push (newElementI(k_duration, kDivision));				// sets the note duration to a quarter note
-		note->push (newElement(k_type, "quarter"));					// creates the graphic elements of the note
-		measure->push (note);		// and finally adds the note to the measure
-	}
-	return measure;
-}
-
-static Sxmlelement makemeasure2(unsigned long num)
+static Sxmlelement makemeasure(unsigned long num)
 {
-        Sxmlelement measure = factory::instance().create(k_measure);
-        measure->add (newAttributeI("number", num));
-        if (num==1) {                                   //  creates specific elements of the first measure
-                measure->push(makeAttributes());                // division, time, clef...
-        }
-        for (int i = 0; i < 4; i++) {           // next adds 4 quarter notes
+  Sxmlelement measure = factory::instance().create(k_measure);
+  measure->add (newAttributeI("number", num));
+  if (num==1) {                           //  creates specific elements of the first measure
+    measure->push(makeAttributes());        // division, time, clef...
+  }
+  for (int i = 0; i < 4; i++) {           // next adds 4 quarter notes chords
 
-                Sxmlelement chord = factory::instance().create(k_chord);
+    Sxmlelement chord = factory::instance().create(k_chord);  // create the chord
 
-                Sxmlelement note1 = factory::instance().create(k_note);          // creates the note
-                Sxmlelement pitch1 = factory::instance().create(k_pitch);        // creates a pitch
-                pitch1->push (newElement(k_step, randomNote()));                         // sets the pitch to a random value
-                pitch1->push (newElementI(k_octave, 4 + getrandom(2)));          // sets the octave to a random value
-                note1->push (pitch1);                                                                                     // adds the pitch to the note
-                note1->push (newElementI(k_duration, kDivision));                                // sets the note duration to a quarter note
-                note1->push (newElement(k_type, "quarter"));                                     // creates the graphic elements of the note
-                chord->push(note1);
+    Sxmlelement note1 = factory::instance().create(k_note);   // creates the note
+    Sxmlelement pitch1 = factory::instance().create(k_pitch);   // creates a pitch
+    pitch1->push (newElement(k_step, randomNote()));            // sets the pitch to a random value
+    pitch1->push (newElementI(k_octave, 4 + getrandom(2)));     // sets the octave to a random value
+    note1->push (pitch1);                                     // adds the pitch to the note
+    note1->push (newElementI(k_duration, kDivision));         // sets the note duration to a quarter note
+    note1->push (newElement(k_type, "quarter"));              // creates the graphic elements of the note
+    chord->push(note1);
 
-                Sxmlelement note2 = factory::instance().create(k_note);          // creates the note
-                Sxmlelement pitch2 = factory::instance().create(k_pitch);        // creates a pitch
-                pitch2->push (newElement(k_step, randomNote()));                         // sets the pitch to a random value
-                pitch2->push (newElementI(k_octave, 4 + getrandom(2)));          // sets the octave to a random value
-                note2->push (pitch2);                                                                                     // adds the pitch to the note
-                note2->push (newElementI(k_duration, kDivision));                                // sets the note duration to a quarter note
-                note2->push (newElement(k_type, "quarter"));                                     // creates the graphic elements of the note
-                chord->push(note2);
+    Sxmlelement note2 = factory::instance().create(k_note);   // creates the note
+    Sxmlelement pitch2 = factory::instance().create(k_pitch);   // creates a pitch
+    pitch2->push (newElement(k_step, randomNote()));            // sets the pitch to a random value
+    pitch2->push (newElementI(k_octave, 4 + getrandom(2)));     // sets the octave to a random value
+    note2->push (pitch2);                                     // adds the pitch to the note
+    note2->push (newElementI(k_duration, kDivision));         // sets the note duration to a quarter note
+    note2->push (newElement(k_type, "quarter"));              // creates the graphic elements of the note
+    chord->push(note2);
 
-                measure->push(chord);
-        }
-        return measure;
+    measure->push(chord);
+  }
+  return measure;
 }
 
 #define kPartID	"P1"
@@ -165,7 +146,7 @@ Sxmlelement makePart(int count) {
 	Sxmlelement part = factory::instance().create(k_part);
 	part->add (newAttribute("id", kPartID));
 	for (int i=1; i<=count; i++)			// and 'count' times
-		part->push (makemeasure2(i));			// adds a new measure to the part
+		part->push (makemeasure(i));			// adds a new measure to the part
 	return part;
 }
 
@@ -213,6 +194,9 @@ static Sxmlelement randomMusic(int measuresCount) {
 	return score;
 }
 
+//------------------------------------------------------------------------
+// the main function
+//------------------------------------------------------------------------
 int main (int argc, char * argv[]) {
 	// if present, reads the measures count from the command line
 	int count = (argc == 2) ? atoi(argv[1]) : 20;

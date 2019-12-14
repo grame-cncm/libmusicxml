@@ -1441,7 +1441,10 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               "and" <<
               endl <<
               gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
-              endl <<
+              endl;
+
+              /* JMI
+            s <<
               endl <<
               "The parts they share are:" <<
               endl;
@@ -1452,7 +1455,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               ")" <<
               endl;
 
-            for (int m = firstCommonPosision; m < lastCommonPosision; m++) {
+            for (int m = firstCommonPosision; m <= lastCommonPosision; m++) {
               S_msrPart
                 part =
                   fPartsVector [m];
@@ -1463,6 +1466,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
                 ", line " << part->getInputLineNumber () <<
                 endl;
             } // for
+*/
 
             s <<
               endl <<
@@ -2631,7 +2635,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
       fCurrentMarginTypeKind = kEvenMargin;
     else if (pageMarginsType == "both")
       fCurrentMarginTypeKind = kBothMargins;
-    else {
+    else if (pageMarginsType. size ()) {
       stringstream s;
 
       s <<
@@ -2692,9 +2696,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
                 leftMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else if (fOnGoingSystemMargins) {
-    float leftMargin = (float)(*elt);
 
 /* JMI
+    float leftMargin = (float)(*elt);
     fMsrScore->
       getMsrGeometry ()->
         getPageLayout ()->
@@ -2738,9 +2742,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
                 rightMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else if (fOnGoingSystemMargins) {
-    float rightMargin = (float)(*elt);
 
 /* JMI
+    float rightMargin = (float)(*elt);
     fMsrScore->
       getMsrGeometry ()->
         getPageLayout ()->

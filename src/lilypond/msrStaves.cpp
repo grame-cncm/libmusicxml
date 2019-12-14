@@ -1095,23 +1095,6 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
     // register clef as current staff clef
     fStaffCurrentClef = clef;
 
-// JMI ??? should there be a staff lines number change for 00f-Basics-Clefs.xml???
-
-    // set staff kind accordingly if relevant
-    switch (clef->getClefKind ()) {
-      case msrClef::kPercussionClef:
-        fStaffKind = msrStaff::kStaffDrum; // JMI ???
-        break;
-      case msrClef::kTablature4Clef:
-      case msrClef::kTablature5Clef:
-      case msrClef::kTablature6Clef:
-      case msrClef::kTablature7Clef:
-        fStaffKind = msrStaff::kStaffTablature;
-        break;
-      default:
-        ;
-    } // switch
-
     // propagate clef to all voices
     for (
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();

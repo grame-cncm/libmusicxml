@@ -1238,7 +1238,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     } // switch
   }
 
-  else if (fCurrentClefSign == "TAB") {
+  else if (fCurrentClefSign == "TAB" || fCurrentClefSign == "tab") {
 
     switch (fCurrentClefLine) {
       case 4:
@@ -1270,7 +1270,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     } // switch
   }
 
-  else if (fCurrentClefSign == "PERCUSSION") {
+  else if (fCurrentClefSign == "percussion" || fCurrentClefSign == "PERCUSSION") {
     clefKind = msrClef::kPercussionClef;
   }
 
@@ -1278,7 +1278,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     clefKind = msrClef::kJianpuClef;
   }
 
-  else if (fCurrentClefSign == "NONE") {
+  else if (fCurrentClefSign == "none" || fCurrentClefSign == "NONE") {
     clefKind = msrClef::k_NoClef;
   }
 
