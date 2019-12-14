@@ -1420,16 +1420,6 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               stopTwo =
                 partGroupsDescrStackTop->getStopPosition ();
 
-            int firstCommonPosision = startOne;
-            if (startTwo > startOne) {
-              firstCommonPosision = startTwo;
-            }
-
-            int lastCommonPosision = stopOne;
-            if (stopTwo < stopOne) {
-              lastCommonPosision = stopTwo;
-            }
-
             stringstream s;
 
             s <<
@@ -1443,7 +1433,17 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
               endl;
 
-              /* JMI
+/* JMI
+            int firstCommonPosision = startOne;
+            if (startTwo > startOne) {
+              firstCommonPosision = startTwo;
+            }
+
+            int lastCommonPosision = stopOne;
+            if (stopTwo < stopOne) {
+              lastCommonPosision = stopTwo;
+            }
+
             s <<
               endl <<
               "The parts they share are:" <<
