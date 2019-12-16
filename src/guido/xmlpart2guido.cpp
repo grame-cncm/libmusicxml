@@ -2356,16 +2356,16 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             auto fingerings = nv.getFingerings();
             for (int i=0; i < fingerings.size(); i++) {
                 /// GUID-156: If XML default-x bypasses next note, don't include this fingering
-                ctree<xmlelement>::iterator nextnote;
-                if (findNextNote(elt, nextnote)) {
-                    int nextNoteDefaultX = nextnote->getAttributeIntValue("default-x", 0);
-                    int thisNoteDefaultX = elt->getAttributeIntValue("default-x", 0);
-                    int fingeringDefaultX = fingerings[i]->getAttributeIntValue("default-x", 0);
-                    if (fingeringDefaultX+thisNoteDefaultX > nextNoteDefaultX) {
-                        cerr<<"XML2Guido: Fingering X-position ("<<thisNoteDefaultX<<"->"<<fingeringDefaultX<<") on line:"<<fingerings[i]->getInputLineNumber()<<", measure:"<< fMeasNum<<" bypasses proceeding note("<<nextNoteDefaultX<<")! Skipping... ."<<endl;
-                        continue;
-                    }
-                }
+//                ctree<xmlelement>::iterator nextnote;
+//                if (findNextNote(elt, nextnote)) {
+//                    int nextNoteDefaultX = nextnote->getAttributeIntValue("default-x", 0);
+//                    int thisNoteDefaultX = elt->getAttributeIntValue("default-x", 0);
+//                    int fingeringDefaultX = fingerings[i]->getAttributeIntValue("default-x", 0);
+//                    if (fingeringDefaultX+thisNoteDefaultX > nextNoteDefaultX) {
+//                        cerr<<"XML2Guido: Fingering X-position ("<<thisNoteDefaultX<<"->"<<fingeringDefaultX<<") on line:"<<fingerings[i]->getInputLineNumber()<<", measure:"<< fMeasNum<<" bypasses proceeding note("<<nextNoteDefaultX<<")! Skipping... ."<<endl;
+//                        continue;
+//                    }
+//                }
                 Sguidoelement tag = guidotag::create("fingering");
                 // Get text value
                 std::string fingeringText = fingerings[i]->getValue();
@@ -2377,7 +2377,8 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
 //                    s << ", position=\""<<placement<<"\"";
 //                }
                 tag->add (guidoparam::create(s.str(), false));
-                xml2guidovisitor::addPosX(fingerings[i], tag, 0);   // xml x-pos can be safely added
+                /// GUID-156: x-pos is highly dependent on Layout. AVOID!
+                //xml2guidovisitor::addPosX(fingerings[i], tag, 0);   // xml x-pos can be safely added
                 /// In MusicXML, default-y for Fingering is from TOP of the staff. Dy in Guido is from the NOTEHEAD. Therefore the dy is a function of the Note and the Clef!
                 addPosYforNoteHead(nv, fingerings[i], tag, 2);  // FIXME: +2 offset is experimental
                 push(tag);
@@ -2759,7 +2760,7 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
     if (thisClef[0]=='g') {
         noteDistanceFromStaffTop = (noteHeadDy - 10.0);
     }else if (thisClef[0]=='f') {
-        noteDistanceFromStaffTop = (2.0 - noteHeadDy);
+        noteDistanceFromStaffTop = noteHeadDy;  //(2.0 - noteHeadDy)
     }else if (thisClef[0]=='c') {
         noteDistanceFromStaffTop = (noteHeadDy - 10.0);
     }
@@ -2770,7 +2771,7 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
         tag->add (guidoparam::create(s.str(), false));
     }
     
-    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " NotePosFromTop="<<(10.0 - noteHeadDy) <<endl;
+    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " noteDistanceFromStaffTop="<<noteDistanceFromStaffTop <<" ->pos="<<posy<<endl;
 
 }
 
