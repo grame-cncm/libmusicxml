@@ -62,6 +62,33 @@ class lpsrPaper : public lpsrElement
     S_lpsrGeometry        getLpsrGeometry () const
                             { return fLpsrGeometry; }
 
+    // indents
+    void                  setHorizontalShift (S_msrLength value)
+                              { fHorizontalShift = value; }
+    S_msrLength           getHorizontalShift () const
+                              { return fHorizontalShift; }
+
+    void                  setIndent (S_msrLength value)
+                              { fIndent = value; }
+    S_msrLength           getIndent () const
+                              { return fIndent; }
+
+    void                  setShortIndent (S_msrLength value)
+                              { fShortIndent = value; }
+    S_msrLength           getShortIndent () const
+                              { return fShortIndent; }
+
+    // counts
+    void                  setPageCount (S_msrLength value)
+                              { fPageCount = value; }
+    S_msrLength           getPageCount () const
+                              { return fPageCount; }
+
+    void                  setSystemCount (S_msrLength value)
+                              { fSystemCount = value; }
+    S_msrLength           getSystemCount () const
+                              { return fSystemCount; }
+
     // headers and footers
     void                  setOddHeaderMarkup (string value)
                               { fOddHeaderMarkup = value; }
@@ -111,6 +138,15 @@ class lpsrPaper : public lpsrElement
 
     // LPSR geometry
     S_lpsrGeometry        fLpsrGeometry;
+
+    // indents
+    S_msrLength           fHorizontalShift;
+    S_msrLength           fIndent;
+    S_msrLength           fShortIndent;
+
+    // counts
+    S_msrLength           fPageCount;
+    S_msrLength           fSystemCount;
 
     // headers and footers
     string                fOddHeaderMarkup;

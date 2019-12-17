@@ -55,8 +55,9 @@ class lpsrGeometry : public lpsrElement
     S_msrGeometry         getMsrGeometry () const
                               { return fMsrGeometry; }
 
-    // LilyPond geometry
-    // layout JMI ???
+    // LilyPond geometry ???
+
+    // spaces
     void                  setBetweenSystemSpace (S_msrLength val)
                               { fBetweenSystemSpace = val; }
     S_msrLength           getBetweenSystemSpace () const
@@ -94,10 +95,9 @@ class lpsrGeometry : public lpsrElement
     // MSR geometry
     S_msrGeometry         fMsrGeometry;
 
-    // LilyPond geometry
-    // JMI ???
+    // LilyPond geometry JMI ???
 
-    // layout ???
+    // spaces
     S_msrLength           fBetweenSystemSpace;
     S_msrLength           fPageTopSpace;
 };

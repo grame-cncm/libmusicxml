@@ -61,39 +61,27 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
         fInputLineNumber,
         fLpsrGeometry);
 
+  newbornClone->fHorizontalShift =
+    fHorizontalShift;
+  newbornClone->fIndent =
+    fIndent;
+  newbornClone->fShortIndent =
+    fShortIndent;
+
+  newbornClone->fOddHeaderMarkup =
+    fOddHeaderMarkup;
+  newbornClone->fEvenHeaderMarkup =
+    fEvenHeaderMarkup;
+  newbornClone->fOddFooterMarkup =
+    fOddFooterMarkup;
+  newbornClone->fEvenFooterMarkup =
+    fEvenFooterMarkup;
+
   return newbornClone;
 }
 
 lpsrPaper::~lpsrPaper ()
 {}
-
-/*
-void lpsrPaper::setIndent (float val)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGeometry) {
-    gLogOstream <<
-      "Setting paper indent to " << val <<
-      endl;
-  }
-#endif
-
-  fIndent = val;
-}
-
-void lpsrPaper::setShortIndent (float val)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGeometry) {
-    gLogOstream <<
-      "Setting paper short indent to " << val <<
-      endl;
-  }
-#endif
-
-  fShortIndent = val;
-}
-*/
 
 void lpsrPaper::acceptIn (basevisitor* v)
 {
@@ -160,7 +148,44 @@ void lpsrPaper::print (ostream& os) const
 
   const int fieldWidth = 20;
 
-  bool emptyPaper = true;
+  // indents
+  if (fHorizontalShift) {
+    os << left <<
+      setw (fieldWidth) <<
+      "horizontal-shift" << " : " <<
+      fHorizontalShift <<
+      endl;
+  }
+  if (fIndent) {
+    os << left <<
+      setw (fieldWidth) <<
+      "indent" << " : " <<
+      fIndent <<
+      endl;
+  }
+  if (fShortIndent) {
+    os << left <<
+      setw (fieldWidth) <<
+      "shortIndent" << " : " <<
+      fShortIndent <<
+      endl;
+  }
+
+  // counts
+  if (fPageCount) {
+    os << left <<
+      setw (fieldWidth) <<
+      "page-count" << " : " <<
+      fPageCount <<
+      endl;
+  }
+  if (fSystemCount) {
+    os << left <<
+      setw (fieldWidth) <<
+      "system-count" << " : " <<
+      fSystemCount <<
+      endl;
+  }
 
   // headers and footers
   if (fOddHeaderMarkup.size ()) {
@@ -169,8 +194,6 @@ void lpsrPaper::print (ostream& os) const
       "oddHeaderMarkup" << " : " <<
       fOddHeaderMarkup <<
       endl;
-
-    emptyPaper = false;
   }
 
   if (fEvenHeaderMarkup.size ()) {
@@ -179,8 +202,6 @@ void lpsrPaper::print (ostream& os) const
       "evenHeaderMarkup" << " : " <<
       fEvenHeaderMarkup <<
       endl;
-
-    emptyPaper = false;
   }
 
   if (fOddFooterMarkup.size ()) {
@@ -189,8 +210,6 @@ void lpsrPaper::print (ostream& os) const
       "oddFooterMarkup" << " : " <<
       fOddFooterMarkup <<
       endl;
-
-    emptyPaper = false;
   }
 
   if (fEvenFooterMarkup.size ()) {
@@ -198,16 +217,6 @@ void lpsrPaper::print (ostream& os) const
       setw (fieldWidth) <<
       "evenFooterMarkup" << " : " <<
       fEvenFooterMarkup <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  // otherwise
-  if (emptyPaper) {
-    os <<
-      " " << "nothing specified" <<
-      endl <<
       endl;
   }
 
@@ -221,110 +230,3 @@ ostream& operator<< (ostream& os, const S_lpsrPaper& pap) {
 
 
 }
-
-
-  /* JMI
-  // page width, height and margins
-
-  if (fPaperWidth > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "paper-width" << " : " <<
-      setprecision (2) << fPaperWidth << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fPaperHeight > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "paper-height" << " : " <<
-      setprecision (2) << fPaperHeight << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fTopMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "top-margin" << " : " <<
-      setprecision (2) << fTopMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fBottomMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "bottom-margin" << " : " <<
-      setprecision (2) << fBottomMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fLeftMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "left-margin" << " : " <<
-      setprecision (2) << fLeftMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fRightMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "right-margin" << " : " <<
-      setprecision (2) << fRightMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fIndent > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "indent" << " : " <<
-      setprecision (2) << fIndent << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fShortIndent > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "short-indent" << " : " <<
-      setprecision (2) << fShortIndent << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  // spaces
-
-  if (fBetweenSystemSpace > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "between-system-space" << " : " <<
-      setprecision (2) << fBetweenSystemSpace << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fPageTopSpace > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "page-top-space" << " : " <<
-      setprecision (2) << fPageTopSpace << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-*/

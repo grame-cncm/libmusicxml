@@ -537,7 +537,8 @@ int main (int argc, char *argv[])
       handleOptionsAndArguments (
         handler,
         argc, argv,
-        gLogOstream);
+        gOutputOstream);
+  //      gLogOstream);
 
   string
     inputSourceName =
