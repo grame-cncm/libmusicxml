@@ -7182,11 +7182,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
         fCurrentBarlineRepeatWingedKind =
           msrBarline::kBarlineRepeatWingedCurved;
       }
-      else  if (winged == "doubleStraight") {
+      else  if (winged == "double-straight") {
         fCurrentBarlineRepeatWingedKind =
           msrBarline::kBarlineRepeatWingedDoubleStraight;
       }
-      else  if (winged == "doubleCurved") {
+      else  if (winged == "double-curved") {
         fCurrentBarlineRepeatWingedKind =
           msrBarline::kBarlineRepeatWingedDoubleCurved;
       }
