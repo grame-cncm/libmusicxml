@@ -376,11 +376,6 @@ namespace MusicXML2
             xml2guidovisitor::addPosY(elt, tag, -4, 1);
             
             add (tag);
-            
-            // add an additional SPACE<0> tag in case
-            Sguidoelement tag2 = guidotag::create("space");
-            tag2->add (guidoparam::create(0, false));
-            add (tag2);
         }
     }
     
