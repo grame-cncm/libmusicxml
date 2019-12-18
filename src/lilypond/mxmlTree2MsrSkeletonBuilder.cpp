@@ -1409,17 +1409,6 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
             }
 #endif
 
-            // fetch the positions in the intersection
-            int
-              startOne =
-                partGroupDescr->getStartPosition (),
-              startTwo =
-                partGroupsDescrStackTop->getStartPosition (),
-              stopOne =
-                partGroupDescr->getStopPosition (),
-              stopTwo =
-                partGroupsDescrStackTop->getStopPosition ();
-
             stringstream s;
 
             s <<
@@ -1434,6 +1423,17 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               endl;
 
 /* JMI
+            // fetch the positions in the intersection
+            int
+              startOne =
+                partGroupDescr->getStartPosition (),
+              startTwo =
+                partGroupsDescrStackTop->getStartPosition (),
+              stopOne =
+                partGroupDescr->getStopPosition (),
+              stopTwo =
+                partGroupsDescrStackTop->getStopPosition ();
+
             int firstCommonPosision = startOne;
             if (startTwo > startOne) {
               firstCommonPosision = startTwo;

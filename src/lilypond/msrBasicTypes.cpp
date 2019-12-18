@@ -13178,8 +13178,7 @@ string msrLength::asString () const
 void msrLength::print (ostream& os) const
 {
   os <<
-    asString () <<
-    endl;
+    asString (); // JMI
 };
 
 ostream& operator<< (ostream& os, const S_msrLength& elt)

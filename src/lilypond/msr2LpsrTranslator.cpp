@@ -2939,8 +2939,38 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
       break;
   } // switch
 
-  fCurrentVoiceClone->
-    appendTempoToVoice (elt);
+  if (gLpsrOah->fConvertTemposToRehearsalMarks) {
+    // create a rehearsal mark containing elt's words
+
+    S_msrRehearsal
+      rehearsal =
+        msrRehearsal::create (
+          elt->getInputLineNumber (),
+          msrRehearsal::kNone,
+          elt->tempoWordsListAsString (" "), //JMI ???
+          elt->getTempoPlacementKind ());
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+      fLogOutputStream <<
+        "Converting tempos '" <<
+        elt->asShortString () <<
+        "' to rehearsal mark '" <<
+        rehearsal->asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // append the rehearsal to the current voice clone
+    fCurrentVoiceClone->
+      appendRehearsalToVoice (rehearsal);
+  }
+
+  else {
+    fCurrentVoiceClone->
+      appendTempoToVoice (elt);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
@@ -3842,6 +3872,34 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
     // append the tempo to the current voice clone
     fCurrentVoiceClone->
       appendTempoToVoice (tempo);
+  }
+
+  else if (gLpsrOah->fConvertWordsToRehearsalMarks) {
+    // create a rehearsal mark containing elt's words
+
+    S_msrRehearsal
+      rehearsal =
+        msrRehearsal::create (
+          inputLineNumber,
+          msrRehearsal::kNone,
+          elt->asShortString (),
+          elt->getWordsPlacementKind ());
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWords || gTraceOah->fTraceRehearsals) {
+      fLogOutputStream <<
+        "Converting words '" <<
+        elt->asShortString () <<
+        "' to rehearsal mark '" <<
+        rehearsal->asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // append the rehearsal to the current voice clone
+    fCurrentVoiceClone->
+      appendRehearsalToVoice (rehearsal);
   }
 
   else if (fOnGoingNonGraceNote) {

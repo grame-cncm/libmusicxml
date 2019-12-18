@@ -582,6 +582,14 @@ class lpsrOah : public oahGroup
     // add words from the lyrics
     bool                  fAddWordsFromTheLyrics;
 
+    // rehearsal marks
+    // --------------------------------------
+
+    // convert tempos to rehearsal marks
+    bool                  fConvertTemposToRehearsalMarks;
+    // convert words to rehearsal marks
+    bool                  fConvertWordsToRehearsalMarks;
+
     // languages
     // --------------------------------------
 

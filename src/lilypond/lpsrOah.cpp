@@ -1493,6 +1493,32 @@ R"(Add words with the lyrics contents, keeping the latter untouched.
 This may come in handy when MusicXML data has been obtained from scanned images.)",
         "addWordsFromTheLyrics",
         fAddWordsFromTheLyrics));
+
+  // convert tempos to rehearsal marks
+
+  fConvertTemposToRehearsalMarks = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "cttrm", "convert-tempos-to-rehearsal-marks",
+R"(Convert tempos to rehearsal marks.
+This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
+        "convertWordsToRehearsalMarks",
+        fConvertTemposToRehearsalMarks));
+
+  // convert words to rehearsal marks
+
+  fConvertWordsToRehearsalMarks = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "cwtrm", "convert-words-to-rehearsal-marks",
+R"(Convert words to rehearsal marks.
+This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
+        "fConvertWordsToRehearsalMarks",
+        fConvertWordsToRehearsalMarks));
 }
 
 void lpsrOah::initializeLpsrLanguagesOptions (
@@ -1822,6 +1848,12 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   clone->fConvertWordsToTempo =
     true;
   clone->fAddWordsFromTheLyrics =
+    true;
+
+  // rehearsal marks
+  clone->fConvertTemposToRehearsalMarks =
+    true;
+  clone->fConvertWordsToRehearsalMarks =
     true;
 
   // languages
@@ -2159,6 +2191,25 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
     booleanAsString (fAddWordsFromTheLyrics) <<
+    endl;
+
+  gIndenter--;
+
+  // rehearsal marks
+  // --------------------------------------
+
+  gLogOstream <<
+    "Rehearsal marks:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "convertTemposToRehearsalMarks" << " : " <<
+    booleanAsString (fConvertTemposToRehearsalMarks) <<
+    endl <<
+    setw (fieldWidth) << "convertWordsToRehearsalMarks" << " : " <<
+    booleanAsString (fConvertWordsToRehearsalMarks) <<
     endl;
 
   gIndenter--;
