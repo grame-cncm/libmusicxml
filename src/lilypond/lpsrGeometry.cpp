@@ -124,7 +124,41 @@ void lpsrGeometry::acceptOut (basevisitor* v)
 }
 
 void lpsrGeometry::browseData (basevisitor* v)
-{}
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% ==> lpsrGeometry::browseData ()" <<
+      endl;
+  }
+#endif
+
+  // browse the MSR geometry
+  if (fMsrGeometry) {
+    msrBrowser<msrGeometry> browser (v);
+    browser.browse (*fMsrGeometry);
+  }
+
+/* JMI ???
+  // browse the spaces
+  if (fBetweenSystemSpace) {
+    msrBrowser<msrLength> browser (v);
+    browser.browse (*fBetweenSystemSpace);
+  }
+  if (fPageTopSpace) {
+    msrBrowser<msrLength> browser (v);
+    browser.browse (*fPageTopSpace);
+  }
+*/
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% <== lpsrGeometry::browseData ()" <<
+      endl;
+  }
+#endif
+}
 
 void lpsrGeometry::print (ostream& os)  const
 {

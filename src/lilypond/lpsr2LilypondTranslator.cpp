@@ -4496,6 +4496,33 @@ string lpsr2LilypondTranslator::lengthUnitAsLilypondString (
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_lpsrGeometry& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting lpsrGeometry" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_lpsrGeometry& elt)
+{
+  gIndenter--;
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting lpsrGeometry" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 {
 #ifdef TRACE_OAH
@@ -6787,6 +6814,78 @@ void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrGeometry& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrGeometry" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrGeometry& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting msrGeometry" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrPageLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrPageLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+/* JMI
+    // page size
+    S_msrLength           fPageHeight;
+    S_msrLength           fPageWidth;
+
+    // margins
+    S_msrMargin           fLeftMargin;
+    S_msrMargin           fRightMargin;
+    S_msrMargin           fTopMargin;
+    S_msrMargin           fBottomMargin;
+  */
+
+/* JMI
+    // margins
+    S_msrMargin           fLeftMargin;
+    S_msrMargin           fRightMargin;
+
+    // distances
+    S_msrLength           fSystemDistance;
+    S_msrLength           fTopSystemDistance;
+*/
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrPageLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting msrPageLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrCredit& elt)
 {
 #ifdef TRACE_OAH
@@ -8483,11 +8582,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSyllableSkip:
           switch (gLilypondOah->fLyricsAlignmentKind) {
             case kLyricsAlignmentAutomatic: // default value
-              // don't generate skips for automatic lyrics alignment
+              // don't generate skips for automatic lyrics alignment // JMI ???
+              fLilypondCodeOstream <<
+                "\\skip" <<
+                elt->syllableWholeNotesAsMsrString () <<
+                ' ';
               break;
             case kLyricsAlignmentManual:
               // LilyPond ignores the skip duration
-              // when \lyricsto is used
+              // when \lyricsto is used JMI ???
               fLilypondCodeOstream <<
                 "\\skip" <<
                 elt->syllableWholeNotesAsMsrString () <<
@@ -8498,7 +8601,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableSkip %} ";
+              "%{ kSyllableSkip " <<
+              elt->syllableWholeNotesAsMsrString () <<
+              " %} ";
           }
 #endif
           break;

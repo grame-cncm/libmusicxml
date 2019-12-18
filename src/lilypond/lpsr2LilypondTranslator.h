@@ -103,6 +103,10 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrVarValsListAssoc>,
   public visitor<S_lpsrSchemeVariable>,
 
+  // LPSR geometry
+
+  public visitor<S_lpsrGeometry>,
+
   // header
 
   public visitor<S_lpsrHeader>,
@@ -143,9 +147,17 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_lpsrSchemeFunction>,
 
-  // MSR
+  // MSR score
 
   public visitor<S_msrScore>,
+
+  // MSR geometry
+
+  public visitor<S_msrGeometry>,
+
+  // MSR page layout
+
+  public visitor<S_msrPageLayout>,
 
   // rights
 
@@ -371,6 +383,10 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrSchemeVariable& elt);
     virtual void visitEnd   (S_lpsrSchemeVariable& elt);
 
+    // geometry
+    virtual void visitStart (S_lpsrGeometry& elt);
+    virtual void visitEnd   (S_lpsrGeometry& elt);
+
     virtual void visitStart (S_lpsrHeader& elt);
     virtual void visitEnd   (S_lpsrHeader& elt);
 
@@ -427,10 +443,20 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrSchemeFunction& elt);
     virtual void visitEnd   (S_lpsrSchemeFunction& elt);
 
-    // MSR
+    // MSR score
 
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
+
+    // MSR geometry
+
+    virtual void visitStart (S_msrGeometry& elt);
+    virtual void visitEnd   (S_msrGeometry& elt);
+
+     // MSR page layout
+
+    virtual void visitStart (S_msrPageLayout& elt);
+    virtual void visitEnd   (S_msrPageLayout& elt);
 
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);

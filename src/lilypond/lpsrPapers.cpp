@@ -136,7 +136,55 @@ void lpsrPaper::acceptOut (basevisitor* v)
 }
 
 void lpsrPaper::browseData (basevisitor* v)
-{}
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% ==> lpsrPaper::browseData ()" <<
+      endl;
+  }
+#endif
+
+  // browse the LPSR geometry
+  if (fLpsrGeometry) {
+    msrBrowser<lpsrGeometry> browser (v);
+    browser.browse (*fLpsrGeometry);
+  }
+
+/* JMI ???
+  // browse the indents
+  if (fHorizontalShift) {
+    msrBrowser<msrLength> browser (v);
+    browser.browse (*fHorizontalShift);
+  }
+  if (fIndent) {
+    msrBrowser<msrLength> browser (v);
+    browser.browse (*fIndent);
+  }
+  if (fShortIndent) {
+    msrBrowser<msrLength> browser (v);
+    browser.browse (*fShortIndent);
+  }
+
+  // browse the counts
+  if (fPageCount) {
+    msrBrowser<msrLength> browser (v);
+    browser.browse (*fPageCount);
+  }
+  if (fSystemCount) {
+    msrBrowser<msrLength> browser (v);
+    browser.browse (*fSystemCount);
+  }
+  */
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% <== lpsrPaper::browseData ()" <<
+      endl;
+  }
+#endif
+}
 
 void lpsrPaper::print (ostream& os) const
 {

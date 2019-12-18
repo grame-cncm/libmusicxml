@@ -190,7 +190,29 @@ void msrGeometry::acceptOut (basevisitor* v)
 }
 
 void msrGeometry::browseData (basevisitor* v)
-{}
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% ==> msrGeometry::browseData ()" <<
+      endl;
+  }
+#endif
+
+  // browse the page layout
+  if (fPageLayout) {
+    msrBrowser<msrPageLayout> browser (v);
+    browser.browse (*fPageLayout);
+  }
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% <== msrGeometry::browseData ()" <<
+      endl;
+  }
+#endif
+}
 
 void msrGeometry::print (ostream& os) const
 {

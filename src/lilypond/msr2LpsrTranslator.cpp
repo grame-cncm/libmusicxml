@@ -609,7 +609,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
     if (
       workTitle.size () == 0
         &&
-      movementTitle.size () > 0) {
+      movementTitle.size () > 0
+    ) {
       // use the movement title as the work title
       fCurrentIdentification->
         setWorkTitle (
@@ -682,7 +683,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
     if (
       workNumber.size () == 0
         &&
-      movementNumber.size () > 0) {
+      movementNumber.size () > 0
+    ) {
       // use the movement number as the work number
       fCurrentIdentification->
         setWorkNumber (
