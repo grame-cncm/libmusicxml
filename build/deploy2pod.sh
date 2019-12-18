@@ -26,7 +26,7 @@ simulatorbuildpath="$(pwd)/lib/Release/iphonesimulator$libname"
 universalpath="$(pwd)/lib/Release$libname"
 
 xcodebuild -project iosdir/libmusicxml2.xcodeproj  -target musicxml2 -configuration Release -sdk iphoneos clean build CONFIGURATION_BUILD_DIR="lib/Release/iphoneos"
-xcodebuild -project iosdir/libmusicxml2.xcodeproj  -target musicxml2 -configuration Release -arch x86_64 -arch i386 only_active_arch=no -sdk iphonesimulator clean build CONFIGURATION_BUILD_DIR="lib/Release/iphonesimulator"
+xcodebuild -project iosdir/libmusicxml2.xcodeproj  -target musicxml2 -configuration Release -arch x86_64 only_active_arch=no -sdk iphonesimulator clean build CONFIGURATION_BUILD_DIR="lib/Release/iphonesimulator"
 
 
 ##### Move to Pod location

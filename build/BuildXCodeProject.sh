@@ -4,7 +4,7 @@ if [ ! -d ./iosdir/libmusicxml2.xcodeproj  ]; then
    if [ ! -d iosdir  ]; then
         mkdir iosdir
    fi
-	cd ./ios
+	cd ./iosdir
 	cmake .. -G Xcode -DIOS=yes
 	cd ..
 else
