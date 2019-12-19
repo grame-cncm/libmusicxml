@@ -353,13 +353,13 @@ void lilypondOah2ManPageGenerator::visitEnd (S_lilypondLyricsAlignmentKindAtom& 
 }
 
 //________________________________________________________________________
-void lilypondOah2ManPageGenerator::visitStart (S_lilypondMidiTempoAtom& elt)
+void lilypondOah2ManPageGenerator::visitStart (S_oahMidiTempoAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> Start visiting lilypondMidiTempoAtom" <<
+      ".\\\" --> Start visiting oahMidiTempoAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -383,13 +383,13 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondMidiTempoAtom& elt)
     */
 }
 
-void lilypondOah2ManPageGenerator::visitEnd (S_lilypondMidiTempoAtom& elt)
+void lilypondOah2ManPageGenerator::visitEnd (S_oahMidiTempoAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> End visiting lilypondMidiTempoAtom" <<
+      ".\\\" --> End visiting oahMidiTempoAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }

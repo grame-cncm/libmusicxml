@@ -38,7 +38,7 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_lilypondLyricsAlignmentKindAtom>,
 
-  public visitor<S_lilypondMidiTempoAtom>
+  public visitor<S_oahMidiTempoAtom>
 
 {
   public:
@@ -73,8 +73,8 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
     virtual void visitStart (S_lilypondLyricsAlignmentKindAtom& elt);
     virtual void visitEnd   (S_lilypondLyricsAlignmentKindAtom& elt);
 
-    virtual void visitStart (S_lilypondMidiTempoAtom& elt);
-    virtual void visitEnd   (S_lilypondMidiTempoAtom& elt);
+    virtual void visitStart (S_oahMidiTempoAtom& elt);
+    virtual void visitEnd   (S_oahMidiTempoAtom& elt);
 };
 typedef SMARTP<lilypondOah2ManPageGenerator> S_lilypondOah2ManPageGenerator;
 

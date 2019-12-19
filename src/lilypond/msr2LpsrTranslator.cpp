@@ -6592,24 +6592,24 @@ void msr2LpsrTranslator::visitEnd (S_msrPageLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrMidi& elt)
+void msr2LpsrTranslator::visitStart (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrMidi" <<
+      "--> Start visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 #endif
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
+void msr2LpsrTranslator::visitEnd (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrMidi" <<
+      "--> End visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

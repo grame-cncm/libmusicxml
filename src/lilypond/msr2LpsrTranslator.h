@@ -240,7 +240,7 @@ class msr2LpsrTranslator :
 
   // midi
 
-  public visitor<S_msrMidi>
+  public visitor<S_msrMidiTempo>
 
 {
   public:
@@ -471,8 +471,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);
 
-    virtual void visitStart (S_msrMidi& elt);
-    virtual void visitEnd   (S_msrMidi& elt);
+    virtual void visitStart (S_msrMidiTempo& elt);
+    virtual void visitEnd   (S_msrMidiTempo& elt);
 
   private:
 

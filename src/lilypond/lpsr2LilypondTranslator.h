@@ -351,7 +351,7 @@ class lpsr2LilypondTranslator :
 
   // midi
 
-  public visitor<S_msrMidi>
+  public visitor<S_msrMidiTempo>
 
 {
   public:
@@ -658,8 +658,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
 
-    virtual void visitStart (S_msrMidi& elt);
-    virtual void visitEnd   (S_msrMidi& elt);
+    virtual void visitStart (S_msrMidiTempo& elt);
+    virtual void visitEnd   (S_msrMidiTempo& elt);
 
     // names
 

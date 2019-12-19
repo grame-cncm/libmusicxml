@@ -1169,20 +1169,20 @@ void msr2SummaryVisitor::visitEnd (S_msrPageLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrMidi& elt)
+void msr2SummaryVisitor::visitStart (S_msrMidiTempo& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> Start visiting msrMidi" <<
+      "--> Start visiting msrMidiTempo" <<
       endl;
   }
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrMidi& elt)
+void msr2SummaryVisitor::visitEnd (S_msrMidiTempo& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> End visiting msrMidi" <<
+      "--> End visiting msrMidiTempo" <<
       endl;
   }
 }

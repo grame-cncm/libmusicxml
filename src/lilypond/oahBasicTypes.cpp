@@ -8256,6 +8256,292 @@ ostream& operator<< (ostream& os, const S_oahLengthAtom& elt)
 }
 
 //______________________________________________________________________________
+S_oahMidiTempoAtom oahMidiTempoAtom::create (
+  string        shortName,
+  string        longName,
+  string        description,
+  string        valueSpecification,
+  string        variableName,
+  msrMidiTempo& midiTempoVariable)
+{
+  oahMidiTempoAtom* o = new
+    oahMidiTempoAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      midiTempoVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahMidiTempoAtom::oahMidiTempoAtom (
+  string        shortName,
+  string        longName,
+  string        description,
+  string        valueSpecification,
+  string        variableName,
+  msrMidiTempo& midiTempoVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fMidiTempoAtomVariable (
+      midiTempoVariable)
+{}
+
+oahMidiTempoAtom::~oahMidiTempoAtom ()
+{}
+
+S_oahValuedAtom oahMidiTempoAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a oahMidiTempoAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void oahMidiTempoAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahMidiTempoAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the midi tempo specification
+  // decipher it to extract duration and perSecond values
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahMidiTempoAtom'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:digit:]]+\\.*)"
+    "[[:space:]]*"
+    "="
+    "[[:space:]]*"
+    "([[:digit:]]+)"
+    "[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for MIDI tempo string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "':" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "-midiTempo argument '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string midiTempoDuration  = sm [1];
+
+  int    midiTempoPerSecond;
+  {
+    stringstream s;
+    s << sm [2];
+    s >> midiTempoPerSecond;
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "midiTempoDuration  = " <<
+      midiTempoDuration <<
+      endl <<
+      "midiTempoPerSecond = " <<
+      midiTempoPerSecond <<
+      endl;
+
+  fMidiTempoAtomVariable =
+    msrMidiTempo (
+      0, // inputLineNumber
+      midiTempoDuration,
+      midiTempoPerSecond);
+  }
+#endif
+}
+
+void oahMidiTempoAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahMidiTempoAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahMidiTempoAtom>*
+    p =
+      dynamic_cast<visitor<S_oahMidiTempoAtom>*> (v)) {
+        S_oahMidiTempoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahMidiTempoAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahMidiTempoAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahMidiTempoAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahMidiTempoAtom>*
+    p =
+      dynamic_cast<visitor<S_oahMidiTempoAtom>*> (v)) {
+        S_oahMidiTempoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching oahMidiTempoAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahMidiTempoAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> oahMidiTempoAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahMidiTempoAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    fMidiTempoAtomVariable.asString ();
+
+  return s.str ();
+}
+
+string oahMidiTempoAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    fMidiTempoAtomVariable.asString ();
+
+  return s.str ();
+}
+
+void oahMidiTempoAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "MidiTempoAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fMidiTempoAtomVariable" << " : '" <<
+    fMidiTempoAtomVariable.asString () <<
+    "'" <<
+    endl;
+
+  gIndenter--;
+}
+
+void oahMidiTempoAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : '" <<
+    fMidiTempoAtomVariable.asString () <<
+    "'" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahMidiTempoAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_oahOptionNameHelpAtom oahOptionNameHelpAtom::create (
   string shortName,
   string longName,

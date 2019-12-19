@@ -5189,17 +5189,27 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
     endl;
 
   // voice context
+  fLilypondCodeOstream <<
+    "\\context {" <<
+    endl <<
+    gTab << "\\Voice" <<
+    endl;
+
+  if (gLilypondOah->fCustosEngraver) {
+    fLilypondCodeOstream <<
+        gTab << "\\consists \"Ambitus_engraver\"" <<
+        endl;
+  }
+
   if (gLilypondOah->fAmbitusEngraver) {
     fLilypondCodeOstream <<
-      "\\context {" <<
-      endl <<
-      gTab << "\\Voice" <<
-      endl <<
-      gTab << "\\consists \"Ambitus_engraver\"" <<
-      endl <<
-      "}" <<
-      endl;
+        gTab << "\\consists \"Custos_engraver\"" <<
+        endl;
   }
+
+  fLilypondCodeOstream <<
+    "}" <<
+    endl;
 
   // ChordNames context
   if (fVisitedLpsrScore->getJazzChordsDisplayIsNeeded ()) {
@@ -15677,12 +15687,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
-      "% --> Start visiting msrMidi" <<
+      "% --> Start visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -15709,7 +15719,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
 
   fLilypondCodeOstream <<
     "\\tempo " <<
-    elt->getMidiTempoDuration () <<
+    elt->getMidiTempoDuration () << // BLARK
     " = " <<
     elt->getMidiTempoPerSecond () <<
     endl;
@@ -15729,12 +15739,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
   }
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
-      "% --> End visiting msrMidi" <<
+      "% --> End visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

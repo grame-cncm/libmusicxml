@@ -79,7 +79,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrGeometry>,
   public visitor<S_msrPageLayout>,
 
-  public visitor<S_msrMidi>
+  public visitor<S_msrMidiTempo>
 
 {
   public:
@@ -184,8 +184,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);
 
-    virtual void visitStart (S_msrMidi& elt);
-    virtual void visitEnd   (S_msrMidi& elt);
+    virtual void visitStart (S_msrMidiTempo& elt);
+    virtual void visitEnd   (S_msrMidiTempo& elt);
 
   private:
 

@@ -24,6 +24,8 @@
 #include "tree_browser.h"
 #include "visitor.h"
 
+#include "msrMidi.h"
+
 #include "utilities.h"
 
 #include "msrBasicTypes.h"
@@ -2785,6 +2787,96 @@ class oahLengthAtom : public oahValuedAtom
 };
 typedef SMARTP<oahLengthAtom> S_oahLengthAtom;
 EXP ostream& operator<< (ostream& os, const S_oahLengthAtom& elt);
+
+//______________________________________________________________________________
+class oahMidiTempoAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahMidiTempoAtom> create (
+      string        shortName,
+      string        longName,
+      string        description,
+      string        valueSpecification,
+      string        variableName,
+      msrMidiTempo& midiTempoVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahMidiTempoAtom (
+      string        shortName,
+      string        longName,
+      string        description,
+      string        valueSpecification,
+      string        variableName,
+      msrMidiTempo& midiTempoVariable);
+
+    virtual ~oahMidiTempoAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setMidiTempoAtomVariable (
+                            msrMidiTempo& value)
+                              { fMidiTempoAtomVariable = value; }
+
+    const msrMidiTempo&   getMidiTempoAtomVariable ()
+                              { return fMidiTempoAtomVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrMidiTempo&         fMidiTempoAtomVariable;
+};
+typedef SMARTP<oahMidiTempoAtom> S_oahMidiTempoAtom;
+EXP ostream& operator<< (ostream& os, const S_oahMidiTempoAtom& elt);
 
 //______________________________________________________________________________
 class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
