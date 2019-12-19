@@ -88,7 +88,7 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -253,7 +253,7 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -347,7 +347,7 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -441,7 +441,7 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -527,7 +527,7 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     virtual void          acceptIn  (basevisitor* v);
     virtual void          acceptOut (basevisitor* v);
@@ -629,7 +629,7 @@ class lilypondLyricsAlignmentKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -721,7 +721,7 @@ class lilypondMidiTempoAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 

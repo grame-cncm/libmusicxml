@@ -429,7 +429,13 @@ std::pair<std::string, std::string> extractNamesPairFromString (
   bool        debugMode = false);
 
 //______________________________________________________________________________
+std::string doubleQuoteStringIfNonAlpha (
+  std::string theString);
+
 std::string quoteStringIfNonAlpha (
+  std::string theString);
+
+std::string doubleQuoteString (
   std::string theString);
 
 std::string quoteString (

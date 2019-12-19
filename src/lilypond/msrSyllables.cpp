@@ -452,7 +452,7 @@ string msrSyllable::syllableTextsListAsString () const
       i      = iBegin;
 
     for ( ; ; ) {
-      s << "\"" << quoteStringIfNonAlpha (*i) << "\"";
+      s << "\"" << doubleQuoteStringIfNonAlpha (*i) << "\"";
       if (++i == iEnd) break;
       s << ", ";
     } // for
@@ -474,7 +474,7 @@ void msrSyllable::writeTextsList (
       i      = iBegin;
 
     for ( ; ; ) {
-      os << "\"" << quoteStringIfNonAlpha (*i) << "\"";
+      os << "\"" << doubleQuoteStringIfNonAlpha (*i) << "\"";
       if (++i == iEnd) break;
       os << ", ";
     } // for

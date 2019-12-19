@@ -282,7 +282,7 @@ string msrRenamePartAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string msrRenamePartAtom::asLongNamedOptionString () const
+string msrRenamePartAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -633,7 +633,7 @@ string msrTransposePartAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string msrTransposePartAtom::asLongNamedOptionString () const
+string msrTransposePartAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -933,7 +933,7 @@ string msrOmitPartAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string msrOmitPartAtom::asLongNamedOptionString () const
+string msrOmitPartAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1229,7 +1229,7 @@ string msrKeepPartAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string msrKeepPartAtom::asLongNamedOptionString () const
+string msrKeepPartAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1523,7 +1523,7 @@ string msrPitchesLanguageAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string msrPitchesLanguageAtom::asLongNamedOptionString () const
+string msrPitchesLanguageAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -2174,7 +2174,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
     addBooleanAtom (
       delayRestsWedgesAtom);
 
-  // slah all grace notes
+  // slash all grace notes
 
   fSlashAllGraceNotes = false;
 

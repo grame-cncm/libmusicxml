@@ -79,15 +79,32 @@ class lpsrPaper : public lpsrElement
                               { return fShortIndent; }
 
     // counts
-    void                  setPageCount (S_msrLength value)
+    void                  setPageCount (int value)
                               { fPageCount = value; }
-    S_msrLength           getPageCount () const
+    int                   getPageCount () const
                               { return fPageCount; }
 
-    void                  setSystemCount (S_msrLength value)
+    void                  setSystemCount (int value)
                               { fSystemCount = value; }
-    S_msrLength           getSystemCount () const
+    int                   getSystemCount () const
                               { return fSystemCount; }
+
+    // spaces
+    void                  setMarkupSystemSpacingPadding (S_msrLength val)
+                              { fMarkupSystemSpacingPadding = val; }
+    S_msrLength           getMarkupSystemSpacingPadding () const
+                              { return fMarkupSystemSpacingPadding; }
+
+    void                  setBetweenSystemSpace (S_msrLength val)
+                              { fBetweenSystemSpace = val; }
+    S_msrLength           getBetweenSystemSpace () const
+                              { return fBetweenSystemSpace; }
+
+    void                  setPageTopSpace (S_msrLength val)
+                              { fPageTopSpace = val; }
+    S_msrLength           getPageTopSpace () const
+                              { return fPageTopSpace; }
+
 
     // headers and footers
     void                  setOddHeaderMarkup (string value)
@@ -144,9 +161,14 @@ class lpsrPaper : public lpsrElement
     S_msrLength           fIndent;
     S_msrLength           fShortIndent;
 
+    // spaces
+    S_msrLength           fMarkupSystemSpacingPadding;
+    S_msrLength           fBetweenSystemSpace;
+    S_msrLength           fPageTopSpace;
+
     // counts
-    S_msrLength           fPageCount;
-    S_msrLength           fSystemCount;
+    int                   fPageCount;
+    int                   fSystemCount;
 
     // headers and footers
     string                fOddHeaderMarkup;

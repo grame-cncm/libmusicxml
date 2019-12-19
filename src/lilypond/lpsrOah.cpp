@@ -218,7 +218,7 @@ string lpsrScoreOutputKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lpsrScoreOutputKindAtom::asLongNamedOptionString () const
+string lpsrScoreOutputKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -465,7 +465,7 @@ string lpsrPitchesLanguageAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lpsrPitchesLanguageAtom::asLongNamedOptionString () const
+string lpsrPitchesLanguageAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -710,7 +710,7 @@ string lpsrChordsLanguageAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lpsrChordsLanguageAtom::asLongNamedOptionString () const
+string lpsrChordsLanguageAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -934,7 +934,7 @@ string lpsrTransposeAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lpsrTransposeAtom::asLongNamedOptionString () const
+string lpsrTransposeAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1229,8 +1229,7 @@ R"()",
         "gss", "global-staff-size",
         replaceSubstringInString (
 R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
-FLOAT should be a decimal number with at least one digit before the dot,
-without any sign.
+FLOAT should be a floating point or integer number.
 The default is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
           to_string (fStaffGlobalSizeDefaultValue)),
@@ -1292,7 +1291,8 @@ The default is 'DEFAULT_VALUE'.)",
       oahLengthAtom::create (
         "paper-width", "",
 R"(Set the LilyPond 'paper-width' paper variable to WIDTH in the LilyPond code.
-WIDTH should be a positive floating point or integer number.
+WIDTH should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 LilyPond's default value is 297 mm (A4 format).)",
         "WIDTH",
         "paperWidth",
@@ -1307,7 +1307,8 @@ LilyPond's default value is 297 mm (A4 format).)",
       oahLengthAtom::create (
         "paper-height", "",
 R"(Set the LilyPond 'paper-width' paper variable to HEIGHT in the LilyPond code.
-HEIGHT should be a positive floating point or integer number.
+HEIGHT should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 LilyPond's default value is 210 mm (A4 format).)",
         "HEIGHT",
         "paperHeight",
@@ -1322,7 +1323,8 @@ LilyPond's default value is 210 mm (A4 format).)",
       oahLengthAtom::create (
         "indent", "",
 R"(Set the LilyPond 'indent' paper variable to INDENT in the LilyPond code.
-INDENT should be a floating point or integer number.
+INDENT should be a floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 LilyPond's default value is 0.0 mm.)",
         "INDENT",
         "paperIndent",
@@ -1337,11 +1339,28 @@ LilyPond's default value is 0.0 mm.)",
       oahLengthAtom::create (
         "short-indent", "",
 R"(Set the LilyPond 'short-indent' paper variable to INDENT in the LilyPond code.
-INDENT should be a floating point or integer number.
+INDENT should be a floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 LilyPond's default value is 0.0 mm.)",
         "INDENT",
         "paperShortIndent",
         fPaperShortIndent));
+
+  // short indent
+
+  // fMarkupSystemSpacingPadding is 0.0 mm by default
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahLengthAtom::create (
+        "mssp", "markup-system-spacing.padding",
+R"(Set the LilyPond 'markup-system-spacing.padding' paper variable to PADDING in the LilyPond code.
+PADDING should be a floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+LilyPond's default value is 0.0 mm.)",
+        "INDENT",
+        "markupSystemSpacingPadding",
+        fMarkupSystemSpacingPadding));
 
   // ragged bottom
 
@@ -1431,7 +1450,7 @@ R"()",
 
   // replicate empty measure
 
-  fReplicateEmptyMeasureNumber = boolOptionsInitialValue;
+  fReplicateEmptyMeasureNumber = "";
   fReplicateEmptyMeasureReplicas = 0;
 
   subGroup->
@@ -1504,7 +1523,7 @@ This may come in handy when MusicXML data has been obtained from scanned images.
         "cttrm", "convert-tempos-to-rehearsal-marks",
 R"(Convert tempos to rehearsal marks.
 This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
-        "convertWordsToRehearsalMarks",
+        "convertTemposToRehearsalMarks",
         fConvertTemposToRehearsalMarks));
 
   // convert words to rehearsal marks
@@ -1517,7 +1536,7 @@ This may come in handy when MusicXML data has been obtained from scanned instrum
         "cwtrm", "convert-words-to-rehearsal-marks",
 R"(Convert words to rehearsal marks.
 This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
-        "fConvertWordsToRehearsalMarks",
+        "convertWordsToRehearsalMarks",
         fConvertWordsToRehearsalMarks));
 }
 
@@ -1817,6 +1836,9 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
     fPaperIndent;
   clone->fPaperShortIndent =
     fPaperShortIndent;
+
+  clone->fMarkupSystemSpacingPadding =
+    fMarkupSystemSpacingPadding;
 
   clone->fRaggedBottom =
     fRaggedBottom;
@@ -2125,6 +2147,10 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "paperShortIndent" << " : " <<
     fPaperShortIndent.asString () <<
+    endl <<
+
+    setw (fieldWidth) << "markupSystemPpacingPadding" << " : " <<
+    fMarkupSystemSpacingPadding.asString () <<
     endl <<
 
     setw (fieldWidth) << "raggedBottom" << " : " <<

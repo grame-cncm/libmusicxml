@@ -1155,7 +1155,7 @@ class oahIntegerAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1246,7 +1246,7 @@ class oahTwoIntegersAtom : public oahIntegerAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1332,7 +1332,7 @@ class oahFloatAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1419,7 +1419,7 @@ class oahStringAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1594,7 +1594,7 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1681,7 +1681,7 @@ class oahRationalAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1768,7 +1768,7 @@ class oahNaturalNumbersSetElementAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1855,7 +1855,7 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -1942,7 +1942,7 @@ class oahStringsSetElementAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2029,7 +2029,7 @@ class oahStringsSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2118,7 +2118,7 @@ class oahRGBColorAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2205,7 +2205,7 @@ class oahIntSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2291,7 +2291,7 @@ class oahStringSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2378,7 +2378,7 @@ class oahStringToIntMapAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2479,7 +2479,7 @@ class oahStringAndIntegerAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2591,7 +2591,7 @@ class oahStringAndTwoIntegersAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2681,7 +2681,7 @@ class oahLengthUnitKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2768,7 +2768,7 @@ class oahLengthAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -2865,7 +2865,7 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 

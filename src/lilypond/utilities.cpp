@@ -1047,6 +1047,49 @@ pair<string, string> extractNamesPairFromString (
 }
 
 //______________________________________________________________________________
+string doubleQuoteStringIfNonAlpha (
+  string theString)
+{
+  string result;
+
+  bool   stringShouldBeDoubleQuoted = false;
+
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
+
+      if (
+        ((*i) >= 'a' && (*i) <= 'z')
+          ||
+        ((*i) >= 'A' && (*i) <= 'Z')) {
+        // (*i) is a letter
+        result += (*i);
+      }
+
+      else {
+        // (*i) is not a letter
+        if ((*i) == ' ')
+          result += ' '; // TEMP JMI
+        else
+          result += (*i);
+
+        stringShouldBeDoubleQuoted = true;
+      }
+    } // for
+  }
+
+  if (stringShouldBeDoubleQuoted) {
+    return "\"" + result + "\"";
+  }
+  else {
+    return result;
+  }
+}
+
+//______________________________________________________________________________
 string quoteStringIfNonAlpha (
   string theString)
 {
@@ -1082,7 +1125,7 @@ string quoteStringIfNonAlpha (
   }
 
   if (stringShouldBeQuoted) {
-    return "\"" + result + "\"";
+    return "'" + result + "'";
   }
   else {
     return result;
@@ -1090,7 +1133,7 @@ string quoteStringIfNonAlpha (
 }
 
 //______________________________________________________________________________
-string quoteString (
+string doubleQuoteString (
   string theString)
 {
   string result;
@@ -1126,6 +1169,45 @@ string quoteString (
   }
 
   return "\"" + result + "\"";
+}
+
+//______________________________________________________________________________
+string quoteString (
+  string theString)
+{
+  string result;
+
+  if (theString.size ()) {
+    for (
+      string::const_iterator i = theString.begin ();
+      i != theString.end ();
+      i++
+    ) {
+
+      if (
+        ((*i) >= 'a' && (*i) <= 'z')
+          ||
+        ((*i) >= 'A' && (*i) <= 'Z')) {
+        // (*i) is a letter
+        result += (*i);
+      }
+
+      else {
+        // (*i) is not a letter
+        if ((*i) == ' ') {
+          result += ' '; // TEMP JMI
+        }
+        else if ((*i) == '\'') {
+          result += "\\\'";
+        }
+        else {
+          result += (*i);
+        }
+      }
+    } // for
+  }
+
+  return "'" + result + "'";
 }
 
 //______________________________________________________________________________

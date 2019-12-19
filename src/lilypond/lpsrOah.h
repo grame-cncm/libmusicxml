@@ -91,7 +91,7 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -182,7 +182,7 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -274,7 +274,7 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -366,7 +366,7 @@ class lpsrTransposeAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -555,6 +555,8 @@ class lpsrOah : public oahGroup
 
     msrLength             fPaperIndent;
     msrLength             fPaperShortIndent;
+
+    msrLength             fMarkupSystemSpacingPadding;
 
     bool                  fRaggedBottom;
     bool                  fRaggedLastBottom;

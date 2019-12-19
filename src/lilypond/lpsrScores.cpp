@@ -64,7 +64,7 @@ lpsrScore::lpsrScore (
   // should the initial comments about the executable and the options used
   // be generated?
   if (gLilypondOah->fXml2lyInfos) {
-    // create the input source name comment
+    // create the 'input source name and translation date' comment
     {
       stringstream s;
 
@@ -94,7 +94,7 @@ lpsrScore::lpsrScore (
           lpsrComment::kNoGapAfterwards);
     }
 
-    // create the translation date comment
+    // create the 'translation command line' comment
     {
       stringstream s;
 
@@ -108,7 +108,7 @@ lpsrScore::lpsrScore (
           lpsrComment::kNoGapAfterwards);
     }
 
-    // create the command line as supplied comment
+    // create the 'command line as supplied' comment
     {
       stringstream s;
 
@@ -130,7 +130,7 @@ lpsrScore::lpsrScore (
           !=
         gOahOah->fCommandLineWithLongOptionsNames;
 
-    // create the command line long options comment
+    // create the 'command line long options' comment
     {
       stringstream s;
 
@@ -157,7 +157,7 @@ lpsrScore::lpsrScore (
     }
 
     if (longAndShortOptionsDiffer) {
-      // create the command line short options comment
+      // create the 'command line short options' comment
       stringstream s;
 
       s <<
@@ -186,10 +186,13 @@ lpsrScore::lpsrScore (
 
   // initialize Scheme functions informations
   // ----------------------------------------
+
   // files includes
   fJianpuFileIncludeIsNeeded = false;
+
   // Scheme modules
   fScmAndAccregSchemeModulesAreNeeded = false;
+
   // Scheme functions
   fTongueSchemeFunctionIsNeeded = false;
   fCustomShortBarLineSchemeFunctionIsNeeded = false;
@@ -200,15 +203,20 @@ lpsrScore::lpsrScore (
   fTempoRelationshipSchemeFunctionIsNeeded = false;
   fGlissandoWithTextSchemeFunctionsIsNeeded = false;
   fOtherDynamicSchemeFunctionIsNeeded = false;
+
   // markups
   fDampMarkupIsNeeded = false;
   fDampAllMarkupIsNeeded = false;
+
   // white note heads
   fWhiteNoteHeadsIsNeeded = false;
+
     // bar numbers
   fBoxAroundNextBarNumberIsNeeded = false;
+
   // jazz chords display
   fJazzChordsDisplayIsNeeded = false;
+
   // colored ledger lines
   fColoredLedgerLinesIsNeeded = false;
 

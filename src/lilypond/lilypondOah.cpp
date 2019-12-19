@@ -176,7 +176,7 @@ string lilypondScoreOutputKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondScoreOutputKindAtom::asLongNamedOptionString () const
+string lilypondScoreOutputKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -591,7 +591,7 @@ string lilypondRelativeOctaveEntryAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondRelativeOctaveEntryAtom::asLongNamedOptionString () const
+string lilypondRelativeOctaveEntryAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -811,7 +811,7 @@ string lilypondFixedOctaveEntryAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondFixedOctaveEntryAtom::asLongNamedOptionString () const
+string lilypondFixedOctaveEntryAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1059,7 +1059,7 @@ string lilypondAccidentalStyleKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondAccidentalStyleKindAtom::asLongNamedOptionString () const
+string lilypondAccidentalStyleKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1385,7 +1385,7 @@ string lilypondChordsDisplayAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondChordsDisplayAtom::asLongNamedOptionString () const
+string lilypondChordsDisplayAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1673,7 +1673,7 @@ string lilypondLyricsAlignmentKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondLyricsAlignmentKindAtom::asLongNamedOptionString () const
+string lilypondLyricsAlignmentKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1962,7 +1962,7 @@ string lilypondMidiTempoAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondMidiTempoAtom::asLongNamedOptionString () const
+string lilypondMidiTempoAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 

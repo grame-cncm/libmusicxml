@@ -51,6 +51,9 @@ lpsrPaper::lpsrPaper (
     "theLpsrGeometry is null");
 
   fLpsrGeometry = theLpsrGeometry;
+
+  fPageCount = -1;
+  fSystemCount = -1;
 }
 
 S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
@@ -61,6 +64,7 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
         fInputLineNumber,
         fLpsrGeometry);
 
+  // indents
   newbornClone->fHorizontalShift =
     fHorizontalShift;
   newbornClone->fIndent =
@@ -68,6 +72,21 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
   newbornClone->fShortIndent =
     fShortIndent;
 
+  // spaces
+  newbornClone->fMarkupSystemSpacingPadding =
+    fMarkupSystemSpacingPadding;
+  newbornClone->fBetweenSystemSpace =
+    fBetweenSystemSpace;
+  newbornClone->fPageTopSpace =
+    fPageTopSpace;
+
+  // counts
+  newbornClone->fPageCount =
+    fPageCount;
+  newbornClone->fSystemCount =
+    fSystemCount;
+
+  // headers and footers
   newbornClone->fOddHeaderMarkup =
     fOddHeaderMarkup;
   newbornClone->fEvenHeaderMarkup =
@@ -151,32 +170,6 @@ void lpsrPaper::browseData (basevisitor* v)
     browser.browse (*fLpsrGeometry);
   }
 
-/* JMI ???
-  // browse the indents
-  if (fHorizontalShift) {
-    msrBrowser<msrLength> browser (v);
-    browser.browse (*fHorizontalShift);
-  }
-  if (fIndent) {
-    msrBrowser<msrLength> browser (v);
-    browser.browse (*fIndent);
-  }
-  if (fShortIndent) {
-    msrBrowser<msrLength> browser (v);
-    browser.browse (*fShortIndent);
-  }
-
-  // browse the counts
-  if (fPageCount) {
-    msrBrowser<msrLength> browser (v);
-    browser.browse (*fPageCount);
-  }
-  if (fSystemCount) {
-    msrBrowser<msrLength> browser (v);
-    browser.browse (*fSystemCount);
-  }
-  */
-
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
@@ -197,76 +190,128 @@ void lpsrPaper::print (ostream& os) const
   const int fieldWidth = 20;
 
   // indents
+
+  os << left <<
+    setw (fieldWidth) <<
+    "horizontalShift" << " : ";
   if (fHorizontalShift) {
-    os << left <<
-      setw (fieldWidth) <<
-      "horizontal-shift" << " : " <<
-      fHorizontalShift <<
-      endl;
+    os << fHorizontalShift;
   }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "indent" << " : ";
   if (fIndent) {
-    os << left <<
-      setw (fieldWidth) <<
-      "indent" << " : " <<
-      fIndent <<
-      endl;
+    os << fIndent;
   }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "shortIndent" << " : ";
   if (fShortIndent) {
-    os << left <<
-      setw (fieldWidth) <<
-      "shortIndent" << " : " <<
-      fShortIndent <<
-      endl;
+    os << fShortIndent;
   }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // spaces
+
+  os << left <<
+    setw (fieldWidth) <<
+    "markupSystemSpacingPadding" << " : ";
+  if (fMarkupSystemSpacingPadding) {
+    os << fMarkupSystemSpacingPadding;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "betweenSystemSpace" << " : ";
+  if (fBetweenSystemSpace) {
+    os << fBetweenSystemSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageTopSpace" << " : ";
+  if (fPageTopSpace) {
+    os << fPageTopSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 
   // counts
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageCount" << " : ";
   if (fPageCount) {
-    os << left <<
-      setw (fieldWidth) <<
-      "page-count" << " : " <<
-      fPageCount <<
-      endl;
+    os << fPageCount;
   }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "systemCount" << " : ";
   if (fSystemCount) {
-    os << left <<
-      setw (fieldWidth) <<
-      "system-count" << " : " <<
-      fSystemCount <<
-      endl;
+    os << fSystemCount;
   }
+  else {
+    os << "none";
+  }
+  os << endl;
 
   // headers and footers
-  if (fOddHeaderMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "oddHeaderMarkup" << " : " <<
-      fOddHeaderMarkup <<
-      endl;
-  }
 
-  if (fEvenHeaderMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "evenHeaderMarkup" << " : " <<
-      fEvenHeaderMarkup <<
-      endl;
-  }
+  os << left <<
+    setw (fieldWidth) <<
+    "oddHeaderMarkup" << " : \"" <<
+    fOddHeaderMarkup <<
+    "\"" <<
+    endl;
 
-  if (fOddFooterMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "oddFooterMarkup" << " : " <<
-      fOddFooterMarkup <<
-      endl;
-  }
+  os << left <<
+    setw (fieldWidth) <<
+    "evenHeaderMarkup" << " : " <<
+    fEvenHeaderMarkup <<
+    "\"" <<
+    endl;
 
-  if (fEvenFooterMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "evenFooterMarkup" << " : " <<
-      fEvenFooterMarkup <<
-      endl;
-  }
+  os << left <<
+    setw (fieldWidth) <<
+    "oddFooterMarkup" << " : " <<
+    fOddFooterMarkup <<
+    "\"" <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "evenFooterMarkup" << " : " <<
+    fEvenFooterMarkup <<
+    "\"" <<
+    endl;
 
   gIndenter--;
 }

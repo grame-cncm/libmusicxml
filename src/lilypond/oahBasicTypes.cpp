@@ -3147,7 +3147,7 @@ string oahIntegerAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahIntegerAtom::asLongNamedOptionString () const
+string oahIntegerAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -3405,7 +3405,7 @@ string oahTwoIntegersAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahTwoIntegersAtom::asLongNamedOptionString () const
+string oahTwoIntegersAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -3537,10 +3537,9 @@ void oahFloatAtom::handleValue (
 
   // check whether it is well-formed
   string regularExpression (
-   // no sign, a '-' would be handled as an option name JMI   "([+|-]?)"
-    "([[:digit:]]+)"
-    "."
-    "([[:digit:]]*)");
+    // no sign, a '-' would be handled as an option name JMI   "([+|-]?)"
+    "([[:digit:]]+)(.[[:digit:]]*)?"
+    );
 
   regex e (regularExpression);
   smatch sm;
@@ -3567,13 +3566,13 @@ void oahFloatAtom::handleValue (
   }
 #endif
 
-  if (smSize) {
+  if (smSize == 3) {
     // leave the low level details to the STL...
     float floatValue;
     {
       stringstream s;
 
-      s << theString;
+      s << sm [ 0 ];
       s >> floatValue;
     }
 
@@ -3665,7 +3664,7 @@ string oahFloatAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahFloatAtom::asLongNamedOptionString () const
+string oahFloatAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -3851,17 +3850,17 @@ string oahStringAtom::asShortNamedOptionString () const
   stringstream s;
 
   s <<
-    "-" << fShortName << " " << fStringVariable;
+    "-" << fShortName << " '" << fStringVariable << "'";
 
   return s.str ();
 }
 
-string oahStringAtom::asLongNamedOptionString () const
+string oahStringAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
   s <<
-    "-" << fLongName << " " << fStringVariable;
+    "-" << fLongName << " '" << fStringVariable << "'";
 
   return s.str ();
 }
@@ -4447,7 +4446,7 @@ string oahStringWithDefaultValueAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahStringWithDefaultValueAtom::asLongNamedOptionString () const
+string oahStringWithDefaultValueAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -4716,7 +4715,7 @@ string oahRationalAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahRationalAtom::asLongNamedOptionString () const
+string oahRationalAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -4974,7 +4973,7 @@ string oahNaturalNumbersSetElementAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahNaturalNumbersSetElementAtom::asLongNamedOptionString () const
+string oahNaturalNumbersSetElementAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -5246,7 +5245,7 @@ string oahNaturalNumbersSetAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahNaturalNumbersSetAtom::asLongNamedOptionString () const
+string oahNaturalNumbersSetAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -5525,7 +5524,7 @@ string oahStringsSetElementAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahStringsSetElementAtom::asLongNamedOptionString () const
+string oahStringsSetElementAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -5797,7 +5796,7 @@ string oahStringsSetAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahStringsSetAtom::asLongNamedOptionString () const
+string oahStringsSetAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -6064,7 +6063,7 @@ string oahRGBColorAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahRGBColorAtom::asLongNamedOptionString () const
+string oahRGBColorAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -6358,7 +6357,7 @@ string oahIntSetAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahIntSetAtom::asLongNamedOptionString () const
+string oahIntSetAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -6687,7 +6686,7 @@ string oahStringSetAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahStringSetAtom::asLongNamedOptionString () const
+string oahStringSetAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -7032,7 +7031,7 @@ string oahStringToIntMapAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahStringToIntMapAtom::asLongNamedOptionString () const
+string oahStringToIntMapAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -7158,7 +7157,7 @@ S_oahStringAndIntegerAtom oahStringAndIntegerAtom::create (
       longName,
       description,
       valueSpecification,
-      stringVariable,
+      stringVariableName,
       stringVariable,
       integerVariableName,
       integerVariable);
@@ -7349,7 +7348,7 @@ string oahStringAndIntegerAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahStringAndIntegerAtom::asLongNamedOptionString () const
+string oahStringAndIntegerAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -7378,15 +7377,20 @@ void oahStringAndIntegerAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
+    "stringVariableName" << " : " <<
+    fStringVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fStringVariable" << " : " <<
+    "stringVariable" << " : " <<
     "\"" << fStringVariable << "\"" <<
     endl <<
+
     setw (fieldWidth) <<
-    "fIntegerVariable" << " : " <<
+    "integerVariableName" << " : " <<
+    fIntegerVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "integerVariable" << " : " <<
     fIntegerVariable <<
     endl;
 
@@ -7399,19 +7403,15 @@ void oahStringAndIntegerAtom::printAtomOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fVariableName <<
+    fStringVariableName <<
     " : " <<
     "\"" << fStringVariable << "\"" <<
     endl <<
+
     setw (valueFieldWidth) <<
-    "stringVariable" <<
+    fIntegerVariableName <<
     " : " <<
-    "\"" << fStringVariable << "\"" <<
-    endl <<
-    setw (valueFieldWidth) <<
-    "integerVariable" <<
-    " : " <<
-    fIntegerVariable <<
+    "\"" << fIntegerVariable << "\"" <<
     endl;
 }
 
@@ -7636,7 +7636,7 @@ string oahStringAndTwoIntegersAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahStringAndTwoIntegersAtom::asLongNamedOptionString () const
+string oahStringAndTwoIntegersAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -7901,7 +7901,7 @@ string oahLengthUnitKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahLengthUnitKindAtom::asLongNamedOptionString () const
+string oahLengthUnitKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -8202,7 +8202,7 @@ string oahLengthAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahLengthAtom::asLongNamedOptionString () const
+string oahLengthAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -8414,7 +8414,7 @@ string oahOptionNameHelpAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahOptionNameHelpAtom::asLongNamedOptionString () const
+string oahOptionNameHelpAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -10993,9 +10993,7 @@ string oahHandler::commandLineWithShortNamesAsString () const
       i      = iBegin;
     for ( ; ; ) {
       s << (*i);
-
       if (++i == iEnd) break;
-
       s << " ";
     } // for
   }
@@ -11010,11 +11008,8 @@ string oahHandler::commandLineWithShortNamesAsString () const
     for ( ; ; ) {
       S_oahElement element = (*i);
 
-      s <<
-        element-> asShortNamedOptionString ();
-
+      s << element-> asShortNamedOptionString ();
       if (++i == iEnd) break;
-
       s << " ";
     } // for
   }
@@ -11038,9 +11033,7 @@ string oahHandler::commandLineWithLongNamesAsString () const
       i      = iBegin;
     for ( ; ; ) {
       s << (*i);
-
       if (++i == iEnd) break;
-
       s << " ";
     } // for
   }
@@ -11055,11 +11048,8 @@ string oahHandler::commandLineWithLongNamesAsString () const
     for ( ; ; ) {
       S_oahElement option = (*i);
 
-      s <<
-        option-> asLongNamedOptionString ();
-
+      s << option-> asLongNamedOptionString ();
       if (++i == iEnd) break;
-
       s << " ";
     } // for
   }
@@ -11619,7 +11609,8 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
     string currentString = string (argv [n]);
 
-    fCommandLineAsSupplied += " " + currentString;
+    fCommandLineAsSupplied +=
+      " " + quoteStringIfNonAlpha (currentString);
 
 
 #ifdef TRACE_OAH

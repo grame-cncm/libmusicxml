@@ -71,11 +71,6 @@ S_lpsrGeometry lpsrGeometry::createLpsrGeometryNewbornClone ()
         fInputLineNumber,
         fMsrGeometry);
 
-  newbornClone->fBetweenSystemSpace =
-    fBetweenSystemSpace;
-  newbornClone->fPageTopSpace =
-    fPageTopSpace;
-
   return newbornClone;
 }
 
@@ -139,18 +134,6 @@ void lpsrGeometry::browseData (basevisitor* v)
     browser.browse (*fMsrGeometry);
   }
 
-/* JMI ???
-  // browse the spaces
-  if (fBetweenSystemSpace) {
-    msrBrowser<msrLength> browser (v);
-    browser.browse (*fBetweenSystemSpace);
-  }
-  if (fPageTopSpace) {
-    msrBrowser<msrLength> browser (v);
-    browser.browse (*fPageTopSpace);
-  }
-*/
-
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
@@ -166,7 +149,7 @@ void lpsrGeometry::print (ostream& os)  const
     "Geometry" <<
     endl;
 
-  const int fieldWidth = 19;
+// JMI ???  const int fieldWidth = 19;
 
   gIndenter++;
 
@@ -177,30 +160,6 @@ void lpsrGeometry::print (ostream& os)  const
 
   // LilyPond geometry
   // ???
-
-  // layout
-  os << left <<
-    setw (fieldWidth) <<
-    "betweenSystemSpace" << " : ";
-  if (fBetweenSystemSpace) {
-    os << fBetweenSystemSpace;
-  }
-  else {
-    os << "none";
-  }
-  os << endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "pageTopSpace" << " : ";
-  if (fPageTopSpace) {
-    os << fPageTopSpace;
-  }
-  else {
-    os << "none";
-  }
-  os << endl;
-
 
   gIndenter--;
 }

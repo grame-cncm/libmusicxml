@@ -90,7 +90,7 @@ class msrRenamePartAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -193,7 +193,7 @@ class msrTransposePartAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -284,7 +284,7 @@ class msrOmitPartAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -374,7 +374,7 @@ class msrKeepPartAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -465,7 +465,7 @@ class msrPitchesLanguageAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 

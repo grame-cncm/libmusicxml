@@ -648,10 +648,10 @@ void writeTextsListAsLilypondString (
 
   size_t found = contents.find("\"");
   if (found != std::string::npos) {
-    os << quoteString (contents);
+    os << doubleQuoteString (contents);
   }
   else {
-    os << quoteStringIfNonAlpha (contents); // JMI
+    os << doubleQuoteStringIfNonAlpha (contents); // JMI
   }
 }
 
