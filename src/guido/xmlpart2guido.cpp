@@ -21,6 +21,7 @@
 #include "partsummary.h"
 #include "rational.h"
 #include "xml2guidovisitor.h"
+#include "metronomevisitor.h"
 #include "xmlpart2guido.h"
 #include "xml_tree_browser.h"
 
@@ -325,16 +326,6 @@ namespace MusicXML2
         else {
             fCurrentOffset = elt->getLongValue(k_offset, 0);
         }
-        // Parse Placement Attributes
-        string placement = elt->getAttributeValue("placement");
-        if (placement == "above")
-        {
-            directionPlacementAbove = true;
-        }else
-            directionPlacementAbove = false;
-        
-        ////////////
-        
     }
     
     void xmlpart2guido::visitStart ( S_rehearsal& elt )
@@ -385,6 +376,16 @@ namespace MusicXML2
         // !IMPORTANT: Avoid using default-x since it is measured from the beginning of the measure for S_direction!
         
         if (fSkipDirection) return;
+        
+        /// Skip already visited Direction in case of grace notes (GUID-153)
+        if ((!fDirectionEraserStack.empty())) {
+            //cerr<<"\t stack top="<<fDirectionEraserStack.front()<<endl;
+            if (fDirectionEraserStack.front() == elt->getInputLineNumber()) {
+                fDirectionEraserStack.pop();
+                //cerr<<"\tS_direction Skipping"<<endl;
+                return;
+            }
+        }
         
         // Browse into all S_direction_type elements and parse, by preserving ordering AND grouped direction positions (if missing in proceedings calls)
         ctree<xmlelement>::literator iter = elt->lbegin();
@@ -588,6 +589,12 @@ namespace MusicXML2
                             
                         case k_metronome:
                         {
+                            metronomevisitor mv;
+                            xml_tree_browser browser(&mv);
+                            browser.browse(*elt);
+                            
+                            std::string tempoMetronome = parseMetronome(mv);
+                            
                             tag = guidotag::create("tempo");
                             stringstream tempoParams;
                             if (tempoWording.size())
@@ -612,9 +619,7 @@ namespace MusicXML2
                                 // then apply and save
                                 commonDy += xml2guidovisitor::getYposition(element, -4.0, true);  // Should this be additive?
                             }
-                                                        
-                            tempoMetronome.clear();
-                            
+                                                                                    
                             // apply inherited Y-position
                             if (commonDy != 0.0) {
                                 stringstream s;
@@ -851,28 +856,23 @@ namespace MusicXML2
         
     }
     
-    //______________________________________________________________________________
-    void xmlpart2guido::visitEnd ( S_metronome& elt )
-    {
-        if (fSkipDirection) return;
-        
-        metronomevisitor::visitEnd (elt);
-        if (fBeats.size() != 1) return;					// support per minute tempo only (for now)
-        if (!metronomevisitor::fPerMinute) return;		// support per minute tempo only (for now)
-        
-        //Sguidoelement tag = guidotag::create("tempo");
-        beat b = fBeats[0];
-        rational r = NoteType::type2rational(NoteType::xml(b.fUnit)), rdot(3,2);
-        while (b.fDots-- > 0) {
-            r *= rdot;
-        }
-        r.rationalise();
-        
-        stringstream s;
-        s << "[" << (string)r << "] = " << metronomevisitor::fPerMinute;
-        tempoMetronome = s.str();
-        
+
+std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
+{
+    if (mv.fBeats.size() != 1) return "";                    // support per minute tempo only (for now)
+    if (!mv.fPerMinute) return "";        // support per minute tempo only (for now)
+    
+    rational r = NoteType::type2rational(NoteType::xml(mv.fBeats[0].fUnit)), rdot(3,2);
+    while (mv.fBeats[0].fDots-- > 0) {
+        r *= rdot;
     }
+    r.rationalise();
+    
+    stringstream s;
+    s << "[" << (string)r << "] = " << mv.fPerMinute;
+    return s.str();
+}
+
     
     //______________________________________________________________________________
     void xmlpart2guido::visitStart( S_octave_shift& elt)
@@ -2218,6 +2218,35 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     {
         if (nv.isGrace()) {
             if (!fInGrace) {
+                /// GUID-153: Fetch directions after grace
+                ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), nv.getSnote());
+                nextnote.forward_up(); // forward one element
+                while (nextnote != fCurrentMeasure->end()) {
+                    // break if next element is a non-grace
+                    if (( (nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice) )
+                        || (nextnote->getType() == k_direction)){
+                        if (nextnote->getType() == k_note) {
+                            if (nextnote->find(k_grace) != nextnote->end())
+                            {
+                                // Next note has a grace.. continue loop..
+                                nextnote.forward_up(); // forward one element
+                            }else {
+                                // Non-grace, break...
+                                break;
+                            }
+                        }else if (nextnote->getType() == k_direction) {
+                            // should parse direction BEFORE grace occurs: visit the element and put in the eraser stack
+                            nextnote->acceptIn(*this);
+                            nextnote->acceptOut(*this);
+                            fDirectionEraserStack.push(nextnote->getInputLineNumber());
+                            nextnote.forward_up(); // forward one element
+                        }
+                        
+                    }else {
+                        break;
+                    }
+                }
+                /// End-of Guid-153
                 fInGrace = true;
                 Sguidoelement tag = guidotag::create("grace");
                 push(tag);
