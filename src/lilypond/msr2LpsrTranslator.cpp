@@ -3882,8 +3882,8 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
         msrRehearsal::create (
           inputLineNumber,
           msrRehearsal::kNone,
-          elt->asShortString (),
-          elt->getWordsPlacementKind ());
+          elt->getWordsContents (),
+          elt->getWordsPlacementKind ()); // above ??? JMI
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceWords || gTraceOah->fTraceRehearsals) {
