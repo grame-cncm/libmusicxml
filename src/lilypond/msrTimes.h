@@ -13,7 +13,7 @@
 #ifndef ___msrTimes___
 #define ___msrTimes___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
@@ -54,11 +54,10 @@ class msrTimeItem : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    const vector<int>&    getTimeBeatsNumbersVector ()
+    const vector<int>&    getTimeBeatsNumbersVector () const
                               { return fTimeBeatsNumbersVector; }
 
-    void                  setTimeBeatValue (int timeBeatValue)
-                              { fTimeBeatValue = timeBeatValue; }
+    void                  setTimeBeatValue (int timeBeatValue);
                               
     int                   getTimeBeatValue () const
                               { return fTimeBeatValue; }
@@ -89,7 +88,7 @@ class msrTimeItem : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
   
   private:
   
@@ -103,7 +102,7 @@ typedef SMARTP<msrTimeItem> S_msrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
 
 //______________________________________________________________________________
-class msrTime : public msrElement
+class msrTime : public msrMeasureElement
 {
   public:
     
@@ -209,7 +208,7 @@ class msrTime : public msrElement
 
     string                asShortString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

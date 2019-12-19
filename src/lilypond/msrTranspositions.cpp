@@ -10,27 +10,26 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrTranspositions.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "generalOah.h"
+
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrOctaveShift msrOctaveShift::create (
@@ -49,7 +48,7 @@ msrOctaveShift::msrOctaveShift (
   int                inputLineNumber,
   msrOctaveShiftKind octaveShiftKind,
   int                octaveShiftSize)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fOctaveShiftKind = octaveShiftKind;
 
@@ -61,19 +60,19 @@ msrOctaveShift::~msrOctaveShift ()
 
 void msrOctaveShift::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrOctaveShift::acceptIn ()" <<
       endl;
   }
-  
+
   if (visitor<S_msrOctaveShift>*
     p =
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrOctaveShift::visitStart ()" <<
             endl;
         }
@@ -83,8 +82,8 @@ void msrOctaveShift::acceptIn (basevisitor* v)
 
 void msrOctaveShift::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrOctaveShift::acceptOut ()" <<
       endl;
   }
@@ -93,9 +92,9 @@ void msrOctaveShift::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrOctaveShift::visitEnd ()" <<
             endl;
         }
@@ -106,16 +105,10 @@ void msrOctaveShift::acceptOut (basevisitor* v)
 void msrOctaveShift::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrOctaveShift& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrOctaveShift::octaveShiftKindAsString () const
 {
   string result;
-  
+
   switch (fOctaveShiftKind) {
     case msrOctaveShift::kOctaveShiftNone:
       result = "octaveShiftNone";
@@ -137,10 +130,24 @@ string msrOctaveShift::octaveShiftKindAsString () const
   return result;
 }
 
-void msrOctaveShift::print (ostream& os)
+string msrOctaveShift::asString () const
+{
+  string result;
+
+  stringstream s;
+
+  s <<
+    "OctaveShift" <<
+    ", kind: " << octaveShiftKindAsString () <<
+    ", size: " << fOctaveShiftSize;
+
+  return s.str ();
+}
+
+void msrOctaveShift::print (ostream& os) const
 {
   gIndenter++;
-  
+
   os <<
     "OctaveShift" <<
     ", kind: " << octaveShiftKindAsString () <<
@@ -148,6 +155,12 @@ void msrOctaveShift::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrOctaveShift& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -175,16 +188,16 @@ msrTranspose::msrTranspose (
   int  transposeChromatic,
   int  transposeOctaveChange,
   bool transposeDouble)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fTransposeDiatonic     = transposeDiatonic;
   fTransposeChromatic    = transposeChromatic;
   fTransposeOctaveChange = transposeOctaveChange;
   fTransposeDouble       = transposeDouble;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTranspositions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTranspositions) {
+    gLogOstream <<
       "Creating transpose '" <<
       asString () <<
       "'" <<
@@ -201,7 +214,7 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
   if (! otherTranspose) {
     return false;
   }
-    
+
   return
     fTransposeDiatonic ==
       otherTranspose->fTransposeDiatonic
@@ -218,19 +231,19 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
 
 void msrTranspose::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTranspose::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTranspose>*
     p =
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTranspose::visitStart ()" <<
             endl;
         }
@@ -240,8 +253,8 @@ void msrTranspose::acceptIn (basevisitor* v)
 
 void msrTranspose::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTranspose::acceptOut ()" <<
       endl;
   }
@@ -250,9 +263,9 @@ void msrTranspose::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTranspose::visitEnd ()" <<
             endl;
         }
@@ -263,18 +276,12 @@ void msrTranspose::acceptOut (basevisitor* v)
 void msrTranspose::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTranspose& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTranspose::asString () const
 {
   stringstream s;
 
   s <<
-    "Transpose" << 
+    "Transpose" <<
     ", diatonic = " << fTransposeDiatonic <<
     ", chromatic = " << fTransposeChromatic <<
     ", transposeOctaveChange = " << fTransposeOctaveChange <<
@@ -284,17 +291,17 @@ string msrTranspose::asString () const
   return s.str ();
 }
 
-void msrTranspose::print (ostream& os)
+void msrTranspose::print (ostream& os) const
 {
   const int fieldWidth = 22;
-  
+
   os <<
     "Transpose" <<
     ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "Diatonic" << " = " << fTransposeDiatonic <<
@@ -309,8 +316,14 @@ void msrTranspose::print (ostream& os)
     "TransposeDouble" << " = " << fTransposeDouble <<
     endl <<
     endl;
-    
+
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrTranspose& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -35,18 +35,18 @@ class msrLigature : public msrElement
     enum msrLigatureKind {
       kLigatureNone,
       kLigatureStart, kLigatureContinue, kLigatureStop};
-    
+
     static string ligatureKindAsString (
       msrLigatureKind ligatureKind);
-      
+
     enum msrLigatureLineEndKind {
       kLigatureLineEndNone,
       kLigatureLineEndUp, kLigatureLineEndDown,
       kLigatureLineEndBoth, kLigatureLineEndArrow };
-    
+
     static string ligatureLineEndKindAsString (
       msrLigatureLineEndKind ligatureLineEndKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -57,7 +57,7 @@ class msrLigature : public msrElement
       msrLigatureLineEndKind ligatureLineEndKind,
       msrLineTypeKind        ligatureLineTypeKind,
       msrPlacementKind       ligaturePlacementKind);
-      
+
   protected:
 
     // constructors/destructor
@@ -70,24 +70,24 @@ class msrLigature : public msrElement
       msrLigatureLineEndKind ligatureLineEndKind,
       msrLineTypeKind        ligatureLineTypeKind,
       msrPlacementKind       ligaturePlacementKind);
-      
+
     virtual ~msrLigature ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    // sidelinks
-    void                  setLigatureOtherEndSidelink (
+    // sideLinks
+    void                  setLigatureOtherEndSideLink (
                             S_msrLigature otherEndSideLink);
-      
-    S_msrLigature         getLigatureOtherEndSidelink () const
-                              { return fLigatureOtherEndSidelink; }
+
+    S_msrLigature         getLigatureOtherEndSideLink () const
+                              { return fLigatureOtherEndSideLink; }
 
     int                   getLigatureNumber () const
                               { return fLigatureNumber; }
-    
+
     msrLigatureKind       getLigatureKind () const
                               { return fLigatureKind; }
 
@@ -100,6 +100,10 @@ class msrLigature : public msrElement
 
     msrPlacementKind      getLigaturePlacementKind () const
                               { return fLigaturePlacementKind; }
+
+    void                  setLigaturePlacementKind (
+                            msrPlacementKind placementKind)
+                              { fLigaturePlacementKind = placementKind; }
 
     // services
     // ------------------------------------------------------
@@ -119,15 +123,15 @@ class msrLigature : public msrElement
     // print
     // ------------------------------------------------------
 
-    string                ligatureKindAsString ();
+    string                ligatureKindAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
-    // sidelinks
+    // sideLinks
     // ------------------------------------------------------
-    S_msrLigature         fLigatureOtherEndSidelink; // two-way
+    S_msrLigature         fLigatureOtherEndSideLink; // two-way
 
     // fields
     // ------------------------------------------------------
@@ -138,9 +142,9 @@ class msrLigature : public msrElement
 
     msrLigatureLineEndKind
                           fLigatureLineEndKind;
-                          
+
     msrLineTypeKind       fLigatureLineTypeKind;
-    
+
     msrPlacementKind      fLigaturePlacementKind;
 };
 typedef SMARTP<msrLigature> S_msrLigature;

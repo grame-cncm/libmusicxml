@@ -13,7 +13,7 @@
 #ifndef ___msrOtherElements___
 #define ___msrOtherElements___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrSegno : public msrElement
+class msrSegno : public msrMeasureElement
 {
   public:
       
@@ -65,7 +65,7 @@ class msrSegno : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -76,7 +76,7 @@ typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
 
 //______________________________________________________________________________
-class msrCoda : public msrElement
+class msrCoda : public msrMeasureElement
 {
   public:
       
@@ -119,7 +119,7 @@ class msrCoda : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -130,7 +130,7 @@ typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
 
 //______________________________________________________________________________
-class msrEyeGlasses : public msrElement
+class msrEyeGlasses : public msrMeasureElement
 {
   public:
       
@@ -173,7 +173,7 @@ class msrEyeGlasses : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -192,7 +192,7 @@ class msrPolyphony : public smartable
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
  
   public:
 

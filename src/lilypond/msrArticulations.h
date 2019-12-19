@@ -96,7 +96,7 @@ class msrArticulation : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
 
@@ -182,7 +182,7 @@ class msrFermata : public msrArticulation
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -254,7 +254,7 @@ class msrArpeggiato : public msrArticulation
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -337,7 +337,7 @@ class msrNonArpeggiato : public msrArticulation
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

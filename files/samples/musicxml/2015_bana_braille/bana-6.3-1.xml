@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="2.0">
+ <work>
+  <work-title>BANA 2015 Example 6.3-1: Quarter-tone accidentals</work-title>
+ </work>
+ <identification>
+  <creator type="composer"></creator>
+  <creator type="poet"></creator>
+  <rights></rights>
+  <encoding>
+   <software>Neuratron PhotoScore</software>
+   <encoding-description>MusicXML 2.0</encoding-description>
+  </encoding>
+  <source>Scanned sheet music</source>
+ </identification>
+ <defaults>
+  <scaling>
+   <millimeters>68</millimeters>
+   <tenths>400</tenths>
+  </scaling>
+  <page-layout>
+   <page-height>375</page-height>
+   <page-width>744</page-width>
+  </page-layout>
+ </defaults>
+ <part-list>
+  <score-part id="P1">
+   <part-name></part-name>
+   <part-abbreviation></part-abbreviation>
+   <score-instrument id="P1-I1">
+    <instrument-name></instrument-name>
+   </score-instrument>
+   <midi-instrument id="P1-I1">
+    <midi-channel>1</midi-channel>
+    <midi-program>1</midi-program>
+   </midi-instrument>
+  </score-part>
+ </part-list>
+ <part id="P1">
+  <measure number="1">
+   <attributes>
+    <divisions>2</divisions>
+    <time>
+     <beats>3</beats>
+     <beat-type>4</beat-type>
+    </time>
+    <clef number="1">
+     <sign>F</sign>
+     <line>4</line>
+    </clef>
+   </attributes>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>2</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>3</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <dot/>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="2">
+   <note>
+    <pitch>
+     <step>F</step>
+     <alter>0.5</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <accidental>quarter-sharp</accidental>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <alter>1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>3</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <dot/>
+    <accidental>sharp</accidental>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <alter>1.5</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <accidental>three-quarters-sharp</accidental>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="3">
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>6</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <dot/>
+    <stem>down</stem>
+   </note>
+   <barline location="right">
+    <bar-style>light-light</bar-style>
+   </barline>
+  </measure>
+ </part>
+</score-partwise>

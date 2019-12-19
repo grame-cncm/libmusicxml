@@ -10,24 +10,21 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrLigatures.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 #include "messagesHandling.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrLigature msrLigature::create (
@@ -60,46 +57,46 @@ msrLigature::msrLigature (
     : msrElement (inputLineNumber)
 {
   fLigatureNumber        = ligatureNumber;
-  fLigatureKind          = ligatureKind; 
-  fLigatureLineEndKind   = ligatureLineEndKind; 
-  fLigatureLineTypeKind  = ligatureLineTypeKind; 
-  fLigaturePlacementKind = ligaturePlacementKind; 
+  fLigatureKind          = ligatureKind;
+  fLigatureLineEndKind   = ligatureLineEndKind;
+  fLigatureLineTypeKind  = ligatureLineTypeKind;
+  fLigaturePlacementKind = ligaturePlacementKind;
 }
 
 msrLigature::~msrLigature ()
 {}
 
-void msrLigature::setLigatureOtherEndSidelink (
+void msrLigature::setLigatureOtherEndSideLink (
   S_msrLigature otherEndSideLink)
 {
   // sanity check
   msrAssert (
     otherEndSideLink != nullptr,
     "otherEndSideLink is null");
-    
-  // set the two-way sidelink between both ends of the spanner
-  fLigatureOtherEndSidelink =
+
+  // set the two-way sideLink between both ends of the spanner
+  fLigatureOtherEndSideLink =
     otherEndSideLink;
-    
-  otherEndSideLink->fLigatureOtherEndSidelink =
+
+  otherEndSideLink->fLigatureOtherEndSideLink =
     this;
 }
 
 void msrLigature::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrLigature::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrLigature>*
     p =
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrLigature::visitStart ()" <<
             endl;
         }
@@ -109,8 +106,8 @@ void msrLigature::acceptIn (basevisitor* v)
 
 void msrLigature::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrLigature::acceptOut ()" <<
       endl;
   }
@@ -119,9 +116,9 @@ void msrLigature::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrLigature::visitEnd ()" <<
             endl;
         }
@@ -137,7 +134,7 @@ string msrLigature::ligatureKindAsString (
   msrLigatureKind ligatureKind)
 {
   stringstream s;
-  
+
   switch (ligatureKind) {
     case msrLigature::kLigatureStart:
       s << "ligatureStart";
@@ -151,16 +148,16 @@ string msrLigature::ligatureKindAsString (
     case kLigatureNone:
       s << "ligatureNone";
   } // switch
-    
+
   return s.str ();
-  
+
 }
-     
+
 string msrLigature::ligatureLineEndKindAsString (
   msrLigatureLineEndKind ligatureLineEndKind)
 {
   stringstream s;
-  
+
   switch (ligatureLineEndKind) {
     case msrLigature::kLigatureLineEndUp:
       s << "ligatureLineEndUp";
@@ -178,20 +175,20 @@ string msrLigature::ligatureLineEndKindAsString (
       s << "ligatureLineEndNone";
       break;
   } // switch
-    
+
   return s.str ();
-  
+
 }
-      
-string msrLigature::ligatureKindAsString ()
+
+string msrLigature::ligatureKindAsString () const
 {
   return ligatureKindAsString (fLigatureKind);
 }
 
-void msrLigature::print (ostream& os)
+void msrLigature::print (ostream& os) const
 {
   os <<
-    "Ligature" " " << ligatureKindAsString () <<
+    "Ligature " << ligatureKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -203,17 +200,17 @@ void msrLigature::print (ostream& os)
     setw (fieldWidth) <<
     "ligatureLineEndKind" << " : " <<
     ligatureLineEndKindAsString (
-      fLigatureLineEndKind) << 
+      fLigatureLineEndKind) <<
     endl <<
     setw (fieldWidth) <<
     "ligatureLineTypeKind" << " : " <<
     msrLineTypeKindAsString (
-      fLigatureLineTypeKind) << 
+      fLigatureLineTypeKind) <<
     endl <<
     setw (fieldWidth) <<
     "ligaturePlacementKind" << " : " <<
     msrPlacementKindAsString (
-      fLigaturePlacementKind) << 
+      fLigaturePlacementKind) <<
     endl;
 
   gIndenter--;

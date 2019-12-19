@@ -12,12 +12,12 @@
 
 #include "lpsrElements.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -41,44 +41,52 @@ lpsrElement::~lpsrElement ()
 
 void lpsrElement::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrElement::acceptIn ()" <<
       endl;
   }
-  
+#endif
+
   if (visitor<S_lpsrElement>*
     p =
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrElement::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrElement::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrElement::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrElement>*
     p =
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrElement::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

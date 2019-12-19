@@ -10,21 +10,18 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrSlurs.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrSlur msrSlur::create (
@@ -57,19 +54,19 @@ msrSlur::~msrSlur ()
 
 void msrSlur::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrSlur::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSlur>*
     p =
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrSlur::visitStart ()" <<
             endl;
         }
@@ -79,8 +76,8 @@ void msrSlur::acceptIn (basevisitor* v)
 
 void msrSlur::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrSlur::acceptOut ()" <<
       endl;
   }
@@ -89,9 +86,9 @@ void msrSlur::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrSlur::visitEnd ()" <<
             endl;
         }
@@ -107,7 +104,7 @@ string msrSlur::slurTypeKindAsString (
   msrSlurTypeKind slurTypeKind)
 {
   stringstream s;
-  
+
   switch (slurTypeKind) {
     case msrSlur::kRegularSlurStart:
       s << "regularSlurStart";
@@ -127,10 +124,10 @@ string msrSlur::slurTypeKindAsString (
     case msrSlur::k_NoSlur:
       s << "Slur" << slurTypeKind << "???";
   } // switch
-    
+
   return s.str ();
 }
-      
+
 string msrSlur::slurTypeKindAsString () const
 {
   return slurTypeKindAsString (fSlurTypeKind);
@@ -147,21 +144,21 @@ string msrSlur::asString () const
       fSlurLineTypeKind) <<
     ", slurNumber = " << fSlurNumber <<
     ", line " << fInputLineNumber;
-  
+
   return s.str ();
+}
+
+void msrSlur::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrSlur& elt)
 {
   elt->print (os);
   return os;
-}
-
-void msrSlur::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
 }
 
 

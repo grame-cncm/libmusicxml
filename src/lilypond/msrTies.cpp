@@ -10,21 +10,18 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrTies.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrTie msrTie::create (
@@ -43,7 +40,7 @@ msrTie::msrTie (
   msrTieKind tieKind)
     : msrElement (inputLineNumber)
 {
-  fTieKind = tieKind; 
+  fTieKind = tieKind;
 }
 
 msrTie::~msrTie ()
@@ -51,19 +48,19 @@ msrTie::~msrTie ()
 
 void msrTie::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTie::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTie>*
     p =
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTie::visitStart ()" <<
             endl;
         }
@@ -73,8 +70,8 @@ void msrTie::acceptIn (basevisitor* v)
 
 void msrTie::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTie::acceptOut ()" <<
       endl;
   }
@@ -83,9 +80,9 @@ void msrTie::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTie::visitEnd ()" <<
             endl;
         }
@@ -96,16 +93,10 @@ void msrTie::acceptOut (basevisitor* v)
 void msrTie::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTie& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTie::tieKindAsString (msrTieKind tieKind)
 {
   stringstream s;
-  
+
   switch (tieKind) {
     case kTieStart:
       s << "tieStart";
@@ -119,8 +110,13 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
     case kTieNone:
       s << "tieNone";
   } // switch
-    
+
   return s.str ();
+}
+
+string msrTie::tieKindAsString () const
+{
+  return tieKindAsString (fTieKind);
 }
 
 string msrTie::asString () const
@@ -130,15 +126,21 @@ string msrTie::asString () const
   s <<
     "Tie" << " " << tieKindAsString () <<
     ", line " << fInputLineNumber;
-        
+
   return s.str ();
 }
 
-void msrTie::print (ostream& os)
+void msrTie::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrTie& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

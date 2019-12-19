@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -34,10 +34,10 @@ class msrDynamics : public msrElement
       kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
       kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
       k_NoDynamics };
-    
+
     static string dynamicsKindAsString (
       msrDynamicsKind dynamicsKind);
-            
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -55,9 +55,9 @@ class msrDynamics : public msrElement
       int              inputLineNumber,
       msrDynamicsKind  dynamicsKind,
       msrPlacementKind dynamicsPlacementKind);
-      
+
     virtual ~msrDynamics ();
-  
+
   public:
 
     // set and get
@@ -90,10 +90,10 @@ class msrDynamics : public msrElement
     // ------------------------------------------------------
 
     string                dynamicsKindAsString () const;
-    
+
     string                dynamicsPlacementKindAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -111,7 +111,7 @@ EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
 class msrOtherDynamics : public msrElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -129,9 +129,9 @@ class msrOtherDynamics : public msrElement
       int              inputLineNumber,
       string           otherDynamicsString,
       msrPlacementKind otherDynamicsPlacementKind);
-      
+
     virtual ~msrOtherDynamics ();
-  
+
   public:
 
     // set and get
@@ -165,7 +165,7 @@ class msrOtherDynamics : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -190,16 +190,16 @@ class msrWedge : public msrElement
     enum msrWedgeKind {
       kWedgeKindNone,
       kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop };
-    
+
     static string wedgeKindAsString (
       msrWedgeKind wedgeKind);
-      
+
     enum msrWedgeNienteKind {
       kWedgeNienteYes, kWedgeNienteNo };
-    
+
     static string wedgeNienteKindAsString (
       msrWedgeNienteKind wedgeNienteKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -221,9 +221,9 @@ class msrWedge : public msrElement
       msrWedgeNienteKind wedgeNienteKind,
       msrLineTypeKind    wedgeLineTypeKind,
       msrPlacementKind   wedgePlacementKind);
-      
+
     virtual ~msrWedge ();
-  
+
   public:
 
     // set and get
@@ -231,10 +231,10 @@ class msrWedge : public msrElement
 
     msrWedgeKind          getWedgeKind () const
                               { return fWedgeKind; }
-    
+
     msrWedgeNienteKind    getWedgeNienteKind () const
                               { return fWedgeNienteKind; }
-    
+
     msrLineTypeKind       getWedgeLineTypeKind () const
                               { return fWedgeLineTypeKind; }
 
@@ -259,9 +259,9 @@ class msrWedge : public msrElement
     // print
     // ------------------------------------------------------
 
-    string                wedgeKindAsString ();
+    string                wedgeKindAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -271,7 +271,7 @@ class msrWedge : public msrElement
     msrWedgeKind          fWedgeKind;
 
     msrWedgeNienteKind    fWedgeNienteKind;
-    
+
     msrLineTypeKind       fWedgeLineTypeKind;
 
     msrPlacementKind      fWedgePlacementKind;

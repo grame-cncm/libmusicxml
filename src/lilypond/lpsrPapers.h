@@ -16,7 +16,9 @@
 #include <string>
 #include <iostream>
 
-#include "lpsrElements.h"
+#include "lpsrGeometry.h"
+
+#include "messagesHandling.h"
 
 
 using namespace std;
@@ -25,7 +27,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrPaper : public msrElement
+class lpsrPaper : public lpsrElement
 {
   public:
 
@@ -33,71 +35,59 @@ class lpsrPaper : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPaper> create (
-      int inputLineNumber);
-    
+      int            inputLineNumber,
+      S_lpsrGeometry theLpsrGeometry);
+
+    SMARTP<lpsrPaper> createPaperNewbornClone ();
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     lpsrPaper (
-      int inputLineNumber);
-      
+      int            inputLineNumber,
+      S_lpsrGeometry theLpsrGeometry);
+
     virtual ~lpsrPaper ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    // page width, height, margins and indents
-
-    void    setPaperWidth         (float val) { fPaperWidth = val; }
-    void    setPaperHeight        (float val) { fPaperHeight = val; }
-    
-    void    setTopMargin          (float val) { fTopMargin = val; }
-    void    setBottomMargin       (float val) { fBottomMargin = val; }
-    void    setLeftMargin         (float val) { fLeftMargin = val; }
-    void    setRightMargin        (float val) { fRightMargin = val; }
-    
-    void    setIndent             (float val);
-    void    setShortIndent        (float val);
-
-    float   getPaperWidth         () const    { return fPaperWidth; }
-    float   getPaperHeight        () const    { return fPaperHeight; }
-    float   getTopMargin          () const    { return fTopMargin; }
-    float   getBottomMargin       () const    { return fBottomMargin; }
-    float   getLeftMargin         () const    { return fLeftMargin; }
-    float   getRightMargin        () const    { return fRightMargin; }
-    
-    float   getIndent             () const    { return fIndent; }
-    float   getShortIndent        () const    { return fShortIndent; }
-
-    // spaces
-
-    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
-    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
-
-    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
-    float   getPageTopSpace       () const    { return fPageTopSpace; }
+    // LPSR geometry
+    void                  setLpsrGeometry (S_lpsrGeometry value)
+                              { fLpsrGeometry = value; }
+    S_lpsrGeometry        getLpsrGeometry () const
+                            { return fLpsrGeometry; }
 
     // headers and footers
+    void                  setOddHeaderMarkup (string value)
+                              { fOddHeaderMarkup = value; }
+    string                getOddHeaderMarkup () const
+                              { return fOddHeaderMarkup; }
 
-    void    setOddHeaderMarkup   (string val) { fOddHeaderMarkup = val; }
-    void    setEvenHeaderMarkup  (string val) { fEvenHeaderMarkup = val; }
-    void    setOddFooterMarkup   (string val) { fOddFooterMarkup = val; }
-    void    setEvenFooterMarkup  (string val) { fEvenFooterMarkup = val; }
+    void                  setEvenHeaderMarkup (string value)
+                              { fEvenHeaderMarkup = value; }
+    string                getEvenHeaderMarkup () const
+                              { return fEvenHeaderMarkup; }
 
-    string  getOddHeaderMarkup    () const    { return fOddHeaderMarkup; }
-    string  getEvenHeaderMarkup   () const    { return fEvenHeaderMarkup; }
-    string  getOddFooterMarkup    () const    { return fOddFooterMarkup; }
-    string  getEvenFooterMarkup   () const    { return fEvenFooterMarkup; }
+    void                  setOddFooterMarkup (string value)
+                              { fOddFooterMarkup = value; }
+    string                getOddFooterMarkup () const
+                              { return fOddFooterMarkup; }
+
+    void                  setEvenFooterMarkup (string value)
+                              { fEvenFooterMarkup = value; }
+    string                getEvenFooterMarkup () const
+                              { return fEvenFooterMarkup; }
 
     // services
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -107,11 +97,11 @@ class lpsrPaper : public msrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
 
   private:
@@ -119,30 +109,14 @@ class lpsrPaper : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // page width, height, margins and indents (centimeters)
-    
-    float             fPaperWidth;
-    float             fPaperHeight;
-    
-    float             fTopMargin;
-    float             fBottomMargin;
-    float             fLeftMargin;
-    float             fRightMargin;
-    
-    float             fIndent;
-    float             fShortIndent;
-
-    // spaces (centimeters)
-    
-    float             fBetweenSystemSpace;
-    float             fPageTopSpace;
+    // LPSR geometry
+    S_lpsrGeometry        fLpsrGeometry;
 
     // headers and footers
-    
-    string            fOddHeaderMarkup;
-    string            fEvenHeaderMarkup;
-    string            fOddFooterMarkup;
-    string            fEvenFooterMarkup;
+    string                fOddHeaderMarkup;
+    string                fEvenHeaderMarkup;
+    string                fOddFooterMarkup;
+    string                fEvenFooterMarkup;
 };
 typedef SMARTP<lpsrPaper> S_lpsrPaper;
 EXP ostream& operator<< (ostream& os, const S_lpsrPaper& elt);

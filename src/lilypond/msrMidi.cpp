@@ -10,22 +10,19 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrMidi.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrMidi msrMidi::create (
@@ -57,19 +54,19 @@ msrMidi::~msrMidi ()
 
 void msrMidi::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrMidi::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrMidi>*
     p =
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrMidi::visitStart ()" <<
             endl;
         }
@@ -79,8 +76,8 @@ void msrMidi::acceptIn (basevisitor* v)
 
 void msrMidi::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrMidi::acceptOut ()" <<
       endl;
   }
@@ -89,9 +86,9 @@ void msrMidi::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrMidi::visitEnd ()" <<
             endl;
         }
@@ -102,13 +99,7 @@ void msrMidi::acceptOut (basevisitor* v)
 void msrMidi::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrMidi& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrMidi::print (ostream& os)
+void msrMidi::print (ostream& os) const
 {
   os << "Midi" << endl;
 
@@ -124,9 +115,15 @@ void msrMidi::print (ostream& os)
     "MidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
     endl <<
     endl;
-      
+
   gIndenter--;
-}    
+}
+
+ostream& operator<< (ostream& os, const S_msrMidi& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 
 }

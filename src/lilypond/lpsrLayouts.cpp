@@ -16,12 +16,12 @@
 
 #include "lpsrScheme.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -39,7 +39,7 @@ lpsrLayout::lpsrLayout (
   int inputLineNumber)
     : lpsrElement (inputLineNumber)
 {
-  fStaffSize = 20; // LilyPond default // JMI
+  fLayoutGlobalStaffSize = 20; // LilyPond default // JMI
 }
 
 lpsrLayout::~lpsrLayout ()
@@ -47,69 +47,78 @@ lpsrLayout::~lpsrLayout ()
 
 void lpsrLayout::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrLayout::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrLayout>*
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrLayout::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrLayout::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrLayout::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrLayout>*
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrLayout::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrLayout::browseData (basevisitor* v)
 {
-
-  int lilypondAssocs = flpsrVarValAssocs.size ();
+/* JMI
+  int lilypondAssocs = flpsrVarValAssocsVector.size ();
 
   for (int i = 0; i < lilypondAssocs; i++ ) {
     // browse the variable/value association
     msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*flpsrVarValAssocs [i]);
+    browser.browse (*flpsrVarValAssocsVector [i]);
   } // for
-  
-  int schemeAssocs = fLpsrSchemeVariables.size ();
-  
+
+  int schemeAssocs = fLpsrSchemeVariablesVector.size ();
+
   for (int i = 0; i < schemeAssocs; i++ ) {
     // browse the Scheme variable/value association
     msrBrowser<lpsrSchemeVariable> browser (v);
-    browser.browse (*fLpsrSchemeVariables [i]);
+    browser.browse (*fLpsrSchemeVariablesVector [i]);
   } // for
+  */
 }
 
-void lpsrLayout::print (ostream& os)
+void lpsrLayout::print (ostream& os) const
 {
   os <<
     "Layout" <<
@@ -121,21 +130,23 @@ void lpsrLayout::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-   "StaffSize" << " : " << fStaffSize <<
+   "layoutGlobalStaffSize" << " : " << fLayoutGlobalStaffSize <<
     endl;
-    
-  int lilypondAssocs = flpsrVarValAssocs.size ();
-  
+
+/* JMI
+  int lilypondAssocs = fLpsrVarValAssocsVector.size ();
+
   for (int i = 0; i < lilypondAssocs; i++ ) {
-    os << flpsrVarValAssocs [i];
+    os << fLpsrVarValAssocsVector [i];
   } // for
 
-  int schemeAssocs = fLpsrSchemeVariables.size ();
-  
+  int schemeAssocs = fLpsrSchemeVariablesVector.size ();
+
   for (int i = 0; i < schemeAssocs; i++ ) {
-    os << fLpsrSchemeVariables[i];
+    os << fLpsrSchemeVariablesVector[i];
   } // for
-  
+*/
+
   gIndenter--;
 }
 

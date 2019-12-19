@@ -2,6 +2,9 @@
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN"
                                 "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.0">
+  <work>
+    <work-title>Minimal score</work-title>
+  </work>
   <identification>
     <encoding>
       <software>Frescobaldi 2.18.1</software>
@@ -17,6 +20,10 @@
     <measure number="1">
       <attributes>
         <divisions>8</divisions>
+        <key>
+          <fifths>4</fifths>
+          <mode>major</mode>
+        </key>
         <time symbol="common">
           <beats>4</beats>
           <beat-type>4</beat-type>
@@ -27,6 +34,15 @@
           <clef-octave-change>-1</clef-octave-change>
         </clef>
       </attributes>
+      <direction placement="above">
+        <direction-type>
+          <metronome>
+            <beat-unit>quarter</beat-unit>
+            <per-minute>90</per-minute>
+          </metronome>
+        </direction-type>
+        <sound tempo="90.0" />
+      </direction>
       <direction placement="below">
         <direction-type>
           <wedge type="crescendo" />
@@ -110,7 +126,10 @@
         <voice>1</voice>
         <type>16th</type>
       </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        </barline>
     </measure>
-    <measure number="3" />
+    <!--measure number="3" /-->
   </part>
 </score-partwise>

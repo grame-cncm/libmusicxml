@@ -15,7 +15,7 @@
 
 #include <list>
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
@@ -23,7 +23,7 @@
 #include "msrWords.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -38,9 +38,9 @@ class msrTempoNote : public msrElement
       int      inputLineNumber,
       rational tempoNoteWholeNotes,
       bool     tempoNoteBelongsToATuplet);
-    
+
   protected:
- 
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -48,9 +48,9 @@ class msrTempoNote : public msrElement
       int      inputLineNumber,
       rational tempoNoteWholeNotes,
       bool     tempoNoteBelongsToATuplet);
-        
+
     virtual ~msrTempoNote ();
-    
+
   public:
 
     // set and get
@@ -85,7 +85,7 @@ class msrTempoNote : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -105,7 +105,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTempoNote& elt);
 class msrTempoTuplet : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -115,19 +115,19 @@ class msrTempoTuplet : public msrElement
 
     static string tempoTupletTypeKindAsString (
       msrTempoTupletTypeKind tempoTupletTypeKind);
-      
+
     enum msrTempoTupletBracketKind {
       kTempoTupletBracketYes, kTempoTupletBracketNo};
-      
+
     static string tempoTupletBracketKindAsString (
       msrTempoTupletBracketKind tempoTupletBracketKind);
-      
+
     enum msrTempoTupletShowNumberKind {
       kTempoTupletShowNumberActual, kTempoTupletShowNumberBoth, kTempoTupletShowNumberNone };
 
     static string tempoTupletShowNumberKindAsString (
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind);
-            
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -153,14 +153,14 @@ class msrTempoTuplet : public msrElement
       int                          tempoTupletActualNotes,
       int                          tempoTupletNormalNotes,
       rational                     memberNotesDisplayWholeNotes);
-      
+
     virtual ~msrTempoTuplet ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-    
+
     int                   getTempoTupletNumber () const
                               { return fTempoTupletNumber; }
 
@@ -175,26 +175,26 @@ class msrTempoTuplet : public msrElement
                               { return fTempoTupletActualNotes; }
     int                   getTempoTupletNormalNotes () const
                               { return fTempoTupletNormalNotes; }
-    
+
     rational              getMemberNotesDisplayWholeNotes () const
                               { return fMemberNotesDisplayWholeNotes; }
 
     const list<S_msrElement>&
                           getTempoTupletElements () const
                               { return fTempoTupletElements; }
-                              
+
     rational              getTempoTupletDisplayWholeNotes () const
                               { return fTempoTupletDisplayWholeNotes; }
-                                  
+
     // services
     // ------------------------------------------------------
 
     void                  addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote);
     /*
     void                  addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet);
-    
+
     void                  addTempoTupletToTempoTupletClone (S_msrTempoTuplet tempoTuplet);
-    
+
     void                  removeFirstNoteFromTempoTuplet (
                             int            inputLineNumber,
                             S_msrTempoNote tempoNote);
@@ -225,7 +225,7 @@ class msrTempoTuplet : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -233,13 +233,13 @@ class msrTempoTuplet : public msrElement
     // ------------------------------------------------------
 
     int                   fTempoTupletNumber;
-    
+
     msrTempoTupletBracketKind
                           fTempoTupletBracketKind;
-              
+
     msrTempoTupletShowNumberKind
                           fTempoTupletShowNumberKind;
-              
+
     int                   fTempoTupletActualNotes;
     int                   fTempoTupletNormalNotes;
 
@@ -263,10 +263,10 @@ class msrTempoRelationshipElements : public msrElement
     enum msrTempoRelationshipElementsKind {
       kTempoRelationshipElementsLeft,
       kTempoRelationshipElementsRight };
-      
+
     static string tempoRelationshipElementsKindAsString (
       msrTempoRelationshipElementsKind tempoRelationshipElementsKind);
-      
+
   public:
 
     // creation from MusicXML
@@ -276,9 +276,9 @@ class msrTempoRelationshipElements : public msrElement
       int      inputLineNumber,
       msrTempoRelationshipElementsKind
                tempoRelationshipElementsKind);
-    
+
   protected:
- 
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -286,9 +286,9 @@ class msrTempoRelationshipElements : public msrElement
       int      inputLineNumber,
       msrTempoRelationshipElementsKind
                tempoRelationshipElementsKind);
-        
+
     virtual ~msrTempoRelationshipElements ();
-    
+
   public:
 
     // set and get
@@ -324,7 +324,7 @@ class msrTempoRelationshipElements : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -337,7 +337,7 @@ typedef SMARTP<msrTempoRelationshipElements> S_msrTempoRelationshipElements;
 EXP ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt);
 
 //______________________________________________________________________________
-class msrTempo : public msrElement
+class msrTempo : public msrMeasureElement
 {
   public:
 
@@ -346,27 +346,32 @@ class msrTempo : public msrElement
 
     enum msrTempoKind {
       k_NoTempoKind,
+      kTempoBeatUnitsWordsOnly,
       kTempoBeatUnitsPerMinute,
       kTempoBeatUnitsEquivalence,
       kTempoNotesRelationShip };
-      
+
     static string tempoKindAsString (
       msrTempoKind tempoKind);
-      
+
     enum msrTempoParenthesizedKind {
       kTempoParenthesizedYes, kTempoParenthesizedNo };
-      
-    static string tempoParenthesizedAsString (
+
+    static string tempoParenthesizedKindAsString (
       msrTempoParenthesizedKind tempoParenthesizedKind);
-      
+
     enum msrTempoRelationKind {
       kTempoRelationNone, kTempoRelationEquals };
-      
-    static string tempoRelationAsString (
+
+    static string tempoRelationKindAsString (
       msrTempoRelationKind tempoRelationKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
+
+    static SMARTP<msrTempo> create (
+      int               inputLineNumber,
+      S_msrWords        tempoWords);
 
     static SMARTP<msrTempo> create (
       int               inputLineNumber,
@@ -401,12 +406,16 @@ class msrTempo : public msrElement
 
     msrTempo (
       int               inputLineNumber,
+      S_msrWords        tempoWords);
+
+    msrTempo (
+      int               inputLineNumber,
       msrDottedDuration tempoBeatUnit,
       string            tempoPerMinute,
       msrTempoParenthesizedKind
                         tempoParenthesizedKind,
       msrPlacementKind  tempoPlacementKind);
-      
+
     msrTempo (
       int               inputLineNumber,
       msrDottedDuration tempoBeatUnit,
@@ -414,7 +423,7 @@ class msrTempo : public msrElement
       msrTempoParenthesizedKind
                         tempoParenthesizedKind,
       msrPlacementKind  tempoPlacementKind);
-      
+
     msrTempo (
       int               inputLineNumber,
       S_msrTempoRelationshipElements
@@ -424,9 +433,9 @@ class msrTempo : public msrElement
       msrTempoParenthesizedKind
                         tempoParenthesizedKind,
       msrPlacementKind  tempoPlacementKind);
-      
+
     virtual ~msrTempo ();
-  
+
   public:
 
     // set and get
@@ -438,7 +447,7 @@ class msrTempo : public msrElement
     const list<S_msrWords>&
                           getTempoWordsList () const
                               { return fPendingWordsList; }
-    
+
     msrDottedDuration     getTempoBeatUnit () const
                               { return fTempoBeatUnit; }
 
@@ -447,6 +456,15 @@ class msrTempo : public msrElement
 
     msrDottedDuration     getTempoEquivalentBeatUnit () const
                               { return fTempoEquivalentBeatUnit; }
+
+    S_msrTempoRelationshipElements
+                          getTempoRelationLeftElements () const
+                              { return fTempoRelationLeftElements; }
+    msrTempoRelationKind  getTempoRelationKind () const
+                              { return fTempoRelationKind; }
+    S_msrTempoRelationshipElements
+                          getTempoRelationRightElements () const
+                              { return fTempoRelationRightElements; }
 
     msrTempoParenthesizedKind
                           getTempoParenthesizedKind () const
@@ -479,8 +497,8 @@ class msrTempo : public msrElement
     // ------------------------------------------------------
 
     string                asString () const;
-    
-    virtual void          print (ostream& os);
+
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -488,16 +506,17 @@ class msrTempo : public msrElement
     // ------------------------------------------------------
 
     msrTempoKind          fTempoKind;
-    
+
     list<S_msrWords>      fPendingWordsList;
 
     msrDottedDuration     fTempoBeatUnit;
-    
+
     string                fTempoPerMinute; // '90' or '132-156' for example
     msrDottedDuration     fTempoEquivalentBeatUnit;
 
     S_msrTempoRelationshipElements
                           fTempoRelationLeftElements;
+    msrTempoRelationKind  fTempoRelationKind;
     S_msrTempoRelationshipElements
                           fTempoRelationRightElements;
 

@@ -12,20 +12,24 @@
 
 #include "msrScores.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include <iomanip>      // for 'setw()'
+
+#include "msr.h"
+
+#include "generalOah.h"
+
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
-
-#include "xml2lyOptionsHandling.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -48,9 +52,9 @@ msrScore::msrScore (
     msrIdentification::create (
       inputLineNumber);
 
-  // create the page geometry
-  fPageGeometry =
-    msrPageGeometry::create (
+  // create the geometry
+  fMsrGeometry =
+    msrGeometry::create (
       inputLineNumber);
 
   // number of measures
@@ -61,16 +65,16 @@ msrScore::msrScore (
 
   // part names max length
   fScorePartNamesMaxLength = -1;
-  
+
   // set instrument names max lengthes
   fScoreInstrumentNamesMaxLength      = -1;
   fScoreInstrumentAbbreviationsMaxLength = -1;
-  
-  // measure repeats replicas should be browsed by default
+
+  // measures repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;
 
-  // multiple rest measures should be browsed by default
-  fInhibitMultipleRestMeasuresBrowsing = false;
+  // rest measures should be browsed by default
+  fInhibitRestMeasuresBrowsing = false;
 }
 
 msrScore::~msrScore ()
@@ -78,9 +82,9 @@ msrScore::~msrScore ()
 
 S_msrScore msrScore::createScoreNewbornClone ()
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceScore) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceScore) {
+    gLogOstream <<
       "Creating a newborn clone of a score" <<
       endl;
   }
@@ -106,36 +110,43 @@ S_msrScore msrScore::createScoreNewbornClone ()
     fScorePartNamesMaxLength;
 
   // instrument names max lengthes
-  
+
   newbornClone->fScoreInstrumentNamesMaxLength =
     fScoreInstrumentNamesMaxLength;
-    
+
   newbornClone->fScoreInstrumentAbbreviationsMaxLength =
     fScoreInstrumentAbbreviationsMaxLength;
-    
+
   // inhibiting browsing
 
   newbornClone->fInhibitMeasuresRepeatReplicasBrowsing =
     fInhibitMeasuresRepeatReplicasBrowsing;
-    
-  newbornClone->fInhibitMultipleRestMeasuresBrowsing =
-    fInhibitMultipleRestMeasuresBrowsing;
-    
+
+  newbornClone->fInhibitRestMeasuresBrowsing =
+    fInhibitRestMeasuresBrowsing;
+
   return newbornClone;
 }
 
+void msrScore::setScoreMasterVoice (
+  S_msrVoice masterVoice)
+{ fScoreMasterVoice = masterVoice; }
+
+S_msrVoice msrScore::getScoreMasterVoice () const
+{ return fScoreMasterVoice; }
+
 void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 {
-  if (fScorePartGroupsSet.count (partGroup)) {      
+  if (fScorePartGroupsSet.count (partGroup)) {
     stringstream s;
-    
-    s <<      
+
+    s <<
       "part group '" <<
       partGroup->getPartGroupCombinedName () <<
       "' already exists in this score";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gOahOah->fInputSourceName,
       partGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -148,16 +159,16 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 
 void msrScore::appendCreditToScore (S_msrCredit credit)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceCredits) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceCredits) {
+    gLogOstream <<
       "Appending credit '" <<
       credit->asString () <<
       "' to score" <<
       endl;
   }
 #endif
-  
+
   fCreditsList.push_back (credit);
 }
 
@@ -166,29 +177,30 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   string partID)
 {
   S_msrPart result;
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
-    gLogIOstream <<
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePartGroupsDetails) {
+    gLogOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
-      
+
     gIndenter++;
 
     for (
       list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
         i != fPartGroupsList.end ();
-        i++) {
-      gLogIOstream <<
+        i++
+      ) {
+      gLogOstream <<
         (*i)->getPartGroupCombinedName () <<
         ", " <<
         (*i)->getPartGroupName () <<
         endl;
     } // for
-  
+
     gIndenter--;
 
-    gLogIOstream <<
+    gLogOstream <<
       "<=- fetchPartFromScoreByItsPartID(" << partID << ")" <<
       endl <<
       endl;
@@ -198,7 +210,8 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++) {
+    i++
+  ) {
     S_msrPart
       part =
         (*i)->
@@ -215,6 +228,196 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   return result;
 }
 
+void msrScore::fetchIdentificationFromCreditsIfAny (
+  int inputLineNumber)
+{
+  /*
+  S_msrIdentification
+    identification =
+      fMsrScore->getIdentification ();
+
+  string inputSourceName;
+
+  if (
+    ! identification->getWorkTitle ()
+      &&
+    gMusicXMLOah->fUseFilenameAsWorkTitle
+  ) {
+    inputSourceName =
+      gOahOah->fInputSourceName;
+
+    if (inputSourceName == "-") {
+      inputSourceName = "Standard input";
+    }
+  }
+
+  <credit page="1">
+    <credit-words default-x="548" default-y="1382" font-family="FreeSerif" font-size="26" font-weight="bold" justify="center" valign="top" xml:space="preserve">"R E Q U I E M"    from    D E A T H N O T E</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="548" default-y="1331" font-family="FreeSerif" font-size="16" font-style="italic" justify="center" valign="top">Theme from L's death. For SATB choir.</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1046" default-y="1253" font-family="FreeSerif" font-size="12" justify="right" valign="bottom">Yoshihisa Hirano &amp; Hideki Taniuchi</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="51" default-y="1253" font-family="FreeSerif" font-size="12" valign="bottom" xml:lang="fr">arrangement and lyrics by Andrés Rojas</credit-words>
+  </credit>
+
+  */
+
+  // credits on top of page one can be used as identification
+  if (fCreditsList.size () >= 1) {
+    list<S_msrCredit>::const_iterator
+      iBegin = fCreditsList.begin (),
+      iEnd   = fCreditsList.end (),
+      i      = iBegin;
+
+    int topCreditsCounter    = 0;
+    int bottomCreditsCounter = 0;
+
+    for ( ; ; ) {
+      S_msrCredit credit = (*i);
+
+      if (credit->getCreditPageNumber () == 1) {
+        const vector<S_msrCreditWords>&
+          creditWordsVector =
+            credit->
+              getCreditWordsList ();
+
+        if (creditWordsVector.size () >= 1) {
+          S_msrCreditWords
+            creditWords =
+              creditWordsVector.front ();
+
+          string
+            creditWordsContents =
+              creditWords->
+                getCreditWordsContents ();
+
+          switch (creditWords->getCreditWordsVerticalAlignmentKind ()) {
+            case kVerticalAlignmentNone:
+              break;
+
+            case kVerticalAlignmentTop:
+              topCreditsCounter++;
+
+              switch (topCreditsCounter) {
+                case 1:
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
+                    gLogOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as score title" <<
+                      endl;
+              }
+#endif
+
+                  fIdentification->
+                    setWorkTitle (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+
+                case 2:
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
+                    gLogOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as movement title" <<
+                      endl;
+              }
+#endif
+
+                  fIdentification->
+                    setMovementTitle (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+
+                default:
+                  ;
+              } // switch
+              break;
+
+            case kVerticalAlignmentMiddle:
+              break;
+
+            case kVerticalAlignmentBottom:
+              bottomCreditsCounter++;
+
+              switch (bottomCreditsCounter) {
+                case 1:
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
+                    gLogOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as composer" <<
+                      endl;
+              }
+#endif
+
+                  fIdentification->
+                    addComposer (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+
+                case 2:
+#ifdef TRACE_OAH
+                  if (gTraceOah->fTraceCredits) {
+                    gLogOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as poet" <<
+                      endl;
+              }
+#endif
+
+                  fIdentification->
+                    addPoet (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+
+                default:
+                  ;
+              } // switch
+              break;
+          } // switch
+        }
+      }
+
+      if (++i == iEnd) break;
+//      s << ", ";
+    } // for
+  }
+}
+
+/*      s << "[";
+
+      vector<S_msrCreditWords>::const_iterator
+        iBegin = fCreditWordsList.begin (),
+        iEnd   = fCreditWordsList.end (),
+        i      = iBegin;
+
+      for ( ; ; ) {
+        S_msrCreditWords creditWords = (*i);
+
+        if (creditWords-> () == )
+        s << "\"" << creditWords->getCreditWordsContents () << "\"";
+        if (++i == iEnd) break;
+        s << ", ";
+      } // for
+
+      s << "]";
+    }
+  }
+  */
+
 void msrScore::collectScorePartsList (
   int              inputLineNumber,
   list<S_msrPart>& partsList)
@@ -224,7 +427,8 @@ void msrScore::collectScorePartsList (
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++) {
+    i++
+  ) {
     S_msrPartGroup
       partGroup = (*i);
       partGroup->
@@ -239,7 +443,7 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
   int partGroupNumber)
 {
   S_msrPartGroup result;
-  
+
   if (fScorePartGroupsMap.count (partGroupNumber)) {
     result = fScorePartGroupsMap [partGroupNumber];
   }
@@ -250,19 +454,19 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
 
 void msrScore::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrScore::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrScore>*
     p =
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrScore::visitStart ()" <<
             endl;
         }
@@ -272,8 +476,8 @@ void msrScore::acceptIn (basevisitor* v)
 
 void msrScore::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrScore::acceptOut ()" <<
       endl;
   }
@@ -282,9 +486,9 @@ void msrScore::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrScore::visitEnd ()" <<
             endl;
         }
@@ -294,28 +498,29 @@ void msrScore::acceptOut (basevisitor* v)
 
 void msrScore::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrScore::browseData ()" <<
       endl;
   }
-    
+
   if (fIdentification) {
     // browse identification
     msrBrowser<msrIdentification> browser (v);
     browser.browse (*fIdentification);
   }
 
-  if (fPageGeometry) {
-    // browse page geometry
-    msrBrowser<msrPageGeometry> browser (v);
-    browser.browse (*fPageGeometry);
+  if (fMsrGeometry) {
+    // browse geometry
+    msrBrowser<msrGeometry> browser (v);
+    browser.browse (*fMsrGeometry);
   }
 
   for (
     list<S_msrCredit>::const_iterator i = fCreditsList.begin ();
     i != fCreditsList.end ();
-    i++) {
+    i++
+  ) {
     // browse the part credit
     msrBrowser<msrCredit> browser (v);
     browser.browse (*(*i));
@@ -324,20 +529,21 @@ void msrScore::browseData (basevisitor* v)
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++) {
+    i++
+  ) {
     // browse the part group
     msrBrowser<msrPartGroup> browser (v);
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% <== msrScore::browseData ()" <<
       endl;
   }
 }
 
-void msrScore::print (ostream& os)
+void msrScore::print (ostream& os) const
 {
   os <<
     "MSR Score" <<
@@ -349,7 +555,7 @@ void msrScore::print (ostream& os)
 
   int partGroupsListSize =
     fPartGroupsList.size ();
-    
+
   os << left <<
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
@@ -388,9 +594,9 @@ void msrScore::print (ostream& os)
     endl<<
 
     setw (fieldWidth) <<
-    "inhibitMultipleRestMeasuresBrowsing" <<  " : " <<
+    "inhibitRestMeasuresBrowsing" <<  " : " <<
     booleanAsString (
-      fInhibitMultipleRestMeasuresBrowsing) <<
+      fInhibitRestMeasuresBrowsing) <<
     endl<<
     endl;
 
@@ -399,11 +605,11 @@ void msrScore::print (ostream& os)
     os <<
       fIdentification;
   }
-  
-  // print the page geometry if any
-  if (fPageGeometry) {
+
+  // print the geometry if any
+  if (fMsrGeometry) {
     os <<
-      fPageGeometry;
+      fMsrGeometry;
   }
 
   // print the credits if any
@@ -413,8 +619,7 @@ void msrScore::print (ostream& os)
     setw (fieldWidth) <<
     "CreditsList";
   if (creditsListSize) {
-    os <<
-      endl;
+    os << endl;
     gIndenter++;
 
     list<S_msrCredit>::const_iterator
@@ -434,8 +639,7 @@ void msrScore::print (ostream& os)
       " : " << "none" <<
       endl;
   }
-  os <<
-    endl;
+  os << endl;
 
   // print the part groups if any
   if (partGroupsListSize) {
@@ -454,7 +658,7 @@ void msrScore::print (ostream& os)
       "There are no part groups in the list" <<
       endl;
   }
-  
+
   gIndenter--;
 }
 
@@ -500,9 +704,9 @@ void msrScore::printSummary (ostream& os)
     endl<<
 
     setw (fieldWidth) <<
-    "inhibitMultipleRestMeasuresBrowsing" <<  " : " <<
+    "inhibitRestMeasuresBrowsing" <<  " : " <<
     booleanAsString (
-      fInhibitMultipleRestMeasuresBrowsing) <<
+      fInhibitRestMeasuresBrowsing) <<
     endl<<
     endl;
 
@@ -512,18 +716,17 @@ void msrScore::printSummary (ostream& os)
     os <<
       "Parts and part groups structure:" <<
       endl;
-  
+
     gIndenter++;
-    
+
     fPartGroupsList.front () ->
       printPartGroupParts (
         fInputLineNumber,
         os);
-  
+
     gIndenter--;
 
-    os <<
-      endl;
+    os << endl;
   }
 
   // print the identification if any
@@ -531,13 +734,13 @@ void msrScore::printSummary (ostream& os)
     os <<
       fIdentification;
   }
-  
-  // print the page geometry if any
-  if (fPageGeometry) {
+
+  // print the geometry if any
+  if (fMsrGeometry) {
     os <<
-      fPageGeometry;
+      fMsrGeometry;
   }
-  
+
   // print the credits if any
   if (fCreditsList.size ()) {
     list<S_msrCredit>::const_iterator
@@ -549,10 +752,9 @@ void msrScore::printSummary (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
-    os <<
-      endl;
+    os << endl;
   }
-  
+
   if (partGroupsListSize) {
     list<S_msrPartGroup>::const_iterator
       iBegin = fPartGroupsList.begin (),
@@ -565,7 +767,7 @@ void msrScore::printSummary (ostream& os)
       os << endl;
     } // for
   }
-  
+
   gIndenter--;
 }
 

@@ -32,7 +32,10 @@
         </clef>
       </attributes>
       <note>
-        <rest/>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -44,7 +47,10 @@
     <!--=======================================================-->
     <measure number="2">
       <note>
-        <rest/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>

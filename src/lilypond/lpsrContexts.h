@@ -116,7 +116,7 @@ class lpsrContext : public lpsrElement
                                     fContextExistingKind);
                               }
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   protected:
   
@@ -186,7 +186,7 @@ class lpsrChordNamesContext : public lpsrContext
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
   
@@ -251,7 +251,7 @@ class lpsrFiguredBassContext : public lpsrContext
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
   

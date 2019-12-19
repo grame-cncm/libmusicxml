@@ -13,16 +13,16 @@
 #ifndef ___msrTranspositions___
 #define ___msrTranspositions___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrOctaveShift : public msrElement
+class msrOctaveShift : public msrMeasureElement
 {
   public:
 
@@ -36,7 +36,7 @@ class msrOctaveShift : public msrElement
 
     static string octaveShiftKindAsString (
       msrOctaveShiftKind octaveShiftKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -54,9 +54,9 @@ class msrOctaveShift : public msrElement
       int                inputLineNumber,
       msrOctaveShiftKind octaveShiftKind,
       int                octaveShiftSize);
-      
+
     virtual ~msrOctaveShift ();
-  
+
   public:
 
     // set and get
@@ -88,7 +88,9 @@ class msrOctaveShift : public msrElement
 
     string                octaveShiftKindAsString () const;
 
-    virtual void          print (ostream& os);
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -106,10 +108,10 @@ EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
 class msrTranspose;
 typedef SMARTP<msrTranspose> S_msrTranspose;
 
-class msrTranspose : public msrElement
+class msrTranspose : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -131,9 +133,9 @@ class msrTranspose : public msrElement
       int  transposeChromatic,
       int  transposeOctaveChange,
       bool transposeDouble);
-      
+
     virtual ~msrTranspose ();
-  
+
   public:
 
     // set and get
@@ -141,21 +143,21 @@ class msrTranspose : public msrElement
 
     int                   getTransposeDiatonic () const
                               { return fTransposeDiatonic; }
-                  
+
     int                   getTransposeChromatic () const
                               { return fTransposeChromatic; }
-                  
+
     int                   getTransposeOctaveChange () const
                               { return fTransposeOctaveChange; }
-                  
-    int                   getTransposeDouble () const
+
+    bool                  getTransposeDouble () const
                               { return fTransposeDouble; }
-                  
+
     // services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrTranspose otherTranspose) const;
-                            
+
   public:
 
     // visitors
@@ -173,7 +175,7 @@ class msrTranspose : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

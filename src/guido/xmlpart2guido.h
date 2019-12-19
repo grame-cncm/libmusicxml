@@ -15,6 +15,7 @@
 
 #include <ostream>
 #include <stack>
+#include <queue>
 #include <map>
 #include <string>
 
@@ -45,7 +46,6 @@ namespace MusicXML2
 class EXP xmlpart2guido : 
 	public clefvisitor,
 	public timesignvisitor,
-	public metronomevisitor,
 	public notevisitor,
 	public keysignvisitor,
 	public visitor<S_backup>,
@@ -82,10 +82,8 @@ class EXP xmlpart2guido :
     
     int fTextTagOpen;
     int fTupletOpen;    // Number of opened Tuplets
-    
-    string tempoMetronome;  // parsed during visit of S_Metronome
-    bool directionPlacementAbove;
-    
+        
+    std::queue<int> fDirectionEraserStack;        // To skip already visited Directions when looking ahead because of grace notes
     std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
     std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
 
@@ -202,11 +200,12 @@ class EXP xmlpart2guido :
 		virtual void visitEnd  ( S_ending& elt);
 		virtual void visitEnd  ( S_key& elt);
 		virtual void visitEnd  ( S_measure& elt);
-		virtual void visitEnd  ( S_metronome& elt);
 		virtual void visitEnd  ( S_note& elt);
 		virtual void visitEnd  ( S_repeat& elt);
 		virtual void visitEnd  ( S_sound& elt);
 		virtual void visitEnd  ( S_time& elt);
+    
+    std::string parseMetronome ( metronomevisitor &mv );
     
     bool findNextNote(const S_note& elt, ctree<xmlelement>::iterator &nextnote);
     float getNoteDistanceFromStaffTop(const notevisitor& nv);

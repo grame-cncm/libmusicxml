@@ -10,29 +10,27 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrTimes.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "generalOah.h"
+
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
-#include "xml2lyOptionsHandling.h"
+#include "msrOah.h"
 
 #include "messagesHandling.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrTimeItem msrTimeItem::create (
@@ -51,10 +49,10 @@ msrTimeItem::msrTimeItem (
     : msrElement (inputLineNumber)
 {
   fTimeBeatValue = -1;
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
+    gLogOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -66,11 +64,11 @@ msrTimeItem::~msrTimeItem ()
 {}
 
 bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
-{  
+{
   if (! otherTimeItem) {
     return false;
   }
-    
+
   if (
     ! (
         fTimeBeatValue == otherTimeItem->fTimeBeatValue
@@ -82,7 +80,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
     ) {
     return false;
   }
-    
+
   for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     if (
       ! (
@@ -94,18 +92,19 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
       return false;
     }
   } // for
- 
+
   return true;
 }
 
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
-      "Append beat number '" <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
+    gLogOstream <<
+      "Appending beat number '" <<
       beatsNumber <<
-      "' to time '" << // JMI
+      "' to time item '" <<
+      asString () <<
       "'" <<
       endl;
     }
@@ -116,10 +115,27 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
     beatsNumber);
 }
 
+void msrTimeItem::setTimeBeatValue (int timeBeatValue)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
+    gLogOstream <<
+      "Setting beat value to '" <<
+      timeBeatValue <<
+      "' in time item '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fTimeBeatValue = timeBeatValue;
+}
+
 int msrTimeItem::getTimeBeatsNumber () const
 {
   int result = 0;
-  
+
   for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     result +=
       fTimeBeatsNumbersVector [i];
@@ -130,19 +146,19 @@ int msrTimeItem::getTimeBeatsNumber () const
 
 void msrTimeItem::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTimeItem::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTimeItem>*
     p =
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTimeItem::visitStart ()" <<
             endl;
         }
@@ -152,8 +168,8 @@ void msrTimeItem::acceptIn (basevisitor* v)
 
 void msrTimeItem::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTimeItem::acceptOut ()" <<
       endl;
   }
@@ -162,9 +178,9 @@ void msrTimeItem::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTimeItem::visitEnd ()" <<
             endl;
         }
@@ -174,12 +190,6 @@ void msrTimeItem::acceptOut (basevisitor* v)
 
 void msrTimeItem::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrTimeItem& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrTimeItem::asString () const
 {
@@ -193,18 +203,22 @@ string msrTimeItem::asString () const
 
   switch (vectorSize) {
     case 0:
+    /* JMI
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
+        */
+      s <<
+        "beats numbers: none";
       break;
-      
+
     case 1:
       s <<
         fTimeBeatsNumbersVector [0] << "/" << fTimeBeatValue;
       break;
-      
+
     default:
       s <<
         "beats numbers: ";
@@ -212,7 +226,7 @@ string msrTimeItem::asString () const
       for (int i = 0; i < vectorSize; i++) {
         s <<
           fTimeBeatsNumbersVector [i];
-  
+
         if (i != vectorSize - 1) {
           s <<
             " ";
@@ -222,18 +236,24 @@ string msrTimeItem::asString () const
       s <<
         ", beat value: " << fTimeBeatValue;
   } // switch
-  
+
   s <<
     ", line " << fInputLineNumber;
-     
+
   return s.str ();
 }
 
-void msrTimeItem::print (ostream& os)
+void msrTimeItem::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrTimeItem& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -251,10 +271,10 @@ S_msrTime msrTime::create (
 msrTime::msrTime (
   int               inputLineNumber,
   msrTimeSymbolKind timeSymbolKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fTimeSymbolKind = timeSymbolKind;
-    
+
   fTimeIsCompound = false;
 }
 
@@ -263,7 +283,7 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
   if (! otherTime) {
     return false;
   }
-    
+
   if (
     ! (
         fTimeSymbolKind == otherTime->fTimeSymbolKind
@@ -275,7 +295,7 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
     ) {
     return false;
   }
-    
+
   for (unsigned int i = 0; i < fTimeItemsVector.size (); i++) {
     if (
       ! (
@@ -286,7 +306,7 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
       return false;
     }
   } // for
- 
+
   return true;
 }
 
@@ -310,7 +330,7 @@ S_msrTime msrTime::createFourQuartersTime (
     appendBeatsNumber (4);
   timeItem->
     setTimeBeatValue (4);
-        
+
   // append the time item to the time
   time->
     appendTimeItem (timeItem);
@@ -325,9 +345,9 @@ msrTime::~msrTime ()
 void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
+    gLogOstream <<
       "Append item '" <<
       timeItem->asString () <<
       "' to time '" <<
@@ -348,7 +368,7 @@ void msrTime::appendTimeItem (
       fTimeIsCompound = true;
     }
   }
-  
+
   else {
     // there are several time items, this time is compound
     fTimeIsCompound = true;
@@ -364,7 +384,7 @@ rational msrTime::wholeNotesPerMeasure () const
   rational result (0, 1); // addition neutral element
 
   int vectorSize = fTimeItemsVector.size ();
-  
+
   if (vectorSize) {
     /* JMI
     // start with first item
@@ -375,7 +395,7 @@ rational msrTime::wholeNotesPerMeasure () const
 */
 
 /* JMI
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       endl <<
       "result1 = " <<
@@ -394,7 +414,7 @@ rational msrTime::wholeNotesPerMeasure () const
           fTimeItemsVector [i]->getTimeBeatValue ());
 
 /* JMI
-      gLogIOstream <<
+      gLogOstream <<
         endl <<
         endl <<
         "result2 = " <<
@@ -404,13 +424,13 @@ rational msrTime::wholeNotesPerMeasure () const
         endl <<
         endl;
         */
-        
+
     } // for
   }
 
   else {
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "time items vector is empty");
@@ -425,19 +445,19 @@ rational msrTime::wholeNotesPerMeasure () const
 
 void msrTime::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTime::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTime>*
     p =
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTime::visitStart ()" <<
             endl;
         }
@@ -447,8 +467,8 @@ void msrTime::acceptIn (basevisitor* v)
 
 void msrTime::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrTime::acceptOut ()" <<
       endl;
   }
@@ -457,9 +477,9 @@ void msrTime::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrTime::visitEnd ()" <<
             endl;
         }
@@ -474,7 +494,7 @@ string msrTime::timeSymbolKindAsString (
   msrTimeSymbolKind timeSymbolKind)
 {
   string result;
- 
+
   switch (timeSymbolKind) {
     case msrTime::kTimeSymbolCommon:
       result = "timeSymbolCommon";
@@ -506,7 +526,7 @@ string msrTime::timeSeparatorKindAsString (
   msrTimeSeparatorKind timeSeparatorKind)
 {
   string result;
- 
+
   switch (timeSeparatorKind) {
     case msrTime::kTimeSeparatorNone:
       result = "timeSeparatorNone";
@@ -532,7 +552,7 @@ string msrTime::timeRelationKindAsString (
   msrTimeRelationKind timeRelationKind)
 {
   string result;
- 
+
   switch (timeRelationKind) {
     case msrTime::kTimeRelationNone:
       result = "timeRelationNone";
@@ -565,7 +585,7 @@ string msrTime::asString () const
   stringstream s;
 
   s <<
-    "Time, " << 
+    "Time, " <<
     ", timeSymbolKind: " <<
     timeSymbolKindAsString (fTimeSymbolKind) <<
     ", timeIsCompound: " <<
@@ -584,7 +604,7 @@ string msrTime::asString () const
       iBegin = fTimeItemsVector.begin (),
       iEnd   = fTimeItemsVector.end (),
       i      = iBegin;
-  
+
     for ( ; ; ) {
       s << (*i)->asString ();
       if (++i == iEnd) break;
@@ -594,7 +614,7 @@ string msrTime::asString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time  items vector is empty");
@@ -627,7 +647,7 @@ string msrTime::asShortString () const
   return asString ();
 }
 
-void msrTime::print (ostream& os)
+void msrTime::print (ostream& os) const
 {
   os <<
     "Time" <<
@@ -643,31 +663,29 @@ void msrTime::print (ostream& os)
     ":";
 
   if (fTimeItemsVector.size ()) {
-    os <<
-      endl;
-      
+    os << endl;
+
     gIndenter++;
-    
+
     vector<S_msrTimeItem>::const_iterator
       iBegin = fTimeItemsVector.begin (),
       iEnd   = fTimeItemsVector.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
-    
+
     gIndenter--;
   }
-  
-  else
-    {
-      os <<
-        " none" <<
-        endl;
-    }
+
+  else {
+    os <<
+      " none" <<
+      endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)

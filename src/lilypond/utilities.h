@@ -24,16 +24,16 @@
 #include <set>
 #include <list>
 
-#include <functional> 
+#include <functional>
 #include <algorithm>
 
-#include <string.h> 
+#include <string.h>
 
 /* JMI
 #ifdef WIN32
   // JMI
 #else
-  #include <iconv.h> 
+  #include <iconv.h>
 #endif
 */
 
@@ -41,7 +41,7 @@
 #include "basevisitor.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -49,7 +49,7 @@ class EXP timingItem : public smartable
 {
   public:
     enum timingItemKind { kMandatory, kOptional };
-      
+
     static SMARTP<timingItem> createTimingItem (
       std::string    activity,
       std::string    description,
@@ -63,7 +63,7 @@ class EXP timingItem : public smartable
       timingItemKind kind,
       std::clock_t   startClock,
       std::clock_t   endClock);
-      
+
     std::string           fActivity;
     std::string           fDescription;
     timingItemKind        fKind;
@@ -79,7 +79,7 @@ class EXP timing {
     virtual ~timing ();
 
     // global variable for general use
-    static timing gTiming; 
+    static timing gTiming;
 
     // add an item
     void                  appendTimingItem (
@@ -89,7 +89,7 @@ class EXP timing {
                                            kind,
                             clock_t        startClock,
                             clock_t        endClock);
-      
+
     // print
     void                  print (std::ostream& os) const;
 
@@ -98,7 +98,7 @@ class EXP timing {
     std::list<S_timingItem>
                           fTimingItemsList;
 };
-std::ostream& operator<< (std::ostream& os, const timing& tim);
+EXP std::ostream& operator<< (std::ostream& os, const timing& tim);
 
 //______________________________________________________________________________
 class EXP indenter
@@ -109,11 +109,12 @@ class EXP indenter
     virtual ~indenter ();
 
     // get the indent
-    int                   getIndent () const  { return fIndent; }
-                         
+    int                   getIndent () const
+                              { return fIndent; }
+
     // increase the indentation by 1
     indenter&             operator++ (const int value);
-    
+
     // decrease the indentation by 1
     indenter&             operator-- (const int value);
 
@@ -121,7 +122,8 @@ class EXP indenter
     indenter&             decrement (int value);
 
     // reset the indentation
-    void                  resetToZero ()    { fIndent = 0; }
+    void                  resetToZero ()
+                              { fIndent = 0; }
 
     // check indentation value
     bool                  operator == (const int &value) const
@@ -137,10 +139,10 @@ class EXP indenter
                               { return fSpacer; }
 
     // indent a multiline 'R"(...)"' std::string
-    std::string                indentMultiLineString (std::string value);
-    
+    std::string           indentMultiLineString (std::string value);
+
     // global variable for general use
-    static indenter       gIndenter; 
+    static indenter       gIndenter;
 
   private:
     int                   fIndent;
@@ -154,97 +156,119 @@ EXP std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 #define gTab      indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
+// a stream buffer that prefixes each line
+// with the current indentation, i.e. spaces
+
+/*
+std::endl declaration:
+
+  std::endl for ostream
+  ostream& endl (ostream& os);
+
+  basic template
+  template <class charT, class traits>
+  basic_ostream<charT,traits>& endl (basic_ostream<charT,traits>& os);
+
+  Insert newline and flush
+  Inserts a new-line character and flushes the stream.
+
+  Its behavior is equivalent to calling os.put('\n') (or os.put(os.widen('\n')) for character types other than char), and then os.flush().
+
+--
+
+Reference for this class:
+  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
+*/
+
+class indentedStreamBuf: public std::stringbuf
+{
+  private:
+
+    std::ostream&         fOutputSteam;
+    indenter&             fIndenter;
+
+  public:
+
+    // constructor
+    indentedStreamBuf (
+      std::ostream& outputStream,
+      indenter&     idtr)
+      : fOutputSteam (outputStream),
+        fIndenter (idtr)
+        {}
+
+    // indentation
+    indenter&             getIndenter ()
+                              { return fIndenter; }
+
+    // flush
+    void                  flush ()
+                              { fOutputSteam.flush (); }
+
+    virtual int           sync ();
+};
+
+//______________________________________________________________________________
 class EXP indentedOstream: public std::ostream
 {
 /*
-Reference:
- https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
+Reference for this class:
+  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:
   indentedOstream myStream (std::cout);
-   
+
   myStream <<
     1 << 2 << 3 << std::endl <<
     5 << 6 << std::endl <<
     7 << 8 << std::endl;
 */
- 
-  // a stream buffer that prefixes each line
-  // with the current indentation
-  class indentedStreamBuf: public std::stringbuf
-  {
-    private:
-    
-      std::ostream& fOutput;
-      indenter&     fIndenter;
-
-    public:
-    
-      // constructor
-      indentedStreamBuf (
-        std::ostream& str,
-        indenter&     idtr)
-        : fOutput (str),
-          fIndenter (idtr)
-          {}
-
-      // flush
-      void flush ()
-          {
-            fOutput.flush ();
-          }
-    
-      // When we sync the stream with fOutput:
-      // 1) output the indentation then the buffer
-      // 2) reset the buffer
-      // 3) flush the actual output stream we are using.
-      virtual int sync ()
-          {
-            fOutput << fIndenter << str ();
-            str ("");
-            fOutput.flush ();
-            return 0;
-          }
-  };
 
   private:
-    // indentedOstream just uses a version of indentedStreamBuf
+    // indentedOstream just uses an indentedStreamBuf
     indentedStreamBuf     fIndentedStreamBuf;
-  
+
   public:
-  
+
     // constructor
     indentedOstream (
       std::ostream&  str,
       indenter&      idtr)
       : std::ostream (&fIndentedStreamBuf),
-        fIndentedStreamBuf (
-          str, idtr)
-      {}
+        fIndentedStreamBuf (str, idtr)
+        {}
 
     // destructor
     virtual ~indentedOstream ()
         {};
 
     // flush
-    void flush ()
-        {
-          fIndentedStreamBuf.flush ();
-        }
-    
+    void                  flush ()
+                              { fIndentedStreamBuf.flush (); }
+
+    // indentation
+    indenter&             getIndenter ()
+                              { return fIndentedStreamBuf.getIndenter (); }
+
+    void                  incrIdentation ()
+                              { fIndentedStreamBuf.getIndenter ()++; }
+
+    void                  decrIdentation ()
+                              { fIndentedStreamBuf.getIndenter ()--; }
+
     // global variables for general use
     static indentedOstream
-                          gOutputIndentedOstream; 
+                          gOutputIndentedOstream;
     static indentedOstream
-                          gLogIndentedOstream; 
+                          gLogIndentedOstream;
     static indentedOstream
-                          gNullIndentedOstream; 
+                          gNullIndentedOstream;
 };
 
 // useful shortcut macros
-#define gOutputIOstream indentedOstream::gOutputIndentedOstream
-#define gLogIOstream    indentedOstream::gLogIndentedOstream
-#define gNullIOstream   indentedOstream::gNullIndentedOstream
+#define gOutputOstream indentedOstream::gOutputIndentedOstream
+#define gLogOstream    indentedOstream::gLogIndentedOstream
+#define gNullOstream   indentedOstream::gNullIndentedOstream
 
 //______________________________________________________________________________
 struct stringQuoteEscaper
@@ -255,7 +279,7 @@ struct stringQuoteEscaper
   */
 
   std::string&            target;
-  
+
   explicit                stringQuoteEscaper (std::string& t)
                             : target (t)
                               {}
@@ -263,7 +287,7 @@ struct stringQuoteEscaper
   void                    operator() (char ch) const
                               {
                                  if( ch == '"') {
-                                   // or switch on any character that 
+                                   // or switch on any character that
                                    // needs escaping like '\' itself
                                     target.push_back ('\\');
                                  }
@@ -283,7 +307,7 @@ struct stringSpaceRemover
   */
 
   std::string&            target;
-  
+
   explicit                stringSpaceRemover (std::string& t)
                             : target (t)
                               {}
@@ -309,7 +333,7 @@ struct stringSpaceReplacer
 
   std::string&            target;
   char                    ersatz;
-  
+
   explicit                stringSpaceReplacer (std::string& t, char ch)
                             : target (t), ersatz (ch)
                               {}
@@ -329,20 +353,31 @@ std::string replicateString (
   int    times);
 
 //______________________________________________________________________________
+std::string replaceSubstringInString (
+  std::string str,
+  std::string subString,
+  std::string ersatz);
+
+//______________________________________________________________________________
 std::string int2EnglishWord (int n);
 
 //______________________________________________________________________________
 std::string stringNumbersToEnglishWords (std::string str);
 
 //______________________________________________________________________________
-std::set<int> decipherNumbersSetSpecification (
+std::set<int> decipherNaturalNumbersSetSpecification (
   std::string theSpecification,
-  bool   debugMode = false);
+  bool        debugMode = false);
+
+//______________________________________________________________________________
+std::set<std::string> decipherStringsSetSpecification (
+  std::string theSpecification,
+  bool        debugMode = false);
 
 //______________________________________________________________________________
 std::list<int> extractNumbersFromString (
   std::string theString, // can contain "1, 2, 17"
-  bool   debugMode = false);
+  bool        debugMode = false);
 
 //______________________________________________________________________________
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
@@ -360,7 +395,7 @@ inline std::string &ltrim (std::string &s) {
       std::not1 (checkSpace)
       )
     );
-          
+
   return s;
 }
 
@@ -378,7 +413,7 @@ inline std::string &rtrim (std::string &s) {
       ).base(),
     s.end ()
     );
-          
+
   return s;
 }
 
@@ -390,8 +425,8 @@ inline std::string &trim (std::string &s) {
 //______________________________________________________________________________
 std::pair<std::string, std::string> extractNamesPairFromString (
   std::string theString, // may contain "P1 = Bassoon"
-  char   separator,
-  bool   debugMode = false);
+  char        separator,
+  bool        debugMode = false);
 
 //______________________________________________________________________________
 std::string quoteStringIfNonAlpha (
@@ -411,16 +446,23 @@ std::string singularOrPluralWithoutNumber (
   int number, std::string singularName, std::string pluralName);
 
 //______________________________________________________________________________
-void optionError (std::string errorMessage);
+void oahWarning (std::string warningMessage);
+
+void oahError (std::string errorMessage);
 
 //______________________________________________________________________________
-std::string escapeQuotes (std::string s);
+std::string escapeDoubleQuotes (std::string s);
 
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (std::string& s);
 
 //______________________________________________________________________________
-void splitRegularStringContainingEndOfLines (
+void splitStringIntoChunks (
+  std::string             theString,
+  std::string             theSeparator,
+  std::list<std::string>& chunksList);
+
+void splitRegularStringAtEndOfLines (
   std::string             theString,
   std::list<std::string>& chunksList);
 
@@ -434,128 +476,6 @@ std::string baseName (const std::string &filename);
 
 //______________________________________________________________________________
 std::string makeSingleWordFromString (const std::string& theString);
-
-//______________________________________________________________________________
-/* JMI
-#ifdef WIN32
-  // JMI
-#else
-class IConv {
-  // see https://stackoverflow.com/questions/8104154/iconv-only-works-once
-
-  public:
-  
-    IConv (const char* to, const char* from);
-        
-    ~IConv ();
-
-    bool                  convert (char* input, char* output, size_t& outputSize);
-
-    bool                  convert (std::string& input, std::string& output);
-
-  private:
-  
-    iconv_t               fIconvDescriptor;
-
-    size_t                fInputBufferSize;
-    char*                 fInputBuffer;
-
-    size_t                fOutputBufferSize;
-    char*                 fOutputBuffer;
-};
-#endif
-*/
-
-//______________________________________________________________________________
-#ifdef WIN32
-  // JMI
-#else
-// see: http://www.icce.rug.nl/documents/cplusplus/
-class IFdStreambuf: public std::streambuf, public smartable
-{
-  protected:
-  
-    int                   d_fd;
-    char                  d_buffer [1];
-      
-  public:
-  
-    IFdStreambuf (int fd);
-      
-  private:
-  
-    int                   underflow ();
-};
-typedef SMARTP<IFdStreambuf> S_IFdStreambuf;
-#endif
-
-//______________________________________________________________________________
-#ifdef WIN32
-  // JMI
-#else
-// see: http://www.icce.rug.nl/documents/cplusplus/
-class IFdNStreambuf: public std::streambuf, public smartable
-{
-  protected:
-  
-    int                   d_fd;
-    size_t                d_bufsize;
-    char*                 d_buffer;
-      
-  public:
-  
-    static SMARTP<IFdNStreambuf> create ();
-
-    static SMARTP<IFdNStreambuf> create (
-      int fd, size_t bufsize = 1);
-
-    IFdNStreambuf ();
-    IFdNStreambuf (
-      int fd, size_t bufsize = 1);
-    
-    virtual ~IFdNStreambuf ();
-    
-    void                  open (int fd, size_t bufsize = 1);
-      
-  private:
-  
-    virtual int           underflow ();
-    
-    virtual std::streamsize
-                          xsgetn (char *dest, std::streamsize n);
-};
-typedef SMARTP<IFdNStreambuf> S_IFdNStreambuf;
-#endif
-
-//______________________________________________________________________________
-#ifdef WIN32
-  // JMI
-#else
-// see: http://www.icce.rug.nl/documents/cplusplus/
-class OFdnStreambuf: public std::streambuf, public smartable
-{
-  private:
-  
-    size_t                d_bufsize;
-    int                   d_fd;
-    char*                 d_buffer;
-
-  public:
-  
-    OFdnStreambuf ();
-    OFdnStreambuf (int fd, size_t bufsize = 1);
-    
-    virtual ~OFdnStreambuf ();
-    
-    void                  open (int fd, size_t bufsize = 1);
-      
-  private:
-  
-    virtual int           sync ();
-    virtual int           overflow (int c);
-};
-typedef SMARTP<OFdnStreambuf> S_OFdnStreambuf;
-#endif
 
 
 } // namespace MusicXML2

@@ -14,15 +14,11 @@
 #define __lpsr2LilypondInterfact__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include "lpsr.h"
 #include "exports.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //#ifdef __cplusplus
@@ -41,10 +37,10 @@ The library includes a high level API to convert
 //______________________________________________________________________________
 EXP void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions      msrOpts,
-  S_lpsrOptions     lpsrOpts,
-  indentedOstream&  logIOstream,
-  indentedOstream&  lilypondCodeIOstream);
+  S_msrOah      msrOpts,
+  S_lpsrOah     lpsrOpts,
+  indentedOstream&  logOstream,
+  indentedOstream&  lilypondCodeOstream);
 
 /*! @} */
 

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC
+    "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
+    "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <!-- A very minimal MusicXML example -->
+  <part-list>
+    <score-part id="P1">
+      <part-name>Music</part-name>
+    </score-part>
+  </part-list>
+  <part id="P1">
+<!--=========================================================-->
+    <measure number="1" width="324">
+			<attributes>
+				<divisions>768</divisions>
+				<key>
+					<fifths>0</fifths>
+					<mode>major</mode>
+				</key>
+				<time>
+					<beats>4</beats>
+					<beat-type>4</beat-type>
+				</time>
+				<instruments>2</instruments>
+				<clef>
+					<sign>G</sign>
+					<line>2</line>
+				</clef>
+			</attributes>
+			<direction>
+				<direction-type>
+					<dynamics  default-y='-70' relative-x='-6'>
+						<fff/>
+					</dynamics>
+				</direction-type>
+			</direction>
+  			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>begin</beam>
+				<beam number='2'>begin</beam>
+				<notations>
+					<tuplet number='1' type='start' bracket='no' show-number='none'/>
+				</notations>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>begin</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>begin</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>begin</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>begin</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>begin</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>begin</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>begin</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>down</stem>
+				<beam number='1'>end</beam>
+				<beam number='2'>end</beam>
+			</note>
+			<direction>
+				<direction-type>
+					<words default-y='-18' relative-x='2' font-weight='normal'>]</words>
+				</direction-type>
+				<offset>-64</offset>
+			</direction>
+			<?DoletSibelius Unrecognized line style line.staff.dashed.user.0000006?>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>205</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>continue</beam>
+				<beam number='2'>continue</beam>
+			</note>
+			<backup>
+				<duration>205</duration>
+			</backup>
+			<note print-object='no'>
+				<rest/>
+				<duration>205</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>6</octave>
+				</pitch>
+				<duration>207</duration>
+				<voice>1</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<beam number='1'>end</beam>
+				<beam number='2'>end</beam>
+				<notations>
+					<tuplet number='1' type='stop'/>
+				</notations>
+			</note>
+			<backup>
+				<duration>207</duration>
+			</backup>
+			<note print-object='no'>
+				<rest/>
+				<duration>207</duration>
+				<voice>2</voice>
+				<type>16th</type>
+				<time-modification>
+					<actual-notes>15</actual-notes>
+					<normal-notes>16</normal-notes>
+				</time-modification>
+				<notations>
+					<tuplet number='1' type='stop'/>
+				</notations>
+			</note>
+		</measure>
+<!--=========================================================-->
+  </part>
+</score-partwise>

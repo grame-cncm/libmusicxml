@@ -14,234 +14,23 @@
 
 #include "version.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "generalOah.h"
 
-#include "xml2lyOptionsHandling.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
-
-//______________________________________________________________________________
-S_lpsrScoreBlock lpsrScoreBlock::create (
-  int            inputLineNumber)
-{
-  lpsrScoreBlock* o = new lpsrScoreBlock (
-    inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-lpsrScoreBlock::lpsrScoreBlock (
-  int            inputLineNumber)
-    : lpsrElement (inputLineNumber)
-{
-  // create the score command parallel music
-  fScoreBlockParallelMusicBLock =
-    lpsrParallelMusicBLock::create (
-      inputLineNumber,
-      lpsrParallelMusicBLock::kEndOfLine);
-  
-  // create the score command layout
-  fScoreBlockLayout =
-    lpsrLayout::create (
-      inputLineNumber);
-  
-  // create the score command midi
-  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
-  
-  fScoreBlockMidi =
-    msrMidi::create (
-      inputLineNumber,
-      midiTempoDuration,
-      midiTempoPerSecond);
-}
-
-lpsrScoreBlock::~lpsrScoreBlock ()
-{}
-
-void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
-  S_lpsrPartGroupBlock partGroupBlock)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
-      "Appending part group block " <<
-       partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    appendPartGroupBlockToParallelMusicBLock (
-      partGroupBlock);
-    
-//               fScoreBlockElements.push_back(partGroupBlock);
-}
-
-/* JMI
-void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
-  S_lpsrUseVoiceCommand voiceUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Appending the use of voice \"" <<
-       voiceUse-> getVoice ()-> getVoiceName () <<
-       "\" to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (voiceUse);
-    
-//     JMI             fScoreBlockElements.push_back(voiceUse);
-}
-                  
-void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
-  S_lpsrNewLyricsBlock lyricsUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending the use of stanza " <<
-       lyricsUse-> getStanza ()-> getStanzaName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (lyricsUse);
-}
-*/
-
-void lpsrScoreBlock::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrScoreBlock::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrScoreBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
-        S_lpsrScoreBlock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrScoreBlock::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrScoreBlock::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrScoreBlock::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrScoreBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
-        S_lpsrScoreBlock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrScoreBlock::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrScoreBlock::browseData (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrScoreBlock::browseData ()" <<
-      endl;
-  }
-
-  {
-    // browse the score command parallel music
-    msrBrowser<lpsrParallelMusicBLock> browser (v);    
-    browser.browse (*fScoreBlockParallelMusicBLock);
-  }
-
-/* JMI
-  for (
-    vector<S_msrElement>::const_iterator i = fScoreBlockElements.begin ();
-    i != fScoreBlockElements.end ();
-    i++) {
-    // browse the element
- //   msrBrowser<msrElement> browser (v);
- //   browser.browse (*(*i));
-  } // for
-*/
-  {
-    // browse the score command layout
-    msrBrowser<lpsrLayout> browser (v);    
-    browser.browse (*fScoreBlockLayout);
-  }
-
-  {
-    // browse the score command midi
-    msrBrowser<msrMidi> browser (v);    
-    browser.browse (*fScoreBlockMidi);
-  }
-
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% <== lpsrScoreBlock::browseData ()" <<
-      endl;
-  }
-}
-
-void lpsrScoreBlock::print (ostream& os)
-{
-  os << "ScoreBlock" << endl << endl;
-
-  gIndenter++;
-
-  os <<
-    fScoreBlockParallelMusicBLock <<
-    endl;
-    
-  os <<
-    fScoreBlockLayout <<
-    endl;
-  
-  os <<
-    fScoreBlockMidi <<
-    endl;
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_lpsrScoreBlock& scr)
-{
-  scr->print (os);
-  return os;
-}
 
 //______________________________________________________________________________
 S_lpsrScore lpsrScore::create (
-  int            inputLineNumber,
-  S_msrScore     mScore)
+  int        inputLineNumber,
+  S_msrScore mScore)
 {
   lpsrScore* o = new lpsrScore (
     inputLineNumber, mScore);
@@ -250,8 +39,8 @@ S_lpsrScore lpsrScore::create (
 }
 
 lpsrScore::lpsrScore (
-  int            inputLineNumber,
-  S_msrScore     mScore)
+  int        inputLineNumber,
+  S_msrScore mScore)
     : lpsrElement (inputLineNumber)
 {
   fMsrScore = mScore;
@@ -260,157 +49,209 @@ lpsrScore::lpsrScore (
   fLilypondVersion =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashYes,
       lpsrVarValAssoc::kLibraryVersion,
-      lpsrVarValAssoc::kSpace,
-      lpsrVarValAssoc::kQuotesAroundValue,
-      "2.19",
+      lpsrVarValAssoc::kVarValSeparatorSpace,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
+      gLpsrOah->fLilyPondVersion,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithEndl);
+      lpsrVarValAssoc::kEndlOnce);
 
-  // should the initial comments about xml2ly and the options used
+  // should the initial comments about the executable and the options used
   // be generated?
-  if (gLilypondOptions->fXml2lyInfos) {
+  if (gLilypondOah->fXml2lyInfos) {
     // create the input source name comment
     {
       stringstream s;
-    
+
       s <<
-        "Generated by xml2ly " << currentVersionNumber () <<
+        "Generated by " <<
+        gOahOah->fHandlerExecutableName <<
+        " " <<
+        currentVersionNumber () <<
         " from ";
-    
-      if (gXml2lyOptions->fInputSourceName == "-") {
+
+      if (gOahOah->fInputSourceName == "-") {
         s << "standard input";
       }
       else {
-        s << "\"" << gXml2lyOptions->fInputSourceName << "\"";
+        s << "\"" << gOahOah->fInputSourceName << "\"";
       }
-    
+
       s <<
         endl <<
-        "% on " << gXml2lyOptions->fTranslationDate <<
+        "% on " << gGeneralOah->fTranslationDate <<
         endl;
-  
+
       fInputSourceNameComment =
         lpsrComment::create (
           inputLineNumber,
           s.str (),
           lpsrComment::kNoGapAfterwards);
     }
-  
+
     // create the translation date comment
     {
       stringstream s;
-      
+
       s <<
-        "% Translation command was:";
-          
+        "The translation command line was:";
+
       fTranslationDateComment =
         lpsrComment::create (
           inputLineNumber,
           s.str (),
           lpsrComment::kNoGapAfterwards);
     }
-  
+
+    // create the command line as supplied comment
+    {
+      stringstream s;
+
+      s <<
+        gTab <<
+        gOahOah->fCommandLineAsSupplied;
+
+      fCommandLineAsSuppliedComment =
+        lpsrComment::create (
+          inputLineNumber,
+          s.str (),
+          lpsrComment::kNoGapAfterwards);
+    }
+
     // do the command line long and short options differ?
     bool
       longAndShortOptionsDiffer =
-      gGeneralOptions->fCommandLineWithShortOptions
-        !=
-      gGeneralOptions->fCommandLineWithLongOptions;
+        gOahOah->fCommandLineWithShortOptionsNames
+          !=
+        gOahOah->fCommandLineWithLongOptionsNames;
 
-    
-  // create the command line long options comment
-  {
-    stringstream s;
-    
-    s <<
-      gTab <<
-      gGeneralOptions->fCommandLineWithLongOptions;
-  
-    if (longAndShortOptionsDiffer) {
+    // create the command line long options comment
+    {
+      stringstream s;
+
       s <<
+        "or, with long option names:" <<
         endl <<
-        "% or:";
+        "%" <<
+        gTab <<
+        gOahOah->fCommandLineWithLongOptionsNames;
+
+      if (longAndShortOptionsDiffer) {
+        s <<
+          endl <<
+          "% or, with short option names:";
+      }
+
+      fCommandLineLongOptionsComment =
+        lpsrComment::create (
+          inputLineNumber,
+          s.str (),
+          longAndShortOptionsDiffer
+            ? lpsrComment::kNoGapAfterwards
+            : lpsrComment::kGapAfterwards);
     }
-    
-    fCommandLineLongOptionsComment =
-      lpsrComment::create (
-        inputLineNumber,
-        s.str (),
-        longAndShortOptionsDiffer
-          ? lpsrComment::kNoGapAfterwards
-          : lpsrComment::kGapAfterwards);
+
+    if (longAndShortOptionsDiffer) {
+      // create the command line short options comment
+      stringstream s;
+
+      s <<
+        gTab <<
+        gOahOah->fCommandLineWithShortOptionsNames;
+
+      fCommandLineShortOptionsComment =
+        lpsrComment::create (
+          inputLineNumber,
+          s.str (),
+          lpsrComment::kGapAfterwards);
+    }
   }
 
-  if (longAndShortOptionsDiffer) {
-    // create the command line short options comment
-    stringstream s;
-    
-    s <<
-      gTab <<
-      gGeneralOptions->fCommandLineWithShortOptions;
-    
-    fCommandLineShortOptionsComment =
-      lpsrComment::create (
-        inputLineNumber,
-        s.str (),
-        lpsrComment::kGapAfterwards);
-  }
-}
-
-  // create the global staff size assoc
-  fGlobalStaffSizeAssoc =
+  // create the global staff size variable
+  // too early to benefit from gLpsrOah->fGlobalStaffSize... JMI
+  // needs to be updated later in msrGeometry::globalStaffSize()
+  fScoreGlobalStaffSizeSchemeVariable =
     lpsrSchemeVariable::create (
       inputLineNumber,
-      lpsrSchemeVariable::kUncommented,
+      lpsrSchemeVariable::kCommentedNo,
       "set-global-staff-size",
-      "20", // the LilyPond default
+      to_string (gLpsrOah->fGlobalStaffSize),
       "Comment or adapt next line as needed (default is 20)",
-      lpsrSchemeVariable::kWithEndlTwice);
+      lpsrSchemeVariable::kEndlTwice);
 
   // initialize Scheme functions informations
-  fTongueSchemeFunctionIsNeeded              = false;
-  fCustomShortBarLineSchemeFunctionIsNeeded  = false;
+  // ----------------------------------------
+  // files includes
+  fJianpuFileIncludeIsNeeded = false;
+  // Scheme modules
+  fScmAndAccregSchemeModulesAreNeeded = false;
+  // Scheme functions
+  fTongueSchemeFunctionIsNeeded = false;
+  fCustomShortBarLineSchemeFunctionIsNeeded = false;
   fEditorialAccidentalSchemeFunctionIsNeeded = false;
+  fDynamicsSchemeFunctionIsNeeded = false;
+  fTupletsCurvedBracketsSchemeFunctionIsNeeded = false;
+  fAfterSchemeFunctionIsNeeded = false;
+  fTempoRelationshipSchemeFunctionIsNeeded = false;
+  fGlissandoWithTextSchemeFunctionsIsNeeded = false;
+  fOtherDynamicSchemeFunctionIsNeeded = false;
+  // markups
+  fDampMarkupIsNeeded = false;
+  fDampAllMarkupIsNeeded = false;
+  // white note heads
+  fWhiteNoteHeadsIsNeeded = false;
+    // bar numbers
+  fBoxAroundNextBarNumberIsNeeded = false;
+  // jazz chords display
+  fJazzChordsDisplayIsNeeded = false;
+  // colored ledger lines
+  fColoredLedgerLinesIsNeeded = false;
 
-  if (gLilypondOptions->fLilypondCompileDate) {
+  if (gLilypondOah->fLilypondCompileDate) {
     // create the date and time functions
     addDateAndTimeSchemeFunctionsToScore ();
   }
 
-  if (gLilypondOptions->fPointAndClickOff) {
-    // create the pointAndClickOff command
+  if (gLilypondOah->fPointAndClickOff) {
+    // create the pointAndClickOff scheme function
     addPointAndClickOffSchemeFunctionsToScore ();
   }
 
-  if (gLilypondOptions->fPointAndClickOff) {
-    // create the glissandoWithText command
+  if (gLilypondOah->fPointAndClickOff) {
+    // create the glissandoWithText scheme functions
     addGlissandoWithTextSchemeFunctionsToScore ();
   }
 
-
-  if (gLilypondOptions->fJianpu) {
+  if (gLilypondOah->fJianpu) {
     // create the Jianpu include command JMI
   }
 
-  
   // create the header
-  fHeader =
+  fScoreHeader =
     lpsrHeader::create (
       inputLineNumber);
 
-  // create the paper
-  fPaper =
-    lpsrPaper::create (
-      inputLineNumber);
+  // create the geometry
+  fLpsrGeometry =
+    lpsrGeometry::create (
+      inputLineNumber,
+      fMsrScore->getMsrGeometry ());
 
-  if (gLilypondOptions->fLilypondCompileDate) {
+  // create the paper
+  fScorePaper =
+    lpsrPaper::create (
+      inputLineNumber,
+      fLpsrGeometry);
+
+  if (gLilypondOah->fLilypondCompileDate) {
     // define headers and footers
-    
-    fPaper->
+
+    fScorePaper->
       setOddHeaderMarkup (
 R"(\markup {
     \fill-line {
@@ -425,9 +266,8 @@ R"(\markup {
   }
 )"
       );
-      
-    
-    fPaper->
+
+    fScorePaper->
       setEvenHeaderMarkup (
 R"(\markup {
     \fill-line {
@@ -445,6 +285,11 @@ R"(\markup {
 
     stringstream s;
 
+/* JMI YES???
+      \fill-line {
+        "https://github.com/grame-cncm/libmusicxml/tree/lilypond - http://www.lilypond.org"
+      }
+*/
     s <<
 R"(\markup {
     \tiny
@@ -453,25 +298,24 @@ R"(\markup {
         #(string-append
 )"
       <<
-      "\"Music generated from MusicXML by xml2ly " <<
+      "\"Music generated from MusicXML by " <<
+      gOahOah->fHandlerExecutableName <<
+      " " <<
       currentVersionNumber () <<
       " and engraved by LilyPond \" (lilypond-version))" <<
 R"(
-      }
-      \fill-line {
-        "https://github.com/grame-cncm/libmusicxml/tree/lilypond - http://www.lilypond.org"
       }
       \fill-line { \italic { \modTimeAsString }}
     }
   }
 )";
-    
-    fPaper->
+
+    fScorePaper->
       setOddFooterMarkup (
         s.str ());
   }
-  
-  // create the score layout
+
+  // create the score layout // JMI ???
   fScoreLayout =
     lpsrLayout::create (
       inputLineNumber);
@@ -480,131 +324,148 @@ R"(
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kCommented
-          : lpsrVarValAssoc::kUncommented;
-  
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
+          ? lpsrVarValAssoc::kCommentedYes
+          : lpsrVarValAssoc::kCommentedNo;
+
     fMyBreakIsBreakAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ \\break }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         "Pick your choice from the next two lines as needed",
-        lpsrVarValAssoc::kWithoutEndl);
+        lpsrVarValAssoc::kEndlNone);
   }
-  
+
   // create the 'myBreakIsEmpty' assoc
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kUncommented
-          : lpsrVarValAssoc::kCommented;
-  
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
+          ? lpsrVarValAssoc::kCommentedNo
+          : lpsrVarValAssoc::kCommentedYes;
+
     fMyBreakIsEmptyAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-        lpsrVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::kEndlOnce);
   }
 
   // create the 'myPageBreakIsPageBreak' assoc
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kCommented
-          : lpsrVarValAssoc::kUncommented;
-  
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
+          ? lpsrVarValAssoc::kCommentedYes
+          : lpsrVarValAssoc::kCommentedNo;
+
     fMyPageBreakIsPageBreakAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyPageBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ \\pageBreak }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         "Pick your choice from the next two lines as needed",
-        lpsrVarValAssoc::kWithoutEndl);
+        lpsrVarValAssoc::kEndlNone);
   }
-  
+
   // create the 'myPageBreakIsEmpty' assoc
   {
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kUncommented
-          : lpsrVarValAssoc::kCommented;
-  
+        gLilypondOah->fIgnoreMusicXMLLineBreaks
+          ? lpsrVarValAssoc::kCommentedNo
+          : lpsrVarValAssoc::kCommentedYes;
+
     fMyPageBreakIsEmptyAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyPageBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-        lpsrVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::kEndlOnce);
   }
 
-  if (gLilypondOptions->fGlobal) {
+  if (gLilypondOah->fGlobal) {
     // create the 'global' assoc
-    fGlobalAssoc =
+    fScoreGlobalAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
-        lpsrVarValAssoc::kUncommented,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kCommentedNo,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondGlobal,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         "Place whatever you need in the 'global' variable",
-        lpsrVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::kEndlOnce);
   }
-  
-  // create the score command
-  fScoreBlock =
-    lpsrScoreBlock::create (
-      inputLineNumber);
 }
 
 lpsrScore::~lpsrScore ()
 {}
 
-void lpsrScore::setGlobalStaffSize (float size)
+void lpsrScore::setScoreGlobalStaffSizeSchemeVariable (float size)
 {
   stringstream s;
-  
+
   s << size;
-  
-  fGlobalStaffSizeAssoc->
-    setVariableValue (s.str ());
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGeometry) {
+    gLogOstream <<
+      "Setting score global staff size Scheme variable to '" <<
+      size <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  string sizeAsString = s.str ();
+
+  fScoreGlobalStaffSizeSchemeVariable->
+    setVariableValue (sizeAsString);
 }
 
 void lpsrScore::setJianpuFileIncludeIsNeeded ()
 {
   if (! fScmAndAccregSchemeModulesAreNeeded) {
     addJianpuFileIncludeToScore ();
-    
-    fJianpuFileIncludeIsNeeded = true;    
+
+    fJianpuFileIncludeIsNeeded = true;
   }
 }
 
@@ -612,8 +473,8 @@ void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
 {
   if (! fScmAndAccregSchemeModulesAreNeeded) {
     addAccordionRegistrationSchemeModulesToScore ();
-    
-    fScmAndAccregSchemeModulesAreNeeded = true;    
+
+    fScmAndAccregSchemeModulesAreNeeded = true;
   }
 }
 
@@ -621,8 +482,8 @@ void lpsrScore::setCustomShortBarLineSchemeFunctionIsNeeded ()
 {
   if (! fCustomShortBarLineSchemeFunctionIsNeeded) {
     addCustomShortBarLineSchemeFunctionToScore ();
-    
-    fCustomShortBarLineSchemeFunctionIsNeeded = true;    
+
+    fCustomShortBarLineSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -630,8 +491,8 @@ void lpsrScore::setTongueSchemeFunctionIsNeeded ()
 {
   if (! fTongueSchemeFunctionIsNeeded) {
     addTongueSchemeFunctionToScore ();
-    
-    fTongueSchemeFunctionIsNeeded = true;    
+
+    fTongueSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -639,8 +500,8 @@ void lpsrScore::setEditorialAccidentalSchemeFunctionIsNeeded ()
 {
   if (! fEditorialAccidentalSchemeFunctionIsNeeded) {
     addEditorialAccidentalSchemeFunctionToScore ();
-    
-    fEditorialAccidentalSchemeFunctionIsNeeded = true;    
+
+    fEditorialAccidentalSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -648,8 +509,8 @@ void lpsrScore::setDynamicsSchemeFunctionIsNeeded ()
 {
   if (! fDynamicsSchemeFunctionIsNeeded) {
     addDynamicsSchemeFunctionToScore ();
-    
-    fDynamicsSchemeFunctionIsNeeded = true;    
+
+    fDynamicsSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -657,8 +518,8 @@ void lpsrScore::setTupletsCurvedBracketsSchemeFunctionIsNeeded ()
 {
   if (! fTupletsCurvedBracketsSchemeFunctionIsNeeded) {
     addTupletsCurvedBracketsSchemeFunctionToScore ();
-    
-    fTupletsCurvedBracketsSchemeFunctionIsNeeded = true;    
+
+    fTupletsCurvedBracketsSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -666,8 +527,8 @@ void lpsrScore::setAfterSchemeFunctionIsNeeded ()
 {
   if (! fAfterSchemeFunctionIsNeeded) {
     addAfterSchemeFunctionToScore ();
-    
-    fAfterSchemeFunctionIsNeeded = true;    
+
+    fAfterSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -675,17 +536,26 @@ void lpsrScore::setTempoRelationshipSchemeFunctionIsNeeded ()
 {
   if (! fTempoRelationshipSchemeFunctionIsNeeded) {
     addTempoRelationshipSchemeFunctionToScore ();
-    
-    fTempoRelationshipSchemeFunctionIsNeeded = true;    
+
+    fTempoRelationshipSchemeFunctionIsNeeded = true;
   }
 }
 
-void lpsrScore::setGlissandoWithTextSchemeFunctionIsNeeded ()
+void lpsrScore::setGlissandoWithTextSchemeFunctionsIsNeeded ()
 {
-  if (! fGlissandoWithTextSchemeFunctionIsNeeded) {
+  if (! fGlissandoWithTextSchemeFunctionsIsNeeded) {
     addGlissandoWithTextSchemeFunctionsToScore ();
-    
-    fGlissandoWithTextSchemeFunctionIsNeeded = true;    
+
+    fGlissandoWithTextSchemeFunctionsIsNeeded = true;
+  }
+}
+
+void lpsrScore::setOtherDynamicSchemeFunctionIsNeeded ()
+{
+  if (! fOtherDynamicSchemeFunctionIsNeeded) {
+    addOtherDynamicSchemeFunctionToScore ();
+
+    fOtherDynamicSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -693,8 +563,8 @@ void lpsrScore::setDampMarkupIsNeeded ()
 {
   if (! fDampMarkupIsNeeded) {
     addDampMarkupToScore ();
-    
-    fDampMarkupIsNeeded = true;    
+
+    fDampMarkupIsNeeded = true;
   }
 }
 
@@ -702,8 +572,8 @@ void lpsrScore::setDampAllMarkupIsNeeded ()
 {
   if (! fDampAllMarkupIsNeeded) {
     addDampAllMarkupToScore ();
-    
-    fDampAllMarkupIsNeeded = true;    
+
+    fDampAllMarkupIsNeeded = true;
   }
 }
 
@@ -711,8 +581,35 @@ void lpsrScore::setWhiteNoteHeadsIsNeeded ()
 {
   if (! fWhiteNoteHeadsIsNeeded) {
     addWhiteNoteHeadsToScore ();
-    
-    fWhiteNoteHeadsIsNeeded = true;    
+
+    fWhiteNoteHeadsIsNeeded = true;
+  }
+}
+
+void lpsrScore::setBoxAroundNextBarNumberIsNeeded ()
+{
+  if (! fBoxAroundNextBarNumberIsNeeded) {
+    addBoxAroundNextBarNumberToScore ();
+
+    fBoxAroundNextBarNumberIsNeeded = true;
+  }
+}
+
+void lpsrScore::setJazzChordsDisplayIsNeeded ()
+{
+  if (! fJazzChordsDisplayIsNeeded) {
+    addJazzChordsDisplayToScore ();
+
+    fJazzChordsDisplayIsNeeded = true;
+  }
+}
+
+void lpsrScore::setColoredLedgerLinesIsNeeded ()
+{
+  if (! fColoredLedgerLinesIsNeeded) {
+    addColoredLedgerLinesToScore ();
+
+    fColoredLedgerLinesIsNeeded = true;
   }
 }
 
@@ -721,7 +618,7 @@ void lpsrScore::addDateAndTimeSchemeFunctionsToScore ()
   string
     schemeFunctionName =
       "date & time",
-      
+
     schemeFunctionDescription =
 R"(
 % A set of functions to obtain a source file's modification time.
@@ -741,11 +638,13 @@ R"(
 #(define modTimeAsString (strftime "%d/%m/%Y - %H:%M:%S" (localtime modTime)))
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -766,7 +665,7 @@ void lpsrScore::addPointAndClickOffSchemeFunctionsToScore ()
   string
     schemeFunctionName =
       "pointAndClickOff",
-      
+
     schemeFunctionDescription =
 R"(
 % \pointAndClickOff to reduce the size of the produced PDF file.
@@ -777,11 +676,13 @@ R"(
 \pointAndClickOff
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -802,7 +703,7 @@ void lpsrScore::addGlissandoWithTextSchemeFunctionsToScore ()
   string
     schemeFunctionName =
       "glissandoWithText",
-      
+
     schemeFunctionDescription =
 R"(
 % \\glissandoTextOn/Off to get text along glissandos.
@@ -959,11 +860,73 @@ glissandoTextOn =
 glissandoTextOff = \revert Glissando.stencil
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addOtherDynamicSchemeFunctionToScore ()
+{
+  string
+    schemeFunctionName =
+      "otherDynamic",
+
+    schemeFunctionDescription =
+R"(
+% \\otherDynamic to handle any string as dynamics.
+)",
+
+    schemeFunctionCode =
+R"(
+#(use-modules (ice-9 regex))
+
+otherDynamic =
+#(define-event-function (parser location text) (markup?)
+   (if (string? text)
+       (let* ((underscores-replaced
+               (string-map
+                (lambda (x) (if (eq? x #\_) #\space x))
+                text))
+              (split-text (string-split underscores-replaced #\space))
+              (formatted (map
+                          (lambda (word)
+                            (if (string-match "^[mrzfps]*$" word)
+                                (markup #:dynamic word)
+                                (markup #:normal-text #:italic word)))
+                          split-text)))
+         #{
+           #(make-dynamic-script (make-line-markup formatted))
+         #})
+       ;; user provided a full-blown markup, so we don't mess with it:
+       #{
+         #(make-dynamic-script (markup #:normal-text text))
+       #}))
+)";
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme functions for '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -984,7 +947,7 @@ void lpsrScore::addCustomShortBarLineSchemeFunctionToScore ()
   string
     schemeModulesName =
       "curstom short barline Scheme function",
-      
+
     schemeModulesDescription =
 R"(
 % The function needed to produce curstom short barlines.
@@ -1010,11 +973,13 @@ R"(
 )";
 
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1035,7 +1000,7 @@ void lpsrScore::addJianpuFileIncludeToScore ()
   string
     schemeModulesName =
       "jianpu include file",
-      
+
     schemeModulesDescription =
 R"(
 % The definitions needed to produce jianpu scores.
@@ -1046,12 +1011,14 @@ R"(
 % From https://github.com/nybbs2003/lilypond-Jianpu
 \include "jianpu10a.ly"
 )";
-  
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1072,7 +1039,7 @@ void lpsrScore::addAccordionRegistrationSchemeModulesToScore ()
   string
     schemeModulesName =
       "scm & accreg",
-      
+
     schemeModulesDescription =
 R"(
 % Two modules are to be used in the right order to use accordion registration.
@@ -1083,11 +1050,13 @@ R"(
 #(use-modules (scm accreg))
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Using Scheme modules '" << schemeModulesName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1108,7 +1077,7 @@ void lpsrScore::addTongueSchemeFunctionToScore ()
   string
     schemeFunctionName =
       "tongue",
-      
+
     schemeFunctionDescription =
 R"(
 % Creates multiple tongue technicals, argument is a number.
@@ -1134,11 +1103,13 @@ tongue =
      script))
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1159,7 +1130,7 @@ void lpsrScore::addEditorialAccidentalSchemeFunctionToScore ()
   string
     schemeFunctionName =
       "editorialAccidental",
-      
+
     schemeFunctionDescription =
 R"(
 % Craetes editorial accidentals as LilyPond musica ficta.
@@ -1179,11 +1150,13 @@ editorialAccidental =
   #})
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1204,7 +1177,7 @@ void lpsrScore::addDynamicsSchemeFunctionToScore ()
   string
     schemeFunctionName =
       "dynamics",
-      
+
     schemeFunctionDescription =
 R"(
 % Creates variables define dynamics not native to LilyPond.
@@ -1221,11 +1194,13 @@ fffff = #(make-dynamic-script "fffff")
 ffffff = #(make-dynamic-script "ffffff")
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1246,7 +1221,7 @@ void lpsrScore::addTupletsCurvedBracketsSchemeFunctionToScore ()
   string
     schemeFunctionName =
       "tupletsCurvedBrackets",
-      
+
     schemeFunctionDescription =
 R"(
 % A function to draw curved tuplets brackets, not native to LilyPond.
@@ -1311,11 +1286,13 @@ tupletsCurvedBrackets = {
 }
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1336,7 +1313,7 @@ void lpsrScore::addAfterSchemeFunctionToScore ()
   string
     schemeFunctionName =
       "after",
-      
+
     schemeFunctionDescription =
 R"(
 % A function to create events after given music.
@@ -1355,11 +1332,13 @@ after =
    #})
 )";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1380,7 +1359,7 @@ void lpsrScore::addTempoRelationshipSchemeFunctionToScore ()
   string
     schemeFunctionName =
       "tempoRelationship",
-      
+
     schemeFunctionDescription =
 R"(
 % A function to create tempo relationships,
@@ -1457,11 +1436,13 @@ tempoRelationship =
      #}))
 )!";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1482,7 +1463,7 @@ void lpsrScore::addDampMarkupToScore ()
   string
     schemeFunctionName =
       "dampMarkup",
-      
+
     schemeFunctionDescription =
 R"(
 % A function to create damp markups,
@@ -1509,11 +1490,13 @@ damp = \markup {
 }
 )!";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1534,7 +1517,7 @@ void lpsrScore::addDampAllMarkupToScore ()
   string
     schemeFunctionName =
       "dampAllMarkup",
-      
+
     schemeFunctionDescription =
 R"(
 % A function to create damp all markups,
@@ -1555,11 +1538,13 @@ dampAll = \markup
 }
 )!";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1580,7 +1565,7 @@ void lpsrScore::addWhiteNoteHeadsToScore ()
   string
     schemeFunctionName =
       "whiteNoteHeads",
-      
+
     schemeFunctionDescription =
 R"(
 % A function to display note shorter than a quarter with white heads,
@@ -1606,11 +1591,212 @@ whiteNoteHeads =
    )
 )!";
 
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addBoxAroundNextBarNumberToScore ()
+{
+  string
+    schemeFunctionName =
+      "boxAroundNextBarNumber",
+
+    schemeFunctionDescription =
+R"(
+% A macro to draw a box round the next bar number
+)",
+
+    schemeFunctionCode =
+      // add ! before ( and after ) since the code contains )"
+R"!(
+boxAroundNextBarNumber = {
+  \once\override Score.BarNumber.font-size = 2
+  \once\override Score.BarNumber.stencil =
+  #(make-stencil-boxer 0.25 0.5 ly:text-interface::print)
+}
+)!";
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addJazzChordsDisplayToScore ()
+{
+  stringstream s;
+
+  s <<
+R"###(% Exception music is chords with markups
+#(define (lower-extension pitch chbass)
+   "Return lowered markup for pitch note name."
+   #{
+     \markup \raise #-1.9 \halign #0.2
+     #(note-name->markup pitch chbass)
+   #})
+
+chExceptionMusic = {)###" <<
+      endl;
+
+    if (gLilypondOah->fJazzChordsDisplay) {
+      s <<
+        gLilypondOah->fJazzChordsDisplayLilypondcode;
+    }
+
+  list<pair<string, string> >&
+    chordsDisplayList =
+      gLilypondOah->fChordsDisplayList;
+
+  if (chordsDisplayList.size ()) {
+    list<pair<string, string> >::const_iterator
+      iBegin = chordsDisplayList.begin (),
+      iEnd   = chordsDisplayList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      s <<
+        gTab <<
+        (*i).first <<
+        "1-\\markup { " <<
+        (*i).second <<
+        " }" <<
+        endl;
+      if (++i == iEnd) break;
+  //     s << endl;
+    } // for
+  }
+
+  s <<
+    "}" <<
+    endl <<
+    endl <<
+R"###(% Convert music to list and prepend to existing exceptions.
+chExceptions = #( append
+                  ( sequential-music-to-chord-exceptions chExceptionMusic #t)
+                  ignatzekExceptions))###" <<
+    endl <<
+    endl;
+
+  string
+    schemeFunctionName =
+      "jazzChordsDisplay",
+
+  schemeFunctionDescription =
+R"(
+% A function to display the chords in a common Jazz way using \chordmode
+)",
+
+  schemeFunctionCode = s.str ();
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addColoredLedgerLinesToScore ()
+{
+  stringstream s;
+
+  s <<
+R"###(% there is ony one ledger line spanner/grob/stencil
+% produced for each musical system on the page (!)
+% see: ledger-line-spanner.cc for c++ code for ly:ledger-line-spanner::print
+
+#(define (MyLedgerLineSpannerPrint grob)
+   (let*
+    ((stil (ly:ledger-line-spanner::print grob))
+     ;; (ifaces (ly:grob-interfaces grob))
+
+     (noteheads (ly:grob-object grob 'note-heads))
+     (new-stil (box-stencil (stencil-with-color stil  (rgb-color )###";
+
+  s <<
+    gLilypondOah->fLedgerLinesRGBColor.getR () <<
+    " " <<
+    gLilypondOah->fLedgerLinesRGBColor.getG () <<
+    " " <<
+    gLilypondOah->fLedgerLinesRGBColor.getB ();
+
+  s <<
+R"###()) 0.1 1))
+     )
+
+    (display "noteheads: ")(display noteheads)(newline)(newline)
+    ;; (display (ly:grob-properties grob))(newline)(newline)
+    ;; (display ifaces)(newline)(newline)
+
+    new-stil))
+)###";
+
+  string
+    schemeFunctionName =
+      "coloredLedgerLines",
+
+  schemeFunctionDescription =
+R"(
+% A function to color the staves ledger lines other that black
+)",
+
+  schemeFunctionCode = s.str ();
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
 
   // create the Scheme function
   S_lpsrSchemeFunction
@@ -1634,7 +1820,7 @@ void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
       lpsrUseVoiceCommand::create (
         fInputLineNumber,
         voice);
-  
+
   fScoreBlock->
     appendVoiceUseToParallelMusicBLock (useVoiceCommand);
 }
@@ -1646,8 +1832,8 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
       lpsrNewLyricsBlock::create (
         fInputLineNumber,
         stanza,
-        stanza->getStanzaVoiceUplink ());
-  
+        stanza->getStanzaVoiceUpLink ());
+
   fScoreBlock->
     appendLyricsUseToParallelMusicBLock (newLyricsCommand);
 }
@@ -1655,55 +1841,65 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
 
 void lpsrScore::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrScore::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrScore>*
     p =
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrScore::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrScore::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrScore::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrScore>*
     p =
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrScore::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrScore::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrScore::browseData ()" <<
       endl;
   }
+#endif
 
   {
     // browse the score LilyPond version
@@ -1723,6 +1919,12 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fTranslationDateComment);
   }
 
+  if (fCommandLineAsSuppliedComment) {
+    // browse the command line as supplied comment
+    msrBrowser<lpsrComment> browser (v);
+    browser.browse (*fCommandLineAsSuppliedComment);
+  }
+
   if (fCommandLineLongOptionsComment) {
     // browse the command line long options comment
     msrBrowser<lpsrComment> browser (v);
@@ -1736,9 +1938,9 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
-    // browse the score global size
+    // browse the score global staff size
     msrBrowser<lpsrSchemeVariable> browser (v);
-    browser.browse (*fGlobalStaffSizeAssoc);
+    browser.browse (*fScoreGlobalStaffSizeSchemeVariable);
   }
 
   {
@@ -1747,7 +1949,8 @@ void lpsrScore::browseData (basevisitor* v)
       map<string, S_lpsrSchemeFunction>::const_iterator i =
         fScoreSchemeFunctionsMap.begin ();
       i != fScoreSchemeFunctionsMap.end ();
-      i++) {
+      i++
+  ) {
       // browse the Scheme function
       msrBrowser<lpsrSchemeFunction> browser (v);
       browser.browse (*(*i).second);
@@ -1757,16 +1960,16 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the score header
     msrBrowser<lpsrHeader> browser (v);
-    browser.browse (*fHeader);
+    browser.browse (*fScoreHeader);
   }
 
   {
     // browse the score paper
     msrBrowser<lpsrPaper> browser (v);
-    browser.browse (*fPaper);
+    browser.browse (*fScorePaper);
   }
 
-  {
+  if (fScoreLayout) { // JMI
     // browse the score layout
     msrBrowser<lpsrLayout> browser (v);
     browser.browse (*fScoreLayout);
@@ -1794,18 +1997,19 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fMyPageBreakIsEmptyAssoc);
   }
 
-  if (fGlobalAssoc) {
+  if (fScoreGlobalAssoc) {
     // browse the 'global' assoc
     msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fGlobalAssoc);
+    browser.browse (*fScoreGlobalAssoc);
   }
 
   {
     // browse the voices and stanzas list
     for (
-      list<S_msrElement>::const_iterator i = fScoreElements.begin ();
-      i != fScoreElements.end ();
-      i++) {
+      list<S_msrElement>::const_iterator i = fScoreElementsList.begin ();
+      i != fScoreElementsList.end ();
+      i++
+    ) {
       // browse the element
       msrBrowser<msrElement> browser (v);
       browser.browse (*(*i));
@@ -1813,19 +2017,28 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
-    // browse the score command
-    msrBrowser<lpsrScoreBlock> browser (v);    
-    browser.browse (*fScoreBlock);
+    // browse the score blocks list
+    for (
+      list<S_lpsrBookBlock>::const_iterator i = fScoreBookBlocksList.begin ();
+      i != fScoreBookBlocksList.end ();
+      i++
+    ) {
+      // browse the element
+      msrBrowser<lpsrBookBlock> browser (v);
+      browser.browse (*(*i));
+    } // for
   }
 
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% <== lpsrScore::browseData ()" <<
       endl;
   }
+#endif
 }
 
-void lpsrScore::print (ostream& os)
+void lpsrScore::print (ostream& os) const
 {
   os <<
     "LPSR Score" <<
@@ -1837,12 +2050,11 @@ void lpsrScore::print (ostream& os)
   // print the MSR structure (without the voices)
   fMsrScore->
     printSummary (os);
-  os <<
-    endl;
+  os << endl;
 
   // are some Scheme functions needed?
   const int fieldWidth = 42;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "TongueSchemeFunctionIsNeeded" << " : " <<
@@ -1860,14 +2072,14 @@ void lpsrScore::print (ostream& os)
   os <<
     fLilypondVersion <<
     endl <<
-    
-    fGlobalStaffSizeAssoc <<
+
+    fScoreGlobalStaffSizeSchemeVariable <<
     endl <<
 
-    fHeader <<
+    fScoreHeader <<
     // no endl here
 
-    fPaper <<
+    fScorePaper <<
     endl <<
 
     fScoreLayout <<
@@ -1875,11 +2087,11 @@ void lpsrScore::print (ostream& os)
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
-  // print the voices
-  if (fScoreElements.size ()) {  
+  // print the voices and stanzas
+  if (fScoreElementsList.size ()) {
     list<S_msrElement>::const_iterator
-      iBegin = fScoreElements.begin (),
-      iEnd   = fScoreElements.end (),
+      iBegin = fScoreElementsList.begin (),
+      iEnd   = fScoreElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -1887,13 +2099,23 @@ void lpsrScore::print (ostream& os)
       os << endl;
     } // for
 
-    os <<
-      endl;
+    os << endl;
   }
 
-  // print the score block
-  os <<
-    fScoreBlock;
+  // print the book blocks
+  if (fScoreBookBlocksList.size ()) {
+    list<S_lpsrBookBlock>::const_iterator
+      iBegin = fScoreBookBlocksList.begin (),
+      iEnd   = fScoreBookBlocksList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    os << endl;
+  }
 
   gIndenter--;
 }

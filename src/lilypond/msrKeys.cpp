@@ -10,28 +10,25 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrKeys.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 #include "messagesHandling.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrHumdrumScotKeyItem msrHumdrumScotKeyItem::create (
@@ -49,9 +46,9 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    gLogOstream <<
       "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -73,7 +70,7 @@ bool msrHumdrumScotKeyItem::isEqualTo (
   if (! otherHumdrumScotKeyItem) {
     return false;
   }
-    
+
   return
     fKeyDiatonicPitchKind == otherHumdrumScotKeyItem->fKeyDiatonicPitchKind
       &&
@@ -85,65 +82,65 @@ bool msrHumdrumScotKeyItem::isEqualTo (
 void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   msrDiatonicPitchKind diatonicPitchKind)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    gLogOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchKindAsString (diatonicPitchKind) <<
       "'" <<
       endl;
   }
 #endif
-  
+
   fKeyDiatonicPitchKind = diatonicPitchKind;
 }
 
 void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
   msrAlterationKind alterationKind)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    gLogOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationKindAsString (alterationKind) <<
       "'" <<
       endl;
   }
 #endif
-  
+
   fKeyAlterationKind = alterationKind;
 }
 
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    gLogOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
       "'" <<
       endl;
   }
 #endif
-  
+
   fKeyOctave = keyOctave;
 }
 
 void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrHumdrumScotKeyItem>*
     p =
       dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
         S_msrHumdrumScotKeyItem elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitStart ()" <<
             endl;
         }
@@ -153,8 +150,8 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
 
 void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptOut ()" <<
       endl;
   }
@@ -163,9 +160,9 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
         S_msrHumdrumScotKeyItem elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitEnd ()" <<
             endl;
         }
@@ -175,12 +172,6 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
 
 void msrHumdrumScotKeyItem::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrHumdrumScotKeyItem::asString () const
 {
@@ -194,15 +185,21 @@ string msrHumdrumScotKeyItem::asString () const
     msrAlterationKindAsString (fKeyAlterationKind) <<
     ", KeyOctave" << ": " << fKeyOctave <<
     ", line " << fInputLineNumber;
-     
+
   return s.str ();
 }
 
-void msrHumdrumScotKeyItem::print (ostream& os)
+void msrHumdrumScotKeyItem::print (ostream& os) const
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -238,29 +235,84 @@ msrKey::msrKey ( // for traditional keys
   msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
   msrKeyModeKind           keyModeKind,
   int                      keyCancel)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   // this is a traditional key
   fKeyKind = kTraditionalKind;
-  
+
+  fKeyModeKind = keyModeKind;
+
+  /* caution:
+    <key>
+      <fifths>0</fifths>
+      <mode>minor</mode>
+    </key>
+  is A minor actually, not C minor!
+  */
+
   fKeyTonicQuarterTonesPitchKind = keyTonicQuarterTonesPitchKind;
-  fKeyModeKind                   = keyModeKind;
-  
+
+  switch (fKeyModeKind) {
+    case msrKey::kMajorMode:
+      break;
+    case msrKey::kMinorMode:
+      fKeyTonicQuarterTonesPitchKind =
+        noteAtIntervalFromQuarterTonesPitch (
+          inputLineNumber,
+          kMajorSixth, // a minor third below actually
+          fKeyTonicQuarterTonesPitchKind);
+      break;
+    case msrKey::kIonianMode:
+      break;
+    case msrKey::kDorianMode:
+      break;
+    case msrKey::kPhrygianMode:
+      break;
+    case msrKey::kLydianMode:
+      break;
+    case msrKey::kMixolydianMode:
+      break;
+    case msrKey::kAeolianMode:
+      break;
+    case msrKey::kLocrianMode:
+      break;
+  } // switch
+
   fKeyCancel = keyCancel;
 
   // initialization in all cases
   fKeyItemsOctavesAreSpecified = false;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    gLogOstream <<
+      "Creating traditional key '" <<
+      this->asString () <<
+      "'" <<
+      endl;
+    }
+#endif
 }
 
 msrKey::msrKey ( // for Humdrum/Scot keys
   int                  inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   // this is a Humdrum/Scot key
   fKeyKind = kHumdrumScotKind;
 
   // initialization in all cases
   fKeyItemsOctavesAreSpecified = false;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    gLogOstream <<
+      "Creating Humdrum/Scot key '" <<
+      this->asString () <<
+      "'" <<
+      endl;
+    }
+#endif
 }
 
 msrKey::~msrKey ()
@@ -271,7 +323,7 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
   if (! otherKey) {
     return false;
   }
-    
+
   if (
     ! (
         fKeyKind == otherKey->fKeyKind
@@ -287,7 +339,7 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
     ) {
     return false;
   }
-    
+
   switch (fKeyKind) {
     case msrKey::kTraditionalKind:
       break;
@@ -327,9 +379,9 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
 void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    gLogOstream <<
       "Append item '" <<
       item->asString () <<
       "' to key '" <<
@@ -350,19 +402,19 @@ void msrKey::appendHumdrumScotKeyItem (
 
 void msrKey::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrKey::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrKey>*
     p =
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrKey::visitStart ()" <<
             endl;
         }
@@ -372,8 +424,8 @@ void msrKey::acceptIn (basevisitor* v)
 
 void msrKey::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrKey::acceptOut ()" <<
       endl;
   }
@@ -382,9 +434,9 @@ void msrKey::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrKey::visitEnd ()" <<
             endl;
         }
@@ -395,17 +447,11 @@ void msrKey::acceptOut (basevisitor* v)
 void msrKey::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrKey& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrKey::keyKindAsString (
   msrKeyKind keyKind)
 {
   string result;
-  
+
   switch (keyKind) {
     case msrKey::kTraditionalKind:
       result = "traditional";
@@ -422,7 +468,7 @@ string msrKey::keyModeKindAsString (
   msrKeyModeKind keyModeKind)
 {
   string result;
-  
+
   switch (keyModeKind) {
     case msrKey::kMajorMode:
       result = "major";
@@ -469,12 +515,12 @@ string msrKey::asString () const
     case msrKey::kTraditionalKind:
       s <<
         msrQuarterTonesPitchKindAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+          gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
           fKeyTonicQuarterTonesPitchKind) <<
         " " <<
         keyModeKindAsString (fKeyModeKind);
       break;
-      
+
     case msrKey::kHumdrumScotKind:
       s <<
         fHumdrumScotKeyItemsVector.size () << "items" <<
@@ -490,7 +536,7 @@ string msrKey::asString () const
   return s.str ();
 }
 
-void msrKey::print (ostream& os)
+void msrKey::print (ostream& os) const
 {
   os <<
     "Key" <<
@@ -502,14 +548,14 @@ void msrKey::print (ostream& os)
       os <<
         " " <<
         msrQuarterTonesPitchKindAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+          gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
           fKeyTonicQuarterTonesPitchKind) <<
         " " <<
         keyModeKindAsString (fKeyModeKind) <<
         ", line " << fInputLineNumber <<
         endl;
       break;
-      
+
     case msrKey::kHumdrumScotKind:
       os <<
         ", keyItemsOctavesAreSpecified: " <<
@@ -522,25 +568,24 @@ void msrKey::print (ostream& os)
         endl;
 
       if (fHumdrumScotKeyItemsVector.size ()) {
-        os <<
-          endl;
-          
+        os << endl;
+
         gIndenter++;
-        
+
         vector<S_msrHumdrumScotKeyItem>::const_iterator
           iBegin = fHumdrumScotKeyItemsVector.begin (),
           iEnd   = fHumdrumScotKeyItemsVector.end (),
           i      = iBegin;
-          
+
         for ( ; ; ) {
           os << (*i);
           if (++i == iEnd) break;
     // JMI     os << endl;
         } // for
-        
+
         gIndenter--;
       }
-      
+
       else
         {
           os <<
@@ -549,6 +594,12 @@ void msrKey::print (ostream& os)
         }
       break;
   } // switch
+}
+
+ostream& operator<< (ostream& os, const S_msrKey& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 
