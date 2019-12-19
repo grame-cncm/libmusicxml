@@ -1,13 +1,13 @@
 {
   "name": "@grame/libmusicxml",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "A library to support the MusicXML format.",
   "main": "libmusicxml.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "cd test; node check.js test.xml"
+    "test": "cd test && node testApi.node.js"
   },
   "homepage": "https://github.com/grame-cncm/libmusicxml#readme",
   "repository": {

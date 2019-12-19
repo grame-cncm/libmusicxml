@@ -10,22 +10,18 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrArpeggiatos.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
-
-
+namespace MusicXML2
+{
+ // JMI ???
 
 }

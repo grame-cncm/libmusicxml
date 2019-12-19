@@ -12,12 +12,12 @@
 
 #include "lpsrVariables.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -45,44 +45,52 @@ lpsrVariableUseCommand::~lpsrVariableUseCommand()
 
 void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrVariableUseCommand>*
     p =
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrVariableUseCommand>*
     p =
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -90,7 +98,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 void lpsrVariableUseCommand::browseData (basevisitor* v)
 {}
 
-void lpsrVariableUseCommand::print (ostream& os)
+void lpsrVariableUseCommand::print (ostream& os) const
 {
   os << "VariableUseCommand" << endl;
   gIndenter++;

@@ -20,13 +20,16 @@
 #include "utilities.h"
 #include "messagesHandling.h"
 
+#include "msrBasicTypes.h"
+
 #include "msrElements.h"
 
 #include "msrVarValAssocs.h"
 
 #include "msrIdentification.h"
-#include "msrPageGeometry.h"
-#include "msrLayout.h"
+
+#include "msrLayouts.h" // JMI ???
+#include "msrGeometry.h"
 
 #include "msrCredits.h"
 
@@ -68,22 +71,21 @@
 #include "msrSlurs.h"
 #include "msrLigatures.h"
 
-#include "msrTremolos.h"
+#include "msrSingleTremolos.h"
 
 #include "msrSlashes.h"
 
 #include "msrScores.h"
 #include "msrPartGroups.h"
-// JMI #include "msrParts.h"
+
+#include "msrMutualDependencies.h"
 
 #include "msrMidi.h"
 
-#include "msrMutuallyDependent.h"
-
-#include "generalOptions.h"
+#include "generalOah.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

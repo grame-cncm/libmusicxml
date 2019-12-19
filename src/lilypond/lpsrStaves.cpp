@@ -15,12 +15,12 @@
 #include "lpsrVoices.h"
 #include "lpsrLyrics.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -44,44 +44,52 @@ lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock ()
 
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -89,18 +97,18 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 void lpsrNewStaffgroupBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewStaffgroupBlock::print (ostream& os)
+void lpsrNewStaffgroupBlock::print (ostream& os) const
 {
   os << "NewStaffgroupBlock" << endl;
 
   gIndenter++;
-  
+
   int size = fNewStaffgroupElements.size ();
 
   for (int i = 0; i < size; i++ ) {
     os << fNewStaffgroupElements[i];
   } // for
-  
+
   gIndenter--;
 }
 
@@ -135,44 +143,52 @@ lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock ()
 
 void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -180,15 +196,15 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 void lpsrNewStaffTuningBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewStaffTuningBlock::print (ostream& os)
+void lpsrNewStaffTuningBlock::print (ostream& os) const
 {
   os << "NewStaffTuningBlock" << endl;
 
   gIndenter++;
-  
+
   os <<
     fStaffTuning;
-  
+
   gIndenter--;
 }
 
@@ -219,44 +235,52 @@ lpsrNewStaffBlock::~lpsrNewStaffBlock ()
 
 void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewStaffBlock::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrNewStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrNewStaffBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrNewStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -264,18 +288,18 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 void lpsrNewStaffBlock::browseData (basevisitor* v)
 {}
 
-void lpsrNewStaffBlock::print (ostream& os)
+void lpsrNewStaffBlock::print (ostream& os) const
 {
   os << "NewStaffBlock" << endl;
 
   gIndenter++;
-  
+
   int size = fNewStaffElements.size ();
 
   for (int i = 0; i < size; i++ ) {
     os << fNewStaffElements[i];
   } // for
-  
+
   gIndenter--;
 }
 
@@ -303,7 +327,7 @@ lpsrStaffBlock::lpsrStaffBlock (
   msrAssert (
     staff != nullptr,
     "staff is null");
-    
+
   fStaff = staff;
 
   // set staff block instrument names
@@ -325,7 +349,7 @@ void lpsrStaffBlock::appendVoiceUseToStaffBlock (S_msrVoice voice)
       lpsrUseVoiceCommand::create (
         fInputLineNumber,
         voice);
-  
+
   fStaffBlockElements.push_back (useVoiceCommand);
 }
 
@@ -336,80 +360,93 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
       lpsrNewLyricsBlock::create (
         fInputLineNumber,
         stanza,
-        stanza->getStanzaVoiceUplink ());
-  
+        stanza->getStanzaVoiceUpLink ());
+
   fStaffBlockElements.push_back (newLyricsCommand);
 }
 
 void lpsrStaffBlock::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrStaffBlock::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrStaffBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrStaffBlock::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrStaffBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrStaffBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrStaffBlock::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrStaffBlock::browseData ()" <<
       endl;
   }
+#endif
 
   for (
     list<S_msrElement>::const_iterator i = fStaffBlockElements.begin ();
     i != fStaffBlockElements.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
   } // for
 
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% <== lpsrStaffBlock::browseData ()" <<
       endl;
   }
+#endif
 }
 
-void lpsrStaffBlock::print (ostream& os)
+void lpsrStaffBlock::print (ostream& os) const
 {
   os <<
     "StaffBlock for staff \"" <<
@@ -423,7 +460,7 @@ void lpsrStaffBlock::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 31;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "(StaffBlockInstrumentName" << " = \"" << fStaffBlockInstrumentName <<
@@ -435,7 +472,7 @@ void lpsrStaffBlock::print (ostream& os)
     endl <<
     endl;
 
-  if (fStaffBlockElements.size ()) {  
+  if (fStaffBlockElements.size ()) {
     list<S_msrElement>::const_iterator
       iBegin = fStaffBlockElements.begin (),
       iEnd   = fStaffBlockElements.end (),

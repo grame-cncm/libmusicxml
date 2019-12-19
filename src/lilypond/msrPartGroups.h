@@ -13,13 +13,14 @@
 #ifndef ___msrPartGroups___
 #define ___msrPartGroups___
 
-#include "msr.h" // TEMP
-#include "msrScores.h" // TEMP
+#include "msrPartGroupElements.h"
+
+#include "msrMutualDependencies.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
- 
+
 //______________________________________________________________________________
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
@@ -31,7 +32,7 @@ class msrScore;
 typedef SMARTP<msrScore> S_msrScore;
 
 //______________________________________________________________________________
-class msrPartGroup : public msrElement
+class msrPartGroup : public msrPartGroupElement
 {
   public:
 
@@ -54,31 +55,31 @@ class msrPartGroup : public msrElement
 
     enum msrPartGroupImplicitKind {
         kPartGroupImplicitYes, kPartGroupImplicitNo};
-          
+
     static string partGroupImplicitKindAsString (
       msrPartGroupImplicitKind partGroupImplicitKind);
-      
+
     enum msrPartGroupTypeKind {
         kPartGroupTypeNone,
         kPartGroupTypeStart, kPartGroupTypeStop };
-          
+
     static string partGroupTypeKindAsString (
       msrPartGroupTypeKind partGroupTypeKind);
-      
+
     enum msrPartGroupSymbolKind {
         kPartGroupSymbolNone,
         kPartGroupSymbolBrace, kPartGroupSymbolBracket,
         kPartGroupSymbolLine, kPartGroupSymbolSquare};
-          
+
     static string partGroupSymbolKindAsString (
       msrPartGroupSymbolKind partGroupSymbolKind);
-      
+
     enum msrPartGroupBarlineKind {
         kPartGroupBarlineYes, kPartGroupBarlineNo};
-          
+
     static string partGroupBarlineKindAsString (
       msrPartGroupBarlineKind partGroupBarlineKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -93,8 +94,8 @@ class msrPartGroup : public msrElement
       msrPartGroupSymbolKind   partGroupSymbolKind,
       int                      partGroupSymbolDefaultX,
       msrPartGroupBarlineKind  partGroupBarlineKind,
-      S_msrPartGroup           partGroupPartGroupUplink,
-      S_msrScore               partGroupScoreUplink);
+      S_msrPartGroup           partGroupPartGroupUpLink,
+      S_msrScore               partGroupScoreUpLink);
 
     static SMARTP<msrPartGroup> createImplicitPartGroup (
       int                      partGroupNumber,
@@ -104,10 +105,10 @@ class msrPartGroup : public msrElement
       string                   partGroupAccidentalText,
       string                   partGroupAbbreviation,
       msrPartGroupBarlineKind  partGroupBarlineKind,
-      S_msrScore               partGroupScoreUplink);
+      S_msrScore               partGroupScoreUpLink);
 
     SMARTP<msrPartGroup> createPartGroupNewbornClone (
-      S_msrPartGroup partGroupClone, // the uplink for embeddeed part groups
+      S_msrPartGroup partGroupClone, // the upLink for embeddeed part groups
       S_msrScore     scoreClone);
 
   protected:
@@ -127,40 +128,43 @@ class msrPartGroup : public msrElement
       int                      partGroupSymbolDefaultX,
       msrPartGroupImplicitKind partGroupImplicitKind,
       msrPartGroupBarlineKind  partGroupBarlineKind,
-      S_msrPartGroup           partGroupPartGroupUplink,
-      S_msrScore               partGroupScoreUplink);
-            
+      S_msrPartGroup           partGroupPartGroupUpLink,
+      S_msrScore               partGroupScoreUpLink);
+
     virtual ~msrPartGroup ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    // uplinks
-    void                  setPartGroupPartGroupUplink (
+    // upLinks
+    void                  setPartGroupPartGroupUpLink (
                             S_msrPartGroup partGroup)
                               {
-                                fPartGroupPartGroupUplink =
+                                fPartGroupPartGroupUpLink =
                                   partGroup;
                               }
 
-    S_msrPartGroup        getPartGroupPartGroupUplink () const
-                              { return fPartGroupPartGroupUplink; }
+    S_msrPartGroup        getPartGroupPartGroupUpLink () const
+                              { return fPartGroupPartGroupUpLink; }
 
-    S_msrScore            getPartGroupScoreUplink () const
-                              { return fPartGroupScoreUplink; }
+    S_msrScore            getPartGroupScoreUpLink () const
+                              { return fPartGroupScoreUpLink; }
 
     // numbers
     int                   getPartGroupAbsoluteNumber () const
                               { return fPartGroupAbsoluteNumber; }
-    
+
     int                   getPartGroupNumber () const
                               { return fPartGroupNumber; }
 
     // names
-    
+
     string                getPartGroupCombinedName () const;
+
+    string                getPartGroupCombinedNameWithoutEndOfLines () const;
+                            // for comments in LilyPond code
 
     // miscellaneous
 
@@ -186,33 +190,33 @@ class msrPartGroup : public msrElement
     msrPartGroupImplicitKind
                           getPartGroupImplicitKind () const
                               { return fPartGroupImplicitKind; }
-    
+
     msrPartGroupBarlineKind
                           getPartGroupBarlineKind () const
                               { return fPartGroupBarlineKind; }
-    
+
     void                  setPartGroupInstrumentName (string name);
-                
+
     string                getPartGroupInstrumentName () const
                               { return fPartGroupInstrumentName; }
-                
-    const list<S_msrElement>&
+
+    const list<S_msrPartGroupElement>&
                           getPartGroupElements () const
                               { return fPartGroupElements; }
 
     // services
     // ------------------------------------------------------
 
-    S_msrPart             appendPartToPartGroupByItsPartID (
+    S_msrPart             appendPartToPartGroupByItsPartID ( // JMI superflous
                             int    inputLineNumber,
                             string partID);
-    
+
     void                  appendPartToPartGroup (S_msrPart part);
-    
+
     void                  removePartFromPartGroup (
                             int       inputLineNumber,
                             S_msrPart partToBeRemoved);
-                
+
     void                  prependSubPartGroupToPartGroup (
                             S_msrPartGroup partGroup);
 
@@ -252,14 +256,14 @@ class msrPartGroup : public msrElement
     void                  printPartGroupParts (
                             int      inputLineNumber,
                             ostream& os);
-  
+
     string                partGroupImplicitKindAsString () const;
-    
+
     string                partGroupBarlineKindAsString () const;
 
     virtual string        asString () const;
-    
-    virtual void          print (ostream& os);
+
+    virtual void          print (ostream& os) const;
 
     virtual void          printSummary (ostream& os);
 
@@ -268,43 +272,43 @@ class msrPartGroup : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // uplinks
-    
-    S_msrPartGroup        fPartGroupPartGroupUplink;
+    // upLinks
+
+    S_msrPartGroup        fPartGroupPartGroupUpLink;
                             // part groups can be nested
 
-    S_msrScore            fPartGroupScoreUplink;
+    S_msrScore            fPartGroupScoreUpLink;
 
     // numbers
-    
+
     int                   fPartGroupNumber;
-    int                   fPartGroupAbsoluteNumber;    
+    int                   fPartGroupAbsoluteNumber;
 
     // name
-    
+
     string                fPartGroupName;
     string                fPartGroupNameDisplayText;
-    
+
     string                fPartGroupAccidentalText;
-    
+
     string                fPartGroupAbbreviation;
 
     // symbol kind
-    
+
     msrPartGroupSymbolKind
                           fPartGroupSymbolKind;
 
     // default X
-    
+
     int                   fPartGroupSymbolDefaultX;
 
     // implicit
-    
+
     msrPartGroupImplicitKind
                           fPartGroupImplicitKind;
 
     // bar line
-    
+
     msrPartGroupBarlineKind
                           fPartGroupBarlineKind;
 
@@ -317,7 +321,8 @@ class msrPartGroup : public msrElement
                           fPartGroupPartsMap;
 
     // allowing for both parts and (sub-)part groups as elements
-    list<S_msrElement>    fPartGroupElements;
+    list<S_msrPartGroupElement>
+                          fPartGroupElements;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);

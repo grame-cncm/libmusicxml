@@ -14,19 +14,15 @@
 #define __msr2LpsrInterface__
 
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
-#include "generalOptions.h"
-#include "msrOptions.h"
-#include "lpsrOptions.h"
+#include "generalOah.h"
+#include "msrOah.h"
+#include "lpsrOah.h"
 
 #include "lpsr.h"
 #include "exports.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //#ifdef __cplusplus
@@ -45,16 +41,16 @@ The library includes a high level API to convert
 //______________________________________________________________________________
 EXP S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOptions     msrOpts,
-  S_lpsrOptions    lpsrOpts,
-  indentedOstream& logIOstream);
+  S_msrOah         msrOpts,
+  S_lpsrOah        lpsrOpts,
+  indentedOstream& logOstream);
 
 //_______________________________________________________________________________
 EXP void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions      msrOpts,
-  S_lpsrOptions     lpsrOpts,
-  indentedOstream&  logIOstream);
+  S_msrOah          msrOpts,
+  S_lpsrOah         lpsrOpts,
+  indentedOstream&  logOstream);
 
 /*! @} */
 

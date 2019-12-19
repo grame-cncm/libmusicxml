@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -31,11 +31,11 @@ class msrTie : public msrElement
 
     enum msrTieKind {
       kTieNone,
-      kTieStart, kTieContinue, kTieStop};        
-    
+      kTieStart, kTieContinue, kTieStop};
+
     static string tieKindAsString (
       msrTieKind tieKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -51,9 +51,9 @@ class msrTie : public msrElement
     msrTie (
       int        inputLineNumber,
       msrTieKind tieKind);
-      
+
     virtual ~msrTie ();
-  
+
   public:
 
     // set and get
@@ -80,12 +80,11 @@ class msrTie : public msrElement
     // print
     // ------------------------------------------------------
 
-    string                tieKindAsString () const
-                              { return tieKindAsString (fTieKind); }
+    string                tieKindAsString () const;
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

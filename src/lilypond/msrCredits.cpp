@@ -10,34 +10,32 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrCredits.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrCreditWords msrCreditWords::create (
-  int         inputLineNumber,
-  string      creditWordsContents,
-  string      creditWordsFontFamily,
-  float       creditWordsFontSize,
-  string      creditWordsFontWeight,
-  string      creditWordsFontJustify,
-  string      creditWordsFontHAlign,
-  string      creditWordsFontVAlign,
-  string      creditWordsFontXMLLanguage)
+  int                        inputLineNumber,
+  string                     creditWordsContents,
+  string                     creditWordsFontFamily,
+  float                      creditWordsFontSize,
+  msrFontWeightKind          creditWordsFontWeightKind,
+  msrFontStyleKind           creditWordsFontStyleKind,
+  msrJustifyKind             creditWordsJustifyKind,
+  msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+  msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
+  msrXMLLangKind             creditWordsXMLLang)
 {
   msrCreditWords* o =
     new msrCreditWords (
@@ -45,36 +43,42 @@ S_msrCreditWords msrCreditWords::create (
       creditWordsContents,
       creditWordsFontFamily,
       creditWordsFontSize,
-      creditWordsFontWeight,
-      creditWordsFontJustify,
-      creditWordsFontHAlign,
-      creditWordsFontVAlign,
-      creditWordsFontXMLLanguage);
+      creditWordsFontWeightKind,
+      creditWordsFontStyleKind,
+      creditWordsJustifyKind,
+      creditWordsHorizontalAlignmentKind,
+      creditWordsVerticalAlignmentKind,
+      creditWordsXMLLang);
   assert(o!=0);
   return o;
 }
 
 msrCreditWords::msrCreditWords (
-  int         inputLineNumber,
-  string      creditWordsContents,
-  string      creditWordsFontFamily,
-  float       creditWordsFontSize,
-  string      creditWordsFontWeight,
-  string      creditWordsFontJustify,
-  string      creditWordsFontHAlign,
-  string      creditWordsFontVAlign,
-  string      creditWordsFontXMLLanguage)
+  int                        inputLineNumber,
+  string                     creditWordsContents,
+  string                     creditWordsFontFamily,
+  float                      creditWordsFontSize,
+  msrFontWeightKind          creditWordsFontWeightKind,
+  msrFontStyleKind           creditWordsFontStyleKind,
+  msrJustifyKind             creditWordsJustifyKind,
+  msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+  msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
+  msrXMLLangKind             creditWordsXMLLang)
     : msrElement (inputLineNumber)
 {
-  fCreditWordsContents        = creditWordsContents;
+  fCreditWordsContents   = creditWordsContents;
 
-  fCreditWordsFontFamily      = creditWordsFontFamily;
-  fCreditWordsFontSize        = creditWordsFontSize;
-  fCreditWordsFontWeight      = creditWordsFontWeight;
-  fCreditWordsFontJustify     = creditWordsFontJustify;
-  fCreditWordsFontHAlign      = creditWordsFontHAlign;
-  fCreditWordsFontVAlign      = creditWordsFontVAlign;
-  fCreditWordsFontXMLLanguage = creditWordsFontXMLLanguage;
+  fCreditWordsFontFamily              = creditWordsFontFamily;
+  fCreditWordsFontSize                = creditWordsFontSize;
+  fCreditWordsFontWeightKind          = creditWordsFontWeightKind;
+  fCreditWordsFontStyleKind           = creditWordsFontStyleKind;
+
+  fCreditWordsJustifyKind             = creditWordsJustifyKind;
+
+  fCreditWordsHorizontalAlignmentKind = creditWordsHorizontalAlignmentKind;
+  fCreditWordsVerticalAlignmentKind   = creditWordsVerticalAlignmentKind;
+
+  fCreditWordsXMLLang                 = creditWordsXMLLang;
 }
 
 msrCreditWords::~msrCreditWords ()
@@ -82,19 +86,19 @@ msrCreditWords::~msrCreditWords ()
 
 void msrCreditWords::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrCreditWords::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrCreditWords>*
     p =
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrCreditWords::visitStart ()" <<
             endl;
         }
@@ -104,8 +108,8 @@ void msrCreditWords::acceptIn (basevisitor* v)
 
 void msrCreditWords::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrCreditWords::acceptOut ()" <<
       endl;
   }
@@ -114,9 +118,9 @@ void msrCreditWords::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrCreditWords::visitEnd ()" <<
             endl;
         }
@@ -127,7 +131,7 @@ void msrCreditWords::acceptOut (basevisitor* v)
 void msrCreditWords::browseData (basevisitor* v)
 {}
 
-void msrCreditWords::print (ostream& os)
+void msrCreditWords::print (ostream& os) const
 {
   os <<
     "CreditWords" <<
@@ -135,8 +139,8 @@ void msrCreditWords::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 27;
-  
+  const int fieldWidth = 35;
+
   os <<
     setw (fieldWidth) <<
     "creditWordsContents" << " : \"" <<
@@ -153,28 +157,31 @@ void msrCreditWords::print (ostream& os)
     fCreditWordsFontSize <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontWeight" << " : \"" <<
-    fCreditWordsFontWeight <<
-    "\"" <<
+    "creditWordsFontWeightKind" << " : " <<
+    msrFontWeightKindAsString (
+      fCreditWordsFontWeightKind) <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontJustify" << " : \"" <<
-    fCreditWordsFontJustify <<
-    "\"" <<
+    "creditWordsFontStyleKind" << " : " <<
+    msrFontStyleKindAsString (fCreditWordsFontStyleKind) <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontHAlign" << " : \"" <<
-    fCreditWordsFontHAlign <<
-    "\"" <<
+    "creditWordsJustifyKind" << " : " <<
+    msrJustifyKindAsString (fCreditWordsJustifyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontVAlign" << " : \"" <<
-    fCreditWordsFontVAlign <<
-    "\"" <<
+    "creditWordsHorizontalAlignmentKind" << " : " <<
+    msrHorizontalAlignmentKindAsString (
+      fCreditWordsHorizontalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontXMLLanguage" << " : \"" <<
-    fCreditWordsFontXMLLanguage <<
+    "creditWordsVerticalAlignmentKind" << " : " <<
+    msrVerticalAlignmentKindAsString (
+      fCreditWordsVerticalAlignmentKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "creditWordsXMLLang" << " : \"" <<
+    fCreditWordsXMLLang <<
     "\"" <<
     endl;
 
@@ -218,19 +225,19 @@ void msrCredit::appendCreditWordsToCredit (
 
 void msrCredit::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrCredit::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrCredit>*
     p =
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrCredit::visitStart ()" <<
             endl;
         }
@@ -240,8 +247,8 @@ void msrCredit::acceptIn (basevisitor* v)
 
 void msrCredit::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrCredit::acceptOut ()" <<
       endl;
   }
@@ -250,9 +257,9 @@ void msrCredit::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrCredit::visitEnd ()" <<
             endl;
         }
@@ -263,7 +270,7 @@ void msrCredit::acceptOut (basevisitor* v)
 void msrCredit::browseData (basevisitor* v)
 {
   int n1 = fCreditWordsList.size ();
-  
+
   for (int i = 0; i < n1; i++ ) {
     // browse the credit words
     msrBrowser<msrCreditWords> browser (v);
@@ -281,12 +288,12 @@ string msrCredit::asString () const
 
   if (fCreditWordsList.size ()) {
     s << "[";
-    
+
     vector<S_msrCreditWords>::const_iterator
       iBegin = fCreditWordsList.begin (),
       iEnd   = fCreditWordsList.end (),
       i      = iBegin;
-  
+
     for ( ; ; ) {
       s << "\"" << (*i)->getCreditWordsContents () << "\"";
       if (++i == iEnd) break;
@@ -295,21 +302,21 @@ string msrCredit::asString () const
 
     s << "]";
   }
-  
+
   else
     s << "no credit words";
-    
+
   return s.str ();
 }
 
-void msrCredit::print (ostream& os)
+void msrCredit::print (ostream& os) const
 {
   os <<
     "Credit" <<
     endl;
 
   gIndenter++;
-  
+
   os <<
     "fCreditPageNumber" << " : " << fCreditPageNumber <<
     endl;
@@ -319,14 +326,14 @@ void msrCredit::print (ostream& os)
       iBegin = fCreditWordsList.begin (),
       iEnd   = fCreditWordsList.end (),
       i      = iBegin;
-  
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
   }
-  
+
   gIndenter--;
 }
 

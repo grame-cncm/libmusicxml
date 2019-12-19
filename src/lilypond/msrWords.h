@@ -41,25 +41,20 @@ class msrWords : public msrElement
     static string msrWordsFontWeightKindAsString (
       msrWordsFontWeightKind wordsFontWeightKind);
       
-    enum msrWordsXMLLangKind {
-      kItLang, kEnLang, kDeLang, kFrLang, kJaLang, kLaLang };
-
-    static string msrWordsXMLLangKindAsString (
-      msrWordsXMLLangKind wordsXMLLangKind);
-      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrWords> create (
-      int                      inputLineNumber,
-      msrPlacementKind         wordsPlacementKind,
-      string                   wordsContents,
-      msrJustifyKind           wordsJustifyKind,
-      msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-      msrFontStyleKind         wordsFontStyleKind,
-      S_msrFontSize            wordsFontSize,
-      msrFontWeightKind        wordsFontWeightKind,
-      msrWordsXMLLangKind      wordsXMLLangKind);
+      int                        inputLineNumber,
+      msrPlacementKind           wordsPlacementKind,
+      string                     wordsContents,
+      msrJustifyKind             wordsJustifyKind,
+      msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+      msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+      msrFontStyleKind           wordsFontStyleKind,
+      S_msrFontSize              wordsFontSize,
+      msrFontWeightKind          wordsFontWeightKind,
+      msrXMLLangKind             wordsXMLLangKind);
 
   protected:
 
@@ -67,15 +62,16 @@ class msrWords : public msrElement
     // ------------------------------------------------------
 
     msrWords (
-      int                      inputLineNumber,
-      msrPlacementKind         wordsPlacementKind,
-      string                   wordsContents,
-      msrJustifyKind           wordsJustifyKind,
-      msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-      msrFontStyleKind         wordsFontStyleKind,
-      S_msrFontSize            wordsFontSize,
-      msrFontWeightKind        wordsFontWeightKind,
-      msrWordsXMLLangKind      wordsXMLLangKind);
+      int                        inputLineNumber,
+      msrPlacementKind           wordsPlacementKind,
+      string                     wordsContents,
+      msrJustifyKind             wordsJustifyKind,
+      msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+      msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+      msrFontStyleKind           wordsFontStyleKind,
+      S_msrFontSize              wordsFontSize,
+      msrFontWeightKind          wordsFontWeightKind,
+      msrXMLLangKind             wordsXMLLangKind);
       
     virtual ~msrWords ();
   
@@ -93,6 +89,10 @@ class msrWords : public msrElement
     msrJustifyKind        getWordsJustifyKind () const
                               { return fWordsJustifyKind; }
 
+    msrHorizontalAlignmentKind
+                          getWordsHorizontalAlignmentKind () const
+                              { return fWordsHorizontalAlignmentKind; }
+
     msrVerticalAlignmentKind
                           getWordsVerticalAlignmentKind () const
                               { return fWordsVerticalAlignmentKind; }
@@ -106,7 +106,7 @@ class msrWords : public msrElement
     msrFontWeightKind     getWordsFontWeightKind () const
                               { return fWordsFontWeightKind; }
 
-    msrWordsXMLLangKind   getWordsXMLLangKind () const
+    msrXMLLangKind        getWordsXMLLangKind () const
                               { return fWordsXMLLangKind; }
 
     // services
@@ -131,6 +131,7 @@ class msrWords : public msrElement
     
     string                wordsJustifyKindAsString () const;
     
+    string                wordsHorizontalAlignmentKindAsString () const;
     string                wordsVerticalAlignmentKindAsString () const;
     
     string                wordsFontStyleKindAsString () const;
@@ -141,7 +142,7 @@ class msrWords : public msrElement
 
     string                asString () const;
     
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
                         
@@ -153,6 +154,9 @@ class msrWords : public msrElement
     string                fWordsContents;
   
     msrJustifyKind        fWordsJustifyKind;
+
+    msrHorizontalAlignmentKind
+                          fWordsHorizontalAlignmentKind;
     msrVerticalAlignmentKind
                           fWordsVerticalAlignmentKind;
 
@@ -160,7 +164,7 @@ class msrWords : public msrElement
     S_msrFontSize         fWordsFontSize;
     msrFontWeightKind     fWordsFontWeightKind;
     
-    msrWordsXMLLangKind   fWordsXMLLangKind;
+    msrXMLLangKind        fWordsXMLLangKind;
 };
 typedef SMARTP<msrWords> S_msrWords;
 EXP ostream& operator<< (ostream& os, const S_msrWords& elt);

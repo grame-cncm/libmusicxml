@@ -13,8 +13,8 @@
 #ifndef ___lpsr2LilypondTranslator___
 #define ___lpsr2LilypondTranslator___
 
-#include "msrOptions.h"
-#include "lpsrOptions.h"
+#include "msrOah.h"
+#include "lpsrOah.h"
 
 #include "lpsr.h"
 
@@ -23,29 +23,29 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-struct msrRepeatDescr : public smartable
+struct lpsrRepeatDescr : public smartable
 {
 /*
  * positions represent the order in which the parts appear in <part-list />
 */
- 
+
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrRepeatDescr> create (
+    static SMARTP<lpsrRepeatDescr> create (
       int repeatEndingsNumber);
-     
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRepeatDescr (
+    lpsrRepeatDescr (
       int repeatEndingsNumber);
 
-    virtual ~msrRepeatDescr ();
+    virtual ~lpsrRepeatDescr ();
 
   public:
 
@@ -63,10 +63,10 @@ struct msrRepeatDescr : public smartable
 
     void                  setEndOfRepeatHasBeenGenerated ()
                               { fEndOfRepeatHasBeenGenerated = true; }
-                              
+
     bool                  getEndOfRepeatHasBeenGenerated () const
                               { return fEndOfRepeatHasBeenGenerated; }
-    
+
     // services
     // ------------------------------------------------------
 
@@ -74,29 +74,29 @@ struct msrRepeatDescr : public smartable
 
     // print
     // ------------------------------------------------------
-    
+
     virtual void          print (ostream& os) const;
-    
+
   private:
-     
+
     // fields
     // ------------------------------------------------------
 
     int                   fRepeatEndingsNumber;
     int                   fRepeatEndingsCounter;
-    
+
     bool                  fEndOfRepeatHasBeenGenerated;
 };
-typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
-EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
+typedef SMARTP<lpsrRepeatDescr> S_lpsrRepeatDescr;
+EXP ostream& operator<< (ostream& os, const S_lpsrRepeatDescr& elt);
 
 //________________________________________________________________________
 class lpsr2LilypondTranslator :
 
   // LPSR
-  
+
   public visitor<S_lpsrScore>,
-  
+
   // variable-value associations
 
   public visitor<S_lpsrVarValAssoc>,
@@ -114,12 +114,15 @@ class lpsr2LilypondTranslator :
   // layout
 
   public visitor<S_lpsrLayout>,
-  
+
   // score blocks
 
   public visitor<S_lpsrParallelMusicBLock>,
 
+  public visitor<S_lpsrBookBlock>,
   public visitor<S_lpsrScoreBlock>,
+  public visitor<S_lpsrBookPartBlock>,
+
   public visitor<S_lpsrPartGroupBlock>,
   public visitor<S_lpsrPartBlock>,
   public visitor<S_lpsrStaffBlock>,
@@ -127,55 +130,55 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrUseVoiceCommand>,
   public visitor<S_lpsrNewLyricsBlock>,
   public visitor<S_lpsrVariableUseCommand>,
-  
+
 //  public visitor<S_lpsrContext>, JMI
   public visitor<S_lpsrChordNamesContext>,
   public visitor<S_lpsrFiguredBassContext>,
-  
+
   public visitor<S_lpsrBarCommand>,
-  
+
  // JMI public visitor<S_lpsrMelismaCommand>,
 
   public visitor<S_lpsrComment>,
-  
+
   public visitor<S_lpsrSchemeFunction>,
 
   // MSR
-  
+
   public visitor<S_msrScore>,
 
   // rights
 
   public visitor<S_msrCredit>,
   public visitor<S_msrCreditWords>,
-  
+
   // parts & part groups
 
   public visitor<S_msrPartGroup>,
-  
+
   public visitor<S_msrPart>,
-  
+
   // staff details
 
   public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
 
   // staves and voices
-  
+
   public visitor<S_msrStaff>,
-  
+
   public visitor<S_msrVoice>,
-  
+
   public visitor<S_msrVoiceStaffChange>,
-  
+
   // harmonies
 
   public visitor<S_msrHarmony>,
-  
+
   // frames
 
   public visitor<S_msrFrame>,
-  
+
   // figured bass
 
   public visitor<S_msrFiguredBass>,
@@ -186,7 +189,7 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
-  
+
   // clefs
 
   public visitor<S_msrClef>,
@@ -198,11 +201,11 @@ class lpsr2LilypondTranslator :
   // times
 
   public visitor<S_msrTime>,
-  
+
   // transpose
 
   public visitor<S_msrTranspose>,
-  
+
   // print
 
   public visitor<S_msrPartNameDisplay>,
@@ -211,98 +214,98 @@ class lpsr2LilypondTranslator :
   // words
 
   public visitor<S_msrWords>,
-      
+
   // tempo
 
   public visitor<S_msrTempo>,
   public visitor<S_msrTempoRelationshipElements>,
   public visitor<S_msrTempoNote>,
   public visitor<S_msrTempoTuplet>,
-      
+
   // articulations
 
   public visitor<S_msrArticulation>,
-  
+
   public visitor<S_msrFermata>,
-  
+
   public visitor<S_msrArpeggiato>,
   public visitor<S_msrNonArpeggiato>,
-  
+
   // technicals
 
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
   public visitor<S_msrTechnicalWithFloat>,
   public visitor<S_msrTechnicalWithString>,
-  
+
   // ornaments
 
   public visitor<S_msrOrnament>,
-  
+
   // glissandos
 
   public visitor<S_msrGlissando>,
-  
+
   // slides
 
   public visitor<S_msrSlide>,
-  
+
   // tremolos
 
   public visitor<S_msrSingleTremolo>,
-  
+
   public visitor<S_msrDoubleTremolo>,
 
   // dynamics
 
   public visitor<S_msrDynamics>,
-  
+
   public visitor<S_msrOtherDynamics>,
-  
+
   public visitor<S_msrWedge>,
-    
+
   // grace notes
 
   public visitor<S_msrGraceNotesGroup>,
-  
+
   public visitor<S_msrAfterGraceNotesGroup>,
   public visitor<S_msrAfterGraceNotesGroupContents>,
-  
+
   // notes
 
   public visitor<S_msrNote>,
   public visitor<S_msrOctaveShift>,
-  
+
   // accordion registration
 
   public visitor<S_msrAccordionRegistration>,
-  
+
   // harp pedals tuning
 
   public visitor<S_msrHarpPedalsTuning>,
-  
+
   public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
-    
+
   // chords
 
   public visitor<S_msrChord>,
-  
+
   public visitor<S_msrTuplet>,
-  
+
   public visitor<S_msrTie>,
-  
+
   public visitor<S_msrSlur>,
-  
+
   public visitor<S_msrLigature>,
-  
+
   // ?
 
   public visitor<S_msrBarline>,
-  
+
   public visitor<S_msrSegno>,
   public visitor<S_msrCoda>,
-  
+
   public visitor<S_msrEyeGlasses>,
   public visitor<S_msrPedal>,
   public visitor<S_msrDamp>,
@@ -310,52 +313,52 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrScordatura>,
 
   public visitor<S_msrBarCheck>,
-  
+
   public visitor<S_msrBarNumberCheck>,
-  
+
   public visitor<S_msrLineBreak>,
-  
+
   public visitor<S_msrPageBreak>,
-   
+
   // repeats
 
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
-  
+
   public visitor<S_msrMeasuresRepeat>,
   public visitor<S_msrMeasuresRepeatPattern>,
   public visitor<S_msrMeasuresRepeatReplicas>,
-  
-  public visitor<S_msrMultipleRest>,
-  public visitor<S_msrMultipleRestContents>,
-      
+
+  public visitor<S_msrRestMeasures>,
+  public visitor<S_msrRestMeasuresContents>,
+
   // rehearsal
 
   public visitor<S_msrRehearsal>,
-  
+
   // midi
 
   public visitor<S_msrMidi>
 
 {
   public:
-  
+
     lpsr2LilypondTranslator (
-      S_msrOptions&    msrOpts,
-      S_lpsrOptions&   lpsrOpts,
-      indentedOstream& logIOstream,
-      indentedOstream& lilypondCodeIOstream,
-      S_lpsrScore      lpsrScore);
-        
+      S_lpsrScore      lpsrScore,
+      S_msrOah&    msrOpts,
+      S_lpsrOah&   lpsrOpts,
+      indentedOstream& logOstream,
+      indentedOstream& lilypondCodeOstream);
+
     virtual ~lpsr2LilypondTranslator ();
 
     void generateLilypondCodeFromLpsrScore ();
-    
+
   protected:
-      
+
     // LPSR
-  
+
     virtual void visitStart (S_lpsrScore& elt);
     virtual void visitEnd   (S_lpsrScore& elt);
 
@@ -377,8 +380,12 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrLayout& elt);
     virtual void visitEnd   (S_lpsrLayout& elt);
 
+    virtual void visitStart (S_lpsrBookBlock& elt);
+    virtual void visitEnd   (S_lpsrBookBlock& elt);
     virtual void visitStart (S_lpsrScoreBlock& elt);
     virtual void visitEnd   (S_lpsrScoreBlock& elt);
+    virtual void visitStart (S_lpsrBookPartBlock& elt);
+    virtual void visitEnd   (S_lpsrBookPartBlock& elt);
 
     virtual void visitStart (S_lpsrParallelMusicBLock& elt);
     virtual void visitEnd   (S_lpsrParallelMusicBLock& elt);
@@ -394,13 +401,13 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_lpsrUseVoiceCommand& elt);
     virtual void visitEnd   (S_lpsrUseVoiceCommand& elt);
-  
+
     virtual void visitStart (S_lpsrNewLyricsBlock& elt);
     virtual void visitEnd   (S_lpsrNewLyricsBlock& elt);
-    
+
     virtual void visitStart (S_lpsrVariableUseCommand& elt);
     virtual void visitEnd   (S_lpsrVariableUseCommand& elt);
-    
+
  //   virtual void visitStart (S_lpsrContext& elt); JMI
 //    virtual void visitEnd   (S_lpsrContext& elt);
     virtual void visitStart (S_lpsrChordNamesContext& elt);
@@ -424,7 +431,7 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
-  
+
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
@@ -448,13 +455,13 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrVoiceStaffChange& elt);
 
     virtual void visitStart (S_msrHarmony& elt);
-    
+
     virtual void visitStart (S_msrFrame& elt);
-    
+
     virtual void visitStart (S_msrFiguredBass& elt);
     virtual void visitEnd   (S_msrFiguredBass& elt);
     virtual void visitStart (S_msrFigure& elt);
-    
+
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
 
@@ -478,7 +485,7 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrTranspose& elt);
     virtual void visitEnd   (S_msrTranspose& elt);
-    
+
     virtual void visitStart (S_msrPartNameDisplay& elt);
     virtual void visitStart (S_msrPartAbbreviationDisplay& elt);
 
@@ -498,12 +505,12 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrFermata& elt);
     virtual void visitEnd   (S_msrFermata& elt);
-    
+
     virtual void visitStart (S_msrArpeggiato& elt);
     virtual void visitEnd   (S_msrArpeggiato& elt);
     virtual void visitStart (S_msrNonArpeggiato& elt);
     virtual void visitEnd   (S_msrNonArpeggiato& elt);
-    
+
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
 
@@ -533,7 +540,7 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);
-    
+
     virtual void visitStart (S_msrOtherDynamics& elt);
     virtual void visitEnd   (S_msrOtherDynamics& elt);
 
@@ -555,7 +562,7 @@ class lpsr2LilypondTranslator :
     virtual void visitEnd   (S_msrOctaveShift& elt);
 
     virtual void visitStart (S_msrAccordionRegistration& elt);
-    
+
     virtual void visitStart (S_msrHarpPedalsTuning& elt);
 
     virtual void visitStart (S_msrStem& elt);
@@ -593,7 +600,7 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);
-    
+
     virtual void visitStart (S_msrBarNumberCheck& elt);
     virtual void visitEnd   (S_msrBarNumberCheck& elt);
 
@@ -616,12 +623,12 @@ class lpsr2LilypondTranslator :
     virtual void visitEnd   (S_msrMeasuresRepeatPattern& elt);
     virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
     virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
-    
-    virtual void visitStart (S_msrMultipleRest& elt);
-    virtual void visitEnd   (S_msrMultipleRest& elt);
-    virtual void visitStart (S_msrMultipleRestContents& elt);
-    virtual void visitEnd   (S_msrMultipleRestContents& elt);
-    
+
+    virtual void visitStart (S_msrRestMeasures& elt);
+    virtual void visitEnd   (S_msrRestMeasures& elt);
+    virtual void visitStart (S_msrRestMeasuresContents& elt);
+    virtual void visitEnd   (S_msrRestMeasuresContents& elt);
+
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
 
@@ -632,7 +639,7 @@ class lpsr2LilypondTranslator :
 
     string                nameAsLilypondString (
                             string name);
-                              
+
     // variable-value associations
 
     string                lpsrVarValAssocKindAsLilypondString (
@@ -650,58 +657,83 @@ class lpsr2LilypondTranslator :
                             S_lpsrVarValAssoc lpsrVarValAssoc,
                             int               fieldNameWidth);
 
+    // lengths
+    string                lengthUnitAsLilypondString (
+                            msrLengthUnitKind lengthUnitKind);
+
     // whole notes
     // JMI
-                            
-    // names
 
-    string                generateMultilineName (string theString);
+    // comments
+    void                  generateInputLineNumberAndOrPositionInMeasureAsAComment (
+                            S_msrMeasureElement measureElement);
+
+    // markups
+    enum markupColumnKind {
+      markupColumnKindLeftAligned,
+      markupColumnKindLeftACentered };
+
+    string                generateAColumnForMarkup (
+                            string           theString,
+                            markupColumnKind columnKind);
+    string                generateMultilineMarkup (
+                            string           theString,
+                            markupColumnKind columnKind);
 
     // octaves
-    
+
     string                absoluteOctaveAsLilypondString (
                             int absoluteOctave);
 
     // alterations
-    
+
     string                alterationKindAsLilypondString (
                             msrAlterationKind alterationKind);
 
     // durations
-    
+
     rational              fLastMetWholeNotes;
-    
+
     string                durationAsLilypondString (
                             int      inputLineNumber,
                             rational wholeNotes);
 
-         /* JMI                   
+         /* JMI
     string                durationAsExplicitLilypondString ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
 */
 
     // notes
-    
-    msrNote::msrNotePrintKind
-                          fCurrentNotePrintKind;
 
-    string                lilypondRelativeOctave (
+    msrPrintObjectKind    fCurrentNotePrinObjectKind;
+
+    string                lilypondOctaveInRelativeEntryMode (
+                            S_msrNote note);
+
+    string                lilypondOctaveInFixedEntryMode (
                             S_msrNote note);
 
     string                notePitchAsLilypondString (S_msrNote note);
-    
+
     string                pitchedRestAsLilypondString (S_msrNote note);
 
     void                  generateNoteBeams (S_msrNote note);
     void                  generateNoteSlurs (S_msrNote note);
 
-    void                  generateNote (S_msrNote note);
+    void                  generateNoteHeadColor (S_msrNote note);
+    void                  generateNoteLigatures (S_msrNote note);
+    void                  generateNoteStem (S_msrNote note);
+    void                  generateNoteHead (S_msrNote note);
+
+    void                  generateCodeBeforeNote (S_msrNote note);
+    void                  generateCodeForNote (S_msrNote note);
+    void                  generateCodeAfterNote (S_msrNote note);
 
     // articulations
 
     msrDirectionKind      fCurrentArpeggioDirectionKind;
-    
+
     void                  generateNoteArticulation (
                             S_msrArticulation articulation);
 
@@ -709,7 +741,7 @@ class lpsr2LilypondTranslator :
                             S_msrArticulation articulation);
 
     // technicals
-    
+
     string                technicalAsLilypondString (
                             S_msrTechnical technical);
 
@@ -723,18 +755,18 @@ class lpsr2LilypondTranslator :
                             S_msrTechnicalWithString technicalWithString);
 
     // ornaments
-    
+
     void                  generateOrnament (
                             S_msrOrnament ornament);
 
     // trills
 
     bool                  fOnGoingTrillSpanner; // JMI
-    
+
     // spanners
 
     msrPlacementKind      fCurrentSpannerPlacementKind;
-    
+
     void                  generateCodeForSpannerBeforeNote (
                             S_msrSpanner spanner);
 
@@ -744,16 +776,17 @@ class lpsr2LilypondTranslator :
     // grace notes
 
     bool                  fOnGoingGraceNotesGroup;
+
     void                  generateGraceNotesGroup (
                             S_msrGraceNotesGroup graceNotesGroup);
 
     // tremolos
-    
+
     string                singleTremoloDurationAsLilypondString (
                             S_msrSingleTremolo singleTremolo);
 
     // dynamics
-    
+
     string                dynamicsAsLilypondString (
                             S_msrDynamics dynamics);
 
@@ -763,12 +796,12 @@ class lpsr2LilypondTranslator :
                             S_msrStringTuning stringTuning);
 
     // harp pedals tuning
-    
+
     string                harpPedalTuningAsLilypondString (
                             msrAlterationKind alterationKind);
-   
+
     // transpose
-    
+
     void                  transposeDiatonicError (
                             int inputLineNumber,
                             int transposeDiatonic,
@@ -778,7 +811,7 @@ class lpsr2LilypondTranslator :
 
     bool                  fPowerChordHaveAlreadyBeenGenerated;
                             // to generate it only once
-    
+
     string                harmonyAsLilypondString (
                             S_msrHarmony harmony);
 
@@ -791,19 +824,18 @@ class lpsr2LilypondTranslator :
                             S_msrFrame frame);
 
     // figured bass
-    
+
     S_msrFiguredBass      fCurrentFiguredBass;
     unsigned int          fCurrentFiguredBassFiguresCounter;
 
   private:
-                     
-    S_msrOptions          fMsrOptions;
-    S_lpsrOptions         fLpsrOptions;
-    
+
+    S_msrOah          fMsrOah;
+    S_lpsrOah         fLpsrOah;
+
     indentedOstream&      fLogOutputStream;
-    indentedOstream&      fLilypondCodeIOstream;
-//    indentedOstream&      fNullIOstream; // immuably empty
-    
+    indentedOstream&      fLilypondCodeOstream;
+
     // the LPSR score we're visiting
     // ------------------------------------------------------
     S_lpsrScore           fVisitedLpsrScore;
@@ -819,16 +851,20 @@ class lpsr2LilypondTranslator :
     // part groups
     // ------------------------------------------------------
  // JMI   S_msrPartGroup        fCurrentMsrPartGroupClone;
-    
+
     // parts
     // ------------------------------------------------------
     S_msrPart             fCurrentPart; // JMI jamais visitee
+
+    // clefs
+    // ------------------------------------------------------
+    S_msrClef             fCurrentVoiceClef;
 
     // time
     // ------------------------------------------------------
     bool                  fVoiceIsCurrentlySenzaMisura; // JMI
     bool                  fOnGoingVoiceCadenza;
-    
+
     // staves
     // ------------------------------------------------------
     // prevent clef, key and time from being handled twice
@@ -838,30 +874,32 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     bool                  fOnGoingVoice;
     S_msrVoice            fCurrentVoice;
-    
+
     bool                  fOnGoingHarmonyVoice;
     bool                  fOnGoingFiguredBassVoice;
-    
-    // relative octaves
+
+    // octaves entry
     // ------------------------------------------------------
-    S_msrNote             fRelativeOctaveReference;
-                            // contains absolute octave
-    
+    /* this reference is:
+          mobile in relative mode
+          unused in absolute mode
+          fixed  in fixed mode
+    */
+    S_msrNote             fCurrentOctaveEntryReference;
+    void                  setCurrentOctaveEntryReferenceFromTheLilypondOah ();
+
     // repeats
     // ------------------------------------------------------
-    list<S_msrRepeatDescr>
-                          fRepeatsDescrStack;
+    list<S_lpsrRepeatDescr>
+                          fRepeatDescrsStack;
 
-    // multiple rest measures
+    // rest measures
     // ------------------------------------------------------
-    int                   fRemainingMultipleRestMeasuresNumber;
-    bool                  fOnGoingMultipleRestMeasures;
-    
+    int                   fRemainingRestMeasuresNumber;
+    bool                  fOnGoingRestMeasures;
+
     // segments
     // ------------------------------------------------------
-    // we need to handle nested msrSegment's to indent notes
-    // in a consistent way
-    stack<int>            fSegmentNotesAndChordsCountersStack;
 
     // measures
     // ------------------------------------------------------
@@ -869,7 +907,7 @@ class lpsr2LilypondTranslator :
     // for option fSeparatorLineEveryNMeasures and bar number checks,
     // since measure numbers can actually be any strings
     int                   fCurrentVoiceMeasuresCounter;
-    
+
     // notes
     // ------------------------------------------------------
     bool                  fOnGoingNote;
@@ -879,13 +917,23 @@ class lpsr2LilypondTranslator :
 
     // double tremolos
     // ------------------------------------------------------
-    
+
+    // octave shifts
+    // ------------------------------------------------------
+    void                  generateCodeForOctaveShift (
+                            S_msrOctaveShift octaveShift);
+
     // chords
     // ------------------------------------------------------
     list<int>             fPendingChordMemberNotesStringNumbers;
     bool                  fOnGoingChord;
-    
-    void                  generateChord (S_msrChord chord);
+
+    void                  generateCodeBeforeChordContents (S_msrChord chord);
+    void                  generateCodeForChordContents (S_msrChord chord);
+    void                  generateCodeAfterChordContents (S_msrChord chord);
+
+    void                  generateChordInGraceNotesGroup (S_msrChord chord);
+
 
     // tuplets
     // ------------------------------------------------------
@@ -896,34 +944,45 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     S_msrStanza           fCurrentStanzaClone;
     bool                  fGenerateCodeForOngoingNonEmptyStanza;
-    
+
+
     // syllables
     // ------------------------------------------------------
     S_msrSyllable         fCurrentMsrSyllableClone;
+
 
     // score blocks
     // ------------------------------------------------------
     bool                  fOnGoingScoreBlock; // JMI
 
+
     // parallel music
     // ------------------------------------------------------
     S_lpsrParallelMusicBLock
                           fCurrentParallelMusicBLock;
-    
+
+
     // part group blocks
     // ------------------------------------------------------
     int                   fNumberOfPartGroupBlocks;
     int                   fPartGroupBlocksCounter;
+
 
     // part blocks
     // ------------------------------------------------------
     int                   fNumberOfPartGroupBlockElements;
     int                   fPartGroupBlockElementsCounter;
 
+
     // staff blocks
     // ------------------------------------------------------
     int                   fNumberOfStaffBlocksElements;
     int                   fStaffBlocksCounter;
+
+
+    // current ongoing values display
+    // ------------------------------------------------------
+    void                      displayCurrentOnGoingValues ();
 };
 
 

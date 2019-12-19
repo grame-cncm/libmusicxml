@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC
+    "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
+    "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <!-- A very minimal MusicXML example -->
+  <part-list>
+    <score-part id="P1">
+      <part-name>Music</part-name>
+    </score-part>
+  </part-list>
+  <part id="P1">
+<!--=========================================================-->
+    <measure number="1">
+      <attributes>
+				<divisions>768</divisions>
+        <key>
+          <fifths>0</fifths>
+        </key>
+        <time>
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+			<harmony print-frame="no" default-y="25" relative-x="7">
+				<root>
+					<root-step>A</root-step>
+				</root>
+				<kind text="m">minor</kind>
+			</harmony>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>512</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<time-modification>
+					<actual-notes>3</actual-notes>
+					<normal-notes>2</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<notations>
+					<tuplet number="1" type="start"/>
+				</notations>
+				<lyric number="1" name="verse" default-y="-80">
+					<syllabic>single</syllabic>
+					<text>ne</text>
+				</lyric>
+			</note>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>512</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<time-modification>
+					<actual-notes>3</actual-notes>
+					<normal-notes>2</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<lyric number="1" name="verse" default-y="-80">
+					<syllabic>single</syllabic>
+					<text>ne</text>
+				</lyric>
+			</note>
+			<note>
+				<pitch>
+					<step>E</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>512</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<time-modification>
+					<actual-notes>3</actual-notes>
+					<normal-notes>2</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<notations>
+					<tuplet number="1" type="stop"/>
+				</notations>
+				<lyric number="1" name="verse" default-y="-80">
+					<syllabic>single</syllabic>
+					<text>ne</text>
+				</lyric>
+			</note>
+			<harmony print-frame="no" default-y="25" relative-x="7">
+				<root>
+					<root-step>B</root-step>
+					<root-alter>-1</root-alter>
+				</root>
+				<kind text="">major</kind>
+			</harmony>
+			<note>
+				<pitch>
+					<step>F</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>768</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<stem>up</stem>
+				<lyric number="1" name="verse" default-y="-80">
+					<syllabic>single</syllabic>
+					<text>ness</text>
+				</lyric>
+			</note>
+			<note>
+				<rest/>
+				<duration>768</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+			</note>
+			<barline location="right">
+				<bar-style>light-light</bar-style>
+			</barline>
+    </measure>
+<!--=========================================================-->
+  </part>
+</score-partwise>

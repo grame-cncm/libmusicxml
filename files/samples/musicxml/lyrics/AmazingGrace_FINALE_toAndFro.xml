@@ -1,0 +1,3703 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <identification>
+    <encoding>
+      <software>Finale 2014.5 for Mac</software>
+      <software>Dolet Light for Finale 2014.5</software>
+      <encoding-date>2019-08-28</encoding-date>
+      <supports attribute="new-system" element="print" type="yes" value="yes"/>
+      <supports attribute="new-page" element="print" type="yes" value="yes"/>
+      <supports element="accidental" type="yes"/>
+      <supports element="beam" type="yes"/>
+      <supports element="stem" type="yes"/>
+    </encoding>
+  </identification>
+  <defaults>
+    <scaling>
+      <millimeters>6.1807</millimeters>
+      <tenths>40</tenths>
+    </scaling>
+    <page-layout>
+      <page-height>1922</page-height>
+      <page-width>1359</page-width>
+      <page-margins type="even">
+        <left-margin>64</left-margin>
+        <right-margin>64</right-margin>
+        <top-margin>64</top-margin>
+        <bottom-margin>130</bottom-margin>
+      </page-margins>
+      <page-margins type="odd">
+        <left-margin>64</left-margin>
+        <right-margin>64</right-margin>
+        <top-margin>64</top-margin>
+        <bottom-margin>130</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <system-layout>
+      <system-margins>
+        <left-margin>0</left-margin>
+        <right-margin>0</right-margin>
+      </system-margins>
+      <system-distance>103</system-distance>
+      <top-system-distance>60</top-system-distance>
+    </system-layout>
+    <staff-layout>
+      <staff-distance>80</staff-distance>
+    </staff-layout>
+    <appearance>
+      <line-width type="stem">0.7487</line-width>
+      <line-width type="beam">5</line-width>
+      <line-width type="staff">0.7487</line-width>
+      <line-width type="light barline">0.7487</line-width>
+      <line-width type="heavy barline">5</line-width>
+      <line-width type="leger">0.7487</line-width>
+      <line-width type="ending">0.7487</line-width>
+      <line-width type="wedge">0.7487</line-width>
+      <line-width type="enclosure">0.7487</line-width>
+      <line-width type="tuplet bracket">0.7487</line-width>
+      <note-size type="grace">60</note-size>
+      <note-size type="cue">60</note-size>
+      <distance type="hyphen">120</distance>
+      <distance type="beam">8</distance>
+    </appearance>
+    <music-font font-family="Maestro,engraved" font-size="17.5"/>
+    <word-font font-family="Times New Roman" font-size="8.8"/>
+    <lyric-font font-family="Finale Lyrics" font-size="8.8"/>
+  </defaults>
+  <credit page="1">
+    <credit-words default-x="1295" default-y="1726" font-family="FreeSerif" font-size="12" justify="right" valign="bottom">Early American Melody</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="64" default-y="1726" font-family="FreeSerif" font-size="12" valign="bottom">John Newton</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="680" default-y="1858" font-family="FreeSerif" font-size="24" justify="center" valign="top">Amazing grace</credit-words>
+  </credit>
+  <part-list>
+    <score-part id="P1">
+      <part-name>Soprano/Alto</part-name>
+      <part-abbreviation>S/A</part-abbreviation>
+      <score-instrument id="P1-I1">
+        <instrument-name>Voice</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P1-I1">
+        <midi-channel>1</midi-channel>
+        <midi-program>53</midi-program>
+        <volume>79</volume>
+        <pan>0</pan>
+      </midi-instrument>
+    </score-part>
+    <score-part id="P2">
+      <part-name>Tenor/Bass</part-name>
+      <part-abbreviation>T/B</part-abbreviation>
+      <score-instrument id="P2-I2">
+        <instrument-name>Voice</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P2-I2">
+        <midi-channel>2</midi-channel>
+        <midi-program>53</midi-program>
+        <volume>79</volume>
+        <pan>0</pan>
+      </midi-instrument>
+    </score-part>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <measure number="1" width="304">
+      <print>
+        <system-layout>
+          <system-margins>
+            <left-margin>108</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+          <top-system-distance>202</top-system-distance>
+        </system-layout>
+        <measure-numbering>system</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>12</divisions>
+        <key>
+          <fifths>-4</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>3</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <direction placement="above">
+        <direction-type>
+          <metronome default-y="15" font-family="Engraver Text T" font-size="8.8" halign="left">
+            <beat-unit>quarter</beat-unit>
+            <per-minute>80</per-minute>
+          </metronome>
+        </direction-type>
+        <sound tempo="80"/>
+      </direction>
+      <note default-x="142">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-5">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">1.</text>
+          <elision> </elision>
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">A</text>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">2.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'T</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">was</text>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">3.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Throug</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">4.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">The</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">5.</text>
+          <elision> </elision>
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">A</text>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">6.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Yes,</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">7.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">The</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">8.</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">When</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="223">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="0">up</stem>
+        <beam number="1">end</beam>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>12</duration>
+      </backup>
+      <note default-x="142">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-85">down</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="223">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-80">down</stem>
+        <beam number="1">end</beam>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="218">
+      <note default-x="17">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="10.5">up</stem>
+        <notations>
+          <fermata default-x="-7" default-y="21" type="upright"/>
+        </notations>
+        <lyric default-y="-80" number="1">
+          <syllabic>middle</syllabic>
+          <text font-family="FreeSerif" font-size="11">ma</text>
+        </lyric>
+        <lyric default-y="-97" number="2" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">grace</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">man</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Lord</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>middle</syllabic>
+          <text font-family="FreeSerif" font-size="11">ma</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">when</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">earth</text>
+        </lyric>
+        <lyric default-y="-197" number="8" relative-x="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">we</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'ve</text>
+        </lyric>
+      </note>
+      <note default-x="124">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="20">up</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <tuplet bracket="no" number="1" placement="above" type="start"/>
+        </notations>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">zing</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">that</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">y</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">has</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">zing</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">this</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">shall</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">been</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="155">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="17.5">up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="186">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="15">up</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tuplet number="1" type="stop"/>
+        </notations>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="17">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-78.5">down</stem>
+      </note>
+      <note default-x="124">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="-80">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <tuplet bracket="no" number="1" placement="below" type="start"/>
+        </notations>
+      </note>
+      <note default-x="155">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="-82.5">down</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="186">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="-85">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tuplet number="1" type="stop"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="3" width="198">
+      <note default-x="14">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="14">up</stem>
+        <lyric default-y="-80" number="1" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">grace!</text>
+        </lyric>
+        <lyric default-y="-97" number="2" relative-x="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">taught</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">dan</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">pro</text>
+        </lyric>
+        <lyric default-y="-147" number="5" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">grace!</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">flesh</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">soon</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">there</text>
+        </lyric>
+      </note>
+      <note default-x="127">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="16">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">how</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">my</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">gers,</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">mised</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">how</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">and</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">dis</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">ten</text>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-69">down</stem>
+      </note>
+      <note default-x="127">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-73">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="4" width="182">
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="10.5">up</stem>
+        <lyric default-y="-80" number="1" relative-x="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">sweet</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">heart</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">toils</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">good</text>
+        </lyric>
+        <lyric default-y="-147" number="5" relative-x="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">sweet</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">heart</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">solve</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">thou</text>
+        </lyric>
+      </note>
+      <note default-x="118">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="0">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">the</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">to</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">and</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">to</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">the</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">shall</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">like</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">sand</text>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-78.5">down</stem>
+      </note>
+      <note default-x="118">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-73">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="5" width="221">
+      <note default-x="16">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="-4">up</stem>
+        <lyric default-y="-80" number="1" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">sound!</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">fear,</text>
+        </lyric>
+        <lyric default-y="-113" number="3" relative-x="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">snares</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">me,</text>
+        </lyric>
+        <lyric default-y="-147" number="5" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">sound!</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">fail,</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">snow,</text>
+        </lyric>
+        <lyric default-y="-197" number="8" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">years,</text>
+        </lyric>
+      </note>
+      <note default-x="132">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-5">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">That</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">And</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">His</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">That</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">And</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">The</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Bright</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="176">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="0">up</stem>
+        <beam number="1">end</beam>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-78.5">down</stem>
+      </note>
+      <note default-x="132">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-85">down</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="176">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-80">down</stem>
+        <beam number="1">end</beam>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="6" width="294">
+      <print new-system="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>38</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+          <system-distance>150</system-distance>
+        </system-layout>
+      </print>
+      <note default-x="111">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="10.5">up</stem>
+        <lyric default-y="-80" number="1" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">saved</text>
+        </lyric>
+        <lyric default-y="-97" number="2" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">grace</text>
+        </lyric>
+        <lyric default-y="-113" number="3" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">have</text>
+        </lyric>
+        <lyric default-y="-130" number="4" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">word</text>
+        </lyric>
+        <lyric default-y="-147" number="5" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">saved</text>
+        </lyric>
+        <lyric default-y="-163" number="6" relative-x="5">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">mor</text>
+        </lyric>
+        <lyric default-y="-180" number="7" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">sun</text>
+        </lyric>
+        <lyric default-y="-197" number="8" relative-x="5">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">shi</text>
+        </lyric>
+      </note>
+      <note default-x="209">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="20">up</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <tuplet bracket="no" number="1" placement="above" type="start"/>
+        </notations>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">a</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">my</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">al</text>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">my</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">a</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">tal</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">for</text>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">ning</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="237">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="18">up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="265">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="15">up</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tuplet number="1" type="stop"/>
+        </notations>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="111">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-79">down</stem>
+      </note>
+      <note default-x="209">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-68.5">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="7" width="176">
+      <note default-x="14">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="14">up</stem>
+        <lyric default-y="-80" number="1" relative-x="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">wretch</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">fears</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>middle</syllabic>
+          <text font-family="FreeSerif" font-size="11">read</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">hope</text>
+        </lyric>
+        <lyric default-y="-147" number="5" relative-x="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">wretch</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">lief</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">bear</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">as</text>
+        </lyric>
+      </note>
+      <note default-x="106">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="15">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">like</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">re</text>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">y</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">se</text>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">like</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">shall</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">to</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">the</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="140">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="20">up</stem>
+        <beam number="1">end</beam>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-53.5">down</stem>
+      </note>
+      <note default-x="118">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-53.5">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="8" width="181">
+      <note default-x="14">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>36</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>half</type>
+        <dot/>
+        <stem default-y="24">up</stem>
+        <notations>
+          <tied orientation="over" type="start"/>
+        </notations>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">me!</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">liev'd.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">come.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">cures;</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">me!</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">cease;</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">shine;</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">sun,</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-55">down</stem>
+        <notations>
+          <slur number="1" placement="below" type="start"/>
+        </notations>
+      </note>
+      <note default-x="69">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-68.5">down</stem>
+      </note>
+      <note default-x="125">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <accidental>natural</accidental>
+        <stem default-y="-73.5">down</stem>
+        <notations>
+          <slur number="1" type="stop"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="9" width="200">
+      <note default-x="14">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="24">up</stem>
+        <notations>
+          <tied type="stop"/>
+          <articulations>
+            <breath-mark default-x="18" default-y="43" placement="above"/>
+          </articulations>
+        </notations>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <note default-x="114">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="25">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">How</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'T</text>
+          <elision> </elision>
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">is</text>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">He</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">But</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">We</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'ve</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="161">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="30">up</stem>
+        <beam number="1">end</beam>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-68.5">down</stem>
+      </note>
+      <note default-x="114">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-59">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="10" width="185">
+      <note default-x="15">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="24">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">once</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">pre</text>
+        </lyric>
+        <lyric default-y="-113" number="3" relative-x="3">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">grace</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">will</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">once</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">shall</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">God,</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">no</text>
+        </lyric>
+      </note>
+      <note default-x="111">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="30">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">was</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">cious</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">hath</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">my</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">was</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">pos</text>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">who</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">less</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="148">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="25">up</stem>
+        <beam number="1">end</beam>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="15">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-53.5">down</stem>
+      </note>
+      <note default-x="111">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-70">down</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="148">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-75">down</stem>
+        <beam number="1">end</beam>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="11" width="156">
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="10.5">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">lost,</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">did</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">bro't</text>
+        </lyric>
+        <lyric default-y="-130" number="4" relative-x="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">shield</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">lost,</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">sess,</text>
+        </lyric>
+        <lyric default-y="-180" number="7" relative-x="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">called</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">days</text>
+        </lyric>
+      </note>
+      <note default-x="102">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-4.5">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">but</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">that</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">me</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">and</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">but</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">with</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">me</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">to</text>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-53.5">down</stem>
+      </note>
+      <note default-x="102">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-68.5">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="12" width="263">
+      <print new-system="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>38</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+          <system-distance>150</system-distance>
+        </system-layout>
+      </print>
+      <note default-x="108">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="0.5">up</stem>
+        <lyric default-y="-80" number="1" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">now</text>
+        </lyric>
+        <lyric default-y="-97" number="2" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">grace</text>
+        </lyric>
+        <lyric default-y="-113" number="3" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">safe</text>
+        </lyric>
+        <lyric default-y="-130" number="4" relative-x="3">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">por</text>
+        </lyric>
+        <lyric default-y="-147" number="5" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">now</text>
+        </lyric>
+        <lyric default-y="-163" number="6" relative-x="3">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">in</text>
+        </lyric>
+        <lyric default-y="-180" number="7" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">here</text>
+        </lyric>
+        <lyric default-y="-197" number="8" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">sing</text>
+        </lyric>
+      </note>
+      <note default-x="191">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="10">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'m</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">ap</text>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">thus</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">tion</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'m</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">the</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">be</text>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">God's</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="231">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="5">up</stem>
+        <beam number="1">end</beam>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="108">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-63.5">down</stem>
+      </note>
+      <note default-x="191">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-74">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="13" width="164">
+      <note default-x="16">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="-4.5">up</stem>
+        <notations>
+          <articulations>
+            <breath-mark default-x="18" default-y="14" placement="above"/>
+          </articulations>
+        </notations>
+        <lyric default-y="-80" number="1" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">found;</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">pear</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">far,</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">be</text>
+        </lyric>
+        <lyric default-y="-147" number="5" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">found;</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">veil,</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">low,</text>
+        </lyric>
+        <lyric default-y="-197" number="8" relative-x="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">praise</text>
+        </lyric>
+      </note>
+      <note default-x="99">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-4.5">up</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Was</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">The</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">And</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">As</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Was</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">A</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Will</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">Than</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="132">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="0">up</stem>
+        <beam number="1">end</beam>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-79">down</stem>
+      </note>
+      <note default-x="99">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-85">down</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="132">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-80">down</stem>
+        <beam number="1">end</beam>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="14" width="170">
+      <note default-x="17">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="10">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">blind,</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">hour</text>
+        </lyric>
+        <lyric default-y="-113" number="3" relative-x="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">grace</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">long</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">blind,</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">life</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">be</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">when</text>
+        </lyric>
+      </note>
+      <note default-x="98">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="20">up</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <tuplet bracket="no" number="1" placement="above" type="start"/>
+        </notations>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">but</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">will</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">as</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">but</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">of</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">vor</text>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">we</text>
+          <elision> </elision>
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">'d</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="122">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="18">up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="146">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="15">up</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tuplet number="1" type="stop"/>
+        </notations>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="17">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-79">down</stem>
+      </note>
+      <note default-x="98">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="-80">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <tuplet bracket="no" number="1" placement="below" type="start"/>
+        </notations>
+      </note>
+      <note default-x="122">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="-82">down</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="146">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="-85">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tuplet number="1" type="stop"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="15" width="135">
+      <note default-x="14">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="14">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">now</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">first</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">lead</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">life</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">now</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">joy</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>middle</syllabic>
+          <text font-family="FreeSerif" font-size="11">e</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">first</text>
+        </lyric>
+      </note>
+      <note default-x="88">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="15">up</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+        </lyric>
+        <lyric default-y="-97" number="2">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">be</text>
+        </lyric>
+        <lyric default-y="-113" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">me</text>
+        </lyric>
+        <lyric default-y="-130" number="4">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">en</text>
+        </lyric>
+        <lyric default-y="-147" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">I</text>
+        </lyric>
+        <lyric default-y="-163" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">and</text>
+        </lyric>
+        <lyric default-y="-180" number="7">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">ver</text>
+        </lyric>
+        <lyric default-y="-197" number="8">
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">be</text>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-68.5">down</stem>
+      </note>
+      <note default-x="88">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-74">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="16" width="185">
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>36</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>half</type>
+        <dot/>
+        <stem default-y="10">up</stem>
+        <notations>
+          <tied orientation="over" type="start"/>
+        </notations>
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">see.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-97" justify="left" number="2">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">liev'd!</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-113" justify="left" number="3">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">home.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-130" justify="left" number="4">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">dures.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-147" justify="left" number="5">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">see.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-163" justify="left" number="6">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">peace.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-180" justify="left" number="7">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">mine.</text>
+          <extend type="start"/>
+        </lyric>
+        <lyric default-y="-197" justify="left" number="8">
+          <syllabic>end</syllabic>
+          <text font-family="FreeSerif" font-size="11">gun.</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>21</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <dot/>
+        <dot/>
+        <stem default-y="-79">down</stem>
+      </note>
+      <note default-x="90">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-79">down</stem>
+      </note>
+      <note default-x="149">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>3</duration>
+        <tie type="start"/>
+        <voice>2</voice>
+        <type>16th</type>
+        <stem default-y="-80.5">down</stem>
+        <notations>
+          <tied orientation="under" type="start"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="17" width="173">
+      <note default-x="14">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>36</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>half</type>
+        <dot/>
+        <stem default-y="10">up</stem>
+        <notations>
+          <tied type="stop"/>
+          <tied orientation="over" type="start"/>
+        </notations>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <tie type="stop"/>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-80.5">down</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <note default-x="53">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>18</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <dot/>
+        <stem default-y="-83">down</stem>
+      </note>
+      <note default-x="121">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <tie type="start"/>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-79">down</stem>
+        <notations>
+          <tied orientation="under" type="start"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="18" width="103">
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="10">up</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+        <lyric name="verse" number="1">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="2">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="3">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="4">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="5">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="6">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="7">
+          <extend type="stop"/>
+        </lyric>
+        <lyric name="verse" number="8">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <backup>
+        <duration>24</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <tie type="stop"/>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-79">down</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================================================-->
+  <part id="P2">
+    <measure number="1" width="304">
+      <print>
+        <staff-layout number="1">
+          <staff-distance>229</staff-distance>
+        </staff-layout>
+        <measure-numbering>none</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>12</divisions>
+        <key>
+          <fifths>-4</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>3</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
+      </attributes>
+      <note default-x="142">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <backup>
+        <duration>12</duration>
+      </backup>
+      <note default-x="142">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-64">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="218">
+      <note default-x="17">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="14">up</stem>
+      </note>
+      <note default-x="124">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="17">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-64">down</stem>
+      </note>
+      <note default-x="124">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-64">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="3" width="198">
+      <note default-x="14">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <note default-x="127">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="23.5">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-64">down</stem>
+      </note>
+      <note default-x="127">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-50">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="4" width="182">
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <note default-x="118">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-45.5">down</stem>
+      </note>
+      <note default-x="118">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-55">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="5" width="221">
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <note default-x="132">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-64">down</stem>
+      </note>
+      <note default-x="132">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-64">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="6" width="294">
+      <print new-system="yes">
+        <staff-layout number="1">
+          <staff-distance>229</staff-distance>
+        </staff-layout>
+      </print>
+      <note default-x="111">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="14">up</stem>
+      </note>
+      <note default-x="209">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="45">up</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <tuplet bracket="no" number="1" placement="above" type="start"/>
+        </notations>
+      </note>
+      <note default-x="237">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="47.5">up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="265">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <stem default-y="50">up</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tuplet number="1" type="stop"/>
+        </notations>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="111">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-63">down</stem>
+      </note>
+      <note default-x="209">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-63">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="7" width="176">
+      <note default-x="14">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="28.5">up</stem>
+      </note>
+      <note default-x="106">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="28.5">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-35">down</stem>
+      </note>
+      <note default-x="106">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-45">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="8" width="181">
+      <note default-x="14">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="24">up</stem>
+        <notations>
+          <slur number="1" placement="above" type="start"/>
+        </notations>
+      </note>
+      <note default-x="69">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="28.5">up</stem>
+      </note>
+      <note default-x="125">
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <accidental>natural</accidental>
+        <stem default-y="28.5">up</stem>
+        <notations>
+          <slur number="1" type="stop"/>
+        </notations>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-50">down</stem>
+        <notations>
+          <slur number="1" placement="below" type="start"/>
+        </notations>
+      </note>
+      <note default-x="69">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-45">down</stem>
+      </note>
+      <note default-x="125">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <accidental>sharp</accidental>
+        <stem default-y="-45">down</stem>
+        <notations>
+          <slur number="1" type="stop"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="9" width="200">
+      <note default-x="14">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="34">up</stem>
+      </note>
+      <note default-x="114">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="49">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-40.5">down</stem>
+      </note>
+      <note default-x="114">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-50">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="10" width="185">
+      <note default-x="15">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="28.5">up</stem>
+      </note>
+      <note default-x="111">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="35">up</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="148">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="35">up</stem>
+        <beam number="1">end</beam>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="13">
+        <rest>
+          <display-step>E</display-step>
+          <display-octave>2</display-octave>
+        </rest>
+        <duration>36</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <dot/>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="11" width="156">
+      <note default-x="16">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="39">up</stem>
+      </note>
+      <note default-x="102">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="39">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-35">down</stem>
+      </note>
+      <note default-x="102">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-35">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="12" width="263">
+      <print new-system="yes">
+        <staff-layout number="1">
+          <staff-distance>229</staff-distance>
+        </staff-layout>
+      </print>
+      <note default-x="108">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="-55.5">down</stem>
+      </note>
+      <note default-x="191">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-55.5">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="13" width="164">
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <note default-x="99">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-63.5">down</stem>
+      </note>
+      <note default-x="99">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-35.5">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="14" width="170">
+      <note default-x="17">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <note default-x="98">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="29">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="17">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-45">down</stem>
+      </note>
+      <note default-x="98">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-50">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="15" width="135">
+      <note default-x="14">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="24">up</stem>
+      </note>
+      <note default-x="88">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="24">up</stem>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-50">down</stem>
+      </note>
+      <note default-x="88">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-50">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="16" width="185">
+      <note default-x="16">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>21</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <dot/>
+        <dot/>
+        <stem default-y="13.5">up</stem>
+      </note>
+      <note default-x="90">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="20">up</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="122">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>9</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <dot/>
+        <stem default-y="25">up</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tied orientation="over" type="start"/>
+        </notations>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>21</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <dot/>
+        <dot/>
+        <stem default-y="-63.5">down</stem>
+      </note>
+      <note default-x="90">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-60">down</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="122">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>9</duration>
+        <tie type="start"/>
+        <voice>2</voice>
+        <type>eighth</type>
+        <dot/>
+        <stem default-y="-55">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tied orientation="under" type="start"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="17" width="173">
+      <note default-x="14">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="25.5">up</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <note default-x="53">
+        <pitch>
+          <step>F</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>18</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <dot/>
+        <accidental>flat</accidental>
+        <stem default-y="19">up</stem>
+      </note>
+      <note default-x="121">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>12</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="13.5">up</stem>
+        <notations>
+          <tied orientation="over" type="start"/>
+        </notations>
+      </note>
+      <backup>
+        <duration>36</duration>
+      </backup>
+      <note default-x="14">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>6</duration>
+        <tie type="stop"/>
+        <voice>2</voice>
+        <type>eighth</type>
+        <stem default-y="-55.5">down</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <note default-x="53">
+        <pitch>
+          <step>D</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>18</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <dot/>
+        <stem default-y="-55.5">down</stem>
+      </note>
+      <note default-x="121">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>12</duration>
+        <tie type="start"/>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-63.5">down</stem>
+        <notations>
+          <tied orientation="under" type="start"/>
+        </notations>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="18" width="103">
+      <note default-x="16">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>24</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>half</type>
+        <stem default-y="13.5">up</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <backup>
+        <duration>24</duration>
+      </backup>
+      <note default-x="16">
+        <pitch>
+          <step>A</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>24</duration>
+        <tie type="stop"/>
+        <voice>2</voice>
+        <type>half</type>
+        <stem default-y="-63.5">down</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================================================-->
+</score-partwise>

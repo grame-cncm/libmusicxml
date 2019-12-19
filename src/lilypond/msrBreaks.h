@@ -13,7 +13,7 @@
 #ifndef ___msrBreaks___
 #define ___msrBreaks___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrLineBreak : public msrElement
+class msrLineBreak : public msrMeasureElement
 {
   public:
     
@@ -72,7 +72,7 @@ class msrLineBreak : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -85,7 +85,7 @@ typedef SMARTP<msrLineBreak> S_msrLineBreak;
 EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
 
 //______________________________________________________________________________
-class msrPageBreak : public msrElement
+class msrPageBreak : public msrMeasureElement
 {
   public:
     
@@ -130,7 +130,7 @@ class msrPageBreak : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

@@ -19,25 +19,25 @@
 //______________________________________________________________________________
 rational::rational (const string &str)
 {
-    const char *cstr;
-    cstr = str.c_str();
-    const char *denom;
-    denom = strstr(cstr,"/");
-    if (denom) ++denom;
-    fNumerator = atol(cstr);
-    if (denom) fDenominator = atol(denom);
+  const char *cstr;
+  cstr = str.c_str();
+  const char *denom;
+  denom = strstr(cstr,"/");
+  if (denom) ++denom;
+  fNumerator = atol(cstr);
+  if (denom) fDenominator = atol(denom);
 }
 
 rational::rational(long int num, long int denom) : fNumerator(num), fDenominator(denom)
 {
-    // don't allow zero denominators!
-    if (fDenominator == 0) fDenominator = 1;
+  // don't allow zero denominators!
+  if (fDenominator == 0) fDenominator = 1;
 }
 
 rational::rational(const rational& d)
 {
-    fNumerator = d.fNumerator;
-    fDenominator = d.fDenominator;
+  fNumerator   = d.fNumerator;
+  fDenominator = d.fDenominator;
 }
 
 //______________________________________________________________________________
@@ -67,7 +67,7 @@ rational rational::operator /(int num) const {
 
 rational& rational::operator +=(const rational &dur)
 {
-    if(fDenominator == dur.fDenominator) {
+  if(fDenominator == dur.fDenominator) {
 		fNumerator += dur.fNumerator;
 	} else {
 		fNumerator = fNumerator * dur.fDenominator + dur.fNumerator * fDenominator;
@@ -147,10 +147,10 @@ long int rational::gcd (long int a1, long int b1)
       a = b;
       b = r;
     } // while
-    
+
     return a;
   }
-  
+
   return 1;
 }
 
@@ -158,10 +158,10 @@ long int rational::gcd (long int a1, long int b1)
 void rational::rationalise ()
 {
   long int g = gcd (fNumerator, fDenominator);
-  
+
   fNumerator /= g;
   fDenominator /= g;
-  
+
   if (fNumerator == 0)
     fDenominator = 1;
 }
@@ -189,9 +189,15 @@ rational::operator string () const		{ return toString (); }
 rational::operator double () const		{ return toDouble (); }
 rational::operator float () const		{ return toFloat (); }
 rational::operator int () const
-{ 
+{
   const double x = toDouble ();
   return ((int)floor(x + 0.5f));
+}
+
+//______________________________________________________________________________
+void rational::print (ostream& os) const
+{
+  os << fNumerator << "/" << fDenominator;
 }
 
 //______________________________________________________________________________
@@ -200,10 +206,3 @@ ostream& operator<< (ostream& os, const rational& rat)
   rat.print (os);
   return os;
 }
-
-//______________________________________________________________________________
-void rational::print (ostream& os) const
-{
-  os << string(*this);
-}
-

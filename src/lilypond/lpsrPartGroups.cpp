@@ -12,12 +12,12 @@
 
 #include "lpsrPartGroups.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -42,79 +42,86 @@ lpsrPartGroupBlock::~lpsrPartGroupBlock ()
 
 void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrPartGroupBlock::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrPartGroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrPartGroupBlock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrPartGroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrPartGroupBlock::browseData ()" <<
       endl;
   }
+#endif
 
   for (
     list<S_msrElement>::const_iterator i = fPartGroupBlockElements.begin ();
     i != fPartGroupBlockElements.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
   } // for
 
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% <== lpsrPartGroupBlock::browseData ()" <<
       endl;
   }
+#endif
 }
 
-ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& scr)
-{
-  scr->print (os);
-  return os;
-}
-
-void lpsrPartGroupBlock::print (ostream& os)
+void lpsrPartGroupBlock::print (ostream& os) const
 {
   os <<
     endl <<
@@ -129,7 +136,7 @@ void lpsrPartGroupBlock::print (ostream& os)
 
   gIndenter++;
 
-  if (fPartGroupBlockElements.size ()) {  
+  if (fPartGroupBlockElements.size ()) {
     list<S_msrElement>::const_iterator
       iBegin = fPartGroupBlockElements.begin (),
       iEnd   = fPartGroupBlockElements.end (),
@@ -142,6 +149,12 @@ void lpsrPartGroupBlock::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& scr)
+{
+  scr->print (os);
+  return os;
 }
 
 

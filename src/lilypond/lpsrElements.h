@@ -31,7 +31,7 @@ class lpsrElement : public msrElement
       int inputLineNumber);
 
   protected:
-         
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -45,12 +45,14 @@ class lpsrElement : public msrElement
     // set and get
     // ------------------------------------------------------
 
+  public:
+
     // services
     // ------------------------------------------------------
 
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -62,32 +64,32 @@ class lpsrElement : public msrElement
 typedef SMARTP<lpsrElement> S_lpsrElement;
 
 //______________________________________________________________________________
-template <typename T> class lpsrBrowser : public browser<T> 
+template <typename T> class lpsrBrowser : public browser<T>
 {
   protected:
-  
+
     basevisitor*  fVisitor;
 
     virtual void enter (T& t) { t.acceptIn  (fVisitor); }
     virtual void leave (T& t) { t.acceptOut (fVisitor); }
 
   public:
-    
+
     lpsrBrowser (basevisitor* v) : fVisitor (v)
     {}
-    
+
     virtual ~lpsrBrowser ()
     {}
 
     virtual void          set (basevisitor* v)
                             { fVisitor = v; }
-    
+
     virtual               void browse (T& t)
                             {
                               enter (t);
 
                               t.browseData (fVisitor);
-                              
+
                               leave (t);
                             }
 };

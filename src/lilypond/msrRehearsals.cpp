@@ -10,21 +10,18 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrRehearsals.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrRehearsal msrRehearsal::create (
@@ -48,7 +45,7 @@ msrRehearsal::msrRehearsal (
   msrRehearsalKind rehearsalKind,
   string           rehearsalText,
   msrPlacementKind rehearsalPlacementKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fRehearsalKind = rehearsalKind;
 
@@ -62,19 +59,19 @@ msrRehearsal::~msrRehearsal ()
 
 void msrRehearsal::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrRehearsal::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRehearsal>*
     p =
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrRehearsal::visitStart ()" <<
             endl;
         }
@@ -84,8 +81,8 @@ void msrRehearsal::acceptIn (basevisitor* v)
 
 void msrRehearsal::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrRehearsal::acceptOut ()" <<
       endl;
   }
@@ -94,9 +91,9 @@ void msrRehearsal::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrRehearsal::visitEnd ()" <<
             endl;
         }
@@ -107,17 +104,11 @@ void msrRehearsal::acceptOut (basevisitor* v)
 void msrRehearsal::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrRehearsal& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrRehearsal::rehearsalKindAsString (
   msrRehearsalKind rehearsalKind)
 {
   string result;
-  
+
   switch (rehearsalKind) {
     case msrRehearsal::kNone:
       result = "none";
@@ -145,7 +136,7 @@ string msrRehearsal::rehearsalKindAsString (
   return result;
 }
 
-void msrRehearsal::print (ostream& os)
+void msrRehearsal::print (ostream& os) const
 {
   os <<
     "Rehearsal" << " " << fRehearsalText <<
@@ -154,6 +145,12 @@ void msrRehearsal::print (ostream& os)
     " rehearsalPlacementKind: " <<
     msrPlacementKindAsString (fRehearsalPlacementKind) <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrRehearsal& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

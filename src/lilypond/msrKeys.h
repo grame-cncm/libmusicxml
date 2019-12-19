@@ -15,7 +15,7 @@
 
 #include <list>
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
@@ -111,7 +111,7 @@ class msrHumdrumScotKeyItem : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
   
   private:
   
@@ -129,7 +129,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
 class msrKey;
 typedef SMARTP<msrKey> S_msrKey;
 
-class msrKey : public msrElement
+class msrKey : public msrMeasureElement
 {
   public:
     
@@ -236,7 +236,7 @@ class msrKey : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
   
   private:
 
