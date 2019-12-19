@@ -26,49 +26,49 @@ namespace MusicXML2
 class msr2LpsrTranslator :
 
   public visitor<S_msrScore>,
-  
+
   // rights
 
   public visitor<S_msrIdentification>,
-  
+
   public visitor<S_msrCredit>,
   public visitor<S_msrCreditWords>,
-  
+
   // variable-value associations
-  
+
   public visitor<S_msrVarValAssoc>,
   public visitor<S_msrVarValsListAssoc>,
-  
+
   // geometry
 
-  public visitor<S_msrPageGeometry>,
+  public visitor<S_msrGeometry>,
 
   // layout
 
-  public visitor<S_msrLayout>,
-  
+  public visitor<S_msrPageLayout>,
+
   // parts & part groups
 
   public visitor<S_msrPartGroup>,
-  
+
   public visitor<S_msrPart>,
-  
+
   // staff details
 
   public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
-  
+
   public visitor<S_msrStaff>,
 
   public visitor<S_msrVoice>,
-  
+
   public visitor<S_msrVoiceStaffChange>,
 
   // lyrics
 
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
-  
+
   // clefs
 
   public visitor<S_msrClef>,
@@ -80,11 +80,11 @@ class msr2LpsrTranslator :
   // times
 
   public visitor<S_msrTime>,
-  
+
   // transpose
 
   public visitor<S_msrTranspose>,
-  
+
   // print
 
   public visitor<S_msrPartNameDisplay>,
@@ -93,26 +93,26 @@ class msr2LpsrTranslator :
   // words
 
   public visitor<S_msrWords>,
-  
+
   // tempo
 
   public visitor<S_msrTempo>,
-  
+
   public visitor<S_msrSegment>,
-  
+
   // rehearsal
 
   public visitor<S_msrRehearsal>,
-  
+
   // harmonies
 
   public visitor<S_msrHarmony>,
   public visitor<S_msrHarmonyDegree>,
-  
+
   // frames
 
   public visitor<S_msrFrame>,
-  
+
   // figured bass
 
   public visitor<S_msrFiguredBass>,
@@ -121,23 +121,23 @@ class msr2LpsrTranslator :
   // measures
 
   public visitor<S_msrMeasure>,
-    
+
   // articulations
 
   public visitor<S_msrArticulation>,
-  
+
   public visitor<S_msrFermata>,
-  
+
   public visitor<S_msrArpeggiato>,
   public visitor<S_msrNonArpeggiato>,
-  
+
   // technicals
 
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
   public visitor<S_msrTechnicalWithFloat>,
   public visitor<S_msrTechnicalWithString>,
-  
+
   // ornaments
 
   public visitor<S_msrOrnament>,
@@ -147,23 +147,23 @@ class msr2LpsrTranslator :
   public visitor<S_msrSpanner>,
 
   // glissandos
-  
+
   public visitor<S_msrGlissando>,
 
   // slides
 
   public visitor<S_msrSlide>,
-  
+
   // tremolos
 
   public visitor<S_msrSingleTremolo>,
-  
+
   public visitor<S_msrDoubleTremolo>,
 
   // dynamics
 
   public visitor<S_msrDynamics>,
-  
+
   public visitor<S_msrOtherDynamics>,
 
   public visitor<S_msrSlash>,
@@ -171,47 +171,47 @@ class msr2LpsrTranslator :
   public visitor<S_msrSlur>,
   public visitor<S_msrLigature>,
   public visitor<S_msrWedge>,
-  
+
   // grace notes
 
   public visitor<S_msrGraceNotesGroup>,
-  
+
   // notes
 
   public visitor<S_msrNote>,
   public visitor<S_msrOctaveShift>,
-  
+
   // accordion registration
 
   public visitor<S_msrAccordionRegistration>,
-  
+
   // harp pedals tuning
 
   public visitor<S_msrHarpPedalsTuning>,
-  
+
   public visitor<S_msrStem>,
-    
+
   // chords
 
   public visitor<S_msrChord>,
-  
+
   // tuplets
 
   public visitor<S_msrTuplet>,
-  
+
   // ties, slurs, brackets & beams
 
   public visitor<S_msrTie>,
 
   public visitor<S_msrBeam>,
-    
+
   // ?
 
   public visitor<S_msrBarline>,
-  
+
   public visitor<S_msrSegno>,
   public visitor<S_msrCoda>,
-  
+
   public visitor<S_msrEyeGlasses>,
   public visitor<S_msrPedal>,
   public visitor<S_msrDamp>,
@@ -220,44 +220,44 @@ class msr2LpsrTranslator :
 
   public visitor<S_msrBarCheck>,
   public visitor<S_msrBarNumberCheck>,
-  
+
   public visitor<S_msrLineBreak>,
 
   public visitor<S_msrPageBreak>,
-  
+
   // repeats
 
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
-  
+
   public visitor<S_msrMeasuresRepeat>,
   public visitor<S_msrMeasuresRepeatPattern>,
   public visitor<S_msrMeasuresRepeatReplicas>,
-  
-  public visitor<S_msrMultipleRest>,
-  public visitor<S_msrMultipleRestContents>,
-  
+
+  public visitor<S_msrRestMeasures>,
+  public visitor<S_msrRestMeasuresContents>,
+
   // midi
 
   public visitor<S_msrMidi>
 
 {
   public:
-  
+
     msr2LpsrTranslator (
       indentedOstream& ios,
       S_msrScore       mScore);
-        
+
     virtual ~msr2LpsrTranslator ();
 
     void buildLpsrScoreFromMsrScore ();
 
     S_lpsrScore getLpsrScore () const
-        { return fLpsrScore; };
-    
+        { return fLpsrScore; }
+
   protected:
-          
+
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
@@ -280,7 +280,7 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrStaffTuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
     virtual void visitEnd   (S_msrStaffDetails& elt);
-  
+
     virtual void visitStart (S_msrStaff& elt);
     virtual void visitEnd   (S_msrStaff& elt);
 
@@ -325,13 +325,13 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrHarmony& elt);
     virtual void visitEnd   (S_msrHarmony& elt);
     virtual void visitStart (S_msrHarmonyDegree& elt);
-    
+
     virtual void visitStart (S_msrFrame& elt);
-    
+
     virtual void visitStart (S_msrFiguredBass& elt);
     virtual void visitEnd   (S_msrFiguredBass& elt);
     virtual void visitStart (S_msrFigure& elt);
-    
+
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
 
@@ -339,10 +339,10 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrArticulation& elt);
 
     virtual void visitStart (S_msrFermata& elt);
-    
+
     virtual void visitStart (S_msrArpeggiato& elt);
     virtual void visitStart (S_msrNonArpeggiato& elt);
-    
+
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
 
@@ -375,12 +375,12 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);
-    
+
     virtual void visitStart (S_msrOtherDynamics& elt);
     virtual void visitEnd   (S_msrOtherDynamics& elt);
 
     virtual void visitStart (S_msrSlash& elt);
-    
+
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
@@ -394,7 +394,7 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrOctaveShift& elt);
 
     virtual void visitStart (S_msrAccordionRegistration& elt);
-    
+
     virtual void visitStart (S_msrHarpPedalsTuning& elt);
 
     virtual void visitStart (S_msrStem& elt);
@@ -455,27 +455,27 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
     virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
 
-    virtual void visitStart (S_msrMultipleRest& elt);
-    virtual void visitEnd   (S_msrMultipleRest& elt);
-    virtual void visitStart (S_msrMultipleRestContents& elt);
-    virtual void visitEnd   (S_msrMultipleRestContents& elt);
+    virtual void visitStart (S_msrRestMeasures& elt);
+    virtual void visitEnd   (S_msrRestMeasures& elt);
+    virtual void visitStart (S_msrRestMeasuresContents& elt);
+    virtual void visitEnd   (S_msrRestMeasuresContents& elt);
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
-    virtual void visitStart (S_msrPageGeometry& elt);
-    virtual void visitEnd   (S_msrPageGeometry& elt);
+    virtual void visitStart (S_msrGeometry& elt);
+    virtual void visitEnd   (S_msrGeometry& elt);
 
-    virtual void visitStart (S_msrLayout& elt);
-    virtual void visitEnd   (S_msrLayout& elt);
+    virtual void visitStart (S_msrPageLayout& elt);
+    virtual void visitEnd   (S_msrPageLayout& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
   private:
-                     
+
     indentedOstream&          fLogOutputStream;
 
 
@@ -484,21 +484,22 @@ class msr2LpsrTranslator :
     S_msrScore                fVisitedMsrScore;
 
 
-    // the LPSR score we're building
+    // the LPSR score we're building (it is always built)
     // ------------------------------------------------------
     S_lpsrScore               fLpsrScore;
+    S_lpsrScoreBlock          fCurrentScoreBlock;
 
 
-    // it's header
+    // its header
     // ------------------------------------------------------
-    S_lpsrHeader              fLpsrScoreHeader;
+    S_lpsrHeader              fCurrentLpsrScoreHeader;
 
 
     // score
     // ------------------------------------------------------
     S_msrScore                fCurrentMsrScoreClone;
 
-    
+
     // identification
     // ------------------------------------------------------
     bool                      fOnGoingIdentification;
@@ -511,26 +512,37 @@ class msr2LpsrTranslator :
     bool                      fWorkTitleKnown;
     bool                      fMovementNumberKnown;
     bool                      fMovementTitleKnown;
-    
+
 
     // paper
     // ------------------------------------------------------
     void                      setPaperIndentsIfNeeded (
-                                S_msrPageGeometry pageGeometry);
+                                S_msrGeometry geometry);
 
     // credits
     // ------------------------------------------------------
     S_msrCredit               fCurrentCredit;
 
-    
+
+    // books
+    // ------------------------------------------------------
+    S_lpsrBookBlock           fCurrentLpsrBookBlock;
+
     // part groups
     // ------------------------------------------------------
   //  S_msrPartGroup            fCurrentPartGroupClone; JMI
 
+    // partGroup's can be nested, hence this stack
     // the current partGroup is the top of the stack
     stack<S_msrPartGroup>     fPartGroupsStack;
 
-    
+    // part groups block are nested as the partGroup's are
+    // the current partGroup block is the top of the stack
+    stack<S_lpsrPartGroupBlock>
+                              fPartGroupBlocksStack;
+
+    S_lpsrBookPartBlock       fCurrentBookPartBlock;
+
     // parts
     // ------------------------------------------------------
     S_msrPart                 fCurrentPartClone;
@@ -542,7 +554,7 @@ class msr2LpsrTranslator :
 
     S_msrStaffTuning          fCurrentStaffTuningClone;
 
-    
+
     // staves
     // ------------------------------------------------------
     S_msrStaff                fCurrentStaffClone;
@@ -552,14 +564,14 @@ class msr2LpsrTranslator :
 
 
     // voices
-    // ------------------------------------------------------    
+    // ------------------------------------------------------
     S_msrVoice                fCurrentVoiceClone;
     S_msrVoice                fCurrentVoiceOriginal;
-    map<S_msrNote, S_msrNote> fVoiceNotesMap;
+    map<S_msrNote, S_msrNote> fVoiceNotesMap; // JMI
 
 
     // harmonies
-    // ------------------------------------------------------    
+    // ------------------------------------------------------
     bool                      fOnGoingHarmonyVoice;
 
     S_msrHarmony              fCurrentHarmonyClone;
@@ -567,60 +579,25 @@ class msr2LpsrTranslator :
     list<S_msrHarmony>        fPendingHarmoniesList;
 
 
-    // frames
-    // ------------------------------------------------------    
- //   bool                      fOnGoingFramesVoice; JMI
-    
- //   list<S_msrFrame>          fPendingFramesList; // JMI
-
-
     // figured bass
-    // ------------------------------------------------------    
+    // ------------------------------------------------------
     bool                      fOnGoingFiguredBassVoice;
-    S_msrFiguredBass          fCurrentFiguredBass;
-
-    
-    // repeats
-    // ------------------------------------------------------
-
-    bool                      fOnGoingRepeat;
-    S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
-    S_msrRepeatEnding         fCurrentRepeatEndingClone;
-
-
-    // measure repeats
-    // ------------------------------------------------------
-
-    S_msrMeasuresRepeatPattern
-                              fCurrentMeasuresRepeatPatternClone;
-    S_msrMeasuresRepeatReplicas
-                              fCurrentMeasuresRepeatReplicasClone;
-
-    // multiple rests
-    // ------------------------------------------------------
-
-    S_msrMultipleRest         fCurrentMultipleRestClone; // JMI
-    S_msrMultipleRestContents fCurrentMultipleRestContentsClone;
+    S_msrFiguredBass          fCurrentFiguredBassClone;
 
 
     // segments
     // ------------------------------------------------------
-    // segments can be imbedded in others,
     // the current segment clone is the one at the top of the stack
-    stack<S_msrSegment>       fCurrentSegmentClonesStack;
+    S_msrSegment              fCurrentSegmentClone;
 
-    
+
     // measures
     // ------------------------------------------------------
-    // we need to count the measures for option fSeparatorLineEveryNMeasures,
-    // since measure numbers are actually strings
-    int                       fMeasuresCounter;
-    
     S_msrMeasure              fCurrentMeasureClone;
 
-    void                      finalizeCurrentMeasureClone (
-                                int          inputLineNumber,
-                                S_msrMeasure originalMeasure);
+    // full measure rests compression
+    S_msrMeasure              fCurrentRestMeasure;
+    S_msrRestMeasures         fCurrentRestMeasures;
 
     // bar checks
     // ------------------------------------------------------
@@ -629,13 +606,13 @@ class msr2LpsrTranslator :
 
     // notes
     // ------------------------------------------------------
-    bool                      fOnGoingNote;
+    bool                      fOnGoingNonGraceNote;
 
     // fCurrentNonGraceNoteClone is not used for grace notes,
     // which are visited while the note they're attached to
     // is being visited too
     S_msrNote                 fCurrentNonGraceNoteClone;
-    
+
     // to help workaround LilyPond issue 34
     S_msrNote                 fFirstNoteCloneInVoice;
 
@@ -655,12 +632,12 @@ class msr2LpsrTranslator :
     S_msrDoubleTremolo        fCurrentDoubleTremoloClone;
     bool                      fOnGoingDoubleTremolo;
 
-    
+
     // stems
     // ------------------------------------------------------
     S_msrStem                 fCurrentStem;
 
-    
+
     // grace notes
     // ------------------------------------------------------
     S_msrGraceNotesGroup      fCurrentGraceNotesGroupClone;
@@ -678,13 +655,13 @@ class msr2LpsrTranslator :
                                 S_msrGraceNotesGroup skipGraceNotesGroup);
                                 */
 
-    
+
     // chords
     // ------------------------------------------------------
     bool                      fOnGoingChord;
     S_msrChord                fCurrentChordClone;
 
-    
+
     // tuplets
     // ------------------------------------------------------
 //    S_msrTuplet             fCurrentTupletClone;
@@ -704,10 +681,9 @@ class msr2LpsrTranslator :
     bool                      fOnGoingSyllableExtend;
 
 
-    // part groups block
-    // the current partGroup command is the top of the stack
-    stack<S_lpsrPartGroupBlock>
-                              fPartGroupBlocksStack;
+    // current ongoing values display
+    // ------------------------------------------------------
+    void                      displayCurrentOnGoingValues ();
 };
 
 

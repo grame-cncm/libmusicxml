@@ -18,6 +18,8 @@
 
 #include "lpsrElements.h"
 
+#include "msrBasicTypes.h"
+
 
 using namespace std;
 
@@ -38,23 +40,23 @@ class lpsrVarValAssoc : public lpsrElement
 
     enum lpsrVarValAssocKind {
       // library
-      
+
       kLibraryVersion,
-      
+
       // MusicXML informations
-      
+
       kMusicXMLWorkNumber, kMusicXMLWorkTitle,
       kMusicXMLMovementNumber, kMusicXMLMovementTitle,
       kMusicXMLEncodingDate,
       kMusicXMLScoreInstrument,
       kMusicXMLMiscellaneousField,
-      
+
       // LilyPond informations
-      
+
       kLilypondDedication,
       kLilypondPiece, kLilypondOpus,
       kLilypondTitle, kLilypondSubTitle, kLilypondSubSubTitle,
-      kLilypondInstrument, kLilypondMeter, 
+      kLilypondInstrument, kLilypondMeter,
       kLilypondTagline, kLilypondCopyright,
 
       kLilypondMyBreak, kLilypondMyPageBreak,
@@ -64,35 +66,35 @@ class lpsrVarValAssoc : public lpsrElement
       lpsrVarValAssocKind lilyPondVarValAssocKind);
 
     enum lpsrCommentedKind {
-      kCommented, kUncommented};
+      kCommentedYes, kCommentedNo };
 
     static string commentedKindAsString (
       lpsrCommentedKind commentedKind);
-      
+
     enum lpsrBackSlashKind {
-      kWithBackSlash, kWithoutBackSlash};
+      kWithBackSlashYes, kWithBackSlashNo };
 
     static string backSlashKindAsString (
       lpsrBackSlashKind backSlashKind);
-      
+
     enum lpsrVarValSeparatorKind {
-      kSpace, kEqualSign};
+      kVarValSeparatorSpace, kVarValSeparatorEqualSign };
 
     static string varValSeparatorKindAsString (
       lpsrVarValSeparatorKind varValSeparatorKind);
-      
+
     enum lpsrQuotesKind {
-      kQuotesAroundValue, kNoQuotesAroundValue};
+      kQuotesAroundValueYes, kQuotesAroundValueNo };
 
     static string quotesKindAsString (
       lpsrQuotesKind quotesKind);
-      
+
     enum lpsrEndlKind {
-      kWithEndl, kWithEndlTwice, kWithoutEndl};
+      kEndlNone, kEndlOnce, kEndlTwice };
 
     static string endlKindAsString (
       lpsrEndlKind endlKind);
-      
+
     static string const g_LilyPondVarValAssocNoUnit;
     static string const g_LilyPondVarValAssocNoComment;
 
@@ -107,8 +109,10 @@ class lpsrVarValAssoc : public lpsrElement
                               lilyPondVarValAssocKind,
       lpsrVarValSeparatorKind varValSeparatorKind,
       lpsrQuotesKind          quotesKind,
-      string                  value, 
+      string                  value,
       string                  unit,
+      msrFontStyleKind        varValFontStyleKind,
+      msrFontWeightKind       varValFontWeightKind,
       string                  comment,
       lpsrEndlKind            endlKind);
 
@@ -125,13 +129,15 @@ class lpsrVarValAssoc : public lpsrElement
                               lilyPondVarValAssocKind,
       lpsrVarValSeparatorKind varValSeparatorKind,
       lpsrQuotesKind          quotesKind,
-      string                  value, 
+      string                  value,
       string                  unit,
+      msrFontStyleKind        varValFontStyleKind,
+      msrFontWeightKind       varValFontWeightKind,
       string                  comment,
       lpsrEndlKind            endlKind);
-      
+
     virtual ~lpsrVarValAssoc ();
-  
+
   public:
 
     // set and get
@@ -142,26 +148,32 @@ class lpsrVarValAssoc : public lpsrElement
 
     lpsrBackSlashKind     getBackSlashKind () const
                               { return fBackSlashKind; }
-                  
+
     lpsrVarValAssocKind
                           getLilyPondVarValAssocKind () const
                               { return fLilyPondVarValAssocKind; }
-                  
+
     lpsrVarValSeparatorKind
-                          getVarValSeparator () const
+                          getVarValSeparatorKind () const
                               { return fVarValSeparatorKind; }
-    
+
     lpsrQuotesKind        getQuotesKind () const
                               { return fQuotesKind; }
-                  
+
     void                  setVariableValue (string value)
                               { fVariableValue = value; }
 
     string                getVariableValue () const
                               { return fVariableValue; }
-    
+
     string                getUnit () const
                               { return fUnit; }
+
+    msrFontStyleKind      getVarValFontStyleKind () const
+                              { return fVarValFontStyleKind; }
+
+    msrFontWeightKind      getVarValFontWeightKind () const
+                              { return fVarValFontWeightKind; }
 
     string                getComment  () const
                               { return fComment; }
@@ -183,20 +195,20 @@ class lpsrVarValAssoc : public lpsrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
-  
+
   public:
-  
+
     // print
     // ------------------------------------------------------
 
-    string                lilyPondVarValAssocKindAsString ()
+    string                lilyPondVarValAssocKindAsString () const
                               {
                                 return
                                   lilyPondVarValAssocKindAsString (
                                     fLilyPondVarValAssocKind);
                               }
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -210,9 +222,15 @@ class lpsrVarValAssoc : public lpsrElement
     lpsrVarValSeparatorKind
                           fVarValSeparatorKind;
     lpsrQuotesKind        fQuotesKind;
+
     string                fVariableValue;
     string                fUnit;
+
+    msrFontStyleKind      fVarValFontStyleKind;
+    msrFontWeightKind     fVarValFontWeightKind;
+
     string                fComment;
+
     lpsrEndlKind          fEndlKind;
 };
 typedef SMARTP<lpsrVarValAssoc> S_lpsrVarValAssoc;
@@ -231,8 +249,9 @@ class lpsrVarValsListAssoc : public lpsrElement
       kMusicXMLRights,
       kMusicXMLComposer, kMusicXMLArranger,
       kMusicXMLPoet, kMusicXMLLyricist, kMusicXMLTranslator,
+      kMusicXMLArtist,
       kMusicXMLSoftware };
-      
+
 /*
       % The following fields are centered
     dedication = "Dedication"
@@ -270,9 +289,9 @@ class lpsrVarValsListAssoc : public lpsrElement
     lpsrVarValsListAssoc (
       int                      inputLineNumber,
       lpsrVarValsListAssocKind varValsListAssocKind);
-      
+
     virtual ~lpsrVarValsListAssoc ();
-  
+
   public:
 
     // set and get
@@ -281,10 +300,10 @@ class lpsrVarValsListAssoc : public lpsrElement
     lpsrVarValsListAssocKind
                           getVarValsListAssocKind () const
                               { return fVarValsListAssocKind; }
-                  
+
     const list<string>&   getVariableValuesList ()
                               { return fVariableValuesList; }
-    
+
     // services
     // ------------------------------------------------------
 
@@ -294,7 +313,7 @@ class lpsrVarValsListAssoc : public lpsrElement
                               }
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -302,22 +321,22 @@ class lpsrVarValsListAssoc : public lpsrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
-  
+
   public:
-  
+
     // print
     // ------------------------------------------------------
 
-    string                lilyPondVarValsListAssocKindAsString ()
+    string                lilyPondVarValsListAssocKindAsString () const
                               {
                                 return
                                   lilyPondVarValsListAssocValuesAsString (
                                     fVarValsListAssocKind);
                               }
-                                  
+
     string                lilyPondVarValsListAssocValuesAsString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

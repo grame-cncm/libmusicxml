@@ -14,8 +14,8 @@
 
 #include "messagesHandling.h"
 
-#include "musicXMLOptions.h"
-#include "generalOptions.h"
+#include "musicXMLOah.h"
+#include "generalOah.h"
 
 
 using namespace std;
@@ -29,7 +29,7 @@ void msrAssert (
   string messageIfFalse)
 {
   if (! condition) {
-    gLogIOstream <<
+    gLogOstream <<
       "#### msrAssert failure: " << messageIfFalse <<
       ", aborting." <<
       endl;
@@ -45,8 +45,8 @@ void msrWarning (
   int    inputLineNumber,
   string message)
 {
-  if (! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+  if (! gGeneralOah->fQuiet) {
+    gLogOstream <<
       "*** " << context << " warning *** " <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl;
@@ -103,15 +103,15 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! gGeneralOptions->fQuiet) {
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
-      gLogIOstream <<
+  if (! gGeneralOah->fQuiet) {
+    if (gGeneralOah->fDisplaySourceCodePosition) {
+      gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    if (! gGeneralOptions->fIgnoreErrors) {
-      gLogIOstream <<
+    if (! gGeneralOah->fDontShowErrors) {
+      gLogOstream <<
         "### " << context << " ERROR ### " <<
         inputSourceName << ":" << inputLineNumber << ": " << message <<
         endl;
@@ -137,8 +137,8 @@ void msrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fIgnoreErrors) {
-    if (gGeneralOptions->fAbortOnErrors) {
+  if (! gGeneralOah->fDontShowErrors) {
+    if (! gGeneralOah->fDontAbortOnErrors) {
       abort ();
     }
     else {
@@ -163,7 +163,7 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fIgnoreErrors) {
+  if (! gGeneralOah->fDontShowErrors) {
     exit (16);
   }
 }
@@ -194,14 +194,14 @@ void msrLimitation (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
-      gLogIOstream <<
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+    if (gGeneralOah->fDisplaySourceCodePosition) {
+      gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    gLogIOstream <<
+    gLogOstream <<
       "### MSR LIMITATION ### " <<
       inputSourceName << ":" << inputLineNumber << ": " << message <<
       endl;
@@ -217,14 +217,14 @@ void msrStreamsError (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
-      gLogIOstream <<
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+    if (gGeneralOah->fDisplaySourceCodePosition) {
+      gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    gLogIOstream <<
+    gLogOstream <<
       "### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
       endl;
@@ -239,14 +239,14 @@ void msrStreamsWarning (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
-    if (gGeneralOptions->fDisplaySourceCodePosition) {
-      gLogIOstream <<
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+    if (gGeneralOah->fDisplaySourceCodePosition) {
+      gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    gLogIOstream <<
+    gLogOstream <<
       "*** " << "MSR STREAMS" << " warning *** " <<
       " ### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
@@ -265,8 +265,8 @@ void displayWarningsAndErrorsInputLineNumbers ()
   int warningsInputLineNumbersSize =
     gWarningsInputLineNumbers.size ();
     
-  if (warningsInputLineNumbersSize && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+  if (warningsInputLineNumbersSize && ! gGeneralOah->fQuiet) {
+    gLogOstream <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
         warningsInputLineNumbersSize, "line", "lines") <<
@@ -277,20 +277,19 @@ void displayWarningsAndErrorsInputLineNumbers ()
       iEnd   = gWarningsInputLineNumbers.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogIOstream << (*i);
+      gLogOstream << (*i);
       if (++i == iEnd) break;
-      gLogIOstream << ", ";
+      gLogOstream << ", ";
     } // for
 
-    gLogIOstream <<
-      endl;
+    gLogOstream << endl;
   }
   
   int errorsInputLineNumbersSize =
     gErrorsInputLineNumbers.size ();
 
   if (errorsInputLineNumbersSize) {
-    gLogIOstream <<
+    gLogOstream <<
       endl <<
       "Error message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
@@ -302,13 +301,12 @@ void displayWarningsAndErrorsInputLineNumbers ()
       iEnd   = gErrorsInputLineNumbers.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogIOstream << (*i);
+      gLogOstream << (*i);
       if (++i == iEnd) break;
-      gLogIOstream << ", ";
+      gLogOstream << ", ";
     } // for
 
-    gLogIOstream <<
-      endl;
+    gLogOstream << endl;
   }
 }
 

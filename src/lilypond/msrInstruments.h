@@ -15,12 +15,12 @@
 
 #include <list>
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -49,9 +49,9 @@ class msrStringTuning : public msrElement
       msrDiatonicPitchKind stringTuningDiatonicPitchKind,
       msrAlterationKind    stringTuningAlterationKind,
       int                  stringTuningOctave);
-      
+
     virtual ~msrStringTuning ();
-  
+
   public:
 
     // set and get
@@ -89,7 +89,7 @@ class msrStringTuning : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -97,7 +97,7 @@ class msrStringTuning : public msrElement
     // ------------------------------------------------------
 
     int                   fStringTuningNumber;
-    
+
     msrDiatonicPitchKind  fStringTuningDiatonicPitchKind;
     msrAlterationKind     fStringTuningAlterationKind;
     int                   fStringTuningOctave;
@@ -106,7 +106,7 @@ typedef SMARTP<msrStringTuning> S_msrStringTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStringTuning& elt);
 
 //______________________________________________________________________________
-class msrScordatura : public msrElement
+class msrScordatura : public msrMeasureElement
 {
   public:
 
@@ -120,7 +120,7 @@ class msrScordatura : public msrElement
 
     static string scordaturaKindAsString (
       msrScordaturaKind scordaturaKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -134,9 +134,9 @@ class msrScordatura : public msrElement
 
     msrScordatura (
       int inputLineNumber);
-      
+
     virtual ~msrScordatura ();
-  
+
   public:
 
     // set and get
@@ -167,7 +167,7 @@ class msrScordatura : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -181,10 +181,10 @@ typedef SMARTP<msrScordatura> S_msrScordatura;
 EXP ostream& operator<< (ostream& os, const S_msrScordatura& elt);
 
 //______________________________________________________________________________
-class msrAccordionRegistration : public msrElement
+class msrAccordionRegistration : public msrMeasureElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -204,9 +204,9 @@ class msrAccordionRegistration : public msrElement
       int highDotsNumber,
       int middleDotsNumber,
       int lowDotsNumber);
-      
+
     virtual ~msrAccordionRegistration ();
-  
+
   public:
 
     // set and get
@@ -241,7 +241,7 @@ class msrAccordionRegistration : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -259,7 +259,7 @@ typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
 EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
 
 //______________________________________________________________________________
-class msrHarpPedalsTuning : public msrElement
+class msrHarpPedalsTuning : public msrMeasureElement
 {
   public:
 
@@ -268,7 +268,7 @@ class msrHarpPedalsTuning : public msrElement
 
     static SMARTP<msrHarpPedalsTuning> create (
       int inputLineNumber);
-    
+
     SMARTP<msrHarpPedalsTuning> createHarpPedalsTuningNewbornClone ();
 
     SMARTP<msrHarpPedalsTuning> createHarpPedalsTuningDeepCopy ();
@@ -280,9 +280,9 @@ class msrHarpPedalsTuning : public msrElement
 
     msrHarpPedalsTuning (
       int inputLineNumber);
-         
+
     ~ msrHarpPedalsTuning ();
-  
+
   public:
 
     // set and get
@@ -299,7 +299,7 @@ class msrHarpPedalsTuning : public msrElement
                             int                  intputLineNumber,
                             msrDiatonicPitchKind diatonicPitchKind,
                             msrAlterationKind    alterationKind);
-                            
+
   public:
 
     // visitors
@@ -316,14 +316,14 @@ class msrHarpPedalsTuning : public msrElement
     // ------------------------------------------------------
 
     string                asString () const;
-         
-    virtual void          print (ostream& os);
-    
+
+    virtual void          print (ostream& os) const;
+
   public:
-  
+
     // fields
     // ------------------------------------------------------
-    
+
     map<msrDiatonicPitchKind, msrAlterationKind>
                           fHarpPedalsAlterationKindsMap;
 };
@@ -331,7 +331,7 @@ typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
 EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
 
 //______________________________________________________________________________
-class msrPedal : public msrElement
+class msrPedal : public msrMeasureElement
 {
   public:
 
@@ -341,22 +341,22 @@ class msrPedal : public msrElement
     enum msrPedalTypeKind {
       kPedalStart, kPedalContinue, kPedalChange, kPedalStop,
       k_NoPedalType };
-      
+
     static string pedalTypeKindAsString (
       msrPedalTypeKind pedalTypeKind);
-      
+
     enum msrPedalLineKind {
       kPedalLineYes, kPedalLineNo};
-      
+
     static string pedalLineKindAsString (
       msrPedalLineKind pedalLineKind);
-      
+
     enum msrPedalSignKind {
       kPedalSignYes, kPedalSignNo};
-      
+
     static string pedalSignKindAsString (
       msrPedalSignKind pedalSignKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -376,23 +376,23 @@ class msrPedal : public msrElement
       msrPedalTypeKind pedalTypeKind,
       msrPedalLineKind pedalLineKind,
       msrPedalSignKind pedalSignKind);
-      
+
     virtual ~msrPedal ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-    
+
     msrPedalTypeKind      getPedalTypeKind () const
                               { return fPedalTypeKind; }
-                    
+
     msrPedalLineKind      getPedalLineKind () const
                               { return fPedalLineKind; }
-                    
+
     msrPedalSignKind      getPedalSignKind () const
                               { return fPedalSignKind; }
-                    
+
     // services
     // ------------------------------------------------------
 
@@ -411,13 +411,13 @@ class msrPedal : public msrElement
     // print
     // ------------------------------------------------------
 
-    string                pedalTypeAsString ();
-    
-    string                pedalLineAsString ();
-    
-    string                pedalSignAsString ();
+    string                pedalTypeAsString () const;
 
-    virtual void          print (ostream& os);
+    string                pedalLineAsString () const;
+
+    string                pedalSignAsString () const;
+
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -432,10 +432,10 @@ typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
 
 //______________________________________________________________________________
-class msrDamp : public msrElement
+class msrDamp : public msrMeasureElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -449,9 +449,9 @@ class msrDamp : public msrElement
 
     msrDamp (
       int inputLineNumber);
-      
+
     virtual ~msrDamp ();
-  
+
   public:
 
     // set and get
@@ -475,7 +475,7 @@ class msrDamp : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -486,10 +486,10 @@ typedef SMARTP<msrDamp> S_msrDamp;
 EXP ostream& operator<< (ostream& os, const S_msrDamp& elt);
 
 //______________________________________________________________________________
-class msrDampAll : public msrElement
+class msrDampAll : public msrMeasureElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -503,9 +503,9 @@ class msrDampAll : public msrElement
 
     msrDampAll (
       int inputLineNumber);
-      
+
     virtual ~msrDampAll ();
-  
+
   public:
 
     // set and get
@@ -529,7 +529,7 @@ class msrDampAll : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 

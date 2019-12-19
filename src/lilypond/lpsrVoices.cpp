@@ -12,12 +12,12 @@
 
 #include "lpsrVoices.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -46,44 +46,52 @@ lpsrUseVoiceCommand::~lpsrUseVoiceCommand ()
 
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrUseVoiceCommand>*
     p =
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrUseVoiceCommand>*
     p =
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -91,7 +99,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 void lpsrUseVoiceCommand::browseData (basevisitor* v)
 {}
 
-void lpsrUseVoiceCommand::print (ostream& os)
+void lpsrUseVoiceCommand::print (ostream& os) const
 {
   os <<
     "UseVoiceCommand" << " \"" <<

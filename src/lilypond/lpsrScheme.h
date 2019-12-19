@@ -17,12 +17,12 @@
 
 #include "lpsrElements.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -34,17 +34,17 @@ class lpsrSchemeVariable : public lpsrElement
     // ------------------------------------------------------
 
     enum lpsrCommentedKind {
-      kCommented, kUncommented};
+      kCommentedYes, kCommentedNo };
 
     static string commentedKindAsString (
       lpsrCommentedKind commentedKind);
-      
+
     enum lpsrEndlKind {
-      kWithEndl, kWithEndlTwice, kWithoutEndl};
+      kEndlNone, kEndlOnce, kEndlTwice };
 
     static string endlKindAsString (
       lpsrEndlKind endlKind);
-      
+
     static string const g_SchemeVariableNoUnit;
     static string const g_SchemeVariableNoComment;
 
@@ -55,10 +55,10 @@ class lpsrSchemeVariable : public lpsrElement
       int               inputLineNumber,
       lpsrCommentedKind commentedKind,
       string            variableName,
-      string            value, 
+      string            value,
       string            comment,
       lpsrEndlKind      endlKind);
-    
+
   protected:
 
     // constructors/destructor
@@ -68,12 +68,12 @@ class lpsrSchemeVariable : public lpsrElement
       int               inputLineNumber,
       lpsrCommentedKind commentedKind,
       string            variableName,
-      string            value, 
+      string            value,
       string            comment,
       lpsrEndlKind      endlKind);
-      
+
     virtual ~lpsrSchemeVariable ();
-  
+
   public:
 
     // set and get
@@ -98,7 +98,7 @@ class lpsrSchemeVariable : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -108,11 +108,11 @@ class lpsrSchemeVariable : public lpsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -120,14 +120,14 @@ class lpsrSchemeVariable : public lpsrElement
     // ------------------------------------------------------
 
     lpsrCommentedKind fCommentedKind;
-    
+
     string                fVariableName;
     string                fVariableValue;
 
     string                fComment;
 
     lpsrEndlKind          fEndlKind;
-    
+
 };
 typedef SMARTP<lpsrSchemeVariable> S_lpsrSchemeVariable;
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& elt);
@@ -145,7 +145,7 @@ class lpsrSchemeFunction : public lpsrElement
       string functionName,
       string functionDescription,
       string functionCode);
-    
+
   protected:
 
     // constructors/destructor
@@ -156,19 +156,19 @@ class lpsrSchemeFunction : public lpsrElement
       string functionName,
       string functionDescription,
       string functionCode);
-      
+
     virtual ~lpsrSchemeFunction ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-         
+
     string                getFunctionName () const
-                              { return fFunctionName; };
-    
+                              { return fFunctionName; }
+
     string                getFunctionDescription () const
-                              { return fFunctionDescription; };
+                              { return fFunctionDescription; }
 
     string                getFunctionCode () const
                               { return fFunctionCode; }
@@ -177,7 +177,7 @@ class lpsrSchemeFunction : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -187,22 +187,22 @@ class lpsrSchemeFunction : public lpsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
-    
+
     // fields
     // ------------------------------------------------------
 
     string            fFunctionName;
-    
+
     string            fFunctionDescription;
 
-    string            fFunctionCode;    
+    string            fFunctionCode;
 };
 typedef SMARTP<lpsrSchemeFunction> S_lpsrSchemeFunction;
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& elt);

@@ -20,7 +20,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -43,7 +43,7 @@ class msrDivisions : public msrElement
     // ------------------------------------------------------
 
     void                  initializeDivisions ();
-    
+
   protected:
 
     // constructors/destructor
@@ -52,9 +52,9 @@ class msrDivisions : public msrElement
     msrDivisions (
       int inputLineNumber,
       int divisionsPerQuarterNote);
-      
+
     virtual ~msrDivisions ();
-  
+
   public:
 
     // set and get
@@ -66,10 +66,10 @@ class msrDivisions : public msrElement
                                 fDivisionsPerQuarterNote =
                                   divisionsPerQuarterNote;
                               }
-                              
+
     int                   getDivisionsPerQuarterNote () const
                               { return fDivisionsPerQuarterNote; }
-                        
+
     // services
     // ------------------------------------------------------
 
@@ -106,7 +106,7 @@ class msrDivisions : public msrElement
                             int divisions,
                             int actualNotes,
                             int normalNotes);
-                            
+
     string                tupletWholeNotesAsMsrString (
                             int      inputLineNumber,
                             rational wholeNotes,
@@ -133,7 +133,7 @@ class msrDivisions : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -141,7 +141,7 @@ class msrDivisions : public msrElement
     // ------------------------------------------------------
 
     int                   fDivisionsPerQuarterNote;
-    
+
     list<pair<msrDurationKind, int> >
                           fDurationKindsToDivisions;
 };

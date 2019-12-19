@@ -10,34 +10,32 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrWords.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrWords msrWords::create (
-  int                      inputLineNumber,
-  msrPlacementKind         wordsPlacementKind,
-  string                   wordsContents,
-  msrJustifyKind           wordsJustifyKind,
-  msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-  msrFontStyleKind         wordsFontStyleKind,
-  S_msrFontSize            wordsFontSize,
-  msrFontWeightKind        wordsFontWeightKind,
-  msrWordsXMLLangKind      wordsXMLLangKind)
+  int                        inputLineNumber,
+  msrPlacementKind           wordsPlacementKind,
+  string                     wordsContents,
+  msrJustifyKind             wordsJustifyKind,
+  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+  msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+  msrFontStyleKind           wordsFontStyleKind,
+  S_msrFontSize              wordsFontSize,
+  msrFontWeightKind          wordsFontWeightKind,
+  msrXMLLangKind             wordsXMLLangKind)
 {
   msrWords* o =
     new msrWords (
@@ -45,6 +43,7 @@ S_msrWords msrWords::create (
       wordsPlacementKind,
       wordsContents,
       wordsJustifyKind,
+      wordsHorizontalAlignmentKind,
       wordsVerticalAlignmentKind,
       wordsFontStyleKind,
       wordsFontSize,
@@ -55,29 +54,32 @@ S_msrWords msrWords::create (
 }
 
 msrWords::msrWords (
-  int                      inputLineNumber,
-  msrPlacementKind         wordsPlacementKind,
-  string                   wordsContents,
-  msrJustifyKind           wordsJustifyKind,
-  msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-  msrFontStyleKind         wordsFontStyleKind,
-  S_msrFontSize            wordsFontSize,
-  msrFontWeightKind        wordsFontWeightKind,
-  msrWordsXMLLangKind      wordsXMLLangKind)
+  int                        inputLineNumber,
+  msrPlacementKind           wordsPlacementKind,
+  string                     wordsContents,
+  msrJustifyKind             wordsJustifyKind,
+  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+  msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+  msrFontStyleKind           wordsFontStyleKind,
+  S_msrFontSize              wordsFontSize,
+  msrFontWeightKind          wordsFontWeightKind,
+  msrXMLLangKind             wordsXMLLangKind)
     : msrElement (inputLineNumber)
 {
   fWordsPlacementKind  = wordsPlacementKind;
-  
-  fWordsContents       = wordsContents;
-  
-  fWordsJustifyKind    = wordsJustifyKind;
-  fWordsVerticalAlignmentKind = wordsVerticalAlignmentKind;
+
+  fWordsContents = wordsContents;
+
+  fWordsJustifyKind = wordsJustifyKind;
+
+  fWordsHorizontalAlignmentKind = wordsHorizontalAlignmentKind;
+  fWordsVerticalAlignmentKind   = wordsVerticalAlignmentKind;
 
   fWordsFontStyleKind  = wordsFontStyleKind;
   fWordsFontSize       = wordsFontSize;
   fWordsFontWeightKind = wordsFontWeightKind;
-  
-  fWordsXMLLangKind    = wordsXMLLangKind;
+
+  fWordsXMLLangKind = wordsXMLLangKind;
 }
 
 msrWords::~msrWords ()
@@ -85,19 +87,19 @@ msrWords::~msrWords ()
 
 void msrWords::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrWords::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrWords>*
     p =
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrWords::visitStart ()" <<
             endl;
         }
@@ -107,8 +109,8 @@ void msrWords::acceptIn (basevisitor* v)
 
 void msrWords::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrWords::acceptOut ()" <<
       endl;
   }
@@ -117,9 +119,9 @@ void msrWords::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrWords::visitEnd ()" <<
             endl;
         }
@@ -129,12 +131,6 @@ void msrWords::acceptOut (basevisitor* v)
 
 void msrWords::browseData (basevisitor* v)
 {}
-
-ostream& operator<< (ostream& os, const S_msrWords& elt)
-{
-  elt->print (os);
-  return os;
-}
 
 string msrWords::wordsPlacementKindAsString () const
 {
@@ -146,6 +142,13 @@ string msrWords::wordsPlacementKindAsString () const
 string msrWords::wordsJustifyKindAsString () const
 {
   return msrJustifyKindAsString (fWordsJustifyKind);
+}
+
+string msrWords::wordsHorizontalAlignmentKindAsString () const
+{
+  return
+    msrHorizontalAlignmentKindAsString (
+      fWordsHorizontalAlignmentKind);
 }
 
 string msrWords::wordsVerticalAlignmentKindAsString () const
@@ -170,34 +173,6 @@ string msrWords::wordsFontWeightKindAsString () const
   return msrFontWeightKindAsString (fWordsFontWeightKind);
 }
 
-string msrWords::msrWordsXMLLangKindAsString (
-  msrWordsXMLLangKind wordsXMLLangKind)
-{
-  string result;
-
-  switch (wordsXMLLangKind) {
-    case kItLang:
-      result = "it";
-      break;
-    case kEnLang:
-      result = "en";
-      break;
-    case kDeLang:
-      result = "de";
-      break;
-    case kFrLang:
-      result = "fr";
-    case kJaLang:
-      result = "ja";
-      break;
-    case kLaLang:
-      result = "la";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrWords::asString () const
 {
   stringstream s;
@@ -210,7 +185,7 @@ string msrWords::asString () const
   return s.str ();
 }
 
-void msrWords::print (ostream& os)
+void msrWords::print (ostream& os) const
 {
 // JMI  os << asString () << endl;
 
@@ -220,42 +195,52 @@ void msrWords::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
     "wordsContents" << " = \"" << fWordsContents << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "placement" << " = " <<
+    "placement" << " : " <<
     msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsJustifyKind" << " = " <<
+    "wordsJustifyKind" << " : " <<
     msrJustifyKindAsString (fWordsJustifyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsVerticalAlignmentKind" << " = " <<
+    "wordsHorizontalAlignmentKind" << " : " <<
+    msrHorizontalAlignmentKindAsString (fWordsHorizontalAlignmentKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "wordsVerticalAlignmentKind" << " : " <<
     msrVerticalAlignmentKindAsString (fWordsVerticalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontStyle" << " = " <<
+    "wordsFontStyle" << " : " <<
     msrFontStyleKindAsString (fWordsFontStyleKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontSize" << " = " <<
+    "wordsFontSize" << " : " <<
     fWordsFontSize->fontSizeAsString () <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontWeight" << " = " <<
+    "wordsFontWeight" << " : " <<
     msrFontWeightKindAsString (fWordsFontWeightKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontXMLLang" << " = " <<
-    msrWordsXMLLangKindAsString (fWordsXMLLangKind) <<
+    "wordsFontXMLLang" << " : " <<
+    msrXMLLangKindAsString (fWordsXMLLangKind) <<
     endl;
-  
+
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrWords& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

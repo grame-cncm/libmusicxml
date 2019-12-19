@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC
+    "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
+    "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <!-- A very minimal MusicXML example -->
+  <part-list>
+    <score-part id="P1">
+      <part-name>Music</part-name>
+    </score-part>
+  </part-list>
+  <part id="P1">
+<!--=========================================================-->
+    <measure number="1" width="324">
+      <print>
+        <staff-layout number="1">
+          <staff-distance>85</staff-distance>
+        </staff-layout>
+        <staff-layout number="2">
+          <staff-distance>77</staff-distance>
+        </staff-layout>
+        <measure-numbering>none</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>8</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>3</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <staves>2</staves>
+        <clef number="1">
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+        <clef number="2">
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
+        <staff-details number="1">
+          <staff-size>108</staff-size>
+        </staff-details>
+        <staff-details number="2">
+          <staff-size>108</staff-size>
+        </staff-details>
+      </attributes>
+      <direction placement="below">
+        <direction-type>
+          <dynamics default-x="112" default-y="-81" halign="center">
+            <mf/>
+          </dynamics>
+        </direction-type>
+        <staff>1</staff>
+        <sound dynamics="89"/>
+      </direction>
+      <note default-x="103">
+        <pitch>
+          <step>B</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-21.5">down</stem>
+        <staff>1</staff>
+      </note>
+      <note default-x="103">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>down</stem>
+        <staff>1</staff>
+      </note>
+      <note default-x="176">
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <staff>1</staff>
+      </note>
+      <note default-x="250">
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <staff>1</staff>
+      </note>
+      <backup>
+        <duration>24</duration>
+      </backup>
+      <note>
+        <rest measure="yes"/>
+        <duration>24</duration>
+        <voice>2</voice>
+        <staff>2</staff>
+      </note>
+    </measure>
+<!--=========================================================-->
+  </part>
+</score-partwise>

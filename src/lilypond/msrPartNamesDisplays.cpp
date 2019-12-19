@@ -10,21 +10,18 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 
 #include "msrPartNamesDisplays.h"
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrPartNameDisplay msrPartNameDisplay::create (
@@ -41,7 +38,7 @@ S_msrPartNameDisplay msrPartNameDisplay::create (
 msrPartNameDisplay::msrPartNameDisplay (
   int    inputLineNumber,
   string partNameDisplayValue)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fPartNameDisplayValue = partNameDisplayValue;
 }
@@ -51,19 +48,19 @@ msrPartNameDisplay::~msrPartNameDisplay ()
 
 void msrPartNameDisplay::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrPartNameDisplay::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrPartNameDisplay>*
     p =
       dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
         S_msrPartNameDisplay elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrPartNameDisplay::visitStart ()" <<
             endl;
         }
@@ -73,8 +70,8 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
 
 void msrPartNameDisplay::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrPartNameDisplay::acceptOut ()" <<
       endl;
   }
@@ -83,9 +80,9 @@ void msrPartNameDisplay::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
         S_msrPartNameDisplay elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrPartNameDisplay::visitEnd ()" <<
             endl;
         }
@@ -104,21 +101,21 @@ string msrPartNameDisplay::asString () const
     "PartNameDisplay" <<
     ", line " << fInputLineNumber <<
     ", partNameDisplayValue: " << fPartNameDisplayValue;
-    
+
   return s.str ();
+}
+
+void msrPartNameDisplay::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPartNameDisplay& elt)
 {
   elt->print (os);
   return os;
-}
-
-void msrPartNameDisplay::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
 }
 
 //______________________________________________________________________________
@@ -136,7 +133,7 @@ S_msrPartAbbreviationDisplay msrPartAbbreviationDisplay::create (
 msrPartAbbreviationDisplay::msrPartAbbreviationDisplay (
   int    inputLineNumber,
   string partAbbreviationDisplayValue)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fPartAbbreviationDisplayValue = partAbbreviationDisplayValue;
 }
@@ -146,19 +143,19 @@ msrPartAbbreviationDisplay::~msrPartAbbreviationDisplay ()
 
 void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrPartAbbreviationDisplay::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrPartAbbreviationDisplay>*
     p =
       dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
         S_msrPartAbbreviationDisplay elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitStart ()" <<
             endl;
         }
@@ -168,8 +165,8 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
 
 void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrPartAbbreviationDisplay::acceptOut ()" <<
       endl;
   }
@@ -178,9 +175,9 @@ void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
         S_msrPartAbbreviationDisplay elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitEnd ()" <<
             endl;
         }
@@ -200,21 +197,21 @@ string msrPartAbbreviationDisplay::asString () const
     ", line " << fInputLineNumber <<
     ", " <<
     "partAbbreviationDisplayValue: " << fPartAbbreviationDisplayValue;
-    
+
   return s.str ();
+}
+
+void msrPartAbbreviationDisplay::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPartAbbreviationDisplay& elt)
 {
   elt->print (os);
   return os;
-}
-
-void msrPartAbbreviationDisplay::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
 }
 
 

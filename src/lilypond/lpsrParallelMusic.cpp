@@ -25,12 +25,12 @@
 
 #include "lpsrContexts.h"
 
-#include "lpsrOptions.h"
+#include "lpsrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -59,74 +59,87 @@ lpsrParallelMusicBLock::~lpsrParallelMusicBLock ()
 
 void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrParallelMusicBLock>*
     p =
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrParallelMusicBLock>*
     p =
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+
+#ifdef TRACE_OAH
+        if (gLpsrOah->fTraceLpsrVisitors) {
+          gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void lpsrParallelMusicBLock::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% ==> lpsrParallelMusicBLock::browseData ()" <<
       endl;
   }
-  
+#endif
+
   for (
     list<S_lpsrPartGroupBlock>::const_iterator i =
       fParallelMusicBLockPartGroupBlocks.begin ();
     i != fParallelMusicBLockPartGroupBlocks.end ();
-    i++) {
+    i++
+  ) {
     // browse the element browser
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
   } // for
 
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
       "% <== lpsrParallelMusicBLock::browseData ()" <<
       endl;
   }
+#endif
 }
 
-void lpsrParallelMusicBLock::print (ostream& os)
+void lpsrParallelMusicBLock::print (ostream& os) const
 {
   os <<
     "ParallelMusicBLock" <<
@@ -134,14 +147,15 @@ void lpsrParallelMusicBLock::print (ostream& os)
     singularOrPlural (
       fParallelMusicBLockPartGroupBlocks.size (), "part group", "part groups") <<
     endl;
-  
+
   gIndenter++;
-  
+
   for (
     list<S_lpsrPartGroupBlock>::const_iterator i =
       fParallelMusicBLockPartGroupBlocks.begin ();
     i != fParallelMusicBLockPartGroupBlocks.end ();
-    i++) {
+    i++
+  ) {
     os << (*i);
   } // for
 

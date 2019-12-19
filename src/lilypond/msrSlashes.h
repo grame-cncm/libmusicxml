@@ -32,7 +32,7 @@ class msrSlash : public msrElement
     static SMARTP<msrSlash> create (
       int                  inputLineNumber,
       msrSlashTypeKind     slashTypeKind,
-      msrSlashUseDotsKind  slashUseDotsKind,
+      msrUseDotsKind  useDotsKind,
       msrSlashUseStemsKind slashUseStemsKind);
 
   protected:
@@ -43,7 +43,7 @@ class msrSlash : public msrElement
     msrSlash (
       int                  inputLineNumber,
       msrSlashTypeKind     slashTypeKind,
-      msrSlashUseDotsKind  slashUseDotsKind,
+      msrUseDotsKind  useDotsKind,
       msrSlashUseStemsKind slashUseStemsKind);
       
     virtual ~msrSlash ();
@@ -56,8 +56,8 @@ class msrSlash : public msrElement
     msrSlashTypeKind      getSlashTypeKind () const
                               { return fSlashTypeKind; }
 
-    msrSlashUseDotsKind   getSlashUseDotsKind () const
-                              { return fSlashUseDotsKind; }
+    msrUseDotsKind   getUseDotsKind () const
+                              { return fUseDotsKind; }
 
     msrSlashUseStemsKind  getSlashUseStemsKind () const
                               { return fSlashUseStemsKind; }
@@ -82,7 +82,7 @@ class msrSlash : public msrElement
 
     string                asString () const;
     
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -90,7 +90,7 @@ class msrSlash : public msrElement
     // ------------------------------------------------------
     
     msrSlashTypeKind      fSlashTypeKind;
-    msrSlashUseDotsKind   fSlashUseDotsKind;
+    msrUseDotsKind   fUseDotsKind;
     msrSlashUseStemsKind  fSlashUseStemsKind;
 };
 typedef SMARTP<msrSlash> S_msrSlash;

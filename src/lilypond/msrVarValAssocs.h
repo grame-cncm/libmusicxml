@@ -20,7 +20,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -48,7 +48,7 @@ class msrVarValAssoc : public msrElement
       int                inputLineNumber,
       msrVarValAssocKind varValAssocKind,
       string             value);
-    
+
   protected:
 
     // constructors/destructor
@@ -58,9 +58,9 @@ class msrVarValAssoc : public msrElement
       int                inputLineNumber,
       msrVarValAssocKind varValAssocKind,
       string             value);
-      
+
     virtual ~msrVarValAssoc ();
-  
+
   public:
 
     // set and get
@@ -68,7 +68,7 @@ class msrVarValAssoc : public msrElement
 
     msrVarValAssocKind    getVarValAssocKind () const
                               { return fVarValAssocKind; }
-                              
+
     void                  setVariableValue (string value);
 
     string                getVariableValue () const
@@ -98,8 +98,8 @@ class msrVarValAssoc : public msrElement
                                   varValAssocKindAsString (
                                     fVarValAssocKind);
                               }
-                              
-    virtual void          print (ostream& os);
+
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -107,7 +107,7 @@ class msrVarValAssoc : public msrElement
     // ------------------------------------------------------
 
     msrVarValAssocKind    fVarValAssocKind;
-    
+
     string                fVariableValue;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
@@ -124,6 +124,7 @@ class msrVarValsListAssoc : public msrElement
     enum msrVarValsListAssocKind {
       kRights,
       kComposer, kArranger, kLyricist, kPoet, kTranslator,
+      kArtist,
       kSoftware };
 
     static string varValsListAssocKindAsString (
@@ -135,7 +136,7 @@ class msrVarValsListAssoc : public msrElement
     static SMARTP<msrVarValsListAssoc> create (
       int                     inputLineNumber,
       msrVarValsListAssocKind varValsListAssocKind);
-    
+
   protected:
 
     // constructors/destructor
@@ -144,9 +145,9 @@ class msrVarValsListAssoc : public msrElement
     msrVarValsListAssoc (
       int                     inputLineNumber,
       msrVarValsListAssocKind varValsListAssocKind);
-      
+
     virtual ~msrVarValsListAssoc ();
-  
+
   public:
 
     // set and get
@@ -155,10 +156,10 @@ class msrVarValsListAssoc : public msrElement
     msrVarValsListAssocKind
                           getVarValsListAssocKind () const
                               { return fVarValsListAssocKind; }
-                              
+
     const list<string>&   getVariableValuesList ()
                               { return fVariableValuesList; }
-    
+
     // services
     // ------------------------------------------------------
 
@@ -188,10 +189,10 @@ class msrVarValsListAssoc : public msrElement
                                   varValsListAssocKindAsString (
                                     fVarValsListAssocKind);
                               }
-                              
+
     string                varValsListAssocValuesAsString () const;
-    
-    virtual void          print (ostream& os);
+
+    virtual void          print (ostream& os) const;
 
   private:
 
@@ -200,7 +201,7 @@ class msrVarValsListAssoc : public msrElement
 
     msrVarValsListAssocKind
                           fVarValsListAssocKind;
-                          
+
     list<string>          fVariableValuesList;
 };
 typedef SMARTP<msrVarValsListAssoc> S_msrVarValsListAssoc;

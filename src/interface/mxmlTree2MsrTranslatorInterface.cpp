@@ -10,10 +10,6 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 
 #include "xml.h"
@@ -22,9 +18,11 @@
 
 #include "versions.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "generalOah.h"
+
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
 #include "mxmlTree2MsrTranslatorInterface.h"
@@ -36,52 +34,52 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
 void populateMsrSkeletonFromMxmlTree (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mxmlTree != 0,
     "mxmlTree is null");
-    
+
   // sanity check
   msrAssert (
     scoreSkeleton != 0,
     "scoreSkeleton is null");
-    
+
   clock_t startClock = clock ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-  
-    logIOstream <<
+
+    logOstream <<
       endl <<
       separator <<
       endl <<
       gTab <<
       "Pass 2b: translating the xmlelement tree into a MSR" <<
       endl;
-    
-    logIOstream <<
+
+    logOstream <<
       separator <<
       endl;
   }
 #endif
-  
+
   // create an mxmlTree2MsrTranslator
   mxmlTree2MsrTranslator
     translator (
       scoreSkeleton,
-      logIOstream);
+      logOstream);
 
   // browse the mxmlTree
   translator.browseMxmlTree (
@@ -100,21 +98,21 @@ void populateMsrSkeletonFromMxmlTree (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScore (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
+
   string separator =
     "%--------------------------------------------------------------";
-  
-  logIOstream <<
+
+  logOstream <<
     endl <<
     separator <<
     endl <<
@@ -139,23 +137,23 @@ void displayMSRPopulatedScore (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScoreSummary (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
-    logIOstream <<
+
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -167,16 +165,16 @@ void displayMSRPopulatedScoreSummary (
       endl;
   }
 #endif
-   
+
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor
     summaryVisitor (
       msrOpts,
-      logIOstream);
+      logOstream);
 
   summaryVisitor.printSummaryFromMsrScore (
     mScore);
-  
+
   clock_t endClock = clock ();
 
   // register time spent
@@ -190,23 +188,23 @@ void displayMSRPopulatedScoreSummary (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScoreNames (
-  S_msrOptions&    msrOpts,
+  S_msrOah&    msrOpts,
   S_msrScore       mScore,
-  indentedOstream& logIOstream)
+  indentedOstream& logOstream)
 {
   // sanity check
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
-    logIOstream <<
+
+    logOstream <<
       endl <<
       separator <<
       endl <<
@@ -218,16 +216,16 @@ void displayMSRPopulatedScoreNames (
       endl;
   }
 #endif
-   
+
   // create an msr2NamesVisitor visitor
   msr2NamesVisitor
     namesVisitor (
       msrOpts,
-      logIOstream);
+      logOstream);
 
   namesVisitor.printNamesFromMsrScore (
     mScore);
-  
+
   clock_t endClock = clock ();
 
   // register time spent

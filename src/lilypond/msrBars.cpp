@@ -10,31 +10,28 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrBars.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
 #endif
 
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_msrBarCheck msrBarCheck::create (
-  int    inputLineNumber)
+  int inputLineNumber)
 {
   msrBarCheck* o =
     new msrBarCheck (
@@ -43,24 +40,27 @@ S_msrBarCheck msrBarCheck::create (
   return o;
 }
 
-S_msrBarCheck msrBarCheck::createWithNextBarNumber (
+S_msrBarCheck msrBarCheck::createWithNextBarPuristNumber (
   int    inputLineNumber,
-  string nextBarNumber)
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
 {
   msrBarCheck* o =
     new msrBarCheck (
-      inputLineNumber, nextBarNumber);
+      inputLineNumber,
+      nextBarOriginalNumber,
+      nextBarPuristNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarCheck::msrBarCheck (
-  int    inputLineNumber)
-    : msrElement (inputLineNumber)
+  int inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresNumbers) {
+    gLogOstream <<
       "Creating a bar check without next bar number" <<
       endl;
   }
@@ -69,16 +69,21 @@ msrBarCheck::msrBarCheck (
 
 msrBarCheck::msrBarCheck (
   int    inputLineNumber,
-  string nextBarNumber)
-    : msrElement (inputLineNumber)
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
+    : msrMeasureElement (inputLineNumber)
 {
-  fNextBarNumber = nextBarNumber; 
+  fNextBarOriginalNumber = nextBarOriginalNumber;
+  fNextBarPuristNumber   = nextBarPuristNumber;
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Creating a bar check with next bar number '" <<
-      fNextBarNumber <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresNumbers) {
+    gLogOstream <<
+      "Creating a bar check" <<
+      " with next bar original number '" <<
+      nextBarOriginalNumber <<
+      " and next bar purist number '" <<
+      fNextBarPuristNumber <<
       "'" <<
       endl;
   }
@@ -88,36 +93,36 @@ msrBarCheck::msrBarCheck (
 msrBarCheck::~msrBarCheck ()
 {}
 
-void msrBarCheck::setNextBarNumber (string number)
+void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresNumbers) {
+    gLogOstream <<
       "Setting bar check next bar number to '" <<
-      number <<
+      puristNumber <<
       "'" <<
       endl;
   }
 #endif
 
-  fNextBarNumber = number;
+  fNextBarPuristNumber = puristNumber;
 }
 
 void msrBarCheck::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBarCheck::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBarCheck>*
     p =
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBarCheck::visitStart ()" <<
             endl;
         }
@@ -127,8 +132,8 @@ void msrBarCheck::acceptIn (basevisitor* v)
 
 void msrBarCheck::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBarCheck::acceptOut ()" <<
       endl;
   }
@@ -137,9 +142,9 @@ void msrBarCheck::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBarCheck::visitEnd ()" <<
             endl;
         }
@@ -156,13 +161,14 @@ string msrBarCheck::asString () const
 
   s <<
     "BarCheck" <<
-    ", next bar number = \"" << fNextBarNumber << "\"" <<
+    ", nextBarOriginalNumber = \"" << fNextBarOriginalNumber << "\"" <<
+    ", nextBarPuristNumber = \"" << fNextBarPuristNumber << "\"" <<
     ", line " << fInputLineNumber;
 
   return s.str ();
 }
 
-void msrBarCheck::print (ostream& os)
+void msrBarCheck::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -178,21 +184,39 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 //______________________________________________________________________________
 S_msrBarNumberCheck msrBarNumberCheck::create (
   int    inputLineNumber,
-  string nextBarNumber)
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
 {
   msrBarNumberCheck* o =
     new msrBarNumberCheck (
-      inputLineNumber, nextBarNumber);
+      inputLineNumber,
+      nextBarOriginalNumber,
+      nextBarPuristNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarNumberCheck::msrBarNumberCheck (
   int    inputLineNumber,
-  string nextBarNumber)
-    : msrElement (inputLineNumber)
+  string nextBarOriginalNumber,
+  int    nextBarPuristNumber)
+    : msrMeasureElement (inputLineNumber)
 {
-  fNextBarNumber=nextBarNumber; 
+  fNextBarOriginalNumber = nextBarOriginalNumber;
+  fNextBarPuristNumber   = nextBarPuristNumber;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresNumbers) {
+    gLogOstream <<
+      "Creating a bar number check" <<
+      " with next bar original number '" <<
+      nextBarOriginalNumber <<
+      " and next bar purist number '" <<
+      fNextBarPuristNumber <<
+      "'" <<
+      endl;
+  }
+#endif
 }
 
 msrBarNumberCheck::~msrBarNumberCheck ()
@@ -200,19 +224,19 @@ msrBarNumberCheck::~msrBarNumberCheck ()
 
 void msrBarNumberCheck::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBarNumberCheck::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBarNumberCheck::visitStart ()" <<
             endl;
         }
@@ -222,8 +246,8 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
 
 void msrBarNumberCheck::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBarNumberCheck::acceptOut ()" <<
       endl;
   }
@@ -232,9 +256,9 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBarNumberCheck::visitEnd ()" <<
             endl;
         }
@@ -251,12 +275,13 @@ string msrBarNumberCheck::asString () const
 
   s <<
     "BarNumberCheck" <<
-    ", next bar number = \"" << fNextBarNumber << "\"";
+    ", nextBarOriginalNumber = \"" << fNextBarOriginalNumber << "\"" <<
+    ", nextBarPuristNumber = \"" << fNextBarPuristNumber << "\"";
 
   return s.str ();
 }
 
-void msrBarNumberCheck::print (ostream& os)
+void msrBarNumberCheck::print (ostream& os) const
 {
   os <<
     asString () <<
@@ -275,22 +300,26 @@ S_msrBarline msrBarline::create (
   msrBarlineCategoryKind        barlineCategoryKind,
   msrBarlineHasSegnoKind        barlineHasSegnoKind,
   msrBarlineHasCodaKind         barlineHasCodaKind,
-  msrBarlineLocationKind        locationKind,
-  msrBarlineStyleKind           styleKind,
-  msrBarlineEndingTypeKind      endingTypeKind,
+  msrBarlineLocationKind        barlineLocationKind,
+  msrBarlineStyleKind           barlineStyleKind,
+  msrBarlineEndingTypeKind      barlineEndingTypeKind,
   string                        endingNumber,
-  msrBarlineRepeatDirectionKind repeatDirectionKind,
-  msrBarlineRepeatWingedKind    repeatWingedKind,
+  msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+  msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
   int                           barlineTimes)
 {
   msrBarline* o =
     new msrBarline (
       inputLineNumber,
       barlineCategoryKind,
-      barlineHasSegnoKind, barlineHasCodaKind,
-      locationKind, styleKind,
-      endingTypeKind, endingNumber,
-      repeatDirectionKind, repeatWingedKind,
+      barlineHasSegnoKind,
+      barlineHasCodaKind,
+      barlineLocationKind,
+      barlineStyleKind,
+      barlineEndingTypeKind,
+      endingNumber,
+      barlineRepeatDirectionKind,
+      barlineRepeatWingedKind,
       barlineTimes);
   assert(o!=0);
   return o;
@@ -301,31 +330,31 @@ msrBarline::msrBarline (
   msrBarlineCategoryKind        barlineCategoryKind,
   msrBarlineHasSegnoKind        barlineHasSegnoKind,
   msrBarlineHasCodaKind         barlineHasCodaKind,
-  msrBarlineLocationKind        locationKind,
-  msrBarlineStyleKind           styleKind,
-  msrBarlineEndingTypeKind      endingTypeKind,
+  msrBarlineLocationKind        barlineLocationKind,
+  msrBarlineStyleKind           barlineStyleKind,
+  msrBarlineEndingTypeKind      barlineEndingTypeKind,
   string                        endingNumber,
-  msrBarlineRepeatDirectionKind repeatDirectionKind,
-  msrBarlineRepeatWingedKind    repeatWingedKind,
+  msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+  msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
   int                           barlineTimes)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fBarlineCategoryKind = barlineCategoryKind;
-  
+
   fBarlineHasSegnoKind = barlineHasSegnoKind;
   fBarlineHasCodaKind  = barlineHasCodaKind;
-  
-  fLocationKind        = locationKind;
-  fStyleKind           = styleKind;
-  fEndingTypeKind      = endingTypeKind;
+
+  fLocationKind        = barlineLocationKind;
+  fStyleKind           = barlineStyleKind;
+  fEndingTypeKind      = barlineEndingTypeKind;
   fEndingNumber        = endingNumber;
-  fRepeatDirectionKind = repeatDirectionKind;
-  fRepeatWingedKind    = repeatWingedKind;
+  fRepeatDirectionKind = barlineRepeatDirectionKind;
+  fRepeatWingedKind    = barlineRepeatWingedKind;
 
   fBarlineTimes = barlineTimes;
-  
-  // JMI gLogIOstream << "fEndingNumber = " << fEndingNumber << endl;
-  
+
+  // JMI gLogOstream << "fEndingNumber = " << fEndingNumber << endl;
+
   // extract individual numbers from fEndingNumber
   // that may contain "1, 2"
   fEndingNumbersList =
@@ -338,19 +367,19 @@ msrBarline::~msrBarline ()
 
 void msrBarline::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBarline::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBarline>*
     p =
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBarline::visitStart ()" <<
             endl;
         }
@@ -360,8 +389,8 @@ void msrBarline::acceptIn (basevisitor* v)
 
 void msrBarline::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrBarline::acceptOut ()" <<
       endl;
   }
@@ -370,9 +399,9 @@ void msrBarline::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrBarline::visitEnd ()" <<
             endl;
         }
@@ -387,7 +416,7 @@ string msrBarline::barlineLocationKindAsString (
   msrBarlineLocationKind barlineLocationKind)
 {
   string result;
-  
+
   switch (barlineLocationKind) {
     case kBarlineLocationNone:
       result = "barlineLocationNone";
@@ -410,7 +439,7 @@ string msrBarline::barlineCategoryKindAsString (
   msrBarlineCategoryKind barlineCategoryKind)
 {
   string result;
-  
+
   switch (barlineCategoryKind) {
     case k_NoBarlineCategory:
       result = "noBarlineCategory";
@@ -479,7 +508,7 @@ string msrBarline::barlineStyleKindAsString (
   msrBarlineStyleKind barlineStyleKind)
 {
   string result;
-  
+
   switch (barlineStyleKind) {
     case msrBarline::kBarlineStyleNone:
       result = "barlineStyleNone";
@@ -523,7 +552,7 @@ string msrBarline::barlineEndingTypeKindAsString (
   msrBarlineEndingTypeKind barlineEndingTypeKind)
 {
   string result;
-  
+
   switch (barlineEndingTypeKind) {
     case msrBarline::kBarlineEndingNone:
       result = "barlineEndingNone";
@@ -546,7 +575,7 @@ string msrBarline::barlineRepeatDirectionKindAsString (
   msrBarlineRepeatDirectionKind barlineRepeatDirectionKind)
 {
   string result;
-  
+
   switch (barlineRepeatDirectionKind) {
     case msrBarline::kBarlineRepeatDirectionNone:
       result ="barlineRepeatDirectionNone";
@@ -566,7 +595,7 @@ string msrBarline::barlineRepeatWingedKindAsString (
   msrBarlineRepeatWingedKind barlineRepeatWingedKind)
 {
   string result;
-  
+
   switch (barlineRepeatWingedKind) {
     case msrBarline::kBarlineRepeatWingedNone:
       result = "barlineRepeatWingedNone";
@@ -607,20 +636,64 @@ string msrBarline::endingNumbersListAsString () const
   return s.str ();
 }
 
-string msrBarline::asString () const
+string msrBarline::asShortString () const
 {
   stringstream s;
 
   s <<
+    "["
     "Barline " <<
     barlineCategoryKindAsString (fBarlineCategoryKind) <<
+    ", measureNumber " << fMeasureNumber <<
+    ", positionInMeasure " << fPositionInMeasure <<
+
+/* JMI
     ", " <<
     barlineHasSegnoKindAsString (
       fBarlineHasSegnoKind) <<
     ", " <<
     barlineHasCodaKindAsString (
       fBarlineHasCodaKind) <<
-    
+
+    ", " <<
+    barlineLocationKindAsString (fLocationKind) <<
+    ", " <<
+    barlineStyleKindAsString (fStyleKind) <<
+    ", " <<
+    barlineEndingTypeKindAsString (fEndingTypeKind) <<
+    ", " <<
+    endingNumbersListAsString () <<
+
+    ", " <<
+    barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
+    ", " <<
+    barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
+    */
+    ", " <<
+    fBarlineTimes << " times" <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+string msrBarline::asString () const
+{
+  stringstream s;
+
+  s <<
+    "["
+    "Barline " <<
+    barlineCategoryKindAsString (fBarlineCategoryKind) <<
+    ", measureNumber " << fMeasureNumber <<
+    ", positionInMeasure " << fPositionInMeasure <<
+    ", " <<
+    barlineHasSegnoKindAsString (
+      fBarlineHasSegnoKind) <<
+    ", " <<
+    barlineHasCodaKindAsString (
+      fBarlineHasCodaKind) <<
+
     ", " <<
     barlineLocationKindAsString (fLocationKind) <<
     ", " <<
@@ -635,20 +708,23 @@ string msrBarline::asString () const
     barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
     ", " <<
     barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
-    
+
     ", " <<
     fBarlineTimes << " times" <<
-    ", line " << fInputLineNumber;
-    
+    ", line " << fInputLineNumber <<
+    "]";
+
   return s.str ();
 }
 
-void msrBarline::print (ostream& os)
+void msrBarline::print (ostream& os) const
 {
   os <<
     "Barline, " <<
     barlineCategoryKindAsString (
       fBarlineCategoryKind) <<
+    ", measureNumber " << fMeasureNumber <<
+    ", positionInMeasure " << fPositionInMeasure <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -667,7 +743,7 @@ void msrBarline::print (ostream& os)
     barlineHasCodaKindAsString (
       fBarlineHasCodaKind) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "locationKind" << " : " <<
     barlineLocationKindAsString (fLocationKind) <<
@@ -677,10 +753,10 @@ void msrBarline::print (ostream& os)
     barlineStyleKindAsString (fStyleKind) <<
     endl <<
     setw (fieldWidth) <<
-    "endingType" << " : " <<
+    "endingTypeKind" << " : " <<
     barlineEndingTypeKindAsString (fEndingTypeKind) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "endingNumber" << " : " <<
     fEndingNumber <<
@@ -689,17 +765,17 @@ void msrBarline::print (ostream& os)
     "endingNumbersList" << " : " <<
     endingNumbersListAsString () <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "repeatDirectionKind" << " : " <<
     barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
     endl <<
-  
+
     setw (fieldWidth) <<
     "repeatWingedKind" << " : " <<
     barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
     endl <<
-  
+
     setw (fieldWidth) <<
     "barlineTimes" << " : " <<
     fBarlineTimes <<
@@ -712,14 +788,14 @@ void msrBarline::print (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "barlineMeasureNumber" << " : " <<
-    fBarlineMeasureNumber <<
+    "measureNumber" << " : " <<
+    fMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
-    "barlinePositionInMeasure" << " : " <<
-    fBarlinePositionInMeasure <<
+    "positionInMeasure" << " : " <<
+    fPositionInMeasure <<
     endl;
-     
+
   gIndenter--;
 }
 

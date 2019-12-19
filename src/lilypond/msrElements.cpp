@@ -10,32 +10,25 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <iostream>
 #include <sstream>
+#include <climits>      // INT_MIN, INT_MAX
 
 #include "msrElements.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
-#include "msrOptions.h"
+#include "msrOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 msrElement::msrElement (
   int inputLineNumber)
 {
-  fInputLineNumber = inputLineNumber;  
+  fInputLineNumber = inputLineNumber;
 }
 
 msrElement::~msrElement ()
@@ -43,19 +36,19 @@ msrElement::~msrElement ()
 
 void msrElement::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrElement::acceptIn ()" <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrElement::msrElement ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrElement::visitStart ()" <<
             endl;
         }
@@ -65,8 +58,8 @@ void msrElement::acceptIn (basevisitor* v)
 
 void msrElement::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
       "% ==> msrElement::acceptOut ()" <<
       endl;
   }
@@ -75,9 +68,9 @@ void msrElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
             "% ==> Launching msrElement::visitEnd ()" <<
             endl;
         }
@@ -97,9 +90,14 @@ string msrElement::asShortString () const
   return asString ();
 }
 
-void msrElement::print (ostream& os)
+void msrElement::print (ostream& os) const
 {
   os << asString () << endl;
+}
+
+void msrElement::shortPrint (ostream& os) const
+{
+  print (os);
 }
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
@@ -107,7 +105,6 @@ ostream& operator<< (ostream& os, const S_msrElement& elt)
   elt->print (os);
   return os;
 }
-
 
 
 }

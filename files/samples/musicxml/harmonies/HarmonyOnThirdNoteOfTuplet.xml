@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<!DOCTYPE score-partwise PUBLIC '-//Recordare//DTD MusicXML 3.0 Partwise//EN' 'http://www.musicxml.org/dtds/partwise.dtd'>
+<score-partwise version='3.0'>
+	<movement-title>unknown</movement-title>
+	<identification>
+		<encoding>
+			<software>Sibelius 18.5</software>
+			<software>Dolet 6.6 for Sibelius</software>
+			<encoding-date>2018-10-19</encoding-date>
+			<supports element='accidental' type='yes'/>
+			<supports element='transpose' type='no'/>
+			<supports attribute='new-page' element='print' type='yes' value='yes'/>
+			<supports attribute='new-system' element='print' type='yes' value='yes'/>
+		</encoding>
+	</identification>
+	<defaults>
+		<scaling>
+			<millimeters>7.3</millimeters>
+			<tenths>40</tenths>
+		</scaling>
+		<page-layout>
+			<page-height>1534</page-height>
+			<page-width>1151</page-width>
+			<page-margins type='both'>
+				<left-margin>54.7945</left-margin>
+				<right-margin>54.7945</right-margin>
+				<top-margin>27.3973</top-margin>
+				<bottom-margin>27.3973</bottom-margin>
+			</page-margins>
+		</page-layout>
+		<system-layout>
+			<system-margins>
+				<left-margin>15</left-margin>
+				<right-margin>0</right-margin>
+			</system-margins>
+			<system-distance>92.5</system-distance>
+			<top-system-distance>27.5</top-system-distance>
+		</system-layout>
+		<staff-layout>
+			<staff-distance>70</staff-distance>
+		</staff-layout>
+		<?DoletSibelius StaffJustificationPercentage=100?>
+		<appearance>
+			<line-width type='beam'>5</line-width>
+			<line-width type='heavy barline'>5</line-width>
+			<line-width type='leger'>1.5625</line-width>
+			<line-width type='light barline'>1.5625</line-width>
+			<line-width type='slur middle'>2.1875</line-width>
+			<line-width type='slur tip'>0.625</line-width>
+			<line-width type='staff'>0.9375</line-width>
+			<line-width type='stem'>0.9375</line-width>
+			<line-width type='tie middle'>2.1875</line-width>
+			<line-width type='tie tip'>0.625</line-width>
+			<note-size type='grace'>60</note-size>
+			<note-size type='cue'>75</note-size>
+		</appearance>
+		<music-font font-family='Helsinki Std,music'/>
+		<word-font font-family='Plantin MT Std'/>
+	</defaults>
+	<part-list>
+		<score-part id='P1'>
+			<part-name>Voice</part-name>
+			<part-abbreviation print-object='no'>Voice</part-abbreviation>
+			<score-instrument id='P1-I1'>
+				<instrument-name>Voice</instrument-name>
+				<instrument-abbreviation>Voice</instrument-abbreviation>
+				<instrument-sound>voice.vocals</instrument-sound>
+				<ensemble/>
+			</score-instrument>
+			<midi-instrument id='P1-I1'>
+				<volume>79</volume>
+				<pan>0</pan>
+			</midi-instrument>
+		</score-part>
+	</part-list>
+<!--=========================================================-->
+	<part id='P1'>
+		<measure number='1'>
+			<print>
+				<system-layout>
+					<system-margins>
+						<left-margin>77.1875</left-margin>
+						<right-margin>0</right-margin>
+					</system-margins>
+					<top-system-distance>410.9375</top-system-distance>
+				</system-layout>
+				<staff-layout>
+					<?DoletSibelius ExtraSpacesAbove=3?>
+					<?DoletSibelius ExtraSpacesBelow=3?>
+				</staff-layout>
+			</print>
+			<attributes>
+				<divisions>768</divisions>
+				<key>
+					<fifths>0</fifths>
+					<mode>minor</mode>
+				</key>
+				<time>
+					<beats>4</beats>
+					<beat-type>4</beat-type>
+				</time>
+				<clef>
+					<sign>G</sign>
+					<line>2</line>
+				</clef>
+			</attributes>
+			<harmony print-frame='no' default-y='25' relative-x='7'>
+				<root>
+					<root-step>A</root-step>
+				</root>
+				<kind text='m'>minor</kind>
+			</harmony>
+			<note>
+				<pitch>
+					<step>A</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>1536</duration>
+				<voice>1</voice>
+				<type>half</type>
+				<stem>up</stem>
+				<lyric number='1' name='verse' default-y='-80'>
+					<syllabic>single</syllabic>
+					<text>kite</text>
+				</lyric>
+			</note>
+			<note>
+				<rest/>
+				<duration>512</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<time-modification>
+					<actual-notes>3</actual-notes>
+					<normal-notes>2</normal-notes>
+				</time-modification>
+				<notations>
+					<tuplet number='1' type='start'/>
+				</notations>
+			</note>
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>512</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<time-modification>
+					<actual-notes>3</actual-notes>
+					<normal-notes>2</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<lyric number='1' name='verse' default-y='-80'>
+					<syllabic>single</syllabic>
+					<text>in</text>
+				</lyric>
+			</note>
+			<harmony print-frame='no' default-y='25' relative-x='7'>
+				<root>
+					<root-step>B</root-step>
+					<root-alter>-1</root-alter>
+				</root>
+				<kind>major</kind>
+				<degree>
+					<degree-value>9</degree-value>
+					<degree-alter>0</degree-alter>
+					<degree-type>add</degree-type>
+				</degree>
+			</harmony>
+			<note>
+				<pitch>
+					<step>F</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>512</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<time-modification>
+					<actual-notes>3</actual-notes>
+					<normal-notes>2</normal-notes>
+				</time-modification>
+				<stem>up</stem>
+				<notations>
+					<tuplet number='1' type='stop'/>
+				</notations>
+				<lyric number='1' name='verse' default-y='-80'>
+					<syllabic>single</syllabic>
+					<text>the</text>
+				</lyric>
+			</note>
+		</measure>
+	</part>
+<!--=========================================================-->
+</score-partwise>

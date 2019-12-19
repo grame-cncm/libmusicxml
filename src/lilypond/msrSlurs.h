@@ -36,7 +36,7 @@ class msrSlur : public msrElement
       kRegularSlurStop, kPhrasingSlurStop};
     
     static string slurTypeKindAsString (
-      msrSlurTypeKind slurKindKind);
+      msrSlurTypeKind slurKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
@@ -99,7 +99,7 @@ class msrSlur : public msrElement
 
     string                asString () const;
 
-    virtual void          print (ostream& os);
+    virtual void          print (ostream& os) const;
 
   private:
 
