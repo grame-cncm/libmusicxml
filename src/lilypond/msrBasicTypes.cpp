@@ -13304,8 +13304,7 @@ string msrMargin::asString () const
 void msrMargin::print (ostream& os) const
 {
   os <<
-    asString () <<
-    endl;
+    asString ();
 };
 
 ostream& operator<< (ostream& os, const S_msrMargin& elt)

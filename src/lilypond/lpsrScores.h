@@ -371,9 +371,7 @@ class lpsrScore : public lpsrElement
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
 
-    // geometry
-    S_lpsrGeometry        fLpsrGeometry;
-
+    // scaling
     S_lpsrSchemeVariable  fScoreGlobalStaffSizeSchemeVariable; // JMI
 
     // LilyPond stuff

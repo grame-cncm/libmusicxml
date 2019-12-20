@@ -173,7 +173,7 @@ class traceOah : public oahGroup
 
     // passes
     bool                  fTracePasses;
-    // geometry
+    // scaling
     bool                  fTraceGeometry;
     // varValAssocs
     bool                  fTraceVarValAssocs; // specialize ??? JMI

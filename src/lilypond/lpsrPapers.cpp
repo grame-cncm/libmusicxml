@@ -29,28 +29,28 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_lpsrPaper lpsrPaper::create (
-  int            inputLineNumber,
-  S_lpsrGeometry theLpsrGeometry)
+  int           inputLineNumber,
+  S_msrScaling theMsrScaling)
 {
   lpsrPaper* o =
     new lpsrPaper (
       inputLineNumber,
-      theLpsrGeometry);
+      theMsrScaling);
   assert(o!=0);
   return o;
 }
 
 lpsrPaper::lpsrPaper (
-  int            inputLineNumber,
-  S_lpsrGeometry theLpsrGeometry)
+  int           inputLineNumber,
+  S_msrScaling theMsrScaling)
     : lpsrElement (inputLineNumber)
 {
   // sanity check
   msrAssert (
-    theLpsrGeometry != nullptr,
-    "theLpsrGeometry is null");
+    theMsrScaling != nullptr,
+    "theMsrScaling is null");
 
-  fLpsrGeometry = theLpsrGeometry;
+  fMsrScaling = theMsrScaling;
 
   fPageCount = -1;
   fSystemCount = -1;
@@ -62,7 +62,7 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
     newbornClone =
       lpsrPaper::create (
         fInputLineNumber,
-        fLpsrGeometry);
+        fMsrScaling);
 
   // indents
   newbornClone->fHorizontalShift =
@@ -164,10 +164,10 @@ void lpsrPaper::browseData (basevisitor* v)
   }
 #endif
 
-  // browse the LPSR geometry
-  if (fLpsrGeometry) {
-    msrBrowser<lpsrGeometry> browser (v);
-    browser.browse (*fLpsrGeometry);
+  // browse the LPSR scaling
+  if (fMsrScaling) {
+    msrBrowser<msrScaling> browser (v);
+    browser.browse (*fMsrScaling);
   }
 
 #ifdef TRACE_OAH

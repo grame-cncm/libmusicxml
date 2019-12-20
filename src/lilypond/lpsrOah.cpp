@@ -1282,6 +1282,22 @@ The default is 'DEFAULT_VALUE'.)",
         "lengthUnitKind",
         fLengthUnitKind));
 
+  // paper height
+
+  // fPaperHeight is 0.0 mm by default
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahLengthAtom::create (
+        "paper-height", "",
+R"(Set the LilyPond 'paper-height' paper variable to HEIGHT in the LilyPond code.
+HEIGHT should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+LilyPond's default value is 210 mm (A4 format).)",
+        "HEIGHT",
+        "paperHeight",
+        fPaperHeight));
+
   // paper width
 
   // fPaperWidth is 0.0 mm by default
@@ -1297,22 +1313,6 @@ LilyPond's default value is 297 mm (A4 format).)",
         "WIDTH",
         "paperWidth",
         fPaperWidth));
-
-  // paper height
-
-  // fPaperHeight is 0.0 mm by default
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthAtom::create (
-        "paper-height", "",
-R"(Set the LilyPond 'paper-width' paper variable to HEIGHT in the LilyPond code.
-HEIGHT should be a positive floating point or integer number,
-immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-LilyPond's default value is 210 mm (A4 format).)",
-        "HEIGHT",
-        "paperHeight",
-        fPaperHeight));
 
   // indent
 
@@ -1827,10 +1827,10 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   clone->fLengthUnitKindDefaultValue =
     fLengthUnitKindDefaultValue;
 
-  clone->fPaperWidth =
-    fPaperWidth;
   clone->fPaperHeight =
     fPaperHeight;
+  clone->fPaperWidth =
+    fPaperWidth;
 
   clone->fPaperIndent =
     fPaperIndent;
@@ -2135,11 +2135,11 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
     msrLengthUnitKindAsString (fLengthUnitKind) <<
     endl <<
 
-    setw (fieldWidth) << "paperWidth" << " : " <<
-    fPaperWidth.asString () <<
-    endl <<
     setw (fieldWidth) << "paperHeight" << " : " <<
     fPaperHeight.asString () <<
+    endl <<
+    setw (fieldWidth) << "paperWidth" << " : " <<
+    fPaperWidth.asString () <<
     endl <<
 
     setw (fieldWidth) << "paperIndent" << " : " <<

@@ -174,7 +174,7 @@ lpsrScore::lpsrScore (
 
   // create the global staff size variable
   // too early to benefit from gLpsrOah->fGlobalStaffSize... JMI
-  // needs to be updated later in msrGeometry::globalStaffSize()
+  // needs to be updated later in msrScaling::globalStaffSize()
   fScoreGlobalStaffSizeSchemeVariable =
     lpsrSchemeVariable::create (
       inputLineNumber,
@@ -244,17 +244,11 @@ lpsrScore::lpsrScore (
     lpsrHeader::create (
       inputLineNumber);
 
-  // create the geometry
-  fLpsrGeometry =
-    lpsrGeometry::create (
-      inputLineNumber,
-      fMsrScore->getMsrGeometry ());
-
   // create the paper
   fScorePaper =
     lpsrPaper::create (
       inputLineNumber,
-      fLpsrGeometry);
+      fMsrScore->getMsrScaling ());
 
   if (gLilypondOah->fLilypondCompileDate) {
     // define headers and footers

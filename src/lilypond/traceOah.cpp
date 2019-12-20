@@ -2075,15 +2075,15 @@ R"(Write a trace of the passes to standard error.)",
     addBooleanAtom (
       tracePassesBooleanAtom);
 
-  // geometry
+  // scaling
 
   fTraceGeometry = boolOptionsInitialValue;
 
   S_oahTwoBooleansAtom
     traceGeometryBooleanAtom =
       oahTwoBooleansAtom::create (
-        "tgeom", "trace-geometry",
-R"(Geometry)",
+        "tgeom", "trace-scaling",
+R"(Scaling)",
         "traceGeometry",
         fTraceGeometry,
         fTracePasses);
@@ -2274,7 +2274,7 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   // credits
   clone->fTraceCredits = true;
 
-  // geometry
+  // scaling
   clone->fTraceGeometry = true;
 
   // part groups
@@ -2494,7 +2494,7 @@ void traceOah::setAllGeneralTraceOah (
   // credits
   clone->fTraceCredits = boolOptionsInitialValue;
 
-  // geometry
+  // scaling
   fTraceGeometry = boolOptionsInitialValue;
 
   // part groups
@@ -2820,7 +2820,7 @@ void traceOah::printAtomOptionsValues (
     booleanAsString (fTraceCredits) <<
     endl <<
 
-    // geometry
+    // scaling
     setw (valueFieldWidth) << "traceGeometry" << " : " <<
     booleanAsString (fTraceGeometry) <<
     endl <<
@@ -3248,7 +3248,7 @@ void traceOah::printTraceOahValues (int fieldWidth)
     booleanAsString (fTraceCredits) <<
     endl <<
 
-    // geometry
+    // scaling
     setw (fieldWidth) << "traceGeometry" << " : " <<
     booleanAsString (fTraceGeometry) <<
     endl <<

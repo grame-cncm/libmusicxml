@@ -103,9 +103,9 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrVarValsListAssoc>,
   public visitor<S_lpsrSchemeVariable>,
 
-  // LPSR geometry
+  // MSR scaling
 
-  public visitor<S_lpsrGeometry>,
+  public visitor<S_msrScaling>,
 
   // header
 
@@ -150,10 +150,6 @@ class lpsr2LilypondTranslator :
   // MSR score
 
   public visitor<S_msrScore>,
-
-  // MSR geometry
-
-  public visitor<S_msrGeometry>,
 
   // MSR page layout
 
@@ -358,8 +354,8 @@ class lpsr2LilypondTranslator :
 
     lpsr2LilypondTranslator (
       S_lpsrScore      lpsrScore,
-      S_msrOah&    msrOpts,
-      S_lpsrOah&   lpsrOpts,
+      S_msrOah&        msrOpts,
+      S_lpsrOah&       lpsrOpts,
       indentedOstream& logOstream,
       indentedOstream& lilypondCodeOstream);
 
@@ -382,10 +378,6 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_lpsrSchemeVariable& elt);
     virtual void visitEnd   (S_lpsrSchemeVariable& elt);
-
-    // geometry
-    virtual void visitStart (S_lpsrGeometry& elt);
-    virtual void visitEnd   (S_lpsrGeometry& elt);
 
     virtual void visitStart (S_lpsrHeader& elt);
     virtual void visitEnd   (S_lpsrHeader& elt);
@@ -448,10 +440,10 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
-    // MSR geometry
+    // MSR scaling
 
-    virtual void visitStart (S_msrGeometry& elt);
-    virtual void visitEnd   (S_msrGeometry& elt);
+    virtual void visitStart (S_msrScaling& elt);
+    virtual void visitEnd   (S_msrScaling& elt);
 
      // MSR page layout
 
@@ -1008,7 +1000,7 @@ class lpsr2LilypondTranslator :
 
     // current ongoing values display
     // ------------------------------------------------------
-    void                      displayCurrentOnGoingValues ();
+    void                  displayCurrentOnGoingValues ();
 };
 
 

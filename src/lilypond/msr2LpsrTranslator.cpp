@@ -191,7 +191,7 @@ void msr2LpsrTranslator::displayCurrentOnGoingValues ()
 
 //________________________________________________________________________
 void msr2LpsrTranslator::setPaperIndentsIfNeeded (
-  S_msrGeometry geometry)
+  S_msrScaling scaling)
 {
   S_lpsrPaper
     paper =
@@ -247,7 +247,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
     // get the paper width
     S_msrLength
       paperWidth =
-        geometry->
+        scaling->
           getPageLayout ()->
             getPageWidth ();
 
@@ -745,7 +745,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
   // set ident and short indent if needed
   setPaperIndentsIfNeeded (
-    elt->getMsrGeometry ());
+    elt->getMsrScaling ());
 
 /* JMI
   // get top level partgroup block from the stack
@@ -804,12 +804,12 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
+void msr2LpsrTranslator::visitStart (S_msrScaling& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrGeometry" <<
+      "--> Start visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -817,14 +817,14 @@ void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
 
   gIndenter++;
 
-  // create a geometry clone
-  S_msrGeometry
+  // create a scaling clone
+  S_msrScaling
     geometryClone =
-      elt->createMsrGeometryNewbornClone ();
+      elt->createMsrScalingNewbornClone ();
 
   // register it in current MSR score clone
   fCurrentMsrScoreClone->
-    setMsrGeometry (
+    setMsrScaling (
       geometryClone);
 
   // get LPSR score paper
@@ -970,14 +970,14 @@ void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
     addSchemeVariable (assoc);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrGeometry& elt)
+void msr2LpsrTranslator::visitEnd (S_msrScaling& elt)
 {
   gIndenter--;
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrGeometry" <<
+      "--> End visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

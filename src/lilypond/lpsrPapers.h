@@ -16,7 +16,9 @@
 #include <string>
 #include <iostream>
 
-#include "lpsrGeometry.h"
+#include "msrScaling.h"
+
+#include "lpsrElements.h"
 
 #include "messagesHandling.h"
 
@@ -35,8 +37,8 @@ class lpsrPaper : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPaper> create (
-      int            inputLineNumber,
-      S_lpsrGeometry theLpsrGeometry);
+      int           inputLineNumber,
+      S_msrScaling theMsrScaling);
 
     SMARTP<lpsrPaper> createPaperNewbornClone ();
 
@@ -46,8 +48,8 @@ class lpsrPaper : public lpsrElement
     // ------------------------------------------------------
 
     lpsrPaper (
-      int            inputLineNumber,
-      S_lpsrGeometry theLpsrGeometry);
+      int           inputLineNumber,
+      S_msrScaling theMsrScaling);
 
     virtual ~lpsrPaper ();
 
@@ -56,11 +58,11 @@ class lpsrPaper : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // LPSR geometry
-    void                  setLpsrGeometry (S_lpsrGeometry value)
-                              { fLpsrGeometry = value; }
-    S_lpsrGeometry        getLpsrGeometry () const
-                            { return fLpsrGeometry; }
+    // LPSR scaling
+    void                  setMsrScaling (S_msrScaling value)
+                              { fMsrScaling = value; }
+    S_msrScaling         getMsrScaling () const
+                            { return fMsrScaling; }
 
     // indents
     void                  setHorizontalShift (S_msrLength value)
@@ -153,8 +155,8 @@ class lpsrPaper : public lpsrElement
     // fields
     // ------------------------------------------------------
 
-    // LPSR geometry
-    S_lpsrGeometry        fLpsrGeometry;
+    // LPSR scaling
+    S_msrScaling         fMsrScaling;
 
     // indents
     S_msrLength           fHorizontalShift;

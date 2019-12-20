@@ -550,8 +550,8 @@ class lpsrOah : public oahGroup
     msrLengthUnitKind     fLengthUnitKind;
     msrLengthUnitKind     fLengthUnitKindDefaultValue;
 
-    msrLength             fPaperWidth;
     msrLength             fPaperHeight;
+    msrLength             fPaperWidth;
 
     msrLength             fPaperIndent;
     msrLength             fPaperShortIndent;

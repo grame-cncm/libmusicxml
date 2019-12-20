@@ -1752,7 +1752,7 @@ lilypondOah::lilypondOah (
   S_oahHandler handlerUpLink)
   : oahGroup (
       "LilyPond",
-      "hlp", "help-lilypond",
+      "hlily", "help-lilypond",
   R"(These lilypond control which LilyPond code is generated.)",
       kElementVisibilityAlways,
       handlerUpLink)

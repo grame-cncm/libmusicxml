@@ -1122,11 +1122,11 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValsListAssoc& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrGeometry& elt)
+void msr2SummaryVisitor::visitStart (S_msrScaling& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> Start visiting msrGeometry" <<
+      "--> Start visiting msrScaling" <<
       endl;
   }
 
@@ -1134,11 +1134,11 @@ void msr2SummaryVisitor::visitStart (S_msrGeometry& elt)
     elt;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrGeometry& elt)
+void msr2SummaryVisitor::visitEnd (S_msrScaling& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> End visiting msrGeometry" <<
+      "--> End visiting msrScaling" <<
       endl;
   }
 }

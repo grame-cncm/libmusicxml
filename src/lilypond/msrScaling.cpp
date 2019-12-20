@@ -14,7 +14,7 @@
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
-#include "msrGeometry.h"
+#include "msrScaling.h"
 
 #include "generalOah.h"
 
@@ -35,17 +35,17 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msrGeometry msrGeometry::create (
+S_msrScaling msrScaling::create (
   int inputLineNumber)
 {
-  msrGeometry* o =
-    new msrGeometry (
+  msrScaling* o =
+    new msrScaling (
       inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-msrGeometry::msrGeometry (
+msrScaling::msrScaling (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
@@ -57,14 +57,14 @@ msrGeometry::msrGeometry (
       inputLineNumber);
 }
 
-msrGeometry::~msrGeometry ()
+msrScaling::~msrScaling ()
 {}
 
-S_msrGeometry msrGeometry::createMsrGeometryNewbornClone ()
+S_msrScaling msrScaling::createMsrScalingNewbornClone ()
 {
-  S_msrGeometry
+  S_msrScaling
     newbornClone =
-      msrGeometry::create (
+      msrScaling::create (
         fInputLineNumber);
 
   newbornClone->fMillimeters =
@@ -78,7 +78,7 @@ S_msrGeometry msrGeometry::createMsrGeometryNewbornClone ()
   return newbornClone;
 }
 
-float msrGeometry::fetchGlobalStaffSize () const
+float msrScaling::fetchGlobalStaffSize () const
 {
   const float optionsGlobalStaffSize =
     gLpsrOah->fGlobalStaffSize;
@@ -145,56 +145,56 @@ float msrGeometry::fetchGlobalStaffSize () const
   return staffSize;
 }
 
-void msrGeometry::acceptIn (basevisitor* v)
+void msrScaling::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrGeometry::acceptIn ()" <<
+      "% ==> msrScaling::acceptIn ()" <<
       endl;
   }
 
-  if (visitor<S_msrGeometry>*
+  if (visitor<S_msrScaling>*
     p =
-      dynamic_cast<visitor<S_msrGeometry>*> (v)) {
-        S_msrGeometry elem = this;
+      dynamic_cast<visitor<S_msrScaling>*> (v)) {
+        S_msrScaling elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrGeometry::visitStart ()" <<
+            "% ==> Launching msrScaling::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrGeometry::acceptOut (basevisitor* v)
+void msrScaling::acceptOut (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrGeometry::acceptOut ()" <<
+      "% ==> msrScaling::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrGeometry>*
+  if (visitor<S_msrScaling>*
     p =
-      dynamic_cast<visitor<S_msrGeometry>*> (v)) {
-        S_msrGeometry elem = this;
+      dynamic_cast<visitor<S_msrScaling>*> (v)) {
+        S_msrScaling elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrGeometry::visitEnd ()" <<
+            "% ==> Launching msrScaling::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrGeometry::browseData (basevisitor* v)
+void msrScaling::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
-      "% ==> msrGeometry::browseData ()" <<
+      "% ==> msrScaling::browseData ()" <<
       endl;
   }
 #endif
@@ -208,16 +208,16 @@ void msrGeometry::browseData (basevisitor* v)
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
-      "% <== msrGeometry::browseData ()" <<
+      "% <== msrScaling::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void msrGeometry::print (ostream& os) const
+void msrScaling::print (ostream& os) const
 {
   os <<
-    "Geometry" <<
+    "Scaling" <<
     endl;
 
   gIndenter++;
@@ -240,7 +240,8 @@ void msrGeometry::print (ostream& os) const
     setw (fieldWidth) <<
     "pageLayout" << " : ";
     if (fPageLayout) {
-      os << fPageLayout;
+      os <<
+        fPageLayout;
     }
     else {
       os << "none";
@@ -250,7 +251,7 @@ void msrGeometry::print (ostream& os) const
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrGeometry& elt) {
+ostream& operator<< (ostream& os, const S_msrScaling& elt) {
   elt->print (os);
   return os;
 }

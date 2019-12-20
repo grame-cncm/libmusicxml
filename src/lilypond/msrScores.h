@@ -19,7 +19,8 @@
 #include <set>
 
 #include "msrIdentification.h"
-#include "msrGeometry.h"
+#include "msrScaling.h"
+#include "msrLayouts.h"
 #include "msrCredits.h"
 
 
@@ -67,12 +68,19 @@ class msrScore : public msrElement
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
 
-    void                  setMsrGeometry (
-                            S_msrGeometry geometry)
-                              { fMsrGeometry = geometry; }
+    void                  setMsrScaling (
+                            S_msrScaling scaling)
+                              { fMsrScaling = scaling; }
 
-    S_msrGeometry         getMsrGeometry () const
-                              { return fMsrGeometry; }
+    S_msrScaling          getMsrScaling () const
+                              { return fMsrScaling; }
+
+    void                  setMsrPageLayout (
+                            S_msrPageLayout pageLayout)
+                              { fMsrPageLayout = pageLayout; }
+
+    S_msrPageLayout       getMsrPageLayout () const
+                              { return fMsrPageLayout; }
 
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
@@ -221,7 +229,9 @@ class msrScore : public msrElement
 
     S_msrIdentification   fIdentification;
 
-    S_msrGeometry         fMsrGeometry;
+    S_msrScaling          fMsrScaling;
+
+    S_msrPageLayout       fMsrPageLayout;
 
     list<S_msrCredit>     fCreditsList;
 

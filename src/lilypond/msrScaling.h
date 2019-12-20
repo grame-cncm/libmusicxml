@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___msrGeometry___
-#define ___msrGeometry___
+#ifndef ___msrScaling___
+#define ___msrScaling___
 
 #include "msrElements.h"
 
@@ -24,27 +24,27 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrGeometry : public msrElement
+class msrScaling : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrGeometry> create (
+    static SMARTP<msrScaling> create (
       int inputLineNumber);
 
-    SMARTP<msrGeometry> createMsrGeometryNewbornClone ();
+    SMARTP<msrScaling> createMsrScalingNewbornClone ();
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGeometry (
+    msrScaling (
       int inputLineNumber);
 
-    virtual ~msrGeometry ();
+    virtual ~msrScaling ();
 
   public:
 
@@ -105,8 +105,8 @@ class msrGeometry : public msrElement
     // page layout
     S_msrPageLayout       fPageLayout;
 };
-typedef SMARTP<msrGeometry> S_msrGeometry;
-EXP ostream& operator<< (ostream& os, const S_msrGeometry& elt);
+typedef SMARTP<msrScaling> S_msrScaling;
+EXP ostream& operator<< (ostream& os, const S_msrScaling& elt);
 
 
 } // namespace MusicXML2

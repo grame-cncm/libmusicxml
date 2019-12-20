@@ -52,9 +52,14 @@ msrScore::msrScore (
     msrIdentification::create (
       inputLineNumber);
 
-  // create the geometry
-  fMsrGeometry =
-    msrGeometry::create (
+  // create the scaling
+  fMsrScaling =
+    msrScaling::create (
+      inputLineNumber);
+
+  // create the MSR page layout
+  fMsrPageLayout =
+    msrPageLayout::create (
       inputLineNumber);
 
   // number of measures
@@ -510,10 +515,16 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fIdentification);
   }
 
-  if (fMsrGeometry) {
-    // browse geometry
-    msrBrowser<msrGeometry> browser (v);
-    browser.browse (*fMsrGeometry);
+  if (fMsrScaling) {
+    // browse scaling
+    msrBrowser<msrScaling> browser (v);
+    browser.browse (*fMsrScaling);
+  }
+
+  if (fMsrPageLayout) {
+    // browse MSR page layout
+    msrBrowser<msrPageLayout> browser (v);
+    browser.browse (*fMsrPageLayout);
   }
 
   for (
@@ -606,10 +617,16 @@ void msrScore::print (ostream& os) const
       fIdentification;
   }
 
-  // print the geometry if any
-  if (fMsrGeometry) {
+  // print the MSR scaling if any
+  if (fMsrScaling) {
     os <<
-      fMsrGeometry;
+      fMsrScaling;
+  }
+
+  // print the MSR page layout if any
+  if (fMsrPageLayout) {
+    os <<
+      fMsrPageLayout;
   }
 
   // print the credits if any
@@ -735,10 +752,10 @@ void msrScore::printSummary (ostream& os)
       fIdentification;
   }
 
-  // print the geometry if any
-  if (fMsrGeometry) {
+  // print the scaling if any
+  if (fMsrScaling) {
     os <<
-      fMsrGeometry;
+      fMsrScaling;
   }
 
   // print the credits if any

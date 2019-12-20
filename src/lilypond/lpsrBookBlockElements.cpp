@@ -587,7 +587,7 @@ lpsrBookBlock::lpsrBookBlock (
 
   // don't create the book block element paper
   // it will be created as a new born clone of the the one in the lpsrScore
-  // when the geometry is handled in visitStart (S_msrGeometry&)
+  // when the scaling is handled in visitStart (S_msrScaling&)
 }
 
 lpsrBookBlock::~lpsrBookBlock ()

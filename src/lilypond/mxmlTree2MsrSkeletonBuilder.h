@@ -154,7 +154,7 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_miscellaneous>,
   public visitor<S_miscellaneous_field>,
 
-  // geometry
+  // scaling
   // ------------------------------------------------------
 
   public visitor<S_millimeters>,
@@ -332,7 +332,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
 
 
-    // geometry
+    // scaling
     // ------------------------------------------------------
 
     // scaling, margins, layout, divider JMI
@@ -462,7 +462,7 @@ class mxmlTree2MsrSkeletonBuilder :
     S_msrScore                fMsrScore;
 
 
-    // geometry handling
+    // scaling handling
     // ------------------------------------------------------
 
     float                     fCurrentMillimeters;

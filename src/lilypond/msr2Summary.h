@@ -76,7 +76,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrVarValAssoc>,
   public visitor<S_msrVarValsListAssoc>,
 
-  public visitor<S_msrGeometry>,
+  public visitor<S_msrScaling>,
   public visitor<S_msrPageLayout>,
 
   public visitor<S_msrMidiTempo>
@@ -178,8 +178,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
-    virtual void visitStart (S_msrGeometry& elt);
-    virtual void visitEnd   (S_msrGeometry& elt);
+    virtual void visitStart (S_msrScaling& elt);
+    virtual void visitEnd   (S_msrScaling& elt);
 
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);

@@ -140,8 +140,8 @@ void lpsr2LilypondTranslator::setCurrentOctaveEntryReferenceFromTheLilypondOah (
 //________________________________________________________________________
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_lpsrScore      lpsrScore,
-  S_msrOah&    msrOpts,
-  S_lpsrOah&   lpsrOpts,
+  S_msrOah&        msrOpts,
+  S_lpsrOah&       lpsrOpts,
   indentedOstream& logOstream,
   indentedOstream& lilypondCodeOstream)
     : fLogOutputStream (
@@ -4496,33 +4496,6 @@ string lpsr2LilypondTranslator::lengthUnitAsLilypondString (
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_lpsrGeometry& elt)
-{
-#ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
-    fLilypondCodeOstream <<
-      "% --> Start visiting lpsrGeometry" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-void lpsr2LilypondTranslator::visitEnd (S_lpsrGeometry& elt)
-{
-  gIndenter--;
-
-#ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
-    fLilypondCodeOstream <<
-      "% --> End visiting lpsrGeometry" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 {
 #ifdef TRACE_OAH
@@ -4716,20 +4689,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   }
 #endif
 
-  // get LPSR geometry
-  S_lpsrGeometry
-    theLpsrGeometry =
-      elt->getLpsrGeometry ();
-
-  // get MSR geometry
-  S_msrGeometry
-    theMsrGeometry =
-      theLpsrGeometry->getMsrGeometry ();
-
   // get MSR page layout
   S_msrPageLayout
     pageLayout =
-      theMsrGeometry->getPageLayout ();
+      elt->getMsrScaling ()->getPageLayout ();
 
   // default length unit
   const msrLengthUnitKind
@@ -4745,51 +4708,71 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 
   // page size
   {
-    // page height
-    S_msrLength
-      pageHeight =
-        pageLayout->getPageHeight ();
+    {
+      // paper height
+      msrLength
+        paperHeight;
 
-    if (! pageHeight) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "paper-height" << " = ";
-    if (pageHeight) {
-      fLilypondCodeOstream <<
-        setprecision (3) << pageHeight->getLengthValue () <<
-        lengthUnitAsLilypondString (pageHeight->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "297.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
+      if (gLpsrOah->fPaperHeight.getLengthValue () >= 0) { // JMI BLARK
+        paperHeight =
+          gLpsrOah->fPaperHeight;
+      }
+      else {
+        paperHeight =
+          * (pageLayout->getPageHeight ()); // BLARK
+      }
 
-    // page width
-    S_msrLength
-      pageWidth =
-        pageLayout->getPageWidth ();
+      if (paperHeight.getLengthValue () < 0.0) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "paper-height" << " = ";
+      if (paperHeight.getLengthValue () >= 0.0) {
+        fLilypondCodeOstream <<
+          setprecision (3) << paperHeight.getLengthValue () <<
+          lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "297.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
+    }
 
-    if (! pageWidth) {
-      fLilypondCodeOstream << "%";
+    {
+      // paper width
+      msrLength
+        paperWidth;
+
+      if (gLpsrOah->fPaperWidth.getLengthValue () >= 0) { // JMI BLARK
+        paperWidth =
+          gLpsrOah->fPaperWidth;
+      }
+      else {
+        paperWidth =
+          * (pageLayout->getPageWidth ()); // BLARK
+      }
+
+      if (paperWidth.getLengthValue () < 0.0) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "paper-width" << " = ";
+      if (paperWidth.getLengthValue () >= 0.0) {
+        fLilypondCodeOstream <<
+          setprecision (3) << paperWidth.getLengthValue () <<
+          lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "210.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
     }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "paper-width" << " = ";
-    if (pageWidth) {
-      fLilypondCodeOstream <<
-        setprecision (3) << pageWidth->getLengthValue () <<
-        lengthUnitAsLilypondString (pageWidth->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "210.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
   }
 
   // separator
@@ -5195,13 +5178,13 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
     gTab << "\\Voice" <<
     endl;
 
-  if (gLilypondOah->fCustosEngraver) {
+  if (gLilypondOah->fAmbitusEngraver) {
     fLilypondCodeOstream <<
         gTab << "\\consists \"Ambitus_engraver\"" <<
         endl;
   }
 
-  if (gLilypondOah->fAmbitusEngraver) {
+  if (gLilypondOah->fCustosEngraver) {
     fLilypondCodeOstream <<
         gTab << "\\consists \"Custos_engraver\"" <<
         endl;
@@ -6811,24 +6794,24 @@ void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrGeometry& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrScaling& elt)
 {
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
-      "% --> Start visiting msrGeometry" <<
+      "% --> Start visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 #endif
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrGeometry& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrScaling& elt)
 {
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
-      "% --> End visiting msrGeometry" <<
+      "% --> End visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
