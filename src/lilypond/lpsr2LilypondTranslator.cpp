@@ -4692,7 +4692,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   // get MSR page layout
   S_msrPageLayout
     pageLayout =
-      elt->getMsrScaling ()->getPageLayout ();
+      elt->getPageLayout ();
 
   // default length unit
   const msrLengthUnitKind

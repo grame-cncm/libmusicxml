@@ -53,12 +53,12 @@ msrScore::msrScore (
       inputLineNumber);
 
   // create the scaling
-  fMsrScaling =
+  fScaling =
     msrScaling::create (
       inputLineNumber);
 
-  // create the MSR page layout
-  fMsrPageLayout =
+  // create the page layout
+  fPageLayout =
     msrPageLayout::create (
       inputLineNumber);
 
@@ -515,16 +515,16 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fIdentification);
   }
 
-  if (fMsrScaling) {
+  if (fScaling) {
     // browse scaling
     msrBrowser<msrScaling> browser (v);
-    browser.browse (*fMsrScaling);
+    browser.browse (*fScaling);
   }
 
-  if (fMsrPageLayout) {
-    // browse MSR page layout
+  if (fPageLayout) {
+    // browse page layout
     msrBrowser<msrPageLayout> browser (v);
-    browser.browse (*fMsrPageLayout);
+    browser.browse (*fPageLayout);
   }
 
   for (
@@ -617,16 +617,16 @@ void msrScore::print (ostream& os) const
       fIdentification;
   }
 
-  // print the MSR scaling if any
-  if (fMsrScaling) {
+  // print the scaling if any
+  if (fScaling) {
     os <<
-      fMsrScaling;
+      fScaling;
   }
 
-  // print the MSR page layout if any
-  if (fMsrPageLayout) {
+  // print the page layout if any
+  if (fPageLayout) {
     os <<
-      fMsrPageLayout;
+      fPageLayout;
   }
 
   // print the credits if any
@@ -753,9 +753,9 @@ void msrScore::printSummary (ostream& os)
   }
 
   // print the scaling if any
-  if (fMsrScaling) {
+  if (fScaling) {
     os <<
-      fMsrScaling;
+      fScaling;
   }
 
   // print the credits if any

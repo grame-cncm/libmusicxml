@@ -744,8 +744,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   }
 
   // set ident and short indent if needed
-  setPaperIndentsIfNeeded (
-    elt->getMsrScaling ());
+  setPaperIndentsIfNeeded ( // JMI ??? BLARK
+    elt->getScaling ());
 
 /* JMI
   // get top level partgroup block from the stack
@@ -823,8 +823,8 @@ void msr2LpsrTranslator::visitStart (S_msrScaling& elt)
       elt->createMsrScalingNewbornClone ();
 
   // register it in current MSR score clone
-  fCurrentMsrScoreClone->
-    setMsrScaling (
+  fCurrentMsrScoreClone-> // JMI BLARK ???
+    setScaling (
       geometryClone);
 
   // get LPSR score paper

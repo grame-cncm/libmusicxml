@@ -2264,7 +2264,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
   fCurrentMillimeters = (float)(*elt);
 
   fMsrScore->
-    getMsrScaling ()->
+    getScaling ()->
       setMillimeters (fCurrentMillimeters);
 }
 
@@ -2280,7 +2280,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
   fCurrentTenths = (int)(*elt);
 
   fMsrScore->
-    getMsrScaling ()->
+    getScaling ()->
       setTenths (fCurrentTenths);
 }
 
@@ -2299,7 +2299,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
       " millimeters, hence the global staff size is " <<
-      fMsrScore->getMsrScaling ()->fetchGlobalStaffSize () <<
+      fMsrScore->getScaling ()->fetchGlobalStaffSize () <<
       endl;
   }
 #endif
@@ -2404,7 +2404,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
     float systemDistanceTenths = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setBetweenSystemSpace (
             msrLength::create (
@@ -2445,7 +2445,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
     float topSystemDistanceTenths = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         setPageTopSpace (
           msrLength::create (
             kMillimeterUnit,
@@ -2569,7 +2569,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
     float pageHeight = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setPageHeight (
             msrLength::create (
@@ -2598,7 +2598,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
     float pageWidth = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setPageWidth (
             msrLength::create (
@@ -2686,7 +2686,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
     float leftMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setLeftMargin (
             msrMargin::create (
@@ -2700,7 +2700,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
 /* JMI
     float leftMargin = (float)(*elt);
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setLeftMargin (
             msrMargin::create (
@@ -2732,7 +2732,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
     float rightMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setRightMargin (
             msrMargin::create (
@@ -2746,7 +2746,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
 /* JMI
     float rightMargin = (float)(*elt);
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setRightMargin (
             msrMargin::create (
@@ -2778,7 +2778,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
     float topMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setTopMargin (
             msrMargin::create (
@@ -2809,7 +2809,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
     float bottomMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrScaling ()->
+      getScaling ()->
         getPageLayout ()->
           setBottomMargin (
             msrMargin::create (

@@ -37,8 +37,9 @@ class lpsrPaper : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPaper> create (
-      int           inputLineNumber,
-      S_msrScaling theMsrScaling);
+      int             inputLineNumber,
+      S_msrScaling    scaling,
+      S_msrPageLayout pageLayout);
 
     SMARTP<lpsrPaper> createPaperNewbornClone ();
 
@@ -48,8 +49,9 @@ class lpsrPaper : public lpsrElement
     // ------------------------------------------------------
 
     lpsrPaper (
-      int           inputLineNumber,
-      S_msrScaling theMsrScaling);
+      int             inputLineNumber,
+      S_msrScaling    scaling,
+      S_msrPageLayout pageLayout);
 
     virtual ~lpsrPaper ();
 
@@ -59,10 +61,16 @@ class lpsrPaper : public lpsrElement
     // ------------------------------------------------------
 
     // LPSR scaling
-    void                  setMsrScaling (S_msrScaling value)
-                              { fMsrScaling = value; }
-    S_msrScaling         getMsrScaling () const
-                            { return fMsrScaling; }
+    void                  setScaling (S_msrScaling value)
+                              { fScaling = value; }
+    S_msrScaling          getScaling () const
+                            { return fScaling; }
+
+    // MSR page layout
+    void                  setPageLayout (S_msrPageLayout value)
+                              { fPageLayout = value; }
+    S_msrPageLayout       getPageLayout () const
+                            { return fPageLayout; }
 
     // indents
     void                  setHorizontalShift (S_msrLength value)
@@ -155,8 +163,11 @@ class lpsrPaper : public lpsrElement
     // fields
     // ------------------------------------------------------
 
-    // LPSR scaling
-    S_msrScaling         fMsrScaling;
+    // MSR scaling
+    S_msrScaling          fScaling;
+
+    // MSR page layout
+    S_msrPageLayout       fPageLayout;
 
     // indents
     S_msrLength           fHorizontalShift;

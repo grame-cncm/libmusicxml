@@ -248,7 +248,8 @@ lpsrScore::lpsrScore (
   fScorePaper =
     lpsrPaper::create (
       inputLineNumber,
-      fMsrScore->getMsrScaling ());
+      fMsrScore->getScaling (),
+      fMsrScore->getPageLayout ());
 
   if (gLilypondOah->fLilypondCompileDate) {
     // define headers and footers

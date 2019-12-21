@@ -68,19 +68,19 @@ class msrScore : public msrElement
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
 
-    void                  setMsrScaling (
+    void                  setScaling (
                             S_msrScaling scaling)
-                              { fMsrScaling = scaling; }
+                              { fScaling = scaling; }
 
-    S_msrScaling          getMsrScaling () const
-                              { return fMsrScaling; }
+    S_msrScaling          getScaling () const
+                              { return fScaling; }
 
-    void                  setMsrPageLayout (
+    void                  setPageLayout (
                             S_msrPageLayout pageLayout)
-                              { fMsrPageLayout = pageLayout; }
+                              { fPageLayout = pageLayout; }
 
-    S_msrPageLayout       getMsrPageLayout () const
-                              { return fMsrPageLayout; }
+    S_msrPageLayout       getPageLayout () const
+                              { return fPageLayout; }
 
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
@@ -229,9 +229,9 @@ class msrScore : public msrElement
 
     S_msrIdentification   fIdentification;
 
-    S_msrScaling          fMsrScaling;
+    S_msrScaling          fScaling;
 
-    S_msrPageLayout       fMsrPageLayout;
+    S_msrPageLayout       fPageLayout;
 
     list<S_msrCredit>     fCreditsList;
 

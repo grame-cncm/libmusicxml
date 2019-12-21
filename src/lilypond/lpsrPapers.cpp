@@ -29,28 +29,35 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_lpsrPaper lpsrPaper::create (
-  int           inputLineNumber,
-  S_msrScaling theMsrScaling)
+  int             inputLineNumber,
+  S_msrScaling    scaling,
+  S_msrPageLayout pageLayout)
 {
   lpsrPaper* o =
     new lpsrPaper (
       inputLineNumber,
-      theMsrScaling);
+      scaling,
+      pageLayout);
   assert(o!=0);
   return o;
 }
 
 lpsrPaper::lpsrPaper (
-  int           inputLineNumber,
-  S_msrScaling theMsrScaling)
+  int             inputLineNumber,
+  S_msrScaling    scaling,
+  S_msrPageLayout pageLayout)
     : lpsrElement (inputLineNumber)
 {
-  // sanity check
+  // sanity checks
   msrAssert (
-    theMsrScaling != nullptr,
-    "theMsrScaling is null");
+    scaling != nullptr,
+    "scaling is null");
+  msrAssert (
+    pageLayout != nullptr,
+    "pageLayout is null");
 
-  fMsrScaling = theMsrScaling;
+  fScaling = scaling;
+  fPageLayout = pageLayout;
 
   fPageCount = -1;
   fSystemCount = -1;
@@ -62,7 +69,8 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
     newbornClone =
       lpsrPaper::create (
         fInputLineNumber,
-        fMsrScaling);
+        fScaling,
+        fPageLayout);
 
   // indents
   newbornClone->fHorizontalShift =
@@ -164,10 +172,16 @@ void lpsrPaper::browseData (basevisitor* v)
   }
 #endif
 
-  // browse the LPSR scaling
-  if (fMsrScaling) {
+  // browse the scaling
+  if (fScaling) {
     msrBrowser<msrScaling> browser (v);
-    browser.browse (*fMsrScaling);
+    browser.browse (*fScaling);
+  }
+
+  // browse the page layout
+  if (fPageLayout) {
+    msrBrowser<msrPageLayout> browser (v);
+    browser.browse (*fPageLayout);
   }
 
 #ifdef TRACE_OAH
@@ -188,6 +202,32 @@ void lpsrPaper::print (ostream& os) const
   gIndenter++;
 
   const int fieldWidth = 20;
+
+  // scaling
+
+  os << left <<
+    setw (fieldWidth) <<
+    "scaling" << " : ";
+  if (fScaling) {
+    os << fScaling;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // page layout
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageLayout" << " : ";
+  if (fPageLayout) {
+    os << fPageLayout;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 
   // indents
 
