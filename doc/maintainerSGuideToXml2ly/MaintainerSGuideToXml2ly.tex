@@ -16,7 +16,7 @@
 %\noindent
 
 \title{
-Maintainer's guide to \xmlToly\ \\[5pt]
+Maintainer's guide to \xmlToLy\ \\[5pt]
 }
 
 \newsavebox{\authorBox}
@@ -39,7 +39,9 @@ Jacques Menu
 \maketitle
 
 \abstract {
-This document presents the design principles behind \xmlToly, as well as the way to use it.
+This document presents the design principles and architecture os \xmlToLy, as well as the way to maintain it.
+
+In the \lib\ librabray, the source code specific to \xmlToLy\ can be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/src/lilypond} and \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/src/interface}.
 
 All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as \mxmlfile{basic/HelloWorld.xml}.
 }
@@ -52,24 +54,24 @@ All the examples mentioned can be downloaded from \url{https://github.com/grame-
 
 The scores fragments shown in this document have been produced by translating the '{\tt .xml}' files to \lily\ syntax, and then creating the graphical score with \lily. 
 
-The translations have been done by \xmlToly, a prototype tool developed by this author. \xmlToly\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}.
+The translations have been done by \xmlToLy, a prototype tool developed by this author. \xmlToLy\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}.
 
 The reader is invited to handle the '{\tt .xml}' file examples with their own software tools to compare the results with the ones herein.
 
 Tests with other score editing applications are mentioned in this document, namely \sib,
 \fin\ and \muse, which is open-source.
-\mxmlToly\ is mentioned too: this translator is supplied with \lily.
+\mxmlToLy\ is mentioned too: this translator is supplied with \lily.
 This author doesn't own licenses for other commercial applications such as Dorico\texttrademark\ or Capella\texttrademark.
 
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Overview of \xmlToly\ }
+\section{Overview of \xmlToLy\ }
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-\subsection{Why \xmlToly?}
+\subsection{Why \xmlToLy?}
 % -------------------------------------------------------------------------
 
 \mxml\ ({\it Music eXtended Markup Language}) is a specification language meant to represent music scores by texts, readable both by humans and computers. It has been designed by the W3C Music Notation Community Group (\url{https://www.w3.org/community/music-notation/}) to help sharing music score files between applications, through export and import mechanisms.
@@ -79,7 +81,7 @@ The homepage to \mxml\ is \url{https://www.musicxml.com}.
 \mxml\ data contains very detailed information about the music score, and it is quite verbose by nature. This makes creating such data by hand quite difficult, and this is done by applications actually.
 
 % -------------------------------------------------------------------------
-\subsection{What \xmlToly\ does}
+\subsection{What \xmlToLy\ does}
 % -------------------------------------------------------------------------
 
 

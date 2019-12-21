@@ -16,7 +16,7 @@
 %\noindent
 
 \title{
-User's guide to \xmlToly\ \\[5pt]
+User's guide to \xmlToLy\ \\[5pt]
 }
 
 \newsavebox{\authorBox}
@@ -33,13 +33,13 @@ Jacques Menu
 %University of Geneva, Switzerland}
 }
 
-\date {\normalsize \today\ version}
+\date {\normalsize \today\ \time-of-day\ version}
 %\date {}
 
 \maketitle
 
 \abstract {
-This document presents the design principles behind \xmlToly, as well as the way to use it.
+This document presents the design principles behind \xmlToLy, as well as the way to use it.
 
 All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as \mxmlfile{basic/HelloWorld.xml}.
 }
@@ -50,36 +50,32 @@ All the examples mentioned can be downloaded from \url{https://github.com/grame-
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-The scores fragments shown in this document have been produced by translating the '{\tt .xml}' files to \lily\ syntax, and then creating the graphical score with \lily. 
-
-The translations have been done by \xmlToly, a prototype tool developed by this author. \xmlToly\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}.
-
-The reader is invited to handle the '{\tt .xml}' file examples with their own software tools to compare the results with the ones herein.
-
-Tests with other score editing applications are mentioned in this document, namely \sib,
-\fin\ and \muse, which is open-source.
-\mxmlToly\ is mentioned too: this translator is supplied with \lily.
-This author doesn't own licenses for other commercial applications such as Dorico\texttrademark\ or Capella\texttrademark.
+Many thanks to Dominique Fober, the designeer and maintainer of the \lib\ library. This author would not have attempted to work on a \mxml\ to \lily\ translator without it already available.
 
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Overview of \xmlToly\ }
+\section{Overview of \xmlToLy\ }
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-\subsection{Why \xmlToly?}
+\subsection{Why \xmlToLy?}
 % -------------------------------------------------------------------------
 
-\mxml\ ({\it Music eXtended Markup Language}) is a specification language meant to represent music scores by texts, readable both by humans and computers. It has been designed by the W3C Music Notation Community Group (\url{https://www.w3.org/community/music-notation/}) to help sharing music score files between applications, through export and import mechanisms.
+\lily\ comes with \mxmlToLy, a translator of \mxml\ files to \lily\ syntax, which has some limitations. Also, being written in Python, it is not in the main stream of the \lily\ development group. The latter has much to do with C++ and Scheme code already.
 
-The homepage to \mxml\ is \url{https://www.musicxml.com}.
+After looking at the \mxmlToLy\ source code, and not being a Python developper, this author decided to go for a new translator written in C++.
 
-\mxml\ data contains very detailed information about the music score, and it is quite verbose by nature. This makes creating such data by hand quite difficult, and this is done by applications actually.
+The desing goals for \xmlToLy\ were:
+\begin{itemize}
+\item to perform at least as well as \mxmlToLy;
+\item to provide as many options as needed to adapt the \lcg\ to the user's needs.
+\end{itemize}
+
 
 % -------------------------------------------------------------------------
-\subsection{What \xmlToly\ does}
+\subsection{What \xmlToLy\ does}
 % -------------------------------------------------------------------------
 
 
