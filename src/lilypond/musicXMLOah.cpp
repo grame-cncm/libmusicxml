@@ -51,7 +51,7 @@ musicXMLOah::musicXMLOah (
   : oahGroup (
     "MusicXML",
     "hmxml", "help-musicxml",
-R"(These options control the way MusicXML data is translated.)",
+R"(These options control the way MusicXML data is translated to MSR.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {

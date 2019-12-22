@@ -6,6 +6,7 @@
 % -------------------------------------------------------------------------
 
 \usepackage{import}
+
 \subimport{../}{CommonLaTeXSettings}
 
 
@@ -40,7 +41,7 @@ University of Geneva, Switzerland}
 \maketitle
 
 \abstract {
-This document presents a basic view of \mxml\ and a couple of short examples illustrating how \mxml\ represents a music score. Our goal is to give a flavor of what \mxml\ definitions and data look like from a musician's point of view.
+This document presents a basic view of \mxml\ and a couple of short examples illustrating how \mxml\ represents a music score. Our goal is to give a flavor of what \mxml\ definitions and data look like from a musician's point of view. We use a combination of formal definitions from the \mxml\ DTD and free text explanations.
 
 All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as \mxmlfile{basic/HelloWorld.xml}.
 }
@@ -51,14 +52,16 @@ All the examples mentioned can be downloaded from \url{https://github.com/grame-
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-The scores fragments shown in this document have been produced by translating the '{\tt .xml}' files to \lily\ syntax, and then creating the graphical score with \lily. 
+\mxml\ files have been named with a '{\tt .xml}' suffix for years, until it was decided rather recently that this should be changed to '{\tt .musicxml}'. There are GUI applications that filter the file names in their '{\tt open}' or '{\tt import}' dialogs and don't know that change yet, though. We will thus stick to the '{\tt .xml}' suffix convention.
+
+The scores fragments shown in this document have been produced by translating the '{\tt .xml}' file to \lily\ syntax, and then creating the graphical score with \lily. 
 
 The translations have been done by \xmlToLy, a prototype tool developed by this author. \xmlToLy\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}.
 
 The reader is invited to handle the '{\tt .xml}' file examples with their own software tools to compare the results with the ones herein.
 
 Tests with other score editing applications are mentioned in this document, namely \sib,
-\fin\ and \muse, which is open-source.
+\fin\ and \muse\ (\url{https://musescore.org}), which is open-source.
 \mxmlToLy\ is mentioned too: this translator is supplied with \lily.
 This author doesn't own licenses for other commercial applications such as Dorico\texttrademark\ or Capella\texttrademark.
 
@@ -90,7 +93,7 @@ It seems that measure-wise descriptions have been very little used and then aban
 As a historical note, an XSL/XSLT script was supplied in the early days of \mxml\ to convert between part-wise and measure-wise representations.
 
 % -------------------------------------------------------------------------
-\subsection{\mxml's formal definition}
+\subsection{\mxml's formal definition}\label{formalDefinition}
 % -------------------------------------------------------------------------
 
 As a member of the *XML family of languages, \mxml\ is defined by a DTD ({\it Document Type Definition}), to be found at \url{https://github.com/w3c/musicxml/tree/v3.1}. 
@@ -132,6 +135,15 @@ and an example of their use:
         <duration>8</duration>
       </backup>
 \end{lstlisting}
+
+In DTDs, sub-elements can be followed by followed by one of these characters, which mean:
+\begin{itemize}
+\item'{\tt ?}': 0 or 1 occurence, i.e. optional;  
+\item'{\tt *}': 0 or more occurrences;
+\item'{\tt +}': 1 or more occurrences.
+\end{itemize}
+
+One can see in the definition of the '{\tt <forward>}' element that the '{\tt <duration>}' element is mandatory, while the '{\tt <staff>}' element is optional. The text in the DTD tells that staff 1 in implied if it not specified.
 
 The current version of the \mxml\ DTD is~3.1, and there are discussions about version~3.2.
 
@@ -199,7 +211,9 @@ Markups are called '{\tt elements}' in the \mxml\ DTD, and we shall use that ter
 \subsection{What is the semantics of \mxml\ data?}
 % -------------------------------------------------------------------------
 
-It is very difficult though to define the semantics -- the meaning of the sentences -- of an artificial language in a complete and consistent way, i.e. without omitting anything and without contradictions. 
+We've seen in section \ref{formalDefinition} that not specifying the staff number in a '{\tt forward}' element implies a value of one.
+
+It is very difficult to define the semantics -- the meaning of the sentences -- of an artificial language in a complete and consistent way, i.e. without omitting anything and without contradictions. 
 
 \mxml\ is no exception to this rule: there are things unsaid in the DTD, which leaves room to interpretation by the various applications that create or handle \mxml\ data.
 
@@ -249,8 +263,7 @@ This author has found \mxml\ files that contain '{\tt PERCUSSION}': is this to b
 
 In \schemafile{common.mod} we find:
 
-\begin{lstlisting}[language=XML]
-}
+\begin{lstlisting}[language=XML,caption={Relative lengths}]
 <!--
 	The tenths entity is a number representing tenths of
 	interline space (positive or negative) for use in
@@ -266,7 +279,7 @@ In \schemafile{common.mod} we find:
 
 In order to obtain absolute lengths for drawing, \mxml\ specifies how many tenths are equal to how many millimeters in the '{\tt <scaling>}' element, defined in \schemafile{layout.mod}:
 
-\begin{lstlisting}[language=XML]
+\begin{lstlisting}[language=XML,caption={Abolute lengths}]
 <!--
 	Version 1.1 of the MusicXML format added layout information
 	for pages, systems, staffs, and measures. These layout
@@ -342,18 +355,27 @@ Notes prolongations dots are specified with as many '{\tt <dot>}' elements as ne
 
 
 % -------------------------------------------------------------------------
+\subsection{Graphics and sound}
 % -------------------------------------------------------------------------
-\section{Elements attachments decisions}
+
+There are discrepancies between the drawn head note and the durations of the sound, as shown at section \ref{tuplets}.
+
+Some elements in \mxml\ data are specifically for MIDI support.
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Elements attachment decisions}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-It is not always easy to decide what element a given element should be attached to. Should a '{\tt <dynamics>}' element or '{\tt <metronome>}' element be attached to a note or be placed at the '{\tt <measure>}' level? Is so, should it occur before or after the note over or below which it should be displayed?
+The \mxml\ designers had to decide what element a given element should be attached to. Should a '{\tt <dynamics>}' element or '{\tt <metronome>}' element be attached to a note or be placed at the '{\tt <measure>}' level? Is so, should it occur before or after the note over or below which it should be displayed?
 
 \mxml\ defines a {\it direction} as a musical indication that is not necessarily
 	attached to a specific note. Two or more directions may be combined to
 	indicate the start and stop of wedges, dashes, and so on.
 
-For example, '{\tt <dynamics>}' elements are placed outside of '{\tt <note>}' elements in a '{\tt <direction>}' element:
+For example, '{\tt <dynamics>}' elements are placed outside of '{\tt <note>}' elements in a '{\tt <direction>}' element, at the measure level:
 \begin{lstlisting}[language=XML]
       <direction placement="below">
         <direction-type>
@@ -364,6 +386,28 @@ For example, '{\tt <dynamics>}' elements are placed outside of '{\tt <note>}' el
         <staff>1</staff>
       </direction>
 \end{lstlisting}
+
+The elements attached to notes are placed inside a '{\tt <notations>}' element, itself placed inside a '{\tt <note>}' element. Notations are defined in \schemafile{note.mod}:
+\begin{lstlisting}[language=XML, caption={Notations definition}]
+<!--
+	Notations are musical notations, not XML notations. Multiple
+	notations are allowed in order to represent multiple editorial
+	levels. The print-object attribute, added in Version 3.0,
+	allows notations to represent details of performance technique,
+	such as fingerings, without having them appear in the score.
+-->
+<!ELEMENT notations
+	(%editorial;,
+	 (tied | slur | tuplet | glissando | slide |
+	  ornaments | technical | articulations | dynamics |
+	  fermata | arpeggiate | non-arpeggiate |
+	  accidental-mark | other-notation)*)>
+<!ATTLIST notations
+    %print-object;
+    %optional-unique-id;
+>
+\end{lstlisting}
+
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -745,6 +789,7 @@ Anacruses are best specified with '{\tt 0}' as their number and the '{\tt implic
 
 One see cases where the number is 1 for anacruses, though.
 
+Measure can be much longer that the usual time signagures, see \ref{lyrics}.
 
 Staves have numbers from '{\tt 1}' up, with stave number '{\tt 1}' the top-most one in a given part.
 
@@ -766,22 +811,24 @@ The '{\tt <backup>}' is needed to move to the left before drawing the next eleme
 A note is described by a '{\tt note}' element, defined in \schemafile{note.mod}:
 \begin{lstlisting}[language=XML, caption={Note definition}]
 <!--
-	Notations are musical notations, not XML notations. Multiple
-	notations are allowed in order to represent multiple editorial
-	levels. The print-object attribute, added in Version 3.0,
-	allows notations to represent details of performance technique,
-	such as fingerings, without having them appear in the score.
+	Notes are the most common type of MusicXML data. The
+	MusicXML format keeps the MuseData distinction between
+	elements used for sound information and elements used for
+	notation information (e.g., tie is used for sound, tied for
+	notation). Thus grace notes do not have a duration element.
+	Cue notes have a duration element, as do forward elements,
+	but no tie elements. Having these two types of information
+	available can make interchange considerably easier, as
+	some programs handle one type of information much more
+	readily than the other.
 -->
-<!ELEMENT notations
-	(%editorial;,
-	 (tied | slur | tuplet | glissando | slide |
-	  ornaments | technical | articulations | dynamics |
-	  fermata | arpeggiate | non-arpeggiate |
-	  accidental-mark | other-notation)*)>
-<!ATTLIST notations
-    %print-object;
-    %optional-unique-id;
->
+<!ELEMENT note
+	(((grace, ((%full-note;, (tie, tie?)?) | (cue, %full-note;))) |
+	  (cue, %full-note;, duration) |
+	  (%full-note;, duration, (tie, tie?)?)),
+	 instrument?, %editorial-voice;, type?, dot*,
+	 accidental?, time-modification?, stem?, notehead?,
+	 notehead-text?, staff?, beam*, notations*, lyric*, play?)>
 \end{lstlisting}
 
 
@@ -962,6 +1009,7 @@ Ornaments are defined in \schemafile{note.mod}:
 % -------------------------------------------------------------------------
 
 \mxml\ dynamics are defined in \schemafile{common.mod}:
+
 \begin{lstlisting}[language=XML]
 <!ELEMENT dynamics ((p | pp | ppp | pppp | ppppp | pppppp |
 	f | ff | fff | ffff | fffff | ffffff | mp | mf | sf |
@@ -975,7 +1023,7 @@ Ornaments are defined in \schemafile{note.mod}:
     %optional-unique-id;
 \end{lstlisting}
 
-Other dynamics can be specified:
+Other dynamics can also be specified:
 \begin{lstlisting}[language=XML]
 The other-dynamics element
 	allows other dynamic marks that are not covered here, but
@@ -984,16 +1032,163 @@ The other-dynamics element
 	in <sf/><mp/>.
 \end{lstlisting}
 
+% -------------------------------------------------------------------------
+\subsection{Grace notes}
+% -------------------------------------------------------------------------
+
+The '{\tt <grace>}' element is defined in \schemafile{note.mod}:
+\begin{lstlisting}[language=XML]
+<!--
+	The grace element indicates the presence of a grace note. 
+	The slash attribute for a grace note is yes for slashed
+	eighth notes. The other grace note attributes come from
+	MuseData sound suggestions. The steal-time-previous attribute
+	indicates the percentage of time to steal from the previous
+	note for the grace note. The steal-time-following attribute
+	indicates the percentage of time to steal from the following
+	note for the grace note, as for appoggiaturas. The make-time
+	attribute indicates to make time, not steal time; the units
+	are in real-time divisions for the grace note.
+-->
+<!ELEMENT grace EMPTY>
+<!ATTLIST grace
+    steal-time-previous CDATA #IMPLIED
+    steal-time-following CDATA #IMPLIED
+    make-time CDATA #IMPLIED
+    slash %yes-no; #IMPLIED
+>
+\end{lstlisting}
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Slurs and ties}
+\section{Ties and slurs}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
+From \schemafile{note.mod}:
+
+\begin{lstlisting}[language=XML]
+<!--
+	The tied element represents the notated tie. The tie element
+	represents the tie sound.
+
+	The number attribute is rarely needed to disambiguate ties,
+	since note pitches will usually suffice. The attribute is
+	implied rather than defaulting to 1 as with most elements. It is
+	available for use in more complex tied notation situations.
+
+	Ties that join two notes of the same pitch together should be
+	represented with a tied element on the first note with
+	type="start" and a tied element on the second note with
+	type="stop".  This can also be done if the two notes being tied
+	are enharmonically equivalent, but have different step values. It
+	is not recommended to use tied elements to join two notes with
+	enharmonically inequivalent pitches.
+
+	Ties that indicate that an instrument should be undamped are
+	specified with a single tied element with type="let-ring".
+
+	Ties that are visually attached to only one note, other than
+	undamped ties, should be specified with two tied elements on the
+	same note, first type="start" then type="stop". This can be used
+	to represent ties into or out of repeated sections or codas.
+-->
+<!ELEMENT tied EMPTY>
+<!ATTLIST tied
+    type %tied-type; #REQUIRED
+    number %number-level; #IMPLIED
+    %line-type;
+    %dashed-formatting;
+    %position;
+    %placement;
+    %orientation;
+    %bezier;
+    %color;
+    %optional-unique-id;
+>
+\end{lstlisting}
+
+The '{\tt <tie>}' element
+
+The '{\tt <tied>}' element
+
+
+The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itself placed inside a '{\tt <note>}' element. Is has two attributes:
+\begin{enumerate}
+\item '{\tt type}' can contain '{\tt start}' or '{\tt stop}';
+\item '{\tt number}' allows for nested slurs.
+\end{enumerate}
+
+An example can be seen in \mxmlfile{basic/TieAndSlur.xml}:
+
+\includegraphics{TieAndSlur.png}
+\begin{lstlisting}[language=XML, caption={Tie and slur example}]
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <type>quarter</type>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <voice>1</voice>
+        <accidental>flat</accidental>
+        <tie type="start" />
+        <notations>
+          <tied type="start" />
+        </notations>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <voice>1</voice>
+        <accidental>flat</accidental>
+        <tie type="stop" />
+        <notations>
+          <tied type="stop" />
+          <slur number="1" type="start" />
+        </notations>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <voice>1</voice>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <voice>1</voice>
+        <notations>
+          <slur number="1" type="stop" />
+        </notations>
+      </note>
+\end{lstlisting}
+
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Harmony and figured bass}
+\section{Harmonies and figured bass}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
@@ -1286,9 +1481,36 @@ The '{\tt straight}' and '{\tt curved}' values represent single wings, while
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Lyrics}
+\section{Lyrics}\label{lyrics}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
+
+In \mxml\, the '{\tt <lyrics>}' elements are attached to the '{\tt <note>}' elements. The definition is in \schemafile{note.mod}:
+\begin{lstlisting}[language=XML]
+<!ELEMENT lyric
+	((((syllabic?, text),
+	   (elision?, syllabic?, text)*, extend?) |
+	   extend | laughing | humming),
+	  end-line?, end-paragraph?, %editorial;)>
+<!ATTLIST lyric
+    number NMTOKEN #IMPLIED
+    name CDATA #IMPLIED
+    %justify;
+    %position;
+    %placement;
+    %color;
+    %print-object;
+    %time-only;
+    %optional-unique-id;
+>
+\end{lstlisting}
+
+For example, \mxmlfile{QuemQueritis.xml} contains:
+
+\includegraphics{QuemQueritis.png}
+\begin{lstlisting}[language=XML]
+
+\end{lstlisting}
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -1313,14 +1535,16 @@ Scanning graphical scores is a tough problem:  how do you tell lyrics from annot
 Creating \mxml\ by an application is a matter of computer programming, and requires development skill. As an example, \lib\ supplies the necessary tools, and one can obtain:
 
 \begin{lstlisting}[language=XML]
+       <attributes>
         <key>
-          <fifths>1</fifths>
-        </key>
+          <fifths>-1</fifths>
+          </key>
+        </attributes>
 \end{lstlisting}
 
 with C++ code such as:
 
-\begin{lstlisting}[language=XML, caption ={Creating a key element in an application}]
+\begin{lstlisting}[language=C++, caption ={Creating a key element in an application}]
   Sxmlelement attributes = factory::instance().create(k_attributes);
 
   Sxmlelement key = factory::instance().create(k_key);
@@ -1514,7 +1738,9 @@ Let's conclude with a tribute to the manual score engravers, whose skills have p
 
 
 % -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 % postamble
+% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 \pagebreak

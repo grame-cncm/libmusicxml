@@ -8092,12 +8092,10 @@ else
 
     case msrMeasure::kMeasureKindOvercomplete:
       if (! fOnGoingVoiceCadenza) {
-      /* JMI
         fLilypondCodeOstream <<
           endl <<
           "\\cadenzaOn" <<
           " \\omit Staff.TimeSignature";
-*/
 
         if (gLilypondOah->fComments) {
           fLilypondCodeOstream << " % kMeasureKindOvercomplete Start";
@@ -8237,13 +8235,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         break;
 
       case msrMeasure::kMeasureKindOvercomplete:
-      /* JMI
         fLilypondCodeOstream <<
           endl <<
           "\\cadenzaOff" <<
           " \\undo \\omit Staff.TimeSignature |" <<
           endl;
-          */
 
         fOnGoingVoiceCadenza = false;
         break;
