@@ -116,7 +116,6 @@ What xml2ly does:
     The activity log and warning/error messages go to standard error.
 \end{lstlisting}
 
-%\subimport{../libmusicxmlArchitecture}{libmusicxmlArchitecture}
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -238,7 +237,7 @@ Building \xmlToLy\ with tracing disabled only gains less than 5\% in speed, this
 % -------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-\subsubsection{Timing measures}
+\subsubsection{Timing measurements}
 % -------------------------------------------------------------------------
 
 There is a '{\tt -cpu}' option to see show much time is spent in the various translation activities:
@@ -300,9 +299,122 @@ sys	0m0.407s
 \end{lstlisting}
 
 % -------------------------------------------------------------------------
-\subsubsection{Chords informations}
+\subsubsection{Chords structure}
 % -------------------------------------------------------------------------
 
+In order to invert chords, as specified by the '{\tt <inversion>}' element in \mxml\ data, \mxmlToLy\ knows the structure of many of them. This can be queried with the options in the '{\tt Extra}' group:
+\begin{lstlisting}[language=XML]
+menu@macbookprojm > xml2ly -help=extra 
+
+--- Help for group "Extra" ---
+
+Extra (-he, -help-extra):
+  These extra provide features not related to translation from MusicXML to other formats.
+  In the text below:
+    - ROOT_DIATONIC_PITCH should belong to the names available in
+      the selected MSR pitches language, "nederlands" by default;
+    - other languages can be chosen with the '-mpl, -msrPitchesLanguage' option;
+    - HARMONY_NAME should be one of:
+        MusicXML chords:
+          "maj", "min", "aug", "dim", "dom",
+          "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
+          "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
+          "dom13", "maj13", "min13", "sus2", "sus4",
+          "neapolitan", "italian", "french", "german"
+        Jazz-specific chords:
+          "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
+          "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
+  The single or double quotes are used to allow spaces in the names
+  and around the '=' sign, otherwise they can be dispensed with.
+--------------------------
+  Chords structures    (-hecs, -help-extra-chord-structures):
+    -scs, -show-chords-structures
+          Write all known chords structures to standard output.
+  Chords contents      (-hecc, -help-extra-chords-contents):
+    -sacc, -show-all-chords-contents PITCH
+          Write all chords contents for the given diatonic (semitones) PITCH,
+          supplied in the current language to standard output.
+  Chord details        (-hecd, -help-extra-chords-details):
+    -scd, -show-chord-details CHORD_SPEC
+          Write the details of the chord for the given diatonic (semitones) pitch
+          in the current language and the given harmony to standard output.
+          CHORD_SPEC can be:
+          'ROOT_DIATONIC_PITCH HARMONY_NAME'
+          or
+          "ROOT_DIATONIC_PITCH = HARMONY_NAME"
+          Using double quotes allows for shell variables substitutions, as in:
+          HARMONY="maj7"
+          xml2ly -show-chord-details "bes ${HARMONY}"
+  Chord analysis       (-heca, -help-extra-chords-analysis):
+    -sca, -show-chord-analysis CHORD_SPEC
+          Write an analysis of the chord for the given diatonic (semitones) pitch
+          in the current language and the given harmony to standard output.
+          CHORD_SPEC can be:
+          'ROOT_DIATONIC_PITCH HARMONY_NAME INVERSION'
+          or
+          "ROOT_DIATONIC_PITCH = HARMONY_NAME INVERSION"
+          Using double quotes allows for shell variables substitutions, as in:
+          HARMONY="maj7"
+          INVERSION=2
+          xml2ly -show-chord-analysis "bes ${HARMONY} ${INVERSION}"
+\end{lstlisting}
+
+For example, one can obtain the structure of the B\Flat\ dominant minor ninth chord's second inversion this way:
+\begin{lstlisting}[language=XML]
+menu@macbookprojm > xml2ly -show-chord-analysis 'bes dommin9 2'
+The analysis of chord 'bes dommin9' inversion 2 is:
+
+  Chord 'bes dommin9' inversion 2 contents, 5 intervals:
+    d     : majorThird
+    bes   : perfectUnison
+    ces   : minorNinth
+    aes   : minorSeventh
+    f     : perfectFifth
+  
+  Chord 'bes dommin9' inversion 2 inner intervals:
+      f     -> aes   : minorThird          (perfectFifth         -> minorSeventh)
+      f     -> ces   : diminishedFifth     (perfectFifth         -> minorNinth)
+      f     -> bes   : perfectFourth       (perfectFifth         -> perfectUnison)
+      f     -> d     : majorSixth          (perfectFifth         -> majorThird)
+    
+      aes   -> ces   : minorThird          (minorSeventh         -> minorNinth)
+      aes   -> bes   : majorSecond         (minorSeventh         -> perfectUnison)
+      aes   -> d     : augmentedFourth     (minorSeventh         -> majorThird)
+    
+      ces   -> bes   : majorSeventh        (minorNinth           -> perfectUnison)
+      ces   -> d     : augmentedSecond     (minorNinth           -> majorThird)
+    
+      bes   -> d     : majorThird          (perfectUnison        -> majorThird)
+  This chord contains 2 tritons
+\end{lstlisting}
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Building the xmlelement tree}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{The MSR graph}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{The LPSR graph}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{LilyPond code generation}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 
 
 

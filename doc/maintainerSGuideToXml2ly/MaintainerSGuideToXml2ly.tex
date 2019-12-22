@@ -89,6 +89,51 @@ The homepage to \mxml\ is \url{https://www.musicxml.com}.
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
+\section{Prerequisites}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+In order to maintain \xmlToLy, one needs to do the following:
+\begin{itemize}
+\item obtain a working knowledge of C++ programming. The code base of \xmlToLy\ uses classes, simple and multiple inheritance, and templates;
+
+\item study \mxml, starting maybe from \docpdf{introductionToMusicXML}{IntroductionToMusicXML.tex}. A deep knowledge of that matter comes with experience;
+
+\item study the architecture of \lib, which can be seen at \docpdf{libmusicxmlArchitecture}{libmusicxmlArchitecture.pdf}, and is presented in figure \ref{libmusicxmlArchitecture}.
+It shows the place of \xmlToLy\ in the whole.
+
+\item
+\end{itemize}
+
+\begin{figure}
+\caption{\lib\ architecture}\label{libmusicxmlArchitecture}
+\includegraphics[scale=0.8]{../libmusicxmlArchitecture/libmusicxmlArchitecture.pdf}
+\end{figure}
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Programming style and conventions}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+The following text-editing conventions are used:
+\begin{itemize}
+\item tabs are not used before the first non-space character in a line, two spaces are used instead;
+
+\item the code is not tightly packed: declarations in classes have the members' names aligned vertically, with many spaces before them if needed, and empty lines are used to separate successive activities in methods.
+\end{itemize}
+
+The code base of \xmlToLy\ is {\it defensive-programming} oriented, which means that:
+\begin{itemize}
+\item identifiers are explicit and long if needed -- only very local ones are short, such as iteration loops indexes;
+
+\item the code is organized in sections, with an initial comment documenting what the code does.
+\end{itemize}
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 % postamble
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
