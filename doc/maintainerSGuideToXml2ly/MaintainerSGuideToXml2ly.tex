@@ -14,8 +14,6 @@
 \begin{document}
 % -------------------------------------------------------------------------
 
-%\noindent
-
 \title{
 Maintainer's guide to \xmlToLy\ \\[5pt]
 }
@@ -38,9 +36,10 @@ Jacques Menu
 %\date {}
 
 \maketitle
+\thispagestyle{fancy} % right after \maketitle to apply it to the first page too
 
 \abstract {
-This document presents the design principles and architecture os \xmlToLy, as well as the way to maintain it. It is part of the \lib\ documentation, to be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/doc}.
+This document presents the design principles and architecture os \xmlToLy, as well as information needed to maintain it. It is part of the \lib\ documentation, to be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/doc}. \xmlToBrl\ is mentioned but not described in detail.
 
 
 In the \lib\ library, the source code specific to \xmlToLy\ can be found at \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/src/lilypond} and \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/src/interface}.
@@ -54,16 +53,7 @@ All the examples mentioned can be downloaded from \url{https://github.com/grame-
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-The scores fragments shown in this document have been produced by translating the '{\tt .xml}' files to \lily\ syntax, and then creating the graphical score with \lily. 
-
-The translations have been done by \xmlToLy, a prototype tool developed by this author. \xmlToLy\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}.
-
-The reader is invited to handle the '{\tt .xml}' file examples with their own software tools to compare the results with the ones herein.
-
-Tests with other score editing applications are mentioned in this document, namely \sib,
-\fin\ and \muse, which is open-source.
-\mxmlToLy\ is mentioned too: this translator is supplied with \lily.
-This author doesn't own licenses for other commercial applications such as Dorico\texttrademark\ or Capella\texttrademark.
+Many thanks to Dominique Fober, the designer and maintainer of the \lib\ library!
 
 
 % -------------------------------------------------------------------------
@@ -117,6 +107,10 @@ It shows the place of \xmlToLy\ in the whole.
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
+% -------------------------------------------------------------------------
+\subsection{Source code presentation}
+% -------------------------------------------------------------------------
+
 The following text-editing conventions are used:
 \begin{itemize}
 \item tabs are not used before the first non-space character in a line, two spaces are used instead;
@@ -124,12 +118,88 @@ The following text-editing conventions are used:
 \item the code is not tightly packed: declarations in classes have the members' names aligned vertically, with many spaces before them if needed, and empty lines are used to separate successive activities in methods.
 \end{itemize}
 
-The code base of \xmlToLy\ is {\it defensive-programming} oriented, which means that:
+% -------------------------------------------------------------------------
+\subsection{File names}
+% -------------------------------------------------------------------------
+
+The name '{\tt lilypond}' was chosen by Dominique long before work started on \\xmlTobrl.
+
+There's a single '{\tt lilypond}' folder to contain MSR, LPSR, BSR, \xmlToLy\ and \xmlToBrl, even though BSR and braille music are a distinct branch. This has been preferred by Dominique as the manager of \lib.
+
+Most file names start with an identification of the context they belong to, such as '{\tt oah}', '{\tt mxmlTree}', '{\tt msr}', '{\tt lpsr}', '{\tt lilypond}', '{\tt bsr}', '{\tt braille}', '{\tt xml2ly}' and '{\tt xml2brl}'.
+
+The '{\tt *Oah.*}' files handle the options and help for the corresponding context, such as '{\tt xml2lyOah.h/.cpp}'.
+
+The '{\tt traceOah.h/.cpp}', '{\tt musicXMLOah.h/.cpp}', '{\tt extra}' and '{\tt general}' context are about the corresponding help groups.
+
+There are a couple of 'globlal' files not related to any particular context: '{\tt utilities.h/.cpp}', '{\tt messagesHandling.h/.cpp}' and '{\tt version.h/.cpp}'.
+
+
+% -------------------------------------------------------------------------
+\subsection{Defensive programming}
+% -------------------------------------------------------------------------
+
+The code base of \xmlToLy\ is {\it defensive programming} oriented, which means that:
 \begin{itemize}
 \item identifiers are explicit and long if needed -- only very local ones are short, such as iteration loops indexes;
 
-\item the code is organized in sections, with an initial comment documenting what the code does.
+\item the code is organized in sections, with an initial comment documenting what the code does;
+
+\item '{\tt msrAssert()}' is used to do sanity checks, such as detect a null pointer prior to using it;
 \end{itemize}
+
+The \mxml\ data is not systematically checked for correctness. Checks are done, however, to ensure it won't crash due to missing values.
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{The two-shot visitors pattern}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Basic mechanism}
+% -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{An example}
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Passes organization}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating \mxml\ data to an \mxmlt}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating an \mxmlt\ to an MSR}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating an an MSR to a LPSR}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Translating an an LPSR to a LilyPond code}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
 
 
 % -------------------------------------------------------------------------
@@ -142,7 +212,7 @@ The code base of \xmlToLy\ is {\it defensive-programming} oriented, which means 
 
 \lstlistoflistings
 
-%\listoffigures
+\listoffigures
 
 \tableofcontents
 
