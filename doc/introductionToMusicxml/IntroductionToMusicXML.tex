@@ -1,5 +1,5 @@
 \documentclass[12pt,a4paper]{article}
-
+ 
 
 % -------------------------------------------------------------------------
 % import common LaTeX settings
@@ -176,6 +176,8 @@ Markups can have attributes such as the part name '{\tt P1}' in:
           <part-name>Music</part-name>
         </score-part>
 \end{lstlisting}
+
+We shall call {\it sub-element} and element nested into another one. '{\tt <part-name>}' is thus a sub-element of element '{\tt <score-part}' above.
 
 The values of attributes can be double-quoted characters strings and integer or floating point numbers.
 
@@ -583,8 +585,7 @@ The '{\tt id}' attribute of the '{\tt <score-part>}' element is used to referenc
 
 Part groups can be nested, leading to a hierarchy of groups. This is done with the '{\tt number}' attribute of the '{\tt <part-group>}' element, which indicates how '{\tt start}' and '{\tt stop}' attributes are paired together.
 
-For example, \mxmlfile{partgroups/NestedPartGroups.xml} contains:
-
+For example, \mxmlfile{partgroups/NestedPartGroups.xml} contains:\\
 \includegraphics{NestedPartGroups.png}
 
 \begin{lstlisting}[language=XML, caption={Nested part groups example}]
@@ -678,8 +679,7 @@ A given voice can change staff and come back to the former one, for example in k
 \item simple time signatures are desribed by '{\tt <beats>}' and '{\tt <beat-type>}' elements.
 \end{itemize}
 
-An example is found in \mxmlfile{basic/ClefKeyTime.xml}:
-
+An example is found in \mxmlfile{basic/ClefKeyTime.xml}:\\
 \includegraphics{ClefKeyTime.png}
 
 \begin{lstlisting}[language=XML, caption={Clef, key and time signature example}]
@@ -745,8 +745,7 @@ In this example, the various sub-elements are:
 
 Composite time signatures such as '{\tt 2/4 + 3/8}' and '{\tt 3+2/8}' can be specified, as well as '{\tt <senza-misura>}' for cadenzas.
 
-\mxml\ also supports non-traditional keys the Humdrum/Scot way. For example, the time signature at the beginning of measure 2 in \mxmlfile{keys/HumdrumScotKeys.xml} is described by:
-
+\mxml\ also supports non-traditional keys the Humdrum/Scot way. For example, the time signature at the beginning of measure 2 in \mxmlfile{keys/HumdrumScotKeys.xml} is described by:\\
 \includegraphics{HumdrumScotKeys.png}
  
 \begin{lstlisting}[language=XML, caption={Humdrum/Scot non-traditional key example}]
@@ -833,8 +832,7 @@ A note is described by a '{\tt note}' element, defined in \schemafile{note.mod}:
 \end{lstlisting}
 
 
-The first note in measure 2 in \mxmlfile{basic/MinimalScore.xml}:
-
+The first note in measure 2 in \mxmlfile{basic/MinimalScore.xml}:\\
 \includegraphics{MinimalScore.png}
 
 is described by:
@@ -1120,8 +1118,7 @@ The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itsel
 \item '{\tt number}' allows for nested slurs.
 \end{enumerate}
 
-An example can be seen in \mxmlfile{basic/TieAndSlur.xml}:
-
+An example can be seen in \mxmlfile{basic/TieAndSlur.xml}:\\
 \includegraphics{TieAndSlur.png}
 \begin{lstlisting}[language=XML, caption={Tie and slur example}]
       <note>
@@ -1406,8 +1403,7 @@ In the '{\tt <bar-style>}' element, '{\tt light}' is a thin vertical line, and '
         </barline>
 \end{lstlisting}
 
-One can see the various simple barlines in \mxmlfile{barlines/SimpleBarlines.xml}:
-
+One can see the various simple barlines in \mxmlfile{barlines/SimpleBarlines.xml}:\\
 \includegraphics{SimpleBarlines.png}
 
 % -------------------------------------------------------------------------
@@ -1486,7 +1482,11 @@ The '{\tt straight}' and '{\tt curved}' values represent single wings, while
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-In \mxml\, the '{\tt <lyrics>}' elements are attached to the '{\tt <note>}' elements. The definition is in \schemafile{note.mod}:
+% -------------------------------------------------------------------------
+\subsection{The '{\tt <lyric>}' element}
+% -------------------------------------------------------------------------
+
+In \mxml\, the '{\tt <lyrics>}' elements are sub-elements of the '{\tt <note>}' elements. The definition is in \schemafile{note.mod}:
 \begin{lstlisting}[language=XML]
 <!ELEMENT lyric
 	((((syllabic?, text),
@@ -1506,12 +1506,73 @@ In \mxml\, the '{\tt <lyrics>}' elements are attached to the '{\tt <note>}' elem
 >
 \end{lstlisting}
 
-For example, \mxmlfile{QuemQueritis.xml} contains:
+The '{\tt <text>}' sub-element contains the text to be sung. It can have attributes controlling the way it is displayed:
+\begin{lstlisting}[language=XML]
+<!ELEMENT text (#PCDATA)>
+<!ATTLIST text
+    %font;
+    %color;
+    %text-decoration;
+    %text-rotation;
+    %letter-spacing;
+    xml:lang NMTOKEN #IMPLIED
+    %text-direction;
+>
+<!ELEMENT syllabic (#PCDATA)>
+\end{lstlisting}
 
+
+The '{\tt <syllabic>}' sub-element, contains a characterization of the test:
+%\begin{adjustwidth}{-0.5cm}{-0.5cm}
+\begin{center}
+\footnotesize
+\def \contentsWidth{0.7\textwidth}
+\def \arraystretch{1.3}
+%
+\begin{tabular}[t]{lp{\contentsWidth}}
+{\bf value}&{\bf Meaning} \tabularnewline[0.5ex]
+\hline\\[-3.0ex]
+%
+
+'{\tt single}' & the text is a standalone word
+\tabularnewline
+
+'{\tt begin}' & the text 
+\tabularnewline
+
+'{\tt start}' &
+\tabularnewline
+
+\end{tabular}
+\end{center}
+%\end{adjustwidth}
+
+For example, the first note of \mxmlfile{QuemQueritis.xml} contains the single word '{\tt Quem}':\\
 \includegraphics{QuemQueritis.png}
 \begin{lstlisting}[language=XML]
-
+			<note>
+				<pitch>
+					<step>G</step>
+					<octave>4</octave>
+				</pitch>
+				<duration>2</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+				<stem>up</stem>
+				<notations>
+					<slur type="start" number="1"/>
+				</notations>
+				<lyric number="1">
+					<syllabic>single</syllabic>
+					<text>Quem</text>
+				</lyric>
+			</note>
 \end{lstlisting}
+
+% -------------------------------------------------------------------------
+\subsection{Stanzas}
+% -------------------------------------------------------------------------
+
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -1599,8 +1660,7 @@ There are elements that are not displayed in a "standard" way by the usual music
 
 There are elements that are not displayed by the usual music score editors, because there is no "standard" way to do so. One of them is the scordatura used on string instrument.
 
-For example, the scordatura in \mxmlfile{strings/Scordatura.xml} is the case where the sixth string of the guitar is tuned a tone down to D, which can be described by:
-
+For example, the scordatura in \mxmlfile{strings/Scordatura.xml} is the case where the sixth string of the guitar is tuned a tone down to D, which can be described by:\\
 \includegraphics{Scordatura.png}
 
 \begin{lstlisting}[language=XML, caption ={Scordatura example}]

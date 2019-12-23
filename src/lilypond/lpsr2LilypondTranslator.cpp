@@ -8401,11 +8401,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
       elt->getStanzaTextPresent ();
 
     if (fGenerateCodeForOngoingNonEmptyStanza) {
+      gIndenter++;
+
       fLilypondCodeOstream <<
         elt->getStanzaName () << " = " << "\\lyricmode {" <<
         endl;
 
-  //    gIndenter++; JMI ???
+       fLilypondCodeOstream <<
+        "\\set ignoreMelismata = ##t" <<
+        endl;
     }
   }
 }
@@ -8425,9 +8429,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
 
   if (! gLilypondOah->fNoLilypondLyrics) {
     if (fGenerateCodeForOngoingNonEmptyStanza) {
+      gIndenter--;
+
       fLilypondCodeOstream <<
-        "}" <<
         endl <<
+        "}" <<
         endl;
     }
 
