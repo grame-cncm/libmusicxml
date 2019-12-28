@@ -16,7 +16,11 @@ class msrSyllable : public msrMeasureElement
       kSyllableNone,
       kSyllableSingle,
       kSyllableBegin, kSyllableMiddle, kSyllableEnd,
-      kSyllableSkip,
+
+      kSyllableOnRestNote,
+      kSyllableSkipRestNote,
+      kSyllableSkipNonRestNote,
+
       kSyllableMeasureEnd,
       kSyllableLineBreak, kSyllablePageBreak};
 

@@ -368,8 +368,15 @@ string msrSyllable::syllableKindAsString (
       result = "syllableEnd";
       break;
 
-    case msrSyllable::kSyllableSkip:
-      result = "syllableSkip";
+    case msrSyllable::kSyllableOnRestNote:
+      result = "syllableOnRestNote";
+      break;
+
+    case msrSyllable::kSyllableSkipRestNote:
+      result = "syllableSkipRestNote";
+      break;
+    case msrSyllable::kSyllableSkipNonRestNote:
+      result = "syllableSkipNonRestNote";
       break;
 
     case msrSyllable::kSyllableMeasureEnd:
@@ -452,7 +459,7 @@ string msrSyllable::syllableTextsListAsString () const
       i      = iBegin;
 
     for ( ; ; ) {
-      s << "\"" << doubleQuoteStringIfNonAlpha (*i) << "\"";
+      s << doubleQuoteStringIfNonAlpha (*i);
       if (++i == iEnd) break;
       s << ", ";
     } // for
@@ -474,7 +481,7 @@ void msrSyllable::writeTextsList (
       i      = iBegin;
 
     for ( ; ; ) {
-      os << "\"" << doubleQuoteStringIfNonAlpha (*i) << "\"";
+      os << doubleQuoteStringIfNonAlpha (*i);
       if (++i == iEnd) break;
       os << ", ";
     } // for
@@ -497,7 +504,7 @@ string msrSyllable::asString () const
     " (" << fSyllableWholeNotes << ")" <<
     ", syllableTupletFactor: " << fSyllableTupletFactor <<
     ", line " << fInputLineNumber <<
-    ", texts list: ";
+    ", syllableTextsList: ";
 
   writeTextsList (
     fSyllableTextsList,
@@ -512,7 +519,9 @@ string msrSyllable::asString () const
     case msrSyllable::kSyllableBegin:
     case msrSyllable::kSyllableMiddle:
     case msrSyllable::kSyllableEnd:
-    case msrSyllable::kSyllableSkip:
+    case msrSyllable::kSyllableOnRestNote:
+    case msrSyllable::kSyllableSkipRestNote:
+    case msrSyllable::kSyllableSkipNonRestNote:
       break;
 
     case msrSyllable::kSyllableMeasureEnd:
@@ -606,7 +615,9 @@ void msrSyllable::print (ostream& os) const
     case msrSyllable::kSyllableBegin:
     case msrSyllable::kSyllableMiddle:
     case msrSyllable::kSyllableEnd:
-    case msrSyllable::kSyllableSkip:
+    case msrSyllable::kSyllableOnRestNote:
+    case msrSyllable::kSyllableSkipRestNote:
+    case msrSyllable::kSyllableSkipNonRestNote:
       os << left <<
         setw (fieldWidth) <<
        "syllableWholeNotes" << " : " <<

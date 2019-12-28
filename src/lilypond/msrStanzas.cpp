@@ -218,7 +218,9 @@ void msrStanza::appendSyllableToStanza (
       fStanzaTextPresent = true;
       break;
 
-    case msrSyllable::kSyllableSkip:
+    case msrSyllable::kSyllableOnRestNote:
+    case msrSyllable::kSyllableSkipRestNote:
+    case msrSyllable::kSyllableSkipNonRestNote:
     case msrSyllable::kSyllableMeasureEnd:
     case msrSyllable::kSyllableLineBreak:
     case msrSyllable::kSyllablePageBreak:
@@ -268,7 +270,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kSyllableSkip, // JMI ??? kSyllableRest,
+        msrSyllable::kSyllableSkipRestNote, // JMI ??? kSyllableOnRestNote,
         msrSyllable::kSyllableExtendNone,
         wholeNotes,
         msrTupletFactor (),
@@ -305,7 +307,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kSyllableSkip,
+        msrSyllable::kSyllableSkipRestNote,
         msrSyllable::kSyllableExtendNone,
         wholeNotes,
         msrTupletFactor (),

@@ -5559,6 +5559,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
 
   fCurrentSyllabic = elt->getValue();
 
+  fCurrentSyllableKind       = msrSyllable::kSyllableNone;
+
   if      (fCurrentSyllabic == "single") {
     fCurrentSyllableKind = msrSyllable::kSyllableSingle;
   }
@@ -5628,7 +5630,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   if (gTraceOah->fTraceLyrics) {
     gIndenter++;
 
-    const int fieldWidth = 20;
+    const int fieldWidth = 23;
 
     fLogOutputStream << left <<
       setw (fieldWidth) <<
@@ -5761,7 +5763,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 #endif
 
   if (fCurrentSyllableKind == msrSyllable::kSyllableNone) {
-    // syllabic is not mandatory...
+    // syllabic is not mandatory, thus:
     stringstream s;
 
     s <<
@@ -5797,8 +5799,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     }
 #endif
 
-    fCurrentSyllableKind =
-      msrSyllable::kSyllableSkip; // kSyllableRest ??? JMI
+    if (fCurrentLyricTextsList.size ()) {
+      // register a skip in lyrics for rests with syllables
+      fCurrentSyllableKind =
+        msrSyllable::kSyllableOnRestNote;
+    }
+    else {
+      // don't register a skip in lyrics for rests without syllables
+      fCurrentSyllableKind =
+        msrSyllable::kSyllableSkipRestNote;
+    }
   }
 
 #ifdef TRACE_OAH
@@ -16827,7 +16837,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
                   syllable =
                     msrSyllable::create (
                       inputLineNumber,
-                      msrSyllable::kSyllableSkip,
+                      msrSyllable::kSyllableSkipRest,
                       msrSyllable::kSyllableExtendNone, // fCurrentSyllableExtendKind, // JMI
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
@@ -16941,7 +16951,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
                   syllable =
                     msrSyllable::create (
                       inputLineNumber,
-                      msrSyllable::kSyllableSkip,
+                      msrSyllable::kSyllableSkipRest,
                       msrSyllable::kSyllableExtendNone, // fCurrentSyllableExtendKind, // JMI
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
@@ -18685,12 +18695,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
 
     if (doCreateASkipSyllable) {
       if (
-        !
-          (
-            fCurrentNoteBelongsToAChord
-              ||
-            fCurrentNoteIsAGraceNote
-          )
+        ! (fCurrentNoteBelongsToAChord || fCurrentNoteIsAGraceNote)
       ) {
         // get the current voice's stanzas map
         const map<string, S_msrStanza>&
@@ -18704,12 +18709,20 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
           i++
         ) {
           S_msrStanza stanza = (*i).second;
+
+          //choose the syllable kind
+          msrSyllable::msrSyllableKind
+            syllableKind =
+            fCurrentNoteIsARest
+              ? msrSyllable::kSyllableSkipRestNote
+              : msrSyllable::kSyllableSkipNonRestNote;
+
           // create a skip syllable
           S_msrSyllable
             syllable =
               msrSyllable::create (
                 inputLineNumber,
-                msrSyllable::kSyllableSkip,
+                syllableKind,
                 fCurrentSyllableExtendKind,
                 fCurrentNoteSoundingWholeNotesFromDuration,
                 msrTupletFactor (
@@ -18753,7 +18766,6 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
     case msrSyllable::kSyllableExtendNone:
       break;
   } // switch
-
 }
 
 //______________________________________________________________________________

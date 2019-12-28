@@ -1799,7 +1799,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
           if (noteTie) {
             if (noteTie->getTieKind () == msrTie::kTieStart) {
               fLilypondCodeOstream <<
-                "%{line: " << inputLineNumber << "%}" <<
+                "%{line " << inputLineNumber << "%}" <<
                 " ~  %{kUnpitchedNote%}"; // JMI spaces???
             }
           }
@@ -1891,7 +1891,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeOstream <<
-              "%{line: " << inputLineNumber << "%}" <<
+              "%{line " << inputLineNumber << "%}" <<
               " ~ %{kDoubleTremoloMemberNote%}";
           }
         }
@@ -1934,7 +1934,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeOstream <<
-              "%{line: " << inputLineNumber << "%}" <<
+              "%{line " << inputLineNumber << "%}" <<
               "~  %{kGraceNote%}";
           }
         }
@@ -1973,7 +1973,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeOstream <<
-              "%{line: " << inputLineNumber << "%}" <<
+              "%{line " << inputLineNumber << "%}" <<
               "~  %{kGraceChordMemberNote%}";
           }
         }
@@ -2079,7 +2079,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeOstream <<
-              "%{line: " << inputLineNumber << "%}" <<
+              "%{line " << inputLineNumber << "%}" <<
               "~  %{kTupletMemberNote%}"; // JMI spaces???
           }
         }
@@ -2133,7 +2133,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeOstream <<
-              "%{line: " << inputLineNumber << "%}" <<
+              "%{line " << inputLineNumber << "%}" <<
               "~  %{kGraceTupletMemberNote%}"; // JMI spaces???
           }
         }
@@ -2176,7 +2176,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeOstream <<
-              "%{line: " << inputLineNumber << "%}" <<
+              "%{line " << inputLineNumber << "%}" <<
               "~  %{kTupletMemberUnpitchedNote%}";
           }
         }
@@ -3768,7 +3768,7 @@ void lpsr2LilypondTranslator::generateInputLineNumberAndOrPositionInMeasureAsACo
   if (gLilypondOah->fInputLineNumbers) {
     // print the input line number as a comment
     fLilypondCodeOstream <<
-      "line: " << measureElement->getInputLineNumber () << " ";
+      "line " << measureElement->getInputLineNumber () << " ";
   }
 
   if (gLilypondOah->fPositionsInMeasures) {
@@ -3924,7 +3924,7 @@ string lpsr2LilypondTranslator::lpsrVarValAssocKindAsLilypondString (
     // MusicXML informations
 
     case lpsrVarValAssoc::kMusicXMLWorkNumber:
-      result = "workNumber";
+      result = "opus";
       break;
     case lpsrVarValAssoc::kMusicXMLWorkTitle:
       result = "title";
@@ -6063,6 +6063,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     }
 
     // generate the instrument name
+    /* JMI
     if (partName.size ()) {
       fLilypondCodeOstream <<
         "instrumentName = ";
@@ -6092,6 +6093,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           endl;
       }
     }
+    */
 
     // get the part upLink abbreviation display text to be used
     string partAbbreviation =
@@ -8458,6 +8460,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
   if (! gLilypondOah->fNoLilypondLyrics) {
     if (fGenerateCodeForOngoingNonEmptyStanza) {
       switch (elt->getSyllableKind ()) {
+        case msrSyllable::kSyllableNone: // JMI
+          break;
+
         case msrSyllable::kSyllableSingle:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
@@ -8562,14 +8567,34 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #endif
           break;
 
-        case msrSyllable::kSyllableSkip:
+        case msrSyllable::kSyllableOnRestNote:
+          // generate the syllable in lyrics for rests with syllables
+          writeTextsListAsLilypondString (
+            elt->getSyllableTextsList (),
+            fLilypondCodeOstream);
+          fLilypondCodeOstream <<
+            elt->syllableWholeNotesAsMsrString () <<
+            ' ';
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceLyrics) {
+            fLilypondCodeOstream <<
+            " %{ kSyllableOnRestNote %} ";
+          }
+#endif
+          break;
+
+        case msrSyllable::kSyllableSkipRestNote:
           switch (gLilypondOah->fLyricsAlignmentKind) {
             case kLyricsAlignmentAutomatic: // default value
-              // don't generate skips for automatic lyrics alignment // JMI ???
-              fLilypondCodeOstream <<
-                "\\skip" <<
-                elt->syllableWholeNotesAsMsrString () <<
-                ' ';
+              // don't generate a skip in lyrics for rests without syllables
+#ifdef TRACE_OAH
+              if (gTraceOah->fTraceLyrics) {
+                fLilypondCodeOstream <<
+                  " %{ NOTHING for kSyllableSkipRestNote " <<
+                  elt->syllableWholeNotesAsMsrString () <<
+                  " %} ";
+              }
+#endif
               break;
             case kLyricsAlignmentManual:
               // LilyPond ignores the skip duration
@@ -8578,17 +8603,46 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
                 "\\skip" <<
                 elt->syllableWholeNotesAsMsrString () <<
                 ' ';
+#ifdef TRACE_OAH
+              if (gTraceOah->fTraceLyrics) {
+                fLilypondCodeOstream <<
+                " %{ kLyricsAlignmentManual %} ";
+              }
+#endif
               break;
           } // switch
+          break;
 
+        case msrSyllable::kSyllableSkipNonRestNote:
+          switch (gLilypondOah->fLyricsAlignmentKind) {
+            case kLyricsAlignmentAutomatic: // default value
+              // generate a skip in lyrics for rests without syllables
+              fLilypondCodeOstream <<
+                "\\skip" <<
+                elt->syllableWholeNotesAsMsrString () <<
+                ' ';
 #ifdef TRACE_OAH
-          if (gTraceOah->fTraceLyrics) {
-            fLilypondCodeOstream <<
-              "%{ kSyllableSkip " <<
-              elt->syllableWholeNotesAsMsrString () <<
-              " %} ";
-          }
+              if (gTraceOah->fTraceLyrics) {
+                fLilypondCodeOstream <<
+                  " %{ kSyllableSkipNonRestNote kLyricsAlignmentAutomatic %} ";
+              }
 #endif
+              break;
+            case kLyricsAlignmentManual:
+              // LilyPond ignores the skip duration
+              // when \lyricsto is used JMI ???
+              fLilypondCodeOstream <<
+                "\\skip" <<
+                elt->syllableWholeNotesAsMsrString () <<
+                ' ';
+#ifdef TRACE_OAH
+              if (gTraceOah->fTraceLyrics) {
+                fLilypondCodeOstream <<
+                " %{ kSyllableSkipNonRestNote kLyricsAlignmentManual %} ";
+              }
+#endif
+              break;
+          } // switch
           break;
 
         case msrSyllable::kSyllableMeasureEnd:
@@ -8596,7 +8650,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           if (gLilypondOah->fInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeOstream <<
-              "%{ measure end, line " <<
+              "%{ kSyllableMeasureEnd, line " <<
               elt->getInputLineNumber () <<
               " %}";
           }
@@ -8607,7 +8661,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSyllableLineBreak:
           // print the measure end line number as a comment
           fLilypondCodeOstream <<
-            "%{ line break, line " <<
+            "%{ kSyllableLineBreak, line " <<
             elt->getInputLineNumber () <<
             " %}" <<
             endl;
@@ -8616,13 +8670,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSyllablePageBreak:
           // print the measure end line number as a comment
           fLilypondCodeOstream <<
-            "%{ page break, line " <<
+            "%{ kSyllableLineBreak, line " <<
             elt->getInputLineNumber () <<
             " %}" <<
             endl;
-          break;
-
-        case msrSyllable::kSyllableNone: // JMI
           break;
       } // switch
 
@@ -8672,6 +8723,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllableExtendNone:
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceLyrics) {
+            fLilypondCodeOstream <<
+              "%{ kSyllableExtendNone %} ";
+          }
+#endif
           break;
       } // switch
 
@@ -13824,7 +13881,7 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (S_msrChord chord)
       i++
     ) {
       fLilypondCodeOstream <<
-        "%{line: " << inputLineNumber << "%}" <<
+        "%{line " << inputLineNumber << "%}" <<
         "~ %{S_msrChord}"; // JMI spaces???
     } // for
   }
@@ -13838,7 +13895,7 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (S_msrChord chord)
     if (chordTie) {
       if (chordTie->getTieKind () == msrTie::kTieStart) {
         fLilypondCodeOstream <<
-          "%{line: " << inputLineNumber << "%}" <<
+          "%{line " << inputLineNumber << "%}" <<
           "~ ";
       }
     }
@@ -14268,7 +14325,7 @@ int inputLineNumber =
         // since the last of its notes sets fOnGoingNote to false
         // after code has been generated for it
         fLilypondCodeOstream <<
-  // JMI        "%{line: " << inputLineNumber << "%}" <<
+  // JMI        "%{line " << inputLineNumber << "%}" <<
           " ~ ";
       }
       break;
