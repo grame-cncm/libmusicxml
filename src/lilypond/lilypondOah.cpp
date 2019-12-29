@@ -1488,56 +1488,56 @@ ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt)
 }
 
 //______________________________________________________________________________
-S_lilypondLyricsAlignmentKindAtom lilypondLyricsAlignmentKindAtom::create (
+S_lilypondLyricsDurationsKindAtom lilypondLyricsDurationsKindAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  lpsrLyricsAlignmentKind&
-                     lilypondLyricsAlignmentKindVariable)
+  lpsrLyricsDurationsKind&
+                     lilypondLyricsDurationsKindVariable)
 {
-  lilypondLyricsAlignmentKindAtom* o = new
-    lilypondLyricsAlignmentKindAtom (
+  lilypondLyricsDurationsKindAtom* o = new
+    lilypondLyricsDurationsKindAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      lilypondLyricsAlignmentKindVariable);
+      lilypondLyricsDurationsKindVariable);
   assert(o!=0);
   return o;
 }
 
-lilypondLyricsAlignmentKindAtom::lilypondLyricsAlignmentKindAtom (
+lilypondLyricsDurationsKindAtom::lilypondLyricsDurationsKindAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  lpsrLyricsAlignmentKind&
-                     lilypondLyricsAlignmentKindVariable)
+  lpsrLyricsDurationsKind&
+                     lilypondLyricsDurationsKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fLpsrLyricsAlignmentKindVariable (
-      lilypondLyricsAlignmentKindVariable)
+    fLpsrLyricsDurationsKindVariable (
+      lilypondLyricsDurationsKindVariable)
 {}
 
-lilypondLyricsAlignmentKindAtom::~lilypondLyricsAlignmentKindAtom ()
+lilypondLyricsDurationsKindAtom::~lilypondLyricsDurationsKindAtom ()
 {}
 
-S_oahValuedAtom lilypondLyricsAlignmentKindAtom::handleOptionUnderName (
+S_oahValuedAtom lilypondLyricsDurationsKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a lilypondLyricsAlignmentKindAtom" <<
+      "==> option '" << optionName << "' is a lilypondLyricsDurationsKindAtom" <<
       endl;
   }
 #endif
@@ -1546,14 +1546,14 @@ S_oahValuedAtom lilypondLyricsAlignmentKindAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondLyricsAlignmentKindAtom::handleValue (
+void lilypondLyricsDurationsKindAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'lilypondLyricsAlignmentKindAtom'" <<
+      "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
   }
 #endif
@@ -1564,17 +1564,17 @@ void lilypondLyricsAlignmentKindAtom::handleValue (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'lilypondLyricsAlignmentKindAtom'" <<
+      "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
   }
 #endif
 
-  map<string, lpsrLyricsAlignmentKind>::const_iterator
+  map<string, lpsrLyricsDurationsKind>::const_iterator
     it =
-      gLpsrLyricsAlignmentKindsMap.find (
+      gLpsrLyricsDurationsKindsMap.find (
         theString);
 
-  if (it == gLpsrLyricsAlignmentKindsMap.end ()) {
+  if (it == gLpsrLyricsDurationsKindsMap.end ()) {
     // no, lyrics alignment kind is unknown in the map
     stringstream s;
 
@@ -1583,43 +1583,43 @@ void lilypondLyricsAlignmentKindAtom::handleValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gLpsrLyricsAlignmentKindsMap.size () - 1 <<
+      gLpsrLyricsDurationsKindsMap.size () - 1 <<
       " known LPSR lyrics alignment kind are:" <<
       endl;
 
     gIndenter++;
 
     s <<
-      existingLpsrLyricsAlignmentKinds (K_NAMES_LIST_MAX_LENGTH);
+      existingLpsrLyricsDurationsKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
     oahError (s.str ());
   }
 
-  setLpsrLyricsAlignmentKindVariable (
+  setLpsrLyricsDurationsKindVariable (
     (*it).second);
 }
 
-void lilypondLyricsAlignmentKindAtom::acceptIn (basevisitor* v)
+void lilypondLyricsDurationsKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondLyricsAlignmentKindAtom::acceptIn ()" <<
+      ".\\\" ==> lilypondLyricsDurationsKindAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondLyricsAlignmentKindAtom>*
+  if (visitor<S_lilypondLyricsDurationsKindAtom>*
     p =
-      dynamic_cast<visitor<S_lilypondLyricsAlignmentKindAtom>*> (v)) {
-        S_lilypondLyricsAlignmentKindAtom elem = this;
+      dynamic_cast<visitor<S_lilypondLyricsDurationsKindAtom>*> (v)) {
+        S_lilypondLyricsDurationsKindAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lilypondLyricsAlignmentKindAtom::visitStart ()" <<
+            ".\\\" ==> Launching lilypondLyricsDurationsKindAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1627,25 +1627,25 @@ void lilypondLyricsAlignmentKindAtom::acceptIn (basevisitor* v)
   }
 }
 
-void lilypondLyricsAlignmentKindAtom::acceptOut (basevisitor* v)
+void lilypondLyricsDurationsKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondLyricsAlignmentKindAtom::acceptOut ()" <<
+      ".\\\" ==> lilypondLyricsDurationsKindAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondLyricsAlignmentKindAtom>*
+  if (visitor<S_lilypondLyricsDurationsKindAtom>*
     p =
-      dynamic_cast<visitor<S_lilypondLyricsAlignmentKindAtom>*> (v)) {
-        S_lilypondLyricsAlignmentKindAtom elem = this;
+      dynamic_cast<visitor<S_lilypondLyricsDurationsKindAtom>*> (v)) {
+        S_lilypondLyricsDurationsKindAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lilypondLyricsAlignmentKindAtom::visitEnd ()" <<
+            ".\\\" ==> Launching lilypondLyricsDurationsKindAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1653,45 +1653,45 @@ void lilypondLyricsAlignmentKindAtom::acceptOut (basevisitor* v)
   }
 }
 
-void lilypondLyricsAlignmentKindAtom::browseData (basevisitor* v)
+void lilypondLyricsDurationsKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondLyricsAlignmentKindAtom::browseData ()" <<
+      ".\\\" ==> lilypondLyricsDurationsKindAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-string lilypondLyricsAlignmentKindAtom::asShortNamedOptionString () const
+string lilypondLyricsDurationsKindAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fShortName << " " <<
-    lpsrLyricsAlignmentKindAsString (fLpsrLyricsAlignmentKindVariable);
+    lpsrLyricsDurationsKindAsString (fLpsrLyricsDurationsKindVariable);
 
   return s.str ();
 }
 
-string lilypondLyricsAlignmentKindAtom::asActualLongNamedOptionString () const
+string lilypondLyricsDurationsKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fLongName << " " <<
-    lpsrLyricsAlignmentKindAsString (fLpsrLyricsAlignmentKindVariable);
+    lpsrLyricsDurationsKindAsString (fLpsrLyricsDurationsKindVariable);
 
   return s.str ();
 }
 
-void lilypondLyricsAlignmentKindAtom::print (ostream& os) const
+void lilypondLyricsDurationsKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsLyricsAlignmentKindAtom:" <<
+    "OptionsLyricsDurationsKindAtom:" <<
     endl;
 
   gIndenter++;
@@ -1705,16 +1705,16 @@ void lilypondLyricsAlignmentKindAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fLpsrLyricsAlignmentKindVariable" << " : \"" <<
-    lpsrLyricsAlignmentKindAsString (
-      fLpsrLyricsAlignmentKindVariable) <<
+    "fLpsrLyricsDurationsKindVariable" << " : \"" <<
+    lpsrLyricsDurationsKindAsString (
+      fLpsrLyricsDurationsKindVariable) <<
     "\"" <<
     endl;
 
   gIndenter--;
 }
 
-void lilypondLyricsAlignmentKindAtom::printAtomOptionsValues (
+void lilypondLyricsDurationsKindAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1722,13 +1722,13 @@ void lilypondLyricsAlignmentKindAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    lpsrLyricsAlignmentKindAsString (
-      fLpsrLyricsAlignmentKindVariable) <<
+    lpsrLyricsDurationsKindAsString (
+      fLpsrLyricsDurationsKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_lilypondLyricsAlignmentKindAtom& elt)
+ostream& operator<< (ostream& os, const S_lilypondLyricsDurationsKindAtom& elt)
 {
   elt->print (os);
   return os;
@@ -2853,32 +2853,34 @@ R"()",
 
   // lyrics alignment
 
-  const lpsrLyricsAlignmentKind
-    lpsrLyricsAlignmentKindDefaultValue =
-      kLyricsAlignmentAutomatic; // default value
+  const lpsrLyricsDurationsKind
+    lpsrLyricsDurationsKindDefaultValue =
+      kLyricsDurationsImplicit; // default value
 
-  fLyricsAlignmentKind = lpsrLyricsAlignmentKindDefaultValue;
+  fLyricsDurationsKind = lpsrLyricsDurationsKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
-      lilypondLyricsAlignmentKindAtom::create (
-        "la", "lyrics-alignment", // JMI
+      lilypondLyricsDurationsKindAtom::create (
+        "ld", "lyrics-durations", // JMI
           replaceSubstringInString (
             replaceSubstringInString (
               replaceSubstringInString (
-R"(The NUMBER LilyPond lyrics alignment STYLEs available are:
-LYRICS_ALIGNMENT_KINDS.
+R"(The NUMBER LilyPond lyrics durations STYLEs available are:
+LYRICS_DURATIONS_KINDS.
+Using 'implicit' prevents the creation of lyrics attached to rests,
+use 'explicit' for such cases.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
-              to_string (gLpsrLyricsAlignmentKindsMap.size ())),
-            "LYRICS_ALIGNMENT_KINDS",
-            existingLpsrLyricsAlignmentKinds (K_NAMES_LIST_MAX_LENGTH)),
+              to_string (gLpsrLyricsDurationsKindsMap.size ())),
+            "LYRICS_DURATIONS_KINDS",
+            existingLpsrLyricsDurationsKinds (K_NAMES_LIST_MAX_LENGTH)),
           "DEFAULT_VALUE",
-          lpsrLyricsAlignmentKindAsString (
-            lpsrLyricsAlignmentKindDefaultValue)),
+          lpsrLyricsDurationsKindAsString (
+            lpsrLyricsDurationsKindDefaultValue)),
         "STYLE",
-        "lyricsAlignmentKind",
-        fLyricsAlignmentKind));
+        "lyricsDurationsKind",
+        fLyricsDurationsKind));
 }
 
 void lilypondOah::initializeFontsOptions (
@@ -3491,8 +3493,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   // lyrics
   // --------------------------------------
 
-  clone->fLyricsAlignmentKind =
-    fLyricsAlignmentKind;
+  clone->fLyricsDurationsKind =
+    fLyricsDurationsKind;
 
 
   // midi
@@ -3822,8 +3824,8 @@ void lilypondOah::printAtomOptionsValues (
       fAccidentalStyleKind <<
       endl <<
 
-    setw (valueFieldWidth) << "fLyricsAlignmentKind" << " : " <<
-      lpsrLyricsAlignmentKindAsString (fLyricsAlignmentKind) <<
+    setw (valueFieldWidth) << "lyricsDurationsKind" << " : " <<
+      lpsrLyricsDurationsKindAsString (fLyricsDurationsKind) <<
       endl <<
 
     setw (valueFieldWidth) << "compressFullMeasureRests" << " : " <<
@@ -4363,8 +4365,8 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
       fAccidentalStyleKind <<
       endl <<
 
-    setw (fieldWidth) << "lyricsAlignmentKind" << " : " <<
-      lpsrLyricsAlignmentKindAsString (fLyricsAlignmentKind) <<
+    setw (fieldWidth) << "lyricsDurationsKind" << " : " <<
+      lpsrLyricsDurationsKindAsString (fLyricsDurationsKind) <<
       endl <<
 
     setw (fieldWidth) << "compressFullMeasureRests" << " : " <<

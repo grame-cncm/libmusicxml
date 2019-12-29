@@ -6490,10 +6490,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "\\with {" <<
       endl;
 
-    switch (gLilypondOah->fLyricsAlignmentKind) {
-      case kLyricsAlignmentAutomatic: // default value
+    switch (gLilypondOah->fLyricsDurationsKind) {
+      case kLyricsDurationsImplicit: // default value
         break;
-      case kLyricsAlignmentManual:
+      case kLyricsDurationsExplicit:
       /* JMI
         fLilypondCodeOstream <<
           gTab << "associatedVoice = " <<
@@ -6515,15 +6515,15 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "}" <<
       endl;
 
-    switch (gLilypondOah->fLyricsAlignmentKind) {
-      case kLyricsAlignmentAutomatic: // default value
+    switch (gLilypondOah->fLyricsDurationsKind) {
+      case kLyricsDurationsImplicit: // default value
         fLilypondCodeOstream <<
           "\\lyricsto \"" << elt->getVoice ()->getVoiceName () << "\" {" <<
           "\\" << stanza->getStanzaName () <<
           "}" <<
           endl;
         break;
-      case kLyricsAlignmentManual:
+      case kLyricsDurationsExplicit:
         fLilypondCodeOstream <<
           "\\" << stanza->getStanzaName () <<
           endl;
@@ -8468,11 +8468,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
-          switch (gLilypondOah->fLyricsAlignmentKind) {
-            case kLyricsAlignmentAutomatic: // default value
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit: // default value
               // don't generate a duration for automatic lyrics alignment
               break;
-            case kLyricsAlignmentManual:
+            case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -8494,11 +8494,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
-          switch (gLilypondOah->fLyricsAlignmentKind) {
-            case kLyricsAlignmentAutomatic: // default value
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit: // default value
               // don't generate a duration for automatic lyrics alignment
               break;
-            case kLyricsAlignmentManual:
+            case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -8520,11 +8520,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
-          switch (gLilypondOah->fLyricsAlignmentKind) {
-            case kLyricsAlignmentAutomatic: // default value
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit: // default value
               // don't generate a duration for automatic lyrics alignment
               break;
-            case kLyricsAlignmentManual:
+            case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -8546,11 +8546,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->getSyllableTextsList (),
             fLilypondCodeOstream);
 
-          switch (gLilypondOah->fLyricsAlignmentKind) {
-            case kLyricsAlignmentAutomatic: // default value
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit: // default value
               // don't generate a duration for automatic lyrics alignment
               break;
-            case kLyricsAlignmentManual:
+            case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
                 elt->syllableWholeNotesAsMsrString ();
               break;
@@ -8584,8 +8584,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllableSkipRestNote:
-          switch (gLilypondOah->fLyricsAlignmentKind) {
-            case kLyricsAlignmentAutomatic: // default value
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit: // default value
               // don't generate a skip in lyrics for rests without syllables
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceLyrics) {
@@ -8596,7 +8596,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
               }
 #endif
               break;
-            case kLyricsAlignmentManual:
+            case kLyricsDurationsExplicit:
               // LilyPond ignores the skip duration
               // when \lyricsto is used JMI ???
               fLilypondCodeOstream <<
@@ -8606,7 +8606,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceLyrics) {
                 fLilypondCodeOstream <<
-                " %{ kLyricsAlignmentManual %} ";
+                " %{ kLyricsDurationsExplicit %} ";
               }
 #endif
               break;
@@ -8614,8 +8614,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllableSkipNonRestNote:
-          switch (gLilypondOah->fLyricsAlignmentKind) {
-            case kLyricsAlignmentAutomatic: // default value
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit: // default value
               // generate a skip in lyrics for rests without syllables
               fLilypondCodeOstream <<
                 "\\skip" <<
@@ -8624,11 +8624,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceLyrics) {
                 fLilypondCodeOstream <<
-                  " %{ kSyllableSkipNonRestNote kLyricsAlignmentAutomatic %} ";
+                  " %{ kSyllableSkipNonRestNote kLyricsDurationsImplicit %} ";
               }
 #endif
               break;
-            case kLyricsAlignmentManual:
+            case kLyricsDurationsExplicit:
               // LilyPond ignores the skip duration
               // when \lyricsto is used JMI ???
               fLilypondCodeOstream <<
@@ -8638,7 +8638,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceLyrics) {
                 fLilypondCodeOstream <<
-                " %{ kSyllableSkipNonRestNote kLyricsAlignmentManual %} ";
+                " %{ kSyllableSkipNonRestNote kLyricsDurationsExplicit %} ";
               }
 #endif
               break;

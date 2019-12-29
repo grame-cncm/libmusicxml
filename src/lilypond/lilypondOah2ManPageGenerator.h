@@ -36,7 +36,7 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_lilypondChordsDisplayAtom>,
 
-  public visitor<S_lilypondLyricsAlignmentKindAtom>,
+  public visitor<S_lilypondLyricsDurationsKindAtom>,
 
   public visitor<S_oahMidiTempoAtom>
 
@@ -70,8 +70,8 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
     virtual void visitStart (S_lilypondChordsDisplayAtom& elt);
     virtual void visitEnd   (S_lilypondChordsDisplayAtom& elt);
 
-    virtual void visitStart (S_lilypondLyricsAlignmentKindAtom& elt);
-    virtual void visitEnd   (S_lilypondLyricsAlignmentKindAtom& elt);
+    virtual void visitStart (S_lilypondLyricsDurationsKindAtom& elt);
+    virtual void visitEnd   (S_lilypondLyricsDurationsKindAtom& elt);
 
     virtual void visitStart (S_oahMidiTempoAtom& elt);
     virtual void visitEnd   (S_oahMidiTempoAtom& elt);

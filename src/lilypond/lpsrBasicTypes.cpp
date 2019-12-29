@@ -1289,50 +1289,50 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 }
 */
 
-// lyrics alignment
+// lyrics durations
 //______________________________________________________________________________
 
-map<string, lpsrLyricsAlignmentKind>
-  gLpsrLyricsAlignmentKindsMap;
+map<string, lpsrLyricsDurationsKind>
+  gLpsrLyricsDurationsKindsMap;
 
-string lpsrLyricsAlignmentKindAsString (
-  lpsrLyricsAlignmentKind lyricsAlignmentKind)
+string lpsrLyricsDurationsKindAsString (
+  lpsrLyricsDurationsKind lyricsDurationsKind)
 {
   string result;
 
   // no CamelCase here, these strings are used in the command line options
 
-  switch (lyricsAlignmentKind) {
-    case kLyricsAlignmentAutomatic: // default value
-      result = "automatic";
+  switch (lyricsDurationsKind) {
+    case kLyricsDurationsImplicit: // default value
+      result = "lyricsDurationsImplicit";
       break;
-    case kLyricsAlignmentManual:
-      result = "manual";
+    case kLyricsDurationsExplicit:
+      result = "lyricsDurationsExplicit";
       break;
   } // switch
 
   return result;
 }
 
-void initializeLpsrLyricsAlignmentKindsMap ()
+void initializeLpsrLyricsDurationsKindsMap ()
 {
   // register the LilyPond score output kinds
   // --------------------------------------
 
   // no CamelCase here, these strings are used in the command line options
 
-  gLpsrLyricsAlignmentKindsMap ["automatic"] = kLyricsAlignmentAutomatic;
-  gLpsrLyricsAlignmentKindsMap ["manual"]    = kLyricsAlignmentManual;
+  gLpsrLyricsDurationsKindsMap ["implicit"] = kLyricsDurationsImplicit;
+  gLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
 }
 
-string existingLpsrLyricsAlignmentKinds (int namesListMaxLength)
+string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gLpsrLyricsAlignmentKindsMap.size ()) {
-    map<string, lpsrLyricsAlignmentKind>::const_iterator
-      iBegin = gLpsrLyricsAlignmentKindsMap.begin (),
-      iEnd   = gLpsrLyricsAlignmentKindsMap.end (),
+  if (gLpsrLyricsDurationsKindsMap.size ()) {
+    map<string, lpsrLyricsDurationsKind>::const_iterator
+      iBegin = gLpsrLyricsDurationsKindsMap.begin (),
+      iEnd   = gLpsrLyricsDurationsKindsMap.end (),
       i      = iBegin;
 
     int cumulatedLength = 0;
@@ -1390,10 +1390,10 @@ void initializeLPSRBasicTypes ()
   initializeLpsrChordsLanguageKindsMap ();
 
 
-  // LPSR lyrics alignment kinds handling
+  // LPSR lyrics durations kinds handling
   // ------------------------------------------------------
 
-  initializeLpsrLyricsAlignmentKindsMap ();
+  initializeLpsrLyricsDurationsKindsMap ();
 }
 
 

@@ -555,47 +555,47 @@ typedef SMARTP<lilypondChordsDisplayAtom> S_lilypondChordsDisplayAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt);
 
 //______________________________________________________________________________
-class lilypondLyricsAlignmentKindAtom : public oahValuedAtom
+class lilypondLyricsDurationsKindAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<lilypondLyricsAlignmentKindAtom> create (
+    static SMARTP<lilypondLyricsDurationsKindAtom> create (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
       string             variableName,
-      lpsrLyricsAlignmentKind&
-                         lilypondLyricsAlignmentKindVariable);
+      lpsrLyricsDurationsKind&
+                         lilypondLyricsDurationsKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondLyricsAlignmentKindAtom (
+    lilypondLyricsDurationsKindAtom (
       string             shortName,
       string             longName,
       string             description,
       string             valueSpecification,
       string             variableName,
-      lpsrLyricsAlignmentKind&
-                         lilypondLyricsAlignmentKindVariable);
+      lpsrLyricsDurationsKind&
+                         lilypondLyricsDurationsKindVariable);
 
-    virtual ~lilypondLyricsAlignmentKindAtom ();
+    virtual ~lilypondLyricsDurationsKindAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setLpsrLyricsAlignmentKindVariable (
-                            lpsrLyricsAlignmentKind value)
+    void                  setLpsrLyricsDurationsKindVariable (
+                            lpsrLyricsDurationsKind value)
                               {
-                                fLpsrLyricsAlignmentKindVariable = value;
+                                fLpsrLyricsDurationsKindVariable = value;
                               }
 
   public:
@@ -640,11 +640,11 @@ class lilypondLyricsAlignmentKindAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    lpsrLyricsAlignmentKind&
-                          fLpsrLyricsAlignmentKindVariable;
+    lpsrLyricsDurationsKind&
+                          fLpsrLyricsDurationsKindVariable;
 };
-typedef SMARTP<lilypondLyricsAlignmentKindAtom> S_lilypondLyricsAlignmentKindAtom;
-EXP ostream& operator<< (ostream& os, const S_lilypondLyricsAlignmentKindAtom& elt);
+typedef SMARTP<lilypondLyricsDurationsKindAtom> S_lilypondLyricsDurationsKindAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondLyricsDurationsKindAtom& elt);
 
 //______________________________________________________________________________
 class lilypondOah : public oahGroup
@@ -1000,8 +1000,8 @@ class lilypondOah : public oahGroup
     // lyrics alignment
     // --------------------------------------
 
-    lpsrLyricsAlignmentKind
-                          fLyricsAlignmentKind;
+    lpsrLyricsDurationsKind
+                          fLyricsDurationsKind;
 
     // midi
     // --------------------------------------
