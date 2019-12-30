@@ -24,19 +24,19 @@ Introduction to \mxml\\[5pt]
 
 \newsavebox{\authorBox}
 \sbox{\authorBox}{
-\begin{minipage}{7cm}\centering
-Former lecturer in computer science at Centre Universitaire d'Informatique, 
+\raisebox{-0.35em}{
+\begin{minipage}{\textwidth}
+\footnotesize%
+Former lecturer in computer science at Centre Universitaire d'Informatique,\\
 University of Geneva, Switzerland
-
 \end{minipage}
 }
-%\usebox{\authorBox}
+}
 
 \author{
 Jacques Menu 
-\footnote {
-Former lecturer at Centre Universitaire d'Informatique, 
-University of Geneva, Switzerland
+\footnote{
+\usebox{\authorBox}
 }
 }
 
