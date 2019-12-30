@@ -9,6 +9,7 @@
 
 \subimport{../}{CommonLaTeXSettings}
 
+\interfootnotelinepenalty=10000
 
 % -------------------------------------------------------------------------
 \begin{document}
@@ -23,16 +24,20 @@ Introduction to \mxml\\[5pt]
 
 \newsavebox{\authorBox}
 \sbox{\authorBox}{
-Former lecturer in computer science at Centre Universitaire d'Informatique, \newline
+\begin{minipage}{7cm}\centering
+Former lecturer in computer science at Centre Universitaire d'Informatique, 
 University of Geneva, Switzerland
+
+\end{minipage}
 }
 %\usebox{\authorBox}
 
 \author{
 Jacques Menu 
 \footnote {
-Former lecturer in computer science at Centre Universitaire d'Informatique, 
-University of Geneva, Switzerland}
+Former lecturer at Centre Universitaire d'Informatique, 
+University of Geneva, Switzerland
+}
 }
 
 \date {\normalsize \today\ version}
