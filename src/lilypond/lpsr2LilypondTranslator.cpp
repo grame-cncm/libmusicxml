@@ -6490,19 +6490,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "\\with {" <<
       endl;
 
-    switch (gLilypondOah->fLyricsDurationsKind) {
-      case kLyricsDurationsImplicit: // default value
-        break;
-      case kLyricsDurationsExplicit:
-      /* JMI
-        fLilypondCodeOstream <<
-          gTab << "associatedVoice = " <<
-          "\""  << elt->getVoice ()->getVoiceName () << "\"" <<
-          endl;
-          */
-        break;
-    } // switch
-
     if (gMsrOah->fAddStanzasNumbers) {
       fLilypondCodeOstream <<
         gTab << "stanza = \"" <<
@@ -6516,7 +6503,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       endl;
 
     switch (gLilypondOah->fLyricsDurationsKind) {
-      case kLyricsDurationsImplicit: // default value
+      case kLyricsDurationsImplicit:
         fLilypondCodeOstream <<
           "\\lyricsto \"" << elt->getVoice ()->getVoiceName () << "\" {" <<
           "\\" << stanza->getStanzaName () <<
@@ -6524,6 +6511,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
           endl;
         break;
       case kLyricsDurationsExplicit:
+        // no \lyricsto in that case
         fLilypondCodeOstream <<
           "\\" << stanza->getStanzaName () <<
           endl;
@@ -8403,13 +8391,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
       elt->getStanzaTextPresent ();
 
     if (fGenerateCodeForOngoingNonEmptyStanza) {
-      gIndenter++;
-
       fLilypondCodeOstream <<
         elt->getStanzaName () << " = " << "\\lyricmode {" <<
         endl;
 
-       fLilypondCodeOstream <<
+      gIndenter++;
+
+      fLilypondCodeOstream <<
+        // set associatedVoice so that
+        // both double hyphens and double underscores can be used
+        // to draw hyphenated lines and extenders under melismata correctly
+        "\\set associatedVoice = #\"" <<
+        elt->getStanzaVoiceUpLink ()->getVoiceName () <<
+        "\"" <<
+        endl <<
         "\\set ignoreMelismata = ##t" <<
         endl;
     }
@@ -8436,6 +8431,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
       fLilypondCodeOstream <<
         endl <<
         "}" <<
+        endl <<
         endl;
     }
 
@@ -8469,8 +8465,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeOstream);
 
           switch (gLilypondOah->fLyricsDurationsKind) {
-            case kLyricsDurationsImplicit: // default value
-              // don't generate a duration for automatic lyrics alignment
+            case kLyricsDurationsImplicit:
+              // don't generate a duration for automatic lyrics durations
               break;
             case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
@@ -8495,8 +8491,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeOstream);
 
           switch (gLilypondOah->fLyricsDurationsKind) {
-            case kLyricsDurationsImplicit: // default value
-              // don't generate a duration for automatic lyrics alignment
+            case kLyricsDurationsImplicit:
+              // don't generate a duration for automatic lyrics durations
               break;
             case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
@@ -8521,8 +8517,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeOstream);
 
           switch (gLilypondOah->fLyricsDurationsKind) {
-            case kLyricsDurationsImplicit: // default value
-              // don't generate a duration for automatic lyrics alignment
+            case kLyricsDurationsImplicit:
+              // don't generate a duration for automatic lyrics durations
               break;
             case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
@@ -8547,8 +8543,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fLilypondCodeOstream);
 
           switch (gLilypondOah->fLyricsDurationsKind) {
-            case kLyricsDurationsImplicit: // default value
-              // don't generate a duration for automatic lyrics alignment
+            case kLyricsDurationsImplicit:
+              // don't generate a duration for automatic lyrics durations
               break;
             case kLyricsDurationsExplicit:
               fLilypondCodeOstream <<
@@ -8585,8 +8581,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableSkipRestNote:
           switch (gLilypondOah->fLyricsDurationsKind) {
-            case kLyricsDurationsImplicit: // default value
-              // don't generate a skip in lyrics for rests without syllables
+            case kLyricsDurationsImplicit:
+              // LilyPond ignores the skip durations when \lyricsto is used
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceLyrics) {
                 fLilypondCodeOstream <<
@@ -8597,8 +8593,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #endif
               break;
             case kLyricsDurationsExplicit:
-              // LilyPond ignores the skip duration
-              // when \lyricsto is used JMI ???
               fLilypondCodeOstream <<
                 "\\skip" <<
                 elt->syllableWholeNotesAsMsrString () <<
@@ -8615,8 +8609,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableSkipNonRestNote:
           switch (gLilypondOah->fLyricsDurationsKind) {
-            case kLyricsDurationsImplicit: // default value
-              // generate a skip in lyrics for rests without syllables
+            case kLyricsDurationsImplicit:
+              // LilyPond ignores the skip durations when \lyricsto is used
               fLilypondCodeOstream <<
                 "\\skip" <<
                 elt->syllableWholeNotesAsMsrString () <<
@@ -8629,8 +8623,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #endif
               break;
             case kLyricsDurationsExplicit:
-              // LilyPond ignores the skip duration
-              // when \lyricsto is used JMI ???
               fLilypondCodeOstream <<
                 "\\skip" <<
                 elt->syllableWholeNotesAsMsrString () <<
@@ -8663,7 +8655,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fLilypondCodeOstream <<
             "%{ kSyllableLineBreak, line " <<
             elt->getInputLineNumber () <<
-            " %}" <<
+            " %} " <<
+       // JMI BLARK
+            "| % " <<
+            elt->getSyllableNextMeasurePuristNumber () <<
             endl;
           break;
 
@@ -8679,10 +8674,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
       switch (elt->getSyllableExtendKind ()) {
         case msrSyllable::kSyllableExtendSingle:
-          // generate a lyric extender, i.e. a melisma,
-          // after this syllable
-          fLilypondCodeOstream <<
-            "__ ";
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit:
+              // generate a lyric extender, i.e. a melisma, after this syllable
+              fLilypondCodeOstream <<
+                "__ ";
+              break;
+            case kLyricsDurationsExplicit:
+              // generate a lyric extender, i.e. a melisma, after this syllable ??? JMI
+              fLilypondCodeOstream <<
+                "__ ";
+              break;
+          } // switch
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
@@ -8692,10 +8695,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
 
         case msrSyllable::kSyllableExtendStart:
-          // generate a lyric extender, i.e. a melisma,
-          // after this syllable
-          fLilypondCodeOstream <<
-            "__ ";
+          switch (gLilypondOah->fLyricsDurationsKind) {
+            case kLyricsDurationsImplicit:
+              // generate a lyric extender, i.e. a melisma, after this syllable
+              fLilypondCodeOstream <<
+                "__ ";
+              break;
+            case kLyricsDurationsExplicit:
+              // generate a lyric extender, i.e. a melisma, after this syllable ??? JMI
+              fLilypondCodeOstream <<
+                "__ ";
+              break;
+          } // switch
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
@@ -10004,42 +10015,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       fLilypondCodeOstream <<
         "}" <<
         endl;
-
-      /*
-        // JMI way to remove automatic parentheses if text is associated?
-        fLilypondCodeOstream <<
-          "\\tempo ";
-
-        if (tempoWordsListSize) {
-          list<S_msrWords>::const_iterator
-            iBegin = tempoWordsList.begin (),
-            iEnd   = tempoWordsList.end (),
-            i      = iBegin;
-
-          for ( ; ; ) {
-            S_msrWords words = (*i);
-
-            fLilypondCodeOstream <<
-              "\"" << words->getWordsContents () << "\"";
-
-            if (++i == iEnd) break;
-
-            fLilypondCodeOstream <<
-              ' ';
-          } // for
-        }
-
-        fLilypondCodeOstream <<
-          ' ' <<
-          dottedDurationAsLilypondString (
-            inputLineNumber,
-            tempoBeatUnit) <<
-          " = " <<
-          tempoPerMinute;
-
-        fLilypondCodeOstream << endl;
-        break;
-        */
       } // switch
       break;
 

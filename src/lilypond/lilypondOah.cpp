@@ -2855,7 +2855,7 @@ R"()",
 
   const lpsrLyricsDurationsKind
     lpsrLyricsDurationsKindDefaultValue =
-      kLyricsDurationsImplicit; // default value
+      kLyricsDurationsExplicit; // default value
 
   fLyricsDurationsKind = lpsrLyricsDurationsKindDefaultValue;
 
@@ -2868,8 +2868,8 @@ R"()",
               replaceSubstringInString (
 R"(The NUMBER LilyPond lyrics durations STYLEs available are:
 LYRICS_DURATIONS_KINDS.
-Using 'implicit' prevents the creation of lyrics attached to rests,
-use 'explicit' for such cases.
+Using 'implicit' prevents the creation of lyrics attached to rests by LilyPond,
+use 'explicit' in such cases.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gLpsrLyricsDurationsKindsMap.size ())),

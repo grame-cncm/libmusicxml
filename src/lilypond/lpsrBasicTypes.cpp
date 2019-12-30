@@ -1303,7 +1303,7 @@ string lpsrLyricsDurationsKindAsString (
   // no CamelCase here, these strings are used in the command line options
 
   switch (lyricsDurationsKind) {
-    case kLyricsDurationsImplicit: // default value
+    case kLyricsDurationsImplicit:
       result = "lyricsDurationsImplicit";
       break;
     case kLyricsDurationsExplicit:

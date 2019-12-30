@@ -2805,7 +2805,8 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
       S_msrStanza stanza = (*i).second;
 
       stanza->appendLineBreakSyllableToStanza (
-        lineBreak->getInputLineNumber ());
+        lineBreak->getInputLineNumber (),
+        fVoiceCurrentMeasurePuristNumber);
     } // for
   }
 }
