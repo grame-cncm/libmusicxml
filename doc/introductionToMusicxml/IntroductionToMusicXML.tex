@@ -151,6 +151,8 @@ In DTDs, sub-elements can be followed by followed by one of these characters, wh
 
 One can see in the definition of the '{\tt <forward>}' element that the '{\tt <duration>}' element is mandatory, while the '{\tt <staff>}' element is optional. The text in the DTD tells that staff 1 in implied if it not specified.
 
+In the DTD, '{\tt CDATA}' means {\it Character Data}. In the same vein, '{\tt PCDATA}' means {\it Parsed Character Data}, i.e. mixed content XML elements.  
+
 The current version of the \mxml\ DTD is~3.1, and there are discussions about version~3.2.
 
 The syntactical aspects of \mxml\ are quite simple and regular, which makes it easy to handle \mxml\ data with algorithms.
@@ -216,6 +218,43 @@ All this makes the syntax of \mxml\ data quite regular and simple, and it is eas
 Markups are called '{\tt elements}' in the \mxml\ DTD, and we shall use that terminology in the remainder of this document.
 
 % -------------------------------------------------------------------------
+\subsection{Overall structure of \mxml\ data}
+% -------------------------------------------------------------------------
+
+\mxml\ data consists of:
+\begin{itemize}
+\item a '{\tt <?xml>}' element indicating the characters encoding used;
+\item a '{\tt <!DOCTYPE>}' element telling that the contents is in '{\tt score-partwise}' mode; 
+\item a '{\tt <score-partwise>}' element indicating the \mxml\ DTD number that the forthcoming data complies to, and that contains:
+
+\item a score header containing:
+\begin{itemize}
+\item an optional '{\tt <work>}' element, containing elements such as '{\tt <work-number>}', '{\tt <work-title>}' and '{\tt <opus>}';
+
+\item optional '{\tt <movement-number>}', '{\tt <movement-title>}', '{\tt <identification>}' and '{\tt <defaults>}' elements;
+
+\item 0 or more '{\tt <credit>}' elements;
+
+\item a '{\tt <part-list>}' element containing the various '{\tt <score-part>}'s in the score;
+\end{itemize}
+
+\item a sequence of '{\tt <part>}' elements in the order they appear in the score, each one containing the measures in the given part, in order. 
+\end{itemize}
+
+This is how the score header is defined in \schemafile{score.mod}:
+\begin{lstlisting}[language=XML]
+<!--
+	The score-header entity contains basic score metadata
+	about the work and movement, score-wide defaults for
+	layout and fonts, credits that appear on the first page,
+	and the part list. 
+-->
+<!ENTITY % score-header
+	"(work?, movement-number?, movement-title?,
+	  identification?, defaults?, credit*, part-list)">
+\end{lstlisting}
+
+% -------------------------------------------------------------------------
 \subsection{What is the semantics of \mxml\ data?}
 % -------------------------------------------------------------------------
 
@@ -239,22 +278,78 @@ What is a '{\tt none}' clef? Is the clef currently in use still to be used from 
 
 This author has found \mxml\ files that contain '{\tt PERCUSSION}': is this to be accepted and handled as '{\tt percussion}'? This point is not mentioned in the DTD either.
 
+
 % -------------------------------------------------------------------------
-\subsection{Overall structure of \mxml\ data}
+% -------------------------------------------------------------------------
+\section{A complete example}
+%\hyperdef{link}{url-pck}{some text}\label{url-pck}
+% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-\mxml\ data consists of:
-\begin{itemize}
-\item a '{\tt <?xml>}' element indicating the characters encoding used;
-\item a '{\tt <!DOCTYPE>}' element telling that the contents is in '{\tt score-partwise}' mode; 
-\item a '{\tt <score-partwise>}' element indicating the \mxml\ DTD number that the forthcoming data complies to, and that contains:
+%\hyperlink{link.url-pck}{\pageref*{url-pck}}
 
-\begin{itemize}
-\item a '{\tt <part-list>}' element containing the various '{\tt <score-part>}'s in the score;
-\item a sequence of '{\tt <part>}' elements in the order they appear in the score, each one containing the measures in the given part, in order. 
-\end{itemize}
+As is usual in computer science, this minimal example is named \mxmlfile{basic/HelloWorld.xml}. It is displayed below, together with the resulting graphic score.
 
-\end{itemize}
+The first line specifies the character encoding of the contents below, here UTF-8. Then the '{\tt !DOCTYPE}' element at lines 2 to 4 tells us that this file contains partwise data conforming to DTD 3.0.
+
+Then the '{\tt <part-list>}' element at lines 7 to 11 contains a list of '{\tt <score-part>}'s with their '{\tt id}' attribute, here '{\tt P1}' alone.
+
+After this, we find the sequence of '{\tt part}'s with their '{\tt id}' attribute, here '{\tt P1}' alone, and, inside it, the single '{\tt <measure>}' element with attribute '{\tt number}' 1.
+
+The nesting of elements, such as '{\tt <key>}' containing a '{\tt <fifths>}' element, leads the structure of a \mxml\ representation to be a tree. The way the specification is written conforms to the computer science habit of drawing trees with their root at the top and their leaves at the bottom.
+
+%\begin{figure}
+%\caption{Contents of \mxmlfile{basic/Helloworld.xml}\label{helloworld}
+\includegraphics{HelloWorld.png}
+
+\begin{lstlisting}[language=XML, caption ={HelloWorld.xml}]
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC
+    "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
+    "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <work>
+    <work-title>Hello World!</work-title>
+    </work>
+  <!-- A very minimal MusicXML example -->
+  <part-list>
+    <score-part id="P1">
+      <part-name>Music</part-name>
+    </score-part>
+  </part-list>
+  <part id="P1">
+<!--=========================================================-->
+    <measure number="1">
+  <!-- A very minimal MusicXML example, part P1, measure 1 -->
+      <attributes>
+        <divisions>1</divisions>
+        <key>
+          <fifths>0</fifths>
+        </key>
+        <time>
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+  <!-- A very minimal MusicXML example, part P1, measure 1, before first note -->
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <type>whole</type>
+      </note>
+    </measure>
+<!--=========================================================-->
+  </part>
+</score-partwise>
+\end{lstlisting}
+%\end{figure}
 
 
 % -------------------------------------------------------------------------
@@ -419,77 +514,7 @@ The elements attached to notes are placed inside a '{\tt <notations>}' element, 
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{A complete example}
-%\hyperdef{link}{url-pck}{some text}\label{url-pck}
-% -------------------------------------------------------------------------
-% -------------------------------------------------------------------------
-
-%\hyperlink{link.url-pck}{\pageref*{url-pck}}
-
-As is usual in computer science, this minimal example is named \mxmlfile{basic/HelloWorld.xml}. It is displayed below, together with the resulting graphic score.
-
-The first line specifies the character encoding of the contents below, here UTF-8. Then the '{\tt !DOCTYPE}' element at lines 2 to 4 tells us that this file contains partwise data conforming to DTD 3.0.
-
-Then the '{\tt <part-list>}' element at lines 7 to 11 contains a list of '{\tt <score-part>}'s with their '{\tt id}' attribute, here '{\tt P1}' alone.
-
-After this, we find the sequence of '{\tt part}'s with their '{\tt id}' attribute, here '{\tt P1}' alone, and, inside it, the single '{\tt <measure>}' element with attribute '{\tt number}' 1.
-
-The nesting of elements, such as '{\tt <key>}' containing a '{\tt <fifths>}' element, leads the structure of a \mxml\ representation to be a tree. The way the specification is written conforms to the computer science habit of drawing trees with their root at the top and their leaves at the bottom.
-
-%\begin{figure}
-%\caption{Contents of \mxmlfile{basic/Helloworld.xml}\label{helloworld}
-\includegraphics{HelloWorld.png}
-
-\begin{lstlisting}[language=XML, caption ={HelloWorld.xml}]
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE score-partwise PUBLIC
-    "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
-    "http://www.musicxml.org/dtds/partwise.dtd">
-<score-partwise version="3.0">
-  <!-- A very minimal MusicXML example -->
-  <part-list>
-    <score-part id="P1">
-      <part-name>Music</part-name>
-    </score-part>
-  </part-list>
-  <part id="P1">
-<!--=========================================================-->
-    <measure number="1">
-  <!-- A very minimal MusicXML example, part P1, measure 1 -->
-      <attributes>
-        <divisions>1</divisions>
-        <key>
-          <fifths>0</fifths>
-        </key>
-        <time>
-          <beats>4</beats>
-          <beat-type>4</beat-type>
-        </time>
-        <clef>
-          <sign>G</sign>
-          <line>2</line>
-        </clef>
-      </attributes>
-  <!-- A very minimal MusicXML example, part P1, measure 1, before first note -->
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>4</duration>
-        <type>whole</type>
-      </note>
-    </measure>
-<!--=========================================================-->
-  </part>
-</score-partwise>
-\end{lstlisting}
-%\end{figure}
-
-
-% -------------------------------------------------------------------------
-% -------------------------------------------------------------------------
-\section{Score structure}
+\section{Score description structure}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
@@ -1069,6 +1094,10 @@ The '{\tt <grace>}' element is defined in \schemafile{note.mod}:
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
+% -------------------------------------------------------------------------
+\subsection{Ties}
+% -------------------------------------------------------------------------
+
 From \schemafile{note.mod}:
 
 \begin{lstlisting}[language=XML]
@@ -1116,6 +1145,9 @@ The '{\tt <tie>}' element
 
 The '{\tt <tied>}' element
 
+% -------------------------------------------------------------------------
+\subsection{Slurs}
+% -------------------------------------------------------------------------
 
 The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itself placed inside a '{\tt <note>}' element. Is has two attributes:
 \begin{enumerate}
@@ -1194,6 +1226,104 @@ An example can be seen in \mxmlfile{basic/TieAndSlur.xml}:\\
 \section{Harmonies and figured bass}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+\subsection{Harmonies}
+% -------------------------------------------------------------------------
+
+The '{\tt <harmony>}' element in \mxml\ goes beyond merely displaying harmonies, since it can describe harmonic analysis. i.e. harmonies functions. 
+
+Here is how it is defined in \schemafile{direction.mod}:
+\begin{lstlisting}[language=XML]
+<!--
+	The harmony elements are based on Humdrum's **harm
+	encoding, extended to support chord symbols in popular
+	music as well as functional harmony analysis in classical
+	music.
+	
+	If there are alternate harmonies possible, this can be
+	specified using multiple harmony elements differentiated
+	by type. Explicit harmonies have all note present in the
+	music; implied have some notes missing but implied;
+	alternate represents alternate analyses. 
+	
+	The harmony object may be used for analysis or for
+	chord symbols. The print-object attribute controls
+	whether or not anything is printed due to the harmony
+	element. The print-frame attribute controls printing
+	of a frame or fretboard diagram. The print-style entity
+	sets the default for the harmony, but individual elements
+	can override this with their own print-style values.
+	
+	A harmony element can contain many stacked chords (e.g.
+	V of II). A sequence of harmony-chord entities is used
+	for this type of secondary function, where V of II would
+	be represented by a harmony-chord with a V function
+	followed by a harmony-chord with a II function.
+-->
+<!ENTITY % harmony-chord "((root | function), kind,
+	inversion?, bass?, degree*)">
+
+<!ELEMENT harmony ((%harmony-chord;)+, frame?, 
+	offset?, %editorial;, staff?)>
+<!ATTLIST harmony
+    type (explicit | implied | alternate) #IMPLIED
+    %print-object;
+    print-frame  %yes-no; #IMPLIED
+    %print-style;
+    %placement;
+    %optional-unique-id;
+>
+\end{lstlisting}
+
+
+% -------------------------------------------------------------------------
+\subsection{Figured bass}
+% -------------------------------------------------------------------------
+
+The '{\tt <figured-bass>}' element is defined in \schemafile{node.mod} this way:
+\begin{lstlisting}[language=XML]
+<!--
+	Figured bass elements take their position from the first
+	regular note (not a grace note or chord note) that follows
+	in score order. The optional duration element is used to
+	indicate changes of figures under a note.
+
+	Figures are ordered from top to bottom. A figure-number is
+	a number. Values for prefix and suffix include plus and
+	the accidental values sharp, flat, natural, double-sharp,
+	flat-flat, and sharp-sharp. Suffixes include both symbols
+	that come after the figure number and those that overstrike
+	the figure number. The suffix values slash, back-slash, and
+	vertical are used for slashed numbers indicating chromatic
+	alteration. The orientation and display of the slash usually
+	depends on the figure number. The prefix and suffix elements
+	may contain additional values for symbols specific to
+	particular figured bass styles. The value of parentheses
+	is "no" if not present.
+-->
+<!ELEMENT figured-bass (figure+, duration?, %editorial;)>
+<!ATTLIST figured-bass
+    %print-style;
+    %printout;
+    parentheses %yes-no; #IMPLIED
+    %optional-unique-id;
+>
+<!ELEMENT figure
+	(prefix?, figure-number?, suffix?, extend?, %editorial;)>
+<!ELEMENT prefix (#PCDATA)>
+<!ATTLIST prefix
+    %print-style;
+>
+<!ELEMENT figure-number (#PCDATA)>
+<!ATTLIST figure-number
+    %print-style;
+>
+<!ELEMENT suffix (#PCDATA)>
+<!ATTLIST suffix
+    %print-style;
+>
+\end{lstlisting}
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -1527,7 +1657,7 @@ The '{\tt <text>}' sub-element contains the text to be sung. It can have attribu
 \end{lstlisting}
 
 
-The '{\tt <syllabic>}' sub-element, contains a characterization of the test:
+The '{\tt <syllabic>}' sub-element, contains a characterization of the text:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -1631,7 +1761,8 @@ Many GUI applications provide a way to import \mxml\ data, often with some limit
 \subsection{Small element, big effect}
 % -------------------------------------------------------------------------
 
-In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a harmony with an '{\tt <inversion>}' element. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
+In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a harmony with an '{\tt <inversion>}' element containing '{\tt 2}', hence the second inversion of the chord. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
+
 %\begin{figure}
 %\caption{Harmony inversion from \mxmlfile{harmonies/Inversion.xml}}\label{inversion}
 \includegraphics{Inversion.png}
@@ -1652,12 +1783,50 @@ In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a harmony with an '
 \subsection{Elements handled in different ways}
 % -------------------------------------------------------------------------
 
+Multi-measure rests are specified in \mxml\ with the '{\tt <multiple-rest>}' element.
+For example, \mxmlfile{rests/MultiMeasureRests.xml} contains:
+\begin{lstlisting}[language=XML]
+      <attributes>
+        <!-- ... ... ... ... -->
+        <measure-style>
+          <multiple-rest>2</multiple-rest>
+        </measure-style>
+      </attributes>
+\end{lstlisting}
+
+In the snippet above, the current measure is the first of a sequence of 2 rest measures.
+Note that all measures in the sequence have to be explicitly present in the \mxml\ data.
+
+This file is handled differently by various applications, as can be seen below.
+
+\muse\ displays it this way:\\
+\includegraphics[scale=0.55]{MultiMeasureRestsMuseScore.png}
+
+\mxmlToLy\ produces:\\
+\includegraphics{MultiMeasureRestsMusicxml2ly.png}
+
+\sib\ produces:\\
+\includegraphics[scale=0.525]{MultiMeasureRestsSibelius.png}
+
+and \fin\ produces:\\
+\includegraphics[scale=0.8]{MultiMeasureRestsFinale.png}
+
+
 % -------------------------------------------------------------------------
 \subsection{Elements often not well handled}
 % -------------------------------------------------------------------------
 
-There are elements that are not displayed in a "standard" way by the usual music score editors. One of them is the '{\tt <beat-repeat>}'.
+There are elements that are not displayed in a "standard" way by the usual music score editors. One of them is the '{\tt <beat-repeat>}', found for example in \mxmlfile{repeats/BeatRepeat.xml}.
 
+\fin\ produces:\\
+\includegraphics[scale=0.8]{BeatRepeatFinale.png}.
+
+All the other applications s in this panel produce the following, i.e. they ignore the beat repeat altogether:\\
+\includegraphics{BeatRepeatXml2ly.png}
+
+And if one exports the score from \fin\ to \mxml, the beat repeat information is lost. 
+
+All this seems to indicate that beat repeats are quite rare in \mxml\ files.
 
 % -------------------------------------------------------------------------
 \subsection{Elements usually not handled}

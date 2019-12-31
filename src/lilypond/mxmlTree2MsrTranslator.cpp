@@ -7790,7 +7790,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   }
 
   else if (fOnGoingNote) {
-
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceNotesDetails) {
       fLogOutputStream <<
@@ -7825,7 +7824,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   }
 
   else if (fOnGoingFiguredBass) {
-
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceFiguredBasses) {
       fLogOutputStream <<
@@ -7869,7 +7867,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   }
 
   else {
-
     stringstream s;
 
     s << "duration " << duration << " is out of context";
@@ -21822,7 +21819,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-      "figured-bass has no figures contents FOO, ignoring it");
+      "figured-bass has no figures contents, ignoring it");
   }
   else {
     // append the pending figures to the figured bass
@@ -21830,7 +21827,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
       list<S_msrFigure>::const_iterator i=fPendingFiguredBassFiguresList.begin ();
       i!=fPendingFiguredBassFiguresList.end ();
       i++
-  ) {
+    ) {
       figuredBass->
         appendFigureToFiguredBass ((*i));
     } // for

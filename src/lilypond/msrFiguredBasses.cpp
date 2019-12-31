@@ -465,7 +465,7 @@ void msrFiguredBass::appendFigureToFiguredBass (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figure'" << figure->asString () <<
+      "Appending figure '" << figure->asString () <<
       "' to figuredBass '" <<
       asString () <<
       "'" <<
@@ -556,23 +556,27 @@ string msrFiguredBass::asString () const
 
   s <<
     "Figured bass" <<
-    ", figuredBassSoundingWholeNotes" <<
+    ", figuredBassSoundingWholeNotes: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
 // JMI      fFiguredBassSoundingWholeNotes) <<
       fSoundingWholeNotes) <<
-    ", figuredBassDisplayWholeNotes" <<
+    ", figuredBassDisplayWholeNotes: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
       fFiguredBassDisplayWholeNotes) <<
 
-    ", figuredBassParenthesesKind" <<
+    ", figuredBassParenthesesKind: " <<
     figuredBassParenthesesKindAsString (
       fFiguredBassParenthesesKind) <<
+
+    ", figuredBassTupletFactor: " <<
+    fFiguredBassTupletFactor.asString () <<
+
     ", line " << fInputLineNumber;
 
   if (fFiguredBassFiguresList.size ()) {
-    s << ", ";
+    s << ", figuredBassFiguresList: [";
 
     list<S_msrFigure>::const_iterator
       iBegin = fFiguredBassFiguresList.begin (),
@@ -584,11 +588,13 @@ string msrFiguredBass::asString () const
       if (++i == iEnd) break;
       s << " ";
     } // for
+
+    s << "]";
   }
 
   // print the figured bass position in measure
   s <<
-    ", positionInMeasure" << fPositionInMeasure;
+    ", positionInMeasure: " << fPositionInMeasure;
 
 /* JMI
   if (fFiguredBassPartUpLink) { // JMI ???
@@ -625,23 +631,38 @@ void msrFiguredBass::print (ostream& os) const
   }
   os << endl;
 
-  os << left <<
+  os <<
     setw (fieldWidth) <<
-    "figuredBassNoteUpLink" << " : " <<
-    fFiguredBassNoteUpLink->asString () <<
-    endl <<
+    "figuredBassVoiceUpLink" << " : ";
+  if (fFiguredBassVoiceUpLink) {
+    os << fFiguredBassVoiceUpLink->asString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 
-    "figuredBassSoundingWholeNotes" << " : " <<
+  os << left <<
+//    setw (fieldWidth) <<
+//    "figuredBassSoundingWholeNotes" << " : " <<
  // JMI   fFiguredBassSoundingWholeNotes <<
-    fSoundingWholeNotes <<
-    endl <<
+//    fSoundingWholeNotes <<
+//    endl <<
+
+    setw (fieldWidth) <<
     "figuredBassDisplayWholeNotes" << " : " <<
     fFiguredBassDisplayWholeNotes <<
     endl <<
 
-    ", figuredBassParenthesesKind" << " : " <<
+    setw (fieldWidth) <<
+    "figuredBassParenthesesKind" << " : " <<
     figuredBassParenthesesKindAsString (
       fFiguredBassParenthesesKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "figuredBassTupletFactor" << " : " <<
+    fFiguredBassTupletFactor.asString () <<
     endl;
 
   if (fFiguredBassFiguresList.size ()) {

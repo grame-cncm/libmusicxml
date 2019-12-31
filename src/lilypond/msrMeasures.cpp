@@ -2306,11 +2306,6 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  // sanity check
-  msrAssert (
-    wholeNotes.getNumerator () >= 0,
-    "wholeNotes.getNumerator () is negative");
-
   // fetch the measure voice
   S_msrVoice
     measureVoice =
@@ -2345,6 +2340,11 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
       endl;
   }
 #endif
+
+  // sanity check
+  msrAssert (
+    wholeNotes.getNumerator () >= 0,
+    "wholeNotes.getNumerator () is negative");
 
   if (fCurrentMeasureWholeNotesDuration < wholeNotes) {
     gIndenter++;
