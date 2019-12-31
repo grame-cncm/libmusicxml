@@ -2,6 +2,9 @@
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 1.0 Partwise//EN"
                                 "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise>
+  <work>
+    <work-title>Humdrum/Scot Keys</work-title>
+    </work>
   <identification>
     <miscellaneous>
       <miscellaneous-field name="description">Non-traditional key signatures,
