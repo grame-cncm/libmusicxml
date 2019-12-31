@@ -6526,7 +6526,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
             inputLineNumber,
             fCurrentMeasureNumber);
 
-      // append it to the pending line breaks
+      // append lineBreak to the pending line breaks
       fPendingLineBreaksList.push_back (lineBreak);
     }
 
@@ -18679,6 +18679,9 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       ! fCurrentNoteHasLyrics;
 
     switch (fCurrentSyllableExtendKind) {
+      case msrSyllable::kSyllableExtendNone:
+  //      doCreateASkipSyllable = true; // JMI
+        break;
       case msrSyllable::kSyllableExtendSingle:
         break;
       case msrSyllable::kSyllableExtendStart:
@@ -18687,9 +18690,6 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
  //       doCreateASkipSyllable = true; // JMI
         break;
       case msrSyllable::kSyllableExtendStop:
-        break;
-      case msrSyllable::kSyllableExtendNone:
-  //      doCreateASkipSyllable = true; // JMI
         break;
     } // switch
 
@@ -18749,6 +18749,8 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
 
   // take care of ongoing extends
   switch (fCurrentSyllableExtendKind) {
+    case msrSyllable::kSyllableExtendNone:
+      break;
     case msrSyllable::kSyllableExtendSingle:
       fOnGoingSyllableExtend = true;
       break;
@@ -18762,8 +18764,6 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       break;
     case msrSyllable::kSyllableExtendStop:
       fOnGoingSyllableExtend = false;
-      break;
-    case msrSyllable::kSyllableExtendNone:
       break;
   } // switch
 }

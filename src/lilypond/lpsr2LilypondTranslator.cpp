@@ -8480,7 +8480,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableSingle %} ";
+              "%{ syllableSingle %} ";
           }
 #endif
           break;
@@ -8506,7 +8506,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableBegin %} ";
+              "%{ syllableBegin %} ";
           }
 #endif
           break;
@@ -8532,7 +8532,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableMiddle %} ";
+              "%{ syllableMiddle %} ";
           }
 #endif
           break;
@@ -8558,7 +8558,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableEnd %} ";
+              "%{ syllableEnd %} ";
           }
 #endif
           break;
@@ -8574,7 +8574,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-            " %{ kSyllableOnRestNote %} ";
+            " %{ syllableOnRestNote %} ";
           }
 #endif
           break;
@@ -8618,7 +8618,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceLyrics) {
                 fLilypondCodeOstream <<
-                  " %{ kSyllableSkipNonRestNote kLyricsDurationsImplicit %} ";
+                  " %{ syllableSkipNonRestNote lyricsDurationsImplicit %} ";
               }
 #endif
               break;
@@ -8630,7 +8630,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
               if (gTraceOah->fTraceLyrics) {
                 fLilypondCodeOstream <<
-                " %{ kSyllableSkipNonRestNote kLyricsDurationsExplicit %} ";
+                " %{ syllableSkipNonRestNote lyricsDurationsExplicit %} ";
               }
 #endif
               break;
@@ -8642,7 +8642,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           if (gLilypondOah->fInputLineNumbers) {
             // print the measure end line number as a comment
             fLilypondCodeOstream <<
-              "%{ kSyllableMeasureEnd, line " <<
+              "%{ syllableMeasureEnd, line " <<
               elt->getInputLineNumber () <<
               " %}";
           }
@@ -8653,11 +8653,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSyllableLineBreak:
           // print the measure end line number as a comment
           fLilypondCodeOstream <<
-            "%{ kSyllableLineBreak, line " <<
+            "%{ syllableLineBreak, line " <<
             elt->getInputLineNumber () <<
             " %} " <<
-       // JMI BLARK
-            "| % " <<
+            "%| % " << // JMI BLARK TO BE FIXED
             elt->getSyllableNextMeasurePuristNumber () <<
             endl;
           break;
@@ -8665,7 +8664,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSyllablePageBreak:
           // print the measure end line number as a comment
           fLilypondCodeOstream <<
-            "%{ kSyllableLineBreak, line " <<
+            "%{ syllablePageBreak, line " <<
             elt->getInputLineNumber () <<
             " %}" <<
             endl;
@@ -8673,6 +8672,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       } // switch
 
       switch (elt->getSyllableExtendKind ()) {
+        case msrSyllable::kSyllableExtendNone:
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceLyrics) {
+            fLilypondCodeOstream <<
+              "%{ syllableExtendNone %} ";
+          }
+#endif
+          break;
+
         case msrSyllable::kSyllableExtendSingle:
           switch (gLilypondOah->fLyricsDurationsKind) {
             case kLyricsDurationsImplicit:
@@ -8689,7 +8697,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableExtendSingle %} ";
+              "%{ syllableExtendSingle %} ";
           }
 #endif
           break;
@@ -8710,7 +8718,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableExtendStart %} ";
+              "%{ syllableExtendStart %} ";
           }
 #endif
           break;
@@ -8719,7 +8727,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableExtendContinue %} ";
+              "%{ syllableExtendContinue %} ";
           }
 #endif
           break;
@@ -8728,16 +8736,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceLyrics) {
             fLilypondCodeOstream <<
-              "%{ kSyllableExtendStop %} ";
-          }
-#endif
-          break;
-
-        case msrSyllable::kSyllableExtendNone:
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceLyrics) {
-            fLilypondCodeOstream <<
-              "%{ kSyllableExtendNone %} ";
+              "%{ syllableExtendStop %} ";
           }
 #endif
           break;

@@ -484,6 +484,9 @@ string msrSyllable::syllableExtendKindAsString (
   string result;
 
   switch (syllableExtendKind) {
+    case msrSyllable::kSyllableExtendNone:
+      result = "syllableExtendNone";
+      break;
     case msrSyllable::kSyllableExtendSingle:
       result = "syllableExtendSingle";
       break;
@@ -495,9 +498,6 @@ string msrSyllable::syllableExtendKindAsString (
       break;
     case msrSyllable::kSyllableExtendStop:
       result = "syllableExtendStop";
-      break;
-    case msrSyllable::kSyllableExtendNone:
-      result = "syllableExtendNone";
       break;
   } // switch
 
@@ -675,7 +675,7 @@ void msrSyllable::print (ostream& os) const
     os);
 
   switch (fSyllableKind) { // JMI
-    case kSyllableNone:
+    case msrSyllable::kSyllableNone:
       msrInternalError (
         gOahOah->fInputSourceName,
         fInputLineNumber,
@@ -690,9 +690,9 @@ void msrSyllable::print (ostream& os) const
     case msrSyllable::kSyllableOnRestNote:
     case msrSyllable::kSyllableSkipRestNote:
     case msrSyllable::kSyllableSkipNonRestNote:
-    case kSyllableMeasureEnd:
-    case kSyllableLineBreak:
-    case kSyllablePageBreak:
+    case msrSyllable::kSyllableMeasureEnd:
+    case msrSyllable::kSyllableLineBreak:
+    case msrSyllable::kSyllablePageBreak:
       break;
   } // switch
   os << endl;
