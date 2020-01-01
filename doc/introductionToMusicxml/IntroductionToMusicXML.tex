@@ -213,13 +213,17 @@ The current version of the \mxml\ DTD is~3.1, and there are discussions about ve
 
 The syntactical aspects of \mxml\ are quite simple and regular, which makes it easy to handle \mxml\ data with algorithms.
 
+\page
+
 % -------------------------------------------------------------------------
 \subsection{Markups}
 % -------------------------------------------------------------------------
 
-\mxml\ data is made of so-called markups (the 'M' in 'XML'), delimited by an opener and a closer. The opener is introduced by a '{\tt <}' and closed by a '{\tt >}', as in '{\tt <part-list>}'. The closer is introduced by a '{\tt </}' and closed by a '{\tt >}', as in '{\tt </part-list>}'.
+\mxml\ data is made of so-called markups (the 'M' in 'XML'), delimited by an {\it start-tag} and a {\it stop-tag}. 
 
-\page
+The start-tag is introduced by a '{\tt <}' and closed by a '{\tt >}', as in '{\tt <part-list>}'. The stop-tag is introduced by a '{\tt </}' and closed by a '{\tt >}', as in '{\tt </part-list>}'.
+
+\sep
 
 Markups go by pairs, as in:
 \begin{lstlisting}[language=XML]
@@ -230,7 +234,7 @@ The spaces and end of lines between markups are ignored.
 
 \sep
 
-It is possible to contract an element that contains nothing between its opener and closer, such as:
+It is possible to contract an element that contains nothing between its start-tag and stop-tag, such as:
 \begin{lstlisting}[language=XML]
         <dot></dot>
 \end{lstlisting}
@@ -251,7 +255,7 @@ Some attributes are mandatory such as '{\tt id}' in '{\tt <score-part>}', while 
 
 \sep
 
-Comments can be used in \mxml\ data. They start with a '{\tt <!--}' opener and end with a '{\tt -->}' closer, as in:
+Comments can be used in \mxml\ data. They start with a '{\tt <!--}' start-tag and end with a '{\tt -->}' stop-tag, as in:
 \begin{lstlisting}[language=XML]
 <!--=========================================================-->
     <measure number="1">
@@ -599,7 +603,7 @@ The elements attached to notes are placed inside a '{\tt <notations>}' element, 
 \mxml\ data contains a mix of legal informations, score geometry and musical contents. Some aspects of this are presented in this section.
 
 % -------------------------------------------------------------------------
-\subsection{Identification and rights}
+\subsection{Identification, rights and credits}
 % -------------------------------------------------------------------------
 
 The '{\tt  <identification>}' element is defined in \schemafile{identity.mod}:
@@ -613,23 +617,6 @@ The '{\tt  <identification>}' element is defined in \schemafile{identity.mod}:
 -->
 <!ELEMENT identification (creator*, rights*, encoding?,
 	source?, relation*, miscellaneous?)>
-
-<!--
-	The creator element is borrowed from Dublin Core. It is
-	used for the creators of the score. The type attribute is
-	used to distinguish different creative contributions. Thus,
-	there can be multiple creators within an identification.
-	Standard type values are composer, lyricist, and arranger.
-	Other type values may be used for different types of
-	creative roles. The type attribute should usually be used
-	even if there is just a single creator element. The MusicXML
-	format does not use the creator / contributor distinction
-	from Dublin Core.
--->
-<!ELEMENT creator (#PCDATA)>
-<!ATTLIST creator
-    type CDATA #IMPLIED
->
 \end{lstlisting}
 
 \sep
@@ -650,6 +637,11 @@ For example, \mxmlfile{xmlsamples3.1/ActorPreludeSample.xml} contains:
     </encoding>
   </identification>
 \end{lstlisting}
+
+
+'{\tt <rights>}' elements
+
+'{\tt <credit>}' elements
 
 % -------------------------------------------------------------------------
 \subsection{Score geometry}

@@ -2535,12 +2535,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
     fShortNamesSuffixes.size () <<
     " known " << fShortSuffixDescriptor << "s are: ";
 
-  if (! fShortNamesSuffixes.size ()) {
-    os <<
-      "none" <<
-      endl;
-  }
-  else {
+  if (fShortNamesSuffixes.size ()) {
     os << endl;
     gIndenter++;
 
@@ -2572,19 +2567,37 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
     os << "." << endl;
     gIndenter--;
   }
+  else {
+    os <<
+      "none" <<
+      endl;
+  }
 
   if (fLongSuffixDescriptor != fShortSuffixDescriptor) {
-    os <<
-    "The " <<
-    fLongNamesSuffixes.size () <<
-    " known " << fLongSuffixDescriptor << "s are: ";
+    int longNamesSuffixesCount = 0;
 
-    if (! fLongNamesSuffixes.size ()) {
-      os <<
-        "none" <<
-        endl;
+    {
+      list<string>::const_iterator
+        iBegin = fLongNamesSuffixes.begin (),
+        iEnd   = fLongNamesSuffixes.end (),
+        i      = iBegin;
+
+      for ( ; ; ) {
+        if ((*i).size ()) {
+          longNamesSuffixesCount++;
+        }
+
+        if (++i == iEnd) break;
+      } // for
     }
-    else {
+
+    os <<
+      "The " <<
+      fLongNamesSuffixes.size () <<
+      " -- " << longNamesSuffixesCount <<
+      " known " << fLongSuffixDescriptor << "s are: ";
+
+    if (fLongNamesSuffixes.size ()) {
       os << endl;
       gIndenter++;
 
@@ -2604,6 +2617,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
         if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
 
         if (++i == iEnd) break;
+
         if (next (i) == iEnd) {
           os << " and ";
         }
@@ -2614,6 +2628,11 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
 
       os << "." << endl;
       gIndenter--;
+    }
+    else {
+      os <<
+        "none" <<
+        endl;
     }
   }
 
