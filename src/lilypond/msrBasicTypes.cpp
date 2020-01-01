@@ -774,6 +774,7 @@ string wholeNotesAsMsrString (
     return "zero";
   }
   else if (numerator < 0) {
+    // sanity check
     stringstream s;
 
     s <<

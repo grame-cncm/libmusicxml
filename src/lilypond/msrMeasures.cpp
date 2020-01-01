@@ -3821,12 +3821,12 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
   }
 }
 
-void msrMeasure::postHandleLastHarmonyInHarmonyMeasure (
+void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
   int          inputLineNumber,
   S_msrVoice   voice,
   S_msrHarmony currentHarmony)
 {
-  // does the last harmony in the measure overflow the latter?
+  // does currentHarmony overflow the measure?
 
   // get the currentHarmony's position in the measure
   rational
@@ -3913,11 +3913,11 @@ void msrMeasure::postHandleLastHarmonyInHarmonyMeasure (
 #endif
 
   if (positionsInMeasureDelta.getNumerator () > 0) {
-    // the last harmony's duration is too big
+    // the currentHarmony's duration is too big
     stringstream s;
 
     s <<
-      "The last harmony " <<
+      "The current harmony " <<
       currentHarmony->asString () <<
       " overflows the current measure " <<
       asString ();
@@ -4145,7 +4145,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
     } // while
 
     if (currentHarmony) {
-      postHandleLastHarmonyInHarmonyMeasure (
+      postHandleCurrentHarmonyInHarmonyMeasure (
         inputLineNumber,
         voice,
         currentHarmony);

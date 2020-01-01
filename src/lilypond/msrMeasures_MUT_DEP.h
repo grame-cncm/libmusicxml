@@ -671,7 +671,7 @@ class msrMeasure : public msrElement
                             S_msrHarmony currentHarmony,
                             rational     currentHarmonyPositionInMeasure);
 
-    void                  postHandleLastHarmonyInHarmonyMeasure (
+    void                  postHandleCurrentHarmonyInHarmonyMeasure (
                             int          inputLineNumber,
                             S_msrVoice   voice,
                             S_msrHarmony currentHarmony);

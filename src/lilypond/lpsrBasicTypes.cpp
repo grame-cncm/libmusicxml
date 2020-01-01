@@ -150,6 +150,7 @@ string wholeNotesAsLilypondString (
   }
 #endif
 
+/* JMI
   if (false && numerator <= 0) { // JMI
     stringstream s;
 
@@ -162,10 +163,25 @@ string wholeNotesAsLilypondString (
 
     return s.str ();
   }
+*/
 
-  msrAssert (
-    numerator > 0,
-    "numerator is not positive in wholeNotesAsLilypondString()");
+  // sanity check
+  if (numerator <= 0) {
+    stringstream s;
+
+    s <<
+      "numerator is not positive in wholeNotesAsLilypondString()" <<
+      ", wholeNotes = " << wholeNotes;
+
+ //   msrMusicXMLError ( JMI
+    msrMusicXMLWarning (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+  //    __FILE__, __LINE__,
+      s.str ());
+abort ();
+    return "???";
+  }
 
   wholeNotes.rationalise ();
 
