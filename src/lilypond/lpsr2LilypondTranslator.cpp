@@ -12717,6 +12717,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         i++
       ) {
         S_msrArticulation articulation = (*i);
+
         switch (articulation->getArticulationKind ()) {
           case msrArticulation::kFermata: // handle this better JMI
             if (
@@ -12739,7 +12740,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
               switch (fermata->getFermataKind ()) {
                 case msrFermata::kNormalFermataKind:
-                  fLilypondCodeOstream << "\\fermata ";
+                  if (
+                    elt->getNoteOccupiesAFullMeasure ()
+                      &&
+                    elt->getNoteIsARest ()
+                  ) {
+                    fLilypondCodeOstream << "\\fermataMarkup ";
+                  }
+                  else {
+                    fLilypondCodeOstream << "\\fermata ";
+                  }
                   break;
                 case msrFermata::kAngledFermataKind:
                   fLilypondCodeOstream << "\\shortfermata ";

@@ -2493,6 +2493,7 @@ Nothing special is done by default.)",
         "separatorLineEveryNMeasures",
         fSeparatorLineEveryNMeasures));
 
+/* JMI
   subGroup->
     appendAtomToSubGroup (
       oahStringsSetElementAtom::create (
@@ -2504,6 +2505,7 @@ There can be several occurrences of this option.)",
         "NUMBER",
         "breakLineAfterMeasureNumberSet",
         fBreakLineAfterMeasureNumberSet));
+        */
 }
 
 void lilypondOah::initializePageBreaksOptions (
@@ -2537,19 +2539,6 @@ R"(Ignore the page breaks from the MusicXML input - let LilyPond decide about th
 /* JMI
   subGroup->
     appendAtomToSubGroup (
-      lilypondBreakPageAfterMeasureNumberAtom::create (
-        "bpamn", "break-page-after-measure-number",
-R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
-NUMBER is a MusicXML measure number (a string), to be found in the latter.
-This comes in handy when scanning several movements from a single PDF score.
-There can be several occurrences of this option.)",
-        "NUMBER",
-        "breakPageAfterMeasureNumberSet",
-        fBreakPageAfterMeasureNumberSet));
-        */
-
-  subGroup->
-    appendAtomToSubGroup (
       oahStringsSetElementAtom::create (
         "bpamn", "break-page-after-measure-number",
 R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
@@ -2559,6 +2548,7 @@ There can be several occurrences of this option.)",
         "NUMBER",
         "breakPageAfterMeasureNumberSet",
         fBreakPageAfterMeasureNumberSet));
+        */
 }
 
 void lilypondOah::initializeStavesOptions (

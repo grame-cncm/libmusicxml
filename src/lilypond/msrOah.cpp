@@ -1865,39 +1865,73 @@ There can be several occurrences of this option.)",
         "partsTranspositionMap",
         fPartsTranspositionMap));
 
-  // MSR omit part
+  // MSR omit part ID
 
-  fOmitPartAtom =
-    msrOmitPartAtom::create (
-      "mop", "msr-omit-part",
-R"(Omit part PART_NAME.
+  fOmitPartIDAtom =
+    oahStringSetAtom::create (
+      "mopi", "msr-omit-part-id",
+R"(Omit part with ID PART_ID.
 There can be several occurrences of this option.
 All the parts not omitted are kept.
-This option is incompatible with '-mkp, -msr-keep-part'.)",
-      "PART_NAME",
-      "partsOmitSet",
-      fPartsOmitSet);
+This option is incompatible with '-mkpi, -msr-keep-part-id'.)",
+      "PART_ID",
+      "partsOmitIDSet",
+      fPartsOmitIDSet);
 
   subGroup->
     appendAtomToSubGroup (
-      fOmitPartAtom);
+      fOmitPartIDAtom);
 
-  // MSR keep part
+  // MSR omit part name
 
-  fKeepPartAtom =
-    msrKeepPartAtom::create (
-      "mkp", "msr-keep-part",
-R"(Keep part PART_NAME.
+  fOmitPartNameAtom =
+    oahStringSetAtom::create (
+      "mopn", "msr-omit-part-name",
+R"(Omit part named PART_NAME.
+There can be several occurrences of this option.
+All the parts not omitted are kept.
+This option is incompatible with '-mkpn, -msr-keep-part-name'.)",
+      "PART_NAME",
+      "partsOmitNameSet",
+      fPartsOmitNameSet);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fOmitPartNameAtom);
+
+  // MSR keep part ID
+
+  fKeepPartIDAtom =
+    oahStringSetAtom::create (
+      "mkpi", "msr-keep-part-id",
+R"(Keep part with ID PART_ID.
 There can be several occurrences of this option.
 All the parts not kept are omitted.
-This option is incompatible with '-mop, -msr-omit-part'.)",
-      "PART_NAME",
-      "partsKeepSet",
-      fPartsKeepSet);
+This option is incompatible with '-mopi, -msr-omit-part-id'.)",
+      "PART_ID",
+      "partsKeepIDSet",
+      fPartsKeepIDSet);
 
   subGroup->
     appendAtomToSubGroup (
-      fKeepPartAtom);
+      fKeepPartIDAtom);
+
+  // MSR keep part name
+
+  fKeepPartNameAtom =
+    oahStringSetAtom::create (
+      "mkpn", "msr-keep-part-name",
+R"(Keep part named PART_NAME.
+There can be several occurrences of this option.
+All the parts not kept are omitted.
+This option is incompatible with '-mopn, -msr-omit-part-name'.)",
+      "PART_NAME",
+      "partsKeepNameSet",
+      fPartsKeepNameSet);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fKeepPartNameAtom);
 }
 
 void msrOah::initializeMsrStavesOptions (
@@ -2592,10 +2626,15 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
   clone->fPartsTranspositionMap =
     fPartsTranspositionMap;
 
-  clone->fPartsOmitSet =
-    fPartsOmitSet;
-  clone->fPartsKeepSet =
-    fPartsKeepSet;
+  clone->fPartsOmitIDSet =
+    fPartsOmitIDSet;
+  clone->fPartsKeepIDSet =
+    fPartsKeepIDSet;
+
+  clone->fPartsOmitNameSet =
+    fPartsOmitNameSet;
+  clone->fPartsKeepNameSet =
+    fPartsKeepNameSet;
 
 
   // staves
@@ -2738,14 +2777,29 @@ void msrOah::checkOptionsConsistency ()
   }
 #endif
 
-  if (fPartsOmitSet.size () > 0 && fPartsKeepSet.size () > 0) {
+  // JMI and if mixed ID and name options are used?
+
+  if (fPartsOmitIDSet.size () > 0 && fPartsKeepIDSet.size () > 0) {
     stringstream s;
 
     s <<
       "options '" <<
-      fOmitPartAtom->fetchNames () <<
+      fOmitPartIDAtom->fetchNames () <<
       "' and '" <<
-      fKeepPartAtom->fetchNames () <<
+      fKeepPartIDAtom->fetchNames () <<
+      "' are incompatible";
+
+    oahError (s.str ());
+  }
+
+  if (fPartsOmitNameSet.size () > 0 && fPartsKeepNameSet.size () > 0) {
+    stringstream s;
+
+    s <<
+      "options '" <<
+      fOmitPartNameAtom->fetchNames () <<
+      "' and '" <<
+      fKeepPartNameAtom->fetchNames () <<
       "' are incompatible";
 
     oahError (s.str ());
@@ -2941,20 +2995,20 @@ void msrOah::printMsrOahValues (int fieldWidth)
     } // for
   }
 
-  // parts omitted
+  // parts omitted IDs
 
   gLogOstream << left <<
-    setw (fieldWidth) << "parts omitted" << " : ";
+    setw (fieldWidth) << "parts omitted IDs" << " : ";
 
-  if (! fPartsOmitSet.size ()) {
+  if (! fPartsOmitIDSet.size ()) {
     gLogOstream <<
       "none";
   }
   else {
     for (
       set<string> ::const_iterator i =
-        fPartsOmitSet.begin ();
-      i != fPartsOmitSet.end ();
+        fPartsOmitIDSet.begin ();
+      i != fPartsOmitIDSet.end ();
       i++
   ) {
         gLogOstream <<
@@ -2962,20 +3016,62 @@ void msrOah::printMsrOahValues (int fieldWidth)
     } // for
   }
 
-  // parts kept
+  // parts kept IDs
 
   gLogOstream << left <<
-    setw (fieldWidth) << "parts kept" << " : ";
+    setw (fieldWidth) << "parts kept IDs" << " : ";
 
-  if (! fPartsKeepSet.size ()) {
+  if (! fPartsKeepIDSet.size ()) {
     gLogOstream <<
       "none";
   }
   else {
     for (
       set<string> ::const_iterator i =
-        fPartsKeepSet.begin ();
-      i != fPartsKeepSet.end ();
+        fPartsKeepIDSet.begin ();
+      i != fPartsKeepIDSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
+    } // for
+  }
+
+  // parts omitted names
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "parts omitted names" << " : ";
+
+  if (! fPartsOmitNameSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsOmitNameSet.begin ();
+      i != fPartsOmitNameSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
+    } // for
+  }
+
+  // parts kept names
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "parts kept names" << " : ";
+
+  if (! fPartsKeepNameSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsKeepNameSet.begin ();
+      i != fPartsKeepNameSet.end ();
       i++
   ) {
         gLogOstream <<

@@ -4789,327 +4789,6 @@ ostream& operator<< (ostream& os, const S_oahRationalAtom& elt)
 }
 
 //______________________________________________________________________________
-S_oahNaturalNumbersSetElementAtom oahNaturalNumbersSetElementAtom::create (
-  string    shortName,
-  string    longName,
-  string    description,
-  string    valueSpecification,
-  string    variableName,
-  set<int>& naturalNumbersSetVariable)
-{
-  oahNaturalNumbersSetElementAtom* o = new
-    oahNaturalNumbersSetElementAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      naturalNumbersSetVariable);
-  assert(o!=0);
-  return o;
-}
-
-oahNaturalNumbersSetElementAtom::oahNaturalNumbersSetElementAtom (
-  string    shortName,
-  string    longName,
-  string    description,
-  string    valueSpecification,
-  string    variableName,
-  set<int>& naturalNumbersSetVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fNaturalNumbersSetVariable (
-      naturalNumbersSetVariable)
-{}
-
-oahNaturalNumbersSetElementAtom::~oahNaturalNumbersSetElementAtom ()
-{}
-
-S_oahValuedAtom oahNaturalNumbersSetElementAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gOutputOstream <<
-      "==> option '" << optionName << "' is a oahNaturalNumbersSetElementAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void oahNaturalNumbersSetElementAtom::handleValue (
-  string   theString,
-  ostream& os)
-{
-  // theString contains the integer value
-
-  // check whether it is well-formed
-  string regularExpression (
-    "([[:digit:]]+)");
-
-  regex e (regularExpression);
-  smatch sm;
-
-  regex_match (theString, sm, e);
-
-  unsigned smSize = sm.size ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "There are " << smSize << " matches" <<
-      " for integer string '" << theString <<
-      "' with regex '" << regularExpression <<
-      "'" <<
-      endl;
-
-    for (unsigned i = 0; i < smSize; ++i) {
-      os <<
-        "[" << sm [i] << "] ";
-    } // for
-
-    os << endl;
-  }
-#endif
-
-  if (smSize) {
-    // leave the low level details to the STL...
-    int integerValue;
-    {
-      stringstream s;
-      s << theString;
-      s >> integerValue;
-    }
-
-    fNaturalNumbersSetVariable.insert (integerValue);
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "integer value '" << theString <<
-      "' for option '" << fetchNames () <<
-      "' is ill-formed";
-
-    oahError (s.str ());
-  }
-}
-
-void oahNaturalNumbersSetElementAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahNaturalNumbersSetElementAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahNaturalNumbersSetElementAtom>*
-    p =
-      dynamic_cast<visitor<S_oahNaturalNumbersSetElementAtom>*> (v)) {
-        S_oahNaturalNumbersSetElementAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
-            ".\\\" ==> Launching oahNaturalNumbersSetElementAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahNaturalNumbersSetElementAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahNaturalNumbersSetElementAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahNaturalNumbersSetElementAtom>*
-    p =
-      dynamic_cast<visitor<S_oahNaturalNumbersSetElementAtom>*> (v)) {
-        S_oahNaturalNumbersSetElementAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
-            ".\\\" ==> Launching oahNaturalNumbersSetElementAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahNaturalNumbersSetElementAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahNaturalNumbersSetElementAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string oahNaturalNumbersSetElementAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    "[";
-
-  set<int>::const_iterator
-    iBegin = fNaturalNumbersSetVariable.begin (),
-    iEnd   = fNaturalNumbersSetVariable.end (),
-    i      = iBegin;
-
-  for ( ; ; ) {
-    s << (*i);
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
-
-  s <<
-    "]";
-
-  return s.str ();
-}
-
-string oahNaturalNumbersSetElementAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    "[";
-
-  set<int>::const_iterator
-    iBegin = fNaturalNumbersSetVariable.begin (),
-    iEnd   = fNaturalNumbersSetVariable.end (),
-    i      = iBegin;
-
-  for ( ; ; ) {
-    s << (*i);
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
-
-  s <<
-    "]";
-
-  return s.str ();
-}
-
-void oahNaturalNumbersSetElementAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "NaturalNumbersSetElementAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedAtomEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fNaturalNumbersSetVariable" << " : " <<
-    endl;
-
-  if (! fNaturalNumbersSetVariable.size ()) {
-    os <<
-      "none";
-  }
-
-  else {
-    os <<
-      "'";
-
-    set<int>::const_iterator
-      iBegin = fNaturalNumbersSetVariable.begin (),
-      iEnd   = fNaturalNumbersSetVariable.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-
-    os <<
-      "'";
-  }
-
-  os << endl;
-
-  gIndenter--;
-}
-
-void oahNaturalNumbersSetElementAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : ";
-
-  if (! fNaturalNumbersSetVariable.size ()) {
-    os <<
-      "none";
-  }
-
-  else {
-    os <<
-      "'";
-
-    set<int>::const_iterator
-      iBegin = fNaturalNumbersSetVariable.begin (),
-      iEnd   = fNaturalNumbersSetVariable.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-
-    os <<
-      "'";
-  }
-
-  os << endl;
-}
-
-ostream& operator<< (ostream& os, const S_oahNaturalNumbersSetElementAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
 S_oahNaturalNumbersSetAtom oahNaturalNumbersSetAtom::create (
   string    shortName,
   string    longName,
@@ -5376,557 +5055,6 @@ void oahNaturalNumbersSetAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_oahNaturalNumbersSetAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_oahStringsSetElementAtom oahStringsSetElementAtom::create (
-  string       shortName,
-  string       longName,
-  string       description,
-  string       valueSpecification,
-  string       variableName,
-  set<string>& stringsSetVariable)
-{
-  oahStringsSetElementAtom* o = new
-    oahStringsSetElementAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      stringsSetVariable);
-  assert(o!=0);
-  return o;
-}
-
-oahStringsSetElementAtom::oahStringsSetElementAtom (
-  string       shortName,
-  string       longName,
-  string       description,
-  string       valueSpecification,
-  string       variableName,
-  set<string>& stringsSetVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fStringsSetVariable (
-      stringsSetVariable)
-{
-  fMultipleOccurrencesAllowed = true;
-}
-
-oahStringsSetElementAtom::~oahStringsSetElementAtom ()
-{}
-
-S_oahValuedAtom oahStringsSetElementAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gOutputOstream <<
-      "==> option '" << optionName << "' is a oahStringsSetElementAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void oahStringsSetElementAtom::handleValue (
-  string   theString,
-  ostream& os)
-{
-  fStringsSetVariable.insert (theString);
-}
-
-void oahStringsSetElementAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahStringsSetElementAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahStringsSetElementAtom>*
-    p =
-      dynamic_cast<visitor<S_oahStringsSetElementAtom>*> (v)) {
-        S_oahStringsSetElementAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
-            ".\\\" ==> Launching oahStringsSetElementAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahStringsSetElementAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahStringsSetElementAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahStringsSetElementAtom>*
-    p =
-      dynamic_cast<visitor<S_oahStringsSetElementAtom>*> (v)) {
-        S_oahStringsSetElementAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
-            ".\\\" ==> Launching oahStringsSetElementAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahStringsSetElementAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahStringsSetElementAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string oahStringsSetElementAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    "[";
-
-  set<string>::const_iterator
-    iBegin = fStringsSetVariable.begin (),
-    iEnd   = fStringsSetVariable.end (),
-    i      = iBegin;
-
-  string currentValue; // JMI do better
-
-  for ( ; ; ) {
-    // write the value only once
-    string theString = (*i);
-
-    if (true || theString != currentValue) {
-      s << theString;
-    }
-    currentValue = theString;
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
-
-  s <<
-    "]";
-
-  return s.str ();
-}
-
-string oahStringsSetElementAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    "[";
-
-  set<string>::const_iterator
-    iBegin = fStringsSetVariable.begin (),
-    iEnd   = fStringsSetVariable.end (),
-    i      = iBegin;
-
-  for ( ; ; ) {
-    s << (*i);
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
-
-  s <<
-    "]";
-
-  return s.str ();
-}
-
-void oahStringsSetElementAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "StringsSetElementAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedAtomEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fStringsSetVariable" << " : " <<
-    endl;
-
-  if (! fStringsSetVariable.size ()) {
-    os <<
-      "none";
-  }
-
-  else {
-    os <<
-      "'";
-
-    set<string>::const_iterator
-      iBegin = fStringsSetVariable.begin (),
-      iEnd   = fStringsSetVariable.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-
-    os <<
-      "'";
-  }
-
-  os << endl;
-
-  gIndenter--;
-}
-
-void oahStringsSetElementAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : ";
-
-  if (! fStringsSetVariable.size ()) {
-    os <<
-      "none";
-  }
-
-  else {
-    os <<
-      "'";
-
-    set<string>::const_iterator
-      iBegin = fStringsSetVariable.begin (),
-      iEnd   = fStringsSetVariable.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-
-    os <<
-      "'";
-  }
-
-  os << endl;
-}
-
-ostream& operator<< (ostream& os, const S_oahStringsSetElementAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_oahStringsSetAtom oahStringsSetAtom::create (
-  string       shortName,
-  string       longName,
-  string       description,
-  string       valueSpecification,
-  string       variableName,
-  set<string>& stringsSetVariable)
-{
-  oahStringsSetAtom* o = new
-    oahStringsSetAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      stringsSetVariable);
-  assert(o!=0);
-  return o;
-}
-
-oahStringsSetAtom::oahStringsSetAtom (
-  string       shortName,
-  string       longName,
-  string       description,
-  string       valueSpecification,
-  string       variableName,
-  set<string>& stringsSetVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fStringsSetVariable (
-      stringsSetVariable)
-{}
-
-oahStringsSetAtom::~oahStringsSetAtom ()
-{}
-
-S_oahValuedAtom oahStringsSetAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gOutputOstream <<
-      "==> option '" << optionName << "' is a oahStringsSetAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void oahStringsSetAtom::handleValue (
-  string   theString,
-  ostream& os)
-{
-  fStringsSetVariable =
-    decipherStringsSetSpecification (
-      theString,
-      true); // 'true' to debug it
-}
-
-void oahStringsSetAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahStringsSetAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahStringsSetAtom>*
-    p =
-      dynamic_cast<visitor<S_oahStringsSetAtom>*> (v)) {
-        S_oahStringsSetAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
-            ".\\\" ==> Launching oahStringsSetAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahStringsSetAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahStringsSetAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahStringsSetAtom>*
-    p =
-      dynamic_cast<visitor<S_oahStringsSetAtom>*> (v)) {
-        S_oahStringsSetAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
-            ".\\\" ==> Launching oahStringsSetAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahStringsSetAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
-      ".\\\" ==> oahStringsSetAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string oahStringsSetAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    "[";
-
-  set<string>::const_iterator
-    iBegin = fStringsSetVariable.begin (),
-    iEnd   = fStringsSetVariable.end (),
-    i      = iBegin;
-
-  for ( ; ; ) {
-    s << (*i);
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
-
-  s <<
-    "]";
-
-  return s.str ();
-}
-
-string oahStringsSetAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    "[";
-
-  set<string>::const_iterator
-    iBegin = fStringsSetVariable.begin (),
-    iEnd   = fStringsSetVariable.end (),
-    i      = iBegin;
-
-  for ( ; ; ) {
-    s << (*i);
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
-
-  s <<
-    "]";
-
-  return s.str ();
-}
-
-void oahStringsSetAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "StringsSetAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedAtomEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fStringsSetVariable" << " : " <<
-    endl;
-
-  if (! fStringsSetVariable.size ()) {
-    os <<
-      "none";
-  }
-
-  else {
-    os <<
-      "'";
-
-    set<string>::const_iterator
-      iBegin = fStringsSetVariable.begin (),
-      iEnd   = fStringsSetVariable.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-
-    os <<
-      "'";
-  }
-
-  os << endl;
-
-  gIndenter--;
-}
-
-void oahStringsSetAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : ";
-
-  if (! fStringsSetVariable.size ()) {
-    os <<
-      "none";
-  }
-
-  else {
-    os <<
-      "'";
-
-    set<string>::const_iterator
-      iBegin = fStringsSetVariable.begin (),
-      iEnd   = fStringsSetVariable.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << " ";
-    } // for
-
-    os <<
-      "'";
-  }
-
-  os << endl;
-}
-
-ostream& operator<< (ostream& os, const S_oahStringsSetAtom& elt)
 {
   elt->print (os);
   return os;
@@ -6481,12 +5609,12 @@ ostream& operator<< (ostream& os, const S_oahIntSetAtom& elt)
 
 //______________________________________________________________________________
 S_oahStringSetAtom oahStringSetAtom::create (
-    string       shortName,
-    string       longName,
-    string       description,
-    string       valueSpecification,
-    string       variableName,
-    set<string>& stringSetVariable)
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringSetVariable)
 {
   oahStringSetAtom* o = new
     oahStringSetAtom (
@@ -6501,12 +5629,12 @@ S_oahStringSetAtom oahStringSetAtom::create (
 }
 
 oahStringSetAtom::oahStringSetAtom (
-    string       shortName,
-    string       longName,
-    string       description,
-    string       valueSpecification,
-    string       variableName,
-    set<string>& stringSetVariable)
+  string       shortName,
+  string       longName,
+  string       description,
+  string       valueSpecification,
+  string       variableName,
+  set<string>& stringSetVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -6528,7 +5656,7 @@ S_oahValuedAtom oahStringSetAtom::handleOptionUnderName (
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
-    gOutputOstream <<
+    gLogOstream <<
       "==> option '" << optionName << "' is a oahStringSetAtom" <<
       endl;
   }
@@ -6550,78 +5678,44 @@ void oahStringSetAtom::handleValue (
   }
 #endif
 
-  // theString contains the bar number specification
-  // decipher it to extract duration and perSecond values
+  // theString contains the name of the part to be omitted
+
+  string partName = theString;
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'oahStringSetAtom'" <<
+      "--> partName = \"" << partName << "\", " <<
       endl;
   }
 #endif
 
-  string regularExpression (
-    "(.+)");
+  // is this part name in the part renaming map?
+  set<string>::iterator
+    it =
+      fStringSetVariable.find (partName);
 
-  regex  e (regularExpression);
-  smatch sm;
-
-  regex_match (theString, sm, e);
-
-  unsigned smSize = sm.size ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "There are " << smSize << " matches" <<
-      " for string '" << theString <<
-      "' with regex '" << regularExpression <<
-      "':" <<
-      endl;
-
-    gIndenter++;
-
-    for (unsigned i = 0; i < smSize; ++i) {
-      os <<
-        i << ": " << "\"" << sm [i] << "\"" <<
-        endl;
-    } // for
-    os << endl;
-
-    gIndenter--;
-  }
-#endif
-
-  if (smSize != 2) {
+  if (it != fStringSetVariable.end ()) {
+    // yes, issue error message
     stringstream s;
 
     s <<
-      "-oahStringSetAtom argument '" << theString <<
-      "' is ill-formed";
+      "Part \"" << partName << "\" occurs more that once" <<
+      "in the '--msr-omit-part' option";
 
     oahError (s.str ());
   }
 
-  string stringValue = sm [ 1 ];
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "stringValue = " <<
-      stringValue <<
-      endl;
+  else {
+    fStringSetVariable.insert (partName);
   }
-#endif
-
-  fStringSetVariable.insert (stringValue);
 }
 
 void oahStringSetAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
+    gLogOstream <<
       ".\\\" ==> oahStringSetAtom::acceptIn ()" <<
       endl;
   }
@@ -6634,7 +5728,7 @@ void oahStringSetAtom::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
+          gLogOstream <<
             ".\\\" ==> Launching oahStringSetAtom::visitStart ()" <<
             endl;
         }
@@ -6647,7 +5741,7 @@ void oahStringSetAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
+    gLogOstream <<
       ".\\\" ==> oahStringSetAtom::acceptOut ()" <<
       endl;
   }
@@ -6660,7 +5754,7 @@ void oahStringSetAtom::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
-          gOutputOstream <<
+          gLogOstream <<
             ".\\\" ==> Launching oahStringSetAtom::visitEnd ()" <<
             endl;
         }
@@ -6673,7 +5767,7 @@ void oahStringSetAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
-    gOutputOstream <<
+    gLogOstream <<
       ".\\\" ==> oahStringSetAtom::browseData ()" <<
       endl;
   }
@@ -6688,7 +5782,7 @@ string oahStringSetAtom::asShortNamedOptionString () const
     "-" << fShortName << " ";
 
   if (! fStringSetVariable.size ()) {
-    s << "empty";
+    s << "none";
   }
   else {
     set<string>::const_iterator
@@ -6713,7 +5807,7 @@ string oahStringSetAtom::asActualLongNamedOptionString () const
     "-" << fLongName << " ";
 
   if (! fStringSetVariable.size ()) {
-    s << "empty";
+    s << "none";
   }
   else {
     set<string>::const_iterator
@@ -6748,11 +5842,11 @@ void oahStringSetAtom::print (ostream& os) const
     "fVariableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fStringSetVariable" << " : '" <<
+    "fStringSetVariable" << " : " <<
     endl;
 
   if (! fStringSetVariable.size ()) {
-    os << "empty";
+    os << "none";
   }
   else {
     set<string>::const_iterator
@@ -6767,8 +5861,6 @@ void oahStringSetAtom::print (ostream& os) const
   }
 
   os << endl;
-
-  gIndenter--;
 }
 
 void oahStringSetAtom::printAtomOptionsValues (
@@ -6782,11 +5874,12 @@ void oahStringSetAtom::printAtomOptionsValues (
 
   if (! fStringSetVariable.size ()) {
     os <<
-      "empty" <<
+      "none" <<
       endl;
   }
   else {
     os << endl;
+
     gIndenter++;
 
     set<string>::const_iterator
@@ -6794,7 +5887,9 @@ void oahStringSetAtom::printAtomOptionsValues (
       iEnd   = fStringSetVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i) << endl;
+      os <<
+        "\"" << (*i) << "\"" <<
+        endl;
       if (++i == iEnd) break;
     } // for
 

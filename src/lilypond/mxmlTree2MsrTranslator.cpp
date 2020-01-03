@@ -832,15 +832,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     finalizePart (
       inputLineNumber);
 
-  // is this part name in the parts omit set?
-  if (gMsrOah->fPartsOmitSet.size ()) {
+  // is this part name in the parts omit IDs set?
+  if (gMsrOah->fPartsOmitIDSet.size ()) {
     set<string>::iterator
       it =
-        gMsrOah->fPartsOmitSet.find (
+        gMsrOah->fPartsOmitIDSet.find (
           fCurrentPart->
             getPartID ());
 
-    if (it != gMsrOah->fPartsOmitSet.end ()) {
+    if (it != gMsrOah->fPartsOmitIDSet.end ()) {
       // the simplest way to omit this part
       // is to remove it from its part-group
       // now that is has been completely built and populated
@@ -852,15 +852,55 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     }
   }
 
-  // is this part name in the parts keep set?
-  if (gMsrOah->fPartsKeepSet.size ()) {
+  // is this part name in the parts keep IDs set?
+  if (gMsrOah->fPartsKeepIDSet.size ()) {
     set<string>::iterator
       it =
-        gMsrOah->fPartsKeepSet.find (
+        gMsrOah->fPartsKeepIDSet.find (
           fCurrentPart->
             getPartID ());
 
-    if (it == gMsrOah->fPartsKeepSet.end ()) {
+    if (it == gMsrOah->fPartsKeepIDSet.end ()) {
+      // the simplest way not to keep this part
+      // is to remove it from its part-group
+      // now that is has been completely built and populated
+      fCurrentPart->
+        getPartPartGroupUpLink ()->
+          removePartFromPartGroup (
+            inputLineNumber,
+            fCurrentPart);
+    }
+  }
+
+  // is this part name in the parts omit names set?
+  if (gMsrOah->fPartsOmitNameSet.size ()) {
+    set<string>::iterator
+      it =
+        gMsrOah->fPartsOmitNameSet.find (
+          fCurrentPart->
+            getPartName ());
+
+    if (it != gMsrOah->fPartsOmitNameSet.end ()) {
+      // the simplest way to omit this part
+      // is to remove it from its part-group
+      // now that is has been completely built and populated
+      fCurrentPart->
+        getPartPartGroupUpLink ()->
+          removePartFromPartGroup (
+            inputLineNumber,
+            fCurrentPart);
+    }
+  }
+
+  // is this part name in the parts keep names set?
+  if (gMsrOah->fPartsKeepNameSet.size ()) {
+    set<string>::iterator
+      it =
+        gMsrOah->fPartsKeepNameSet.find (
+          fCurrentPart->
+            getPartName ());
+
+    if (it == gMsrOah->fPartsKeepNameSet.end ()) {
       // the simplest way not to keep this part
       // is to remove it from its part-group
       // now that is has been completely built and populated

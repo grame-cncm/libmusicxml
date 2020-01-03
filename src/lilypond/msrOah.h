@@ -634,11 +634,18 @@ class msrOah : public oahGroup
     map<string, S_msrSemiTonesPitchAndOctave>
                           fPartsTranspositionMap;
 
-    set<string>           fPartsOmitSet;
-    S_msrOmitPartAtom     fOmitPartAtom;
+    set<string>           fPartsOmitIDSet;
+    set<string>           fPartsKeepIDSet;
 
-    set<string>           fPartsKeepSet;
-    S_msrKeepPartAtom     fKeepPartAtom;
+    set<string>           fPartsOmitNameSet;
+    set<string>           fPartsKeepNameSet;
+
+    // for checkOptionsConsistency()
+    S_oahStringSetAtom    fOmitPartIDAtom;
+    S_oahStringSetAtom    fKeepPartIDAtom;
+
+    S_oahStringSetAtom    fOmitPartNameAtom;
+    S_oahStringSetAtom    fKeepPartNameAtom;
 
 
     // staves
