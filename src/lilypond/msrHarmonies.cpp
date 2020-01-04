@@ -554,7 +554,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
   actualPositionInMeasure.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting harmony position in measure of " << asString () <<
       " to '" <<

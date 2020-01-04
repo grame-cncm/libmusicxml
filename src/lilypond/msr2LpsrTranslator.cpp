@@ -1209,7 +1209,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
           // if it is the top-level one, i.e it's alone in the stack JMI
           // JMI BOF if (fPartGroupBlocksStack.size () == 1)
 #ifdef TRACE_OAH
-          if (gTraceOah->fTracePartGroups || gLpsrOah->fTraceLpsrBlocks) {
+          if (gLpsrOah->fTraceLpsrBlocks) {
             fLogOutputStream <<
               "Appending part group block for part group " <<
               currentPartGroupBlock->
@@ -1251,7 +1251,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
           // if it is the top-level one, i.e it's alone in the stack JMI
           // JMI BOF if (fPartGroupBlocksStack.size () == 1)
 #ifdef TRACE_OAH
-          if (gTraceOah->fTracePartGroups || gLpsrOah->fTraceLpsrBlocks) {
+          if (gLpsrOah->fTraceLpsrBlocks) {
             fLogOutputStream <<
               "Appending part group block for part group " <<
               currentPartGroupBlock->
@@ -2669,7 +2669,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
         // create the words
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceLyrics || gTraceOah->fTraceWords) {
+        if (gTraceOah->fTraceLyrics) {
           fLogOutputStream <<
             "Changing lyrics '" <<
             wordsValue <<
@@ -2698,7 +2698,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
         // append it to the current non-grace note
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceLyrics || gTraceOah->fTraceWords) {
+        if (gTraceOah->fTraceWords) {
           fLogOutputStream <<
             "Appending words '" <<
             words->asShortString () <<
@@ -2951,7 +2951,7 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
           elt->getTempoPlacementKind ());
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+    if (gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "Converting tempos '" <<
         elt->asShortString () <<
@@ -3858,7 +3858,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
           elt);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+    if (gTraceOah->fTraceWords) {
       fLogOutputStream <<
         "Converting words '" <<
         elt->asShortString () <<
@@ -3886,7 +3886,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
           elt->getWordsPlacementKind ()); // above ??? JMI
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWords || gTraceOah->fTraceRehearsals) {
+    if (gTraceOah->fTraceWords) {
       fLogOutputStream <<
         "Converting words '" <<
         elt->asShortString () <<
@@ -4155,7 +4155,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   if (doCreateAGraceNoteClone) {
     // create a clone of this graceNotesGroup
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Creating a clone of grace notes group '" <<
         elt->asShortString () <<
@@ -4191,7 +4191,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 1" <<
       endl <<
@@ -4233,13 +4233,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
   // is noteNotesGroupIsAttachedTo the first one in its voice?
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceGraceNotes
-      ||
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceVoices
-  ) {
+  if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4260,13 +4254,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceGraceNotes
-      ||
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceVoices
-  ) {
+  if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "The first note of voice clone KLJWLPOEF '" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4299,13 +4287,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // create the skip grace notes group
 #ifdef TRACE_OAH
-        if (
-            gTraceOah->fTraceGraceNotes
-              ||
-            gTraceOah->fTraceNotes
-              ||
-            gTraceOah->fTraceVoices
-        ) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Creating a skip clone of grace notes group '" <<
             elt->asShortString () <<
@@ -4473,7 +4455,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 #endif
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+    if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 2" <<
       endl <<
@@ -4549,7 +4531,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   // but as the current grace note clone instead
 /* JMI
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "The first note of voice clone GFFF '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -4585,7 +4567,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
           fCurrentNonGraceNoteClone;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
+        if (gTraceOah->fTraceNotes) {
           fLogOutputStream <<
             "The first note of voice clone RJIRWR '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -4846,7 +4828,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
       else {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Appending grace note '" <<
             fCurrentGraceNoteClone->asShortString () <<
@@ -4866,7 +4848,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     /* JMI ???
       if (fCurrentGraceNotesGroupClone) {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -4883,7 +4865,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
       else if (fPendingAfterGraceNotes) {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<

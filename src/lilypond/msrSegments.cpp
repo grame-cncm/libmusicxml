@@ -223,7 +223,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
          measureImplicitKind)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating and appending a measure '" << measureNumber <<
       "', to segment '" << asString () <<
@@ -254,7 +254,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
 
   // create a measure
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating measure '" << measureNumber <<
       "' in segment " << asString () <<
@@ -289,7 +289,7 @@ void msrSegment::setNextMeasureNumberInSegment (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting next measure number to '" << nextMeasureNumber <<
       "' in segment '" << asString () <<
@@ -305,7 +305,7 @@ void msrSegment::setNextMeasureNumberInSegment (
 
   if (fSegmentMeasuresList.size ()) { // JMI ???
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting next measure number to '" << nextMeasureNumber <<
         "' in segment '" << asString () <<
@@ -329,7 +329,7 @@ void msrSegment::setNextMeasureNumberInSegment (
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceClefs || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceClefs) {
     gLogOstream <<
       "Appending clef '" << clef->asString () <<
       "' to segment " << asString () <<
@@ -382,7 +382,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceClefs || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceClefs) {
     gLogOstream <<
       "Prepending clef '" << clef->asString () <<
       "' to segment " << asString () <<
@@ -435,7 +435,7 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
 void msrSegment::appendKeyToSegment (S_msrKey key)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceKeys || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceKeys) {
     gLogOstream <<
       "Appending key '" << key->asString () <<
       "' to segment " << asString () <<
@@ -463,7 +463,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending time:" <<
       endl;
@@ -501,7 +501,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending time:" <<
       endl;
@@ -539,7 +539,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Appending harmony " << harmony->asString () <<
       " to segment " << asString () <<
@@ -564,7 +564,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Appending harmony " << harmony->asString () <<
       " to segment clone " << asString () <<
@@ -593,7 +593,7 @@ void msrSegment::appendFiguredBassToSegment (
   S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to segment " << asString () <<
@@ -622,7 +622,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
   S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to segment clone " << asString () <<
@@ -650,7 +650,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegnos || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceSegnos) {
     gLogOstream <<
       "Appending segno " <<
       " to segment " << asString () <<
@@ -678,7 +678,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceCodas || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceCodas) {
     gLogOstream <<
       "Appending coda " <<
       " to segment " << asString () <<
@@ -707,7 +707,7 @@ void msrSegment::appendEyeGlassesToSegment (
   S_msrEyeGlasses eyeGlasses)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceEyeGlasses || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceEyeGlasses) {
     gLogOstream <<
       "Appending eyeGlasses " <<
       " to segment " << asString () <<
@@ -735,7 +735,7 @@ void msrSegment::appendEyeGlassesToSegment (
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePedals || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTracePedals) {
     gLogOstream <<
       "Appending pedal " <<
       " to segment " << asString () <<
@@ -763,7 +763,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 void msrSegment::appendDampToSegment (S_msrDamp damp)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceDamps || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceDamps) {
     gLogOstream <<
       "Appending damp " <<
       " to segment " << asString () <<
@@ -791,7 +791,7 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
 void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceDampAlls || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceDampAlls) {
     gLogOstream <<
       "Appending damp all " <<
       " to segment " << asString () <<
@@ -820,7 +820,7 @@ void msrSegment::appendTransposeToSegment (
   S_msrTranspose transpose)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceTranspositions) {
     gLogOstream <<
       "Appending transpose " <<
       " to segment " << asString () <<
@@ -849,7 +849,7 @@ void msrSegment::appendPartNameDisplayToSegment (
   S_msrPartNameDisplay partNameDisplay)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceSegments) {
     gLogOstream <<
       "Appending part name display " <<
       " to segment " << asString () <<
@@ -878,7 +878,7 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceSegments) {
     gLogOstream <<
       "Appending part abbreviation display " <<
 
@@ -971,7 +971,7 @@ void msrSegment::appendStaffDetailsToSegment (
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceLineBreaks || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceLineBreaks) {
     gLogOstream <<
       "Appending break '" <<
       lineBreak->asShortString () <<
@@ -1000,7 +1000,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePageBreaks || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTracePageBreaks) {
     gLogOstream <<
       "Appending break " <<
       " to segment " << asString () <<
@@ -1029,7 +1029,7 @@ void msrSegment::appendBarNumberCheckToSegment (
   S_msrBarNumberCheck barNumberCheck)
 {
 #ifdef TRACE_OAH
-  if (/* JMI gTraceOah->fTraceBarNumberChecks || */ gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceBarNumberChecks) {
     gLogOstream <<
       "Appending bar number check " <<
       " to segment " << asString () <<
@@ -1058,7 +1058,7 @@ void msrSegment::appendTempoToSegment (
   S_msrTempo tempo)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceTempos) {
     gLogOstream <<
       "Appending tempo " <<
       " to segment " << asString () <<
@@ -1087,7 +1087,7 @@ void msrSegment::appendRehearsalToSegment (
   S_msrRehearsal rehearsal)
 {
 #ifdef TRACE_OAH
-  if (/* JMI gTraceOah->fTraceRehearsals || */ gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceRehearsals) {
     gLogOstream <<
       "Appending rehearsal " <<
       " to segment " << asString () <<
@@ -1116,7 +1116,7 @@ void msrSegment::appendOctaveShiftToSegment (
   S_msrOctaveShift octaveShift)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOctaveShifts || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceOctaveShifts) {
     gLogOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
@@ -1146,7 +1146,7 @@ void msrSegment::appendScordaturaToSegment (
   S_msrScordatura scordatura)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceScordaturas || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceScordaturas) {
     gLogOstream <<
       "Appending scordatura '" <<
   // JMI ???    scordatura->octaveShiftKindAsString () <<
@@ -1348,7 +1348,7 @@ void msrSegment::appendPaddingNoteToSegment (
   rational forwardStepLength)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegments || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceNotes) {
     gLogOstream <<
       "Appending padding note" <<
       ", forwardStepLength: " <<
@@ -1394,7 +1394,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending measure '" << measureNumber <<
       "' to segment " << asString ();
@@ -1474,7 +1474,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Prepending measure " << measureNumber <<
       " to segment " << asString ();
@@ -1523,7 +1523,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceBarLines) {
     gLogOstream <<
       "Prepending barline '" << barline->asString () <<
       "' to segment '" << asString () << "'" <<
@@ -1551,7 +1551,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceBarLines) {
     gLogOstream <<
       "Appending barline " << barline->asString () <<
       " to segment " << asString () << "'" <<
@@ -1594,7 +1594,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceBarChecks) {
     gLogOstream <<
       "Appending bar check '" << barCheck->asString () <<
       "' to segment '" << asString () << "'" <<
@@ -1618,12 +1618,7 @@ void msrSegment::appendVoiceStaffChangeToSegment (
   S_msrVoiceStaffChange voiceStaffChange)
 {
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceVoices
-      ||
-    gTraceOah->fTraceStaves
-      ||
-    gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceStaffChanges) {
     gLogOstream <<
       "Appending voice staff change '" <<
       voiceStaffChange->asString () <<
@@ -1652,7 +1647,7 @@ void msrSegment::appendNoteToSegment (
   rational  partCurrentPositionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceNotes) {
     if (! fSegmentMeasuresList.size ()) { // JMI
       displaySegment (
         note->getInputLineNumber (),
@@ -1682,7 +1677,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // JMI
   S_msrDoubleTremolo doubleTremolo)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Appending double tremolo " <<
       doubleTremolo->asShortString () <<
@@ -1830,7 +1825,7 @@ void msrSegment::removeNoteFromSegment (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceNotes) {
     gLogOstream <<
       "Removing note '" <<
       note->asString () <<
@@ -1918,7 +1913,7 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
   string context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Fetching last measure from segment '" <<
       fSegmentAbsoluteNumber <<
@@ -1955,7 +1950,7 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
       fSegmentMeasuresList.back ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       endl <<
       "The fetched measure contains:" <<
@@ -1979,7 +1974,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   string context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
@@ -2021,7 +2016,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       fSegmentMeasuresList.back ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       endl <<
       "The removed measure contains:" <<
@@ -2042,7 +2037,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   fSegmentMeasuresList.pop_back ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceMeasures) {
     fSegmentVoiceUpLink->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
         inputLineNumber,

@@ -461,7 +461,7 @@ void msrRepeatCommonPart::appendSegmentToRepeatCommonPart (
   string       context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegments || gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceSegments) {
     gLogOstream <<
       "Appending segment '" <<
       segment->asString () <<
@@ -512,7 +512,7 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
   string              context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats || gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceMeasuresRepeats) {
     gLogOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
@@ -537,7 +537,7 @@ void msrRepeatCommonPart::appendRestMeasuresToRepeatCommonPart (
   string            context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures || gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<

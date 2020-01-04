@@ -230,7 +230,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceGraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -258,7 +258,7 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceGraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Appending chord '" <<
       chord->asShortString () <<
@@ -278,7 +278,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceGraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Removing last note from grace notes group '" <<
       asShortString () <<
@@ -295,7 +295,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
     "fGraceNotesGroupElementsList.size () == 0");
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Removing last note from grace notes '" <<
       asString () <<
@@ -321,7 +321,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "This last note from grace notes '" <<
       asString () <<

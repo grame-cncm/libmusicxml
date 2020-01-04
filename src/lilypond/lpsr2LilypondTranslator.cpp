@@ -115,7 +115,7 @@ void lpsr2LilypondTranslator::setCurrentOctaveEntryReferenceFromTheLilypondOah (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+  if (gTraceOah->fTraceNotesOctaveEntry) {
     fLogOutputStream <<
       "setCurrentOctaveEntryReferenceFromTheLilypondOah()" <<
       ", octaveEntryKind is" <<
@@ -212,7 +212,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   } // switch
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+  if (gTraceOah->fTraceNotesOctaveEntry) {
     fLogOutputStream <<
       "lpsr2LilypondTranslator()" <<
       ", octaveEntryKind is" <<
@@ -471,7 +471,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+  if (gTraceOah->fTraceNotesOctaveEntry) {
     const int fieldWidth = 28;
 
     fLogOutputStream << left <<
@@ -523,7 +523,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+  if (gTraceOah->fTraceNotesOctaveEntry) {
     fLogOutputStream <<
       "lilypondOctaveInRelativeEntryMode() 2" <<
       ", result = " << s.str () <<
@@ -562,7 +562,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
     noteAbsoluteOctave - referenceAbsoluteOctave;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+  if (gTraceOah->fTraceNotesOctaveEntry) {
     fLogOutputStream << left <<
       "% noteAbsoluteOctave = " <<
       noteAbsoluteOctave <<
@@ -790,7 +790,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
   // should an absolute octave be generated?
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+  if (gTraceOah->fTraceNotesOctaveEntry) {
     int
       noteAbsoluteDisplayOctave =
         note->getNoteDisplayOctave ();
@@ -835,7 +835,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
     case kOctaveEntryRelative:
       if (! fCurrentOctaveEntryReference) {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+        if (gTraceOah->fTraceNotesOctaveEntry) {
           fLogOutputStream <<
             "notePitchAsLilypondString() 2: fCurrentOctaveEntryReference is null" <<
             " upon note " << note->asString () <<
@@ -853,7 +853,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       }
       else {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+        if (gTraceOah->fTraceNotesOctaveEntry) {
           fLogOutputStream <<
             "notePitchAsLilypondString() 3: fCurrentOctaveEntryReference is '" <<
             fCurrentOctaveEntryReference->asString () <<
@@ -904,7 +904,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   } // switch
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotesOctaveEntry || gTraceOah->fTraceNotesDetails) {
+        if (gTraceOah->fTraceNotesOctaveEntry) {
           fLogOutputStream << endl;
         }
 #endif

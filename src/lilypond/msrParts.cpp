@@ -594,7 +594,7 @@ void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceStaves || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceStaffDetails) {
     gLogOstream <<
       "Appending staff details\"" <<
       staffDetails->asShortString () <<
@@ -624,7 +624,7 @@ void msrPart::appendStaffDetailsToPart (
 void msrPart::appendClefToPart (S_msrClef clef)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceParts || gTraceOah->fTraceClefs) {
+  if (gTraceOah->fTraceClefs) {
     gLogOstream <<
       "Appending clef '" <<
       clef->asString () <<
@@ -652,7 +652,7 @@ void msrPart::appendClefToPart (S_msrClef clef)
 void msrPart::appendKeyToPart  (S_msrKey  key)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceKeys || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceKeys) {
     gLogOstream <<
       "Appending key '" <<
       key->asString () <<
@@ -686,7 +686,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 void msrPart::appendTimeToPart (S_msrTime time)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending time '" <<
       time->asString () <<
@@ -720,7 +720,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
 void msrPart::appendTimeToPartClone (S_msrTime time)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending time '" <<
       time->asString () <<
@@ -754,7 +754,7 @@ void msrPart::appendTransposeToPart (
   S_msrTranspose transpose)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceTranspositions) {
     gLogOstream <<
       "Appending transpose \"" <<
       transpose->asString () <<
@@ -784,7 +784,7 @@ void msrPart::appendPartNameDisplayToPart (
   S_msrPartNameDisplay partNameDisplay)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceParts) {
     gLogOstream <<
       "Appending part name display \"" <<
       partNameDisplay->asString () <<
@@ -814,7 +814,7 @@ void msrPart::appendPartAbbreviationDisplayToPart (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTranspositions || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceParts) {
     gLogOstream <<
       "Appending part abbreviation display \"" <<
       partAbbreviationDisplay->asString () <<
@@ -1112,7 +1112,7 @@ void msrPart::createRestMeasuresInPart (
   int multipleRestMeasuresMeasuresNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Creating a multiple rest in part " <<
       getPartCombinedName () <<
@@ -1142,7 +1142,7 @@ void msrPart::appendPendingRestMeasuresToPart (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Appending the pending multiple rest to part " <<
       getPartCombinedName () <<
@@ -1167,7 +1167,7 @@ void msrPart::appendRestMeasuresCloneToPart (
   S_msrRestMeasures multipleRestMeasures)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceStaves || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Appending multiple rest '" <<
       multipleRestMeasures->asString () <<
@@ -1225,7 +1225,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceStaves || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
@@ -1277,7 +1277,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 void msrPart::addStaffToPartCloneByItsNumber (S_msrStaff staff)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceStaves || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceStaves) {
     gLogOstream <<
       "Adding staff \"" << staff->getStaffName () <<
       "\" to part clone " << getPartCombinedName () <<
@@ -1312,7 +1312,7 @@ void msrPart::appendFiguredBassToPart (
     case msrVoice::kVoiceRegular:
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceParts) {
+      if (gTraceOah->fTraceFiguredBasses) {
         gLogOstream <<
           "Appending figured bass '" <<
           figuredBass->asString () <<
@@ -1361,7 +1361,7 @@ void msrPart::appendFiguredBassToPartClone (
     case msrVoice::kVoiceFiguredBass:
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceParts) {
+      if (gTraceOah->fTraceFiguredBasses) {
         gLogOstream <<
           "Appending figured bass '" <<
           figuredBass->asString () <<
@@ -1543,7 +1543,7 @@ void msrPart::finalizeCurrentMeasureInPart (
   int    inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing current measure in part " <<
       getPartCombinedName () <<

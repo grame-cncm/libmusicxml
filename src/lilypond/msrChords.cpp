@@ -163,7 +163,7 @@ void msrChord::setChordMembersPositionInMeasure (
   rational     positionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting chord members position in measure of " << asString () <<
       " to '" <<
@@ -309,7 +309,7 @@ void msrChord::appendArticulationToChord (S_msrArticulation art)
   } // for
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceArticulations || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceArticulations) {
     gLogOstream <<
       "Appending articulation '" <<
       art->articulationKindAsString () <<
@@ -339,7 +339,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
   } // for
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSpanners || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceSpanners) {
     gLogOstream <<
       "Appending spanner '" <<
       span->spannerKindAsString () <<
@@ -356,7 +356,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
 void msrChord::setChordSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Adding singleTremolo '" <<
       trem->asString () <<
@@ -588,7 +588,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
 void msrChord::appendBeamToChord (S_msrBeam beam)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeams || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceBeams) {
     gLogOstream <<
       "Appending beam '" <<
       beam->asString () <<
@@ -846,7 +846,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<

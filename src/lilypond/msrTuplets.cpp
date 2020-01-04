@@ -291,7 +291,7 @@ void msrTuplet::addNoteToTuplet (
 void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Adding chord " <<
       chord->asString () <<
@@ -597,7 +597,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
       "This last note from tuplet " <<
       asString () <<
@@ -616,7 +616,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   // returns the position in measure after the tuplet
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting tuplet position in measure of " << asString () <<
       " to '" <<

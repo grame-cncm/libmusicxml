@@ -2417,10 +2417,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
       "<system-distance /> is not supported yet by " <<
       gOahOah->fHandlerExecutableName;
 
+/* JMI
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       elt->getInputLineNumber (),
      s.str ());
+     */
   }
   else {
     msrMusicXMLError (
@@ -2457,10 +2459,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
       "<top-system-distance /> is not supported yet by " <<
       gOahOah->fHandlerExecutableName;
 
+/* JMI
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       elt->getInputLineNumber (),
      s.str ());
+     */
   }
   else {
     msrMusicXMLError (
@@ -2487,10 +2491,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
       "<system-dividers /> is not supported yet by " <<
       gOahOah->fHandlerExecutableName;
 
+/* JMI
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       elt->getInputLineNumber (),
      s.str ());
+     */
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_divider& elt )
@@ -4039,13 +4045,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
         fCurrentVoiceMusicXMLNumber);
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceStaves
-      ||
-    gTraceOah->fTraceVoices
-    ) {
+  if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> S_note, fCurrentStaffMusicXMLNumber = " <<
       fCurrentStaffMusicXMLNumber <<

@@ -646,6 +646,8 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     virtual void visitStart ( S_print& elt);
+    virtual void visitEnd   ( S_print& elt);
+
     virtual void visitStart ( S_system_layout& elt);
     virtual void visitStart ( S_measure_numbering& elt);
 
@@ -919,6 +921,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     string                    fCurrentDisplayText;
+    bool                      fOnGoingPrint;
 
     // part handling
     // ------------------------------------------------------

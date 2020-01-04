@@ -328,6 +328,46 @@ R"(Barlines details)",
   breaksAndBarlinesMultiplexBooleansAtom->
     addBooleanAtom (
       traceBarLinesDetailsAtom);
+
+  // bar checks
+
+  fTraceBarChecks = boolOptionsInitialValue;
+
+  S_oahThreeBooleansAtom
+    traceBarChecksAtom =
+      oahThreeBooleansAtom::create (
+        "tbc", "trace-bar-checks",
+R"(Bar checks)",
+        "traceBarChecks",
+        fTraceBarChecks,
+        fTraceBarLines,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceBarChecksAtom);
+  breaksAndBarlinesMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceBarChecksAtom);
+
+  // bar number checks
+
+  fTraceBarNumberChecks = boolOptionsInitialValue;
+
+  S_oahThreeBooleansAtom
+    traceBarNumberChecksAtom =
+      oahThreeBooleansAtom::create (
+        "tbnc", "trace-bar-number-checks",
+R"(Bar number checks)",
+        "traceBarNumberChecks",
+        fTraceBarNumberChecks,
+        fTraceBarLines,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceBarNumberChecksAtom);
+  breaksAndBarlinesMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceBarNumberChecksAtom);
 }
 
 void traceOah::initializeClefsToTemposTraceOah (
@@ -2337,6 +2377,12 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   clone->fTraceBarLines = true;
   clone->fTraceBarLinesDetails = true;
 
+  // bar checks
+  clone->fTraceBarChecks = true;
+
+  // bar number checks
+  clone->fTraceBarNumberChecks = true;
+
   // repeats trace
   clone->fTraceRepeats = true;
   clone->fTraceRepeatsDetails = true;
@@ -2556,6 +2602,12 @@ void traceOah::setAllGeneralTraceOah (
   // barlines
   fTraceBarLines = boolOptionsInitialValue;
   fTraceBarLinesDetails = boolOptionsInitialValue;
+
+    // bar number checks
+    // --------------------------------------
+
+ fTraceBarChecks
+ bool                  fTraceBarNumberChecks
 
   // repeats
   fTraceRepeats = boolOptionsInitialValue;
@@ -2956,6 +3008,16 @@ void traceOah::printAtomOptionsValues (
     endl <<
     setw (valueFieldWidth) << "traceBarlinesDetails" << " : " <<
     booleanAsString (fTraceBarLinesDetails) <<
+    endl <<
+
+    // bar checks
+    setw (valueFieldWidth) << "traceBarChecks" << " : " <<
+    booleanAsString (fTraceBarChecks) <<
+    endl <<
+
+    // bar number checks
+    setw (valueFieldWidth) << "traceBarNumberChecks" << " : " <<
+    booleanAsString (fTraceBarNumberChecks) <<
     endl <<
 
     // repeats
@@ -3384,6 +3446,16 @@ void traceOah::printTraceOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "traceBarlinesDetails" << " : " <<
     booleanAsString (fTraceBarLinesDetails) <<
+    endl <<
+
+    // bar checks
+    setw (fieldWidth) << "traceBarChecks" << " : " <<
+    booleanAsString (fTraceBarChecks) <<
+    endl <<
+
+    // bar number checks
+    setw (fieldWidth) << "traceBarNumberChecks" << " : " <<
+    booleanAsString (fTraceBarNumberChecks) <<
     endl <<
 
     // repeats

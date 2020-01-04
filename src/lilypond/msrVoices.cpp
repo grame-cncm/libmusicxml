@@ -1172,13 +1172,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
     K_VOICE_HARMONY_VOICE_BASE_NUMBER + fVoiceNumber;
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceHarmonies
-      ||
-    gTraceOah->fTraceVoices
-      ||
-    gTraceOah->fTraceStaves
-  ) {
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating harmony voice for regular voice \"" <<
       getVoiceName () <<
@@ -1234,13 +1228,7 @@ S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
     K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER + fVoiceNumber;
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceFiguredBasses
-      ||
-    gTraceOah->fTraceVoices
-      ||
-    gTraceOah->fTraceStaves
-  ) {
+  if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating figured bass voice for regular voice \"" <<
       getVoiceName () <<
@@ -1926,13 +1914,7 @@ void msrVoice::padUpToPositionInMeasureInVoice (
   rational wholeNotesPositionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceVoices
-      ||
-    gTraceOah->fTraceMeasures
-      ||
-    gTraceOah->fTracePositionsInMeasures
-  ) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Padding up to position in measure '" <<
       wholeNotesPositionInMeasure <<
@@ -1980,15 +1962,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
   rational backupTargetPositionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceVoices
-      ||
-    gTraceOah->fTraceMeasures
-      ||
-    gMusicXMLOah->fTraceBackup
-      ||
-    gTraceOah->fTracePositionsInMeasures
-  ) {
+  if (gMusicXMLOah->fTraceBackup) {
     gLogOstream <<
       "Backup by a '" <<
       backupTargetPositionInMeasure <<
@@ -3304,7 +3278,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatCommonPart (
 {
   // move the voice last segment to repeatCommonPart
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegments || gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Moving the voice last segment '";
 
@@ -3369,7 +3343,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatCommonPart (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegments || gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeats) {
     string
       combinedContext =
         "moveVoiceLastSegmentToRepeatCommonPart() 3 called from " + context;
@@ -3404,7 +3378,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatEnding (
 {
   // move the voice last segment to repeatEnding
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegments || gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Moving the voice last segment to repeat ending '" <<
       repeatEnding->asShortString () <<

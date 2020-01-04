@@ -489,7 +489,7 @@ void msrStanza::appendPaddingNoteToStanza (
   rational forwardStepLength)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceLyrics || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending padding note" <<
       ", forwardStepLength: " <<

@@ -242,6 +242,18 @@ class traceOah : public oahGroup
     bool                  fTraceBarLinesDetails;
 
 
+    // bar checks
+    // --------------------------------------
+
+    bool                  fTraceBarChecks;
+
+
+    // bar number checks
+    // --------------------------------------
+
+    bool                  fTraceBarNumberChecks;
+
+
     // transpositions
     // --------------------------------------
 

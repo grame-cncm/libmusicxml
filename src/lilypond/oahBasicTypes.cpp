@@ -11071,11 +11071,7 @@ const vector<string> oahHandler::decipherOptionsAndArguments (
 
 #ifdef TRACE_OAH
   // display arc and argv only now, to wait for the options to have been handled
-  if (
-    gTraceOah->fTraceOah
-      ||
-    gOahOah->fShowOptionsAndArguments
-  ) {
+  if (gTraceOah->fTraceOah || gOahOah->fShowOptionsAndArguments) {
     gOutputOstream <<
       "argc: " << argc <<
       endl <<

@@ -58,6 +58,11 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // part handling
 
+  // print
+
+  fCurrentDisplayText = "";
+  fOnGoingPrint = false;
+
   // measure style handling
   fCurrentSlashTypeKind     = k_NoSlashType;
   fCurrentUseDotsKind  = k_NoUseDots;
@@ -675,7 +680,6 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   string partID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OAH
-// JMI  if (gTraceOah->fTraceParts || gTraceOah->fTraceMeasures) {
   if (gTraceOah->fTracePasses) {
     fLogOutputStream <<
       endl <<
@@ -2466,7 +2470,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
             fPendingWordsList.front();
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+        if (gTraceOah->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
             words->asString () <<
@@ -3287,7 +3291,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
   if (fPendingMetronomeBeamsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceBeams) {
+    if (gTraceOah->fTraceTempos || gTraceOah->fTraceBeams) {
       fLogOutputStream <<
         "Attaching current beams to tempoNote " <<
         tempoNote->asString () <<
@@ -3301,7 +3305,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
           fPendingMetronomeBeamsList.front();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes || gTraceOah->fTraceBeams) {
+      if (gTraceOah->fTraceTempos || gTraceOah->fTraceBeams) {
         fLogOutputStream <<
           "Attaching beam '" <<
           beam->asString () <<
@@ -3563,10 +3567,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTempos) {
     fLogOutputStream <<
       "fCurrentTempoTupletTypeKind: " <<
       msrTempoTuplet::tempoTupletTypeKindAsString (
@@ -3791,7 +3792,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
             fPendingWordsList.front();
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+        if (gTraceOah->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
             words->asString () <<
@@ -4546,19 +4547,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-      ||
-    gTraceOah->fTraceMeasures
-      ||
-    gTraceOah->fTraceVoices
-      ||
-    gTraceOah->fTraceStaves
-      ||
-    gTraceOah->fTraceLyrics
-    ) {
+  if (gMusicXMLOah->fTraceForward) {
     fLogOutputStream <<
       "Handling 'forward <<< " << fCurrentBackupDivisions <<
       " divisions >>>" <<
@@ -5026,11 +5015,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceSlurs
-    ) {
+    if (gTraceOah->fTraceSlurs) {
       fLogOutputStream <<
         "slurNumber: " <<
         slurNumber <<
@@ -6303,11 +6288,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   // is there a pending grace notes group?
   if (fPendingGraceNotesGroup) {
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceGraceNotes
-        ||
-      gTraceOah->fTraceNotes
-    ) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         endl <<
         "fCurrentGraceNotes IS NOT NULL at the end of measure '" << // JMI
@@ -6640,7 +6621,27 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
 
   const string pageNumber = elt->getAttributeValue ("page-number"); // JMI
 
+  // print
+
   fCurrentDisplayText = "";
+  fOnGoingPrint = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_print& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_print" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fOnGoingPrint = false;
 }
 
 //______________________________________________________________________________
@@ -12925,10 +12926,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     fCurrentNoteActualNotes = actualNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "fCurrentNoteActualNotes: " <<
         fCurrentNoteActualNotes <<
@@ -12951,10 +12949,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     fCurrentMetronomeNoteActualNotes = actualNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTempos
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteActualNotes: " <<
         fCurrentMetronomeNoteActualNotes <<
@@ -12998,10 +12993,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     fCurrentNoteNormalNotes = normalNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "fCurrentNoteNormalNotes: " <<
         fCurrentNoteNormalNotes <<
@@ -13024,10 +13016,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     fCurrentMetronomeNoteNormalNotes = normalNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTempos
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteNormalNotes: " <<
         fCurrentMetronomeNoteNormalNotes <<
@@ -13069,10 +13058,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
 
   if (fOnGoingNote) {
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "normalTypeString: " <<
         normalTypeString <<
@@ -13100,10 +13086,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
     fCurrentMetronomeNoteNormalType = normalTypeString;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTempos
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteNormalType: " <<
         fCurrentMetronomeNoteNormalType <<
@@ -13366,10 +13349,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
@@ -13482,10 +13462,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "tuplet number (not handled): " <<
       tupletNumberValue <<
@@ -13528,10 +13505,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "tuplet type (not handled): " <<
       tupletTypeValue <<
@@ -13649,10 +13623,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceGlissandos) {
+  if (gTraceOah->fTraceGlissandos) {
     fLogOutputStream <<
       "glissandoNumber: " <<
       glissandoNumber <<
@@ -13680,10 +13651,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 
   // register glissando in this visitor
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceGlissandos) {
+  if (gTraceOah->fTraceGlissandos) {
     fLogOutputStream <<
       "Appending glissando '" <<
       glissando->asString () <<
@@ -13773,10 +13741,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceSlides) {
+  if (gTraceOah->fTraceSlides) {
     fLogOutputStream <<
       "slideNumber: " <<
       slideNumber <<
@@ -13802,10 +13767,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 
   // register glissando in this visitor
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceSlides) {
+  if (gTraceOah->fTraceSlides) {
     fLogOutputStream <<
       "Appending slide '" <<
       slide->asString () <<
@@ -13962,7 +13924,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
     chordFirstNote->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "--> creating a chord from its first note '" <<
       chordFirstNote->asShortString () <<
@@ -13986,7 +13948,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
 
   // register note as first member of chord
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Adding first note " <<
       chordFirstNote->
@@ -14016,7 +13978,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
         getNoteMeasureUpLink ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes || gMsrOah->fDisplayMsrDetails) {
+  if (gTraceOah->fTraceChordsDetails) {
     fLogOutputStream << // JMI
       endl <<
       endl <<
@@ -14203,7 +14165,7 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying articulation '" <<
         (*i)->articulationKindAsString () <<
@@ -14236,11 +14198,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTechnicals
-    ) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalKindAsString () <<
@@ -14273,11 +14231,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTechnicals
-    ) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalWithIntegerKindAsString () <<
@@ -14310,11 +14264,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTechnicals
-      ) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithFloatKindAsString () <<
@@ -14347,11 +14297,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTechnicals
-        ||
-      gTraceOah->fTraceChords
-      ) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
@@ -14384,10 +14330,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceOrnaments
-        ||
-      gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -14421,10 +14364,7 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceSpanners
-        ||
-      gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying spanner '" <<
         (*i)->spannerKindAsString () <<
@@ -14452,7 +14392,7 @@ void mxmlTree2MsrTranslator::copyNoteSingleTremoloToChord (
 
   if (noteSingleTremolo) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying singleTremolo '" <<
         noteSingleTremolo->asString () <<
@@ -14486,7 +14426,7 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceDynamics) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
@@ -14520,7 +14460,7 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceDynamics) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying other dynamics '" <<
         (*i)->asString () <<
@@ -14554,7 +14494,7 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceWords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying words '" <<
         (*i)->asString () <<
@@ -14582,7 +14522,7 @@ void mxmlTree2MsrTranslator::copyNoteStemToChord (
 
   if (noteStem) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceStems || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying stem '" <<
         noteStem->asString () <<
@@ -14616,7 +14556,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceBeams || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying beam '" <<
         (*i)->asString () <<
@@ -14631,7 +14571,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeams || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "==> AFTER copying beams to chord:" <<
       endl;
@@ -14660,7 +14600,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
 
   if (noteTie) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceTies) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Appending tie '" <<
         noteTie->asString () <<
@@ -14675,7 +14615,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
   }
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceTies) {
+    if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "==> AFTER appending tie to chord:" <<
       endl;
@@ -14710,7 +14650,7 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceSlurs) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying slur '" <<
         (*i)->asString () <<
@@ -14744,7 +14684,7 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceLigatures) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying ligature '" <<
         (*i)->ligatureKindAsString () <<
@@ -14812,7 +14752,7 @@ void mxmlTree2MsrTranslator::copyNoteSlashesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceSlashes) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying slash '" <<
         (*i)->asString () <<
@@ -14846,7 +14786,7 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceWedges) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying wedges '" <<
         (*i)->wedgeKindAsString () <<
@@ -14874,7 +14814,7 @@ void mxmlTree2MsrTranslator::copyNoteOctaveShiftToChord (
 
   if (noteOctaveShift) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceOctaveShifts) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying octave shift '" <<
         noteOctaveShift->asString () <<
@@ -14900,7 +14840,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupBefore) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying grace notes group before '" <<
         graceNotesGroupBefore->asShortString () <<
@@ -14922,7 +14862,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupAfter) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying grace notes group after '" <<
         graceNotesGroupAfter->asShortString () <<
@@ -14954,7 +14894,7 @@ void mxmlTree2MsrTranslator::copyNoteHarmoniesToChord (
       S_msrHarmony harmony = (*i);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceChords) {
+      if (gTraceOah->fTraceChords) {
         fLogOutputStream <<
           "Copying harmony '" <<
           harmony->asString () <<
@@ -15126,7 +15066,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 
   // register tuplet in this visitor
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tuplet->asString () <<
@@ -15313,7 +15253,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
   if (fCurrentArticulations.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceArticulations) {
+    if (gTraceOah->fTraceArticulations) {
       fLogOutputStream <<
         "Attaching current articulations to note " <<
         note->asString () <<
@@ -15353,7 +15293,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
   if (fCurrentTechnicalsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technicals to note " <<
         note->asString () <<
@@ -15367,7 +15307,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
           fCurrentTechnicalsList.front();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+      if (gTraceOah->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical '" <<
           tech->asString () <<
@@ -15393,7 +15333,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   if (fCurrentTechnicalWithIntegersList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with integers to note " <<
         note->asString () <<
@@ -15407,7 +15347,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
           fCurrentTechnicalWithIntegersList.front();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+      if (gTraceOah->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with integer '" <<
           tech->asString () <<
@@ -15433,7 +15373,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithFloatsToNote (
   if (fCurrentTechnicalWithFloatsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with floats to note " <<
         note->asString () <<
@@ -15447,7 +15387,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithFloatsToNote (
           fCurrentTechnicalWithFloatsList.front();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+  if (gTraceOah->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with integer '" <<
           tech->asString () <<
@@ -15473,7 +15413,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   if (fCurrentTechnicalWithStringsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with strings to note " <<
         note->asString () <<
@@ -16431,7 +16371,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 
       else {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceLigatures) {
           stringstream s;
 
           int numberOfLigatures = fPendingLigaturesList.size ();
@@ -16458,7 +16398,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 
     if (! delayAttachment) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+      if (gTraceOah->fTraceLigatures) {
           stringstream s;
 
           int numberOfLigatures = fPendingLigaturesList.size ();
@@ -17313,7 +17253,8 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
   else if (
     fCurrentTremoloTypeKind == kTremoloTypeStart
       ||
-    fCurrentTremoloTypeKind == kTremoloTypeStop) {
+    fCurrentTremoloTypeKind == kTremoloTypeStop
+  ) {
     // double tremolo note
     if (fCurrentNoteGraphicDurationKind == k_NoDuration) {
       stringstream s;
@@ -17627,11 +17568,7 @@ void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
       fCurrentNoteIsCrossStaves = true;
 
 #ifdef TRACE_OAH
-      if (
-        gTraceOah->fTraceStaves
-          ||
-        gTraceOah->fTraceVoices
-      ) {
+      if (gTraceOah->fTraceStaffChanges) {
         fLogOutputStream <<
           "*** There is staff change for chord member note '" <<
           newNote->asShortString () <<
@@ -17660,7 +17597,7 @@ void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
       // to remain in this staff and not use the note's one
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
+      if (gTraceOah->fTraceStaffChanges) {
         fLogOutputStream <<
           "*** There is staff change for note '" <<
           newNote->asShortString () <<
@@ -17915,7 +17852,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // set current staff number to insert into if needed JMI ???
   if (fCurrentStaffNumberToInsertInto == K_NO_STAFF_NUMBER) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+    if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
       fLogOutputStream <<
         "==> setting fCurrentStaffNumberToInsertInto to " <<
         fCurrentMusicXMLStaffNumber <<
@@ -17931,7 +17868,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> fetching voice to insert note into" <<
       ", fCurrentStaffNumberToInsertInto = " <<
@@ -17961,7 +17898,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     "voiceToInsertNoteInto is null");
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> is there a staff change?" <<
       " fCurrentStaffNumberToInsertInto = " <<
@@ -17988,7 +17925,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // before the note itself is handled, because that may cause
   // tuplets or chords to be appended to the voice
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> fetching voice to insert harmonies, figured basses and/or frames into" <<
       ", fCurrentStaffNumberToInsertInto = " <<
@@ -18255,7 +18192,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else if (
     fCurrentTremoloTypeKind == kTremoloTypeStart
       ||
-    fCurrentTremoloTypeKind == kTremoloTypeStop) {
+    fCurrentTremoloTypeKind == kTremoloTypeStop
+  ) {
     // double tremolo note
     newNote->
       setNoteKind (
@@ -18385,7 +18323,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       // this is the first grace note in grace notes
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceTuplets || gTraceOah->fTraceGraceNotes) {
+      if (gTraceOah->fTraceGraceNotes) {
         fLogOutputStream <<
           "Creating grace notes for note '" <<
           newNote->asString () <<
@@ -18442,7 +18380,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
     // append newNote to the current grace notes
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceTuplets || gTraceOah->fTraceGraceNotes) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Appending note " <<
         newNote->asString () <<
@@ -18679,7 +18617,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotesDetails || gTraceOah->fTraceLyricsDetails) {
+    if (gTraceOah->fTraceLyricsDetails) {
       fLogOutputStream <<
         "Note '" <<
         newNote->asShortString () <<
@@ -18870,11 +18808,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   } // switch
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-    ) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream << // JMI
       endl <<
       "***==> fCurrentStaffNumberToInsertInto = " <<
@@ -18905,7 +18839,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       "currentVoice is null");
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Handling a chord member note" <<
       ", currentVoice = \"" <<
@@ -18918,11 +18852,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceChordsDetails
-  ) {
+  if (gTraceOah->fTraceChordsDetails) {
     fLogOutputStream <<
       endl <<
       "======================= handleNoteBelongingToAChord" <<
@@ -19058,7 +18988,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       case msrNote::kStandaloneNote:
         // remove last handled (previous current) note from the current voice
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+        if (gTraceOah->fTraceChords) {
           fLogOutputStream <<
             "Removing chord first note " <<
             chordFirstNote->asShortString () <<
@@ -19070,11 +19000,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-        if (
-          gTraceOah->fTraceNotesDetails
-            ||
-          gTraceOah->fTraceChordsDetails
-        ) {
+        if (gTraceOah->fTraceChordsDetails) {
           fLogOutputStream <<
             endl << endl <<
             "&&&&&&&&&&&&&&&&&& fCurrentPart contents &&&&&&&&&&&&&&&&&&" <<
@@ -19086,17 +19012,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-        if (
-          gTraceOah->fTraceNotes
-            ||
-          gTraceOah->fTraceChords
-            ||
-          gTraceOah->fTraceStaves
-            ||
-          gTraceOah->fTraceMeasures
-            ||
-          gTraceOah->fTraceLyrics
-        ) {
+        if (gTraceOah->fTraceStaffChanges) {
           fLogOutputStream << // JMI
             endl <<
             "***==> fCurrentStaffNumberToInsertInto = " <<
@@ -19314,7 +19230,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a tuplet" <<
       ", note: " <<
@@ -19335,7 +19251,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     case msrTuplet::kTupletTypeStart:
       {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+        if (gTraceOah->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStart: note = '" <<
             note->
@@ -19391,7 +19307,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
           // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-          if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+          if (gTraceOah->fTraceTuplets) {
             fLogOutputStream <<
               "--> kTupletTypeContinue: adding tuplet member note '" <<
               note->
@@ -19486,7 +19402,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-              if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+              if (gTraceOah->fTraceTuplets) {
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding outer-most tuplet member note '" <<
                   note->
@@ -19591,7 +19507,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-              if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+              if (gTraceOah->fTraceTuplets) {
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding nested tuplet member note '" <<
                   note->
@@ -19646,7 +19562,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     case msrTuplet::kTupletTypeStartAndStopInARow:
       {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+        if (gTraceOah->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStartAndStopInARow: note = '" <<
             note->
@@ -19728,13 +19644,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-      ||
-    gTraceOah->fTraceTuplets
-  ) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
@@ -19846,13 +19756,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
     // add chord to the current tuplet instead of tupletLastNote
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotes
-        ||
-      gTraceOah->fTraceChords
-        ||
-      gTraceOah->fTraceTuplets
-      ) {
+    if (gTraceOah->fTraceChords || gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "Adding chord '" <<
         fCurrentChord->asString () <<
@@ -19881,7 +19785,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   // register note as another member of chord
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
@@ -19929,13 +19833,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
       msrNote::kGraceChordMemberNote);
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-      ||
-    gTraceOah->fTraceGraceNotes
-    ) {
+  if (gTraceOah->fTraceChords || gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in grace notes" <<
       ", newChordNote is '" <<
@@ -20003,13 +19901,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     }
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotes
-        ||
-      gTraceOah->fTraceChords
-        ||
-      gTraceOah->fTraceGraceNotes
-    ) {
+    if (gTraceOah->fTraceChords || gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "The grace notes chord's first note is '" <<
         chordFirstNote->
@@ -20082,7 +19974,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 
   // register note as another member of chord
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->

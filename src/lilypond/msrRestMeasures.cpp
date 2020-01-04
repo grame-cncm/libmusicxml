@@ -82,7 +82,7 @@ void msrRestMeasuresContents::setRestMeasuresContentsSegment (
   S_msrSegment restMeasuresContentsSegment)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures || gTraceOah->fTraceSegments) {
+  if (gTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures contents segment containing " <<
       singularOrPlural (
