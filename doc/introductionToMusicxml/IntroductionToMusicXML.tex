@@ -66,7 +66,7 @@ All the examples mentioned can be downloaded from \url{https://github.com/grame-
 
 The scores fragments shown in this document have been produced by translating the '{\tt .xml}' file to \lily\ syntax, and then creating the graphical score with \lily. 
 
-The translations have been done by \xmlToLy, a prototype tool developed by this author. \xmlToLy\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}.
+The translations have been done by \xmlToLy, a prototype tool developed by this author. \xmlToLy\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}, and \xmlToLy\ is in the '{\tt lilypond}' branch.
 
 \sep
 
@@ -201,9 +201,9 @@ One can see in the definition of the '{\tt <forward>}' element that the '{\tt <d
 
 \sep
 
-In a DTD, '{\tt CDATA}' means {\it Character Data}. Such data is not analyzed by the software  the reads the \mxml\ data, it is merely passed over to whoever asked the data to be read in.
+In a DTD, '{\tt CDATA}' means {\it Character Data}. Such data is not analyzed by the software  that reads the \mxml\ data, it is merely passed over verbatim to whoever asked the data to be read in.
 
-In the same vein, '{\tt PCDATA}' means {\it Parsed Character Data}, that is, mixed content XML data that are analyzed.  
+In the same vein, '{\tt PCDATA}' means {\it Parsed Character Data}, that is, mixed content XML data that are analyzed by software tools.  
 
 \sep
 
@@ -733,9 +733,9 @@ The \mxml\ DTD states that part groups may {\it overlap}. This seem to be only b
 Here is how \mxmlfile{partgroups/OverlappingPartGroups.xml} is handled by various applications:
 
 \begin{itemize}
-\item \sib\ 7.1.3 loses the last group, i.e. the bassoons;
-\item \fin\ 2014 loses them too;
-\item \muse\ 3.3.4 crashes;
+\item \sib\ loses the last group, i.e. the bassoons;
+\item \fin\ loses them too;
+\item \muse\ crashes;
 \item \mxmlToLy\ loses the bassoons too;
 \item \xmlToLy\ rejects such data for the time being, with the message shown below.
 \end{itemize}
@@ -2053,9 +2053,9 @@ The contents of \mxmlfile{challenging/BeethovenNinthSymphony.xml} is over 66 meg
 The interested reader is urged to try and import this file in their favorite score editing sofware. This author's experience is that:
 
 \begin{itemize}
-\item \sib\ 7.1.3 handles it alright;
-\item \fin\ 2014 finds it well-formed, but too big to be opened;
-\item \muse\ 3.3 opens it, but then working on the file is extremely slow;
+\item \sib\ handles it alright;
+\item \fin\ finds it well-formed, but too big to be opened;
+\item \muse\ opens it, but then working on the file is extremely slow;
 \item \mxmlToLy\ converts it to \lily\ syntax as of 2.19.83, and the result has some issues that should be fixed rather easily;
 \item \xmlToLy\ converts it to \lily\ alright, but the issues in this case show that this converter is still experimental\dots
 \end{itemize}

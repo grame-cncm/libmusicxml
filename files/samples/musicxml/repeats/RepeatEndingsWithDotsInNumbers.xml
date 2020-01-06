@@ -50,10 +50,10 @@
 	</part-list>
 	<part id="P1">
 		<measure number="1">
-			<barline location="left">
+			<!--barline location="left">
 				<bar-style>heavy-light</bar-style>
 				<repeat direction="forward"/>
-			</barline>
+			</barline-->
 			<print>
 				<system-layout>
 					<system-margins>
