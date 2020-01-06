@@ -14632,7 +14632,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       break;
     case msrBarline::kBarlineCategoryRepeatEnd:
       if (gLilypondOah->fKeepRepeatBarlines) {
-        fLilypondCodeOstream << "\\bar \":|.|:\" ";
+   // JMI     fLilypondCodeOstream << "\\bar \":|.|:\" ";
+        fLilypondCodeOstream << "FOOLISH \\bar \":|.|:\" ";
       }
       break;
 

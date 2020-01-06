@@ -8371,9 +8371,9 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceBarLines) {
     gLogOstream <<
-      "Appending barline '" <<
+      "Appending barline " <<
       barline->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      " to voice \"" << getVoiceName () << "\"" <<
       ":" <<
       endl;
   }
