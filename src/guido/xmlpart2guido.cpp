@@ -2396,15 +2396,16 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 stringstream s;
                 s << "text=\"" << fingeringText << "\"";
                 /// Get placement: AVOIDING since rendering is not coherent!
-//                std::string placement = fingerings[i]->getAttributeValue("placement");
-//                if (placement.size() > 0) {
-//                    s << ", position=\""<<placement<<"\"";
-//                }
+                std::string placement = fingerings[i]->getAttributeValue("placement");
+                if (placement.size() > 0) {
+                    s << ", position=\""<<placement<<"\"";
+                }
                 tag->add (guidoparam::create(s.str(), false));
                 /// GUID-156: x-pos is highly dependent on Layout. AVOID!
                 //xml2guidovisitor::addPosX(fingerings[i], tag, 0);   // xml x-pos can be safely added
                 /// In MusicXML, default-y for Fingering is from TOP of the staff. Dy in Guido is from the NOTEHEAD. Therefore the dy is a function of the Note and the Clef!
-                addPosYforNoteHead(nv, fingerings[i], tag, 2);  // FIXME: +2 offset is experimental
+                ///  GUID-160: Remove verticals to allow automatic positioning of stacks in GuidoLib
+                //addPosYforNoteHead(nv, fingerings[i], tag, 2);  // FIXME: +2 offset is experimental
                 push(tag);
                 hasFingerings++;
             }
