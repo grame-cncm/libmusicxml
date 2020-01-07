@@ -1410,7 +1410,11 @@ void msrRepeat::addRepeatEndingToRepeat (
       asShortString () <<
       "'" <<
       endl;
+  }
+#endif
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRepeatsDetails) {
     displayRepeat (
       inputLineNumber,
       "addRepeatEndingToRepeat() 1");
@@ -1533,7 +1537,7 @@ void msrRepeat::addRepeatEndingToRepeat (
       ++ fRepeatEndingsInternalCounter);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     displayRepeat (
       inputLineNumber,
       "addRepeatEndingToRepeat() 2");
