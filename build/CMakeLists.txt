@@ -35,9 +35,9 @@ option ( BRL 		   "Include braille part"	  off )
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
-set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
-set (DTDS   ${ROOT}/dtds/${XMLVERSION})
-set (SCHEMA ${DTDS}/schema)
+set (DOCDIR ${ROOT}/doc)
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf ${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf ${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
+set (SCHEMA   ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -250,15 +250,7 @@ install ( TARGETS ${TOOLS}
 ####################################
 # install misc files
 install (
-    DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
-    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-      GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-    PATTERN ".DS_Store" EXCLUDE
-)
-
-install (
-    DIRECTORY ${DTDS} ${SCHEMA} DESTINATION ${DOCDIR}/schema
+    DIRECTORY ${SCHEMA} DESTINATION ${DOCDIR}/schema
     FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
     DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
@@ -279,6 +271,23 @@ install (
     FILES ${ROOT}/CHANGELOG.txt  DESTINATION .
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
+
+
+####################################
+# install VS redistributables
+if (WIN32)
+if (${CMAKE_GENERATOR} STREQUAL "Visual Studio 14 2015 Win64")
+	set (VS "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/redist/x64/Microsoft.VC140.CRT")
+elseif (${CMAKE_GENERATOR} STREQUAL "Visual Studio 15 2017 Win64")
+	set (VS "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Redist/MSVC/14.16.27012/x64/Microsoft.VC141.CRT")
+else()
+	set (VS "/unknown/visual/studio/version")
+endif()
+install (
+    FILES  "${VS}/msvcp140.dll" "${VS}/vcruntime140.dll" DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
+endif()
 
 
 ####################################
