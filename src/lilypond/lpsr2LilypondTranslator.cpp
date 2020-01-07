@@ -6599,7 +6599,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
     gIndenter++;
 
     fLilypondCodeOstream <<
-      "\\override BarLine.bar-extent = #'(-2 . 2)" <<
+      "\\override Barline.bar-extent = #'(-2 . 2)" <<
       endl <<
       "\\consists \"Bar_engraver\"" <<
       endl;
@@ -6662,7 +6662,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
     gIndenter++;
 
     fLilypondCodeOstream <<
-      "\\override BarLine.bar-extent = #'(-2 . 2)" <<
+      "\\override Barline.bar-extent = #'(-2 . 2)" <<
       endl <<
       "\\consists \"Bar_engraver\"" <<
       endl;

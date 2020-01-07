@@ -8348,7 +8348,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Prepending barline '" <<
       barline->asString () <<
@@ -8369,7 +8369,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Appending barline " <<
       barline->asString () <<

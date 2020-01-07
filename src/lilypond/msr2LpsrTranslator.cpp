@@ -6184,7 +6184,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (
@@ -6219,7 +6219,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     case msrBarline::kBarlineStyleShort:
       fLpsrScore->
         // this score needs the 'custom short barline' Scheme function
-        setCustomShortBarLineSchemeFunctionIsNeeded ();
+        setCustomShortBarlineSchemeFunctionIsNeeded ();
       break;
       /* JMI
     case msrBarline::kBarlineStyleNone:

@@ -1977,7 +1977,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (

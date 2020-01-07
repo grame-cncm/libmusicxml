@@ -1523,7 +1523,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Prepending barline '" << barline->asString () <<
       "' to segment '" << asString () << "'" <<
@@ -1551,7 +1551,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Appending barline " << barline->asString () <<
       " to segment " << asString () << "'" <<
@@ -1565,7 +1565,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   if (! fSegmentMeasuresList.size ()) { // JMI
 #ifdef TRACE_OAH
     if (
-      gTraceOah->fTraceBarLinesDetails
+      gTraceOah->fTraceBarlinesDetails
         ||
       gTraceOah->fTraceSegmentsDetails
     ) { // JMI

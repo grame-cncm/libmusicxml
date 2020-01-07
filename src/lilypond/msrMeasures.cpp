@@ -731,7 +731,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
               dynamic_cast<msrBarline*>(&(*measureElement))
       ) {
   #ifdef TRACE_OAH
-        if (gTraceOah->fTraceMeasures || gTraceOah->fTraceBarLines) {
+        if (gTraceOah->fTraceMeasures || gTraceOah->fTraceBarlines) {
           gLogOstream <<
             "Element is a barline actually" <<
             endl;
@@ -1346,7 +1346,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
         getSegmentVoiceUpLink ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Appending barline " <<
       barline->asShortString () <<

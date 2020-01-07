@@ -1445,8 +1445,8 @@ class mxmlTree2MsrTranslator :
     // repeats handling
     // ------------------------------------------------------
 
-    string                    fCurrentRepeatStartMeasureNumber; // stack !!! JMI
-    S_msrBarline              fCurrentRepeatEndingStartBarline;
+    string                    fCurrentRepeatStartMeasureNumber; // stack ??? JMI
+    S_msrBarline              fCurrentRepeatEndingStartBarline; // stack ??? JMI
 
     void                      handleRepeatStart (
                                 S_msrBarline& barline);

@@ -292,42 +292,42 @@ R"(Page breaks)",
 
   // barlines
 
-  fTraceBarLines = boolOptionsInitialValue;
+  fTraceBarlines = boolOptionsInitialValue;
 
   S_oahTwoBooleansAtom
-    traceBarLinesAtom =
+    traceBarlinesAtom =
       oahTwoBooleansAtom::create (
         "tblines", "trace-barlines",
 R"(Barlines)",
         "traceBarlines",
-        fTraceBarLines,
+        fTraceBarlines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
-      traceBarLinesAtom);
+      traceBarlinesAtom);
   breaksAndBarlinesMultiplexBooleansAtom->
     addBooleanAtom (
-      traceBarLinesAtom);
+      traceBarlinesAtom);
 
   // barlines details
 
-  fTraceBarLinesDetails = boolOptionsInitialValue;
+  fTraceBarlinesDetails = boolOptionsInitialValue;
 
   S_oahThreeBooleansAtom
-    traceBarLinesDetailsAtom =
+    traceBarlinesDetailsAtom =
       oahThreeBooleansAtom::create (
         "tblinesd", "trace-barlines-details",
 R"(Barlines details)",
         "traceBarlinesDetails",
-        fTraceBarLinesDetails,
-        fTraceBarLines,
+        fTraceBarlinesDetails,
+        fTraceBarlines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
-      traceBarLinesDetailsAtom);
+      traceBarlinesDetailsAtom);
   breaksAndBarlinesMultiplexBooleansAtom->
     addBooleanAtom (
-      traceBarLinesDetailsAtom);
+      traceBarlinesDetailsAtom);
 
   // bar checks
 
@@ -340,7 +340,7 @@ R"(Barlines details)",
 R"(Bar checks)",
         "traceBarChecks",
         fTraceBarChecks,
-        fTraceBarLines,
+        fTraceBarlines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
@@ -360,7 +360,7 @@ R"(Bar checks)",
 R"(Bar number checks)",
         "traceBarNumberChecks",
         fTraceBarNumberChecks,
-        fTraceBarLines,
+        fTraceBarlines,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
@@ -2374,8 +2374,8 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   clone->fTraceOctaveShifts = true;
 
   // barlines
-  clone->fTraceBarLines = true;
-  clone->fTraceBarLinesDetails = true;
+  clone->fTraceBarlines = true;
+  clone->fTraceBarlinesDetails = true;
 
   // bar checks
   clone->fTraceBarChecks = true;
@@ -2600,8 +2600,8 @@ void traceOah::setAllGeneralTraceOah (
   fTraceOctaveShifts = boolOptionsInitialValue;
 
   // barlines
-  fTraceBarLines = boolOptionsInitialValue;
-  fTraceBarLinesDetails = boolOptionsInitialValue;
+  fTraceBarlines = boolOptionsInitialValue;
+  fTraceBarlinesDetails = boolOptionsInitialValue;
 
     // bar number checks
     // --------------------------------------
@@ -3004,10 +3004,10 @@ void traceOah::printAtomOptionsValues (
 
     // barlines
     setw (valueFieldWidth) << "traceBarlines" << " : " <<
-    booleanAsString (fTraceBarLines) <<
+    booleanAsString (fTraceBarlines) <<
     endl <<
     setw (valueFieldWidth) << "traceBarlinesDetails" << " : " <<
-    booleanAsString (fTraceBarLinesDetails) <<
+    booleanAsString (fTraceBarlinesDetails) <<
     endl <<
 
     // bar checks
@@ -3442,10 +3442,10 @@ void traceOah::printTraceOahValues (int fieldWidth)
 
     // barlines
     setw (fieldWidth) << "traceBarlines" << " : " <<
-    booleanAsString (fTraceBarLines) <<
+    booleanAsString (fTraceBarlines) <<
     endl <<
     setw (fieldWidth) << "traceBarlinesDetails" << " : " <<
-    booleanAsString (fTraceBarLinesDetails) <<
+    booleanAsString (fTraceBarlinesDetails) <<
     endl <<
 
     // bar checks
