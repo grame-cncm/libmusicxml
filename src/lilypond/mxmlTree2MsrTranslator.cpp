@@ -7471,7 +7471,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   #ifdef TRACE_OAH
         if (gTraceOah->fTraceBarlines) {
           fLogOutputStream <<
-            "Appending a barline to part " <<
+            "Appending a standalone barline to part " <<
             fCurrentPart->getPartCombinedName () << ":" <<
             endl;
 
@@ -20203,7 +20203,7 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -20254,7 +20254,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -20316,7 +20316,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<

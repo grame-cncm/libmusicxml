@@ -2932,7 +2932,7 @@ void msrVoice::popRepeatFromRepeatDescrsStack (
   string      context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     string
       combinedContext =
         "popRepeatFromRepeatDescrsStack() 1 called from " + context;
@@ -2981,7 +2981,7 @@ void msrVoice::popRepeatFromRepeatDescrsStack (
   fVoicePendingRepeatDescrsStack.pop_front ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     string
       combinedContext =
         "popRepeatFromRepeatDescrsStack() 2 called from " + context;
@@ -3305,7 +3305,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatCommonPart (
       combinedContext =
         "moveVoiceLastSegmentToRepeatCommonPart() 1 called from " + context;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       combinedContext);
   }
@@ -3348,7 +3348,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatCommonPart (
       combinedContext =
         "moveVoiceLastSegmentToRepeatCommonPart() 3 called from " + context;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       combinedContext);
   }
@@ -3607,7 +3607,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatStartInVoice() 1");
   }
@@ -3808,7 +3808,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatStartInVoice() 11");
   }
@@ -3829,7 +3829,7 @@ void msrVoice::handleNestedRepeatStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleNestedRepeatStartInVoice() 1");
   }
@@ -3837,7 +3837,7 @@ void msrVoice::handleNestedRepeatStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleNestedRepeatStartInVoice() 2");
   }
@@ -3856,7 +3856,7 @@ void msrVoice::handleRepeatStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatStartInVoice() 1");
   }
@@ -3886,7 +3886,7 @@ void msrVoice::handleRepeatStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatStartInVoice() 2");
   }
@@ -3907,7 +3907,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndWithoutStartInVoice() 1");
   }
@@ -4026,7 +4026,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndWithoutStartInVoice() 7");
   }
@@ -4049,7 +4049,7 @@ void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelContainingRepeatEndWithoutStartInVoice() 1");
   }
@@ -4181,7 +4181,7 @@ void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelContainingRepeatEndWithoutStartInVoice() 7");
   }
@@ -4204,7 +4204,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndWithStartInVoice() 1");
   }
@@ -4311,7 +4311,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndWithStartInVoice() 5");
   }
@@ -4334,7 +4334,7 @@ void msrVoice::handleNestedRepeatEndInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleNestedRepeatEndInVoice() 1");
   }
@@ -4392,7 +4392,7 @@ void msrVoice::handleNestedRepeatEndInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleNestedRepeatEndInVoice() 2");
   }
@@ -4406,7 +4406,7 @@ void msrVoice::handleRepeatEndInVoice (
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatEndInVoice() 1");
   }
@@ -4495,7 +4495,7 @@ void msrVoice::handleRepeatEndInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatEndInVoice() 2");
   }
@@ -4519,7 +4519,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice() 1");
   }
@@ -4688,7 +4688,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice() 2");
   }
@@ -4713,7 +4713,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice() 1");
   }
@@ -4848,7 +4848,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice() 7");
   }
@@ -4875,7 +4875,7 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
 
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceRepeats) {
-            displayVoiceRepeatsStackAndVoice (
+            displayVoiceRepeatsStack (
               inputLineNumber,
               "nestContentsIntoNewRepeatInVoice() 1");
           }
@@ -4888,7 +4888,7 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
 
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceRepeats) {
-            displayVoiceRepeatsStackAndVoice (
+            displayVoiceRepeatsStack (
               inputLineNumber,
               "nestContentsIntoNewRepeatInVoice() 2");
           }
@@ -4911,7 +4911,7 @@ void msrVoice::handleNestedRepeatEndingStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleNestedRepeatEndingStartInVoice() 1");
  }
@@ -4919,7 +4919,7 @@ void msrVoice::handleNestedRepeatEndingStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleNestedRepeatEndingStartInVoice() 2");
   }
@@ -4943,7 +4943,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatEndingStartInVoice() 1");
   }
@@ -5006,7 +5006,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatEndingStartInVoice() 2");
   }
@@ -5021,7 +5021,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatEndingStartInVoiceClone() 1");
   }
@@ -5158,7 +5158,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatEndingStartInVoiceClone() 2");
   }
@@ -5328,7 +5328,7 @@ void msrVoice::finalizeRepeatEndInVoice (
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "finalizeRepeatEndInVoice() 1");
   }
@@ -5401,7 +5401,7 @@ void msrVoice::finalizeRepeatEndInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "finalizeRepeatEndInVoice() 2");
   }
@@ -6714,7 +6714,7 @@ void msrVoice::appendRepeatCloneToVoiceClone (
       getVoiceName () <<  "\"" <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "appendRepeatCloneToVoiceClone() 1");
   }
@@ -6760,7 +6760,7 @@ void msrVoice::appendRepeatCloneToVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "appendRepeatCloneToVoiceClone() 4");
   }
@@ -7287,7 +7287,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHookedRepeatEndingEndInVoice() 1");
   }
@@ -7373,7 +7373,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHookedRepeatEndingEndInVoice() 3");
   }
@@ -7394,7 +7394,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHooklessRepeatEndingEndInVoice() 1");
   }
@@ -7500,7 +7500,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHooklessRepeatEndingEndInVoice() 5");
   }
@@ -7539,7 +7539,7 @@ void msrVoice::handleRepeatEndingEndInVoice (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "appendRepeatEndingToVoice() 0");
   }
@@ -7561,7 +7561,7 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatCommonPartStartInVoiceClone() 1");
   }
@@ -7616,7 +7616,7 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatCommonPartStartInVoiceClone() 2");
   }
@@ -7640,7 +7640,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatCommonPartEndInVoiceClone() 1");
   }
@@ -7694,7 +7694,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatCommonPartEndInVoiceClone() 3");
   }
@@ -7719,7 +7719,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHookedRepeatEndingEndInVoiceClone() 1");
   }
@@ -7784,7 +7784,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHookedRepeatEndingEndInVoiceClone() 3");
   }
@@ -7809,7 +7809,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHooklessRepeatEndingEndInVoiceClone() 1");
   }
@@ -7868,7 +7868,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleHooklessRepeatEndingEndInVoiceClone() 3");
   }
@@ -7885,7 +7885,7 @@ void msrVoice::handleRepeatEndingEndInVoiceClone (
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "appendRepeatEndingToVoiceClone() 1");
   }
@@ -7915,7 +7915,7 @@ void msrVoice::handleRepeatEndingEndInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "appendRepeatEndingToVoiceClone() 2");
   }
@@ -7939,7 +7939,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStack (
       inputLineNumber,
       "handleRepeatStartInVoiceClone() 1");
   }
@@ -7973,7 +7973,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
 
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceRepeats) {
-            displayVoiceRepeatsStackAndVoice (
+            displayVoiceRepeatsStack (
               inputLineNumber,
               "handleRepeatStartInVoiceClone() 3");
           }
@@ -8002,7 +8002,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
 
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceRepeats) {
-        displayVoiceRepeatsStackAndVoice (
+        displayVoiceRepeatsStack (
           inputLineNumber,
           "handleRepeatStartInVoiceClone() 5");
       }
@@ -8040,7 +8040,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
 
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceRepeats) {
-          displayVoiceRepeatsStackAndVoice (
+          displayVoiceRepeatsStack (
             inputLineNumber,
             "handleRepeatEndInVoiceClone() 1");
         }
@@ -8131,7 +8131,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
 
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceRepeats) {
-          displayVoiceRepeatsStackAndVoice (
+          displayVoiceRepeatsStack (
             inputLineNumber,
             "handleRepeatEndInVoiceClone() 6");
         }
@@ -8296,7 +8296,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
             "\"" <<
             endl;
 
-          displayVoiceRepeatsStackAndVoice (
+          displayVoiceRepeatsStack (
             inputLineNumber,
             "appendRepeatEndingCloneToVoice() 1");
         }
@@ -8333,7 +8333,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceRepeats) {
-          displayVoiceRepeatsStackAndVoice (
+          displayVoiceRepeatsStack (
             inputLineNumber,
             "appendRepeatEndingCloneToVoice() 2");
         }
@@ -8825,7 +8825,7 @@ void msrVoice::finalizeVoice (
   if (voicePendingRepeatDescrsStackSize) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceMeasures) {
-        displayVoiceRepeatsStackAndVoice (
+        displayVoiceRepeatsStack (
           inputLineNumber,
           "finalizeVoice() 2");
       }
