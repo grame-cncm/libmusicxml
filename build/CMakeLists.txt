@@ -35,7 +35,8 @@ option ( BRL 		   "Include braille part"	  off )
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
-set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
+set (DOCDIR ${ROOT}/doc)
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf ${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf ${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
 set (DTDS   ${ROOT}/dtds/${XMLVERSION})
 set (SCHEMA ${DTDS}/schema)
 
