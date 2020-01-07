@@ -257,6 +257,16 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingFrameNote = false;
 
   // barline handling
+  fCurrentBarlineEndingNumber    = ""; // may be "1, 2"
+  fCurrentBarlineHasSegnoKind = msrBarline::kBarlineHasSegnoNo;
+  fCurrentBarlineHasCodaKind  = msrBarline::kBarlineHasCodaNo;
+
+  fCurrentBarlineLocationKind        = msrBarline::kBarlineLocationNone;
+  fCurrentBarlineStyleKind           = msrBarline::kBarlineStyleNone;
+  fCurrentBarlineEndingTypeKind      = msrBarline::kBarlineEndingNone;
+  fCurrentBarlineRepeatDirectionKind = msrBarline::kBarlineRepeatDirectionNone;
+  fCurrentBarlineRepeatWingedKind    = msrBarline::kBarlineRepeatWingedNone;
+
   fOnGoingBarline = false;
 
   // repeats handling
@@ -6662,11 +6672,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
 
   string measureNumberingString = elt->getValue ();
 
-  / *  JMI
-  fCurrentBarlineStyleKind =
-    msrBarline::k_NoStyle; // default value
-* /
-
   if      (measureNumberingString == "none") {
  //   fCurrentBarlineStyleKind =
  //     msrBarline::kRegularStyle;
@@ -7293,16 +7298,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     barline =
       msrBarline::create (
         inputLineNumber,
-        msrBarline::k_NoBarlineCategory, // will be set below
-        fCurrentBarlineHasSegnoKind,
-        fCurrentBarlineHasCodaKind,
         fCurrentBarlineLocationKind,
         fCurrentBarlineStyleKind,
+        fCurrentBarlineRepeatDirectionKind,
         fCurrentBarlineEndingTypeKind,
         fCurrentBarlineEndingNumber,
-        fCurrentBarlineRepeatDirectionKind,
-        fCurrentBarlineRepeatWingedKind,
-        fCurrentBarlineTimes);
+        fCurrentBarlineTimes,
+        msrBarline::k_NoBarlineCategory, // will be set afterwards
+        fCurrentBarlineHasSegnoKind,
+        fCurrentBarlineHasCodaKind,
+        fCurrentBarlineRepeatWingedKind);
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceBarLines) {
@@ -7329,157 +7334,180 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   /*
     CAUTION:
       The order of the tests in the following is most important!
+
+			<barline location="left">
+				<ending type="start" number="1"/>
+			</barline>
   */
 
   bool barlineIsAlright = false;
 
-  if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
-      &&
-    fCurrentBarlineEndingNumber.size () != 0
-  ) {
-    // ending start, don't know yet whether it's hooked or hookless
-    // ------------------------------------------------------
-    handleRepeatEndingStart (barline);
+  switch (fCurrentBarlineLocationKind) {
+    case msrBarline::kBarlineLocationNone:
+      // should not occur
+      break;
 
-    barlineIsAlright = true;
-  }
-
-/* JMI
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
-      &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
-  ) {
-    // hooked ending start
-    // ------------------------------------------------------
-    handleRepeatHookedEndingStart (elt, barline);
-
-    barlineIsAlright = true;
-  }
-*/
-
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
-  ) {
-    // repeat start
-    // ------------------------------------------------------
-
-    handleRepeatStart (barline);
-
-    barlineIsAlright = true;
-  }
-
-  /* JMI
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
-  ) { // no forward
-    // hookless ending start
-    // ------------------------------------------------------
-    handleRepeatHooklessEndingStart (elt, barline);
-
-    barlineIsAlright = true;
-  }
-*/
-
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
-      &&
-    fCurrentBarlineEndingNumber.size () != 0
-  ) {
-    // hooked ending end
-    // ------------------------------------------------------
-
-    handleRepeatHookedEndingEnd (barline);
-
-    barlineIsAlright = true;
-  }
-
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
-      &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
-  ) {
-    // repeat end
-    // ------------------------------------------------------
-
-    handleRepeatEnd (barline);
-
-    barlineIsAlright = true;
-  }
-
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue
-      &&
-    fCurrentBarlineEndingNumber.size () != 0
-  ) {
-    // hookless ending end
-    // ------------------------------------------------------
-    handleRepeatHooklessEndingEnd (barline);
-
-    barlineIsAlright = true;
-  }
-
-  else {
-
-    // set the barline category
-    switch (fCurrentBarlineStyleKind) {
-      case msrBarline::kBarlineStyleRegular:
-      case msrBarline::kBarlineStyleDotted:
-      case msrBarline::kBarlineStyleDashed:
-      case msrBarline::kBarlineStyleHeavy:
-      case msrBarline::kBarlineStyleLightLight:
-      case msrBarline::kBarlineStyleLightHeavy:
-      case msrBarline::kBarlineStyleHeavyLight:
-      case msrBarline::kBarlineStyleHeavyHeavy:
-      case msrBarline::kBarlineStyleTick:
-      case msrBarline::kBarlineStyleShort:
-      case msrBarline::kBarlineStyleNone:
+    case msrBarline::kBarlineLocationLeft:
+      if (
+        fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
+      ) {
+        // ending start, don't know yet whether it's hooked or hookless
+        // ------------------------------------------------------
+        // set the barline category
         barline->
           setBarlineCategory (
-            msrBarline::kBarlineCategoryStandalone);
+            msrBarline::kBarlineCategoryRepeatEnd); // TEMP ??? JMI
 
-        // append the bar line to the current part
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceBarLines) {
-          fLogOutputStream <<
-            "Appending a barline to part " <<
-            fCurrentPart->getPartCombinedName () << ":" <<
-            endl;
+        if (! fCurrentBarlineEndingNumber.size ()) {
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            inputLineNumber,
+            "mandatory ending number is missing, assuming \"1\"");
 
-          gIndenter++;
-
-          fLogOutputStream <<
-            barline;
-
-          gIndenter--;
+          fCurrentBarlineEndingNumber = "1";
         }
-#endif
 
-        fCurrentPart->
-          appendBarlineToPart (barline);
+        // remember repeat ending start barline,
+        // don't know yet whether it is hooked or hookless
+        fCurrentRepeatEndingStartBarline = barline;
+
+        // handle the repeat ending start
+        handleRepeatEndingStart (barline);
 
         barlineIsAlright = true;
-        break;
+      }
 
-  /* JMI
-      case msrBarline::kBarlineStyleNone:
-        ; // no <bar-style> has been found
-        */
-    } // switch
-  }
+      else if (
+        fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
+      ) {
+        // repeat start
+        // ------------------------------------------------------
+        // set the barline category
+        barline->
+          setBarlineCategory (
+            msrBarline::kBarlineCategoryRepeatStart);
+
+        // handle the repeat start
+        handleRepeatStart (barline);
+
+        barlineIsAlright = true;
+      }
+      break;
+
+    case msrBarline::kBarlineLocationMiddle:
+      // JMI ???
+      break;
+
+    case msrBarline::kBarlineLocationRight:
+      if (
+        fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
+          &&
+        fCurrentBarlineEndingNumber.size () != 0
+      ) {
+        // hooked ending end
+        // ------------------------------------------------------
+        // set current barline start category
+        fCurrentRepeatEndingStartBarline->
+          setBarlineCategory (
+            msrBarline::kBarlineCategoryHookedEndingStart);
+
+        // handle the repeat hooked ending end
+        handleRepeatHookedEndingEnd (barline);
+
+        barlineIsAlright = true;
+      }
+
+      else if (
+        fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
+      ) {
+        // repeat end
+        // ------------------------------------------------------
+
+        // handle the repeat end
+        handleRepeatEnd (barline);
+
+        barlineIsAlright = true;
+      }
+
+      else if (
+        fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue
+          &&
+        fCurrentBarlineEndingNumber.size () != 0
+      ) {
+        // hookless ending end
+        // ------------------------------------------------------
+        // set the barline category
+        barline->
+          setBarlineCategory (
+            msrBarline::kBarlineCategoryHooklessEndingEnd);
+
+        // set current barline start category
+        fCurrentRepeatEndingStartBarline->
+          setBarlineCategory (
+            msrBarline::kBarlineCategoryHooklessEndingStart);
+
+        // handle the repeat hookless ending end
+        handleRepeatHooklessEndingEnd (barline);
+
+        barlineIsAlright = true;
+      }
+      break;
+  } // switch
+
+  // set the barline category if not yet done JMI ???
+  switch (fCurrentBarlineStyleKind) {
+    case msrBarline::kBarlineStyleRegular:
+    case msrBarline::kBarlineStyleDotted:
+    case msrBarline::kBarlineStyleDashed:
+    case msrBarline::kBarlineStyleHeavy:
+    case msrBarline::kBarlineStyleLightLight:
+    case msrBarline::kBarlineStyleLightHeavy:
+    case msrBarline::kBarlineStyleHeavyLight:
+    case msrBarline::kBarlineStyleHeavyHeavy:
+    case msrBarline::kBarlineStyleTick:
+    case msrBarline::kBarlineStyleShort:
+      barline->
+        setBarlineCategory (
+          msrBarline::kBarlineCategoryStandalone);
+
+      // append the bar line to the current part
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceBarLines) {
+        fLogOutputStream <<
+          "Appending a barline to part " <<
+          fCurrentPart->getPartCombinedName () << ":" <<
+          endl;
+
+        gIndenter++;
+
+        fLogOutputStream <<
+          barline;
+
+        gIndenter--;
+      }
+#endif
+
+      fCurrentPart->
+        appendBarlineToPart (barline);
+
+      barlineIsAlright = true;
+      break;
+
+    case msrBarline::kBarlineStyleNone:
+      stringstream s;
+
+      s <<
+        "barline " <<
+        barline->asString () <<
+        " has no barline style";
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+   //     __FILE__, __LINE__,
+        s.str ());
+      break;
+  } // switch
 
   // has this barline been handled?
   if (! barlineIsAlright) {
@@ -7495,51 +7523,36 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       s.str ());
   }
 
+  // sanity check
+  switch (barline->getBarlineCategory ()) {
+    case msrBarline::k_NoBarlineCategory:
+      {
+        stringstream s;
+
+        s <<
+          "barline " <<
+          barline->asString () <<
+          " has no barline category";
+
+      msrInternalError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+      }
+      break;
+    case msrBarline::kBarlineCategoryStandalone:
+    case msrBarline::kBarlineCategoryRepeatStart:
+    case msrBarline::kBarlineCategoryRepeatEnd:
+    case msrBarline::kBarlineCategoryHookedEndingStart:
+    case msrBarline::kBarlineCategoryHookedEndingEnd:
+    case msrBarline::kBarlineCategoryHooklessEndingStart:
+    case msrBarline::kBarlineCategoryHooklessEndingEnd:
+      break;
+  } // switch
+
   fOnGoingBarline = false;
 }
-
-  /* JMI
-Repeats and endings are represented by the <repeat> and <ending> elements with a <barline>, as defined in the barline.mod file.
-
-In regular measures, there is no need to include the <barline> element. It is only need to represent repeats, endings, and graphical styles such as double barlines.
-
-A forward repeat mark is represented by a left barline at the beginning of the measure (following the attributes element, if there is one):
-
-  <barline location="left">
-    <bar-style>heavy-light</bar-style>
-    <repeat direction="forward"/>
-  </barline>
-
-The repeat element is what is used for sound generation; the bar-style element only indicates graphic appearance.
-
-Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
-
-  <barline location="right">
-    <bar-style>light-heavy</bar-style>
-    <repeat direction="backward"/>
-  </barline>
-
-While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
-
-  <barline location="left">
-    <ending type="start" number="1"/>
-  </barline>
-
-The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
-
-  <barline location="right">
-    <bar-style>light-heavy</bar-style>
-    <ending type="stop" number="1"/>
-    <repeat direction="backward"/>
-  </barline>
-
-The discontinue value is typically used for the last ending in a set, where there is no downward hook to mark the end of an ending:
-
-  <barline location="right">
-    <ending type="discontinue" number="2"/>
-  </barline>
-
-    */
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
@@ -20119,11 +20132,6 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   // remember repeat start measure number
   fCurrentRepeatStartMeasureNumber = inputLineNumber;
 
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryRepeatStart);
-
   // prepare for repeat in current part
   fCurrentPart->
     handleRepeatStartInPart (
@@ -20161,11 +20169,6 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   }
 #endif
 
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryRepeatEnd);
-
   // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
@@ -20199,10 +20202,6 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
   }
 #endif
 
-  // remember repeat ending start barline,
-  // don't know yet whether it's hooked or hookless
-  fCurrentRepeatEndingStartBarline = barline;
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
     fLogOutputStream <<
@@ -20230,13 +20229,6 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
   fCurrentPart->
     handleRepeatEndingStartInPart (
       inputLineNumber);
-
-/* JMI
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHookedEndingStart);
-  */
 
   // append the bar line to the current part
   fCurrentPart->
@@ -20273,11 +20265,6 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
       endl;
   }
 #endif
-
-  // set current barline start category
-  fCurrentRepeatEndingStartBarline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHookedEndingStart);
 
   // set the barline category
   barline->
@@ -20345,16 +20332,6 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
       endl;
   }
 #endif
-
-  // set current barline start category
-  fCurrentRepeatEndingStartBarline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHooklessEndingStart);
-
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHooklessEndingEnd);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -22502,4 +22479,47 @@ part-symbol
   }
 #endif
 */
+
+  /* JMI
+Repeats and endings are represented by the <repeat> and <ending> elements with a <barline>, as defined in the barline.mod file.
+
+In regular measures, there is no need to include the <barline> element. It is only need to represent repeats, endings, and graphical styles such as double barlines.
+
+A forward repeat mark is represented by a left barline at the beginning of the measure (following the attributes element, if there is one):
+
+  <barline location="left">
+    <bar-style>heavy-light</bar-style>
+    <repeat direction="forward"/>
+  </barline>
+
+The repeat element is what is used for sound generation; the bar-style element only indicates graphic appearance.
+
+Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
+
+  <barline location="right">
+    <bar-style>light-heavy</bar-style>
+    <repeat direction="backward"/>
+  </barline>
+
+While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
+
+  <barline location="left">
+    <ending type="start" number="1"/>
+  </barline>
+
+The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
+
+  <barline location="right">
+    <bar-style>light-heavy</bar-style>
+    <ending type="stop" number="1"/>
+    <repeat direction="backward"/>
+  </barline>
+
+The discontinue value is typically used for the last ending in a set, where there is no downward hook to mark the end of an ending:
+
+  <barline location="right">
+    <ending type="discontinue" number="2"/>
+  </barline>
+
+    */
 
