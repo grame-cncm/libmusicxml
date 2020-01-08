@@ -2065,7 +2065,13 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 std::stringstream convert;
                 convert << note.fTremolo->getValue();
                 int numDashes = 0;
-                convert >> numDashes;
+                try {
+                    convert >> numDashes;
+                }
+                catch (const exception& e) {
+                    numDashes = 0;
+                }
+                
                 s << "style=\"";
                 for (int id=0; id<numDashes;id++) {
                     s << "/";
