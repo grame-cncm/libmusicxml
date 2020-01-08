@@ -135,12 +135,11 @@ namespace MusicXML2
                         break;
                 }
                 
-                // calculate Guido Range and set
-                partID2range(fPartGroups[*ito]);
-                
                 // Do Erase
                 if (ito != fCurrentPartGroupIndex.end())
                 {
+                    // calculate Guido Range and set
+                    partID2range(fPartGroups[*ito]);
                     fCurrentPartGroupIndex.erase(ito);
                 }else
                     cerr << "Something is really wrong in S_PART_GROUP visitor!" << endl;

@@ -132,7 +132,7 @@ namespace MusicXML2
         // IDEA: Treat the FIRST occurence of partID in grouping and get rid of it.
         partGroup* partGroupIt = find_first_of_partID_inGroup(partID);
         
-        if (partGroupIt != NULL)
+        if (partGroupIt != NULL && partGroupIt->guidoRange.size()>0)
         {
             /// something was found. Generate Accolades and BarFormat if any
             
@@ -236,6 +236,11 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("staff");
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
+            
+            // Add \set<autoHideTiedAccidentals="on"> to avoid repetition of accidentals on ties
+            std::string autoHideTiedAccidentals = "set<autoHideTiedAccidentals=\"on\">";
+            tag = guidotag::create(autoHideTiedAccidentals);
+            add(tag);
                         
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
@@ -330,7 +335,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yoffset)
+    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, float yoffset)
     {
         float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
         if (posx) {
@@ -350,7 +355,15 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int xoffset)
+    /**
+     Infers x and y position from MusicXML element, converts to Guido HS and adds to tag
+
+     @param elt MusicXML element with x-y position
+     @param tag Guido Tag in construction
+     @param yoffset y Offset to add to converted HS result
+     @param xoffset x Offset to add to converted HS result
+     */
+    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset)
     {
         float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
         if (posx) {
@@ -371,15 +384,38 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int ymultiplier = 1.0)
+    
+    /**
+     Infers MusicXML Y-Position of element and converts to Guido Half-Space
+     
+     @param elt XML Element visiting
+     @param tag The Guido Tag element to append dY position
+     @param yoffset Half-space offset to add
+     @param .0 Multiplier: can be 1.0 or -1.0 (to invert)
+     */
+    void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier = 1.0)
     {
-        float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
-        if (posy) {
+        float posy = elt->getAttributeFloatValue("relative-y", 0) + elt->getAttributeFloatValue("default-y", 0);
             posy = (posy / 10) * 2;   // convert to half spaces
             posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
             posy = posy * ymultiplier;
+        if (posy) {
             stringstream s;
             s << "dy=" << posy << "hs";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
+    
+    //______________________________________________________________________________
+    void xml2guidovisitor::addPosX    ( Sxmlelement elt, Sguidoelement& tag, float xoffset)
+    {
+        float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
+        
+        posx = (posx / 10) * 2;   // convert to half spaces
+        posx += xoffset;          // anchor point convertion (defaults to upper line in xml)
+        if (posx) {
+            stringstream s;
+            s << "dx=" << posx << "hs";
             tag->add (guidoparam::create(s.str(), false));
         }
     }
@@ -389,9 +425,46 @@ namespace MusicXML2
         string placement = elt->getAttributeValue("placement");
         
         if (placement.size()) {
-            
             stringstream s;
             s << "position=\"" << placement << "\"";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
+    
+    /**
+     Converts total relative and default Y for element from MusicXML Tenths to Guido Half-Space
+
+     @param elt Music XML element
+     @param yoffset half-space offset to be added after conversion
+     @param useDefault true to use default-y position, false otherwise
+     @return returns half-space in float
+     */
+    float xml2guidovisitor::getYposition(Sxmlelement elt, float yoffset, bool useDefault = true){
+        float posy = (useDefault ? elt->getAttributeFloatValue("default-y", 0) : 0.0)
+                + elt->getAttributeFloatValue("relative-y", 0);
+        posy = (posy / 10) * 2;   // convert to half spaces
+        posy += yoffset;          // anchor point convertion (defaults to upper line in xml)
+
+        return posy;
+    }
+    
+    float xml2guidovisitor::getXposition(Sxmlelement elt, float xoffset){
+        float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
+        posx = (posx / 10) * 2;   // convert to half spaces
+        posx += xoffset;
+        
+        return posx;
+    }
+
+    /// direction attribute in MusicXML can be "up" or "down"
+    void xml2guidovisitor::addDirection( Sxmlelement elt, Sguidoelement& tag)
+    {
+        string direction = elt->getAttributeValue("direction");
+        
+        if (direction.size()) {
+            
+            stringstream s;
+            s << "direction=\"" << direction << "\"";
             tag->add (guidoparam::create(s.str(), false));
         }
     }

@@ -36,9 +36,15 @@ namespace MusicXML2
     
     
     int musicxmlQuery::getStavesForFirstPart() {
-        
         return stavesInPart.begin()->second;
     }
+    
+    std::vector<std::string> musicxmlQuery::getAllClefsOfFirstPart() {
+        std::set<string> clefsSet = clefsInPart.begin()->second;
+        std::vector<string> clefsVector(clefsSet.begin(), clefsSet.end());
+        return clefsVector;
+    }
+    
     
     int musicxmlQuery::getTotalStaves() {
         int totalStaves = 0;
@@ -51,7 +57,7 @@ namespace MusicXML2
     /// Instance methods:
     int  musicxmlQuery::getTransposeInstrumentChromatic () {
         // The chromatic element, representing the number of chromatic steps to add to the written pitch, is the one required element. The diatonic, octave-change, and double elements are optional elements.
-        return fChromatic + (fOctaveChange * 12);
+        return fChromatic + (transposevisitor::fOctaveChange * 12);
     }
     
     std::string musicxmlQuery::getTransposeInstrumentName() {
@@ -100,7 +106,7 @@ namespace MusicXML2
                 case k_octave:
                     break;
                 case k_alter:
-
+                    
                     break;
                 case k_accidental:
                     break;
@@ -111,7 +117,7 @@ namespace MusicXML2
                 case k_beam:
                 case k_notations:
                 case k_lyric:
-
+                    
                     break;
             }
             i = next;
@@ -137,4 +143,29 @@ namespace MusicXML2
         stavesInPart[currentPart] = int(*elt);
     }
     
+    void musicxmlQuery::visitEnd ( S_clef& elt )
+    {
+        std::string key;
+        if(clefvisitor::fSign == "G" && clefvisitor::fLine == 2 && clefvisitor::fOctaveChange == 0) {
+            key = "g2";
+        }else if(clefvisitor::fSign == "G" && clefvisitor::fLine == 2 && clefvisitor::fOctaveChange == -1) {
+            key = "g-8";
+        }else if(clefvisitor::fSign == "G" && clefvisitor::fLine == 2 && clefvisitor::fOctaveChange == 1) {
+            key = "g+8";
+        }else if(clefvisitor::fSign == "F" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == 0) {
+            key = "f4";
+        }else if(clefvisitor::fSign == "F" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == -1) {
+            key = "f-8";
+        }else if(clefvisitor::fSign == "F" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == 1) {
+            key = "f+8";
+        }else if(clefvisitor::fSign == "C" && clefvisitor::fLine == 3 && clefvisitor::fOctaveChange == 0) {
+            key = "alto";
+        }else if(clefvisitor::fSign == "C" && clefvisitor::fLine == 4 && clefvisitor::fOctaveChange == 0) {
+            key = "tenor";
+        }else{
+            key = "unknown";
+        }
+        clefsInPart[currentPart].insert(key);
+    }
+
 }

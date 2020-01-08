@@ -154,6 +154,7 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
 		int               getIntValue   (int subElementType, int defaultvalue);
 		long              getLongValue  (int subElementType, long defaultvalue);
 		float             getFloatValue (int subElementType, float defaultvalue);
+    bool hasSubElement(int subElementType);
 
 		// misc
 		bool empty () const	{ return fValue.empty() && elements().empty(); }

@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+  <movement-title>Fantaisie pour flûte et piano</movement-title>
+  <identification>
+    <creator type="composer">Georges Hüe</creator>
+    <creator type="arranger">Prénom Nom</creator>
+    <rights>www.antescofo.com</rights>
+    <encoding>
+      <software>Finale v25 for Mac</software>
+      <encoding-date>2019-09-25</encoding-date>
+      <supports attribute="new-system" element="print" type="yes" value="yes"/>
+      <supports attribute="new-page" element="print" type="yes" value="yes"/>
+      <supports element="accidental" type="yes"/>
+      <supports element="beam" type="yes"/>
+      <supports element="stem" type="yes"/>
+    </encoding>
+  </identification>
+  <defaults>
+    <scaling>
+      <millimeters>6.4514</millimeters>
+      <tenths>40</tenths>
+    </scaling>
+    <page-layout>
+      <page-height>1842</page-height>
+      <page-width>1302</page-width>
+      <page-margins type="both">
+        <left-margin>93</left-margin>
+        <right-margin>93</right-margin>
+        <top-margin>93</top-margin>
+        <bottom-margin>93</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <system-layout>
+      <system-margins>
+        <left-margin>0</left-margin>
+        <right-margin>0</right-margin>
+      </system-margins>
+      <system-distance>143</system-distance>
+      <top-system-distance>93</top-system-distance>
+    </system-layout>
+    <appearance>
+      <line-width type="stem">0.7487</line-width>
+      <line-width type="beam">5</line-width>
+      <line-width type="staff">0.7487</line-width>
+      <line-width type="light barline">0.7487</line-width>
+      <line-width type="heavy barline">5</line-width>
+      <line-width type="leger">0.7487</line-width>
+      <line-width type="ending">0.7487</line-width>
+      <line-width type="wedge">0.7487</line-width>
+      <line-width type="enclosure">0.7487</line-width>
+      <line-width type="tuplet bracket">0.7487</line-width>
+      <note-size type="grace">60</note-size>
+      <note-size type="cue">60</note-size>
+      <distance type="hyphen">120</distance>
+      <distance type="beam">8</distance>
+    </appearance>
+    <music-font font-family="Maestro,engraved" font-size="18.3"/>
+    <word-font font-family="Times New Roman" font-size="9.1"/>
+    <lyric-font font-family="Finale Lyrics" font-size="9.1"/>
+  </defaults>
+  <credit page="1">
+    <credit-type>rights</credit-type>
+    <credit-words default-x="651" default-y="62" font-size="12" font-style="italic" justify="center" valign="bottom">www.antescofo.com</credit-words>
+  </credit>
+  <part-list>
+    <score-part id="P1">
+      <part-name>Flute</part-name>
+      <part-abbreviation>Fl.</part-abbreviation>
+      <score-instrument id="P1-I9">
+        <instrument-name>SmartMusic SoftSynth</instrument-name>
+        <instrument-sound>wind.flutes.flute</instrument-sound>
+      </score-instrument>
+      <midi-instrument id="P1-I9">
+        <midi-channel>9</midi-channel>
+        <midi-bank>15489</midi-bank>
+        <midi-program>74</midi-program>
+        <volume>80</volume>
+        <pan>0</pan>
+      </midi-instrument>
+    </score-part>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <measure number="1" width="992">
+      <print>
+        <system-layout>
+          <system-margins>
+            <left-margin>124</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+          <top-system-distance>217</top-system-distance>
+        </system-layout>
+        <measure-numbering>system</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>240</divisions>
+        <key>
+          <fifths>-2</fifths>
+          <mode>major</mode>
+        </key>
+        <time symbol="common">
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <sound tempo="80"/>
+      <note default-x="122">
+        <pitch>
+          <step>D</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>60</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem default-y="-20">down</stem>
+      </note>
+      <note default-x="167">
+        <rest/>
+        <duration>60</duration>
+        <voice>1</voice>
+        <type>16th</type>
+      </note>
+      <direction placement="above">
+        <direction-type>
+          <words default-y="54" font-style="italic">ad lib.</words>
+        </direction-type>
+      </direction>
+      <direction placement="below">
+        <direction-type>
+          <dynamics default-x="212" default-y="-103" halign="left">
+            <f/>
+          </dynamics>
+        </direction-type>
+        <sound dynamics="98"/>
+      </direction>
+      <note default-x="212">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>120</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-6.5">up</stem>
+        <notations>
+          <tied type="start"/>
+          <articulations>
+            <accent default-x="-2" default-y="-66" placement="below"/>
+          </articulations>
+        </notations>
+      </note>
+      <note default-x="292">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>120</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-98">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <note default-x="364">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <accidental>natural</accidental>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-91">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">begin</beam>
+        <beam number="3">begin</beam>
+        <beam number="4">begin</beam>
+        <notations>
+          <tuplet number="1" placement="below" type="start">
+            <tuplet-actual>
+              <tuplet-number>15</tuplet-number>
+              <tuplet-type>64th</tuplet-type>
+            </tuplet-actual>
+            <tuplet-normal>
+              <tuplet-number>1</tuplet-number>
+              <tuplet-type>eighth</tuplet-type>
+            </tuplet-normal>
+          </tuplet>
+          <slur bezier-x="66" bezier-y="52" default-x="5" default-y="-27" number="1" placement="above" type="start"/>
+        </notations>
+      </note>
+      <note default-x="394">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <accidental>natural</accidental>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-88.5">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="414">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-87">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="434">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-84.5">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="455">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-83">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="475">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-81">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="496">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-79">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="525">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <accidental>natural</accidental>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-76.5">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="545">
+        <pitch>
+          <step>F</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-75">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="566">
+        <pitch>
+          <step>G</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-72.5">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="588">
+        <pitch>
+          <step>A</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-70.5">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="614">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-68">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="639">
+        <pitch>
+          <step>C</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-66">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="663">
+        <pitch>
+          <step>D</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-64">down</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <beam number="3">continue</beam>
+        <beam number="4">continue</beam>
+      </note>
+      <note default-x="694">
+        <pitch>
+          <step>E</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>64th</type>
+        <accidental>natural</accidental>
+        <time-modification>
+          <actual-notes>15</actual-notes>
+          <normal-notes>8</normal-notes>
+        </time-modification>
+        <stem default-y="-60.5">down</stem>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
+        <beam number="3">end</beam>
+        <beam number="4">end</beam>
+        <notations>
+          <tuplet number="1" type="stop"/>
+        </notations>
+      </note>
+      <note default-x="720">
+        <pitch>
+          <step>F</step>
+          <octave>6</octave>
+        </pitch>
+        <duration>120</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-55.5">down</stem>
+        <beam number="1">begin</beam>
+        <notations>
+          <slur bezier-x="-77" bezier-y="26" default-x="3" default-y="46" number="1" type="stop"/>
+        </notations>
+      </note>
+      <note default-x="792">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>120</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-75">down</stem>
+        <beam number="1">end</beam>
+        <notations>
+          <tied type="start"/>
+          <ornaments>
+            <trill-mark default-x="-2" default-y="5" placement="above"/>
+          </ornaments>
+        </notations>
+      </note>
+      <note default-x="865">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>240</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="3.5">up</stem>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================================================-->
+</score-partwise>

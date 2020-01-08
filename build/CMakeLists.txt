@@ -59,19 +59,21 @@ endif()
 # mac os specific part
 #########################################
 if(APPLE)
-  if ( IOS )
-    message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
-    set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-    set (CMAKE_OSX_ARCHITECTURES "arm64  armv7 armv7s") # unsupported on iOS 11.4.0: armv7 armv7s
-    set (CMAKE_OSX_SYSROOT "iphoneos")
-    set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.0")
-  elseif( UNIVERSAL )
-    message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")
-    set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
-    set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
-  endif()
+	if ( IOS )
+		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
+		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
+		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
+		set (CMAKE_OSX_SYSROOT "iphoneos")
+		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=11.2")
+		set (libtype STATIC)
+		set (FMWK "false")
+	elseif( UNIVERSAL )
+		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
+		set (CMAKE_OSX_ARCHITECTURES "x86_64")
+		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.10)
+	endif()
   # to debug:
-  add_definitions(-O0 -g) # JMI
+  #add_definitions(-O0 -g) # JMI
 
 #########################################
 # windows specific part
