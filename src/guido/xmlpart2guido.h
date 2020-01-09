@@ -204,7 +204,7 @@ class EXP xmlpart2guido :
     
     std::string parseMetronome ( metronomevisitor &mv );
     
-    bool findNextNote(const S_note& elt, ctree<xmlelement>::iterator &nextnote);
+    bool findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelement>::iterator &nextnote);
     float getNoteDistanceFromStaffTop(const notevisitor& nv);
     
     rational durationInCue;
