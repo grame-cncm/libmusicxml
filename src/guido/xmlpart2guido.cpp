@@ -2221,6 +2221,8 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     {
         if (nv.isGrace()) {
             if (!fInGrace) {
+                Sguidoelement tag = guidotag::create("grace");
+                push(tag);
                 /// GUID-153: Fetch directions after grace
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), nv.getSnote());
                 nextnote.forward_up(); // forward one element
@@ -2251,8 +2253,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 }
                 /// End-of Guid-153
                 fInGrace = true;
-                Sguidoelement tag = guidotag::create("grace");
-                push(tag);
             }
         }
         else if (fInGrace) {
