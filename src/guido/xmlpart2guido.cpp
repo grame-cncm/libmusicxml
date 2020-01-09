@@ -52,10 +52,9 @@ namespace MusicXML2
     void xmlpart2guido::reset ()
     {
         guidonotestatus::resetall();
-        fCurrentBeamNumber = 0;
         fMeasNum = 0;
         fInCue = fInGrace = fInhibitNextBar = fPendingBar = fDoubleBar
-        = fBeamOpened = fCrescPending = fSkipDirection = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
+        = fBeamOpened = fBeamGrouping = fCrescPending = fSkipDirection = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
         fCurrentStemDirection = kStemUndefined;
         fCurrentDivision = 1;
         fCurrentOffset = 0;
@@ -1432,16 +1431,51 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
 
     
     //______________________________________________________________________________
-    void xmlpart2guido::checkBeamBegin ( const std::vector<S_beam>& beams )
+    void xmlpart2guido::checkBeamBegin ( const std::vector<S_beam>& beams, const S_note& elt )
     {
         /// !IMPORTANT NOTE from MXML DOC: Note that the beam number does not distinguish sets of beams that overlap, as it does for slur and other elements.
         ///             So we need to track them with s Stack
         /// ! IMPORTANT NOTE from MXML DOC: "Beaming groups are distinguished by being in different voices and/or the presence or absence of grace and cue elements."
         ///             This means that we should treate Grace and Cue elements separately.
+        /// !IMPORTANT NOTE on Guido Syntax: In Guido, the semantic of beam is the following: Nested beams make sense up to 2 order. The higher order has ONLY a Grouping semantics (meaning will link the two beams with a single-dashed line). It is only the internal and foremost internal beam that can deduct correct durations. Nested beams beyond level 2 does not have any effect. In MusicXML, beams do not have any semantics and only indicate lines!
         
-        //std::vector<S_beam>::const_iterator i = findValue(beams, "begin");
-        //if (i != beams.end()) {
-        std::vector<S_beam>::const_iterator i ;
+        /// How to detect a grouping then? A grouping occurs if an xml beam ends, and if the current and next note are of the same xml Type (16th for two beams). One should probably check the number of beams with the type?! This is a look-ahead operation!
+        
+        std::vector<S_beam>::const_iterator began = findValue(beams, "begin");
+
+        // Create beamBegin only if no beam is already opened. Groupings will be handled upon the initial openning.
+        if ( (began != beams.end()) && (fBeamOpened == false)){
+            stringstream tagName;
+            tagName << "beamBegin" << ":1";     // This is the initial beam!
+            Sguidoelement tag = guidotag::create(tagName.str());
+            add (tag);
+            if ( (!fInCue)&&(!fInGrace)) {
+                fBeamOpened = true;
+            }
+            cerr << "Measure "<< fMeasNum << " beam BEGIN Beam-level="<<(*began)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace<<endl;
+            /// Check for grouping is one is not already initiated
+            if (!fBeamGrouping) {
+                ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
+                nextnote.forward_up(); // forward one element
+                while (nextnote != fCurrentMeasure->end()) {
+                    if (( (nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice) )) {
+                        // Check if there is a beam end
+                        if (nextnote->hasSubElement(k_beam, "end")) {
+                            // Get its Type
+                            string endingType = nextnote->getValue(k_type);
+                            // Check if the Next note has a beam Begin and if it has the same "type"
+                            ctree<xmlelement>::iterator postnote;
+                            if (findNextNote(dynamic_cast<S_note*>(*nextnote), postnote)) {
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        /*std::vector<S_beam>::const_iterator i ;
         for (i = beams.begin(); (i != beams.end()); i++) {
             if ((*i)->getValue() != "begin")
                 continue;
@@ -1464,7 +1498,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 if ( (!fInCue)&&(!fInGrace)) {
                     fBeamOpened = true;
                 }
-                fCurrentBeamNumber = lastBeamInternalNumber;
+                //fCurrentBeamNumber = lastBeamInternalNumber;
                 
                 // Add to stack:
                 std::pair<int,int> toto2(lastBeamInternalNumber, (*i)->getAttributeIntValue("number", 0));
@@ -1472,9 +1506,9 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 
                 //cerr << " Created!"<<endl;
             //}
-        }
+        }*/
         
-        if (beams.empty() && fBeamStack.empty() && notevisitor::getType()!=kRest)
+        if (beams.empty() && notevisitor::getType()!=kRest)
         {
             // Possible candidate for \beamsOff
             Sguidoelement tag = guidotag::create("beamsOff");
@@ -1486,7 +1520,35 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
     {
         /// IMPORTANT: Beam Numbering in MusicXML is not the same as in Slurs and are NOT incremental.
         ///            The only assumption we make here is that the numbers are sorted. So we use a REVERSE iterator to close Beams in Order.
-        std::vector<S_beam>::const_reverse_iterator i ;
+        
+        std::vector<S_beam>::const_iterator end = findValue(beams, "end");
+        std::vector<S_beam>::const_iterator continuity = findValue(beams, "continue");
+        std::vector<S_beam>::const_iterator begin = findValue(beams, "begin");
+
+        bool ended = (end != beams.end());
+        bool began = (begin != beams.end());
+        bool withContinuity = (continuity != beams.end());
+        
+        if (ended && (!began) && !withContinuity && fBeamOpened) {
+            stringstream tagName;
+            tagName << "beamEnd" << ":1";
+            Sguidoelement tag = guidotag::create(tagName.str());
+            add (tag);
+            if ((fBeamOpened) && (!fInCue) && (!fInGrace)) {
+                fBeamOpened = false;
+            }
+            
+            // If there is a grouping, close it!
+            if (fBeamGrouping) {
+                stringstream tagName2;
+                tagName2 << "beamEnd" << ":2";
+                tag = guidotag::create(tagName2.str());
+                add (tag);
+                fBeamGrouping = false;
+            }
+        }
+        
+        /*std::vector<S_beam>::const_reverse_iterator i ;
         for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
         {
             if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 0) == fBeamStack.top().second)) {
@@ -1516,7 +1578,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 
                 fBeamStack.pop();
             }
-        }
+        }*/
         
         // Experimental
         //if (beamStackSizeBeforeClosing > fBeamStack.size())
@@ -2655,7 +2717,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         
         checkGrace(*this);
         checkSlurBegin (notevisitor::getSlur());
-        checkBeamBegin (notevisitor::getBeam());
+        checkBeamBegin (notevisitor::getBeam(), elt);
         checkTupletBegin(notevisitor::getTuplet(), *this, elt);
         checkLyricBegin (notevisitor::getLyric());
         checkWavyTrillBegin(*this);
