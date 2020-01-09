@@ -154,7 +154,10 @@ class EXP xmlelement : public ctree<xmlelement>, public visitable
 		int               getIntValue   (int subElementType, int defaultvalue);
 		long              getLongValue  (int subElementType, long defaultvalue);
 		float             getFloatValue (int subElementType, float defaultvalue);
+    //! returns true if subelement exists
     bool hasSubElement(int subElementType);
+    //! returns true if subelement with given value exists
+    bool hasSubElement(int subElementType, std::string value);
 
 		// misc
 		bool empty () const	{ return fValue.empty() && elements().empty(); }

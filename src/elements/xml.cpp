@@ -220,10 +220,24 @@ float xmlelement::getFloatValue	(int subElementType, float defaultvalue)
 	return (iter != end()) ? float(*(*iter)) : defaultvalue;
 }
     
-    bool xmlelement::hasSubElement(int subElementType)
-    {
-        ctree<xmlelement>::iterator iter = find(subElementType);
-        return (iter != end());
+bool xmlelement::hasSubElement(int subElementType)
+{
+    ctree<xmlelement>::iterator iter = find(subElementType);
+    return (iter != end());
+}
+
+bool xmlelement::hasSubElement(int subElementType, std::string value)
+{
+    ctree<xmlelement>::iterator iter = begin();
+    while (iter != end()) {
+        if ( ((*iter)->getType() == subElementType)
+           && ((*iter)->getValue() == value) ){
+            return true;
+        }
+        iter++;
     }
+    return false;
+    
+}
 
 }
