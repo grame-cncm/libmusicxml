@@ -1444,12 +1444,16 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         std::vector<S_beam>::const_iterator began = findValue(beams, "begin");
 
         // Create beamBegin only if no beam is already opened. Groupings will be handled upon the initial openning.
-        if ( (began != beams.end()) && (fBeamOpened == false)){
+        if ( (began != beams.end()) && (!fBeamOpened || fInGrace)){
             stringstream tagName;
-            tagName << "beamBegin" << ":1";     // This is the initial beam!
+            int beamNumber = 1;
+            if (fInGrace && fBeamOpened) {
+                beamNumber = 2;
+            }
+            tagName << "beamBegin" << ":"<<beamNumber;     // This is the initial beam!
             Sguidoelement tag = guidotag::create(tagName.str());
             add (tag);
-            if ( (!fInCue)&&(!fInGrace)) {
+            if ( (!fInCue) && (!fInGrace)) {
                 fBeamOpened = true;
             }
             //cerr << "Measure "<< fMeasNum << " beam BEGIN Beam-level="<<(*began)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace<< " Line:"<<(*began)->getInputLineNumber()<<endl;
@@ -1473,7 +1477,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                                     if (postType == endingType) {
                                         // We are in a grouping continuity!
                                         stringstream tagName2;
-                                        tagName2 << "beamBegin" << ":2";
+                                        tagName2 << "beamBegin" << ":"<< (beamNumber+1);
                                         tag = guidotag::create(tagName2.str());
                                         add (tag);
                                         fBeamGrouping = true;
@@ -1513,9 +1517,13 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
         bool began = (begin != beams.end());
         bool withContinuity = (continuity != beams.end());
         
-        if (ended && (!began) && !withContinuity && fBeamOpened) {
+        if (ended && (!began) && !withContinuity && (fBeamOpened || fInGrace)) {
             stringstream tagName;
-            tagName << "beamEnd" << ":1";
+            int beamNumber = 1;
+            if (fInGrace && fBeamOpened) {
+                beamNumber = 2;
+            }
+            tagName << "beamEnd" << ":"<<beamNumber;
             Sguidoelement tag = guidotag::create(tagName.str());
             add (tag);
             if ((fBeamOpened) && (!fInCue) && (!fInGrace)) {
@@ -1525,7 +1533,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             // If there is a grouping, close it!
             if (fBeamGrouping) {
                 stringstream tagName2;
-                tagName2 << "beamEnd" << ":2";
+                tagName2 << "beamEnd" << ":"<<beamNumber+1;
                 tag = guidotag::create(tagName2.str());
                 add (tag);
                 fBeamGrouping = false;
