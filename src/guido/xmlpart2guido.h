@@ -75,16 +75,14 @@ class EXP xmlpart2guido :
 	vector<delayedElement>	fDelayed;
 	// fields to controls the guido output generation
 	bool fGenerateComments, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum, fLyricsManualSpacing;
-//	bool fGenerateStem;
 
 	// internal parsing state
-    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress;
+    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fBeamGrouping, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress;
     
     int fTextTagOpen;
     int fTupletOpen;    // Number of opened Tuplets
         
     std::queue<int> fDirectionEraserStack;        // To skip already visited Directions when looking ahead because of grace notes
-    std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
     std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
 
     Sguidoelement fLyricOpened;
@@ -109,7 +107,6 @@ class EXP xmlpart2guido :
 	rational fCurrentTimeSign;		// the current time signature
 	int		fMeasNum;
 
-    int		fCurrentBeamNumber;		// number attribute of the current beam
 	int		fCurrentStemDirection;	// the current stems direction, used for stem direction changes
 	int		fPendingPops;			// elements to be popped at chord exit (like fermata, articulations...)
 
@@ -133,7 +130,7 @@ class EXP xmlpart2guido :
 	std::vector<Sxmlelement>  getChord ( const Sxmlelement& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change
 	void checkStem		 ( const S_stem& stem );
-	void checkBeamBegin	 ( const std::vector<S_beam>& beams );
+	void checkBeamBegin	 ( const std::vector<S_beam>& beams, const S_note& elt );
     void checkBeamEnd	 ( const std::vector<S_beam>& beams );
     void checkTupletBegin( const std::vector<S_tuplet>& tuplets,
                           const notevisitor& nv,
