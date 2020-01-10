@@ -13,7 +13,7 @@ The libmusicxml library runs on the main operating systems: Linux, MacOS, iOS, W
 
 This package includes the musicxml library and 3 converters:
 
-- xml2guido (Dominique Fober) : converts the MusicXML format to [Guido](http://guidolib.sf.net/);
+- xml2guido (Dominique Fober & Arsia Cont) : converts the MusicXML format to [Guido](http://guidodoc.grame.fr/);
 - xml2ly (Jacques Menu) : converts the MusicXML format to [Lilypond](http://lilypond.org/), close to version 1.0;
 - xml2brl (Jacques. Menu) : converts the MusicXML format to [braille music], experimental.
 
