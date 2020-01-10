@@ -367,6 +367,24 @@ msrBarline::msrBarline (
 msrBarline::~msrBarline ()
 {}
 
+void msrBarline::setBarlineCategory (
+  msrBarlineCategoryKind barlineCategoryKind)
+{
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceBarlines) {
+          gLogOstream <<
+            "Setting barline category of " <<
+            this->asString () <<
+            " to '" <<
+            barlineCategoryKindAsString (barlineCategoryKind) <<
+            "'" <<
+            endl;
+        }
+#endif
+
+  fBarlineCategoryKind = barlineCategoryKind;
+}
+
 void msrBarline::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {

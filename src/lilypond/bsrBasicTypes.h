@@ -830,7 +830,7 @@ enum bsrCellKind2 {
   // fermatas
   kCellFermataOnANote      , //{ kDots146, kDots126, kDots123 },
   kCellFermataBetweenNotes , //{ kDots5,   kDots126, kDots123 },
-  kCellFermataOverABarLine , //{ kDots456, kDots126, kDots123 };
+  kCellFermataOverABarline , //{ kDots456, kDots126, kDots123 };
 };
 */
 

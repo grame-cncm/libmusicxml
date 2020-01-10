@@ -55,7 +55,7 @@
     <music-font font-family="Maestro" font-size="20.5"/>
     <word-font font-family="Times New Roman" font-size="10.25"/>
     <lyric-font font-family="ＭＳ ゴシック" font-size="10.25" name="verse"/>
-    <lyric-language name="verse" xml:lang="ja"/>  
+    <lyric-language name="verse" xml:lang="ja"/>
   </defaults>
   <credit page="1">
     <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
@@ -67,7 +67,7 @@
     <credit-words default-x="602" default-y="73" font-size="9" halign="center" valign="bottom">Transcription donated to the public domain, 2005 by Tom Potter</credit-words>
   </credit>
   <credit page="1">
-    <credit-words default-x="129" default-y="244" font-size="11" valign="top">Source: "Japanese Popular Music: a collection of the popular music of Japan rendered in to the 
+    <credit-words default-x="129" default-y="244" font-size="11" valign="top">Source: "Japanese Popular Music: a collection of the popular music of Japan rendered in to the
 staff notation", by Y. Nagai and K. Kobatake, 2nd ed., Osaka, S. Miki &amp; Co., 1892, pp. 96-97.
 
 Transcribed into Finale music notation by Tom Potter, 2005.  See http://www.daisyfield.com/music/

@@ -327,8 +327,7 @@ class msrBarline : public msrMeasureElement
                               { return fBarlineCategoryKind; }
 
     void                  setBarlineCategory (
-                            msrBarlineCategoryKind barlineCategoryKind)
-                              { fBarlineCategoryKind = barlineCategoryKind; }
+                            msrBarlineCategoryKind barlineCategoryKind);
 
     int                   getBarlineTimes () const
                               { return fBarlineTimes; }

@@ -237,9 +237,9 @@ class traceOah : public oahGroup
     // page breaks
     bool                  fTracePageBreaks;
     // barlines
-    bool                  fTraceBarLines;
+    bool                  fTraceBarlines;
     // barlines details
-    bool                  fTraceBarLinesDetails;
+    bool                  fTraceBarlinesDetails;
 
 
     // bar checks

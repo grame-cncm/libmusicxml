@@ -134,10 +134,10 @@ class lpsrScore : public lpsrElement
     // ---------------------
 
     // custom short bar lines
-    void                  setCustomShortBarLineSchemeFunctionIsNeeded ();
+    void                  setCustomShortBarlineSchemeFunctionIsNeeded ();
 
-    bool                  getCustomShortBarLineSchemeFunctionIsNeeded () const
-                              { return fCustomShortBarLineSchemeFunctionIsNeeded; }
+    bool                  getCustomShortBarlineSchemeFunctionIsNeeded () const
+                              { return fCustomShortBarlineSchemeFunctionIsNeeded; }
 
     // tongue
     void                  setTongueSchemeFunctionIsNeeded ();
@@ -300,7 +300,7 @@ class lpsrScore : public lpsrElement
 
     void                  addPointAndClickOffSchemeFunctionsToScore ();
 
-    void                  addCustomShortBarLineSchemeFunctionToScore ();
+    void                  addCustomShortBarlineSchemeFunctionToScore ();
 
     void                  addTongueSchemeFunctionToScore ();
 
@@ -405,7 +405,7 @@ class lpsrScore : public lpsrElement
 
     // Scheme functions
     bool                  fTongueSchemeFunctionIsNeeded;
-    bool                  fCustomShortBarLineSchemeFunctionIsNeeded;
+    bool                  fCustomShortBarlineSchemeFunctionIsNeeded;
     bool                  fEditorialAccidentalSchemeFunctionIsNeeded;
     bool                  fDynamicsSchemeFunctionIsNeeded;
     bool                  fTupletsCurvedBracketsSchemeFunctionIsNeeded;

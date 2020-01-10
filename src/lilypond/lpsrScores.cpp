@@ -195,7 +195,7 @@ lpsrScore::lpsrScore (
 
   // Scheme functions
   fTongueSchemeFunctionIsNeeded = false;
-  fCustomShortBarLineSchemeFunctionIsNeeded = false;
+  fCustomShortBarlineSchemeFunctionIsNeeded = false;
   fEditorialAccidentalSchemeFunctionIsNeeded = false;
   fDynamicsSchemeFunctionIsNeeded = false;
   fTupletsCurvedBracketsSchemeFunctionIsNeeded = false;
@@ -481,12 +481,12 @@ void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
   }
 }
 
-void lpsrScore::setCustomShortBarLineSchemeFunctionIsNeeded ()
+void lpsrScore::setCustomShortBarlineSchemeFunctionIsNeeded ()
 {
-  if (! fCustomShortBarLineSchemeFunctionIsNeeded) {
-    addCustomShortBarLineSchemeFunctionToScore ();
+  if (! fCustomShortBarlineSchemeFunctionIsNeeded) {
+    addCustomShortBarlineSchemeFunctionToScore ();
 
-    fCustomShortBarLineSchemeFunctionIsNeeded = true;
+    fCustomShortBarlineSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -945,7 +945,7 @@ otherDynamic =
     schemeFunction;
 }
 
-void lpsrScore::addCustomShortBarLineSchemeFunctionToScore ()
+void lpsrScore::addCustomShortBarlineSchemeFunctionToScore ()
 {
   string
     schemeModulesName =
