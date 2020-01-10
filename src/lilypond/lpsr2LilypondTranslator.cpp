@@ -6051,7 +6051,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   // don't generate instrument names in the staves
   // if the containing part contains several of them
-  if (staffPartUpLink ->getPartStavesMap ().size () == 1) {
+  if (staffPartUpLink->getPartStavesMap ().size () == 1) {
     // get the part upLink name to be used
     string partName =
       staffPartUpLink->
@@ -6064,7 +6064,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     }
 
     // generate the instrument name
-    //* JMI
+    //* JMI BLARKBLARK
     if (partName.size ()) {
       fLilypondCodeOstream <<
         "instrumentName = ";

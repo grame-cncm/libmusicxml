@@ -133,7 +133,7 @@ For example, consider:
 \begin{lstlisting}[language=XML]
   <part id="P1">
     <measure number="1" width="464.29">
-		<!-- ... ... ... ... -->
+		<!-- ... ... ... ... ... -->
 \end{lstlisting}
 
 We see that:
@@ -1150,7 +1150,7 @@ Having both a sounding and display duration specification is necessary because t
 	triple-flat, slash-quarter-sharp, slash-sharp, slash-flat,
 	double-slash-flat, sharp-1, sharp-2, sharp-3, sharp-5,
 	flat-1, flat-2, flat-3, flat-4, sori, koron, and other.
-	... ... ... ... ... ...
+	... ... ... ... ...
 -->
 <!ELEMENT accidental (#PCDATA)>
 <!ATTLIST accidental
@@ -1321,38 +1321,39 @@ For example, in \mxmlfile{gracenotes/LilyPondIssue34.xml}, the three grace notes
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
+These two types of curves look similar graphically, but are quite different musically:
+\begin{itemize}
+\item a tie occur between two notes either same pitched or enharmonically equivalent, to indicate that the first one is to be maintained, without stopping the sound emission, as long as the second one. Several ties can appear in sequence on the same note. This is also a way to express arbitrarily long notes across measures;
+\item a slur means that notes of various pitches and durations are to be played without interrupting the sound.
+\end{itemize}
+
+Before looking at an example, let's see how \mxml\ supports these two concepts.
+
 % -------------------------------------------------------------------------
 \subsection{Ties}
 % -------------------------------------------------------------------------
 
-From \schemafile{note.mod}:
+\mxml\ makes the distinction between graphics and sound, and this applied to ties: the '{\tt <tie>}' element indicates sound, and the '{\tt <tied>}'	element indicates notation.
 
+\sep
+
+These two elements are defined in \schemafile{note.mod}:
 \begin{lstlisting}[language=XML]
 <!--
-	The tied element represents the notated tie. The tie element
-	represents the tie sound.
-
-	The number attribute is rarely needed to disambiguate ties,
-	since note pitches will usually suffice. The attribute is
-	implied rather than defaulting to 1 as with most elements. It is
-	available for use in more complex tied notation situations.
-
-	Ties that join two notes of the same pitch together should be
-	represented with a tied element on the first note with
-	type="start" and a tied element on the second note with
-	type="stop".  This can also be done if the two notes being tied
-	are enharmonically equivalent, but have different step values. It
-	is not recommended to use tied elements to join two notes with
-	enharmonically inequivalent pitches.
-
-	Ties that indicate that an instrument should be undamped are
-	specified with a single tied element with type="let-ring".
-
-	Ties that are visually attached to only one note, other than
-	undamped ties, should be specified with two tied elements on the
-	same note, first type="start" then type="stop". This can be used
-	to represent ties into or out of repeated sections or codas.
+	The tie element indicates that a tie begins or ends with
+	this note. If the tie element applies only particular times
+	through a repeat, the time-only attribute indicates which
+	times to apply it. The tie element indicates sound; the tied
+	element indicates notation.
 -->
+<!ELEMENT duration (#PCDATA)>
+<!ELEMENT tie EMPTY>
+<!ATTLIST tie
+    type %start-stop; #REQUIRED
+    %time-only;
+\end{lstlisting}
+
+\begin{lstlisting}[language=XML]
 <!ELEMENT tied EMPTY>
 <!ATTLIST tied
     type %tied-type; #REQUIRED
@@ -1367,10 +1368,6 @@ From \schemafile{note.mod}:
     %optional-unique-id;
 >
 \end{lstlisting}
-
-The '{\tt <tie>}' element
-
-The '{\tt <tied>}' element
 
 % -------------------------------------------------------------------------
 \subsection{Slurs}
@@ -1884,6 +1881,28 @@ In \mxml\, the '{\tt <lyrics>}' elements are sub-elements of the '{\tt <note>}' 
 
 \sep
 
+In lyrics:
+
+\begin{itemize}
+\item 	word extensions are	represented using the '{\tt <extend>}' element;
+	
+\item	hyphenation is indicated by the '{\tt <syllabic>}' element, which can be '{\tt <single>}',
+	'{\tt <begin>}', '{\tt <end>}', or '{\tt <middle>}'. These represent single-syllable
+	words, word-beginning syllables, word-ending syllables,
+	and mid-word syllables, respectively;
+	
+\item	multiple syllables on a single
+	note are separated by '{\tt <elision>}' elements. A hyphen in the
+	text element should only be used for an actual hyphenated
+	word;
+	
+\item	two text elements that are not separated by an
+	'{\tt <elision>}' element are part of the same syllable, but may have
+	different text formatting.
+\end{itemize}
+
+\sep
+
 The '{\tt <text>}' sub-element contains the text to be sung. It can have attributes controlling the way it is displayed:
 \begin{lstlisting}[language=XML]
 <!ELEMENT text (#PCDATA)>
@@ -1899,33 +1918,6 @@ The '{\tt <text>}' sub-element contains the text to be sung. It can have attribu
 <!ELEMENT syllabic (#PCDATA)>
 \end{lstlisting}
 
-
-\sep
-
-The '{\tt <syllabic>}' sub-element, contains a characterization of the text:
-%\begin{adjustwidth}{-0.5cm}{-0.5cm}
-\begin{center}
-\footnotesize
-\def \contentsWidth{0.7\textwidth}
-\def \arraystretch{1.3}
-%
-\begin{tabular}[t]{lp{\contentsWidth}}
-{\bf value}&{\bf Meaning} \tabularnewline[0.5ex]
-\hline\\[-3.0ex]
-%
-
-'{\tt single}' & the text is a standalone word
-\tabularnewline
-
-'{\tt begin}' & the text 
-\tabularnewline
-
-'{\tt start}' &
-\tabularnewline
-
-\end{tabular}
-\end{center}
-%\end{adjustwidth}
 
 \sep
 
@@ -1954,6 +1946,62 @@ For example, the first note of \mxmlfile{QuemQueritis.xml} contains the single w
 % -------------------------------------------------------------------------
 \subsection{Stanzas}
 % -------------------------------------------------------------------------
+
+Stanzas are not represented in \mxml\ per se, but implicitly: the '{\tt number}' attribute of the '{\tt <lyric>}' element is used to specify the stanza number.
+
+\sep
+
+For example, in \mxmlfile{lyrics/MultipleStanzas.xml}, the first note (E\raisebox{0.35em}{$\flat$}) of the first chord in the upper staff contains the lyrics for the first syllable of all the successive stanzas, preceded by the stanza number and a dot:\\
+\includegraphics{MultipleStanzas.png}
+\begin{lstlisting}[language=XML,caption={Multiple stanzas example}]
+      <note default-x="129.06" default-y="-40.00">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+        <lyric number="1">
+          <syllabic>single</syllabic>
+          <text>1. Sing</text>
+          </lyric>
+        <lyric number="2">
+          <syllabic>single</syllabic>
+          <text>2. For</text>
+          </lyric>
+        <lyric number="3">
+          <syllabic>single</syllabic>
+          <text>3. No</text>
+          </lyric>
+        <lyric number="4">
+          <syllabic>single</syllabic>
+          <text>4. For</text>
+          </lyric>
+        <lyric number="5">
+          <syllabic>single</syllabic>
+          <text>5. Death</text>
+          </lyric>
+        <lyric number="6">
+          <syllabic>begin</syllabic>
+          <text>6. Je</text>
+          </lyric>
+        </note>
+      <note default-x="129.06" default-y="-30.00">
+        <chord/>
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        </note>
+\end{lstlisting}
 
 
 % -------------------------------------------------------------------------
