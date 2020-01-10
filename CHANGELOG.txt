@@ -5,6 +5,8 @@ MusicXML Library
 Version 3.17
 - synchronize npm version and lib version
 - asmjs support dropped (only available as wasm library)
+- improved version of the guido converter (version 3.0)
+- improved version of the lilypond converter (version 0.92)
 
 ----------------------------------------------------------------------------------------------------
 Version 3.14
