@@ -213,7 +213,7 @@ winpack:
 	mv win64/libmusicxml-*.exe .
 
 macpack: $(PACKDIR)/README.html
-	$(MAKE) cmake CMAKEOPT="-DLILY=on -DFMWK=off"
+	$(MAKE) cmake CMAKEOPT="-DLILY=on -DBRL=on -DFMWK=off"
 	$(MAKE) macos
 	-[ -d $(PACK) ] && rm -rf $(PACK)
 	$(MAKE) install PREFIX=../$(PACK)
