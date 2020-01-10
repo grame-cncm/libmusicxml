@@ -40,7 +40,7 @@ Jacques Menu
 }
 
 %\date {\normalsize \today\ version}
-%\date {}
+\date {}
 
 \maketitle
 \thispagestyle{fancy} % right after \maketitle to apply it to the first page too
@@ -51,6 +51,10 @@ This document presents a basic view of \mxml\ and a couple of short examples ill
 \sep
 
 All the examples mentioned can be downloaded from \url{https://github.com/grame-cncm/libmusicxml/tree/lilypond/files/samples/musicxml}. They are grouped by subject in subdirectories, such as \mxmlfile{basic/HelloWorld.xml}.
+
+\sep
+
+The contents of this document is verbose... because \mxml\ itself is!
 }
 
 % -------------------------------------------------------------------------
@@ -65,7 +69,11 @@ All the examples mentioned can be downloaded from \url{https://github.com/grame-
 
 The scores fragments shown in this document have been produced by translating the '{\tt .xml}' file to \lily\ syntax, and then creating the graphical score with \lily. 
 
-The translations have been done by \xmlToLy, a prototype tool developed by this author. \xmlToLy\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}, and \xmlToLy\ is in the '{\tt lilypond}' branch.
+\sep
+
+The translations have been done by \xmlToLy, a prototype tool developed by this author. \xmlToLy\ and some of the specific examples presented in this document are this author's contribution to \lib, an open-source C++ library created and maintained by Dominique Fober at Grame, Lyon, France. 
+
+The home page to \lib\ is \url{https://github.com/grame-cncm/libmusicxml}, and \xmlToLy\ is in the '{\tt lilypond}' branch.
 
 \sep
 
@@ -73,10 +81,13 @@ The reader is invited to handle the '{\tt .xml}' file examples with their own so
 
 \sep
 
-Tests with other score editing applications are mentioned in this document, namely \sib,
+Other score editing applications are mentioned in this document, namely \sib,
 \fin\ and \muse\ (\url{https://musescore.org}), which is open-source.
-\mxmlToLy\ is mentioned too: this translator is supplied with \lily.
 This author doesn't own licenses for other commercial applications such as Dorico\texttrademark\ or Capella\texttrademark.
+
+\sep
+
+\mxmlToLy\ is mentioned too: this translator of \mxml\ to \lily\ is supplied with \lily. The design goals of \mxmlToLy\ are to perform at least as well as \mxmlToLy, while providing as many options as needed to avoid too much editing of the resulting \lcg.
 
 \sep \sep
 
@@ -180,7 +191,7 @@ For example, \schemafile{note.mod} defines the '{\tt <backup>}' and {\tt <forwar
 	(duration, %editorial-voice;, staff?)>
 \end{lstlisting}
 
-and an example of their use:
+An example of their use is:
 \begin{lstlisting}[language=XML, caption={$<$backup$>$ and $<$forward$>$ example}]
       <forward>
         <duration>4</duration>
@@ -562,7 +573,7 @@ Full measures are usually numbered from '{\tt 1}' up, but these numbers are actu
 
 \sep
 
-Anacruses are best specified "the purist way", with '{\tt 0}' as their number and the '{\tt implicit}' attribute set to '{\tt yes}', which specifies that this measure number should not be printed. One see cases where the number is 1 for anacruses, though:
+Anacruses are best specified "the purist way", with '{\tt 0}' as their number and the '{\tt implicit}' attribute set to '{\tt yes}', which specifies that this measure number should not be printed. One sees cases where the number is '{\tt 1}' for anacruses, though:
 \begin{lstlisting}[language=XML]
     <measure number="0" implicit="yes" width="129.48">
 \end{lstlisting}
@@ -806,7 +817,7 @@ For example, \mxmlfile{partgroups/NestedPartGroups.xml} contains:\\
 
 The \mxml\ DTD states that part groups may {\it overlap}. This author suspects that this is only because Finale\texttrademark\ doesn't create \mxml\ markups in a strict first-in, last-out order.
 
-\page
+\sep
 
 Here is how \mxmlfile{partgroups/OverlappingPartGroups.xml} is handled by various applications:
 
@@ -858,6 +869,8 @@ A given voice can change staff and come back to the former one, for example in k
 
 This author has found \mxml\ files in which the voice numbers are not contiguous, such as '{\tt 1}', '{\tt 5}' and '{\tt 9}'. The DTD doesn't preclude this, and the applications handle example \mxmlfile{multistaff/NonContiguousVoiceNumbers.xml} their own way.
 
+\page
+
 % -------------------------------------------------------------------------
 \subsection{Clefs, keys and time signatures}
 % -------------------------------------------------------------------------
@@ -871,7 +884,7 @@ This author has found \mxml\ files in which the voice numbers are not contiguous
 \item simple time signatures are desribed by '{\tt <beats>}' and '{\tt <beat-type>}' elements.
 \end{itemize}
 
-\page
+\sep
 
 An example is found in \mxmlfile{basic/ClefKeyTime.xml}:\\
 \includegraphics{ClefKeyTime.png}
@@ -1013,17 +1026,6 @@ This is another example handled diffently by some applications.
       </direction>
 \end{lstlisting}
 
-% -------------------------------------------------------------------------
-\subsection{'{\tt <forward>}' and '{\tt <backup>}'}
-\mylabel{forwardAndBackup}
-% -------------------------------------------------------------------------
-
-The '{\tt <forward>}' element is used typically in a second, third or fourth voice which does not contain notes at some point in time. This element allows drawing to continue a bit further in the voice, without drawing rests in-between.
-
-\sep
-
-The '{\tt <backup>}' is needed to move to the left before drawing the next element. This is necessary where there are several voices in a given staff and one switched drawing from one voice to another, whose next element is not at the right of the last one drawn.
-
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -1057,11 +1059,13 @@ A note is described by a '{\tt note}' element, defined in \schemafile{note.mod}:
 
 \sep
 
-The first note in measure 2 in \mxmlfile{basic/MinimalScore.xml}:\\
+Consider \mxmlfile{basic/MinimalScore.xml}:\\
 \includegraphics{MinimalScore.png}
 
-is described by:
-\begin{lstlisting}[language=XML, caption ={Note example}]
+\page
+
+The first note in measure 2 in this example is described by:
+\begin{lstlisting}[language=XML, caption ={Minimal score example}]
         <divisions>8</divisions>
         
       <!-- ... ... ... ... ... -->
@@ -1133,6 +1137,8 @@ Voice and staff numbers are optional, in which case the default value is 1.
 \sep
 
 Having both a sounding and display duration specification is necessary because they do not coincide in the case of dotted notes and tuplets members, see \mylink{tuplets}, for the latter.
+
+\page
 
 % -------------------------------------------------------------------------
 \subsection{Accidentals}
@@ -1237,6 +1243,14 @@ The other-dynamics element
 	musical direction element. Dynamics may also be combined as
 	in <sf/><mp/>.
 \end{lstlisting}
+
+
+% -------------------------------------------------------------------------
+\subsection{An example of articulations and dynamics}
+% -------------------------------------------------------------------------
+
+This can be seen in \mxmlfile{articulations/ArticulationsAndOrnaments.xml}:\\
+\includegraphics{ArticulationsAndOrnaments.png}
 
 % -------------------------------------------------------------------------
 \subsection{Grace notes}
@@ -1373,15 +1387,35 @@ These two elements are defined in \schemafile{note.mod}:
 \subsection{Slurs}
 % -------------------------------------------------------------------------
 
-The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itself placed inside a '{\tt <note>}' element. Is has two attributes:
-\begin{enumerate}
-\item '{\tt type}' can contain '{\tt start}' or '{\tt stop}';
-\item '{\tt number}' allows for nested slurs.
-\end{enumerate}
+The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itself placed inside a '{\tt <note>}' element.  It is defined in \schemafile{note.mod}:
+\begin{lstlisting}[language=XML]
+<!--
+	Slur elements are empty. Most slurs are represented with
+	two elements: one with a start type, and one with a stop
+	type. Slurs can add more elements using a continue type.
+	This is typically used to specify the formatting of cross-
+	system slurs, or to specify the shape of very complex slurs.
+-->
+<!ELEMENT slur EMPTY>
+<!ATTLIST slur
+    type %start-stop-continue; #REQUIRED
+    number %number-level; "1"
+    %line-type;
+    %dashed-formatting;
+    %position;
+    %placement;
+    %orientation;
+    %bezier;
+    %color;
+    %optional-unique-id;
+>
+\end{lstlisting}
 
-\sep
+% -------------------------------------------------------------------------
+\subsection{Tie and slur example}
+% -------------------------------------------------------------------------
 
-An example can be seen in \mxmlfile{basic/TieAndSlur.xml}:\\
+This example is in \mxmlfile{basic/TieAndSlur.xml}:\\
 \includegraphics{TieAndSlur.png}
 \begin{lstlisting}[language=XML, caption={Tie and slur example}]
       <note>
@@ -2002,6 +2036,20 @@ For example, in \mxmlfile{lyrics/MultipleStanzas.xml}, the first note (E\raisebo
         <stem>up</stem>
         </note>
 \end{lstlisting}
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{'{\tt <forward>}' and '{\tt <backup>}'}
+\mylabel{forwardAndBackup}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+The '{\tt <forward>}' element is used typically in a second, third or fourth voice which does not contain notes at some point in time. This element allows drawing to continue a bit further in the voice, without drawing rests in-between.
+
+\sep
+
+The '{\tt <backup>}' is needed to move to the left before drawing the next element. This is necessary where there are several voices in a given staff and one switched drawing from one voice to another, whose next element is not at the right of the last one drawn.
 
 
 % -------------------------------------------------------------------------

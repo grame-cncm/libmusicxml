@@ -4878,29 +4878,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 
   // indents
   {
-    // indent
-    S_msrLength
-      indent =
-        elt->getIndent ();
-
-    if (! indent) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "indent" << " = ";
-    if (indent) {
-      fLilypondCodeOstream <<
-        setprecision (3) << indent->getLengthValue () <<
-        lengthUnitAsLilypondString (indent->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
-
     // horizontal shift
     S_msrLength
       horizontalShift =
@@ -4916,6 +4893,29 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeOstream <<
         setprecision (3) << horizontalShift->getLengthValue () <<
         lengthUnitAsLilypondString (horizontalShift->getLengthUnitKind ());
+    }
+    else {
+      fLilypondCodeOstream <<
+        "0.0" <<
+        lengthUnitAsLilypondString (defaultLengthUnit);
+    }
+    fLilypondCodeOstream << endl;
+
+    // indent
+    S_msrLength
+      indent =
+        elt->getIndent ();
+
+    if (! indent) {
+      fLilypondCodeOstream << "%";
+    }
+    fLilypondCodeOstream << left <<
+      setw (fieldWidth) <<
+      "indent" << " = ";
+    if (indent) {
+      fLilypondCodeOstream <<
+        setprecision (3) << indent->getLengthValue () <<
+        lengthUnitAsLilypondString (indent->getLengthUnitKind ());
     }
     else {
       fLilypondCodeOstream <<

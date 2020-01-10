@@ -1316,7 +1316,19 @@ The default value is 297 mm (A4 format).)",
         "paperWidth",
         fPaperWidth));
 
-  // indent
+  // fPaperHorizontalShift is 0.0 mm by default
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahLengthAtom::create (
+        "hshift", "horizontal-shift",
+R"(Set the LilyPond 'horizontal-shift' paper variable to SHIFT in the LilyPond code.
+SHIFT should be a floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+The default value is 0.0 mm.)",
+        "SHIFT",
+        "paperHorizontalShift",
+        fPaperHorizontalShift));
 
   // fPaperIndent is 0.0 mm by default
 
@@ -1340,15 +1352,13 @@ The default value is 0.0 mm.)",
     appendAtomToSubGroup (
       oahLengthAtom::create (
         "short-indent", "",
-R"(Set the LilyPond 'short-indent' paper variable to INDENT in the LilyPond code.
-INDENT should be a floating point or integer number,
+R"(Set the LilyPond 'short-indent' paper variable to SHORT_INDENT in the LilyPond code.
+SHORT_INDENT should be a floating point or integer number,
 immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 The default value is 0.0 mm.)",
-        "INDENT",
+        "SHORT_INDENT",
         "paperShortIndent",
         fPaperShortIndent));
-
-  // short indent
 
   // fMarkupSystemSpacingPadding is 0.0 mm by default
 
