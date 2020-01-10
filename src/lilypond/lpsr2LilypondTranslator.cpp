@@ -5880,6 +5880,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
       partAbbreviation =
         part->getPartAbbreviation ();
         /*
+    string
       partInstrumentName =  // JMI
         part->getPartInstrumentName (),
       partInstrumentAbbreviation =  // JMI
@@ -6063,7 +6064,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     }
 
     // generate the instrument name
-    /* JMI
+    //* JMI
     if (partName.size ()) {
       fLilypondCodeOstream <<
         "instrumentName = ";
@@ -6093,7 +6094,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           endl;
       }
     }
-    */
+    //*/
 
     // get the part upLink abbreviation display text to be used
     string partAbbreviation =

@@ -241,7 +241,7 @@ class msrMeasure : public msrElement
 
     // upLinks
 
-    S_msrPart             fetchMeasurePartUpLink () const;
+    S_msrPart             fetchMeasurePartUpLink () const; // JMI ???
 
     S_msrVoice            fetchMeasureVoiceUpLink () const;
 

@@ -63,7 +63,9 @@ class msrSegment : public msrVoiceElement
     list<S_msrMeasure>&   getSegmentMeasuresListToModify () // JMI
                               { return fSegmentMeasuresList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     // upLinks
@@ -327,6 +329,15 @@ class msrSegment : public msrVoiceElement
     virtual void          print (ostream& os) const;
 
     virtual void          shortPrint (ostream& os) const;
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    // necessary due to the complexity of repeats management
+    void                  assertSegmentMeasuresListIsNotEmpty (
+                            int inputLineNumber) const;
 
   private:
 

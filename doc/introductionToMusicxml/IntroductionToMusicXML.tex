@@ -9,7 +9,6 @@
 
 \subimport{../}{CommonLaTeXSettings}
 
-\interfootnotelinepenalty=10000
 
 % -------------------------------------------------------------------------
 \begin{document}
@@ -40,7 +39,7 @@ Jacques Menu
 }
 }
 
-\date {\normalsize \today\ version}
+%\date {\normalsize \today\ version}
 %\date {}
 
 \maketitle
@@ -72,10 +71,14 @@ The translations have been done by \xmlToLy, a prototype tool developed by this 
 
 The reader is invited to handle the '{\tt .xml}' file examples with their own software tools to compare the results with the ones herein.
 
+\sep
+
 Tests with other score editing applications are mentioned in this document, namely \sib,
 \fin\ and \muse\ (\url{https://musescore.org}), which is open-source.
 \mxmlToLy\ is mentioned too: this translator is supplied with \lily.
 This author doesn't own licenses for other commercial applications such as Dorico\texttrademark\ or Capella\texttrademark.
+
+\sep \sep
 
 
 % -------------------------------------------------------------------------
@@ -88,13 +91,13 @@ This author doesn't own licenses for other commercial applications such as Doric
 \subsection{What is \mxml?}
 % -------------------------------------------------------------------------
 
-\mxml\ ({\it Music eXtended Markup Language}) is a specification language meant to represent music scores by texts, readable both by humans and computers. It has been designed by the W3C Music Notation Community Group (\url{https://www.w3.org/community/music-notation/}) to help sharing music score files between applications, through export and import mechanisms.
+\mxml\ ({\it Music eXtended Markup Language}, \url{https://www.musicxml.com}) is a specification language meant to represent western music scores by texts, readable both by humans and computers, and to help sharing music score files between applications, through export and import mechanisms.. 
 
-The homepage to \mxml\ is \url{https://www.musicxml.com}.
+It has been invented by Michael Good and initially developed by Recordare LLC, which was bought by MakeMusic in 2011, and finally transferred to the W3C Music Notation Community Group (\url{https://www.w3.org/community/music-notation/}) in 2015. See \url{https://en.wikipedia.org/wiki/MusicXML} for more historical details.
 
 \sep
 
-\mxml\ data contains very detailed information about the music score, and it is {\it quite} verbose by nature. This makes creating such data by hand very difficult, and this is done by applications actually.
+\mxml\ data contains very detailed information about the music score, and it is {\it quite verbose} by nature. This makes creating such data by hand very difficult, and this is done by applications actually.
 
 % -------------------------------------------------------------------------
 \subsection{Part-wise vs. measurewise descriptions}
@@ -109,7 +112,8 @@ It seems that measure-wise descriptions have been very little used and then aban
 As a historical note, an XSL/XSLT script was supplied in the early days of \mxml\ to convert between part-wise and measure-wise representations.
 
 % -------------------------------------------------------------------------
-\subsection{\mxml's formal definition}\label{formalDefinition}
+\subsection{\mxml's formal definition}
+\mylabel{formalDefinition}
 % -------------------------------------------------------------------------
 
 As a member of the *XML family of languages, \mxml\ is defined by a DTD ({\it Document Type Definition}), to be found at \url{https://github.com/w3c/musicxml/tree/v3.1}. 
@@ -135,11 +139,11 @@ For example, consider:
 We see that:
 \begin{itemize}
 \item the '{\tt <part>}' element contains a nested '{\tt <measure>}' element;
-\item the '{\tt <part>}' element has an '{\tt id}' attribute containing the name of the part;
-\item the '{\tt <measure>}' element's attributes contain the measure number and its width.
+\item the '{\tt <part>}' element has an '{\tt id}' attribute containing the name of the part, '{\tt P1}';
+\item the '{\tt <measure>}' element's attributes contain measure number '{\tt 1}'and width '{\tt 464.29}'.
 \end{itemize}
 
-Note that some elements contain unnamed data such as durations and voice and staff numbers:
+Some elements contain a single unnamed data item, such as durations and voice and staff numbers:
 \begin{lstlisting}[language=XML]
         <duration>4</duration>
         <voice>2</voice>
@@ -190,7 +194,7 @@ and an example of their use:
 
 \sep
 
-In DTDs, sub-elements can be followed by followed by one of these characters, which mean:
+In DTDs, sub-elements can be followed by one of these characters, which mean, as is usual in computer science:
 \begin{itemize}
 \item'{\tt ?}': 0 or 1 occurence, i.e. optional;  
 \item'{\tt *}': 0 or more occurrences;
@@ -266,7 +270,7 @@ Comments can span several lines.
 
 \sep
 
-\hand {\mxml\ is a representation of HOW TO DRAW a score, which has implications on the kind of markups available, in particular '{\tt <forward>}' and '{\tt <backup>}', which are presented at section \ref{forwardAndBackup}. %\ContentsPageLink{NAT}{à la}.
+\hand {\mxml\ is a representation of HOW TO DRAW a score, which has implications on the kind of markups available, in particular '{\tt <forward>}' and '{\tt <backup>}', which are presented at \mylink{forwardAndBackup}.
 }
 
 The syntax of \mxml\ data quite regular and simple, and it is easy to program lexical/syntactical analyzers for it.
@@ -316,7 +320,7 @@ Here is how the score header is actually defined in \schemafile{score.mod}:
 \subsection{What is the semantics of \mxml\ data?}
 % -------------------------------------------------------------------------
 
-We've seen in section \ref{formalDefinition} that not specifying the staff number in a '{\tt forward}' element implies a value of one.
+We have seen in section \mylink{formalDefinition}, that not specifying the staff number in a '{\tt <forward>}' element implies a value of one.
 
 It is very difficult to define the semantics -- the meaning of the sentences -- of an artificial language in a complete and consistent way, i.e. without omitting anything and without contradictions. 
 
@@ -355,14 +359,14 @@ The first line specifies the character encoding of the contents below, here UTF-
 
 Then the '{\tt <part-list>}' element at lines 7 to 11 contains a list of '{\tt <score-part>}'s with their '{\tt id}' attribute, here '{\tt P1}' alone.
 
-After this, we find the sequence of '{\tt part}'s with their '{\tt id}' attribute, here '{\tt P1}' alone, and, inside it, the single '{\tt <measure>}' element with attribute '{\tt number}' 1.
+After this, we find the sequence of '{\tt part}'s with their '{\tt id}' attribute, here '{\tt P1}' alone, and, inside it, the single '{\tt <measure>}' sub-element whose attribute '{\tt number}' contains '{\tt 1}'.
 
 \sep
 
 The nesting of elements, such as '{\tt <key>}' containing a '{\tt <fifths>}' element, leads the structure of a \mxml\ representation to be a tree. The way the specification is written conforms to the computer science habit of drawing trees with their root at the top and their leaves at the bottom.
 
 %\begin{figure}
-%\caption{Contents of \mxmlfile{basic/Helloworld.xml}\label{helloworld}
+%\caption{Contents of \mxmlfile{basic/Helloworld.xml}\mylabel{helloworld}
 \includegraphics{HelloWorld.png}
 
 \begin{lstlisting}[language=XML, caption ={HelloWorld.xml}]
@@ -505,11 +509,11 @@ This leads for example to:
 
 \sep
 
-This example means that there are 2 division in a quarter note, i.e. the duration measure unit is an eigth note. Let's borrow from physics and MIDI terminology and call this a quantum.
+This example means that there are '{\tt 2}' divisions in a quarter note, i.e. the duration measure unit is an eigth note. Let's borrow from physics and MIDI terminology and call this a {\it quantum}.
 
 Any multiple of this quantum can be used in the \mxml\ data after that specification, but there's no way to express a duration less than an eigth node.
 
-The quantum value has to be computed from the shortest note in the music that follows this element, taking tuplets into account, see section \ref{tuplets}. 
+The quantum value has to be computed from the shortest note in the music that follows this element, taking tuplets into account, see section \mylink{tuplets}. 
 
 \sep
 
@@ -537,10 +541,35 @@ Notes prolongation dots are specified with as many '{\tt <dot>}' elements as nee
 \subsection{Graphics and sound}
 % -------------------------------------------------------------------------
 
-There are discrepancies between the drawn head note and the durations of the sound, as shown at section \ref{tuplets}.
+\mxml\ has to account for the possible difference between the drawn head note and the duration of that note, as is the case in tuplets. 
 
-Some elements in \mxml\ data are specifically meant for MIDI support.
+In a tuplet containing 3 sixteenth notes, the duration of each such note is one third of that of an eigth note, but the drawn head note's graphical duration is half of that of the latter.
+See section \mylink{tuplets}, for an example of how this is represented.
 
+Some elements in \mxml\ data are specifically meant for MIDI support: they refer to the sound durations only.
+
+
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+\section{Measures}
+\mylabel{mesures}
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+The '{\tt <measure>}' elements can contain many other elements, depending on the music.
+
+Full measures are usually numbered from '{\tt 1}' up, but these numbers are actually character strings, {\it not integers}: this allows for special measure numbers such as '{\tt X1}', for example, in the case of cue staves.
+
+\sep
+
+Anacruses are best specified "the purist way", with '{\tt 0}' as their number and the '{\tt implicit}' attribute set to '{\tt yes}', which specifies that this measure number should not be printed. One see cases where the number is 1 for anacruses, though:
+\begin{lstlisting}[language=XML]
+    <measure number="0" implicit="yes" width="129.48">
+\end{lstlisting}
+
+\sep
+
+Measure can be much longer that the usual time signatures, see \mylink{lyrics}, for an example.
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -556,7 +585,7 @@ The \mxml\ designers had to decide what element a given element should be attach
 	attached to a specific note. Two or more directions may be combined to
 	indicate the start and stop of wedges, dashes, and so on.
 
-\page
+\sep
 
 For example, '{\tt <dynamics>}' elements are placed outside of '{\tt <note>}' elements in a '{\tt <direction>}' element, at the measure level:
 \begin{lstlisting}[language=XML]
@@ -593,6 +622,7 @@ The elements attached to notes are placed inside a '{\tt <notations>}' element, 
 >
 \end{lstlisting}
 
+\page
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -638,10 +668,56 @@ For example, \mxmlfile{xmlsamples3.1/ActorPreludeSample.xml} contains:
   </identification>
 \end{lstlisting}
 
+\sep
 
-'{\tt <rights>}' elements
+The '{\tt <credit>}' element, defined in \schemafile{score.mod}, represents various legal informations about the score. It contains placement indication such as page number and alignment.
 
-'{\tt <credit>}' elements
+\sep
+
+For example, one finds in \mxmlfile{xmlsamples3.1/ActorPreludeSample.xml}:
+\begin{lstlisting}[language=XML,caption={Credits example}]
+  <credit page="1">
+    <credit-type>title</credit-type>
+    <credit-words default-x="1447" default-y="3477" font-size="19.5" justify="center" valign="top">Prelude to a Tragedy</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-type>composer</credit-type>
+    <credit-words default-x="2718" default-y="3387" font-size="7.8" justify="right" valign="top">Lee Actor (2003)</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-type>rights</credit-type>
+    <credit-words default-x="1447" default-y="45" font-size="7.8" justify="center" valign="bottom" xml:space="preserve">© 2004 Polygames.     All Rights Reserved.</credit-words>
+  </credit>
+  <credit page="2">
+    <credit-type>page number</credit-type>
+    <credit-words default-x="1412" default-y="45" font-size="7.8" halign="center" valign="bottom">- 2 -</credit-words>
+  </credit>
+  <credit page="3">
+    <credit-type>page number</credit-type>
+    <credit-words default-x="1447" default-y="45" font-size="7.8" halign="center" valign="bottom">- 3 -</credit-words>
+  </credit>
+  <credit page="4">
+    <credit-type>page number</credit-type>
+    <credit-words default-x="1412" default-y="45" font-size="7.8" halign="center" valign="bottom">- 4 -</credit-words>
+  </credit>
+\end{lstlisting}
+
+\sep
+
+We see the '{\tt <credit-words>}' element in the example above. In \mxml, '{\tt words}' means text, as defined in \schemafile{direction.mod}: 
+\begin{lstlisting}[language=XML]
+<!--
+	The words element specifies a standard text direction.
+	Left justification is assumed if not specified. 
+	Language is Italian ("it") by default. Enclosure
+	is none by default.
+-->
+<!ELEMENT words (#PCDATA)>
+<!ATTLIST words
+    %text-formatting;
+    %optional-unique-id;
+>
+\end{lstlisting}
 
 % -------------------------------------------------------------------------
 \subsection{Score geometry}
@@ -728,7 +804,9 @@ For example, \mxmlfile{partgroups/NestedPartGroups.xml} contains:\\
 
 \sep
 
-The \mxml\ DTD states that part groups may {\it overlap}. This seem to be only because \fin\ doesn't create \mxml\ markups in a strict first-in, last-out order.
+The \mxml\ DTD states that part groups may {\it overlap}. This author suspects that this is only because Finale\texttrademark\ doesn't create \mxml\ markups in a strict first-in, last-out order.
+
+\page
 
 Here is how \mxmlfile{partgroups/OverlappingPartGroups.xml} is handled by various applications:
 
@@ -740,7 +818,7 @@ Here is how \mxmlfile{partgroups/OverlappingPartGroups.xml} is handled by variou
 \item \xmlToLy\ rejects such data for the time being, with the message shown below.
 \end{itemize}
 
-\begin{lstlisting}[language=XML]
+\begin{lstlisting}[language=XML,caption={Overlapping groups \xmlToLy\ error message}]
   ### MusicXML ERROR ### partgroups/OverlappingPartGroups.xml:169: 
 There are overlapping part groups, namely: 
   '2' -=> PartGroup_6 ('2', partGroupName "1
@@ -761,26 +839,24 @@ Abort trap: 6 (core dumped)
 % -------------------------------------------------------------------------
 
 In \mxml, a part is composed of one or more staves, each composed of one or more voices. 
-There are no structured staves nor voices in \mxml\ however -- the way parts and measures are. The '{\tt <stave>}' and '{\tt voice}' element only contain a number.
+There are no structured staves nor voices as such in \mxml\ however -- that is, not the way parts and measures are. The '{\tt <stave>}' and '{\tt voice}' element only contain a number.
 
 \sep
 
 To be more precise:
 \begin{itemize}
-\item stave numbers start at 1 in every part, which refers to the top-most staff in the part;
+\item stave numbers start at '{\tt 1}' in every part, which refers to the top-most staff in the part;
 
-\item a stave number of 1 is implied by default, i.e. when an optional '{\tt <stave>}' element is missing, as can happen in notes descriptions;
+\item a staff number of '{\tt 1}' is implied by default, i.e. when an optional '{\tt <stave>}' element is missing, as can happen in notes descriptions;
 
-\item voice numbers start at 1 in every staff, and a voice number of 1 is implied by default, i.e. when an optional '{\tt <voice>}' element is missing;
+\item voice numbers start at '{\tt 1}' in every staff, and a voice number of '{\tt 1}' is implied by default, i.e. when an optional '{\tt <voice>}' element is missing;
 \end{itemize}
 
 A given voice can change staff and come back to the former one, for example in keyboard scores.
 
 \sep
 
-This author has found \mxml\ files in which the voice numbers are not contiguous, such as 1, 5, 9. The DTD doesn't preclude this. The way \mxmlfile{multistaff/NonContiguousVoiceNumbers.xml} is handled depends on the application.
-
-\page
+This author has found \mxml\ files in which the voice numbers are not contiguous, such as '{\tt 1}', '{\tt 5}' and '{\tt 9}'. The DTD doesn't preclude this, and the applications handle example \mxmlfile{multistaff/NonContiguousVoiceNumbers.xml} their own way.
 
 % -------------------------------------------------------------------------
 \subsection{Clefs, keys and time signatures}
@@ -795,7 +871,7 @@ This author has found \mxml\ files in which the voice numbers are not contiguous
 \item simple time signatures are desribed by '{\tt <beats>}' and '{\tt <beat-type>}' elements.
 \end{itemize}
 
-\sep
+\page
 
 An example is found in \mxmlfile{basic/ClefKeyTime.xml}:\\
 \includegraphics{ClefKeyTime.png}
@@ -867,7 +943,7 @@ In this example, the various sub-elements are:
 
 Composite time signatures such as '{\tt 2/4 + 3/8}' and '{\tt 3+2/8}' can be specified, as well as '{\tt <senza-misura>}' for cadenzas.
 
-\sep
+\page
 
 \mxml\ also supports non-traditional keys the Humdrum/Scot way. For example, the time signature at the beginning of measure 2 in \mxmlfile{keys/HumdrumScotKeys.xml} is described by:\\
 \includegraphics{HumdrumScotKeys.png}
@@ -898,29 +974,48 @@ This is another example handled diffently by some applications.
 \subsection{Metromone and tempo}
 % -------------------------------------------------------------------------
 
-% -------------------------------------------------------------------------
-\subsection{Measures}
-% -------------------------------------------------------------------------
-
-The '{\tt <measure>}' elements can contain many other elements, depending on the music.
-
-Full measures are usually numbered from '{\tt 1}' up, but these numbers are actually character strings, not integers: this allows for special measure numbers such as '{\tt X1}', for example, in the case of cue staves.
-
-\sep
-
-Anacruses are best specified with '{\tt 0}' as their number and the '{\tt implicit}' attribute set to '{\tt yes}':
-\begin{lstlisting}[language=XML]
-    <measure number="0" implicit="yes" width="129.48">
+\mxml\ has rich support for metronome specifications. Example \schemafile{tempos/SwingTempo.xml} contains:\\
+\includegraphics{SwingTempo.png}.
+\begin{lstlisting}[language=XML,caption={Swing tempo example}]
+     <direction placement="above">
+        <direction-type>
+          <words>Swing</words>
+        </direction-type>
+        <direction-type>
+          <metronome parentheses="yes" default-y="30" halign="left" relative-x="26">
+            <metronome-note>
+              <metronome-type>eighth</metronome-type>
+              <metronome-beam number="1">begin</metronome-beam>
+            </metronome-note>
+            <metronome-note>
+              <metronome-type>eighth</metronome-type>
+              <metronome-beam number="1">end</metronome-beam>
+            </metronome-note>
+            <metronome-relation>equals</metronome-relation>
+            <metronome-note>
+              <metronome-type>quarter</metronome-type>
+              <metronome-tuplet bracket="yes" show-number="actual" type="start">
+                <actual-notes>3</actual-notes>
+                <normal-notes>2</normal-notes>
+                <normal-type>eighth</normal-type>
+              </metronome-tuplet>
+            </metronome-note>
+            <metronome-note>
+              <metronome-type>eighth</metronome-type>
+              <metronome-tuplet type="stop">
+                <actual-notes>3</actual-notes>
+                <normal-notes>2</normal-notes>
+                <normal-type>eighth</normal-type>
+              </metronome-tuplet>
+            </metronome-note>
+          </metronome>
+        </direction-type>
+      </direction>
 \end{lstlisting}
 
-One see cases where the number is 1 for anacruses, though.
-
-\sep
-
-Measure can be much longer that the usual time signagures, see section \ref{lyrics}.
-
 % -------------------------------------------------------------------------
-\subsection{'{\tt <forward>}' and '{\tt <backup>}'}\label{forwardAndBackup}
+\subsection{'{\tt <forward>}' and '{\tt <backup>}'}
+\mylabel{forwardAndBackup}
 % -------------------------------------------------------------------------
 
 The '{\tt <forward>}' element is used typically in a second, third or fourth voice which does not contain notes at some point in time. This element allows drawing to continue a bit further in the voice, without drawing rests in-between.
@@ -1037,7 +1132,7 @@ Voice and staff numbers are optional, in which case the default value is 1.
 
 \sep
 
-Having both a sounding and display duration specification is necessary because they do not coincide in the case of dotted notes and tuplets members, see paragraph \ref{tuplets} for the latter.
+Having both a sounding and display duration specification is necessary because they do not coincide in the case of dotted notes and tuplets members, see \mylink{tuplets}, for the latter.
 
 % -------------------------------------------------------------------------
 \subsection{Accidentals}
@@ -1055,29 +1150,7 @@ Having both a sounding and display duration specification is necessary because t
 	triple-flat, slash-quarter-sharp, slash-sharp, slash-flat,
 	double-slash-flat, sharp-1, sharp-2, sharp-3, sharp-5,
 	flat-1, flat-2, flat-3, flat-4, sori, koron, and other.
-
-	The quarter- and three-quarters- accidentals are
-	Tartini-style quarter-tone accidentals. The -down and -up
-	accidentals are quarter-tone accidentals that include
-	arrows pointing down or up. The slash- accidentals
-	are used in Turkish classical music. The numbered
-	sharp and flat accidentals are superscripted versions
-	of the accidental signs, used in Turkish folk music.
-	The sori and koron accidentals are microtonal sharp and
-	flat accidentals used in Iranian and Persian music. The
-	other accidental covers accidentals other than those listed
-	here. It is usually used in combination with the smufl
-	attribute to specify a particular SMuFL accidental. The
-	smufl attribute may be used with any accidental value to
-	help specify the appearance of symbols that share the same
-	MusicXML semantics. The attribute value is a SMuFL canonical
-	glyph name that starts with acc.
-
-	Editorial and cautionary indications are indicated
-	by attributes. Values for these attributes are "no" if not
-	present. Specific graphic display such as parentheses,
-	brackets, and size are controlled by the level-display
-	entity defined in the common.mod file.
+	... ... ... ... ... ...
 -->
 <!ELEMENT accidental (#PCDATA)>
 <!ATTLIST accidental
@@ -1190,6 +1263,56 @@ The '{\tt <grace>}' element is defined in \schemafile{note.mod}:
     make-time CDATA #IMPLIED
     slash %yes-no; #IMPLIED
 >
+\end{lstlisting}
+
+\sep
+
+For example, in \mxmlfile{gracenotes/LilyPondIssue34.xml}, the three grace notes at the beginning of the lower staff are described by:\\
+\includegraphics[scale=0.85]{LilyPondIssue34.png}
+\begin{lstlisting}[language=XML,caption={Grace notes example}]
+      <note>
+        <grace/>
+        <pitch>
+          <step>A</step>
+          <octave>2</octave>
+        </pitch>
+        <voice>3</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <staff>2</staff>
+        <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
+        <notations>
+          <slur type="start" placement="above" number="1"/>
+        </notations>
+      </note>
+      <note>
+        <grace/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <voice>3</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <staff>2</staff>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+      </note>
+      <note>
+        <grace/>
+        <pitch>
+          <step>E</step>
+          <octave>3</octave>
+        </pitch>
+        <voice>3</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <staff>2</staff>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
+      </note>
 \end{lstlisting}
 
 % -------------------------------------------------------------------------
@@ -1443,14 +1566,14 @@ An example can be seen in \mxmlfile{basic/TieAndSlur.xml}:\\
 \subsection{Chords}
 % -------------------------------------------------------------------------
 
-Chords are not evidenced as such in \mxml\ data. Instead, the '{\tt <chord>}' element means that the given note is part of a chord after the first note in the chord has be met. Remember:~\mxml\ is about drawing scores. Put it another way, you know there is a chord upon its second note.
+Chords are not evidenced as such in \mxml\ data. Instead, the '{\tt <chord>}' element means that the given note is part of a chord after the first note in the chord has be met. Remember:~\mxml\ is about drawing scores. Put it another way, you know there is a chord {\it only upon its second note}.
 
 \sep
 
 The code for the last three note chord in \mxmlfile{chords/Chords.xml} is shown below.
 
 %\begin{figure}
-%\caption{Last chord from \mxmlfile{chords/Chords.xml}\label{chords}
+%\caption{Last chord from \mxmlfile{chords/Chords.xml}\mylabel{chords}
 \includegraphics{Chords.png}
 
 \begin{lstlisting}[language=XML, caption={Chord example}]
@@ -1493,7 +1616,8 @@ The code for the last three note chord in \mxmlfile{chords/Chords.xml} is shown 
 %\end{figure}
 
 % -------------------------------------------------------------------------
-\subsection{Tuplets}\label{tuplets}
+\subsection{Tuplets}
+\mylabel{tuplets}
 % -------------------------------------------------------------------------
 
 The situation for tuplets is different than that of the chords: there is a '{\tt <tuplet>}' element, with a '{\tt type}' attribute to indicate the note upon which it starts and stops:
@@ -1525,7 +1649,7 @@ One should play '{\tt <actual-notes>}' within the time taken by only '{\tt <norm
 In the case of \mxmlfile{tuplets/Tuplets.xml}, shown below, the duration of the tuplets member is 20 quanta, i.e. 2/3 of a quarter note, whose duration is 30, and the 'display' duration is a quarter note. The duration of the triplet as a whole is that of a half note, i.e. 60 quanta.
 
 %\begin{figure}
-%\caption{First tuplet from \mxmlfile{tuplets/Tuplet.xml}}\label{tuplets}
+%\caption{First tuplet from \mxmlfile{tuplets/Tuplet.xml}}\mylabel{tuplets}
 \includegraphics{Tuplets.png}
 
 \begin{lstlisting}[language=XML, caption={Tuplet example}]
@@ -1729,7 +1853,8 @@ The '{\tt straight}' and '{\tt curved}' values represent single wings, while
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Lyrics}\label{lyrics}
+\section{Lyrics}
+\mylabel{lyrics}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
@@ -1894,7 +2019,7 @@ It is worth noting that \muse\ does a good job at issuing warnings if the \mxml\
 In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a harmony with an '{\tt <inversion>}' element containing '{\tt 2}', hence the second inversion of the chord should be displayed. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
 
 %\begin{figure}
-%\caption{Harmony inversion from \mxmlfile{harmonies/Inversion.xml}}\label{inversion}
+%\caption{Harmony inversion from \mxmlfile{harmonies/Inversion.xml}}\mylabel{inversion}
 \includegraphics{Inversion.png}
 
 \begin{lstlisting}[language=XML, caption = {Harmony inversion}]
@@ -2057,7 +2182,7 @@ The interested reader is urged to try and import this file in their favorite sco
 \item \fin\ finds it well-formed, but too big to be opened;
 \item \muse\ opens it, but then working on the file is extremely slow;
 \item \mxmlToLy\ converts it to \lily\ syntax as of 2.19.83, and the result has some issues that should be fixed rather easily;
-\item \xmlToLy\ converts it to \lily\ alright, but the issues in this case show that this converter is still experimental\dots
+\item \xmlToLy\ converts it to \lily\ alright, but the issues in the \lcg\ show that this converter is still experimental\dots
 \end{itemize}
 
 % -------------------------------------------------------------------------
@@ -2068,7 +2193,7 @@ The interested reader is urged to try and import this file in their favorite sco
 
 \mxml\ supports other score elements such as harmonies and figured bass, as well as nested repeats. There is a lot of information about \mxml\ on the Internet. And of course, plenty of targeted, ready-to-use examples can be found in \subdir{files/samples/musicxml}.
 
-\mxml\ has become a de facto standard for music scores data interchange between applications. As as been shown in this document, the way it is exported and imported by the various applications is quite diverse, and manual editing of the result is to be expected after import.
+\mxml\ has become a de facto standard for music scores data interchange between applications. The way it is exported and imported by the various applications is quite diverse though, and manual editing of the result is to be expected after import.
  
 \sep
 

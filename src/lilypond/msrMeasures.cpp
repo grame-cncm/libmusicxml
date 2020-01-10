@@ -169,20 +169,6 @@ void msrMeasure::initializeMeasure ()
 msrMeasure::~msrMeasure ()
 {}
 
-S_msrPart msrMeasure::fetchMeasurePartUpLink () const
-{
-  return
-    fMeasureSegmentUpLink->
-      fetchSegmentPartUpLink ();
-}
-
-S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
-{
-  return
-    fMeasureSegmentUpLink->
-      getSegmentVoiceUpLink ();
-}
-
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
@@ -430,6 +416,20 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   return measureDeepCopy;
 }
 
+S_msrPart msrMeasure::fetchMeasurePartUpLink () const
+{
+  return
+    fMeasureSegmentUpLink->
+      fetchSegmentPartUpLink ();
+}
+
+S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
+{
+  return
+    fMeasureSegmentUpLink->
+      getSegmentVoiceUpLink ();
+}
+
 void msrMeasure::setMeasureEndRegularKind (
   msrMeasureEndRegularKind measureEndRegularKind)
 {
@@ -613,10 +613,12 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       fCurrentMeasureWholeNotesDuration <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
-  displayMeasure (
-    inputLineNumber,
-    "appendElementAtTheEndOfMeasure() 1");
+  if (gTraceOah->fTraceMeasuresDetails || gTraceOah->fTracePositionsInMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "appendElementAtTheEndOfMeasure() 1");
   }
 #endif
 
@@ -786,7 +788,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "appendElementAtTheEndOfMeasure() 2");
@@ -2858,10 +2860,12 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     "' in voice \"" << voice->getVoiceName () <<
     ", line " << inputLineNumber <<
     endl;
+  }
 
-  displayMeasure (
-    inputLineNumber,
-    "determineMeasureKindAndPuristNumber() 1");
+  if (gTraceOah->fTraceMeasuresDetails || gTraceOah->fTracePositionsInMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "determineMeasureKindAndPuristNumber() 1");
   }
 #endif
 
@@ -3006,9 +3010,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
             {
               stringstream s;
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasuresDetails || gTraceOah->fTracePositionsInMeasures) {
               displayMeasure (
                 inputLineNumber,
                 "determineMeasureKindAndPuristNumber() 6 kMeasuresRepeatContextKindUnknown");
+  }
+#endif
 
               s <<
                 "measure '" <<
@@ -3122,7 +3130,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   fMeasureKindAndPuristNumberHaveBeenDetermined = true;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails) {
     displayMeasure (
       inputLineNumber,
       "determineMeasureKindAndPuristNumber() 8");
@@ -3161,7 +3169,7 @@ void msrMeasure::padUpToPositionInMeasure (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionInMeasure() 1");
@@ -3213,7 +3221,7 @@ void msrMeasure::padUpToPositionInMeasure (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionInMeasure() 2");
@@ -3247,7 +3255,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfTheMeasure() 1");
@@ -3318,7 +3326,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails || gTraceOah->fTracePositionsInMeasures) {
     displayMeasure (
       inputLineNumber,
       "padUpToPositionAtTheEndOfTheMeasure() 2");
@@ -3359,7 +3367,7 @@ void msrMeasure::finalizeRegularMeasure (
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails) {
     displayMeasure (
       inputLineNumber,
       "finalizeRegularMeasure() 1");
@@ -3516,7 +3524,7 @@ void msrMeasure::finalizeRegularMeasure (
   fMeasureHasBeenFinalized = true;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceMeasuresDetails) {
     displayMeasure (
       inputLineNumber,
       "finalizeRegularMeasure() 2");
@@ -4513,7 +4521,7 @@ void msrMeasure::finalizeMeasure (
   msrMeasuresRepeatContextKind measuresRepeatContextKind,
   string                       context)
 {
-  if (fMeasureHasBeenFinalized) { // JMI
+  if (fMeasureHasBeenFinalized) {
     stringstream s;
 
     s <<
@@ -4521,58 +4529,56 @@ void msrMeasure::finalizeMeasure (
       asShortString () <<
       " more than once";
 
-// JMI   msrInternalError (
     msrInternalWarning (
       gOahOah->fInputSourceName,
       fInputLineNumber,
-  //    __FILE__, __LINE__,
       s.str ());
-
-    return;
   }
 
-  S_msrVoice
-    voice =
-      fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink ();
+  else {
+    S_msrVoice
+      voice =
+        fMeasureSegmentUpLink->
+          getSegmentVoiceUpLink ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
-    gLogOstream <<
-      "Finalizing measure '" <<
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in segment '" <<
-      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-      "' in voice \"" <<
-      fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
-      "\" (" << context << ")" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
+    if (gTraceOah->fTraceMeasures) {
+      gLogOstream <<
+        "Finalizing measure '" <<
+        fMeasureNumber <<
+        ", measureDebugNumber: '" <<
+        fMeasureDebugNumber <<
+        "' in segment '" <<
+        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+        "' in voice \"" <<
+        fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
+        "\" (" << context << ")" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
 #endif
 
-  switch (voice->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
-      finalizeRegularMeasure (
-        inputLineNumber,
-        measuresRepeatContextKind,
-        context);
-      break;
-    case msrVoice::kVoiceHarmony:
-      finalizeHarmonyMeasure (
-        inputLineNumber,
-        measuresRepeatContextKind,
-        context);
-      break;
-    case msrVoice::kVoiceFiguredBass:
-      finalizeFiguredBassMeasure ( // JMI to be seen
-        inputLineNumber,
-        measuresRepeatContextKind,
-        context);
-      break;
-  } // switch
+    switch (voice->getVoiceKind ()) {
+      case msrVoice::kVoiceRegular:
+        finalizeRegularMeasure (
+          inputLineNumber,
+          measuresRepeatContextKind,
+          context);
+        break;
+      case msrVoice::kVoiceHarmony:
+        finalizeHarmonyMeasure (
+          inputLineNumber,
+          measuresRepeatContextKind,
+          context);
+        break;
+      case msrVoice::kVoiceFiguredBass:
+        finalizeFiguredBassMeasure ( // JMI to be seen
+          inputLineNumber,
+          measuresRepeatContextKind,
+          context);
+        break;
+    } // switch
+  }
 }
 
 void msrMeasure::finalizeMeasureClone (

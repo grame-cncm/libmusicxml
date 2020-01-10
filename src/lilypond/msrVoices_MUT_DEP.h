@@ -1049,6 +1049,10 @@ class msrVoice : public msrElement
     // private work services
     // ------------------------------------------------------
 
+    void                  displayVoiceRepeatsStackSummary (
+                            int    inputLineNumber,
+                            string context);
+
     void                  displayVoiceRepeatsStack (
                             int    inputLineNumber,
                             string context);
