@@ -175,7 +175,7 @@ The \subdir{dtds/3.1/schema} subdirectory contains '{\tt *.mod}' text files defi
 \sep
 
 For example, \schemafile{note.mod} defines the '{\tt <backup>}' and {\tt <forward>}' markups this way:
-\begin{lstlisting}[language=XML, caption={$<$backup$>$ and $<$forward$>$ definition}]
+\begin{lstlisting}[language=XML, caption={'{\tt <backup>}' and '{\tt <forward>}' definition}]
 <!--
 	The backup and forward elements are required to coordinate
 	multiple voices in one part, including music on multiple
@@ -192,7 +192,7 @@ For example, \schemafile{note.mod} defines the '{\tt <backup>}' and {\tt <forwar
 \end{lstlisting}
 
 An example of their use is:
-\begin{lstlisting}[language=XML, caption={$<$backup$>$ and $<$forward$>$ example}]
+\begin{lstlisting}[language=XML, caption={'{\tt <backup>}' and '{\tt <forward>}' example}]
       <forward>
         <duration>4</duration>
         <voice>2</voice>
@@ -380,7 +380,7 @@ The nesting of elements, such as '{\tt <key>}' containing a '{\tt <fifths>}' ele
 %\caption{Contents of \mxmlfile{basic/Helloworld.xml}\mylabel{helloworld}
 \includegraphics{HelloWorld.png}
 
-\begin{lstlisting}[language=XML, caption ={HelloWorld.xml}]
+\begin{lstlisting}[language=XML, caption={\tt HelloWorld.xml}]
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC
     "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
@@ -580,7 +580,7 @@ Anacruses are best specified "the purist way", with '{\tt 0}' as their number an
 
 \sep
 
-Measure can be much longer that the usual time signatures, see \mylink{lyrics}, for an example.
+Measures can be irregular, i.e. with less total duration as the current time signature, or much longer that the usual time signatures, see \mylink{lyrics}, for an example.
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -1063,7 +1063,7 @@ Consider \mxmlfile{basic/MinimalScore.xml}:\\
 \page
 
 The first note in measure 2 in this example is described by:
-\begin{lstlisting}[language=XML, caption ={Minimal score example}]
+\begin{lstlisting}[language=XML, caption={Minimal score example}]
         <divisions>8</divisions>
         
       <!-- ... ... ... ... ... -->
@@ -1135,6 +1135,24 @@ Voice and staff numbers are optional, in which case the default value is 1.
 \sep
 
 Having both a sounding and display duration specification is necessary because they do not coincide in the case of dotted notes and tuplets members, see \mylink{tuplets}, for the latter.
+
+\sep
+
+Note elements can have stems and beams attached to them, as in:
+\begin{lstlisting}[language=XML]
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>2</octave>
+        </pitch>
+        <voice>3</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <staff>2</staff>
+        <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
+      </note>
+\end{lstlisting}
 
 \sep
 
@@ -1621,6 +1639,9 @@ The code for the last three note chord in \mxmlfile{chords/Chords.xml} is shown 
 \end{lstlisting}
 %\end{figure}
 
+\page
+
+
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 \section{Tuplets}
@@ -1786,6 +1807,8 @@ In the '{\tt <bar-style>}' element, '{\tt light}' is a thin vertical line, and '
         </barline>
 \end{lstlisting}
 
+\page
+
 One can see the various simple barlines in \mxmlfile{barlines/SimpleBarlines.xml}:\\
 \includegraphics[scale=0.85]{SimpleBarlines.png}
 
@@ -1858,6 +1881,89 @@ The '{\tt straight}' and '{\tt curved}' values represent single wings, while
     </barline>
 \end{lstlisting}
 
+\sep
+
+A repeat barline is implicit at the beginning of the voices if not present, as is the case is usual score editions.
+
+% -------------------------------------------------------------------------
+\subsection{A repeat example}
+% -------------------------------------------------------------------------
+
+Here is a simple example in \mxmlfile{repeats/SimpleRepeatWithAnacrusis.xml}. We have abbreviated some elements for shortness:\\
+\includegraphics{SimpleRepeatWithAnacrusis.png}
+\begin{lstlisting}[language=XML]
+<!-- ... ... ... ... ...-->
+    <measure number="0" implicit="yes" width="144.60">
+	  	<!-- ... ... ... ... ...-->
+      <attributes .../>
+      <note default-x="73.07" default-y="-50.00">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>down</stem>
+        </note>
+      </measure>
+<!--=========================================================-->
+    <measure number="1" width="162.29">
+      <note default-x="10.00" default-y="-45.00">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+        </note>
+      <note default-x="76.96" default-y="-40.00">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+        </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        <repeat direction="backward"/>
+        </barline>
+      </measure>
+<!--=========================================================-->
+    <measure number="2" width="96.76">
+      <note default-x="10.00" default-y="-35.00">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+        </note>
+      </measure>
+<!--=========================================================-->
+    <measure number="3" width="143.60">
+      <note default-x="10.00" default-y="-30.00">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem>up</stem>
+        </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        </barline>
+      </measure>
+\end{lstlisting}
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -2067,7 +2173,7 @@ Creating \mxml\ by an application is a matter of computer programming, and requi
 
 with C++ code such as:
 
-\begin{lstlisting}[language=C++, caption ={Creating a key element in an application}]
+\begin{lstlisting}[language=C++, caption={Creating a '{\tt <key>}' element in an application}]
   Sxmlelement attributes = factory::instance().create(k_attributes);
 
   Sxmlelement key = factory::instance().create(k_key);
@@ -2095,7 +2201,7 @@ In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a harmony with an '
 %\caption{Harmony inversion from \mxmlfile{harmonies/Inversion.xml}}\mylabel{inversion}
 \includegraphics{Inversion.png}
 
-\begin{lstlisting}[language=XML, caption = {Harmony inversion}]
+\begin{lstlisting}[language=XML, caption={Harmony inversion}]
       <harmony>
         <root>
           <root-step>F</root-step>
@@ -2204,7 +2310,7 @@ There are elements that are not displayed by the usual music score editors, beca
 For example, the scordatura in \mxmlfile{strings/Scordatura.xml} is the case where the sixth string of the guitar is tuned a tone down to D, which can be described by:\\
 \includegraphics{Scordatura.png}
 
-\begin{lstlisting}[language=XML, caption ={Scordatura example}]
+\begin{lstlisting}[language=XML, caption={Scordatura example}]
           <scordatura>
               <accord string="6">
                 <tuning-step>D</tuning-step>
