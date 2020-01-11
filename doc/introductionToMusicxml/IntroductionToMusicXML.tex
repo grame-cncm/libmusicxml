@@ -102,7 +102,7 @@ This author doesn't own licenses for other commercial applications such as Doric
 \subsection{What is \mxml?}
 % -------------------------------------------------------------------------
 
-\mxml\ ({\it Music eXtended Markup Language}, \url{https://www.musicxml.com}) is a specification language meant to represent western music scores by texts, readable both by humans and computers, and to help sharing music score files between applications, through export and import mechanisms.. 
+\mxml\ ({\it Music eXtended Markup Language}, \url{https://www.musicxml.com}) is a specification language meant to represent western notation music scores by texts, readable both by humans and computers, and to help sharing music score files between applications, through export and import mechanisms.. 
 
 It has been invented by Michael Good and initially developed by Recordare LLC, which was bought by MakeMusic in 2011, and finally transferred to the W3C Music Notation Community Group (\url{https://www.w3.org/community/music-notation/}) in 2015. See \url{https://en.wikipedia.org/wiki/MusicXML} for more historical details.
 
@@ -681,7 +681,7 @@ For example, \mxmlfile{xmlsamples3.1/ActorPreludeSample.xml} contains:
 
 \sep
 
-The '{\tt <credit>}' element, defined in \schemafile{score.mod}, represents various legal informations about the score. It contains placement indication such as page number and alignment.
+The '{\tt <credit>}' element, defined in \schemafile{score.mod}, represents various legal informations about the score. It contains placement indication such as page number and alignment, as well as fonts information.
 
 \sep
 
@@ -781,7 +781,7 @@ Part groups can be nested, leading to a hierarchy of groups. This is done with t
 \sep
 
 For example, \mxmlfile{partgroups/NestedPartGroups.xml} contains:\\
-\includegraphics{NestedPartGroups.png}
+\includegraphics[scale=0.7]{NestedPartGroups.png}
 
 \begin{lstlisting}[language=XML, caption={Nested part groups example}]
   <part-list>
@@ -868,8 +868,6 @@ A given voice can change staff and come back to the former one, for example in k
 \sep
 
 This author has found \mxml\ files in which the voice numbers are not contiguous, such as '{\tt 1}', '{\tt 5}' and '{\tt 9}'. The DTD doesn't preclude this, and the applications handle example \mxmlfile{multistaff/NonContiguousVoiceNumbers.xml} their own way.
-
-\page
 
 % -------------------------------------------------------------------------
 \subsection{Clefs, keys and time signatures}
@@ -1138,6 +1136,10 @@ Voice and staff numbers are optional, in which case the default value is 1.
 
 Having both a sounding and display duration specification is necessary because they do not coincide in the case of dotted notes and tuplets members, see \mylink{tuplets}, for the latter.
 
+\sep
+
+Before showing an example, we shall look into more detail in the elements that are attached to notes in the forthcoming sections.
+
 \page
 
 % -------------------------------------------------------------------------
@@ -1193,12 +1195,6 @@ The \mxml\ articulation elementss are:
 
 Ornaments are defined in \schemafile{note.mod}:
 \begin{lstlisting}[language=XML]
-<!--
-	Ornaments can be any of several types, followed optionally
-	by accidentals. The accidental-mark element's content is
-	represented the same as an accidental element, but with a
-	different name to reflect the different musical meaning.
--->
 <!ELEMENT ornaments
 	(((trill-mark | turn | delayed-turn | inverted-turn |
 	   delayed-inverted-turn | vertical-turn |
@@ -1249,7 +1245,7 @@ The other-dynamics element
 \subsection{An example of articulations and dynamics}
 % -------------------------------------------------------------------------
 
-This can be seen in \mxmlfile{articulations/ArticulationsAndOrnaments.xml}:\\
+The reader can see various such in \mxmlfile{articulations/ArticulationsAndOrnaments.xml}:\\
 \includegraphics{ArticulationsAndOrnaments.png}
 
 % -------------------------------------------------------------------------
@@ -1329,38 +1325,19 @@ For example, in \mxmlfile{gracenotes/LilyPondIssue34.xml}, the three grace notes
       </note>
 \end{lstlisting}
 
+
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Ties and slurs}
+\section{Ties}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-These two types of curves look similar graphically, but are quite different musically:
-\begin{itemize}
-\item a tie occur between two notes either same pitched or enharmonically equivalent, to indicate that the first one is to be maintained, without stopping the sound emission, as long as the second one. Several ties can appear in sequence on the same note. This is also a way to express arbitrarily long notes across measures;
-\item a slur means that notes of various pitches and durations are to be played without interrupting the sound.
-\end{itemize}
-
-Before looking at an example, let's see how \mxml\ supports these two concepts.
-
-% -------------------------------------------------------------------------
-\subsection{Ties}
-% -------------------------------------------------------------------------
-
-\mxml\ makes the distinction between graphics and sound, and this applied to ties: the '{\tt <tie>}' element indicates sound, and the '{\tt <tied>}'	element indicates notation.
+\mxml\ makes the distinction between graphics and sound, and this applied to ties: the '{\tt <tie>}' element indicates sound, and the '{\tt <tied>}'	element indicates notation. In a '{\tt <tie>}', the '{\tt start}' and '{\tt stop}' values in the '{\tt type}' attribute are used to indicate the beginning and end of the tie.
 
 \sep
 
 These two elements are defined in \schemafile{note.mod}:
 \begin{lstlisting}[language=XML]
-<!--
-	The tie element indicates that a tie begins or ends with
-	this note. If the tie element applies only particular times
-	through a repeat, the time-only attribute indicates which
-	times to apply it. The tie element indicates sound; the tied
-	element indicates notation.
--->
-<!ELEMENT duration (#PCDATA)>
 <!ELEMENT tie EMPTY>
 <!ATTLIST tie
     type %start-stop; #REQUIRED
@@ -1383,19 +1360,15 @@ These two elements are defined in \schemafile{note.mod}:
 >
 \end{lstlisting}
 
+
 % -------------------------------------------------------------------------
-\subsection{Slurs}
+% -------------------------------------------------------------------------
+\section{Slurs}
+% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itself placed inside a '{\tt <note>}' element.  It is defined in \schemafile{note.mod}:
 \begin{lstlisting}[language=XML]
-<!--
-	Slur elements are empty. Most slurs are represented with
-	two elements: one with a start type, and one with a stop
-	type. Slurs can add more elements using a continue type.
-	This is typically used to specify the formatting of cross-
-	system slurs, or to specify the shape of very complex slurs.
--->
 <!ELEMENT slur EMPTY>
 <!ATTLIST slur
     type %start-stop-continue; #REQUIRED
@@ -1411,12 +1384,18 @@ The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itsel
 >
 \end{lstlisting}
 
+
 % -------------------------------------------------------------------------
-\subsection{Tie and slur example}
+% -------------------------------------------------------------------------
+\section{Tie and slur example}
+% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 This example is in \mxmlfile{basic/TieAndSlur.xml}:\\
 \includegraphics{TieAndSlur.png}
+
+\page
+
 \begin{lstlisting}[language=XML, caption={Tie and slur example}]
       <note>
         <pitch>
@@ -1589,12 +1568,8 @@ This example is in \mxmlfile{basic/TieAndSlur.xml}:\\
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{Chords and tuplets}
+\section{Chords}
 % -------------------------------------------------------------------------
-% -------------------------------------------------------------------------
-
-% -------------------------------------------------------------------------
-\subsection{Chords}
 % -------------------------------------------------------------------------
 
 Chords are not evidenced as such in \mxml\ data. Instead, the '{\tt <chord>}' element means that the given note is part of a chord after the first note in the chord has be met. Remember:~\mxml\ is about drawing scores. Put it another way, you know there is a chord {\it only upon its second note}.
@@ -1647,8 +1622,10 @@ The code for the last three note chord in \mxmlfile{chords/Chords.xml} is shown 
 %\end{figure}
 
 % -------------------------------------------------------------------------
-\subsection{Tuplets}
+% -------------------------------------------------------------------------
+\section{Tuplets}
 \mylabel{tuplets}
+% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 The situation for tuplets is different than that of the chords: there is a '{\tt <tuplet>}' element, with a '{\tt type}' attribute to indicate the note upon which it starts and stops:
