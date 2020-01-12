@@ -106,35 +106,35 @@ static Sxmlelement makeAttributes() {
 //------------------------------------------------------------------------
 static Sxmlelement makemeasure(unsigned long num)
 {
-  Sxmlelement measure = factory::instance().create(k_measure);
+  Sxmlelement measure = factory::instance().create(k_measure); // create the measure
   measure->add (newAttributeI("number", num));
+
   if (num==1) {                           //  creates specific elements of the first measure
     measure->push(makeAttributes());        // division, time, clef...
   }
+
   for (int i = 0; i < 4; i++) {           // next adds 4 quarter notes chords
+    for (int j = 0; j < 3; j++) {           // next adds 3 quarter notes chords
+      Sxmlelement note = factory::instance().create(k_note);		// creates the note
 
-    Sxmlelement chord = factory::instance().create(k_chord);  // create the chord
+      if (j > 0) {
+        Sxmlelement chord = factory::instance().create(k_chord);  // create the chord element
+        note->push (chord);											// adds the pitch element to the note
+      }
 
-    Sxmlelement note1 = factory::instance().create(k_note);   // creates the note
-    Sxmlelement pitch1 = factory::instance().create(k_pitch);   // creates a pitch
-    pitch1->push (newElement(k_step, randomNote()));            // sets the pitch to a random value
-    pitch1->push (newElementI(k_octave, 4 + getrandom(2)));     // sets the octave to a random value
-    note1->push (pitch1);                                     // adds the pitch to the note
-    note1->push (newElementI(k_duration, kDivision));         // sets the note duration to a quarter note
-    note1->push (newElement(k_type, "quarter"));              // creates the graphic elements of the note
-    chord->push(note1);
+      Sxmlelement pitch = factory::instance().create(k_pitch);	// creates a pitch
+      pitch->push (newElement(k_step, randomNote()));				// sets the pitch to a random value
+      pitch->push (newElementI(k_octave, 4 + getrandom(2)));		// sets the octave to a random value
+      note->push (pitch);											// adds the pitch to the note
 
-    Sxmlelement note2 = factory::instance().create(k_note);   // creates the note
-    Sxmlelement pitch2 = factory::instance().create(k_pitch);   // creates a pitch
-    pitch2->push (newElement(k_step, randomNote()));            // sets the pitch to a random value
-    pitch2->push (newElementI(k_octave, 4 + getrandom(2)));     // sets the octave to a random value
-    note2->push (pitch2);                                     // adds the pitch to the note
-    note2->push (newElementI(k_duration, kDivision));         // sets the note duration to a quarter note
-    note2->push (newElement(k_type, "quarter"));              // creates the graphic elements of the note
-    chord->push(note2);
+      note->push (newElementI(k_duration, kDivision));				// sets the note duration to a quarter note
 
-    measure->push(chord);
-  }
+      note->push (newElement(k_type, "quarter"));					// creates the graphic elements of the note
+
+      measure->push (note);		// and finally adds the note to the measure
+    } // for
+  } // for
+
   return measure;
 }
 
@@ -187,7 +187,7 @@ static Sxmlelement makeIdentification() {
 //------------------------------------------------------------------------
 static Sxmlelement randomMusic(int measuresCount) {
 	Sxmlelement score = factory::instance().create(k_score_partwise);
-	score->push (newElement(k_movement_title, "Random Music"));
+	score->push (newElement(k_movement_title, "Random 3-note Chords"));
 	score->push (makeIdentification());
 	score->push (makePartList());
 	score->push(makePart(measuresCount));			// adds a part to the score
@@ -200,12 +200,14 @@ static Sxmlelement randomMusic(int measuresCount) {
 int main (int argc, char * argv[]) {
 	// if present, reads the measures count from the command line
 	int count = (argc == 2) ? atoi(argv[1]) : 20;
+
 	// sets the random numbers seed
 #ifdef WIN32
 	srand((unsigned)time(0));
 #else
 	srandom((unsigned)time(0));
 #endif
+
 	SXMLFile f = TXMLFile::create();
 	f->set( new TXMLDecl("1.0", "UTF-8", TXMLDecl::kNo));
 	f->set( new TDocType("score-partwise"));
