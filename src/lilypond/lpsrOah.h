@@ -568,6 +568,7 @@ class lpsrOah : public oahGroup
     int                   fPageCount;   // negative if not specified
     int                   fSystemCount; // negative if not specified
 
+
     // measures
     // --------------------------------------
 

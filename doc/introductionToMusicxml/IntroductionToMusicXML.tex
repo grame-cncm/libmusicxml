@@ -281,7 +281,7 @@ Comments can span several lines.
 
 \sep
 
-\hand {\mxml\ is a representation of HOW TO DRAW a score, which has implications on the kind of markups available, in particular '{\tt <forward>}' and '{\tt <backup>}', which are presented at \mylink{forwardAndBackup}.
+\hand {\mxml\ is a representation of HOW TO DRAW a score, which has implications on the kind of markups available, in particular '{\tt <forward>}' and '{\tt <backup>}', which are presented at \mylink{multipleVoices}.
 }
 
 The syntax of \mxml\ data quite regular and simple, and it is easy to program lexical/syntactical analyzers for it.
@@ -1883,19 +1883,21 @@ The '{\tt straight}' and '{\tt curved}' values represent single wings, while
 
 \sep
 
-A repeat barline is implicit at the beginning of the voices if not present, as is the case is usual score editions.
 
 % -------------------------------------------------------------------------
 \subsection{A repeat example}
 % -------------------------------------------------------------------------
 
-Here is a simple example in \mxmlfile{repeats/SimpleRepeatWithAnacrusis.xml}. We have abbreviated some elements for shortness:\\
+Here is a simple example in \mxmlfile{repeats/SimpleRepeatWithAnacrusis.xml}:\\
 \includegraphics{SimpleRepeatWithAnacrusis.png}
 \begin{lstlisting}[language=XML]
 <!-- ... ... ... ... ...-->
     <measure number="0" implicit="yes" width="144.60">
 	  	<!-- ... ... ... ... ...-->
-      <attributes .../>
+      <attributes>
+        <divisions>1</divisions>
+	  		<!-- ... ... ... ... ...-->
+        </attributes>
       <note default-x="73.07" default-y="-50.00">
         <pitch>
           <step>C</step>
@@ -2123,17 +2125,163 @@ For example, in \mxmlfile{lyrics/MultipleStanzas.xml}, the first note (E\raisebo
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-\section{'{\tt <forward>}' and '{\tt <backup>}'}
-\mylabel{forwardAndBackup}
+\section{Multiple voices}
+\mylabel{multipleVoices}
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-The '{\tt <forward>}' element is used typically in a second, third or fourth voice which does not contain notes at some point in time. This element allows drawing to continue a bit further in the voice, without drawing rests in-between.
+Let's look in some detail at the score specified in \mxmlfile{multistaff/MultipleVoicesPerPart.xml}:\\
+\includegraphics{MultipleVoicesPerPart.png}
 
 \sep
 
-The '{\tt <backup>}' is needed to move to the left before drawing the next element. This is necessary where there are several voices in a given staff and one switched drawing from one voice to another, whose next element is not at the right of the last one drawn.
+The first voice in upper staff '{\tt 1}' has number '{\tt 1}'. The '{\tt <forward>}' element is used because there no note in this voice upon the first beat. This element allows drawing to continue a bit further in the voice, without drawing rests in-between:
+\begin{lstlisting}[language=XML]
+      <forward>
+        <duration>96</duration>
+        <voice>1</voice>
+        <staff>1</staff>
+      </forward>
+      <note default-x="154">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>144</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <dot/>
+        <stem default-y="15.5">up</stem>
+        <staff>1</staff>
+      </note>
+      <note default-x="225">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>48</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="18">up</stem>
+        <staff>1</staff>
+      </note>
+\end{lstlisting}
 
+\sep
+
+The notes in voice '{\tt 2}' in staff '{\tt 1}' can now be described, but only after a '{\tt <backup>}' element that places the "drawing position" back to the beginning of the measure:
+\begin{lstlisting}[language=XML]
+      <backup>
+        <duration>288</duration>
+      </backup>
+      <note default-x="108">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="0.5">up</stem>
+        <staff>1</staff>
+      </note>
+      <note default-x="108">
+        <chord/>
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>96</duration>
+        <tie type="stop"/>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+        <staff>1</staff>
+        <notations>
+          <tied type="stop"/>
+        </notations>
+      </note>
+      <note default-x="154">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-63">down</stem>
+        <staff>1</staff>
+      </note>
+      <note default-x="201">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-60.5">down</stem>
+        <staff>1</staff>
+      </note>
+\end{lstlisting}
+
+\sep
+
+Then comes the specification of voice '{\tt 3}' in staff '{\tt 2}', again after a '{\tt <backup>}' element to place the drawing position at the beginning of the measure:
+\begin{lstlisting}[language=XML]
+      <backup>
+        <duration>288</duration>
+      </backup>
+      <note default-x="108">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>1</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>3</voice>
+        <type>quarter</type>
+        <stem default-y="5.5">up</stem>
+        <staff>2</staff>
+      </note>
+      <note default-x="108">
+        <chord/>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>3</voice>
+        <type>quarter</type>
+        <stem>up</stem>
+        <staff>2</staff>
+      </note>
+      <note default-x="154">
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>3</voice>
+        <type>quarter</type>
+        <stem default-y="-55.5">down</stem>
+        <staff>2</staff>
+      </note>
+      <note default-x="201">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>96</duration>
+        <voice>3</voice>
+        <type>quarter</type>
+        <stem default-y="-50.5">down</stem>
+        <staff>2</staff>
+      </note>
+\end{lstlisting}
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------

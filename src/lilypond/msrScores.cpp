@@ -23,6 +23,7 @@
   #include "traceOah.h"
 #endif
 
+#include "musicXMLOah.h"
 #include "msrOah.h"
 
 
@@ -236,26 +237,21 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 void msrScore::fetchIdentificationFromCreditsIfAny (
   int inputLineNumber)
 {
-  /*
-  S_msrIdentification
-    identification =
-      fMsrScore->getIdentification ();
-
-  string inputSourceName;
-
   if (
-    ! identification->getWorkTitle ()
+    ! fIdentification->getWorkTitle ()
       &&
     gMusicXMLOah->fUseFilenameAsWorkTitle
   ) {
-    inputSourceName =
-      gOahOah->fInputSourceName;
+    string
+      inputSourceName =
+        gOahOah->fInputSourceName;
 
     if (inputSourceName == "-") {
       inputSourceName = "Standard input";
     }
   }
 
+  /*
   <credit page="1">
     <credit-words default-x="548" default-y="1382" font-family="FreeSerif" font-size="26" font-weight="bold" justify="center" valign="top" xml:space="preserve">"R E Q U I E M"    from    D E A T H N O T E</credit-words>
   </credit>
@@ -422,6 +418,37 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
     }
   }
   */
+
+void msrScore::setHeaderFromOptionsIfAny (
+  int inputLineNumber)
+{
+  // should we use lyricists as poets?
+  if (gMusicXMLOah->fUseLyricistsAsPoets) {
+    S_msrVarValsListAssoc
+      lyricists =
+        fIdentification->getLyricists ();
+
+    const list<string>&
+      lyricistsValuesList =
+        lyricists->getVariableValuesList ();
+
+    if (lyricistsValuesList.size ()) {
+      S_msrVarValsListAssoc
+        poets =
+          fIdentification->getPoets ();
+
+      list<string>::const_iterator
+        iBegin = lyricistsValuesList.begin (),
+        iEnd   = lyricistsValuesList.end (),
+        i      = iBegin;
+
+      for ( ; ; ) {
+        poets->addAssocVariableValue (*i);
+        if (++i == iEnd) break;
+      } // for
+    }
+  }
+}
 
 void msrScore::collectScorePartsList (
   int              inputLineNumber,

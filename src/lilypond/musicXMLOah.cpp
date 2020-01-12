@@ -220,14 +220,14 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 }
 #endif
 
-void musicXMLOah::initializeMusicXMLWorkTitleOptions (
+void musicXMLOah::initializeMusicXMLHeaderOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Work title",
-        "hmxmlwt", "help-musicxml-work-title",
+        "Header",
+        "hmxmlh", "help-musicxml-header",
 R"()",
         kElementVisibilityAlways,
         this);
@@ -246,40 +246,19 @@ R"(Use the file name as work title if there is none in the MusicXML data.
 Standard input (-) becomes 'Standard input' in that case.)",
         "useFilenameAsWorkTitle",
         fUseFilenameAsWorkTitle));
-}
 
-void musicXMLOah::initializeMusicXMMeasuresOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Measures",
-        "hmxmlm", "help-musicxml-measures",
-R"()",
-        kElementVisibilityAlways,
-        this);
+  // lyricists as poets
 
-  appendSubGroupToGroup (subGroup);
-
-  // add empty measures
+  fUseLyricistsAsPoets = false;
 
   subGroup->
     appendAtomToSubGroup (
-      oahStringToIntMapAtom::create (
-        "aem", "add-empty-measures",
-R"###(Add empty mesure according to SPECIFICATION.
-SPECIFICATION should be of the form 'MEASURE_NUMBER MEASURES_TO_ADD',
-where MEASURE_NUMBER is a string, and MEASURES_TO_ADD is the number
-of empty measures to add after measure MEASURE_NUMBER.
-MEASURE_NUMBER should be the number of an existing, empty measure,
-and MEASURES_TO_ADD should be at least 1, , such as '17 3'.
-This comes in handly when MusicXML data obtained by scanning contains
-a single empty measure when there were several in the original score.
-This option can be used any number of times.)###",
-        "SPECIFICATION",
-        "addEmptyMeasuresStringToIntMap",
-        fAddEmptyMeasuresStringToIntMap));
+      oahBooleanAtom::create (
+        "ulap", "use-lyricists-as-poets",
+R"(Set the 'poet' to the value of 'lyricist' in the LilyPond code \header.
+This is useful because LilyPond doesn't feature a 'lyricist' variable.)",
+        "useLyricistsAsPoets",
+        fUseLyricistsAsPoets));
 }
 
 void musicXMLOah::initializeMusicXMLClefsKeysTimesOptions (
@@ -383,28 +362,43 @@ R"(Ignore times that are the same as the current one.)",
   ignoreRedundantMultiplexBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantTimesAtom);
+}
 
-  // '-loop' is hidden...
+void musicXMLOah::initializeMusicXMMeasuresOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Measures",
+        "hmxmlm", "help-musicxml-measures",
+R"()",
+        kElementVisibilityAlways,
+        this);
 
-  fLoopToMusicXML = boolOptionsInitialValue;
+  appendSubGroupToGroup (subGroup);
 
-  S_oahBooleanAtom
-    loopOptionsBooleanAtom =
-      oahBooleanAtom::create (
-        "loop", "loop-to-musicxml",
-R"(Close the loop, generating a MusicXML file from the MSR.
-The file name receives a '_loop' suffix. Currently under development.)",
-        "loopToMusicXML",
-        fLoopToMusicXML);
-  loopOptionsBooleanAtom->
-    setIsHidden ();
+  // add empty measures
 
   subGroup->
     appendAtomToSubGroup (
-      loopOptionsBooleanAtom);
+      oahStringToIntMapAtom::create (
+        "aem", "add-empty-measures",
+R"###(Add empty mesure according to SPECIFICATION.
+SPECIFICATION should be of the form 'MEASURE_NUMBER MEASURES_TO_ADD',
+where MEASURE_NUMBER is a string, and MEASURES_TO_ADD is the number
+of empty measures to add after measure MEASURE_NUMBER.
+MEASURE_NUMBER should be the number of an existing, empty measure,
+and MEASURES_TO_ADD should be at least 1, , such as '17 3'.
+This comes in handly when MusicXML data obtained by scanning contains
+a single empty measure when there were several in the original score.
+This option can be used any number of times.)###",
+        "SPECIFICATION",
+        "addEmptyMeasuresStringToIntMap",
+        fAddEmptyMeasuresStringToIntMap));
 }
 
-void musicXMLOah::initializeMusicXMLDynamicsandWedgesOptions (
+void musicXMLOah::initializeMusicXMLDynamicsAndWedgesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -507,6 +501,40 @@ R"(Prevents the default 'cubase' option.)",
       noCubaseBooleanAtom);
  }
 
+void musicXMLOah::initializeMusicXMLLoopOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Loop",
+        "hmxmllo", "help-musicxml-loop-options",
+R"()",
+        kElementVisibilityAlways,
+        this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // '-loop' is hidden...
+
+  fLoopToMusicXML = boolOptionsInitialValue;
+
+  S_oahBooleanAtom
+    loopOptionsBooleanAtom =
+      oahBooleanAtom::create (
+        "loop", "loop-to-musicxml",
+R"(Close the loop, generating a MusicXML file from the MSR.
+The file name receives a '_loop' suffix. Currently under development.)",
+        "loopToMusicXML",
+        fLoopToMusicXML);
+  loopOptionsBooleanAtom->
+    setIsHidden ();
+
+  subGroup->
+    appendAtomToSubGroup (
+      loopOptionsBooleanAtom);
+}
+
 void musicXMLOah::initializeMusicXMLOah (
   bool boolOptionsInitialValue)
 {
@@ -517,12 +545,9 @@ void musicXMLOah::initializeMusicXMLOah (
     boolOptionsInitialValue);
 #endif
 
-  // worktitle
-  initializeMusicXMLWorkTitleOptions (
-    boolOptionsInitialValue);
-
-  // measures
-  initializeMusicXMMeasuresOptions (
+  // header
+  // --------------------------------------
+  initializeMusicXMLHeaderOptions (
     boolOptionsInitialValue);
 
   // clefs, keys, times
@@ -530,14 +555,25 @@ void musicXMLOah::initializeMusicXMLOah (
   initializeMusicXMLClefsKeysTimesOptions (
     boolOptionsInitialValue);
 
+  // measures
+  // --------------------------------------
+  initializeMusicXMMeasuresOptions (
+    boolOptionsInitialValue);
+
   // dynamics and wedges
   // --------------------------------------
-  initializeMusicXMLDynamicsandWedgesOptions (
+  initializeMusicXMLDynamicsAndWedgesOptions (
     boolOptionsInitialValue);
 
   // combined options
   // --------------------------------------
   initializeMusicXMLCombinedOptionsOptions (
+    boolOptionsInitialValue);
+
+  // loop to do JMI
+  // --------------------------------------
+
+  initializeMusicXMLLoopOptions (
     boolOptionsInitialValue);
 }
 
@@ -553,20 +589,26 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
     fHandlerUpLink;
 
 
+    // header
+    // --------------------------------------
+
+  clone->fUseFilenameAsWorkTitle =
+    fUseFilenameAsWorkTitle;
+
+  clone->fUseLyricistsAsPoets =
+    fUseLyricistsAsPoets;
+
+
   // clefs, keys, times
   // --------------------------------------
 
   clone->fIgnoreRedundantClefs =
     fIgnoreRedundantClefs;
-
   clone->fIgnoreRedundantKeys =
     fIgnoreRedundantKeys;
-
   clone->fIgnoreRedundantTimes =
     fIgnoreRedundantTimes;
 
-  clone->fLoopToMusicXML =
-    fLoopToMusicXML;
 
   // dynamics and wedges
   // --------------------------------------
@@ -577,10 +619,29 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
     fAllWedgesBelow;
 
 
+  // combined options, cubase
+  // --------------------------------------
+
+  clone->fCubase =
+    fCubase;
+  clone->fNoCubase =
+    fNoCubase;
+
+
+  // loop
+  // --------------------------------------
+
+  clone->fLoopToMusicXML =
+    fLoopToMusicXML;
+
+
   // trace
   // --------------------------------------
 
 #ifdef TRACE_OAH
+  clone->fTraceMusicXMLTreeVisitors =
+    fTraceMusicXMLTreeVisitors;
+
   clone->fTraceEncoding =
     fTraceEncoding;
 
@@ -593,10 +654,6 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
   clone->fTraceForward =
     fTraceForward;
 #endif
-
-  clone->fTraceMusicXMLTreeVisitors =
-    fTraceMusicXMLTreeVisitors;
-
   return clone;
 }
 
@@ -706,6 +763,26 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
 
   gIndenter++;
 
+
+  // header
+  // --------------------------------------
+
+  gLogOstream <<
+    "Header:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "useFilenameAsWorkTitle" << " : " <<
+      booleanAsString (fUseFilenameAsWorkTitle) <<
+      endl <<
+    setw (fieldWidth) << "useLyricistsAsPoets" << " : " <<
+      booleanAsString (fUseLyricistsAsPoets) <<
+      endl;
+
+  gIndenter--;
+
   // clefs, keys, times
   // --------------------------------------
 
@@ -726,19 +803,42 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
 
     setw (fieldWidth) << "ignoreRedundantTimes" << " : " <<
     booleanAsString (fIgnoreRedundantTimes) <<
-    endl <<
-
-    setw (fieldWidth) << "loopToMusicXML" << " : " <<
-    booleanAsString (fLoopToMusicXML) <<
     endl;
 
   gIndenter--;
 
-  // dynamics
+  // measures
   // --------------------------------------
 
   gLogOstream <<
-    "Dynamics:" <<
+    "Measures:" <<
+    endl;
+
+  gIndenter++;
+
+//     map<string,int>       fAddEmptyMeasuresStringToIntMap;
+
+/* JMI
+  gLogOstream << left <<
+    setw (fieldWidth) << "ignoreRedundantClefs" << " : " <<
+    booleanAsString (fIgnoreRedundantClefs) <<
+    endl <<
+
+    setw (fieldWidth) << "ignoreRedundantKeys" << " : " <<
+    booleanAsString (fIgnoreRedundantKeys) <<
+    endl <<
+
+    setw (fieldWidth) << "ignoreRedundantTimes" << " : " <<
+    booleanAsString (fIgnoreRedundantTimes) <<
+    endl;
+*/
+  gIndenter--;
+
+  // dynamics and wedges
+  // --------------------------------------
+
+  gLogOstream <<
+    "Dynamics and wedges:" <<
     endl;
 
   gIndenter++;
@@ -749,6 +849,41 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "allWedgesBelow" << " : " <<
     booleanAsString (fAllWedgesBelow) <<
+    endl;
+
+  gIndenter--;
+
+  // combined options, cubase
+  // --------------------------------------
+
+  gLogOstream <<
+    "Cubase:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "cubase" << " : " <<
+    booleanAsString (fCubase) <<
+    endl <<
+    setw (fieldWidth) << "noCubase" << " : " <<
+    booleanAsString (fNoCubase) <<
+    endl;
+
+  gIndenter--;
+
+  // loop
+  // --------------------------------------
+
+  gLogOstream <<
+    "Loop:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "loopToMusicXML" << " : " <<
+    booleanAsString (fLoopToMusicXML) <<
     endl;
 
   gIndenter--;

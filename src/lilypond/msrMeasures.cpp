@@ -2214,6 +2214,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   switch (voice->getVoiceKind ()) {
     case msrVoice::kVoiceRegular:
       paddingNote =
+      /* JMI
         true // JMI ??? what criterion should be used?
           ? msrNote::createRestNote (
               inputLineNumber,
@@ -2225,16 +2226,18 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
                 getVoiceStaffUpLink ()->getStaffNumber (),
               voice->
                 getVoiceNumber ())
-          : msrNote::createSkipNote (
-              inputLineNumber,
-              fMeasureNumber,
-              duration,
-              duration,
-              0, // dots number JMI ???
-              voice->
-                getVoiceStaffUpLink ()->getStaffNumber (),
-              voice->
-                getVoiceNumber ());
+          :
+          */
+        msrNote::createSkipNote (
+            inputLineNumber,
+            fMeasureNumber,
+            duration,
+            duration,
+            0, // dots number JMI ???
+            voice->
+              getVoiceStaffUpLink ()->getStaffNumber (),
+            voice->
+              getVoiceNumber ());
       break;
 
     case msrVoice::kVoiceHarmony:

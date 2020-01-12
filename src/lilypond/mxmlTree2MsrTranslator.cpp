@@ -4521,14 +4521,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
   }
 #endif
 
-  /*
-      <forward>
-        <duration>96</duration>
-        <voice>1</voice>
-        <staff>1</staff>
-      </forward>
-  */
-
 //* JMI ???
   // the <staff /> element is present only
   // in case of a staff change

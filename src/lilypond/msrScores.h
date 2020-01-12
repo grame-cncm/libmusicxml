@@ -183,6 +183,8 @@ class msrScore : public msrElement
                                   fInhibitRestMeasuresBrowsing;
                               };
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -197,6 +199,9 @@ class msrScore : public msrElement
                             string partID);
 
     void                  fetchIdentificationFromCreditsIfAny (
+                            int inputLineNumber);
+
+    void                  setHeaderFromOptionsIfAny (
                             int inputLineNumber);
 
     void                  collectScorePartsList (
