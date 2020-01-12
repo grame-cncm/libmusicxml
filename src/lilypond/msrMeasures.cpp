@@ -2208,53 +2208,19 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   }
 #endif
 
-  // create a rest or a skip depending on measureVoice kind
-  S_msrNote paddingNote;
-
-  switch (voice->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
-      paddingNote =
-      /* JMI
-        true // JMI ??? what criterion should be used?
-          ? msrNote::createRestNote (
-              inputLineNumber,
-              fMeasureNumber,
-              duration,
-              duration,
-              0, // dots number JMI ???
-              voice->
-                getVoiceStaffUpLink ()->getStaffNumber (),
-              voice->
-                getVoiceNumber ())
-          :
-          */
-        msrNote::createSkipNote (
-            inputLineNumber,
-            fMeasureNumber,
-            duration,
-            duration,
-            0, // dots number JMI ???
-            voice->
-              getVoiceStaffUpLink ()->getStaffNumber (),
-            voice->
-              getVoiceNumber ());
-      break;
-
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
-      paddingNote =
-        msrNote::createSkipNote (
-          inputLineNumber,
-          fMeasureNumber,
-          duration,
-          duration,
-          0, // dots number JMI ???
-          voice->
-            getVoiceStaffUpLink ()->getStaffNumber (),
-          voice->
-            getVoiceNumber ());
-      break;
-  } // switch
+  // create a skip note
+  S_msrNote
+    paddingNote =
+      msrNote::createSkipNote (
+        inputLineNumber,
+        fMeasureNumber,
+        duration,
+        duration,
+        0, // dots number JMI ???
+        voice->
+          getVoiceStaffUpLink ()->getStaffNumber (),
+        voice->
+          getVoiceNumber ());
 
   return paddingNote;
 }

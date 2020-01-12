@@ -1820,24 +1820,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_title& elt )
       movementTitle);
 }
 
-
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_identification& elt )
 {
-/*
-  <identification>
-    <encoding>
-      <software>MuseScore 2.0.3.1</software>
-      <encoding-date>2016-12-15</encoding-date>
-      <supports element="accidental" type="yes"/>
-      <supports element="beam" type="yes"/>
-      <supports element="print" attribute="new-page" type="yes" value="yes"/>
-      <supports element="print" attribute="new-system" type="yes" value="yes"/>
-      <supports element="stem" type="yes"/>
-      </encoding>
-    </identification>
-*/
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 

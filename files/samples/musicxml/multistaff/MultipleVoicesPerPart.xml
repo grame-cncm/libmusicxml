@@ -127,22 +127,6 @@
         <stem default-y="0.5">up</stem>
         <staff>1</staff>
       </note>
-      <note default-x="108">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>96</duration>
-        <tie type="stop"/>
-        <voice>2</voice>
-        <type>quarter</type>
-        <stem>up</stem>
-        <staff>1</staff>
-        <notations>
-          <tied type="stop"/>
-        </notations>
-      </note>
       <note default-x="154">
         <pitch>
           <step>F</step>
@@ -178,19 +162,6 @@
         <voice>3</voice>
         <type>quarter</type>
         <stem default-y="5.5">up</stem>
-        <staff>2</staff>
-      </note>
-      <note default-x="108">
-        <chord/>
-        <pitch>
-          <step>B</step>
-          <alter>-1</alter>
-          <octave>2</octave>
-        </pitch>
-        <duration>96</duration>
-        <voice>3</voice>
-        <type>quarter</type>
-        <stem>up</stem>
         <staff>2</staff>
       </note>
       <note default-x="154">

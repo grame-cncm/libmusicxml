@@ -111,7 +111,7 @@ It has been invented by Michael Good and initially developed by Recordare LLC, w
 \mxml\ data contains very detailed information about the music score, and it is {\it quite verbose} by nature. This makes creating such data by hand very difficult, and this is done by applications actually.
 
 % -------------------------------------------------------------------------
-\subsection{Part-wise vs. measurewise descriptions}
+\subsection{Part-wise vs. measure-wise descriptions}
 % -------------------------------------------------------------------------
 
 \mxml\ allows the score to be represented as a sequence of parts, each containing a sequence of measures, or as a sequence of measures, each containing a sequence of parts, i.e. data describing the contents of the corresponding measure in a part.
@@ -1136,9 +1136,9 @@ Voice and staff numbers are optional, in which case the default value is 1.
 
 Having both a sounding and display duration specification is necessary because they do not coincide in the case of dotted notes and tuplets members, see \mylink{tuplets}, for the latter.
 
-\sep
+\page
 
-Note elements can have stems and beams attached to them, as in:
+Note elements can have '{\tt <stem>}' and '{\tt <beam>}' sub-elements attached to them, as in the following example. See \mylink{graceNotes} for a score containing some:
 \begin{lstlisting}[language=XML]
       <note>
         <pitch>
@@ -1157,8 +1157,6 @@ Note elements can have stems and beams attached to them, as in:
 \sep
 
 Before showing an example, we shall look into more detail in the elements that are attached to notes in the forthcoming sections.
-
-\page
 
 % -------------------------------------------------------------------------
 \subsection{Accidentals}
@@ -1266,8 +1264,11 @@ The other-dynamics element
 The reader can see various such in \mxmlfile{articulations/ArticulationsAndOrnaments.xml}:\\
 \includegraphics{ArticulationsAndOrnaments.png}
 
+\page
+
 % -------------------------------------------------------------------------
 \subsection{Grace notes}
+\mylabel{graceNotes}
 % -------------------------------------------------------------------------
 
 The '{\tt <grace>}' element is defined in \schemafile{note.mod}:
@@ -1412,7 +1413,7 @@ The '{\tt <slur>}' element is placed inside a '{\tt <notations>}' element, itsel
 This example is in \mxmlfile{basic/TieAndSlur.xml}:\\
 \includegraphics{TieAndSlur.png}
 
-\page
+\sep
 
 \begin{lstlisting}[language=XML, caption={Tie and slur example}]
       <note>
@@ -1639,8 +1640,6 @@ The code for the last three note chord in \mxmlfile{chords/Chords.xml} is shown 
 \end{lstlisting}
 %\end{figure}
 
-\page
-
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -1807,7 +1806,7 @@ In the '{\tt <bar-style>}' element, '{\tt light}' is a thin vertical line, and '
         </barline>
 \end{lstlisting}
 
-\page
+\sep
 
 One can see the various simple barlines in \mxmlfile{barlines/SimpleBarlines.xml}:\\
 \includegraphics[scale=0.85]{SimpleBarlines.png}
@@ -2135,7 +2134,7 @@ Let's look in some detail at the score specified in \mxmlfile{multistaff/Multipl
 
 \sep
 
-The first voice in upper staff '{\tt 1}' has number '{\tt 1}'. The '{\tt <forward>}' element is used because there no note in this voice upon the first beat. This element allows drawing to continue a bit further in the voice, without drawing rests in-between:
+The first voice in upper staff '{\tt 1}' has number '{\tt 1}'. The '{\tt <forward>}' element is used because there no note in this voice upon the first beat, whose duration is '{\tt 96}' divisions. This element allows drawing to continue a bit further in the voice, without drawing rests in-between.:
 \begin{lstlisting}[language=XML]
       <forward>
         <duration>96</duration>
@@ -2186,22 +2185,6 @@ The notes in voice '{\tt 2}' in staff '{\tt 1}' can now be described, but only a
         <stem default-y="0.5">up</stem>
         <staff>1</staff>
       </note>
-      <note default-x="108">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>96</duration>
-        <tie type="stop"/>
-        <voice>2</voice>
-        <type>quarter</type>
-        <stem>up</stem>
-        <staff>1</staff>
-        <notations>
-          <tied type="stop"/>
-        </notations>
-      </note>
       <note default-x="154">
         <pitch>
           <step>F</step>
@@ -2243,19 +2226,6 @@ Then comes the specification of voice '{\tt 3}' in staff '{\tt 2}', again after 
         <voice>3</voice>
         <type>quarter</type>
         <stem default-y="5.5">up</stem>
-        <staff>2</staff>
-      </note>
-      <note default-x="108">
-        <chord/>
-        <pitch>
-          <step>B</step>
-          <alter>-1</alter>
-          <octave>2</octave>
-        </pitch>
-        <duration>96</duration>
-        <voice>3</voice>
-        <type>quarter</type>
-        <stem>up</stem>
         <staff>2</staff>
       </note>
       <note default-x="154">
@@ -2343,7 +2313,7 @@ It is worth noting that \muse\ does a good job at issuing warnings if the \mxml\
 \subsection{Small element, big effect}
 % -------------------------------------------------------------------------
 
-In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a harmony with an '{\tt <inversion>}' element containing '{\tt 2}', hence the second inversion of the chord should be displayed. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
+In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a '{\tt <harmony>}' element with an '{\tt <inversion>}' sub-element containing '{\tt 2}', hence the second inversion of the chord should be displayed. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
 
 %\begin{figure}
 %\caption{Harmony inversion from \mxmlfile{harmonies/Inversion.xml}}\mylabel{inversion}
@@ -2498,12 +2468,11 @@ For example, the scordatura in \mxmlfile{strings/Scordatura.xml} is the case whe
 \subsection{A real challenge}
 % -------------------------------------------------------------------------
 
-The contents of \mxmlfile{challenging/BeethovenNinthSymphony.xml} is over 66 megabytes large. It was created by exporting it from \sib, and contains the whose score for this symphony. One can imagine the amount of work to create the score in the first place, and, of course, there's no way a human could create such \mxml\ data by hand.
+The contents of \mxmlfile{challenging/BeethovenNinthSymphony.xml} is over 66 megabytes large. It was created by exporting it from \sib, and contains the whose score for this symphony.
 
 \sep
 
 The interested reader is urged to try and import this file in their favorite score editing sofware. This author's experience is that:
-
 \begin{itemize}
 \item \sib\ handles it alright;
 \item \fin\ finds it well-formed, but too big to be opened;
@@ -2511,6 +2480,7 @@ The interested reader is urged to try and import this file in their favorite sco
 \item \mxmlToLy\ converts it to \lily\ syntax as of 2.19.83, and the result has some issues that should be fixed rather easily;
 \item \xmlToLy\ converts it to \lily\ alright, but the issues in the \lcg\ show that this converter is still experimental\dots
 \end{itemize}
+
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
