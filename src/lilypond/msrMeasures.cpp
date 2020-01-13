@@ -2267,7 +2267,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
   // sanity check
   msrAssert (
     wholeNotes.getNumerator () >= 0,
-    "wholeNotes.getNumerator () is negative");
+    "wholeNotes.getNumerator () is negative in padUpToPositionInMeasureInMeasure()");
 
   if (fCurrentMeasureWholeNotesDuration < wholeNotes) {
     gIndenter++;

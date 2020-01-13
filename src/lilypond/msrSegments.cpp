@@ -580,11 +580,23 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
   }
 #endif
 
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
   gIndenter++;
 
   // sanity check
   assertSegmentMeasuresListIsNotEmpty (
-    harmony->getInputLineNumber ());
+    inputLineNumber);
+
+/* JMI
+  // skip to harmony note position in the voice
+  padUpToPositionInMeasureInSegment (
+    inputLineNumber,
+    harmony->
+   // JMI  getHarmonyNoteUpLink ()->
+        getPositionInMeasure ());
+*/
 
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
@@ -636,11 +648,21 @@ void msrSegment::appendFiguredBassToSegment (
   }
 #endif
 
-  // sanity check
-  assertSegmentMeasuresListIsNotEmpty (
-    figuredBass->getInputLineNumber ());
+  int inputLineNumber =
+    figuredBass->getInputLineNumber ();
 
   gIndenter++;
+
+  // sanity check
+  assertSegmentMeasuresListIsNotEmpty (
+    inputLineNumber);
+
+  // skip to figured bass note position in the voice
+  padUpToPositionInMeasureInSegment (
+    inputLineNumber,
+    figuredBass->
+   // JMI  getHarmonyNoteUpLink ()->
+        getPositionInMeasure ());
 
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???

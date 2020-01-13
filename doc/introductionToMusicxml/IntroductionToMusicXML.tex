@@ -87,7 +87,7 @@ This author doesn't own licenses for other commercial applications such as Doric
 
 \sep
 
-\mxmlToLy\ is mentioned too: this translator of \mxml\ to \lily\ is supplied with \lily. The design goals of \mxmlToLy\ are to perform at least as well as \mxmlToLy, while providing as many options as needed to avoid too much editing of the resulting \lcg.
+\mxmlToLy\ is mentioned too: this translator of \mxml\ to \lily\ is supplied with \lily. The design goals of \xmlToLy\ are to perform at least as well as \mxmlToLy, while providing as many options as needed to avoid too much editing of the \lcg.
 
 \sep \sep
 
@@ -2275,7 +2275,7 @@ Exporting to \mxml\ is probably the most frequent way, and there are application
 
 \page
 
-Scanning graphical scores is a tough problem:  how do you tell lyrics from annotations such as '{\tt cresc.}' or tempos such as '{\tt Allegro}'? One usually has to manually fix scanning errors and the category of some text fragments after scanning to get good results. And, then, the scanning application should create quality \mxml\ data.
+Scanning graphical scores is a tough problem:  how do you tell lyrics from annotations such as '{\tt cresc.}' or tempos such as '{\tt Allegro}'? One usually has to manually fix scanning errors and the category of some text fragments after scanning to get good results. And, of course, the scanning application should create quality \mxml\ data.
 
 \sep
 
@@ -2398,22 +2398,22 @@ This file is handled differently by various applications, as can be seen below.
 \muse\ displays it this way:\\
 \includegraphics[scale=0.55]{MultiMeasureRestsMuseScore.png}
 
-\sep
+\sep \sep
 
 \mxmlToLy\ produces:\\
 \includegraphics{MultiMeasureRestsMusicxml2ly.png}
 
-\sep
+\sep \sep
 
 \sib\ produces:\\
 \includegraphics[scale=0.525]{MultiMeasureRestsSibelius.png}
 
-\sep
+\sep \sep
 
 \fin\ produces:\\
 \includegraphics[scale=0.8]{MultiMeasureRestsFinale.png}
 
-\sep
+\sep \sep
 
 \xmlToLy\ is still experimental, and currently produces:\\
 \includegraphics{MultiMeasureRestsXml2ly.png}
@@ -2487,11 +2487,11 @@ For example, the scordatura in \mxmlfile{strings/Scordatura.xml} is the case whe
 \subsection{A real challenge}
 % -------------------------------------------------------------------------
 
-The contents of \mxmlfile{challenging/BeethovenNinthSymphony.xml} is over 66 megabytes large. It was created by exporting it from \sib, and contains the whose score for this symphony.
+The file \mxmlfile{challenging/BeethovenNinthSymphony.xml} is over 66 megabytes large -- it contains the whole score for this symphony.
 
 \sep
 
-The interested reader is urged to try and import this file in their favorite score editing sofware. This author's experience is that:
+The interested reader is urged to try and import this file into their favorite score editing sofware. This author's experience is that:
 \begin{itemize}
 \item \sib\ handles it alright;
 \item \fin\ finds it well-formed, but too big to be opened;
@@ -2556,7 +2556,7 @@ For example, consider:
 
 \sep
 
-In MNX-Common, this can be written:
+In MNX-Common, this can be written in a more concise way:
 \begin{lstlisting}[language=XML,caption={MNX-Common example}]
 <mnx>
     <score>

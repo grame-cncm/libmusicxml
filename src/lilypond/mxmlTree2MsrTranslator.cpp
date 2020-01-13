@@ -18153,14 +18153,27 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
       setFiguredBassSoundingWholeNotes (
         fCurrentNoteSoundingWholeNotes);
 
-    // set the figuredBass's tuplet factor
+    // set the figured bass's tuplet factor
     figuredBass->
       setFiguredBassTupletFactor (
         msrTupletFactor (
           fCurrentNoteActualNotes,
           fCurrentNoteNormalNotes));
 
-    // attach the figured bass to the note
+    // set the figured bass's position in measure
+    /*
+      Figured bass elements take their position from the first
+      regular note (not a grace note or chord note) that follows
+      in score order. The optional duration element is used to
+      indicate changes of figures under a note.
+    */
+
+    figuredBass->
+      setPositionInMeasure (
+        newNote->getPositionInMeasure (),
+        "handlePendingFiguredBasses()");
+
+    // attach the figured bass to newNote
     newNote->
       setNoteFiguredBass (figuredBass);
 

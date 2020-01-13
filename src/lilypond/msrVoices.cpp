@@ -1831,12 +1831,14 @@ void msrVoice::appendFiguredBassToVoice (
 
   switch (fVoiceKind) {
     case msrVoice::kVoiceFiguredBass:
+    /* JMI too early
       // skip to figured bass note position in the voice
       padUpToPositionInMeasureInVoice (
         inputLineNumber,
         figuredBass->
           getFiguredBassNoteUpLink ()->
             getPositionInMeasure ());
+*/
 
       // append the figured bass to the voice last segment
       fVoiceLastSegment->

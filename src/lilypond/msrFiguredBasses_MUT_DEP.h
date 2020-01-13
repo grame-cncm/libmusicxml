@@ -226,6 +226,9 @@ class msrFiguredBass : public msrMeasureElement
     msrTupletFactor       getFiguredBassTupletFactor () const
                               { return fFiguredBassTupletFactor; }
 
+    void                  setFiguredBassPositionInMeasure (
+                            rational positionInMeasure);
+
     // services
     // ------------------------------------------------------
 

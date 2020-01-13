@@ -458,6 +458,43 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
   return figuredBassDeepCopy;
 }
 
+void msrFiguredBass::setFiguredBassPositionInMeasure (
+  rational positionInMeasure)
+{
+  // set the figured bass position in measure, taking it's offset into account
+
+/* JMI
+  // the offset can negative, merely add it
+  // this overwrites it with the same value if fHarmonyWholeNotesOffset is null
+  rational
+    actualPositionInMeasure =
+      positionInMeasure
+        +
+      fFiguredBassWholeNotesOffset;
+  actualPositionInMeasure.rationalise ();
+*/
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Setting figured bass position in measure of " << asString () <<
+      " to '" <<
+      positionInMeasure <<
+//      "', figuredBassWholeNotesOffset = " <<
+//      fFiguredBassWholeNotesOffset <<
+//      "', actualPositionInMeasure = " <<
+//      actualPositionInMeasure <<
+      endl;
+  }
+#endif
+
+/* JMI
+  msrMeasureElement::setPositionInMeasure (
+    actualPositionInMeasure,
+    "setHarmonyPositionInMeasure()");
+  */
+}
+
 void msrFiguredBass::appendFigureToFiguredBass (
   S_msrFigure figure)
 {
