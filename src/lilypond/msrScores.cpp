@@ -247,7 +247,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
         gOahOah->fInputSourceName;
 
     if (inputSourceName == "-") {
-      inputSourceName = "Standard input";
+      inputSourceName = "Standard_input";
     }
   }
 
@@ -398,31 +398,11 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
   }
 }
 
-/*      s << "[";
-
-      vector<S_msrCreditWords>::const_iterator
-        iBegin = fCreditWordsList.begin (),
-        iEnd   = fCreditWordsList.end (),
-        i      = iBegin;
-
-      for ( ; ; ) {
-        S_msrCreditWords creditWords = (*i);
-
-        if (creditWords-> () == )
-        s << "\"" << creditWords->getCreditWordsContents () << "\"";
-        if (++i == iEnd) break;
-        s << ", ";
-      } // for
-
-      s << "]";
-    }
-  }
-  */
-
+/* JMI
 void msrScore::setHeaderFromOptionsIfAny (
   int inputLineNumber)
 {
-  // should we use lyricists as poets?
+  // should we use lyricists as poets? JMI
   if (gMusicXMLOah->fUseLyricistsAsPoets) {
     S_msrVarValsListAssoc
       lyricists =
@@ -449,6 +429,7 @@ void msrScore::setHeaderFromOptionsIfAny (
     }
   }
 }
+*/
 
 void msrScore::collectScorePartsList (
   int              inputLineNumber,

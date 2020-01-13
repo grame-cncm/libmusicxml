@@ -1820,8 +1820,8 @@ void msrVoice::appendFiguredBassToVoice (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figured bass '" << figuredBass->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "Appending figured bass " << figuredBass->asString () <<
+      " to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -1875,8 +1875,8 @@ void msrVoice::appendFiguredBassToVoiceClone (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figured bass '" << figuredBass->asString () <<
-      "' to voice clone \"" << getVoiceName () << "\"" <<
+      "Appending figured bass " << figuredBass->asString () <<
+      " to voice clone \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif

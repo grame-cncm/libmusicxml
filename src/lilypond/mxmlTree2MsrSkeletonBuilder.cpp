@@ -1881,6 +1881,14 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
       addLyricist (
         inputLineNumber,
         creatorValue);
+
+    // should we use lyricists as poets?
+    if (gMusicXMLOah->fUseLyricistsAsPoets) {
+      fMsrScore->getIdentification () ->
+        addPoet (
+          inputLineNumber,
+          elt->getValue ());
+    }
   }
 
   else if (creatorType == "poet") {

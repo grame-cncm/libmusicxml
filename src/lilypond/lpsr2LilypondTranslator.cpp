@@ -4523,6 +4523,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   // LilyPond informations
 
   {
+    // dedication
     S_lpsrVarValAssoc
       lilypondDedication =
         elt->getLilypondDedication ();
@@ -4537,6 +4538,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   }
 
   {
+    // piece
     S_lpsrVarValAssoc
       lilypondPiece =
         elt->getLilypondPiece ();
@@ -4551,6 +4553,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   }
 
   {
+    // opus
     S_lpsrVarValAssoc
       lilypondOpus =
         elt->getLilypondOpus ();
@@ -4565,18 +4568,54 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   }
 
   {
-    S_lpsrVarValAssoc
-      lilypondTitle =
-        elt->getLilypondTitle ();
-
-    if (lilypondTitle) {
-      fLilypondCodeOstream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondTitle,
-          fieldNameWidth) <<
+    // title
+    if (gMusicXMLOah->fUseFilenameAsWorkTitle) {
+      fLilypondCodeOstream << left <<
+        setw (fieldNameWidth) <<
+        "title = \"" <<
+        gOahOah->fInputSourceName <<
+        "\"" <<
         endl;
     }
+    else {
+      S_lpsrVarValAssoc
+        lilypondTitle =
+          elt->getLilypondTitle ();
 
+      if (lilypondTitle) {
+        fLilypondCodeOstream <<
+          lpsrVarValAssocAsLilypondString (
+            lilypondTitle,
+            fieldNameWidth) <<
+          endl;
+      }
+    }
+
+    /* JMI
+    S_msrLength
+      indent =
+        elt->getIndent ();
+
+    if (! indent) {
+      fLilypondCodeOstream << "%";
+    }
+    fLilypondCodeOstream << left <<
+      setw (fieldWidth) <<
+      "indent" << " = ";
+    if (indent) {
+      fLilypondCodeOstream <<
+        setprecision (3) << indent->getLengthValue () <<
+        lengthUnitAsLilypondString (indent->getLengthUnitKind ());
+    }
+    else {
+      fLilypondCodeOstream <<
+        "0.0" <<
+        lengthUnitAsLilypondString (defaultLengthUnit);
+    }
+    fLilypondCodeOstream << endl;
+*/
+
+    // subtitle
     S_lpsrVarValAssoc
       lilypondSubTitle =
         elt->getLilypondSubTitle ();
@@ -4603,6 +4642,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   }
 
   {
+    // instrument
     S_lpsrVarValAssoc
       lilypondInstrument =
         elt->getLilypondInstrument ();
@@ -4629,6 +4669,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   }
 
   {
+    // copyright
     S_lpsrVarValAssoc
       lilypondCopyright =
         elt->getLilypondCopyright ();

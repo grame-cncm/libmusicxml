@@ -626,7 +626,8 @@ void msrSegment::appendFiguredBassToSegment (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figured bass " << figuredBass->asString () <<
+      "Appending figured bass " <<
+      figuredBass->asString () <<
       " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
@@ -654,7 +655,8 @@ void msrSegment::appendFiguredBassToSegmentClone (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figured bass " << figuredBass->asString () <<
+      "Appending figured bass " <<
+      figuredBass->asString () <<
       " to segment clone " << asString () <<
       "' in voice clone \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<

@@ -2209,7 +2209,7 @@ The notes in voice '{\tt 2}' in staff '{\tt 1}' can now be described, but only a
       </note>
 \end{lstlisting}
 
-\sep
+\page
 
 Then comes the specification of voice '{\tt 3}' in staff '{\tt 2}', again after a '{\tt <backup>}' element to place the drawing position at the beginning of the measure:
 \begin{lstlisting}[language=XML]
@@ -2273,7 +2273,7 @@ This author has performed manual text editing on some of the samples supplied wi
 
 Exporting to \mxml\ is probably the most frequent way, and there are applications that do a good job at that. If an application supports say strings instruments scordaturas in scores, then creating a '{\tt <scordatura>}' element is not very difficult.
 
-\sep
+\page
 
 Scanning graphical scores is a tough problem:  how do you tell lyrics from annotations such as '{\tt cresc.}' or tempos such as '{\tt Allegro}'? One usually has to manually fix scanning errors and the category of some text fragments after scanning to get good results. And, then, the scanning application should create quality \mxml\ data.
 
@@ -2301,7 +2301,7 @@ with C++ code such as:
 
 \sep 
 
-Here is a score containing random 3-note chords created by '{\tt RandomChords}', a C++ small program provided as a example of using \lib\ to create \mxml\ data, with source code in \cppsamplefile{RandomChords.cpp}:\\
+Here is a score containing random 3-note chords created by \cppsamplefile{RandomChords.cpp}, a C++ small program provided as a example of using \lib\ to create \mxml\ data:\\
 \includegraphics{RandomChords.png}
 
 
@@ -2319,11 +2319,16 @@ It is worth noting that \muse\ does a good job at issuing warnings if the \mxml\
 \subsection{Small element, big effect}
 % -------------------------------------------------------------------------
 
-In \mxmlfile{harmonies/Inversion.xml}, shown below, there is a '{\tt <harmony>}' element with an '{\tt <inversion>}' sub-element containing '{\tt 2}', hence the second inversion of the chord should be displayed. A number of applications ignore this element when importing \mxml\ data, because it takes a full knowledge of chords structures to compute the bass note of inverted chords.
+The '{\tt <harmony>}' element can contain an '{\tt <inversion>}' sub-element to indicate the number of the  chord inversion. Some applications ignore this element when importing \mxml\ data, because it takes  full knowledge of chords structures to compute the bass note of inverted chords.
 
+\sep
+
+Here is how \xmlToLy\ handlles the second inversion of the chord in \mxmlfile{harmonies/Inversion.xml}:\\
 %\begin{figure}
 %\caption{Harmony inversion from \mxmlfile{harmonies/Inversion.xml}}\mylabel{inversion}
 \includegraphics{Inversion.png}
+
+\page
 
 \begin{lstlisting}[language=XML, caption={Harmony inversion}]
       <harmony>
@@ -2388,20 +2393,32 @@ For example, the first two measures of \mxmlfile{rests/MultiMeasureRests.xml} ar
 
 This file is handled differently by various applications, as can be seen below.
 
+\page
+
 \muse\ displays it this way:\\
 \includegraphics[scale=0.55]{MultiMeasureRestsMuseScore.png}
+
+\sep
 
 \mxmlToLy\ produces:\\
 \includegraphics{MultiMeasureRestsMusicxml2ly.png}
 
+\sep
+
 \sib\ produces:\\
 \includegraphics[scale=0.525]{MultiMeasureRestsSibelius.png}
+
+\sep
 
 \fin\ produces:\\
 \includegraphics[scale=0.8]{MultiMeasureRestsFinale.png}
 
-\mxmlToLy\ is still experimental, and currently produces:\\
+\sep
+
+\xmlToLy\ is still experimental, and currently produces:\\
 \includegraphics{MultiMeasureRestsXml2ly.png}
+
+\page
 
 % -------------------------------------------------------------------------
 \subsection{Elements often not well handled}
@@ -2418,10 +2435,6 @@ There are elements that are not displayed in a "standard" way by the usual music
 \includegraphics[scale=0.8]{BeatRepeatFinale.png}.
 
 And if one exports that score from \fin\ to \mxml, the beat repeat information is lost, see \mxmlfile{repeats/BeatRepeatExportedFromFinale.xml}. 
-
-\sep
-
-It seems thus that beat repeats are quite rare in \mxml\ files.
 
 % -------------------------------------------------------------------------
 \subsection{Elements usually not handled}

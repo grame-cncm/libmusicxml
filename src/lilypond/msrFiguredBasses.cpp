@@ -382,9 +382,8 @@ msrFiguredBass::msrFiguredBass (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Creating figuredBass '" <<
+      "Creating figuredBass " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -555,7 +554,7 @@ string msrFiguredBass::asString () const
   stringstream s;
 
   s <<
-    "Figured bass" <<
+    "[Figured bass" <<
     ", figuredBassSoundingWholeNotes: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
@@ -571,9 +570,7 @@ string msrFiguredBass::asString () const
       fFiguredBassParenthesesKind) <<
 
     ", figuredBassTupletFactor: " <<
-    fFiguredBassTupletFactor.asString () <<
-
-    ", line " << fInputLineNumber;
+    fFiguredBassTupletFactor.asString ();
 
   if (fFiguredBassFiguresList.size ()) {
     s << ", figuredBassFiguresList: [";
@@ -588,8 +585,7 @@ string msrFiguredBass::asString () const
       if (++i == iEnd) break;
       s << " ";
     } // for
-
-    s << "]";
+  s << "]";
   }
 
   // print the figured bass position in measure
@@ -605,6 +601,10 @@ string msrFiguredBass::asString () const
         fFiguredBassSoundingWholeNotes);
   }
 */
+
+  s <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }

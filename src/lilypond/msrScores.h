@@ -201,8 +201,10 @@ class msrScore : public msrElement
     void                  fetchIdentificationFromCreditsIfAny (
                             int inputLineNumber);
 
+/* JMI
     void                  setHeaderFromOptionsIfAny (
                             int inputLineNumber);
+*/
 
     void                  collectScorePartsList (
                             int    inputLineNumber,

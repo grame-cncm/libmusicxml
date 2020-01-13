@@ -2108,8 +2108,8 @@ void msrMeasure::appendFiguredBassToMeasure (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figured bass '" << figuredBass->asString () <<
-      "' to measure '" <<
+      "Appending figured bass " << figuredBass->asString () <<
+      " to measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
@@ -2153,8 +2153,8 @@ void msrMeasure::appendFiguredBassToMeasureClone (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figured bass '" << figuredBass->asString () <<
-      "' to measure clone '" <<
+      "Appending figured bass " << figuredBass->asString () <<
+      " to measure clone '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
