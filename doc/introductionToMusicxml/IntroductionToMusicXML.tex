@@ -819,23 +819,13 @@ The \mxml\ DTD states that part groups may {\it overlap}. This author suspects t
 
 \sep
 
-Here is how \mxmlfile{partgroups/OverlappingPartGroups.xml} is handled by various applications:
-
-\begin{itemize}
-\item \sib\ loses the last group, i.e. the bassoons;
-\item \fin\ loses them too;
-\item \muse\ crashes;
-\item \mxmlToLy\ loses the bassoons too;
-\item \xmlToLy\ rejects such data for the time being, with the message shown below.
-\end{itemize}
-
+Various applications handle \mxmlfile{shouldfail/OverlappingPartGroups.xml} their own way. \xmlToLy\ rejects such data for the time being, with this message:
 \begin{lstlisting}[language=XML,caption={Overlapping groups \xmlToLy\ error message}]
-  ### MusicXML ERROR ### partgroups/OverlappingPartGroups.xml:169: 
+  ### MusicXML ERROR ### shouldfail/OverlappingPartGroups.xml:39: 
 There are overlapping part groups, namely: 
-  '2' -=> PartGroup_6 ('2', partGroupName "1
-2"), lines 164..169
+  '1' -=> PartGroup_2 ('1', partGroupName "Part group 1"), lines 15..39
 and
-  '1' -=> PartGroup_2 ('1', partGroupName ""), lines 76..170
+  '2' -=> PartGroup_3 ('2', partGroupName "Part group 2"), lines 27..43
 
 Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
   either you found a bug in the xml2ly translator,
@@ -882,11 +872,10 @@ This author has found \mxml\ files in which the voice numbers are not contiguous
 \item simple time signatures are desribed by '{\tt <beats>}' and '{\tt <beat-type>}' elements.
 \end{itemize}
 
-\sep
+\page
 
 An example is found in \mxmlfile{basic/ClefKeyTime.xml}:\\
 \includegraphics{ClefKeyTime.png}
-
 \begin{lstlisting}[language=XML, caption={Clef, key and time signature example}]
       <attributes>
         <divisions>2</divisions>
