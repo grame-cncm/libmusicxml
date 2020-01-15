@@ -23,6 +23,7 @@
   #include "traceOah.h"
 #endif
 
+#include "musicXMLOah.h"
 #include "msrOah.h"
 
 
@@ -236,26 +237,21 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 void msrScore::fetchIdentificationFromCreditsIfAny (
   int inputLineNumber)
 {
-  /*
-  S_msrIdentification
-    identification =
-      fMsrScore->getIdentification ();
-
-  string inputSourceName;
-
   if (
-    ! identification->getWorkTitle ()
+    ! fIdentification->getWorkTitle ()
       &&
     gMusicXMLOah->fUseFilenameAsWorkTitle
   ) {
-    inputSourceName =
-      gOahOah->fInputSourceName;
+    string
+      inputSourceName =
+        gOahOah->fInputSourceName;
 
     if (inputSourceName == "-") {
-      inputSourceName = "Standard input";
+      inputSourceName = "Standard_input";
     }
   }
 
+  /*
   <credit page="1">
     <credit-words default-x="548" default-y="1382" font-family="FreeSerif" font-size="26" font-weight="bold" justify="center" valign="top" xml:space="preserve">"R E Q U I E M"    from    D E A T H N O T E</credit-words>
   </credit>
@@ -402,26 +398,38 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
   }
 }
 
-/*      s << "[";
+/* JMI
+void msrScore::setHeaderFromOptionsIfAny (
+  int inputLineNumber)
+{
+  // should we use lyricists as poets? JMI
+  if (gMusicXMLOah->fUseLyricistsAsPoets) {
+    S_msrVarValsListAssoc
+      lyricists =
+        fIdentification->getLyricists ();
 
-      vector<S_msrCreditWords>::const_iterator
-        iBegin = fCreditWordsList.begin (),
-        iEnd   = fCreditWordsList.end (),
+    const list<string>&
+      lyricistsValuesList =
+        lyricists->getVariableValuesList ();
+
+    if (lyricistsValuesList.size ()) {
+      S_msrVarValsListAssoc
+        poets =
+          fIdentification->getPoets ();
+
+      list<string>::const_iterator
+        iBegin = lyricistsValuesList.begin (),
+        iEnd   = lyricistsValuesList.end (),
         i      = iBegin;
 
       for ( ; ; ) {
-        S_msrCreditWords creditWords = (*i);
-
-        if (creditWords-> () == )
-        s << "\"" << creditWords->getCreditWordsContents () << "\"";
+        poets->addAssocVariableValue (*i);
         if (++i == iEnd) break;
-        s << ", ";
       } // for
-
-      s << "]";
     }
   }
-  */
+}
+*/
 
 void msrScore::collectScorePartsList (
   int              inputLineNumber,

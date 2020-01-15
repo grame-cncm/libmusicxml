@@ -40,7 +40,7 @@
     <lyric-font font-family="FreeSerif" font-size="11"/>
     </defaults>
   <credit page="1">
-    <credit-words default-x="595.44" default-y="1626.67" justify="center" valign="top" font-size="24">Harmony</credit-words>
+    <credit-words default-x="595.44" default-y="1626.67" justify="center" valign="top" font-size="24">Harmonies</credit-words>
     </credit>
   <part-list>
     <score-part id="P1">
@@ -148,10 +148,12 @@
         <root>
           <root-step>C</root-step>
           <root-alter>1</root-alter>
-          <bass-step>G</bass-step>
-          <bass-alter>1</bass-alter>
           </root>
         <kind use-symbols="yes">augmented</kind>
+        <bass>
+          <bass-step>G</bass-step>
+          <bass-alter>1</bass-alter>
+        </bass>
         </harmony>
       <note default-x="490.70" default-y="-30.00">
         <pitch>

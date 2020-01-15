@@ -87,8 +87,8 @@
         <type>quarter</type>
       </note>
       <!-- Check how well the application handles an empty element (invalid MusicXML!) -->
-      <figured-bass>
-      </figured-bass>
+      <!--figured-bass>
+      </figured-bass-->
       <note>
         <pitch><step>A</step><octave>4</octave></pitch>
         <duration>8</duration>

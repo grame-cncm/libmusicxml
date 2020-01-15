@@ -419,7 +419,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   int
     measurePuristNumber =
@@ -531,7 +531,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   string
     nextMeasureNumber =

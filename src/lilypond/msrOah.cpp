@@ -1715,7 +1715,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "dmnames", "display-msr-names",
+        "names", "display-msr-names",
 R"(Only write a view of the names in the MSR to standard error.
 This implies that no LilyPond code is generated.)",
         "displayMsrNames",
@@ -1728,7 +1728,7 @@ This implies that no LilyPond code is generated.)",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "dmsum", "display-msr-summary",
+        "sum", "display-msr-summary",
 R"(Only write a summary of the MSR to standard error.
 This implies that no LilyPond code is generated.)",
         "displayMsrSummary",

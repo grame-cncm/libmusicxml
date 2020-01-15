@@ -837,73 +837,6 @@ void msr2LpsrTranslator::visitStart (S_msrScaling& elt)
     paper != nullptr,
     "paper is null");
 
-  // populate paper
-/* JMI
-  msrLength paperWidth =
-    elt->getPaperWidth ();
-  if (gLpsrOah->fPaperWidth.getLengthValue () > 0.0) {
-    paperWidth = gLpsrOah->fPaperWidth;
-  }
-  paper ->
-    setPaperWidth (paperWidth);
-
-  msrLength paperHeight =
-    elt->getPaperHeight ();
-  if (gLpsrOah->fPaperHeight.getLengthValue () > 0.0) {
-    paperWidth = gLpsrOah->fPaperHeight;
-  }
-  paper->
-    setPaperHeight (paperHeight);
-
-  msrLength topMargin =
-    elt->getTopMargin ();
-  if (gLpsrOah->fTopMargin > 0.0) {
-    topMargin = gLpsrOah->fTopMargin;
-  }
-  paper->
-    setTopMargin (topMargin);
-
-  msrLength bottomMargin =
-    elt->getBottomMargin ();
-  if (gLpsrOah->fBottomMargin > 0.0) {
-    bottomMargin = gLpsrOah->fBottomMargin;
-  }
-  paper->
-    setBottomMargin (bottomMargin);
-
-  msrLength leftMargin =
-    elt->getLeftMargin ();
-  if (gLpsrOah->fLeftMargin > 0.0) {
-    leftMargin = gLpsrOah->fLeftMargin;
-  }
-  paper->
-    setLeftMargin (leftMargin);
-
-  msrLength rightMargin =
-    elt->getRightMargin ();
-  if (gLpsrOah->fRightMargin > 0.0) {
-    rightMargin = gLpsrOah->fRightMargin;
-  }
-  paper->
-    setRightMargin (rightMargin);
-
-  msrLength indent =
-    elt->getRightMargin ();
-  if (gLpsrOah->fIndent > 0.0) {
-    indent = gLpsrOah->fIndent;
-  }
-  paper->
-    setIndent (rightMargin);
-
-  msrLength shortIndent =
-    elt->getRightMargin ();
-  if (gLpsrOah->fShortIndent > 0.0) {
-    shortIndent = gLpsrOah->fShortIndent;
-  }
-  paper->
-    setShortIndent (rightMargin);
-*/
-
   // set the current book block's paper as a newborn clone of paper
   fCurrentLpsrBookBlock ->
     setBookBlockPaper (
@@ -2267,7 +2200,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   int
     measurePuristNumber =
@@ -2391,7 +2324,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   string
     nextMeasureNumber =

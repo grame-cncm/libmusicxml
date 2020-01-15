@@ -843,6 +843,11 @@ class lpsr2LilypondTranslator :
 
     // figured bass
 
+    string                figureAsLilypondString (
+                            S_msrFigure figure);
+  string                  figuredBassAsLilypondString (
+                            S_msrFiguredBass figuredBass);
+
     S_msrFiguredBass      fCurrentFiguredBass;
     unsigned int          fCurrentFiguredBassFiguresCounter;
 

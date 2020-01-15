@@ -1314,9 +1314,9 @@ void msrPart::appendFiguredBassToPart (
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceFiguredBasses) {
         gLogOstream <<
-          "Appending figured bass '" <<
+          "Appending figured bass " <<
           figuredBass->asString () <<
-          "' to part " <<
+          " to part " <<
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
           endl;
@@ -1363,9 +1363,9 @@ void msrPart::appendFiguredBassToPartClone (
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceFiguredBasses) {
         gLogOstream <<
-          "Appending figured bass '" <<
+          "Appending figured bass " <<
           figuredBass->asString () <<
-          "' to part clone " <<
+          " to part clone " <<
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
           endl;

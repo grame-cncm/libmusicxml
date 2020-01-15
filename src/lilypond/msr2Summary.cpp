@@ -89,14 +89,9 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
   }
 
   fMsrSummaryOutputStream <<
-    "Score contains " <<
-    singularOrPlural (
-      elt->getPartGroupsList ().size (),
-      "part group", "part groups") <<
-    ", " <<
-    singularOrPlural (
-      elt->getScoreNumberOfMeasures (),
-      "measure", "measures") <<
+    "MSR contents summary of \"" <<
+    gOahOah->fInputSourceName <<
+    "\":" <<
     endl <<
     endl;
 
@@ -231,7 +226,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
     setw (fieldWidth) <<
     singularOrPlural (
       fScoreGraceNotesGroupCounter,
-      "grace note gropu",
+      "grace note group",
       "grace notes groups") <<
     endl <<
 
@@ -504,11 +499,11 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
     elt->getRegularVoiceStaffSequentialNumber () <<
     endl <<
     setw (fieldWidth) <<
-    "noiceActualNotesCounter" << " : " <<
+    "voiceActualNotesCounter" << " : " <<
     elt->getVoiceActualNotesCounter () <<
     endl <<
     setw (fieldWidth) <<
-    "VoiceActualHarmoniesCounter" << " : " <<
+    "voiceActualHarmoniesCounter" << " : " <<
     elt->getVoiceActualHarmoniesCounter () <<
     endl <<
     setw (fieldWidth) <<
@@ -1152,15 +1147,11 @@ void msr2SummaryVisitor::visitStart (S_msrPageLayout& elt)
       endl;
   }
 
-  fMsrSummaryOutputStream << "PageLayout" << endl;
-
-  gIndenter++;
+  fMsrSummaryOutputStream << elt << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPageLayout& elt)
 {
-  gIndenter--;
-
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrPageLayout" <<

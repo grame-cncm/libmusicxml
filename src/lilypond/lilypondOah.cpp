@@ -2422,8 +2422,8 @@ This comes in handy when scanning several movements from a single PDF score,
 in which case measure numbers are a single sequence.
 There can be several occurrences of this option.)",
         "RESET_NUMBER_SPEC",
-        "resetMeasureNumberMap",
-        fResetMeasureNumberMap));
+        "resetMeasureElementMeasureNumberMap",
+        fResetMeasureElementMeasureNumberMap));
 
   // generate box around bar number
 
@@ -3851,14 +3851,14 @@ void lilypondOah::printAtomOptionsValues (
     endl;
 
   os << left <<
-    setw (valueFieldWidth) << "resetMeasureNumberMap" << " : ";
-  if (! fResetMeasureNumberMap.size ()) {
+    setw (valueFieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
+  if (! fResetMeasureElementMeasureNumberMap.size ()) {
     os << "empty";
   }
   else {
     map<string, int>::const_iterator
-      iBegin = fResetMeasureNumberMap.begin (),
-      iEnd   = fResetMeasureNumberMap.end (),
+      iBegin = fResetMeasureElementMeasureNumberMap.begin (),
+      iEnd   = fResetMeasureElementMeasureNumberMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i).first << "=" << (*i).second;
@@ -4392,14 +4392,14 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
     endl;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "resetMeasureNumberMap" << " : ";
-  if (! fResetMeasureNumberMap.size ()) {
+    setw (fieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
+  if (! fResetMeasureElementMeasureNumberMap.size ()) {
     gLogOstream << "empty";
   }
   else {
     map<string, int>::const_iterator
-      iBegin = fResetMeasureNumberMap.begin (),
-      iEnd   = fResetMeasureNumberMap.end (),
+      iBegin = fResetMeasureElementMeasureNumberMap.begin (),
+      iEnd   = fResetMeasureElementMeasureNumberMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       gLogOstream << (*i).first << "=" << (*i).second;

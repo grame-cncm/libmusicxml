@@ -664,8 +664,8 @@ string msrBarline::asShortString () const
     "["
     "Barline " <<
     barlineCategoryKindAsString (fBarlineCategoryKind) <<
-    ", measureNumber " << fMeasureNumber <<
-    ", positionInMeasure " << fPositionInMeasure <<
+    ", measureNumber " << fMeasureElementMeasureNumber <<
+    ", positionInMeasure " << fMeasureElementPositionInMeasure <<
 
 /* JMI
     ", " <<
@@ -705,8 +705,8 @@ string msrBarline::asString () const
     "["
     "Barline " <<
     barlineCategoryKindAsString (fBarlineCategoryKind) <<
-    ", measureNumber " << fMeasureNumber <<
-    ", positionInMeasure " << fPositionInMeasure <<
+    ", measureNumber " << fMeasureElementMeasureNumber <<
+    ", positionInMeasure " << fMeasureElementPositionInMeasure <<
 
     ", " <<
     barlineLocationKindAsString (fLocationKind) <<
@@ -746,8 +746,8 @@ void msrBarline::print (ostream& os) const
     "Barline, " <<
     barlineCategoryKindAsString (
       fBarlineCategoryKind) <<
-    ", measureNumber " << fMeasureNumber <<
-    ", positionInMeasure " << fPositionInMeasure <<
+    ", measureNumber " << fMeasureElementMeasureNumber <<
+    ", positionInMeasure " << fMeasureElementPositionInMeasure <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -813,11 +813,11 @@ void msrBarline::print (ostream& os) const
 
     setw (fieldWidth) <<
     "measureNumber" << " : " <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " <<
-    fPositionInMeasure <<
+    fMeasureElementPositionInMeasure <<
     endl;
 
   gIndenter--;

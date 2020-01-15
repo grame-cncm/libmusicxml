@@ -88,19 +88,22 @@ class musicXMLOah : public oahGroup
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMusicXMLWorkTitleOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMusicXMMeasuresOptions (
+    void                  initializeMusicXMLHeaderOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeMusicXMLClefsKeysTimesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMusicXMLDynamicsandWedgesOptions (
+    void                  initializeMusicXMMeasuresOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMusicXMLDynamicsAndWedgesOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeMusicXMLCombinedOptionsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMusicXMLLoopOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -127,27 +130,12 @@ class musicXMLOah : public oahGroup
     // fields
     // ------------------------------------------------------
 
-    // trace
-    // --------------------------------------
-
-    bool                  fTraceMusicXMLTreeVisitors;
-
-    // worktitle
+    // header
     // --------------------------------------
 
     bool                  fUseFilenameAsWorkTitle;
 
-    // measures
-    // --------------------------------------
-
-    // add empty measures
-    map<string,int>       fAddEmptyMeasuresStringToIntMap;
-
-    // dynamics and wedges
-    // --------------------------------------
-
-    bool                  fAllDynamicsBelow;
-    bool                  fAllWedgesBelow;
+    bool                  fUseLyricistsAsPoets; // lyricist is unknown to LilyPond
 
     // clefs, keys, times
     // --------------------------------------
@@ -160,15 +148,33 @@ class musicXMLOah : public oahGroup
     S_oahBooleanAtom      fIgnoreRedundantKeysAtom;
     S_oahBooleanAtom      fIgnoreRedundantTimesAtom;
 
+    // measures
+    // --------------------------------------
+
+    map<string,int>       fAddEmptyMeasuresStringToIntMap;
+
+    // dynamics and wedges
+    // --------------------------------------
+
+    bool                  fAllDynamicsBelow;
+    bool                  fAllWedgesBelow;
+
     // combined options, cubase
     // --------------------------------------
 
-    bool                  fCubase;
+    bool                  fCubase; // JMI ???
     bool                  fNoCubase;
+
+    // loop to do JMI
+    // --------------------------------------
+    bool                  fLoopToMusicXML;
 
 #ifdef TRACE_OAH
     // specific trace JMI move to traceOah
     // --------------------------------------
+
+    // visitors
+    bool                  fTraceMusicXMLTreeVisitors;
 
     // encoding
     bool                  fTraceEncoding;
@@ -182,9 +188,6 @@ class musicXMLOah : public oahGroup
     // forward
     bool                  fTraceForward;
 #endif
-
-    // to do JMI
-    bool                  fLoopToMusicXML;
 };
 typedef SMARTP<musicXMLOah> S_musicXMLOah;
 EXP ostream& operator<< (ostream& os, const S_musicXMLOah& elt);

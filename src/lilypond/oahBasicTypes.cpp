@@ -6027,7 +6027,7 @@ void oahStringToIntMapAtom::handleValue (
     stringstream s;
 
     s <<
-      "-resetMeasureNumber argument '" << theString <<
+      "-resetMeasureElementMeasureNumber argument '" << theString <<
       "' is ill-formed";
 
     oahError (s.str ());
@@ -6175,7 +6175,7 @@ void oahStringToIntMapAtom::print (ostream& os) const
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsResetMeasureNumberAtom:" <<
+    "OptionsResetMeasureElementMeasureNumberAtom:" <<
     endl;
 
   gIndenter++;

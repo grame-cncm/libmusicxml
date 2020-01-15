@@ -179,7 +179,7 @@ string wholeNotesAsLilypondString (
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
-abort ();
+abort (); // JMI
     return "???";
   }
 

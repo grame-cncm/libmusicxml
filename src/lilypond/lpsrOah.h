@@ -553,6 +553,8 @@ class lpsrOah : public oahGroup
     msrLength             fPaperHeight;
     msrLength             fPaperWidth;
 
+    // indents
+    msrLength             fPaperHorizontalShift;
     msrLength             fPaperIndent;
     msrLength             fPaperShortIndent;
 
@@ -565,6 +567,7 @@ class lpsrOah : public oahGroup
 
     int                   fPageCount;   // negative if not specified
     int                   fSystemCount; // negative if not specified
+
 
     // measures
     // --------------------------------------

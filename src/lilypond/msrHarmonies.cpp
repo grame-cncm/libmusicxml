@@ -364,7 +364,7 @@ msrHarmony::msrHarmony (
     harmonyBassQuarterTonesPitchKind;
 
 // JMI  fHarmonySoundingWholeNotes =
-  fSoundingWholeNotes =
+  fMeasureElementSoundingWholeNotes =
     harmonySoundingWholeNotes;
   fHarmonyDisplayWholeNotes =
     harmonyDisplayWholeNotes;
@@ -475,7 +475,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
 // JMI        fHarmonySoundingWholeNotes,
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fHarmonyDisplayWholeNotes,
         fHarmonyStaffNumber,
         fHarmonyTupletFactor,
@@ -512,7 +512,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
 // JMI        fHarmonySoundingWholeNotes,
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fHarmonyDisplayWholeNotes,
         fHarmonyStaffNumber,
         fHarmonyTupletFactor,
@@ -567,7 +567,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setPositionInMeasure (
+  msrMeasureElement::setMeasureElementPositionInMeasure (
     actualPositionInMeasure,
     "setHarmonyPositionInMeasure()");
 }
@@ -647,14 +647,14 @@ string msrHarmony::asString () const
     msrHarmonyKindAsShortString (fHarmonyKind) <<
 
     ", harmonySoundingWholeNotes: " <<
-    fSoundingWholeNotes <<
+    fMeasureElementSoundingWholeNotes <<
     ", harmonyDisplayWholeNotes: " <<
     fHarmonyDisplayWholeNotes <<
 
     ", harmonyWholeNotesOffset: " <<
     fHarmonyWholeNotesOffset <<
     ", positionInMeasure: " <<
-    fPositionInMeasure <<
+    fMeasureElementPositionInMeasure <<
 
     ", harmonyKindText: \"" <<
     fHarmonyKindText << "\"";
@@ -739,7 +739,7 @@ void msrHarmony::print (ostream& os) const
 
     setw (fieldWidth) <<
     "harmonySoundingWholeNotes" << " : " <<
-    fSoundingWholeNotes <<
+    fMeasureElementSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "harmonyDisplayWholeNotes" << " : " <<
@@ -755,7 +755,7 @@ void msrHarmony::print (ostream& os) const
   // print the harmony position in measure
   os <<
     setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fPositionInMeasure <<
+    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
     endl;
 
   os <<

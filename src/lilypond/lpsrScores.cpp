@@ -251,6 +251,83 @@ lpsrScore::lpsrScore (
       fMsrScore->getScaling (),
       fMsrScore->getPageLayout ());
 
+  // populate the paper
+/* JMI
+  // populate paper
+  msrLength paperWidth =
+    elt->getPaperWidth ();
+  if (gLpsrOah->fPaperWidth.getLengthValue () > 0.0) {
+    paperWidth = gLpsrOah->fPaperWidth;
+  }
+  paper ->
+    setPaperWidth (paperWidth);
+
+  msrLength paperHeight =
+    elt->getPaperHeight ();
+  if (gLpsrOah->fPaperHeight.getLengthValue () > 0.0) {
+    paperWidth = gLpsrOah->fPaperHeight;
+  }
+  paper->
+    setPaperHeight (paperHeight);
+
+  msrLength topMargin =
+    elt->getTopMargin ();
+  if (gLpsrOah->fTopMargin > 0.0) {
+    topMargin = gLpsrOah->fTopMargin;
+  }
+  paper->
+    setTopMargin (topMargin);
+
+  msrLength bottomMargin =
+    elt->getBottomMargin ();
+  if (gLpsrOah->fBottomMargin > 0.0) {
+    bottomMargin = gLpsrOah->fBottomMargin;
+  }
+  paper->
+    setBottomMargin (bottomMargin);
+
+  msrLength leftMargin =
+    elt->getLeftMargin ();
+  if (gLpsrOah->fLeftMargin > 0.0) {
+    leftMargin = gLpsrOah->fLeftMargin;
+  }
+  paper->
+    setLeftMargin (leftMargin);
+
+  msrLength rightMargin =
+    elt->getRightMargin ();
+  if (gLpsrOah->fRightMargin > 0.0) {
+    rightMargin = gLpsrOah->fRightMargin;
+  }
+  paper->
+    setRightMargin (rightMargin);
+*/
+
+    // indents
+  if (gLpsrOah->fPaperHorizontalShift.getLengthValue () > 0.0) {
+    fScorePaper->
+      setHorizontalShift (
+        msrLength::create (
+          gLpsrOah->fPaperHorizontalShift.getLengthUnitKind (),
+          gLpsrOah->fPaperHorizontalShift.getLengthValue ()));
+  }
+
+  if (gLpsrOah->fPaperIndent.getLengthValue () > 0.0) {
+    fScorePaper->
+      setIndent (
+        msrLength::create (
+          gLpsrOah->fPaperIndent.getLengthUnitKind (),
+          gLpsrOah->fPaperIndent.getLengthValue ()));
+  }
+
+  if (gLpsrOah->fPaperShortIndent.getLengthValue () > 0.0) {
+    fScorePaper->
+      setShortIndent (
+        msrLength::create (
+          gLpsrOah->fPaperShortIndent.getLengthUnitKind (),
+          gLpsrOah->fPaperShortIndent.getLengthValue ()));
+  }
+
   if (gLilypondOah->fLilypondCompileDate) {
     // define headers and footers
 
