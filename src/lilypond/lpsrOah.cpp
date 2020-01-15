@@ -2195,7 +2195,7 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "resetMeasureNumberMap" << " : ";
+    setw (fieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
   if (! fAddEmptyMeasuresStringToIntMap.size ()) {
     gLogOstream << "empty";
   }

@@ -371,8 +371,8 @@ msrFiguredBass::msrFiguredBass (
 
 // JMI  fFiguredBassSoundingWholeNotes =
 // JMI    figuredBassSoundingWholeNotes;
-  fSoundingWholeNotes =
-    fSoundingWholeNotes;
+  fMeasureElementSoundingWholeNotes =
+    fMeasureElementSoundingWholeNotes;
   fFiguredBassDisplayWholeNotes =
     figuredBassDisplayWholeNotes;
 
@@ -416,7 +416,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
         fInputLineNumber,
  //       containingPart,
 // JMI        fFiguredBassSoundingWholeNotes,
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fFiguredBassDisplayWholeNotes,
         fFiguredBassParenthesesKind,
         fFiguredBassTupletFactor);
@@ -450,7 +450,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
         fInputLineNumber,
    //     containingPart,
 // JMI        fFiguredBassSoundingWholeNotes,
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fFiguredBassDisplayWholeNotes,
         fFiguredBassParenthesesKind,
         fFiguredBassTupletFactor);
@@ -489,7 +489,7 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
 #endif
 
 /* JMI
-  msrMeasureElement::setPositionInMeasure (
+  msrMeasureElement::setMeasureElementPositionInMeasure (
     actualPositionInMeasure,
     "setHarmonyPositionInMeasure()");
   */
@@ -592,11 +592,10 @@ string msrFiguredBass::asString () const
 
   s <<
     "[Figured bass" <<
-    ", figuredBassSoundingWholeNotes: " <<
+    ", measureElementSoundingWholeNotes: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
-// JMI      fFiguredBassSoundingWholeNotes) <<
-      fSoundingWholeNotes) <<
+      fMeasureElementSoundingWholeNotes) <<
     ", figuredBassDisplayWholeNotes: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
@@ -627,7 +626,7 @@ string msrFiguredBass::asString () const
 
   // print the figured bass position in measure
   s <<
-    ", positionInMeasure: " << fPositionInMeasure;
+    ", positionInMeasure: " << fMeasureElementPositionInMeasure;
 
 /* JMI
   if (fFiguredBassPartUpLink) { // JMI ???
@@ -680,11 +679,10 @@ void msrFiguredBass::print (ostream& os) const
   os << endl;
 
   os << left <<
-//    setw (fieldWidth) <<
-//    "figuredBassSoundingWholeNotes" << " : " <<
- // JMI   fFiguredBassSoundingWholeNotes <<
-//    fSoundingWholeNotes <<
-//    endl <<
+    setw (fieldWidth) <<
+    "measureElementSoundingWholeNotes" << " : " <<
+    fMeasureElementSoundingWholeNotes <<
+    endl <<
 
     setw (fieldWidth) <<
     "figuredBassDisplayWholeNotes" << " : " <<
@@ -722,7 +720,7 @@ void msrFiguredBass::print (ostream& os) const
   // print the figured bass position in measure
   os <<
     setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fPositionInMeasure <<
+    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
     endl;
 
   gIndenter--;

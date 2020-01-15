@@ -574,8 +574,12 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
-      "Appending harmony " << harmony->asString () <<
+      "Appending harmony " <<
+      harmony->asString () <<
       " to segment " << asString () <<
+      " in voice \"" <<
+      fSegmentVoiceUpLink->getVoiceName () <<
+      "\"" <<
       endl;
   }
 #endif
@@ -589,17 +593,8 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
   assertSegmentMeasuresListIsNotEmpty (
     inputLineNumber);
 
-/* JMI
-  // skip to harmony note position in the voice
-  padUpToPositionInMeasureInSegment (
-    inputLineNumber,
-    harmony->
-   // JMI  getHarmonyNoteUpLink ()->
-        getPositionInMeasure ());
-*/
-
-  // append it to this segment
-  fSegmentMeasuresList.back ()-> // JMI ???
+  // append harmony to this segment
+  fSegmentMeasuresList.back ()->
     appendHarmonyToMeasure (harmony);
 
   gIndenter--;
@@ -641,7 +636,7 @@ void msrSegment::appendFiguredBassToSegment (
       "Appending figured bass " <<
       figuredBass->asString () <<
       " to segment " << asString () <<
-      "' in voice \"" <<
+      " in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<
       endl;
@@ -657,15 +652,8 @@ void msrSegment::appendFiguredBassToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     inputLineNumber);
 
-  // skip to figured bass note position in the voice
-  padUpToPositionInMeasureInSegment (
-    inputLineNumber,
-    figuredBass->
-   // JMI  getHarmonyNoteUpLink ()->
-        getPositionInMeasure ());
-
-  // append it to this segment
-  fSegmentMeasuresList.back ()-> // JMI ???
+  // append figuredBass to this segment
+  fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
 
   gIndenter--;
@@ -1344,7 +1332,7 @@ void msrSegment::padUpToPositionInMeasureInSegment (
 
 void msrSegment::backupByWholeNotesStepLengthInSegment (
   int      inputLineNumber,
-  rational backupTargetPositionInMeasure)
+  rational backupTargetMeasureElementPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (
@@ -1356,7 +1344,7 @@ void msrSegment::backupByWholeNotesStepLengthInSegment (
   ) {
     gLogOstream <<
       "Backup by a '" <<
-      backupTargetPositionInMeasure <<
+      backupTargetMeasureElementPositionInMeasure <<
       "' whole notes step length in segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -1373,7 +1361,7 @@ void msrSegment::backupByWholeNotesStepLengthInSegment (
     fSegmentMeasuresList.back ()->
       backupByWholeNotesStepLengthInMeasure (
         inputLineNumber,
-        backupTargetPositionInMeasure);
+        backupTargetMeasureElementPositionInMeasure);
   }
 }
 
@@ -1417,7 +1405,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     measure->getInputLineNumber ();
 
   string measureNumber =
-    measure->getMeasureNumber ();
+    measure->getMeasureElementMeasureNumber ();
 
   int segmentMeasuresListSize =
     fSegmentMeasuresList.size ();
@@ -1425,7 +1413,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   string currentMeasureNumber =
     segmentMeasuresListSize == 0
       ? ""
-      : fSegmentMeasuresList.back ()->getMeasureNumber ();
+      : fSegmentMeasuresList.back ()->getMeasureElementMeasureNumber ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
@@ -1497,7 +1485,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
     measure->getInputLineNumber ();
 
   string measureNumber =
-    measure->getMeasureNumber ();
+    measure->getMeasureElementMeasureNumber ();
 
   int segmentMeasuresListSize =
     fSegmentMeasuresList.size ();
@@ -1505,7 +1493,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
   string currentMeasureNumber =
     segmentMeasuresListSize == 0
       ? ""
-      : fSegmentMeasuresList.back ()->getMeasureNumber ();
+      : fSegmentMeasuresList.back ()->getMeasureElementMeasureNumber ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
@@ -2182,7 +2170,7 @@ string msrSegment::asString () const
       i      = iBegin;
 
     for ( ; ; ) {
-      s << (*i)->getMeasureNumber ();
+      s << (*i)->getMeasureElementMeasureNumber ();
       if (++i == iEnd) break;
       s << ", ";
     } // for

@@ -452,10 +452,11 @@ void msrVoice::initializeVoice (
   fMusicHasBeenInsertedInVoice = false;
 
   // counters
-  fVoiceActualNotesCounter     = 0;
-  fVoiceRestsCounter           = 0;
-  fVoiceSkipsCounter           = 0;
-  fVoiceActualHarmoniesCounter = 0;
+  fVoiceActualNotesCounter         = 0;
+  fVoiceRestsCounter               = 0;
+  fVoiceSkipsCounter               = 0;
+  fVoiceActualHarmoniesCounter     = 0;
+  fVoiceActualFiguredBassesCounter = 0;
 
   // regular measure ends detection
   fWholeNotesSinceLastRegularMeasureEnd = rational (0, 1);
@@ -643,6 +644,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 
   voiceDeepCopy->fVoiceActualHarmoniesCounter =
     fVoiceActualHarmoniesCounter;
+
+  voiceDeepCopy->fVoiceActualFiguredBassesCounter =
+    fVoiceActualFiguredBassesCounter;
 
   // measures
   voiceDeepCopy->fVoiceCurrentMeasureNumber =
@@ -1030,7 +1034,7 @@ void msrVoice::createNewLastSegmentFromItsFirstMeasureForVoice (
       "Creating a new last segment '" <<
       fVoiceLastSegment->asShortString () <<
       "' from its first measure '" <<
-      firstMeasure->getMeasureNumber () <<
+      firstMeasure->getMeasureElementMeasureNumber () <<
       "' for voice \"" <<
       getVoiceName () <<
       "\" (" << context << ")" <<
@@ -1768,6 +1772,27 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   fMusicHasBeenInsertedInVoice = true;
 }
 
+void msrVoice::appendFiguredBassToFiguredBassVoice (
+  S_msrFiguredBass figuredBass)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "Appending figuredBass " << figuredBass->asString () <<
+      " to figuredBass voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+#endif
+
+  // append the figuredBass to the voice last segment
+  fVoiceLastSegment->
+    appendFiguredBassToSegment (figuredBass);
+
+  // register harmony
+  fVoiceActualFiguredBassesCounter++;
+  fMusicHasBeenInsertedInVoice = true;
+}
+
 void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 {
 #ifdef TRACE_OAH
@@ -1829,24 +1854,11 @@ void msrVoice::appendFiguredBassToVoice (
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
+  // sanity check
   switch (fVoiceKind) {
     case msrVoice::kVoiceFiguredBass:
-    /* JMI too early
-      // skip to figured bass note position in the voice
-      padUpToPositionInMeasureInVoice (
-        inputLineNumber,
-        figuredBass->
-          getFiguredBassNoteUpLink ()->
-            getPositionInMeasure ());
-*/
-
-      // append the figured bass to the voice last segment
-      fVoiceLastSegment->
-        appendFiguredBassToSegment (figuredBass);
-
-      // register figured bass
-      fVoiceActualFiguredBassesCounter++;
-      fMusicHasBeenInsertedInVoice = true;
+      appendFiguredBassToFiguredBassVoice (
+        figuredBass);
       break;
 
     case msrVoice::kVoiceRegular:
@@ -1965,13 +1977,13 @@ void msrVoice::padUpToPositionInMeasureInVoice (
 
 void msrVoice::backupByWholeNotesStepLengthInVoice (
   int      inputLineNumber,
-  rational backupTargetPositionInMeasure)
+  rational backupTargetMeasureElementPositionInMeasure)
 {
 #ifdef TRACE_OAH
   if (gMusicXMLOah->fTraceBackup) {
     gLogOstream <<
       "Backup by a '" <<
-      backupTargetPositionInMeasure <<
+      backupTargetMeasureElementPositionInMeasure <<
       "' whole notes step length in voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -1990,7 +2002,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
   fVoiceLastSegment->
     backupByWholeNotesStepLengthInSegment (
       inputLineNumber,
-      backupTargetPositionInMeasure);
+      backupTargetMeasureElementPositionInMeasure);
 
   gIndenter--;
 }
@@ -3771,7 +3783,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
           // and append it to the voice,
           createMeasureAndAppendItToVoice (
             inputLineNumber,
-            lastMeasureInLastSegment->getMeasureNumber (),
+            lastMeasureInLastSegment->getMeasureElementMeasureNumber (),
             msrMeasure::kMeasureImplicitKindNo);
 
         /* JMI
@@ -9260,6 +9272,9 @@ void msrVoice::print (ostream& os) const
       fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
      ", " <<
     singularOrPlural (
+      fVoiceActualFiguredBassesCounter, "figured bass", "figured basses") <<
+     ", " <<
+    singularOrPlural (
       fVoiceActualNotesCounter, "actual note", "actual notes") <<
      ", " <<
     singularOrPlural (
@@ -9515,7 +9530,7 @@ void msrVoice::print (ostream& os) const
         os << (*i)->asShortString ();
       }
       else {
-        os << (*i)->getMeasureNumber ();
+        os << (*i)->getMeasureElementMeasureNumber ();
       }
       if (++i == iEnd) break;
       os << ' ';
@@ -9693,6 +9708,6 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
           // and append it to the voice,
           createMeasureAndAppendItToVoice (
             inputLineNumber,
-            lastMeasureInLastSegment->getMeasureNumber (),
+            lastMeasureInLastSegment->getMeasureElementMeasureNumber (),
             msrMeasure::kMeasureImplicitKindNo);
             */

@@ -224,10 +224,10 @@ class msrHarmony : public msrMeasureElement
 
     void                  setHarmonySoundingWholeNotes (
                             rational wholeNotes)
-                              { fSoundingWholeNotes = wholeNotes; }
+                              { fMeasureElementSoundingWholeNotes = wholeNotes; }
 
     rational              getHarmonySoundingWholeNotes () const
-                              { return fSoundingWholeNotes; }
+                              { return fMeasureElementSoundingWholeNotes; }
 
     void                  setHarmonyDisplayWholeNotes (
                             rational wholeNotes)

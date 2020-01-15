@@ -440,7 +440,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
   rational positionInMeasure)
 {
-  msrMeasureElement::setPositionInMeasure (
+  msrMeasureElement::setMeasureElementPositionInMeasure (
     positionInMeasure,
     "setDoubleTremoloPositionInMeasure()");
 }
@@ -448,7 +448,7 @@ void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
 void msrDoubleTremolo::setDoubleTremoloMeasureNumber (
   string measureNumber)
 {
-  fMeasureNumber =  measureNumber;
+  fMeasureElementMeasureNumber =  measureNumber;
 }
 
 void msrDoubleTremolo::acceptIn (basevisitor* v)

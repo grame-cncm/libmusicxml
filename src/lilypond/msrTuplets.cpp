@@ -79,7 +79,7 @@ msrTuplet::msrTuplet (
   fMemberNotesSoundingWholeNotes = memberNotesSoundingWholeNotes;
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
 
-  fSoundingWholeNotes       = rational (0, 1);
+  fMeasureElementSoundingWholeNotes       = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
 
 #ifdef TRACE_OAH
@@ -115,7 +115,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
     newbornClone =
       msrTuplet::create (
         fInputLineNumber,
-        fMeasureNumber,
+        fMeasureElementMeasureNumber,
         fTupletNumber,
         fTupletBracketKind,
         fTupletLineShapeKind,
@@ -126,17 +126,17 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
         fMemberNotesDisplayWholeNotes);
 
 /* JMI ???
-  newbornClone->fSoundingWholeNotes =
-    fSoundingWholeNotes;
+  newbornClone->fMeasureElementSoundingWholeNotes =
+    fMeasureElementSoundingWholeNotes;
 
   newbornClone->fTupletDisplayWholeNotes =
     fTupletDisplayWholeNotes;
 
-  newbornClone->fMeasureNumber =
-    fMeasureNumber;
+  newbornClone->fMeasureElementMeasureNumber =
+    fMeasureElementMeasureNumber;
 
-  newbornClone->fPositionInMeasure =
-    fPositionInMeasure;
+  newbornClone->fMeasureElementPositionInMeasure =
+    fMeasureElementPositionInMeasure;
 */
 
   return newbornClone;
@@ -268,9 +268,9 @@ void msrTuplet::addNoteToTuplet (
     setNoteTupletUpLink (this);
 
   // account for note duration in tuplet duration
-  fSoundingWholeNotes +=
+  fMeasureElementSoundingWholeNotes +=
     note->getNoteSoundingWholeNotes ();
-  fSoundingWholeNotes.rationalise ();
+  fMeasureElementSoundingWholeNotes.rationalise ();
 
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();
@@ -306,9 +306,9 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   // DO NOT account for the chord duration,
   // since its first note has been accounted for already
   /* JMI
-  fSoundingWholeNotes +=
+  fMeasureElementSoundingWholeNotes +=
     chord->getChordSoundingWholeNotes ();
-  fSoundingWholeNotes.rationalise ();
+  fMeasureElementSoundingWholeNotes.rationalise ();
 */
 
   fTupletDisplayWholeNotes += // JMI
@@ -318,7 +318,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 /* too early JMI
   // populate chord's measure number
   chord->setChordMeasureNumber (
-    fMeasureNumber);
+    fMeasureElementMeasureNumber);
 */
 }
 
@@ -348,9 +348,9 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   fTupletElementsList.push_back (tuplet);
 
   // account for tuplet duration
-  fSoundingWholeNotes +=
+  fMeasureElementSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
-  fSoundingWholeNotes.rationalise ();
+  fMeasureElementSoundingWholeNotes.rationalise ();
 
   fTupletDisplayWholeNotes += // JMI
     tuplet->getTupletDisplayWholeNotes ();
@@ -377,9 +377,9 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   fTupletElementsList.push_back (tuplet);
 
   // account for tuplet duration
-  fSoundingWholeNotes +=
+  fMeasureElementSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
-  fSoundingWholeNotes.rationalise ();
+  fMeasureElementSoundingWholeNotes.rationalise ();
 
   fTupletDisplayWholeNotes +=
     tuplet->getTupletDisplayWholeNotes ();
@@ -469,9 +469,9 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
         fTupletElementsList.erase (i);
 
         // account for note duration
-        fSoundingWholeNotes -=
+        fMeasureElementSoundingWholeNotes -=
           note->getNoteSoundingWholeNotes ();
-        fSoundingWholeNotes.rationalise ();
+        fMeasureElementSoundingWholeNotes.rationalise ();
 
         fTupletDisplayWholeNotes -= // JMI
           note->getNoteDisplayWholeNotes ();
@@ -556,9 +556,9 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
 /*
       // decrement the tuplet sounding whole notes accordingly ??? JMI BAD???
-      fSoundingWholeNotes +=
+      fMeasureElementSoundingWholeNotes +=
         note->getNoteSoundingWholeNotes ();
-      fSoundingWholeNotes.rationalise ();
+      fMeasureElementSoundingWholeNotes.rationalise ();
 */
 
       result = note;
@@ -626,7 +626,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setPositionInMeasure (
+  msrMeasureElement::setMeasureElementPositionInMeasure (
     positionInMeasure,
     "setTupletMembersPositionInMeasure()");
 
@@ -761,7 +761,7 @@ void msrTuplet::finalizeTuplet (
 / * JMI
   // we can now set the position in measure for all the tuplet members
   setTupletMembersPositionInMeasure (
-    fPositionInMeasure);
+    fMeasureElementPositionInMeasure);
   * /
 }
 */
@@ -831,16 +831,16 @@ string msrTuplet::asString () const
     "[" <<
     "Tuplet " <<
     fTupletFactor.asString () <<
-    " " << fSoundingWholeNotes << " tupletSoundingWholeNotes" <<
+    " " << fMeasureElementSoundingWholeNotes << " tupletSoundingWholeNotes" <<
     ", measure ' "<<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     "':";
 
-  if (fPositionInMeasure.getNumerator () < 0) {
+  if (fMeasureElementPositionInMeasure.getNumerator () < 0) {
     s << "?";
   }
   else {
-    s << fPositionInMeasure;
+    s << fMeasureElementPositionInMeasure;
   }
 
   s << "[[";
@@ -903,10 +903,10 @@ void msrTuplet::print (ostream& os) const
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
-    fSoundingWholeNotes << " sounding, " <<
+    fMeasureElementSoundingWholeNotes << " sounding, " <<
     fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -947,7 +947,7 @@ void msrTuplet::print (ostream& os) const
 
     setw (fieldWidth) <<
     "tupletSoundingWholeNotes" << " : " <<
-    fSoundingWholeNotes <<
+    fMeasureElementSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "tupletDisplayWholeNotes" << " : " <<
@@ -956,11 +956,11 @@ void msrTuplet::print (ostream& os) const
 
     setw (fieldWidth) <<
     "tupletMeasureNumber" << " : " <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " <<
-    fPositionInMeasure <<
+    fMeasureElementPositionInMeasure <<
     endl <<
     endl;
 
@@ -968,11 +968,11 @@ void msrTuplet::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "(position in measure" << " : ";
-  if (fPositionInMeasure.getNumerator () < 0) {
+  if (fMeasureElementPositionInMeasure.getNumerator () < 0) {
     os << "???)";
   }
   else {
-    os << fPositionInMeasure << ")";
+    os << fMeasureElementPositionInMeasure << ")";
   }
   os << endl;
     */
@@ -1020,10 +1020,10 @@ void msrTuplet::printShort (indentedOstream& os)
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
-    fSoundingWholeNotes << " sounding, " <<
+    fMeasureElementSoundingWholeNotes << " sounding, " <<
     fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -1064,7 +1064,7 @@ void msrTuplet::printShort (indentedOstream& os)
 
     setw (fieldWidth) <<
     "tupletSoundingWholeNotes" << " : " <<
-    fSoundingWholeNotes <<
+    fMeasureElementSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "tupletDisplayWholeNotes" << " : " <<
@@ -1073,11 +1073,11 @@ void msrTuplet::printShort (indentedOstream& os)
 
     setw (fieldWidth) <<
     "tupletMeasureNumber" << " : " <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " <<
-    fPositionInMeasure <<
+    fMeasureElementPositionInMeasure <<
     endl <<
     endl;
 
@@ -1085,11 +1085,11 @@ void msrTuplet::printShort (indentedOstream& os)
   os << left <<
     setw (fieldWidth) <<
     "(position in measure" << " : ";
-  if (fPositionInMeasure.getNumerator () < 0) {
+  if (fMeasureElementPositionInMeasure.getNumerator () < 0) {
     os << "???)";
   }
   else {
-    os << fPositionInMeasure << ")";
+    os << fMeasureElementPositionInMeasure << ")";
   }
   os << endl;
     */

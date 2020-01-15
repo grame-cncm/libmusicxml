@@ -80,7 +80,7 @@ class msrSegment : public msrVoiceElement
 
     void                  backupByWholeNotesStepLengthInSegment (
                             int      inputLineNumber,
-                            rational backupTargetPositionInMeasure);
+                            rational backupTargetMeasureElementPositionInMeasure);
 
     void                  appendPaddingNoteToSegment (
                             int      inputLineNumber,

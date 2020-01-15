@@ -62,7 +62,7 @@ msrMeasure::msrMeasure (
     measureSegmentUpLink;
 
   // set measure numbers
-  fMeasureNumber = measureNumber;
+  fMeasureElementMeasureNumber = measureNumber;
   fMeasurePuristNumber = -1; // default irrealist value
   fNextMeasureNumber = "";
 
@@ -84,7 +84,7 @@ void msrMeasure::initializeMeasure ()
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Initializing measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment '" <<
@@ -176,7 +176,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a newborn clone of measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment " <<
@@ -200,7 +200,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
     newbornClone =
       msrMeasure::create (
         fInputLineNumber,
-        fMeasureNumber,
+        fMeasureElementMeasureNumber,
         containingSegment);
 
   // next measure number
@@ -257,7 +257,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a deep copy of measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment " <<
@@ -281,7 +281,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     measureDeepCopy =
       msrMeasure::create (
         fInputLineNumber,
-        fMeasureNumber,
+        fMeasureElementMeasureNumber,
         containingSegment);
 
   // lengthes
@@ -318,7 +318,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         singularOrPlural (
           numberOfMeasureElements, "element", "elements") <<
         " to be deep copied in measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "' in segment " <<
@@ -367,7 +367,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
             "Sharing time " <<
             time->asShortString () <<
             " in measure '" <<
-            fMeasureNumber <<
+            fMeasureElementMeasureNumber <<
             ", measureDebugNumber: '" <<
             fMeasureDebugNumber <<
             "'deep copy" <<
@@ -437,7 +437,7 @@ void msrMeasure::setMeasureEndRegularKind (
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting regular kind of measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         "' to '" <<
         measureEndRegularKindAsString (measureEndRegularKind) <<
         "' in segment " <<
@@ -462,7 +462,7 @@ void msrMeasure::setMeasuresRepeatContextKind (
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting repeat context kind of measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         "' to '" <<
         measuresRepeatContextKindAsString (measuresRepeatContextKind) <<
         "' in segment " <<
@@ -487,7 +487,7 @@ void msrMeasure::setMeasurePuristNumber (
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting purist number of measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         "' to '" <<
         measurePuristNumber <<
         "' in segment " <<
@@ -531,12 +531,12 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 
   // set elem's measure number
   elem->
-    setMeasureNumber (
-      fMeasureNumber);
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
 
   // set elem's position in measure
   elem->
-    setPositionInMeasure (
+    setMeasureElementPositionInMeasure (
       fCurrentMeasureWholeNotesDuration,
       "appendElementToMeasure()");
 
@@ -572,12 +572,12 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
 
   // set elem's measure number
   elem->
-    setMeasureNumber (
-      fMeasureNumber);
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
 
   // set elem's position in measure
   elem->
-    setPositionInMeasure (
+    setMeasureElementPositionInMeasure (
       fCurrentMeasureWholeNotesDuration,
       "insertElementInMeasureBeforeIterator()");
 
@@ -588,7 +588,7 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
   // account for elem's duration in current measure whole notes
   incrementCurrentMeasureWholeNotesDuration (
     inputLineNumber,
-    elem->getSoundingWholeNotes ());
+    elem->getMeasureElementSoundingWholeNotes ());
 }
 
 void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
@@ -608,7 +608,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         getSegmentVoiceUpLink ()
           ->getVoiceName () <<
       "\", has position in measure '" <<
-      elem->getPositionInMeasure () <<
+      elem->getMeasureElementPositionInMeasure () <<
       ", currentMeasureWholeNotesDuration = " <<
       fCurrentMeasureWholeNotesDuration <<
       ", line " << inputLineNumber <<
@@ -648,13 +648,13 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
               ->getVoiceName () <<
           "\", line " << inputLineNumber <<
           ", has position in measure '" <<
-          measureElement->getPositionInMeasure () <<
+          measureElement->getMeasureElementPositionInMeasure () <<
           ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
           endl;
       }
 #endif
 
-      if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotesDuration) { // JMI
+      if (measureElement->getMeasureElementPositionInMeasure () == fCurrentMeasureWholeNotesDuration) { // JMI
         // this is where measureElement should be appended
 
 #ifdef TRACE_OAH
@@ -670,7 +670,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
                 ->getVoiceName () <<
             "\", line " << inputLineNumber <<
             ", has position in measure '" <<
-            measureElement->getPositionInMeasure () <<
+            measureElement->getMeasureElementPositionInMeasure () <<
             ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
             endl;
         }
@@ -678,7 +678,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 
         // set measureElement's position in measure
         measureElement->
-          setPositionInMeasure (
+          setMeasureElementPositionInMeasure (
             fCurrentMeasureWholeNotesDuration,
             "appendElementAtTheEndOfMeasure(), delayed element");
 
@@ -804,7 +804,7 @@ void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
       "Setting next measure number to '" <<
       nextMeasureNumber <<
       "' in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment " <<
@@ -828,7 +828,7 @@ void msrMeasure::setMeasureFirstInVoice ()
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' as first measure in voice \"" <<
@@ -868,7 +868,7 @@ void msrMeasure::setCurrentMeasureWholeNotesDuration (
   if (gTraceOah->fTraceWholeNotes || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting current whole notes of measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' to '"  <<
@@ -921,7 +921,7 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
   if (gTraceOah->fTraceWholeNotes || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Incrementing current whole notes of measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' from '"  <<
@@ -974,7 +974,7 @@ void msrMeasure::setMeasureKind (
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Setting measure kind of measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         "' to '" <<
         measureKindAsString (measureKind) <<
         "' in segment " <<
@@ -999,7 +999,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
     gLogOstream <<
       "Appending clef '" << clef->asString () <<
       "' to measure " <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       ", in voice \"" <<
@@ -1020,7 +1020,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
     gLogOstream <<
       "Appending key '" << key->asString () <<
       "' to measure " <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       ", in voice \"" <<
@@ -1056,7 +1056,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
 
     gLogOstream <<
       "' to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1107,7 +1107,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 
     gLogOstream <<
       "to measure clone '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment clone '" <<
@@ -1152,7 +1152,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
     gLogOstream <<
       "for measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1204,7 +1204,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
           gLogOstream <<
             "in measure '" <<
-            fMeasureNumber << "'" <<
+            fMeasureElementMeasureNumber << "'" <<
             ", measureDebugNumber: '" <<
             fMeasureDebugNumber <<
             ", line " << fInputLineNumber <<
@@ -1230,7 +1230,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
           gTraceOah->fTraceMeasures) {
           gLogOstream <<
             "Measure '" <<
-            fMeasureNumber <<
+            fMeasureElementMeasureNumber <<
             ", measureDebugNumber: '" <<
             fMeasureDebugNumber <<
             "' in voice \"" <<
@@ -1261,7 +1261,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
       ) {
         gLogOstream <<
           "Measure '" <<
-          fMeasureNumber <<
+          fMeasureElementMeasureNumber <<
           ", measureDebugNumber: '" <<
           fMeasureDebugNumber <<
           "' in voice \"" <<
@@ -1353,7 +1353,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       "Appending barline " <<
       barline->asShortString () <<
       " to measure " <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1365,15 +1365,15 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
   // register barline's measure number
   barline->
-    setMeasureNumber (
-      fMeasureNumber);
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
 
   // set barline's position in measure if relevant
   switch (voice->getVoiceKind ()) {
     case msrVoice::kVoiceRegular:
       // register barline position in measure
       barline->
-        setPositionInMeasure (
+        setMeasureElementPositionInMeasure (
           fCurrentMeasureWholeNotesDuration,
           "appendBarlineToMeasure()");
       break;
@@ -1472,7 +1472,7 @@ void msrMeasure::appendNoteToMeasure (
     gLogOstream <<
       "Appending note '" << note->asShortString () <<
       "' to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1503,7 +1503,7 @@ void msrMeasure::appendNoteToMeasure (
       paddingNote =
         msrNote::createSkipNote (
           inputLineNumber,
-          fMeasureNumber,
+          fMeasureElementMeasureNumber,
           positionsDelta,
           positionsDelta,
           0, // dots number JMI ???
@@ -1526,7 +1526,7 @@ void msrMeasure::appendNoteToMeasure (
       " is smaller than fCurrentMeasureWholeNotesDuration " <<
       fCurrentMeasureWholeNotesDuration <<
       "' in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "', cannot padup in voice \"" <<
@@ -1573,7 +1573,7 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
     gLogOstream <<
       "Appending note or padding '" << note->asShortString () <<
       "' to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1594,8 +1594,8 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
 
   // set note's measure number
   note->
-    setMeasureNumber (
-      fMeasureNumber);
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
 
   // set the note's position in measure,
   // this can lead to set the position in measure of the harmonies
@@ -1673,7 +1673,7 @@ void msrMeasure::accountForTupletMemberNoteDurationInMeasure (
       "Accounting for the duration of tuplet member note '" <<
       note->asShortString () <<
       "' in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1711,7 +1711,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
     gLogOstream <<
       "Appending padding note '" << note->asShortString () <<
       "' at the end of measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1780,7 +1780,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     gLogOstream <<
       "Appending note '" << note->asShortString () <<
       "' to measure clone '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment clone '" <<
@@ -1856,7 +1856,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
       "Appending double tremolo '" <<
       doubleTremolo->asShortString () <<
       "' to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1873,7 +1873,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // register doubleTremolo measure number
   doubleTremolo->
     setDoubleTremoloMeasureNumber (
-      fMeasureNumber);
+      fMeasureElementMeasureNumber);
 
   // register doubleTremolo measure position in measure
   doubleTremolo->
@@ -1883,7 +1883,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // copy measure number to first note, that was created beforehand
   doubleTremolo->
     setDoubleTremoloMeasureNumber (
-      fMeasureNumber);
+      fMeasureElementMeasureNumber);
 
   // copy measure position to first note, that was created beforehand
   doubleTremolo->
@@ -1927,7 +1927,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     gLogOstream <<
       "Appending chord '" << chord->asString () <<
       "' to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -1971,7 +1971,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     gLogOstream <<
       "Appending tuplet " << tuplet->asString () <<
       " to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -2011,7 +2011,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     gLogOstream <<
       "Appending harmony " << harmony->asString () <<
       " to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment '" <<
@@ -2027,10 +2027,10 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   }
 #endif
 
-  // set S_msrHarmony's measure number
+  // set harmony's measure number
   harmony->
-    setMeasureNumber (
-      fMeasureNumber);
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
 
   // append the harmony to the measure elements list
   // DON'T call 'appendElementToMeasure (harmony)':
@@ -2058,14 +2058,12 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
-  // regular insertion in current measure
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Appending harmony " << harmony->asString () <<
       " to measure clone '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment clone '" <<
@@ -2110,7 +2108,7 @@ void msrMeasure::appendFiguredBassToMeasure (
     gLogOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -2124,8 +2122,21 @@ void msrMeasure::appendFiguredBassToMeasure (
   }
 #endif
 
+  // set figuredBass's measure number
+  figuredBass->
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
+
+/* JMI
   // append the harmony to the measure elements list
   appendElementToMeasure (figuredBass);
+*/
+
+  // append the figuredBass to the measure elements list
+  // DON'T call 'appendElementToMeasure (figuredBass)': // JMI
+  // that would override harmony's position in measure,
+  // which already has the correct value, thus:
+  fMeasureElementsList.push_back (figuredBass);
 
   // fetch harmony sounding whole notes
   rational
@@ -2133,7 +2144,7 @@ void msrMeasure::appendFiguredBassToMeasure (
       figuredBass->
         getFiguredBassSoundingWholeNotes ();
 
-  // account for harmony duration in measure whole notes
+  // account for figuredBass duration in measure whole notes
   incrementCurrentMeasureWholeNotesDuration (
     inputLineNumber,
     figuredBassSoundingWholeNotes);
@@ -2148,14 +2159,12 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
-  // regular insertion in current measure
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to measure clone '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment clone '" <<
@@ -2171,16 +2180,16 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   }
 #endif
 
-  // append the harmony to the measure elements list
+  // append the figuredBass to the measure elements list
   appendElementToMeasure (figuredBass);
 
-  // fetch harmony sounding whole notes
+  // fetch figuredBass sounding whole notes
   rational
     figuredBassSoundingWholeNotes =
       figuredBass->
         getFiguredBassSoundingWholeNotes ();
 
-  // account for harmony duration in measure whole notes
+  // account for figuredBass duration in measure whole notes
   incrementCurrentMeasureWholeNotesDuration (
     inputLineNumber,
     figuredBassSoundingWholeNotes);
@@ -2213,7 +2222,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
     paddingNote =
       msrNote::createSkipNote (
         inputLineNumber,
-        fMeasureNumber,
+        fMeasureElementMeasureNumber,
         duration,
         duration,
         0, // dots number JMI ???
@@ -2252,7 +2261,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
       fCurrentMeasureWholeNotesDuration <<
       "' to '" << wholeNotes <<
       "' in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment " <<
@@ -2295,7 +2304,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
         fCurrentMeasureWholeNotesDuration <<
         " to length '" << wholeNotes << "'"
         " in measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "in voice \"" <<
@@ -2329,7 +2338,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
         "' to '" <<
         wholeNotes <<
         "' since they are equal in measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "' in segment " <<
@@ -2354,7 +2363,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
         "' to '" <<
         wholeNotes <<
         "' since the former is larger than the latter in measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         "', measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "' in segment " <<
@@ -2374,12 +2383,12 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
 
 void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
   int      inputLineNumber,
-  rational backupTargetPositionInMeasure)
+  rational backupTargetMeasureElementPositionInMeasure)
 {
   // sanity check
   msrAssert (
-    backupTargetPositionInMeasure.getNumerator () >= 0,
-    "backupTargetPositionInMeasure.getNumerator () is negative");
+    backupTargetMeasureElementPositionInMeasure.getNumerator () >= 0,
+    "backupTargetMeasureElementPositionInMeasure.getNumerator () is negative");
 
   // fetch the measure voice
   S_msrVoice
@@ -2401,9 +2410,9 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
 
     gLogOstream <<
       "Backup by a '" <<
-      backupTargetPositionInMeasure <<
+      backupTargetMeasureElementPositionInMeasure <<
       "' whole notes step length in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       ", currentMeasureWholeNotesDuration: '" <<
@@ -2419,10 +2428,10 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
   }
 #endif
 
-  // determine the measure position 'backupTargetPositionInMeasure' backward
+  // determine the measure position 'backupTargetMeasureElementPositionInMeasure' backward
   rational
     positionInMeasure =
-      fFullMeasureWholeNotesDuration - backupTargetPositionInMeasure;
+      fFullMeasureWholeNotesDuration - backupTargetMeasureElementPositionInMeasure;
   positionInMeasure.rationalise ();
 
   // pad up to it
@@ -2442,7 +2451,7 @@ void msrMeasure::appendPaddingNoteToMeasure (
       ", forwardStepLength: " <<
       forwardStepLength <<
       ", to measure " <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment " <<
@@ -2531,7 +2540,7 @@ void msrMeasure::appendStaffDetailsToMeasure (
     gLogOstream <<
       "Appending staff details '" << staffDetails->asShortString () <<
       "' to measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -2578,7 +2587,7 @@ void msrMeasure::removeNoteFromMeasure (
       "Removing note '" <<
       note->asShortString () <<
       "' from measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -2652,7 +2661,7 @@ void msrMeasure::removeNoteFromMeasure (
     "cannot remove note " <<
     note <<
     " from measure " <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "' in voice \"" <<
@@ -2685,7 +2694,7 @@ void msrMeasure::removeElementFromMeasure (
     gLogOstream <<
       endl <<
       " from measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in voice \"" <<
@@ -2731,7 +2740,7 @@ void msrMeasure::removeElementFromMeasure (
     "cannot remove element " <<
     element <<
     " from measure " <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "' in voice \"" <<
@@ -2812,7 +2821,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Determining the measure kind and purist number of measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       "', measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "', fullMeasureWholeNotesDuration: " <<
@@ -2859,7 +2868,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
     s <<
       "measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       "' has 0 current measure whole notes" <<
       ", " <<
       asString () <<
@@ -2989,7 +2998,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
               s <<
                 "measure '" <<
-                fMeasureNumber <<
+                fMeasureElementMeasureNumber <<
                 "' is kMeasuresRepeatContextKindUnknown " <<
                 asShortString () <<
                 ", line " << inputLineNumber;
@@ -3125,7 +3134,7 @@ void msrMeasure::padUpToPositionInMeasure (
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
       "' in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment " <<
@@ -3169,12 +3178,12 @@ void msrMeasure::padUpToPositionInMeasure (
        " (" << missingDuration << " whole notes)'" <<
        " to finalize \"" << measureVoice->getVoiceName () <<
        "\" measure: @" <<
-       fMeasureNumber <<
+       fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
        ", currentMeasureWholeNotesDuration: " <<
        fCurrentMeasureWholeNotesDuration <<
-       " % --> @" << fMeasureNumber << // JMI
+       " % --> @" << fMeasureElementMeasureNumber << // JMI
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
         ", missingDuration = " << missingDuration <<
@@ -3210,7 +3219,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
       "Padding up to position '" <<
       positionInMeasureToPadUpTo <<
       "' at the end of measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment " <<
@@ -3253,7 +3262,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
        ", duration: " << duration <<
        " at the end of voice \"" << measureVoice->getVoiceName () <<
        "\", measure: '" <<
-       fMeasureNumber <<
+       fMeasureElementMeasureNumber <<
        "', measureDebugNumber: '" <<
        fMeasureDebugNumber <<
        ", currentMeasureWholeNotesDuration: " <<
@@ -3276,7 +3285,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
        "Appending '" << paddingNote->asString () <<
        " to finalize \"" << measureVoice->getVoiceName () <<
        "\" measure: '" <<
-       fMeasureNumber <<
+       fMeasureElementMeasureNumber <<
        "', measureDebugNumber: '" <<
        fMeasureDebugNumber <<
        ", currentMeasureWholeNotesDuration: " <<
@@ -3320,7 +3329,7 @@ void msrMeasure::finalizeRegularMeasure (
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing regular measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment '" <<
@@ -3365,7 +3374,7 @@ void msrMeasure::finalizeRegularMeasure (
 
       s <<
         "Measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "' in segment '" <<
@@ -3433,7 +3442,7 @@ void msrMeasure::finalizeRegularMeasure (
 
           s <<
             "measure '" <<
-            fMeasureNumber <<
+            fMeasureElementMeasureNumber <<
             ", measureDebugNumber: '" <<
             fMeasureDebugNumber <<
             "' in segment '" <<
@@ -3473,7 +3482,7 @@ void msrMeasure::finalizeRegularMeasure (
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
           "' occupies measure '" <<
-          fMeasureNumber <<
+          fMeasureElementMeasureNumber <<
           ", measureDebugNumber: '" <<
           fMeasureDebugNumber <<
           "' fully in segment '" <<
@@ -3598,7 +3607,7 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
   // get the previousHarmony's position in the measure
   rational
     previousHarmonyPositionInMeasure =
-      previousHarmony->getPositionInMeasure ();
+      previousHarmony->getMeasureElementPositionInMeasure ();
 
   // get the previousHarmony's duration
   rational
@@ -3662,7 +3671,7 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
 
     // set its position in measure
     paddingNote->
-      setPositionInMeasure (
+      setMeasureElementPositionInMeasure (
         fCurrentMeasureWholeNotesDuration,
         "handleHarmoniesInHarmonyMeasureFinalization() 8");
 
@@ -3760,7 +3769,7 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
   // get the currentHarmony's position in the measure
   rational
     currentHarmonyPositionInMeasure =
-      currentHarmony->getPositionInMeasure ();
+      currentHarmony->getMeasureElementPositionInMeasure ();
 
   // get the currentHarmony's sounding whole notes
   rational
@@ -3926,7 +3935,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
   ) {
     gLogOstream <<
       "Finalizing harmonies in harmony measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment '" <<
@@ -4010,7 +4019,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         rational
           currentHarmonyPositionInMeasure =
             currentHarmony->
-              getPositionInMeasure ();
+              getMeasureElementPositionInMeasure ();
 
         // get the currentHarmony's note uplink
         S_msrNote
@@ -4022,7 +4031,7 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
         rational
           currentHarmonyNoteUpLinkPositionInMeasure =
             currentHarmonyNoteUpLink->
-              getPositionInMeasure ();
+              getMeasureElementPositionInMeasure ();
 
 #ifdef TRACE_OAH
           if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
@@ -4112,7 +4121,7 @@ void msrMeasure::finalizeHarmonyMeasure (
   if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Finalizing harmony measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment '" <<
@@ -4157,7 +4166,7 @@ void msrMeasure::finalizeHarmonyMeasure (
 
       s <<
         "Measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "' in segment '" <<
@@ -4221,7 +4230,7 @@ void msrMeasure::finalizeHarmonyMeasure (
 
         s <<
           "measure '" <<
-          fMeasureNumber <<
+          fMeasureElementMeasureNumber <<
           ", measureDebugNumber: '" <<
           fMeasureDebugNumber <<
           "' in segment '" <<
@@ -4261,7 +4270,7 @@ void msrMeasure::finalizeHarmonyMeasure (
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
           "' occupies measure '" <<
-          fMeasureNumber <<
+          fMeasureElementMeasureNumber <<
           ", measureDebugNumber: '" <<
           fMeasureDebugNumber <<
           "' fully in segment '" <<
@@ -4306,7 +4315,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Finalizing figured bass measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment '" <<
@@ -4351,7 +4360,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
       s <<
         "Measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "' in segment '" <<
@@ -4415,7 +4424,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
         s <<
           "measure '" <<
-          fMeasureNumber <<
+          fMeasureElementMeasureNumber <<
           ", measureDebugNumber: '" <<
           fMeasureDebugNumber <<
           "' in segment '" <<
@@ -4455,7 +4464,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
           "' occupies measure '" <<
-          fMeasureNumber <<
+          fMeasureElementMeasureNumber <<
           ", measureDebugNumber: '" <<
           fMeasureDebugNumber <<
           "' fully in segment '" <<
@@ -4514,7 +4523,7 @@ void msrMeasure::finalizeMeasure (
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Finalizing measure '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
         "' in segment '" <<
@@ -4559,7 +4568,7 @@ void msrMeasure::finalizeMeasureClone (
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Finalizing measure clone '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       ", measureDebugNumber: '" <<
       fMeasureDebugNumber <<
       "' in segment '" <<
@@ -4642,7 +4651,7 @@ void msrMeasure::finalizeMeasureClone (
 
     s <<
       "*********>> measure clone '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       "': measure kind '"<<
       msrMeasure::measureKindAsString (
         fMeasureKind) <<
@@ -4665,7 +4674,7 @@ void msrMeasure::finalizeMeasureClone (
 
       s <<
         "*********>> measure clone '" <<
-        fMeasureNumber <<
+        fMeasureElementMeasureNumber <<
         "' full measure whole notes is 0" <<
         ", line " << inputLineNumber;
 
@@ -4915,7 +4924,7 @@ string msrMeasure::asShortString () const
   s <<
     "["
     "Measure '" <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     ", measurePuristNumber: " <<
     fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
@@ -4941,7 +4950,7 @@ string msrMeasure::asString () const
   s <<
     "["
     "Measure '" <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     ", measurePuristNumber: " <<
     fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
@@ -4965,7 +4974,7 @@ void msrMeasure::displayMeasure (
   gLogOstream <<
     endl <<
     "*********>> Measure '" <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     /* JMI
     "', measurePuristNumber: " <<
     fMeasurePuristNumber <<
@@ -4991,7 +5000,7 @@ void msrMeasure::print (ostream& os) const
 {
   os <<
     "Measure '" <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     "', " << measureKindAsString () <<
     ", " <<
     singularOrPlural (
@@ -5191,7 +5200,7 @@ void msrMeasure::shortPrint (ostream& os) const
 {
   os <<
     "Measure '" <<
-    fMeasureNumber <<
+    fMeasureElementMeasureNumber <<
     "', " << measureKindAsString () <<
     ", " <<
     singularOrPlural (
@@ -5388,7 +5397,7 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
       rational
         currentHarmonyNoteUpLinkPositionInMeasure =
           currentHarmonyNoteUpLink->
-            getPositionInMeasure ();
+            getMeasureElementPositionInMeasure ();
 
       // compute the position in measure following currentHarmonyNoteUpLink
       rational
@@ -5459,13 +5468,13 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
               ->getVoiceName () <<
           "\", line " << inputLineNumber <<
           ", has position in measure '" <<
-          measureElement->getPositionInMeasure () <<
+          measureElement->getMeasureElementPositionInMeasure () <<
           ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
           endl;
       }
 #endif
 
-      if (measureElement->getPositionInMeasure () == fCurrentMeasureWholeNotesDuration) { // JMI
+      if (measureElement->getMeasureElementPositionInMeasure () == fCurrentMeasureWholeNotesDuration) { // JMI
         // this is where measureElement should be appended
 
 #ifdef TRACE_OAH
@@ -5481,7 +5490,7 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
                 ->getVoiceName () <<
             "\", line " << inputLineNumber <<
             ", has position in measure '" <<
-            measureElement->getPositionInMeasure () <<
+            measureElement->getMeasureElementPositionInMeasure () <<
             ", currentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
             endl;
         }
@@ -5489,7 +5498,7 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 
         // set measureElement's position in measure
         measureElement->
-          setPositionInMeasure (
+          setMeasureElementPositionInMeasure (
             fCurrentMeasureWholeNotesDuration,
             "appendElementToMeasure(), delayed element");
 

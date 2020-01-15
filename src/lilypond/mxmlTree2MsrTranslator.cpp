@@ -18014,7 +18014,6 @@ void mxmlTree2MsrTranslator:: attachPendingHarmoniesFiguredBassesAndOrFramesToNo
   if (fPendingHarmoniesList.size ()) {
     // handle the pending harmonies
     handlePendingHarmonies (
-      inputLineNumber,
       newNote,
       voiceToInsertInto);
 
@@ -18056,14 +18055,16 @@ void mxmlTree2MsrTranslator:: attachPendingHarmoniesFiguredBassesAndOrFramesToNo
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handlePendingHarmonies (
-  int        inputLineNumber,
   S_msrNote  newNote,
   S_msrVoice voiceToInsertInto)
 {
   rational
     newNoteSoundingWholeNotes =
       newNote->
-        getNoteSoundingWholeNotes ();
+        getNoteSoundingWholeNotes (),
+    newNoteDisplayWholeNotes =
+      newNote->
+        getNoteDisplayWholeNotes ();
 
   while (fPendingHarmoniesList.size ()) { // recompute at each iteration
     S_msrHarmony
@@ -18089,10 +18090,10 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       setHarmonySoundingWholeNotes (
         newNoteSoundingWholeNotes);
 
-    // set the harmony's display whole notes
+    // set the harmony's display whole notes JMI useless???
     harmony->
       setHarmonyDisplayWholeNotes (
-        fCurrentNoteDisplayWholeNotes);
+        newNoteDisplayWholeNotes);
 
     // set the harmony's tuplet factor
     harmony->
@@ -18100,6 +18101,10 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
         msrTupletFactor (
           fCurrentNoteActualNotes,
           fCurrentNoteNormalNotes));
+
+    // attach the harmony to newNote
+    newNote->
+      appendNoteToNoteHarmoniesList (harmony);
 
     // get the harmony voice for the current voice
     S_msrVoice
@@ -18116,12 +18121,7 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     // only now that we know which harmony voice will contain it
     harmony->
       setHarmonyVoiceUpLink (
- // JMI       voiceToInsertInto);
         voiceHarmonyVoice);
-
-    // attach the harmony to the note
-    newNote->
-      appendNoteToNoteHarmoniesList (harmony);
 
     // append the harmony to the harmony voice for the current voice
     voiceHarmonyVoice->
@@ -18138,20 +18138,35 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
   S_msrNote  newNote,
   S_msrVoice voiceToInsertInto)
 {
-  while (fPendingFiguredBassesList.size ()) {
+  rational
+    newNoteSoundingWholeNotes =
+      newNote->
+        getNoteSoundingWholeNotes (),
+    newNoteDisplayWholeNotes =
+      newNote->
+        getNoteDisplayWholeNotes ();
+
+  while (fPendingFiguredBassesList.size ()) { // recompute at each iteration
     S_msrFiguredBass
       figuredBass =
         fPendingFiguredBassesList.front ();
 
-    // set the figured bass's voice upLink
-    figuredBass->
-      setFiguredBassVoiceUpLink (
-        voiceToInsertInto);
+    /*
+      Figured bass elements take their position from the first
+      regular note (not a grace note or chord note) that follows
+      in score order. The optional duration element is used to
+      indicate changes of figures under a note.
+    */
 
-    // set the figured bass's whole notes
+    // set the figured bass's sounding whole notes
     figuredBass->
       setFiguredBassSoundingWholeNotes (
-        fCurrentNoteSoundingWholeNotes);
+        newNoteSoundingWholeNotes);
+
+    // set the figured bass's display whole notes JMI useless???
+    figuredBass->
+      setFiguredBassDisplayWholeNotes (
+        newNoteDisplayWholeNotes);
 
     // set the figured bass's tuplet factor
     figuredBass->
@@ -18160,29 +18175,28 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
           fCurrentNoteActualNotes,
           fCurrentNoteNormalNotes));
 
-    // set the figured bass's position in measure
-    /*
-      Figured bass elements take their position from the first
-      regular note (not a grace note or chord note) that follows
-      in score order. The optional duration element is used to
-      indicate changes of figures under a note.
-    */
-
-    figuredBass->
-      setPositionInMeasure (
-        newNote->getPositionInMeasure (),
-        "handlePendingFiguredBasses()");
-
     // attach the figured bass to newNote
     newNote->
       setNoteFiguredBass (figuredBass);
 
-    // append the figured bass to the figured bass voice for the current voice
+    // get the figured bass voice for the current voice
     S_msrVoice
       voiceFiguredBassVoice =
         voiceToInsertInto->
           getFiguredBassVoiceForRegularVoiceForwardLink ();
 
+    // sanity check
+    msrAssert (
+      voiceFiguredBassVoice != nullptr,
+      "voiceFiguredBassVoice is null");
+
+    // set the figuredBass's voice upLink
+    // only now that we know which figured bass voice will contain it
+    figuredBass->
+      setFiguredBassVoiceUpLink (
+        voiceFiguredBassVoice);
+
+    // append the figured bass to the figured bass voice for the current voice
     voiceFiguredBassVoice->
       appendFiguredBassToVoice (
         figuredBass);

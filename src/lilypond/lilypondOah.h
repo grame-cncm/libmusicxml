@@ -889,7 +889,7 @@ class lilypondOah : public oahGroup
 
     bool                  fShowAllBarNumbers;
 
-    map<string, int>      fResetMeasureNumberMap;
+    map<string, int>      fResetMeasureElementMeasureNumberMap;
     map<string, int>      fAddEmptyMeasuresAfterMeasureNumberMap;
 
     set<int>              fBoxAroundBarNumberSet;

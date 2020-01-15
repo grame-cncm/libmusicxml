@@ -2200,7 +2200,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   int
     measurePuristNumber =
@@ -2324,7 +2324,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   string
     nextMeasureNumber =
