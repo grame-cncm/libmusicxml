@@ -2,6 +2,10 @@ MusicXML Library
 
 
 ----------------------------------------------------------------------------------------------------
+Version 3.18
+- fix a crash bug with lilypond conversion
+
+----------------------------------------------------------------------------------------------------
 Version 3.17
 - synchronize npm version and lib version
 - asmjs support dropped (only available as wasm library)
