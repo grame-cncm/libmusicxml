@@ -3796,13 +3796,13 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
   }
 #endif
 
-  // compute the positions in measure delta
+  // compute the measure overflow whole notes
   rational
-    positionsInMeasureDelta =
+    measureOverflowWholeNotes =
       positionInMeasureFollowingCurrentHarmony
         -
-      currentHarmonySoundingWholeNotes;
-  positionsInMeasureDelta.rationalise ();
+      fFullMeasureWholeNotesDuration;
+  measureOverflowWholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
@@ -3835,14 +3835,14 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
       */
       ", currentHarmonySoundingWholeNotes: " <<
       currentHarmonySoundingWholeNotes <<
-      ", positionsInMeasureDelta: " <<
-      positionsInMeasureDelta <<
+      ", measureOverflowWholeNotes: " <<
+      measureOverflowWholeNotes <<
       endl;
   }
 #endif
 
-  if (positionsInMeasureDelta.getNumerator () > 0) {
-    // the currentHarmony's duration is too big
+  if (measureOverflowWholeNotes.getNumerator () > 0) {
+    // the currentHarmony's duration is too large
     stringstream s;
 
     s <<
@@ -3861,7 +3861,7 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
       reducedSoundingWholeNotes =
         currentHarmonySoundingWholeNotes
           - // the delta is positive
-        positionsInMeasureDelta;
+        measureOverflowWholeNotes;
     reducedSoundingWholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
@@ -4649,6 +4649,8 @@ void msrMeasure::finalizeMeasureClone (
       "' differs from original measure measure kind '" <<
       msrMeasure::measureKindAsString (
         originalMeasureMeasureKind) <<
+      "' in voice \"" <<
+      voiceClone->getVoiceName () <<
       "', line " << inputLineNumber;
 
  //   msrInternalError ( // JMI
