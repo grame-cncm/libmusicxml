@@ -838,35 +838,6 @@ void basicOah2ManPageGenerator::visitEnd (S_oahStringWithDefaultValueAtom& elt)
 }
 
 //________________________________________________________________________
-void basicOah2ManPageGenerator::visitStart (S_oahNaturalNumbersSetElementAtom& elt)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    fOah2ManPageLogOstream <<
-      endl <<
-      ".\\\" --> Start visiting oahNaturalNumbersSetElementAtom '" <<
-      elt->asString () <<
-      "'" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-}
-
-void basicOah2ManPageGenerator::visitEnd (S_oahNaturalNumbersSetElementAtom& elt)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    fOah2ManPageLogOstream <<
-      endl <<
-      ".\\\" --> End visiting oahNaturalNumbersSetElementAtom" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
 void basicOah2ManPageGenerator::visitStart (S_oahNaturalNumbersSetAtom& elt)
 {
 #ifdef TRACE_OAH
@@ -895,6 +866,7 @@ void basicOah2ManPageGenerator::visitEnd (S_oahNaturalNumbersSetAtom& elt)
 #endif
 }
 
+/* JMI
 //________________________________________________________________________
 void basicOah2ManPageGenerator::visitStart (S_oahStringsSetElementAtom& elt)
 {
@@ -923,15 +895,16 @@ void basicOah2ManPageGenerator::visitEnd (S_oahStringsSetElementAtom& elt)
   }
 #endif
 }
+*/
 
 //________________________________________________________________________
-void basicOah2ManPageGenerator::visitStart (S_oahStringsSetAtom& elt)
+void basicOah2ManPageGenerator::visitStart (S_oahStringSetAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> Start visiting oahStringsSetAtom '" <<
+      ".\\\" --> Start visiting oahStringSetAtom '" <<
       elt->asString () <<
       "'" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -940,13 +913,13 @@ void basicOah2ManPageGenerator::visitStart (S_oahStringsSetAtom& elt)
 #endif
 }
 
-void basicOah2ManPageGenerator::visitEnd (S_oahStringsSetAtom& elt)
+void basicOah2ManPageGenerator::visitEnd (S_oahStringSetAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> End visiting oahStringsSetAtom" <<
+      ".\\\" --> End visiting oahStringSetAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }

@@ -646,6 +646,8 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     virtual void visitStart ( S_print& elt);
+    virtual void visitEnd   ( S_print& elt);
+
     virtual void visitStart ( S_system_layout& elt);
     virtual void visitStart ( S_measure_numbering& elt);
 
@@ -919,6 +921,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     string                    fCurrentDisplayText;
+    bool                      fOnGoingPrint;
 
     // part handling
     // ------------------------------------------------------
@@ -1331,7 +1334,6 @@ class mxmlTree2MsrTranslator :
     int                       fHarmonyVoicesCounter;
     list<S_msrHarmony>        fPendingHarmoniesList;
     void                      handlePendingHarmonies (
-                                int        inputLineNumber,
                                 S_msrNote  newNote,
                                 S_msrVoice voiceToInsertInto);
 
@@ -1442,8 +1444,8 @@ class mxmlTree2MsrTranslator :
     // repeats handling
     // ------------------------------------------------------
 
-    string                    fCurrentRepeatStartMeasureNumber; // stack !!! JMI
-    S_msrBarline              fCurrentRepeatEndingStartBarline;
+    string                    fCurrentRepeatStartMeasureNumber; // stack ??? JMI
+    S_msrBarline              fCurrentRepeatEndingStartBarline; // stack ??? JMI
 
     void                      handleRepeatStart (
                                 S_msrBarline& barline);

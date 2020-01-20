@@ -94,8 +94,7 @@ class lpsrLayout : public lpsrElement
     // fields
     // ------------------------------------------------------
 
-    float
-                          fLayoutGlobalStaffSize;
+    float                 fLayoutGlobalStaffSize;
 
 /* JMI
     vector<S_lpsrVarValAssoc>

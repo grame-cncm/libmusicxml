@@ -73,9 +73,16 @@ class EXP notevisitor :
     public visitor<S_wavy_line>,
     public visitor<S_inverted_mordent>,
     public visitor<S_mordent>,
+    public visitor<S_arpeggiate>,
     public visitor<S_accidental_mark>,
     public visitor<S_notehead>,
-    public visitor<S_tuplet>
+    public visitor<S_tuplet>,
+    public visitor<S_fingering>,
+    public visitor<S_pluck>,
+    public visitor<S_up_bow>,
+    public visitor<S_down_bow>,
+    public visitor<S_harmonic>,
+    public visitor<S_snap_pizzicato>
 {
  public:
 		S_stem			fStem;
@@ -89,12 +96,18 @@ class EXP notevisitor :
         S_mordent		fMordent;
         S_turn		fTurn;
         S_tremolo        fTremolo;
+        S_arpeggiate    fArpeggio;
         S_inverted_turn fInvertedTurn;
         S_accidental_mark fAccidentalMark;
         S_notehead fNotehead;
+        S_fermata   fFermata;
         std::string fGraphicType;
         std::string fAccidental;
         std::string fCautionary;
+        S_harmonic fHarmonic;
+        S_snap_pizzicato fSnapPizzicato;
+        S_up_bow fBowUp;
+        S_down_bow fBowDown;
 
 		enum	  { C, D, E, F, G, A, B, last=B, diatonicSteps=last };
 		enum type { kUndefinedType, kPitched, kUnpitched, kRest };
@@ -106,14 +119,14 @@ class EXP notevisitor :
         bool isGrace() const	{ return fGrace; }
         bool isCue() const		{ return fCue; }
         bool inChord() const	{ return fChord; }
-        bool inFermata() const	{ return fFermata; }
+        bool inFermata() const    { return (fFermata != (void*)0); }
 
         type	getType() const		{ return fType; }
         int		getTie() const		{ return fTie; }
         int		getStaff() const	{ return fStaff; }
         int		getVoice() const	{ return fVoice; }
         S_note	getSnote() const	{ return fThisSNote; }
-        float getRestFormatDy(string fCurClef) const;
+        float getNoteHeadDy(string fCurClef) const;
         std::string getNoteheadType() const;
 
 		/*!
@@ -141,6 +154,7 @@ class EXP notevisitor :
         virtual int  getDots() const		{ return fDots; }
  		virtual void print (std::ostream& out) const;
 
+        virtual const std::vector<Sxmlelement>& getFingerings() const { return fFingering; }
 		virtual const std::vector<S_tied>&	getTied() const	{ return fTied; }
 		virtual const std::vector<S_slur>&	getSlur() const	{ return fSlur; }
         virtual const std::vector<S_beam>&	getBeam() const	{ return fBeam; }
@@ -174,7 +188,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_display_step& elt )	{ if (fInNote) fStep = elt->getValue(); }
 		virtual void visitStart( S_dot& elt )			{ if (fInNote) fDots++; }
 		virtual void visitStart( S_duration& elt )		{ if (fInNote) fDuration = (int)(*elt); }
-		virtual void visitStart( S_fermata& elt )		{ fFermata = true; }
+        virtual void visitStart( S_fermata& elt )		{ fFermata = elt; }
 		virtual void visitStart( S_grace& elt )			{ fGrace = true; }
 		virtual void visitStart( S_instrument& elt )	{ if (fInNote) fInstrument = elt->getValue(); }
 		virtual void visitStart( S_note& elt );
@@ -208,11 +222,18 @@ class EXP notevisitor :
         virtual void visitStart( S_accidental_mark& elt )    { fAccidentalMark = elt; }
         virtual void visitStart( S_inverted_mordent& elt )    { fInvertedMordent = elt; }
         virtual void visitStart( S_inverted_turn& elt )    { fInvertedTurn = elt; }
+        virtual void visitStart( S_arpeggiate& elt )    { fArpeggio = elt; }
         virtual void visitStart( S_mordent& elt )    { fMordent = elt; }
         virtual void visitStart( S_notehead& elt )    { fNotehead = elt; }
-    
+        virtual void visitStart( S_fingering& elt)  {fFingering.push_back(elt);}
+        virtual void visitStart( S_pluck& elt)  {fFingering.push_back(elt);}
+        virtual void visitStart( S_down_bow& elt)  {fBowDown = elt;}
+        virtual void visitStart( S_up_bow& elt)  {fBowUp = elt;}
+        virtual void visitStart( S_harmonic& elt)  {fHarmonic = elt;}
+        virtual void visitStart( S_snap_pizzicato& elt)  {fSnapPizzicato = elt;}
+
 	private:
-		bool	fGrace, fCue, fChord, fFermata;
+		bool	fGrace, fCue, fChord;
 		type	fType;
 		int		fDots;
 		StartStop::type	fTie;
@@ -229,6 +250,7 @@ class EXP notevisitor :
         std::vector<S_beam>	fBeam;
         std::vector<S_tuplet>	fTuplet;
         std::vector<S_wavy_line>	fWaveLine;
+    std::vector<Sxmlelement>    fFingering;
 
 		std::vector<S_lyric>	fLyric;
         std::string fSyllabic;

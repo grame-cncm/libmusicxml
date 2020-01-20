@@ -61,11 +61,13 @@ namespace MusicXML2
         {
             staves.push_back(part2staffmap[pGroup.partIDs[i]]);
         }
+		if (staves.empty()) return;
+		
         std::vector<int>::iterator rangeEnd = std::max_element(staves.begin(), staves.end());
         std::vector<int>::iterator rangeBegin = std::min_element(staves.begin(), staves.begin());
         
         stringstream rangeStream;
-        rangeStream << "\""<< (*rangeBegin)<<"-"<<(*rangeEnd)<<"\"";
+        rangeStream << "\"" << (*rangeBegin) << "-" << (*rangeEnd) << "\"";
         pGroup.guidoRange = rangeStream.str();
         pGroup.guidoRangeStart = *rangeBegin;
         pGroup.guidoRangeStop = *rangeEnd;
@@ -133,12 +135,11 @@ namespace MusicXML2
                         break;
                 }
                 
-                // calculate Guido Range and set
-                partID2range(fPartGroups[*ito]);
-                
                 // Do Erase
                 if (ito != fCurrentPartGroupIndex.end())
                 {
+                    // calculate Guido Range and set
+                    partID2range(fPartGroups[*ito]);
                     fCurrentPartGroupIndex.erase(ito);
                 }else
                     cerr << "Something is really wrong in S_PART_GROUP visitor!" << endl;

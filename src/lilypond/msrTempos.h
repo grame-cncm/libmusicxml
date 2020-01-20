@@ -446,7 +446,7 @@ class msrTempo : public msrMeasureElement
 
     const list<S_msrWords>&
                           getTempoWordsList () const
-                              { return fPendingWordsList; }
+                              { return fTempoWordsList; }
 
     msrDottedDuration     getTempoBeatUnit () const
                               { return fTempoBeatUnit; }
@@ -478,8 +478,10 @@ class msrTempo : public msrMeasureElement
 
     void                  appendWordsToTempo (S_msrWords tempoWords)
                               {
-                                fPendingWordsList.push_back (tempoWords);
+                                fTempoWordsList.push_back (tempoWords);
                               }
+
+    string                tempoWordsListAsString (string separator) const;
 
   public:
 
@@ -507,7 +509,7 @@ class msrTempo : public msrMeasureElement
 
     msrTempoKind          fTempoKind;
 
-    list<S_msrWords>      fPendingWordsList;
+    list<S_msrWords>      fTempoWordsList;
 
     msrDottedDuration     fTempoBeatUnit;
 

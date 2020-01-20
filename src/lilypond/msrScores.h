@@ -19,7 +19,8 @@
 #include <set>
 
 #include "msrIdentification.h"
-#include "msrGeometry.h"
+#include "msrScaling.h"
+#include "msrLayouts.h"
 #include "msrCredits.h"
 
 
@@ -67,12 +68,19 @@ class msrScore : public msrElement
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
 
-    void                  setMsrGeometry (
-                            S_msrGeometry geometry)
-                              { fMsrGeometry = geometry; }
+    void                  setScaling (
+                            S_msrScaling scaling)
+                              { fScaling = scaling; }
 
-    S_msrGeometry         getMsrGeometry () const
-                              { return fMsrGeometry; }
+    S_msrScaling          getScaling () const
+                              { return fScaling; }
+
+    void                  setPageLayout (
+                            S_msrPageLayout pageLayout)
+                              { fPageLayout = pageLayout; }
+
+    S_msrPageLayout       getPageLayout () const
+                              { return fPageLayout; }
 
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
@@ -175,6 +183,8 @@ class msrScore : public msrElement
                                   fInhibitRestMeasuresBrowsing;
                               };
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -190,6 +200,11 @@ class msrScore : public msrElement
 
     void                  fetchIdentificationFromCreditsIfAny (
                             int inputLineNumber);
+
+/* JMI
+    void                  setHeaderFromOptionsIfAny (
+                            int inputLineNumber);
+*/
 
     void                  collectScorePartsList (
                             int    inputLineNumber,
@@ -221,7 +236,9 @@ class msrScore : public msrElement
 
     S_msrIdentification   fIdentification;
 
-    S_msrGeometry         fMsrGeometry;
+    S_msrScaling          fScaling;
+
+    S_msrPageLayout       fPageLayout;
 
     list<S_msrCredit>     fCreditsList;
 

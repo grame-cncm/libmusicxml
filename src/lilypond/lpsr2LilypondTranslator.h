@@ -103,6 +103,10 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrVarValsListAssoc>,
   public visitor<S_lpsrSchemeVariable>,
 
+  // MSR scaling
+
+  public visitor<S_msrScaling>,
+
   // header
 
   public visitor<S_lpsrHeader>,
@@ -143,9 +147,13 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_lpsrSchemeFunction>,
 
-  // MSR
+  // MSR score
 
   public visitor<S_msrScore>,
+
+  // MSR page layout
+
+  public visitor<S_msrPageLayout>,
 
   // rights
 
@@ -339,15 +347,15 @@ class lpsr2LilypondTranslator :
 
   // midi
 
-  public visitor<S_msrMidi>
+  public visitor<S_msrMidiTempo>
 
 {
   public:
 
     lpsr2LilypondTranslator (
       S_lpsrScore      lpsrScore,
-      S_msrOah&    msrOpts,
-      S_lpsrOah&   lpsrOpts,
+      S_msrOah&        msrOpts,
+      S_lpsrOah&       lpsrOpts,
       indentedOstream& logOstream,
       indentedOstream& lilypondCodeOstream);
 
@@ -427,10 +435,20 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrSchemeFunction& elt);
     virtual void visitEnd   (S_lpsrSchemeFunction& elt);
 
-    // MSR
+    // MSR score
 
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
+
+    // MSR scaling
+
+    virtual void visitStart (S_msrScaling& elt);
+    virtual void visitEnd   (S_msrScaling& elt);
+
+     // MSR page layout
+
+    virtual void visitStart (S_msrPageLayout& elt);
+    virtual void visitEnd   (S_msrPageLayout& elt);
 
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
@@ -632,8 +650,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
 
-    virtual void visitStart (S_msrMidi& elt);
-    virtual void visitEnd   (S_msrMidi& elt);
+    virtual void visitStart (S_msrMidiTempo& elt);
+    virtual void visitEnd   (S_msrMidiTempo& elt);
 
     // names
 
@@ -825,6 +843,11 @@ class lpsr2LilypondTranslator :
 
     // figured bass
 
+    string                figureAsLilypondString (
+                            S_msrFigure figure);
+  string                  figuredBassAsLilypondString (
+                            S_msrFiguredBass figuredBass);
+
     S_msrFiguredBass      fCurrentFiguredBass;
     unsigned int          fCurrentFiguredBassFiguresCounter;
 
@@ -982,7 +1005,7 @@ class lpsr2LilypondTranslator :
 
     // current ongoing values display
     // ------------------------------------------------------
-    void                      displayCurrentOnGoingValues ();
+    void                  displayCurrentOnGoingValues ();
 };
 
 

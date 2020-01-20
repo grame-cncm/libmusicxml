@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 	if (argc < 2) usage();
 	if (checkOpt (argc, argv, "-h") || checkOpt (argc, argv, "--help")) usage();
 
-	bool generateBars = checkOpt (argc, argv, "--autobars");
+	bool generateBars = !checkOpt (argc, argv, "--autobars");
 	const char * file = argv[argc-1];
 	const char * outfile = fileOpt (argc, argv, "-o");
 	ostream * out = &cout;

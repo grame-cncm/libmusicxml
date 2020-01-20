@@ -5,7 +5,7 @@
 .PHONY : msys win32 win64 linux android
 
 PDIR   ?= libdir
-VERSION = 3.17
+VERSION = 3.18
 
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
@@ -37,6 +37,7 @@ endif
 IOS  := iosdir
 MSVC   ?= Visual Studio 14 2015
 MSVC64 := $(MSVC) Win64
+JOBS ?= 6
 
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xml2ly xmlversion
@@ -100,7 +101,7 @@ js:
 # building the library on Mac OS X
 #===============================================================
 macos : $(PDIR)/libmusicxml2.xcodeproj
-	cmake --build $(PDIR) --config Release -- -jobs 4
+	cmake --build $(PDIR) --config Release -- -jobs $(JOBS)
 	-cd lib &&  [ -d libmusicxml2.framework ] && tar czf libmusicxml2.tgz libmusicxml2.framework || echo "no framework"
 
 $(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
@@ -117,7 +118,7 @@ native: $(PDIR)
 # building the library for iOS
 #===============================================================
 ios : $(IOS)/libmusicxml2.xcodeproj
-	cmake --build $(IOS) --config Release -- -jobs 4
+	cmake --build $(IOS) --config Release -- -jobs $(JOBS)
 
 $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(IOS) ] || mkdir $(IOS)
@@ -212,12 +213,11 @@ winpack:
 	mv win64/libmusicxml-*.exe .
 
 macpack: $(PACKDIR)/README.html
-	$(MAKE) cmake CMAKEOPT="-DLILY=on -DFMWK=off"
+	$(MAKE) cmake CMAKEOPT="-DLILY=on -DBRL=on -DFMWK=off"
 	$(MAKE) macos
 	-[ -d $(PACK) ] && rm -rf $(PACK)
 	$(MAKE) install PREFIX=../$(PACK)
-	cp $(PACKDIR)/README.html $(PACK)
-	hdiutil create $(PACKDIR)/libmusicxml-$(VERSION).dmg -fs HFS+ -srcfolder $(PACK) -format UDBZ -ov
+	hdiutil create $(PACK).dmg -fs HFS+ -srcfolder $(PACK) -format UDBZ -ov
 
 linuxpack:
 	@echo Linux packaging not implemented. 

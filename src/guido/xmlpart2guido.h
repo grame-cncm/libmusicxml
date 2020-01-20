@@ -15,6 +15,7 @@
 
 #include <ostream>
 #include <stack>
+#include <queue>
 #include <map>
 #include <string>
 
@@ -45,7 +46,6 @@ namespace MusicXML2
 class EXP xmlpart2guido : 
 	public clefvisitor,
 	public timesignvisitor,
-	public metronomevisitor,
 	public notevisitor,
 	public keysignvisitor,
 	public visitor<S_backup>,
@@ -53,7 +53,6 @@ class EXP xmlpart2guido :
 	public visitor<S_coda>,
 	public visitor<S_direction>,
 	public visitor<S_divisions>,
-	public visitor<S_dynamics>,
 	public visitor<S_ending>,
 	public visitor<S_forward>,
 	public visitor<S_measure>,
@@ -63,7 +62,6 @@ class EXP xmlpart2guido :
 	public visitor<S_segno>,
 	public visitor<S_sound>,
     public visitor<S_wedge>,
-    public visitor<S_words>,     // for direction-type tempo wording (added by AC)
 	public visitor<S_rehearsal>,     // for rehearsal Markup
     public visitor<S_attributes>         // to get clef, division, staves, time and key in order!
 {
@@ -80,16 +78,15 @@ class EXP xmlpart2guido :
 //	bool fGenerateStem;
 
 	// internal parsing state
-	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar;
+    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress;
     
     int fTextTagOpen;
-    
-    string tempoWord, tempoMetronome, wordParams;
-    bool fGenerateTempo, directionPlacementAbove, directionWord;
-    S_words wordPointer;
-    
+    int fTupletOpen;    // Number of opened Tuplets
+        
+    std::queue<int> fDirectionEraserStack;        // To skip already visited Directions when looking ahead because of grace notes
     std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
-    
+    std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
+
     Sguidoelement fLyricOpened;
     
     bool isProcessingChord;
@@ -113,7 +110,6 @@ class EXP xmlpart2guido :
 	int		fMeasNum;
 
     int		fCurrentBeamNumber;		// number attribute of the current beam
-	int		fCurrentTupletNumber;		// number attribute of the current tuplet
 	int		fCurrentStemDirection;	// the current stems direction, used for stem direction changes
 	int		fPendingPops;			// elements to be popped at chord exit (like fermata, articulations...)
 
@@ -129,9 +125,12 @@ class EXP xmlpart2guido :
 	void stackClean	();
 
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
+    void checkPostArticulation ( const notevisitor& note );      /// Articulations that should be generated in ADD mode after note creation
+
     int  checkChordOrnaments ( const notevisitor& note );			// returns the count of articulations pushed on the stack
     
-	std::vector<Sxmlelement>  getChord ( const S_note& note );	// build a chord vector
+    std::vector<Sxmlelement>  getChord ( const S_note& note );    // build a chord vector
+	std::vector<Sxmlelement>  getChord ( const Sxmlelement& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change
 	void checkStem		 ( const S_stem& stem );
 	void checkBeamBegin	 ( const std::vector<S_beam>& beams );
@@ -144,8 +143,10 @@ class EXP xmlpart2guido :
 	void checkGrace		 ( const notevisitor& nv );
     void checkGraceEnd(const notevisitor& nv);
 	int  checkFermata	 ( const notevisitor& stem );
+    void checkSlur     ( const std::vector<S_slur>& slurs );
 	void checkSlurBegin	 ( const std::vector<S_slur>& slurs );
 	void checkSlurEnd	 ( const std::vector<S_slur>& slurs );
+    bool isSlurClosing(S_slur elt);
 	void checkTiedBegin	 ( const std::vector<S_tied>& tied );
 	void checkTiedEnd	 ( const std::vector<S_tied>& tied );
 	void checkVoiceTime	 ( const rational& currTime, const rational& voiceTime);
@@ -154,15 +155,18 @@ class EXP xmlpart2guido :
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
-	void newNote		 ( const notevisitor& nv, rational posInMeasure );
-
+	void newNote		 ( const notevisitor& nv, rational posInMeasure, const S_note& elt);
+    
+    int checkTremolo(const notevisitor& note, const S_note& elt);
+    
 	std::string			noteName		( const notevisitor& nv );
-	guidonoteduration	noteDuration	( const notevisitor& nv );
+	guidonoteduration	noteDuration	( const notevisitor& nv);
 
 	std::vector<S_beam>::const_iterator findValue ( const std::vector<S_beam>& beams, const std::string& val ) const;
 	std::vector<S_slur>::const_iterator findTypeValue ( const std::vector<S_slur>& slurs, const std::string& val ) const;
 	std::vector<S_tied>::const_iterator findTypeValue ( const std::vector<S_tied>& tied, const std::string& val ) const;
-    
+    std::vector< std::pair<int, int> >::const_iterator findSlur ( const int xmlnum ) const;
+
     /// Lyrics handling by AC
     void checkLyricBegin	 ( const std::vector<S_lyric>& lyrics );
     void checkLyricEnd	 ( const std::vector<S_lyric>& lyrics );
@@ -181,9 +185,7 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_barline& elt);
 		virtual void visitStart( S_coda& elt);
 		virtual void visitStart( S_direction& elt);
-        virtual void visitStart( S_words& elt);
 		virtual void visitStart( S_divisions& elt);
-		virtual void visitStart( S_dynamics& elt);
 		virtual void visitStart( S_forward& elt);
 		virtual void visitStart( S_measure& elt);
 		virtual void visitStart( S_note& elt);
@@ -192,29 +194,31 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_segno& elt);
         virtual void visitStart( S_wedge& elt);
 		virtual void visitStart( S_rehearsal& elt);
-    virtual void visitStart( S_attributes& elt);
+        virtual void visitStart( S_attributes& elt);
 
-		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
-        virtual void visitEnd  ( S_words& elt);
 		virtual void visitEnd  ( S_ending& elt);
 		virtual void visitEnd  ( S_key& elt);
 		virtual void visitEnd  ( S_measure& elt);
-		virtual void visitEnd  ( S_metronome& elt);
 		virtual void visitEnd  ( S_note& elt);
 		virtual void visitEnd  ( S_repeat& elt);
 		virtual void visitEnd  ( S_sound& elt);
 		virtual void visitEnd  ( S_time& elt);
     
+    std::string parseMetronome ( metronomevisitor &mv );
+    
+    bool findNextNote(const S_note& elt, ctree<xmlelement>::iterator &nextnote);
+    float getNoteDistanceFromStaffTop(const notevisitor& nv);
+    
     rational durationInCue;
     
     std::map<int, float> fStaffDistance;
-    
-    int checkDynamics(rational posInMeasure);
-    S_dynamics fDynamics;
-    
+        
     bool fIgnoreWedgeWithOffset;
     
+    // Internal Parsing facilities
+    float xPosFromTimePos(float default_x, float relative_x);           /// Infer X-Position from TimePosition
+
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
 		virtual ~xmlpart2guido() {}
@@ -225,13 +229,14 @@ class EXP xmlpart2guido :
 		const rational& getTimeSign () const		{ return fCurrentTimeSign; }
         bool fHasLyrics;
         bool hasLyrics() const {return fHasLyrics;}
-//    std::multimap<int, std::pair< rational, string > > staffClefMap;
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
 
     std::string getClef(int staffIndex, rational pos, int measureNum);
 
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
+    
+    void addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset);
     
 };
 

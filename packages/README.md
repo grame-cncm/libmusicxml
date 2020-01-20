@@ -11,10 +11,11 @@ The MusicXML library is a portable C++ library designed close to the MusicXML fo
 
 The libmusicxml library runs on the main operating systems: Linux, MacOS, iOS, Windows, Android. It can also be compiled to JavaScript using [emscripten](http://emscripten.org) to be embedded in a web page.
 
-This package includes the musicxml library and 2 converters:
+This package includes the musicxml library and 3 converters:
 
-- xml2guido : converts the MusicXML format to [Guido](http://guidolib.sf.net/).
-- xml2ly    : converts the MusicXML format to [Lilypond](http://lilypond.org/)
+- xml2guido (Dominique Fober & Arsia Cont) : converts the MusicXML format to [Guido](http://guidodoc.grame.fr/);
+- xml2ly (Jacques Menu) : converts the MusicXML format to [Lilypond](http://lilypond.org/), close to version 1.0;
+- xml2brl (Jacques. Menu) : converts the MusicXML format to [braille music], experimental.
 
 
 ---

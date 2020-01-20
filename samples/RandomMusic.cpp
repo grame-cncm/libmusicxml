@@ -5,7 +5,7 @@
   research@grame.fr
 
   This file is provided as an example of the MusicXML Library use.
-  It shows how to build a memory representation of a score from scratch. 
+  It shows how to build a memory representation of a score from scratch.
 
 */
 
@@ -38,14 +38,14 @@ static int getrandom(int range) {
 #else
 	float f = (float)random() / RAND_MAX;
 #endif
-	return (int)(f * range); 
+	return (int)(f * range);
 }
 
 static string randomNote() {
 	int n = getrandom(7);
 	string note;
 	note += (char('A' + n));
-	return note; 
+	return note;
 }
 
 //------------------------------------------------------------------------
@@ -96,7 +96,7 @@ static Sxmlelement makeAttributes() {
 	clef->push (newElement(k_sign, "G"));
 	clef->push (newElement(k_line, "2"));
 	attributes->push (clef);
-	
+
 	return attributes;
 }
 
@@ -161,7 +161,7 @@ static Sxmlelement makeIdentification() {
 	Sxmlelement creator = newElement(k_creator, "Georg Chance");
 	creator->add(newAttribute("type", "Composer"));
 	id->push (creator);
-	
+
 	encoding->push (newElement(k_software, "MusicXML Library v2"));
 	id->push (encoding);
 	return id;
@@ -189,7 +189,7 @@ int main (int argc, char * argv[]) {
 	srandom((unsigned)time(0));
 #endif
 	SXMLFile f = TXMLFile::create();
-	f->set( new TXMLDecl("1.0", "", TXMLDecl::kNo));
+	f->set( new TXMLDecl("1.0", "UTF-8", TXMLDecl::kNo));
 	f->set( new TDocType("score-partwise"));
 	f->set( randomMusic(count) );
 	f->print(cout);

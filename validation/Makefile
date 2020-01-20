@@ -8,11 +8,11 @@ system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo 
 version ?= $(shell cat libmusicxmlversion.txt)
 
 xmlfiles                  = $(shell find ../files -name "*.xml")
-xmlfilesforlilyshouldfail = $(shell ./filterFilesForShouldFail.bash $(xmlfiles))
-xmlfilesforlilyjianpu     = $(shell ./filterFilesForJianpu.bash $(xmlfiles))
+xmlfilesforlilyshouldfail = $(shell find ../files -name "*.xml" | grep shouldfail)
+xmlfilesforlilyjianpu     = $(shell find ../files -name "*.xml" | grep jianpu)
 jianpuincludefilename     = "jianpu10a.ly"
 jianpuinclude             = $(shell find ../files -name $(jianpuincludefilename)")
-xmlfilesforbrl            = $(shell ./filterFilesForBraille.bash $(xmlfiles))
+xmlfilesforbrl     		  = $(shell find ../files -name "*.xml" | grep braille)
 
 readout           := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
 gmnout            := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
@@ -113,7 +113,6 @@ doread: $(readout)
 
 #########################################################################
 guido: 
-	@echo "guidosvg: " $(guidosvg)
 	@which $(XML2GUIDO) > /dev/null || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
 	$(MAKE) doguido
 
@@ -183,8 +182,6 @@ lilypngclean:
 
 #########################################################################
 lilyjianpu: 
-	@echo "xmlfilesforlilyjianpu: " $(xmlfilesforlilyjianpu)
-	@echo "lilyjianpuout: " $(lilyjianpuout)
 	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
 	$(MAKE) dolilyjianpu
 	@ls -sal $(lilyjianpuout)
@@ -255,29 +252,29 @@ validbrl: $(validbrl)
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XMLREAD) $<  > $@
+	$(XMLREAD) -o $@ $< 
 
 #########################################################################
 # rules for xml2guido
 $(version)/gmn/%.gmn: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2GUIDO) $<  > $@ || (rm $@ ; false; )
+	$(XML2GUIDO) -o $@ $<
 
 #########################################################################
 # rules for guido2svg
 $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	guido2svg $<  > $@
+	guido2svg  -o $@ $<
 
 #########################################################################
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q $<  > $@ || (rm $@ ; false; )
+	$(XML2LY) -q -o $@ $< 
 
 $(version)/lilyshouldfail/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q $<  > $@ || true
+	$(XML2LY) -q -o $@ $<  || true
 
 #########################################################################
 # rules for lilypond with pdf output
@@ -295,7 +292,7 @@ $(version)/lilypng/%.png: $(version)/lilypond/%.ly
 # rules for lilypond with jianpu inclusion in output
 $(version)/lilyjianpu/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q -jianpu $<  > $@ || (rm $@ ; false; )
+	$(XML2LY) -q -jianpu -o $@ $< 
 
 #########################################################################
 # rules for lilypond pdf output in jianpu notation
@@ -308,7 +305,7 @@ $(version)/lilyjianpupdf/%.pdf: $(version)/lilyjianpu/%.ly
 # rules for xml2brl
 $(version)/braille/%.brl: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2BRL) -q $<  > $@ || (rm $@ ; false; )
+	$(XML2BRL) -q  -o $@ $< 
 
 #########################################################################
 # rules for xml output validation

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <map>
 #include <vector>
+#include <set>
 
 #include "exports.h"
 #include "typedefs.h"
@@ -19,6 +20,7 @@
 #include "transposevisitor.h"
 #include "partlistvisitor.h"
 #include "partsummary.h"
+#include "clefvisitor.h"
 
 namespace MusicXML2
 {
@@ -41,7 +43,8 @@ namespace MusicXML2
     public visitor<S_rehearsal>,    // for rehearsal marks
     public visitor<S_part>,
     public visitor<S_staves>,
-    public partlistvisitor
+    public partlistvisitor,
+    public clefvisitor
     {
     public:
         musicxmlQuery();
@@ -69,6 +72,11 @@ namespace MusicXML2
         int getStavesForFirstPart();
         
         /*!
+         Return the number of staves for the first part
+         */
+        std::vector<std::string> getAllClefsOfFirstPart();
+        
+        /*!
          Return the total number of staves
          */
         int getTotalStaves();
@@ -85,8 +93,11 @@ namespace MusicXML2
         
         virtual void visitStart ( S_part& elt);
         virtual void visitStart ( S_staves& elt);
-
+        
+        void visitEnd ( S_clef& elt );
+        
         std::map<std::string, int> stavesInPart;
+        std::map<std::string, std::set<std::string> > clefsInPart;
         std::string currentPart;
     };
     

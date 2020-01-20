@@ -43,7 +43,7 @@ msr2NamesVisitor::msr2NamesVisitor (
   // voices
   fVoicesCounter = 0;
 };
-  
+
 msr2NamesVisitor::~msr2NamesVisitor ()
 {}
 
@@ -51,7 +51,7 @@ msr2NamesVisitor::~msr2NamesVisitor ()
 void msr2NamesVisitor::printNamesFromMsrScore (
   const S_msrScore& score)
 {
-  if (score) {    
+  if (score) {
     // create a msrScore browser
     msrBrowser<msrScore> browser (this);
 
@@ -68,16 +68,11 @@ void msr2NamesVisitor::visitStart (S_msrScore& elt)
       "--> Start visiting msrScore" <<
       endl;
   }
-  
+
   fMsrNamesOutputStream <<
-    "Score contains " <<
-    singularOrPlural (
-      elt->getPartGroupsList ().size (),
-      "part group", "part groups") <<
-    ", " <<
-    singularOrPlural (
-      elt->getScoreNumberOfMeasures (),
-      "measure", "measures") <<
+    "MSR names summary of \"" <<
+    gOahOah->fInputSourceName <<
+    "\":" <<
     endl <<
     endl;
 
@@ -93,13 +88,13 @@ void msr2NamesVisitor::visitEnd (S_msrScore& elt)
       "--> End visiting msrScore" <<
       endl;
   }
-  
+
   fMsrNamesOutputStream <<
     "The score contains:" <<
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 3;
 
   fMsrNamesOutputStream <<
@@ -109,21 +104,21 @@ void msr2NamesVisitor::visitEnd (S_msrScore& elt)
       "part group",
       "part groups") <<
     endl <<
-    
+
     setw (fieldWidth) <<
     singularOrPlural (
       fPartsCounter,
       "part",
       "parts") <<
     endl <<
-    
+
     setw (fieldWidth) <<
     singularOrPlural (
       fStavesCounter,
       "stave",
       "staves") <<
     endl <<
-    
+
     setw (fieldWidth) <<
     singularOrPlural (
       fVoicesCounter,
@@ -146,7 +141,7 @@ void msr2NamesVisitor::visitStart (S_msrPartGroup& elt)
   fPartGroupsCounter++;
 
   int partGroupElementsSize = elt->getPartGroupElements ().size ();
-  
+
   fMsrNamesOutputStream <<
     "PartGroup" << " " << elt->getPartGroupCombinedName () <<
     " contains " <<
@@ -159,23 +154,23 @@ void msr2NamesVisitor::visitStart (S_msrPartGroup& elt)
   gIndenter++;
 
   const int fieldWidth = 25;
-  
+
   fMsrNamesOutputStream << left <<
     setw (fieldWidth) <<
     "partGroupName" << " : \"" <<
     elt->getPartGroupName  () << "\"" <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "partGroupNameDisplayText" << " : \"" <<
     elt->getPartGroupNameDisplayText  () << "\"" <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "partGroupAbbrevation" << " : \"" <<
     elt->getPartGroupAbbreviation  () << "\"" <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "partGroupInstrumentName" << " : \"" <<
       elt->getPartGroupInstrumentName () << "\"" <<
@@ -204,9 +199,9 @@ void msr2NamesVisitor::visitStart (S_msrPart& elt)
   }
 
   fPartsCounter++;
-  
+
   int partStavesMapSize = elt->getPartStavesMap ().size ();
-  
+
   fMsrNamesOutputStream <<
     "Part " << elt->getPartCombinedName () <<
     " contains " <<
@@ -214,11 +209,11 @@ void msr2NamesVisitor::visitStart (S_msrPart& elt)
       partStavesMapSize,
       "staff", "staves") <<
     endl;
-    
+
   gIndenter++;
-  
+
   const int fieldWidth = 27;
-  
+
   fMsrNamesOutputStream << left <<
     setw (fieldWidth) <<
     "partID" << " : \"" <<
@@ -269,9 +264,9 @@ void msr2NamesVisitor::visitStart (S_msrStaff& elt)
   }
 
   fStavesCounter++;
-  
+
   int staffAllVoicesVectorSize = elt->getStaffAllVoicesVector ().size ();
-    
+
   fMsrNamesOutputStream <<
     "Staff" << " " << elt->getStaffName () <<
     " contains " <<
@@ -282,7 +277,7 @@ void msr2NamesVisitor::visitStart (S_msrStaff& elt)
 
   gIndenter++;
 
-  
+
   const int fieldWidth = 28;
 
   fMsrNamesOutputStream << left <<
@@ -343,7 +338,7 @@ void msr2NamesVisitor::visitStart (S_msrVoice& elt)
   gIndenter++;
 
   const int fieldWidth = 28;
-  
+
   fMsrNamesOutputStream << left <<
     setw (fieldWidth) <<
     "voiceNumber" << " : " <<
@@ -381,11 +376,11 @@ void msr2NamesVisitor::visitStart (S_msrVarValAssoc& elt)
   fMsrNamesOutputStream <<
     "VarValAssoc" <<
     endl;
-  
+
   gIndenter++;
-  
+
   const int fieldWidth = 16;
-  
+
   fMsrNamesOutputStream <<
     setw (fieldWidth) <<
     "varValAssocKind" << " : " <<
@@ -393,13 +388,13 @@ void msr2NamesVisitor::visitStart (S_msrVarValAssoc& elt)
     elt->varValAssocKindAsString () <<
     "\"" <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "variableValue" << " : " <<
     "\"" << elt->getVariableValue () << "\"" <<
     endl <<
     endl;
-  
+
   gIndenter--;
 }
 
@@ -424,11 +419,11 @@ void msr2NamesVisitor::visitStart (S_msrVarValsListAssoc& elt)
   fMsrNamesOutputStream <<
     "VarValsListAssoc" <<
     endl;
-  
+
   gIndenter++;
 
   const int fieldWidth = 23;
-  
+
   fMsrNamesOutputStream << left <<
     setw (fieldWidth) <<
     "varValsListAssocKind" << " : " <<
@@ -436,13 +431,13 @@ void msr2NamesVisitor::visitStart (S_msrVarValsListAssoc& elt)
     elt->varValsListAssocKindAsString () <<
     "\"" <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "varValsListAssocValues" << " : " <<
     "'" << elt->varValsListAssocValuesAsString () << "'" <<
     endl <<
     endl;
-  
+
   gIndenter--;
 }
 

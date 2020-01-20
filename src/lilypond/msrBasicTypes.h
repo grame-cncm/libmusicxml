@@ -621,13 +621,13 @@ class msrLength : public smartable
     // set and get
     // ------------------------------------------------------
 
-    void                  setLengthUnitKind (msrLengthUnitKind& value)
+    void                  setLengthUnitKind (msrLengthUnitKind value)
                               { fLengthUnitKind = value; }
 
     msrLengthUnitKind     getLengthUnitKind () const
                               { return fLengthUnitKind; }
 
-    void                  setLengthValue (float& value)
+    void                  setLengthValue (float value)
                               { fLengthValue = value; }
 
     float                 getLengthValue () const

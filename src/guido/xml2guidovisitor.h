@@ -74,7 +74,12 @@ class EXP xml2guidovisitor :
 	void start (Sguidoelement& elt)		{ fStack.push(elt); }
 	void add (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
 	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
-	void pop ()							{ fStack.pop(); }
+	void pop ()	{
+        if (fStack.size())
+            fStack.pop();
+        else
+            cerr<<"xml2guido: Pop() called while EMPTY! Please REPORT!"<<endl;
+    }
 
 	void flushHeader	 ( scoreHeader& header );
 	void flushPartHeader ( partHeader& header );
@@ -118,10 +123,16 @@ class EXP xml2guidovisitor :
 		// ie converts relative-x/-y into dx/dy attributes
 		void generatePositions (bool state)		{ fGeneratePositions = state; }
 
-    static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, int yoffset);
-	static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, int yoffset, int xoffset);
-    static void addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int ymultiplier);
-    static void addPlacement	( Sxmlelement elt, Sguidoelement& tag);
+    static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset);
+	static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset);
+    static void addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier);
+    static void addPosX    ( Sxmlelement elt, Sguidoelement& tag, float xoffset);
+    static void addPlacement    ( Sxmlelement elt, Sguidoelement& tag);
+    static float getYposition    ( Sxmlelement elt, float yoffset, bool useDefault);
+    static float getXposition	( Sxmlelement elt, float xoffset);
+
+    static void addDirection( Sxmlelement elt, Sguidoelement& tag);
+
 };
 
 
