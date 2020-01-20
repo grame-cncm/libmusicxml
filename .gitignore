@@ -3,6 +3,7 @@ xcode/
 
 *.o
 *.so
+*.wasm
 
 
 build/libmusicxml2*
@@ -13,10 +14,12 @@ build/libdir
 build/bin
 build/lib
 packages/libmusicxml-*
+packages/libmusicxml2-*
+packages/README.html
 doc/html
 doc/latex
 libmusicxml.js
 libmusicxml.wasm.*
 validation/3.*
-
-
+javascript/libmusicxml.wasm
+schema/elements.txt

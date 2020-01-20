@@ -23,6 +23,11 @@ sed "s/VERSION *[1-9]\.[0-9][0-9]+/VERSION $VERSION/" $CMAKE \
 	| sed "s/\"[1-9]\.[0-9][0-9]+\"/\"$VERSION\"/"  > TMP$$ 
 mv -f TMP$$ $CMAKE
 
+MAKE=$ROOT/build/Makefile
+echo " updating $MAKE"
+sed "s/VERSION *= *[1-9]\.[0-9][0-9]/VERSION = $VERSION/" $MAKE
+mv -f TMP$$ $MAKE
+
 DOXY=$ROOT/doc/Doxyfile
 echo " updating $DOXY  (regenerate doc)"
 sed "s/^\(PROJECT_NUMBER[ 	]*= *\)[0-9]*\.[0-9]*/\1$VERSION/" $DOXY  > TMP$$
