@@ -93,7 +93,7 @@ set (LXMLSRC  ${LXML}/src)
 set (LXMLSAMPLE ${LXML}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
 if (LILY)
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond)
+	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond lilypond/msr lilypond/lpsr lilypond/bsr)
 endif()
 
 foreach(folder ${SRCFOLDERS})
@@ -184,7 +184,7 @@ endif()
 #######################################
 # install setup
 if (NOT IOS)
-<message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
+	message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
 
 if (APPLE)
 install ( TARGETS ${target} 
