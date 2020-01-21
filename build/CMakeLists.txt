@@ -60,7 +60,7 @@ endif()
 #########################################
 if(APPLE)
 	if ( IOS )
-		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
+		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
 		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
@@ -68,7 +68,7 @@ if(APPLE)
 		set (libtype STATIC)
 		set (FMWK "false")
 	elseif( UNIVERSAL )
-		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
+		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")
 		set (CMAKE_OSX_ARCHITECTURES "x86_64")
 		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.10)
 	endif()
@@ -92,7 +92,7 @@ set (SRCDIR  ${ROOT}/src)
 set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
 if (LILY)
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond lilypond/msr lilypond/lpsr lilypond/bsr)
+	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond lilypond/oah lilypond/mxmlTree lilypond/msr lilypond/lpsr lilypond/lilypond lilypond/bsr lilypond/braille lilypond/xml2ly lilypond/xml2brl lilypond/manpage)
 endif()
 
 foreach(folder ${SRCFOLDERS})
@@ -104,7 +104,7 @@ foreach(folder ${SRCFOLDERS})
 endforeach()
 
 if (NOT LILY)
-	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")		
+	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")
 	set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
 	set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
 	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
@@ -229,16 +229,16 @@ endif ()
 
 
 if (NOT IOS)
-message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
+message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")
 if (WIN32)
 	set (INSTALLED ${target})
 else()
 	set (INSTALLED ${target}  ${staticlib})
 endif()
 install ( TARGETS ${INSTALLED}
-	RUNTIME DESTINATION ${BINDEST} 
-    LIBRARY DESTINATION ${LIBDEST} 
-    ARCHIVE DESTINATION ${LIBDEST} 
+	RUNTIME DESTINATION ${BINDEST}
+    LIBRARY DESTINATION ${LIBDEST}
+    ARCHIVE DESTINATION ${LIBDEST}
     FRAMEWORK DESTINATION lib CONFIGURATIONS Release
     PUBLIC_HEADER DESTINATION include/libmusicxml
 )
