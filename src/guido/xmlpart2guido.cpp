@@ -1407,7 +1407,6 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                     if (slurEndToBeErase != fSlurStack.end()) {
                         lastSlurInternalNumber = slurEndToBeErase->first;
                     }else {
-                        cerr<<"\tSlurEnd with NO opening??? line:"<<(*i)->getInputLineNumber()<<endl;
                         continue;
                     }
 
