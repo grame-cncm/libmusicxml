@@ -1366,6 +1366,13 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                 iterSlur = iter->find(k_slur);
                 if (iterSlur != iter->end())
                 {
+                    
+                    if ((iterSlur->getAttributeValue("type")=="start") &&
+                        ((iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)) &&
+                        (thisNoteVoice == fTargetVoice)) {
+                        return false;
+                    }
+                    
                     if ((iterSlur->getAttributeValue("type")=="stop") &&
                         (iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)
                         ) {
@@ -1402,8 +1409,9 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                     }else {
                         continue;
                     }
+
                 }else {
-                    cerr<< "XML2Guido measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop with number:"<< (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!"<<endl;
+                    cerr<< "XML2Guido SlurEnd, measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop with number:"<< (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!"<<endl;
                     continue;
                 }
                 
