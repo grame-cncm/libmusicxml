@@ -1410,7 +1410,6 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                         cerr<<"\tSlurEnd with NO opening??? line:"<<(*i)->getInputLineNumber()<<endl;
                         continue;
                     }
-                    cerr<< "\t Slur STOP measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<" xmlNum:"<< (*i)->getAttributeIntValue("number", 0)<<" GuidoNum="<<lastSlurInternalNumber  <<endl;
 
                 }else {
                     cerr<< "XML2Guido SlurEnd, measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop with number:"<< (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!"<<endl;
