@@ -133,14 +133,13 @@ void guidochord::print(ostream& os) const
 {
 	os << fStartList;
 	int n = countNotes();
-	std::string seqsep = "";
+	const char* seqsep = "";
 	for (auto e: fElements) {
         
 		// checking for elements separator
 		// sequences (i.e. score) are handled as chords
 		// that's why there are special cases for seq
-        //const char* sep = ((e->isNote() || (!e->isSeq() && e->countNotes())) && --n) ? ", " : " ";
-        std::string sep = ((e->isNote() || (!e->isSeq() && e->countNotes())) && --n) ? ", " : " ";
+        const char* sep = ((e->isNote() || (!e->isSeq() && e->countNotes())) && --n) ? ", " : " ";
         /// Handle the special cases:
         ///         - If we are in a chord and e is a note, and next event is TieEnd, then the separater is " " and "," should be applied after TieEnd!
         Sguidoelement next_e, pre_e;
