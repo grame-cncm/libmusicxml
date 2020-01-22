@@ -1263,10 +1263,20 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         std::vector<S_tied>::const_iterator i;
         for (i = tied.begin(); i != tied.end(); i++) {
             if ((*i)->getAttributeValue("type") == "start") {
-                Sguidoelement tag = guidotag::create("tieBegin");
+                /// MusicXML does not always contain the "number" attribtue! if not, we'll assign them ourselves!
+                stringstream tagName;
+                if (fTiedOpen.empty()) {
+                    fTiedOpen.push(1);
+                }else {
+                    fTiedOpen.push( fTiedOpen.back()+1 );
+                }
                 string num = (*i)->getAttributeValue ("number");
-                if (num.size())
-                    tag->add (guidoparam::create(num, false));
+                if (num.size()) {
+                    tagName << "tieBegin" << ":"<< num;
+                }else{
+                    tagName << "tieBegin" << ":"<< fTiedOpen.back();
+                }
+                Sguidoelement tag = guidotag::create(tagName.str());
                 string placement = (*i)->getAttributeValue("orientation");
                 if (placement == "under")
                     tag->add (guidoparam::create("curve=\"down\"", false));
@@ -1277,13 +1287,25 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
     
     void xmlpart2guido::checkTiedEnd ( const std::vector<S_tied>& tied )
     {
+        // Don't even bother if there is no priorly opened Tied
+        if (fTiedOpen.empty()) {
+            return;
+        }
         std::vector<S_tied>::const_iterator i;
         for (i = tied.begin(); i != tied.end(); i++) {
             if ((*i)->getAttributeValue("type") == "stop") {
-                Sguidoelement tag = guidotag::create("tieEnd");
+                /// MusicXML does not always contain the "number" attribtue! We'll assign them ourselves!
+                stringstream tagName;
                 string num = (*i)->getAttributeValue ("number");
-                if (num.size())
-                    tag->add (guidoparam::create(num, false));
+                if (num.size()) {
+                    tagName << "tieEnd" << ":"<< num;
+                }else{
+                    tagName << "tieEnd" << ":"<< fTiedOpen.front();
+                }
+                
+                Sguidoelement tag = guidotag::create(tagName.str());
+                
+                fTiedOpen.pop();
                 add(tag);
             }
         }
@@ -2423,6 +2445,9 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     //______________________________________________________________________________
     void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure, const S_note& elt)
     {
+        // Check for Tied Begin
+        checkTiedBegin(nv.getTied());
+
         // Fingering is tied to single notes (in chords)
         int hasFingerings = 0;  // 0 if none, greater otherwise!
         if (nv.getFingerings().size()) {
@@ -2520,14 +2545,18 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 }
             }
             
-            
             if (noteFormat == true)
             {
                 push(noteFormatTag);
             }
         }
         
+        // Tie End should appear BEFORE the note itself in Guido:
+        
         add (note);
+        
+        checkTiedEnd(nv.getTied());
+
         
         if (noteFormat)
             pop();
@@ -2542,7 +2571,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             }
         }
         
-        //checkTiedEnd (nv.getTied());
     }
     
     int xmlpart2guido::checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure)
@@ -2710,10 +2738,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
-        
-        // Check for TIES before creating the chord sequence. \tieBeing and \tieEnd should live OUTSIDE chord sequence in Guido
-        checkTiedBegin((*this).getTied());
-        
+                
         vector<Sxmlelement> chord = getChord(elt);
         if (chord.size())
         {
@@ -2737,7 +2762,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             newNote (nv, thisNoteHeadPosition, elt);
         }
         
-        checkTiedEnd((*this).getTied());
         isProcessingChord = false;
         
         while (pendingPops--) pop();
