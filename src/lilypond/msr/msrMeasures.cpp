@@ -1184,7 +1184,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
 #ifdef TRACE_OAH
         if (
-          gMusicXMLOah->fTraceDivisions
+          gMxmlTreeOah->fTraceDivisions
             ||
           gTraceOah->fTraceTimes
             ||
@@ -1223,7 +1223,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
 #ifdef TRACE_OAH
         if (
-          gMusicXMLOah->fTraceDivisions
+          gMxmlTreeOah->fTraceDivisions
             ||
           gTraceOah->fTraceTimes
             ||
@@ -1253,7 +1253,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
 #ifdef TRACE_OAH
       if (
-        gMusicXMLOah->fTraceDivisions
+        gMxmlTreeOah->fTraceDivisions
           ||
         gTraceOah->fTraceTimes
           ||
@@ -2250,7 +2250,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
       ||
     gTraceOah->fTracePositionsInMeasures
       ||
-    gMusicXMLOah->fTraceBackup
+    gMxmlTreeOah->fTraceBackup
       ||
     gTraceOah->fTraceWholeNotes
   ) {
@@ -2296,7 +2296,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
           measureVoice);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceMeasures || gMusicXMLOah->fTraceDivisions) {
+    if (gTraceOah->fTraceMeasures || gMxmlTreeOah->fTraceDivisions) {
       gLogOstream <<
         "Appending rest" << paddingNote->asString () <<
         " (missingDuration " << missingDuration <<
@@ -2402,7 +2402,7 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
       ||
     gTraceOah->fTracePositionsInMeasures
       ||
-    gMusicXMLOah->fTraceBackup
+    gMxmlTreeOah->fTraceBackup
       ||
     gTraceOah->fTraceWholeNotes
   ) {
@@ -3499,8 +3499,6 @@ void msrMeasure::finalizeRegularMeasure (
     }
   }
 
-  fMeasureHasBeenFinalized = true;
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasuresDetails) {
     displayMeasure (
@@ -4287,8 +4285,6 @@ void msrMeasure::finalizeHarmonyMeasure (
     }
   }
 
-  fMeasureHasBeenFinalized = true;
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies) {
     displayMeasure (
@@ -4481,8 +4477,6 @@ void msrMeasure::finalizeFiguredBassMeasure (
     }
   }
 
-  fMeasureHasBeenFinalized = true;
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     displayMeasure (
@@ -4505,10 +4499,11 @@ void msrMeasure::finalizeMeasure (
     s <<
       "Attempting to finalize measure " <<
       this->asShortString () <<
-      " more than once" <<
-      " in segment '" <<
+      " more than once in segment '" <<
       fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-      "' in voice \"" <<
+      "', context: " << context <<
+      "', measureFinalizationContext: " << fMeasureFinalizationContext <<
+      " in voice \"" <<
       fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
       "\" (" << context << ")" <<
       ", line " << inputLineNumber;
@@ -4518,7 +4513,7 @@ void msrMeasure::finalizeMeasure (
       fInputLineNumber,
       s.str ());
 
-      abort (); // JMI
+//      abort (); // JMI
   }
 
   else {
@@ -4562,6 +4557,10 @@ void msrMeasure::finalizeMeasure (
           context);
         break;
     } // switch
+
+    // register finalization
+    fMeasureHasBeenFinalized = true;
+    fMeasureFinalizationContext = context;
   }
 }
 
@@ -4693,7 +4692,9 @@ void msrMeasure::finalizeMeasureClone (
     }
   }
 
+  // register finalization
   fMeasureHasBeenFinalized = true;
+  fMeasureFinalizationContext = "finalizeMeasureClone()";
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
@@ -5148,14 +5149,19 @@ void msrMeasure::print (ostream& os) const
     endl <<
 
     setw (fieldWidth) <<
+    "measureKindAndPuristNumberHaveBeenDetermined" << " : " <<
+    booleanAsString (
+      fMeasureKindAndPuristNumberHaveBeenDetermined) <<
+    endl <<
+
+    setw (fieldWidth) <<
     "measureHasBeenFinalized" << " : " <<
     booleanAsString (
       fMeasureHasBeenFinalized) <<
     endl <<
     setw (fieldWidth) <<
-    "measureKindAndPuristNumberHaveBeenDetermined" << " : " <<
-    booleanAsString (
-      fMeasureKindAndPuristNumberHaveBeenDetermined) <<
+    "measureFinalizationContext" << " : " <<
+    fMeasureFinalizationContext <<
     endl <<
 
     setw (fieldWidth) <<
@@ -5336,14 +5342,19 @@ void msrMeasure::shortPrint (ostream& os) const
     endl <<
 
     setw (fieldWidth) <<
+    "measureKindAndPuristNumberHaveBeenDetermined" << " : " <<
+    booleanAsString (
+      fMeasureKindAndPuristNumberHaveBeenDetermined) <<
+    endl <<
+
+    setw (fieldWidth) <<
     "measureHasBeenFinalized" << " : " <<
     booleanAsString (
       fMeasureHasBeenFinalized) <<
     endl <<
     setw (fieldWidth) <<
-    "measureKindAndPuristNumberHaveBeenDetermined" << " : " <<
-    booleanAsString (
-      fMeasureKindAndPuristNumberHaveBeenDetermined) <<
+    "measureFinalizationContext" << " : " <<
+    fMeasureFinalizationContext <<
     endl <<
 
     setw (fieldWidth) <<

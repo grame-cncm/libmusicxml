@@ -3866,8 +3866,7 @@ void msrNote::print (ostream& os) const
     setw (fieldWidth) <<
     "noteBelongsToARestMeasures" << " : " <<
     booleanAsString (fNoteBelongsToARestMeasures) <<
-    endl;
-  os << left <<
+    endl <<
     setw (fieldWidth) <<
     "noteRestMeasuresSequenceNumber" << " : " <<
     fNoteRestMeasuresSequenceNumber <<

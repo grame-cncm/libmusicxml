@@ -36,7 +36,7 @@ namespace MusicXML2
 */
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*       fileName,
-  S_musicXMLOah mxmlOpts,
+  S_mxmlTreeOah mxmlOpts,
   indentedOstream&  logOstream);
 
 //______________________________________________________________________________
@@ -50,7 +50,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
 EXP Sxmlelement musicXMLFd2mxmlTree (
   FILE*             fd,
-  S_musicXMLOah mxmlOpts,
+  S_mxmlTreeOah mxmlOpts,
   indentedOstream&  logOstream);
 
 //______________________________________________________________________________
@@ -63,7 +63,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 */
 EXP Sxmlelement musicXMLString2mxmlTree (
   const char*       buffer,
-  S_musicXMLOah mxmlOpts,
+  S_mxmlTreeOah mxmlOpts,
   indentedOstream&  logOstream);
 
 

@@ -704,6 +704,8 @@ class msrMeasure : public msrElement
     // measure finalization
     bool                  fMeasureHasBeenFinalized;
     bool                  fMeasureKindAndPuristNumberHaveBeenDetermined;
+
+    string                fMeasureFinalizationContext;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);

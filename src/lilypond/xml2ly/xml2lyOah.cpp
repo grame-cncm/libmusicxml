@@ -170,7 +170,7 @@ void xml2lyOahHandler::initializeXml2lyOptionsHandler (
   // initialize options handling, phase 2
   // ------------------------------------------------------
 
-  initializeMusicXMLOahHandling (
+  initializeMxmlTreeOahHandling (
     this);
 
   initializeMsrOahHandling (
@@ -375,7 +375,7 @@ void xml2lyOahHandler::enforceOahHandlerQuietness ()
   gGeneralOah->
     enforceQuietness ();
 
-  gMusicXMLOah->
+  gMxmlTreeOah->
     enforceQuietness ();
 
   gMsrOah->

@@ -1268,7 +1268,7 @@ void msrSegment::padUpToPositionInMeasureInSegment (
       ||
     gTraceOah->fTraceMeasures
       ||
-    gMusicXMLOah->fTraceBackup
+    gMxmlTreeOah->fTraceBackup
   ) {
     gLogOstream <<
       "Padding up to current whole notes '" << wholeNotes <<
@@ -1340,7 +1340,7 @@ void msrSegment::backupByWholeNotesStepLengthInSegment (
       ||
     gTraceOah->fTraceMeasures
       ||
-    gMusicXMLOah->fTraceBackup
+    gMxmlTreeOah->fTraceBackup
   ) {
     gLogOstream <<
       "Backup by a '" <<

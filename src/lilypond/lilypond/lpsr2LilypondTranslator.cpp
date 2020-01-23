@@ -4737,7 +4737,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 
   {
     // title
-    if (gMusicXMLOah->fUseFilenameAsWorkTitle) {
+    if (gMxmlTreeOah->fUseFilenameAsWorkTitle) {
       fLilypondCodeOstream << left <<
         setw (fieldNameWidth) <<
         "title = \"" <<
@@ -6117,6 +6117,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
 
     gIndenter++;
 
+/* JMI
     if (partName.size ()) {
       fLilypondCodeOstream <<
         "instrumentName = \"" <<
@@ -6124,13 +6125,13 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
         "\"" <<
         endl;
     }
-
     if (partAbbreviation.size ()) {
       fLilypondCodeOstream <<
         "shortInstrumentName = " <<
        nameAsLilypondString (partAbbreviation) <<
         endl;
     }
+*/
 
     if (gLilypondOah->fConnectArpeggios) {
       fLilypondCodeOstream <<
@@ -6277,6 +6278,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     // generate the instrument name
     //* JMI BLARKBLARK
     if (partName.size ()) {
+    /* JMI
       fLilypondCodeOstream <<
         "instrumentName = ";
 
@@ -6304,8 +6306,16 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
             markupColumnKindLeftACentered) << // JMI ???
           endl;
       }
+      */
     }
-    //*/
+    /* ??? JMI
+    if (partAbbreviation.size ()) {
+      fLilypondCodeOstream <<
+        "shortInstrumentName = " <<
+        nameAsLilypondString (partAbbreviation) <<
+        endl;
+    }
+    */
 
     // get the part upLink abbreviation display text to be used
     string partAbbreviation =
@@ -14836,7 +14846,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
     elt->getInputLineNumber ();
 
   switch (elt->getBarlineCategory ()) {
-
     case msrBarline::kBarlineCategoryStandalone:
       switch (elt->getBarlineStyleKind ()) {
         case msrBarline::kBarlineStyleNone:
@@ -14909,9 +14918,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       break;
 
     case msrBarline::kBarlineCategoryRepeatStart:
-      if (gLilypondOah->fKeepRepeatBarlines) {
+  // JMI    if (gLilypondOah->fKeepRepeatBarlines) {
         fLilypondCodeOstream << "\\bar \".|:\" ";
-      }
+  //    }
       break;
     case msrBarline::kBarlineCategoryRepeatEnd:
       if (gLilypondOah->fKeepRepeatBarlines) {

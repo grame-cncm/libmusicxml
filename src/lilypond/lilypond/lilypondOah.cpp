@@ -2689,6 +2689,7 @@ R"()",
 
   fKeepRepeatBarlines = boolOptionsInitialValue;
 
+/* JMI ???
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
@@ -2696,6 +2697,7 @@ R"()",
 R"(Generate repeats start and and bar lines even though LilyPond would take care of them.)",
         "keepRepeatBarlines",
         fKeepRepeatBarlines));
+*/
 
   fRepeatBrackets = boolOptionsInitialValue;
 

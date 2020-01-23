@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___musicXMLOah___
-#define ___musicXMLOah___
+#ifndef ___mxmlTreeOah___
+#define ___mxmlTreeOah___
 
 #include "oahBasicTypes.h"
 #include "exports.h"
@@ -21,24 +21,24 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class musicXMLOah : public oahGroup
+class mxmlTreeOah : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<musicXMLOah> create (
+    static SMARTP<mxmlTreeOah> create (
       S_oahHandler handlerUpLink);
 
-    SMARTP<musicXMLOah>   createCloneWithDetailedTrace ();
+    SMARTP<mxmlTreeOah>   createCloneWithDetailedTrace ();
 
   private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMusicXMLOah (
+    void                  initializeMxmlTreeOah (
                             bool boolOptionsInitialValue);
 
   protected:
@@ -46,10 +46,10 @@ class musicXMLOah : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    musicXMLOah (
+    mxmlTreeOah (
       S_oahHandler handlerUpLink);
 
-    virtual ~musicXMLOah ();
+    virtual ~mxmlTreeOah ();
 
   public:
 
@@ -121,9 +121,9 @@ class musicXMLOah : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printMusicXMLOahHelp ();
+    void                  printMxmlTreeOahHelp ();
 
-    void                  printMusicXMLOahValues (int fieldWidth);
+    void                  printMxmlTreeOahValues (int fieldWidth);
 
   public:
 
@@ -189,15 +189,15 @@ class musicXMLOah : public oahGroup
     bool                  fTraceForward;
 #endif
 };
-typedef SMARTP<musicXMLOah> S_musicXMLOah;
-EXP ostream& operator<< (ostream& os, const S_musicXMLOah& elt);
+typedef SMARTP<mxmlTreeOah> S_mxmlTreeOah;
+EXP ostream& operator<< (ostream& os, const S_mxmlTreeOah& elt);
 
-EXP extern S_musicXMLOah gMusicXMLOah;
-EXP extern S_musicXMLOah gMusicXMLOahUserChoices;
-EXP extern S_musicXMLOah gMusicXMLOahWithDetailedTrace;
+EXP extern S_mxmlTreeOah gMxmlTreeOah;
+EXP extern S_mxmlTreeOah gMxmlTreeOahUserChoices;
+EXP extern S_mxmlTreeOah gMxmlTreeOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMusicXMLOahHandling (
+void initializeMxmlTreeOahHandling (
   S_oahHandler handler);
 
 

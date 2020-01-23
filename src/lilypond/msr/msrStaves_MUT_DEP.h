@@ -468,7 +468,7 @@ class msrStaff : public msrElement
 
     // finalization
 
-    void                  finalizeCurrentMeasureInStaff (
+    void                  finalizeLastAppendedMeasureInStaff (
                             int inputLineNumber);
 
     void                  finalizeStaff (

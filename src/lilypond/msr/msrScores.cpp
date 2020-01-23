@@ -240,7 +240,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
   if (
     ! fIdentification->getWorkTitle ()
       &&
-    gMusicXMLOah->fUseFilenameAsWorkTitle
+    gMxmlTreeOah->fUseFilenameAsWorkTitle
   ) {
     string
       inputSourceName =
@@ -403,7 +403,7 @@ void msrScore::setHeaderFromOptionsIfAny (
   int inputLineNumber)
 {
   // should we use lyricists as poets? JMI
-  if (gMusicXMLOah->fUseLyricistsAsPoets) {
+  if (gMxmlTreeOah->fUseLyricistsAsPoets) {
     S_msrVarValsListAssoc
       lyricists =
         fIdentification->getLyricists ();

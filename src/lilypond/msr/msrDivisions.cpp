@@ -43,7 +43,7 @@ S_msrDivisions msrDivisions::create (
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
 #ifdef TRACE_OAH
- if (gMusicXMLOah->fTraceDivisions) {
+ if (gMxmlTreeOah->fTraceDivisions) {
     gLogOstream <<
       "Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
@@ -76,7 +76,7 @@ msrDivisions::msrDivisions (
 void msrDivisions::initializeDivisions ()
 {
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceDivisions && ! gGeneralOah->fQuiet) {
+  if (gMxmlTreeOah->fTraceDivisions && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing divisions" <<
       ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
@@ -139,7 +139,7 @@ void msrDivisions::initializeDivisions ()
 
   // print the durations divisions if needed
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceDivisions) {
+  if (gMxmlTreeOah->fTraceDivisions) {
     printDurationKindsDivisions (gLogOstream);
   }
 #endif
@@ -250,7 +250,7 @@ string msrDivisions::divisionsAsMsrString (
   // either a sequence of dots or a multiplication factor
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceDivisions) {
+  if (gMxmlTreeOah->fTraceDivisions) {
     const int fieldWidth = 16;
 
     gLogOstream <<
@@ -302,7 +302,7 @@ string msrDivisions::divisionsAsMsrString (
         msrDurationKindAsString (baseDurationKind);
 
 #ifdef TRACE_OAH
-      if (gMusicXMLOah->fTraceDivisions) {
+      if (gMxmlTreeOah->fTraceDivisions) {
         const int fieldWidth = 22;
 
         gLogOstream <<
@@ -339,7 +339,7 @@ string msrDivisions::divisionsAsMsrString (
       baseDurationDivisions / 2;
 
 #ifdef TRACE_OAH
-    if (gMusicXMLOah->fTraceDivisions) {
+    if (gMxmlTreeOah->fTraceDivisions) {
       const int fieldWidth = 22;
 
       gLogOstream <<
@@ -367,7 +367,7 @@ string msrDivisions::divisionsAsMsrString (
       r.rationalise ();
 
 #ifdef TRACE_OAH
-      if (gMusicXMLOah->fTraceDivisions) { // JMI
+      if (gMxmlTreeOah->fTraceDivisions) { // JMI
         const int fieldWidth = 22;
 
         gLogOstream <<
@@ -397,7 +397,7 @@ string msrDivisions::divisionsAsMsrString (
         nextDivisionsInList /= 2;
 
 #ifdef TRACE_OAH
-        if (gMusicXMLOah->fTraceDivisions) {
+        if (gMxmlTreeOah->fTraceDivisions) {
           const int fieldWidth = 22;
 
           gLogOstream <<
@@ -426,7 +426,7 @@ string msrDivisions::divisionsAsMsrString (
       } // while
 
 #ifdef TRACE_OAH
-      if (gMusicXMLOah->fTraceDivisions) {
+      if (gMxmlTreeOah->fTraceDivisions) {
         const int fieldWidth = 24;
 
         gLogOstream <<
@@ -460,7 +460,7 @@ string msrDivisions::divisionsAsMsrString (
   numberOfDotsNeeded = dotsNumber;
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceDivisions) {
+  if (gMxmlTreeOah->fTraceDivisions) {
     gLogOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<

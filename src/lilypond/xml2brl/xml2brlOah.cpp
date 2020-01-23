@@ -155,7 +155,7 @@ void xml2brlOahHandler::initializeXml2brlOptionsHandler (
   // initialize options handling, phase 2
   // ------------------------------------------------------
 
-  initializeMusicXMLOahHandling (
+  initializeMxmlTreeOahHandling (
     this);
 
   initializeMsrOahHandling (
@@ -425,7 +425,7 @@ void xml2brlOahHandler::enforceOahHandlerQuietness ()
   gGeneralOah->
     enforceQuietness ();
 
-  gMusicXMLOah->
+  gMxmlTreeOah->
     enforceQuietness ();
 
   gMsrOah->

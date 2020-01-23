@@ -33,20 +33,20 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_musicXMLOah gMusicXMLOah;
-S_musicXMLOah gMusicXMLOahUserChoices;
-S_musicXMLOah gMusicXMLOahWithDetailedTrace;
+S_mxmlTreeOah gMxmlTreeOah;
+S_mxmlTreeOah gMxmlTreeOahUserChoices;
+S_mxmlTreeOah gMxmlTreeOahWithDetailedTrace;
 
-S_musicXMLOah musicXMLOah::create (
+S_mxmlTreeOah mxmlTreeOah::create (
   S_oahHandler handlerUpLink)
 {
-  musicXMLOah* o = new musicXMLOah(
+  mxmlTreeOah* o = new mxmlTreeOah(
     handlerUpLink);
   assert(o!=0);
   return o;
 }
 
-musicXMLOah::musicXMLOah (
+mxmlTreeOah::mxmlTreeOah (
   S_oahHandler handlerUpLink)
   : oahGroup (
     "MusicXML",
@@ -70,14 +70,14 @@ R"(These options control the way MusicXML data is translated to MSR.)",
   }
 
   // initialize it
-  initializeMusicXMLOah (false);
+  initializeMxmlTreeOah (false);
 }
 
-musicXMLOah::~musicXMLOah ()
+mxmlTreeOah::~mxmlTreeOah ()
 {}
 
 #ifdef TRACE_OAH
-void musicXMLOah::initializeMusicXMLTraceOah (
+void mxmlTreeOah::initializeMusicXMLTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -220,7 +220,7 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 }
 #endif
 
-void musicXMLOah::initializeMusicXMLHeaderOptions (
+void mxmlTreeOah::initializeMusicXMLHeaderOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -261,7 +261,7 @@ This is useful because LilyPond doesn't feature a 'lyricist' variable.)",
         fUseLyricistsAsPoets));
 }
 
-void musicXMLOah::initializeMusicXMLClefsKeysTimesOptions (
+void mxmlTreeOah::initializeMusicXMLClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -364,7 +364,7 @@ R"(Ignore times that are the same as the current one.)",
       fIgnoreRedundantTimesAtom);
 }
 
-void musicXMLOah::initializeMusicXMMeasuresOptions (
+void mxmlTreeOah::initializeMusicXMMeasuresOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -398,7 +398,7 @@ This option can be used any number of times.)###",
         fAddEmptyMeasuresStringToIntMap));
 }
 
-void musicXMLOah::initializeMusicXMLDynamicsAndWedgesOptions (
+void mxmlTreeOah::initializeMusicXMLDynamicsAndWedgesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -437,7 +437,7 @@ R"(Ignore wedges placement and set it to 'below'.)",
         fAllWedgesBelow));
 }
 
-void musicXMLOah::initializeMusicXMLCombinedOptionsOptions (
+void mxmlTreeOah::initializeMusicXMLCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -501,7 +501,7 @@ R"(Prevents the default 'cubase' option.)",
       noCubaseBooleanAtom);
  }
 
-void musicXMLOah::initializeMusicXMLLoopOptions (
+void mxmlTreeOah::initializeMusicXMLLoopOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -535,7 +535,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
       loopOptionsBooleanAtom);
 }
 
-void musicXMLOah::initializeMusicXMLOah (
+void mxmlTreeOah::initializeMxmlTreeOah (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
@@ -577,11 +577,11 @@ void musicXMLOah::initializeMusicXMLOah (
     boolOptionsInitialValue);
 }
 
-S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
+S_mxmlTreeOah mxmlTreeOah::createCloneWithDetailedTrace ()
 {
-  S_musicXMLOah
+  S_mxmlTreeOah
     clone =
-      musicXMLOah::create (0);
+      mxmlTreeOah::create (0);
       // 0 not to have it inserted twice in the option handler
 
   // set the options handler upLink
@@ -658,7 +658,7 @@ S_musicXMLOah musicXMLOah::createCloneWithDetailedTrace ()
 }
 
 //______________________________________________________________________________
-void musicXMLOah::setAllMusicXMLTraceOah (
+void mxmlTreeOah::setAllMusicXMLTraceOah (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
@@ -679,37 +679,37 @@ void musicXMLOah::setAllMusicXMLTraceOah (
 }
 
 //______________________________________________________________________________
-void musicXMLOah::enforceQuietness ()
+void mxmlTreeOah::enforceQuietness ()
 {
   fTraceMusicXMLTreeVisitors = false;
 }
 
 //______________________________________________________________________________
-void musicXMLOah::checkOptionsConsistency ()
+void mxmlTreeOah::checkOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void musicXMLOah::acceptIn (basevisitor* v)
+void mxmlTreeOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> musicXMLOah::acceptIn ()" <<
+      ".\\\" ==> mxmlTreeOah::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_musicXMLOah>*
+  if (visitor<S_mxmlTreeOah>*
     p =
-      dynamic_cast<visitor<S_musicXMLOah>*> (v)) {
-        S_musicXMLOah elem = this;
+      dynamic_cast<visitor<S_mxmlTreeOah>*> (v)) {
+        S_mxmlTreeOah elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching musicXMLOah::visitStart ()" <<
+            ".\\\" ==> Launching mxmlTreeOah::visitStart ()" <<
             endl;
         }
 #endif
@@ -717,25 +717,25 @@ void musicXMLOah::acceptIn (basevisitor* v)
   }
 }
 
-void musicXMLOah::acceptOut (basevisitor* v)
+void mxmlTreeOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> musicXMLOah::acceptOut ()" <<
+      ".\\\" ==> mxmlTreeOah::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_musicXMLOah>*
+  if (visitor<S_mxmlTreeOah>*
     p =
-      dynamic_cast<visitor<S_musicXMLOah>*> (v)) {
-        S_musicXMLOah elem = this;
+      dynamic_cast<visitor<S_mxmlTreeOah>*> (v)) {
+        S_mxmlTreeOah elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching musicXMLOah::visitEnd ()" <<
+            ".\\\" ==> Launching mxmlTreeOah::visitEnd ()" <<
             endl;
         }
 #endif
@@ -743,19 +743,19 @@ void musicXMLOah::acceptOut (basevisitor* v)
   }
 }
 
-void musicXMLOah::browseData (basevisitor* v)
+void mxmlTreeOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> musicXMLOah::browseData ()" <<
+      ".\\\" ==> mxmlTreeOah::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
+void mxmlTreeOah::printMxmlTreeOahValues (int fieldWidth)
 {
   gLogOstream <<
     "The MusicXML options are:" <<
@@ -925,14 +925,14 @@ void musicXMLOah::printMusicXMLOahValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_musicXMLOah& elt)
+ostream& operator<< (ostream& os, const S_mxmlTreeOah& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeMusicXMLOahHandling (
+void initializeMxmlTreeOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
@@ -946,19 +946,19 @@ void initializeMusicXMLOahHandling (
   // create the MusicXML options
   // ------------------------------------------------------
 
-  gMusicXMLOahUserChoices = musicXMLOah::create (
+  gMxmlTreeOahUserChoices = mxmlTreeOah::create (
     handler);
-  assert(gMusicXMLOahUserChoices != 0);
+  assert(gMxmlTreeOahUserChoices != 0);
 
-  gMusicXMLOah =
-    gMusicXMLOahUserChoices;
+  gMxmlTreeOah =
+    gMxmlTreeOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  gMusicXMLOahWithDetailedTrace =
-    gMusicXMLOah->
+  gMxmlTreeOahWithDetailedTrace =
+    gMxmlTreeOah->
       createCloneWithDetailedTrace ();
       */
 }

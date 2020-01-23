@@ -700,7 +700,7 @@ class msrVoice : public msrElement
 
     // finalization
 
-    void                  finalizeCurrentMeasureInVoice (
+    void                  finalizeLastAppendedMeasureInVoice (
                             int inputLineNumber);
 
     void                  finalizeVoice (
@@ -1113,8 +1113,8 @@ class msrVoice : public msrElement
                             // and 1 otherwise,
                             // and is shared by incomplete (sub)measure fragments
 
-    // fVoiceCurrentMeasure contains the last measure append to the voice
-    S_msrMeasure          fVoiceCurrentMeasure;
+    // fVoiceCurrentMeasure contains the last measure appended to the voice
+    S_msrMeasure          fVoiceLastAppendedMeasure;
 
     // a stack is needed to handle pending repeats, which can be nested
     list<S_msrRepeatDescr>

@@ -44,10 +44,10 @@ Features:
     to supply a string value to be converted into an internal enumerated type.
 
   - oahCombinedBooleansAtom contains a list of boolean atoms to manipulate several such atoms as a single one,
-    see the 'cubase' combined booleans atom in musicXMLOah.cpp.
+    see the 'cubase' combined booleans atom in mxmlTreeOah.cpp.
 
   - oahMultiplexBooleansAtom contains a list of boolean atoms sharing a common prefix to display such atoms in a compact manner,
-    see the 'cubase' combined booleans atom in musicXMLOah.cpp.
+    see the 'cubase' combined booleans atom in mxmlTreeOah.cpp.
 
   - storing options and the corresponding help in oahGroup's makes it easy to re-use them.
     For example, xml2ly and xml2lbr have their three first passes in common,

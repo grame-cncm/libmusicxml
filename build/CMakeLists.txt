@@ -27,11 +27,12 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
-option ( FMWK 		 "Generates a framework on MacOS by default"	off )
-option ( UNIVERSAL "Generates universal binaries"	off )
-option ( GDB 		   "Activates ggdb3 option"	off )
-option ( LILY 		 "Include lilypond part"	on )
-option ( BRL 		   "Include braille part"	  off )
+option ( FMWK 		  "Generates a framework on MacOS by default"	off )
+option ( UNIVERSAL  "Generates universal binaries"	off )
+option ( GDB 		    "Activates ggdb3 option"	      off )
+option ( APPLEDEBUG "Activates Apple debug option"	off )
+option ( LILY 		  "Include lilypond part"       	on )
+option ( BRL 		    "Include braille part"	        off )
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
@@ -72,8 +73,10 @@ if(APPLE)
 		set (CMAKE_OSX_ARCHITECTURES "x86_64")
 		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.10)
 	endif()
-  # to debug:
-  #add_definitions(-O0 -g) # JMI
+  if (APPLEDEBUG)
+		message (STATUS "Generates debug information on Apple - Use -DAPPLEDEBUG=yes to change. .")
+    add_definitions(-O0 -g)
+  endif()
 
 #########################################
 # windows specific part
@@ -187,7 +190,7 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic RandomChords xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (SAMPLES xmlversion RandomMusic RandomChords MusicAndHarmonies xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
 if (LILY)
 	set (SAMPLES ${SAMPLES} xml2ly)

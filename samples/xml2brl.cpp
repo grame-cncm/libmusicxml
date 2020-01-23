@@ -101,7 +101,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
     mxmlTree =
       musicXMLFd2mxmlTree (
         stdin,
-        gMusicXMLOah,
+        gMxmlTreeOah,
         gLogOstream);
   }
 
@@ -134,7 +134,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
     mxmlTree =
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
-        gMusicXMLOah,
+        gMxmlTreeOah,
         gLogOstream);
   }
 

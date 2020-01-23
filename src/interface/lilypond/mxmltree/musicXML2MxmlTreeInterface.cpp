@@ -404,7 +404,7 @@ string uncompressMXLFile (
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*       fileName,
-  S_musicXMLOah mxmlOpts,
+  S_mxmlTreeOah mxmlOpts,
   indentedOstream&  logOstream)
 {
   clock_t startClock = clock ();
@@ -474,7 +474,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceEncoding) {
+  if (gMxmlTreeOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! xmlFile contents from file:" <<
@@ -493,7 +493,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceEncoding) {
+  if (gMxmlTreeOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! xmlDecl contents from file:" <<
@@ -511,7 +511,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gMusicXMLOah->fTraceEncoding) {
+  if (gMxmlTreeOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! docType from file:" <<
@@ -592,7 +592,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFd2mxmlTree (
   FILE*             fd,
-  S_musicXMLOah mxmlOpts,
+  S_mxmlTreeOah mxmlOpts,
   indentedOstream&  logOstream)
 {
   clock_t startClock = clock ();
@@ -625,7 +625,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   }
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceEncoding) {
+  if (gMxmlTreeOah->fTraceEncoding) {
     logOstream <<
       "!!!!! xmlFile contents from stream:" <<
       endl;
@@ -638,7 +638,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceEncoding) {
+  if (gMxmlTreeOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "xmlDecl contents:" <<
@@ -656,7 +656,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gMusicXMLOah->fTraceEncoding) {
+  if (gMxmlTreeOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! docType from stream:" <<
@@ -717,7 +717,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLString2mxmlTree (
   const char*       buffer,
-  S_musicXMLOah mxmlOpts,
+  S_mxmlTreeOah mxmlOpts,
   indentedOstream&  logOstream)
 {
   clock_t startClock = clock ();

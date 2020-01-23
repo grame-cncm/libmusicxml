@@ -516,7 +516,7 @@ class msrPart : public msrPartGroupElement
 
     // finalization
 
-    void                  finalizeCurrentMeasureInPart (
+    void                  finalizeLastAppendedMeasureInPart (
                             int inputLineNumber);
 
     void                  finalizePart (

@@ -920,8 +920,8 @@ void msrVoice::appendMeasureCloneToVoiceClone (
     appendMeasureToSegment (
       measureClone);
 
-  // measureClone is the new voice current measure
-  fVoiceCurrentMeasure = measureClone;
+  // measureClone is the new voice last appended measure
+  fVoiceLastAppendedMeasure = measureClone;
 }
 
 void msrVoice::setWholeNotesSinceLastRegularMeasureEnd (
@@ -1047,8 +1047,8 @@ void msrVoice::createNewLastSegmentFromItsFirstMeasureForVoice (
   fVoiceLastSegment->
     appendMeasureToSegment (firstMeasure);
 
-  // firstMeasure is the new voice current measure
-  fVoiceCurrentMeasure = firstMeasure;
+  // firstMeasure is the new voice last appended measure
+  fVoiceLastAppendedMeasure = firstMeasure;
 
   // is firstMeasure the first one it the voice?
   if (! fVoiceFirstMeasure) {
@@ -1114,8 +1114,8 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
           measureNumber,
           measureImplicitKind);
 
-  // result is the new voice current measure
-  fVoiceCurrentMeasure = result;
+  // result is the new voice last appended measure
+  fVoiceLastAppendedMeasure = result;
 
   // handle voice kind
   switch (fVoiceKind) {
@@ -1980,7 +1980,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
   rational backupTargetMeasureElementPositionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gMusicXMLOah->fTraceBackup) {
+  if (gMxmlTreeOah->fTraceBackup) {
     gLogOstream <<
       "Backup by a '" <<
       backupTargetMeasureElementPositionInMeasure <<
@@ -4061,7 +4061,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
           "handleVoiceLevelRepeatEndWithoutStartInVoice() 2");
 
   // set voice current after repeat component phase kind
-  // before finalizeCurrentMeasureInVoice()
+  // before finalizeLastAppendedMeasureInVoice()
   setCurrentVoiceRepeatPhaseKind (
     inputLineNumber,
     kVoiceRepeatPhaseAfterCommonPart);
@@ -4966,7 +4966,7 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
         // are there measures in the voice last segment?
         if (fVoiceLastSegment->getSegmentMeasuresList ().size ()) {
           // finalize current measure in voice
-          finalizeCurrentMeasureInVoice (
+          finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
 
 #ifdef TRACE_OAH
@@ -5431,7 +5431,7 @@ void msrVoice::finalizeRepeatEndInVoice (
     case msrVoice::kVoiceFiguredBass:
       {
         // finalize current measure in voice
-        finalizeCurrentMeasureInVoice (
+        finalizeLastAppendedMeasureInVoice (
           inputLineNumber);
 
         // fetch the repeat
@@ -6564,7 +6564,7 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
         if (fVoiceLastSegment->getSegmentMeasuresList ().size ()) {
 
           // finalize current measure in voice
-          finalizeCurrentMeasureInVoice (
+          finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
 
           // move voice last segment to the list of initial elements
@@ -7547,7 +7547,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   }
 
   // finalize current measure in voice
-  finalizeCurrentMeasureInVoice (
+  finalizeLastAppendedMeasureInVoice (
     inputLineNumber);
 
   // grab currentRepeat
@@ -7652,7 +7652,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   }
 
   // finalize current measure in voice
-  finalizeCurrentMeasureInVoice (
+  finalizeLastAppendedMeasureInVoice (
     inputLineNumber);
 
   // grab currentRepeat
@@ -8197,7 +8197,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
         // are there measures in the voice last segment?
         if (voiceLastSegmentMeasuresList.size ()) {
           // finalize current measure in voice
-          finalizeCurrentMeasureInVoice (
+          finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
 
           // move current last segment to the list of initial elements
@@ -8268,9 +8268,11 @@ void msrVoice::handleRepeatEndInVoiceClone (
     case msrVoice::kVoiceHarmony:
     case msrVoice::kVoiceFiguredBass:
       {
+      /* JMI
         // finalize current measure in voice
-        finalizeCurrentMeasureInVoice (
+        finalizeLastAppendedMeasureInVoice (
           inputLineNumber);
+          */
 
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceRepeats) {
@@ -8859,15 +8861,9 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
   return result;
 }
 
-void msrVoice::finalizeCurrentMeasureInVoice (
+void msrVoice::finalizeLastAppendedMeasureInVoice (
   int inputLineNumber)
 {
-/* JMI
-  msrMeasure::msrMeasuresRepeatContextKind
-    measuresRepeatContextKind =
-      msrMeasure::kMeasuresRepeatContextKindNone;
-*/
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
@@ -8881,7 +8877,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   if (gTraceOah->fTraceMeasuresDetails) {
     displayVoice (
       inputLineNumber,
-      "finalizeCurrentMeasureInVoice() 1");
+      "finalizeLastAppendedMeasureInVoice() 1");
   }
 #endif
 
@@ -8889,15 +8885,23 @@ void msrVoice::finalizeCurrentMeasureInVoice (
 
   // sanity check
   msrAssert (
-    fVoiceCurrentMeasure != nullptr,
-    "fVoiceCurrentMeasure is null");
-/* JMI
-  // finalize fVoiceCurrentMeasure
-  fVoiceCurrentMeasure->
+    fVoiceLastAppendedMeasure != nullptr,
+    "fVoiceLastAppendedMeasure is null");
+
+  // finalize fVoiceLastAppendedMeasure
+  msrMeasure::msrMeasuresRepeatContextKind
+    measuresRepeatContextKind =
+      msrMeasure::kMeasuresRepeatContextKindNone;
+
+  fVoiceLastAppendedMeasure->
     finalizeMeasure (
       inputLineNumber,
       measuresRepeatContextKind,
-      "finalizeCurrentMeasureInVoice() 2");
+      "finalizeLastAppendedMeasureInVoice() 2");
+
+/* JMI NO
+  // forget about fVoiceLastAppendedMeasure
+  fVoiceLastAppendedMeasure = nullptr;
 */
 
   switch (fVoiceKind) {
@@ -8924,14 +8928,14 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       // handle the harmony voice if any
       if (fHarmonyVoiceForRegularVoiceForwardLink) {
         fHarmonyVoiceForRegularVoiceForwardLink->
-          finalizeCurrentMeasureInVoice (
+          finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
       }
 
       // handle the figuredBass voice if any
       if (fFiguredBassVoiceForRegularVoiceForwardLink) {
         fFiguredBassVoiceForRegularVoiceForwardLink->
-          finalizeCurrentMeasureInVoice (
+          finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
       }
       break;
@@ -8945,7 +8949,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   if (gTraceOah->fTraceMeasuresDetails) {
     displayVoice (
       inputLineNumber,
-      "finalizeCurrentMeasureInVoice() 3");
+      "finalizeLastAppendedMeasureInVoice() 3");
   }
 #endif
 
@@ -9568,13 +9572,13 @@ void msrVoice::print (ostream& os) const
   }
   os << endl;
 
-  // print the voice current measure if any
+  // print the voice last appended measure if any
   os <<
-    setw (fieldWidth) << "voiceCurrentMeasure" << " : ";
-  if (fVoiceCurrentMeasure) {
+    setw (fieldWidth) << "voiceLastAppendedMeasure" << " : ";
+  if (fVoiceLastAppendedMeasure) {
     os <<
       "'" <<
-      fVoiceCurrentMeasure->asShortString () <<
+      fVoiceLastAppendedMeasure->asShortString () <<
       "'";
     }
   else {

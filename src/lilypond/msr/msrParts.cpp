@@ -1570,7 +1570,7 @@ void msrPart::handleBackupInPart (
     backupStepLength);
 }
 
-void msrPart::finalizeCurrentMeasureInPart (
+void msrPart::finalizeLastAppendedMeasureInPart (
   int    inputLineNumber)
 {
 #ifdef TRACE_OAH
@@ -1595,7 +1595,7 @@ void msrPart::finalizeCurrentMeasureInPart (
     i++
   ) {
     (*i).second->
-      finalizeCurrentMeasureInStaff (
+      finalizeLastAppendedMeasureInStaff (
         inputLineNumber);
   } // for
 

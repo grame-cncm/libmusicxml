@@ -1083,7 +1083,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
   if (fStaffCurrentClef) {
     if (
-      gMusicXMLOah->fIgnoreRedundantClefs
+      gMxmlTreeOah->fIgnoreRedundantClefs
         &&
       clef->isEqualTo (fStaffCurrentClef)
     ) {
@@ -1145,7 +1145,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
   if (fStaffCurrentKey) {
     if (
-      gMusicXMLOah->fIgnoreRedundantKeys
+      gMxmlTreeOah->fIgnoreRedundantKeys
         &&
       fStaffCurrentKey->isEqualTo (key)
     ) {
@@ -1210,7 +1210,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
   if (fStaffCurrentTime) {
     if (
-      gMusicXMLOah->fIgnoreRedundantTimes
+      gMxmlTreeOah->fIgnoreRedundantTimes
         &&
       fStaffCurrentTime->isEqualTo (time)
     ) {
@@ -2038,7 +2038,7 @@ void msrStaff::appendHarpPedalsTuningToStaff (
   } // for
 }
 
-void msrStaff::finalizeCurrentMeasureInStaff (
+void msrStaff::finalizeLastAppendedMeasureInStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
@@ -2068,7 +2068,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
         {
           // handle the regular voice
           voice->
-            finalizeCurrentMeasureInVoice (
+            finalizeLastAppendedMeasureInVoice (
               inputLineNumber);
 
 /* JMI this will be done later
@@ -2080,7 +2080,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 
           if (harmonyVoiceForRegularVoice) {
             harmonyVoiceForRegularVoice->
-              finalizeCurrentMeasureInVoice (
+              finalizeLastAppendedMeasureInVoice (
                 inputLineNumber);
           }
 */
@@ -2093,7 +2093,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 
           if (figuredBassVoiceForRegularVoice) {
             figuredBassVoiceForRegularVoice->
-              finalizeCurrentMeasureInVoice (
+              finalizeLastAppendedMeasureInVoice (
                 inputLineNumber);
           }
         }
