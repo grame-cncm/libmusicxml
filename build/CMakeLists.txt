@@ -30,7 +30,7 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 option ( FMWK 		  "Generates a framework on MacOS by default"	off )
 option ( UNIVERSAL  "Generates universal binaries"	off )
 option ( GDB 		    "Activates ggdb3 option"	      off )
-option ( APPLEDEBUG "Activates Apple debug option"	off )
+option ( APPLEDEBUG "Activates Apple debug option"	on )
 option ( LILY 		  "Include lilypond part"       	on )
 option ( BRL 		    "Include braille part"	        off )
 
@@ -96,15 +96,15 @@ set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors interface)
 
 if (LILY OR BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/msr lilypond/manpage)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/msr lilypond/manpage interface/lilypond/mxmltree )
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/lilypond interface/lilypond/mxmltree interface/lilypond/msr interface/lilypond/lilypond lilypond/xml2ly)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/lilypond interface/lilypond/msr interface/lilypond/lilypond lilypond/xml2ly)
 endif()
 
 if (BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/braille interface/lilypond/mxmltree interface/lilypond/bsr interface/lilypond/braille lilypond/xml2brl)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/braille interface/lilypond/bsr interface/lilypond/braille lilypond/xml2brl)
 endif()
 
 foreach(folder ${SRCFOLDERS})
