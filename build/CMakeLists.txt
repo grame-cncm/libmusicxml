@@ -90,9 +90,18 @@ endif()
 # set directories, src and headers.
 set (SRCDIR  ${ROOT}/src)
 set (SAMPLEDIR ${ROOT}/samples)
-set (SRCFOLDERS  factory files elements guido lib operations parser visitors)
+set (SRCFOLDERS  factory files elements guido lib operations parser visitors interface)
+
+if (LILY OR BRL)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/msr lilypond/manpage)
+endif()
+
 if (LILY)
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface lilypond lilypond/oah lilypond/mxmlTree lilypond/msr lilypond/lpsr lilypond/lilypond lilypond/bsr lilypond/braille lilypond/xml2ly lilypond/xml2brl lilypond/manpage)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/lilypond interface/lilypond/mxmltree interface/lilypond/msr interface/lilypond/lilypond lilypond/xml2ly)
+endif()
+
+if (BRL)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/braille interface/lilypond/mxmltree interface/lilypond/bsr interface/lilypond/braille lilypond/xml2brl)
 endif()
 
 foreach(folder ${SRCFOLDERS})

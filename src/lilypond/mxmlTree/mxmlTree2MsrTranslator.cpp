@@ -30,7 +30,7 @@
   #include "traceOah.h"
 #endif
 
-#include "musicXMLOah.h"
+#include "mxmlTreeOah.h"
 #include "msrOah.h"
 
 #include "mxmlTree2MsrTranslator.h"
@@ -7438,6 +7438,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         ) {
           // repeat end
           // ------------------------------------------------------
+
+          // set this barline's category
+          barline->
+            setBarlineCategory (
+              msrBarline::kBarlineCategoryRepeatEnd);
 
           // handle the repeat end
           handleRepeatEnd (barline);

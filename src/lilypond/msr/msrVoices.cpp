@@ -19,7 +19,7 @@
   #include "traceOah.h"
 #endif
 
-#include "musicXMLOah.h"
+#include "mxmlTreeOah.h"
 #include "msrOah.h"
 
 
@@ -3752,13 +3752,14 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
           }
 #endif
 
+/* JMI
           // finalize lastMeasureInLastSegment
           lastMeasureInLastSegment->
             finalizeMeasure (
               inputLineNumber,
               msrMeasure::kMeasuresRepeatContextKindNone,
               "handleVoiceLevelRepeatStartInVoice() 3");
-
+*/
           // append last segment to initial voice elements list
           appendVoiceLastSegmentToInitialVoiceElements (
             inputLineNumber,
@@ -4064,7 +4065,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   setCurrentVoiceRepeatPhaseKind (
     inputLineNumber,
     kVoiceRepeatPhaseAfterCommonPart);
-
+/* JMI
   // finalize current measure in voice
   voiceLastSegmentLastMeasure->
     finalizeMeasure (
@@ -4072,7 +4073,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
       msrMeasure::kMeasuresRepeatContextKindCommonPartLastMeasure,
       "handleVoiceLevelRepeatEndWithoutStartInVoice() 3"
       );
-
+*/
   // append the voice last segment to the new repeat common part
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
@@ -8861,9 +8862,11 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
 void msrVoice::finalizeCurrentMeasureInVoice (
   int inputLineNumber)
 {
+/* JMI
   msrMeasure::msrMeasuresRepeatContextKind
     measuresRepeatContextKind =
       msrMeasure::kMeasuresRepeatContextKindNone;
+*/
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
@@ -8888,14 +8891,14 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   msrAssert (
     fVoiceCurrentMeasure != nullptr,
     "fVoiceCurrentMeasure is null");
-
+/* JMI
   // finalize fVoiceCurrentMeasure
   fVoiceCurrentMeasure->
     finalizeMeasure (
       inputLineNumber,
       measuresRepeatContextKind,
       "finalizeCurrentMeasureInVoice() 2");
-
+*/
 
   switch (fVoiceKind) {
     case msrVoice::kVoiceRegular:

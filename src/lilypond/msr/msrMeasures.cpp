@@ -19,7 +19,7 @@
   #include "traceOah.h"
 #endif
 
-#include "musicXMLOah.h"
+#include "mxmlTreeOah.h"
 #include "msrOah.h"
 
 
@@ -4504,13 +4504,21 @@ void msrMeasure::finalizeMeasure (
 
     s <<
       "Attempting to finalize measure " <<
-      asShortString () <<
-      " more than once";
+      this->asShortString () <<
+      " more than once" <<
+      " in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+      fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
+      "\" (" << context << ")" <<
+      ", line " << inputLineNumber;
 
     msrInternalWarning (
       gOahOah->fInputSourceName,
       fInputLineNumber,
       s.str ());
+
+      abort (); // JMI
   }
 
   else {
@@ -4522,11 +4530,9 @@ void msrMeasure::finalizeMeasure (
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
-        "Finalizing measure '" <<
-        fMeasureElementMeasureNumber <<
-        ", measureDebugNumber: '" <<
-        fMeasureDebugNumber <<
-        "' in segment '" <<
+        "Finalizing measure " <<
+        this->asShortString () <<
+        " in segment '" <<
         fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
         "' in voice \"" <<
         fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<

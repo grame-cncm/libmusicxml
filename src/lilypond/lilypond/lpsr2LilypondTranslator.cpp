@@ -21,7 +21,7 @@
   #include "traceOah.h"
 #endif
 
-#include "musicXMLOah.h"
+#include "mxmlTreeOah.h"
 #include "lilypondOah.h"
 
 #include "lpsr2LilypondTranslator.h"
