@@ -14,13 +14,12 @@
 
 #include "messagesHandling.h"
 
-#include "mxmlTreeOah.h"
 #include "generalOah.h"
 
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -33,7 +32,7 @@ void msrAssert (
       "#### msrAssert failure: " << messageIfFalse <<
       ", aborting." <<
       endl;
-     
+
     abort ();
   }
 }
@@ -115,7 +114,7 @@ void msrError (
         "### " << context << " ERROR ### " <<
         inputSourceName << ":" << inputLineNumber << ": " << message <<
         endl;
-  
+
       gErrorsInputLineNumbers.insert (inputLineNumber);
     }
   }
@@ -194,7 +193,7 @@ void msrLimitation (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
     if (gGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
@@ -217,7 +216,7 @@ void msrStreamsError (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
     if (gGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
@@ -239,7 +238,7 @@ void msrStreamsWarning (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {  
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
     if (gGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
@@ -264,14 +263,14 @@ void displayWarningsAndErrorsInputLineNumbers ()
 {
   int warningsInputLineNumbersSize =
     gWarningsInputLineNumbers.size ();
-    
+
   if (warningsInputLineNumbersSize && ! gGeneralOah->fQuiet) {
     gLogOstream <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
         warningsInputLineNumbersSize, "line", "lines") <<
       " ";
-      
+
     set<int>::const_iterator
       iBegin = gWarningsInputLineNumbers.begin (),
       iEnd   = gWarningsInputLineNumbers.end (),
@@ -284,7 +283,7 @@ void displayWarningsAndErrorsInputLineNumbers ()
 
     gLogOstream << endl;
   }
-  
+
   int errorsInputLineNumbersSize =
     gErrorsInputLineNumbers.size ();
 
@@ -295,7 +294,7 @@ void displayWarningsAndErrorsInputLineNumbers ()
       singularOrPluralWithoutNumber (
         errorsInputLineNumbersSize, "line", "lines") <<
       " ";
-      
+
     set<int>::const_iterator
       iBegin = gErrorsInputLineNumbers.begin (),
       iEnd   = gErrorsInputLineNumbers.end (),
