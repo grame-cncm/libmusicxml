@@ -173,7 +173,9 @@ cmake : $(PDIR)
 # building the library for Android
 #===============================================================
 android :
-	ndk-build -C android -j 4
+	ndk-build -C android -j 6
+	cp android/libs/armeabi-v7a/libmusicxml2.so android/libmusicxml2.armeabi-v7a.so
+	cp android/libs/x86/libmusicxml2.so android/libmusicxml2.x86.so
 
 #===============================================================
 # src code formatting
