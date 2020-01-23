@@ -2377,7 +2377,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
           elt->
             fetchMeasureVoiceUpLink ()->
               getVoiceName () <<
-          "\" is of unknown kind";
+          "\" is of unknown kind in msr2LpsrTranslator";
 
       // JMI  msrInternalError (
         msrInternalWarning (

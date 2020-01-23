@@ -8,7 +8,7 @@ system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo 
 version ?= $(shell cat libmusicxmlversion.txt)
 
 xmlfiles                  = $(shell find ../files -name "*.xml")
-xmlfilesforlilyshouldfail = $(shell find ../files -name "*.xml" | grep shouldfail)
+xmlfilesforlilyignored = $(shell find ../files -name "*.xml" | grep lilypond-ignored)
 xmlfilesforlilyjianpu     = $(shell find ../files -name "*.xml" | grep jianpu)
 jianpuincludefilename     = "jianpu10a.ly"
 jianpuinclude             = $(shell find ../files -name $(jianpuincludefilename)")
@@ -17,7 +17,7 @@ xmlfilesforbrl     		  = $(shell find ../files -name "*.xml" | grep braille)
 readout           := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
 gmnout            := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
 guidosvg          := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
-lilyshouldfailout := $(patsubst ../%.xml, $(version)/lilyshouldfail/%.ly, $(xmlfilesforlilyshouldfail))
+lilyignoredout    := $(patsubst ../%.xml, $(version)/lilyignored/%.ly, $(xmlfilesforlilyignored))
 lilyout           := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
 lilypdf           := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(xmlfiles))
 lilypng           := $(patsubst ../%.xml, $(version)/lilypng/%.png, $(xmlfiles))
@@ -29,7 +29,7 @@ brlout            := $(patsubst ../%.xml, $(version)/braille/%.brl, $(xmlfilesfo
 
 validxml 	          = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	          = $(patsubst %.gmn, %.outgmn, $(gmnout))
-validlilyshouldfail = $(patsubst %.ly, %.outlilyshouldfail, $(lilyshouldfailout))
+validlilyignored    = $(patsubst %.ly, %.outlilyignored, $(lilyignoredout))
 validlily 	        = $(patsubst %.ly, %.outly, $(lilyout))
 validguidosvg       = $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilypdf      	= $(patsubst %.pdf, %.outpdf, $(lilypdf))
@@ -44,13 +44,13 @@ XML2BRL   ?= xml2brl
 XMLREAD   ?= xmlread
 MAKE      ?= make
 
-.PHONY: read guido lilyshouldfail lily lilyjianpu brl
+.PHONY: read guido lilyignored lily lilyjianpu brl
 .DELETE_ON_ERROR:
 
 all:
 	$(MAKE) read
 	$(MAKE) guido
-	$(MAKE) lilyshouldfail
+	$(MAKE) lilyignored
 	$(MAKE) lily
 	$(MAKE) lilypdf
 	$(MAKE) lilypng
@@ -59,7 +59,7 @@ all:
 #	$(MAKE) brl
 
 clean:
-	$(MAKE) lilyshouldfailclean
+	$(MAKE) lilyignoredclean
 	$(MAKE) lilyclean
 	$(MAKE) lilypdfclean
 	$(MAKE) lilypngclean
@@ -76,13 +76,13 @@ trace:
 
 help:
 	@echo "Makefile for testing the libmusicxml library output."
-	@echo "Testing is based on the xml files located in the 'files' folder." 
+	@echo "Testing is based on the xml files located in the 'files' folder."
 	@echo "Available targets are:"
-	@echo "  'all' (default)  : call the 'read', 'guido', 'lilyshouldfail', 'lily' and 'lilyjianpu' targets."
+	@echo "  'all' (default)  : call the 'read', 'guido', 'lilyignored', 'lily' and 'lilyjianpu' targets."
 	@echo "  'read'           : reads the set of xml files and writes the corresponding output"
 	@echo "  'guido'          : converts the set of xml files to guido"
 	@echo "  'guidosvg'       : converts the output of 'guido' target to svg"
-	@echo "  'lilyshouldfail' : converts a subset of xml files to lilypond, but fails as expected"
+	@echo "  'lilyignored'    : converts a subset of xml files to lilypond, but fails as expected"
 	@echo "  'lily'           : converts the set of xml files to lilypond"
 	@echo "  'lilypng'        : converts the output of 'lily' target to png"
 	@echo "  'lilypdf'        : converts the output of 'lily' target to pdf"
@@ -92,11 +92,11 @@ help:
 #	@echo "  'brl'            : converts a subset of xml files to BRF (Braille Ready Format) music"
 	@echo "Output files are written to the $(version) folder, "
 	@echo "where $(version) is taken from the libmusicxmlversion.txt file that you can freely change."
-	@echo 
+	@echo
 	@echo "Validation target:"
 	@echo "  'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in 'another_version' folder"
 #	@echo "  (on Windows, Firefox has to be installed (and opened) in C:/Program Files (x86)/Mozilla Firefox/firefox, otherwise please change the Makefile)"
-	@echo 
+	@echo
 	@echo "Options:"
 	@echo "  'XML2GUIDO=/path/to/xml2guido"
 	@echo "  'XML2LY=/path/to/xml2ly"
@@ -105,21 +105,21 @@ help:
 	@echo "when the above variables are not specified, the tools are taken from the current PATH env."
 
 #########################################################################
-read: 
+read:
 	@which $(XMLREAD) > /dev/null || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
 	$(MAKE) doread
 
 doread: $(readout)
 
 #########################################################################
-guido: 
+guido:
 	@which $(XML2GUIDO) > /dev/null || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
 	$(MAKE) doguido
 
 doguido: $(gmnout)
 
 #########################################################################
-guidosvg: 
+guidosvg:
 	@which guido2svg || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
 	$(MAKE) guido
 	$(MAKE) doguidosvg
@@ -127,20 +127,20 @@ guidosvg:
 doguidosvg: $(guidosvg)
 
 #########################################################################
-lilyshouldfail: 
-	@echo "xmlfilesforlilyshouldfail: " $(xmlfilesforlilyshouldfail)
-	@echo "lilyshouldfailout: " $(lilyshouldfailout)
+lilyignored:
+	@echo "xmlfilesforlilyignored: " $(xmlfilesforlilyignored)
+	@echo "lilyignoredout: " $(lilyignoredout)
 	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
-	$(MAKE) dolilyshouldfail
+	$(MAKE) dolilyignored
 
-dolilyshouldfail: $(lilyshouldfailout)
-
-#########################################################################
-lilyshouldfailclean:
-	rm $(lilyshouldfailout)
+dolilyignored: $(lilyignoredout)
 
 #########################################################################
-lily: 
+lilyignoredclean:
+	rm $(lilyignoredout)
+
+#########################################################################
+lily:
 	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
 	$(MAKE) dolily
 
@@ -152,7 +152,7 @@ lilyclean:
 	rm $(lilyout)
 
 #########################################################################
-lilypdf: 
+lilypdf:
 	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
 	$(MAKE) lily
 	$(MAKE) dolilypdf
@@ -167,7 +167,7 @@ lilypdfclean:
 	rm $(lilymidi)
 
 #########################################################################
-lilypng: 
+lilypng:
 	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
 	$(MAKE) lily
 	$(MAKE) dolilypng
@@ -181,7 +181,7 @@ lilypngclean:
 	rm $(lilymidi)
 
 #########################################################################
-lilyjianpu: 
+lilyjianpu:
 	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
 	$(MAKE) dolilyjianpu
 	@ls -sal $(lilyjianpuout)
@@ -195,7 +195,7 @@ lilyjianpuclean:
 	rm $(lilyjianpuout)
 
 #########################################################################
-lilyjianpupdf: 
+lilyjianpupdf:
 	$(MAKE) lilyjianpu
 	@echo "jianpuinclude: " $(jianpuinclude)
 	@test "z${jianpuinclude}" != "z" || (echo "### $(jianpuincludefilename) not found in the validation directory."; false;)
@@ -213,7 +213,7 @@ lilyjianpupdfclean:
 	rm $(lilyjianpumidi)
 
 #########################################################################
-brl: 
+brl:
 	@echo "xmlfilesforbrl: " $(xmlfilesforbrl)
 	@echo "brlout: " $(brlout)
 	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
@@ -227,11 +227,11 @@ brlclean:
 	rm $(brlout)
 
 #########################################################################
-validate: 
+validate:
 	@echo Validating version $(version) with $(VERSION) $(tmp)
 	$(MAKE) validxml
 	$(MAKE) validgmn
-	$(MAKE) validlilyshouldfail
+	$(MAKE) validlilyignored
 	$(MAKE) validlily
 	$(MAKE) validlilyjianpu
 #	$(MAKE) validbrl
@@ -240,7 +240,7 @@ validxml: $(validxml)
 
 validgmn: $(validgmn)
 
-validlilyshouldfail: $(validlilyshouldfail)
+validlilyignored: $(validlilyignored)
 
 validlily: $(validlily)
 
@@ -252,7 +252,7 @@ validbrl: $(validbrl)
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XMLREAD) -o $@ $< 
+	$(XMLREAD) -o $@ $<
 
 #########################################################################
 # rules for xml2guido
@@ -270,9 +270,9 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q -o $@ $< 
+	$(XML2LY) -q -o $@ $<
 
-$(version)/lilyshouldfail/%.ly: ../%.xml
+$(version)/lilyignored/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(XML2LY) -q -o $@ $<  || true
 
@@ -292,7 +292,7 @@ $(version)/lilypng/%.png: $(version)/lilypond/%.ly
 # rules for lilypond with jianpu inclusion in output
 $(version)/lilyjianpu/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q -jianpu -o $@ $< 
+	$(XML2LY) -q -jianpu -o $@ $<
 
 #########################################################################
 # rules for lilypond pdf output in jianpu notation
@@ -305,7 +305,7 @@ $(version)/lilyjianpupdf/%.pdf: $(version)/lilyjianpu/%.ly
 # rules for xml2brl
 $(version)/braille/%.brl: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2BRL) -q  -o $@ $< 
+	$(XML2BRL) -q  -o $@ $<
 
 #########################################################################
 # rules for xml output validation

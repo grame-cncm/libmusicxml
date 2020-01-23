@@ -5917,6 +5917,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       gIndenter++;
 
       if (doGenerateAWithBlock) { // JMI
+      /* ??? JMI
         if (partGroupName.size ()) {
           fLilypondCodeOstream <<
             "instrumentName = " <<
@@ -5929,6 +5930,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
             nameAsLilypondString (partGroupAbbreviation) <<
             endl;
         }
+        */
       }
 
       switch (partGroupSymbolKind) {
@@ -8244,7 +8246,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
         s <<
           "measure '" << measureNumber <<
-          "' is of unknown kind";
+          "' is of unknown kind in lpsr2LilypondTranslator";
 
 if (false) // JMI
         msrInternalError (

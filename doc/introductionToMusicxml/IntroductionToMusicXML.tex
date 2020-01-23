@@ -18,7 +18,7 @@
 
 \title{
 Introduction to \mxml\\[5pt]
-\large {Notensatz-Konferenz, Salzburg Mozarteum, January 17-18, 2020}
+%\large {Notensatz-Konferenz, Salzburg Mozarteum, January 17-18, 2020}
 }
 
 \newsavebox{\authorBox}
@@ -34,13 +34,15 @@ University of Geneva, Switzerland
 
 \author{
 Jacques Menu 
-\footnote{
-\usebox{\authorBox}
-}
+%\footnote{
+%\usebox{\authorBox}
+%}
 }
 
-%\date {\normalsize \today\ version}
-\date {}
+\newcommand{\revision}{revision 1.1}
+
+\date {\normalsize \today, \revision}
+%\date {}
 
 \maketitle
 \thispagestyle{fancy} % right after \maketitle to apply it to the first page too
@@ -819,9 +821,9 @@ The \mxml\ DTD states that part groups may {\it overlap}. This author suspects t
 
 \sep
 
-Various applications handle \mxmlfile{shouldfail/OverlappingPartGroups.xml} their own way. \xmlToLy\ rejects such data for the time being, with this message:
+Various applications handle \mxmlfile{lilypond-ignored/OverlappingPartGroups.xml} their own way. \xmlToLy\ rejects such data for the time being, with this message:
 \begin{lstlisting}[language=XML,caption={Overlapping groups \xmlToLy\ error message}]
-  ### MusicXML ERROR ### shouldfail/OverlappingPartGroups.xml:39: 
+  ### MusicXML ERROR ### lilypond-ignored/OverlappingPartGroups.xml:39: 
 There are overlapping part groups, namely: 
   '1' -=> PartGroup_2 ('1', partGroupName "Part group 1"), lines 15..39
 and
