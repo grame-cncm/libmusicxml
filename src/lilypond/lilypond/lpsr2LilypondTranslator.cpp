@@ -1753,7 +1753,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       }
       else {
         // print the skip name
-        fLilypondCodeOstream << "s%{4%}";
+        fLilypondCodeOstream << "s%{44%}";
       }
 
       // print the skip duration
@@ -2118,7 +2118,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
           string (
             note->getNoteOccupiesAFullMeasure ()
               ? "R%{4%}"
-              : "r%{5%}");
+              : "r%{6%}");
       }
       else {
         fLilypondCodeOstream <<
@@ -2767,7 +2767,7 @@ void lpsr2LilypondTranslator::generateOrnament (
             remainingFraction.getDenominator ();
 
         fLilypondCodeOstream <<
-          "s%{6%}" <<
+          "s%{16%}" <<
           noteUpLinkDuration <<
           "*" <<
             denominator
@@ -2800,7 +2800,7 @@ void lpsr2LilypondTranslator::generateOrnament (
         // c2*2/3 ( s2*1/3\turn
 
         fLilypondCodeOstream <<
-          "s%{4%}" <<
+          "s%{7%}" <<
           noteUpLinkDuration <<
           "*1/3" "\\reverseturn ";
       }
@@ -3288,7 +3288,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
   if (harmonyTupletFactor.isEqualToOne ()) {
     // use harmony sounding whole notes
     s <<
-      wholeNotesAsLilypondString (
+      durationAsLilypondString (
         inputLineNumber,
         harmony->
           getHarmonySoundingWholeNotes ());
@@ -3296,7 +3296,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
   else {
     // use harmony display whole notes and tuplet factor
     s <<
-      wholeNotesAsLilypondString (
+      durationAsLilypondString (
         inputLineNumber,
         harmony->
           getHarmonyDisplayWholeNotes ()) <<
@@ -8415,8 +8415,8 @@ else
         // generate a skip the duration of the measure // JMI ???
         // followed by a bar check
         fLilypondCodeOstream <<
-     // JMI     "s%{9%}" <<
-         "R%{6%}" <<
+     // JMI     "s%{19%}" <<
+         "R%{8%}" <<
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->
@@ -15889,7 +15889,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
   // generate rest measures only now, in case there are
   // clef, keys or times before them in the first measure
   fLilypondCodeOstream <<
-    "R%{7%}" <<
+    "R%{8%}" <<
     restMeasuresWholeNoteAsLilypondString (
       inputLineNumber,
       restMeasuresMeasureSoundingNotes);

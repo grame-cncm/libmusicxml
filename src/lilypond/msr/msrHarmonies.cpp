@@ -661,8 +661,7 @@ string msrHarmony::asString () const
   stringstream s;
 
   s <<
-    "["
-    "Harmony" <<
+    "[Harmony" <<
     ", harmonyRootQuarterTonesPitchKind: " <<
     msrQuarterTonesPitchKindAsString ( // JMI XXL
       gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
@@ -713,9 +712,6 @@ string msrHarmony::asString () const
       if (++i == iEnd) break;
       s << " ";
     } // for
-
-    s <<
-      "]";
   }
 
   // print the harmony staff number
@@ -731,10 +727,6 @@ string msrHarmony::asString () const
     ", harmonyTupletFactor: " <<
     fHarmonyTupletFactor.asString ();
 
-  s <<
-    ", line " << fInputLineNumber <<
-    "]";
-
   // print the harmony frame
   s << ", harmonyFrame: ";
   if (fHarmonyFrame) {
@@ -743,6 +735,10 @@ string msrHarmony::asString () const
   else {
     s << "none";
   }
+
+  s <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }

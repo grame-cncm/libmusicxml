@@ -585,7 +585,7 @@ string msrTime::asString () const
   stringstream s;
 
   s <<
-    "Time, " <<
+    "[Time " <<
     ", timeSymbolKind: " <<
     timeSymbolKindAsString (fTimeSymbolKind) <<
     ", timeIsCompound: " <<
@@ -620,6 +620,8 @@ string msrTime::asString () const
         "time  items vector is empty");
     }
   }
+
+  s << "]";
 
   return s.str ();
 }

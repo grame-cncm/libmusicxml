@@ -268,9 +268,9 @@ string msrClef::asString () const
   stringstream s;
 
   s <<
-    "Clef" " \"" <<
+    "[Clef " <<
     clefKindAsString (fClefKind) <<
-    "\", line " << fInputLineNumber;
+    "], line " << fInputLineNumber;
 
   return s.str ();
 }

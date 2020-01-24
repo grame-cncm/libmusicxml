@@ -507,8 +507,8 @@ string msrKey::asString () const
   stringstream s;
 
   s <<
-    "Key" <<
-    ", " << keyKindAsString (fKeyKind) <<
+    "[Key " <<
+    keyKindAsString (fKeyKind) <<
     ", ";
 
   switch (fKeyKind) {
@@ -531,7 +531,8 @@ string msrKey::asString () const
   } // switch
 
   s <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }
