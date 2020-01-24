@@ -1700,12 +1700,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
           if (note->getNoteOccupiesAFullMeasure ()) {
             fLilypondCodeOstream <<
               "R%{1%}" <<
-              /* JMI
-              restMeasuresWholeNoteAsLilypondString (
-                inputLineNumber,
-                noteSoundingWholeNotes);
-                */
-              wholeNotesAsLilypondString (
+              durationAsLilypondString (
                 inputLineNumber,
                 noteSoundingWholeNotes);
           }
@@ -1877,7 +1872,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
 
       // print the note duration
       fLilypondCodeOstream <<
-        wholeNotesAsLilypondString (
+        durationAsLilypondString (
           inputLineNumber,
           note->getNoteSoundingWholeNotes ());
 
@@ -2194,26 +2189,10 @@ void lpsr2LilypondTranslator::generateCodeForNote (
   fLilypondCodeOstream << ' ';
 }
 
-void lpsr2LilypondTranslator::generateCodeAfterNote (
+void lpsr2LilypondTranslator::generateCodeAfterNote ( // JMI ???
   S_msrNote note)
 {
 }
-//________________________________________________________________________
-/* JMI
-string lpsr2LilypondTranslator::durationAsExplicitLilypondString (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-  string result;
-
-  result =
-    wholeNotesAsLilypondString (
-      inputLineNumber,
-      wholeNotes);
-
-  return result;
-}
-*/
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::generateNoteArticulation (
@@ -3739,7 +3718,7 @@ string lpsr2LilypondTranslator::figuredBassAsLilypondString (
   if (figuredBassTupletFactor.isEqualToOne ()) {
     // use figured bass sounding whole notes
     s <<
-      wholeNotesAsLilypondString (
+      durationAsLilypondString (
         inputLineNumber,
         figuredBass->
           getFiguredBassSoundingWholeNotes ());
@@ -3747,7 +3726,7 @@ string lpsr2LilypondTranslator::figuredBassAsLilypondString (
   else {
     // use figured bass display whole notes and tuplet factor
     s <<
-      wholeNotesAsLilypondString (
+      durationAsLilypondString (
         inputLineNumber,
         figuredBass->
           getFiguredBassDisplayWholeNotes ()) <<
@@ -7971,7 +7950,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
     if (figuredBassTupletFactor.isEqualToOne ()) {
       // use figured bass sounding whole notes
       fLilypondCodeOstream <<
-        wholeNotesAsLilypondString (
+        durationAsLilypondString (
           inputLineNumber,
           elt->
             getFiguredBassSoundingWholeNotes ());
@@ -7979,7 +7958,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
     else {
       // use figured bass display whole notes and tuplet factor
       fLilypondCodeOstream <<
-        wholeNotesAsLilypondString (
+        durationAsLilypondString (
           inputLineNumber,
           elt->
             getFiguredBassDisplayWholeNotes ()) <<
@@ -8278,7 +8257,6 @@ else
     case msrMeasure::kMeasureKindAnacrusis:
       if (elt->getMeasureFirstInVoice ()) {
         // only generate '\partial' at the beginning of a voice
-
         string
           upbeatDuration =
             wholeNotesAsLilypondString (

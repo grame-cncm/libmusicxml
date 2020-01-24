@@ -716,12 +716,6 @@ class lpsr2LilypondTranslator :
                             int      inputLineNumber,
                             rational wholeNotes);
 
-         /* JMI
-    string                durationAsExplicitLilypondString ( // JMI
-                            int      inputLineNumber,
-                            rational wholeNotes);
-*/
-
     // notes
 
     msrPrintObjectKind    fCurrentNotePrinObjectKind;
