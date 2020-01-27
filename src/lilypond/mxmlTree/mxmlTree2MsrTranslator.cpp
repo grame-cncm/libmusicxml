@@ -18143,7 +18143,7 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     S_msrVoice
       voiceHarmonyVoice =
         voiceToInsertInto->
-          getHarmonyVoiceForRegularVoiceForwardLink ();
+          getRegularVoiceHarmonyVoiceForwardLink ();
 
     // sanity check
     msrAssert (
@@ -18232,7 +18232,7 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
     S_msrVoice
       voiceFiguredBassVoice =
         voiceToInsertInto->
-          getFiguredBassVoiceForRegularVoiceForwardLink ();
+          getRegularVoiceFiguredBassVoiceForwardLink ();
 
     // sanity check
     msrAssert (

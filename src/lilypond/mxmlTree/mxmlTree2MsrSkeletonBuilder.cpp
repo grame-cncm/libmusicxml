@@ -1648,7 +1648,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::fetchFirstRegularVoiceFromStaff (
 }
 
 //______________________________________________________________________________
-S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceForVoiceIfNotYetDone (
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceHarmonyVoiceIfNotYetDone (
   int        inputLineNumber,
   S_msrVoice voice)
 {
@@ -1656,13 +1656,13 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceForVoiceIfNotYetDone (
   S_msrVoice
     harmonyVoice =
       voice->
-        getHarmonyVoiceForRegularVoiceForwardLink ();
+        getRegularVoiceHarmonyVoiceForwardLink ();
 
   if (! harmonyVoice) {
     // create the voice and append it to the staff
     harmonyVoice =
       voice->
-        createHarmonyVoiceForRegularVoice (
+        createRegularVoiceHarmonyVoice (
           inputLineNumber,
           fCurrentMeasureNumber);
   }
@@ -1671,7 +1671,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceForVoiceIfNotYetDone (
 }
 
 //______________________________________________________________________________
-S_msrVoice mxmlTree2MsrSkeletonBuilder::createFiguredBassVoiceForVoiceIfNotYetDone (
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceFiguredBassVoiceIfNotYetDone (
   int        inputLineNumber,
   S_msrVoice voice)
 {
@@ -1679,13 +1679,13 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createFiguredBassVoiceForVoiceIfNotYetDo
   S_msrVoice
     figuredBassVoice =
       voice->
-        getFiguredBassVoiceForRegularVoiceForwardLink ();
+        getRegularVoiceFiguredBassVoiceForwardLink ();
 
   if (! figuredBassVoice) {
     // create the voice and append it to the staff
     figuredBassVoice =
       voice->
-        createFiguredBassVoiceForRegularVoice (
+        createRegularVoiceFiguredBassVoice (
           inputLineNumber,
           fCurrentMeasureNumber);
   }
@@ -4072,7 +4072,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
       // should the harmony voice be created?
       S_msrVoice
         harmonyVoice =
-          createHarmonyVoiceForVoiceIfNotYetDone (
+          createRegularVoiceHarmonyVoiceIfNotYetDone (
             inputLineNumber,
             noteVoice);
     }
@@ -4097,7 +4097,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
       // should the figured bass voice be created?
       S_msrVoice
         figuredBassVoice =
-          createFiguredBassVoiceForVoiceIfNotYetDone (
+          createRegularVoiceFiguredBassVoiceIfNotYetDone (
             inputLineNumber,
             noteVoice);
     }
@@ -4304,13 +4304,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 
   // take figured bass voice into account
   fFiguredBassVoicesCounter++;
-
-/*
-  // append a figured bass staff and voice to the current part
-  fCurrentPart->
-    createPartFiguredBassStaffAndVoiceIfNotYetDone (
-      inputLineNumber);
-*/
 
   fThereAreFiguredBassToBeAttachedToCurrentNote = true;
 }

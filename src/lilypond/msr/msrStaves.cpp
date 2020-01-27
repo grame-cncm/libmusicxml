@@ -400,7 +400,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
   }
 #endif
 
-  // propagate it to all staves
+  // propagate it to all voices
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -2074,12 +2074,12 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
 /* JMI this will be done later
           // handle the harmony voice if any
           S_msrVoice
-            harmonyVoiceForRegularVoice =
+            regularVoiceHarmonyVoice =
               voice->
-                getHarmonyVoiceForRegularVoiceForwardLink ();
+                getRegularVoiceHarmonyVoiceForwardLink ();
 
-          if (harmonyVoiceForRegularVoice) {
-            harmonyVoiceForRegularVoice->
+          if (regularVoiceHarmonyVoice) {
+            regularVoiceHarmonyVoice->
               finalizeLastAppendedMeasureInVoice (
                 inputLineNumber);
           }
@@ -2087,12 +2087,12 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
 
           // handle the figuredBass voice if any
           S_msrVoice
-            figuredBassVoiceForRegularVoice =
+            regularVoiceFiguredBassVoice =
               voice->
-                getFiguredBassVoiceForRegularVoiceForwardLink ();
+                getFiguredBassVoiceRegularVoiceBackwardLink ();
 
-          if (figuredBassVoiceForRegularVoice) {
-            figuredBassVoiceForRegularVoice->
+          if (regularVoiceFiguredBassVoice) {
+            regularVoiceFiguredBassVoice->
               finalizeLastAppendedMeasureInVoice (
                 inputLineNumber);
           }

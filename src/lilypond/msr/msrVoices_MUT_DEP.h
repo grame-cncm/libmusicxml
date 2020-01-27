@@ -135,19 +135,19 @@ class msrVoice : public msrElement
 
     // harmonies
 
-    S_msrVoice            getHarmonyVoiceForRegularVoiceForwardLink () const
-                              { return fHarmonyVoiceForRegularVoiceForwardLink; }
+    S_msrVoice            getRegularVoiceHarmonyVoiceForwardLink () const
+                              { return fRegularVoiceHarmonyVoiceForwardLink; }
 
-    S_msrVoice            getRegularVoiceForHarmonyVoiceBackwardLink () const
-                              { return fRegularVoiceForHarmonyVoiceBackwardLink; }
+    S_msrVoice            getHarmonyVoiceRegularVoiceBackwardLink () const
+                              { return fHarmonyVoiceRegularVoiceBackwardLink; }
 
     // figured bass
 
-    S_msrVoice            getFiguredBassVoiceForRegularVoiceForwardLink () const
-                              { return fFiguredBassVoiceForRegularVoiceForwardLink; }
+    S_msrVoice            getRegularVoiceFiguredBassVoiceForwardLink () const
+                              { return fRegularVoiceFiguredBassVoiceForwardLink; }
 
-    S_msrVoice            getRegularVoiceForFiguredBassVoiceBackwardLink () const
-                              { return fRegularVoiceForFiguredBassVoiceBackwardLink; }
+    S_msrVoice            getFiguredBassVoiceRegularVoiceBackwardLink () const
+                              { return fFiguredBassVoiceRegularVoiceBackwardLink; }
 
     // stanzas
 
@@ -307,13 +307,13 @@ class msrVoice : public msrElement
 
     // harmonies
 
-    S_msrVoice            createHarmonyVoiceForRegularVoice (
+    S_msrVoice            createRegularVoiceHarmonyVoice (
                             int    inputLineNumber,
                             string currentMeasureNumber);
 
     // figured bass
 
-    S_msrVoice            createFiguredBassVoiceForRegularVoice (
+    S_msrVoice            createRegularVoiceFiguredBassVoice (
                             int    inputLineNumber,
                             string currentMeasureNumber);
 
@@ -905,11 +905,11 @@ class msrVoice : public msrElement
     S_msrStaff            fVoiceStaffUpLink;
 
     // two-way links
-    S_msrVoice            fHarmonyVoiceForRegularVoiceForwardLink;
-    S_msrVoice            fRegularVoiceForHarmonyVoiceBackwardLink;
+    S_msrVoice            fRegularVoiceHarmonyVoiceForwardLink;
+    S_msrVoice            fHarmonyVoiceRegularVoiceBackwardLink;
 
-    S_msrVoice            fFiguredBassVoiceForRegularVoiceForwardLink;
-    S_msrVoice            fRegularVoiceForFiguredBassVoiceBackwardLink;
+    S_msrVoice            fRegularVoiceFiguredBassVoiceForwardLink;
+    S_msrVoice            fFiguredBassVoiceRegularVoiceBackwardLink;
 
     // voice kind
 
@@ -981,6 +981,9 @@ class msrVoice : public msrElement
     // fVoiceFirstMeasure is used to number voice upbeats as measure 0
     S_msrMeasure          fVoiceFirstMeasure;
 
+    // fVoiceCurrentMeasure contains the last measure appended to the voice
+    S_msrMeasure          fVoiceLastAppendedMeasure;
+
     // measures flat list
     // i.e. without segments nor repeats,
     // gathered from fVoiceInitialElementsList and fVoiceLastSegment
@@ -1049,6 +1052,9 @@ class msrVoice : public msrElement
     const S_msrMeasure    getVoiceFirstMeasure () const
                               { return fVoiceFirstMeasure; }
 
+    const S_msrMeasure    getVoiceLastAppendedMeasure () const
+                              { return fVoiceLastAppendedMeasure; }
+
     void                  appendMeasureCloneToVoiceClone (
                             int          inputLineNumber,
                             S_msrMeasure measureClone);
@@ -1112,9 +1118,6 @@ class msrVoice : public msrElement
                             // that starts at 0 if there is an anacrusis,
                             // and 1 otherwise,
                             // and is shared by incomplete (sub)measure fragments
-
-    // fVoiceCurrentMeasure contains the last measure appended to the voice
-    S_msrMeasure          fVoiceLastAppendedMeasure;
 
     // a stack is needed to handle pending repeats, which can be nested
     list<S_msrRepeatDescr>

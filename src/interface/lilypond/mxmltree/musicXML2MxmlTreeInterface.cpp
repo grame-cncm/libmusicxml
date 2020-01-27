@@ -568,9 +568,11 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "\" encoding prior to running xml2ly" <<
       ", for example with iconv or using a text editor - handling it as is";
 
-    msrMusicXMLWarning (
+//    msrMusicXMLWarning (
+    msrMusicXMLError (
       gOahOah->fInputSourceName,
       1, // inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 

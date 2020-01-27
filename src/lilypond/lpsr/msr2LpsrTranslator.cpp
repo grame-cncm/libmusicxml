@@ -1735,7 +1735,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
                 voiceName,
-                elt->getRegularVoiceForHarmonyVoiceBackwardLink ());
+                elt->getHarmonyVoiceRegularVoiceBackwardLink ());
 
           // append it to the current part block
 #ifdef TRACE_OAH

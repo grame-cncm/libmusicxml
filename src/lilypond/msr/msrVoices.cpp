@@ -1123,16 +1123,16 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
       break;
     case msrVoice::kVoiceRegular:
       // append new measure with given number to voice harmony voice if any
-      if (fHarmonyVoiceForRegularVoiceForwardLink) {
-        fHarmonyVoiceForRegularVoiceForwardLink->
+      if (fRegularVoiceHarmonyVoiceForwardLink) {
+        fRegularVoiceHarmonyVoiceForwardLink->
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
             measureImplicitKind);
       }
       // append new measure with given number to voice figured bass voice if any
-      if (fFiguredBassVoiceForRegularVoiceForwardLink) {
-        fFiguredBassVoiceForRegularVoiceForwardLink->
+      if (fRegularVoiceFiguredBassVoiceForwardLink) {
+        fRegularVoiceFiguredBassVoiceForwardLink->
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
@@ -1156,11 +1156,11 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
   return result;
 }
 
-S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
+S_msrVoice msrVoice::createRegularVoiceHarmonyVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
 {
-  if (fHarmonyVoiceForRegularVoiceForwardLink) {
+  if (fRegularVoiceHarmonyVoiceForwardLink) {
     stringstream s;
 
     s <<
@@ -1176,7 +1176,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
   }
 
   // create the voice harmony voice
-  int harmonyVoiceForRegularVoiceNumber =
+  int regularVoiceHarmonyVoiceNumber =
     K_VOICE_HARMONY_VOICE_BASE_NUMBER + fVoiceNumber;
 
 #ifdef TRACE_OAH
@@ -1185,17 +1185,17 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
       "Creating harmony voice for regular voice \"" <<
       getVoiceName () <<
       "\" with voice number " <<
-      harmonyVoiceForRegularVoiceNumber <<
+      regularVoiceHarmonyVoiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  fHarmonyVoiceForRegularVoiceForwardLink =
+  fRegularVoiceHarmonyVoiceForwardLink =
     msrVoice::create (
       inputLineNumber,
       msrVoice::kVoiceHarmony,
-      harmonyVoiceForRegularVoiceNumber,
+      regularVoiceHarmonyVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fVoiceStaffUpLink);
 
@@ -1203,20 +1203,20 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
   fVoiceStaffUpLink->
     registerVoiceInStaff (
       inputLineNumber,
-      fHarmonyVoiceForRegularVoiceForwardLink);
+      fRegularVoiceHarmonyVoiceForwardLink);
 
   // set backward link
-  fHarmonyVoiceForRegularVoiceForwardLink->
-    fRegularVoiceForHarmonyVoiceBackwardLink = this;
+  fRegularVoiceHarmonyVoiceForwardLink->
+    fHarmonyVoiceRegularVoiceBackwardLink = this;
 
-  return fHarmonyVoiceForRegularVoiceForwardLink;
+  return fRegularVoiceHarmonyVoiceForwardLink;
 }
 
-S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
+S_msrVoice msrVoice::createRegularVoiceFiguredBassVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
 {
-  if (fFiguredBassVoiceForRegularVoiceForwardLink) {
+  if (fRegularVoiceFiguredBassVoiceForwardLink) {
     stringstream s;
 
     s <<
@@ -1232,7 +1232,7 @@ S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
   }
 
   // create the voice figured bass voice
-  int figuredBassVoiceForRegularVoiceNumber =
+  int regularVoiceFiguredBassVoiceNumber =
     K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER + fVoiceNumber;
 
 #ifdef TRACE_OAH
@@ -1241,17 +1241,17 @@ S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
       "Creating figured bass voice for regular voice \"" <<
       getVoiceName () <<
       "\" with voice number " <<
-      figuredBassVoiceForRegularVoiceNumber <<
+      regularVoiceFiguredBassVoiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  fFiguredBassVoiceForRegularVoiceForwardLink =
+  fRegularVoiceFiguredBassVoiceForwardLink =
     msrVoice::create (
       inputLineNumber,
       msrVoice::kVoiceFiguredBass,
-      figuredBassVoiceForRegularVoiceNumber,
+      regularVoiceFiguredBassVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fVoiceStaffUpLink);
 
@@ -1259,13 +1259,13 @@ S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
   fVoiceStaffUpLink->
     registerVoiceInStaff (
       inputLineNumber,
-      fFiguredBassVoiceForRegularVoiceForwardLink);
+      fRegularVoiceFiguredBassVoiceForwardLink);
 
   // set backward link
-  fFiguredBassVoiceForRegularVoiceForwardLink->
-    fRegularVoiceForFiguredBassVoiceBackwardLink = this;
+  fRegularVoiceFiguredBassVoiceForwardLink->
+    fFiguredBassVoiceRegularVoiceBackwardLink = this;
 
-  return fFiguredBassVoiceForRegularVoiceForwardLink;
+  return fRegularVoiceFiguredBassVoiceForwardLink;
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
@@ -8926,15 +8926,15 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
       }
 
       // handle the harmony voice if any
-      if (fHarmonyVoiceForRegularVoiceForwardLink) {
-        fHarmonyVoiceForRegularVoiceForwardLink->
+      if (fRegularVoiceHarmonyVoiceForwardLink) {
+        fRegularVoiceHarmonyVoiceForwardLink->
           finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
       }
 
       // handle the figuredBass voice if any
-      if (fFiguredBassVoiceForRegularVoiceForwardLink) {
-        fFiguredBassVoiceForRegularVoiceForwardLink->
+      if (fRegularVoiceFiguredBassVoiceForwardLink) {
+        fRegularVoiceFiguredBassVoiceForwardLink->
           finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
       }
@@ -9117,14 +9117,14 @@ void msrVoice::finalizeVoice (
 
 /* JMI
   // finalize the harmony voice if any
-  if (fHarmonyVoiceForRegularVoiceForwardLink) {
-    fHarmonyVoiceForRegularVoiceForwardLink->finalizeVoice (
+  if (fRegularVoiceHarmonyVoiceForwardLink) {
+    fRegularVoiceHarmonyVoiceForwardLink->finalizeVoice (
       inputLineNumber);
   }
 
   // finalize the figured bass voice if any
-  if (fFiguredBassVoiceForRegularVoiceForwardLink) {
-    fFiguredBassVoiceForRegularVoiceForwardLink->finalizeVoice (
+  if (fRegularVoiceFiguredBassVoiceForwardLink) {
+    fRegularVoiceFiguredBassVoiceForwardLink->finalizeVoice (
       inputLineNumber);
   }
   */
@@ -9509,10 +9509,10 @@ void msrVoice::print (ostream& os) const
 
   // print the harmony voice name if any
   os << left <<
-    setw (fieldWidth) << "harmonyVoiceForRegularVoice" << " : ";
-  if (fHarmonyVoiceForRegularVoiceForwardLink) {
+    setw (fieldWidth) << "regularVoiceHarmonyVoice" << " : ";
+  if (fRegularVoiceHarmonyVoiceForwardLink) {
     os <<
-      fHarmonyVoiceForRegularVoiceForwardLink->getVoiceName ();
+      fRegularVoiceHarmonyVoiceForwardLink->getVoiceName ();
   }
   else {
     os <<
@@ -9522,10 +9522,10 @@ void msrVoice::print (ostream& os) const
 
   // print the figured bass voice name if any
   os << left <<
-    setw (fieldWidth) << "figuredBassVoiceForRegularVoice" << " : ";
-  if (fFiguredBassVoiceForRegularVoiceForwardLink) {
+    setw (fieldWidth) << "regularVoiceFiguredBassVoice" << " : ";
+  if (fRegularVoiceFiguredBassVoiceForwardLink) {
     os <<
-      fFiguredBassVoiceForRegularVoiceForwardLink->getVoiceName ();
+      fRegularVoiceFiguredBassVoiceForwardLink->getVoiceName ();
   }
   else {
     os <<

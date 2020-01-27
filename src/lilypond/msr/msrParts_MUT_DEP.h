@@ -212,13 +212,6 @@ class msrPart : public msrPartGroupElement
     void                  appendPartAbbreviationDisplayToPart (
                             S_msrPartAbbreviationDisplay partAbbreviationDisplay);
 
-/* JMI
-    // figured bass staff and voice
-
-    void                  createPartFiguredBassStaffAndVoiceIfNotYetDone (
-                            int inputLineNumber);
-        */
-
     // measures
 
     void                  createMeasureAndAppendItToPart (

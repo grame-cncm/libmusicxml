@@ -147,7 +147,55 @@ static Sxmlelement makemeasure(unsigned long num) {
 		note->push (newElementI(k_duration, kDivision));				// sets the note duration to a quarter note
 		note->push (newElement(k_type, "quarter"));					// creates the graphic elements of the note
 		measure->push (note);		// and finally adds the note to the measure
+	} // for
+
+	return measure;
+}
+
+static Sxmlelement makemeasure_TRY(unsigned long num) {
+	Sxmlelement measure = factory::instance().create(k_measure);
+	measure->add (newAttributeI("number", num));
+	if (num==1) {					//  creates specific elements of the first measure
+		measure->push(makeAttributes());		// division, time, clef...
 	}
+
+
+	for (int i = 0; i < 4; i++) {		// next adds 4 quarter notes
+
+	  if (i == 0 || i == 2) { // add a harmony
+      Sxmlelement harmony = factory::instance().create(k_harmony);	// creates the harmony
+
+      Sxmlelement root = factory::instance().create(k_root);	// creates the root
+      root->push (newElement(k_root_step, "C"));
+      root->push (newElement(k_root_alter,"1"));              // <-------------select the alteration
+      harmony->push (root);
+
+      Sxmlelement kind = newElement(k_kind, "none");	// creates the kind   <------------- change from "major" to "none"
+      kind->add (newAttribute("halign", "center"));
+      kind->add (newAttribute("text", "13b5"));                                                 // // <-------------- write any arbitrary chord name without being hassled
+      harmony->push (kind);
+
+      harmony->push (newElementI(k_staff, 1)); // add the staff
+
+      measure->push (harmony);	// and finally adds the harmony to the measure
+    }
+
+	/*
+    -use "none" for the kind allows the text to print and for me to select any arbitrary chord type
+    -use k_root_alter to create sharps or flats of any basic note
+    -the example above prints the chord C#13b5 onto beats 1 & 3 of each measure
+	*/
+
+		Sxmlelement note = factory::instance().create(k_note);		// creates the note
+		Sxmlelement pitch = factory::instance().create(k_pitch);	// creates a pitch
+		pitch->push (newElement(k_step, randomNote()));				// sets the pitch to a random value
+		pitch->push (newElementI(k_octave, 4 + getrandom(2)));		// sets the octave to a random value
+		note->push (pitch);											// adds the pitch to the note
+		note->push (newElementI(k_duration, kDivision));				// sets the note duration to a quarter note
+		note->push (newElement(k_type, "quarter"));					// creates the graphic elements of the note
+		measure->push (note);		// and finally adds the note to the measure
+	} // for
+
 	return measure;
 }
 
