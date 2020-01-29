@@ -63,6 +63,8 @@ msrMeasure::msrMeasure (
 
   // set measure numbers
   fMeasureElementMeasureNumber = measureNumber;
+  fMeasureOrdinalNumberInVoice = -1;
+
   fMeasurePuristNumber = -1; // default irrealist value
   fNextMeasureNumber = "";
 
@@ -172,6 +174,11 @@ msrMeasure::~msrMeasure ()
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
+  S_msrVoice
+    containingSegmentVoiceUpLink =
+      containingSegment->
+        getSegmentVoiceUpLink ();
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
@@ -182,9 +189,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
       "' in segment " <<
       containingSegment->asString () <<
       " in voice \"" <<
-        containingSegment->
-          getSegmentVoiceUpLink ()->
-            getVoiceName () <<
+      containingSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -203,11 +208,21 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
         fMeasureElementMeasureNumber,
         containingSegment);
 
+  // set newbornClone's ordinal number
+  newbornClone->
+    setMeasureOrdinalNumberInVoice (
+      containingSegmentVoiceUpLink->
+        incrementVoiceCurrentMeasureOrdinalNumber ());
+
   // next measure number
   newbornClone->fNextMeasureNumber =
     fNextMeasureNumber;
 
     /* JMI
+  // measure ordinal number in voice
+  newbornClone->fMeasureOrdinalNumberInVoice =
+    fMeasureOrdinalNumberInVoice;
+
   // lengthes
   newbornClone->fFullMeasureWholeNotesDuration =
     fFullMeasureWholeNotesDuration;
@@ -253,6 +268,11 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 S_msrMeasure msrMeasure::createMeasureDeepCopy (
   S_msrSegment containingSegment)
 {
+  S_msrVoice
+    containingSegmentVoiceUpLink =
+      containingSegment->
+        getSegmentVoiceUpLink ();
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
@@ -263,9 +283,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       "' in segment " <<
       containingSegment->asString () <<
       " in voice \"" <<
-        containingSegment->
-          getSegmentVoiceUpLink ()->
-            getVoiceName () <<
+      containingSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -283,6 +301,12 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         fInputLineNumber,
         fMeasureElementMeasureNumber,
         containingSegment);
+
+  // set measureDeepCopy's ordinal number
+  measureDeepCopy->
+    setMeasureOrdinalNumberInVoice (
+      containingSegmentVoiceUpLink->
+        incrementVoiceCurrentMeasureOrdinalNumber ());
 
   // lengthes
   measureDeepCopy->fFullMeasureWholeNotesDuration =
@@ -3311,30 +3335,6 @@ void msrMeasure::finalizeRegularMeasure (
       voiceCurrentTime);
   }
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
-    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
-      stringstream s;
-
-      s <<
-        "Measure " <<
-        this->asShortString () <<
-        " in segment '" <<
-        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-        "' in voice \"" <<
-        voice->getVoiceName () <<
-        "\", line " << inputLineNumber <<
-        ", doesn't contain any music" <<
-        endl;
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-    }
-  }
-#endif
-
   // fetch the part current position in measure
   rational
     partCurrentPositionInMeasure =
@@ -4040,16 +4040,30 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
   }
 }
 
+void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
+  int    inputLineNumber,
+  string context)
+{
+  // JMI
+}
+
 void msrMeasure::finalizeHarmonyMeasure (
   int                          inputLineNumber,
   msrMeasuresRepeatContextKind measuresRepeatContextKind,
   string                       context)
 {
-  // fetch the voice
+  // fetch the harmony voice
   S_msrVoice
     harmonyVoice =
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
+
+  // fetch the harmony part
+  S_msrPart
+    harmonyPart =
+      harmonyVoice->
+        getVoiceStaffUpLink ()->
+          getStaffPartUpLink ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies) {
@@ -4076,192 +4090,59 @@ void msrMeasure::finalizeHarmonyMeasure (
   }
 #endif
 
-  // fetch the harmonyVoice's time
-  S_msrTime
-    voiceCurrentTime =
-      harmonyVoice->getVoiceCurrentTime ();
+  // get the harmonyPart number of measures
+  int
+    harmonyPartNumberOfMeasures =
+      harmonyPart->
+        getPartNumberOfMeasures ();
 
-/*
-  // get the harmonyVoice first and last measures
-  S_msrMeasure
-    harmonyVoiceFirstMeasure =
-      harmonyVoice->
-        getVoiceFirstMeasure (),
-    harmonyVoiceLastMeasure =
-      harmonyVoice->
-        getVoiceLastAppendedMeasure ();
-*/
-  // get the regular voice associated with this harmony voice
-  S_msrVoice
-    harmonyVoiceRegularVoice =
-      harmonyVoice->
-        getHarmonyVoiceRegularVoiceBackwardLink ();
-
-  // get the first and last measures of the regular voice
-  S_msrMeasure
-    regularVoiceFirstMeasure =
-      harmonyVoiceRegularVoice->
-        getVoiceFirstMeasure (),
-    regularVoiceLastMeasure =
-      harmonyVoiceRegularVoice->
-        getVoiceLastAppendedMeasure ();
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "fMeasureOrdinalNumberInVoice = " <<
+      fMeasureOrdinalNumberInVoice <<
+      ", harmonyPartNumberOfMeasures = " <<
+      harmonyPartNumberOfMeasures <<
+      endl;
+  }
+#endif
 
   // the measureWholeNotesDuration has to be computed
-  rational measureWholeNotesDuration;
+  rational measureWholeNotesDuration (-333, 1);
 
   // is this measure is the first one in the harmonyVoice?
-  if (this == voiceFirstMeasure) {
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceHarmonies) {
-      gLogOstream <<
-        "Finalizing the first measure " <<
-        this->asShortString () <<
-        " in segment '" <<
-        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-        "' in harmony voice \"" <<
-        harmonyVoice->getVoiceName () <<
-        "\" (" << context << ")" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    // is this measure empty?
-    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceHarmonies) {
-        gLogOstream <<
-          "Finalizing the empty first measure " <<
-          this->asShortString () <<
-          " in segment '" <<
-          fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-          "' in harmony voice \"" <<
-          harmonyVoice->getVoiceName () <<
-          "\" (" << context << ")" <<
-          ", line " << inputLineNumber <<
-          endl;
-      }
-#endif
-
-      // is regularVoiceFirstMeasure an anacrusis?
-      switch (regularVoiceFirstMeasure->getMeasureKind ()) {
-        case msrMeasure::kMeasureKindUnknown:
-        case msrMeasure::kMeasureKindRegular:
-          break;
-
-        case msrMeasure::kMeasureKindAnacrusis:
-          // get the current whole notes duration from the first measure
-          // in the regular voice
-          measureWholeNotesDuration =
-            regularVoiceFirstMeasure->
-              getCurrentMeasureWholeNotesDuration ();
-
-  #ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies) {
-            gLogOstream <<
-              "regularVoiceFirstMeasure = " <<
-              regularVoiceFirstMeasure <<
-              ", measureWholeNotesDuration = " <<
-              measureWholeNotesDuration <<
-              endl;
-          }
-  #endif
-          break;
-
-        case msrMeasure::kMeasureKindIncompleteStandalone:
-        case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-        case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-        case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-        case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-        case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-        case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
-        case msrMeasure::kMeasureKindOvercomplete:
-        case msrMeasure::kMeasureKindCadenza:
-        case msrMeasure::kMeasureKindMusicallyEmpty:
-          break;
-      } // switch
-    }
+//  if (this == harmonyVoiceFirstMeasure) {
+  if (fMeasureOrdinalNumberInVoice == 1) {
+    finalizeFirstHarmonyMeasure (
+      inputLineNumber,
+      measuresRepeatContextKind,
+      context,
+      harmonyVoice,
+      measureWholeNotesDuration);
   }
 
   // is this measure is the last one in the harmonyVoice?
-  else if (this == harmonyVoiceLastMeasure) {
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceHarmonies) {
-      gLogOstream <<
-        "Finalizing the last measure " <<
-        this->asShortString () <<
-        " in segment '" <<
-        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-        "' in harmony voice \"" <<
-        harmonyVoice->getVoiceName () <<
-        "\" (" << context << ")" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    // is this measure empty?
-    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceHarmonies) {
-        gLogOstream <<
-          "Finalizing the empty last measure " <<
-          this->asShortString () <<
-          " in segment '" <<
-          fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-          "' in harmony voice \"" <<
-          harmonyVoice->getVoiceName () <<
-          "\" (" << context << ")" <<
-          ", line " << inputLineNumber <<
-          endl;
-      }
-#endif
-
-      // is regularVoiceLastMeasure incomplete?
-      switch (regularVoiceLastMeasure->getMeasureKind ()) {
-        case msrMeasure::kMeasureKindUnknown:
-        case msrMeasure::kMeasureKindRegular:
-        case msrMeasure::kMeasureKindAnacrusis:
-          break;
-
-        case msrMeasure::kMeasureKindIncompleteStandalone:
-          // get the current whole notes duration from the last measure
-          // in the regular voice
-          measureWholeNotesDuration =
-            regularVoiceLastMeasure->
-              getCurrentMeasureWholeNotesDuration ();
-
-  #ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies) {
-            gLogOstream <<
-              "regularVoiceLastMeasure = " <<
-              regularVoiceLastMeasure <<
-              ", measureWholeNotesDuration = " <<
-              measureWholeNotesDuration <<
-              endl;
-          }
-  #endif
-          break;
-
-        case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-        case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-        case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-        case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-        case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-        case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
-        case msrMeasure::kMeasureKindOvercomplete:
-        case msrMeasure::kMeasureKindCadenza:
-        case msrMeasure::kMeasureKindMusicallyEmpty:
-          break;
-      } // switch
-    }
+  else if (fMeasureOrdinalNumberInVoice == harmonyPartNumberOfMeasures) {
+    finalizeLastHarmonyMeasure (
+      inputLineNumber,
+      measuresRepeatContextKind,
+      context,
+      harmonyVoice,
+      measureWholeNotesDuration);
   }
 
   else {
-    // this measure is not the first one in the harmony voice
+    // this measure is not the first nor the last one in the harmony voice
+
+    // fetch the harmonyVoice's time
+    S_msrTime
+      voiceCurrentTime =
+        harmonyVoice->getVoiceCurrentTime ();
+
     if (! voiceCurrentTime) {
       // take the implicit 4/4 measure whole notes into account
       measureWholeNotesDuration = rational (1, 1);
+
       setFullMeasureWholeNotesDuration (
         measureWholeNotesDuration);
     }
@@ -4269,6 +4150,8 @@ void msrMeasure::finalizeHarmonyMeasure (
       // set the full length from time
       setFullMeasureWholeNotesDurationFromTime (
         voiceCurrentTime);
+
+      measureWholeNotesDuration = fFullMeasureWholeNotesDuration;
     }
   }
 
@@ -4278,30 +4161,6 @@ void msrMeasure::finalizeHarmonyMeasure (
     inputLineNumber,
     measureWholeNotesDuration);
 */
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceMeasures) { // JMI ???
-    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
-      stringstream s;
-
-      s <<
-        "Measure " <<
-        this->asShortString () <<
-        " in segment '" <<
-        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-        "' in harmony voice \"" <<
-        harmonyVoice->getVoiceName () <<
-        "\", line " << inputLineNumber <<
-        ", doesn't contain any music" <<
-        endl;
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-    }
-  }
-#endif
 
   // handle the harmonies in this measure
   handleHarmoniesInHarmonyMeasureFinalization (
@@ -4412,6 +4271,215 @@ void msrMeasure::finalizeHarmonyMeasure (
   gIndenter--;
 }
 
+void msrMeasure::finalizeFirstHarmonyMeasure (
+  int                          inputLineNumber,
+  msrMeasuresRepeatContextKind measuresRepeatContextKind,
+  string                       context,
+  S_msrVoice                   harmonyVoice,
+  rational&                    measureWholeNotesDuration)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "Finalizing the first measure " <<
+      this->asShortString () <<
+      " in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      "' in harmony voice \"" <<
+      harmonyVoice->getVoiceName () <<
+      "\" (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // is this measure empty?
+  if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies) {
+      gLogOstream <<
+        "Finalizing the empty first measure " <<
+        this->asShortString () <<
+        " in segment '" <<
+        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+        "' in harmony voice \"" <<
+        harmonyVoice->getVoiceName () <<
+        "\" (" << context << ")" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    // get the regular voice associated with this harmony voice
+    S_msrVoice
+      harmonyVoiceRegularVoice =
+        harmonyVoice->
+          getHarmonyVoiceRegularVoiceBackwardLink ();
+
+    // get the first measure of the regular voice
+    S_msrMeasure
+      regularVoiceFirstMeasure =
+        harmonyVoiceRegularVoice->
+          getVoiceFirstMeasure ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies) {
+      gLogOstream <<
+        "regularVoiceFirstMeasure: " <<
+        regularVoiceFirstMeasure->asShortString () <<
+        endl;
+    }
+#endif
+
+    // is regularVoiceFirstMeasure an anacrusis?
+    switch (regularVoiceFirstMeasure->getMeasureKind ()) {
+      case msrMeasure::kMeasureKindUnknown:
+      case msrMeasure::kMeasureKindRegular:
+        break;
+
+      case msrMeasure::kMeasureKindAnacrusis:
+        {
+          measureWholeNotesDuration =
+            regularVoiceFirstMeasure->
+              getCurrentMeasureWholeNotesDuration ();
+
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies) {
+            gLogOstream <<
+              "regularVoiceFirstMeasure = " <<
+              regularVoiceFirstMeasure <<
+              ", measureWholeNotesDuration = " <<
+              measureWholeNotesDuration <<
+              endl;
+          }
+#endif
+        }
+        break;
+
+      case msrMeasure::kMeasureKindIncompleteStandalone:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      case msrMeasure::kMeasureKindOvercomplete:
+      case msrMeasure::kMeasureKindCadenza:
+      case msrMeasure::kMeasureKindMusicallyEmpty:
+        break;
+    } // switch
+  }
+}
+
+void msrMeasure::finalizeLastHarmonyMeasure (
+  int                          inputLineNumber,
+  msrMeasuresRepeatContextKind measuresRepeatContextKind,
+  string                       context,
+  S_msrVoice                   harmonyVoice,
+  rational&                    measureWholeNotesDuration)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "Finalizing the last measure " <<
+      this->asShortString () <<
+      " in segment '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+      "' in harmony voice \"" <<
+      harmonyVoice->getVoiceName () <<
+      "\" (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // is this measure empty?
+  if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies) {
+      gLogOstream <<
+        "Finalizing the empty last measure " <<
+        this->asShortString () <<
+        " in segment '" <<
+        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+        "' in harmony voice \"" <<
+        harmonyVoice->getVoiceName () <<
+        "\" (" << context << ")" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    // get the regular voice associated with this harmony voice
+    S_msrVoice
+      harmonyVoiceRegularVoice =
+        harmonyVoice->
+          getHarmonyVoiceRegularVoiceBackwardLink ();
+
+    // get the last measure of the regular voice
+    S_msrMeasure
+      regularVoiceLastMeasure =
+        harmonyVoiceRegularVoice->
+          getVoiceLastAppendedMeasure ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceHarmonies) {
+      gLogOstream <<
+        "regularVoiceLastMeasure: " <<
+        regularVoiceLastMeasure->asShortString () <<
+        endl;
+    }
+#endif
+
+    // get regularVoiceLastMeasure measure kind
+    msrMeasureKind
+      regularVoiceLastMeasureMeasureKind =
+        regularVoiceLastMeasure->getMeasureKind ();
+
+    // is regularVoiceLastMeasure incomplete?
+    switch (regularVoiceLastMeasureMeasureKind) {
+      case msrMeasure::kMeasureKindUnknown:
+      case msrMeasure::kMeasureKindRegular:
+      case msrMeasure::kMeasureKindAnacrusis:
+      case msrMeasure::kMeasureKindIncompleteStandalone:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      case msrMeasure::kMeasureKindOvercomplete:
+      case msrMeasure::kMeasureKindCadenza:
+        break;
+
+      case msrMeasure::kMeasureKindMusicallyEmpty:
+        {
+          // get the current whole notes duration from regularVoiceLastMeasure
+          measureWholeNotesDuration =
+            regularVoiceLastMeasure->
+              getCurrentMeasureWholeNotesDuration ();
+
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceHarmonies) {
+            gLogOstream <<
+              "regularVoiceLastMeasure = " <<
+              regularVoiceLastMeasure <<
+              ", measureWholeNotesDuration = " <<
+              measureWholeNotesDuration <<
+              endl;
+          }
+#endif
+
+          // pad the measure up to measureWholeNotesDuration
+          padUpToPositionInMeasureInMeasure (
+            inputLineNumber,
+            measureWholeNotesDuration);
+        }
+        break;
+    } // switch
+  }
+}
+
 void msrMeasure::finalizeFiguredBassMeasure (
   int                          inputLineNumber,
   msrMeasuresRepeatContextKind measuresRepeatContextKind,
@@ -4463,32 +4531,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
       voiceCurrentTime);
   }
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses || gTraceOah->fTraceMeasures) { // JMI ???
-    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
-      stringstream s;
-
-      s <<
-        "Measure " <<
-        this->asShortString () <<
-        " in segment '" <<
-        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
-        "' in voice \"" <<
-        voice->getVoiceName () <<
-        "\", line " << inputLineNumber <<
-        ", doesn't contain any music" <<
-        endl;
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-    }
-  }
-#endif
-
-  // handle the harmonies in this measure
-  handleHarmoniesInHarmonyMeasureFinalization (
+  // handle the figured basses in this measure
+  handleFiguredBassesInFiguredBassMeasureFinalization (
     inputLineNumber,
     context);
 
@@ -4643,6 +4687,30 @@ void msrMeasure::finalizeMeasure (
         ", line " << inputLineNumber <<
         endl;
     }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
+    if (fCurrentMeasureWholeNotesDuration.getNumerator () == 0) {
+      stringstream s;
+
+      s <<
+        "Measure " <<
+        this->asShortString () <<
+        " in segment '" <<
+        fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+        "' in voice \"" <<
+        voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        ", doesn't contain any music" <<
+        endl;
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        s.str ());
+    }
+  }
 #endif
 
     switch (voice->getVoiceKind ()) {
@@ -5034,17 +5102,27 @@ string msrMeasure::measureKindAsString () const
 
 string msrMeasure::asShortString () const
 {
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+
   stringstream s;
 
   s <<
-    "["
-    "Measure " <<
+    "[Measure " <<
     fMeasureElementMeasureNumber <<
+    ", measureKind: " <<
+    measureKindAsString () <<
+    ", voice: " <<
+    voice->getVoiceName () <<
+    ", measureOrdinalNumberInVoice: " <<
+    fMeasureOrdinalNumberInVoice <<
     ", measurePuristNumber: " <<
     fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
-    "', " << measureKindAsString () <<
 /* JMI
     ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
     ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<
@@ -5060,16 +5138,27 @@ string msrMeasure::asShortString () const
 
 string msrMeasure::asString () const
 {
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
+
   stringstream s;
 
   s <<
     "[Measure '" <<
     fMeasureElementMeasureNumber <<
+    ", measureKind: " <<
+    measureKindAsString () <<
+    ", voice: " <<
+    voice->getVoiceName () <<
+    ", measureOrdinalNumberInVoice: " <<
+    fMeasureOrdinalNumberInVoice <<
     ", measurePuristNumber: " <<
     fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
-    "', " << measureKindAsString () <<
     ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
     ", fullMeasureWholeNotesDuration: " << fFullMeasureWholeNotesDuration <<
     ", " <<
@@ -5134,6 +5223,11 @@ void msrMeasure::print (ostream& os) const
     setw (fieldWidth) <<
     "fullMeasureWholeNotesDuration" << " : " <<
     fFullMeasureWholeNotesDuration <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "measureOrdinalNumberInVoice" << " : " <<
+    fMeasureOrdinalNumberInVoice <<
     endl <<
 
     setw (fieldWidth) <<
@@ -5332,6 +5426,11 @@ void msrMeasure::shortPrint (ostream& os) const
   const int fieldWidth = 28;
 
   os << left <<
+    setw (fieldWidth) <<
+    "measureOrdinalNumberInVoice" << " : " <<
+    fMeasureOrdinalNumberInVoice <<
+    endl <<
+
     setw (fieldWidth) <<
     "measurePuristNumber" << " : " <<
     fMeasurePuristNumber <<
@@ -5636,3 +5735,68 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
     } // for
   }
 */
+
+
+/* JMI
+  // get the harmonyVoice first and last measures
+  S_msrMeasure
+    harmonyVoiceFirstMeasure =
+      harmonyVoice->
+        getVoiceFirstMeasure (),
+    harmonyVoiceLastMeasure =
+      harmonyVoice->
+        getVoiceLastAppendedMeasure ();
+*/
+
+/*
+  // get the harmonyVoiceRegularVoice current measure ordinal number
+  int
+    harmonyVoiceRegularVoiceCurrentMeasureOrdinalNumber =
+      harmonyVoiceRegularVoice->
+        getVoiceCurrentMeasureOrdinalNumber ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "harmonyVoiceRegularVoiceCurrentMeasureOrdinalNumber = " <<
+      harmonyVoiceRegularVoiceCurrentMeasureOrdinalNumber <<
+      endl;
+  }
+#endif
+*/
+
+/* JMI
+  // get the first and last measures purist numbers of the regular voice
+  int
+    regularVoiceFirstPuristNumber =
+      harmonyVoiceRegularVoice->
+        getVoiceFirstMeasurePuristNumber (),
+    regularVoiceLastPuristNumber =
+      harmonyVoiceRegularVoice->
+        getVoiceCurrentMeasurePuristNumber ();
+
+  // get the measures purist numbers of the first and last measures of the regular voice
+  int
+    regularVoiceFirstMeasurePuristNumber =
+      regularVoiceFirstMeasure->
+        getMeasurePuristNumber (),
+    regularVoiceLastMeasurePuristNumber =
+      regularVoiceLastMeasure->
+        getMeasurePuristNumber ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "regularVoiceFirstPuristNumber = " <<
+      regularVoiceFirstPuristNumber <<
+      ", regularVoiceLastPuristNumber = " <<
+      regularVoiceLastPuristNumber <<
+      ", regularVoiceFirstMeasurePuristNumber = " <<
+      regularVoiceFirstMeasurePuristNumber <<
+      ", regularVoiceLastMeasurePuristNumber = " <<
+      regularVoiceLastMeasurePuristNumber <<
+      endl;
+  }
+#endif
+*/
+

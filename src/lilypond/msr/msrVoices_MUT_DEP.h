@@ -1029,10 +1029,27 @@ class msrVoice : public msrElement
     S_msrTime             getVoiceCurrentTime () const
                               { return fVoiceCurrentTime; }
 
-    // measures
+    // current measure number
 
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
+
+    // ordinal measure number
+
+    void                  setVoiceCurrentMeasureOrdinalNumber (
+                            int measureOrdinalNumber)
+                              {
+                                fVoiceCurrentMeasureOrdinalNumber =
+                                  measureOrdinalNumber;
+                              }
+
+    int                   incrementVoiceCurrentMeasureOrdinalNumber ()
+                              { return ++fVoiceCurrentMeasureOrdinalNumber; }
+
+    int                   getVoiceCurrentMeasureOrdinalNumber () const
+                              { return fVoiceCurrentMeasureOrdinalNumber; }
+
+    // measure purist number
 
     void                  incrementVoiceCurrentMeasurePuristNumber (
                             int    inputLineNumber,
@@ -1040,10 +1057,22 @@ class msrVoice : public msrElement
 
     void                  setVoiceCurrentMeasurePuristNumber (
                             int measurePuristNumber)
-                              { fVoiceCurrentMeasureNumber = measurePuristNumber; }
+                              {
+                                fVoiceCurrentMeasurePuristNumber =
+                                  measurePuristNumber;
+                              }
 
     const int             getVoiceCurrentMeasurePuristNumber () const
                               { return fVoiceCurrentMeasurePuristNumber; }
+
+    const int             getVoiceFirstMeasurePuristNumber () const
+                              { return fVoiceFirstMeasurePuristNumber; }
+/*
+    const int             getVoiceLastMeasurePuristNumber () const
+                              { return fVoiceLastMeasurePuristNumber; }
+*/
+
+    // measures
 
     void                  setVoiceFirstMeasure (
                             S_msrMeasure measure)
@@ -1113,11 +1142,15 @@ class msrVoice : public msrElement
 
     string                fVoiceCurrentMeasureNumber;
 
+    int                   fVoiceCurrentMeasureOrdinalNumber;
+
     int                   fVoiceCurrentMeasurePuristNumber;
                             // this is a 'purist' measure number,
                             // that starts at 0 if there is an anacrusis,
                             // and 1 otherwise,
                             // and is shared by incomplete (sub)measure fragments
+    int                   fVoiceFirstMeasurePuristNumber;
+// JMI    int                   fVoiceLastMeasurePuristNumber;
 
     // a stack is needed to handle pending repeats, which can be nested
     list<S_msrRepeatDescr>

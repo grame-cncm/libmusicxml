@@ -116,6 +116,12 @@ class msrMeasure : public msrElement
     string                getMeasureElementMeasureNumber () const
                               { return fMeasureElementMeasureNumber; }
 
+    void                  setMeasureOrdinalNumberInVoice (int measureOrdinalNumber)
+                              { fMeasureOrdinalNumberInVoice = measureOrdinalNumber; }
+
+    int                   getMeasureOrdinalNumberInVoice () const
+                              { return fMeasureOrdinalNumberInVoice; }
+
     void                  setMeasurePuristNumber (
                             int measurePuristNumber);
 
@@ -156,8 +162,7 @@ class msrMeasure : public msrElement
     void                  setMeasureKind (
                             msrMeasureKind measureKind);
 
-    msrMeasureKind
-                          getMeasureKind () const
+    msrMeasureKind        getMeasureKind () const
                               { return fMeasureKind; }
 
     // measure implicit kind
@@ -519,6 +524,19 @@ class msrMeasure : public msrElement
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
 
+    void                  finalizeFirstHarmonyMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context,
+                            S_msrVoice                   harmonyVoice,
+                            rational&                    measureWholeNotesDuration);
+    void                  finalizeLastHarmonyMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context,
+                            S_msrVoice                   harmonyVoice,
+                            rational&                    measureWholeNotesDuration);
+
     void                  finalizeFiguredBassMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
@@ -590,6 +608,16 @@ class msrMeasure : public msrElement
     string                fMeasureElementMeasureNumber;
     string                fNextMeasureNumber;
 
+    int                   fMeasureOrdinalNumberInVoice;
+
+    // purist measure number, forcing anacruses to start at '0' if it's not the case
+    // and not shared among repeats components
+    int                   fMeasurePuristNumber;
+
+    // debug number, unique for every msrMeasure instance
+    static int            gMeasureDebugNumber;
+    int                   fMeasureDebugNumber;
+
     // first measure in voice?
 
     bool                  fMeasureFirstInVoice;
@@ -626,14 +654,6 @@ class msrMeasure : public msrElement
                           fMeasureElementsList;
 
     bool                  fMeasureContainsMusic;
-
-    // purist measure number, forcing anacruses to start at '0' if it's not the case
-    // and not shared among repeats components
-    int                   fMeasurePuristNumber;
-
-    // debug number, unique for every msrMeasure instance
-    static int            gMeasureDebugNumber;
-    int                   fMeasureDebugNumber;
 
     // regular measure ends detection
     msrMeasureEndRegularKind
@@ -677,6 +697,10 @@ class msrMeasure : public msrElement
                             S_msrHarmony currentHarmony);
 
     void                  handleHarmoniesInHarmonyMeasureFinalization (
+                            int    inputLineNumber,
+                            string context);
+
+    void                  handleFiguredBassesInFiguredBassMeasureFinalization (
                             int    inputLineNumber,
                             string context);
 

@@ -312,7 +312,13 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
         measureNumber,
         this);
 
-  // append it to the segment
+  // set result's ordinal number
+  result->
+    setMeasureOrdinalNumberInVoice (
+      fSegmentVoiceUpLink->
+        incrementVoiceCurrentMeasureOrdinalNumber ());
+
+  // append result to the segment
   appendMeasureToSegment (result);
 
   gIndenter--;

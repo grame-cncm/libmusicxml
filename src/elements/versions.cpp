@@ -21,8 +21,8 @@ const char* versions::libVersionStr()     { return "3.18"; }
 float   versions::xml2guidoVersion()    { return 3.0f; }
 const char* versions::xml2guidoVersionStr()   { return "3.0"; }
 
-float   versions::xml2lilypondVersion()   { return 0.92f; }
-const char* versions::xml2lilypondVersionStr()    { return "0.92"; }
+float   versions::xml2lilypondVersion()   { return 0.93f; }
+const char* versions::xml2lilypondVersionStr()    { return "0.93"; }
 
 float   versions::xml2brailleVersion()   { return 0.03f; }
 const char* versions::xml2brailleVersionStr()    { return "0.03"; }

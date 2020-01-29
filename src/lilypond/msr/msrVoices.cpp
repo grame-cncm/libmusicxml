@@ -439,10 +439,13 @@ void msrVoice::initializeVoice (
   fVoiceShortestNoteTupletFactor =
     rational (1, 1);
 
-  // set voice number
+  // set voice current measure number
   fVoiceCurrentMeasureNumber = // JMI "??";
     fetchVoicePartUpLink ()->
       getPartCurrentMeasureNumber ();
+
+  // set voice  current ordinal measure number
+  fVoiceCurrentMeasureOrdinalNumber = 0;
 
   // set voice current measure purist number
   fVoiceCurrentMeasurePuristNumber = 1; // default value,
@@ -651,6 +654,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // measures
   voiceDeepCopy->fVoiceCurrentMeasureNumber =
     fVoiceCurrentMeasureNumber;
+  voiceDeepCopy->fVoiceCurrentMeasureOrdinalNumber =
+    fVoiceCurrentMeasureOrdinalNumber;
   voiceDeepCopy->fVoiceCurrentMeasurePuristNumber =
     fVoiceCurrentMeasurePuristNumber;
 
@@ -885,7 +890,13 @@ void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
   int    inputLineNumber,
   string context)
 {
-  fVoiceCurrentMeasurePuristNumber++;
+  if (fVoiceCurrentMeasurePuristNumber < 0) {
+    fVoiceCurrentMeasurePuristNumber = 0;
+    fVoiceFirstMeasurePuristNumber = fVoiceCurrentMeasurePuristNumber;
+  }
+  else {
+    fVoiceCurrentMeasurePuristNumber++;
+  }
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
@@ -9438,6 +9449,16 @@ void msrVoice::print (ostream& os) const
     setw (fieldWidth) <<
     "voiceNumber" << " : " <<
     voiceNumberAsString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "voiceCurrentMeasureNumber" << " : " <<
+    fVoiceCurrentMeasureNumber <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "voiceCurrentMeasureOrdinalNumber" << " : " <<
+    fVoiceCurrentMeasureOrdinalNumber <<
     endl <<
 
     setw (fieldWidth) <<
