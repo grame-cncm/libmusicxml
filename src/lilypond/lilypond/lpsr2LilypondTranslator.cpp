@@ -1696,18 +1696,52 @@ void lpsr2LilypondTranslator::generateCodeForNote (
             noteSoundingWholeNotes =
               note->getNoteSoundingWholeNotes ();
 
+          // get note's voice
+          S_msrVoice
+            noteVoice =
+              note->
+                getNoteMeasureUpLink ()->
+                  getMeasureSegmentUpLink ()->
+                    getSegmentVoiceUpLink ();
+
           // print the rest name and duration
           if (note->getNoteOccupiesAFullMeasure ()) {
+            // take voice kind into account JMI shouldn't be necessary?
+            switch (noteVoice->getVoiceKind ()) {
+              case msrVoice::kVoiceRegular:
+                fLilypondCodeOstream <<
+                  "R%{1%}";
+                break;
+
+              case msrVoice::kVoiceHarmony:
+              case msrVoice::kVoiceFiguredBass:
+                fLilypondCodeOstream <<
+                  "s%{1%}";
+                break;
+            } // switch
+
             fLilypondCodeOstream <<
-              "R%{1%}" <<
               durationAsLilypondString (
                 inputLineNumber,
                 noteSoundingWholeNotes);
           }
 
           else {
+            // take voice kind into account JMI shouldn't be necessary?
+            switch (noteVoice->getVoiceKind ()) {
+              case msrVoice::kVoiceRegular:
+                fLilypondCodeOstream <<
+                  "r%{2%}";
+                break;
+
+              case msrVoice::kVoiceHarmony:
+              case msrVoice::kVoiceFiguredBass:
+                fLilypondCodeOstream <<
+                  "s%{2%}";
+                break;
+            } // switch
+
             fLilypondCodeOstream <<
-              "r%{2%}" <<
               durationAsLilypondString (
                 inputLineNumber,
                 noteSoundingWholeNotes);
@@ -7702,6 +7736,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 #endif
 
   if (fOnGoingNote) {
+  /* JMI
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies) {
       fLilypondCodeOstream <<
@@ -7711,6 +7746,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
         endl;
     }
 #endif
+*/
   }
 
   else if (fOnGoingChord) { // JMI
@@ -8390,11 +8426,31 @@ else
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
-        // generate a skip the duration of the measure // JMI ???
+        // get measure's voice
+        S_msrVoice
+          noteVoice =
+            elt->
+              getMeasureSegmentUpLink ()->
+                getSegmentVoiceUpLink ();
+
+        // generate the rest name
+        // take voice kind into account JMI shouldn't be necessary?
+        switch (noteVoice->getVoiceKind ()) {
+          case msrVoice::kVoiceRegular:
+            fLilypondCodeOstream <<
+              "R%{21%}";
+            break;
+
+          case msrVoice::kVoiceHarmony:
+          case msrVoice::kVoiceFiguredBass:
+            fLilypondCodeOstream <<
+              "s%{21%}";
+            break;
+        } // switch
+
+        // generate the duration of the measure // JMI ???
         // followed by a bar check
         fLilypondCodeOstream <<
-     // JMI     "s%{19%}" <<
-         "R%{8%}" <<
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->

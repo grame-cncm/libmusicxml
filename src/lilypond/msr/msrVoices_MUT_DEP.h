@@ -12,6 +12,7 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     #define K_NO_VOICE_NUMBER                     -99
+
     #define K_VOICE_HARMONY_VOICE_BASE_NUMBER      20
     #define K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER 40
 

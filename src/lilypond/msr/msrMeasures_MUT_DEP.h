@@ -141,8 +141,7 @@ class msrMeasure : public msrElement
     // measure lengthes, in whole notes
 
     void                  setFullMeasureWholeNotesDuration (
-                            rational wholeNotes)
-                              { fFullMeasureWholeNotesDuration = wholeNotes; }
+                            rational wholeNotes);
 
     rational              getFullMeasureWholeNotesDuration () const
                               {  return fFullMeasureWholeNotesDuration; }

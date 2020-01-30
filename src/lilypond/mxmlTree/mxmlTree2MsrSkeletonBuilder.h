@@ -696,6 +696,10 @@ class mxmlTree2MsrSkeletonBuilder :
                                 int        inputLineNumber,
                                 S_msrVoice voice);
 
+    S_msrVoice                createPartHarmonyVoiceIfNotYetDone (
+                                int        inputLineNumber,
+                                S_msrPart  part);
+
 
     // figured bass handling
     // ------------------------------------------------------

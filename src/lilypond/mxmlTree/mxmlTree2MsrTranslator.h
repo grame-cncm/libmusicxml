@@ -943,7 +943,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     msrSlashTypeKind          fCurrentSlashTypeKind;
-    msrUseDotsKind       fCurrentUseDotsKind;
+    msrUseDotsKind            fCurrentUseDotsKind;
     msrSlashUseStemsKind      fCurrentSlashUseStemsKind;
 
     msrDurationKind           fCurrentSlashGraphicDurationKind;

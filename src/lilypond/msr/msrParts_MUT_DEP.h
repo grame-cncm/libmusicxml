@@ -11,8 +11,11 @@ class msrPart : public msrPartGroupElement
     // constants
     // ------------------------------------------------------
 
-    #define K_PART_FIGURED_BASS_STAFF_NUMBER -219
-    #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
+    #define K_PART_HARMONY_STAFF_NUMBER       10
+    #define K_PART_HARMONY_VOICE_NUMBER       11
+
+    #define K_PART_FIGURED_BASS_STAFF_NUMBER  20
+    #define K_PART_FIGURED_BASS_VOICE_NUMBER  21
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -148,6 +151,28 @@ class msrPart : public msrPartGroupElement
 
     string                getPartInstrumentAbbreviation () const
                               { return fPartInstrumentAbbreviation; }
+
+    // harmonies staff and voice
+
+    void                  setPartHarmoniesStaff (
+                            S_msrStaff harmoniesStaff)
+                              {
+                                fPartHarmoniesStaff =
+                                  harmoniesStaff;
+                              }
+
+    S_msrStaff            getPartHarmoniesStaff () const
+                              { return fPartHarmoniesStaff; }
+
+    void                  setPartHarmoniesVoice (
+                            S_msrVoice harmoniesVoice)
+                              {
+                                fPartHarmoniesVoice =
+                                  harmoniesVoice;
+                              }
+
+    S_msrVoice            getPartHarmoniesVoice () const
+                              { return fPartHarmoniesVoice; }
 
     // figured bass staff and voice
 
@@ -333,7 +358,25 @@ class msrPart : public msrPartGroupElement
 
     // JMI ???
 
+    // harmonies
+
+    S_msrVoice            createPartHarmonyVoice (
+                            int    inputLineNumber,
+                            string currentMeasureNumber);
+
+    void                  appendHarmonyToPart (
+                            S_msrVoice  harmonySupplierVoice,
+                           S_msrHarmony harmony);
+
+    void                  appendHarmonyToPartClone (
+                            S_msrVoice   harmonySupplierVoice,
+                            S_msrHarmony harmony);
+
     // figured bass
+
+    S_msrVoice            createPartFiguredBassVoice (
+                            int    inputLineNumber,
+                            string currentMeasureNumber);
 
     void                  appendFiguredBassToPart (
                             S_msrVoice      figuredBassSupplierVoice,
@@ -449,6 +492,11 @@ class msrPart : public msrPartGroupElement
 
     S_msrTranspose        fPartCurrentTranspose;
 
+    // harmonies
+
+    S_msrStaff            fPartHarmoniesStaff;
+    S_msrVoice            fPartHarmoniesVoice;
+
     // figured bass
 
     S_msrStaff            fPartFiguredBassStaff;
@@ -523,7 +571,21 @@ class msrPart : public msrPartGroupElement
     // private work services
     // ------------------------------------------------------
 
-    // measure elements
+    // harmonies
+
+    S_msrVoice            getPartHarmonyVoiceForwardLink () const
+                              { return fPartHarmonyVoiceForwardLink; }
+
+    S_msrVoice            getHarmonyVoicePartBackwardLink () const
+                              { return fHarmonyVoicePartBackwardLink; }
+
+    // figured bass
+
+    S_msrVoice            getPartFiguredBassVoiceForwardLink () const
+                              { return fPartFiguredBassVoiceForwardLink; }
+
+    S_msrVoice            getFiguredBassVoicePartBackwardLink () const
+                              { return fFiguredBassVoicePartBackwardLink; }
 
   private:
 
@@ -537,6 +599,13 @@ class msrPart : public msrPartGroupElement
     // position in measure
 
     rational              fPartCurrentPositionInMeasure;
+
+    // two-way links
+    S_msrVoice            fPartHarmonyVoiceForwardLink;
+    S_msrVoice            fHarmonyVoicePartBackwardLink;
+
+    S_msrVoice            fPartFiguredBassVoiceForwardLink;
+    S_msrVoice            fFiguredBassVoicePartBackwardLink;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

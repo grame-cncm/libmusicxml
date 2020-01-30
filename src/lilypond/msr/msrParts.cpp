@@ -1186,6 +1186,242 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
+S_msrVoice msrPart::createPartHarmonyVoice (
+  int    inputLineNumber,
+  string currentMeasureNumber)
+{
+  if (fPartHarmoniesVoice) {
+    stringstream s;
+
+    s <<
+      "Part \"" <<
+      getPartCombinedName () <<
+      "\" already has a harmony voice";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // create the part harmonies staff
+  int partHarmonyStaffNumber =
+    K_PART_HARMONY_STAFF_NUMBER;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "Creating harmony staff for part \"" <<
+      getPartCombinedName () <<
+      "\" with staff number " <<
+      partHarmonyStaffNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fPartHarmoniesStaff =
+    addStaffToPartByItsNumber (
+      inputLineNumber,
+      msrStaff::kStaffHarmony,
+      partHarmonyStaffNumber);
+
+  // create the part harmony voice
+  int partHarmonyVoiceNumber =
+    K_PART_HARMONY_VOICE_NUMBER;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "Creating harmony voice for part \"" <<
+      getPartCombinedName () <<
+      "\" with voice number " <<
+      partHarmonyVoiceNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fPartHarmoniesVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kVoiceHarmony,
+      partHarmonyVoiceNumber,
+      msrVoice::kCreateInitialLastSegmentYes,
+      fPartHarmoniesStaff);
+
+  // register it in the staff
+  fPartHarmoniesStaff->
+    registerVoiceInStaff (
+      inputLineNumber,
+      fPartHarmoniesVoice);
+
+/* JMI
+  // set backward link
+  fPartHarmoniesVoice->
+    fHarmonyVoicePartBackwardLink = this;
+*/
+
+  return fPartHarmoniesVoice;
+}
+
+void msrPart::appendHarmonyToPart (
+  S_msrVoice   harmonySupplierVoice,
+  S_msrHarmony harmony)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
+  switch (harmonySupplierVoice->getVoiceKind ()) {
+    case msrVoice::kVoiceRegular:
+      // append the figured bass to the part figured bass voice
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceHarmonies) {
+        gLogOstream <<
+          "Appending figured bass " <<
+          harmony->asString () <<
+          " to part " <<
+          getPartCombinedName () <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+#endif
+
+      fPartHarmoniesVoice->
+        appendHarmonyToVoice (harmony);
+      break;
+
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass:
+      {
+        stringstream s;
+
+        s <<
+          "figured bass cannot by supplied to part by " <<
+          msrVoice::voiceKindAsString (
+            harmonySupplierVoice->getVoiceKind ()) <<
+          " voice \" " <<
+          harmonySupplierVoice->getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+  } // switch
+}
+
+void msrPart::appendHarmonyToPartClone (
+  S_msrVoice   harmonySupplierVoice,
+  S_msrHarmony harmony)
+{
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+
+  switch (harmonySupplierVoice->getVoiceKind ()) {
+    case msrVoice::kVoiceFiguredBass:
+      // append the figured bass to the part figured bass voice
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceHarmonies) {
+        gLogOstream <<
+          "Appending figured bass " <<
+          harmony->asString () <<
+          " to part clone " <<
+          getPartCombinedName () <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+#endif
+
+      fPartHarmoniesVoice->
+        appendHarmonyToVoiceClone (harmony);
+      break;
+
+    case msrVoice::kVoiceRegular:
+    case msrVoice::kVoiceHarmony:
+      {
+        stringstream s;
+
+        s <<
+          "figured bass cannot by supplied to part clone by " <<
+          msrVoice::voiceKindAsString (
+            harmonySupplierVoice->getVoiceKind ()) <<
+          " voice \" " <<
+          harmonySupplierVoice->getVoiceName () <<
+          "\"";
+
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+  } // switch
+}
+
+S_msrVoice msrPart::createPartFiguredBassVoice (
+  int    inputLineNumber,
+  string currentMeasureNumber)
+{
+  if (fPartFiguredBassVoice) {
+    stringstream s;
+
+    s <<
+      "Part \"" <<
+      getPartCombinedName () <<
+      "\" already has a figured bass voice";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // create the voice figured bass voice
+  int partFiguredBassVoiceNumber =
+    K_PART_FIGURED_BASS_VOICE_NUMBER;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceFiguredBasses) {
+    gLogOstream <<
+      "Creating figured bass voice for part \"" <<
+      getPartCombinedName () <<
+      "\" with voice number " <<
+      partFiguredBassVoiceNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fPartFiguredBassVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kVoiceFiguredBass,
+      partFiguredBassVoiceNumber,
+      msrVoice::kCreateInitialLastSegmentYes,
+      fPartFiguredBassStaff);
+
+  // register it in the staff
+  fPartFiguredBassStaff->
+    registerVoiceInStaff (
+      inputLineNumber,
+      fPartFiguredBassVoice);
+
+/* JMU
+  // set backward link
+  fPartFiguredBassVoice->
+    fFiguredBassVoicePartBackwardLink = this;
+*/
+
+  return fPartFiguredBassVoice;
+}
+
 void msrPart::appendFiguredBassToPart (
   S_msrVoice       figuredBassSupplierVoice,
   S_msrFiguredBass figuredBass)
@@ -1605,7 +1841,14 @@ void msrPart::browseData (basevisitor* v)
       endl;
   }
 
-  // browse all non figured bass staves
+  // browse the part harmonies staff if any right now,
+  // to place it after the corresponding part
+  if (fPartHarmoniesStaff) {
+    msrBrowser<msrStaff> browser (v);
+    browser.browse (*fPartHarmoniesStaff);
+  }
+
+  // browse all non harmonies nor figured bass staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
@@ -1615,20 +1858,19 @@ void msrPart::browseData (basevisitor* v)
       staff =
         (*i).second;
 
-    if (staff != fPartFiguredBassStaff) {
+    if (staff != fPartHarmoniesStaff && staff != fPartFiguredBassStaff) {
       // browse the staff
       msrBrowser<msrStaff> browser (v);
       browser.browse (*staff);
     }
   } // for
 
-  // browse the part figured bass only now if any,
+  // browse the part figured bass staff if any only now,
   // to place it after the corresponding part
   if (fPartFiguredBassStaff) {
     msrBrowser<msrStaff> browser (v);
     browser.browse (*fPartFiguredBassStaff);
   }
-
 }
 
 string msrPart::asString () const
@@ -1969,7 +2211,19 @@ void msrPart::printSummary (ostream& os)
     gIndenter--;
   }
 
-  // print the figured bass staff if any // JMI
+  // print the harmonies staff if any
+  if (fPartHarmoniesStaff) {
+    os <<
+      "partHarmoniesStaff" <<
+      endl;
+
+    gIndenter++;
+    os <<
+      fPartHarmoniesStaff;
+    gIndenter--;
+  }
+
+  // print the figured bass staff if any
   if (fPartFiguredBassStaff) {
     os <<
       "partFiguredBassStaff" <<

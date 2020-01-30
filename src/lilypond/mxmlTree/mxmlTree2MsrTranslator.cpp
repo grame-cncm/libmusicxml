@@ -18161,6 +18161,19 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       appendHarmonyToVoice (
         harmony);
 
+/* JMI
+    // get the current part's harmony voice
+    S_msrVoice
+      partHarmonyVoice =
+        fCurrentPart->
+          getPartHarmoniesVoice ();
+
+    // append the harmony to the part harmony voice
+    partHarmonyVoice->
+      appendHarmonyToVoice (
+        harmony);
+        */
+
     // remove it from the list
     fPendingHarmoniesList.pop_front ();
   } // while

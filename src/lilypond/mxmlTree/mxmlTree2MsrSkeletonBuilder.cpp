@@ -1670,6 +1670,28 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceHarmonyVoiceIfNotYetDo
   return harmonyVoice;
 }
 
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createPartHarmonyVoiceIfNotYetDone (
+  int        inputLineNumber,
+  S_msrPart  part)
+{
+  // is the harmony voice already present in voice?
+  S_msrVoice
+    partHarmonyVoice =
+      part->
+        getPartHarmoniesVoice ();
+
+  if (! partHarmonyVoice) {
+    // create the voice and append it to the staff
+    partHarmonyVoice =
+      part->
+        createPartHarmonyVoice (
+          inputLineNumber,
+          fCurrentMeasureNumber);
+  }
+
+  return partHarmonyVoice;
+}
+
 //______________________________________________________________________________
 S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceFiguredBassVoiceIfNotYetDone (
   int        inputLineNumber,
@@ -4069,12 +4091,21 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 #endif
     }
     else {
-      // should the harmony voice be created?
+      // create the harmony voice
       S_msrVoice
         harmonyVoice =
           createRegularVoiceHarmonyVoiceIfNotYetDone (
             inputLineNumber,
             noteVoice);
+
+/* JMI
+      // create the part harmony voice
+      S_msrVoice
+        partHarmonyVoice =
+          createPartHarmonyVoiceIfNotYetDone (
+            inputLineNumber,
+            fCurrentPart);
+            */
     }
 
     fThereAreHarmoniesToBeAttachedToCurrentNote = false;
