@@ -96,15 +96,15 @@ set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors interface)
 
 if (LILY OR BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/manpage interface/lilypond/mxmltree interface/lilypond/msr)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/msr2lpsr lilypond/lilypond lilypond/lpsr2lilypond interface/lilypond/lilypond lilypond/xml2ly)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/msr2lpsr lilypond/lilypond lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly)
 endif()
 
 if (BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/msr2bsr lilypond/braille lilypond/bsr2braille interface/lilypond/bsr interface/lilypond/braille lilypond/xml2brl)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/msr2bsr lilypond/bsr2braille interface/lilypond/bsr interface/lilypond/msr2bsr interface/lilypond/bsr2braille lilypond/xml2brl)
 endif()
 
 foreach(folder ${SRCFOLDERS})
