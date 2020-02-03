@@ -201,7 +201,7 @@ void lpsrPaper::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 20;
+  const int fieldWidth = 27;
 
   // scaling
 

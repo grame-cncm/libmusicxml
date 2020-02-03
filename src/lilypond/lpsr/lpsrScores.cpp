@@ -303,7 +303,7 @@ lpsrScore::lpsrScore (
     setRightMargin (rightMargin);
 */
 
-    // indents
+  // indents
   if (gLpsrOah->fPaperHorizontalShift.getLengthValue () > 0.0) {
     fScorePaper->
       setHorizontalShift (
@@ -327,6 +327,35 @@ lpsrScore::lpsrScore (
           gLpsrOah->fPaperShortIndent.getLengthUnitKind (),
           gLpsrOah->fPaperShortIndent.getLengthValue ()));
   }
+
+  // counts ???
+
+  // spaces
+  if (gLpsrOah->fMarkupSystemSpacingPadding.getLengthValue () > 0.0) {
+    fScorePaper->
+      setMarkupSystemSpacingPadding (
+        msrLength::create (
+          gLpsrOah->fMarkupSystemSpacingPadding.getLengthUnitKind (),
+          gLpsrOah->fMarkupSystemSpacingPadding.getLengthValue ()));
+  }
+
+  if (gLpsrOah->fBetweenSystemSpace.getLengthValue () > 0.0) {
+    fScorePaper->
+      setBetweenSystemSpace (
+        msrLength::create (
+          gLpsrOah->fBetweenSystemSpace.getLengthUnitKind (),
+          gLpsrOah->fBetweenSystemSpace.getLengthValue ()));
+  }
+
+  if (gLpsrOah->fPageTopSpace.getLengthValue () > 0.0) {
+    fScorePaper->
+      setPageTopSpace (
+        msrLength::create (
+          gLpsrOah->fPageTopSpace.getLengthUnitKind (),
+          gLpsrOah->fPageTopSpace.getLengthValue ()));
+  }
+
+  // compile date
 
   if (gLilypondOah->fLilypondCompileDate) {
     // define headers and footers

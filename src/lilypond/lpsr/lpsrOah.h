@@ -559,7 +559,10 @@ class lpsrOah : public oahGroup
     msrLength             fPaperIndent;
     msrLength             fPaperShortIndent;
 
+    // spaces
     msrLength             fMarkupSystemSpacingPadding;
+    msrLength             fBetweenSystemSpace;
+    msrLength             fPageTopSpace;
 
     bool                  fRaggedBottom;
     bool                  fRaggedLastBottom;
