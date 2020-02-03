@@ -130,6 +130,11 @@ class msrPart : public msrPartGroupElement
 
     const int             getPartNumberOfMeasures () const
                               { return fPartNumberOfMeasures; }
+
+    const vector<rational>&
+                          getfPartMeasuresWholeNotesDurationsVector () const
+                              { return fPartMeasuresWholeNotesDurationsVector; }
+
     // instrument name
 
     void                  setPartInstrumentName (
@@ -307,6 +312,8 @@ class msrPart : public msrPartGroupElement
     void                  appendRepeatEndingCloneToPart (
                             S_msrRepeatEnding repeatEndingCLone);
 
+    // rest measures
+
     void                  createRestMeasuresInPart (
                             int inputLineNumber,
                             int restMeasuresNumber);
@@ -321,6 +328,8 @@ class msrPart : public msrPartGroupElement
     void                  appendRestMeasuresCloneToPart (
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
+
+    // measures repeats
 
     void                  createMeasuresRepeatFromItsFirstMeasuresInPart (
                             int inputLineNumber,
@@ -416,6 +425,8 @@ class msrPart : public msrPartGroupElement
 
                             */
 
+    // backup
+
     void                  handleBackupInPart (
                             int      inputLineNumber,
                             rational backupStepLength);
@@ -479,6 +490,8 @@ class msrPart : public msrPartGroupElement
     string                fPartCurrentMeasureNumber;
 
     int                   fPartNumberOfMeasures;
+
+    vector<rational>      fPartMeasuresWholeNotesDurationsVector;
 
     // clef, key, time
 

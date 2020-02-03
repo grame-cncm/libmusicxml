@@ -80,69 +80,106 @@ S_msrScaling msrScaling::createMsrScalingNewbornClone ()
 
 float msrScaling::fetchGlobalStaffSize () const
 {
-  const float optionsGlobalStaffSize =
-    gLpsrOah->fGlobalStaffSize;
+  const float
+    optionsStaffGlobalSizeDefaultValue =
+      gLpsrOah->fStaffGlobalSizeDefaultValue,
+    optionsGlobalStaffSize =
+      gLpsrOah->fGlobalStaffSize;
 
-  const float defaultTenthsToMillimetersRatio = 0.175;
+  const bool
+    staffGlobalSizeHasBeenSet =
+      gLpsrOah->fStaffGlobalSizeHasBeenSet;
 
-  float millimetersOverTenths =
-    fMillimeters / fTenths;
-  float ratio =
-    millimetersOverTenths / defaultTenthsToMillimetersRatio;
+  float result = 0.0;
 
-  float staffSize =
-    optionsGlobalStaffSize * ratio;
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGeometry) {
-    gLogOstream <<
-      "fetchGlobalStaffSize():" <<
-      endl;
-
-    gIndenter++;
-
-    gLogOstream <<
-      "optionsGlobalStaffSize" << " : " <<
-      optionsGlobalStaffSize <<
-      endl <<
-      "defaultTenthsToMillimetersRatio" << " : " <<
-      defaultTenthsToMillimetersRatio <<
-      endl <<
-      "millimetersOverTenths" << " : " <<
-      millimetersOverTenths <<
-      endl <<
-      "ratio" << " : " <<
-      ratio <<
-      endl <<
-      "staffSize" << " : " <<
-      staffSize <<
-      endl;
-
-    gIndenter--;
+  if (staffGlobalSizeHasBeenSet) {
+    // global-staff-size has been chosen by the user
+    result = optionsGlobalStaffSize;
   }
-#endif
+  else {
+    // global-staff-size has not been chosen by the user
+    const float defaultTenthsToMillimetersRatio = 0.175;
 
-  if (staffSize < 1.0 || staffSize > 100.0) {
-#ifdef TRACE_OAH
+    float millimetersOverTenths =
+      fMillimeters / fTenths;
+    float ratio =
+      millimetersOverTenths / defaultTenthsToMillimetersRatio;
+
+    result = optionsGlobalStaffSize * ratio;
+
+  #ifdef TRACE_OAH
     if (gTraceOah->fTraceGeometry) {
-      stringstream s;
-
-      s <<
-        "staffSize " << staffSize <<
-        " is not between 1.0 and 100.0, replaced by 20.0:" <<
+      gLogOstream <<
+        "fetchGlobalStaffSize():" <<
         endl;
 
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        fInputLineNumber,
-        s.str ());
+      gIndenter++;
+
+      const int fieldWidth = 32;
+
+      gLogOstream << left <<
+        setw (fieldWidth) <<
+        "optionsGlobalStaffSize" << " : " <<
+        optionsGlobalStaffSize <<
+        endl <<
+        setw (fieldWidth) <<
+        "defaultTenthsToMillimetersRatio" << " : " <<
+        defaultTenthsToMillimetersRatio <<
+        endl <<
+        setw (fieldWidth) <<
+        "millimetersOverTenths" << " : " <<
+        millimetersOverTenths <<
+        endl <<
+
+        setw (fieldWidth) <<
+        "optionsStaffGlobalSizeDefaultValue" << " : " <<
+        optionsStaffGlobalSizeDefaultValue <<
+        endl <<
+        setw (fieldWidth) <<
+        "optionsGlobalStaffSize" << " : " <<
+        optionsGlobalStaffSize <<
+        endl <<
+        setw (fieldWidth) <<
+        "staffGlobalSizeHasBeenSet" << " : " <<
+        booleanAsString (staffGlobalSizeHasBeenSet) <<
+        endl <<
+
+        setw (fieldWidth) <<
+        "ratio" << " : " <<
+        ratio <<
+        endl <<
+
+        setw (fieldWidth) <<
+        "result" << " : " <<
+        result <<
+        endl;
+
+      gIndenter--;
     }
+  #endif
+
+    if (result < 1.0 || result > 100.0) {
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceGeometry) {
+        stringstream s;
+
+        s <<
+          "resulting staffsize " << result <<
+          " is not between 1.0 and 100.0, replaced by 20.0:" <<
+          endl;
+
+        msrMusicXMLWarning (
+          gOahOah->fInputSourceName,
+          fInputLineNumber,
+          s.str ());
+      }
 #endif
 
-    staffSize = optionsGlobalStaffSize;
+      result = optionsGlobalStaffSize;
+    }
   }
 
-  return staffSize;
+  return result;
 }
 
 void msrScaling::acceptIn (basevisitor* v)

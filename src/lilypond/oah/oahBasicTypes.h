@@ -1303,7 +1303,13 @@ class oahFloatAtom : public oahValuedAtom
 
     void                  setFloatVariable (
                             float value)
-                              { fFloatVariable = value; }
+                              {
+                                fFloatVariable = value;
+                                fFloatVariableHasBeenSet = true;
+                              }
+
+    bool                  getFloatVariableHasBeenSet () const
+                              { return fFloatVariableHasBeenSet; }
 
   public:
 
@@ -1348,6 +1354,8 @@ class oahFloatAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     float&                fFloatVariable;
+
+    bool                  fFloatVariableHasBeenSet;
 };
 typedef SMARTP<oahFloatAtom> S_oahFloatAtom;
 EXP ostream& operator<< (ostream& os, const S_oahFloatAtom& elt);

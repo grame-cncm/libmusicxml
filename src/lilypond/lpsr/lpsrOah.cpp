@@ -1221,7 +1221,8 @@ R"()",
   // global staff size
 
   fStaffGlobalSizeDefaultValue = 20; // LilyPond default
-  fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
+  fGlobalStaffSize = rational (fStaffGlobalSizeDefaultValue, 1);
+  fStaffGlobalSizeHasBeenSet = false;
 
   subGroup->
     appendAtomToSubGroup (

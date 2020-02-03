@@ -3527,7 +3527,9 @@ oahFloatAtom::oahFloatAtom (
       variableName),
     fFloatVariable (
       floatVariable)
-{}
+{
+  fFloatVariableHasBeenSet = false;
+}
 
 oahFloatAtom::~oahFloatAtom ()
 {}
@@ -3595,7 +3597,7 @@ void oahFloatAtom::handleValue (
       s >> floatValue;
     }
 
-    fFloatVariable = floatValue;
+    setFloatVariable (floatValue);
   }
 
   else {
@@ -3714,6 +3716,10 @@ void oahFloatAtom::print (ostream& os) const
     setw (fieldWidth) <<
     "fFloatVariable" << " : " <<
     fFloatVariable <<
+    endl <<
+    setw (fieldWidth) <<
+    "fFloatVariableHasBeenSet" << " : " <<
+    booleanAsString (fFloatVariableHasBeenSet) <<
     endl;
 
   gIndenter--;
@@ -3728,6 +3734,8 @@ void oahFloatAtom::printAtomOptionsValues (
     fVariableName <<
     " : " <<
     fFloatVariable <<
+    ", fFloatVariableHasBeenSet: " <<
+    booleanAsString (fFloatVariableHasBeenSet) <<
     endl;
 }
 

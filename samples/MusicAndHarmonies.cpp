@@ -152,6 +152,7 @@ static Sxmlelement makemeasure(unsigned long num) {
 	return measure;
 }
 
+/*
 static Sxmlelement makemeasure_TRY(unsigned long num) {
 	Sxmlelement measure = factory::instance().create(k_measure);
 	measure->add (newAttributeI("number", num));
@@ -180,11 +181,11 @@ static Sxmlelement makemeasure_TRY(unsigned long num) {
       measure->push (harmony);	// and finally adds the harmony to the measure
     }
 
-	/*
+	/ *
     -use "none" for the kind allows the text to print and for me to select any arbitrary chord type
     -use k_root_alter to create sharps or flats of any basic note
     -the example above prints the chord C#13b5 onto beats 1 & 3 of each measure
-	*/
+	* /
 
 		Sxmlelement note = factory::instance().create(k_note);		// creates the note
 		Sxmlelement pitch = factory::instance().create(k_pitch);	// creates a pitch
@@ -198,6 +199,7 @@ static Sxmlelement makemeasure_TRY(unsigned long num) {
 
 	return measure;
 }
+*/
 
 #define kPartID	"P1"
 //------------------------------------------------------------------------

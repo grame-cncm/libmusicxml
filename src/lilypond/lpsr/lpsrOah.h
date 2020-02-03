@@ -543,6 +543,7 @@ class lpsrOah : public oahGroup
 
     float                 fGlobalStaffSize;
     float                 fStaffGlobalSizeDefaultValue;
+    bool                  fStaffGlobalSizeHasBeenSet;
 
     // paper
     // --------------------------------------
