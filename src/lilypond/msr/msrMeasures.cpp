@@ -1233,8 +1233,8 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 #endif
 
         // set full measure whole notes
-        fFullMeasureWholeNotesDuration =
-          wholeNotesPerMeasure;
+        setFullMeasureWholeNotesDuration (
+          wholeNotesPerMeasure);
 
 #ifdef TRACE_OAH
         if (
@@ -1242,7 +1242,8 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
             ||
           gTraceOah->fTraceTimes
             ||
-          gTraceOah->fTraceMeasures) {
+          gTraceOah->fTraceMeasures
+        ) {
           gLogOstream <<
             "Measure " <<
             this->asShortString () <<
@@ -1287,8 +1288,8 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
       setMeasureKind (kMeasureKindCadenza);
 
-      fFullMeasureWholeNotesDuration =
-        rational (INT_MAX, 1);
+      setFullMeasureWholeNotesDuration (
+        rational (INT_MAX, 1));
       break;
   } // switch
 
@@ -2577,7 +2578,7 @@ void msrMeasure::removeNoteFromMeasure (
       // found note, erase it
       fMeasureElementsList.erase (i);
 
-      // update measure whole notes
+      // update current measure whole notes
       setCurrentMeasureWholeNotesDuration (
         inputLineNumber,
         fCurrentMeasureWholeNotesDuration
@@ -2685,7 +2686,7 @@ void msrMeasure::removeElementFromMeasure (
       // found element, erase it
       fMeasureElementsList.erase (i);
 
-      // update measure whole notes
+      // update current measure whole notes
       setCurrentMeasureWholeNotesDuration (
         inputLineNumber,
         fCurrentMeasureWholeNotesDuration
@@ -3304,7 +3305,8 @@ void msrMeasure::finalizeRegularMeasure (
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
-    fFullMeasureWholeNotesDuration = rational (1, 1);
+    setFullMeasureWholeNotesDuration (
+      rational (1, 1));
   }
   else {
     // set the full length from time
@@ -3326,12 +3328,23 @@ void msrMeasure::finalizeRegularMeasure (
     inputLineNumber,
     partCurrentPositionInMeasure);
 
+  // register this measures's length in the part
+  S_msrPart
+    part =
+      this->fetchMeasurePartUpLink ();
+
+  part->
+    registerOrdinalMeasureNumberWholeNotesDuration (
+      inputLineNumber,
+      fMeasureOrdinalNumberInVoice,
+      fCurrentMeasureWholeNotesDuration);
+
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
     measuresRepeatContextKind);
 
-  // pad measure up to whole measure whole notes high tide
+  // pad measure up to whole measure whole notes high tide JMI ???
   switch (fMeasureKind) {
     case msrMeasure::kMeasureKindCadenza:
       break;
@@ -4154,7 +4167,7 @@ void msrMeasure::finalizeHarmonyMeasure (
     inputLineNumber,
     measuresRepeatContextKind);
 
-  // pad measure up to part measure whole notes high tide
+  // pad measure up to part measure whole notes high tide JMI ???
   switch (fMeasureKind) {
     case msrMeasure::kMeasureKindCadenza:
       break;
@@ -4507,7 +4520,8 @@ void msrMeasure::finalizeFiguredBassMeasure (
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
-    fFullMeasureWholeNotesDuration = rational (1, 1);
+    setFullMeasureWholeNotesDuration (
+      rational (1, 1));
   }
   else {
     // set the full length from time
@@ -4530,7 +4544,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
     inputLineNumber,
     measuresRepeatContextKind);
 
-  // pad measure up to part measure whole notes high tide
+  // pad measure up to part measure whole notes high tide JMI ???
   switch (fMeasureKind) {
     case msrMeasure::kMeasureKindCadenza:
       break;
@@ -4777,7 +4791,8 @@ void msrMeasure::finalizeMeasureClone (
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
-    fFullMeasureWholeNotesDuration = rational (1, 1);
+    setFullMeasureWholeNotesDuration (
+      rational (1, 1));
   }
   else {
     // set the full length from time

@@ -121,12 +121,7 @@ class msrPart : public msrPartGroupElement
 
     // measures
 
-    void                  setPartNumberOfMeasures (
-                            int partNumberOfMeasures)
-                              {
-                                fPartNumberOfMeasures =
-                                  partNumberOfMeasures;
-                              }
+    void                  setPartNumberOfMeasures (int partNumberOfMeasures);
 
     const int             getPartNumberOfMeasures () const
                               { return fPartNumberOfMeasures; }
@@ -223,7 +218,9 @@ class msrPart : public msrPartGroupElement
     rational              getPartCurrentPositionInMeasure () const
                               { return fPartCurrentPositionInMeasure; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  assignSequentialNumbersToRegularVoicesInPart (
@@ -253,6 +250,11 @@ class msrPart : public msrPartGroupElement
     void                  setNextMeasureNumberInPart (
                             int    inputLineNumber,
                             string nextMeasureNumber);
+
+    void                  registerOrdinalMeasureNumberWholeNotesDuration (
+                            int      inputLineNumber,
+                            int      measureOrdinalNumber,
+                            rational wholeNotesDuration);
 
     // clef, key, time
 

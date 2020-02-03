@@ -444,6 +444,70 @@ void msrPart::setNextMeasureNumberInPart (
   gIndenter--;
 }
 
+void msrPart::setPartNumberOfMeasures (int partNumberOfMeasures)
+{
+  fPartNumberOfMeasures = partNumberOfMeasures;
+
+  // allocate fPartNumberOfMeasures elements
+  // in fPartMeasuresWholeNotesDurationsVector
+  fPartMeasuresWholeNotesDurationsVector.clear ();
+  fPartMeasuresWholeNotesDurationsVector.resize (
+    fPartNumberOfMeasures,
+    rational (0, 1));
+}
+
+void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
+  int      inputLineNumber,
+  int      measureOrdinalNumber,
+  rational wholeNotesDuration)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
+    gLogOstream <<
+      "Registering the whole notes duration of ordinal measure number \"" <<
+      measureOrdinalNumber <<
+      " as " <<
+      wholeNotesDuration <<
+      "\" in part " << getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+    endl;
+  }
+#endif
+
+  int
+    index =
+      measureOrdinalNumber - 1;
+  rational
+    currentValue =
+      fPartMeasuresWholeNotesDurationsVector [index];
+
+  if (currentValue.getNumerator () != 0) {
+    if (currentValue != wholeNotesDuration) {
+      // allow for polymetrics in non-MusicXML contexts? JMI
+      stringstream s;
+
+      s <<
+        "the measure with ordinal number " <<
+        measureOrdinalNumber <<
+        " had a whole notes duration  of " <<
+        currentValue <<
+        ", now it becomes" <<
+        wholeNotesDuration;
+
+      msrInternalError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+    // else it's OK
+  }
+  else {
+    fPartMeasuresWholeNotesDurationsVector [index] =
+      wholeNotesDuration;
+  }
+}
+
 void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
@@ -2042,6 +2106,30 @@ void msrPart::print (ostream& os) const
     os << endl;
   }
 #endif
+
+  // print the part measure' whole notes durations
+  os << left <<
+    setw (fieldWidth) <<
+    "partMeasuresWholeNotesDurationsVector (ordinal number wise)" << " : " <<
+    endl;
+
+  gIndenter++;
+
+  for (int i = 0; i < fPartNumberOfMeasures; ++i) {
+    int j = i + 1;
+    os << left <<
+      setw (3) << right <<
+      j << " : " <<
+      setw (4) <<
+      fPartMeasuresWholeNotesDurationsVector [ i ].toString ();
+    if (j % 4 == 0) {
+      os << endl;
+    }
+    else {
+      os << "    ";
+    }
+  } // for
+  gIndenter--;
 
   os << endl;
 
