@@ -2,25 +2,43 @@
 schema 		?= 3.1/musicxml.xsd
 template	:= ../src/elements/templates
 
-elts  	:= elements.txt
+ifeq ($(MEI), on)
+	PREFIX  := mei-
+else
+	PREFIX  := 
+endif
+
+elts  	:= $(PREFIX)elements.txt
 eltname := '[-a-zA-Z0-9_.:]*'
 
-SRC := $(wildcard *.cpp) 
-OBJ = $(patsubst %.cpp, %.o, $(SRC))
+HEADER  := $(PREFIX)elements.h 
+TYPES   := $(PREFIX)typedefs.h 
+FACTORY := $(PREFIX)factory.cpp
 
-all : $(elts) elements.h typedefs.h factory.cpp
+all : $(elts) $(HEADER) $(TYPES) $(FACTORY)
 
-$(elts) : $(schema)
-	grep "<xs:element" $(schema) | sed -e 's/^.*name="//' | sed -e 's/"..*//' | sort -u > $(elts)
+#$(elts) : $(schema)
+#	grep "<xs:element" $(schema) | sed -e 's/^.*name="//' | sed -e 's/"..*//' | sort -u > $(elts)
 
-elements.h : $(template)/elements.txt $(elts)
-	$(template)/elements.bash $(elts) $(template) constants > elements.h  || rm -f elements.h
+$(HEADER) : $(template)/elements.txt $(elts)
+	$(template)/elements.bash $(elts) $(template) constants > $(HEADER)  || rm -f $(HEADER)
 
-factory.cpp : $(template)/factory.txt $(elts)
-	$(template)/elements.bash $(elts) $(template) map > factory.cpp || rm -f factory.cpp
+$(FACTORY) : $(template)/factory.txt $(elts)
+	$(template)/elements.bash $(elts) $(template) map > $(FACTORY) || rm -f $(FACTORY)
 
-typedefs.h :  $(template)/typedefs.txt $(elts)
-	$(template)/elements.bash $(elts) $(template) types > typedefs.h  || rm -f typedefs.h
+$(TYPES) :  $(template)/typedefs.txt $(elts)
+	$(template)/elements.bash $(elts) $(template) types > $(TYPES)  || rm -f $(TYPES)
 
 clean :
-	rm -f $(elts) elements.h factory.cpp typedefs.h
+	rm -f $(elts) $(HEADER) $(TYPES) $(FACTORY)
+
+test:
+	@echo elts $(elts) $(schema)
+	
+##############################
+# rules for xsd and rnd files
+elements.txt: $(schema)
+	grep "<xs:element" $< | sed -e 's/^.*name="//' | sed -e 's/"..*//' | sort -u > $@
+
+mei-elements.txt: $(schema)
+	grep "<element" $< | sed -e 's/^.*name="//' | sed -e 's/"..*//' | sort -u > $@
