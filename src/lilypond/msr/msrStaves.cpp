@@ -2422,7 +2422,7 @@ void msrStaff::print (ostream& os) const
 
   const int fieldWidth = 28;
 
-  os <<
+  os << left <<
     setw (fieldWidth) <<
     "staffNumber" << " : " <<
     fStaffNumber <<

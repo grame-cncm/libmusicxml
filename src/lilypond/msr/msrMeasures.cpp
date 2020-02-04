@@ -4800,6 +4800,19 @@ void msrMeasure::finalizeMeasureClone (
       voiceCurrentTime);
   }
 
+  // register this measures's length in the part clone
+  S_msrPart
+    part =
+      voiceClone->
+        getVoiceStaffUpLink ()->
+          getStaffPartUpLink ();
+
+  part->
+    registerOrdinalMeasureNumberWholeNotesDuration (
+      inputLineNumber,
+      fMeasureOrdinalNumberInVoice,
+      fCurrentMeasureWholeNotesDuration);
+
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,

@@ -162,6 +162,11 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
   newbornClone->fPartInstrumentAbbreviation =
     fPartInstrumentAbbreviation;
 
+  // set the newbornClone's number of measures
+  newbornClone->
+    setPartNumberOfMeasures (
+      fPartNumberOfMeasures);
+
   return newbornClone;
 }
 
@@ -2115,20 +2120,26 @@ void msrPart::print (ostream& os) const
 
   gIndenter++;
 
-  for (int i = 0; i < fPartNumberOfMeasures; ++i) {
-    int j = i + 1;
-    os << left <<
-      setw (3) << right <<
-      j << " : " <<
-      setw (4) <<
-      fPartMeasuresWholeNotesDurationsVector [ i ].toString ();
-    if (j % 4 == 0) {
-      os << endl;
-    }
-    else {
-      os << "    ";
-    }
-  } // for
+  if (fPartNumberOfMeasures == 0) {
+    os << "empty" << endl;
+  }
+  else {
+    for (int i = 0; i < fPartNumberOfMeasures; ++i) {
+      int j = i + 1;
+      os << left <<
+        setw (3) << right <<
+        j << " : " <<
+        setw (4) <<
+        fPartMeasuresWholeNotesDurationsVector [ i ].toString ();
+      if (j % 4 == 0) {
+        os << endl;
+      }
+      else {
+        os << "    ";
+      }
+    } // for
+  }
+
   gIndenter--;
 
   os << endl;

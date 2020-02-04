@@ -32,7 +32,7 @@ option ( UNIVERSAL  "Generates universal binaries"	off )
 option ( GDB 		    "Activates ggdb3 option"	      off )
 option ( APPLEDEBUG "Activates Apple debug option"	on )
 option ( LILY 		  "Include lilypond part"       	on )
-option ( BRL 		    "Include braille part"	        off )
+option ( BRL 		    "Include braille part"	        on )
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
@@ -104,7 +104,7 @@ if (LILY)
 endif()
 
 if (BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/msr2bsr lilypond/bsr2braille interface/lilypond/bsr interface/lilypond/msr2bsr interface/lilypond/bsr2braille lilypond/xml2brl)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/msr2bsr lilypond/braille lilypond/bsr2braille interface/lilypond/bsr interface/lilypond/msr2bsr interface/lilypond/bsr2braille lilypond/xml2brl)
 endif()
 
 foreach(folder ${SRCFOLDERS})
