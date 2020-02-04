@@ -2168,24 +2168,6 @@ R"(Write a trace for tests to standard error.)",
   subGroup->
     appendAtomToSubGroup (
       traceForTestsOahBooleanAtom);
-
-/* JMI
-  // MSR streams
-
-  fTraceMsrStreams = boolOptionsInitialValue;
-
-  S_oahTwoBooleansAtom
-    noCubaseBooleanAtom =
-      oahTwoBooleansAtom::create (
-        "tms", "traceMsrStreams",
-R"(MSR Streams API for applications)",
-        "traceMsrStreams",
-        fTraceMsrStreams,
-        fTracePasses);
-  subGroup->
-    appendAtomToSubGroup (
-      noCubaseBooleanAtom);
-*/
 }
 
 void traceOah::initializeTraceOah (

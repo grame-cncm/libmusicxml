@@ -1295,7 +1295,7 @@ The default is 'DEFAULT_VALUE'.)",
 R"(Set the LilyPond 'paper-height' paper variable to HEIGHT in the LilyPond code.
 HEIGHT should be a positive floating point or integer number,
 immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-The default value is 210 mm (A4 format).)",
+By default, LilyPond uses 297 mm (A4 format).)",
         "HEIGHT",
         "paperHeight",
         fPaperHeight));
@@ -1312,10 +1312,27 @@ The default value is 210 mm (A4 format).)",
 R"(Set the LilyPond 'paper-width' paper variable to WIDTH in the LilyPond code.
 WIDTH should be a positive floating point or integer number,
 immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
-The default value is 297 mm (A4 format).)",
+By default, LilyPond uses 210 mm (A4 format).)",
         "WIDTH",
         "paperWidth",
         fPaperWidth));
+
+/* JMI superflous
+  // a4
+
+   subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "a4", "",
+R"(Set the LilyPond 'paper-width' and 'paper-height' paper variables
+to 210 mm  and 297 mm respectively in the LilyPond code.
+WIDTH should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+By default is 297 mm (A4 format).)",
+        "WIDTH",
+        "paperWidth",
+        fPaperWidth));
+*/
 
   // fPaperHorizontalShift is 0.0 mm by default
 

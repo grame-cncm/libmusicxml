@@ -162,8 +162,7 @@ class mxmlTreeOah : public oahGroup
     // combined options, cubase
     // --------------------------------------
 
-    bool                  fCubase; // JMI ???
-    bool                  fNoCubase;
+    bool                  fCubase;
 
     // loop to do JMI
     // --------------------------------------

@@ -2122,11 +2122,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
       inputLineNumber,
       "<software /> contains 'Cubase'");
 
-    // the '-cubase' option is set by default,
-    // unless '-noCubase' is explicitly set
-
-    if (! gMxmlTreeOah->fNoCubase) {
-      // set the '-cubase' option
+    // is the '-cubase' option set???
+    if (gMxmlTreeOah->fCubase) {
       S_oahElement
         cubaseOption =
           gMxmlTreeOah->

@@ -460,8 +460,7 @@ R"()",
     cubaseCombinedBooleansAtom =
       oahCombinedBooleansAtom::create (
         "cubase", "",
-R"(Useful settings for MusicXML data exported from Cubase.
-This option is set by default, and can be unset by 'noCubase'.)",
+R"(Useful settings for MusicXML data exported from Cubase.)",
         "cubase",
         fCubase);
 
@@ -483,23 +482,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
   cubaseCombinedBooleansAtom->
     addBooleanAtom (
       fIgnoreRedundantTimesAtom);
-
-  // noCubase
-
-  fNoCubase = false;
-
-  S_oahBooleanAtom
-    noCubaseBooleanAtom =
-      oahBooleanAtom::create (
-        "no-cubase", "",
-R"(Prevents the default 'cubase' option.)",
-        "noCubase",
-        fNoCubase);
-
-  subGroup->
-    appendAtomToSubGroup (
-      noCubaseBooleanAtom);
- }
+}
 
 void mxmlTreeOah::initializeMusicXMLLoopOptions (
   bool boolOptionsInitialValue)
@@ -624,8 +607,6 @@ S_mxmlTreeOah mxmlTreeOah::createCloneWithDetailedTrace ()
 
   clone->fCubase =
     fCubase;
-  clone->fNoCubase =
-    fNoCubase;
 
 
   // loop
@@ -865,9 +846,6 @@ void mxmlTreeOah::printMxmlTreeOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "cubase" << " : " <<
     booleanAsString (fCubase) <<
-    endl <<
-    setw (fieldWidth) << "noCubase" << " : " <<
-    booleanAsString (fNoCubase) <<
     endl;
 
   gIndenter--;
