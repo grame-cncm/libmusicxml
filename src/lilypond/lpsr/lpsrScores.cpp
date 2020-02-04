@@ -328,8 +328,6 @@ lpsrScore::lpsrScore (
           gLpsrOah->fPaperShortIndent.getLengthValue ()));
   }
 
-  // counts ???
-
   // spaces
   if (gLpsrOah->fMarkupSystemSpacingPadding.getLengthValue () > 0.0) {
     fScorePaper->
@@ -353,6 +351,17 @@ lpsrScore::lpsrScore (
         msrLength::create (
           gLpsrOah->fPageTopSpace.getLengthUnitKind (),
           gLpsrOah->fPageTopSpace.getLengthValue ()));
+  }
+
+  // counts
+  if (gLpsrOah->fPageCount > 0) {
+    fScorePaper->
+      setPageCount (gLpsrOah->fPageCount);
+  }
+
+  if (gLpsrOah->fSystemCount > 0) {
+    fScorePaper->
+      setSystemCount (gLpsrOah->fSystemCount);
   }
 
   // compile date

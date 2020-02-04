@@ -88,17 +88,6 @@ class lpsrPaper : public lpsrElement
     S_msrLength           getShortIndent () const
                               { return fShortIndent; }
 
-    // counts
-    void                  setPageCount (int value)
-                              { fPageCount = value; }
-    int                   getPageCount () const
-                              { return fPageCount; }
-
-    void                  setSystemCount (int value)
-                              { fSystemCount = value; }
-    int                   getSystemCount () const
-                              { return fSystemCount; }
-
     // spaces
     void                  setMarkupSystemSpacingPadding (S_msrLength val)
                               { fMarkupSystemSpacingPadding = val; }
@@ -115,6 +104,16 @@ class lpsrPaper : public lpsrElement
     S_msrLength           getPageTopSpace () const
                               { return fPageTopSpace; }
 
+    // counts
+    void                  setPageCount (int value)
+                              { fPageCount = value; }
+    int                   getPageCount () const
+                              { return fPageCount; }
+
+    void                  setSystemCount (int value)
+                              { fSystemCount = value; }
+    int                   getSystemCount () const
+                              { return fSystemCount; }
 
     // headers and footers
     void                  setOddHeaderMarkup (string value)

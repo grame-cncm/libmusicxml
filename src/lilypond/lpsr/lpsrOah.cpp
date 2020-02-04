@@ -1418,7 +1418,7 @@ LilyPond's default value is '##t'.)",
 
   // page count
 
-  fPageCount = -1;
+  fPageCount = 0;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1433,7 +1433,7 @@ By default, this is left to LilyPond'.)",
 
   // system count
 
-  fSystemCount = -1;
+  fSystemCount = 0;
 
   subGroup->
     appendAtomToSubGroup (

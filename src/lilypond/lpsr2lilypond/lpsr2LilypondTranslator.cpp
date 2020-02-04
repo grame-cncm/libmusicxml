@@ -5275,7 +5275,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
       "system-count" << " = " <<
-       pageCount <<
+       systemCount <<
        endl;
   }
 

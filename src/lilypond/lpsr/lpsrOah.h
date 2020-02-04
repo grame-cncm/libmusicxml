@@ -564,14 +564,14 @@ class lpsrOah : public oahGroup
     msrLength             fBetweenSystemSpace;
     msrLength             fPageTopSpace;
 
+    // counts
+    int                   fPageCount;   // null if not specified
+    int                   fSystemCount; // null if not specified
+
     bool                  fRaggedBottom;
     bool                  fRaggedLastBottom;
 
     bool                  fTagline;
-
-    int                   fPageCount;   // negative if not specified
-    int                   fSystemCount; // negative if not specified
-
 
     // measures
     // --------------------------------------
