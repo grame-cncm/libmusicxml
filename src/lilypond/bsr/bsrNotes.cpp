@@ -1131,7 +1131,7 @@ string bsrNote::noteOctaveKindAsDebugString (
   string result;
 
   switch (noteOctaveKind) {
-    case kNoteOctaveNone:   result = "o_"; break;
+    case kNoteOctaveNone: break; // should be "_", fix noteOctaveIsNeeded in mxml2BsrTranslator.cpp for rests JMI
     case kNoteOctaveBelow1: result = "oB1"; break;
     case kNoteOctave1:      result = "o1"; break;
     case kNoteOctave2:      result = "o2"; break;
@@ -1309,9 +1309,17 @@ string bsrNote::asDebugString () const
 {
   stringstream s;
 
+  switch (fNoteOctaveIsNeeded) {
+    case bsrNote::kNoteOctaveIsNeededYes:
+      s <<
+        noteOctaveKindAsDebugString (fNoteOctaveKind);
+      break;
+    case bsrNote::kNoteOctaveIsNeededNo:
+      break;
+  } // switch
+
   s <<
-    noteValueKindAsDebugString (fNoteValueKind) <<
-    noteOctaveKindAsDebugString (fNoteOctaveKind);
+    noteValueKindAsDebugString (fNoteValueKind);
 
   for (int i = 1; i <= fNoteDotsNumber; i++) {
     s << ".";

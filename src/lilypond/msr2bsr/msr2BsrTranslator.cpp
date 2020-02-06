@@ -895,7 +895,7 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
         bClefKind = bsrClef::kClefKindCTenor;
         break;
       case msrClef::kBaritoneClef:
-        bClefKind = bsrClef::kClefKindFBaritone;
+        bClefKind = bsrClef::kClefKindCBaritone;
         break;
       case msrClef::kBassClef:
         bClefKind = bsrClef::kClefKindFBass;
@@ -2378,8 +2378,15 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
   if (fCurrentNoteOctaveKind == bsrNote::kNoteOctaveNone) {
     // this note is the first one in the voice,
     // or a preceding braille element forces the octave sign for it
-    noteOctaveIsNeeded =
-      bsrNote::kNoteOctaveIsNeededYes;
+    // unless it is a rest
+    if (note->getNoteIsARest ()) {
+      noteOctaveIsNeeded =
+        bsrNote::kNoteOctaveIsNeededNo;
+    }
+    else {
+      noteOctaveIsNeeded =
+        bsrNote::kNoteOctaveIsNeededYes;
+    }
   }
   else if (fRelativeOctaveReference) {
     // analyye relationship to relative octave reference

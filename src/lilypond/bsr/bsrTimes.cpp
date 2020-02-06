@@ -813,7 +813,7 @@ string bsrTime::asDebugString () const
   stringstream s;
 
   s <<
-    "[TIM " <<
+    "[TIME " <<
     timeKindAsDebugString (fTimeKind) <<
     "]";
 

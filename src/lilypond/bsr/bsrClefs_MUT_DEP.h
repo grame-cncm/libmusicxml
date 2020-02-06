@@ -18,7 +18,7 @@ class bsrClef : public bsrLineElement
         kClefKindFBass,
         kClefKindCAlto,
         kClefKindGSoprano, // first line, french violin
-        kClefKindFBaritone,
+        kClefKindCBaritone,
         kClefKindCTenor,
         kClefKindGOttavaAlta,
         kClefKindGOttavaBassa,
@@ -26,6 +26,9 @@ class bsrClef : public bsrLineElement
         kClefKindModifiedTrebleForLeftHandPart };
 
     static string clefKindAsString (
+      bsrClefKind clefKind);
+
+    static string clefKindAsDebugString (
       bsrClefKind clefKind);
 
     // creation

@@ -105,7 +105,7 @@ S_bsrCellsList bsrClef::buildCellsList () const
           fInputLineNumber,
           kDots345, kDots34, kDots4, kDots123);
       break;
-    case kClefKindFBaritone:
+    case kClefKindCBaritone:
       result =
         bsrCellsList::create (
           fInputLineNumber,
@@ -230,7 +230,7 @@ string bsrClef::clefKindAsString (
     case bsrClef::kClefKindGSoprano:
       result = "clefGSoprano";
       break;
-    case bsrClef::kClefKindFBaritone:
+    case bsrClef::kClefKindCBaritone:
       result = "clefFBaritone";
       break;
     case bsrClef::kClefKindCTenor:
@@ -247,6 +247,50 @@ string bsrClef::clefKindAsString (
       break;
     case bsrClef::kClefKindModifiedTrebleForLeftHandPart:
       result = "clefModifiedTrebleForLeftHandPart";
+      break;
+  } // switch
+
+  return result;
+}
+
+string bsrClef::clefKindAsDebugString (
+  bsrClefKind clefKind)
+{
+  string result;
+
+  switch (clefKind) {
+    case bsrClef::kClefKindNone:
+      result = "_";
+      break;
+    case bsrClef::kClefKindGTreble:
+      result = "g2";
+      break;
+    case bsrClef::kClefKindFBass:
+      result = "f4";
+      break;
+    case bsrClef::kClefKindCAlto:
+      result = "u3";
+      break;
+    case bsrClef::kClefKindGSoprano:
+      result = "g1";
+      break;
+    case bsrClef::kClefKindCBaritone:
+      result = "u5";
+      break;
+    case bsrClef::kClefKindCTenor:
+      result = "u4";
+      break;
+    case bsrClef::kClefKindGOttavaAlta:
+      result = "g8a";
+      break;
+    case bsrClef::kClefKindGOttavaBassa:
+      result = "g8b";
+      break;
+    case bsrClef::kClefKindModifiedBassForRightHandPart:
+      result = "rh";
+      break;
+    case bsrClef::kClefKindModifiedTrebleForLeftHandPart:
+      result = "lh";
       break;
   } // switch
 
@@ -273,10 +317,9 @@ string bsrClef::asDebugString () const
   stringstream s;
 
   s <<
-    "C" <<
-    ", clefKind: " <<
-    clefKindAsString (fClefKind) <<
-    ", spacesBefore: " << fSpacesBefore;
+    "CLEF " <<
+    clefKindAsDebugString (fClefKind) <<
+    "]";
 
   return s.str ();
 }

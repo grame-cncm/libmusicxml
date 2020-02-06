@@ -812,6 +812,9 @@ R"()",
 R"(Use OUTPUT_KIND to write the generated braille music to the output.
 The NUMBER output kinds available are:
 BRAILLE_OUTPUT_KINDS.
+'utf8d' leads to every line in the braille score to be generated
+as a line of cells followed by a line of text showing the contents
+for debug purposes.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
               to_string (gBsrBrailleOutputKindsMap.size ())),

@@ -725,8 +725,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
   }
 #endif
 
-  fBrailleGenerator->generateCodeForCellsList (
-    elt->fetchCellsList ());
+// JMI  fBrailleGenerator->generateCodeForCellsList (
+ //   elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
@@ -785,8 +785,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
   }
 #endif
 
-  fBrailleGenerator->generateCodeForCellsList (
-    elt->fetchCellsList ());
+// JMI  fBrailleGenerator->generateCodeForCellsList (
+ //   elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)

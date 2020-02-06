@@ -266,10 +266,11 @@ string bsrKey::asDebugString () const
   stringstream s;
 
   s <<
-    "Key" <<
+    "[KEY " <<
     ", " << keyKindAsString (fKeyKind) <<
     ", numberOfAlterations: " << fNumberOfAlterations <<
-    ", spacesBefore: " << fSpacesBefore;
+    ", spacesBefore: " << fSpacesBefore <<
+    "]";
 
   return s.str ();
 }

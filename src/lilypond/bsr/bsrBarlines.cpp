@@ -208,7 +208,7 @@ string bsrBarline::barlineKindAsDebugString (
       result = "Unusual";
       break;
     case bsrBarline::kBarlineKindFinalDouble:
-      result = "|]";
+      result = "Final";
       break;
     case bsrBarline::kBarlineKindSectionalDouble:
       result = "||";
@@ -236,8 +236,9 @@ string bsrBarline::asDebugString () const
   stringstream s;
 
   s <<
-    "BL" <<
-    ", " << barlineKindAsDebugString (fBarlineKind);
+    "[BL " <<
+    barlineKindAsDebugString (fBarlineKind) <<
+    "]";
 
   return s.str ();
 }
