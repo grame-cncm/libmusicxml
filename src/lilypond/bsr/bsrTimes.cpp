@@ -757,6 +757,42 @@ string bsrTime::timeKindAsString (
   return result;
 }
 
+string bsrTime::timeKindAsDebugString (
+  bsrTimeKind timeKind)
+{
+  string result;
+
+  switch (timeKind) {
+    case bsrTime::kTimeNone:
+      result = "_";
+      break;
+
+    case bsrTime::kTimeCommon:
+      result = "C";
+      break;
+    case bsrTime::kTimeCut:
+      result = "C/";
+      break;
+    case bsrTime::kTimeNumerical:
+      result = "Num";
+      break;
+    case bsrTime::kTimeNote:
+      result = "Note";
+      break;
+    case bsrTime::kTimeDottedNote:
+      result = "DottedNote";
+      break;
+    case bsrTime::kTimeSingleNumber:
+      result = "SingleNumber";
+      break;
+    case bsrTime::kTimeSenzaMisura:
+      result = "SenzaMisura";
+      break;
+  } // switch
+
+  return result;
+}
+
 string bsrTime::asString () const
 {
   stringstream s;
@@ -768,6 +804,18 @@ string bsrTime::asString () const
     ", timeCellsList: " << fetchCellsList ()->asString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+string bsrTime::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "[TIM " <<
+    timeKindAsDebugString (fTimeKind) <<
+    "]";
 
   return s.str ();
 }

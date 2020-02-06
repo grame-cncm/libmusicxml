@@ -229,7 +229,7 @@ void msrScaling::acceptOut (basevisitor* v)
 void msrScaling::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScaling::browseData ()" <<
       endl;
@@ -243,7 +243,7 @@ void msrScaling::browseData (basevisitor* v)
   }
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% <== msrScaling::browseData ()" <<
       endl;

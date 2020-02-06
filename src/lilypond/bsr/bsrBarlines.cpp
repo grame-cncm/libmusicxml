@@ -192,6 +192,32 @@ string bsrBarline::barlineKindAsString (
   return result;
 }
 
+string bsrBarline::barlineKindAsDebugString (
+  bsrBarlineKind barlineKind)
+{
+  string result;
+
+  switch (barlineKind) {
+    case bsrBarline::kBarlineKindNone:
+      result = "_";
+      break;
+    case bsrBarline::kBarlineKindSpecial:
+      result = "Special";
+      break;
+    case bsrBarline::kBarlineKindUnusual:
+      result = "Unusual";
+      break;
+    case bsrBarline::kBarlineKindFinalDouble:
+      result = "|]";
+      break;
+    case bsrBarline::kBarlineKindSectionalDouble:
+      result = "||";
+      break;
+  } // switch
+
+  return result;
+}
+
 string bsrBarline::asString () const
 {
   stringstream s;
@@ -201,6 +227,17 @@ string bsrBarline::asString () const
     ", " << barlineKindAsString (fBarlineKind) <<
     ", barlineCellsList: " << fBarlineCellsList->asShortString () <<
     ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+string bsrBarline::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "BL" <<
+    ", " << barlineKindAsDebugString (fBarlineKind);
 
   return s.str ();
 }

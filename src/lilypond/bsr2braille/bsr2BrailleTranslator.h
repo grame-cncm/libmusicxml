@@ -65,7 +65,7 @@ class bsr2BrailleTranslator :
 
     bsr2BrailleTranslator (
       S_bsrScore       bsrScore,
-      S_bsrOah&    bsrOpts,
+      S_bsrOah&        bsrOpts,
       indentedOstream& logOstream,
       ostream&         brailleCodeOutputStream);
 
@@ -91,6 +91,8 @@ class bsr2BrailleTranslator :
 
     virtual void visitStart (S_bsrPage& elt);
     virtual void visitEnd   (S_bsrPage& elt);
+    virtual void visitStart (S_bsrPageElement& elt);
+    virtual void visitEnd   (S_bsrPageElement& elt);
 
     virtual void visitStart (S_bsrPagination& elt);
     virtual void visitEnd   (S_bsrPagination& elt);

@@ -14,6 +14,8 @@
 #include <sstream>
 #include <regex>
 
+#include "msrTempos.h"
+
 #include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
@@ -32,6 +34,33 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+string tempoKindAsDebugString (
+  msrTempo::msrTempoKind tempoKind)
+{
+  string result;
+
+  switch (tempoKind) {
+    case msrTempo::k_NoTempoKind:
+      result = "_";
+      break;
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      result = "WordsOnly";
+      break;
+    case msrTempo::kTempoBeatUnitsPerMinute:
+      result = "PerMinute";
+      break;
+    case msrTempo::kTempoBeatUnitsEquivalence:
+      result = "Equivalence";
+      break;
+    case msrTempo::kTempoNotesRelationShip:
+      result = "NotesRelationShip";
+      break;
+  } // switch
+
+  return result;
+}
 
 //______________________________________________________________________________
 S_bsrTempo bsrTempo::create (
@@ -416,6 +445,18 @@ string bsrTempo::asString () const
     fTempoCellsList->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+string bsrTempo::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "[TEMPO " <<
+    tempoKindAsDebugString (fMsrTempo->getTempoKind ()) <<
+    "]";
 
   return s.str ();
 }

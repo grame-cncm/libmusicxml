@@ -63,6 +63,8 @@ class bsrSpaces : public bsrLineElement
 
     string                asString () const;
 
+    virtual string        asDebugString () const;
+
     virtual void          print (ostream& os) const;
 
   private:

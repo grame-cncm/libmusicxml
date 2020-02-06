@@ -74,6 +74,8 @@ class bsrDynamics : public bsrLineElement
 
     string                asString () const;
 
+    string                asDebugString () const;
+
     virtual void          print (ostream& os) const;
 
   private:

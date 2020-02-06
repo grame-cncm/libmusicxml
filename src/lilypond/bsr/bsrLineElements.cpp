@@ -125,6 +125,14 @@ string bsrLineElement::asShortString () const
   return asString ();
 }
 
+/* JMI
+string bsrLineElement::asDebugString () const
+{
+  // this can be overriden in actual elements
+  return asShortString ();
+}
+*/
+
 void bsrLineElement::print (ostream& os) const
 {
   os << asString () << endl;

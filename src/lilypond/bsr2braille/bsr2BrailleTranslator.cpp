@@ -29,7 +29,7 @@ namespace MusicXML2
 //________________________________________________________________________
 bsr2BrailleTranslator::bsr2BrailleTranslator (
   S_bsrScore       bsrScore,
-  S_bsrOah&    bsrOpts,
+  S_bsrOah&        bsrOpts,
   indentedOstream& logOstream,
   ostream&         brailleCodeOutputStream)
     : fLogOutputStream (
@@ -50,6 +50,13 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
     case kBrailleOutputUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
+          gBrailleOah->fByteOrderingKind,
+          brailleCodeOutputStream);
+      break;
+
+    case kBrailleOutputUTF8Debug:
+      fBrailleGenerator =
+        bsrUTF8DebugBrailleGenerator::create (
           gBrailleOah->fByteOrderingKind,
           brailleCodeOutputStream);
       break;
@@ -282,8 +289,37 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
   }
 #endif
 
-  fBrailleGenerator->generateCodeForBrailleCell (
-    kCellEOP);
+  fBrailleGenerator->
+    generateCodeForBrailleCell (
+      kCellEOP);
+}
+
+void bsr2BrailleTranslator::visitStart (S_bsrPageElement& elt)
+{
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrPageElement '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrPageElement& elt)
+{
+#ifdef TRACE_OAH
+  if (gBsrOah->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrPageElement '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
 }
 
 //________________________________________________________________________
@@ -363,6 +399,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
       endl;
   }
 #endif
+
+  fBrailleGenerator->
+    generateCodeForMusicHeading (elt);
 
 /* JMI
   fBrailleGenerator->generateCodeForCellsList (
@@ -456,9 +495,6 @@ void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
       endl;
   }
 #endif
-
-  fBrailleGenerator->generateCodeForCellsList (
-    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
@@ -488,6 +524,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrLineContents& elt)
       endl;
   }
 #endif
+
+  fBrailleGenerator->
+    generateCodeForLineContents (elt);
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
@@ -511,8 +550,9 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
   }
 #endif
 
-  fBrailleGenerator->generateCodeForBrailleCell (
-    kCellEOL);
+  fBrailleGenerator->
+    generateCodeForBrailleCell (
+      kCellEOL);
 }
 
 //________________________________________________________________________

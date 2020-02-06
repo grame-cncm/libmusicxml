@@ -216,6 +216,28 @@ string bsrMusicHeading::asString () const
   return s.str ();
 }
 
+string bsrMusicHeading::asDebugString () const
+{
+  stringstream s;
+
+  if (fMusicHeadingTempo) {
+    s <<
+      fMusicHeadingTempo->asDebugString ();
+  }
+
+  if (fMusicHeadingTempo) {
+    s <<
+      fMusicHeadingTempo->asDebugString ();
+  }
+
+  if (fMusicHeadingTime) {
+    s <<
+      fMusicHeadingTime->asDebugString ();
+  }
+
+  return s.str ();
+}
+
 void bsrMusicHeading::print (ostream& os) const
 {
   os <<

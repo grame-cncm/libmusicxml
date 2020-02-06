@@ -137,6 +137,28 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
   }
 }
 
+S_bsrCellsList bsrLineContents::buildLineContentsElementsList () const
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
+
+  for (
+    list<S_bsrLineElement>::const_iterator i = fLineContentsElementsList.begin ();
+    i != fLineContentsElementsList.end ();
+    i++
+  ) {
+    S_bsrLineElement lineElement = (*i);
+
+    result->
+      appendCellsListToCellsList (
+        lineElement->
+          fetchCellsList ());
+  } // for
+
+  return result;
+}
+
 int bsrLineContents::fetchCellsNumber () const
 {
   int result = 0;
@@ -317,6 +339,28 @@ void bsrLineContents::print (ostream& os) const
   }
 
   gIndenter--;
+}
+
+string bsrLineContents::asDebugString () const
+{
+  stringstream s;
+
+  int lineElementsListSize = fLineContentsElementsList.size ();
+
+  // collect the line elements debug strings if any
+  if (lineElementsListSize) {
+    list<S_bsrLineElement>::const_iterator
+      iBegin = fLineContentsElementsList.begin (),
+      iEnd   = fLineContentsElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i)->asDebugString ();
+      if (++i == iEnd) break;
+ // JMI     s << " ";
+    } // for
+  }
+
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_bsrLineContents& elt)
@@ -650,8 +694,10 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
           bsrNumber::kNumberSignIsNeededYes);
 
     // append it to result
-    result->appendCellsListToCellsList (
-      printLineNumber->fetchCellsList ());
+    result->
+      appendCellsListToCellsList (
+        printLineNumber->
+          fetchCellsList ());
 
     if (fBrailleLineNumber != fPrintLineNumber) { // JMI
       // create the braille line number
@@ -663,8 +709,10 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
             bsrNumber::kNumberSignIsNeededYes);
 
       // append it to result
-      result->appendCellsListToCellsList (
-        brailleLineNumber->fetchCellsList ());
+      result->
+        appendCellsListToCellsList (
+          brailleLineNumber->
+            fetchCellsList ());
     }
   }
 
@@ -761,6 +809,21 @@ string bsrLine::asString () const
     ", lineContents: " << fLineContentsList.size () <<
     ", cellsNumber" << " : " << fetchCellsNumber () <<
     ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+string bsrLine::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "L" <<
+    ", printLineNumber" << " : " << fPrintLineNumber <<
+    ", brailleLineNumber" << " : " << fBrailleLineNumber <<
+    ", cellsPerLine" << " : " << fCellsPerLine <<
+    ", lineContents: " << fLineContentsList.size () <<
+    ", cellsNumber" << " : " << fetchCellsNumber ();
 
   return s.str ();
 }

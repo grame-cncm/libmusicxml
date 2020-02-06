@@ -261,6 +261,19 @@ string bsrKey::asString () const
   return s.str ();
 }
 
+string bsrKey::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "Key" <<
+    ", " << keyKindAsString (fKeyKind) <<
+    ", numberOfAlterations: " << fNumberOfAlterations <<
+    ", spacesBefore: " << fSpacesBefore;
+
+  return s.str ();
+}
+
 void bsrKey::print (ostream& os) const
 {
   os <<

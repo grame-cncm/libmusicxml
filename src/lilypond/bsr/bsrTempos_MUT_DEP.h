@@ -4,6 +4,10 @@
 */
 
 //______________________________________________________________________________
+string tempoKindAsDebugString (
+  msrTempo::msrTempoKind tempoKind);
+
+//______________________________________________________________________________
 const bsrCellKind
   kCellTempoEquals = kDots2356,
   kCellTempoHyphen = kDots36;
@@ -78,6 +82,8 @@ class bsrTempo : public bsrLineElement
     // ------------------------------------------------------
 
     string                asString () const;
+
+    virtual string        asDebugString () const;
 
     virtual void          print (ostream& os) const;
 

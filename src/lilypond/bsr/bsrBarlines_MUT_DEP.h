@@ -23,6 +23,9 @@ class bsrBarline : public bsrLineElement
     static string barlineKindAsString (
       bsrBarlineKind barlineKind);
 
+    static string barlineKindAsDebugString (
+      bsrBarlineKind barlineKind);
+
     // creation
     // ------------------------------------------------------
 
@@ -84,6 +87,8 @@ class bsrBarline : public bsrLineElement
     // ------------------------------------------------------
 
     string                asString () const;
+
+    string                asDebugString () const;
 
     virtual void          print (ostream& os) const;
 

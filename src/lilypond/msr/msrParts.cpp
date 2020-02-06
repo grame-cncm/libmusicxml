@@ -496,13 +496,14 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
         measureOrdinalNumber <<
         " had a whole notes duration  of " <<
         currentValue <<
-        ", now it becomes" <<
+        ", now it becomes " <<
         wholeNotesDuration;
 
-      msrInternalError (
+   //   msrInternalError (
+      msrInternalWarning (
         gOahOah->fInputSourceName,
         inputLineNumber,
-        __FILE__, __LINE__,
+   //     __FILE__, __LINE__,
         s.str ());
     }
     // else it's OK

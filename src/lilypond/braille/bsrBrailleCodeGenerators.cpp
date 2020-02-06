@@ -113,7 +113,7 @@ S_bsrBrailleGenerator bsrBrailleGenerator::create (
 */
 
 bsrBrailleGenerator::bsrBrailleGenerator (
-  ostream&            brailleOutputStream)
+  ostream& brailleOutputStream)
     : fBrailleOutputStream (brailleOutputStream)
 {}
 
@@ -138,6 +138,24 @@ void bsrBrailleGenerator::generateCodeForCellsList (
       // JMI s << " ";
     } // for
   }
+}
+
+void bsrBrailleGenerator::generateCodeForMusicHeading (
+  S_bsrMusicHeading musicHeading)
+{
+  this->
+    generateCodeForCellsList (
+      musicHeading->
+        fetchCellsList ());
+}
+
+void bsrBrailleGenerator::generateCodeForLineContents (
+  S_bsrLineContents lineContents)
+{
+  this->
+    generateCodeForCellsList (
+      lineContents->
+        fetchCellsList ());
 }
 
 string bsrBrailleGenerator::asString () const
@@ -505,6 +523,113 @@ void bsrUTF8BrailleGenerator::print (ostream& os) const
 }
 
 ostream& operator<< (ostream& os, const S_bsrUTF8BrailleGenerator& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_bsrUTF8DebugBrailleGenerator bsrUTF8DebugBrailleGenerator::create (
+  bsrByteOrderingKind byteOrderingKind,
+  ostream&            brailleOutputStream)
+{
+  bsrUTF8DebugBrailleGenerator* o =
+    new bsrUTF8DebugBrailleGenerator (
+      byteOrderingKind,
+      brailleOutputStream);
+  assert (o!=0);
+  return o;
+}
+
+bsrUTF8DebugBrailleGenerator::bsrUTF8DebugBrailleGenerator (
+  bsrByteOrderingKind byteOrderingKind,
+  ostream&            brailleOutputStream)
+    : bsrUTF8BrailleGenerator (
+        byteOrderingKind,
+        brailleOutputStream)
+{
+  fByteOrderingKind = byteOrderingKind;
+
+  // generate a BOM if requested
+  switch (fByteOrderingKind) {
+    case kByteOrderingNone:
+      break;
+    case kByteOrderingBigEndian:
+      fBrailleOutputStream <<
+        kBOM_UTF_8;
+      break;
+    case kByteOrderingSmallEndian:
+      // should not occur JMI
+      break;
+  } // switch
+}
+
+bsrUTF8DebugBrailleGenerator::~bsrUTF8DebugBrailleGenerator ()
+{}
+
+string bsrUTF8DebugBrailleGenerator::asString () const
+{
+  stringstream s;
+
+  s <<
+    "UTF8DebugBrailleGenerator" <<
+    ", byteOrderingKind: " <<
+    bsrByteOrderingKindAsString (
+      fByteOrderingKind);
+
+  return s.str ();
+}
+
+void bsrUTF8DebugBrailleGenerator::generateCodeForMusicHeading (
+  S_bsrMusicHeading musicHeading)
+{
+  this->
+    generateCodeForCellsList (
+      musicHeading->
+        fetchCellsList ());
+
+  this->
+    generateCodeForBrailleCell (
+      kCellEOL);
+
+  fBrailleOutputStream <<
+    musicHeading->
+      asDebugString ();
+
+  this->
+    generateCodeForBrailleCell (
+      kCellEOL);
+}
+
+void bsrUTF8DebugBrailleGenerator::generateCodeForLineContents (
+  S_bsrLineContents lineContents)
+{
+  this->
+    generateCodeForCellsList (
+      lineContents->
+        fetchCellsList ());
+
+  this->
+    generateCodeForBrailleCell (
+      kCellEOL);
+
+  fBrailleOutputStream <<
+    lineContents->
+      asDebugString ();
+
+  this->
+    generateCodeForBrailleCell (
+      kCellEOL);
+}
+
+void bsrUTF8DebugBrailleGenerator::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_bsrUTF8DebugBrailleGenerator& elt)
 {
   elt->print (os);
   return os;

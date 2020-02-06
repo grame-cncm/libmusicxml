@@ -59,7 +59,7 @@ class bsrLineContents : public bsrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  appendLineElementToLineContents (
@@ -67,6 +67,9 @@ class bsrLineContents : public bsrElement
 
     void                  insertLineElementBeforeLastElementOfLineContents (
                             S_bsrLineElement lineElement);
+
+    S_bsrCellsList        fetchCellsList () const
+                              { return buildLineContentsElementsList (); } // JMI ???
 
     int                   fetchCellsNumber () const;
 
@@ -89,7 +92,16 @@ class bsrLineContents : public bsrElement
 
     virtual std::string   asShortString () const;
 
+    virtual std::string   asDebugString () const;
+
     virtual void          print (ostream& os) const;
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    S_bsrCellsList        buildLineContentsElementsList () const;
 
   protected:
 
@@ -206,6 +218,8 @@ class bsrLine : public bsrPageElement
     // ------------------------------------------------------
 
     virtual std::string   asString () const;
+
+    virtual std::string   asDebugString () const;
 
     virtual void          print (ostream& os) const;
 

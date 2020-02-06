@@ -283,6 +283,22 @@ string bsrDynamics::asString () const
   return s.str ();
 }
 
+string bsrDynamics::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "Dyn" <<
+    ", dynamicsKind: " <<
+    msrDynamics::dynamicsKindAsString (fDynamicsKind) <<
+    ", dynamicsCellsList: " <<
+    fDynamicsCellsList->asShortString () <<
+    ", spacesBefore: " << fSpacesBefore <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 void bsrDynamics::print (ostream& os) const
 {
   os <<

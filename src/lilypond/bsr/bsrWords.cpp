@@ -275,7 +275,7 @@ void bsrWords::acceptOut (basevisitor* v)
 void bsrWords::browseData (basevisitor* v)
 {}
 
-string bsrWords::asWord () const
+string bsrWords::asString () const
 {
   stringstream s;
 
@@ -285,6 +285,18 @@ string bsrWords::asWord () const
     ", wordCellsList: " << fWordCellsList <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+string bsrWords::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "WD" <<
+    fWordContents <<
+    ", spacesBefore: " << fSpacesBefore;
 
   return s.str ();
 }

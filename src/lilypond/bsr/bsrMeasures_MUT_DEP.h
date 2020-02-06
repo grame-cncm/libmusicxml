@@ -90,6 +90,8 @@ class bsrMeasure : public bsrLineElement
 
     virtual string        asString () const;
 
+    virtual string        asDebugString () const;
+
     virtual void          print (ostream& os) const;
 
   private:

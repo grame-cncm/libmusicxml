@@ -15,6 +15,8 @@
 
 #include "bsrCellsLists.h"
 
+#include "bsrMutualDependencies.h"
+
 
 namespace MusicXML2
 {
@@ -57,8 +59,7 @@ class bsrBrailleGenerator : public smartable
 
 /* JMI
     static SMARTP<bsrBrailleGenerator> create (
-                          byteOrderingKind,
-      ostream&            brailleOutputStream);
+      ostream& brailleOutputStream);
 */
 
   protected:
@@ -67,7 +68,7 @@ class bsrBrailleGenerator : public smartable
     // ------------------------------------------------------
 
     bsrBrailleGenerator (
-      ostream&            brailleOutputStream);
+      ostream& brailleOutputStream);
 
     virtual ~bsrBrailleGenerator ();
 
@@ -86,6 +87,12 @@ class bsrBrailleGenerator : public smartable
 
     void                  generateCodeForCellsList (
                             S_bsrCellsList cellsList);
+
+    virtual void          generateCodeForMusicHeading (
+                            S_bsrMusicHeading musicHeading);
+
+    virtual void          generateCodeForLineContents (
+                            S_bsrLineContents lineContents);
 
   public:
 
@@ -209,7 +216,7 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
 
     virtual void          print (ostream& os) const;
 
-  private:
+  protected:
 
     // fields
     // ------------------------------------------------------
@@ -218,6 +225,62 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
 };
 typedef SMARTP<bsrUTF8BrailleGenerator> S_bsrUTF8BrailleGenerator;
 EXP ostream& operator<< (ostream& os, const S_bsrUTF8BrailleGenerator& elt);
+
+//______________________________________________________________________________
+class bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<bsrUTF8DebugBrailleGenerator> create (
+      bsrByteOrderingKind byteOrderingKind,
+      ostream&            brailleOutputStream);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    bsrUTF8DebugBrailleGenerator (
+      bsrByteOrderingKind byteOrderingKind,
+      ostream&            brailleOutputStream);
+
+    virtual ~bsrUTF8DebugBrailleGenerator ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    void                  generateCodeForMusicHeading (
+                            S_bsrMusicHeading musicHeading); // override
+
+    void                  generateCodeForLineContents (
+                            S_bsrLineContents lineContents); // override
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<bsrUTF8DebugBrailleGenerator> S_bsrUTF8DebugBrailleGenerator;
+EXP ostream& operator<< (ostream& os, const S_bsrUTF8DebugBrailleGenerator& elt);
 
 //______________________________________________________________________________
 class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator

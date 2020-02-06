@@ -105,6 +105,9 @@ class bsrNote : public bsrLineElement
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
 
+    static string noteValueKindAsDebugString (
+      bsrNoteValueKind noteValueKind);
+
     static S_bsrCellsList noteValueKindAsCellsList (
       int              inputLineNumber,
       bsrNoteValueKind noteValueKind);
@@ -139,6 +142,9 @@ class bsrNote : public bsrLineElement
     static string noteOctaveKindAsString (
       bsrNoteOctaveKind noteOctaveKind);
 
+    static string noteOctaveKindAsDebugString (
+      bsrNoteOctaveKind noteOctaveKind);
+
     static S_bsrCellsList noteOctaveKindAsCellsList (
       int               inputLineNumber,
       bsrNoteOctaveKind noteOctaveKind);
@@ -157,6 +163,9 @@ class bsrNote : public bsrLineElement
       kNoteAccidentalThreeQuarterSharp, kNoteAccidentalThreeQuarterFlat };
 
     static string noteAccidentalKindAsString (
+      bsrNoteAccidentalKind noteAccidentalKind);
+
+    static string noteAccidentalKindAsDebugString (
       bsrNoteAccidentalKind noteAccidentalKind);
 
     static S_bsrCellsList noteAccidentalKindAsCellsList (
@@ -257,6 +266,10 @@ class bsrNote : public bsrLineElement
     // ------------------------------------------------------
 
     string                asString () const;
+
+    virtual string        asShortString () const;
+
+    virtual string        asDebugString () const;
 
     virtual void          print (ostream& os) const;
 

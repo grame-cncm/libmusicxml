@@ -214,8 +214,9 @@ map<string, bsrBrailleOutputKind>
 void initializeBsrBrailleOutputKindsMap ()
 {
   gBsrBrailleOutputKindsMap ["ascii"] = kBrailleOutputAscii; // default
-  gBsrBrailleOutputKindsMap ["utf8"] = kBrailleOutputUTF8;
-  gBsrBrailleOutputKindsMap ["utf16"]  = kBrailleOutputUTF16;
+  gBsrBrailleOutputKindsMap ["utf8"]  = kBrailleOutputUTF8;
+  gBsrBrailleOutputKindsMap ["utf8d"] = kBrailleOutputUTF8Debug;
+  gBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
 }
 
 string bsrBrailleOutputKindAsString (
@@ -230,6 +231,9 @@ string bsrBrailleOutputKindAsString (
       break;
     case kBrailleOutputUTF8:
       result = "utf8";
+      break;
+    case kBrailleOutputUTF8Debug:
+      result = "utf8d";
       break;
     case kBrailleOutputUTF16:
       result = "utf16";

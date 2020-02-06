@@ -239,6 +239,21 @@ string bsrNumber::asString () const
   return s.str ();
 }
 
+string bsrNumber::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "N" << // JMI
+    fNumberValue <<
+    ", numberSignIsNeeded: " <<
+    numberSignIsNeededKindAsString (
+      fNumberSignIsNeededKind) <<
+    ", spacesBefore: " << fSpacesBefore;
+
+  return s.str ();
+}
+
 void bsrNumber::print (ostream& os) const
 {
   os <<

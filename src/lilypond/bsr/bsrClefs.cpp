@@ -268,6 +268,19 @@ string bsrClef::asString () const
   return s.str ();
 }
 
+string bsrClef::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "C" <<
+    ", clefKind: " <<
+    clefKindAsString (fClefKind) <<
+    ", spacesBefore: " << fSpacesBefore;
+
+  return s.str ();
+}
+
 void bsrClef::print (ostream& os) const
 {
   os <<

@@ -170,6 +170,18 @@ string bsrPagination::asString () const
   return s.str ();
 }
 
+string bsrPagination::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "PGNT" <<
+    ", printPageNumber: " << fPrintPageNumber <<
+    ", braillePageNumber: " << fBraillePageNumber;
+
+  return s.str ();
+}
+
 void bsrPagination::print (ostream& os) const
 {
   os <<

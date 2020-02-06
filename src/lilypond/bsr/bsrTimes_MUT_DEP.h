@@ -104,6 +104,9 @@ class bsrTime : public bsrLineElement
     static string timeKindAsString (
       bsrTimeKind timeKind);
 
+    static string timeKindAsDebugString (
+      bsrTimeKind timeKind);
+
   public:
 
     // creation
@@ -171,6 +174,8 @@ class bsrTime : public bsrLineElement
     // ------------------------------------------------------
 
     string                asString () const;
+
+    virtual string        asDebugString () const;
 
     virtual void          print (ostream& os) const;
 

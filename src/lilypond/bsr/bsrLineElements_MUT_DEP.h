@@ -73,6 +73,8 @@ class bsrLineElement : public bsrElement
 
     virtual std::string   asShortString () const;
 
+    virtual std::string   asDebugString () const = 0;
+
     virtual void          print (ostream& os) const;
 
   protected:

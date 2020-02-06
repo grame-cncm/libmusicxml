@@ -204,6 +204,25 @@ string bsrPageHeading::asString () const
   return s.str ();
 }
 
+string bsrPageHeading::asDebugString () const
+{
+  stringstream s;
+
+  s <<
+    "[PH " << fPageHeadingTitle << "\"";
+
+  if (fPageHeadingPagination) {
+    s <<
+      fPageHeadingPagination->asDebugString ();
+  }
+
+  s <<
+    ", pageHeadingNumber: " << fPageHeadingNumber <<
+    "]";
+
+  return s.str ();
+}
+
 void bsrPageHeading::print (ostream& os) const
 {
   os <<

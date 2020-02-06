@@ -338,6 +338,10 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
           */
           break;
 
+        case kBrailleOutputUTF8Debug:
+          potentialOutputFileName += "_UTF8Debug";
+          break;
+
         case kBrailleOutputUTF16:
           potentialOutputFileName += "_UTF16";
             /* JMI
@@ -365,6 +369,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         break;
 
       case kBrailleOutputUTF8:
+      case kBrailleOutputUTF8Debug:
       case kBrailleOutputUTF16:
         potentialOutputFileName += ".txt";
         break;

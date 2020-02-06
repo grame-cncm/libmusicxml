@@ -290,13 +290,38 @@ string bsrMeasure::asString () const
   stringstream s;
 
   s <<
-    "Spaces" <<
+    "Measure" <<
     ", printMeasureNumber: " << fPrintMeasureNumber <<
     ", printMeasureNumber: " << fPrintMeasureNumber <<
     ", brailleMeasureNumber: " << fBrailleMeasureNumber <<
     ", measureElementsList.size (): " << fMeasureLineElementsList.size () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+string bsrMeasure::asDebugString () const // JMI
+{
+  stringstream s;
+
+  s << "[";
+
+  int measureElementsListSize = fMeasureLineElementsList.size ();
+
+  if (measureElementsListSize) {
+    list<S_bsrLineElement>::const_iterator
+      iBegin = fMeasureLineElementsList.begin (),
+      iEnd   = fMeasureLineElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i)->asDebugString ();
+      if (++i == iEnd) break;
+      s << "|";
+    } // for
+  }
+
+  s << "]";
 
   return s.str ();
 }

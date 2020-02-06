@@ -76,6 +76,8 @@ class bsrPageHeading : public bsrLine
 
     string                asString () const;
 
+    string                asDebugString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
