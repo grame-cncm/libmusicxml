@@ -1319,14 +1319,12 @@ string bsrNote::asDebugString () const
   } // switch
 
   s <<
-    noteValueKindAsDebugString (fNoteValueKind);
+    noteValueKindAsDebugString (fNoteValueKind) <<
+    noteAccidentalKindAsDebugString (fNoteAccidentalKind);
 
   for (int i = 1; i <= fNoteDotsNumber; i++) {
     s << ".";
   } // for
-
-  s <<
-    noteAccidentalKindAsDebugString (fNoteAccidentalKind);
 
   return s.str ();
 }

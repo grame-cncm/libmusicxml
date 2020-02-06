@@ -481,6 +481,8 @@ class msrDottedDuration
 
     // ------------------------------------------------------
 
+    string                asString () const;
+
     //virtual
     void                  print (ostream& os) const;
 

@@ -305,7 +305,7 @@ string bsrMeasure::asDebugString () const // JMI
 {
   stringstream s;
 
-  s << "[";
+  s << "{";
 
   int measureElementsListSize = fMeasureLineElementsList.size ();
 
@@ -321,7 +321,7 @@ string bsrMeasure::asDebugString () const // JMI
     } // for
   }
 
-  s << "]";
+  s << "}";
 
   return s.str ();
 }

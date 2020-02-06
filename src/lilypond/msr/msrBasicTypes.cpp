@@ -157,6 +157,20 @@ rational msrDottedDuration::dottedDurationAsWholeNotes (
   return result;
 }
 
+string msrDottedDuration::asString () const
+{
+  stringstream s;
+
+  s <<
+     msrDurationKindAsString (fDurationKind);
+
+  for (int i = 1; i <= fDotsNumber; i++) {
+    s << ".";
+  } // for
+
+  return s.str ();
+}
+
 void msrDottedDuration::print (ostream& os) const
 {
   const int fieldWidth = 11;

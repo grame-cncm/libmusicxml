@@ -236,7 +236,7 @@ string bsrBarline::asDebugString () const
   stringstream s;
 
   s <<
-    "[BL " <<
+    "[BARLINE " <<
     barlineKindAsDebugString (fBarlineKind) <<
     "]";
 

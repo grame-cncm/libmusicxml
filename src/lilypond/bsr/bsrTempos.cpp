@@ -14,6 +14,7 @@
 #include <sstream>
 #include <regex>
 
+#include "msrBasicTypes.h"
 #include "msrTempos.h"
 
 #include "bsrMutualDependencies.h"
@@ -454,9 +455,38 @@ string bsrTempo::asDebugString () const
   stringstream s;
 
   s <<
-    "[TEMPO " <<
-    tempoKindAsDebugString (fMsrTempo->getTempoKind ()) <<
-    "]";
+    "[TEMPO ";
+
+  switch (fMsrTempo->getTempoKind ()) {
+    case msrTempo::k_NoTempoKind:
+      s << "_";
+      break;
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      s << "WordsOnly";
+      break;
+    case msrTempo::kTempoBeatUnitsPerMinute:
+      {
+        msrDottedDuration
+          tempoBeatUnit =
+            fMsrTempo->getTempoBeatUnit ();
+
+        s <<
+          tempoBeatUnit.asString () <<
+          " = " <<
+          fMsrTempo->getTempoPerMinute () <<
+          "/mn";
+      }
+      break;
+    case msrTempo::kTempoBeatUnitsEquivalence:
+      s << "Equivalence";
+      break;
+    case msrTempo::kTempoNotesRelationShip:
+      s << "NotesRelationShip";
+      break;
+  } // switch
+ // JMI   tempoKindAsDebugString (fMsrTempo->getTempoKind ());
+
+  s << "]";
 
   return s.str ();
 }
