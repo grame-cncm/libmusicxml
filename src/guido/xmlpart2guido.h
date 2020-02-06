@@ -81,6 +81,7 @@ class EXP xmlpart2guido :
     
     int fTextTagOpen;
     int fTupletOpen;    // Number of opened Tuplets
+    std::queue<int> fTiedOpen;      // Number of ongoing opened Tied
         
     std::queue<int> fDirectionEraserStack;        // To skip already visited Directions when looking ahead because of grace notes
     std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
