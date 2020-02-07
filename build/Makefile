@@ -5,7 +5,7 @@
 .PHONY : msys win32 win64 linux android
 
 PDIR   ?= libdir
-VERSION = 3.18
+VERSION = 3.19
 
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))

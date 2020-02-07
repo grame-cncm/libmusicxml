@@ -11,7 +11,7 @@ endif()
 # versions management
 set (XMLVERSION 3.1)
 
-set (VERSION 3.1.8)
+set (VERSION 3.1.9)
 macro (get_major_minor_patch version)
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\1"  VERSION_MAJOR ${version} )
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\2"  VERSION_MINOR ${version} )
