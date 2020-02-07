@@ -15,6 +15,8 @@
 
 #include <regex>
 
+#include "msrMidi.h"
+
 #include "utilities.h"
 
 #include "setTraceOahIfDesired.h"
@@ -176,7 +178,7 @@ string lilypondScoreOutputKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondScoreOutputKindAtom::asLongNamedOptionString () const
+string lilypondScoreOutputKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -591,7 +593,7 @@ string lilypondRelativeOctaveEntryAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondRelativeOctaveEntryAtom::asLongNamedOptionString () const
+string lilypondRelativeOctaveEntryAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -811,7 +813,7 @@ string lilypondFixedOctaveEntryAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondFixedOctaveEntryAtom::asLongNamedOptionString () const
+string lilypondFixedOctaveEntryAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1059,7 +1061,7 @@ string lilypondAccidentalStyleKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondAccidentalStyleKindAtom::asLongNamedOptionString () const
+string lilypondAccidentalStyleKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1385,7 +1387,7 @@ string lilypondChordsDisplayAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondChordsDisplayAtom::asLongNamedOptionString () const
+string lilypondChordsDisplayAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -1486,56 +1488,56 @@ ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt)
 }
 
 //______________________________________________________________________________
-S_lilypondLyricsAlignmentKindAtom lilypondLyricsAlignmentKindAtom::create (
+S_lilypondLyricsDurationsKindAtom lilypondLyricsDurationsKindAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  lpsrLyricsAlignmentKind&
-                     lilypondLyricsAlignmentKindVariable)
+  lpsrLyricsDurationsKind&
+                     lilypondLyricsDurationsKindVariable)
 {
-  lilypondLyricsAlignmentKindAtom* o = new
-    lilypondLyricsAlignmentKindAtom (
+  lilypondLyricsDurationsKindAtom* o = new
+    lilypondLyricsDurationsKindAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      lilypondLyricsAlignmentKindVariable);
+      lilypondLyricsDurationsKindVariable);
   assert(o!=0);
   return o;
 }
 
-lilypondLyricsAlignmentKindAtom::lilypondLyricsAlignmentKindAtom (
+lilypondLyricsDurationsKindAtom::lilypondLyricsDurationsKindAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  lpsrLyricsAlignmentKind&
-                     lilypondLyricsAlignmentKindVariable)
+  lpsrLyricsDurationsKind&
+                     lilypondLyricsDurationsKindVariable)
   : oahValuedAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fLpsrLyricsAlignmentKindVariable (
-      lilypondLyricsAlignmentKindVariable)
+    fLpsrLyricsDurationsKindVariable (
+      lilypondLyricsDurationsKindVariable)
 {}
 
-lilypondLyricsAlignmentKindAtom::~lilypondLyricsAlignmentKindAtom ()
+lilypondLyricsDurationsKindAtom::~lilypondLyricsDurationsKindAtom ()
 {}
 
-S_oahValuedAtom lilypondLyricsAlignmentKindAtom::handleOptionUnderName (
+S_oahValuedAtom lilypondLyricsDurationsKindAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a lilypondLyricsAlignmentKindAtom" <<
+      "==> option '" << optionName << "' is a lilypondLyricsDurationsKindAtom" <<
       endl;
   }
 #endif
@@ -1544,14 +1546,14 @@ S_oahValuedAtom lilypondLyricsAlignmentKindAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondLyricsAlignmentKindAtom::handleValue (
+void lilypondLyricsDurationsKindAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'lilypondLyricsAlignmentKindAtom'" <<
+      "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
   }
 #endif
@@ -1562,17 +1564,17 @@ void lilypondLyricsAlignmentKindAtom::handleValue (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'lilypondLyricsAlignmentKindAtom'" <<
+      "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
   }
 #endif
 
-  map<string, lpsrLyricsAlignmentKind>::const_iterator
+  map<string, lpsrLyricsDurationsKind>::const_iterator
     it =
-      gLpsrLyricsAlignmentKindsMap.find (
+      gLpsrLyricsDurationsKindsMap.find (
         theString);
 
-  if (it == gLpsrLyricsAlignmentKindsMap.end ()) {
+  if (it == gLpsrLyricsDurationsKindsMap.end ()) {
     // no, lyrics alignment kind is unknown in the map
     stringstream s;
 
@@ -1581,43 +1583,43 @@ void lilypondLyricsAlignmentKindAtom::handleValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gLpsrLyricsAlignmentKindsMap.size () - 1 <<
+      gLpsrLyricsDurationsKindsMap.size () - 1 <<
       " known LPSR lyrics alignment kind are:" <<
       endl;
 
     gIndenter++;
 
     s <<
-      existingLpsrLyricsAlignmentKinds (K_NAMES_LIST_MAX_LENGTH);
+      existingLpsrLyricsDurationsKinds (K_NAMES_LIST_MAX_LENGTH);
 
     gIndenter--;
 
     oahError (s.str ());
   }
 
-  setLpsrLyricsAlignmentKindVariable (
+  setLpsrLyricsDurationsKindVariable (
     (*it).second);
 }
 
-void lilypondLyricsAlignmentKindAtom::acceptIn (basevisitor* v)
+void lilypondLyricsDurationsKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondLyricsAlignmentKindAtom::acceptIn ()" <<
+      ".\\\" ==> lilypondLyricsDurationsKindAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondLyricsAlignmentKindAtom>*
+  if (visitor<S_lilypondLyricsDurationsKindAtom>*
     p =
-      dynamic_cast<visitor<S_lilypondLyricsAlignmentKindAtom>*> (v)) {
-        S_lilypondLyricsAlignmentKindAtom elem = this;
+      dynamic_cast<visitor<S_lilypondLyricsDurationsKindAtom>*> (v)) {
+        S_lilypondLyricsDurationsKindAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lilypondLyricsAlignmentKindAtom::visitStart ()" <<
+            ".\\\" ==> Launching lilypondLyricsDurationsKindAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1625,25 +1627,25 @@ void lilypondLyricsAlignmentKindAtom::acceptIn (basevisitor* v)
   }
 }
 
-void lilypondLyricsAlignmentKindAtom::acceptOut (basevisitor* v)
+void lilypondLyricsDurationsKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondLyricsAlignmentKindAtom::acceptOut ()" <<
+      ".\\\" ==> lilypondLyricsDurationsKindAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondLyricsAlignmentKindAtom>*
+  if (visitor<S_lilypondLyricsDurationsKindAtom>*
     p =
-      dynamic_cast<visitor<S_lilypondLyricsAlignmentKindAtom>*> (v)) {
-        S_lilypondLyricsAlignmentKindAtom elem = this;
+      dynamic_cast<visitor<S_lilypondLyricsDurationsKindAtom>*> (v)) {
+        S_lilypondLyricsDurationsKindAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lilypondLyricsAlignmentKindAtom::visitEnd ()" <<
+            ".\\\" ==> Launching lilypondLyricsDurationsKindAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1651,45 +1653,45 @@ void lilypondLyricsAlignmentKindAtom::acceptOut (basevisitor* v)
   }
 }
 
-void lilypondLyricsAlignmentKindAtom::browseData (basevisitor* v)
+void lilypondLyricsDurationsKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondLyricsAlignmentKindAtom::browseData ()" <<
+      ".\\\" ==> lilypondLyricsDurationsKindAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-string lilypondLyricsAlignmentKindAtom::asShortNamedOptionString () const
+string lilypondLyricsDurationsKindAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fShortName << " " <<
-    lpsrLyricsAlignmentKindAsString (fLpsrLyricsAlignmentKindVariable);
+    lpsrLyricsDurationsKindAsString (fLpsrLyricsDurationsKindVariable);
 
   return s.str ();
 }
 
-string lilypondLyricsAlignmentKindAtom::asLongNamedOptionString () const
+string lilypondLyricsDurationsKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fLongName << " " <<
-    lpsrLyricsAlignmentKindAsString (fLpsrLyricsAlignmentKindVariable);
+    lpsrLyricsDurationsKindAsString (fLpsrLyricsDurationsKindVariable);
 
   return s.str ();
 }
 
-void lilypondLyricsAlignmentKindAtom::print (ostream& os) const
+void lilypondLyricsDurationsKindAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsLyricsAlignmentKindAtom:" <<
+    "OptionsLyricsDurationsKindAtom:" <<
     endl;
 
   gIndenter++;
@@ -1703,16 +1705,16 @@ void lilypondLyricsAlignmentKindAtom::print (ostream& os) const
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fLpsrLyricsAlignmentKindVariable" << " : \"" <<
-    lpsrLyricsAlignmentKindAsString (
-      fLpsrLyricsAlignmentKindVariable) <<
+    "fLpsrLyricsDurationsKindVariable" << " : \"" <<
+    lpsrLyricsDurationsKindAsString (
+      fLpsrLyricsDurationsKindVariable) <<
     "\"" <<
     endl;
 
   gIndenter--;
 }
 
-void lilypondLyricsAlignmentKindAtom::printAtomOptionsValues (
+void lilypondLyricsDurationsKindAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1720,305 +1722,13 @@ void lilypondLyricsAlignmentKindAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    lpsrLyricsAlignmentKindAsString (
-      fLpsrLyricsAlignmentKindVariable) <<
+    lpsrLyricsDurationsKindAsString (
+      fLpsrLyricsDurationsKindVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_lilypondLyricsAlignmentKindAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_lilypondMidiTempoAtom lilypondMidiTempoAtom::create (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  pair<string, int>& lilypondMidiTempoVariable)
-{
-  lilypondMidiTempoAtom* o = new
-    lilypondMidiTempoAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      lilypondMidiTempoVariable);
-  assert(o!=0);
-  return o;
-}
-
-lilypondMidiTempoAtom::lilypondMidiTempoAtom (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  pair<string, int>& lilypondMidiTempoVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fStringIntPairVariable (
-      lilypondMidiTempoVariable)
-{}
-
-lilypondMidiTempoAtom::~lilypondMidiTempoAtom ()
-{}
-
-S_oahValuedAtom lilypondMidiTempoAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lilypondMidiTempoAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lilypondMidiTempoAtom::handleValue (
-  string   theString,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'lilypondMidiTempoAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the midi tempo specification
-  // decipher it to extract duration and perSecond values
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'lilypondMidiTempoAtom'" <<
-      endl;
-  }
-#endif
-
-  string regularExpression (
-    "[[:space:]]*"
-    "([[:digit:]]+\\.*)"
-    "[[:space:]]*"
-    "="
-    "[[:space:]]*"
-    "([[:digit:]]+)"
-    "[[:space:]]*");
-
-  regex  e (regularExpression);
-  smatch sm;
-
-  regex_match (theString, sm, e);
-
-  unsigned smSize = sm.size ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "There are " << smSize << " matches" <<
-      " for MIDI tempo string '" << theString <<
-      "' with regex '" << regularExpression <<
-      "':" <<
-      endl;
-
-    gIndenter++;
-
-    for (unsigned i = 0; i < smSize; ++i) {
-      os <<
-        i << ": " << "\"" << sm [i] << "\"" <<
-        endl;
-    } // for
-    os << endl;
-
-    gIndenter--;
-  }
-#endif
-
-  if (smSize != 3) {
-    stringstream s;
-
-    s <<
-      "-midiTempo argument '" << theString <<
-      "' is ill-formed";
-
-    oahError (s.str ());
-  }
-
-  string midiTempoDuration  = sm [1];
-
-  int    midiTempoPerSecond;
-  {
-    stringstream s;
-    s << sm [2];
-    s >> midiTempoPerSecond;
-  }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "midiTempoDuration  = " <<
-      midiTempoDuration <<
-      endl <<
-      "midiTempoPerSecond = " <<
-      midiTempoPerSecond <<
-      endl;
-
-  fStringIntPairVariable =
-    pair<string, int> (
-      midiTempoDuration, midiTempoPerSecond);
-  }
-#endif
-}
-
-void lilypondMidiTempoAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lilypondMidiTempoAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_lilypondMidiTempoAtom>*
-    p =
-      dynamic_cast<visitor<S_lilypondMidiTempoAtom>*> (v)) {
-        S_lilypondMidiTempoAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lilypondMidiTempoAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void lilypondMidiTempoAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lilypondMidiTempoAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_lilypondMidiTempoAtom>*
-    p =
-      dynamic_cast<visitor<S_lilypondMidiTempoAtom>*> (v)) {
-        S_lilypondMidiTempoAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lilypondMidiTempoAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void lilypondMidiTempoAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lilypondMidiTempoAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string lilypondMidiTempoAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    fStringIntPairVariable.first <<
-    "=" <<
-    fStringIntPairVariable.first;
-
-  return s.str ();
-}
-
-string lilypondMidiTempoAtom::asLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    fStringIntPairVariable.first <<
-    "=" <<
-    fStringIntPairVariable.first;
-
-  return s.str ();
-}
-
-void lilypondMidiTempoAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "OptionsMidiTempoAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedAtomEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    setw (fieldWidth) <<
-    "fStringIntPairVariable" << " : '" <<
-    fStringIntPairVariable.first <<
-    " = " <<
-    fStringIntPairVariable.second <<
-    "'" <<
-    endl;
-
-  gIndenter--;
-}
-
-void lilypondMidiTempoAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : '" <<
-    fStringIntPairVariable.first <<
-    " = " <<
-    fStringIntPairVariable.second <<
-    "'" <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_lilypondMidiTempoAtom& elt)
+ostream& operator<< (ostream& os, const S_lilypondLyricsDurationsKindAtom& elt)
 {
   elt->print (os);
   return os;
@@ -2041,11 +1751,11 @@ S_lilypondOah lilypondOah::create (
 lilypondOah::lilypondOah (
   S_oahHandler handlerUpLink)
   : oahGroup (
-    "LilyPond",
-    "hlp", "help-lilypond",
-R"(These lilypond control which LilyPond code is generated.)",
-    kElementVisibilityAlways,
-    handlerUpLink)
+      "LilyPond",
+      "hlily", "help-lilypond",
+  R"(These lilypond control which LilyPond code is generated.)",
+      kElementVisibilityAlways,
+      handlerUpLink)
 {
   // append this lilypond group to the lilypond handler
   // if relevant
@@ -2359,6 +2069,18 @@ R"()",
 R"(Generate an ambitus range at the beginning of the staves/voices.)",
         "ambitusEngraver",
         fAmbitusEngraver));
+
+  // custos engraver
+
+  fCustosEngraver = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "custos", "",
+R"(Generate custos at the end of the lines.)",
+        "custosEngraver",
+        fCustosEngraver));
 }
 
 void lilypondOah::initializeClefsKeysTimesOptions (
@@ -2700,8 +2422,8 @@ This comes in handy when scanning several movements from a single PDF score,
 in which case measure numbers are a single sequence.
 There can be several occurrences of this option.)",
         "RESET_NUMBER_SPEC",
-        "resetMeasureNumberMap",
-        fResetMeasureNumberMap));
+        "resetMeasureElementMeasureNumberMap",
+        fResetMeasureElementMeasureNumberMap));
 
   // generate box around bar number
 
@@ -2771,6 +2493,7 @@ Nothing special is done by default.)",
         "separatorLineEveryNMeasures",
         fSeparatorLineEveryNMeasures));
 
+/* JMI
   subGroup->
     appendAtomToSubGroup (
       oahStringsSetElementAtom::create (
@@ -2782,6 +2505,7 @@ There can be several occurrences of this option.)",
         "NUMBER",
         "breakLineAfterMeasureNumberSet",
         fBreakLineAfterMeasureNumberSet));
+        */
 }
 
 void lilypondOah::initializePageBreaksOptions (
@@ -2815,19 +2539,6 @@ R"(Ignore the page breaks from the MusicXML input - let LilyPond decide about th
 /* JMI
   subGroup->
     appendAtomToSubGroup (
-      lilypondBreakPageAfterMeasureNumberAtom::create (
-        "bpamn", "break-page-after-measure-number",
-R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
-NUMBER is a MusicXML measure number (a string), to be found in the latter.
-This comes in handy when scanning several movements from a single PDF score.
-There can be several occurrences of this option.)",
-        "NUMBER",
-        "breakPageAfterMeasureNumberSet",
-        fBreakPageAfterMeasureNumberSet));
-        */
-
-  subGroup->
-    appendAtomToSubGroup (
       oahStringsSetElementAtom::create (
         "bpamn", "break-page-after-measure-number",
 R"(Generate a '\pageBreak' command after measure NUMBER in the LilyPond code.
@@ -2837,6 +2548,7 @@ There can be several occurrences of this option.)",
         "NUMBER",
         "breakPageAfterMeasureNumberSet",
         fBreakPageAfterMeasureNumberSet));
+        */
 }
 
 void lilypondOah::initializeStavesOptions (
@@ -3131,32 +2843,34 @@ R"()",
 
   // lyrics alignment
 
-  const lpsrLyricsAlignmentKind
-    lpsrLyricsAlignmentKindDefaultValue =
-      kLyricsAlignmentAutomatic; // default value
+  const lpsrLyricsDurationsKind
+    lpsrLyricsDurationsKindDefaultValue =
+      kLyricsDurationsExplicit; // default value
 
-  fLyricsAlignmentKind = lpsrLyricsAlignmentKindDefaultValue;
+  fLyricsDurationsKind = lpsrLyricsDurationsKindDefaultValue;
 
   subGroup->
     appendAtomToSubGroup (
-      lilypondLyricsAlignmentKindAtom::create (
-        "la", "lyrics-alignment", // JMI
+      lilypondLyricsDurationsKindAtom::create (
+        "ld", "lyrics-durations", // JMI
           replaceSubstringInString (
             replaceSubstringInString (
               replaceSubstringInString (
-R"(The NUMBER LilyPond lyrics alignment STYLEs available are:
-LYRICS_ALIGNMENT_KINDS.
+R"(The NUMBER LilyPond lyrics durations STYLEs available are:
+LYRICS_DURATIONS_KINDS.
+Using 'implicit' prevents the creation of lyrics attached to rests by LilyPond,
+use 'explicit' in such cases.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
-              to_string (gLpsrLyricsAlignmentKindsMap.size ())),
-            "LYRICS_ALIGNMENT_KINDS",
-            existingLpsrLyricsAlignmentKinds (K_NAMES_LIST_MAX_LENGTH)),
+              to_string (gLpsrLyricsDurationsKindsMap.size ())),
+            "LYRICS_DURATIONS_KINDS",
+            existingLpsrLyricsDurationsKinds (K_NAMES_LIST_MAX_LENGTH)),
           "DEFAULT_VALUE",
-          lpsrLyricsAlignmentKindAsString (
-            lpsrLyricsAlignmentKindDefaultValue)),
+          lpsrLyricsDurationsKindAsString (
+            lpsrLyricsDurationsKindDefaultValue)),
         "STYLE",
-        "lyricsAlignmentKind",
-        fLyricsAlignmentKind));
+        "lyricsDurationsKind",
+        fLyricsDurationsKind));
 }
 
 void lilypondOah::initializeFontsOptions (
@@ -3388,16 +3102,16 @@ R"()",
   string midiTempoDuration  = "4";
   int    midiTempoPerSecond = 90;
 
-  fMidiTempo.first  = midiTempoDuration;
-  fMidiTempo.second = midiTempoPerSecond;
+  fMidiTempo.setMidiTempoDuration (midiTempoDuration);
+  fMidiTempo.setMidiTempoPerSecond (midiTempoPerSecond);
 
   string midiTempoDefaultValue =
     midiTempoDuration + " = " + to_string (midiTempoPerSecond);
 
   subGroup->
     appendAtomToSubGroup (
-      lilypondMidiTempoAtom::create (
-        "mtempo", "midi-temp",
+      oahMidiTempoAtom::create (
+        "mtempo", "midi-tempo",
         replaceSubstringInString (
           replaceSubstringInString (
 R"(Generate a '\tempo' command in the \midi block.
@@ -3583,6 +3297,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
 
   clone->fAmbitusEngraver =
     fAmbitusEngraver;
+  clone->fCustosEngraver =
+    fCustosEngraver;
 
 
   // clefs
@@ -3767,8 +3483,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   // lyrics
   // --------------------------------------
 
-  clone->fLyricsAlignmentKind =
-    fLyricsAlignmentKind;
+  clone->fLyricsDurationsKind =
+    fLyricsDurationsKind;
 
 
   // midi
@@ -3995,6 +3711,9 @@ void lilypondOah::printAtomOptionsValues (
   os << left <<
     setw (valueFieldWidth) << "ambitusEngraver" << " : " <<
       booleanAsString (fAmbitusEngraver) <<
+      endl <<
+    setw (valueFieldWidth) << "custosEngraver" << " : " <<
+      booleanAsString (fCustosEngraver) <<
       endl;
 
   gIndenter--;
@@ -4095,8 +3814,8 @@ void lilypondOah::printAtomOptionsValues (
       fAccidentalStyleKind <<
       endl <<
 
-    setw (valueFieldWidth) << "fLyricsAlignmentKind" << " : " <<
-      lpsrLyricsAlignmentKindAsString (fLyricsAlignmentKind) <<
+    setw (valueFieldWidth) << "lyricsDurationsKind" << " : " <<
+      lpsrLyricsDurationsKindAsString (fLyricsDurationsKind) <<
       endl <<
 
     setw (valueFieldWidth) << "compressFullMeasureRests" << " : " <<
@@ -4132,14 +3851,14 @@ void lilypondOah::printAtomOptionsValues (
     endl;
 
   os << left <<
-    setw (valueFieldWidth) << "resetMeasureNumberMap" << " : ";
-  if (! fResetMeasureNumberMap.size ()) {
+    setw (valueFieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
+  if (! fResetMeasureElementMeasureNumberMap.size ()) {
     os << "empty";
   }
   else {
     map<string, int>::const_iterator
-      iBegin = fResetMeasureNumberMap.begin (),
-      iEnd   = fResetMeasureNumberMap.end (),
+      iBegin = fResetMeasureElementMeasureNumberMap.begin (),
+      iEnd   = fResetMeasureElementMeasureNumberMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i).first << "=" << (*i).second;
@@ -4456,7 +4175,7 @@ void lilypondOah::printAtomOptionsValues (
 
   os << left <<
     setw (valueFieldWidth) << "midiTempo" << " : " <<
-      fMidiTempo.first << " = " << fMidiTempo.second <<
+      fMidiTempo.asString () <<
       endl <<
 
     setw (valueFieldWidth) << "noMidi" << " : " <<
@@ -4557,6 +4276,9 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "ambitusEngraver" << " : " <<
       booleanAsString (fAmbitusEngraver) <<
+      endl <<
+    setw (fieldWidth) << "custosEngraver" << " : " <<
+      booleanAsString (fCustosEngraver) <<
       endl;
 
   gIndenter--;
@@ -4633,8 +4355,8 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
       fAccidentalStyleKind <<
       endl <<
 
-    setw (fieldWidth) << "lyricsAlignmentKind" << " : " <<
-      lpsrLyricsAlignmentKindAsString (fLyricsAlignmentKind) <<
+    setw (fieldWidth) << "lyricsDurationsKind" << " : " <<
+      lpsrLyricsDurationsKindAsString (fLyricsDurationsKind) <<
       endl <<
 
     setw (fieldWidth) << "compressFullMeasureRests" << " : " <<
@@ -4670,14 +4392,14 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
     endl;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "resetMeasureNumberMap" << " : ";
-  if (! fResetMeasureNumberMap.size ()) {
+    setw (fieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
+  if (! fResetMeasureElementMeasureNumberMap.size ()) {
     gLogOstream << "empty";
   }
   else {
     map<string, int>::const_iterator
-      iBegin = fResetMeasureNumberMap.begin (),
-      iEnd   = fResetMeasureNumberMap.end (),
+      iBegin = fResetMeasureElementMeasureNumberMap.begin (),
+      iEnd   = fResetMeasureElementMeasureNumberMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       gLogOstream << (*i).first << "=" << (*i).second;
@@ -4958,7 +4680,7 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
 
   gLogOstream << left <<
     setw (fieldWidth) << "fMidiTempo" << " : " <<
-      fMidiTempo.first << " = " << fMidiTempo.second <<
+      fMidiTempo.asString () <<
       endl <<
 
     setw (fieldWidth) << "noMidi" << " : " <<

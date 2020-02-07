@@ -100,9 +100,6 @@ class msrStanza : public msrElement
                                             syllableKind,
                             rational        wholeNote);
 
-    S_msrSyllable         appendLineBreakSyllableToStanza (
-                            int inputLineNumber);
-
 /* JMI
     S_msrSyllable         appendTiedSyllableToStanza (
                             int      inputLineNumber,
@@ -133,13 +130,13 @@ class msrStanza : public msrElement
                             string nextMeasureNumber);
 */
 
-    S_msrSyllable         appendLineBreakSyllableToStanza ( // JMI ???
-                            int    inputLineNumber,
-                            string nextMeasureNumber);
+    S_msrSyllable         appendLineBreakSyllableToStanza (
+                            int inputLineNumber,
+                            int nextMeasurePuristNumber);
 
-    S_msrSyllable         appendPageBreakSyllableToStanza ( // JMI ???
-                            int    inputLineNumber,
-                            string nextMeasureNumber);
+    S_msrSyllable         appendPageBreakSyllableToStanza (
+                            int inputLineNumber,
+                            int nextMeasurePuristNumber);
 
     void                  padUpToCurrentMeasureWholeNotesDurationInStanza ( // JMI
                             int      inputLineNumber,

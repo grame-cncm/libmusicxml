@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 1.0 Partwise//EN"
+                                "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise>
+  <work>
+    <work-title>Simple barlines</work-title>
+    </work>
+  <identification>
+    <miscellaneous>
+      <miscellaneous-field name="description">Different types of (non-repeat)
+          barlines: default (no setting), regular, dotted, dashed, heavy,
+          light-light, light-heavy, heavy-light, heavy-heavy, tick, short,
+          none.</miscellaneous-field>
+    </miscellaneous>
+  </identification>
+  <defaults>
+    <scaling>
+      <millimeters>3.9956</millimeters>
+      <tenths>30</tenths>
+    </scaling>
+    <page-layout>
+      <page-height>3560</page-height>
+      <page-width>2797</page-width>
+      <page-margins type="even">
+        <left-margin>141</left-margin>
+        <right-margin>115</right-margin>
+        <top-margin>127</top-margin>
+        <bottom-margin>45</bottom-margin>
+      </page-margins>
+      <page-margins type="odd">
+        <left-margin>177</left-margin>
+        <right-margin>79</right-margin>
+        <top-margin>127</top-margin>
+        <bottom-margin>45</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <system-layout>
+      <system-margins>
+        <left-margin>0</left-margin>
+        <right-margin>0</right-margin>
+      </system-margins>
+      <system-distance>39</system-distance>
+      <top-system-distance>39</top-system-distance>
+    </system-layout>
+    <staff-layout>
+      <staff-distance>93</staff-distance>
+    </staff-layout>
+    <appearance>
+      <line-width type="stem">0.4516</line-width>
+      <line-width type="beam">2.458</line-width>
+      <line-width type="staff">0.4516</line-width>
+      <line-width type="light barline">0.8849</line-width>
+      <line-width type="heavy barline">2.3781</line-width>
+      <line-width type="leger">0.8849</line-width>
+      <line-width type="ending">0.4516</line-width>
+      <line-width type="wedge">0.8849</line-width>
+      <line-width type="enclosure">0.4516</line-width>
+      <line-width type="tuplet bracket">0.4516</line-width>
+      <note-size type="grace">60</note-size>
+      <note-size type="cue">60</note-size>
+    </appearance>
+    <music-font font-family="Maestro" font-size="11.3"/>
+    <word-font font-family="Times New Roman" font-size="5.7"/>
+  </defaults>
+  <part-list>
+    <score-part id="P1">
+      <part-name></part-name>
+    </score-part>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <measure number="1">
+      <attributes>
+        <divisions>1</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time symbol="common">
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>regular</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="3">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>dotted</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="4">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>dashed</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="5">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>heavy</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="6">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>light-light</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="7">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="8">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>heavy-light</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="9">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>heavy-heavy</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="10">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>tick</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="11">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>short</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="12">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+      <barline location="right">
+        <bar-style>none</bar-style>
+      </barline>
+    </measure>
+    <!--=======================================================-->
+    <measure number="13">
+      <note>
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+  </part>
+  <!--=========================================================-->
+</score-partwise>

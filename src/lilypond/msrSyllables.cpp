@@ -47,6 +47,29 @@ S_msrSyllable msrSyllable::create (
   return o;
 }
 
+S_msrSyllable msrSyllable::createWithNextMeasurePuristNumber (
+  int                   inputLineNumber,
+  msrSyllableKind       syllableKind,
+  msrSyllableExtendKind syllableExtendKind,
+  rational              syllableWholeNotes,
+  msrTupletFactor       syllableTupletFactor,
+  S_msrStanza           syllableStanzaUpLink,
+  int                   syllableNextMeasurePuristNumber)
+{
+  msrSyllable* o =
+    new msrSyllable (
+      inputLineNumber,
+      syllableKind,
+      syllableExtendKind,
+      syllableWholeNotes,
+      syllableTupletFactor,
+      syllableStanzaUpLink,
+      syllableNextMeasurePuristNumber);
+  assert(o!=0);
+
+  return o;
+}
+
 msrSyllable::msrSyllable (
   int                   inputLineNumber,
   msrSyllableKind       syllableKind,
@@ -76,6 +99,8 @@ msrSyllable::msrSyllable (
 
   fSyllableTupletFactor = syllableTupletFactor;
 
+  fSyllableNextMeasurePuristNumber = -1;
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
@@ -89,6 +114,56 @@ msrSyllable::msrSyllable (
     gIndenter--;
   }
 #endif
+}
+
+msrSyllable::msrSyllable (
+  int                   inputLineNumber,
+  msrSyllableKind       syllableKind,
+  msrSyllableExtendKind syllableExtendKind,
+  rational              syllableWholeNotes,
+  msrTupletFactor       syllableTupletFactor,
+  S_msrStanza           syllableStanzaUpLink,
+  int                   syllableNextMeasurePuristNumber)
+    : msrSyllable (
+        inputLineNumber,
+        syllableKind,
+        syllableExtendKind,
+        syllableWholeNotes,
+        syllableTupletFactor,
+        syllableStanzaUpLink)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceLyrics) {
+    gLogOstream <<
+      "Setting syllable next measure purist number to " <<
+      fSyllableNextMeasurePuristNumber <<
+      endl;
+  }
+#endif
+
+  switch (fSyllableKind) {
+    case msrSyllable::kSyllableNone:
+    case msrSyllable::kSyllableSingle:
+    case msrSyllable::kSyllableBegin:
+    case msrSyllable::kSyllableMiddle:
+    case msrSyllable::kSyllableEnd:
+    case msrSyllable::kSyllableOnRestNote:
+    case msrSyllable::kSyllableSkipRestNote:
+    case msrSyllable::kSyllableSkipNonRestNote:
+    case msrSyllable::kSyllableMeasureEnd:
+      msrInternalError (
+        gOahOah->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "syllable with next measure purist number is no line nor page break");
+      break;
+
+    case msrSyllable::kSyllableLineBreak:
+    case msrSyllable::kSyllablePageBreak:
+      break;
+  } // switch
+
+  fSyllableNextMeasurePuristNumber = syllableNextMeasurePuristNumber;
 }
 
 msrSyllable::~msrSyllable ()
@@ -354,6 +429,10 @@ string msrSyllable::syllableKindAsString (
   string result;
 
   switch (syllableKind) {
+    case msrSyllable::kSyllableNone:
+      result = "syllableNone";
+      break;
+
     case msrSyllable::kSyllableSingle:
       result = "syllableSingle";
       break;
@@ -368,8 +447,15 @@ string msrSyllable::syllableKindAsString (
       result = "syllableEnd";
       break;
 
-    case msrSyllable::kSyllableSkip:
-      result = "syllableSkip";
+    case msrSyllable::kSyllableOnRestNote:
+      result = "syllableOnRestNote";
+      break;
+
+    case msrSyllable::kSyllableSkipRestNote:
+      result = "syllableSkipRestNote";
+      break;
+    case msrSyllable::kSyllableSkipNonRestNote:
+      result = "syllableSkipNonRestNote";
       break;
 
     case msrSyllable::kSyllableMeasureEnd:
@@ -381,10 +467,6 @@ string msrSyllable::syllableKindAsString (
       break;
     case msrSyllable::kSyllablePageBreak:
       result = "syllablePageBreak";
-      break;
-
-    case msrSyllable::kSyllableNone:
-      result = "syllableNone";
       break;
   } // switch
 
@@ -402,6 +484,9 @@ string msrSyllable::syllableExtendKindAsString (
   string result;
 
   switch (syllableExtendKind) {
+    case msrSyllable::kSyllableExtendNone:
+      result = "syllableExtendNone";
+      break;
     case msrSyllable::kSyllableExtendSingle:
       result = "syllableExtendSingle";
       break;
@@ -413,9 +498,6 @@ string msrSyllable::syllableExtendKindAsString (
       break;
     case msrSyllable::kSyllableExtendStop:
       result = "syllableExtendStop";
-      break;
-    case msrSyllable::kSyllableExtendNone:
-      result = "syllableExtendNone";
       break;
   } // switch
 
@@ -452,7 +534,7 @@ string msrSyllable::syllableTextsListAsString () const
       i      = iBegin;
 
     for ( ; ; ) {
-      s << "\"" << quoteStringIfNonAlpha (*i) << "\"";
+      s << doubleQuoteStringIfNonAlpha (*i);
       if (++i == iEnd) break;
       s << ", ";
     } // for
@@ -474,7 +556,7 @@ void msrSyllable::writeTextsList (
       i      = iBegin;
 
     for ( ; ; ) {
-      os << "\"" << quoteStringIfNonAlpha (*i) << "\"";
+      os << doubleQuoteStringIfNonAlpha (*i);
       if (++i == iEnd) break;
       os << ", ";
     } // for
@@ -492,12 +574,11 @@ string msrSyllable::asString () const
     syllableKindAsString () <<
     "', syllableExtendKind: " <<
       syllableExtendKindAsString (fSyllableExtendKind) <<
-    ", whole notes:" <<
-    syllableWholeNotesAsMsrString () <<
-    " (" << fSyllableWholeNotes << ")" <<
+    ", syllableWholeNotes: " << fSyllableWholeNotes <<
     ", syllableTupletFactor: " << fSyllableTupletFactor <<
+    ", syllableNextMeasurePuristNumber: " << fSyllableNextMeasurePuristNumber <<
     ", line " << fInputLineNumber <<
-    ", texts list: ";
+    ", syllableTextsList: ";
 
   writeTextsList (
     fSyllableTextsList,
@@ -508,43 +589,6 @@ string msrSyllable::asString () const
     syllableNoteUpLinkAsString ();
 
   switch (fSyllableKind) {
-    case msrSyllable::kSyllableSingle:
-    case msrSyllable::kSyllableBegin:
-    case msrSyllable::kSyllableMiddle:
-    case msrSyllable::kSyllableEnd:
-    case msrSyllable::kSyllableSkip:
-      break;
-
-    case msrSyllable::kSyllableMeasureEnd:
-      // fSyllableText contains the measure number
-      s <<
-        " measure ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-      break;
-
-    case msrSyllable::kSyllableLineBreak:
-      // fSyllableText contains the measure number
-      s <<
-        " measure ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-      break;
-
-    case msrSyllable::kSyllablePageBreak:
-      // fSyllableText contains the measure number JMI ???
-      s <<
-        " measure ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-      break;
-
     case msrSyllable::kSyllableNone:
       msrInternalError (
         gOahOah->fInputSourceName,
@@ -552,9 +596,23 @@ string msrSyllable::asString () const
         __FILE__, __LINE__,
         "syllable type has not been set");
       break;
+
+    case msrSyllable::kSyllableSingle:
+    case msrSyllable::kSyllableBegin:
+    case msrSyllable::kSyllableMiddle:
+    case msrSyllable::kSyllableEnd:
+    case msrSyllable::kSyllableOnRestNote:
+    case msrSyllable::kSyllableSkipRestNote:
+    case msrSyllable::kSyllableSkipNonRestNote:
+    case msrSyllable::kSyllableMeasureEnd:
+    case msrSyllable::kSyllableLineBreak:
+    case msrSyllable::kSyllablePageBreak:
+      break;
   } // switch
 
   s <<
+    ", attached to note " <<
+    fSyllableNoteUpLink->asShortString () <<
     ", in stanza " <<
     fSyllableStanzaUpLink->getStanzaName ();
 
@@ -572,21 +630,43 @@ void msrSyllable::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 21;
+  const int fieldWidth = 32;
   os << left <<
+    setw (fieldWidth) <<
+    "syllableNoteUpLink" << " : " <<
+    syllableNoteUpLinkAsString () <<
+    endl <<
     setw (fieldWidth) <<
     "syllableStanzaUpLink" << " : " <<
     fSyllableStanzaUpLink->getStanzaName () <<
     endl <<
+
     setw (fieldWidth) <<
-    "syllableNoteUpLink" << " : " <<
-    syllableNoteUpLinkAsString () <<
+    "syllableKind" << " : " <<
+    syllableKindAsString (fSyllableKind) <<
     endl <<
     setw (fieldWidth) <<
     "syllableExtendKind" << " : " <<
     syllableExtendKindAsString (
       fSyllableExtendKind) <<
     endl <<
+
+    setw (fieldWidth) <<
+    "syllableWholeNotes" << " : " <<
+    fSyllableWholeNotes <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "syllableTupletFactor" << " : " <<
+    fSyllableTupletFactor.asString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "syllableNextMeasurePuristNumber" << " : " <<
+    fSyllableNextMeasurePuristNumber <<
+    endl;
+
+  os << left <<
     setw (fieldWidth) <<
     "syllableTextsList" << " : ";
 
@@ -594,67 +674,25 @@ void msrSyllable::print (ostream& os) const
     fSyllableTextsList,
     os);
 
-  os << left <<
-    endl <<
-    setw (fieldWidth) <<
-    "syllableKind" << " : " <<
-    syllableKindAsString (fSyllableKind) <<
-    endl;
-
   switch (fSyllableKind) { // JMI
-    case msrSyllable::kSyllableSingle:
-    case msrSyllable::kSyllableBegin:
-    case msrSyllable::kSyllableMiddle:
-    case msrSyllable::kSyllableEnd:
-    case msrSyllable::kSyllableSkip:
-      os << left <<
-        setw (fieldWidth) <<
-       "syllableWholeNotes" << " : " <<
-        syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        endl <<
-        setw (fieldWidth) <<
-       "syllableTupletFactor" << " : " <<
-        fSyllableTupletFactor.asString ();
-     break;
-
-    case kSyllableMeasureEnd:
-    /* JMI
-      // fSyllableText contains the measure number
-      os << left <<
-        endl <<
-        setw (fieldWidth) <<
-        "fSyllableTextsList [0]" << " : ";
-        "measure '" << fSyllableTextsList.front () << "'";
-        */
-      break;
-
-    case kSyllableLineBreak:
-    /* JMI
-      // fSyllableText contains the measure number
-      os << left <<
-        endl <<
-        setw (fieldWidth) <<
-        "measure '" << "fSyllableText ???" << "'";
-        */
-      break;
-
-    case kSyllablePageBreak:
-    /* JMI
-      // fSyllableText contains the measure number JMI ???
-      os << left <<
-        endl <<
-        setw (fieldWidth) <<
-        "measure '" << "fSyllableText ???" << "'";
- */
-      break;
-
-    case kSyllableNone:
+    case msrSyllable::kSyllableNone:
       msrInternalError (
         gOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
+      break;
+
+    case msrSyllable::kSyllableSingle:
+    case msrSyllable::kSyllableBegin:
+    case msrSyllable::kSyllableMiddle:
+    case msrSyllable::kSyllableEnd:
+    case msrSyllable::kSyllableOnRestNote:
+    case msrSyllable::kSyllableSkipRestNote:
+    case msrSyllable::kSyllableSkipNonRestNote:
+    case msrSyllable::kSyllableMeasureEnd:
+    case msrSyllable::kSyllableLineBreak:
+    case msrSyllable::kSyllablePageBreak:
       break;
   } // switch
   os << endl;

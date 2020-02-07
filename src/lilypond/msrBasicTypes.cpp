@@ -774,6 +774,7 @@ string wholeNotesAsMsrString (
     return "zero";
   }
   else if (numerator < 0) {
+    // sanity check
     stringstream s;
 
     s <<
@@ -13178,8 +13179,7 @@ string msrLength::asString () const
 void msrLength::print (ostream& os) const
 {
   os <<
-    asString () <<
-    endl;
+    asString (); // JMI
 };
 
 ostream& operator<< (ostream& os, const S_msrLength& elt)
@@ -13305,8 +13305,7 @@ string msrMargin::asString () const
 void msrMargin::print (ostream& os) const
 {
   os <<
-    asString () <<
-    endl;
+    asString ();
 };
 
 ostream& operator<< (ostream& os, const S_msrMargin& elt)

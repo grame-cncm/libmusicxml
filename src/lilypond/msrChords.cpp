@@ -64,7 +64,7 @@ msrChord::msrChord (
     : msrTupletElement (inputLineNumber)
 {
 // JMI  fChordSoundingWholeNotes = chordSoundingWholeNotes;
-  fSoundingWholeNotes = chordSoundingWholeNotes;
+  fMeasureElementSoundingWholeNotes = chordSoundingWholeNotes;
 
   fChordDisplayWholeNotes  = chordDisplayWholeNotes;
 
@@ -100,7 +100,7 @@ S_msrChord msrChord::createChordNewbornClone (
       msrChord::create (
         fInputLineNumber,
   // JMI      fChordSoundingWholeNotes,
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fChordDisplayWholeNotes,
         fChordGraphicDurationKind);
 
@@ -137,7 +137,7 @@ void msrChord::setChordSoundingWholeNotes (
 #endif
 
 // JMI  fChordSoundingWholeNotes = wholeNotes;
-  fSoundingWholeNotes = wholeNotes;
+  fMeasureElementSoundingWholeNotes = wholeNotes;
 }
 
 void msrChord::setChordDisplayWholeNotes (
@@ -163,7 +163,7 @@ void msrChord::setChordMembersPositionInMeasure (
   rational     positionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting chord members position in measure of " << asString () <<
       " to '" <<
@@ -173,7 +173,7 @@ void msrChord::setChordMembersPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setPositionInMeasure (
+  msrMeasureElement::setMeasureElementPositionInMeasure (
     positionInMeasure,
     "setChordMembersPositionInMeasure()");
 
@@ -309,7 +309,7 @@ void msrChord::appendArticulationToChord (S_msrArticulation art)
   } // for
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceArticulations || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceArticulations) {
     gLogOstream <<
       "Appending articulation '" <<
       art->articulationKindAsString () <<
@@ -339,7 +339,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
   } // for
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSpanners || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceSpanners) {
     gLogOstream <<
       "Appending spanner '" <<
       span->spannerKindAsString () <<
@@ -356,7 +356,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
 void msrChord::setChordSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Adding singleTremolo '" <<
       trem->asString () <<
@@ -588,7 +588,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
 void msrChord::appendBeamToChord (S_msrBeam beam)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeams || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceBeams) {
     gLogOstream <<
       "Appending beam '" <<
       beam->asString () <<
@@ -615,14 +615,14 @@ void msrChord::finalizeChord (
 #endif
 
   gLogOstream <<
-    "fPositionInMeasure = " <<
+    "fMeasureElementPositionInMeasure = " <<
     endl <<
-    fPositionInMeasure <<
+    fMeasureElementPositionInMeasure <<
     endl;
 
   // we can now set the position in measures for all the chord members
   setChordMembersPositionInMeasure (
-    fPositionInMeasure);
+    fMeasureElementPositionInMeasure);
 }
 */
 
@@ -846,7 +846,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
@@ -993,16 +993,16 @@ void msrChord::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
  // JMI   "chordSoundingWholeNotes" << " : " << fChordSoundingWholeNotes <<
-    "chordSoundingWholeNotes" << " : " << fSoundingWholeNotes <<
+    "chordSoundingWholeNotes" << " : " << fMeasureElementSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "chordDisplayWholeNotes" << " : " << fChordDisplayWholeNotes <<
     endl <<
     setw (fieldWidth) <<
-    "measureNumber" << " : " << fMeasureNumber <<
+    "measureNumber" << " : " << fMeasureElementMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fPositionInMeasure <<
+    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
     endl <<
     setw (fieldWidth) <<
     "chordMeasureFullLength" << " : " << chordMeasureFullLength <<
@@ -1013,13 +1013,13 @@ void msrChord::print (ostream& os) const
     // the chord measure upLink may not have been set yet
     rational
       chordPositionBis =
-        fPositionInMeasure;
+        fMeasureElementPositionInMeasure;
     chordPositionBis.rationalise ();
 
     if (
       chordPositionBis.getNumerator ()
         !=
-      fPositionInMeasure.getNumerator ()
+      fMeasureElementPositionInMeasure.getNumerator ()
     ) {
       // print rationalized rational view
       os << left <<
@@ -1590,7 +1590,7 @@ void msrChord::print (ostream& os) const
   // print the chord position in measure
   os <<
     setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fPositionInMeasure <<
+    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
     endl;
 
   gIndenter--;

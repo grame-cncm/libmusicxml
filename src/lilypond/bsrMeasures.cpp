@@ -115,7 +115,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceBarlines || gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending barline " <<
       barline->asShortString () <<

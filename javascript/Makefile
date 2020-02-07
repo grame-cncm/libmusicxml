@@ -167,10 +167,10 @@ obj/%.o: $(srcdir)/%.cpp
 ../src/guido/xmlpart2guido.o: ../src/guido/xml2guidovisitor.h
 ../src/guido/xmlpart2guido.o: ../src/guido/guido.h
 ../src/guido/xmlpart2guido.o: ../src/visitors/partlistvisitor.h
+../src/guido/xmlpart2guido.o: ../src/visitors/metronomevisitor.h
 ../src/guido/xmlpart2guido.o: ../src/guido/xmlpart2guido.h
 ../src/guido/xmlpart2guido.o: ../src/visitors/clefvisitor.h
 ../src/guido/xmlpart2guido.o: ../src/visitors/keysignvisitor.h
-../src/guido/xmlpart2guido.o: ../src/visitors/metronomevisitor.h
 ../src/guido/xmlpart2guido.o: ../src/visitors/timesignvisitor.h
 ../src/guido/xmlpart2guido.o: ../src/elements/xml_tree_browser.h
 ../src/guido/xmlpart2guido.o: ../src/lib/tree_browser.h ../src/lib/browser.h
@@ -247,6 +247,7 @@ obj/%.o: $(srcdir)/%.cpp
 ../src/operations/musicxmlquery.o: ../src/guido/guido.h
 ../src/operations/musicxmlquery.o: ../src/lib/smartlist.h
 ../src/operations/musicxmlquery.o: ../src/visitors/partsummary.h
+../src/operations/musicxmlquery.o: ../src/visitors/clefvisitor.h
 ../src/operations/musicxmlquery.o: ../src/interface/libmusicxml.h
 ../src/operations/musicxmlquery.o: ../src/files/xmlfile.h
 ../src/operations/musicxmlquery.o: ../src/files/xmlreader.h

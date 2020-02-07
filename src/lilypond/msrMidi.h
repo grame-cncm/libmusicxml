@@ -18,40 +18,50 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrMidi : public msrElement
+class msrMidiTempo : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrMidi> create (
+    static SMARTP<msrMidiTempo> create (
       int    inputLineNumber,
       string midiTempoDuration,
       int    midiTempoPerSecond);
 
-  protected:
+    SMARTP<msrMidiTempo> createMsrMidiTempoNewbornClone ();
+
+  public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMidi (
+    msrMidiTempo (
       int    inputLineNumber,
       string midiTempoDuration,
       int    midiTempoPerSecond);
-      
-    virtual ~msrMidi ();
-  
+
+    msrMidiTempo ();
+
+    virtual ~msrMidiTempo ();
+
   public:
 
     // set and get
     // ------------------------------------------------------
+    void                  setMidiTempoDuration (string value)
+                              { fMidiTempoDuration = value; }
+
     string                getMidiTempoDuration () const
                               { return fMidiTempoDuration; }
+
+    void                  setMidiTempoPerSecond (int value)
+                              { fMidiTempoPerSecond = value; }
 
     int                   getMidiTempoPerSecond () const
                               { return fMidiTempoPerSecond; }
@@ -84,8 +94,8 @@ class msrMidi : public msrElement
     string                fMidiTempoDuration;
     int                   fMidiTempoPerSecond;
 };
-typedef SMARTP<msrMidi> S_msrMidi;
-EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
+typedef SMARTP<msrMidiTempo> S_msrMidiTempo;
+EXP ostream& operator<< (ostream& os, const S_msrMidiTempo& elt);
 
 
 } // namespace MusicXML2

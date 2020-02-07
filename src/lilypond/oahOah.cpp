@@ -213,7 +213,7 @@ string oahOptionalValuesStyleKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahOptionalValuesStyleKindAtom::asLongNamedOptionString () const
+string oahOptionalValuesStyleKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 

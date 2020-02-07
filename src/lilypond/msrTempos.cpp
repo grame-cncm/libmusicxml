@@ -1043,7 +1043,7 @@ msrTempo::msrTempo (
 
   fTempoPlacementKind = kPlacementAbove;
 
-  fPendingWordsList.push_back (tempoWords);
+  fTempoWordsList.push_back (tempoWords);
 }
 
 msrTempo::msrTempo (
@@ -1252,6 +1252,23 @@ string msrTempo::tempoRelationKindAsString (
   return result;
 }
 
+string msrTempo::tempoWordsListAsString (string separator) const
+{
+  string result;
+
+  list<S_msrWords>::const_iterator
+    iBegin = fTempoWordsList.begin (),
+    iEnd   = fTempoWordsList.end (),
+    i      = iBegin;
+  for ( ; ; ) {
+    result += (*i)->getWordsContents ();
+    if (++i == iEnd) break;
+    result += separator;
+  } // for
+
+  return result;
+}
+
 string msrTempo::asString () const
 {
   stringstream s;
@@ -1259,12 +1276,12 @@ string msrTempo::asString () const
   s <<
     "Tempo" <<
     ", tempoKind: " << tempoKindAsString (fTempoKind) <<
-    ", wordsList: ";
+    ", tempoWordsList: ";
 
-  if (fPendingWordsList.size ()) {
+  if (fTempoWordsList.size ()) {
     list<S_msrWords>::const_iterator
-      iBegin = fPendingWordsList.begin (),
-      iEnd   = fPendingWordsList.end (),
+      iBegin = fTempoWordsList.begin (),
+      iEnd   = fTempoWordsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       s << (*i);
@@ -1305,14 +1322,14 @@ void msrTempo::print (ostream& os) const
     setw (fieldWidth) <<
     "tempoWords";
 
-  if (fPendingWordsList.size ()) {
+  if (fTempoWordsList.size ()) {
     os << endl;
 
     gIndenter++;
 
     list<S_msrWords>::const_iterator
-      iBegin = fPendingWordsList.begin (),
-      iEnd   = fPendingWordsList.end (),
+      iBegin = fTempoWordsList.begin (),
+      iEnd   = fTempoWordsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);

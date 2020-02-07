@@ -286,7 +286,7 @@ class msrVoice : public msrElement
 
     void                  backupByWholeNotesStepLengthInVoice (
                             int      inputLineNumber,
-                            rational backupTargetPositionInMeasure);
+                            rational backupTargetMeasureElementPositionInMeasure);
 
     // clef, key, time
 
@@ -725,6 +725,11 @@ class msrVoice : public msrElement
     void                  appendHarmonyToHarmonyVoice (
                             S_msrHarmony harmony);
 
+    // figured basses
+
+    void                  appendFiguredBassToFiguredBassVoice (
+                            S_msrFiguredBass figuredBass);
+
     // repeats
 
     S_msrRepeat           createARepeatAndStackIt (
@@ -1048,6 +1053,10 @@ class msrVoice : public msrElement
 
     // private work services
     // ------------------------------------------------------
+
+    void                  displayVoiceRepeatsStackSummary (
+                            int    inputLineNumber,
+                            string context);
 
     void                  displayVoiceRepeatsStack (
                             int    inputLineNumber,

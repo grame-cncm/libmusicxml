@@ -129,14 +129,14 @@ msrNote::msrNote (
   : msrTupletElement (inputLineNumber),
     fNoteColor ("", "")
 {
-  fMeasureNumber = noteMeasureNumber;
+  fMeasureElementMeasureNumber = noteMeasureNumber;
 
   // basic note description
   fNoteKind = noteKind;
 
   fNoteQuarterTonesPitchKind  = noteQuarterTonesPitchKind;
 
-  fSoundingWholeNotes = noteSoundingWholeNotes;
+  fMeasureElementSoundingWholeNotes = noteSoundingWholeNotes;
   fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
 
   fNoteDotsNumber = noteDotsNumber;
@@ -234,8 +234,8 @@ void msrNote::initializeNote ()
     gLogOstream <<
       left <<
         setw (fieldWidth) <<
-        "fSoundingWholeNotes" << " = " <<
-        fSoundingWholeNotes <<
+        "fMeasureElementSoundingWholeNotes" << " = " <<
+        fMeasureElementSoundingWholeNotes <<
         endl;
 
     gLogOstream <<
@@ -403,15 +403,7 @@ msrNote::~msrNote ()
 void msrNote::setNoteKind (msrNoteKind noteKind)
 {
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-      ||
-    gTraceOah->fTraceTuplets
-      ||
-    gTraceOah->fTraceGraceNotes
-  ) {
+  if (gTraceOah->fTraceNotes) {
     gLogOstream <<
       "Setting the kind of note '" <<
       asString () <<
@@ -429,7 +421,7 @@ void msrNote::setNoteSoundingWholeNotes (
   rational wholeNotes)
 {
 // JMI  fNoteSoundingWholeNotes = wholeNotes;
-  fSoundingWholeNotes = wholeNotes;
+  fMeasureElementSoundingWholeNotes = wholeNotes;
 
   // is wholeNotes the shortest one in this voice?
 /* JMI
@@ -476,13 +468,13 @@ S_msrNote msrNote::createNoteNewbornClone (
     newbornClone =
       msrNote::create (
         fInputLineNumber,
-        fMeasureNumber,
+        fMeasureElementMeasureNumber,
 
         fNoteKind,
 
         fNoteQuarterTonesPitchKind,
 
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fNoteDisplayWholeNotes,
 
         fNoteDotsNumber,
@@ -731,13 +723,13 @@ S_msrNote msrNote::createNoteDeepCopy (
     noteDeepCopy =
       msrNote::create (
         fInputLineNumber,
-        fMeasureNumber,
+        fMeasureElementMeasureNumber,
 
         fNoteKind,
 
         fNoteQuarterTonesPitchKind,
 
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fNoteDisplayWholeNotes,
 
         fNoteDotsNumber,
@@ -1176,11 +1168,11 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   noteDeepCopy->
-    fMeasureNumber =
-      fMeasureNumber;
+    fMeasureElementMeasureNumber =
+      fMeasureElementMeasureNumber;
   noteDeepCopy->
-    fPositionInMeasure =
-      fPositionInMeasure;
+    fMeasureElementPositionInMeasure =
+      fMeasureElementPositionInMeasure;
 
   noteDeepCopy->
     fNoteOccupiesAFullMeasure =
@@ -1417,7 +1409,7 @@ void msrNote::setNotePositionInMeasure (
   rational positionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceForTests) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting note position in measure of " << asString () <<
       " to '" <<
@@ -1431,7 +1423,7 @@ void msrNote::setNotePositionInMeasure (
 
   positionInMeasure.rationalise (); // TEMP ? JMI
 
-  msrMeasureElement::setPositionInMeasure (
+  msrMeasureElement::setMeasureElementPositionInMeasure (
     positionInMeasure,
     "setNotePositionInMeasure()");
 
@@ -1462,13 +1454,13 @@ string msrNote::noteSoundingWholeNotesAsMsrString () const
 {
   string result;
 
-  if (fSoundingWholeNotes.getNumerator () == 0)
+  if (fMeasureElementSoundingWholeNotes.getNumerator () == 0)
     result = " (no sounding whole notes)";
   else
     result =
       wholeNotesAsMsrString (
         fInputLineNumber,
-        fSoundingWholeNotes);
+        fMeasureElementSoundingWholeNotes);
 
   return result;
   }
@@ -1928,7 +1920,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   */
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
@@ -1941,16 +1933,16 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 #endif
 
   // the display whole notes are known, compute the sounding ones
-  fSoundingWholeNotes =
+  fMeasureElementSoundingWholeNotes =
     fNoteDisplayWholeNotes
       *
     normalNotes
       /
     actualNotes;
-  fSoundingWholeNotes.rationalise ();
+  fMeasureElementSoundingWholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
       "The result is: '" <<
       asShortString () <<
@@ -1962,7 +1954,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 void msrNote::appendBeamToNote (S_msrBeam beam)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeams || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceBeams) {
     gLogOstream <<
       "Adding beam '" <<
       beam->asShortString () <<
@@ -1979,7 +1971,7 @@ void msrNote::appendBeamToNote (S_msrBeam beam)
 void msrNote::appendArticulationToNote (S_msrArticulation art)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceArticulations || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceArticulations) {
     gLogOstream <<
       "Adding articulation '" <<
       art->asShortString () <<
@@ -1996,7 +1988,7 @@ void msrNote::appendArticulationToNote (S_msrArticulation art)
 void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSpanners || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceSpanners) {
     gLogOstream <<
       "Adding spanner '" <<
       spanner->spannerKindAsString () <<
@@ -2036,7 +2028,7 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 void msrNote::appendTechnicalToNote (S_msrTechnical technical)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+  if (gTraceOah->fTraceTechnicals) {
     gLogOstream <<
       "Adding technical '" <<
       technical->asString () <<
@@ -2054,7 +2046,7 @@ void msrNote::appendTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+  if (gTraceOah->fTraceTechnicals) {
     gLogOstream <<
       "Adding technical with integer '" <<
       technicalWithInteger->asString () <<
@@ -2073,7 +2065,7 @@ void msrNote::appendTechnicalWithFloatToNote (
   S_msrTechnicalWithFloat technicalWithFloat)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+  if (gTraceOah->fTraceTechnicals) {
     gLogOstream <<
       "Adding technical with float '" <<
       technicalWithFloat->asString () <<
@@ -2092,7 +2084,7 @@ void msrNote::appendTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+  if (gTraceOah->fTraceTechnicals) {
     gLogOstream <<
       "Adding technical with string'" <<
       technicalWithString->asString () <<
@@ -2110,7 +2102,7 @@ void msrNote::appendTechnicalWithStringToNote (
 void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOrnaments || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceOrnaments) {
     gLogOstream <<
       "Adding ornament '" <<
       ornament->asString () <<
@@ -2153,7 +2145,7 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGlissandos || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceGlissandos) {
     gLogOstream <<
       "Adding glissando '" <<
       glissando->asShortString () <<
@@ -2171,7 +2163,7 @@ void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 void msrNote::appendSlideToNote (S_msrSlide slide)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSlides || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceSlides) {
     gLogOstream <<
       "Adding slide '" <<
       slide->asShortString () <<
@@ -2190,7 +2182,7 @@ void msrNote::setNoteGraceNotesGroupBefore (
   S_msrGraceNotesGroup graceNotesGroupBefore)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Attaching grace notes group '" <<
       graceNotesGroupBefore->asString () <<
@@ -2214,7 +2206,7 @@ void msrNote::setNoteGraceNotesGroupAfter (
   S_msrGraceNotesGroup graceNotesGroupAfter)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Attaching grace notes group '" <<
       graceNotesGroupAfter->asString () <<
@@ -2238,7 +2230,7 @@ void msrNote::setNoteGraceNotesGroupAfter (
 void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesGroup)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Attaching afterGraceNotesGroup '" << afterGraceNotesGroup->asString () <<
       "' to note '" << asShortString () <<
@@ -2255,7 +2247,7 @@ void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesG
 void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Adding singleTremolo '" << trem->asString () <<
       "' to note '" << asString () <<
@@ -2271,7 +2263,7 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceDynamics || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceDynamics) {
     gLogOstream <<
       "Attaching dynamics '" <<
       dynamics->asString () <<
@@ -2297,7 +2289,7 @@ void msrNote::appendWordsToNote (S_msrWords words)
 void msrNote::appendSlurToNote (S_msrSlur slur)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSlurs || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceSlurs) {
     gLogOstream <<
       "Adding slur '" << slur <<
       "' to note '" << asString () << "'" <<
@@ -2311,7 +2303,7 @@ void msrNote::appendSlurToNote (S_msrSlur slur)
 void msrNote::appendLigatureToNote (S_msrLigature ligature)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceLigatures) {
     gLogOstream <<
       "Appending ligature " << ligature << " to note " << asString () <<
        endl;
@@ -2330,7 +2322,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
       // and a 'ligature stop' in sequence, ignore both
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+      if (gTraceOah->fTraceLigatures) {
         stringstream s;
 
         s <<
@@ -2373,7 +2365,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
 void msrNote::appendPedalToNote (S_msrPedal pedal)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePedals || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTracePedals) {
     gLogOstream <<
       "Appending pedal " << pedal << " to note " << asString () <<
        endl;
@@ -2390,7 +2382,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
       // and a 'pedal stop' in sequence, ignore both            // JMI ???
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTracePedals || gTraceOah->fTraceNotes) {
+      if (gTraceOah->fTracePedals) {
         stringstream s;
 
         s <<
@@ -2432,7 +2424,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
 void msrNote::appendSlashToNote (S_msrSlash slash)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSlashes || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceSlashes) {
     gLogOstream <<
       "Appending slash '" <<
       slash <<
@@ -2484,7 +2476,7 @@ void msrNote::appendScordaturaToNote (S_msrScordatura scordatura)
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceDynamics || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceDynamics) {
     gLogOstream <<
       "Removing first dynamics from note '" <<
       asShortString () <<
@@ -2507,7 +2499,7 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 S_msrWedge msrNote::removeFirstWedge () // JMI
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceDynamics || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceWedges) {
     gLogOstream <<
       "Removing first wedge from note '" <<
       asShortString () <<
@@ -2528,7 +2520,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceLyrics || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending syllable '" <<
       syllable->asString () <<
@@ -2544,13 +2536,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 void msrNote::appendNoteToNoteHarmoniesList (S_msrHarmony harmony)
 {
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceHarmonies
-      ||
-    gTraceOah->fTracePositionsInMeasures
-  ) {
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Append harmony " <<
       harmony->asString () <<
@@ -2573,7 +2559,7 @@ void msrNote::appendNoteToNoteHarmoniesList (S_msrHarmony harmony)
 void msrNote::setNoteFrame (S_msrFrame frame)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceHarmonies) {
+  if (gTraceOah->fTraceFrames) {
     gLogOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " frame to '" << frame->asString () << "'" <<
@@ -2587,7 +2573,7 @@ void msrNote::setNoteFrame (S_msrFrame frame)
 void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceHarmonies) {
+  if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " figured bass to '" << figuredBass->asString () << "'" <<
@@ -3071,7 +3057,7 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
   return
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fSoundingWholeNotes
+      fMeasureElementSoundingWholeNotes
         *
       rational (actualNotes, normalNotes));
 }
@@ -3104,7 +3090,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3115,7 +3101,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "Skip note" <<
         ":" <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3127,7 +3113,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "Unpitched note" <<
         ":" <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3141,7 +3127,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3155,7 +3141,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3194,7 +3180,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3214,7 +3200,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
       s <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3234,7 +3220,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
       s <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3245,7 +3231,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "TupletMemberUnpitched note " <<
         noteGraphicDurationAsMsrString () <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3348,7 +3334,7 @@ string msrNote::asShortString () const
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " display";
@@ -3356,7 +3342,7 @@ string msrNote::asShortString () const
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fSoundingWholeNotes,
+            fMeasureElementSoundingWholeNotes,
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ());
             */
@@ -3372,7 +3358,7 @@ string msrNote::asShortString () const
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " display";
@@ -3380,7 +3366,7 @@ string msrNote::asShortString () const
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fSoundingWholeNotes,
+            fMeasureElementSoundingWholeNotes,
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ());
             */
@@ -3395,7 +3381,7 @@ string msrNote::asShortString () const
       s <<
         "TupletMemberUnpitchedNote" <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3403,7 +3389,7 @@ string msrNote::asShortString () const
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fSoundingWholeNotes,
+            fMeasureElementSoundingWholeNotes,
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ());
             */
@@ -3439,7 +3425,7 @@ string msrNote::asString () const
           /* JMI
           multipleRestMeasuresWholeNotesAsMsrString (
             fInputLineNumber,
-            fSoundingWholeNotes);
+            fMeasureElementSoundingWholeNotes);
             */
           noteSoundingWholeNotesAsMsrString ();
       }
@@ -3456,7 +3442,7 @@ string msrNote::asString () const
         ", octave" " "<< noteDisplayOctaveAsString () <<
         ")" <<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed" <<
@@ -3531,7 +3517,7 @@ string msrNote::asString () const
         "chordMemberNote '"<<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
- // JMI       ", " << fSoundingWholeNotes << " sounding whole notes, " <<
+ // JMI       ", " << fMeasureElementSoundingWholeNotes << " sounding whole notes, " <<
         "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
 
@@ -3539,7 +3525,7 @@ string msrNote::asString () const
       s <<
         "tupletMemberNote '"<<
         notePitchAsString () <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         "' sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3547,7 +3533,7 @@ string msrNote::asString () const
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fSoundingWholeNotes,
+            fMeasureElementSoundingWholeNotes,
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
@@ -3562,7 +3548,7 @@ string msrNote::asString () const
       s <<
         "graceTupletMemberNote '"<<
         notePitchAsString () <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3570,7 +3556,7 @@ string msrNote::asString () const
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fSoundingWholeNotes,
+            fMeasureElementSoundingWholeNotes,
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
@@ -3585,7 +3571,7 @@ string msrNote::asString () const
       s <<
         "tupletMemberUnpitchedNote "<<
         ", whole notes: " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
@@ -3593,7 +3579,7 @@ string msrNote::asString () const
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
             fInputLineNumber,
-            fSoundingWholeNotes,
+            fMeasureElementSoundingWholeNotes,
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
@@ -3602,24 +3588,24 @@ string msrNote::asString () const
 
   s << left <<
     ", measureNumber: ";
-  if (fMeasureNumber == K_NO_MEASURE_NUMBER) {
+  if (fMeasureElementMeasureNumber == K_NO_MEASURE_NUMBER) {
     s << "unknown";
   }
   else {
-    s << fMeasureNumber;
+    s << fMeasureElementMeasureNumber;
   }
 
   s << left <<
     ", positionInMeasure: ";
     /* JMI
-  if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
-    s << "unknown (" << fPositionInMeasure << ")";
+  if (fMeasureElementPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
+    s << "unknown (" << fMeasureElementPositionInMeasure << ")";
   }
   else {
-    s << fPositionInMeasure;
+    s << fMeasureElementPositionInMeasure;
   }
   */
-  s << fPositionInMeasure;
+  s << fMeasureElementPositionInMeasure;
 
   if (fNoteOccupiesAFullMeasure) {
     s <<
@@ -3691,13 +3677,13 @@ void msrNote::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "noteMeasureNumber" << " : ";
-  if (fMeasureNumber == K_NO_MEASURE_NUMBER) {
+  if (fMeasureElementMeasureNumber == K_NO_MEASURE_NUMBER) {
     os <<
       "unknown";
   }
-  else if (fMeasureNumber.size ()) {
+  else if (fMeasureElementMeasureNumber.size ()) {
     os <<
-      fMeasureNumber;
+      fMeasureElementMeasureNumber;
   }
   else {
     stringstream s;
@@ -3720,14 +3706,14 @@ void msrNote::print (ostream& os) const
     setw (fieldWidth) <<
     "positionInMeasure" << " : ";
     /* JMI
-  if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
-    os << "unknown (" << fPositionInMeasure << ")";
+  if (fMeasureElementPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
+    os << "unknown (" << fMeasureElementPositionInMeasure << ")";
   }
   else {
-    os << fPositionInMeasure;
+    os << fMeasureElementPositionInMeasure;
   }
   */
-  os << fPositionInMeasure;
+  os << fMeasureElementPositionInMeasure;
   os << endl;
 
   // print note measure uplink
@@ -3821,7 +3807,7 @@ void msrNote::print (ostream& os) const
       os << left <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         endl <<
         setw (fieldWidth) <<
         "noteDisplayWholeNotes" << " : " <<
@@ -3844,7 +3830,7 @@ void msrNote::print (ostream& os) const
       os <<
         setw (fieldWidth) <<
         "noteSoundingWholeNotes" << " : " <<
-        fSoundingWholeNotes <<
+        fMeasureElementSoundingWholeNotes <<
         endl <<
         setw (fieldWidth) <<
         "noteDisplayWholeNotes" << " : " <<

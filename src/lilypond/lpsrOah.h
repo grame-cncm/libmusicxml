@@ -91,7 +91,7 @@ class lpsrScoreOutputKindAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -182,7 +182,7 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -274,7 +274,7 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -366,7 +366,7 @@ class lpsrTransposeAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     string                asShortNamedOptionString () const;
-    string                asLongNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
 
     void                  print (ostream& os) const;
 
@@ -550,11 +550,15 @@ class lpsrOah : public oahGroup
     msrLengthUnitKind     fLengthUnitKind;
     msrLengthUnitKind     fLengthUnitKindDefaultValue;
 
-    msrLength             fPaperWidth;
     msrLength             fPaperHeight;
+    msrLength             fPaperWidth;
 
+    // indents
+    msrLength             fPaperHorizontalShift;
     msrLength             fPaperIndent;
     msrLength             fPaperShortIndent;
+
+    msrLength             fMarkupSystemSpacingPadding;
 
     bool                  fRaggedBottom;
     bool                  fRaggedLastBottom;
@@ -563,6 +567,7 @@ class lpsrOah : public oahGroup
 
     int                   fPageCount;   // negative if not specified
     int                   fSystemCount; // negative if not specified
+
 
     // measures
     // --------------------------------------
@@ -581,6 +586,14 @@ class lpsrOah : public oahGroup
     bool                  fConvertWordsToTempo;
     // add words from the lyrics
     bool                  fAddWordsFromTheLyrics;
+
+    // rehearsal marks
+    // --------------------------------------
+
+    // convert tempos to rehearsal marks
+    bool                  fConvertTemposToRehearsalMarks;
+    // convert words to rehearsal marks
+    bool                  fConvertWordsToRehearsalMarks;
 
     // languages
     // --------------------------------------

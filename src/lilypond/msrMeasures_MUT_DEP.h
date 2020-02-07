@@ -110,11 +110,11 @@ class msrMeasure : public msrElement
 
     // measure numbers
 
-    void                  setMeasureNumber (string measureNumber)
-                              { fMeasureNumber = measureNumber; }
+    void                  setMeasureElementMeasureNumber (string measureNumber)
+                              { fMeasureElementMeasureNumber = measureNumber; }
 
-    string                getMeasureNumber () const
-                              { return fMeasureNumber; }
+    string                getMeasureElementMeasureNumber () const
+                              { return fMeasureElementMeasureNumber; }
 
     void                  setMeasurePuristNumber (
                             int measurePuristNumber);
@@ -241,7 +241,7 @@ class msrMeasure : public msrElement
 
     // upLinks
 
-    S_msrPart             fetchMeasurePartUpLink () const;
+    S_msrPart             fetchMeasurePartUpLink () const; // JMI ???
 
     S_msrVoice            fetchMeasureVoiceUpLink () const;
 
@@ -264,7 +264,7 @@ class msrMeasure : public msrElement
 
     void                  backupByWholeNotesStepLengthInMeasure (
                             int      inputLineNumber,
-                            rational backupTargetPositionInMeasure);
+                            rational backupTargetMeasureElementPositionInMeasure);
 
     void                  appendPaddingNoteToMeasure (
                             int      inputLineNumber,
@@ -587,7 +587,7 @@ class msrMeasure : public msrElement
 
     // measure numbers, shared by newborn clones and deep copies
 
-    string                fMeasureNumber;
+    string                fMeasureElementMeasureNumber;
     string                fNextMeasureNumber;
 
     // first measure in voice?
@@ -671,7 +671,7 @@ class msrMeasure : public msrElement
                             S_msrHarmony currentHarmony,
                             rational     currentHarmonyPositionInMeasure);
 
-    void                  postHandleLastHarmonyInHarmonyMeasure (
+    void                  postHandleCurrentHarmonyInHarmonyMeasure (
                             int          inputLineNumber,
                             S_msrVoice   voice,
                             S_msrHarmony currentHarmony);
