@@ -65,11 +65,9 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_oahStringWithDefaultValueAtom>,
 
-  public visitor<oahNaturalNumbersSetElementAtom>,
   public visitor<oahNaturalNumbersSetAtom>,
 
-  public visitor<S_oahStringsSetElementAtom>,
-  public visitor<S_oahStringsSetAtom>,
+  public visitor<S_oahStringSetAtom>,
 
   public visitor<S_oahRGBColorAtom>,
 
@@ -154,15 +152,11 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
     virtual void visitStart (S_oahStringWithDefaultValueAtom& elt);
     virtual void visitEnd   (S_oahStringWithDefaultValueAtom& elt);
 
-    virtual void visitStart (S_oahNaturalNumbersSetElementAtom& elt);
-    virtual void visitEnd   (S_oahNaturalNumbersSetElementAtom& elt);
     virtual void visitStart (S_oahNaturalNumbersSetAtom& elt);
     virtual void visitEnd   (S_oahNaturalNumbersSetAtom& elt);
 
-    virtual void visitStart (S_oahStringsSetElementAtom& elt);
-    virtual void visitEnd   (S_oahStringsSetElementAtom& elt);
-    virtual void visitStart (S_oahStringsSetAtom& elt);
-    virtual void visitEnd   (S_oahStringsSetAtom& elt);
+    virtual void visitStart (S_oahStringSetAtom& elt);
+    virtual void visitEnd   (S_oahStringSetAtom& elt);
 
     virtual void visitStart (S_oahRGBColorAtom& elt);
     virtual void visitEnd   (S_oahRGBColorAtom& elt);

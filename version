@@ -15,17 +15,17 @@ fi
 ROOT=.
 VERSION=$1
 
-echo "moving version number to $VERSION"
-CMAKE=$ROOT/build/CMakeLists.txt
-echo " updating $CMAKE"
-sed "s/VERSION *[1-9]\.[0-9][0-9]+/VERSION $VERSION/" $CMAKE \
-	| sed "s/v\.[1-9]\.[0-9][0-9]+/v.$VERSION/" \
-	| sed "s/\"[1-9]\.[0-9][0-9]+\"/\"$VERSION\"/"  > TMP$$ 
-mv -f TMP$$ $CMAKE
+# echo "moving version number to $VERSION"
+# CMAKE=$ROOT/build/CMakeLists.txt
+# echo " updating $CMAKE"
+# sed "s/VERSION *[1-9]\.[0-9][0-9]+/VERSION $VERSION/" $CMAKE \
+# 	| sed "s/v\.[1-9]\.[0-9][0-9]+/v.$VERSION/" \
+# 	| sed "s/\"[1-9]\.[0-9][0-9]+\"/\"$VERSION\"/"  > TMP$$ 
+# mv -f TMP$$ $CMAKE
 
 MAKE=$ROOT/build/Makefile
 echo " updating $MAKE"
-sed "s/VERSION *= *[1-9]\.[0-9][0-9]/VERSION = $VERSION/" $MAKE
+sed "s/VERSION *= *[1-9]\.[0-9][0-9]*/VERSION = $VERSION/" $MAKE  > TMP$$
 mv -f TMP$$ $MAKE
 
 DOXY=$ROOT/doc/Doxyfile
@@ -38,12 +38,12 @@ echo " updating $PKG"
 sed "s/\(VERSION *:= *\)[0-9]*\.[0-9]*/\1$VERSION/" $PKG > TMP$$
 mv -f TMP$$ $PKG
 
-NPM=$ROOT/javascript/npm/package.json
-echo " updating $NPM"
-sed "s/\(\"version\": \"\)[0-9]*\.[0-9]*\.[0-9]*/\1$VERSION/" $NPM > TMP$$
-mv -f TMP$$ $NPM
+# NPM=$ROOT/javascript/npm/package.json
+# echo " updating $NPM"
+# sed "s/\(\"version\": \"\)[0-9]*\.[0-9]*\.[0-9]*/\1$VERSION/" $NPM > TMP$$
+# mv -f TMP$$ $NPM
 
 echo "==> change manually info.plist, rc files in win32 folder and AndroiManifest"
-open -t $ROOT/src/elements/versions.cpp $ROOT/win32/libmusicxml/libmusicxml.rc
+open -t $ROOT/src/elements/versions.cpp $ROOT/win32/libmusicxml/libmusicxml.rc $ROOT/build/CMakeLists.txt $ROOT/javascript/npm/package.json
 
 exit 0

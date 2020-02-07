@@ -25,13 +25,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msrMidi msrMidi::create (
+S_msrMidiTempo msrMidiTempo::create (
   int    inputLineNumber,
   string midiTempoDuration,
   int    midiTempoPerSecond)
 {
-  msrMidi* o =
-    new msrMidi (
+  msrMidiTempo* o =
+    new msrMidiTempo (
       inputLineNumber,
       midiTempoDuration,
       midiTempoPerSecond);
@@ -39,7 +39,7 @@ S_msrMidi msrMidi::create (
   return o;
 }
 
-msrMidi::msrMidi (
+msrMidiTempo::msrMidiTempo (
   int    inputLineNumber,
   string midiTempoDuration,
   int    midiTempoPerSecond)
@@ -49,57 +49,76 @@ msrMidi::msrMidi (
   fMidiTempoPerSecond = midiTempoPerSecond;
 }
 
-msrMidi::~msrMidi ()
+msrMidiTempo::msrMidiTempo ()
+    : msrElement (0)
+{
+  fMidiTempoDuration = "4";
+  fMidiTempoPerSecond = 90;
+}
+
+msrMidiTempo::~msrMidiTempo ()
 {}
 
-void msrMidi::acceptIn (basevisitor* v)
+S_msrMidiTempo msrMidiTempo::createMsrMidiTempoNewbornClone ()
+{
+  S_msrMidiTempo
+    newbornClone =
+      msrMidiTempo::create (
+        fInputLineNumber,
+        fMidiTempoDuration,
+        fMidiTempoPerSecond);
+
+  return newbornClone;
+}
+
+void msrMidiTempo::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrMidi::acceptIn ()" <<
+      "% ==> msrMidiTempo::acceptIn ()" <<
       endl;
   }
 
-  if (visitor<S_msrMidi>*
+  if (visitor<S_msrMidiTempo>*
     p =
-      dynamic_cast<visitor<S_msrMidi>*> (v)) {
-        S_msrMidi elem = this;
+      dynamic_cast<visitor<S_msrMidiTempo>*> (v)) {
+        S_msrMidiTempo elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrMidi::visitStart ()" <<
+            "% ==> Launching msrMidiTempo::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrMidi::acceptOut (basevisitor* v)
+void msrMidiTempo::acceptOut (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrMidi::acceptOut ()" <<
+      "% ==> msrMidiTempo::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrMidi>*
+  if (visitor<S_msrMidiTempo>*
     p =
-      dynamic_cast<visitor<S_msrMidi>*> (v)) {
-        S_msrMidi elem = this;
+      dynamic_cast<visitor<S_msrMidiTempo>*> (v)) {
+        S_msrMidiTempo elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrMidi::visitEnd ()" <<
+            "% ==> Launching msrMidiTempo::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrMidi::browseData (basevisitor* v)
+void msrMidiTempo::browseData (basevisitor* v)
 {}
 
-void msrMidi::print (ostream& os) const
+void msrMidiTempo::print (ostream& os) const
 {
   os << "Midi" << endl;
 
@@ -119,7 +138,7 @@ void msrMidi::print (ostream& os) const
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrMidi& elt)
+ostream& operator<< (ostream& os, const S_msrMidiTempo& elt)
 {
   elt->print (os);
   return os;

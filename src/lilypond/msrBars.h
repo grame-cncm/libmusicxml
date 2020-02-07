@@ -180,8 +180,10 @@ class msrBarline : public msrMeasureElement
     // location
     enum msrBarlineLocationKind {
       kBarlineLocationNone,
-      kBarlineLocationLeft, kBarlineLocationMiddle, kBarlineLocationRight };
-        // kBarlineLocationRight by default
+
+      kBarlineLocationLeft,
+      kBarlineLocationMiddle,
+      kBarlineLocationRight }; // by default
 
     static string barlineLocationKindAsString (
       msrBarlineLocationKind barlineLocationKind);
@@ -189,7 +191,9 @@ class msrBarline : public msrMeasureElement
     // style
     enum msrBarlineStyleKind {
       kBarlineStyleNone,
+
       kBarlineStyleRegular,  // by default
+
       kBarlineStyleDotted, kBarlineStyleDashed, kBarlineStyleHeavy,
       kBarlineStyleLightLight, kBarlineStyleLightHeavy,
       kBarlineStyleHeavyLight, kBarlineStyleHeavyHeavy,
@@ -197,14 +201,6 @@ class msrBarline : public msrMeasureElement
 
     static string barlineStyleKindAsString (
       msrBarlineStyleKind barlineStyleKind);
-
-    // ending type
-    enum msrBarlineEndingTypeKind {
-      kBarlineEndingNone,
-      kBarlineEndingTypeStart, kBarlineEndingTypeStop, kBarlineEndingTypeDiscontinue };
-
-    static string barlineEndingTypeKindAsString (
-      msrBarlineEndingTypeKind barlineEndingTypeKind);
 
     // repeat direction
     enum msrBarlineRepeatDirectionKind {
@@ -214,20 +210,25 @@ class msrBarline : public msrMeasureElement
     static string barlineRepeatDirectionKindAsString (
       msrBarlineRepeatDirectionKind barlineRepeatDirectionKind);
 
-    // repeat winged
-    enum msrBarlineRepeatWingedKind {
-      kBarlineRepeatWingedNone,
-      kBarlineRepeatWingedStraight, kBarlineRepeatWingedCurved,
-      kBarlineRepeatWingedDoubleStraight, kBarlineRepeatWingedDoubleCurved };
+    // ending type
+    enum msrBarlineEndingTypeKind {
+      kBarlineEndingNone,
 
-    static string barlineRepeatWingedKindAsString (
-      msrBarlineRepeatWingedKind barlineRepeatWingedKind);
+      kBarlineEndingTypeStart,
+      kBarlineEndingTypeStop,
+      kBarlineEndingTypeDiscontinue };
+
+    static string barlineEndingTypeKindAsString (
+      msrBarlineEndingTypeKind barlineEndingTypeKind);
 
     // category
     enum msrBarlineCategoryKind {
       k_NoBarlineCategory,
+
       kBarlineCategoryStandalone,
+
       kBarlineCategoryRepeatStart, kBarlineCategoryRepeatEnd,
+
       kBarlineCategoryHookedEndingStart, kBarlineCategoryHookedEndingEnd,
       kBarlineCategoryHooklessEndingStart, kBarlineCategoryHooklessEndingEnd };
 
@@ -248,21 +249,31 @@ class msrBarline : public msrMeasureElement
     static string barlineHasCodaKindAsString (
       msrBarlineHasCodaKind barlineHasCodaKind);
 
+    // repeat winged
+    enum msrBarlineRepeatWingedKind {
+      kBarlineRepeatWingedNone,
+
+      kBarlineRepeatWingedStraight, kBarlineRepeatWingedCurved,
+      kBarlineRepeatWingedDoubleStraight, kBarlineRepeatWingedDoubleCurved };
+
+    static string barlineRepeatWingedKindAsString (
+      msrBarlineRepeatWingedKind barlineRepeatWingedKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrBarline> create (
       int                           inputLineNumber,
+      msrBarlineLocationKind        barlineLocationKind,
+      msrBarlineStyleKind           barlineStyleKind,
+      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+      msrBarlineEndingTypeKind      barlineEndingTypeKind,
+      string                        endingNumber,
+      int                           barlineTimes,
       msrBarlineCategoryKind        barlineCategoryKind,
       msrBarlineHasSegnoKind        barlineHasSegnoKind,
       msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineLocationKind        barlineLocationKind,
-      msrBarlineStyleKind           barlineStyleKind,
-      msrBarlineEndingTypeKind      barlineEndingTypeKind,
-      string                        endingNumber,
-      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
-      msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
-      int                           barlineTimes);
+      msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
 
   protected:
 
@@ -271,16 +282,16 @@ class msrBarline : public msrMeasureElement
 
     msrBarline (
       int                           inputLineNumber,
+      msrBarlineLocationKind        barlineLocationKind,
+      msrBarlineStyleKind           barlineStyleKind,
+      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+      msrBarlineEndingTypeKind      barlineEndingTypeKind,
+      string                        endingNumber,
+      int                           barlineTimes,
       msrBarlineCategoryKind        barlineCategoryKind,
       msrBarlineHasSegnoKind        barlineHasSegnoKind,
       msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineLocationKind        barlineLocationKind,
-      msrBarlineStyleKind           barlineStyleKind,
-      msrBarlineEndingTypeKind      barlineEndingTypeKind,
-      string                        endingNumber,
-      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
-      msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
-      int                           barlineTimes);
+      msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
 
     virtual ~msrBarline ();
 
@@ -289,25 +300,12 @@ class msrBarline : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    msrBarlineHasSegnoKind
-                          getBarlineHasSegnoKind () const
-                              { return fBarlineHasSegnoKind; }
-    msrBarlineHasCodaKind getBarlineHasCodaKind () const
-                              { return fBarlineHasCodaKind; }
-
     msrBarlineLocationKind
                           getLocation () const // JMI
                               { return fLocationKind; }
 
     msrBarlineStyleKind   getBarlineStyleKind () const
                               { return fStyleKind; }
-
-    msrBarlineEndingTypeKind
-                          getEndingType () const
-                              { return fEndingTypeKind; }
-
-    string                getEndingNumber () const
-                              { return fEndingNumber; }
 
     msrBarlineRepeatDirectionKind
                           getRepeatDirection () const
@@ -317,22 +315,36 @@ class msrBarline : public msrMeasureElement
                           getRepeatWinged () const
                               { return fRepeatWingedKind; }
 
-    int                   getBarlineTimes () const
-                              { return fBarlineTimes; }
+    msrBarlineEndingTypeKind
+                          getEndingType () const
+                              { return fEndingTypeKind; }
 
-    const list<int>&      getEndingNumbersList () const
-                              { return fEndingNumbersList; }
+    string                getEndingNumber () const
+                              { return fEndingNumber; }
 
     msrBarlineCategoryKind
                           getBarlineCategory () const
                               { return fBarlineCategoryKind; }
 
     void                  setBarlineCategory (
-                            msrBarlineCategoryKind barlineCategoryKind)
-                              { fBarlineCategoryKind = barlineCategoryKind; }
+                            msrBarlineCategoryKind barlineCategoryKind);
 
-    // services
+    int                   getBarlineTimes () const
+                              { return fBarlineTimes; }
+
+    msrBarlineHasSegnoKind
+                          getBarlineHasSegnoKind () const
+                              { return fBarlineHasSegnoKind; }
+    msrBarlineHasCodaKind getBarlineHasCodaKind () const
+                              { return fBarlineHasCodaKind; }
+
+  private:
+
+    // private services
     // ------------------------------------------------------
+
+    const list<int>&      getEndingNumbersList () const
+                              { return fEndingNumbersList; }
 
   public:
 
@@ -361,27 +373,31 @@ class msrBarline : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
-    msrBarlineHasSegnoKind
-                          fBarlineHasSegnoKind;
-    msrBarlineHasCodaKind fBarlineHasCodaKind;
-
     msrBarlineLocationKind
                           fLocationKind;
-    msrBarlineStyleKind   fStyleKind;
-    msrBarlineEndingTypeKind
-                          fEndingTypeKind;
 
-    string                fEndingNumber; // may be "1, 2"
+    msrBarlineStyleKind   fStyleKind;
 
     msrBarlineRepeatDirectionKind
                           fRepeatDirectionKind;
+
     msrBarlineRepeatWingedKind
                           fRepeatWingedKind;
+
+
+
+    msrBarlineEndingTypeKind
+                          fEndingTypeKind;
+    string                fEndingNumber; // may be "1, 2"
 
     int                   fBarlineTimes;
 
     msrBarlineCategoryKind
                           fBarlineCategoryKind;
+
+    msrBarlineHasSegnoKind
+                          fBarlineHasSegnoKind;
+    msrBarlineHasCodaKind fBarlineHasCodaKind;
 
     // the numbers extracted from fEndingNumber
     list<int>             fEndingNumbersList;

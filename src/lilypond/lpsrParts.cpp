@@ -324,7 +324,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
 
   // sort the list if necessary
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceParts || gTraceOah->fTraceHarmonies) {
+  if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Sorting the voices in part block for part \"" <<
       fPart->getPartCombinedName () << "\"" <<

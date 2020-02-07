@@ -7,7 +7,7 @@ IF NOT EXIST libmusicxml2.sln (
 )
 
 
-cmake ..  -DPACK=on
+cmake ..  -DPACK=on -DLILY=on -DBRL=on
 cmake --build . --config Release --  /maxcpucount:4
 cpack -G NSIS64
 move libMusicXML-*.exe ..

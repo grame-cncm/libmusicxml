@@ -191,7 +191,7 @@ void msr2LpsrTranslator::displayCurrentOnGoingValues ()
 
 //________________________________________________________________________
 void msr2LpsrTranslator::setPaperIndentsIfNeeded (
-  S_msrGeometry geometry)
+  S_msrScaling scaling)
 {
   S_lpsrPaper
     paper =
@@ -247,7 +247,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
     // get the paper width
     S_msrLength
       paperWidth =
-        geometry->
+        scaling->
           getPageLayout ()->
             getPageWidth ();
 
@@ -609,7 +609,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
     if (
       workTitle.size () == 0
         &&
-      movementTitle.size () > 0) {
+      movementTitle.size () > 0
+    ) {
       // use the movement title as the work title
       fCurrentIdentification->
         setWorkTitle (
@@ -682,7 +683,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
     if (
       workNumber.size () == 0
         &&
-      movementNumber.size () > 0) {
+      movementNumber.size () > 0
+    ) {
       // use the movement number as the work number
       fCurrentIdentification->
         setWorkNumber (
@@ -742,8 +744,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   }
 
   // set ident and short indent if needed
-  setPaperIndentsIfNeeded (
-    elt->getMsrGeometry ());
+  setPaperIndentsIfNeeded ( // JMI ??? BLARK
+    elt->getScaling ());
 
 /* JMI
   // get top level partgroup block from the stack
@@ -802,12 +804,12 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
+void msr2LpsrTranslator::visitStart (S_msrScaling& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrGeometry" <<
+      "--> Start visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -815,14 +817,14 @@ void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
 
   gIndenter++;
 
-  // create a geometry clone
-  S_msrGeometry
+  // create a scaling clone
+  S_msrScaling
     geometryClone =
-      elt->createMsrGeometryNewbornClone ();
+      elt->createMsrScalingNewbornClone ();
 
   // register it in current MSR score clone
-  fCurrentMsrScoreClone->
-    setMsrGeometry (
+  fCurrentMsrScoreClone-> // JMI BLARK ???
+    setScaling (
       geometryClone);
 
   // get LPSR score paper
@@ -834,73 +836,6 @@ void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
   msrAssert (
     paper != nullptr,
     "paper is null");
-
-  // populate paper
-/* JMI
-  msrLength paperWidth =
-    elt->getPaperWidth ();
-  if (gLpsrOah->fPaperWidth.getLengthValue () > 0.0) {
-    paperWidth = gLpsrOah->fPaperWidth;
-  }
-  paper ->
-    setPaperWidth (paperWidth);
-
-  msrLength paperHeight =
-    elt->getPaperHeight ();
-  if (gLpsrOah->fPaperHeight.getLengthValue () > 0.0) {
-    paperWidth = gLpsrOah->fPaperHeight;
-  }
-  paper->
-    setPaperHeight (paperHeight);
-
-  msrLength topMargin =
-    elt->getTopMargin ();
-  if (gLpsrOah->fTopMargin > 0.0) {
-    topMargin = gLpsrOah->fTopMargin;
-  }
-  paper->
-    setTopMargin (topMargin);
-
-  msrLength bottomMargin =
-    elt->getBottomMargin ();
-  if (gLpsrOah->fBottomMargin > 0.0) {
-    bottomMargin = gLpsrOah->fBottomMargin;
-  }
-  paper->
-    setBottomMargin (bottomMargin);
-
-  msrLength leftMargin =
-    elt->getLeftMargin ();
-  if (gLpsrOah->fLeftMargin > 0.0) {
-    leftMargin = gLpsrOah->fLeftMargin;
-  }
-  paper->
-    setLeftMargin (leftMargin);
-
-  msrLength rightMargin =
-    elt->getRightMargin ();
-  if (gLpsrOah->fRightMargin > 0.0) {
-    rightMargin = gLpsrOah->fRightMargin;
-  }
-  paper->
-    setRightMargin (rightMargin);
-
-  msrLength indent =
-    elt->getRightMargin ();
-  if (gLpsrOah->fIndent > 0.0) {
-    indent = gLpsrOah->fIndent;
-  }
-  paper->
-    setIndent (rightMargin);
-
-  msrLength shortIndent =
-    elt->getRightMargin ();
-  if (gLpsrOah->fShortIndent > 0.0) {
-    shortIndent = gLpsrOah->fShortIndent;
-  }
-  paper->
-    setShortIndent (rightMargin);
-*/
 
   // set the current book block's paper as a newborn clone of paper
   fCurrentLpsrBookBlock ->
@@ -968,14 +903,14 @@ void msr2LpsrTranslator::visitStart (S_msrGeometry& elt)
     addSchemeVariable (assoc);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrGeometry& elt)
+void msr2LpsrTranslator::visitEnd (S_msrScaling& elt)
 {
   gIndenter--;
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrGeometry" <<
+      "--> End visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -1207,7 +1142,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
           // if it is the top-level one, i.e it's alone in the stack JMI
           // JMI BOF if (fPartGroupBlocksStack.size () == 1)
 #ifdef TRACE_OAH
-          if (gTraceOah->fTracePartGroups || gLpsrOah->fTraceLpsrBlocks) {
+          if (gLpsrOah->fTraceLpsrBlocks) {
             fLogOutputStream <<
               "Appending part group block for part group " <<
               currentPartGroupBlock->
@@ -1249,7 +1184,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
           // if it is the top-level one, i.e it's alone in the stack JMI
           // JMI BOF if (fPartGroupBlocksStack.size () == 1)
 #ifdef TRACE_OAH
-          if (gTraceOah->fTracePartGroups || gLpsrOah->fTraceLpsrBlocks) {
+          if (gLpsrOah->fTraceLpsrBlocks) {
             fLogOutputStream <<
               "Appending part group block for part group " <<
               currentPartGroupBlock->
@@ -2265,7 +2200,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   int
     measurePuristNumber =
@@ -2389,7 +2324,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   string
     nextMeasureNumber =
@@ -2667,7 +2602,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
         // create the words
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceLyrics || gTraceOah->fTraceWords) {
+        if (gTraceOah->fTraceLyrics) {
           fLogOutputStream <<
             "Changing lyrics '" <<
             wordsValue <<
@@ -2696,7 +2631,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
         // append it to the current non-grace note
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceLyrics || gTraceOah->fTraceWords) {
+        if (gTraceOah->fTraceWords) {
           fLogOutputStream <<
             "Appending words '" <<
             words->asShortString () <<
@@ -2937,8 +2872,38 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
       break;
   } // switch
 
-  fCurrentVoiceClone->
-    appendTempoToVoice (elt);
+  if (gLpsrOah->fConvertTemposToRehearsalMarks) {
+    // create a rehearsal mark containing elt's words
+
+    S_msrRehearsal
+      rehearsal =
+        msrRehearsal::create (
+          elt->getInputLineNumber (),
+          msrRehearsal::kNone,
+          elt->tempoWordsListAsString (" "), //JMI ???
+          elt->getTempoPlacementKind ());
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceTempos) {
+      fLogOutputStream <<
+        "Converting tempos '" <<
+        elt->asShortString () <<
+        "' to rehearsal mark '" <<
+        rehearsal->asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // append the rehearsal to the current voice clone
+    fCurrentVoiceClone->
+      appendRehearsalToVoice (rehearsal);
+  }
+
+  else {
+    fCurrentVoiceClone->
+      appendTempoToVoice (elt);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
@@ -3826,7 +3791,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
           elt);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+    if (gTraceOah->fTraceWords) {
       fLogOutputStream <<
         "Converting words '" <<
         elt->asShortString () <<
@@ -3840,6 +3805,34 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
     // append the tempo to the current voice clone
     fCurrentVoiceClone->
       appendTempoToVoice (tempo);
+  }
+
+  else if (gLpsrOah->fConvertWordsToRehearsalMarks) {
+    // create a rehearsal mark containing elt's words
+
+    S_msrRehearsal
+      rehearsal =
+        msrRehearsal::create (
+          inputLineNumber,
+          msrRehearsal::kNone,
+          elt->getWordsContents (),
+          elt->getWordsPlacementKind ()); // above ??? JMI
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceWords) {
+      fLogOutputStream <<
+        "Converting words '" <<
+        elt->asShortString () <<
+        "' to rehearsal mark '" <<
+        rehearsal->asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // append the rehearsal to the current voice clone
+    fCurrentVoiceClone->
+      appendRehearsalToVoice (rehearsal);
   }
 
   else if (fOnGoingNonGraceNote) {
@@ -4095,7 +4088,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   if (doCreateAGraceNoteClone) {
     // create a clone of this graceNotesGroup
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Creating a clone of grace notes group '" <<
         elt->asShortString () <<
@@ -4131,7 +4124,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+  if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 1" <<
       endl <<
@@ -4173,13 +4166,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
   // is noteNotesGroupIsAttachedTo the first one in its voice?
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceGraceNotes
-      ||
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceVoices
-  ) {
+  if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4200,13 +4187,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceGraceNotes
-      ||
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceVoices
-  ) {
+  if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "The first note of voice clone KLJWLPOEF '" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4239,13 +4220,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // create the skip grace notes group
 #ifdef TRACE_OAH
-        if (
-            gTraceOah->fTraceGraceNotes
-              ||
-            gTraceOah->fTraceNotes
-              ||
-            gTraceOah->fTraceVoices
-        ) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Creating a skip clone of grace notes group '" <<
             elt->asShortString () <<
@@ -4413,7 +4388,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 #endif
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceGraceNotes) {
+    if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 2" <<
       endl <<
@@ -4489,7 +4464,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   // but as the current grace note clone instead
 /* JMI
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "The first note of voice clone GFFF '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -4525,7 +4500,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
           fCurrentNonGraceNoteClone;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
+        if (gTraceOah->fTraceNotes) {
           fLogOutputStream <<
             "The first note of voice clone RJIRWR '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -4786,7 +4761,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
       else {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Appending grace note '" <<
             fCurrentGraceNoteClone->asShortString () <<
@@ -4806,7 +4781,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     /* JMI ???
       if (fCurrentGraceNotesGroupClone) {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -4823,7 +4798,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
       else if (fPendingAfterGraceNotes) {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceGraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -6142,7 +6117,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (
@@ -6177,7 +6152,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     case msrBarline::kBarlineStyleShort:
       fLpsrScore->
         // this score needs the 'custom short barline' Scheme function
-        setCustomShortBarLineSchemeFunctionIsNeeded ();
+        setCustomShortBarlineSchemeFunctionIsNeeded ();
       break;
       /* JMI
     case msrBarline::kBarlineStyleNone:
@@ -6532,24 +6507,24 @@ void msr2LpsrTranslator::visitEnd (S_msrPageLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrMidi& elt)
+void msr2LpsrTranslator::visitStart (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrMidi" <<
+      "--> Start visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 #endif
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
+void msr2LpsrTranslator::visitEnd (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrMidi" <<
+      "--> End visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

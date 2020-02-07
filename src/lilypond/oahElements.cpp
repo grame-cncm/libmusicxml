@@ -274,7 +274,7 @@ string oahElement::asShortNamedOptionString () const
   return "-" + fShortName;
 }
 
-string oahElement::asLongNamedOptionString () const
+string oahElement::asActualLongNamedOptionString () const
 {
   return "-" + fLongName;
 }

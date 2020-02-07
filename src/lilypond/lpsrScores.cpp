@@ -64,7 +64,7 @@ lpsrScore::lpsrScore (
   // should the initial comments about the executable and the options used
   // be generated?
   if (gLilypondOah->fXml2lyInfos) {
-    // create the input source name comment
+    // create the 'input source name and translation date' comment
     {
       stringstream s;
 
@@ -94,7 +94,7 @@ lpsrScore::lpsrScore (
           lpsrComment::kNoGapAfterwards);
     }
 
-    // create the translation date comment
+    // create the 'translation command line' comment
     {
       stringstream s;
 
@@ -108,7 +108,7 @@ lpsrScore::lpsrScore (
           lpsrComment::kNoGapAfterwards);
     }
 
-    // create the command line as supplied comment
+    // create the 'command line as supplied' comment
     {
       stringstream s;
 
@@ -130,7 +130,7 @@ lpsrScore::lpsrScore (
           !=
         gOahOah->fCommandLineWithLongOptionsNames;
 
-    // create the command line long options comment
+    // create the 'command line long options' comment
     {
       stringstream s;
 
@@ -157,7 +157,7 @@ lpsrScore::lpsrScore (
     }
 
     if (longAndShortOptionsDiffer) {
-      // create the command line short options comment
+      // create the 'command line short options' comment
       stringstream s;
 
       s <<
@@ -174,7 +174,7 @@ lpsrScore::lpsrScore (
 
   // create the global staff size variable
   // too early to benefit from gLpsrOah->fGlobalStaffSize... JMI
-  // needs to be updated later in msrGeometry::globalStaffSize()
+  // needs to be updated later in msrScaling::globalStaffSize()
   fScoreGlobalStaffSizeSchemeVariable =
     lpsrSchemeVariable::create (
       inputLineNumber,
@@ -186,13 +186,16 @@ lpsrScore::lpsrScore (
 
   // initialize Scheme functions informations
   // ----------------------------------------
+
   // files includes
   fJianpuFileIncludeIsNeeded = false;
+
   // Scheme modules
   fScmAndAccregSchemeModulesAreNeeded = false;
+
   // Scheme functions
   fTongueSchemeFunctionIsNeeded = false;
-  fCustomShortBarLineSchemeFunctionIsNeeded = false;
+  fCustomShortBarlineSchemeFunctionIsNeeded = false;
   fEditorialAccidentalSchemeFunctionIsNeeded = false;
   fDynamicsSchemeFunctionIsNeeded = false;
   fTupletsCurvedBracketsSchemeFunctionIsNeeded = false;
@@ -200,15 +203,20 @@ lpsrScore::lpsrScore (
   fTempoRelationshipSchemeFunctionIsNeeded = false;
   fGlissandoWithTextSchemeFunctionsIsNeeded = false;
   fOtherDynamicSchemeFunctionIsNeeded = false;
+
   // markups
   fDampMarkupIsNeeded = false;
   fDampAllMarkupIsNeeded = false;
+
   // white note heads
   fWhiteNoteHeadsIsNeeded = false;
+
     // bar numbers
   fBoxAroundNextBarNumberIsNeeded = false;
+
   // jazz chords display
   fJazzChordsDisplayIsNeeded = false;
+
   // colored ledger lines
   fColoredLedgerLinesIsNeeded = false;
 
@@ -236,17 +244,89 @@ lpsrScore::lpsrScore (
     lpsrHeader::create (
       inputLineNumber);
 
-  // create the geometry
-  fLpsrGeometry =
-    lpsrGeometry::create (
-      inputLineNumber,
-      fMsrScore->getMsrGeometry ());
-
   // create the paper
   fScorePaper =
     lpsrPaper::create (
       inputLineNumber,
-      fLpsrGeometry);
+      fMsrScore->getScaling (),
+      fMsrScore->getPageLayout ());
+
+  // populate the paper
+/* JMI
+  // populate paper
+  msrLength paperWidth =
+    elt->getPaperWidth ();
+  if (gLpsrOah->fPaperWidth.getLengthValue () > 0.0) {
+    paperWidth = gLpsrOah->fPaperWidth;
+  }
+  paper ->
+    setPaperWidth (paperWidth);
+
+  msrLength paperHeight =
+    elt->getPaperHeight ();
+  if (gLpsrOah->fPaperHeight.getLengthValue () > 0.0) {
+    paperWidth = gLpsrOah->fPaperHeight;
+  }
+  paper->
+    setPaperHeight (paperHeight);
+
+  msrLength topMargin =
+    elt->getTopMargin ();
+  if (gLpsrOah->fTopMargin > 0.0) {
+    topMargin = gLpsrOah->fTopMargin;
+  }
+  paper->
+    setTopMargin (topMargin);
+
+  msrLength bottomMargin =
+    elt->getBottomMargin ();
+  if (gLpsrOah->fBottomMargin > 0.0) {
+    bottomMargin = gLpsrOah->fBottomMargin;
+  }
+  paper->
+    setBottomMargin (bottomMargin);
+
+  msrLength leftMargin =
+    elt->getLeftMargin ();
+  if (gLpsrOah->fLeftMargin > 0.0) {
+    leftMargin = gLpsrOah->fLeftMargin;
+  }
+  paper->
+    setLeftMargin (leftMargin);
+
+  msrLength rightMargin =
+    elt->getRightMargin ();
+  if (gLpsrOah->fRightMargin > 0.0) {
+    rightMargin = gLpsrOah->fRightMargin;
+  }
+  paper->
+    setRightMargin (rightMargin);
+*/
+
+    // indents
+  if (gLpsrOah->fPaperHorizontalShift.getLengthValue () > 0.0) {
+    fScorePaper->
+      setHorizontalShift (
+        msrLength::create (
+          gLpsrOah->fPaperHorizontalShift.getLengthUnitKind (),
+          gLpsrOah->fPaperHorizontalShift.getLengthValue ()));
+  }
+
+  if (gLpsrOah->fPaperIndent.getLengthValue () > 0.0) {
+    fScorePaper->
+      setIndent (
+        msrLength::create (
+          gLpsrOah->fPaperIndent.getLengthUnitKind (),
+          gLpsrOah->fPaperIndent.getLengthValue ()));
+  }
+
+  if (gLpsrOah->fPaperShortIndent.getLengthValue () > 0.0) {
+    fScorePaper->
+      setShortIndent (
+        msrLength::create (
+          gLpsrOah->fPaperShortIndent.getLengthUnitKind (),
+          gLpsrOah->fPaperShortIndent.getLengthValue ()));
+  }
 
   if (gLilypondOah->fLilypondCompileDate) {
     // define headers and footers
@@ -478,12 +558,12 @@ void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
   }
 }
 
-void lpsrScore::setCustomShortBarLineSchemeFunctionIsNeeded ()
+void lpsrScore::setCustomShortBarlineSchemeFunctionIsNeeded ()
 {
-  if (! fCustomShortBarLineSchemeFunctionIsNeeded) {
-    addCustomShortBarLineSchemeFunctionToScore ();
+  if (! fCustomShortBarlineSchemeFunctionIsNeeded) {
+    addCustomShortBarlineSchemeFunctionToScore ();
 
-    fCustomShortBarLineSchemeFunctionIsNeeded = true;
+    fCustomShortBarlineSchemeFunctionIsNeeded = true;
   }
 }
 
@@ -942,7 +1022,7 @@ otherDynamic =
     schemeFunction;
 }
 
-void lpsrScore::addCustomShortBarLineSchemeFunctionToScore ()
+void lpsrScore::addCustomShortBarlineSchemeFunctionToScore ()
 {
   string
     schemeModulesName =

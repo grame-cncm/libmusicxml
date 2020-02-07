@@ -58,6 +58,11 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // part handling
 
+  // print
+
+  fCurrentDisplayText = "";
+  fOnGoingPrint = false;
+
   // measure style handling
   fCurrentSlashTypeKind     = k_NoSlashType;
   fCurrentUseDotsKind  = k_NoUseDots;
@@ -252,6 +257,16 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingFrameNote = false;
 
   // barline handling
+  fCurrentBarlineEndingNumber    = ""; // may be "1, 2"
+  fCurrentBarlineHasSegnoKind = msrBarline::kBarlineHasSegnoNo;
+  fCurrentBarlineHasCodaKind  = msrBarline::kBarlineHasCodaNo;
+
+  fCurrentBarlineLocationKind        = msrBarline::kBarlineLocationNone;
+  fCurrentBarlineStyleKind           = msrBarline::kBarlineStyleNone;
+  fCurrentBarlineEndingTypeKind      = msrBarline::kBarlineEndingNone;
+  fCurrentBarlineRepeatDirectionKind = msrBarline::kBarlineRepeatDirectionNone;
+  fCurrentBarlineRepeatWingedKind    = msrBarline::kBarlineRepeatWingedNone;
+
   fOnGoingBarline = false;
 
   // repeats handling
@@ -675,7 +690,6 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   string partID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OAH
-// JMI  if (gTraceOah->fTraceParts || gTraceOah->fTraceMeasures) {
   if (gTraceOah->fTracePasses) {
     fLogOutputStream <<
       endl <<
@@ -832,15 +846,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     finalizePart (
       inputLineNumber);
 
-  // is this part name in the parts omit set?
-  if (gMsrOah->fPartsOmitSet.size ()) {
+  // is this part name in the parts omit IDs set?
+  if (gMsrOah->fPartsOmitIDSet.size ()) {
     set<string>::iterator
       it =
-        gMsrOah->fPartsOmitSet.find (
+        gMsrOah->fPartsOmitIDSet.find (
           fCurrentPart->
             getPartID ());
 
-    if (it != gMsrOah->fPartsOmitSet.end ()) {
+    if (it != gMsrOah->fPartsOmitIDSet.end ()) {
       // the simplest way to omit this part
       // is to remove it from its part-group
       // now that is has been completely built and populated
@@ -852,15 +866,55 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     }
   }
 
-  // is this part name in the parts keep set?
-  if (gMsrOah->fPartsKeepSet.size ()) {
+  // is this part name in the parts keep IDs set?
+  if (gMsrOah->fPartsKeepIDSet.size ()) {
     set<string>::iterator
       it =
-        gMsrOah->fPartsKeepSet.find (
+        gMsrOah->fPartsKeepIDSet.find (
           fCurrentPart->
             getPartID ());
 
-    if (it == gMsrOah->fPartsKeepSet.end ()) {
+    if (it == gMsrOah->fPartsKeepIDSet.end ()) {
+      // the simplest way not to keep this part
+      // is to remove it from its part-group
+      // now that is has been completely built and populated
+      fCurrentPart->
+        getPartPartGroupUpLink ()->
+          removePartFromPartGroup (
+            inputLineNumber,
+            fCurrentPart);
+    }
+  }
+
+  // is this part name in the parts omit names set?
+  if (gMsrOah->fPartsOmitNameSet.size ()) {
+    set<string>::iterator
+      it =
+        gMsrOah->fPartsOmitNameSet.find (
+          fCurrentPart->
+            getPartName ());
+
+    if (it != gMsrOah->fPartsOmitNameSet.end ()) {
+      // the simplest way to omit this part
+      // is to remove it from its part-group
+      // now that is has been completely built and populated
+      fCurrentPart->
+        getPartPartGroupUpLink ()->
+          removePartFromPartGroup (
+            inputLineNumber,
+            fCurrentPart);
+    }
+  }
+
+  // is this part name in the parts keep names set?
+  if (gMsrOah->fPartsKeepNameSet.size ()) {
+    set<string>::iterator
+      it =
+        gMsrOah->fPartsKeepNameSet.find (
+          fCurrentPart->
+            getPartName ());
+
+    if (it == gMsrOah->fPartsKeepNameSet.end ()) {
       // the simplest way not to keep this part
       // is to remove it from its part-group
       // now that is has been completely built and populated
@@ -1238,7 +1292,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     } // switch
   }
 
-  else if (fCurrentClefSign == "TAB") {
+  else if (fCurrentClefSign == "TAB" || fCurrentClefSign == "tab") {
 
     switch (fCurrentClefLine) {
       case 4:
@@ -1270,7 +1324,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     } // switch
   }
 
-  else if (fCurrentClefSign == "PERCUSSION") {
+  else if (fCurrentClefSign == "percussion" || fCurrentClefSign == "PERCUSSION") {
     clefKind = msrClef::kPercussionClef;
   }
 
@@ -1278,7 +1332,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     clefKind = msrClef::kJianpuClef;
   }
 
-  else if (fCurrentClefSign == "NONE") {
+  else if (fCurrentClefSign == "none" || fCurrentClefSign == "NONE") {
     clefKind = msrClef::k_NoClef;
   }
 
@@ -2426,7 +2480,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
             fPendingWordsList.front();
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+        if (gTraceOah->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
             words->asString () <<
@@ -3247,7 +3301,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
   if (fPendingMetronomeBeamsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceBeams) {
+    if (gTraceOah->fTraceTempos || gTraceOah->fTraceBeams) {
       fLogOutputStream <<
         "Attaching current beams to tempoNote " <<
         tempoNote->asString () <<
@@ -3261,7 +3315,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
           fPendingMetronomeBeamsList.front();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes || gTraceOah->fTraceBeams) {
+      if (gTraceOah->fTraceTempos || gTraceOah->fTraceBeams) {
         fLogOutputStream <<
           "Attaching beam '" <<
           beam->asString () <<
@@ -3523,10 +3577,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTempos) {
     fLogOutputStream <<
       "fCurrentTempoTupletTypeKind: " <<
       msrTempoTuplet::tempoTupletTypeKindAsString (
@@ -3751,7 +3802,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
             fPendingWordsList.front();
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceWords || gTraceOah->fTraceTempos) {
+        if (gTraceOah->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
             words->asString () <<
@@ -4470,14 +4521,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
   }
 #endif
 
-  /*
-      <forward>
-        <duration>96</duration>
-        <voice>1</voice>
-        <staff>1</staff>
-      </forward>
-  */
-
 //* JMI ???
   // the <staff /> element is present only
   // in case of a staff change
@@ -4506,19 +4549,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-      ||
-    gTraceOah->fTraceMeasures
-      ||
-    gTraceOah->fTraceVoices
-      ||
-    gTraceOah->fTraceStaves
-      ||
-    gTraceOah->fTraceLyrics
-    ) {
+  if (gMusicXMLOah->fTraceForward) {
     fLogOutputStream <<
       "Handling 'forward <<< " << fCurrentBackupDivisions <<
       " divisions >>>" <<
@@ -4986,11 +5017,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceSlurs
-    ) {
+    if (gTraceOah->fTraceSlurs) {
       fLogOutputStream <<
         "slurNumber: " <<
         slurNumber <<
@@ -5559,6 +5586,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
 
   fCurrentSyllabic = elt->getValue();
 
+  fCurrentSyllableKind       = msrSyllable::kSyllableNone;
+
   if      (fCurrentSyllabic == "single") {
     fCurrentSyllableKind = msrSyllable::kSyllableSingle;
   }
@@ -5628,7 +5657,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   if (gTraceOah->fTraceLyrics) {
     gIndenter++;
 
-    const int fieldWidth = 20;
+    const int fieldWidth = 23;
 
     fLogOutputStream << left <<
       setw (fieldWidth) <<
@@ -5761,7 +5790,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 #endif
 
   if (fCurrentSyllableKind == msrSyllable::kSyllableNone) {
-    // syllabic is not mandatory...
+    // syllabic is not mandatory, thus:
     stringstream s;
 
     s <<
@@ -5797,8 +5826,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     }
 #endif
 
-    fCurrentSyllableKind =
-      msrSyllable::kSyllableSkip; // kSyllableRest ??? JMI
+    if (fCurrentLyricTextsList.size ()) {
+      // register a skip in lyrics for rests with syllables
+      fCurrentSyllableKind =
+        msrSyllable::kSyllableOnRestNote;
+    }
+    else {
+      // don't register a skip in lyrics for rests without syllables
+      fCurrentSyllableKind =
+        msrSyllable::kSyllableSkipRestNote;
+    }
   }
 
 #ifdef TRACE_OAH
@@ -6253,11 +6290,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   // is there a pending grace notes group?
   if (fPendingGraceNotesGroup) {
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceGraceNotes
-        ||
-      gTraceOah->fTraceNotes
-    ) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         endl <<
         "fCurrentGraceNotes IS NOT NULL at the end of measure '" << // JMI
@@ -6516,7 +6549,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
             inputLineNumber,
             fCurrentMeasureNumber);
 
-      // append it to the pending line breaks
+      // append lineBreak to the pending line breaks
       fPendingLineBreaksList.push_back (lineBreak);
     }
 
@@ -6590,7 +6623,27 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
 
   const string pageNumber = elt->getAttributeValue ("page-number"); // JMI
 
+  // print
+
   fCurrentDisplayText = "";
+  fOnGoingPrint = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_print& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMusicXMLOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_print" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fOnGoingPrint = false;
 }
 
 //______________________________________________________________________________
@@ -6610,11 +6663,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
     elt->getInputLineNumber ();
 
   string measureNumberingString = elt->getValue ();
-
-  / *  JMI
-  fCurrentBarlineStyleKind =
-    msrBarline::k_NoStyle; // default value
-* /
 
   if      (measureNumberingString == "none") {
  //   fCurrentBarlineStyleKind =
@@ -7182,11 +7230,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
         fCurrentBarlineRepeatWingedKind =
           msrBarline::kBarlineRepeatWingedCurved;
       }
-      else  if (winged == "doubleStraight") {
+      else  if (winged == "double-straight") {
         fCurrentBarlineRepeatWingedKind =
           msrBarline::kBarlineRepeatWingedDoubleStraight;
       }
-      else  if (winged == "doubleCurved") {
+      else  if (winged == "double-curved") {
         fCurrentBarlineRepeatWingedKind =
           msrBarline::kBarlineRepeatWingedDoubleCurved;
       }
@@ -7242,19 +7290,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     barline =
       msrBarline::create (
         inputLineNumber,
-        msrBarline::k_NoBarlineCategory, // will be set below
-        fCurrentBarlineHasSegnoKind,
-        fCurrentBarlineHasCodaKind,
         fCurrentBarlineLocationKind,
         fCurrentBarlineStyleKind,
+        fCurrentBarlineRepeatDirectionKind,
         fCurrentBarlineEndingTypeKind,
         fCurrentBarlineEndingNumber,
-        fCurrentBarlineRepeatDirectionKind,
-        fCurrentBarlineRepeatWingedKind,
-        fCurrentBarlineTimes);
+        fCurrentBarlineTimes,
+        msrBarline::k_NoBarlineCategory, // will be set afterwards
+        fCurrentBarlineHasSegnoKind,
+        fCurrentBarlineHasCodaKind,
+        fCurrentBarlineRepeatWingedKind);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     fLogOutputStream <<
       "Creating barline in part " <<
       fCurrentPart->getPartCombinedName () << ":" <<
@@ -7272,118 +7320,130 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   // wait until its category is defined
   // to append the barline to the current segment
 
-  // handle the barline according to:
+  // handle the barline according to: JMI
   // http://www.musicxml.com/tutorial/the-midi-compatible-part/repeats/
 
-  /*
-    CAUTION:
-      The order of the tests in the following is most important!
-  */
+  bool barlineHasBeenHandled = false;
 
-  bool barlineIsAlright = false;
+  switch (fCurrentBarlineLocationKind) {
+    case msrBarline::kBarlineLocationNone:
+      // should not occur
+      break;
 
-  if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
-      &&
-    fCurrentBarlineEndingNumber.size () != 0
-  ) {
-    // ending start, don't know yet whether it's hooked or hookless
-    // ------------------------------------------------------
-    handleRepeatEndingStart (barline);
+    case msrBarline::kBarlineLocationLeft:
+      if (
+        fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
+      ) {
+        // ending start, don't know yet whether it's hooked or hookless
+        // ------------------------------------------------------
+        if (! fCurrentBarlineEndingNumber.size ()) {
+          msrMusicXMLWarning (
+            gOahOah->fInputSourceName,
+            inputLineNumber,
+            "mandatory ending number is missing, assuming \"1\"");
 
-    barlineIsAlright = true;
-  }
+          fCurrentBarlineEndingNumber = "1";
+        }
 
-/* JMI
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
-      &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
-  ) {
-    // hooked ending start
-    // ------------------------------------------------------
-    handleRepeatHookedEndingStart (elt, barline);
+        // don't know yet whether repeat ending start barline is hooked or hookless
+        // remember it in fCurrentRepeatEndingStartBarline,
+        fCurrentRepeatEndingStartBarline = barline;
 
-    barlineIsAlright = true;
-  }
-*/
+        // handle the repeat ending start
+        handleRepeatEndingStart (barline);
 
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
-  ) {
-    // repeat start
-    // ------------------------------------------------------
+        barlineHasBeenHandled = true;
+      }
 
-    handleRepeatStart (barline);
+      else if (
+        fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
+      ) {
+        // repeat start
+        // ------------------------------------------------------
+        // set the barline category
+        barline->
+          setBarlineCategory (
+            msrBarline::kBarlineCategoryRepeatStart);
 
-    barlineIsAlright = true;
-  }
+        // handle the repeat start
+        handleRepeatStart (barline);
 
-  /* JMI
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
-  ) { // no forward
-    // hookless ending start
-    // ------------------------------------------------------
-    handleRepeatHooklessEndingStart (elt, barline);
+        barlineHasBeenHandled = true;
+      }
+      break;
 
-    barlineIsAlright = true;
-  }
-*/
+    case msrBarline::kBarlineLocationMiddle:
+      // JMI ???
+      break;
 
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
-      &&
-    fCurrentBarlineEndingNumber.size () != 0
-  ) {
-    // hooked ending end
-    // ------------------------------------------------------
+    case msrBarline::kBarlineLocationRight:
+      {
+        if (
+          fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
+            &&
+          fCurrentBarlineEndingNumber.size () != 0
+        ) {
+          // hooked ending end
+          // ------------------------------------------------------
+          // set current barline ending start category
+          fCurrentRepeatEndingStartBarline->
+            setBarlineCategory (
+              msrBarline::kBarlineCategoryHookedEndingStart);
 
-    handleRepeatHookedEndingEnd (barline);
+          // set this barline's category
+          barline->
+            setBarlineCategory (
+              msrBarline::kBarlineCategoryHookedEndingEnd);
 
-    barlineIsAlright = true;
-  }
+          // handle the repeat hooked ending end
+          handleRepeatHookedEndingEnd (barline);
 
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
-      &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
-  ) {
-    // repeat end
-    // ------------------------------------------------------
+          barlineHasBeenHandled = true;
+        }
 
-    handleRepeatEnd (barline);
+        else if (
+          fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
+        ) {
+          // repeat end
+          // ------------------------------------------------------
 
-    barlineIsAlright = true;
-  }
+          // handle the repeat end
+          handleRepeatEnd (barline);
 
-  else if (
-    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
-      &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue
-      &&
-    fCurrentBarlineEndingNumber.size () != 0
-  ) {
-    // hookless ending end
-    // ------------------------------------------------------
-    handleRepeatHooklessEndingEnd (barline);
+          barlineHasBeenHandled = true;
+        }
 
-    barlineIsAlright = true;
-  }
+        else if (
+          fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue
+            &&
+          fCurrentBarlineEndingNumber.size () != 0
+        ) {
+          // hookless ending end
+          // ------------------------------------------------------
+          // set current barline ending start category
+          fCurrentRepeatEndingStartBarline->
+            setBarlineCategory (
+              msrBarline::kBarlineCategoryHooklessEndingStart);
 
-  else {
+          // set this barline's category
+          barline->
+            setBarlineCategory (
+              msrBarline::kBarlineCategoryHooklessEndingEnd);
 
-    // set the barline category
+          // handle the repeat hookless ending end
+          handleRepeatHooklessEndingEnd (barline);
+
+          barlineHasBeenHandled = true;
+        }
+
+        // forget about current repeat ending start barline
+        fCurrentRepeatEndingStartBarline = nullptr;
+      }
+      break;
+  } // switch
+
+  // set the barline category to stand alone if not yet handled
+  if (! barlineHasBeenHandled) {
     switch (fCurrentBarlineStyleKind) {
       case msrBarline::kBarlineStyleRegular:
       case msrBarline::kBarlineStyleDotted:
@@ -7395,16 +7455,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       case msrBarline::kBarlineStyleHeavyHeavy:
       case msrBarline::kBarlineStyleTick:
       case msrBarline::kBarlineStyleShort:
-      case msrBarline::kBarlineStyleNone:
         barline->
           setBarlineCategory (
             msrBarline::kBarlineCategoryStandalone);
 
         // append the bar line to the current part
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceBarLines) {
+  #ifdef TRACE_OAH
+        if (gTraceOah->fTraceBarlines) {
           fLogOutputStream <<
-            "Appending a barline to part " <<
+            "Appending a standalone barline to part " <<
             fCurrentPart->getPartCombinedName () << ":" <<
             endl;
 
@@ -7415,23 +7474,33 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
           gIndenter--;
         }
-#endif
+  #endif
 
         fCurrentPart->
           appendBarlineToPart (barline);
 
-        barlineIsAlright = true;
+        barlineHasBeenHandled = true;
         break;
 
-  /* JMI
       case msrBarline::kBarlineStyleNone:
-        ; // no <bar-style> has been found
-        */
+        stringstream s;
+
+        s <<
+          "barline " <<
+          barline->asString () <<
+          " has no barline style";
+
+        msrMusicXMLWarning (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+     //     __FILE__, __LINE__,
+          s.str ());
+        break;
     } // switch
   }
 
   // has this barline been handled?
-  if (! barlineIsAlright) {
+  if (! barlineHasBeenHandled) {
     stringstream s;
 
     s << left <<
@@ -7444,51 +7513,38 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       s.str ());
   }
 
+/* JMI
+  // sanity check
+  switch (barline->getBarlineCategory ()) {
+    case msrBarline::k_NoBarlineCategory:
+      {
+        stringstream s;
+
+        s <<
+          "barline " <<
+          barline->asString () <<
+          " has no barline category";
+
+      msrInternalError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+      }
+      break;
+    case msrBarline::kBarlineCategoryStandalone:
+    case msrBarline::kBarlineCategoryRepeatStart:
+    case msrBarline::kBarlineCategoryRepeatEnd:
+    case msrBarline::kBarlineCategoryHookedEndingStart:
+    case msrBarline::kBarlineCategoryHookedEndingEnd:
+    case msrBarline::kBarlineCategoryHooklessEndingStart:
+    case msrBarline::kBarlineCategoryHooklessEndingEnd:
+      break;
+  } // switch
+*/
+
   fOnGoingBarline = false;
 }
-
-  /* JMI
-Repeats and endings are represented by the <repeat> and <ending> elements with a <barline>, as defined in the barline.mod file.
-
-In regular measures, there is no need to include the <barline> element. It is only need to represent repeats, endings, and graphical styles such as double barlines.
-
-A forward repeat mark is represented by a left barline at the beginning of the measure (following the attributes element, if there is one):
-
-  <barline location="left">
-    <bar-style>heavy-light</bar-style>
-    <repeat direction="forward"/>
-  </barline>
-
-The repeat element is what is used for sound generation; the bar-style element only indicates graphic appearance.
-
-Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
-
-  <barline location="right">
-    <bar-style>light-heavy</bar-style>
-    <repeat direction="backward"/>
-  </barline>
-
-While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
-
-  <barline location="left">
-    <ending type="start" number="1"/>
-  </barline>
-
-The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
-
-  <barline location="right">
-    <bar-style>light-heavy</bar-style>
-    <ending type="stop" number="1"/>
-    <repeat direction="backward"/>
-  </barline>
-
-The discontinue value is typically used for the last ending in a set, where there is no downward hook to mark the end of an ending:
-
-  <barline location="right">
-    <ending type="discontinue" number="2"/>
-  </barline>
-
-    */
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
@@ -7780,7 +7836,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   }
 
   else if (fOnGoingNote) {
-
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceNotesDetails) {
       fLogOutputStream <<
@@ -7815,7 +7870,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   }
 
   else if (fOnGoingFiguredBass) {
-
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceFiguredBasses) {
       fLogOutputStream <<
@@ -7859,7 +7913,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   }
 
   else {
-
     stringstream s;
 
     s << "duration " << duration << " is out of context";
@@ -12878,10 +12931,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     fCurrentNoteActualNotes = actualNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "fCurrentNoteActualNotes: " <<
         fCurrentNoteActualNotes <<
@@ -12904,10 +12954,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     fCurrentMetronomeNoteActualNotes = actualNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTempos
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteActualNotes: " <<
         fCurrentMetronomeNoteActualNotes <<
@@ -12951,10 +12998,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     fCurrentNoteNormalNotes = normalNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "fCurrentNoteNormalNotes: " <<
         fCurrentNoteNormalNotes <<
@@ -12977,10 +13021,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     fCurrentMetronomeNoteNormalNotes = normalNotes;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTempos
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteNormalNotes: " <<
         fCurrentMetronomeNoteNormalNotes <<
@@ -13022,10 +13063,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
 
   if (fOnGoingNote) {
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "normalTypeString: " <<
         normalTypeString <<
@@ -13053,10 +13091,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
     fCurrentMetronomeNoteNormalType = normalTypeString;
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTempos
-        ||
-      gTraceOah->fTraceTuplets) {
+    if (gTraceOah->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteNormalType: " <<
         fCurrentMetronomeNoteNormalType <<
@@ -13319,10 +13354,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
@@ -13435,10 +13467,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "tuplet number (not handled): " <<
       tupletNumberValue <<
@@ -13481,10 +13510,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "tuplet type (not handled): " <<
       tupletTypeValue <<
@@ -13602,10 +13628,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceGlissandos) {
+  if (gTraceOah->fTraceGlissandos) {
     fLogOutputStream <<
       "glissandoNumber: " <<
       glissandoNumber <<
@@ -13633,10 +13656,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 
   // register glissando in this visitor
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceGlissandos) {
+  if (gTraceOah->fTraceGlissandos) {
     fLogOutputStream <<
       "Appending glissando '" <<
       glissando->asString () <<
@@ -13726,10 +13746,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceSlides) {
+  if (gTraceOah->fTraceSlides) {
     fLogOutputStream <<
       "slideNumber: " <<
       slideNumber <<
@@ -13755,10 +13772,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 
   // register glissando in this visitor
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceSlides) {
+  if (gTraceOah->fTraceSlides) {
     fLogOutputStream <<
       "Appending slide '" <<
       slide->asString () <<
@@ -13915,7 +13929,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
     chordFirstNote->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "--> creating a chord from its first note '" <<
       chordFirstNote->asShortString () <<
@@ -13939,7 +13953,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
 
   // register note as first member of chord
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Adding first note " <<
       chordFirstNote->
@@ -13969,7 +13983,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
         getNoteMeasureUpLink ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes || gMsrOah->fDisplayMsrDetails) {
+  if (gTraceOah->fTraceChordsDetails) {
     fLogOutputStream << // JMI
       endl <<
       endl <<
@@ -14156,7 +14170,7 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceNotes) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying articulation '" <<
         (*i)->articulationKindAsString () <<
@@ -14189,11 +14203,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTechnicals
-    ) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalKindAsString () <<
@@ -14226,11 +14236,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceTechnicals
-    ) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalWithIntegerKindAsString () <<
@@ -14263,11 +14269,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotesDetails
-        ||
-      gTraceOah->fTraceTechnicals
-      ) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithFloatKindAsString () <<
@@ -14300,11 +14302,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceTechnicals
-        ||
-      gTraceOah->fTraceChords
-      ) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
@@ -14337,10 +14335,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceOrnaments
-        ||
-      gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -14374,10 +14369,7 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceSpanners
-        ||
-      gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying spanner '" <<
         (*i)->spannerKindAsString () <<
@@ -14405,7 +14397,7 @@ void mxmlTree2MsrTranslator::copyNoteSingleTremoloToChord (
 
   if (noteSingleTremolo) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying singleTremolo '" <<
         noteSingleTremolo->asString () <<
@@ -14439,7 +14431,7 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceDynamics) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
@@ -14473,7 +14465,7 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceDynamics) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying other dynamics '" <<
         (*i)->asString () <<
@@ -14507,7 +14499,7 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceWords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying words '" <<
         (*i)->asString () <<
@@ -14535,7 +14527,7 @@ void mxmlTree2MsrTranslator::copyNoteStemToChord (
 
   if (noteStem) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceStems || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying stem '" <<
         noteStem->asString () <<
@@ -14569,7 +14561,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceBeams || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying beam '" <<
         (*i)->asString () <<
@@ -14584,7 +14576,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeams || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "==> AFTER copying beams to chord:" <<
       endl;
@@ -14613,7 +14605,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
 
   if (noteTie) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceTies) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Appending tie '" <<
         noteTie->asString () <<
@@ -14628,7 +14620,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
   }
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceTies) {
+    if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "==> AFTER appending tie to chord:" <<
       endl;
@@ -14663,7 +14655,7 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceSlurs) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying slur '" <<
         (*i)->asString () <<
@@ -14697,7 +14689,7 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceLigatures) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying ligature '" <<
         (*i)->ligatureKindAsString () <<
@@ -14765,7 +14757,7 @@ void mxmlTree2MsrTranslator::copyNoteSlashesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceSlashes) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying slash '" <<
         (*i)->asString () <<
@@ -14799,7 +14791,7 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceWedges) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying wedges '" <<
         (*i)->wedgeKindAsString () <<
@@ -14827,7 +14819,7 @@ void mxmlTree2MsrTranslator::copyNoteOctaveShiftToChord (
 
   if (noteOctaveShift) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTraceOctaveShifts) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying octave shift '" <<
         noteOctaveShift->asString () <<
@@ -14853,7 +14845,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupBefore) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying grace notes group before '" <<
         graceNotesGroupBefore->asShortString () <<
@@ -14875,7 +14867,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupAfter) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotes || gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceChords) {
       fLogOutputStream <<
         "Copying grace notes group after '" <<
         graceNotesGroupAfter->asShortString () <<
@@ -14907,7 +14899,7 @@ void mxmlTree2MsrTranslator::copyNoteHarmoniesToChord (
       S_msrHarmony harmony = (*i);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceHarmonies || gTraceOah->fTraceChords) {
+      if (gTraceOah->fTraceChords) {
         fLogOutputStream <<
           "Copying harmony '" <<
           harmony->asString () <<
@@ -15079,7 +15071,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 
   // register tuplet in this visitor
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets || gTraceOah->fTraceNotes) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tuplet->asString () <<
@@ -15266,7 +15258,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
   if (fCurrentArticulations.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceArticulations) {
+    if (gTraceOah->fTraceArticulations) {
       fLogOutputStream <<
         "Attaching current articulations to note " <<
         note->asString () <<
@@ -15306,7 +15298,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
   if (fCurrentTechnicalsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technicals to note " <<
         note->asString () <<
@@ -15320,7 +15312,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
           fCurrentTechnicalsList.front();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+      if (gTraceOah->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical '" <<
           tech->asString () <<
@@ -15346,7 +15338,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   if (fCurrentTechnicalWithIntegersList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with integers to note " <<
         note->asString () <<
@@ -15360,7 +15352,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
           fCurrentTechnicalWithIntegersList.front();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+      if (gTraceOah->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with integer '" <<
           tech->asString () <<
@@ -15386,7 +15378,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithFloatsToNote (
   if (fCurrentTechnicalWithFloatsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with floats to note " <<
         note->asString () <<
@@ -15400,7 +15392,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithFloatsToNote (
           fCurrentTechnicalWithFloatsList.front();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+  if (gTraceOah->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with integer '" <<
           tech->asString () <<
@@ -15426,7 +15418,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   if (fCurrentTechnicalWithStringsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceTechnicals) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with strings to note " <<
         note->asString () <<
@@ -16384,7 +16376,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 
       else {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+        if (gTraceOah->fTraceLigatures) {
           stringstream s;
 
           int numberOfLigatures = fPendingLigaturesList.size ();
@@ -16411,7 +16403,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 
     if (! delayAttachment) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceLigatures || gTraceOah->fTraceNotes) {
+      if (gTraceOah->fTraceLigatures) {
           stringstream s;
 
           int numberOfLigatures = fPendingLigaturesList.size ();
@@ -16827,7 +16819,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
                   syllable =
                     msrSyllable::create (
                       inputLineNumber,
-                      msrSyllable::kSyllableSkip,
+                      msrSyllable::kSyllableSkipRest,
                       msrSyllable::kSyllableExtendNone, // fCurrentSyllableExtendKind, // JMI
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
@@ -16941,7 +16933,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
                   syllable =
                     msrSyllable::create (
                       inputLineNumber,
-                      msrSyllable::kSyllableSkip,
+                      msrSyllable::kSyllableSkipRest,
                       msrSyllable::kSyllableExtendNone, // fCurrentSyllableExtendKind, // JMI
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
@@ -17266,7 +17258,8 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
   else if (
     fCurrentTremoloTypeKind == kTremoloTypeStart
       ||
-    fCurrentTremoloTypeKind == kTremoloTypeStop) {
+    fCurrentTremoloTypeKind == kTremoloTypeStop
+  ) {
     // double tremolo note
     if (fCurrentNoteGraphicDurationKind == k_NoDuration) {
       stringstream s;
@@ -17580,11 +17573,7 @@ void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
       fCurrentNoteIsCrossStaves = true;
 
 #ifdef TRACE_OAH
-      if (
-        gTraceOah->fTraceStaves
-          ||
-        gTraceOah->fTraceVoices
-      ) {
+      if (gTraceOah->fTraceStaffChanges) {
         fLogOutputStream <<
           "*** There is staff change for chord member note '" <<
           newNote->asShortString () <<
@@ -17613,7 +17602,7 @@ void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
       // to remain in this staff and not use the note's one
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceStaves || gTraceOah->fTraceVoices) {
+      if (gTraceOah->fTraceStaffChanges) {
         fLogOutputStream <<
           "*** There is staff change for note '" <<
           newNote->asShortString () <<
@@ -17868,7 +17857,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // set current staff number to insert into if needed JMI ???
   if (fCurrentStaffNumberToInsertInto == K_NO_STAFF_NUMBER) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+    if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
       fLogOutputStream <<
         "==> setting fCurrentStaffNumberToInsertInto to " <<
         fCurrentMusicXMLStaffNumber <<
@@ -17884,7 +17873,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> fetching voice to insert note into" <<
       ", fCurrentStaffNumberToInsertInto = " <<
@@ -17914,7 +17903,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     "voiceToInsertNoteInto is null");
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> is there a staff change?" <<
       " fCurrentStaffNumberToInsertInto = " <<
@@ -17941,7 +17930,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // before the note itself is handled, because that may cause
   // tuplets or chords to be appended to the voice
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaves) {
+  if (gTraceOah->fTraceNotes || gTraceOah->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> fetching voice to insert harmonies, figured basses and/or frames into" <<
       ", fCurrentStaffNumberToInsertInto = " <<
@@ -18025,7 +18014,6 @@ void mxmlTree2MsrTranslator:: attachPendingHarmoniesFiguredBassesAndOrFramesToNo
   if (fPendingHarmoniesList.size ()) {
     // handle the pending harmonies
     handlePendingHarmonies (
-      inputLineNumber,
       newNote,
       voiceToInsertInto);
 
@@ -18067,14 +18055,16 @@ void mxmlTree2MsrTranslator:: attachPendingHarmoniesFiguredBassesAndOrFramesToNo
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handlePendingHarmonies (
-  int        inputLineNumber,
   S_msrNote  newNote,
   S_msrVoice voiceToInsertInto)
 {
   rational
     newNoteSoundingWholeNotes =
       newNote->
-        getNoteSoundingWholeNotes ();
+        getNoteSoundingWholeNotes (),
+    newNoteDisplayWholeNotes =
+      newNote->
+        getNoteDisplayWholeNotes ();
 
   while (fPendingHarmoniesList.size ()) { // recompute at each iteration
     S_msrHarmony
@@ -18100,10 +18090,10 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       setHarmonySoundingWholeNotes (
         newNoteSoundingWholeNotes);
 
-    // set the harmony's display whole notes
+    // set the harmony's display whole notes JMI useless???
     harmony->
       setHarmonyDisplayWholeNotes (
-        fCurrentNoteDisplayWholeNotes);
+        newNoteDisplayWholeNotes);
 
     // set the harmony's tuplet factor
     harmony->
@@ -18111,6 +18101,10 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
         msrTupletFactor (
           fCurrentNoteActualNotes,
           fCurrentNoteNormalNotes));
+
+    // attach the harmony to newNote
+    newNote->
+      appendNoteToNoteHarmoniesList (harmony);
 
     // get the harmony voice for the current voice
     S_msrVoice
@@ -18127,12 +18121,7 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     // only now that we know which harmony voice will contain it
     harmony->
       setHarmonyVoiceUpLink (
- // JMI       voiceToInsertInto);
         voiceHarmonyVoice);
-
-    // attach the harmony to the note
-    newNote->
-      appendNoteToNoteHarmoniesList (harmony);
 
     // append the harmony to the harmony voice for the current voice
     voiceHarmonyVoice->
@@ -18149,38 +18138,65 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
   S_msrNote  newNote,
   S_msrVoice voiceToInsertInto)
 {
-  while (fPendingFiguredBassesList.size ()) {
+  rational
+    newNoteSoundingWholeNotes =
+      newNote->
+        getNoteSoundingWholeNotes (),
+    newNoteDisplayWholeNotes =
+      newNote->
+        getNoteDisplayWholeNotes ();
+
+  while (fPendingFiguredBassesList.size ()) { // recompute at each iteration
     S_msrFiguredBass
       figuredBass =
         fPendingFiguredBassesList.front ();
 
-    // set the figured bass's voice upLink
-    figuredBass->
-      setFiguredBassVoiceUpLink (
-        voiceToInsertInto);
+    /*
+      Figured bass elements take their position from the first
+      regular note (not a grace note or chord note) that follows
+      in score order. The optional duration element is used to
+      indicate changes of figures under a note.
+    */
 
-    // set the figured bass's whole notes
+    // set the figured bass's sounding whole notes
     figuredBass->
       setFiguredBassSoundingWholeNotes (
-        fCurrentNoteSoundingWholeNotes);
+        newNoteSoundingWholeNotes);
 
-    // set the figuredBass's tuplet factor
+    // set the figured bass's display whole notes JMI useless???
+    figuredBass->
+      setFiguredBassDisplayWholeNotes (
+        newNoteDisplayWholeNotes);
+
+    // set the figured bass's tuplet factor
     figuredBass->
       setFiguredBassTupletFactor (
         msrTupletFactor (
           fCurrentNoteActualNotes,
           fCurrentNoteNormalNotes));
 
-    // attach the figured bass to the note
+    // attach the figured bass to newNote
     newNote->
       setNoteFiguredBass (figuredBass);
 
-    // append the figured bass to the figured bass voice for the current voice
+    // get the figured bass voice for the current voice
     S_msrVoice
       voiceFiguredBassVoice =
         voiceToInsertInto->
           getFiguredBassVoiceForRegularVoiceForwardLink ();
 
+    // sanity check
+    msrAssert (
+      voiceFiguredBassVoice != nullptr,
+      "voiceFiguredBassVoice is null");
+
+    // set the figuredBass's voice upLink
+    // only now that we know which figured bass voice will contain it
+    figuredBass->
+      setFiguredBassVoiceUpLink (
+        voiceFiguredBassVoice);
+
+    // append the figured bass to the figured bass voice for the current voice
     voiceFiguredBassVoice->
       appendFiguredBassToVoice (
         figuredBass);
@@ -18208,7 +18224,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else if (
     fCurrentTremoloTypeKind == kTremoloTypeStart
       ||
-    fCurrentTremoloTypeKind == kTremoloTypeStop) {
+    fCurrentTremoloTypeKind == kTremoloTypeStop
+  ) {
     // double tremolo note
     newNote->
       setNoteKind (
@@ -18338,7 +18355,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       // this is the first grace note in grace notes
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceTuplets || gTraceOah->fTraceGraceNotes) {
+      if (gTraceOah->fTraceGraceNotes) {
         fLogOutputStream <<
           "Creating grace notes for note '" <<
           newNote->asString () <<
@@ -18395,7 +18412,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
     // append newNote to the current grace notes
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceTuplets || gTraceOah->fTraceGraceNotes) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Appending note " <<
         newNote->asString () <<
@@ -18632,7 +18649,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotesDetails || gTraceOah->fTraceLyricsDetails) {
+    if (gTraceOah->fTraceLyricsDetails) {
       fLogOutputStream <<
         "Note '" <<
         newNote->asShortString () <<
@@ -18669,6 +18686,9 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       ! fCurrentNoteHasLyrics;
 
     switch (fCurrentSyllableExtendKind) {
+      case msrSyllable::kSyllableExtendNone:
+  //      doCreateASkipSyllable = true; // JMI
+        break;
       case msrSyllable::kSyllableExtendSingle:
         break;
       case msrSyllable::kSyllableExtendStart:
@@ -18678,19 +18698,11 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
         break;
       case msrSyllable::kSyllableExtendStop:
         break;
-      case msrSyllable::kSyllableExtendNone:
-  //      doCreateASkipSyllable = true; // JMI
-        break;
     } // switch
 
     if (doCreateASkipSyllable) {
       if (
-        !
-          (
-            fCurrentNoteBelongsToAChord
-              ||
-            fCurrentNoteIsAGraceNote
-          )
+        ! (fCurrentNoteBelongsToAChord || fCurrentNoteIsAGraceNote)
       ) {
         // get the current voice's stanzas map
         const map<string, S_msrStanza>&
@@ -18704,12 +18716,20 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
           i++
         ) {
           S_msrStanza stanza = (*i).second;
+
+          //choose the syllable kind
+          msrSyllable::msrSyllableKind
+            syllableKind =
+            fCurrentNoteIsARest
+              ? msrSyllable::kSyllableSkipRestNote
+              : msrSyllable::kSyllableSkipNonRestNote;
+
           // create a skip syllable
           S_msrSyllable
             syllable =
               msrSyllable::create (
                 inputLineNumber,
-                msrSyllable::kSyllableSkip,
+                syllableKind,
                 fCurrentSyllableExtendKind,
                 fCurrentNoteSoundingWholeNotesFromDuration,
                 msrTupletFactor (
@@ -18736,6 +18756,8 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
 
   // take care of ongoing extends
   switch (fCurrentSyllableExtendKind) {
+    case msrSyllable::kSyllableExtendNone:
+      break;
     case msrSyllable::kSyllableExtendSingle:
       fOnGoingSyllableExtend = true;
       break;
@@ -18750,10 +18772,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
     case msrSyllable::kSyllableExtendStop:
       fOnGoingSyllableExtend = false;
       break;
-    case msrSyllable::kSyllableExtendNone:
-      break;
   } // switch
-
 }
 
 //______________________________________________________________________________
@@ -18821,11 +18840,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   } // switch
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-    ) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream << // JMI
       endl <<
       "***==> fCurrentStaffNumberToInsertInto = " <<
@@ -18856,7 +18871,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       "currentVoice is null");
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Handling a chord member note" <<
       ", currentVoice = \"" <<
@@ -18869,11 +18884,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotesDetails
-      ||
-    gTraceOah->fTraceChordsDetails
-  ) {
+  if (gTraceOah->fTraceChordsDetails) {
     fLogOutputStream <<
       endl <<
       "======================= handleNoteBelongingToAChord" <<
@@ -19009,7 +19020,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       case msrNote::kStandaloneNote:
         // remove last handled (previous current) note from the current voice
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+        if (gTraceOah->fTraceChords) {
           fLogOutputStream <<
             "Removing chord first note " <<
             chordFirstNote->asShortString () <<
@@ -19021,11 +19032,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-        if (
-          gTraceOah->fTraceNotesDetails
-            ||
-          gTraceOah->fTraceChordsDetails
-        ) {
+        if (gTraceOah->fTraceChordsDetails) {
           fLogOutputStream <<
             endl << endl <<
             "&&&&&&&&&&&&&&&&&& fCurrentPart contents &&&&&&&&&&&&&&&&&&" <<
@@ -19037,17 +19044,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-        if (
-          gTraceOah->fTraceNotes
-            ||
-          gTraceOah->fTraceChords
-            ||
-          gTraceOah->fTraceStaves
-            ||
-          gTraceOah->fTraceMeasures
-            ||
-          gTraceOah->fTraceLyrics
-        ) {
+        if (gTraceOah->fTraceStaffChanges) {
           fLogOutputStream << // JMI
             endl <<
             "***==> fCurrentStaffNumberToInsertInto = " <<
@@ -19265,7 +19262,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a tuplet" <<
       ", note: " <<
@@ -19286,7 +19283,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     case msrTuplet::kTupletTypeStart:
       {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+        if (gTraceOah->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStart: note = '" <<
             note->
@@ -19342,7 +19339,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
           // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-          if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+          if (gTraceOah->fTraceTuplets) {
             fLogOutputStream <<
               "--> kTupletTypeContinue: adding tuplet member note '" <<
               note->
@@ -19437,7 +19434,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-              if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+              if (gTraceOah->fTraceTuplets) {
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding outer-most tuplet member note '" <<
                   note->
@@ -19542,7 +19539,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-              if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+              if (gTraceOah->fTraceTuplets) {
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding nested tuplet member note '" <<
                   note->
@@ -19597,7 +19594,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     case msrTuplet::kTupletTypeStartAndStopInARow:
       {
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceTuplets) {
+        if (gTraceOah->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStartAndStopInARow: note = '" <<
             note->
@@ -19679,13 +19676,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   }
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-      ||
-    gTraceOah->fTraceTuplets
-  ) {
+  if (gTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
@@ -19797,13 +19788,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
     // add chord to the current tuplet instead of tupletLastNote
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotes
-        ||
-      gTraceOah->fTraceChords
-        ||
-      gTraceOah->fTraceTuplets
-      ) {
+    if (gTraceOah->fTraceChords || gTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "Adding chord '" <<
         fCurrentChord->asString () <<
@@ -19832,7 +19817,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   // register note as another member of chord
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
@@ -19880,13 +19865,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
       msrNote::kGraceChordMemberNote);
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceChords
-      ||
-    gTraceOah->fTraceGraceNotes
-    ) {
+  if (gTraceOah->fTraceChords || gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in grace notes" <<
       ", newChordNote is '" <<
@@ -19954,13 +19933,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     }
 
 #ifdef TRACE_OAH
-    if (
-      gTraceOah->fTraceNotes
-        ||
-      gTraceOah->fTraceChords
-        ||
-      gTraceOah->fTraceGraceNotes
-    ) {
+    if (gTraceOah->fTraceChords || gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "The grace notes chord's first note is '" <<
         chordFirstNote->
@@ -20033,7 +20006,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 
   // register note as another member of chord
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
@@ -20178,11 +20151,6 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   // remember repeat start measure number
   fCurrentRepeatStartMeasureNumber = inputLineNumber;
 
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryRepeatStart);
-
   // prepare for repeat in current part
   fCurrentPart->
     handleRepeatStartInPart (
@@ -20220,11 +20188,6 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   }
 #endif
 
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryRepeatEnd);
-
   // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
@@ -20258,12 +20221,8 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
   }
 #endif
 
-  // remember repeat ending start barline,
-  // don't know yet whether it's hooked or hookless
-  fCurrentRepeatEndingStartBarline = barline;
-
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -20290,13 +20249,6 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
     handleRepeatEndingStartInPart (
       inputLineNumber);
 
-/* JMI
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHookedEndingStart);
-  */
-
   // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
@@ -20307,7 +20259,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
   S_msrBarline& barline)
 {
   int inputLineNumber =
-    fCurrentRepeatEndingStartBarline->
+    barline->
       getInputLineNumber ();
 
 #ifdef TRACE_OAH
@@ -20321,7 +20273,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -20332,16 +20284,6 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
       endl;
   }
 #endif
-
-  // set current barline start category
-  fCurrentRepeatEndingStartBarline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHookedEndingStart);
-
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHookedEndingEnd);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -20379,7 +20321,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
   */
 
   int inputLineNumber =
-    fCurrentRepeatEndingStartBarline->
+    barline->
       getInputLineNumber ();
 
 #ifdef TRACE_OAH
@@ -20393,7 +20335,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (gTraceOah->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -20404,16 +20346,6 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
       endl;
   }
 #endif
-
-  // set current barline start category
-  fCurrentRepeatEndingStartBarline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHooklessEndingStart);
-
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHooklessEndingEnd);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -20435,9 +20367,6 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
       msrRepeatEnding::kHooklessEnding);
-
-  // forget about the current ending start barline
-  fCurrentRepeatEndingStartBarline = nullptr;
 }
 
 //______________________________________________________________________________
@@ -21810,7 +21739,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-      "figured-bass has no figures contents FOO, ignoring it");
+      "figured-bass has no figures contents, ignoring it");
   }
   else {
     // append the pending figures to the figured bass
@@ -21818,7 +21747,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
       list<S_msrFigure>::const_iterator i=fPendingFiguredBassFiguresList.begin ();
       i!=fPendingFiguredBassFiguresList.end ();
       i++
-  ) {
+    ) {
       figuredBass->
         appendFigureToFiguredBass ((*i));
     } // for
@@ -22561,4 +22490,47 @@ part-symbol
   }
 #endif
 */
+
+  /* JMI
+Repeats and endings are represented by the <repeat> and <ending> elements with a <barline>, as defined in the barline.mod file.
+
+In regular measures, there is no need to include the <barline> element. It is only need to represent repeats, endings, and graphical styles such as double barlines.
+
+A forward repeat mark is represented by a left barline at the beginning of the measure (following the attributes element, if there is one):
+
+  <barline location="left">
+    <bar-style>heavy-light</bar-style>
+    <repeat direction="forward"/>
+  </barline>
+
+The repeat element is what is used for sound generation; the bar-style element only indicates graphic appearance.
+
+Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
+
+  <barline location="right">
+    <bar-style>light-heavy</bar-style>
+    <repeat direction="backward"/>
+  </barline>
+
+While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
+
+  <barline location="left">
+    <ending type="start" number="1"/>
+  </barline>
+
+The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
+
+  <barline location="right">
+    <bar-style>light-heavy</bar-style>
+    <ending type="stop" number="1"/>
+    <repeat direction="backward"/>
+  </barline>
+
+The discontinue value is typically used for the last ending in a set, where there is no downward hook to mark the end of an ending:
+
+  <barline location="right">
+    <ending type="discontinue" number="2"/>
+  </barline>
+
+    */
 

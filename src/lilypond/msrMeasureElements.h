@@ -48,26 +48,29 @@ class msrMeasureElement : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setMeasureNumber (
+    void                  setMeasureElementMeasureNumber (
                             string positionInMeasure)
-                              { fMeasureNumber = positionInMeasure; }
+                              {
+                                fMeasureElementMeasureNumber =
+                                  positionInMeasure;
+                              }
 
-    string                getMeasureNumber ()
-                              { return fMeasureNumber; }
+    string                getMeasureElementMeasureNumber ()
+                              { return fMeasureElementMeasureNumber; }
 
-    void                  setPositionInMeasure (
+    void                  setMeasureElementPositionInMeasure (
                             rational positionInMeasure,
                             string   context);
 
-    rational              getPositionInMeasure ()
-                              { return fPositionInMeasure; }
+    rational              getMeasureElementPositionInMeasure ()
+                              { return fMeasureElementPositionInMeasure; }
 
-    void                  setSoundingWholeNotes (
+    void                  setMeasureElementSoundingWholeNotes (
                             rational wholeNotes,
                             string   context);
 
-    rational              getSoundingWholeNotes () const
-                              { return fSoundingWholeNotes; }
+    rational              getMeasureElementSoundingWholeNotes () const
+                              { return fMeasureElementSoundingWholeNotes; }
 
   public:
 
@@ -105,9 +108,9 @@ class msrMeasureElement : public msrElement
     // fields
     // ------------------------------------------------------
 
-    string                fMeasureNumber;
-    rational              fPositionInMeasure;
-    rational              fSoundingWholeNotes;
+    string                fMeasureElementMeasureNumber;
+    rational              fMeasureElementPositionInMeasure;
+    rational              fMeasureElementSoundingWholeNotes;
 };
 typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureElement& elt);

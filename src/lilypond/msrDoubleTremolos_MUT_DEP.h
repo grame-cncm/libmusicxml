@@ -138,7 +138,7 @@ class msrDoubleTremolo : public msrMeasureElement
                             rational wholeNotes)
                               {
         // JMI                        fDoubleTremoloSoundingWholeNotes =
-                                fSoundingWholeNotes =
+                                fMeasureElementSoundingWholeNotes =
                                   wholeNotes;
                               }
 
@@ -146,7 +146,7 @@ class msrDoubleTremolo : public msrMeasureElement
                               {
                                 return
                  // JMI                 fDoubleTremoloSoundingWholeNotes;
-                                  fSoundingWholeNotes;
+                                  fMeasureElementSoundingWholeNotes;
                               }
 
     // measure number

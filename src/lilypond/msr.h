@@ -29,7 +29,7 @@
 #include "msrIdentification.h"
 
 #include "msrLayouts.h" // JMI ???
-#include "msrGeometry.h"
+#include "msrScaling.h"
 
 #include "msrCredits.h"
 

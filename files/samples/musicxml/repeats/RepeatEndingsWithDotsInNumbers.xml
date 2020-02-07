@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--MusicXML 1.1 file created by CapToMusic.py CapXML to MusicXML converter version 1.11-->
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 1.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="1.1">
+	<identification>
+		<encoding>
+			<encoding-date>2012-10-15</encoding-date>
+			<software>CapToMusic.py CapXML to MusicXML converter version 1.11</software>
+			<encoding-description>Options: FinaleDolet33=1, ChordCaseMatters=1, ExportToSibelius=1</encoding-description>
+		</encoding>
+	</identification>
+	<defaults>
+		<scaling>
+			<millimeters>1.2</millimeters>
+			<tenths>10.0</tenths>
+		</scaling>
+		<page-layout>
+			<page-height>2475</page-height>
+			<page-width>1750</page-width>
+			<page-margins type="both">
+				<left-margin>125</left-margin>
+				<right-margin>125</right-margin>
+				<top-margin>125</top-margin>
+				<bottom-margin>125</bottom-margin>
+			</page-margins>
+		</page-layout>
+		<system-layout>
+			<system-margins>
+				<left-margin>0</left-margin>
+				<right-margin>0</right-margin>
+			</system-margins>
+			<system-distance>0</system-distance>
+		</system-layout>
+	</defaults>
+	<credit>
+		<credit-words default-x="875" default-y="2352" font-size="11" font-weight="bold" justify="center">Suite  Nummer 3 - D - Dur BWV 1068  Joh. Seb. Bach (1685 - 1750)          Seite   #</credit-words>
+	</credit>
+	<part-list>
+		<score-part id="P1">
+			<part-name>Tromba 1 in D</part-name>
+			<part-abbreviation></part-abbreviation>
+			<score-instrument id="P1-I1">
+				<instrument-name>Midi_57</instrument-name>
+			</score-instrument>
+			<midi-instrument id="P1-I1">
+				<midi-channel>1</midi-channel>
+				<midi-program>57</midi-program>
+			</midi-instrument>
+		</score-part>
+	</part-list>
+	<part id="P1">
+		<measure number="1">
+			<!--barline location="left">
+				<bar-style>heavy-light</bar-style>
+				<repeat direction="forward"/>
+			</barline-->
+			<print>
+				<system-layout>
+					<system-margins>
+						<left-margin>148</left-margin>
+						<right-margin>0</right-margin>
+					</system-margins>
+					<top-system-distance>80</top-system-distance>
+				</system-layout>
+				<staff-layout number="1">
+					<staff-distance>80</staff-distance>
+				</staff-layout>
+			</print>
+			<attributes>
+				<divisions>480</divisions>
+				<key>
+					<fifths>0</fifths>
+					<mode>major</mode>
+				</key>
+				<time symbol="common">
+					<beats>4</beats>
+					<beat-type>4</beat-type>
+				</time>
+				<clef>
+					<sign>G</sign>
+					<line>2</line>
+				</clef>
+			</attributes>
+			<direction placement="above">
+				<direction-type>
+					<words default-x="-99" default-y="35" font-family="Arial" font-size="11" font-weight="bold">Ouverture</words>
+				</direction-type>
+			</direction>
+			<barline location="left">
+				<ending type="start" number="1."/>
+			</barline>
+			<note>
+				<pitch>
+					<step>B</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>960</duration>
+				<voice>1</voice>
+				<type>half</type>
+			</note>
+			<note>
+				<rest/>
+				<duration>960</duration>
+				<voice>1</voice>
+				<type>half</type>
+			</note>
+			<barline>
+				<bar-style>light-heavy</bar-style>
+				<ending type="stop" number="1."/>
+				<repeat direction="backward"/>
+			</barline>
+		</measure>
+		<measure number="2">
+			<print new-system="yes">
+				<system-layout>
+					<system-margins>
+						<left-margin>30</left-margin>
+						<right-margin>0</right-margin>
+					</system-margins>
+					<system-distance>110</system-distance>
+				</system-layout>
+				<staff-layout number="1">
+					<staff-distance>80</staff-distance>
+				</staff-layout>
+			</print>
+			<barline location="left">
+				<ending type="start" number="2."/>
+			</barline>
+			<note>
+				<pitch>
+					<step>B</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>480</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+			</note>
+			<note>
+				<rest/>
+				<duration>480</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+			</note>
+			<note>
+				<rest/>
+				<duration>960</duration>
+				<voice>1</voice>
+				<type>half</type>
+			</note>
+			<barline>
+				<ending type="discontinue" number="2."/>
+			</barline>
+		</measure>
+		<measure number="3">
+			<barline location="left">
+				<bar-style>heavy-light</bar-style>
+				<repeat direction="forward"/>
+			</barline>
+			<attributes>
+				<time symbol="cut">
+					<beats>2</beats>
+					<beat-type>2</beat-type>
+				</time>
+			</attributes>
+			<barline location="left">
+				<ending type="start" number="1."/>
+			</barline>
+			<direction placement="below">
+				<direction-type>
+					<words default-x="-264" default-y="-215" font-family="Arial" font-size="11" font-weight="bold" justify="center">Nummer  2    tacet für Tromba 1</words>
+				</direction-type>
+			</direction>
+			<note>
+				<pitch>
+					<step>C</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>480</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+			</note>
+			<note>
+				<rest/>
+				<duration>480</duration>
+				<voice>1</voice>
+				<type>quarter</type>
+			</note>
+			<note>
+				<rest/>
+				<duration>960</duration>
+				<voice>1</voice>
+				<type>half</type>
+			</note>
+			<barline>
+				<bar-style>light-heavy</bar-style>
+				<ending type="stop" number="1."/>
+				<repeat direction="backward"/>
+			</barline>
+		</measure>
+		<measure number="4">
+			<barline location="left">
+				<ending type="start" number="2."/>
+			</barline>
+			<note>
+				<pitch>
+					<step>C</step>
+					<octave>5</octave>
+				</pitch>
+				<duration>1920</duration>
+				<voice>1</voice>
+				<type>whole</type>
+				<notations>
+					<fermata type="upright"/>
+				</notations>
+			</note>
+			<barline>
+				<bar-style>light-heavy</bar-style>
+				<ending type="stop" number="2."/>
+			</barline>
+		</measure>
+	</part>
+</score-partwise>

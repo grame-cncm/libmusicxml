@@ -209,7 +209,7 @@ string brailleOutputKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string brailleOutputKindAtom::asLongNamedOptionString () const
+string brailleOutputKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -418,7 +418,7 @@ string brailleUTFKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string brailleUTFKindAtom::asLongNamedOptionString () const
+string brailleUTFKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -627,7 +627,7 @@ string brailleByteOrderingKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string brailleByteOrderingKindAtom::asLongNamedOptionString () const
+string brailleByteOrderingKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
