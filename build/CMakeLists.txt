@@ -11,7 +11,7 @@ endif()
 # versions management
 set (XMLVERSION 3.1)
 
-set (VERSION 3.1.7)
+set (VERSION 3.1.9)
 macro (get_major_minor_patch version)
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\1"  VERSION_MAJOR ${version} )
 	string( REGEX REPLACE "([0-9]*)\\.([0-9]*)\\.([0-9]*)" "\\2"  VERSION_MINOR ${version} )
@@ -35,9 +35,9 @@ option ( BRL 		   "Include braille part"	  off )
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
-set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
-set (DTDS   ${ROOT}/dtds/${XMLVERSION})
-set (SCHEMA ${DTDS}/schema)
+set (DOCDIR ${ROOT}/doc)
+set (DOC    ${DOCDIR}/presentation/libmusicxml2.pdf ${DOCDIR}/userSGuideToXml2ly/userSGuideToXml2ly.pdf ${DOCDIR}/maintainerSGuideToXml2ly/MaintainerSGuideToXml2ly.pdf)
+set (SCHEMA   ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
@@ -252,15 +252,7 @@ install ( TARGETS ${TOOLS}
 ####################################
 # install misc files
 install (
-    DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
-    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
-    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-      GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-    PATTERN ".DS_Store" EXCLUDE
-)
-
-install (
-    DIRECTORY ${DTDS} ${SCHEMA} DESTINATION ${DOCDIR}/schema
+    DIRECTORY ${SCHEMA} DESTINATION ${DOCDIR}/schema
     FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
     DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE

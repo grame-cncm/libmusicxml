@@ -34,26 +34,26 @@ msrMeasureElement::msrMeasureElement (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fMeasureNumber      = K_NO_MEASURE_NUMBER;
-  fPositionInMeasure  = K_NO_POSITION_MEASURE_NUMBER;
-  fSoundingWholeNotes = rational (0, 1); // JMI K_NO_WHOLE_NOTES ???
+  fMeasureElementMeasureNumber      = K_NO_MEASURE_NUMBER;
+  fMeasureElementPositionInMeasure  = K_NO_POSITION_MEASURE_NUMBER;
+  fMeasureElementSoundingWholeNotes = rational (0, 1); // JMI K_NO_WHOLE_NOTES ???
 }
 
 msrMeasureElement::~msrMeasureElement ()
 {}
 
-void msrMeasureElement::setPositionInMeasure (
+void msrMeasureElement::setMeasureElementPositionInMeasure (
   rational positionInMeasure,
   string   context)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Setting position in measure of " <<
+      "Setting measure element position in measure of " <<
       asString () <<
       " to '" << positionInMeasure <<
       "' in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       "', context: \"" <<
       context <<
       "\"" <<
@@ -61,28 +61,28 @@ void msrMeasureElement::setPositionInMeasure (
   }
 #endif
 
-  // JMI ??? if (fPositionInMeasure == rational (3, 4) && positionInMeasure == rational (1, 2)) abort ();
+  // JMI ??? if (fMeasureElementPositionInMeasure == rational (3, 4) && positionInMeasure == rational (1, 2)) abort ();
 
   // sanity check
   msrAssert (
     positionInMeasure != K_NO_POSITION_MEASURE_NUMBER,
     "positionInMeasure == K_NO_POSITION_MEASURE_NUMBER");
 
-  fPositionInMeasure = positionInMeasure;
+  fMeasureElementPositionInMeasure = positionInMeasure;
 }
 
-void msrMeasureElement::setSoundingWholeNotes (
+void msrMeasureElement::setMeasureElementSoundingWholeNotes (
   rational wholeNotes,
   string   context)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Setting sounding whole notes of " <<
+      "Setting measure element sounding whole notes of " <<
       asString () <<
       " to '" << wholeNotes <<
       "' in measure '" <<
-      fMeasureNumber <<
+      fMeasureElementMeasureNumber <<
       "', context: \"" <<
       context <<
       "\"" <<
@@ -95,7 +95,7 @@ void msrMeasureElement::setSoundingWholeNotes (
     wholeNotes != K_NO_WHOLE_NOTES,
     "wholeNotes == K_NO_WHOLE_NOTES");
 
-  fSoundingWholeNotes = wholeNotes;
+  fMeasureElementSoundingWholeNotes = wholeNotes;
 }
 
 bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (
@@ -103,9 +103,9 @@ bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (
   const SMARTP<msrMeasureElement>& second)
 {
   return
-    first->getPositionInMeasure ()
+    first->getMeasureElementPositionInMeasure ()
       <
-    second->getPositionInMeasure ();
+    second->getMeasureElementPositionInMeasure ();
 }
 
 void msrMeasureElement::acceptIn (basevisitor* v)

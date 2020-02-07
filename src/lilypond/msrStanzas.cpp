@@ -218,7 +218,9 @@ void msrStanza::appendSyllableToStanza (
       fStanzaTextPresent = true;
       break;
 
-    case msrSyllable::kSyllableSkip:
+    case msrSyllable::kSyllableOnRestNote:
+    case msrSyllable::kSyllableSkipRestNote:
+    case msrSyllable::kSyllableSkipNonRestNote:
     case msrSyllable::kSyllableMeasureEnd:
     case msrSyllable::kSyllableLineBreak:
     case msrSyllable::kSyllablePageBreak:
@@ -268,7 +270,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kSyllableSkip, // JMI ??? kSyllableRest,
+        msrSyllable::kSyllableSkipRestNote,
         msrSyllable::kSyllableExtendNone,
         wholeNotes,
         msrTupletFactor (),
@@ -305,7 +307,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kSyllableSkip,
+        msrSyllable::kSyllableSkipRestNote,
         msrSyllable::kSyllableExtendNone,
         wholeNotes,
         msrTupletFactor (),
@@ -400,49 +402,15 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
-  int inputLineNumber)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceLyrics) {
-    gLogOstream <<
-      "Appending 'line break' syllable" <<
-      " to stanza " << getStanzaName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-
-  // create stanza line break syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kSyllableLineBreak,
-        msrSyllable::kSyllableExtendNone,
-        0, // whole notes
-        msrTupletFactor (),
-        this);
-
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  gIndenter--;
-
-  // and return it
-  return syllable;
-}
-
-S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
-  int    inputLineNumber,
-  string nextMeasureNumber)
+  int inputLineNumber,
+  int nextMeasurePuristNumber)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
+      ", nextMeasurePuristNumber: " << nextMeasurePuristNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -450,17 +418,17 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
 
   gIndenter++;
 
-  // create stanza break syllable
+  // create line break syllable
   S_msrSyllable
     syllable =
-      msrSyllable::create (
+      msrSyllable::createWithNextMeasurePuristNumber (
         inputLineNumber,
         msrSyllable::kSyllableLineBreak,
- // JMI  nextMeasureNumber,
         msrSyllable::kSyllableExtendNone,
         0, // whole notes
         msrTupletFactor (),
-        this);
+        this,
+        nextMeasurePuristNumber);
 
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
@@ -472,14 +440,15 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
 }
 
 S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
-  int    inputLineNumber,
-  string nextMeasureNumber)
+  int inputLineNumber,
+  int nextMeasurePuristNumber)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending a 'PageBreak' syllable" <<
       " to stanza " << getStanzaName () <<
+      ", nextMeasurePuristNumber: " << nextMeasurePuristNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -487,17 +456,17 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
 
   gIndenter++;
 
-  // create stanza break syllable
+  // create page break syllable
   S_msrSyllable
     syllable =
-      msrSyllable::create (
+      msrSyllable::createWithNextMeasurePuristNumber (
         inputLineNumber,
         msrSyllable::kSyllablePageBreak,
- // JMI  nextMeasureNumber,
         msrSyllable::kSyllableExtendNone,
         0, // whole notes
         msrTupletFactor (),
-        this);
+        this,
+        nextMeasurePuristNumber);
 
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
@@ -520,7 +489,7 @@ void msrStanza::appendPaddingNoteToStanza (
   rational forwardStepLength)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceLyrics || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceLyrics) {
     gLogOstream <<
       "Appending padding note" <<
       ", forwardStepLength: " <<

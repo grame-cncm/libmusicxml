@@ -192,17 +192,15 @@ class msrFiguredBass : public msrMeasureElement
                               { return fFiguredBassPartUpLink; }
 */
 
-    void                  setFiguredBassSoundingWholeNotes ( // JMI
+    void                  setFiguredBassSoundingWholeNotes (
                             rational wholeNotes)
                               {
-          // JMI                      fFiguredBassSoundingWholeNotes =
-                                fSoundingWholeNotes =
+                                fMeasureElementSoundingWholeNotes =
                                   wholeNotes;
                               }
 
     rational              getFiguredBassSoundingWholeNotes () const
-                    // JMI          { return fFiguredBassSoundingWholeNotes; }
-                              { return fSoundingWholeNotes; }
+                              { return fMeasureElementSoundingWholeNotes; }
 
     void                  setFiguredBassDisplayWholeNotes (
                             rational wholeNotes)
@@ -225,6 +223,9 @@ class msrFiguredBass : public msrMeasureElement
 
     msrTupletFactor       getFiguredBassTupletFactor () const
                               { return fFiguredBassTupletFactor; }
+
+    void                  setFiguredBassPositionInMeasure (
+                            rational positionInMeasure);
 
     // services
     // ------------------------------------------------------
@@ -261,8 +262,7 @@ class msrFiguredBass : public msrMeasureElement
     S_msrNote             fFiguredBassNoteUpLink;
     S_msrVoice            fFiguredBassVoiceUpLink;
 
-// JMI    rational              fFiguredBassSoundingWholeNotes;
-    rational              fFiguredBassDisplayWholeNotes;
+    rational              fFiguredBassDisplayWholeNotes; // JMI useless???
 
     msrFiguredBassParenthesesKind
                           fFiguredBassParenthesesKind;

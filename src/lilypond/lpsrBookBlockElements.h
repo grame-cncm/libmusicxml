@@ -151,8 +151,8 @@ class lpsrScoreBlock : public lpsrBookBlockElement
     S_lpsrLayout          getScoreBlockLayout () const
                             { return fScoreBlockLayout; }
 
-    S_msrMidi             getScoreBlockMidi () const
-                              { return fScoreBlockMidi; }
+    S_msrMidiTempo        getScoreBlockMidiTempo () const
+                              { return fScoreBlockMidiTempo; }
 
     // services
     // ------------------------------------------------------
@@ -184,7 +184,7 @@ class lpsrScoreBlock : public lpsrBookBlockElement
 
     S_lpsrLayout          fScoreBlockLayout;
 
-    S_msrMidi             fScoreBlockMidi;
+    S_msrMidiTempo        fScoreBlockMidiTempo;
 };
 typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);

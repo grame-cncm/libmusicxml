@@ -151,7 +151,17 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     virtual string        asShortNamedOptionString () const;
-    virtual string        asLongNamedOptionString () const;
+    virtual string        asActualLongNamedOptionString () const;
+
+    string                asLongNamedOptionString () const
+                              {
+                                if (fLongName.size ()) {
+                                  return asActualLongNamedOptionString ();
+                                }
+                                else {
+                                  return asShortNamedOptionString ();
+                                }
+                              }
 
     string                asString () const;
 

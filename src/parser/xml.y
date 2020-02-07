@@ -101,11 +101,13 @@ int		libmxmlwrap()		{ return(1); }
 document	: prolog element misc ;
 
 prolog  	: xmldecl doctype
-    		| xmldecl comments doctype
+    		| prolog comments
+ /*   		| xmldecl comments doctype*/
+ 			;
 
 element		: eltstart data eltstop
 			| emptyelt 
-			| procinstr ;
+			| procinstr
 			| comment ;
 
 eltstart	: LT eltname GT
@@ -144,6 +146,7 @@ elements	: element
 
 xmldecl		: /* empty */
 			| XMLDECL versiondec decl ENDXMLDECL { if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone)) ERROR("xmlDecl error") }
+			| xmldecl comments
 
 decl		: /* empty */
 			| encodingdec 
@@ -155,7 +158,8 @@ encodingdec	: SPACE ENCODING EQ QUOTEDSTR 		{ store(xmlencoding, unquote(libmxml
 stdalonedec	: SPACE STANDALONE EQ bool  		{ xmlStandalone = yylval; }
 bool		: YES | NO ;
 
-doctype		: DOCTYPE SPACE startname SPACE id GT
+doctype		: DOCTYPE SPACE startname SPACE id GT;
+
 startname	: NAME 							{ store(doctypeStart, libmxmltext); }
 id			: PUBLIC SPACE publitteral SPACE syslitteral	{ gReader->docType (doctypeStart, true, doctypePub, doctypeSys); }
 			| SYSTEM SPACE syslitteral						{ gReader->docType (doctypeStart, false, doctypePub, doctypeSys); }

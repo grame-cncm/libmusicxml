@@ -144,7 +144,7 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   // score handling
   fScoreNumberOfMeasures = 0;
 
-  // geometry handling
+  // scaling handling
   fCurrentMillimeters = -1;
   fCurrentTenths      = -1;
 
@@ -1409,6 +1409,20 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
             }
 #endif
 
+            stringstream s;
+
+            s <<
+              endl <<
+              "There are overlapping part groups, namely: " <<
+              endl <<
+              gTab << partGroupDescr->partGroupDescrAsString () <<
+              endl <<
+              "and" <<
+              endl <<
+              gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
+              endl;
+
+/* JMI
             // fetch the positions in the intersection
             int
               startOne =
@@ -1430,18 +1444,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               lastCommonPosision = stopTwo;
             }
 
-            stringstream s;
-
             s <<
-              endl <<
-              "There are overlapping part groups, namely: " <<
-              endl <<
-              gTab << partGroupDescr->partGroupDescrAsString () <<
-              endl <<
-              "and" <<
-              endl <<
-              gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
-              endl <<
               endl <<
               "The parts they share are:" <<
               endl;
@@ -1452,7 +1455,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               ")" <<
               endl;
 
-            for (int m = firstCommonPosision; m < lastCommonPosision; m++) {
+            for (int m = firstCommonPosision; m <= lastCommonPosision; m++) {
               S_msrPart
                 part =
                   fPartsVector [m];
@@ -1463,6 +1466,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
                 ", line " << part->getInputLineNumber () <<
                 endl;
             } // for
+*/
 
             s <<
               endl <<
@@ -1816,24 +1820,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_title& elt )
       movementTitle);
 }
 
-
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_identification& elt )
 {
-/*
-  <identification>
-    <encoding>
-      <software>MuseScore 2.0.3.1</software>
-      <encoding-date>2016-12-15</encoding-date>
-      <supports element="accidental" type="yes"/>
-      <supports element="beam" type="yes"/>
-      <supports element="print" attribute="new-page" type="yes" value="yes"/>
-      <supports element="print" attribute="new-system" type="yes" value="yes"/>
-      <supports element="stem" type="yes"/>
-      </encoding>
-    </identification>
-*/
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -1892,6 +1881,14 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
       addLyricist (
         inputLineNumber,
         creatorValue);
+
+    // should we use lyricists as poets?
+    if (gMusicXMLOah->fUseLyricistsAsPoets) {
+      fMsrScore->getIdentification () ->
+        addPoet (
+          inputLineNumber,
+          elt->getValue ());
+    }
   }
 
   else if (creatorType == "poet") {
@@ -2260,7 +2257,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
   fCurrentMillimeters = (float)(*elt);
 
   fMsrScore->
-    getMsrGeometry ()->
+    getScaling ()->
       setMillimeters (fCurrentMillimeters);
 }
 
@@ -2276,7 +2273,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
   fCurrentTenths = (int)(*elt);
 
   fMsrScore->
-    getMsrGeometry ()->
+    getScaling ()->
       setTenths (fCurrentTenths);
 }
 
@@ -2295,7 +2292,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
       " millimeters, hence the global staff size is " <<
-      fMsrScore->getMsrGeometry ()->fetchGlobalStaffSize () <<
+      fMsrScore->getScaling ()->fetchGlobalStaffSize () <<
       endl;
   }
 #endif
@@ -2400,7 +2397,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
     float systemDistanceTenths = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setBetweenSystemSpace (
             msrLength::create (
@@ -2413,10 +2410,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
       "<system-distance /> is not supported yet by " <<
       gOahOah->fHandlerExecutableName;
 
+/* JMI
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       elt->getInputLineNumber (),
      s.str ());
+     */
   }
   else {
     msrMusicXMLError (
@@ -2441,7 +2440,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
     float topSystemDistanceTenths = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         setPageTopSpace (
           msrLength::create (
             kMillimeterUnit,
@@ -2453,10 +2452,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
       "<top-system-distance /> is not supported yet by " <<
       gOahOah->fHandlerExecutableName;
 
+/* JMI
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       elt->getInputLineNumber (),
      s.str ());
+     */
   }
   else {
     msrMusicXMLError (
@@ -2483,10 +2484,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
       "<system-dividers /> is not supported yet by " <<
       gOahOah->fHandlerExecutableName;
 
+/* JMI
     msrMusicXMLWarning (
       gOahOah->fInputSourceName,
       elt->getInputLineNumber (),
      s.str ());
+     */
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_divider& elt )
@@ -2565,7 +2568,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
     float pageHeight = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setPageHeight (
             msrLength::create (
@@ -2594,7 +2597,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
     float pageWidth = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setPageWidth (
             msrLength::create (
@@ -2631,7 +2634,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
       fCurrentMarginTypeKind = kEvenMargin;
     else if (pageMarginsType == "both")
       fCurrentMarginTypeKind = kBothMargins;
-    else {
+    else if (pageMarginsType. size ()) {
       stringstream s;
 
       s <<
@@ -2682,7 +2685,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
     float leftMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setLeftMargin (
             msrMargin::create (
@@ -2692,11 +2695,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
                 leftMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else if (fOnGoingSystemMargins) {
-    float leftMargin = (float)(*elt);
 
 /* JMI
+    float leftMargin = (float)(*elt);
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setLeftMargin (
             msrMargin::create (
@@ -2728,7 +2731,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
     float rightMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setRightMargin (
             msrMargin::create (
@@ -2738,11 +2741,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
                 rightMargin * fCurrentMillimeters / fCurrentTenths)));
   }
   else if (fOnGoingSystemMargins) {
-    float rightMargin = (float)(*elt);
 
 /* JMI
+    float rightMargin = (float)(*elt);
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setRightMargin (
             msrMargin::create (
@@ -2774,7 +2777,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
     float topMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setTopMargin (
             msrMargin::create (
@@ -2805,7 +2808,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
     float bottomMargin = (float)(*elt);
 
     fMsrScore->
-      getMsrGeometry ()->
+      getScaling ()->
         getPageLayout ()->
           setBottomMargin (
             msrMargin::create (
@@ -4035,13 +4038,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
         fCurrentVoiceMusicXMLNumber);
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceNotes
-      ||
-    gTraceOah->fTraceStaves
-      ||
-    gTraceOah->fTraceVoices
-    ) {
+  if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> S_note, fCurrentStaffMusicXMLNumber = " <<
       fCurrentStaffMusicXMLNumber <<

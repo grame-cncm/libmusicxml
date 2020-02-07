@@ -29,28 +29,38 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_lpsrPaper lpsrPaper::create (
-  int            inputLineNumber,
-  S_lpsrGeometry theLpsrGeometry)
+  int             inputLineNumber,
+  S_msrScaling    scaling,
+  S_msrPageLayout pageLayout)
 {
   lpsrPaper* o =
     new lpsrPaper (
       inputLineNumber,
-      theLpsrGeometry);
+      scaling,
+      pageLayout);
   assert(o!=0);
   return o;
 }
 
 lpsrPaper::lpsrPaper (
-  int            inputLineNumber,
-  S_lpsrGeometry theLpsrGeometry)
+  int             inputLineNumber,
+  S_msrScaling    scaling,
+  S_msrPageLayout pageLayout)
     : lpsrElement (inputLineNumber)
 {
-  // sanity check
+  // sanity checks
   msrAssert (
-    theLpsrGeometry != nullptr,
-    "theLpsrGeometry is null");
+    scaling != nullptr,
+    "scaling is null");
+  msrAssert (
+    pageLayout != nullptr,
+    "pageLayout is null");
 
-  fLpsrGeometry = theLpsrGeometry;
+  fScaling = scaling;
+  fPageLayout = pageLayout;
+
+  fPageCount = -1;
+  fSystemCount = -1;
 }
 
 S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
@@ -59,41 +69,46 @@ S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
     newbornClone =
       lpsrPaper::create (
         fInputLineNumber,
-        fLpsrGeometry);
+        fScaling,
+        fPageLayout);
+
+  // indents
+  newbornClone->fHorizontalShift =
+    fHorizontalShift;
+  newbornClone->fIndent =
+    fIndent;
+  newbornClone->fShortIndent =
+    fShortIndent;
+
+  // spaces
+  newbornClone->fMarkupSystemSpacingPadding =
+    fMarkupSystemSpacingPadding;
+  newbornClone->fBetweenSystemSpace =
+    fBetweenSystemSpace;
+  newbornClone->fPageTopSpace =
+    fPageTopSpace;
+
+  // counts
+  newbornClone->fPageCount =
+    fPageCount;
+  newbornClone->fSystemCount =
+    fSystemCount;
+
+  // headers and footers
+  newbornClone->fOddHeaderMarkup =
+    fOddHeaderMarkup;
+  newbornClone->fEvenHeaderMarkup =
+    fEvenHeaderMarkup;
+  newbornClone->fOddFooterMarkup =
+    fOddFooterMarkup;
+  newbornClone->fEvenFooterMarkup =
+    fEvenFooterMarkup;
 
   return newbornClone;
 }
 
 lpsrPaper::~lpsrPaper ()
 {}
-
-/*
-void lpsrPaper::setIndent (float val)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGeometry) {
-    gLogOstream <<
-      "Setting paper indent to " << val <<
-      endl;
-  }
-#endif
-
-  fIndent = val;
-}
-
-void lpsrPaper::setShortIndent (float val)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGeometry) {
-    gLogOstream <<
-      "Setting paper short indent to " << val <<
-      endl;
-  }
-#endif
-
-  fShortIndent = val;
-}
-*/
 
 void lpsrPaper::acceptIn (basevisitor* v)
 {
@@ -148,7 +163,35 @@ void lpsrPaper::acceptOut (basevisitor* v)
 }
 
 void lpsrPaper::browseData (basevisitor* v)
-{}
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% ==> lpsrPaper::browseData ()" <<
+      endl;
+  }
+#endif
+
+  // browse the scaling
+  if (fScaling) {
+    msrBrowser<msrScaling> browser (v);
+    browser.browse (*fScaling);
+  }
+
+  // browse the page layout
+  if (fPageLayout) {
+    msrBrowser<msrPageLayout> browser (v);
+    browser.browse (*fPageLayout);
+  }
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    gLogOstream <<
+      "% <== lpsrPaper::browseData ()" <<
+      endl;
+  }
+#endif
+}
 
 void lpsrPaper::print (ostream& os) const
 {
@@ -160,56 +203,155 @@ void lpsrPaper::print (ostream& os) const
 
   const int fieldWidth = 20;
 
-  bool emptyPaper = true;
+  // scaling
+
+  os << left <<
+    setw (fieldWidth) <<
+    "scaling" << " : ";
+  if (fScaling) {
+    os << fScaling;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // page layout
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageLayout" << " : ";
+  if (fPageLayout) {
+    os << fPageLayout;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // indents
+
+  os << left <<
+    setw (fieldWidth) <<
+    "horizontalShift" << " : ";
+  if (fHorizontalShift) {
+    os << fHorizontalShift;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "indent" << " : ";
+  if (fIndent) {
+    os << fIndent;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "shortIndent" << " : ";
+  if (fShortIndent) {
+    os << fShortIndent;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // spaces
+
+  os << left <<
+    setw (fieldWidth) <<
+    "markupSystemSpacingPadding" << " : ";
+  if (fMarkupSystemSpacingPadding) {
+    os << fMarkupSystemSpacingPadding;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "betweenSystemSpace" << " : ";
+  if (fBetweenSystemSpace) {
+    os << fBetweenSystemSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageTopSpace" << " : ";
+  if (fPageTopSpace) {
+    os << fPageTopSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // counts
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageCount" << " : ";
+  if (fPageCount) {
+    os << fPageCount;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "systemCount" << " : ";
+  if (fSystemCount) {
+    os << fSystemCount;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 
   // headers and footers
-  if (fOddHeaderMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "oddHeaderMarkup" << " : " <<
-      fOddHeaderMarkup <<
-      endl;
 
-    emptyPaper = false;
-  }
+  os << left <<
+    setw (fieldWidth) <<
+    "oddHeaderMarkup" << " : \"" <<
+    fOddHeaderMarkup <<
+    "\"" <<
+    endl;
 
-  if (fEvenHeaderMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "evenHeaderMarkup" << " : " <<
-      fEvenHeaderMarkup <<
-      endl;
+  os << left <<
+    setw (fieldWidth) <<
+    "evenHeaderMarkup" << " : " <<
+    fEvenHeaderMarkup <<
+    "\"" <<
+    endl;
 
-    emptyPaper = false;
-  }
+  os << left <<
+    setw (fieldWidth) <<
+    "oddFooterMarkup" << " : " <<
+    fOddFooterMarkup <<
+    "\"" <<
+    endl;
 
-  if (fOddFooterMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "oddFooterMarkup" << " : " <<
-      fOddFooterMarkup <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fEvenFooterMarkup.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "evenFooterMarkup" << " : " <<
-      fEvenFooterMarkup <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  // otherwise
-  if (emptyPaper) {
-    os <<
-      " " << "nothing specified" <<
-      endl <<
-      endl;
-  }
+  os << left <<
+    setw (fieldWidth) <<
+    "evenFooterMarkup" << " : " <<
+    fEvenFooterMarkup <<
+    "\"" <<
+    endl;
 
   gIndenter--;
 }
@@ -221,110 +363,3 @@ ostream& operator<< (ostream& os, const S_lpsrPaper& pap) {
 
 
 }
-
-
-  /* JMI
-  // page width, height and margins
-
-  if (fPaperWidth > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "paper-width" << " : " <<
-      setprecision (2) << fPaperWidth << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fPaperHeight > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "paper-height" << " : " <<
-      setprecision (2) << fPaperHeight << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fTopMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "top-margin" << " : " <<
-      setprecision (2) << fTopMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fBottomMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "bottom-margin" << " : " <<
-      setprecision (2) << fBottomMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fLeftMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "left-margin" << " : " <<
-      setprecision (2) << fLeftMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fRightMargin > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "right-margin" << " : " <<
-      setprecision (2) << fRightMargin << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fIndent > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "indent" << " : " <<
-      setprecision (2) << fIndent << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fShortIndent > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "short-indent" << " : " <<
-      setprecision (2) << fShortIndent << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  // spaces
-
-  if (fBetweenSystemSpace > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "between-system-space" << " : " <<
-      setprecision (2) << fBetweenSystemSpace << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-
-  if (fPageTopSpace > 0) {
-    os << left <<
-      setw (fieldWidth) <<
-      "page-top-space" << " : " <<
-      setprecision (2) << fPageTopSpace << "\\cm" <<
-      endl;
-
-    emptyPaper = false;
-  }
-*/

@@ -89,14 +89,9 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
   }
 
   fMsrSummaryOutputStream <<
-    "Score contains " <<
-    singularOrPlural (
-      elt->getPartGroupsList ().size (),
-      "part group", "part groups") <<
-    ", " <<
-    singularOrPlural (
-      elt->getScoreNumberOfMeasures (),
-      "measure", "measures") <<
+    "MSR contents summary of \"" <<
+    gOahOah->fInputSourceName <<
+    "\":" <<
     endl <<
     endl;
 
@@ -231,7 +226,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
     setw (fieldWidth) <<
     singularOrPlural (
       fScoreGraceNotesGroupCounter,
-      "grace note gropu",
+      "grace note group",
       "grace notes groups") <<
     endl <<
 
@@ -504,11 +499,11 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
     elt->getRegularVoiceStaffSequentialNumber () <<
     endl <<
     setw (fieldWidth) <<
-    "noiceActualNotesCounter" << " : " <<
+    "voiceActualNotesCounter" << " : " <<
     elt->getVoiceActualNotesCounter () <<
     endl <<
     setw (fieldWidth) <<
-    "VoiceActualHarmoniesCounter" << " : " <<
+    "voiceActualHarmoniesCounter" << " : " <<
     elt->getVoiceActualHarmoniesCounter () <<
     endl <<
     setw (fieldWidth) <<
@@ -1122,11 +1117,11 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValsListAssoc& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrGeometry& elt)
+void msr2SummaryVisitor::visitStart (S_msrScaling& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> Start visiting msrGeometry" <<
+      "--> Start visiting msrScaling" <<
       endl;
   }
 
@@ -1134,11 +1129,11 @@ void msr2SummaryVisitor::visitStart (S_msrGeometry& elt)
     elt;
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrGeometry& elt)
+void msr2SummaryVisitor::visitEnd (S_msrScaling& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> End visiting msrGeometry" <<
+      "--> End visiting msrScaling" <<
       endl;
   }
 }
@@ -1152,15 +1147,11 @@ void msr2SummaryVisitor::visitStart (S_msrPageLayout& elt)
       endl;
   }
 
-  fMsrSummaryOutputStream << "PageLayout" << endl;
-
-  gIndenter++;
+  fMsrSummaryOutputStream << elt << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPageLayout& elt)
 {
-  gIndenter--;
-
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrPageLayout" <<
@@ -1169,20 +1160,20 @@ void msr2SummaryVisitor::visitEnd (S_msrPageLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrMidi& elt)
+void msr2SummaryVisitor::visitStart (S_msrMidiTempo& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> Start visiting msrMidi" <<
+      "--> Start visiting msrMidiTempo" <<
       endl;
   }
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrMidi& elt)
+void msr2SummaryVisitor::visitEnd (S_msrMidiTempo& elt)
 {
   if (gMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> End visiting msrMidi" <<
+      "--> End visiting msrMidiTempo" <<
       endl;
   }
 }

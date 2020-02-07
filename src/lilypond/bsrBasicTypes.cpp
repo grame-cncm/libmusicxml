@@ -657,7 +657,7 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   // fermatas
   case kCellFermataOnANote      : result = "FOO"; break; //{ kDots146, kDots126, kDots123 },
   case kCellFermataBetweenNotes : result = "FOO"; break; //{ kDots5,   kDots126, kDots123 },
-  case kCellFermataOverABarLine : result = "FOO"; break; //{ kDots456, kDots126, kDots123 };
+  case kCellFermataOverABarline : result = "FOO"; break; //{ kDots456, kDots126, kDots123 };
   } // switch
 
   return result;

@@ -155,7 +155,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "dcpuu", "display-cpu-usage",
+        "cpu", "display-cpu-usage",
 R"(Write information about CPU usage to standard error.)",
         "displayCPUusage",
         fDisplayCPUusage));

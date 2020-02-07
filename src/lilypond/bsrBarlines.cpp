@@ -53,7 +53,7 @@ bsrBarline::bsrBarline (
   fBarlineCellsList = buildCellsList ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Creating bsrBarline '" <<
       asString () <<

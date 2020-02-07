@@ -3,6 +3,9 @@
     "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
     "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.0">
+  <work>
+    <work-title>Beat repeat</work-title>
+    </work>
   <part-list>
     <score-part id="P1">
       <part-name>Music</part-name>

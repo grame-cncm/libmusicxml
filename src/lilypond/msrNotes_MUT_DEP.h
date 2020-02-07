@@ -360,7 +360,7 @@ class msrNote : public msrTupletElement
     rational              getNoteSoundingWholeNotes ()
                               {
                                 return
-                                  fSoundingWholeNotes; // JMI fNoteSoundingWholeNotes
+                                  fMeasureElementSoundingWholeNotes; // JMI fNoteSoundingWholeNotes
                               }
 
     // note display

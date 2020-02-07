@@ -142,7 +142,7 @@ class msrTuplet : public msrTupletElement
 
     rational              getTupletSoundingWholeNotes () const
                     // JMI          { return fTupletSoundingWholeNotes; }
-                              { return fSoundingWholeNotes; }
+                              { return fMeasureElementSoundingWholeNotes; }
 
     rational              getTupletDisplayWholeNotes () const
                               { return fTupletDisplayWholeNotes; }
