@@ -74,7 +74,7 @@ $(npmdir)/$(library).js : $(library).js
 # building the library as web assembly
 ##############################################################
 $(library).js : $(objects)
-	emcc -O3 --bind --memory-init-file 0 $(objects) -o $@ $(OPTIONS) -s WASM=1
+	emcc -O3 --bind --memory-init-file 0 $(objects) -o $@ $(OPTIONS) -s WASM=0
 
 clean:
 	rm -f $(objects) $(target)
