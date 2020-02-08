@@ -896,7 +896,7 @@ void msrMeasure::setCurrentMeasureWholeNotesDuration (
   rationalisedCurrentMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "Setting current whole notes of measure " <<
       this->asShortString () <<

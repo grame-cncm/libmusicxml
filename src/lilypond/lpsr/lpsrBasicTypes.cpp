@@ -742,10 +742,14 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
 
@@ -778,10 +782,14 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i);
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
@@ -853,10 +861,14 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
@@ -1047,10 +1059,14 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
 
@@ -1122,10 +1138,14 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (next (i) == iEnd) {
         s << " and ";
@@ -1356,10 +1376,14 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {

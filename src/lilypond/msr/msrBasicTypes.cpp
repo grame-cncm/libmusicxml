@@ -9812,10 +9812,13 @@ string existingHarmonyKindsNames (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i);
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
@@ -12327,7 +12330,7 @@ msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
   } // switch
 
   // is quarterTonesPitchName present in the map?
-  if (gQuarterTonesPitchesLanguageKindsMap.size ()) {
+  if (pitchNamesMapPTR->size ()) {
     map<msrQuarterTonesPitchKind, string>::const_iterator
       iBegin = (*pitchNamesMapPTR).begin (),
       iEnd   = (*pitchNamesMapPTR).end (),
@@ -12369,54 +12372,17 @@ string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int quarterTonesPitchesLanguageKindsMapSize =
-    gQuarterTonesPitchesLanguageKindsMap.size ();
+  int
+    quarterTonesPitchesLanguageKindsMapSize =
+      gQuarterTonesPitchesLanguageKindsMap.size ();
 
   if (quarterTonesPitchesLanguageKindsMapSize) {
-    int nextToLast =
-      quarterTonesPitchesLanguageKindsMapSize - 1;
-
-/* JMI
-    gLogOstream << // SALZBURG
-      quarterTonesPitchesLanguageKindsMapSize <<
-      endl <<
-      nextToLast <<
-      endl;
-*/
+    int
+      nextToLast =
+        quarterTonesPitchesLanguageKindsMapSize - 1;
 
     int count = 0;
     int cumulatedLength = 0;
-
-/* JMI
-    // Iterate over a map using std::for_each and Lambda function
-    for_each (
-      gQuarterTonesPitchesLanguageKindsMap.begin(),
-      gQuarterTonesPitchesLanguageKindsMap.end(),
-        [] (pair<string, gQuarterTonesPitchesLanguageKindsMap> element) {
-          string theString = (element).first;
-
-          count++;
-
-          gLogOstream << // SALZBURG
-            count << ": " << theString << ", " <<
-            msrQuarterTonesPitchesLanguageKindAsString (
-              (element).second) <<
-            endl;
-
-          s << theString;
-
-          cumulatedLength += theString.size ();
-          if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
-
-          if (count == nextToLast) {
-            s << " and ";
-          }
-          else {
-            s << ", ";
-          }
-        }
-    ); // foreach
-*/
 
     for (
       map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator i =
@@ -12428,62 +12394,21 @@ string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength)
 
       count++;
 
-/* JMI
-      gLogOstream << // SALZBURG
-        count << ": " << theString << ", " <<
-        msrQuarterTonesPitchesLanguageKindAsString (
-          (*i).second) <<
-        endl;
-*/
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+      }
 
       s << theString;
-
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
 
       if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != quarterTonesPitchesLanguageKindsMapSize) {
         s << ", ";
       }
     } // for
-
-/* JMI
-    map<string, msrQuarterTonesPitchesLanguageKind>::iterator
-      iBegin = gQuarterTonesPitchesLanguageKindsMap.begin (),
-      iEnd   = gQuarterTonesPitchesLanguageKindsMap.end (),
-      i      = iBegin;
-
-    int count = 0;
-    int cumulatedLength = 0;
-
-    for ( ; ; ) {
-      string theString = (*i).first;
-
-      count++;
-
-      gLogOstream << // SALZBURG
-        count << ": " << theString << ", " <<
-        msrQuarterTonesPitchesLanguageKindAsString (
-          (*i).second) <<
-        endl;
-
-      s << theString;
-
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
-
-      if (++i == iEnd) break;
-      if (count == nextToLast) {
-        s << " and ";
-      }
-      else {
-        s << ", ";
-      }
-
-    } // for
-    */
   }
 
   return s.str ();
@@ -13166,10 +13091,13 @@ string existingMsrLengthUnitKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
@@ -13347,10 +13275,13 @@ string existingMsrMarginTypeKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
@@ -19387,3 +19318,32 @@ void initializeMSRBasicTypes ()
 
 
 }
+
+/* JMI
+    // Iterate over a map using std::for_each and Lambda function
+    for_each (
+      gQuarterTonesPitchesLanguageKindsMap.begin(),
+      gQuarterTonesPitchesLanguageKindsMap.end(),
+        [] (pair<string, gQuarterTonesPitchesLanguageKindsMap> element) {
+          string theString = (element).first;
+
+          count++;
+
+          cumulatedLength += theString.size ();
+          if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+            s << "\n";
+            cumulatedLength = 0;
+          }
+
+          s << theString;
+
+          if (count == nextToLast) {
+            s << " and ";
+          }
+          else {
+            s << ", ";
+          }
+        }
+    ); // foreach
+*/
+

@@ -425,16 +425,18 @@ string replaceSubstringInString (
 //______________________________________________________________________________
 string int2EnglishWord (int n)
 {
+  if (n == -9) {
+    assert(false); // JMI
+  }
+
   stringstream s;
 
   if (n < 0) {
     s << "Minus_";
     n = -n;
-
-//    assert(false); // JMI
   }
 
-  if     (n >= 1000) {
+  if (n >= 1000) {
     int nDiv1000    = n / 1000;
     int nModulo1000 = n % 1000;
 

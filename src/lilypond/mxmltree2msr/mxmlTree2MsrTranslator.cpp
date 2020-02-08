@@ -237,7 +237,6 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fFiguredBassVoicesCounter = 0;
 
   fOnGoingFiguredBass                   = false;
- // JMI fPendingFiguredBass                   = false;
   fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
   fCurrentFiguredBassDisplayWholeNotes  = rational (0, 1);
   fCurrentFiguredBassParenthesesKind =
@@ -13971,7 +13970,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   }
 #endif
 
-  // chordFirstNote has been registered standalone in the part element sequence,
+  // chordFirstNote has been registered as regular note in the part element sequence,
   // but it is actually the first note of a chord
 
   // create a chord
@@ -17716,7 +17715,7 @@ void mxmlTree2MsrTranslator::handleNote (
   }
 
   else {
-    // note/rest is standalone or a member of grace notes
+    // note/rest is a regular note or a member of grace notes
 
     // this terminates a tuplet if any
     handlePendingTupletStopIfAny (
@@ -18068,8 +18067,6 @@ void mxmlTree2MsrTranslator:: attachPendingHarmoniesAndFiguredBassesToNote (
 
     // reset figured bass counter
     fFiguredBassVoicesCounter = 0;
-
-  // JMI   fPendingFiguredBass = false;
   }
 }
 
@@ -18161,7 +18158,6 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       appendHarmonyToVoice (
         harmony);
 
-/* JMI
     // get the current part's harmony voice
     S_msrVoice
       partHarmonyVoice =
@@ -18172,9 +18168,8 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     partHarmonyVoice->
       appendHarmonyToVoice (
         harmony);
-        */
 
-    // remove it from the list
+    // remove the harmony from the list
     fPendingHarmoniesList.pop_front ();
   } // while
 }
@@ -18263,7 +18258,18 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
       appendFiguredBassToVoice (
         figuredBass);
 
-    // remove it from the list
+    // get the current part's figured bass voice
+    S_msrVoice
+      partFiguredBassVoice =
+        fCurrentPart->
+          getPartFiguredBassVoice ();
+
+    // append the figured bass to the part figured bass voice
+    partFiguredBassVoice->
+      appendFiguredBassToVoice (
+        figuredBass);
+
+    // remove the figured bass from the list
     fPendingFiguredBassesList.pop_front ();
   } // while
 }
@@ -18295,7 +18301,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   else {
-    // standalone or unpitched note or rest
+    // regular or unpitched note or rest
     if (fCurrentNoteIsARest) {
       msrNote::msrNoteKind
         noteKind;
@@ -18347,7 +18353,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "Handling a standalone, double tremolo or grace note or rest" <<
+      "Handling a regular, double tremolo or grace note or rest" <<
       ", currentVoice = \"" <<
       currentVoice->getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -18503,7 +18509,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceNotes) {
           fLogOutputStream <<
-            "Appending standalone " <<
+            "Appending single tremolo " <<
             newNote->asString () <<
             ", line " << newNote->getInputLineNumber () <<
             ", to voice \"" <<
@@ -18525,7 +18531,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceNotes) {
           fLogOutputStream <<
-            "Setting standalone note '" <<
+            "Setting regular note '" <<
             newNote->asString () <<
             "', line " << newNote->getInputLineNumber () <<
             ", as double tremolo first element" <<
@@ -18546,7 +18552,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceNotes) {
           fLogOutputStream <<
-            "Setting standalone note '" <<
+            "Setting regular note '" <<
             newNote->asString () <<
             "', line " << newNote->getInputLineNumber () <<
             ", as double tremolo second element" <<
@@ -18573,13 +18579,13 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   else {
-    // standalone note or rest
+    // regular note or rest
 
     // append newNote to the current voice
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceNotes) {
       fLogOutputStream <<
-        "Appending standalone " <<
+        "Appending regular " <<
         newNote->asString () <<
         ", line " << newNote->getInputLineNumber () <<
         ", to voice \"" <<
@@ -21584,7 +21590,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
   fCurrentFiguredBassDisplayWholeNotes  = rational (0, 1);
 
   fOnGoingFiguredBass = true;
- // JMI fPendingFiguredBass = true;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_figure& elt )

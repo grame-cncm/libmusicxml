@@ -2549,10 +2549,14 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
     for ( ; ; ) {
       string suffix = (*i);
 
-      os << suffix;
-
       cumulatedLength += suffix.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        os << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      os << suffix;
 
       if (++i == iEnd) break;
 
@@ -2611,10 +2615,14 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
       for ( ; ; ) {
         string suffix = (*i);
 
-        os << suffix;
-
         cumulatedLength += suffix.size ();
-        if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+        if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+          os << "\n";
+          cumulatedLength = 0;
+        break;
+        }
+
+        os << suffix;
 
         if (++i == iEnd) break;
 
@@ -2959,10 +2967,14 @@ string existingOahOptionalValuesStyleKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
@@ -4290,10 +4302,14 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
     for ( ; ; ) {
       string suffix = (*i);
 
-      os << suffix;
-
       cumulatedLength += suffix.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        os << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      os << suffix;
 
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
@@ -10309,10 +10325,14 @@ void oahHandler::printKnownSingleCharacterOptions () const
     for ( ; ; ) {
       string theString = (*i);
 
-      gOutputOstream << "-" << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        gOutputOstream << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      gOutputOstream << "-" << theString;
 
       if (++i == iEnd) break;
 

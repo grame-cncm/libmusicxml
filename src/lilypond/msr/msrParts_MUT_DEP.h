@@ -589,16 +589,32 @@ class msrPart : public msrPartGroupElement
 
     // harmonies
 
+    void                  setPartHarmonyVoiceForwardLink (
+                            S_msrVoice voice)
+                              { fPartHarmonyVoiceForwardLink = voice; }
+
     S_msrVoice            getPartHarmonyVoiceForwardLink () const
                               { return fPartHarmonyVoiceForwardLink; }
+
+    void                  setHarmonyVoicePartBackwardLink (
+                            S_msrVoice voice)
+                              { fHarmonyVoicePartBackwardLink = voice; }
 
     S_msrVoice            getHarmonyVoicePartBackwardLink () const
                               { return fHarmonyVoicePartBackwardLink; }
 
     // figured bass
 
+    void                  setPartFiguredBassVoiceForwardLink (
+                            S_msrVoice voice)
+                              { fPartFiguredBassVoiceForwardLink = voice; }
+
     S_msrVoice            getPartFiguredBassVoiceForwardLink () const
                               { return fPartFiguredBassVoiceForwardLink; }
+
+    void                  setFiguredBassVoicePartBackwardLink (
+                            S_msrVoice voice)
+                              { fFiguredBassVoicePartBackwardLink = voice; }
 
     S_msrVoice            getFiguredBassVoicePartBackwardLink () const
                               { return fFiguredBassVoicePartBackwardLink; }

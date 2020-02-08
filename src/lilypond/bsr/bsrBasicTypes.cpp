@@ -258,10 +258,14 @@ string existingBsrBrailleOutputKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
 
@@ -329,10 +333,14 @@ string existingBsrTextsLanguageKinds (int namesListMaxLength)
     for ( ; ; ) {
       string theString = (*i).first;
 
-      s << theString;
-
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) break;
+      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+        s << "\n";
+        cumulatedLength = 0;
+        break;
+      }
+
+      s << theString;
 
       if (++i == iEnd) break;
 

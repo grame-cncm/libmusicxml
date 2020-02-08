@@ -4849,7 +4849,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<
-          "Appending standalone note clone '" <<
+          "Appending regular note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;

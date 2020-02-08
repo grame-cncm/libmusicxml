@@ -394,6 +394,22 @@ void msrPart::createMeasureAndAppendItToPart (
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
 
+  // create and append measure to part-level staves if any
+  if (fPartHarmoniesStaff) {
+    fPartHarmoniesStaff->
+      createMeasureAndAppendItToStaff (
+        inputLineNumber,
+        measureNumber,
+        measureImplicitKind);
+  }
+  if (fPartFiguredBassStaff) {
+    fPartFiguredBassStaff->
+      createMeasureAndAppendItToStaff (
+        inputLineNumber,
+        measureNumber,
+        measureImplicitKind);
+  }
+
   // create and append measure to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -559,6 +575,16 @@ void msrPart::appendClefToPart (S_msrClef clef)
 
   gIndenter++;
 
+  // append clef to part-level staves if any
+  if (fPartHarmoniesStaff) {
+    fPartHarmoniesStaff->
+      appendClefToStaff (clef);
+  }
+  if (fPartFiguredBassStaff) {
+    fPartFiguredBassStaff->
+      appendClefToStaff (clef);
+  }
+
   // append clef to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -566,8 +592,7 @@ void msrPart::appendClefToPart (S_msrClef clef)
     i++
   ) {
     (*i).second->
-      appendClefToStaff (
-        clef);
+      appendClefToStaff (clef);
   } // for
 
   gIndenter--;
@@ -590,6 +615,16 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 
   gIndenter++;
 
+  // append key to part-level staves if any
+  if (fPartHarmoniesStaff) {
+    fPartHarmoniesStaff->
+      appendKeyToStaff (key);
+  }
+  if (fPartFiguredBassStaff) {
+    fPartFiguredBassStaff->
+      appendKeyToStaff (key);
+  }
+
   // append key to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -600,8 +635,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
       staff = (*i).second;
 
     staff->
-      appendKeyToStaff (
-        key);
+      appendKeyToStaff (key);
   } // for
 
   gIndenter--;
@@ -624,6 +658,16 @@ void msrPart::appendTimeToPart (S_msrTime time)
 
   gIndenter++;
 
+  // append time to part-level staves if any
+  if (fPartHarmoniesStaff) {
+    fPartHarmoniesStaff->
+      appendTimeToStaff (time);
+  }
+  if (fPartFiguredBassStaff) {
+    fPartFiguredBassStaff->
+      appendTimeToStaff (time);
+  }
+
   // append time to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -634,8 +678,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
       staff = (*i).second;
 
     staff->
-      appendTimeToStaff (
-        time);
+      appendTimeToStaff (time);
   } // for
 
   gIndenter--;
@@ -1404,7 +1447,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
 /* JMI
   // set backward link
   fPartHarmoniesVoice->
-    fHarmonyVoicePartBackwardLink = this;
+    setHarmonyVoicePartBackwardLink (this);
 */
 
   return fPartHarmoniesVoice;
@@ -1579,10 +1622,10 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
       inputLineNumber,
       fPartFiguredBassVoice);
 
-/* JMU
+/* JMI
   // set backward link
   fPartFiguredBassVoice->
-    fFiguredBassVoicePartBackwardLink = this;
+    setFiguredBassVoicePartBackwardLink (this);
 */
 
   return fPartFiguredBassVoice;
@@ -2011,7 +2054,7 @@ void msrPart::browseData (basevisitor* v)
   // to place it after the corresponding part
   if (fPartHarmoniesStaff) {
     msrBrowser<msrStaff> browser (v);
-// JMI    browser.browse (*fPartHarmoniesStaff);
+    browser.browse (*fPartHarmoniesStaff);
   }
 
   // browse all non harmonies nor figured bass staves
@@ -2035,7 +2078,7 @@ void msrPart::browseData (basevisitor* v)
   // to place it after the corresponding part
   if (fPartFiguredBassStaff) {
     msrBrowser<msrStaff> browser (v);
-// JMI    browser.browse (*fPartFiguredBassStaff);
+    browser.browse (*fPartFiguredBassStaff);
   }
 }
 

@@ -1448,7 +1448,9 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     s <<
       "measure number '" << measureNumber <<
-      "' occurs twice in a row";
+      "' occurs twice in a row in voice \"" <<
+      fSegmentVoiceUpLink->getVoiceName () <<
+      "\"";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -1532,12 +1534,15 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
     s <<
       "measure number '" << measureNumber <<
-      "' occurs twice in a row";
+      "' occurs twice in a row in voice \"" <<
+      fSegmentVoiceUpLink->getVoiceName () <<
+      "\"";
 
-  // JMI  msrInternalError (
-    msrInternalWarning (
+    msrInternalError (
+// JMI    msrInternalWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 

@@ -416,6 +416,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
 
     switch (voice->getVoiceKind ()) {
       case msrVoice::kVoiceRegular:
+      case msrVoice::kVoiceHarmony:
+      case msrVoice::kVoiceFiguredBass:
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceMeasures) {
           gLogOstream <<
@@ -433,12 +435,13 @@ void msrStaff::createMeasureAndAppendItToStaff (
             measureNumber,
             measureImplicitKind);
         break;
-
+/* JMI
       case msrVoice::kVoiceHarmony:
         break;
 
       case msrVoice::kVoiceFiguredBass:
         break;
+        */
     } // switch
   } // for
 }
@@ -623,17 +626,14 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       break;
 
     case msrVoice::kVoiceHarmony:
-      break;
-
     case msrVoice::kVoiceFiguredBass:
+      // register it in staff by its number
+      registerVoiceByItsNumber ( // JMI better name???
+        inputLineNumber,
+        voiceNumber,
+        voice);
       break;
   } // switch
-
-  // register it in staff by its number
-  registerVoiceByItsNumber (
-    inputLineNumber,
-    voiceNumber,
-    voice);
 
   return voice;
 }
