@@ -2551,7 +2551,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
 
       cumulatedLength += suffix.size ();
       if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
-        os << "\n";
+        os << endl;
         cumulatedLength = 0;
         break;
       }
@@ -2598,7 +2598,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
     os <<
       "The " <<
       fLongNamesSuffixes.size () <<
-      " -- " << longNamesSuffixesCount <<
+ // JMI SALZ     " -- " << longNamesSuffixesCount <<
       " known " << fLongSuffixDescriptor << "s are: ";
 
     if (fLongNamesSuffixes.size ()) {
@@ -2617,9 +2617,9 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
 
         cumulatedLength += suffix.size ();
         if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
-          os << "\n";
+          os << endl;
           cumulatedLength = 0;
-        break;
+//        break;
         }
 
         os << suffix;
@@ -4304,7 +4304,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
 
       cumulatedLength += suffix.size ();
       if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
-        os << "\n";
+        os << endl;
         cumulatedLength = 0;
         break;
       }
@@ -10327,7 +10327,7 @@ void oahHandler::printKnownSingleCharacterOptions () const
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
-        gOutputOstream << "\n";
+        gOutputOstream << endl;
         cumulatedLength = 0;
         break;
       }
