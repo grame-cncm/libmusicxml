@@ -578,9 +578,9 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceKeys) {
     gLogOstream <<
-      "Appending key '" <<
+      "Appending key " <<
       key->asString () <<
-      "' to part " << getPartCombinedName () <<
+      " to part " << getPartCombinedName () <<
       endl;
   }
 #endif
@@ -1225,7 +1225,81 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       break;
   } // switch
 
-  // return staff
+  return staff;
+}
+
+S_msrStaff msrPart::addPartLevelStaffToPart (
+  int                    inputLineNumber,
+  msrStaff::msrStaffKind staffKind,
+  int                    staffNumber)
+{
+/* JMI
+  if (fPartStavesMap.count (staffNumber)) {
+    stringstream s;
+
+    s <<
+      "staffNumber " << staffNumber <<
+      " already exists in part " << getPartCombinedName () <<
+      ", line " << inputLineNumber;
+
+    msrInternalError ( // JMI ???
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+
+    return fPartStavesMap [staffNumber];
+  }
+*/
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaves) {
+    gLogOstream <<
+      "Adding " <<
+      msrStaff::staffKindAsString (staffKind) <<
+      " staff " << staffNumber <<
+      " to part " << getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create the staff
+  S_msrStaff
+    staff =
+      msrStaff::create (
+        inputLineNumber,
+        staffKind,
+        staffNumber,
+        this);
+
+/* JMI
+  // register staff in this part if relevant
+  switch (staffKind) {
+    case msrStaff::kStaffRegular:
+    case msrStaff::kStaffTablature:
+    case msrStaff::kStaffHarmony:
+    case msrStaff::kStaffFiguredBass:
+    case msrStaff::kStaffDrum:
+    case msrStaff::kStaffRythmic:
+      fPartStavesMap [staffNumber] = staff;
+      break;
+  } // switch
+
+  // initialize staff current clef and key if relevant // JMI
+  switch (staffKind) {
+    case msrStaff::kStaffRegular:
+    case msrStaff::kStaffTablature:
+    case msrStaff::kStaffHarmony:
+    case msrStaff::kStaffFiguredBass:
+    case msrStaff::kStaffDrum:
+    case msrStaff::kStaffRythmic:
+      staff->setStaffCurrentClef (fPartCurrentClef);
+      staff->setStaffCurrentKey (fPartCurrentKey);
+      break;
+  } // switch
+*/
+
   return staff;
 }
 
@@ -1292,7 +1366,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
 #endif
 
   fPartHarmoniesStaff =
-    addStaffToPartByItsNumber (
+    addPartLevelStaffToPart (
       inputLineNumber,
       msrStaff::kStaffHarmony,
       partHarmonyStaffNumber);
@@ -1452,6 +1526,28 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // create the part fibured bass staff
+  int partFiguredBassStaffNumber =
+    K_PART_FIGURED_BASS_STAFF_NUMBER;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceHarmonies) {
+    gLogOstream <<
+      "Creating figured bass staff for part \"" <<
+      getPartCombinedName () <<
+      "\" with staff number " <<
+      partFiguredBassStaffNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fPartFiguredBassStaff =
+    addPartLevelStaffToPart (
+      inputLineNumber,
+      msrStaff::kStaffFiguredBass,
+      partFiguredBassStaffNumber);
 
   // create the voice figured bass voice
   int partFiguredBassVoiceNumber =
@@ -1915,7 +2011,7 @@ void msrPart::browseData (basevisitor* v)
   // to place it after the corresponding part
   if (fPartHarmoniesStaff) {
     msrBrowser<msrStaff> browser (v);
-    browser.browse (*fPartHarmoniesStaff);
+// JMI    browser.browse (*fPartHarmoniesStaff);
   }
 
   // browse all non harmonies nor figured bass staves
@@ -1939,7 +2035,7 @@ void msrPart::browseData (basevisitor* v)
   // to place it after the corresponding part
   if (fPartFiguredBassStaff) {
     msrBrowser<msrStaff> browser (v);
-    browser.browse (*fPartFiguredBassStaff);
+// JMI    browser.browse (*fPartFiguredBassStaff);
   }
 }
 
@@ -2105,13 +2201,48 @@ void msrPart::print (ostream& os) const
         "'";
     }
     else {
-      os <<
-        "none";
+      os << "none";
     }
 
     os << endl;
   }
 #endif
+
+  // print the part harmonies staff if any
+  os << left <<
+    setw (fieldWidth) <<
+    "partHarmoniesStaff" << " : ";
+  if (fPartHarmoniesStaff) {
+    os << endl;
+
+    gIndenter++;
+
+    os <<fPartHarmoniesStaff;
+
+    gIndenter--;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // print the part figured bass staff if any
+  os << left <<
+    setw (fieldWidth) <<
+    "partFiguredBassStaff" << " : ";
+  if (fPartFiguredBassStaff) {
+    os << endl;
+
+    gIndenter++;
+
+    os << fPartFiguredBassStaff;
+
+    gIndenter--;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 
   // print the part measure' whole notes durations
   os << left <<

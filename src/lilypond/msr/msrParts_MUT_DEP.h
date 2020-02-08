@@ -352,6 +352,11 @@ class msrPart : public msrPartGroupElement
                             msrStaff::msrStaffKind staffKind,
                             int                    staffNumber);
 
+    S_msrStaff            addPartLevelStaffToPart (
+                            int                    inputLineNumber,
+                            msrStaff::msrStaffKind staffKind,
+                            int                    staffNumber);
+
     void                  addStaffToPartCloneByItsNumber (
                             S_msrStaff staff);
 
@@ -360,10 +365,6 @@ class msrPart : public msrPartGroupElement
     // voices
 
     void                  removePartEmptyVoices ();
-
-    // harmonies
-
-    // JMI ???
 
     // frames
 

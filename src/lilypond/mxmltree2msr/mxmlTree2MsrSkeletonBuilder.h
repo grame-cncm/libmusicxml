@@ -710,6 +710,10 @@ class mxmlTree2MsrSkeletonBuilder :
     S_msrVoice                createRegularVoiceFiguredBassVoiceIfNotYetDone (
                                 int        inputLineNumber,
                                 S_msrVoice voice);
+
+    S_msrVoice                createPartFiguredBassVoiceIfNotYetDone (
+                                int        inputLineNumber,
+                                S_msrPart  part);
 };
 
 

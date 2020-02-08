@@ -20,7 +20,7 @@ class msrNote : public msrTupletElement
       k_NoNoteKind,
       kRestNote, kSkipNote,
       kUnpitchedNote,
-      kStandaloneNote,
+      kRegularNote,
       kDoubleTremoloMemberNote,
       kGraceNote,
       kChordMemberNote,

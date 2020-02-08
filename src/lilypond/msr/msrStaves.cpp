@@ -1129,8 +1129,8 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceKeys) {
     gLogOstream <<
-      "Appending key '" << key->asString () <<
-      "' to staff \"" <<
+      "Appending key " << key->asString () <<
+      " to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUpLink->getPartCombinedName () <<
@@ -2589,7 +2589,7 @@ void msrStaff::print (ostream& os) const
       if (++i == iEnd) break;
       os << endl;
     } // for
-    os << endl;
+// JMI    os << endl;
 
     gIndenter--;
   }

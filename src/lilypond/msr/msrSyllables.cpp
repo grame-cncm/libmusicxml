@@ -380,7 +380,7 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
       case msrNote::k_NoNoteKind:
       case msrNote::kRestNote:
       case msrNote::kUnpitchedNote:
-      case msrNote::kStandaloneNote:
+      case msrNote::kRegularNote:
       case msrNote::kDoubleTremoloMemberNote:
       case msrNote::kGraceNote:
       case msrNote::kGraceChordMemberNote:

@@ -1498,8 +1498,8 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceKeys) {
     gLogOstream <<
-      "Appending key '" << key->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "Appending key " << key->asString () <<
+      " to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -2350,7 +2350,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
@@ -2436,7 +2436,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;

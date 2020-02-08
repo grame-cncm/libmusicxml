@@ -17473,7 +17473,7 @@ void mxmlTree2MsrTranslator::populateNote (
       case msrNote::kRestNote:
       case msrNote::kSkipNote:
       case msrNote::kUnpitchedNote:
-      case msrNote::kStandaloneNote:
+      case msrNote::kRegularNote:
       case msrNote::kChordMemberNote:
         if (! fCurrentNoteIsAGraceNote) {
           stringstream s;
@@ -18319,7 +18319,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     else {
       newNote->
         setNoteKind (
-          msrNote::kStandaloneNote);
+          msrNote::kRegularNote);
     }
   }
 
@@ -19079,7 +19079,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         break;
 
       case msrNote::kUnpitchedNote:
-      case msrNote::kStandaloneNote:
+      case msrNote::kRegularNote:
         // remove last handled (previous current) note from the current voice
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceChords) {

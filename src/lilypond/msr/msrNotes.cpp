@@ -1322,7 +1322,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       inputLineNumber,
       K_NO_MEASURE_NUMBER,
 
-      kStandaloneNote, // noteKind
+      kRegularNote, // noteKind
 
       quarterTonesPitchKindFromSemiTonesPitchKind (
         semiTonesPitchAndOctave->getSemiTonesPitchKind ()),
@@ -1481,8 +1481,8 @@ string msrNote::noteKindAsString (
       result = "unpitchedNote";
       break;
 
-    case msrNote::kStandaloneNote:
-      result = "standaloneNote";
+    case msrNote::kRegularNote:
+      result = "regularNote";
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -3090,7 +3090,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " displayed";
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       s <<
         "Standalone note '" <<
         notePitchAsString () <<
@@ -3251,9 +3251,9 @@ string msrNote::asShortString () const
         noteSoundingWholeNotesAsMsrString ();
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       s <<
-        "StandaloneNote '" <<
+        "RegularNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -3434,9 +3434,9 @@ string msrNote::asString () const
         noteSoundingWholeNotesAsMsrString ();
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       s <<
-        "standaloneNote '"<<
+        "regularNote '"<<
         notePitchAsString () <<
         /* JMI
         "', " <<
@@ -3772,7 +3772,7 @@ void msrNote::print (ostream& os) const
     case msrNote::kRestNote:
     case msrNote::kSkipNote:
     case msrNote::kUnpitchedNote:
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
     case msrNote::kDoubleTremoloMemberNote:
     case msrNote::kChordMemberNote:
       os << left <<
@@ -4080,7 +4080,7 @@ void msrNote::print (ostream& os) const
       }
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       {
         os << left <<
           setw (fieldWidth) <<

@@ -1715,6 +1715,28 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceFiguredBassVoiceIfNotY
   return figuredBassVoice;
 }
 
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createPartFiguredBassVoiceIfNotYetDone (
+  int        inputLineNumber,
+  S_msrPart  part)
+{
+  // is the figured bass voice already present in voice?
+  S_msrVoice
+    partFiguredBassVoice =
+      part->
+        getPartFiguredBassVoice ();
+
+  if (! partFiguredBassVoice) {
+    // create the voice and append it to the staff
+    partFiguredBassVoice =
+      part->
+        createPartFiguredBassVoice (
+          inputLineNumber,
+          fCurrentMeasureNumber);
+  }
+
+  return partFiguredBassVoice;
+}
+
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_partwise& elt)
 {
@@ -4088,21 +4110,19 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 #endif
     }
     else {
-      // create the harmony voice
+      // create the regular voice harmony voice if needed
       S_msrVoice
         harmonyVoice =
           createRegularVoiceHarmonyVoiceIfNotYetDone (
             inputLineNumber,
             noteVoice);
 
-/* JMI
-      // create the part harmony voice
+      // create the part harmony voice if needed
       S_msrVoice
         partHarmonyVoice =
           createPartHarmonyVoiceIfNotYetDone (
             inputLineNumber,
             fCurrentPart);
-            */
     }
 
     fThereAreHarmoniesToBeAttachedToCurrentNote = false;
@@ -4122,12 +4142,19 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 #endif
     }
     else {
-      // should the figured bass voice be created?
+      // create the regular voice figured bass voice if needed
       S_msrVoice
         figuredBassVoice =
           createRegularVoiceFiguredBassVoiceIfNotYetDone (
             inputLineNumber,
             noteVoice);
+
+      // create the part figured bass voice if needed
+      S_msrVoice
+        partFiguredBassVoice =
+          createPartFiguredBassVoiceIfNotYetDone (
+            inputLineNumber,
+            fCurrentPart);
     }
 
     fThereAreFiguredBassToBeAttachedToCurrentNote = false;
@@ -4303,7 +4330,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
       endl;
   }
 
-  /*
+  /* JMI ???
     several harmonies can be attached to a given note,
     leading to as many harmony voices in the current part
   */

@@ -479,8 +479,8 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceKeys) {
     gLogOstream <<
-      "Appending key '" << key->asString () <<
-      "' to segment " << asString () <<
+      "Appending key " << key->asString () <<
+      " to segment " << asString () <<
     ", in voice \"" <<
     fSegmentVoiceUpLink->getVoiceName () <<
     "\"" <<

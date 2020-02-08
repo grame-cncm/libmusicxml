@@ -529,11 +529,10 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceKeys || gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Appending key '" <<
+      "Appending key " <<
       key->asShortString () <<
       "' to line '" <<
       asString () <<
-      "'" <<
       endl;
     }
 #endif

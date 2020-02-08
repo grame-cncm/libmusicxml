@@ -211,7 +211,8 @@ string bsrBarline::barlineKindAsDebugString (
       result = "Final";
       break;
     case bsrBarline::kBarlineKindSectionalDouble:
-      result = "||";
+      result = "||"; // L'\u2016' ??? JMI
+//      result = L'\u1D101';
       break;
   } // switch
 

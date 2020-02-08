@@ -228,7 +228,7 @@ class msr2SummaryVisitor :
     // ------------------------------------------------------
 
     int                   fScoreUnpitchedNotesCounter;
-    int                   fScoreStandaloneNotesCounter;
+    int                   fScoreRegularNotesCounter;
     int                   fScoreRestNotesCounter;
     int                   fScoreSkipNotesCounter;
     int                   fScoreDoubleTremoloNotesCounter;

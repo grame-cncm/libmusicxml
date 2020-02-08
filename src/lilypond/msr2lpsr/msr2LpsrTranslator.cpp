@@ -4523,7 +4523,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNonGraceNoteClone);
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<

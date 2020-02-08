@@ -1414,7 +1414,7 @@ void lpsr2LilypondTranslator::generateNoteStem (
         }
         break;
 
-      case msrNote::kStandaloneNote:
+      case msrNote::kRegularNote:
         {
           // is this note in a tab staff?
           S_msrStaff
@@ -1843,7 +1843,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       }
       break;
 
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       {
         // print the note name
         fLilypondCodeOstream <<
@@ -1881,7 +1881,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
 
           if (noteTie) {
             if (noteTie->getTieKind () == msrTie::kTieStart) {
-      //        fLilypondCodeOstream << " ~ %{kStandaloneNote%}"; // JMI
+      //        fLilypondCodeOstream << " ~ %{kRegularNote%}"; // JMI
             }
           }
         }

@@ -48,7 +48,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
 
   // notes
   fScoreUnpitchedNotesCounter     = 0;
-  fScoreStandaloneNotesCounter    = 0;
+  fScoreRegularNotesCounter    = 0;
   fScoreRestNotesCounter          = 0;
   fScoreSkipNotesCounter          = 0;
   fScoreDoubleTremoloNotesCounter = 0;
@@ -165,7 +165,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 
     setw (fieldWidth) <<
     singularOrPlural (
-      fScoreStandaloneNotesCounter,
+      fScoreRegularNotesCounter,
       "standalone note",
       "standalone notes") <<
     endl <<
@@ -800,11 +800,11 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
     case msrNote::kUnpitchedNote:
       fScoreUnpitchedNotesCounter++;
       break;
-    case msrNote::kStandaloneNote:
-      fScoreStandaloneNotesCounter++;
+    case msrNote::kRegularNote:
+      fScoreRegularNotesCounter++;
       break;
     case msrNote::kDoubleTremoloMemberNote:
-      fScoreStandaloneNotesCounter++;
+      fScoreRegularNotesCounter++;
       break;
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
@@ -841,7 +841,7 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
       break;
     case msrNote::kUnpitchedNote:
       break;
-    case msrNote::kStandaloneNote:
+    case msrNote::kRegularNote:
       break;
     case msrNote::kDoubleTremoloMemberNote:
       break;
