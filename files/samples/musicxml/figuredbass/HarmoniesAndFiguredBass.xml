@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 1.0 Partwise//EN"
+                                "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="1.1">
+  <identification>
+    <miscellaneous>
+      <miscellaneous-field name="description">Some figured bass containing
+          alterated figures, bracketed figures and slashed figures. The last
+          note contains an empty &lt;figured-bass&gt; element, which is
+          invalid MusicXML, to check how well applications cope with malformed
+          files.
+
+          Note that this file does not contain any extenders!</miscellaneous-field>
+    </miscellaneous>
+  </identification>
+  <part-list>
+    <score-part id="P1">
+      <part-name>MusicXML Part</part-name>
+    </score-part>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <measure number="1">
+      <attributes>
+        <divisions>8</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time symbol="common">
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <harmony print-frame="no">
+        <root>
+          <root-step>F</root-step>
+          </root>
+        <kind text="m7">minor-seventh</kind>
+        </harmony>
+      <figured-bass>
+        <figure><figure-number>3</figure-number></figure>
+        <duration>8</duration>
+      </figured-bass>
+      <note>
+        <pitch><step>C</step><octave>4</octave></pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note>
+        <pitch><step>D</step><octave>4</octave></pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <harmony print-frame="no">
+        <root>
+          <root-step>G</root-step>
+          </root>
+        <kind text="Maj7">major-seventh</kind>
+        </harmony>
+      <figured-bass>
+        <figure><prefix>sharp</prefix><figure-number>1</figure-number></figure>
+        <figure><prefix>flat</prefix><figure-number>3</figure-number></figure>
+        <figure><prefix>natural</prefix><figure-number>5</figure-number></figure>
+        <duration>8</duration>
+      </figured-bass>
+      <note>
+        <pitch><step>E</step><octave>4</octave></pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <figured-bass parentheses="yes">
+        <figure><figure-number>6</figure-number></figure>
+      </figured-bass>
+      <note>
+        <pitch><step>F</step><octave>4</octave></pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+    </measure>
+  </part>
+  <!--=========================================================-->
+</score-partwise>
