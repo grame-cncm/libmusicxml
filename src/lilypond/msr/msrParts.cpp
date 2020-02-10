@@ -292,6 +292,7 @@ void msrPart::assignSequentialNumbersToRegularVoicesInPart (
   } // for
 }
 
+/* JMI
 void msrPart::addAVoiceToStavesThatHaveNone (
   int inputLineNumber)
 {
@@ -305,6 +306,7 @@ void msrPart::addAVoiceToStavesThatHaveNone (
         inputLineNumber);
   } // for
 }
+*/
 
 void msrPart::setPartMsrName (string partMsrName)
 {
@@ -380,9 +382,9 @@ void msrPart::createMeasureAndAppendItToPart (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Creating and appending measure '" <<
+      "Creating measure '" <<
       measureNumber <<
-      "' to part " <<
+      "' and appending it to part " <<
       getPartCombinedName () <<
       "', line " << inputLineNumber <<
       endl;
@@ -1898,6 +1900,18 @@ void msrPart::finalizeLastAppendedMeasureInPart (
         inputLineNumber);
   } // for
 
+  // finilize current measure in part-level staves if any
+  if (fPartHarmoniesStaff) {
+    fPartHarmoniesStaff->
+      finalizeLastAppendedMeasureInStaff (
+        inputLineNumber);
+  }
+  if (fPartFiguredBassStaff) {
+    fPartFiguredBassStaff->
+      finalizeLastAppendedMeasureInStaff (
+        inputLineNumber);
+  }
+
   gIndenter--;
 }
 
@@ -2302,7 +2316,7 @@ void msrPart::print (ostream& os) const
     for (int i = 0; i < fPartNumberOfMeasures; ++i) {
       int j = i + 1;
       os << left <<
-        setw (3) << right <<
+        "ordinal " << setw (3) << right <<
         j << " : " <<
         setw (4) <<
         fPartMeasuresWholeNotesDurationsVector [ i ].toString ();
@@ -2314,14 +2328,13 @@ void msrPart::print (ostream& os) const
       }
     } // for
   }
+  os << endl;
 
   gIndenter--;
 
-  os << endl;
-
   // print the registered staves
   if (fPartStavesMap.size ()) {
-    gIndenter++;
+    os << endl;
 
     map<int, S_msrStaff>::const_iterator
       iBegin = fPartStavesMap.begin (),
@@ -2380,8 +2393,6 @@ void msrPart::print (ostream& os) const
 
       os << endl;
     } // for
-
-    gIndenter--;
   }
 
   gIndenter--;

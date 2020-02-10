@@ -1648,6 +1648,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::fetchFirstRegularVoiceFromStaff (
 }
 
 //______________________________________________________________________________
+/* JMI
 S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceHarmonyVoiceIfNotYetDone (
   int        inputLineNumber,
   S_msrVoice voice)
@@ -1669,6 +1670,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceHarmonyVoiceIfNotYetDo
 
   return harmonyVoice;
 }
+*/
 
 S_msrVoice mxmlTree2MsrSkeletonBuilder::createPartHarmonyVoiceIfNotYetDone (
   int        inputLineNumber,
@@ -1693,6 +1695,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createPartHarmonyVoiceIfNotYetDone (
 }
 
 //______________________________________________________________________________
+/* JMI
 S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceFiguredBassVoiceIfNotYetDone (
   int        inputLineNumber,
   S_msrVoice voice)
@@ -1714,6 +1717,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceFiguredBassVoiceIfNotY
 
   return figuredBassVoice;
 }
+*/
 
 S_msrVoice mxmlTree2MsrSkeletonBuilder::createPartFiguredBassVoiceIfNotYetDone (
   int        inputLineNumber,
@@ -3847,10 +3851,12 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
     setPartNumberOfMeasures (
       fPartNumberOfMeasures);
 
+/* JMI
   // are there more staves in <staves/> that specified with <stave/>?
   fCurrentPart->
     addAVoiceToStavesThatHaveNone (
       inputLineNumber);
+*/
 
   // assign sequential numbers to the voices in the part
   fCurrentPart->
@@ -3960,7 +3966,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_voice& elt )
 {
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_staff_details" <<
+      "--> Start visiting S_voice" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4111,11 +4117,13 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
     }
     else {
       // create the regular voice harmony voice if needed
+/* JMI
       S_msrVoice
         harmonyVoice =
           createRegularVoiceHarmonyVoiceIfNotYetDone (
             inputLineNumber,
             noteVoice);
+*/
 
       // create the part harmony voice if needed
       S_msrVoice
@@ -4143,11 +4151,13 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
     }
     else {
       // create the regular voice figured bass voice if needed
+/* JMI
       S_msrVoice
         figuredBassVoice =
           createRegularVoiceFiguredBassVoiceIfNotYetDone (
             inputLineNumber,
             noteVoice);
+*/
 
       // create the part figured bass voice if needed
       S_msrVoice

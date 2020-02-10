@@ -223,22 +223,32 @@ class msrStaff : public msrElement
                             int                    voiceNumber,
                             string                 currentMeasureNumber);
 
-    void                  registerVoiceInStaff (
-                            int        inputLineNumber,
-                            S_msrVoice voice);
-
     void                  registerVoiceByItsNumber (
                             int        inputLineNumber,
                             int        voiceNumber,
                             S_msrVoice voice);
 
-    void                  registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
+    void                  registerVoiceInStaff (
+                            int        inputLineNumber,
+                            S_msrVoice voice);
+
+    void                  registerRegularVoiceByItsNumber (
                             int        voiceNumber,
                             S_msrVoice voice);
 
+    void                  registerPartLevelVoiceInStaff (
+                            int        inputLineNumber,
+                            S_msrVoice voice);
+
+    void                  registerVoiceInStaffClone (
+                            int        inputLineNumber,
+                            S_msrVoice voice);
+
+/* JMI
     void                  registerVoiceInAllVoicesList (
                             int        voiceNumber,
                             S_msrVoice voice);
+*/
 
     S_msrVoice            fetchVoiceFromStaffByItsNumber (
                             int inputLineNumber,
@@ -250,8 +260,10 @@ class msrStaff : public msrElement
     void                  assignSequentialNumbersToRegularVoicesInStaff (
                             int inputLineNumber);
 
+/* JMI
     void                  addAVoiceToStaffIfItHasNone (
                             int inputLineNumber);
+*/
 
     // measures
 
@@ -381,7 +393,7 @@ class msrStaff : public msrElement
 
     // staff number
 
-    string                staffNumberAsString ();
+    string                staffNumberAsString () const;
 
     string                staffKindAsString () const;
 

@@ -201,7 +201,7 @@ void msrVoice::setVoiceNameFromNumber (
         fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (
-          voiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER) +
+          voiceNumber) + // JMI - K_VOICE_HARMONY_VOICE_BASE_NUMBER) +
           "_HARMONY";
       break;
 
@@ -210,7 +210,7 @@ void msrVoice::setVoiceNameFromNumber (
         fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (
-          voiceNumber - K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER) +
+          voiceNumber) + // JMI - K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER) +
           "_FIGURED_BASS";
 /* JMI
       {
@@ -1116,7 +1116,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
       "createMeasureAndAppendItToVoice() 2");
   }
 
-  // append new measure with given number to voice last segment
+  // append a new measure with given number to voice last segment
   S_msrMeasure
     result =
       fVoiceLastSegment->
@@ -1130,9 +1130,45 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
 
   // handle voice kind
   switch (fVoiceKind) {
-    case msrVoice::kVoiceHarmony:
-      break;
     case msrVoice::kVoiceRegular:
+    /* JMI
+      // fetch the part
+      S_msrPart
+        part =
+          this->fetchVoicePartUpLink ();
+
+      // fetch the part harmonies voice
+      S_msrVoice
+        partHarmoniesVoice =
+          part->
+            getPartHarmoniesVoice ();
+
+      if (partHarmoniesVoice) {
+        // append a new measure with given number to part harmonies voice
+        partHarmoniesVoice ->
+          createMeasureAndAppendItToVoice (
+            inputLineNumber,
+            measureNumber,
+            measureImplicitKind);
+      }
+
+      // fetch the part figured bass voice
+      S_msrVoice
+        partFiguredBassVoice =
+          part->
+            getPartFiguredBassVoice ();
+
+      if (partFiguredBassVoice) {
+        // append a new measure with given number to part figured bass voice
+        partFiguredBassVoice ->
+          createMeasureAndAppendItToVoice (
+            inputLineNumber,
+            measureNumber,
+            measureImplicitKind);
+      }
+      */
+
+    /* JMI
       // append new measure with given number to voice harmony voice if any
       if (fRegularVoiceHarmonyVoiceForwardLink) {
         fRegularVoiceHarmonyVoiceForwardLink->
@@ -1149,8 +1185,11 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
             measureNumber,
             measureImplicitKind);
       }
+      */
       break;
+    case msrVoice::kVoiceHarmony:
     case msrVoice::kVoiceFiguredBass:
+      // JMI should not occur
       break;
   } // switch
 
@@ -1167,6 +1206,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
   return result;
 }
 
+/* JMI
 S_msrVoice msrVoice::createRegularVoiceHarmonyVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
@@ -1278,6 +1318,7 @@ S_msrVoice msrVoice::createRegularVoiceFiguredBassVoice (
 
   return fRegularVoiceFiguredBassVoiceForwardLink;
 }
+*/
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
   int    inputLineNumber,
@@ -2306,6 +2347,16 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       fVoiceStaffUpLink->
         getStaffPartUpLink ()->
           getPartCurrentPositionInMeasure ();
+
+  if (! fVoiceLastSegment) { // SALZ JMI
+    this->displayVoice (
+      inputLineNumber,
+      "fVoiceLastSegment is null in appendNoteToVoice()");
+
+    msrAssert (
+      fVoiceLastSegment != nullptr,
+      "fVoiceLastSegment is null in appendNoteToVoice()");
+  }
 
   // append the note to the last segment
   fVoiceLastSegment->
@@ -8936,6 +8987,7 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
         } // for
       }
 
+/* JMI
       // handle the harmony voice if any
       if (fRegularVoiceHarmonyVoiceForwardLink) {
         fRegularVoiceHarmonyVoiceForwardLink->
@@ -8949,6 +9001,7 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
           finalizeLastAppendedMeasureInVoice (
             inputLineNumber);
       }
+            */
       break;
 
     case msrVoice::kVoiceHarmony:
@@ -9258,14 +9311,17 @@ string msrVoice::voiceKindAsString (
 
 string msrVoice::voiceNumberAsString () const
 {
-  string result;
+  string result = to_string (fVoiceNumber);
 
   switch (fVoiceNumber) {
+    case K_PART_HARMONY_VOICE_NUMBER:
+      result += " (K_PART_HARMONY_VOICE_NUMBER)";
+      break;
     case K_PART_FIGURED_BASS_VOICE_NUMBER:
-      result = "K_PART_FIGURED_BASS_VOICE_NUMBER";
+      result += " (K_PART_FIGURED_BASS_VOICE_NUMBER)";
       break;
     default:
-      result = to_string (fVoiceNumber);
+      ;
   } // switch
 
   return result;
@@ -9452,8 +9508,9 @@ void msrVoice::print (ostream& os) const
     endl <<
 
     setw (fieldWidth) <<
-    "voiceCurrentMeasureNumber" << " : " <<
+    "voiceCurrentMeasureNumber" << " : \"" <<
     fVoiceCurrentMeasureNumber <<
+    "\"" <<
     endl <<
 
     setw (fieldWidth) <<
@@ -9528,6 +9585,7 @@ void msrVoice::print (ostream& os) const
   }
 #endif
 
+/* JMI
   // print the harmony voice name if any
   os << left <<
     setw (fieldWidth) << "regularVoiceHarmonyVoice" << " : ";
@@ -9553,6 +9611,7 @@ void msrVoice::print (ostream& os) const
       "none";
   }
   os << endl;
+*/
 
   os << left <<
     setw (fieldWidth) << "voiceShortestNoteDuration" << " : " <<

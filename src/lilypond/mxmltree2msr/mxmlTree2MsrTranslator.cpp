@@ -17994,26 +17994,59 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentStaffNumberToInsertInto);
 */
 
-  // fetch voice to insert harmonies, figured basses and/or frames into
-  S_msrVoice
-    voiceToInsertHarmoniesFiguredBassesAndOrFramesInto =
-      voiceToInsertNoteInto;
-      /*  JMI
-      staff->
-        fetchFirstRegularVoiceFromStaff (
-          inputLineNumber);
-          */
+  // handle the pending harmonies if any
+  if (fPendingHarmoniesList.size ()) {
+    // fetch voice to insert harmonies into
+    S_msrVoice
+      voiceToInsertHarmoniesInto =
+        fCurrentPart->
+          getPartHarmoniesVoice ();
+  // SALZ JMI      voiceToInsertNoteInto;
+        /*  JMI
+        staff->
+          fetchFirstRegularVoiceFromStaff (
+            inputLineNumber);
+            */
 
-  // sanity check
-  msrAssert (
-    voiceToInsertHarmoniesFiguredBassesAndOrFramesInto != nullptr,
-    "voiceToInsertHarmoniesFiguredBassesAndOrFramesInto is null");
+    // sanity check
+    msrAssert (
+      voiceToInsertHarmoniesInto != nullptr,
+      "voiceToInsertHarmoniesInto is null");
 
-  // attach the pending harmonies and figured basses, if any, to newNote
-  attachPendingHarmoniesAndFiguredBassesToNote (
-    inputLineNumber,
-    newNote,
-    voiceToInsertHarmoniesFiguredBassesAndOrFramesInto);
+    handlePendingHarmonies (
+      newNote,
+      voiceToInsertHarmoniesInto);
+
+    // reset harmony counter
+    fHarmonyVoicesCounter = 0;
+  }
+
+  // handle the pending figured basses if any
+  if (fPendingFiguredBassesList.size ()) {
+    // fetch voice to insert figured basses into
+    S_msrVoice
+      voiceToInsertFiguredBassesInto =
+        fCurrentPart->
+          getPartFiguredBassVoice ();
+  // SALZ JMI      voiceToInsertNoteInto;
+        /*  JMI
+        staff->
+          fetchFirstRegularVoiceFromStaff (
+            inputLineNumber);
+            */
+
+    // sanity check
+    msrAssert (
+      voiceToInsertFiguredBassesInto != nullptr,
+      "voiceToInsertFiguredBassesInto is null");
+
+    handlePendingFiguredBasses (
+      newNote,
+      voiceToInsertFiguredBassesInto);
+
+    // reset figured bass counter
+    fFiguredBassVoicesCounter = 0;
+  }
 
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
@@ -18037,37 +18070,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote);
 
   fOnGoingNote = false;
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator:: attachPendingHarmoniesAndFiguredBassesToNote (
-  int        inputLineNumber,
-  S_msrNote  newNote,
-  S_msrVoice voiceToInsertInto)
-{
-  // handling the current pending harmonies if any,
-  // so that they get attached to the note right now
-  if (fPendingHarmoniesList.size ()) {
-    // handle the pending harmonies
-    handlePendingHarmonies (
-      newNote,
-      voiceToInsertInto);
-
-    // reset harmony counter
-    fHarmonyVoicesCounter = 0;
-  }
-
-  // handling the current pending figured bass if any,
-  // so that it gets attached to the note right now
-  if (fPendingFiguredBassesList.size ()) {
-    // handle the pending figured basses
-    handlePendingFiguredBasses (
-      newNote,
-      voiceToInsertInto);
-
-    // reset figured bass counter
-    fFiguredBassVoicesCounter = 0;
-  }
 }
 
 //______________________________________________________________________________
@@ -18134,8 +18136,10 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
 
     // attach the harmony to newNote
     newNote->
-      appendHarmonyToNoteHarmoniesList (harmony);
+      appendHarmonyToNoteHarmoniesList (
+        harmony);
 
+/* JMI
     // get the harmony voice for the current voice
     S_msrVoice
       voiceHarmonyVoice =
@@ -18157,6 +18161,7 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     voiceHarmonyVoice->
       appendHarmonyToVoice (
         harmony);
+*/
 
     // get the current part's harmony voice
     S_msrVoice
@@ -18231,11 +18236,10 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
 
     // append the figured bass to newNote
     newNote->
-      appendFiguredBassToNoteFiguredBassesList (figuredBass);
+      appendFiguredBassToNoteFiguredBassesList (
+        figuredBass);
 
-    // don't append the figured bass to the part figured bass,  JMI ???
-    // this will be done below
-
+/* JMI
     // get the figured bass voice for the current voice
     S_msrVoice
       voiceFiguredBassVoice =
@@ -18257,6 +18261,7 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
     voiceFiguredBassVoice->
       appendFiguredBassToVoice (
         figuredBass);
+*/
 
     // get the current part's figured bass voice
     S_msrVoice

@@ -1665,7 +1665,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
       // add it to the staff clone
       fCurrentStaffClone->
-        registerVoiceInStaff (
+        registerVoiceInStaffClone (
           inputLineNumber,
           fCurrentVoiceClone);
 
@@ -1700,7 +1700,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
         // add it to the staff clone
         fCurrentStaffClone->
-          registerVoiceInStaff (
+          registerVoiceInStaffClone (
             inputLineNumber,
             fCurrentVoiceClone);
 
@@ -1735,7 +1735,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
                 voiceName,
-                elt->getHarmonyVoiceRegularVoiceBackwardLink ());
+// JMI                elt->getHarmonyVoiceRegularVoiceBackwardLink ());
+                elt);
 
           // append it to the current part block
 #ifdef TRACE_OAH
@@ -1766,7 +1767,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
         // add it to the staff clone
         fCurrentStaffClone->
-          registerVoiceInStaff (
+          registerVoiceInStaffClone (
             inputLineNumber,
             fCurrentVoiceClone);
 

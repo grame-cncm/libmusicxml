@@ -333,16 +333,19 @@ void msrStaff::setStaffCurrentTime (S_msrTime time)
   fStaffCurrentTime = time;
 };
 
-string msrStaff::staffNumberAsString ()
+string msrStaff::staffNumberAsString () const
 {
-  string result;
+  string result = to_string (fStaffNumber);
 
   switch (fStaffNumber) {
+    case K_PART_HARMONY_STAFF_NUMBER:
+      result += " (K_PART_HARMONY_STAFF_NUMBER)"; // JMI
+      break;
     case K_PART_FIGURED_BASS_STAFF_NUMBER:
-      result = "K_PART_FIGURED_BASS_STAFF_NUMBER"; // JMI
+      result += " (K_PART_FIGURED_BASS_STAFF_NUMBER)"; // JMI
       break;
     default:
-      result = to_string (fStaffNumber);
+      ;
   } // switch
 
   return result;
@@ -392,9 +395,9 @@ void msrStaff::createMeasureAndAppendItToStaff (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Creating and appending measure '" <<
+      "Creating measure '" <<
       measureNumber <<
-      ", in staff \"" << getStaffName () << "\"" <<
+      "' and appending it to staff \"" << getStaffName () << "\"" <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -463,7 +466,7 @@ void msrStaff::setNextMeasureNumberInStaff (
 
   gIndenter++;
 
-  // propagate it to all staves
+  // propagate it to all voices
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -593,6 +596,36 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       */
   }
 
+  // is this voice number in the regular voices map?
+  map<int, S_msrVoice>::const_iterator
+    it =
+      fStaffRegularVoicesMap.find (voiceNumber);
+
+  if (it != fStaffRegularVoicesMap.end ()) {
+    // yes
+    S_msrVoice
+      olderVoice = (*it).second;
+
+    stringstream s;
+
+    s <<
+      "attempting to create a voice anew by number" <<
+      ", voiceNumber: " << voiceNumber <<
+      ", currentMeasureNumber: " << currentMeasureNumber <<
+      " ' in staff \"" <<
+      fStaffName <<
+      "\", " <<
+      olderVoice->asShortString () <<
+      " already exists with this same voiceNumber" <<
+      ", line " << inputLineNumber;
+
+    msrInternalError ( // JMI ???
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
   // create the voice
   S_msrVoice
     voice =
@@ -620,7 +653,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
 #endif
 */
 
-      registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
+      registerRegularVoiceByItsNumber (
         voiceNumber,
         voice);
       break;
@@ -628,9 +661,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
     case msrVoice::kVoiceHarmony:
     case msrVoice::kVoiceFiguredBass:
       // register it in staff by its number
-      registerVoiceByItsNumber ( // JMI better name???
+      registerPartLevelVoiceInStaff (
         inputLineNumber,
-        voiceNumber,
         voice);
       break;
   } // switch
@@ -654,8 +686,7 @@ void msrStaff::registerVoiceByItsNumber (
 #endif
 
   // register voice in all voices map
-  fStaffAllVoicesMap [voiceNumber] =
-    voice;
+  fStaffAllVoicesMap [voiceNumber] = voice;
 
   // register it in all voices list
   fStaffAllVoicesList.push_back (voice);
@@ -705,26 +736,35 @@ void msrStaff::registerVoiceByItsNumber (
   } // switch
 }
 
-void msrStaff::registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
+void msrStaff::registerRegularVoiceByItsNumber (
   int        voiceNumber,
-  S_msrVoice voice)
+  S_msrVoice regularVoice)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceVoices) {
     gLogOstream <<
-      "Registering regular voice number '" << voiceNumber <<
-      "', named \"" << voice->getVoiceName () <<
+      "Registering regular voice " <<
+      regularVoice->asShortString () <<
+      " by it's number '" << voiceNumber <<
       "\" in staff " << getStaffName () <<
-      "'s regular voices map as regular voice with sequential number " <<
+      "'s regular voices list with sequential number " <<
       fStaffRegularVoicesCounter <<
       endl;
   }
 #endif
 
-  fStaffRegularVoicesList.push_back (voice);
+  // register voice in all voices map
+  fStaffAllVoicesMap [voiceNumber] = regularVoice;
 
+  // register voice in all voices map
   fStaffRegularVoicesMap [fStaffRegularVoicesCounter] =
-    voice;
+    regularVoice;
+
+  // register it in all voices list
+  fStaffRegularVoicesList.push_back (regularVoice);
+
+  // register it in all voices list
+  fStaffAllVoicesList.push_back (regularVoice);
 
   // setRegularVoiceStaffSequentialNumber() will be called in msrStaff::finalizeStaff()
 
@@ -736,6 +776,7 @@ void msrStaff::registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
       */
 }
 
+/* JMI
 void msrStaff::registerVoiceInAllVoicesList (
   int        voiceNumber,
   S_msrVoice voice)
@@ -753,6 +794,7 @@ void msrStaff::registerVoiceInAllVoicesList (
 
   fStaffAllVoicesList.push_back (voice);
 }
+*/
 
 S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
   int inputLineNumber,
@@ -930,6 +972,7 @@ S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
   return result;
 }
 
+/* JMI
 void msrStaff::addAVoiceToStaffIfItHasNone (
   int inputLineNumber)
 {
@@ -953,6 +996,7 @@ void msrStaff::addAVoiceToStaffIfItHasNone (
         "1"); // fCurrentMeasureNumber
   }
 }
+*/
 
 void msrStaff::registerVoiceInStaff (
   int        inputLineNumber,
@@ -1030,6 +1074,8 @@ void msrStaff::registerVoiceInStaff (
   // is voice a regular voice???
   switch (voiceKind) {
     case msrVoice::kVoiceRegular:
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass:
       {
         int voiceNumber = voice->getVoiceNumber ();
 
@@ -1046,7 +1092,219 @@ void msrStaff::registerVoiceInStaff (
         }
 #endif
 
-        registerVoiceInRegularVoicesMapByItsNumberByItsNumber (
+        registerRegularVoiceByItsNumber (
+          voiceNumber,
+          voice);
+      }
+      break;
+/* JMI
+    case msrVoice::kVoiceHarmony:
+      break;
+
+    case msrVoice::kVoiceFiguredBass:
+      break;
+      */
+  } // switch
+}
+
+void msrStaff::registerPartLevelVoiceInStaff (
+  int        inputLineNumber,
+  S_msrVoice voice)
+{
+  // sanity check
+  msrAssert (
+    voice != nullptr,
+    "voice is null");
+
+  // get voice kind
+  msrVoice::msrVoiceKind voiceKind =
+    voice->getVoiceKind ();
+
+  // take this new voice into account if relevant
+  switch (voiceKind) {
+    case msrVoice::kVoiceRegular:
+      break;
+
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass:
+      // take that regular voice into account
+      fStaffRegularVoicesCounter++;
+
+      // are there too many voices in this staff?
+      if (fStaffRegularVoicesCounter > msrStaff::gStaffMaxRegularVoices) {
+        stringstream s;
+
+        s <<
+          "staff \"" << getStaffName () <<
+          "\" is already filled up with " <<
+          msrStaff::gStaffMaxRegularVoices << " regular voices," <<
+          endl <<
+          "the voice named \"" << voice->getVoiceName () << "\" overflows it" <<
+          endl <<
+          ", fStaffRegularVoicesCounter = " <<
+          fStaffRegularVoicesCounter <<
+          ", msrStaff::gStaffMaxRegularVoices = " <<
+          msrStaff::gStaffMaxRegularVoices <<
+          endl;
+
+          /* JMI ???
+        msrMusicXMLError (
+    // JMI    msrMusicXMLWarning ( JMI
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+          */
+      }
+      break;
+  } // switch
+
+  // register voice in this staff
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
+    gLogOstream <<
+      "Registering voice \"" << voice->getVoiceName () <<
+      "\" as relative voice " <<
+      fStaffRegularVoicesCounter <<
+      " of staff \"" << getStaffName () <<
+      "\", line " << inputLineNumber <<
+// JMI       " in part " << fStaffPartUpLink->getPartCombinedName () <<
+      endl;
+  }
+#endif
+
+  // register it in staff by its number
+  registerVoiceByItsNumber (
+    inputLineNumber,
+    voice->getVoiceNumber (),
+    voice);
+
+  // is voice a regular voice???
+  switch (voiceKind) {
+    case msrVoice::kVoiceRegular:
+      {
+        int voiceNumber = voice->getVoiceNumber ();
+
+        // register the voice by its number
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceVoices) {
+          gLogOstream <<
+            "Registering regular voice '" << voiceNumber <<
+            "' " << voice->getVoiceName () <<
+            " with staff regular voice number " <<
+            fStaffRegularVoicesCounter <<
+            " in staff " << getStaffName () <<
+            endl;
+        }
+#endif
+
+        registerRegularVoiceByItsNumber (
+          voiceNumber,
+          voice);
+      }
+      break;
+
+    case msrVoice::kVoiceHarmony:
+      break;
+
+    case msrVoice::kVoiceFiguredBass:
+      break;
+  } // switch
+}
+
+void msrStaff::registerVoiceInStaffClone (
+  int        inputLineNumber,
+  S_msrVoice voice)
+{
+  // sanity check
+  msrAssert (
+    voice != nullptr,
+    "voice is null");
+
+  // get voice kind
+  msrVoice::msrVoiceKind voiceKind =
+    voice->getVoiceKind ();
+
+  // take this new voice into account if relevant
+  switch (voiceKind) {
+    case msrVoice::kVoiceRegular:
+      // take that regular voice into account
+      fStaffRegularVoicesCounter++;
+
+      // are there too many voices in this staff?
+      if (fStaffRegularVoicesCounter > msrStaff::gStaffMaxRegularVoices) {
+        stringstream s;
+
+        s <<
+          "staff clone \"" << getStaffName () <<
+          "\" is already filled up with " <<
+          msrStaff::gStaffMaxRegularVoices << " regular voices," <<
+          endl <<
+          "the voice named \"" << voice->getVoiceName () << "\" overflows it" <<
+          endl <<
+          ", fStaffRegularVoicesCounter = " <<
+          fStaffRegularVoicesCounter <<
+          ", msrStaff::gStaffMaxRegularVoices = " <<
+          msrStaff::gStaffMaxRegularVoices <<
+          endl;
+
+          /* JMI ???
+        msrMusicXMLError (
+    // JMI    msrMusicXMLWarning ( JMI
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+          */
+      }
+      break;
+
+    case msrVoice::kVoiceHarmony:
+      break;
+    case msrVoice::kVoiceFiguredBass:
+      break;
+  } // switch
+
+  // register voice in this staff
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
+    gLogOstream <<
+      "Registering voice \"" << voice->getVoiceName () <<
+      "\" as relative voice " <<
+      fStaffRegularVoicesCounter <<
+      " of staff clone \"" << getStaffName () <<
+      "\", line " << inputLineNumber <<
+// JMI       " in part " << fStaffPartUpLink->getPartCombinedName () <<
+      endl;
+  }
+#endif
+
+  // register it in staff by its number
+  registerVoiceByItsNumber (
+    inputLineNumber,
+    voice->getVoiceNumber (),
+    voice);
+
+  // is voice a regular voice???
+  switch (voiceKind) {
+    case msrVoice::kVoiceRegular:
+      {
+        int voiceNumber = voice->getVoiceNumber ();
+
+        // register the voice by its number
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceVoices) {
+          gLogOstream <<
+            "Registering regular voice '" << voiceNumber <<
+            "' " << voice->getVoiceName () <<
+            " with staff regular voice number " <<
+            fStaffRegularVoicesCounter <<
+            " in staff " << getStaffName () <<
+            endl;
+        }
+#endif
+
+        registerRegularVoiceByItsNumber (
           voiceNumber,
           voice);
       }
@@ -2083,7 +2341,6 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
               finalizeLastAppendedMeasureInVoice (
                 inputLineNumber);
           }
-*/
 
           // handle the figuredBass voice if any
           S_msrVoice
@@ -2096,6 +2353,7 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
               finalizeLastAppendedMeasureInVoice (
                 inputLineNumber);
           }
+*/
         }
         break;
 
@@ -2355,7 +2613,7 @@ void msrStaff::browseData (basevisitor* v)
       list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
       i != fStaffAllVoicesList.end ();
       i++
-  ) {
+    ) {
         msrBrowser<msrVoice> browser (v);
         browser.browse (*(*i));
     } // for
@@ -2425,7 +2683,7 @@ void msrStaff::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "staffNumber" << " : " <<
-    fStaffNumber <<
+    staffNumberAsString () <<
     endl <<
     setw (fieldWidth) <<
     "staffPartUpLink" << " : " <<
@@ -2523,13 +2781,11 @@ void msrStaff::print (ostream& os) const
   }
 #endif
 
-  // print the all voices map
+  // print the staff all voices map
+  os << left <<
+    setw (fieldWidth) <<
+    "staffAllVoicesMap" << " : ";
   if (fStaffAllVoicesMap.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "staffAllVoicesMap" << " : " <<
-      endl;
-
     gIndenter++;
 
     map<int, S_msrVoice>::const_iterator
@@ -2541,27 +2797,35 @@ void msrStaff::print (ostream& os) const
       int        voiceNumber = (*i).first;
       S_msrVoice voice       = (*i).second;
 
-        os <<
-          voiceNumber << " : " <<
-          "regularVoiceStaffSequentialNumber = " <<
-          voice->getRegularVoiceStaffSequentialNumber () <<
-          ", " <<
-          voice->asShortString ();
-        if (++i == iEnd) break;
-        os << endl;
+      // sanity check
+      msrAssert (
+        voice != nullptr,
+        "voice is null");
+
+      os <<
+        voiceNumber << " : " <<
+        "regularVoiceStaffSequentialNumber = " <<
+        voice->getRegularVoiceStaffSequentialNumber () <<
+        ", " <<
+        voice->asShortString () <<
+        endl;
+      if (++i == iEnd) break;
+ // JMI     os << endl;
     } // for
-    os << endl;
+ //   os << endl;
 
     gIndenter--;
   }
+  else {
+    os << "empty" << endl;
+  }
 
-  // print the regular voices map
-  if (fStaffAllVoicesMap.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "staffRegularVoicesMap" << " : " <<
-      endl;
+  // print the staff regular voices map
+  os << left <<
+    setw (fieldWidth) <<
+    "staffRegularVoicesMap" << " : ";
 
+  if (fStaffRegularVoicesMap.size ()) {
     gIndenter++;
 
     map<int, S_msrVoice>::const_iterator
@@ -2570,7 +2834,7 @@ void msrStaff::print (ostream& os) const
       i      = iBegin;
 
     for ( ; ; ) {
-      if (i == iEnd) break; // JMI ???
+//      if (i == iEnd) break; // JMI ???
 
       int        voiceNumber = (*i).first;
       S_msrVoice voice       = (*i).second;
@@ -2585,22 +2849,24 @@ void msrStaff::print (ostream& os) const
         "regularVoiceStaffSequentialNumber = " <<
         voice->getRegularVoiceStaffSequentialNumber () <<
         ", " <<
-        voice->asShortString ();
+        voice->asShortString () <<
+        endl;
       if (++i == iEnd) break;
-      os << endl;
+  // JMI    os << endl;
     } // for
-// JMI    os << endl;
+//    os << endl;
 
     gIndenter--;
   }
+  else {
+    os << "empty" << endl;
+  }
 
   // print the regular voices list
+  os << left <<
+    setw (fieldWidth) <<
+    "staffRegularVoicesList" << " : ";
   if (fStaffRegularVoicesList.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "staffRegularVoicesList" << " : " <<
-      endl;
-
     gIndenter++;
 
     list<S_msrVoice>::const_iterator
@@ -2611,7 +2877,7 @@ void msrStaff::print (ostream& os) const
     int voiceNumber = 0;
 
     for ( ; ; ) {
-      if (i == iEnd) break; // JMI ???
+ //     if (i == iEnd) break; // JMI ???
 
       S_msrVoice voice = (*i);
 
@@ -2627,13 +2893,17 @@ void msrStaff::print (ostream& os) const
         "regularVoiceStaffSequentialNumber = " <<
         voice->getRegularVoiceStaffSequentialNumber () <<
         ", " <<
-        voice->asShortString ();
+        voice->asShortString () <<
+        endl;
       if (++i == iEnd) break;
-      os << endl;
+ // JMI     os << endl;
     } // for
-    os << endl;
+//    os << endl;
 
     gIndenter--;
+  }
+  else {
+    os << "empty" << endl;
   }
 
   // print the  voices

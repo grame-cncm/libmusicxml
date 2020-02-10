@@ -293,7 +293,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating measure '" << measureNumber <<
-      "' in segment " << asString () <<
+      "' and appending it to segment " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<

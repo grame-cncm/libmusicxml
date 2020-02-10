@@ -743,10 +743,10 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
-        break;
+ //       break;
       }
 
       s << theString;
@@ -783,7 +783,7 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
       string theString = (*i);
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
         break;
@@ -862,7 +862,7 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
         break;
@@ -1060,7 +1060,7 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
         break;
@@ -1139,7 +1139,7 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
         break;
@@ -1377,7 +1377,7 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
         break;

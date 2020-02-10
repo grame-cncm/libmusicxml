@@ -9813,7 +9813,7 @@ string existingHarmonyKindsNames (int namesListMaxLength)
       string theString = (*i);
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
       }
@@ -12395,7 +12395,7 @@ string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength)
       count++;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
       }
@@ -13092,7 +13092,7 @@ string existingMsrLengthUnitKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
       }
@@ -13276,7 +13276,7 @@ string existingMsrMarginTypeKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
       }
@@ -19330,7 +19330,7 @@ void initializeMSRBasicTypes ()
           count++;
 
           cumulatedLength += theString.size ();
-          if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+          if (cumulatedLength >= namesListMaxLength) {
             s << "\n";
             cumulatedLength = 0;
           }

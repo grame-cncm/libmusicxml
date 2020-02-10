@@ -136,6 +136,7 @@ class msrVoice : public msrElement
 
     // harmonies
 
+/* JMI
     S_msrVoice            getRegularVoiceHarmonyVoiceForwardLink () const
                               { return fRegularVoiceHarmonyVoiceForwardLink; }
 
@@ -149,6 +150,7 @@ class msrVoice : public msrElement
 
     S_msrVoice            getFiguredBassVoiceRegularVoiceBackwardLink () const
                               { return fFiguredBassVoiceRegularVoiceBackwardLink; }
+*/
 
     // stanzas
 
@@ -308,15 +310,19 @@ class msrVoice : public msrElement
 
     // harmonies
 
+/* JMI
     S_msrVoice            createRegularVoiceHarmonyVoice (
                             int    inputLineNumber,
                             string currentMeasureNumber);
+*/
 
     // figured bass
 
+/* JMI
     S_msrVoice            createRegularVoiceFiguredBassVoice (
                             int    inputLineNumber,
                             string currentMeasureNumber);
+*/
 
     // transpose
 
@@ -905,12 +911,14 @@ class msrVoice : public msrElement
 
     S_msrStaff            fVoiceStaffUpLink;
 
+/* JMI
     // two-way links
     S_msrVoice            fRegularVoiceHarmonyVoiceForwardLink;
     S_msrVoice            fHarmonyVoiceRegularVoiceBackwardLink;
 
     S_msrVoice            fRegularVoiceFiguredBassVoiceForwardLink;
     S_msrVoice            fFiguredBassVoiceRegularVoiceBackwardLink;
+*/
 
     // voice kind
 

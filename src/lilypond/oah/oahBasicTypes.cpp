@@ -2968,7 +2968,7 @@ string existingOahOptionalValuesStyleKinds (int namesListMaxLength)
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
-      if (cumulatedLength >= K_NAMES_LIST_MAX_LENGTH) {
+      if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
         break;

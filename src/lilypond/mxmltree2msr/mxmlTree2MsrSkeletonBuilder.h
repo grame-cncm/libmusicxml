@@ -692,9 +692,11 @@ class mxmlTree2MsrSkeletonBuilder :
     bool                      fThereAreHarmoniesToBeAttachedToCurrentNote;
     int                       fHarmonyVoicesCounter;
 
+/* JMI
     S_msrVoice                createRegularVoiceHarmonyVoiceIfNotYetDone (
                                 int        inputLineNumber,
                                 S_msrVoice voice);
+*/
 
     S_msrVoice                createPartHarmonyVoiceIfNotYetDone (
                                 int        inputLineNumber,
@@ -707,9 +709,11 @@ class mxmlTree2MsrSkeletonBuilder :
     bool                      fThereAreFiguredBassToBeAttachedToCurrentNote;
     int                       fFiguredBassVoicesCounter;
 
+/* JMI
     S_msrVoice                createRegularVoiceFiguredBassVoiceIfNotYetDone (
                                 int        inputLineNumber,
                                 S_msrVoice voice);
+*/
 
     S_msrVoice                createPartFiguredBassVoiceIfNotYetDone (
                                 int        inputLineNumber,

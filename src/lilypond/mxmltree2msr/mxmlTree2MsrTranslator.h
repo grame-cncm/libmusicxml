@@ -1044,7 +1044,12 @@ class mxmlTree2MsrTranslator :
     // harmonies and figured basses are pending
     // until the note itself is found in the MusicXML data
     // ------------------------------------------------------
-    void                      attachPendingHarmoniesAndFiguredBassesToNote (
+    void                      attachPendingHarmoniesToNote (
+                                int        inputLineNumber,
+                                S_msrNote  newNote,
+                                S_msrVoice voiceToInsertInto);
+
+    void                      attachPendingFiguredBassesToNote (
                                 int        inputLineNumber,
                                 S_msrNote  newNote,
                                 S_msrVoice voiceToInsertInto);

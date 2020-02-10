@@ -4300,6 +4300,7 @@ void msrMeasure::finalizeFirstHarmonyMeasure (
     }
 #endif
 
+/* JMI
     // get the regular voice associated with this harmony voice
     S_msrVoice
       harmonyVoiceRegularVoice =
@@ -4358,6 +4359,7 @@ void msrMeasure::finalizeFirstHarmonyMeasure (
       case msrMeasure::kMeasureKindMusicallyEmpty:
         break;
     } // switch
+    */
   }
 }
 
@@ -4400,6 +4402,7 @@ void msrMeasure::finalizeLastHarmonyMeasure (
     }
 #endif
 
+/* JMI
     // get the regular voice associated with this harmony voice
     S_msrVoice
       harmonyVoiceRegularVoice =
@@ -4465,15 +4468,16 @@ void msrMeasure::finalizeLastHarmonyMeasure (
             measureWholeNotesDuration);
 
 // BLARK ???
-/*
+/ *
           // pad the measure up to measureWholeNotesDuration
           padUpToPositionInMeasureInMeasure (
             inputLineNumber,
             measureWholeNotesDuration);
-            */
+            * /
         }
         break;
     } // switch
+    */
   }
 }
 

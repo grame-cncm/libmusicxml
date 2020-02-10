@@ -226,8 +226,10 @@ class msrPart : public msrPartGroupElement
     void                  assignSequentialNumbersToRegularVoicesInPart (
                             int inputLineNumber);
 
+/* JMI
     void                  addAVoiceToStavesThatHaveNone (
                             int inputLineNumber);
+*/
 
     // part name display
 
