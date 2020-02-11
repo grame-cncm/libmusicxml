@@ -127,7 +127,7 @@ class msrPart : public msrPartGroupElement
                               { return fPartNumberOfMeasures; }
 
     const vector<rational>&
-                          getfPartMeasuresWholeNotesDurationsVector () const
+                          getPartMeasuresWholeNotesDurationsVector () const
                               { return fPartMeasuresWholeNotesDurationsVector; }
 
     // instrument name

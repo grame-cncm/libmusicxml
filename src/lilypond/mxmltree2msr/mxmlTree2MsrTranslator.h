@@ -958,6 +958,9 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingRestMeasures;
     bool                      fCurrentRestMeasuresHasBeenCreated;
 
+    void                      handleOnGoingRestMeasures (
+                                int inputLineNumber);
+
     // measures repeats
     msrMeasuresRepeat::msrMeasuresRepeatKind
                               fCurrentMeasuresRepeatKind;

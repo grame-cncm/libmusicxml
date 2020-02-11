@@ -6422,104 +6422,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   // handle an on-going multiple rest if any only now,
   // JMI do it before???
   if (fOnGoingRestMeasures) {
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceRestMeasures) {
-      const int fieldWidth = 37;
-
-      fLogOutputStream <<
-        "--> onGoingRestMeasures" <<
-        endl;
-
-      gIndenter++;
-
-      fLogOutputStream <<
-        setw (fieldWidth) <<
-        "currentRestMeasuresHasBeenCreated " << " : " <<
-        booleanAsString (
-          fCurrentRestMeasuresHasBeenCreated) <<
-        endl <<
-        setw (fieldWidth) <<
-        "remainingRestMeasuresMeasuresNumber" << " : " <<
-        fRemainingRestMeasuresMeasuresNumber <<
-        endl <<
-        endl;
-
-      gIndenter--;
-    }
-#endif
-
-    if (! fCurrentRestMeasuresHasBeenCreated) {
-      // create a pending multiple rest,
-      // that will be handled when fRemainingRestMeasuresMeasuresNumber
-      // comes down to 0 later in this same method
-      fCurrentPart->
-        createRestMeasuresInPart (
-          inputLineNumber,
-          fCurrentRestMeasuresMeasuresNumber);
-
-      fCurrentRestMeasuresHasBeenCreated = true;
-    }
-
-    if (fRemainingRestMeasuresMeasuresNumber <= 0) {
-      msrInternalError (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        "remainingRestMeasuresMeasuresNumber problem");
-    }
-
-    // account for one more rest measure in the multiple rest
-    fRemainingRestMeasuresMeasuresNumber--;
-
-    if (fRemainingRestMeasuresMeasuresNumber == 0) {
-      // all rest measures have been found,
-      // the current one is the first after the multiple rest
-      fCurrentPart->
-        appendPendingRestMeasuresToPart (
-          inputLineNumber);
-
-      if (fRemainingRestMeasuresMeasuresNumber == 1) {
-        fCurrentPart-> // JMI ??? BOF
-          setNextMeasureNumberInPart (
-            inputLineNumber,
-            fCurrentMeasureNumber);
-      }
-
-      // forget about and multiple rest having been created
-      fCurrentRestMeasuresHasBeenCreated = false;
-
-      fOnGoingRestMeasures = false;
-    }
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceRestMeasures) {
-      const int fieldWidth = 37;
-
-      fLogOutputStream <<
-        "--> onGoingRestMeasures" <<
-        endl;
-
-      gIndenter++;
-
-      fLogOutputStream <<
-        setw (fieldWidth) <<
-        "fCurrentRestMeasuresHasBeenCreated " << " : " <<
-        booleanAsString (
-          fCurrentRestMeasuresHasBeenCreated) <<
-        endl <<
-        setw (fieldWidth) <<
-        "fRemainingRestMeasuresMeasuresNumber" << " : " <<
-        fRemainingRestMeasuresMeasuresNumber <<
-        endl <<
-        setw (fieldWidth) <<
-        "fOnGoingRestMeasures " << " : " <<
-        booleanAsString (
-          fOnGoingRestMeasures) <<
-        endl;
-
-      gIndenter--;
-    }
-#endif
+    handleOnGoingRestMeasures (
+      inputLineNumber);
   }
 
 /* JMI
@@ -6530,6 +6434,109 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   gLpsrOah     = gLpsrOahUserChoices;
   gLilypondOah = gLilypondOahUserChoices;
   */
+}
+
+void mxmlTree2MsrTranslator::handleOnGoingRestMeasures (
+  int inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRestMeasures) {
+    const int fieldWidth = 37;
+
+    fLogOutputStream <<
+      "--> onGoingRestMeasures" <<
+      endl;
+
+    gIndenter++;
+
+    fLogOutputStream <<
+      setw (fieldWidth) <<
+      "currentRestMeasuresHasBeenCreated " << " : " <<
+      booleanAsString (
+        fCurrentRestMeasuresHasBeenCreated) <<
+      endl <<
+      setw (fieldWidth) <<
+      "remainingRestMeasuresMeasuresNumber" << " : " <<
+      fRemainingRestMeasuresMeasuresNumber <<
+      endl <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
+
+  if (! fCurrentRestMeasuresHasBeenCreated) {
+    // create a pending multiple rest,
+    // that will be handled when fRemainingRestMeasuresMeasuresNumber
+    // comes down to 0 later in this same method
+    fCurrentPart->
+      createRestMeasuresInPart (
+        inputLineNumber,
+        fCurrentRestMeasuresMeasuresNumber);
+
+    fCurrentRestMeasuresHasBeenCreated = true;
+  }
+
+  if (fRemainingRestMeasuresMeasuresNumber <= 0) {
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "remainingRestMeasuresMeasuresNumber problem");
+  }
+
+  // account for one more rest measure in the multiple rest
+  fRemainingRestMeasuresMeasuresNumber--;
+
+  if (fRemainingRestMeasuresMeasuresNumber == 0) {
+    // all rest measures have been found,
+    // the current one is the first after the multiple rest
+    fCurrentPart->
+      appendPendingRestMeasuresToPart (
+        inputLineNumber);
+
+    if (fRemainingRestMeasuresMeasuresNumber == 1) {
+      fCurrentPart-> // JMI ??? BOF
+        setNextMeasureNumberInPart (
+          inputLineNumber,
+          fCurrentMeasureNumber);
+    }
+
+    // forget about and multiple rest having been created
+    fCurrentRestMeasuresHasBeenCreated = false;
+
+    fOnGoingRestMeasures = false;
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceRestMeasures) {
+    const int fieldWidth = 37;
+
+    fLogOutputStream <<
+      "--> onGoingRestMeasures" <<
+      endl;
+
+    gIndenter++;
+
+    fLogOutputStream <<
+      setw (fieldWidth) <<
+      "fCurrentRestMeasuresHasBeenCreated " << " : " <<
+      booleanAsString (
+        fCurrentRestMeasuresHasBeenCreated) <<
+      endl <<
+      setw (fieldWidth) <<
+      "fRemainingRestMeasuresMeasuresNumber" << " : " <<
+      fRemainingRestMeasuresMeasuresNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "fOnGoingRestMeasures " << " : " <<
+      booleanAsString (
+        fOnGoingRestMeasures) <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
 }
 
 //______________________________________________________________________________

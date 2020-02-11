@@ -1074,8 +1074,6 @@ void msrStaff::registerVoiceInStaff (
   // is voice a regular voice???
   switch (voiceKind) {
     case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
       {
         int voiceNumber = voice->getVoiceNumber ();
 
@@ -1097,13 +1095,11 @@ void msrStaff::registerVoiceInStaff (
           voice);
       }
       break;
-/* JMI
     case msrVoice::kVoiceHarmony:
       break;
 
     case msrVoice::kVoiceFiguredBass:
       break;
-      */
   } // switch
 }
 
@@ -2302,7 +2298,7 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Finalizing current measure in staff \"" <<
+      "Finalizing last appended measure in staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
       endl;
@@ -2311,10 +2307,10 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
 
   gIndenter++;
 
-  // finalize all the regular voices
+  // finalize all the voices in the staff
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffRegularVoicesMap.begin ();
-    i != fStaffRegularVoicesMap.end ();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++
   ) {
     S_msrVoice
@@ -2323,6 +2319,8 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
 
     switch (voice->getVoiceKind ()) {
       case msrVoice::kVoiceRegular:
+      case msrVoice::kVoiceHarmony:
+      case msrVoice::kVoiceFiguredBass:
         {
           // handle the regular voice
           voice->
@@ -2357,9 +2355,11 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
         }
         break;
 
+/* JMI
       case msrVoice::kVoiceHarmony:
       case msrVoice::kVoiceFiguredBass:
         break;
+        */
     } // switch
   } // for
 

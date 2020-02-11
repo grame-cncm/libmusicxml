@@ -1877,7 +1877,7 @@ void msrPart::finalizeLastAppendedMeasureInPart (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Finalizing current measure in part " <<
+      "Finalizing last appended measure in part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -2357,35 +2357,29 @@ void msrPart::print (ostream& os) const
 
       switch (staffKind) { // JMI
         case msrStaff::kStaffRegular:
-          os <<
-            staff;
+          os << staff;
           break;
 
         case msrStaff::kStaffTablature:
-          os <<
-            staff;
+          os << staff;
           break;
 
         case msrStaff::kStaffHarmony:
     // JMI      if (gMsrOah->fShowHarmonyVoices) {}
-          os <<
-            staff;
+          os << staff;
           break;
 
         case msrStaff::kStaffFiguredBass:
     // JMI      if (gMsrOah->fShowFiguredBassVoices) {}
-          os <<
-            staff;
+          os << staff;
           break;
 
         case msrStaff::kStaffDrum:
-          os <<
-            staff;
+          os << staff;
           break;
 
         case msrStaff::kStaffRythmic:
-          os <<
-            staff;
+          os << staff;
           break;
       } // switch
 

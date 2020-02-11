@@ -528,18 +528,31 @@ class msrMeasure : public msrElement
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context,
                             S_msrVoice                   harmonyVoice,
-                            rational&                    measureWholeNotesDuration);
+                            rational&                    measureWholeNotesDurationRef);
     void                  finalizeLastHarmonyMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context,
                             S_msrVoice                   harmonyVoice,
-                            rational&                    measureWholeNotesDuration);
+                            rational&                    measureWholeNotesDurationRef);
 
     void                  finalizeFiguredBassMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
+
+    void                  finalizeFirstFiguredBassMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context,
+                            S_msrVoice                   figuredBassVoice,
+                            rational&                    measureWholeNotesDurationRef);
+    void                  finalizeLastFiguredBassMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context,
+                            S_msrVoice                   figuredBassVoice,
+                            rational&                    measureWholeNotesDurationRef);
 
     void                  finalizeMeasureClone (
                             int          inputLineNumber,

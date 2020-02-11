@@ -8929,7 +8929,7 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
-      "Finalizing current measure in voice \"" <<
+      "Finalizing last appended measure in voice \"" <<
       getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber <<
