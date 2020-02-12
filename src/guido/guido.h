@@ -16,6 +16,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 #include "exports.h"
 #include "smartpointer.h"
