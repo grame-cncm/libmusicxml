@@ -807,6 +807,24 @@ void msrChord::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+  for (
+    list<S_msrSegno>::const_iterator i = fChordSegnos.begin ();
+    i != fChordSegnos.end ();
+    i++ ) {
+    // browse the segno
+    msrBrowser<msrSegno> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrCoda>::const_iterator i = fChordCodas.begin ();
+    i != fChordCodas.end ();
+    i++ ) {
+    // browse the coda
+    msrBrowser<msrCoda> browser (v);
+    browser.browse (*(*i));
+  } // for
+
   if (fChordOctaveShift) {
     // browse the octave shift
     msrBrowser<msrOctaveShift> browser (v);
@@ -1426,6 +1444,56 @@ void msrChord::print (ostream& os) const
 
       list<S_msrWedge>::const_iterator i;
       for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
+        os << (*i);
+      } // for
+
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
+  // print the segnos if any
+  int chordSegnosSize = fChordSegnos.size ();
+
+  if (chordSegnosSize || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordSegnos";
+    if (chordSegnosSize) {
+      os << endl;
+      gIndenter++;
+
+      list<S_msrSegno>::const_iterator i;
+      for (i=fChordSegnos.begin (); i!=fChordSegnos.end (); i++) {
+        os << (*i);
+      } // for
+
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
+  // print the codas if any
+  int chordCodasSize = fChordCodas.size ();
+
+  if (chordCodasSize || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordCodas";
+    if (chordCodasSize) {
+      os << endl;
+      gIndenter++;
+
+      list<S_msrCoda>::const_iterator i;
+      for (i=fChordCodas.begin (); i!=fChordCodas.end (); i++) {
         os << (*i);
       } // for
 

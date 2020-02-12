@@ -575,6 +575,16 @@ class msrNote : public msrTupletElement
                           getNoteWedgesToModify ()
                               { return fNoteWedges; }
 
+    // segnos
+    const list<S_msrSegno>&
+                          getNoteSegnos () const
+                              { return fNoteSegnos; }
+
+    // coda
+    const list<S_msrCoda>&
+                          getNoteCodas () const
+                              { return fNoteCodas; }
+
     // eyeglasses
     const list<S_msrEyeGlasses>&
                           getNoteEyeGlasses () const

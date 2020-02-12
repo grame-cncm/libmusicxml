@@ -1620,6 +1620,38 @@ void lpsr2LilypondTranslator::generateNoteHead (
 void lpsr2LilypondTranslator::generateCodeBeforeNote (
   S_msrNote note)
 {
+  if (! fOnGoingChord) {
+    // generate the note codas if any
+    const list<S_msrCoda>&
+      noteCodas =
+        note->getNoteCodas ();
+
+    if (noteCodas.size ()) {
+      list<S_msrCoda>::const_iterator i;
+      for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
+        // generate the coda
+        fLilypondCodeOstream <<
+          "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
+          endl;
+      } // for
+    }
+
+    // generate the note segnos if any
+    const list<S_msrSegno>&
+      noteSegnos =
+        note->getNoteSegnos ();
+
+    if (noteSegnos.size ()) {
+      list<S_msrSegno>::const_iterator i;
+      for (i=noteSegnos.begin (); i!=noteSegnos.end (); i++) {
+        // generate the segno
+        fLilypondCodeOstream <<
+          "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
+          endl;
+      } // for
+    }
+  }
+
   // print the note head color
   generateNoteHeadColor (note);
 
@@ -11363,7 +11395,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
   // at the beginning of the grace notes
   fLastMetWholeNotes = rational (0, 1);
 
-  // generate teh notes in the grace notes group
+  // generate the notes in the grace notes group
   list<S_msrMeasureElement>&
     graceNotesGroupElementsList =
       graceNotesGroup->
@@ -11384,22 +11416,22 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
           note =
             dynamic_cast<msrNote*>(&(*element))
         ) {
-          // print things before the note
+          // generate things before the note
           generateCodeBeforeNote (note);
 
-          // print the note itself
+          // generate the note itself
           generateCodeForNote (note);
 
-          // print things after the note
+          // generate things after the note
           generateCodeAfterNote (note);
 
-          // print the note beams if any,
+          // generate the note beams if any,
           // unless the note is chord member
           if (! note->getNoteBelongsToAChord ()) {
             generateNoteBeams (note);
           }
 
-          // print the note slurs if any,
+          // generate the note slurs if any,
           // unless the note is chord member
           // or LilyPond will take care of that
           if (
@@ -13476,6 +13508,36 @@ void lpsr2LilypondTranslator::generateCodeForOctaveShift (
 //________________________________________________________________________
 void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
 {
+  // generate the chord codas if any
+  const list<S_msrCoda>&
+    chordCodas =
+      chord->getChordCodas ();
+
+  if (chordCodas.size ()) {
+    list<S_msrCoda>::const_iterator i;
+    for (i=chordCodas.begin (); i!=chordCodas.end (); i++) {
+      // generate the coda
+      fLilypondCodeOstream <<
+        "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
+        endl;
+    } // for
+  }
+
+  // generate the chord segnos if any
+  const list<S_msrSegno>&
+    chordSegnos =
+      chord->getChordSegnos ();
+
+  if (chordSegnos.size ()) {
+    list<S_msrSegno>::const_iterator i;
+    for (i=chordSegnos.begin (); i!=chordSegnos.end (); i++) {
+      // generate the segno
+      fLilypondCodeOstream <<
+        "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
+        endl;
+    } // for
+  }
+
   // print the chord's grace notes before if any,
   // but not ??? JMI
   S_msrGraceNotesGroup
@@ -14670,10 +14732,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegno& elt)
       endl;
   }
 #endif
-
-  fLilypondCodeOstream <<
-    "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
-    endl;
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
@@ -14686,10 +14744,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
       endl;
   }
 #endif
-
-  fLilypondCodeOstream <<
-    "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
-    endl;
 }
 
 //________________________________________________________________________
@@ -14932,6 +14986,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 
       fLilypondCodeOstream << endl;
 
+/* JMI BOF ???
       switch (elt->getBarlineHasSegnoKind ()) {
         case msrBarline::kBarlineHasSegnoYes:
           fLilypondCodeOstream <<
@@ -14950,6 +15005,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           break;
       } // switch
       break;
+*/
 
     case msrBarline::kBarlineCategoryRepeatStart:
   // JMI    if (gLilypondOah->fKeepRepeatBarlines) {

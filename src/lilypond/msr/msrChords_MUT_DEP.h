@@ -135,6 +135,16 @@ class msrChord : public msrTupletElement
                           getChordWedges () const
                               { return fChordWedges; }
 
+    // segnos
+    const list<S_msrSegno>&
+                          getChordSegnos () const
+                              { return fChordSegnos; }
+
+    // coda
+    const list<S_msrCoda>&
+                          getChordCodas () const
+                              { return fChordCodas; }
+
     // words
     const list<S_msrWords>&
                           getChordWords () const
@@ -294,6 +304,18 @@ class msrChord : public msrTupletElement
                                 fChordWedges.push_back (wedge);
                               }
 
+    // segnos
+    void                  appendSegnoToChord (S_msrSegno segno)
+                              {
+                                fChordSegnos.push_back (segno);
+                              }
+
+    // codas
+    void                  appendCodaToChord (S_msrCoda coda)
+                              {
+                                fChordCodas.push_back (coda);
+                              }
+
     // words
     void                  appendWordsToChord (S_msrWords dynamic)
                               {
@@ -433,6 +455,12 @@ class msrChord : public msrTupletElement
 
     // wedges
     list<S_msrWedge>      fChordWedges;
+
+    // segnos
+    list<S_msrSegno>      fChordSegnos;
+
+    // coda
+    list<S_msrCoda>       fChordCodas;
 
     // octave shift
     S_msrOctaveShift      fChordOctaveShift;

@@ -5267,8 +5267,27 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
   }
 #endif
 
-  fCurrentVoiceClone->
-    appendSegnoToVoice (elt);
+  if (fOnGoingChord) {
+    fCurrentChordClone->
+      appendSegnoToChord (elt);
+  }
+  else if (fOnGoingNonGraceNote) {
+    fCurrentNonGraceNoteClone->
+      appendSegnoToNote (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "segno '" << elt->asShortString () <<
+      "' is out of context, cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
@@ -5282,8 +5301,27 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
   }
 #endif
 
-  fCurrentVoiceClone->
-    appendCodaToVoice (elt);
+  if (fOnGoingChord) {
+    fCurrentChordClone->
+      appendCodaToChord (elt);
+  }
+  else if (fOnGoingNonGraceNote) {
+    fCurrentNonGraceNoteClone->
+      appendCodaToNote (elt);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "coda '" << elt->asShortString () <<
+      "' is out of context, cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 //________________________________________________________________________

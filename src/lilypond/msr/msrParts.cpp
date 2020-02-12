@@ -2316,7 +2316,7 @@ void msrPart::print (ostream& os) const
     for (int i = 0; i < fPartNumberOfMeasures; ++i) {
       int j = i + 1;
       os << left <<
-        "ordinal " << setw (3) << right <<
+        "ord. " << setw (3) << right <<
         j << " : " <<
         setw (4) <<
         fPartMeasuresWholeNotesDurationsVector [ i ].toString ();

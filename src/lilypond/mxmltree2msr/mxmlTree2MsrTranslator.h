@@ -1700,6 +1700,10 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
+    void                      copyNoteSegnosToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteCodasToChord (
+                                S_msrNote note, S_msrChord chord);
     void                      copyNoteOctaveShiftToChord (
                                 S_msrNote note, S_msrChord chord);
 

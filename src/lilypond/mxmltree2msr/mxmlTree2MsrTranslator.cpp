@@ -14845,6 +14845,74 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteSegnosToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // copy note's segnos if any from the first note to chord
+
+  list<S_msrSegno>
+    noteSegnos =
+      note->
+        getNoteSegnos ();
+
+  list<S_msrSegno>::const_iterator i;
+  for (
+    i=noteSegnos.begin ();
+    i!=noteSegnos.end ();
+    i++
+  ) {
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceChords) {
+      fLogOutputStream <<
+        "Copying segno '" <<
+        (*i)->asShortString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+#endif
+
+    chord->
+      appendSegnoToChord ((*i));
+  } // for
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteCodasToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // copy note's codas if any from the first note to chord
+
+  list<S_msrCoda>
+    noteCodas =
+      note->
+        getNoteCodas ();
+
+  list<S_msrCoda>::const_iterator i;
+  for (
+    i=noteCodas.begin ();
+    i!=noteCodas.end ();
+    i++
+  ) {
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceChords) {
+      fLogOutputStream <<
+        "Copying coda '" <<
+        (*i)->asShortString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+#endif
+
+    chord->
+      appendCodaToChord ((*i));
+  } // for
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteOctaveShiftToChord (
   S_msrNote note, S_msrChord chord)
 {
