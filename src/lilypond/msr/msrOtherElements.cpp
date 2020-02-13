@@ -25,19 +25,24 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrSegno msrSegno::create (
-  int inputLineNumber)
+  int inputLineNumber,
+  int staffNumber)
 {
   msrSegno* o =
     new msrSegno (
-      inputLineNumber);
+      inputLineNumber,
+      staffNumber);
   assert(o!=0);
   return o;
 }
 
 msrSegno::msrSegno (
-  int inputLineNumber)
+  int inputLineNumber,
+  int staffNumber)
     : msrMeasureElement (inputLineNumber)
-{}
+{
+  fStaffNumber = staffNumber;
+}
 
 msrSegno::~msrSegno ()
 {}
@@ -89,11 +94,22 @@ void msrSegno::acceptOut (basevisitor* v)
 void msrSegno::browseData (basevisitor* v)
 {}
 
+string msrSegno::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Segno" <<
+    ", staffNumber :" << fStaffNumber <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 void msrSegno::print (ostream& os) const
 {
   os <<
-    "Segno" <<
-    ", line " << fInputLineNumber <<
+    asString () <<
     endl;
 }
 
@@ -105,19 +121,24 @@ ostream& operator<< (ostream& os, const S_msrSegno& elt)
 
 //______________________________________________________________________________
 S_msrCoda msrCoda::create (
-  int inputLineNumber)
+  int inputLineNumber,
+  int staffNumber)
 {
   msrCoda* o =
     new msrCoda (
-      inputLineNumber);
+      inputLineNumber,
+      staffNumber);
   assert(o!=0);
   return o;
 }
 
 msrCoda::msrCoda (
-  int inputLineNumber)
+  int inputLineNumber,
+  int staffNumber)
     : msrMeasureElement (inputLineNumber)
-{}
+{
+  fStaffNumber = staffNumber;
+}
 
 msrCoda::~msrCoda ()
 {}
@@ -169,11 +190,22 @@ void msrCoda::acceptOut (basevisitor* v)
 void msrCoda::browseData (basevisitor* v)
 {}
 
+string msrCoda::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Coda" <<
+    ", staffNumber :" << fStaffNumber <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 void msrCoda::print (ostream& os) const
 {
   os <<
-    "Coda" <<
-    ", line " << fInputLineNumber <<
+    asString () <<
     endl;
 }
 
@@ -249,11 +281,21 @@ void msrEyeGlasses::acceptOut (basevisitor* v)
 void msrEyeGlasses::browseData (basevisitor* v)
 {}
 
+string msrEyeGlasses::asString () const
+{
+  stringstream s;
+
+  s <<
+    "EyeGlasses" <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 void msrEyeGlasses::print (ostream& os) const
 {
   os <<
-    "EyeGlasses" <<
-    ", line " << fInputLineNumber <<
+    asString () <<
     endl;
 }
 

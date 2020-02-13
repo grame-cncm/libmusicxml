@@ -6896,7 +6896,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
     S_msrSegno
       segno =
         msrSegno::create (
-          inputLineNumber);
+          inputLineNumber,
+          fCurrentDirectionStaffNumber);
 
     // append it to the pending segnos list
     fPendingSegnosList.push_back (segno);
@@ -6939,7 +6940,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
     S_msrCoda
       coda =
         msrCoda::create (
-          inputLineNumber);
+          inputLineNumber,
+          fCurrentDirectionStaffNumber);
 
     // append it to the pending codas list
     fPendingCodasList.push_back (coda);
@@ -15077,6 +15079,12 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's wedges if any to the chord
   copyNoteWedgesToChord (note, chord);
+
+  // copy note's segnos if any to the chord
+  copyNoteSegnosToChord (note, chord);
+
+  // copy note's codas if any to the chord
+  copyNoteCodasToChord (note, chord);
 
   // copy note's octave shift if any to the chord
   copyNoteOctaveShiftToChord (note, chord);

@@ -18,18 +18,18 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrSegno : public msrMeasureElement
+class msrStaffLevelElement : public msrMeasureElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrSegno> create (
+    static SMARTP<msrStaffLevelElement> create (
       int  inputLineNumber);
 
   protected:
@@ -37,16 +37,21 @@ class msrSegno : public msrMeasureElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSegno (
+    msrStaffLevelElement (
       int inputLineNumber);
-      
-    virtual ~msrSegno ();
-  
+
+    virtual ~msrStaffLevelElement ();
+
   public:
 
     // set and get
     // ------------------------------------------------------
-    
+
+    int                   getStaffLevelElementStaffNumber () const
+                              { return fStaffLevelElementStaffNumber; }
+
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -71,6 +76,73 @@ class msrSegno : public msrMeasureElement
 
     // fields
     // ------------------------------------------------------
+
+    int                   fStaffLevelElementStaffNumber;
+};
+typedef SMARTP<msrStaffLevelElement> S_msrStaffLevelElement;
+EXP ostream& operator<< (ostream& os, const S_msrStaffLevelElement& elt);
+
+//______________________________________________________________________________
+class msrSegno : public msrMeasureElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSegno> create (
+      int  inputLineNumber,
+      int  staffNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSegno (
+      int inputLineNumber,
+      int staffNumber);
+
+    virtual ~msrSegno ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getfStaffNumber () const
+                              { return fStaffNumber; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    int                   fStaffNumber;
 };
 typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
@@ -79,12 +151,13 @@ EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
 class msrCoda : public msrMeasureElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrCoda> create (
-      int inputLineNumber);
+      int inputLineNumber,
+      int staffNumber);
 
   protected:
 
@@ -92,14 +165,20 @@ class msrCoda : public msrMeasureElement
     // ------------------------------------------------------
 
     msrCoda (
-      int inputLineNumber);
-      
+      int inputLineNumber,
+      int staffNumber);
+
     virtual ~msrCoda ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
+
+    int                   getfStaffNumber () const
+                              { return fStaffNumber; }
+
+  public:
 
     // services
     // ------------------------------------------------------
@@ -119,12 +198,16 @@ class msrCoda : public msrMeasureElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
 
     // fields
     // ------------------------------------------------------
+
+    int                   fStaffNumber;
 };
 typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
@@ -133,7 +216,7 @@ EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
 class msrEyeGlasses : public msrMeasureElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -147,9 +230,9 @@ class msrEyeGlasses : public msrMeasureElement
 
     msrEyeGlasses (
       int inputLineNumber);
-      
+
     virtual ~msrEyeGlasses ();
-  
+
   public:
 
     // set and get
@@ -172,6 +255,8 @@ class msrEyeGlasses : public msrMeasureElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os) const;
 
@@ -186,14 +271,14 @@ EXP ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt);
 //______________________________________________________________________________
 /*
 class msrPolyphony : public smartable
-{  
+{
   public:
 
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const;
- 
+
   public:
 
     // fields

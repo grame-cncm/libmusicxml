@@ -1620,7 +1620,7 @@ void lpsr2LilypondTranslator::generateNoteHead (
 void lpsr2LilypondTranslator::generateCodeBeforeNote (
   S_msrNote note)
 {
-  if (! fOnGoingChord) {
+  if (! fOnGoingChord && fOnGoingNote) {
     // generate the note codas if any
     const list<S_msrCoda>&
       noteCodas =

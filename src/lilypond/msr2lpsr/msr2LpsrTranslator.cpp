@@ -4856,13 +4856,13 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
   }
 #endif
 
-  if (fOnGoingChord) {
-    fCurrentChordClone->
-      setChordOctaveShift (elt);
-  }
-  else if (fOnGoingNonGraceNote) {
+  if (fOnGoingNonGraceNote) {
     fCurrentNonGraceNoteClone->
       setNoteOctaveShift (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      setChordOctaveShift (elt);
   }
   else {
     stringstream s;
@@ -5002,7 +5002,7 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
       appendBeamToNote (elt);
   }
 
-  if (fOnGoingChord) {
+  if (fOnGoingChord) { // else ??? JMI
     fCurrentChordClone->
       appendBeamToChord (elt);
   }
@@ -5267,13 +5267,15 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
   }
 #endif
 
-  if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendSegnoToChord (elt);
-  }
-  else if (fOnGoingNonGraceNote) {
-    fCurrentNonGraceNoteClone->
-      appendSegnoToNote (elt);
+  if (fOnGoingChord || fOnGoingNonGraceNote) {
+    if (fOnGoingChord) {
+      fCurrentChordClone->
+        appendSegnoToChord (elt);
+    }
+    if (fOnGoingNonGraceNote) {
+      fCurrentNonGraceNoteClone->
+        appendSegnoToNote (elt);
+    }
   }
   else {
     stringstream s;
@@ -5301,13 +5303,15 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
   }
 #endif
 
-  if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendCodaToChord (elt);
-  }
-  else if (fOnGoingNonGraceNote) {
-    fCurrentNonGraceNoteClone->
-      appendCodaToNote (elt);
+  if (fOnGoingChord || fOnGoingNonGraceNote) {
+    if (fOnGoingChord) {
+      fCurrentChordClone->
+        appendCodaToChord (elt);
+    }
+    if (fOnGoingNonGraceNote) {
+      fCurrentNonGraceNoteClone->
+        appendCodaToNote (elt);
+    }
   }
   else {
     stringstream s;
