@@ -1620,7 +1620,7 @@ void lpsr2LilypondTranslator::generateNoteHead (
 void lpsr2LilypondTranslator::generateCodeBeforeNote (
   S_msrNote note)
 {
-  if (! fOnGoingChord && fOnGoingNote) {
+  if (! fOnGoingChord) {
     // generate the note codas if any
     const list<S_msrCoda>&
       noteCodas =
@@ -1631,7 +1631,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
       for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
         // generate the coda
         fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
+          "\\mark \\markup { \\musicglyph #\"scripts.coda\" 1 }" <<
           endl;
       } // for
     }
@@ -1646,24 +1646,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
       for (i=noteSegnos.begin (); i!=noteSegnos.end (); i++) {
         // generate the segno
         fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
-          endl;
-      } // for
-    }
-
-    // generate the note dal segnos if any
-    const list<S_msrDalSegno>&
-      noteDalSegnos =
-        note->getNoteDalSegnos ();
-
-    if (noteDalSegnos.size ()) {
-      list<S_msrDalSegno>::const_iterator i;
-      for (i=noteDalSegnos.begin (); i!=noteDalSegnos.end (); i++) {
-        // generate the dal segno
-        fLilypondCodeOstream <<
-          "\\mark \\markup { " <<
-          (*i)->getDalSegnoString () <<
-          " }" <<
+          "\\mark \\markup { \\musicglyph #\"scripts.segno\" 1 }" <<
           endl;
       } // for
     }
@@ -2272,9 +2255,30 @@ void lpsr2LilypondTranslator::generateCodeForNote (
   fLilypondCodeOstream << ' ';
 }
 
-void lpsr2LilypondTranslator::generateCodeAfterNote ( // JMI ???
+void lpsr2LilypondTranslator::generateCodeAfterNote (
   S_msrNote note)
 {
+  if (! fOnGoingChord) {
+    // generate the note dal segnos if any
+    const list<S_msrDalSegno>&
+      noteDalSegnos =
+        note->getNoteDalSegnos ();
+
+    if (noteDalSegnos.size ()) {
+      list<S_msrDalSegno>::const_iterator i;
+      for (i=noteDalSegnos.begin (); i!=noteDalSegnos.end (); i++) {
+        // generate the dal segno
+        fLilypondCodeOstream <<
+          endl <<
+          "\\tweak self-alignment-X #CENTER" <<
+          endl <<
+          "\\mark \\markup { " <<
+          (*i)->getDalSegnoString () <<
+          " }" <<
+          endl;
+      } // for
+    }
+  }
 }
 
 //________________________________________________________________________
@@ -12382,7 +12386,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     }
   }
 
-  // print things before the note
+  // generate things before the note
   generateCodeBeforeNote (elt);
 
   ////////////////////////////////////////////////////////////////////
@@ -12391,10 +12395,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
-  // print the note itself
+  // generate the note itself
   generateCodeForNote (elt);
 
-  // print things after the note
+  // generate things after the note
   generateCodeAfterNote (elt);
 
   if (
@@ -13523,7 +13527,8 @@ void lpsr2LilypondTranslator::generateCodeForOctaveShift (
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
+void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
+  S_msrChord chord)
 {
   // generate the chord codas if any
   const list<S_msrCoda>&
@@ -13535,7 +13540,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
     for (i=chordCodas.begin (); i!=chordCodas.end (); i++) {
       // generate the coda
       fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
+        "\\mark \\markup { \\musicglyph #\"scripts.coda\" 2 }" <<
         endl;
     } // for
   }
@@ -13550,24 +13555,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
     for (i=chordSegnos.begin (); i!=chordSegnos.end (); i++) {
       // generate the segno
       fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
-        endl;
-    } // for
-  }
-
-  // generate the chord dal segnos if any
-  const list<S_msrDalSegno>&
-    chordDalSegnos =
-      chord->getChordDalSegnos ();
-
-  if (chordDalSegnos.size ()) {
-    list<S_msrDalSegno>::const_iterator i;
-    for (i=chordDalSegnos.begin (); i!=chordDalSegnos.end (); i++) {
-      // generate the dal segno
-      fLilypondCodeOstream <<
-        "\\mark \\markup { " <<
-        (*i)->getDalSegnoString () <<
-        " }" <<
+        "\\mark \\markup { \\musicglyph #\"scripts.segno\" 2 }" <<
         endl;
     } // for
   }
@@ -13847,7 +13835,8 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
   fOnGoingChord = true;
 }
 
-void lpsr2LilypondTranslator::generateCodeForChordContents (S_msrChord chord)
+void lpsr2LilypondTranslator::generateCodeForChordContents (
+  S_msrChord chord)
 {
   // get the chord notes vector
   const vector<S_msrNote>&
@@ -13880,7 +13869,8 @@ void lpsr2LilypondTranslator::generateCodeForChordContents (S_msrChord chord)
   }
 }
 
-void lpsr2LilypondTranslator::generateCodeAfterChordContents (S_msrChord chord)
+void lpsr2LilypondTranslator::generateCodeAfterChordContents (
+  S_msrChord chord)
 {
   // generate the end of the chord
   fLilypondCodeOstream <<
@@ -14424,6 +14414,26 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (S_msrChord chord)
         case msrSlide::kSlideTypeStop:
           break;
       } // switch
+    } // for
+  }
+
+  // generate the chord dal segnos if any
+  const list<S_msrDalSegno>&
+    chordDalSegnos =
+      chord->getChordDalSegnos ();
+
+  if (chordDalSegnos.size ()) {
+    list<S_msrDalSegno>::const_iterator i;
+    for (i=chordDalSegnos.begin (); i!=chordDalSegnos.end (); i++) {
+      // generate the dal segno
+      fLilypondCodeOstream <<
+        endl <<
+        "\\tweak self-alignment-X #CENTER" <<
+        endl <<
+        "\\mark \\markup { " <<
+        (*i)->getDalSegnoString () <<
+        " }" <<
+        endl;
     } // for
   }
 

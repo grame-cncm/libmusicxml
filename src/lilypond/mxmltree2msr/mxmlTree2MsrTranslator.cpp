@@ -129,7 +129,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentNoteIsCrossStaves = false;
 
   // voice handling
-  fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
+  fPreviousMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
+  fCurrentMusicXMLVoiceNumber  = K_NO_VOICE_NUMBER;
 
   // clef handling
   fCurrentClefStaffNumber = K_NO_STAFF_NUMBER;
@@ -289,7 +290,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingNote = false;
 
   // voice
-  fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
+  fPreviousMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
+  fCurrentMusicXMLVoiceNumber  = K_NO_VOICE_NUMBER;
 
   // technicals handling
   fOnGoingTechnical = false;
@@ -427,7 +429,8 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   fCurrentMusicXMLStaffNumber = 1; // default value, it may be absent
 
   // current note voice number
-  fCurrentMusicXMLVoiceNumber = 1; // default value, it may be absent
+  fPreviousMusicXMLVoiceNumber = fCurrentMusicXMLVoiceNumber;
+  fCurrentMusicXMLVoiceNumber  = 1; // default value, it may be absent
 
   // staff change detection
   // fCurrentStaffNumberToInsertInto = 1; // JMI ???
@@ -2885,7 +2888,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
               fCurrentDirectionStaffNumber);
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceWords) {
+        if (gTraceOah->fTraceWords || gTraceOah->fTraceSegnos) {
           fLogOutputStream <<
             "Converting words '" <<
             wordsValue <<
@@ -17220,9 +17223,6 @@ void mxmlTree2MsrTranslator::attachPendingNoteLevelElementsToNote (
   // attach the pending segnos, if any, to the note
   attachPendingSegnosToNote (note);
 
-  // attach the pending dal segnos, if any, to the note
-  attachPendingDalSegnosToNote (note);
-
   // attach the pending codas, if any, to the note
   attachPendingCodasToNote (note);
 
@@ -18255,7 +18255,27 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     inputLineNumber,
     newNote);
 
-  // attach the pending elements, if any, to newNote
+  // attach the pending dal segnos, if any, to the ** previous ** note,
+  // which they should follow
+  map<pair<int, int>, S_msrNote>::iterator
+    it =
+      fVoicesLastMetNoteMap.find (
+        make_pair (
+          fPreviousNoteMusicXMLStaffNumber,
+          fCurrentMusicXMLVoiceNumber)); // JMI ???
+
+  if (it != fVoicesLastMetNoteMap.end ()) {
+    S_msrNote
+      lastMetNoteInVoice =
+        (*it).second;
+
+    attachPendingDalSegnosToNote (lastMetNoteInVoice);
+  }
+  else {
+    // FOO
+  }
+
+  // attach the other, regular pending elements, if any, to newNote
   // only now because <lyric> follows <glissando> and <slide> in MusicXML JMI ???
   attachPendingNoteLevelElementsToNote (newNote);
 
