@@ -1650,6 +1650,23 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
           endl;
       } // for
     }
+
+    // generate the note dal segnos if any
+    const list<S_msrDalSegno>&
+      noteDalSegnos =
+        note->getNoteDalSegnos ();
+
+    if (noteDalSegnos.size ()) {
+      list<S_msrDalSegno>::const_iterator i;
+      for (i=noteDalSegnos.begin (); i!=noteDalSegnos.end (); i++) {
+        // generate the dal segno
+        fLilypondCodeOstream <<
+          "\\mark \\markup { " <<
+          (*i)->getDalSegnoString () <<
+          " }" <<
+          endl;
+      } // for
+    }
   }
 
   // print the note head color
@@ -13534,6 +13551,23 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
       // generate the segno
       fLilypondCodeOstream <<
         "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
+        endl;
+    } // for
+  }
+
+  // generate the chord dal segnos if any
+  const list<S_msrDalSegno>&
+    chordDalSegnos =
+      chord->getChordDalSegnos ();
+
+  if (chordDalSegnos.size ()) {
+    list<S_msrDalSegno>::const_iterator i;
+    for (i=chordDalSegnos.begin (); i!=chordDalSegnos.end (); i++) {
+      // generate the segno
+      fLilypondCodeOstream <<
+        "\\mark \\markup { " <<
+        (*i)->getDalSegnoString () <<
+        " }" <<
         endl;
     } // for
   }

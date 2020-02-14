@@ -2879,7 +2879,8 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
             fontStyleKind,
             fontSize,
             fontWeightKind,
-            wordsXMLLangKind);
+            wordsXMLLangKind,
+            fCurrentDirectionStaffNumber);
 
       fPendingWordsList.push_back (words);
     }

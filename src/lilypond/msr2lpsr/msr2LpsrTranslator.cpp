@@ -2638,7 +2638,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
               msrFontSize::create (
                 msrFontSize::kFontSizeNone), // default value
               kFontWeightNone,               // default value
-              kXMLLangIt);                   // default value
+              kXMLLangIt,                    // default value
+              elt->getSyllableNoteUpLink ()->getNoteStaffNumber ());
 
         // append it to the current non-grace note
 #ifdef TRACE_OAH
@@ -3793,67 +3794,125 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
   }
 #endif
 
-  if (gLpsrOah->fConvertWordsToTempo) {
-    // create a tempo containing elt
-    S_msrTempo
-      tempo =
-        msrTempo::create (
-          inputLineNumber,
-          elt);
+  if (fOnGoingNonGraceNote || fOnGoingChord) {
+    bool wordsHasBeenHandled = false;
+
+    if (gLpsrOah->fConvertWordsToTempo) {
+      // create a tempo containing elt
+      S_msrTempo
+        tempo =
+          msrTempo::create (
+            inputLineNumber,
+            elt);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWords) {
-      fLogOutputStream <<
-        "Converting words '" <<
-        elt->asShortString () <<
-        "' to tempo '" <<
-        tempo->asShortString () <<
-        "'" <<
-        endl;
-    }
+      if (gTraceOah->fTraceWords) {
+        fLogOutputStream <<
+          "Converting words '" <<
+          elt->asShortString () <<
+          "' to tempo '" <<
+          tempo->asShortString () <<
+          "'" <<
+          endl;
+      }
 #endif
 
-    // append the tempo to the current voice clone
-    fCurrentVoiceClone->
-      appendTempoToVoice (tempo);
-  }
+      // append the tempo to the current voice clone
+      fCurrentVoiceClone->
+        appendTempoToVoice (tempo);
 
-  else if (gLpsrOah->fConvertWordsToRehearsalMarks) {
-    // create a rehearsal mark containing elt's words
+      wordsHasBeenHandled = true;
+    }
 
-    S_msrRehearsal
-      rehearsal =
-        msrRehearsal::create (
-          inputLineNumber,
-          msrRehearsal::kNone,
-          elt->getWordsContents (),
-          elt->getWordsPlacementKind ()); // above ??? JMI
+    else if (gLpsrOah->fConvertWordsToRehearsalMarks) {
+      // create a rehearsal mark containing elt's words contents
+      S_msrRehearsal
+        rehearsal =
+          msrRehearsal::create (
+            inputLineNumber,
+            msrRehearsal::kNone,
+            elt->getWordsContents (),
+            elt->getWordsPlacementKind ()); // above ??? JMI
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWords) {
-      fLogOutputStream <<
-        "Converting words '" <<
-        elt->asShortString () <<
-        "' to rehearsal mark '" <<
-        rehearsal->asShortString () <<
-        "'" <<
-        endl;
-    }
+      if (gTraceOah->fTraceWords) {
+        fLogOutputStream <<
+          "Converting words '" <<
+          elt->asShortString () <<
+          "' to rehearsal mark '" <<
+          rehearsal->asShortString () <<
+          "'" <<
+          endl;
+      }
 #endif
 
-    // append the rehearsal to the current voice clone
-    fCurrentVoiceClone->
-      appendRehearsalToVoice (rehearsal);
+      // append the rehearsal to the current voice clone
+      fCurrentVoiceClone->
+        appendRehearsalToVoice (rehearsal);
+
+      wordsHasBeenHandled = true;
+    }
+
+    else {
+      string wordsContents = elt->getWordsContents ();
+
+      // is this words contents in the string to dal segno kind map?
+      map<string, msrDalSegno::msrDalSegnoKind>::iterator
+        it =
+          gLpsrOah->fConvertWordsToDalSegno.find (wordsContents);
+
+      if (it != gLpsrOah->fConvertWordsToDalSegno.end ()) {
+        // yes
+        msrDalSegno::msrDalSegnoKind
+          dalSegnoKind =
+            (*it).second;
+
+        // create a dal segno element containing elt's words contents
+        S_msrDalSegno
+          dalSegno =
+            msrDalSegno::create (
+              inputLineNumber,
+              dalSegnoKind,
+              wordsContents,
+              elt->getWordsStaffNumber ());
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceWords) {
+          fLogOutputStream <<
+            "Converting words '" <<
+            elt->asShortString () <<
+            "' to dal segno element '" <<
+            dalSegno->asShortString () <<
+            "'" <<
+            endl;
+        }
+#endif
+
+        if (fOnGoingNonGraceNote) {
+          fCurrentNonGraceNoteClone->
+            appendDalSegnoToNote (dalSegno);
+        }
+        else if (fOnGoingChord) {
+          fCurrentChordClone->
+            appendDalSegnoToChord (dalSegno);
+        }
+
+      wordsHasBeenHandled = true;
+      }
+    }
+
+    if (! wordsHasBeenHandled) {
+      if (fOnGoingNonGraceNote) {
+        fCurrentNonGraceNoteClone->
+          appendWordsToNote (elt);
+      }
+      else if (fOnGoingChord) {
+        fCurrentChordClone->
+          appendWordsToChord (elt);
+      }
+    }
   }
 
-  else if (fOnGoingNonGraceNote) {
-    fCurrentNonGraceNoteClone->
-      appendWordsToNote (elt);
-  }
-  else if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendWordsToChord (elt);
-  }
   else {
     stringstream s;
 

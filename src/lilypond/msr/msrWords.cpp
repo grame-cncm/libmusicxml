@@ -35,7 +35,8 @@ S_msrWords msrWords::create (
   msrFontStyleKind           wordsFontStyleKind,
   S_msrFontSize              wordsFontSize,
   msrFontWeightKind          wordsFontWeightKind,
-  msrXMLLangKind             wordsXMLLangKind)
+  msrXMLLangKind             wordsXMLLangKind,
+  int                        wordsStaffNumber)
 {
   msrWords* o =
     new msrWords (
@@ -48,7 +49,8 @@ S_msrWords msrWords::create (
       wordsFontStyleKind,
       wordsFontSize,
       wordsFontWeightKind,
-      wordsXMLLangKind);
+      wordsXMLLangKind,
+      wordsStaffNumber);
   assert(o!=0);
   return o;
 }
@@ -63,7 +65,8 @@ msrWords::msrWords (
   msrFontStyleKind           wordsFontStyleKind,
   S_msrFontSize              wordsFontSize,
   msrFontWeightKind          wordsFontWeightKind,
-  msrXMLLangKind             wordsXMLLangKind)
+  msrXMLLangKind             wordsXMLLangKind,
+  int                        wordsStaffNumber)
     : msrElement (inputLineNumber)
 {
   fWordsPlacementKind  = wordsPlacementKind;
@@ -80,6 +83,8 @@ msrWords::msrWords (
   fWordsFontWeightKind = wordsFontWeightKind;
 
   fWordsXMLLangKind = wordsXMLLangKind;
+
+  fWordsStaffNumber = wordsStaffNumber;
 }
 
 msrWords::~msrWords ()
@@ -201,10 +206,12 @@ void msrWords::print (ostream& os) const
     setw (fieldWidth) <<
     "wordsContents" << " = \"" << fWordsContents << "\"" <<
     endl <<
+
     setw (fieldWidth) <<
     "placement" << " : " <<
     msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
+
     setw (fieldWidth) <<
     "wordsJustifyKind" << " : " <<
     msrJustifyKindAsString (fWordsJustifyKind) <<
@@ -217,6 +224,7 @@ void msrWords::print (ostream& os) const
     "wordsVerticalAlignmentKind" << " : " <<
     msrVerticalAlignmentKindAsString (fWordsVerticalAlignmentKind) <<
     endl <<
+
     setw (fieldWidth) <<
     "wordsFontStyle" << " : " <<
     msrFontStyleKindAsString (fWordsFontStyleKind) <<
@@ -232,6 +240,11 @@ void msrWords::print (ostream& os) const
     setw (fieldWidth) <<
     "wordsFontXMLLang" << " : " <<
     msrXMLLangKindAsString (fWordsXMLLangKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "wordsStaffNumber" << " : " <<
+    fWordsStaffNumber <<
     endl;
 
   gIndenter--;

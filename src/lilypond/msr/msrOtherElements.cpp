@@ -120,6 +120,137 @@ ostream& operator<< (ostream& os, const S_msrSegno& elt)
 }
 
 //______________________________________________________________________________
+S_msrDalSegno msrDalSegno::create (
+  int             inputLineNumber,
+  msrDalSegnoKind dalSegnoKind,
+  string          dalSegnoString,
+  int             staffNumber)
+{
+  msrDalSegno* o =
+    new msrDalSegno (
+      inputLineNumber,
+      dalSegnoKind,
+      dalSegnoString,
+      staffNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrDalSegno::msrDalSegno (
+  int             inputLineNumber,
+  msrDalSegnoKind dalSegnoKind,
+  string          dalSegnoString,
+  int             staffNumber)
+    : msrMeasureElement (inputLineNumber)
+{
+  fDalSegnoKind = dalSegnoKind;
+
+  fDalSegnoString = dalSegnoString;
+
+  fStaffNumber = staffNumber;
+}
+
+msrDalSegno::~msrDalSegno ()
+{}
+
+void msrDalSegno::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrDalSegno::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrDalSegno>*
+    p =
+      dynamic_cast<visitor<S_msrDalSegno>*> (v)) {
+        S_msrDalSegno elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrDalSegno::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrDalSegno::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrDalSegno::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrDalSegno>*
+    p =
+      dynamic_cast<visitor<S_msrDalSegno>*> (v)) {
+        S_msrDalSegno elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrDalSegno::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrDalSegno::browseData (basevisitor* v)
+{}
+
+string msrDalSegno::dalSegnoKindAsString (
+  msrDalSegnoKind dalSegnoKind)
+{
+  string result;
+
+  switch (dalSegnoKind) {
+    case msrDalSegno::kDalSegnoNone:
+      result = "dalSegnoNone";
+      break;
+    case msrDalSegno::kDalSegno:
+      result = "dalSegno";
+      break;
+    case msrDalSegno::kDalSegnoAlFine:
+      result = "dalSegnoAlFine";
+      break;
+    case msrDalSegno::kDalSegnoAlCoda:
+      result = "dalSegnoAlCoda";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrDalSegno::asString () const
+{
+  stringstream s;
+
+  s <<
+    "DalSegno" <<
+    ", dalSegnoKind: " << dalSegnoKindAsString (fDalSegnoKind) <<
+    ", dalSegnoString: \"" << fDalSegnoString << "\"" <<
+    ", staffNumber: " << fStaffNumber <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+void msrDalSegno::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrDalSegno& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrCoda msrCoda::create (
   int inputLineNumber,
   int staffNumber)

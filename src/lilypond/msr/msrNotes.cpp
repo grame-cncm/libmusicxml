@@ -2425,6 +2425,11 @@ void msrNote::appendSegnoToNote (S_msrSegno segno)
   fNoteSegnos.push_back (segno);
 }
 
+void msrNote::appendDalSegnoToNote (S_msrDalSegno dalSegno)
+{
+  fNoteDalSegnos.push_back (dalSegno);
+}
+
 void msrNote::appendCodaToNote (S_msrCoda coda)
 {
   fNoteCodas.push_back (coda);
@@ -2881,6 +2886,18 @@ void msrNote::browseData (basevisitor* v)
     for (i=fNoteSegnos.begin (); i!=fNoteSegnos.end (); i++) {
       // browse the segno
       msrBrowser<msrSegno> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the dal segnos if any
+  if (fNoteDalSegnos.size ()) {
+    gIndenter++;
+    list<S_msrDalSegno>::const_iterator i;
+    for (i=fNoteDalSegnos.begin (); i!=fNoteDalSegnos.end (); i++) {
+      // browse the dal segno
+      msrBrowser<msrDalSegno> browser (v);
       browser.browse (*(*i));
     } // for
     gIndenter--;
@@ -4873,6 +4890,37 @@ void msrNote::print (ostream& os) const
       list<S_msrSegno>::const_iterator
         iBegin = fNoteSegnos.begin (),
         iEnd   = fNoteSegnos.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the dal segnos if any
+  int noteDalSegnosSize = fNoteDalSegnos.size ();
+
+  if (noteDalSegnosSize > 0 || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteDalSegnos";
+    if (fNoteDalSegnos.size ()) {
+      os << endl;
+
+      gIndenter++;
+
+      list<S_msrDalSegno>::const_iterator
+        iBegin = fNoteDalSegnos.begin (),
+        iEnd   = fNoteDalSegnos.end (),
         i      = iBegin;
       for ( ; ; ) {
         os << (*i);

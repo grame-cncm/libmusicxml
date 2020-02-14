@@ -148,6 +148,101 @@ typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
 
 //______________________________________________________________________________
+class msrDalSegno : public msrMeasureElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrDalSegnoKind {
+      kDalSegnoNone,
+      kDalSegno, kDalSegnoAlFine, kDalSegnoAlCoda };
+
+    static string dalSegnoKindAsString (
+      msrDalSegnoKind dalSegnoKind);
+
+    static msrDalSegnoKind msrDalSegnoKindFromString (
+      string theString);
+
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrDalSegno> create (
+      int             inputLineNumber,
+      msrDalSegnoKind dalSegnoKind,
+      string          dalSegnoString,
+      int             staffNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrDalSegno (
+      int             inputLineNumber,
+      msrDalSegnoKind dalSegnoKind,
+      string          dalSegnoString,
+      int             staffNumber);
+
+    virtual ~msrDalSegno ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrDalSegnoKind       getDalSegnoKind () const
+                              { return fDalSegnoKind; }
+
+    string                getDalSegnoString () const
+                              { return fDalSegnoString; }
+
+    int                   getStaffNumber () const
+                              { return fStaffNumber; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+
+      msrDalSegnoKind     fDalSegnoKind;
+
+      string              fDalSegnoString;
+
+      int                 fStaffNumber;
+};
+typedef SMARTP<msrDalSegno> S_msrDalSegno;
+EXP ostream& operator<< (ostream& os, const S_msrDalSegno& elt);
+
+//______________________________________________________________________________
 class msrCoda : public msrMeasureElement
 {
   public:

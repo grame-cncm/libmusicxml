@@ -140,6 +140,11 @@ class msrChord : public msrTupletElement
                           getChordSegnos () const
                               { return fChordSegnos; }
 
+    // dal segnos
+    const list<S_msrDalSegno>&
+                          getChordDalSegnos () const
+                              { return fChordDalSegnos; }
+
     // coda
     const list<S_msrCoda>&
                           getChordCodas () const
@@ -310,6 +315,12 @@ class msrChord : public msrTupletElement
                                 fChordSegnos.push_back (segno);
                               }
 
+    // dal segnos
+    void                  appendDalSegnoToChord (S_msrDalSegno dalSegno)
+                              {
+                                fChordDalSegnos.push_back (dalSegno);
+                              }
+
     // codas
     void                  appendCodaToChord (S_msrCoda coda)
                               {
@@ -458,6 +469,9 @@ class msrChord : public msrTupletElement
 
     // segnos
     list<S_msrSegno>      fChordSegnos;
+
+    // dal segnos
+    list<S_msrDalSegno>   fChordDalSegnos;
 
     // coda
     list<S_msrCoda>       fChordCodas;

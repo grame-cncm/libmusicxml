@@ -996,6 +996,928 @@ ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt)
   return os;
 }
 
+//______________________________________________________________________________
+S_lpsrDalSegnoAtom lpsrDalSegnoAtom::create (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+{
+  lpsrDalSegnoAtom* o = new
+    lpsrDalSegnoAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringDalSegnoKindMapVariable);
+  assert(o!=0);
+  return o;
+}
+
+lpsrDalSegnoAtom::lpsrDalSegnoAtom (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringDalSegnoKindMapVariable (
+      stringDalSegnoKindMapVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+lpsrDalSegnoAtom::~lpsrDalSegnoAtom ()
+{}
+
+S_oahValuedAtom lpsrDalSegnoAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lpsrDalSegnoAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void lpsrDalSegnoAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the dal segno specification
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> theString = \"" << theString << "\", " <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  map<string, msrDalSegno::msrDalSegnoKind>::iterator
+    it =
+      fStringDalSegnoKindMapVariable.find (theString);
+
+  if (it != fStringDalSegnoKindMapVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Strong \"" << theString << "\" occurs more that once" <<
+      "in a '--dal-segno' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringDalSegnoKindMapVariable [theString] = msrDalSegno::kDalSegno;
+  }
+}
+
+void lpsrDalSegnoAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrDalSegnoAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrDalSegnoAtom>*> (v)) {
+        S_lpsrDalSegnoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lpsrDalSegnoAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrDalSegnoAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrDalSegnoAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrDalSegnoAtom>*> (v)) {
+        S_lpsrDalSegnoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lpsrDalSegnoAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrDalSegnoAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string lpsrDalSegnoAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string lpsrDalSegnoAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void lpsrDalSegnoAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "lpsrDalSegnoAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringDalSegnoKindMapVariable" << " : " <<
+    endl;
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void lpsrDalSegnoAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lpsrDalSegnoAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_lpsrDalSegnoAlFineAtom lpsrDalSegnoAlFineAtom::create (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+{
+  lpsrDalSegnoAlFineAtom* o = new
+    lpsrDalSegnoAlFineAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringDalSegnoKindMapVariable);
+  assert(o!=0);
+  return o;
+}
+
+lpsrDalSegnoAlFineAtom::lpsrDalSegnoAlFineAtom (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringDalSegnoKindMapVariable (
+      stringDalSegnoKindMapVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+lpsrDalSegnoAlFineAtom::~lpsrDalSegnoAlFineAtom ()
+{}
+
+S_oahValuedAtom lpsrDalSegnoAlFineAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lpsrDalSegnoAlFineAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void lpsrDalSegnoAlFineAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the dal segno al fine specification
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> theString = \"" << theString << "\", " <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  map<string, msrDalSegno::msrDalSegnoKind>::iterator
+    it =
+      fStringDalSegnoKindMapVariable.find (theString);
+
+  if (it != fStringDalSegnoKindMapVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Strong \"" << theString << "\" occurs more that once" <<
+      "in a '--dal-segno-al-fine' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringDalSegnoKindMapVariable [theString] = msrDalSegno::kDalSegno;
+  }
+}
+
+void lpsrDalSegnoAlFineAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAlFineAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrDalSegnoAlFineAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrDalSegnoAlFineAtom>*> (v)) {
+        S_lpsrDalSegnoAlFineAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lpsrDalSegnoAlFineAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrDalSegnoAlFineAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAlFineAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrDalSegnoAlFineAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrDalSegnoAlFineAtom>*> (v)) {
+        S_lpsrDalSegnoAlFineAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lpsrDalSegnoAlFineAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrDalSegnoAlFineAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAlFineAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string lpsrDalSegnoAlFineAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string lpsrDalSegnoAlFineAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void lpsrDalSegnoAlFineAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "lpsrDalSegnoAlFineAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringDalSegnoKindMapVariable" << " : " <<
+    endl;
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void lpsrDalSegnoAlFineAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlFineAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_lpsrDalSegnoAlCodaAtom lpsrDalSegnoAlCodaAtom::create (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+{
+  lpsrDalSegnoAlCodaAtom* o = new
+    lpsrDalSegnoAlCodaAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringDalSegnoKindMapVariable);
+  assert(o!=0);
+  return o;
+}
+
+lpsrDalSegnoAlCodaAtom::lpsrDalSegnoAlCodaAtom (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringDalSegnoKindMapVariable (
+      stringDalSegnoKindMapVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+lpsrDalSegnoAlCodaAtom::~lpsrDalSegnoAlCodaAtom ()
+{}
+
+S_oahValuedAtom lpsrDalSegnoAlCodaAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lpsrDalSegnoAlCodaAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void lpsrDalSegnoAlCodaAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the dal segno specification
+  // decipher it to extract the old and new part names
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> theString = \"" << theString << "\", " <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  map<string, msrDalSegno::msrDalSegnoKind>::iterator
+    it =
+      fStringDalSegnoKindMapVariable.find (theString);
+
+  if (it != fStringDalSegnoKindMapVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Strong \"" << theString << "\" occurs more that once" <<
+      "in a '--dal-segno' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringDalSegnoKindMapVariable [theString] = msrDalSegno::kDalSegno;
+  }
+}
+
+void lpsrDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAlCodaAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrDalSegnoAlCodaAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrDalSegnoAlCodaAtom>*> (v)) {
+        S_lpsrDalSegnoAlCodaAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lpsrDalSegnoAlCodaAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lpsrDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAlCodaAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lpsrDalSegnoAlCodaAtom>*
+    p =
+      dynamic_cast<visitor<S_lpsrDalSegnoAlCodaAtom>*> (v)) {
+        S_lpsrDalSegnoAlCodaAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lpsrDalSegnoAlCodaAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrDalSegnoAlCodaAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lpsrDalSegnoAlCodaAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string lpsrDalSegnoAlCodaAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string lpsrDalSegnoAlCodaAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "lpsrDalSegnoAlCodaAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringDalSegnoKindMapVariable" << " : " <<
+    endl;
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void lpsrDalSegnoAlCodaAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlCodaAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 S_lpsrOah gLpsrOah;
 S_lpsrOah gLpsrOahUserChoices;
@@ -1503,6 +2425,34 @@ This option can be used any number of times.)###",
         fReplicateEmptyMeasureReplicas));
 }
 
+void lpsrOah::initializeLpsrTemposOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Tempos",
+        "hlpsrtempos", "help-lpsr-tempos",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // convert tempos to rehearsal marks
+
+  fConvertTemposToRehearsalMarks = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "cttrm", "convert-tempos-to-rehearsal-marks",
+R"(Convert tempos to rehearsal marks.
+This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
+        "convertTemposToRehearsalMarks",
+        fConvertTemposToRehearsalMarks));
+}
+
 void lpsrOah::initializeLpsrWordsOptions (
   bool boolOptionsInitialValue)
 {
@@ -1543,19 +2493,6 @@ This may come in handy when MusicXML data has been obtained from scanned images.
         "addWordsFromTheLyrics",
         fAddWordsFromTheLyrics));
 
-  // convert tempos to rehearsal marks
-
-  fConvertTemposToRehearsalMarks = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "cttrm", "convert-tempos-to-rehearsal-marks",
-R"(Convert tempos to rehearsal marks.
-This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
-        "convertTemposToRehearsalMarks",
-        fConvertTemposToRehearsalMarks));
-
   // convert words to rehearsal marks
 
   fConvertWordsToRehearsalMarks = boolOptionsInitialValue;
@@ -1568,6 +2505,62 @@ R"(Convert words to rehearsal marks.
 This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
         "convertWordsToRehearsalMarks",
         fConvertWordsToRehearsalMarks));
+
+  // convert words to dal segno
+  subGroup->
+    appendAtomToSubGroup (
+      lpsrDalSegnoAtom::create (
+        "ds", "dal-segno",
+R"(Convert words elements STRING to an MSR 'dal segno' element'.)",
+        "STRING",
+        "convertWordsToRehearsalMarks",
+        fConvertWordsToDalSegno));
+
+  // convert words to dal segno al fine
+  subGroup->
+    appendAtomToSubGroup (
+      lpsrDalSegnoAlFineAtom::create (
+        "dsaf", "dal-segno-al-fine",
+R"(Convert words elements STRING to an MSR 'dal segno al fine' element.)",
+        "STRING",
+        "convertWordsToRehearsalMarks",
+        fConvertWordsToDalSegno));
+
+  // convert words to dal segno al coda
+  subGroup->
+    appendAtomToSubGroup (
+      lpsrDalSegnoAlCodaAtom::create (
+        "dsac", "dal-segno-al-coda",
+R"(Convert words elements STRING to an MSR 'dal segno al coda' element.)",
+        "STRING",
+        "convertWordsToRehearsalMarks",
+        fConvertWordsToDalSegno));
+
+/* JMI
+
+        replaceSubstringInString (
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
+as well as in the generated LilyPond code.
+The NUMBER LilyPond pitches languages available are:
+PITCHES_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+            "PITCHES_LANGUAGES",
+            gIndenter.indentMultiLineString (
+              existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
+          "DEFAULT_VALUE",
+          msrQuarterTonesPitchesLanguageKindAsString (
+            msrQuarterTonesPitchesLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "lpsrPitchesLanguage",
+        fLpsrQuarterTonesPitchesLanguageKind));
+
+    map<string, msrDalSegno::msrDalSegnoKind>
+                          fConvertWordsToDalSegno;
+                          */
 }
 
 void lpsrOah::initializeLpsrLanguagesOptions (
@@ -1773,6 +2766,11 @@ void lpsrOah::initializeLpsrOah (
   initializeLpsrMeasuresOptions (
     boolOptionsInitialValue);
 
+  // tempos
+  // --------------------------------------
+  initializeLpsrTemposOptions (
+    boolOptionsInitialValue);
+
   // words
   // --------------------------------------
   initializeLpsrWordsOptions (
@@ -1894,6 +2892,12 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   clone->fAddEmptyMeasuresStringToIntMap =
     fAddEmptyMeasuresStringToIntMap;
 
+  // tempos
+  // --------------------------------------
+
+  clone->fConvertTemposToRehearsalMarks =
+    true;
+
   // words
   // --------------------------------------
 
@@ -1902,9 +2906,6 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   clone->fAddWordsFromTheLyrics =
     true;
 
-  // rehearsal marks
-  clone->fConvertTemposToRehearsalMarks =
-    true;
   clone->fConvertWordsToRehearsalMarks =
     true;
 
@@ -2232,6 +3233,23 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
   gIndenter--;
 
+  // tempos
+  // --------------------------------------
+
+  gLogOstream <<
+    "Tempos:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "convertTemposToRehearsalMarks" << " : " <<
+    booleanAsString (fConvertTemposToRehearsalMarks) <<
+    endl <<
+    endl;
+
+  gIndenter--;
+
   // words
   // --------------------------------------
 
@@ -2247,23 +3265,8 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
     booleanAsString (fAddWordsFromTheLyrics) <<
-    endl;
-
-  gIndenter--;
-
-  // rehearsal marks
-  // --------------------------------------
-
-  gLogOstream <<
-    "Rehearsal marks:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "convertTemposToRehearsalMarks" << " : " <<
-    booleanAsString (fConvertTemposToRehearsalMarks) <<
     endl <<
+
     setw (fieldWidth) << "convertWordsToRehearsalMarks" << " : " <<
     booleanAsString (fConvertWordsToRehearsalMarks) <<
     endl;

@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -34,13 +34,13 @@ class msrWords : public msrElement
 
     static string wordsFontStyleKindAsString (
       msrWordsFontStyleKind wordsFontStyleKind);
-      
+
     enum msrWordsFontWeightKind {
       kNormalWeight, kBoldWeight };
 
     static string msrWordsFontWeightKindAsString (
       msrWordsFontWeightKind wordsFontWeightKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -54,7 +54,8 @@ class msrWords : public msrElement
       msrFontStyleKind           wordsFontStyleKind,
       S_msrFontSize              wordsFontSize,
       msrFontWeightKind          wordsFontWeightKind,
-      msrXMLLangKind             wordsXMLLangKind);
+      msrXMLLangKind             wordsXMLLangKind,
+      int                        wordsStaffNumber);
 
   protected:
 
@@ -71,10 +72,11 @@ class msrWords : public msrElement
       msrFontStyleKind           wordsFontStyleKind,
       S_msrFontSize              wordsFontSize,
       msrFontWeightKind          wordsFontWeightKind,
-      msrXMLLangKind             wordsXMLLangKind);
-      
+      msrXMLLangKind             wordsXMLLangKind,
+      int                        wordsStaffNumber);
+
     virtual ~msrWords ();
-  
+
   public:
 
     // set and get
@@ -109,6 +111,9 @@ class msrWords : public msrElement
     msrXMLLangKind        getWordsXMLLangKind () const
                               { return fWordsXMLLangKind; }
 
+    int                   getWordsStaffNumber () const
+                              { return fWordsStaffNumber; }
+
     // services
     // ------------------------------------------------------
 
@@ -128,31 +133,31 @@ class msrWords : public msrElement
     // ------------------------------------------------------
 
     string                wordsPlacementKindAsString () const;
-    
+
     string                wordsJustifyKindAsString () const;
-    
+
     string                wordsHorizontalAlignmentKindAsString () const;
     string                wordsVerticalAlignmentKindAsString () const;
-    
+
     string                wordsFontStyleKindAsString () const;
-    
+
     string                wordsFontSizeAsString () const;
-    
+
     string                wordsFontWeightKindAsString () const;
 
     string                asString () const;
-    
+
     virtual void          print (ostream& os) const;
 
   private:
-                        
+
     // fields
     // ------------------------------------------------------
 
     msrPlacementKind      fWordsPlacementKind;
-    
+
     string                fWordsContents;
-  
+
     msrJustifyKind        fWordsJustifyKind;
 
     msrHorizontalAlignmentKind
@@ -163,8 +168,10 @@ class msrWords : public msrElement
     msrFontStyleKind      fWordsFontStyleKind;
     S_msrFontSize         fWordsFontSize;
     msrFontWeightKind     fWordsFontWeightKind;
-    
+
     msrXMLLangKind        fWordsXMLLangKind;
+
+    int                   fWordsStaffNumber;
 };
 typedef SMARTP<msrWords> S_msrWords;
 EXP ostream& operator<< (ostream& os, const S_msrWords& elt);

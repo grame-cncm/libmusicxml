@@ -817,6 +817,15 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
+    list<S_msrDalSegno>::const_iterator i = fChordDalSegnos.begin ();
+    i != fChordDalSegnos.end ();
+    i++ ) {
+    // browse the dal segno
+    msrBrowser<msrDalSegno> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
     list<S_msrCoda>::const_iterator i = fChordCodas.begin ();
     i != fChordCodas.end ();
     i++ ) {
@@ -1469,6 +1478,31 @@ void msrChord::print (ostream& os) const
 
       list<S_msrSegno>::const_iterator i;
       for (i=fChordSegnos.begin (); i!=fChordSegnos.end (); i++) {
+        os << (*i);
+      } // for
+
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
+  // print the dal segnos if any
+  int chordDalSegnosSize = fChordDalSegnos.size ();
+
+  if (chordDalSegnosSize || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordDalSegnos";
+    if (chordDalSegnosSize) {
+      os << endl;
+      gIndenter++;
+
+      list<S_msrDalSegno>::const_iterator i;
+      for (i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); i++) {
         os << (*i);
       } // for
 

@@ -191,8 +191,10 @@ class msrWedge : public msrElement
       kWedgeKindNone,
       kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop };
 
+/* JMI
     static string wedgeKindAsString (
       msrWedgeKind wedgeKind);
+*/
 
     enum msrWedgeNienteKind {
       kWedgeNienteYes, kWedgeNienteNo };

@@ -184,7 +184,7 @@ void msrRenamePartAtom::handleValue (
 
     s <<
       "Part \"" << oldPartName << "\" occurs more that once" <<
-      "in the '--partName' option";
+      "in the '--rename-part' option";
 
     oahError (s.str ());
   }

@@ -15,6 +15,8 @@
 
 #include "lpsrBasicTypes.h"
 
+#include "msrOtherElements.h"
+
 #include "oahBasicTypes.h"
 
 #include "oahBasicTypes.h"
@@ -386,6 +388,276 @@ typedef SMARTP<lpsrTransposeAtom> S_lpsrTransposeAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt);
 
 //______________________________________________________________________________
+class lpsrDalSegnoAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrDalSegnoAtom> create (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrDalSegnoAtom (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+    virtual ~lpsrDalSegnoAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<string, msrDalSegno::msrDalSegnoKind>&
+                          getStringDalSegnoKindMapVariable ()
+                              { return fStringDalSegnoKindMapVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<string, msrDalSegno::msrDalSegnoKind>&
+                          fStringDalSegnoKindMapVariable;
+};
+typedef SMARTP<lpsrDalSegnoAtom> S_lpsrDalSegnoAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAtom& elt);
+
+//______________________________________________________________________________
+class lpsrDalSegnoAlFineAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrDalSegnoAlFineAtom> create (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrDalSegnoAlFineAtom (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+    virtual ~lpsrDalSegnoAlFineAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<string, msrDalSegno::msrDalSegnoKind>&
+                          getStringDalSegnoKindMapVariable ()
+                              { return fStringDalSegnoKindMapVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<string, msrDalSegno::msrDalSegnoKind>&
+                          fStringDalSegnoKindMapVariable;
+};
+typedef SMARTP<lpsrDalSegnoAlFineAtom> S_lpsrDalSegnoAlFineAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlFineAtom& elt);
+
+//______________________________________________________________________________
+class lpsrDalSegnoAlCodaAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrDalSegnoAlCodaAtom> create (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrDalSegnoAlCodaAtom (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+    virtual ~lpsrDalSegnoAlCodaAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<string, msrDalSegno::msrDalSegnoKind>&
+                          getStringDalSegnoKindMapVariable ()
+                              { return fStringDalSegnoKindMapVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<string, msrDalSegno::msrDalSegnoKind>&
+                          fStringDalSegnoKindMapVariable;
+};
+typedef SMARTP<lpsrDalSegnoAlCodaAtom> S_lpsrDalSegnoAlCodaAtom;
+EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlCodaAtom& elt);
+
+//______________________________________________________________________________
 class lpsrOah : public oahGroup
 {
   public:
@@ -473,6 +745,9 @@ class lpsrOah : public oahGroup
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrMeasuresOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrTemposOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrWordsOptions (
@@ -583,6 +858,12 @@ class lpsrOah : public oahGroup
     // add empty measures
     map<string,int>       fAddEmptyMeasuresStringToIntMap;
 
+    // tempos
+    // --------------------------------------
+
+    // convert tempos to rehearsal marks
+    bool                  fConvertTemposToRehearsalMarks;
+
     // words
     // --------------------------------------
 
@@ -591,13 +872,12 @@ class lpsrOah : public oahGroup
     // add words from the lyrics
     bool                  fAddWordsFromTheLyrics;
 
-    // rehearsal marks
-    // --------------------------------------
-
-    // convert tempos to rehearsal marks
-    bool                  fConvertTemposToRehearsalMarks;
     // convert words to rehearsal marks
     bool                  fConvertWordsToRehearsalMarks;
+
+    // convert words to dal segno
+    map<string, msrDalSegno::msrDalSegnoKind>
+                          fConvertWordsToDalSegno;
 
     // languages
     // --------------------------------------

@@ -413,6 +413,14 @@ class msrNote : public msrTupletElement
     // note context
     // -------------------------------
 
+    // staff and voice context
+
+    int                   getNoteStaffNumber () const
+                              { return fNoteStaffNumber; }
+
+    int                   getNoteVoiceNumber () const
+                              { return fNoteVoiceNumber; }
+
     // chord members
     void                  setNoteBelongsToAChord ();
 
@@ -579,6 +587,11 @@ class msrNote : public msrTupletElement
     const list<S_msrSegno>&
                           getNoteSegnos () const
                               { return fNoteSegnos; }
+
+    // dal segnos
+    const list<S_msrDalSegno>&
+                          getNoteDalSegnos () const
+                              { return fNoteDalSegnos; }
 
     // coda
     const list<S_msrCoda>&
@@ -765,6 +778,9 @@ class msrNote : public msrTupletElement
 
     // segnos
     void                  appendSegnoToNote (S_msrSegno segno);
+
+    // dal segnos
+    void                  appendDalSegnoToNote (S_msrDalSegno dalSegno);
 
     // codas
     void                  appendCodaToNote (S_msrCoda coda);
@@ -1025,6 +1041,11 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     list<S_msrSegno>      fNoteSegnos;
+
+    // dal segnos
+    // ------------------------------------------------------
+
+    list<S_msrDalSegno>   fNoteDalSegnos;
 
     // coda
     // ------------------------------------------------------
