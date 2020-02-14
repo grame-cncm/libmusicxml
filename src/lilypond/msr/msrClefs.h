@@ -13,7 +13,7 @@
 #ifndef ___msrClefs___
 #define ___msrClefs___
 
-#include "msrMeasureElements.h"
+#include "msrSegnosAndCodas.h"
 
 #include "msrBasicTypes.h"
 

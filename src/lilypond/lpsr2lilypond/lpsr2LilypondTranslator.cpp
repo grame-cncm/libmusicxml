@@ -13563,7 +13563,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
   if (chordDalSegnos.size ()) {
     list<S_msrDalSegno>::const_iterator i;
     for (i=chordDalSegnos.begin (); i!=chordDalSegnos.end (); i++) {
-      // generate the segno
+      // generate the dal segno
       fLilypondCodeOstream <<
         "\\mark \\markup { " <<
         (*i)->getDalSegnoString () <<

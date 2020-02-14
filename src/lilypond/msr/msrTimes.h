@@ -13,7 +13,7 @@
 #ifndef ___msrTimes___
 #define ___msrTimes___
 
-#include "msrMeasureElements.h"
+#include "msrSegnosAndCodas.h"
 
 #include "msrBasicTypes.h"
 

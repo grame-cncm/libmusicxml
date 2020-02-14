@@ -15,11 +15,8 @@
 
 #include "lpsrBasicTypes.h"
 
-#include "msrOtherElements.h"
-
 #include "oahBasicTypes.h"
 
-#include "oahBasicTypes.h"
 
 namespace MusicXML2
 {
@@ -387,6 +384,7 @@ class lpsrTransposeAtom : public oahValuedAtom
 typedef SMARTP<lpsrTransposeAtom> S_lpsrTransposeAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt);
 
+/* JMI
 //______________________________________________________________________________
 class lpsrDalSegnoAtom : public oahValuedAtom
 {
@@ -656,6 +654,7 @@ class lpsrDalSegnoAlCodaAtom : public oahValuedAtom
 };
 typedef SMARTP<lpsrDalSegnoAlCodaAtom> S_lpsrDalSegnoAlCodaAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlCodaAtom& elt);
+*/
 
 //______________________________________________________________________________
 class lpsrOah : public oahGroup
@@ -874,10 +873,6 @@ class lpsrOah : public oahGroup
 
     // convert words to rehearsal marks
     bool                  fConvertWordsToRehearsalMarks;
-
-    // convert words to dal segno
-    map<string, msrDalSegno::msrDalSegnoKind>
-                          fConvertWordsToDalSegno;
 
     // languages
     // --------------------------------------

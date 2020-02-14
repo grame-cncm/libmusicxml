@@ -1120,6 +1120,17 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingSegnosToNote (
                                 S_msrNote note);
 
+
+    // dal segnos handling
+    // ------------------------------------------------------
+    // dal segnos are note represented as such in MusicXML,
+    // but they are in MSR, hence an option to convert
+    // words with specific contents to dal segnos
+    list<S_msrDalSegno>       fPendingDalSegnosList;
+
+    void                      attachPendingDalSegnosToNote (
+                                S_msrNote note);
+
     // codas handling
     // ------------------------------------------------------
     // codas remain pending until the next note:
@@ -1686,24 +1697,33 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteOtherDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
+
     void                      copyNoteWordsToChord (
                                 S_msrNote note, S_msrChord chord);
+
     void                      copyNoteTieToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteSlursToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteLigaturesToChord (
                                 S_msrNote note, S_msrChord chord);
+
     void                      copyNotePedalsToChord (
                                 S_msrNote note, S_msrChord chord);
+
     void                      copyNoteSlashesToChord (
                                 S_msrNote note, S_msrChord chord);
+
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
+
     void                      copyNoteSegnosToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteDalSegnosToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteCodasToChord (
                                 S_msrNote note, S_msrChord chord);
+
     void                      copyNoteOctaveShiftToChord (
                                 S_msrNote note, S_msrChord chord);
 

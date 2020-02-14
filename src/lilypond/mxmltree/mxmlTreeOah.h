@@ -13,12 +13,106 @@
 #ifndef ___mxmlTreeOah___
 #define ___mxmlTreeOah___
 
+#include "msrSegnosAndCodas.h"
+
 #include "oahBasicTypes.h"
-#include "exports.h"
+
+
+//#include "exports.h"
 
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+class msrDalSegnoAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrDalSegnoAtom> create (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrDalSegnoAtom (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<string, msrDalSegno::msrDalSegnoKind>&
+                          stringDalSegnoKindMapVariable);
+
+    virtual ~msrDalSegnoAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<string, msrDalSegno::msrDalSegnoKind>&
+                          getStringDalSegnoKindMapVariable ()
+                              { return fStringDalSegnoKindMapVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<string, msrDalSegno::msrDalSegnoKind>&
+                          fStringDalSegnoKindMapVariable;
+};
+typedef SMARTP<msrDalSegnoAtom> S_msrDalSegnoAtom;
+EXP ostream& operator<< (ostream& os, const S_msrDalSegnoAtom& elt);
 
 //______________________________________________________________________________
 class mxmlTreeOah : public oahGroup
@@ -97,6 +191,9 @@ class mxmlTreeOah : public oahGroup
     void                  initializeMusicXMMeasuresOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeMusicXMLWordsOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeMusicXMLDynamicsAndWedgesOptions (
                             bool boolOptionsInitialValue);
 
@@ -152,6 +249,13 @@ class mxmlTreeOah : public oahGroup
     // --------------------------------------
 
     map<string,int>       fAddEmptyMeasuresStringToIntMap;
+
+    // words
+    // --------------------------------------
+
+    // convert words to dal segno
+    map<string, msrDalSegno::msrDalSegnoKind>
+                          fConvertWordsToDalSegno;
 
     // dynamics and wedges
     // --------------------------------------

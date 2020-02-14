@@ -13,7 +13,7 @@
 #ifndef ___msrPartGroupElements___
 #define ___msrPartGroupElements___
 
-#include "msrMeasureElements.h"
+#include "msrSegnosAndCodas.h"
 
 
 namespace MusicXML2 

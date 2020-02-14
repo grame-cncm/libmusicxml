@@ -10,12 +10,10 @@
   research@grame.fr
 */
 
-#ifndef ___msrOtherElements___
-#define ___msrOtherElements___
+#ifndef ___msrSegnosAndCodas___
+#define ___msrSegnosAndCodas___
 
 #include "msrMeasureElements.h"
-
-#include "msrBasicTypes.h"
 
 
 namespace MusicXML2

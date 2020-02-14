@@ -13,7 +13,7 @@
 #ifndef ___msrTupletElements___
 #define ___msrTupletElements___
 
-#include "msrMeasureElements.h"
+#include "msrSegnosAndCodas.h"
 
 
 namespace MusicXML2

@@ -12,7 +12,7 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
-#include "msrMeasureElements.h"
+#include "msrSegnosAndCodas.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH

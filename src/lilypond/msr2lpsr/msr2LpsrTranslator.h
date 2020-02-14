@@ -210,6 +210,7 @@ class msr2LpsrTranslator :
   public visitor<S_msrBarline>,
 
   public visitor<S_msrSegno>,
+  public visitor<S_msrDalSegno>,
   public visitor<S_msrCoda>,
 
   public visitor<S_msrEyeGlasses>,
@@ -422,6 +423,7 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrBarline& elt);
 
     virtual void visitStart (S_msrSegno& elt);
+    virtual void visitStart (S_msrDalSegno& elt);
     virtual void visitStart (S_msrCoda& elt);
 
     virtual void visitStart (S_msrEyeGlasses& elt);

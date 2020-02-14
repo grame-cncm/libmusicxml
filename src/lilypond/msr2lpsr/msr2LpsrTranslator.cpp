@@ -3854,6 +3854,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
     }
 
     else {
+    /* JMI
       string wordsContents = elt->getWordsContents ();
 
       // is this words contents in the string to dal segno kind map?
@@ -3899,6 +3900,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 
       wordsHasBeenHandled = true;
       }
+      */
     }
 
     if (! wordsHasBeenHandled) {
@@ -5341,6 +5343,42 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 
     s <<
       "segno '" << elt->asShortString () <<
+      "' is out of context, cannot be handled";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void msr2LpsrTranslator::visitStart (S_msrDalSegno& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrDalSegno" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  if (fOnGoingChord || fOnGoingNonGraceNote) {
+    if (fOnGoingChord) {
+      fCurrentChordClone->
+        appendDalSegnoToChord (elt);
+    }
+    if (fOnGoingNonGraceNote) {
+      fCurrentNonGraceNoteClone->
+        appendDalSegnoToNote (elt);
+    }
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "dal segno '" << elt->asShortString () <<
       "' is out of context, cannot be handled";
 
     msrInternalError (

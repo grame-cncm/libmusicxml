@@ -13,7 +13,7 @@
 #ifndef ___msrTranspositions___
 #define ___msrTranspositions___
 
-#include "msrMeasureElements.h"
+#include "msrSegnosAndCodas.h"
 
 #include "msrBasicTypes.h"
 

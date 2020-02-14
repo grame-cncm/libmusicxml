@@ -31,6 +31,315 @@ using namespace std;
 namespace MusicXML2
 {
 
+//______________________________________________________________________________
+S_msrDalSegnoAtom msrDalSegnoAtom::create (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+{
+  msrDalSegnoAtom* o = new
+    msrDalSegnoAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringDalSegnoKindMapVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrDalSegnoAtom::msrDalSegnoAtom (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<string, msrDalSegno::msrDalSegnoKind>&
+                      stringDalSegnoKindMapVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringDalSegnoKindMapVariable (
+      stringDalSegnoKindMapVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+msrDalSegnoAtom::~msrDalSegnoAtom ()
+{}
+
+S_oahValuedAtom msrDalSegnoAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrDalSegnoAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void msrDalSegnoAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msrDalSegnoAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the dal segno specification
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msrDalSegnoAtom'" <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> theString = \"" << theString << "\", " <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  map<string, msrDalSegno::msrDalSegnoKind>::iterator
+    it =
+      fStringDalSegnoKindMapVariable.find (theString);
+
+  if (it != fStringDalSegnoKindMapVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Strong \"" << theString << "\" occurs more that once" <<
+      "in a '--dal-segno' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringDalSegnoKindMapVariable [theString] = msrDalSegno::kDalSegno;
+  }
+}
+
+void msrDalSegnoAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrDalSegnoAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrDalSegnoAtom>*
+    p =
+      dynamic_cast<visitor<S_msrDalSegnoAtom>*> (v)) {
+        S_msrDalSegnoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msrDalSegnoAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrDalSegnoAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrDalSegnoAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrDalSegnoAtom>*
+    p =
+      dynamic_cast<visitor<S_msrDalSegnoAtom>*> (v)) {
+        S_msrDalSegnoAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msrDalSegnoAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrDalSegnoAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrDalSegnoAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msrDalSegnoAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string msrDalSegnoAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void msrDalSegnoAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "msrDalSegnoAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringDalSegnoKindMapVariable" << " : " <<
+    endl;
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        (*i).first <<
+        " --> " <<
+        msrDalSegno::dalSegnoKindAsString ((*i).second);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void msrDalSegnoAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringDalSegnoKindMapVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
+      iBegin = fStringDalSegnoKindMapVariable.begin (),
+      iEnd   = fStringDalSegnoKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> " <<
+        msrDalSegno::dalSegnoKindAsString ((*i).second) <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrDalSegnoAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 
 S_mxmlTreeOah gMxmlTreeOah;
@@ -398,6 +707,31 @@ This option can be used any number of times.)###",
         fAddEmptyMeasuresStringToIntMap));
 }
 
+void mxmlTreeOah::initializeMusicXMLWordsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Words",
+        "hmxmlw", "help-musicxml-words",
+R"()",
+        kElementVisibilityAlways,
+        this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // convert words to dal segno
+  subGroup->
+    appendAtomToSubGroup (
+      msrDalSegnoAtom::create (
+        "ds", "dal-segno",
+R"(Convert words elements STRING to an MSR 'dal segno' element'.)",
+        "STRING",
+        "convertWordsToRehearsalMarks",
+        fConvertWordsToDalSegno));
+}
+
 void mxmlTreeOah::initializeMusicXMLDynamicsAndWedgesOptions (
   bool boolOptionsInitialValue)
 {
@@ -541,6 +875,11 @@ void mxmlTreeOah::initializeMxmlTreeOah (
   // measures
   // --------------------------------------
   initializeMusicXMMeasuresOptions (
+    boolOptionsInitialValue);
+
+  // words
+  // --------------------------------------
+  initializeMusicXMLWordsOptions (
     boolOptionsInitialValue);
 
   // dynamics and wedges

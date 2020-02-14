@@ -996,6 +996,7 @@ ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt)
   return os;
 }
 
+/* JMI
 //______________________________________________________________________________
 S_lpsrDalSegnoAtom lpsrDalSegnoAtom::create (
   string              shortName,
@@ -1917,6 +1918,7 @@ ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlCodaAtom& elt)
   elt->print (os);
   return os;
 }
+*/
 
 //_______________________________________________________________________________
 S_lpsrOah gLpsrOah;
@@ -2506,6 +2508,7 @@ This may come in handy when MusicXML data has been obtained from scanned instrum
         "convertWordsToRehearsalMarks",
         fConvertWordsToRehearsalMarks));
 
+/* JMI
   // convert words to dal segno
   subGroup->
     appendAtomToSubGroup (
@@ -2535,6 +2538,7 @@ R"(Convert words elements STRING to an MSR 'dal segno al coda' element.)",
         "STRING",
         "convertWordsToRehearsalMarks",
         fConvertWordsToDalSegno));
+*/
 
 /* JMI
 

@@ -2717,6 +2717,13 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsValue = elt->getValue ();
 
+  if (! wordsValue.size ()) {
+    msrMusicXMLWarning (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      "words contents is empty");
+  }
+
   // justify
   string wordsJustifyString = elt->getAttributeValue ("justify");
 
@@ -2854,9 +2861,50 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         wordsXMLLangString);
 
   if (! gMsrOah->fOmitWords) {
-    // create the words
-    if (wordsValue.size ()) {
-  #ifdef TRACE_OAH
+    bool wordsHasBeenHandled = false;
+
+    if (gMxmlTreeOah->fConvertWordsToDalSegno.size ()) {
+      // is wordsValue in the string to dal segno kind map?
+      map<string, msrDalSegno::msrDalSegnoKind>::iterator
+        it =
+          gMxmlTreeOah->fConvertWordsToDalSegno.find (wordsValue);
+
+      if (it != gMxmlTreeOah->fConvertWordsToDalSegno.end ()) {
+        // yes, get dal segno kind
+        msrDalSegno::msrDalSegnoKind
+          dalSegnoKind =
+            (*it).second;
+
+        // create a dal segno element containing wordsValue
+        S_msrDalSegno
+          dalSegno =
+            msrDalSegno::create (
+              inputLineNumber,
+              dalSegnoKind,
+              wordsValue,
+              fCurrentDirectionStaffNumber);
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceWords) {
+          fLogOutputStream <<
+            "Converting words '" <<
+            wordsValue <<
+            "' to dal segno element '" <<
+            dalSegno->asString () <<
+            "'" <<
+            endl;
+        }
+#endif
+
+        fPendingDalSegnosList.push_back (dalSegno);
+
+        wordsHasBeenHandled = true;
+      }
+    }
+
+    if (! wordsHasBeenHandled) {
+      // create the words
+#ifdef TRACE_OAH
       if (gTraceOah->fTraceWords) {
         fLogOutputStream <<
           "Creating words \"" << wordsValue << "\"" <<
@@ -2865,7 +2913,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
             fCurrentDirectionPlacementKind) << "\"" <<
           endl;
       }
-  #endif
+#endif
 
       S_msrWords
         words =
@@ -14866,7 +14914,7 @@ void mxmlTree2MsrTranslator::copyNoteSegnosToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceSegnos) {
       fLogOutputStream <<
         "Copying segno '" <<
         (*i)->asShortString () <<
@@ -14878,6 +14926,40 @@ void mxmlTree2MsrTranslator::copyNoteSegnosToChord (
 
     chord->
       appendSegnoToChord ((*i));
+  } // for
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteDalSegnosToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // copy note's dal segnos if any from the first note to chord
+
+  list<S_msrDalSegno>
+    noteDalSegnos =
+      note->
+        getNoteDalSegnos ();
+
+  list<S_msrDalSegno>::const_iterator i;
+  for (
+    i=noteDalSegnos.begin ();
+    i!=noteDalSegnos.end ();
+    i++
+  ) {
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceSegnos) {
+      fLogOutputStream <<
+        "Copying dal degno '" <<
+        (*i)->asShortString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+#endif
+
+    chord->
+      appendDalSegnoToChord ((*i));
   } // for
 }
 
@@ -14900,7 +14982,7 @@ void mxmlTree2MsrTranslator::copyNoteCodasToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceCodas) {
       fLogOutputStream <<
         "Copying coda '" <<
         (*i)->asShortString () <<
@@ -15963,6 +16045,34 @@ void mxmlTree2MsrTranslator::attachPendingSegnosToNote (
         appendSegnoToNote (segno);
 
       fPendingSegnosList.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingDalSegnosToNote (
+  S_msrNote note)
+{
+ // attach the pending dal segno if any to the note
+  if (fPendingDalSegnosList.size ()) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceSegnos) {
+      fLogOutputStream <<
+        "Attaching pending dal segno to note " <<
+        note->asString () <<
+        endl;
+    }
+#endif
+
+    while (fPendingDalSegnosList.size ()) {
+      S_msrDalSegno
+        dalSegno =
+          fPendingDalSegnosList.front ();
+
+      note->
+        appendDalSegnoToNote (dalSegno);
+
+      fPendingDalSegnosList.pop_front ();
     } // while
   }
 }
@@ -17109,6 +17219,9 @@ void mxmlTree2MsrTranslator::attachPendingNoteLevelElementsToNote (
 
   // attach the pending segnos, if any, to the note
   attachPendingSegnosToNote (note);
+
+  // attach the pending dal segnos, if any, to the note
+  attachPendingDalSegnosToNote (note);
 
   // attach the pending codas, if any, to the note
   attachPendingCodasToNote (note);

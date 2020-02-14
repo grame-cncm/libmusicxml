@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "msrOtherElements.h"
+#include "msrSegnosAndCodas.h"
 
 #include "msrOah.h"
 
