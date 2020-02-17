@@ -1631,7 +1631,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
       for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
         // generate the coda
         fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.coda\" note }" <<
+          "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
           endl;
       } // for
     }
@@ -1646,7 +1646,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
       for (i=noteSegnos.begin (); i!=noteSegnos.end (); i++) {
         // generate the segno
         fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.segno\" note }" <<
+          "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
           endl;
       } // for
     }
@@ -13542,7 +13542,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
     for (i=chordCodas.begin (); i!=chordCodas.end (); i++) {
       // generate the coda
       fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.coda\" chord }" <<
+        "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
         endl;
     } // for
   }
@@ -13557,7 +13557,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
     for (i=chordSegnos.begin (); i!=chordSegnos.end (); i++) {
       // generate the segno
       fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.segno\" chord }" <<
+        "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
         endl;
     } // for
   }
@@ -13833,8 +13833,6 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
   // generate the start of the chord
   fLilypondCodeOstream <<
     "<";
-
-  fOnGoingChord = true;
 }
 
 void lpsr2LilypondTranslator::generateCodeForChordContents (
@@ -14440,8 +14438,6 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (
         endl;
     } // for
   }
-
-  fOnGoingChord = false;
 }
 
 void lpsr2LilypondTranslator::generateChordInGraceNotesGroup (S_msrChord chord)
@@ -14478,6 +14474,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
     return;
   }
 #endif
+
+  fOnGoingChord = true;
 
   generateCodeBeforeChordContents (elt);
 }

@@ -257,7 +257,7 @@ class msrMeasure : public msrElement
 
     // backup and padding
 
-    S_msrNote             createPaddingNoteForVoice (
+    S_msrNote             createPaddingSkipNoteForVoice (
                             int        inputLineNumber,
                             rational   duration,
                             S_msrVoice voice);
@@ -270,7 +270,7 @@ class msrMeasure : public msrElement
                             int      inputLineNumber,
                             rational backupTargetMeasureElementPositionInMeasure);
 
-    void                  appendPaddingNoteToMeasure (
+    void                  appendPaddingSkipNoteToMeasure (
                             int      inputLineNumber,
                             rational forwardStepLength);
 

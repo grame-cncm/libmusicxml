@@ -1397,7 +1397,7 @@ void msrSegment::appendPaddingNoteToSegment (
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
     // append a padding note to the segment's last measure
     fSegmentMeasuresList.back ()->
-      appendPaddingNoteToMeasure (
+      appendPaddingSkipNoteToMeasure (
         inputLineNumber,
         forwardStepLength);
   }

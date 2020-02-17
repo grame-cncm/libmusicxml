@@ -2185,7 +2185,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   fMeasureContainsMusic = true;
 }
 
-S_msrNote msrMeasure::createPaddingNoteForVoice (
+S_msrNote msrMeasure::createPaddingSkipNoteForVoice (
   int        inputLineNumber,
   rational   duration,
   S_msrVoice voice)
@@ -2272,10 +2272,10 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
         wholeNotes - fCurrentMeasureWholeNotesDuration;
     missingDuration.rationalise ();
 
-    // create a rest or a skip depending on measureVoice kind
+    // create a padding skip note
     S_msrNote
       paddingNote =
-        createPaddingNoteForVoice (
+        createPaddingSkipNoteForVoice (
           inputLineNumber,
           missingDuration,
           measureVoice);
@@ -2417,7 +2417,7 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
     positionInMeasure);
 }
 
-void msrMeasure::appendPaddingNoteToMeasure (
+void msrMeasure::appendPaddingSkipNoteToMeasure (
   int      inputLineNumber,
   rational forwardStepLength)
 {
@@ -2444,10 +2444,10 @@ void msrMeasure::appendPaddingNoteToMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
-  // create a rest or a skip depending on measureVoice kind
+  // create a padding skip note
   S_msrNote
     paddingNote =
-      createPaddingNoteForVoice (
+      createPaddingSkipNoteForVoice (
         inputLineNumber,
         forwardStepLength,
         measureVoice);
@@ -2821,34 +2821,34 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     // empty measure
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresDetails) {
-    voice->
-      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
-        inputLineNumber,
-        "determineMeasureKindAndPuristNumber() 2 measure has 0 current measure whole notes");
+    if (gTraceOah->fTraceMeasuresDetails) {
+      voice->
+        displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+          inputLineNumber,
+          "determineMeasureKindAndPuristNumber() 2 measure has 0 current measure whole notes");
 
-    stringstream s;
+      stringstream s;
 
-    s <<
-      "measure " <<
-      this->asShortString () <<
-      " has 0 current measure whole notes" <<
-      ", " <<
-      asString () <<
-      ", line " << inputLineNumber;
+      s <<
+        "measure " <<
+        this->asShortString () <<
+        " has 0 current measure whole notes" <<
+        ", " <<
+        asString () <<
+        ", line " << inputLineNumber;
 
-    if (false) // JMI
-      msrInternalError (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    else
-      msrInternalWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-  }
+      if (false) // JMI
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      else
+        msrInternalWarning (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          s.str ());
+    }
 #endif
 
     // set it's measure kind
@@ -3138,10 +3138,10 @@ void msrMeasure::padUpToPositionInMeasure (
    }
 #endif
 
-    // create a rest or a skip depending on measureVoice kind
+    // create a padding skip note
     S_msrNote
       paddingNote =
-        createPaddingNoteForVoice (
+        createPaddingSkipNoteForVoice (
           inputLineNumber,
           missingDuration,
           measureVoice);
@@ -3235,10 +3235,10 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
    }
 #endif
 
-    // create a rest or a skip depending on measureVoice kind
+    // create a padding skip note
     S_msrNote
       paddingNote =
-        createPaddingNoteForVoice (
+        createPaddingSkipNoteForVoice (
           inputLineNumber,
           missingDuration,
           measureVoice);
@@ -3288,6 +3288,18 @@ void msrMeasure::finalizeRegularMeasure (
       fMeasureSegmentUpLink->
         getSegmentVoiceUpLink ();
 
+  S_msrPart
+    regularPart =
+      voice->
+        getVoiceStaffUpLink ()->
+          getStaffPartUpLink ();
+
+  rational
+    measureWholeNotesDuration =
+      regularPart->
+        getPartMeasuresWholeNotesDurationsVector () [
+           fMeasureOrdinalNumberInVoice - 1 ];
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures) {
     gLogOstream <<
@@ -3298,6 +3310,7 @@ void msrMeasure::finalizeRegularMeasure (
       "' in regular voice \"" <<
       voice->getVoiceName () <<
       "\" (" << context << ")" <<
+      ", measureWholeNotesDuration: " << measureWholeNotesDuration <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -3313,6 +3326,7 @@ void msrMeasure::finalizeRegularMeasure (
   }
 #endif
 
+  /* JMI
   // fetch the voice's time
   S_msrTime
     voiceCurrentTime =
@@ -3342,6 +3356,10 @@ void msrMeasure::finalizeRegularMeasure (
   padUpToPositionAtTheEndOfTheMeasure (
     inputLineNumber,
     partCurrentPositionInMeasure);
+    */
+  padUpToPositionAtTheEndOfTheMeasure (
+    inputLineNumber,
+    measureWholeNotesDuration);
 
   // register this measures's length in the part
   S_msrPart
@@ -3493,12 +3511,12 @@ void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
   }
 #endif
 
-  // create a padding note
+  // is a padding skip note needed?
   if (positionInMeasureToPadUpTo.getNumerator () != 0) {
-    // a padding note is necessary
+    // create a padding skip note
     S_msrNote
       paddingNote =
-        createPaddingNoteForVoice (
+        createPaddingSkipNoteForVoice (
           inputLineNumber,
           positionInMeasureToPadUpTo,
           voice);
@@ -3600,12 +3618,12 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
   }
 #endif
 
-  // is a padding note needed?
+  // is a padding skip note needed?
   if (positionsInMeasureDelta.getNumerator () > 0) {
-    // create a padding note
+    // create a padding skip note
     S_msrNote
       paddingNote =
-        createPaddingNoteForVoice (
+        createPaddingSkipNoteForVoice (
           inputLineNumber,
           positionsInMeasureDelta,
           voice);
@@ -4123,12 +4141,13 @@ void msrMeasure::finalizeHarmonyMeasure (
 #endif
 
   // the measureWholeNotesDuration has to be computed
-  rational measureWholeNotesDuration (-333, 1);
+ // JMI rational measureWholeNotesDuration (-333, 1);
 
-  measureWholeNotesDuration =
-    harmonyPart->
-      getPartMeasuresWholeNotesDurationsVector () [
-         fMeasureOrdinalNumberInVoice - 1 ];
+  rational
+    measureWholeNotesDuration =
+      harmonyPart->
+        getPartMeasuresWholeNotesDurationsVector () [
+           fMeasureOrdinalNumberInVoice - 1 ];
 
 /* JMI
 //  if (this == harmonyVoiceFirstMeasure) { JMI

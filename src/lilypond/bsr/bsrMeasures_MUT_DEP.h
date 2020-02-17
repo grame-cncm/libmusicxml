@@ -54,7 +54,7 @@ class bsrMeasure : public bsrLineElement
 
     void                  appendNoteToMeasure (S_bsrNote note);
 
-    void                  appendPaddingNoteToMeasure (S_bsrNote note);
+    void                  appendPaddingSkipNoteToMeasure (S_bsrNote note);
 
     void                  appendDynamicsToMeasure (S_bsrDynamics dynamics);
 
