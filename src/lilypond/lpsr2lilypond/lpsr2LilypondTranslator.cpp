@@ -1631,7 +1631,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
       for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
         // generate the coda
         fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.coda\" 1 }" <<
+          "\\mark \\markup { \\musicglyph #\"scripts.coda\" note }" <<
           endl;
       } // for
     }
@@ -1646,7 +1646,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
       for (i=noteSegnos.begin (); i!=noteSegnos.end (); i++) {
         // generate the segno
         fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.segno\" 1 }" <<
+          "\\mark \\markup { \\musicglyph #\"scripts.segno\" note }" <<
           endl;
       } // for
     }
@@ -2270,7 +2270,9 @@ void lpsr2LilypondTranslator::generateCodeAfterNote (
         // generate the dal segno
         fLilypondCodeOstream <<
           endl <<
-          "\\tweak self-alignment-X #CENTER" <<
+          "\\override Score.RehearsalMark.break-visibility = #begin-of-line-invisible" <<
+          endl <<
+          "\\tweak self-alignment-X #RIGHT" <<
           endl <<
           "\\mark \\markup { " <<
           (*i)->getDalSegnoString () <<
@@ -13540,7 +13542,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
     for (i=chordCodas.begin (); i!=chordCodas.end (); i++) {
       // generate the coda
       fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.coda\" 2 }" <<
+        "\\mark \\markup { \\musicglyph #\"scripts.coda\" chord }" <<
         endl;
     } // for
   }
@@ -13555,7 +13557,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
     for (i=chordSegnos.begin (); i!=chordSegnos.end (); i++) {
       // generate the segno
       fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.segno\" 2 }" <<
+        "\\mark \\markup { \\musicglyph #\"scripts.segno\" chord }" <<
         endl;
     } // for
   }
@@ -14428,7 +14430,9 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (
       // generate the dal segno
       fLilypondCodeOstream <<
         endl <<
-        "\\tweak self-alignment-X #CENTER" <<
+        "\\override Score.RehearsalMark.break-visibility = #begin-of-line-invisible" <<
+        endl <<
+        "\\tweak self-alignment-X #RIGHT" <<
         endl <<
         "\\mark \\markup { " <<
         (*i)->getDalSegnoString () <<

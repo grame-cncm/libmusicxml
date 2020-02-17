@@ -1649,14 +1649,14 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
 
           if (
             S_msrNote note = dynamic_cast<msrNote*>(&(*element))
-            ) {
+          ) {
             result = note;
             break;
           }
 
           else if (
             S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
-            ) {
+          ) {
             // get the chord's first note
             result = chord->fetchChordFirstNonGraceNote ();
             break;
@@ -1664,7 +1664,7 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
 
           else if (
             S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
-            ) {
+          ) {
             // get the tuplet's first note
             result = tuplet->fetchTupletFirstNonGraceNote ();
             break;
@@ -1672,7 +1672,7 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
 
           else if (
             S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(*element))
-            ) {
+          ) {
             // get the repeat's first note
             result = repeat->fetchRepeatFirstNonGraceNote ();
             break;
@@ -1680,19 +1680,19 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
 
           else if (
             S_msrClef clef = dynamic_cast<msrClef*>(&(*element))
-            ) {
+          ) {
             // ignore this clef
           }
 
           else if (
             S_msrKey key = dynamic_cast<msrKey*>(&(*element))
-            ) {
+          ) {
             // ignore this key
           }
 
           else if (
             S_msrTime time = dynamic_cast<msrTime*>(&(*element))
-            ) {
+          ) {
             // ignore this time
           }
 

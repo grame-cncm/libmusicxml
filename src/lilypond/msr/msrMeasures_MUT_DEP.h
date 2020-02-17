@@ -523,6 +523,7 @@ class msrMeasure : public msrElement
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
 
+/* JMI
     void                  finalizeFirstHarmonyMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
@@ -535,12 +536,14 @@ class msrMeasure : public msrElement
                             string                       context,
                             S_msrVoice                   harmonyVoice,
                             rational&                    measureWholeNotesDurationRef);
+*/
 
     void                  finalizeFiguredBassMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
 
+/* JMI
     void                  finalizeFirstFiguredBassMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
@@ -553,6 +556,7 @@ class msrMeasure : public msrElement
                             string                       context,
                             S_msrVoice                   figuredBassVoice,
                             rational&                    measureWholeNotesDurationRef);
+*/
 
     void                  finalizeMeasureClone (
                             int          inputLineNumber,

@@ -2895,6 +2895,9 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
             "' to dal segno element '" <<
             dalSegno->asString () <<
             "'" <<
+            ", fCurrentDirectionStaffNumber = " << fCurrentDirectionStaffNumber <<
+            ", fPreviousMusicXMLVoiceNumber = " << fPreviousMusicXMLVoiceNumber <<
+            ", line " << inputLineNumber <<
             endl;
         }
 #endif
@@ -2914,6 +2917,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
           ", placement = \"" <<
           msrPlacementKindAsString (
             fCurrentDirectionPlacementKind) << "\"" <<
+          ", line " << inputLineNumber <<
           endl;
       }
 #endif
@@ -15169,6 +15173,9 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
   // copy note's segnos if any to the chord
   copyNoteSegnosToChord (note, chord);
 
+  // copy note's del segnos if any to the chord
+  copyNoteDalSegnosToChord (note, chord);
+
   // copy note's codas if any to the chord
   copyNoteCodasToChord (note, chord);
 
@@ -16074,6 +16081,33 @@ void mxmlTree2MsrTranslator::attachPendingDalSegnosToNote (
 
       note->
         appendDalSegnoToNote (dalSegno);
+
+      fPendingDalSegnosList.pop_front ();
+    } // while
+  }
+}
+
+void mxmlTree2MsrTranslator::attachPendingDalSegnosToChord (
+  S_msrChord chord)
+{
+ // attach the pending dal segno if any to the chord
+  if (fPendingDalSegnosList.size ()) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceSegnos) {
+      fLogOutputStream <<
+        "Attaching pending dal segno to chord " <<
+        chord->asString () <<
+        endl;
+    }
+#endif
+
+    while (fPendingDalSegnosList.size ()) {
+      S_msrDalSegno
+        dalSegno =
+          fPendingDalSegnosList.front ();
+
+      chord->
+        appendDalSegnoToChord (dalSegno);
 
       fPendingDalSegnosList.pop_front ();
     } // while
@@ -18052,11 +18086,56 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
 
+  // attach the pending dal segnos, if any,
+  // to the ** previous ** note or chord
+  // fetch current note's voice
+
+  if (fPreviousMeasureElement) {
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(*fPreviousMeasureElement))
+    ) {
+      attachPendingDalSegnosToNote (note);
+    }
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(*fPreviousMeasureElement))
+    ) {
+      attachPendingDalSegnosToChord (chord);
+    }
+    else {
+      // FOO
+    }
+  }
+  else {
+    // FOO
+  }
+
+  /* JMI
+  map<pair<int, int>, S_msrNote>::iterator
+    it =
+      fVoicesLastMetNoteMap.find (
+        make_pair (
+          fPreviousNoteMusicXMLStaffNumber,
+          fCurrentMusicXMLVoiceNumber)); // JMI ???
+
+  if (it != fVoicesLastMetNoteMap.end ()) {
+    S_msrNote
+      lastMetNoteInVoice =
+        (*it).second;
+
+    attachPendingDalSegnosToNote (lastMetNoteInVoice);
+  }
+  else {
+    // FOO
+  }
+*/
+
   // create the note
   S_msrNote
     newNote =
       createNote (
         inputLineNumber);
+
+  fPreviousMeasureElement = newNote;
 
   // populate newNote
   populateNote (
@@ -18255,27 +18334,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     inputLineNumber,
     newNote);
 
-  // attach the pending dal segnos, if any, to the ** previous ** note,
-  // which they should follow
-  map<pair<int, int>, S_msrNote>::iterator
-    it =
-      fVoicesLastMetNoteMap.find (
-        make_pair (
-          fPreviousNoteMusicXMLStaffNumber,
-          fCurrentMusicXMLVoiceNumber)); // JMI ???
-
-  if (it != fVoicesLastMetNoteMap.end ()) {
-    S_msrNote
-      lastMetNoteInVoice =
-        (*it).second;
-
-    attachPendingDalSegnosToNote (lastMetNoteInVoice);
-  }
-  else {
-    // FOO
-  }
-
-  // attach the other, regular pending elements, if any, to newNote
+  // attach the regular pending elements (not dal segnos), if any, to newNote
   // only now because <lyric> follows <glissando> and <slide> in MusicXML JMI ???
   attachPendingNoteLevelElementsToNote (newNote);
 
@@ -19297,6 +19356,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         currentVoice,
         chordFirstNote,
         msrNote::kChordMemberNote);
+
+    fPreviousMeasureElement = fCurrentChord;
 
     // handle chord's first note
     switch (savedChordFirstNoteKind) {

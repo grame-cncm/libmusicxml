@@ -1008,7 +1008,10 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     int                       fCurrentMusicXMLVoiceNumber; // used throughout
-    int                       fPreviousMusicXMLVoiceNumber; // for dal segnos
+
+    // dal segnos
+    int                       fPreviousMusicXMLVoiceNumber;
+    S_msrMeasureElement       fPreviousMeasureElement;
 
     S_msrVoice                fetchVoiceFromCurrentPart (
                                 int inputLineNumber,
@@ -1131,6 +1134,8 @@ class mxmlTree2MsrTranslator :
 
     void                      attachPendingDalSegnosToNote (
                                 S_msrNote note);
+    void                      attachPendingDalSegnosToChord (
+                                S_msrChord chord);
 
     // codas handling
     // ------------------------------------------------------
