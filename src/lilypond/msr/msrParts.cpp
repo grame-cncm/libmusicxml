@@ -2114,6 +2114,41 @@ string msrPart::asString () const
   return s.str ();
 }
 
+void msrPart::printPartMeasuresWholeNotesDurationsVector (
+  ostream& os,
+  int      fieldWidth) const
+{
+  os << left <<
+    setw (fieldWidth) <<
+    "partMeasuresWholeNotesDurationsVector (ordinal number wise)" << " : " <<
+    endl;
+
+  gIndenter++;
+
+  if (fPartNumberOfMeasures == 0) {
+    os << "empty" << endl;
+  }
+  else {
+    for (int i = 0; i < fPartNumberOfMeasures; ++i) {
+      int j = i + 1;
+      os << left <<
+        "ord. " << setw (3) << right <<
+        j << " : " <<
+        setw (4) <<
+        fPartMeasuresWholeNotesDurationsVector [ i ].toString ();
+      if (j % 4 == 0) {
+        os << endl;
+      }
+      else {
+        os << "    ";
+      }
+    } // for
+  }
+  os << endl;
+
+  gIndenter--;
+}
+
 void msrPart::print (ostream& os) const
 {
   os <<
@@ -2302,35 +2337,9 @@ void msrPart::print (ostream& os) const
   os << endl;
 
   // print the part measure' whole notes durations
-  os << left <<
-    setw (fieldWidth) <<
-    "partMeasuresWholeNotesDurationsVector (ordinal number wise)" << " : " <<
-    endl;
-
-  gIndenter++;
-
-  if (fPartNumberOfMeasures == 0) {
-    os << "empty" << endl;
-  }
-  else {
-    for (int i = 0; i < fPartNumberOfMeasures; ++i) {
-      int j = i + 1;
-      os << left <<
-        "ord. " << setw (3) << right <<
-        j << " : " <<
-        setw (4) <<
-        fPartMeasuresWholeNotesDurationsVector [ i ].toString ();
-      if (j % 4 == 0) {
-        os << endl;
-      }
-      else {
-        os << "    ";
-      }
-    } // for
-  }
-  os << endl;
-
-  gIndenter--;
+  printPartMeasuresWholeNotesDurationsVector (
+    os,
+    fieldWidth);
 
   // print the registered staves
   if (fPartStavesMap.size ()) {

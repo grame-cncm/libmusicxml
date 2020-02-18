@@ -8481,19 +8481,32 @@ else
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
-        // get measure's voice
+        // fetch measure's voice
         S_msrVoice
-          noteVoice =
+          measureVoice =
             elt->
               getMeasureSegmentUpLink ()->
                 getSegmentVoiceUpLink ();
 
-        // generate the rest name
-        // take voice kind into account JMI shouldn't be necessary?
-        switch (noteVoice->getVoiceKind ()) {
+        // fetch measure's part
+        S_msrPart
+          measurePart =
+            measureVoice->
+              getVoiceStaffUpLink ()->
+                getStaffPartUpLink ();
+
+        rational
+          measureWholeNotesDuration =
+            measurePart->
+              getPartMeasuresWholeNotesDurationsVector () [
+                 elt->getMeasureOrdinalNumberInVoice () - 1 ];
+
+        // generate the skip name
+        // take voice kind into account may be useful for debug
+        switch (measureVoice->getVoiceKind ()) {
           case msrVoice::kVoiceRegular:
             fLilypondCodeOstream <<
-              "R%{21%}";
+              "s%{21%}";
             break;
 
           case msrVoice::kVoiceHarmony:
@@ -8503,15 +8516,20 @@ else
             break;
         } // switch
 
-        // generate the duration of the measure // JMI ???
-        // followed by a bar check
+        // generate the duration of the skip
         fLilypondCodeOstream <<
           wholeNotesAsLilypondString (
             inputLineNumber,
-            elt->
-              getFullMeasureWholeNotesDuration ()) <<
-          " | " <<
-          endl;
+            measureWholeNotesDuration);
+
+        // generate a bar check if this makes the measure full
+        if (
+          measureWholeNotesDuration
+            ==
+          elt->getFullMeasureWholeNotesDuration ()
+        ) {
+          fLilypondCodeOstream << " | ";
+        }
       }
       break;
   } // switch
@@ -8627,13 +8645,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingVoiceCadenza = false;
         break;
 
-      case msrMeasure::kMeasureKindMusicallyEmpty: // should not occur
-        fLilypondCodeOstream <<
-          "%{ emptyMeasureKind" <<
-          ", line " << inputLineNumber <<
-          " %} | % " <<
-          measurePuristNumber + 1 <<
-          endl;
+      case msrMeasure::kMeasureKindMusicallyEmpty:
+        if (gLilypondOah->fComments) {
+          fLilypondCodeOstream <<
+            "%{ emptyMeasureKind" <<
+            ", line " << inputLineNumber <<
+            " %} % " <<
+            measurePuristNumber + 1 <<
+            endl;
+        }
         break;
     } // switch
 

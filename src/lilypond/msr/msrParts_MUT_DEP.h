@@ -453,6 +453,10 @@ class msrPart : public msrPartGroupElement
 
     virtual string        asString () const;
 
+    void                  printPartMeasuresWholeNotesDurationsVector (
+                            ostream& os,
+                            int      fieldWidth) const;
+
     virtual void          print (ostream& os) const;
 
     virtual void          printSummary (ostream& os);

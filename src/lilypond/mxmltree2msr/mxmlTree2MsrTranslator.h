@@ -1305,8 +1305,7 @@ class mxmlTree2MsrTranslator :
     string                    fCurrentTimeBeats;
     bool                      fCurrentTimeSenzaMisura;
 
-    vector<S_msrTimeItem>
-                              fCurrentTimeItemsVector;
+    vector<S_msrTimeItem>     fCurrentTimeItemsVector;
 
     S_msrTime                 fCurrentTime;
 
