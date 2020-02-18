@@ -18495,8 +18495,9 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
 
     // set the figured bass's sounding whole notes
     figuredBass->
-      setFiguredBassSoundingWholeNotes (
-        newNoteSoundingWholeNotes);
+      setMeasureElementSoundingWholeNotes (
+        newNoteSoundingWholeNotes,
+        "handlePendingFiguredBasses()");
 
     // set the figured bass's display whole notes JMI useless???
     figuredBass->

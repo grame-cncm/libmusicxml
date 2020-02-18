@@ -2117,21 +2117,21 @@ void msrMeasure::appendFiguredBassToMeasure (
       fMeasureElementMeasureNumber);
 
 /* JMI
-  // append the harmony to the measure elements list
+  // append the figured bass to the measure elements list
   appendElementToMeasure (figuredBass);
 */
 
   // append the figuredBass to the measure elements list
   // DON'T call 'appendElementToMeasure (figuredBass)': // JMI
-  // that would override harmony's position in measure,
+  // that would override figured bass's position in measure,
   // which already has the correct value, thus:
   fMeasureElementsList.push_back (figuredBass);
 
-  // fetch harmony sounding whole notes
+  // fetch figured bass sounding whole notes
   rational
     figuredBassSoundingWholeNotes =
       figuredBass->
-        getFiguredBassSoundingWholeNotes ();
+        getMeasureElementSoundingWholeNotes ();
 
   // account for figuredBass duration in measure whole notes
   incrementCurrentMeasureWholeNotesDuration (
@@ -2174,7 +2174,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   rational
     figuredBassSoundingWholeNotes =
       figuredBass->
-        getFiguredBassSoundingWholeNotes ();
+        getMeasureElementSoundingWholeNotes ();
 
   // account for figuredBass duration in measure whole notes
   incrementCurrentMeasureWholeNotesDuration (

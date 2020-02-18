@@ -192,16 +192,6 @@ class msrFiguredBass : public msrMeasureElement
                               { return fFiguredBassPartUpLink; }
 */
 
-    void                  setFiguredBassSoundingWholeNotes (
-                            rational wholeNotes)
-                              {
-                                fMeasureElementSoundingWholeNotes =
-                                  wholeNotes;
-                              }
-
-    rational              getFiguredBassSoundingWholeNotes () const
-                              { return fMeasureElementSoundingWholeNotes; }
-
     void                  setFiguredBassDisplayWholeNotes (
                             rational wholeNotes)
                               { fFiguredBassDisplayWholeNotes = wholeNotes; }

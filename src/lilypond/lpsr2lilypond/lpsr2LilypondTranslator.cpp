@@ -3804,13 +3804,13 @@ string lpsr2LilypondTranslator::figuredBassAsLilypondString (
     figuredBassTupletFactor =
       figuredBass->getFiguredBassTupletFactor ();
 
-  if (figuredBassTupletFactor.isEqualToOne ()) {
+  if (figuredBassTupletFactor.isEqualToOne ()) { // JMI ???
     // use figured bass sounding whole notes
     s <<
       durationAsLilypondString (
         inputLineNumber,
         figuredBass->
-          getFiguredBassSoundingWholeNotes ());
+          getMeasureElementSoundingWholeNotes ());
   }
   else {
     // use figured bass display whole notes and tuplet factor
@@ -7904,6 +7904,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
 
 void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
 {
+/* JMI
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
@@ -8010,6 +8011,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
       fLilypondCodeOstream << ' ';
     }
   }
+  */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)

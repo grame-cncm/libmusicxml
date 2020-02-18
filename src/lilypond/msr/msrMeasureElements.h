@@ -109,7 +109,9 @@ class msrMeasureElement : public msrElement
     // ------------------------------------------------------
 
     string                fMeasureElementMeasureNumber;
+
     rational              fMeasureElementPositionInMeasure;
+
     rational              fMeasureElementSoundingWholeNotes;
 };
 typedef SMARTP<msrMeasureElement> S_msrMeasureElement;

@@ -369,10 +369,8 @@ msrFiguredBass::msrFiguredBass (
     figuredBassPartUpLink;
     */
 
-// JMI  fFiguredBassSoundingWholeNotes =
-// JMI    figuredBassSoundingWholeNotes;
   fMeasureElementSoundingWholeNotes =
-    fMeasureElementSoundingWholeNotes;
+    figuredBassSoundingWholeNotes;
   fFiguredBassDisplayWholeNotes =
     figuredBassDisplayWholeNotes;
 
@@ -637,7 +635,7 @@ void msrFiguredBass::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 30;
+  const int fieldWidth = 32;
 
   os <<
     setw (fieldWidth) <<
