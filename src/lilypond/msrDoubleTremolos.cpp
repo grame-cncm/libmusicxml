@@ -312,7 +312,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
   S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Setting chord " << chord->asString () <<
       " as first element of double tremolo " <<
@@ -380,7 +380,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
 void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTremolos || gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Setting chord " << chord->asString () <<
       " as second element of double tremolo " <<
@@ -440,7 +440,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
   rational positionInMeasure)
 {
-  msrMeasureElement::setPositionInMeasure (
+  msrMeasureElement::setMeasureElementPositionInMeasure (
     positionInMeasure,
     "setDoubleTremoloPositionInMeasure()");
 }
@@ -448,7 +448,7 @@ void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
 void msrDoubleTremolo::setDoubleTremoloMeasureNumber (
   string measureNumber)
 {
-  fMeasureNumber =  measureNumber;
+  fMeasureElementMeasureNumber =  measureNumber;
 }
 
 void msrDoubleTremolo::acceptIn (basevisitor* v)

@@ -65,7 +65,7 @@ string msrLineBreak::asString () const
 
   s <<
     "Line break" <<
-    ", next bar number = \"" << fNextBarNumber << "\"";
+    ", nextBarNumber = \"" << fNextBarNumber << "\"";
 
   return s.str ();
 }

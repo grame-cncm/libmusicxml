@@ -16,7 +16,11 @@ class msrSyllable : public msrMeasureElement
       kSyllableNone,
       kSyllableSingle,
       kSyllableBegin, kSyllableMiddle, kSyllableEnd,
-      kSyllableSkip,
+
+      kSyllableOnRestNote,
+      kSyllableSkipRestNote,
+      kSyllableSkipNonRestNote,
+
       kSyllableMeasureEnd,
       kSyllableLineBreak, kSyllablePageBreak};
 
@@ -43,6 +47,15 @@ class msrSyllable : public msrMeasureElement
       msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUpLink);
 
+    static SMARTP<msrSyllable> createWithNextMeasurePuristNumber (
+      int                   inputLineNumber,
+      msrSyllableKind       syllableKind,
+      msrSyllableExtendKind syllableExtendKind,
+      rational              syllableWholeNotes,
+      msrTupletFactor       syllableTupletFactor,
+      S_msrStanza           syllableStanzaUpLink,
+      int                   syllableNextMeasurePuristNumber);
+
     SMARTP<msrSyllable> createSyllableNewbornClone (
       S_msrPart containingPart); // JMI
 
@@ -61,6 +74,15 @@ class msrSyllable : public msrMeasureElement
       rational              syllableWholeNotes,
       msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUpLink);
+
+    msrSyllable (
+      int                   inputLineNumber,
+      msrSyllableKind       syllableKind,
+      msrSyllableExtendKind syllableExtendKind,
+      rational              syllableWholeNotes,
+      msrTupletFactor       syllableTupletFactor,
+      S_msrStanza           syllableStanzaUpLink,
+      int                   syllableNextMeasurePuristNumber);
 
     virtual ~msrSyllable ();
 
@@ -93,6 +115,17 @@ class msrSyllable : public msrMeasureElement
     // syllable tuplet factor
     msrTupletFactor       getSyllableTupletFactor () const
                               { return fSyllableTupletFactor; }
+
+    // syllable next measure purist number
+    void                  setSyllableNextMeasurePuristNumber (
+                            int puristMeasureNumber)
+                              {
+                                fSyllableNextMeasurePuristNumber =
+                                  puristMeasureNumber;
+                              }
+
+    int                   getSyllableNextMeasurePuristNumber () const
+                              { return fSyllableNextMeasurePuristNumber; }
 
     // services
     // ------------------------------------------------------
@@ -154,6 +187,10 @@ class msrSyllable : public msrMeasureElement
 
     // syllable tuplet factor
     msrTupletFactor       fSyllableTupletFactor;
+
+    // syllable complementary measure number
+    // for kSyllableMeasureEnd, kSyllableLineBreak and kSyllablePageBreak
+    int                   fSyllableNextMeasurePuristNumber;
 };
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);

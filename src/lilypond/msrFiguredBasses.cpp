@@ -371,8 +371,8 @@ msrFiguredBass::msrFiguredBass (
 
 // JMI  fFiguredBassSoundingWholeNotes =
 // JMI    figuredBassSoundingWholeNotes;
-  fSoundingWholeNotes =
-    fSoundingWholeNotes;
+  fMeasureElementSoundingWholeNotes =
+    fMeasureElementSoundingWholeNotes;
   fFiguredBassDisplayWholeNotes =
     figuredBassDisplayWholeNotes;
 
@@ -382,9 +382,8 @@ msrFiguredBass::msrFiguredBass (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Creating figuredBass '" <<
+      "Creating figuredBass " <<
       asString () <<
-      "'" <<
       endl;
   }
 #endif
@@ -417,7 +416,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
         fInputLineNumber,
  //       containingPart,
 // JMI        fFiguredBassSoundingWholeNotes,
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fFiguredBassDisplayWholeNotes,
         fFiguredBassParenthesesKind,
         fFiguredBassTupletFactor);
@@ -451,12 +450,49 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
         fInputLineNumber,
    //     containingPart,
 // JMI        fFiguredBassSoundingWholeNotes,
-        fSoundingWholeNotes,
+        fMeasureElementSoundingWholeNotes,
         fFiguredBassDisplayWholeNotes,
         fFiguredBassParenthesesKind,
         fFiguredBassTupletFactor);
 
   return figuredBassDeepCopy;
+}
+
+void msrFiguredBass::setFiguredBassPositionInMeasure (
+  rational positionInMeasure)
+{
+  // set the figured bass position in measure, taking it's offset into account
+
+/* JMI
+  // the offset can negative, merely add it
+  // this overwrites it with the same value if fHarmonyWholeNotesOffset is null
+  rational
+    actualPositionInMeasure =
+      positionInMeasure
+        +
+      fFiguredBassWholeNotesOffset;
+  actualPositionInMeasure.rationalise ();
+*/
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Setting figured bass position in measure of " << asString () <<
+      " to '" <<
+      positionInMeasure <<
+//      "', figuredBassWholeNotesOffset = " <<
+//      fFiguredBassWholeNotesOffset <<
+//      "', actualPositionInMeasure = " <<
+//      actualPositionInMeasure <<
+      endl;
+  }
+#endif
+
+/* JMI
+  msrMeasureElement::setMeasureElementPositionInMeasure (
+    actualPositionInMeasure,
+    "setHarmonyPositionInMeasure()");
+  */
 }
 
 void msrFiguredBass::appendFigureToFiguredBass (
@@ -465,7 +501,7 @@ void msrFiguredBass::appendFigureToFiguredBass (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
-      "Appending figure'" << figure->asString () <<
+      "Appending figure '" << figure->asString () <<
       "' to figuredBass '" <<
       asString () <<
       "'" <<
@@ -555,24 +591,25 @@ string msrFiguredBass::asString () const
   stringstream s;
 
   s <<
-    "Figured bass" <<
-    ", figuredBassSoundingWholeNotes" <<
+    "[Figured bass" <<
+    ", measureElementSoundingWholeNotes: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
-// JMI      fFiguredBassSoundingWholeNotes) <<
-      fSoundingWholeNotes) <<
-    ", figuredBassDisplayWholeNotes" <<
+      fMeasureElementSoundingWholeNotes) <<
+    ", figuredBassDisplayWholeNotes: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
       fFiguredBassDisplayWholeNotes) <<
 
-    ", figuredBassParenthesesKind" <<
+    ", figuredBassParenthesesKind: " <<
     figuredBassParenthesesKindAsString (
       fFiguredBassParenthesesKind) <<
-    ", line " << fInputLineNumber;
+
+    ", figuredBassTupletFactor: " <<
+    fFiguredBassTupletFactor.asString ();
 
   if (fFiguredBassFiguresList.size ()) {
-    s << ", ";
+    s << ", figuredBassFiguresList: [";
 
     list<S_msrFigure>::const_iterator
       iBegin = fFiguredBassFiguresList.begin (),
@@ -584,11 +621,12 @@ string msrFiguredBass::asString () const
       if (++i == iEnd) break;
       s << " ";
     } // for
+  s << "]";
   }
 
   // print the figured bass position in measure
   s <<
-    ", positionInMeasure" << fPositionInMeasure;
+    ", positionInMeasure: " << fMeasureElementPositionInMeasure;
 
 /* JMI
   if (fFiguredBassPartUpLink) { // JMI ???
@@ -599,6 +637,10 @@ string msrFiguredBass::asString () const
         fFiguredBassSoundingWholeNotes);
   }
 */
+
+  s <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }
@@ -625,23 +667,37 @@ void msrFiguredBass::print (ostream& os) const
   }
   os << endl;
 
+  os <<
+    setw (fieldWidth) <<
+    "figuredBassVoiceUpLink" << " : ";
+  if (fFiguredBassVoiceUpLink) {
+    os << fFiguredBassVoiceUpLink->asString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
   os << left <<
     setw (fieldWidth) <<
-    "figuredBassNoteUpLink" << " : " <<
-    fFiguredBassNoteUpLink->asString () <<
+    "measureElementSoundingWholeNotes" << " : " <<
+    fMeasureElementSoundingWholeNotes <<
     endl <<
 
-    "figuredBassSoundingWholeNotes" << " : " <<
- // JMI   fFiguredBassSoundingWholeNotes <<
-    fSoundingWholeNotes <<
-    endl <<
+    setw (fieldWidth) <<
     "figuredBassDisplayWholeNotes" << " : " <<
     fFiguredBassDisplayWholeNotes <<
     endl <<
 
-    ", figuredBassParenthesesKind" << " : " <<
+    setw (fieldWidth) <<
+    "figuredBassParenthesesKind" << " : " <<
     figuredBassParenthesesKindAsString (
       fFiguredBassParenthesesKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "figuredBassTupletFactor" << " : " <<
+    fFiguredBassTupletFactor.asString () <<
     endl;
 
   if (fFiguredBassFiguresList.size ()) {
@@ -664,7 +720,7 @@ void msrFiguredBass::print (ostream& os) const
   // print the figured bass position in measure
   os <<
     setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fPositionInMeasure <<
+    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
     endl;
 
   gIndenter--;

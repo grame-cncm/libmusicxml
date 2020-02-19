@@ -176,7 +176,7 @@ string bsrFacSimileKindAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string bsrFacSimileKindAtom::asLongNamedOptionString () const
+string bsrFacSimileKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -364,7 +364,7 @@ string bsrTextsLanguageAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string bsrTextsLanguageAtom::asLongNamedOptionString () const
+string bsrTextsLanguageAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 

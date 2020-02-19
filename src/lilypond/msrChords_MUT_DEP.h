@@ -47,7 +47,7 @@ class msrChord : public msrTupletElement
 
     rational              getChordSoundingWholeNotes () const
                       // JMI        { return fChordSoundingWholeNotes; }
-                              { return fSoundingWholeNotes; }
+                              { return fMeasureElementSoundingWholeNotes; }
 
     void                  setChordDisplayWholeNotes (
                             rational wholeNotes);

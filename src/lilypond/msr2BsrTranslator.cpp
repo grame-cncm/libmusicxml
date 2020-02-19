@@ -725,7 +725,7 @@ void msr2BsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarLines) {
+  if (gTraceOah->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (
@@ -806,7 +806,7 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
@@ -839,7 +839,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
-      elt->getMeasureNumber () <<
+      elt->getMeasureElementMeasureNumber () <<
       "'" <<
       ", line " << inputLineNumber <<
       endl;
@@ -848,7 +848,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 }
 
 //________________________________________________________________________
@@ -2952,7 +2952,7 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
@@ -3033,7 +3033,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
   string
     measureNumber =
       fCurrentMeasureClone->
-        getMeasureNumber ();
+        getMeasureElementMeasureNumber ();
 
   // get the current measure whole notes
   rational
@@ -3126,7 +3126,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
-      elt->getMeasureNumber () <<
+      elt->getMeasureElementMeasureNumber () <<
       "'" <<
       ", line " << inputLineNumber <<
       endl;
@@ -3135,7 +3135,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
   string
     measureNumber =
-      elt->getMeasureNumber ();
+      elt->getMeasureElementMeasureNumber ();
 
   finalizeCurrentMeasureClone ( // JMI
     inputLineNumber,

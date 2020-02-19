@@ -8,13 +8,11 @@ system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo 
 version ?= $(shell cat libmusicxmlversion.txt)
 
 xmlfiles                  = $(shell find ../files -name "*.xml")
-#xmlfilesforlilyshouldfail = $(shell ./filterFilesForShouldFail.bash $(xmlfiles))
 xmlfilesforlilyshouldfail = $(shell find ../files -name "*.xml" | grep shouldfail)
-#xmlfilesforlilyjianpu     = $(shell ./filterFilesForJianpu.bash $(xmlfiles))
 xmlfilesforlilyjianpu     = $(shell find ../files -name "*.xml" | grep jianpu)
 jianpuincludefilename     = "jianpu10a.ly"
 jianpuinclude             = $(shell find ../files -name $(jianpuincludefilename)")
-xmlfilesforbrl            = $(shell ./filterFilesForBraille.bash $(xmlfiles))
+xmlfilesforbrl     		  = $(shell find ../files -name "*.xml" | grep braille)
 
 readout           := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
 gmnout            := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
@@ -48,7 +46,6 @@ MAKE      ?= make
 
 .PHONY: read guido lilyshouldfail lily lilyjianpu brl
 .DELETE_ON_ERROR:
-
 
 all:
 	$(MAKE) read

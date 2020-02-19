@@ -176,15 +176,20 @@ lpsrScoreBlock::lpsrScoreBlock (
     lpsrLayout::create (
       inputLineNumber);
 
-  // create the score block midi
-  string midiTempoDuration  = gLilypondOah->fMidiTempo.first;
+  /*
+  // create the score block midi tempo
+  string midiTempoDuration  = gLilypondOah->fMidiTempo.first; // BLARK JMI ???
   int    midiTempoPerSecond = gLilypondOah->fMidiTempo.second;
 
-  fScoreBlockMidi =
-    msrMidi::create (
+  fScoreBlockMidiTempo =
+    msrMidiTempo::create (
       inputLineNumber,
       midiTempoDuration,
       midiTempoPerSecond);
+      */
+  // create the score block midi tempo
+  fScoreBlockMidiTempo =
+    gLilypondOah->fMidiTempo.createMsrMidiTempoNewbornClone ();
 }
 
 lpsrScoreBlock::~lpsrScoreBlock ()
@@ -334,9 +339,9 @@ void lpsrScoreBlock::browseData (basevisitor* v)
   }
 
   {
-    // browse the score block midi
-    msrBrowser<msrMidi> browser (v);
-    browser.browse (*fScoreBlockMidi);
+    // browse the score block midi tempo
+    msrBrowser<msrMidiTempo> browser (v);
+    browser.browse (*fScoreBlockMidiTempo);
   }
 
 #ifdef TRACE_OAH
@@ -363,7 +368,7 @@ void lpsrScoreBlock::print (ostream& os) const
     endl;
 
   os <<
-    fScoreBlockMidi <<
+    fScoreBlockMidiTempo <<
     endl;
 
   gIndenter--;
@@ -582,7 +587,7 @@ lpsrBookBlock::lpsrBookBlock (
 
   // don't create the book block element paper
   // it will be created as a new born clone of the the one in the lpsrScore
-  // when the geometry is handled in visitStart (S_msrGeometry&)
+  // when the scaling is handled in visitStart (S_msrScaling&)
 }
 
 lpsrBookBlock::~lpsrBookBlock ()

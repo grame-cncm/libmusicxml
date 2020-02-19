@@ -154,12 +154,15 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_miscellaneous>,
   public visitor<S_miscellaneous_field>,
 
-  // geometry
+  // scaling
   // ------------------------------------------------------
 
   public visitor<S_millimeters>,
   public visitor<S_tenths>,
   public visitor<S_scaling>,
+
+  // print
+  // ------------------------------------------------------
 
   public visitor<S_system_layout>,
   public visitor<S_system_margins>,
@@ -332,7 +335,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
 
 
-    // geometry
+    // scaling
     // ------------------------------------------------------
 
     // scaling, margins, layout, divider JMI
@@ -352,6 +355,11 @@ class mxmlTree2MsrSkeletonBuilder :
     virtual void visitStart ( S_system_dividers& elt);
     virtual void visitStart ( S_left_divider& elt);
     virtual void visitStart ( S_right_divider& elt);
+
+    // print
+    // ------------------------------------------------------
+
+ // JMI   bool                      fOnGoingPrint;
 
     // layout
     // ------------------------------------------------------
@@ -462,7 +470,7 @@ class mxmlTree2MsrSkeletonBuilder :
     S_msrScore                fMsrScore;
 
 
-    // geometry handling
+    // scaling handling
     // ------------------------------------------------------
 
     float                     fCurrentMillimeters;

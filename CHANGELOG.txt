@@ -2,9 +2,19 @@ MusicXML Library
 
 
 ----------------------------------------------------------------------------------------------------
+Version 3.19
+- fix parsing bug with comments after DOCTYPE
+
+----------------------------------------------------------------------------------------------------
+Version 3.18
+- fix a crash bug with lilypond conversion
+
+----------------------------------------------------------------------------------------------------
 Version 3.17
 - synchronize npm version and lib version
 - asmjs support dropped (only available as wasm library)
+- improved version of the guido converter (version 3.0)
+- improved version of the lilypond converter (version 0.92)
 
 ----------------------------------------------------------------------------------------------------
 Version 3.14

@@ -16,7 +16,9 @@
 #include <string>
 #include <iostream>
 
-#include "lpsrGeometry.h"
+#include "msrScaling.h"
+
+#include "lpsrElements.h"
 
 #include "messagesHandling.h"
 
@@ -35,8 +37,9 @@ class lpsrPaper : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPaper> create (
-      int            inputLineNumber,
-      S_lpsrGeometry theLpsrGeometry);
+      int             inputLineNumber,
+      S_msrScaling    scaling,
+      S_msrPageLayout pageLayout);
 
     SMARTP<lpsrPaper> createPaperNewbornClone ();
 
@@ -46,8 +49,9 @@ class lpsrPaper : public lpsrElement
     // ------------------------------------------------------
 
     lpsrPaper (
-      int            inputLineNumber,
-      S_lpsrGeometry theLpsrGeometry);
+      int             inputLineNumber,
+      S_msrScaling    scaling,
+      S_msrPageLayout pageLayout);
 
     virtual ~lpsrPaper ();
 
@@ -56,11 +60,61 @@ class lpsrPaper : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // LPSR geometry
-    void                  setLpsrGeometry (S_lpsrGeometry value)
-                              { fLpsrGeometry = value; }
-    S_lpsrGeometry        getLpsrGeometry () const
-                            { return fLpsrGeometry; }
+    // LPSR scaling
+    void                  setScaling (S_msrScaling value)
+                              { fScaling = value; }
+    S_msrScaling          getScaling () const
+                            { return fScaling; }
+
+    // MSR page layout
+    void                  setPageLayout (S_msrPageLayout value)
+                              { fPageLayout = value; }
+    S_msrPageLayout       getPageLayout () const
+                            { return fPageLayout; }
+
+    // indents
+    void                  setHorizontalShift (S_msrLength value)
+                              { fHorizontalShift = value; }
+    S_msrLength           getHorizontalShift () const
+                              { return fHorizontalShift; }
+
+    void                  setIndent (S_msrLength value)
+                              { fIndent = value; }
+    S_msrLength           getIndent () const
+                              { return fIndent; }
+
+    void                  setShortIndent (S_msrLength value)
+                              { fShortIndent = value; }
+    S_msrLength           getShortIndent () const
+                              { return fShortIndent; }
+
+    // counts
+    void                  setPageCount (int value)
+                              { fPageCount = value; }
+    int                   getPageCount () const
+                              { return fPageCount; }
+
+    void                  setSystemCount (int value)
+                              { fSystemCount = value; }
+    int                   getSystemCount () const
+                              { return fSystemCount; }
+
+    // spaces
+    void                  setMarkupSystemSpacingPadding (S_msrLength val)
+                              { fMarkupSystemSpacingPadding = val; }
+    S_msrLength           getMarkupSystemSpacingPadding () const
+                              { return fMarkupSystemSpacingPadding; }
+
+    void                  setBetweenSystemSpace (S_msrLength val)
+                              { fBetweenSystemSpace = val; }
+    S_msrLength           getBetweenSystemSpace () const
+                              { return fBetweenSystemSpace; }
+
+    void                  setPageTopSpace (S_msrLength val)
+                              { fPageTopSpace = val; }
+    S_msrLength           getPageTopSpace () const
+                              { return fPageTopSpace; }
+
 
     // headers and footers
     void                  setOddHeaderMarkup (string value)
@@ -109,8 +163,25 @@ class lpsrPaper : public lpsrElement
     // fields
     // ------------------------------------------------------
 
-    // LPSR geometry
-    S_lpsrGeometry        fLpsrGeometry;
+    // MSR scaling
+    S_msrScaling          fScaling;
+
+    // MSR page layout
+    S_msrPageLayout       fPageLayout;
+
+    // indents
+    S_msrLength           fHorizontalShift;
+    S_msrLength           fIndent;
+    S_msrLength           fShortIndent;
+
+    // spaces
+    S_msrLength           fMarkupSystemSpacingPadding;
+    S_msrLength           fBetweenSystemSpace;
+    S_msrLength           fPageTopSpace;
+
+    // counts
+    int                   fPageCount;
+    int                   fSystemCount;
 
     // headers and footers
     string                fOddHeaderMarkup;
