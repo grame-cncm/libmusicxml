@@ -11,29 +11,6 @@ class msrHarmonyDegree : public msrElement
     // data types
     // ------------------------------------------------------
 
-/*
-Degree elements
-  can then add, subtract, or alter from these
-  starting points.
-
-      <harmony>
-        <root>
-          <root-step>B</root-step>
-        </root>
-        <kind>dominant</kind>
-        <degree>
-          <degree-value>5</degree-value>
-          <degree-alter>1</degree-alter>
-          <degree-type>alter</degree-type>
-        </degree>
-        <degree>
-          <degree-value>9</degree-value>
-          <degree-alter>1</degree-alter>
-          <degree-type>add</degree-type>
-        </degree>
-      </harmony>
-*/
-
     enum msrHarmonyDegreeTypeKind {
       kHarmonyDegreeTypeAdd,
       kHarmonyDegreeTypeAlter,
@@ -50,14 +27,6 @@ Degree elements
       int                      harmonyDegreeValue,
       msrAlterationKind        harmonyDegreeAlterationKind,
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
-
-    /* JMI
-    SMARTP<msrHarmonyDegree> createHarmonyDegreeNewbornClone (
-      S_msrPart containingPart);
-
-    SMARTP<msrHarmonyDegree> createHarmonyDegreeDeepCopy ( // JMI ???
-      S_msrPart containingPart);
-      */
 
   protected:
 
@@ -96,7 +65,7 @@ Degree elements
     // services
     // ------------------------------------------------------
 
-    int                   harmonyDegreeAsSemitones () const;
+// JMI ???    int                   harmonyDegreeAsSemitones () const;
 
   public:
 

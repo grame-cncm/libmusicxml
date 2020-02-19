@@ -523,40 +523,10 @@ class msrMeasure : public msrElement
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
 
-/* JMI
-    void                  finalizeFirstHarmonyMeasure (
-                            int                          inputLineNumber,
-                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                       context,
-                            S_msrVoice                   harmonyVoice,
-                            rational&                    measureWholeNotesDurationRef);
-    void                  finalizeLastHarmonyMeasure (
-                            int                          inputLineNumber,
-                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                       context,
-                            S_msrVoice                   harmonyVoice,
-                            rational&                    measureWholeNotesDurationRef);
-*/
-
     void                  finalizeFiguredBassMeasure (
                             int                          inputLineNumber,
                             msrMeasuresRepeatContextKind measuresRepeatContextKind,
                             string                       context);
-
-/* JMI
-    void                  finalizeFirstFiguredBassMeasure (
-                            int                          inputLineNumber,
-                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                       context,
-                            S_msrVoice                   figuredBassVoice,
-                            rational&                    measureWholeNotesDurationRef);
-    void                  finalizeLastFiguredBassMeasure (
-                            int                          inputLineNumber,
-                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
-                            string                       context,
-                            S_msrVoice                   figuredBassVoice,
-                            rational&                    measureWholeNotesDurationRef);
-*/
 
     void                  finalizeMeasureClone (
                             int          inputLineNumber,
@@ -689,6 +659,7 @@ class msrMeasure : public msrElement
     // private work services
     // ------------------------------------------------------
 
+    // harmonies
     void                  handleFirstHarmonyInHarmonyMeasure (
                             int          inputLineNumber,
                             S_msrVoice   voice,
@@ -716,10 +687,35 @@ class msrMeasure : public msrElement
                             int    inputLineNumber,
                             string context);
 
+    // figurd bass
+    void                  handleFirstFiguredBassInFiguredBassMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrFiguredBass previousFiguredBass,
+                            S_msrFiguredBass currentFiguredBass,
+                            rational     currentFiguredBassPositionInMeasure);
+
+    void                  handleSubsequentFiguredBassInFiguredBassMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrFiguredBass previousFiguredBass,
+                            S_msrFiguredBass currentFiguredBass,
+                            rational     currentFiguredBassPositionInMeasure);
+
+    void                  postHandleCurrentFiguredBassInFiguredBassMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            S_msrFiguredBass currentFiguredBass);
+
     void                  handleFiguredBassesInFiguredBassMeasureFinalization (
                             int    inputLineNumber,
                             string context);
 
+    // measure elements
     void                  insertElementInMeasureBeforeIterator (
                             int                                 inputLineNumber,
                             list<S_msrMeasureElement>::iterator iter,

@@ -82,13 +82,14 @@ void msrHarmonyDegree::setHarmonyDegreeHarmonyUpLink (
     harmonyUpLink;
 }
 
+/* JMI ???
 int msrHarmonyDegree::harmonyDegreeAsSemitones () const
 {
-/*
+/ *
   Kind indicates the type of chord. Degree elements
   can then add, subtract, or alter from these
   starting points.
-*/
+* /
 
   int result = -1;
 
@@ -140,6 +141,7 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
 
   return result;
 }
+*/
 
 void msrHarmonyDegree::acceptIn (basevisitor* v)
 {
