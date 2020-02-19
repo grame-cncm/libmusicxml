@@ -220,6 +220,9 @@ lpsrScore::lpsrScore (
   // colored ledger lines
   fColoredLedgerLinesIsNeeded = false;
 
+  // hidden measure and barline
+  fHiddenMeasureAndBarlineIsNeeded = false;
+
   if (gLilypondOah->fLilypondCompileDate) {
     // create the date and time functions
     addDateAndTimeSchemeFunctionsToScore ();
@@ -728,6 +731,15 @@ void lpsrScore::setColoredLedgerLinesIsNeeded ()
     addColoredLedgerLinesToScore ();
 
     fColoredLedgerLinesIsNeeded = true;
+  }
+}
+
+void lpsrScore::setHiddenMeasureAndBarlineIsNeeded ()
+{
+  if (! fHiddenMeasureAndBarlineIsNeeded) {
+    addHiddenMeasureAndBarlineToScore ();
+
+    fHiddenMeasureAndBarlineIsNeeded = true;
   }
 }
 
@@ -1904,6 +1916,56 @@ R"###()) 0.1 1))
   schemeFunctionDescription =
 R"(
 % A function to color the staves ledger lines other that black
+)",
+
+  schemeFunctionCode = s.str ();
+
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceSchemeFunctions) {
+    gLogOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+#endif
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addHiddenMeasureAndBarlineToScore ()
+{
+  stringstream s;
+
+  s <<
+R"###(hiddenMeasureAndBarLine = {
+  % the hidden measure and bar line
+  % \cadenzaOn turns off automatic calculation of bar numbers
+  \cadenzaOn
+  \once \omit Score.TimeSignature
+  \time 1/16
+  s16 \bar ""
+  \cadenzaOff
+}
+)###";
+
+  string
+    schemeFunctionName =
+      "hiddenMeasureAndBarline",
+
+  schemeFunctionDescription =
+R"(
+% A function to avoid having two marks at the same point in time,
+% which LilyPond doesn't allow
 )",
 
   schemeFunctionCode = s.str ();

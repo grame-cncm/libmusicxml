@@ -262,6 +262,15 @@ class lpsrScore : public lpsrElement
                                   fColoredLedgerLinesIsNeeded;
                               }
 
+    // hidden measure and barline
+    void                  setHiddenMeasureAndBarlineIsNeeded ();
+
+    bool                  getHiddenMeasureAndBarlineIsNeeded () const
+                              {
+                                return
+                                  fHiddenMeasureAndBarlineIsNeeded;
+                              }
+
   public:
 
     // public services
@@ -335,6 +344,10 @@ class lpsrScore : public lpsrElement
     // colored ledger lines
 
     void                  addColoredLedgerLinesToScore ();
+
+    // hidden measure and barline
+
+    void                  addHiddenMeasureAndBarlineToScore ();
 
   public:
 
@@ -429,6 +442,9 @@ class lpsrScore : public lpsrElement
 
     // colored ledger lines
     bool                  fColoredLedgerLinesIsNeeded;
+
+    // hidden measure and barline
+    bool                  fHiddenMeasureAndBarlineIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;

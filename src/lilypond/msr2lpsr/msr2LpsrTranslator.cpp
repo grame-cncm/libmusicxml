@@ -5387,6 +5387,9 @@ void msr2LpsrTranslator::visitStart (S_msrDalSegno& elt)
       __FILE__, __LINE__,
       s.str ());
   }
+
+  fLpsrScore->
+    setHiddenMeasureAndBarlineIsNeeded ();
 }
 
 void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
