@@ -2223,13 +2223,10 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 ctree<xmlelement>::iterator iter;			// and when there is one
                 iter = nextnote->find(k_chord);
                 if (iter != nextnote->end()) {
-                    //v.push_back(*nextnote);
-                    
                     notevisitor nv;
                     xml_tree_browser browser(&nv);
                     Sxmlelement note = *nextnote;
                     browser.browse(*note);
-                    
                     notevisitors.push_back(nv);
                 }
                 else {
@@ -2803,16 +2800,6 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         }else {
             newNote (*this, thisNoteHeadPosition, this->getFingerings());
         }
-        
-        // Add chord notes (in case of a real chord)
-//        for (vector<Sxmlelement>::const_iterator iter = chord.begin(); iter != chord.end(); iter++) {
-//            notevisitor nv;
-//            xml_tree_browser browser(&nv);
-//            Sxmlelement note = *iter;
-//            browser.browse(*note);
-//            checkStaff(nv.getStaff());
-//            newNote (nv, thisNoteHeadPosition, elt);
-//        }
         
         isProcessingChord = false;
         
