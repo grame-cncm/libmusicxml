@@ -2211,9 +2211,10 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
     }
     
     //______________________________________________________________________________
-    vector<Sxmlelement> xmlpart2guido::getChord ( const S_note& elt )
+    deque<notevisitor> xmlpart2guido::getChord ( const S_note& elt )
     {
-        vector<Sxmlelement> v;
+        deque<notevisitor> notevisitors;
+        
         ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
         if (nextnote != fCurrentMeasure->end()) nextnote++;	// advance one step
         while (nextnote != fCurrentMeasure->end()) {
@@ -2221,13 +2222,20 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
                 ctree<xmlelement>::iterator iter;			// and when there is one
                 iter = nextnote->find(k_chord);
-                if (iter != nextnote->end())
-                    v.push_back(*nextnote);
-                else break;
+                if (iter != nextnote->end()) {
+                    notevisitor nv;
+                    xml_tree_browser browser(&nv);
+                    Sxmlelement note = *nextnote;
+                    browser.browse(*note);
+                    notevisitors.push_back(nv);
+                }
+                else {
+                    break;
+                }
             }
             nextnote++;
         }
-        return v;
+        return notevisitors;
     }
     
     vector<Sxmlelement> xmlpart2guido::getChord ( const Sxmlelement& elt )
@@ -2442,46 +2450,85 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         return dur;
     }
     
+void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasure) {
+    // Fingering treatment: Bring all fingerings together in two vectors for placement below/above. The "above" placement should be hooked to the highest pitch in the chord, and "below" to the lowest.
+    std::vector<Sxmlelement> belowFingerings;
+    std::vector<Sxmlelement> aboveFingerings;
+    int highestPitchIndex = 0, lowestPitchIndex = 0, counter =0;
+    float lowestPitch = 128, highestPitch = 0;
+    for (auto note: nvs) {
+        auto localFingerings = note.getFingerings();
+        for (auto fingering: localFingerings) {
+            std::string placement = fingering->getAttributeValue("placement");
+            if (placement == "below") {
+                belowFingerings.push_back(fingering);
+            }else {
+                aboveFingerings.push_back(fingering);
+            }
+        }
+        
+        float localPitch = note.getMidiPitch();
+        if (localPitch > highestPitch) {
+            highestPitch = localPitch;
+            highestPitchIndex = counter;
+        }
+        if (localPitch < lowestPitch) {
+            lowestPitch = localPitch;
+            lowestPitchIndex = counter;
+        }
+        
+        // increment index counter
+        counter++;
+    }
+    
+    // Generate notes with correct fingering
+    std::vector<Sxmlelement> emptyFingerings;
+    for ( int index = 0; index < nvs.size(); index++) {
+        if (index == lowestPitchIndex) {
+            newNote(nvs.at(index), posInMeasure, belowFingerings);
+            continue;
+        }else if (index == highestPitchIndex) {
+            newNote(nvs.at(index), posInMeasure, aboveFingerings);
+        }else {
+            newNote(nvs.at(index), posInMeasure, emptyFingerings);
+        }
+    }
+}
+
     //______________________________________________________________________________
-    void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure, const S_note& elt)
+    void xmlpart2guido::newNote( const notevisitor& nv, rational posInMeasure, const std::vector<Sxmlelement>& fingerings)
     {
         // Check for Tied Begin
         checkTiedBegin(nv.getTied());
 
         // Fingering is tied to single notes (in chords)
         int hasFingerings = 0;  // 0 if none, greater otherwise!
-        if (nv.getFingerings().size()) {
-            auto fingerings = nv.getFingerings();
-            for (int i=0; i < fingerings.size(); i++) {
-                /// GUID-156: If XML default-x bypasses next note, don't include this fingering
-//                ctree<xmlelement>::iterator nextnote;
-//                if (findNextNote(elt, nextnote)) {
-//                    int nextNoteDefaultX = nextnote->getAttributeIntValue("default-x", 0);
-//                    int thisNoteDefaultX = elt->getAttributeIntValue("default-x", 0);
-//                    int fingeringDefaultX = fingerings[i]->getAttributeIntValue("default-x", 0);
-//                    if (fingeringDefaultX+thisNoteDefaultX > nextNoteDefaultX) {
-//                        cerr<<"XML2Guido: Fingering X-position ("<<thisNoteDefaultX<<"->"<<fingeringDefaultX<<") on line:"<<fingerings[i]->getInputLineNumber()<<", measure:"<< fMeasNum<<" bypasses proceeding note("<<nextNoteDefaultX<<")! Skipping... ."<<endl;
-//                        continue;
-//                    }
-//                }
-                Sguidoelement tag = guidotag::create("fingering");
-                // Get text value
-                std::string fingeringText = fingerings[i]->getValue();
-                stringstream s;
-                s << "text=\"" << fingeringText << "\"";
-                /// Get placement: AVOIDING since rendering is not coherent!
-//                std::string placement = fingerings[i]->getAttributeValue("placement");
-//                if (placement.size() > 0) {
-//                    s << ", position=\""<<placement<<"\"";
-//                }
-                tag->add (guidoparam::create(s.str(), false));
-                /// GUID-156: x-pos is highly dependent on Layout. AVOID!
-                //xml2guidovisitor::addPosX(fingerings[i], tag, 0);   // xml x-pos can be safely added
-                /// In MusicXML, default-y for Fingering is from TOP of the staff. Dy in Guido is from the NOTEHEAD. Therefore the dy is a function of the Note and the Clef!
-                addPosYforNoteHead(nv, fingerings[i], tag, 2);  // FIXME: +2 offset is experimental
-                push(tag);
-                hasFingerings++;
+        if (fingerings.size()) {
+            Sguidoelement tag = guidotag::create("fingering");
+            stringstream s;
+
+            /// Add Placement
+            std::string placement = fingerings[0]->getAttributeValue("placement");
+            if (placement.size() > 0) {
+                s << "position=\""<<placement<<"\"";
             }
+
+            // Add Fingering "Text"
+            for (int i=0; i < fingerings.size(); i++) {
+                std::string fingeringText = fingerings[i]->getValue();
+                if (i==0) {
+                    s << ", text=\"" << fingeringText;
+                }else {
+                    s << ", " << fingeringText;
+                }
+                
+                if (i+1 == fingerings.size()) {
+                    s << "\"";
+                }
+            }
+            tag->add (guidoparam::create(s.str(), false));
+            push(tag);
+            hasFingerings++;
         }
         
         int octave = nv.getOctave() - 3;			// octave offset between MusicXML and GUIDO is -3
@@ -2550,9 +2597,7 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 push(noteFormatTag);
             }
         }
-        
-        // Tie End should appear BEFORE the note itself in Guido:
-        
+                
         add (note);
         
         checkTiedEnd(nv.getTied());
@@ -2739,27 +2784,21 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
                 
-        vector<Sxmlelement> chord = getChord(elt);
+        deque<notevisitor> chord = getChord(elt);
+        
+        // Add chord or note with proper preprocessing
         if (chord.size())
         {
-            Sguidoelement chord = guidochord::create();
-            //// FIXME: The following line removed since it introduced bad behavior on REINE de La NUIT Piano accompaniment!
-            //pendingPops += checkNoteFormatDx(*this, thisNoteHeadPosition);
-            push (chord);
+            Sguidoelement chordtag = guidochord::create();
+            push (chordtag);
             pendingPops++;
             isProcessingChord = true;
-        }
-        
-        newNote (*this, thisNoteHeadPosition, elt);
-        // Add chord notes (in case of a real chord)
-        for (vector<Sxmlelement>::const_iterator iter = chord.begin(); iter != chord.end(); iter++) {
-            isProcessingChord = true;
-            notevisitor nv;
-            xml_tree_browser browser(&nv);
-            Sxmlelement note = *iter;
-            browser.browse(*note);
-            checkStaff(nv.getStaff());
-            newNote (nv, thisNoteHeadPosition, elt);
+            // Add current note to the beginning of the Chord vector to separate processing of notes and chords
+            chord.push_front(*this);
+            
+            newChord(chord, thisNoteHeadPosition);
+        }else {
+            newNote (*this, thisNoteHeadPosition, this->getFingerings());
         }
         
         isProcessingChord = false;
@@ -2782,14 +2821,6 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
             // In case of ongoing \tuplet, do it after the \tuplet is closed! (Potential Guido parser issue)
             checkTextEnd();
         }
-        
-        /*
-         if (fBeamStack.size()==0)
-         {
-         // this is will close any ongoing Guido TEXT tag once a sequence is embedded
-         // In case of ongoing \Beam, do it after the \beam is closed! (Potential Guido parser issue)
-         checkTextEnd();
-         }*/
         
         checkPostArticulation(*this);
         
