@@ -14808,6 +14808,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegno& elt)
 #endif
 }
 
+void lpsr2LilypondTranslator::visitStart (S_msrHiddenMeasureAndBarline& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrHiddenMeasureAndBarline" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
 void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
 {
 #ifdef TRACE_OAH

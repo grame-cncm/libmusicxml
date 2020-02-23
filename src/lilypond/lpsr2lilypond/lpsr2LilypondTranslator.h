@@ -195,6 +195,8 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrSegment>,
   public visitor<S_msrMeasure>,
 
+  // lyrics
+
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
 
@@ -292,7 +294,12 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrHarpPedalsTuning>,
 
+  // stems
+
   public visitor<S_msrStem>,
+
+  // beams
+
   public visitor<S_msrBeam>,
 
   // chords
@@ -311,7 +318,9 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrBarline>,
 
+  // segnos and codas
   public visitor<S_msrSegno>,
+  public visitor<S_msrHiddenMeasureAndBarline>,
   public visitor<S_msrCoda>,
 
   public visitor<S_msrEyeGlasses>,
@@ -472,10 +481,13 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrVoiceStaffChange& elt);
 
+    // harmonies
     virtual void visitStart (S_msrHarmony& elt);
 
+    // frames
     virtual void visitStart (S_msrFrame& elt);
 
+    // figured bass
     virtual void visitStart (S_msrFiguredBass& elt);
     virtual void visitEnd   (S_msrFiguredBass& elt);
     virtual void visitStart (S_msrFigure& elt);
@@ -486,18 +498,22 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
 
+    // lyrics
     virtual void visitStart (S_msrStanza& elt);
     virtual void visitEnd   (S_msrStanza& elt);
 
     virtual void visitStart (S_msrSyllable& elt);
     virtual void visitEnd   (S_msrSyllable& elt);
 
+    // clefs
     virtual void visitStart (S_msrClef& elt);
     virtual void visitEnd   (S_msrClef& elt);
 
+    // keys
     virtual void visitStart (S_msrKey& elt);
     virtual void visitEnd   (S_msrKey& elt);
 
+    // times
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
 
@@ -507,9 +523,11 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrPartNameDisplay& elt);
     virtual void visitStart (S_msrPartAbbreviationDisplay& elt);
 
+    // words
     virtual void visitStart (S_msrWords& elt);
     virtual void visitEnd   (S_msrWords& elt);
 
+    // tempo
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
     virtual void visitStart (S_msrTempoRelationshipElements& elt);
@@ -518,6 +536,7 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrTempoTuplet& elt);
     virtual void visitEnd   (S_msrTempoTuplet& elt);
 
+    // articulations
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 
@@ -529,6 +548,7 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrNonArpeggiato& elt);
     virtual void visitEnd   (S_msrNonArpeggiato& elt);
 
+    // technicals
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);
 
@@ -541,21 +561,26 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrTechnicalWithString& elt);
     virtual void visitEnd   (S_msrTechnicalWithString& elt);
 
+    // ornaments
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
 
+    // glissandos
     virtual void visitStart (S_msrGlissando& elt);
     virtual void visitEnd   (S_msrGlissando& elt);
 
+    // slides
     virtual void visitStart (S_msrSlide& elt);
     virtual void visitEnd   (S_msrSlide& elt);
 
+    // tremolos
     virtual void visitStart (S_msrSingleTremolo& elt);
     virtual void visitEnd   (S_msrSingleTremolo& elt);
 
     virtual void visitStart (S_msrDoubleTremolo& elt);
     virtual void visitEnd   (S_msrDoubleTremolo& elt);
 
+    // dynamics
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);
 
@@ -565,6 +590,7 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
+    // grace notes
     virtual void visitStart (S_msrGraceNotesGroup& elt);
     virtual void visitEnd   (S_msrGraceNotesGroup& elt);
 
@@ -573,25 +599,32 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrAfterGraceNotesGroupContents& elt);
     virtual void visitEnd   (S_msrAfterGraceNotesGroupContents& elt);
 
+    // notes
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
 
     virtual void visitStart (S_msrOctaveShift& elt);
     virtual void visitEnd   (S_msrOctaveShift& elt);
 
+    // accordion registration
     virtual void visitStart (S_msrAccordionRegistration& elt);
 
+    // harp pedals tuning
     virtual void visitStart (S_msrHarpPedalsTuning& elt);
 
+    // stems
     virtual void visitStart (S_msrStem& elt);
     virtual void visitEnd   (S_msrStem& elt);
 
+    // beams
     virtual void visitStart (S_msrBeam& elt);
     virtual void visitEnd   (S_msrBeam& elt);
 
+    // chords
     virtual void visitStart (S_msrChord& elt);
     virtual void visitEnd   (S_msrChord& elt);
 
+    // tuplets
     virtual void visitStart (S_msrTuplet& elt);
     virtual void visitEnd   (S_msrTuplet& elt);
 
@@ -607,7 +640,9 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrBarline& elt);
     virtual void visitEnd   (S_msrBarline& elt);
 
+    // segnos and codas
     virtual void visitStart (S_msrSegno& elt);
+    virtual void visitStart (S_msrHiddenMeasureAndBarline& elt);
     virtual void visitStart (S_msrCoda& elt);
 
     virtual void visitStart (S_msrEyeGlasses& elt);

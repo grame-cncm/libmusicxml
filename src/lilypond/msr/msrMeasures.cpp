@@ -433,6 +433,180 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   return measureDeepCopy;
 }
 
+S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
+  S_msrSegment containingSegment)
+{
+  S_msrVoice
+    containingSegmentVoiceUpLink =
+      containingSegment->
+        getSegmentVoiceUpLink ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
+    gLogOstream <<
+      "Creating a copy with notes only of measure " <<
+      this->asShortString () <<
+      " in segment " <<
+      containingSegment->asString () <<
+      " in voice \"" <<
+      containingSegmentVoiceUpLink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert(
+    containingSegment != nullptr,
+    "containingSegment is null");
+
+  // create copy
+  S_msrMeasure
+    measureCopy =
+      msrMeasure::create (
+        fInputLineNumber,
+        fMeasureElementMeasureNumber,
+        containingSegment);
+
+  // set measureCopy's ordinal number
+  measureCopy->
+    setMeasureOrdinalNumberInVoice (
+      containingSegmentVoiceUpLink->
+        incrementVoiceCurrentMeasureOrdinalNumber ());
+
+  // lengthes
+  measureCopy->fFullMeasureWholeNotesDuration =
+    fFullMeasureWholeNotesDuration;
+
+  measureCopy->fCurrentMeasureWholeNotesDuration =
+    fCurrentMeasureWholeNotesDuration;
+
+  // measure kind
+  measureCopy->fMeasureKind =
+    fMeasureKind;
+
+  // next measure number
+  measureCopy->fNextMeasureNumber =
+    fNextMeasureNumber;
+
+  // measure 'first in segment' kind
+  measureCopy->fMeasureFirstInSegmentKind =
+    fMeasureFirstInSegmentKind;
+
+  // elements
+
+  int numberOfMeasureElements =
+    fMeasureElementsList.size ();
+
+  if (numberOfMeasureElements) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
+      gLogOstream <<
+        singularOrPluralWithoutNumber (
+          numberOfMeasureElements, "There is", "There are") <<
+        " " <<
+        singularOrPlural (
+          numberOfMeasureElements, "element", "elements") <<
+        " to be copied with notes only in measure " <<
+        this->asShortString () <<
+        " in segment " <<
+        containingSegment->asString () <<
+        " in voice \"" <<
+          containingSegment->
+            getSegmentVoiceUpLink ()->
+              getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+    for (
+      list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
+      i != fMeasureElementsList.end ();
+      i++ ) {
+      S_msrMeasureElement element = (*i);
+      S_msrMeasureElement elementToBeCopied;
+
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(*element))
+      ) {
+        // copy the note
+        elementToBeCopied = note;
+      }
+
+      else if (
+        S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
+      ) {
+        // create the chord
+        elementToBeCopied = chord;
+      }
+
+      else if (
+        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
+      ) {
+        // create the tuplet
+        elementToBeCopied = tuplet;
+      }
+
+/* JMI
+      else if (
+        S_msrTime time = dynamic_cast<msrTime*>(&(*element))
+        ) {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
+          gLogOstream <<
+            "Sharing time " <<
+            time->asShortString () <<
+            " in measure " <<
+            this->asShortString () <<
+            "deep copy" <<
+            ", line " << fInputLineNumber <<
+            endl;
+        }
+#endif
+
+        // share the element with the original measure
+        elementDeepCopy = time;
+      }
+      */
+
+      else {
+        // don't share the element with the original measure
+      }
+
+      if (elementToBeCopied) {
+        // append elementToBeCopied to the measure copy
+        measureCopy->
+          appendElementToMeasure (
+            elementToBeCopied);
+      }
+    } // for
+  }
+
+  else {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceMeasures) {
+      gLogOstream <<
+        "There are no elements in measure to be deep copied" <<
+        " in segment " <<
+        containingSegment->asString () <<
+        " in voice \"" <<
+        containingSegment->
+          getSegmentVoiceUpLink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+  }
+
+  // upLinks
+
+  // fMeasureSegmentUpLink JMI ???
+
+  return measureCopy;
+}
+
 S_msrPart msrMeasure::fetchMeasurePartUpLink () const
 {
   return

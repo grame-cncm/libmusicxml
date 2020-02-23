@@ -79,6 +79,9 @@ class msrMeasure : public msrElement
     SMARTP<msrMeasure> createMeasureDeepCopy (
       S_msrSegment containingSegment);
 
+    SMARTP<msrMeasure> createMeasureCopyWithNotesOnly (
+      S_msrSegment containingSegment);
+
   protected:
 
     // constructors/destructor

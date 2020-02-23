@@ -251,6 +251,96 @@ ostream& operator<< (ostream& os, const S_msrDalSegno& elt)
 }
 
 //______________________________________________________________________________
+S_msrHiddenMeasureAndBarline msrHiddenMeasureAndBarline::create (
+  int inputLineNumber)
+{
+  msrHiddenMeasureAndBarline* o =
+    new msrHiddenMeasureAndBarline (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrHiddenMeasureAndBarline::msrHiddenMeasureAndBarline (
+  int inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
+{}
+
+msrHiddenMeasureAndBarline::~msrHiddenMeasureAndBarline ()
+{}
+
+void msrHiddenMeasureAndBarline::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrHiddenMeasureAndBarline::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrHiddenMeasureAndBarline>*
+    p =
+      dynamic_cast<visitor<S_msrHiddenMeasureAndBarline>*> (v)) {
+        S_msrHiddenMeasureAndBarline elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrHiddenMeasureAndBarline::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrHiddenMeasureAndBarline::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrHiddenMeasureAndBarline::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrHiddenMeasureAndBarline>*
+    p =
+      dynamic_cast<visitor<S_msrHiddenMeasureAndBarline>*> (v)) {
+        S_msrHiddenMeasureAndBarline elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrHiddenMeasureAndBarline::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrHiddenMeasureAndBarline::browseData (basevisitor* v)
+{}
+
+string msrHiddenMeasureAndBarline::asString () const
+{
+  stringstream s;
+
+  s <<
+    "HiddenMeasureAndBarline" <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+void msrHiddenMeasureAndBarline::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarline& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrCoda msrCoda::create (
   int inputLineNumber,
   int staffNumber)

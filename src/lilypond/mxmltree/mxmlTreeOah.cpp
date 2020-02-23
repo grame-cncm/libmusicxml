@@ -288,9 +288,9 @@ void msrDalSegnoAtom::print (ostream& os) const
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        (*i).first <<
+        "\"" << (*i).first << "\"" <<
         " --> " <<
-        msrDalSegno::dalSegnoKindAsString ((*i).second);
+        "\"" << msrDalSegno::dalSegnoKindAsString ((*i).second) << "\"";
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -323,10 +323,9 @@ void msrDalSegnoAtom::printAtomOptionsValues (
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        "\"" <<
-        (*i).first <<
-        "\" --> " <<
-        msrDalSegno::dalSegnoKindAsString ((*i).second) <<
+        "\"" << (*i).first << "\"" <<
+        " --> " <<
+        "\"" << msrDalSegno::dalSegnoKindAsString ((*i).second) << "\"" <<
         endl;
       if (++i == iEnd) break;
     } // for
@@ -659,9 +658,9 @@ void msrReplaceClefAtom::print (ostream& os) const
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        clefKindAsString ((*i).first) <<
+        "\"" << clefKindAsString ((*i).first) << "\"" <<
         " --> " <<
-        clefKindAsString ((*i).second);
+        "\"" << clefKindAsString ((*i).second) << "\"";
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -694,10 +693,9 @@ void msrReplaceClefAtom::printAtomOptionsValues (
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        "\"" <<
-        clefKindAsString ((*i).first) <<
-        "\" --> " <<
-        clefKindAsString ((*i).second) <<
+        "\"" << clefKindAsString ((*i).first) << "\"" <<
+        " --> " <<
+        "\"" << clefKindAsString ((*i).second) << "\"" <<
         endl;
       if (++i == iEnd) break;
     } // for

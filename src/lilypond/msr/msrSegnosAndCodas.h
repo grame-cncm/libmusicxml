@@ -241,6 +241,64 @@ typedef SMARTP<msrDalSegno> S_msrDalSegno;
 EXP ostream& operator<< (ostream& os, const S_msrDalSegno& elt);
 
 //______________________________________________________________________________
+class msrHiddenMeasureAndBarline : public msrMeasureElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrHiddenMeasureAndBarline> create (
+      int inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHiddenMeasureAndBarline (
+      int inputLineNumber);
+
+    virtual ~msrHiddenMeasureAndBarline ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msrHiddenMeasureAndBarline> S_msrHiddenMeasureAndBarline;
+EXP ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarline& elt);
+
+//______________________________________________________________________________
 class msrCoda : public msrMeasureElement
 {
   public:
