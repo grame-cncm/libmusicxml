@@ -1140,26 +1140,26 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     fCurrentClefSign.begin (),
     ::toupper);
 
-  msrClef::msrClefKind clefKind = msrClef::k_NoClef;
+  msrClefKind clefKind = k_NoClef;
 
   if (fCurrentClefSign == "G") {
 
     if      (fCurrentClefLine == 2) {
       switch (fCurrentClefOctaveChange) {
         case -2:
-          clefKind = msrClef::kTrebleMinus15Clef;
+          clefKind = kTrebleMinus15Clef;
           break;
         case -1:
-          clefKind = msrClef::kTrebleMinus8Clef;
+          clefKind = kTrebleMinus8Clef;
           break;
         case 0:
-          clefKind = msrClef::kTrebleClef;
+          clefKind = kTrebleClef;
           break;
         case +1:
-          clefKind = msrClef::kTreblePlus8Clef;
+          clefKind = kTreblePlus8Clef;
           break;
         case +2:
-          clefKind = msrClef::kTreblePlus15Clef;
+          clefKind = kTreblePlus15Clef;
           break;
         default:
           {
@@ -1169,7 +1169,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     }
 
     else if (fCurrentClefLine == 1)
-      clefKind = msrClef::kTrebleLine1Clef;
+      clefKind = kTrebleLine1Clef;
 
     else {
       stringstream s;
@@ -1191,19 +1191,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     if ( fCurrentClefLine == 4 ) {
       switch (fCurrentClefOctaveChange) {
         case -2:
-          clefKind = msrClef::kBassMinus15Clef;
+          clefKind = kBassMinus15Clef;
           break;
         case -1:
-          clefKind = msrClef::kBassMinus8Clef;
+          clefKind = kBassMinus8Clef;
           break;
         case 0:
-          clefKind = msrClef::kBassClef;
+          clefKind = kBassClef;
           break;
         case +1:
-          clefKind = msrClef::kBassPlus8Clef;
+          clefKind = kBassPlus8Clef;
           break;
         case +2:
-          clefKind = msrClef::kBassPlus15Clef;
+          clefKind = kBassPlus15Clef;
           break;
         default:
           {
@@ -1213,23 +1213,23 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     }
 
     else if ( fCurrentClefLine == 3 ) {
-      clefKind = msrClef::kVarbaritoneClef;
+      clefKind = kVarbaritoneClef;
       /* JMI
       switch (fCurrentClefOctaveChange) {
         case -2:
-          clefKind = msrClef::kBassMinus15Clef;
+          clefKind = kBassMinus15Clef;
           break;
         case -1:
-          clefKind = msrClef::kBassMinus8Clef;
+          clefKind = kBassMinus8Clef;
           break;
         case 0:
-          clefKind = msrClef::kBassClef;
+          clefKind = kBassClef;
           break;
         case +1:
-          clefKind = msrClef::kBassPlus8Clef;
+          clefKind = kBassPlus8Clef;
           break;
         case +2:
-          clefKind = msrClef::kBassPlus15Clef;
+          clefKind = kBassPlus15Clef;
           break;
         default:
           {
@@ -1258,19 +1258,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
 
     switch (fCurrentClefLine) {
       case 1:
-        clefKind = msrClef::kSopranoClef;
+        clefKind = kSopranoClef;
         break;
       case 2:
-        clefKind = msrClef::kMezzoSopranoClef;
+        clefKind = kMezzoSopranoClef;
         break;
       case 3:
-        clefKind = msrClef::kAltoClef;
+        clefKind = kAltoClef;
         break;
       case 4:
-        clefKind = msrClef::kTenorClef;
+        clefKind = kTenorClef;
         break;
       case 5:
-        clefKind = msrClef::kBaritoneClef;
+        clefKind = kBaritoneClef;
         break;
       default:
         {
@@ -1293,16 +1293,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
 
     switch (fCurrentClefLine) {
       case 4:
-        clefKind = msrClef::kTablature4Clef;
+        clefKind = kTablature4Clef;
         break;
       case 5:
-        clefKind = msrClef::kTablature5Clef;
+        clefKind = kTablature5Clef;
         break;
       case 6:
-        clefKind = msrClef::kTablature6Clef;
+        clefKind = kTablature6Clef;
         break;
       case 7:
-        clefKind = msrClef::kTablature7Clef;
+        clefKind = kTablature7Clef;
         break;
       default:
         {
@@ -1322,15 +1322,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
   }
 
   else if (fCurrentClefSign == "percussion" || fCurrentClefSign == "PERCUSSION") {
-    clefKind = msrClef::kPercussionClef;
+    clefKind = kPercussionClef;
   }
 
   else if (fCurrentClefSign == "jianpu") {
-    clefKind = msrClef::kJianpuClef;
+    clefKind = kJianpuClef;
   }
 
   else if (fCurrentClefSign == "none" || fCurrentClefSign == "NONE") {
-    clefKind = msrClef::k_NoClef;
+    clefKind = k_NoClef;
   }
 
   else {
@@ -1346,6 +1346,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
+  }
+
+  // is this clef sign in the replace clef map?
+  map<msrClefKind, msrClefKind>::const_iterator
+    it =
+      gMxmlTreeOah->fReplaceClefMapVariable.find (clefKind);
+
+  if (it != gMxmlTreeOah->fReplaceClefMapVariable.end ()) {
+    // yes, replace the clef accordinglingly
+    clefKind = (*it).second;
   }
 
   // create clef

@@ -738,9 +738,9 @@ class lpsr2LilypondTranslator :
     void                  generateNoteStem (S_msrNote note);
     void                  generateNoteHead (S_msrNote note);
 
-    void                  generateCodeBeforeNote (S_msrNote note);
+    void                  generateCodeRightBeforeNote (S_msrNote note);
     void                  generateCodeForNote (S_msrNote note);
-    void                  generateCodeAfterNote (S_msrNote note);
+    void                  generateCodeRightAfterNote (S_msrNote note);
 
     // articulations
 
@@ -945,9 +945,11 @@ class lpsr2LilypondTranslator :
     list<int>             fPendingChordMemberNotesStringNumbers;
     bool                  fOnGoingChord;
 
-    void                  generateCodeBeforeChordContents (S_msrChord chord);
+    void                  generateCodeAHeadOfChordContents (S_msrChord chord);
+
+    void                  generateCodeRightBeforeChordContents (S_msrChord chord);
     void                  generateCodeForChordContents (S_msrChord chord);
-    void                  generateCodeAfterChordContents (S_msrChord chord);
+    void                  generateCodeRightAfterChordContents (S_msrChord chord);
 
     void                  generateChordInGraceNotesGroup (S_msrChord chord);
 

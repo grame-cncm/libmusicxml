@@ -15,10 +15,6 @@
 #include <cassert>
 
 #include <climits>      // INT_MIN, INT_MAX
-
-#include <vector>
-#include <map>
-
 #include <iomanip>      // setw, ...
 
 #include <regex>
@@ -9114,6 +9110,266 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
   }
 
   return result;
+}
+
+// clefs
+//______________________________________________________________________________
+map<string, msrClefKind>
+  gClefKindsMap;
+
+list<string>
+  gClefKindsNamesList;
+
+string clefKindAsString (
+  msrClefKind clefKind)
+{
+  string result;
+
+  switch (clefKind) {
+    case k_NoClef:
+      result = "none";
+      break;
+    case kTrebleClef:
+      result = "treble";
+      break;
+    case kSopranoClef:
+      result = "soprano";
+      break;
+    case kMezzoSopranoClef:
+      result = "mezzo soprano";
+      break;
+    case kAltoClef:
+      result = "alto";
+      break;
+    case kTenorClef:
+      result = "tenor";
+      break;
+    case kBaritoneClef:
+      result = "baritone";
+      break;
+    case kBassClef:
+      result = "bass";
+      break;
+    case kTrebleLine1Clef:
+      result = "treble line 1";
+      break;
+    case kTrebleMinus15Clef:
+      result = "treble -15";
+      break;
+    case kTrebleMinus8Clef:
+      result = "treble -8";
+      break;
+    case kTreblePlus8Clef:
+      result = "treble +8";
+      break;
+    case kTreblePlus15Clef:
+      result = "treble +15";
+      break;
+    case kBassMinus15Clef:
+      result = "bass -15";
+      break;
+    case kBassMinus8Clef:
+      result = "bass -8";
+      break;
+    case kBassPlus8Clef:
+      result = "bass +8";
+      break;
+    case kBassPlus15Clef:
+      result = "bass +15";
+      break;
+    case kVarbaritoneClef:
+      result = "varbaritone";
+      break;
+    case kTablature4Clef:
+      result = "tablature 4 lines";
+      break;
+    case kTablature5Clef:
+      result = "tablature 5 lines";
+      break;
+    case kTablature6Clef:
+      result = "tablature 6 lines";
+      break;
+    case kTablature7Clef:
+      result = "tablature 7 lines";
+      break;
+    case kPercussionClef:
+      result = "percussion";
+      break;
+    case kJianpuClef:
+      result = "jianpu";
+      break;
+  } // switch
+
+  return result;
+}
+
+msrClefKind clefKindFromString (
+  string theString)
+{
+  msrClefKind result = k_NoClef;
+
+  if      (theString == "treble")
+    result = kTrebleClef;
+  else if (theString == "soprano")
+    result = kSopranoClef;
+  else if (theString == "mezzosoprano")
+    result = kMezzoSopranoClef;
+  else if (theString == "alto")
+    result = kAltoClef;
+  else if (theString == "tenor")
+    result = kTenorClef;
+  else if (theString == "baritone")
+    result = kBaritoneClef;
+  else if (theString == "bass")
+    result = kBassClef;
+  else if (theString == "treble1")
+    result = kTrebleLine1Clef;
+  else if (theString == "treble-15")
+    result = kTrebleMinus15Clef;
+  else if (theString == "treble-8")
+    result = kTrebleMinus8Clef;
+  else if (theString == "treble+8")
+    result = kTreblePlus8Clef;
+  else if (theString == "treble+15")
+    result = kTreblePlus15Clef;
+  else if (theString == "bass-15")
+    result = kBassMinus15Clef;
+  else if (theString == "bass-8")
+    result = kBassMinus8Clef;
+  else if (theString == "bass+8")
+    result = kBassPlus8Clef;
+  else if (theString == "bass+15")
+    result = kBassPlus15Clef;
+  else if (theString == "varbaritone")
+    result = kVarbaritoneClef;
+  else if (theString == "tab4")
+    result = kTablature4Clef;
+  else if (theString == "tab5")
+    result = kTablature5Clef;
+  else if (theString == "tab6")
+    result = kTablature6Clef;
+  else if (theString == "tab7")
+    result = kTablature7Clef;
+  else if (theString == "percussion")
+    result = kPercussionClef;
+  else if (theString == "jianpu")
+    result = kJianpuClef;
+
+  return result;
+}
+
+void initializeClefKinds ()
+{
+//  gClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
+
+  gClefKindsNamesList.push_back ("treble");
+  gClefKindsMap ["treble"] = kTrebleClef;
+  gClefKindsNamesList.push_back ("soprano");
+  gClefKindsMap ["soprano"] = kSopranoClef;
+  gClefKindsNamesList.push_back ("mezzosoprano");
+  gClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
+  gClefKindsNamesList.push_back ("alto");
+  gClefKindsMap ["alto"] = kAltoClef;
+  gClefKindsNamesList.push_back ("tenor");
+  gClefKindsMap ["tenor"] = kTenorClef;
+  gClefKindsNamesList.push_back ("baritone");
+  gClefKindsMap ["baritone"] = kBaritoneClef;
+  gClefKindsNamesList.push_back ("bass");
+  gClefKindsMap ["bass"] = kBassClef;
+  gClefKindsNamesList.push_back ("treble1");
+  gClefKindsMap ["treble1"] = kTrebleLine1Clef;
+  gClefKindsNamesList.push_back ("treble-15");
+  gClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
+  gClefKindsNamesList.push_back ("treble-8");
+  gClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
+  gClefKindsNamesList.push_back ("treble+8");
+  gClefKindsMap ["treble+8"] = kTreblePlus8Clef;
+  gClefKindsNamesList.push_back ("treble+15");
+  gClefKindsMap ["treble+15"] = kTreblePlus15Clef;
+  gClefKindsNamesList.push_back ("bass-15");
+  gClefKindsMap ["bass-15"] = kBassMinus15Clef;
+  gClefKindsNamesList.push_back ("bass-8");
+  gClefKindsMap ["bass-8"] = kBassMinus8Clef;
+  gClefKindsNamesList.push_back ("bass+8");
+  gClefKindsMap ["bass+8"] = kBassPlus8Clef;
+  gClefKindsNamesList.push_back ("bass+15");
+  gClefKindsMap ["bass+15"] = kBassPlus15Clef;
+  gClefKindsNamesList.push_back ("varbaritone");
+  gClefKindsMap ["varbaritone"] = kVarbaritoneClef;
+  gClefKindsNamesList.push_back ("tab4");
+  gClefKindsMap ["tab4"] = kTablature4Clef;
+  gClefKindsNamesList.push_back ("tab5");
+  gClefKindsMap ["tab5"] = kTablature5Clef;
+  gClefKindsNamesList.push_back ("tab6");
+  gClefKindsMap ["tab6"] = kTablature6Clef;
+  gClefKindsNamesList.push_back ("tab7");
+  gClefKindsMap ["tab7"] = kTablature7Clef;
+  gClefKindsNamesList.push_back ("percussion");
+  gClefKindsMap ["percussion"] = kPercussionClef;
+  gClefKindsNamesList.push_back ("jianpu");
+  gClefKindsMap ["jianpu"] = kJianpuClef;
+}
+
+string existingClefKinds ()
+{
+  stringstream s;
+
+  if (gClefKindsMap.size ()) {
+    map<string, msrClefKind>::const_iterator
+      iBegin = gClefKindsMap.begin (),
+      iEnd   = gClefKindsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first;
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+
+    } // for
+  }
+
+  return s.str ();
+}
+
+string existingClefKindsNames (int namesListMaxLength)
+{
+  stringstream s;
+
+  if (gClefKindsNamesList.size ()) {
+    list<string>::const_iterator
+      iBegin = gClefKindsNamesList.begin (),
+      iEnd   = gClefKindsNamesList.end (),
+      i      = iBegin;
+
+    int cumulatedLength = 0;
+
+    for ( ; ; ) {
+      string theString = (*i);
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= namesListMaxLength) {
+        s << "\n";
+        cumulatedLength = 0;
+      }
+
+      s << theString;
+
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+
+    } // for
+  }
+
+  return s.str ();
 }
 
 // harmonies
@@ -19294,6 +19550,11 @@ void initializeMSRBasicTypes ()
   // ------------------------------------------------------
 
   initializeQuarterTonesPitchesLanguageKinds ();
+
+  // clefs handling
+  // ------------------------------------------------------
+
+  initializeClefKinds ();
 
   // harmonies handling
   // ------------------------------------------------------

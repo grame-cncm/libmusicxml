@@ -1617,7 +1617,7 @@ void lpsr2LilypondTranslator::generateNoteHead (
   }
 }
 
-void lpsr2LilypondTranslator::generateCodeBeforeNote (
+void lpsr2LilypondTranslator::generateCodeRightBeforeNote (
   S_msrNote note)
 {
   if (! fOnGoingChord) {
@@ -2255,7 +2255,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
   fLilypondCodeOstream << ' ';
 }
 
-void lpsr2LilypondTranslator::generateCodeAfterNote (
+void lpsr2LilypondTranslator::generateCodeRightAfterNote (
   S_msrNote note)
 {
   if (! fOnGoingChord) {
@@ -9189,7 +9189,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
   fLilypondCodeOstream << endl;
 
   // get the clef kind
-  msrClef::msrClefKind
+  msrClefKind
     clefKind =
       elt->getClefKind ();
 
@@ -9222,69 +9222,69 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
     }
   }
 
-  if (clefKind != msrClef::k_NoClef) {
+  if (clefKind != k_NoClef) {
     fLilypondCodeOstream <<
       "\\clef ";
 
     switch (clefKind) {
-      case msrClef::k_NoClef:
+      case k_NoClef:
         break;
-      case msrClef::kTrebleClef:
+      case kTrebleClef:
         fLilypondCodeOstream << "\"treble\"";
         break;
-      case msrClef::kSopranoClef:
+      case kSopranoClef:
         fLilypondCodeOstream << "\"soprano\"";
         break;
-      case msrClef::kMezzoSopranoClef:
+      case kMezzoSopranoClef:
         fLilypondCodeOstream << "\"mezzosoprano\"";
         break;
-      case msrClef::kAltoClef:
+      case kAltoClef:
         fLilypondCodeOstream << "\"alto\"";
         break;
-      case msrClef::kTenorClef:
+      case kTenorClef:
         fLilypondCodeOstream << "\"tenor\"";
         break;
-      case msrClef::kBaritoneClef:
+      case kBaritoneClef:
         fLilypondCodeOstream << "\"baritone\"";
         break;
-      case msrClef::kBassClef:
+      case kBassClef:
         fLilypondCodeOstream << "\"bass\"";
         break;
-      case msrClef::kTrebleLine1Clef:
+      case kTrebleLine1Clef:
         fLilypondCodeOstream << "\"french\"";
         break;
-      case msrClef::kTrebleMinus15Clef:
+      case kTrebleMinus15Clef:
         fLilypondCodeOstream << "\"treble_15\"";
         break;
-      case msrClef::kTrebleMinus8Clef:
+      case kTrebleMinus8Clef:
         fLilypondCodeOstream << "\"treble_8\"";
         break;
-      case msrClef::kTreblePlus8Clef:
+      case kTreblePlus8Clef:
         fLilypondCodeOstream << "\"treble^8\"";
         break;
-      case msrClef::kTreblePlus15Clef:
+      case kTreblePlus15Clef:
         fLilypondCodeOstream << "\"treble^15\"";
         break;
-      case msrClef::kBassMinus15Clef:
+      case kBassMinus15Clef:
         fLilypondCodeOstream << "\"bass_15\"";
         break;
-      case msrClef::kBassMinus8Clef:
+      case kBassMinus8Clef:
         fLilypondCodeOstream << "\"bass_8\"";
         break;
-      case msrClef::kBassPlus8Clef:
+      case kBassPlus8Clef:
         fLilypondCodeOstream << "\"bass^8\"";
         break;
-      case msrClef::kBassPlus15Clef:
+      case kBassPlus15Clef:
         fLilypondCodeOstream << "\"bass^15\"";
         break;
-      case msrClef::kVarbaritoneClef:
+      case kVarbaritoneClef:
         fLilypondCodeOstream << "\"varbaritone\"";
         break;
 
-      case msrClef::kTablature4Clef:
-      case msrClef::kTablature5Clef:
-      case msrClef::kTablature6Clef:
-      case msrClef::kTablature7Clef:
+      case kTablature4Clef:
+      case kTablature5Clef:
+      case kTablature6Clef:
+      case kTablature7Clef:
         if (gLilypondOah->fModernTab) {
           fLilypondCodeOstream <<
             "\"moderntab\"" <<
@@ -9302,10 +9302,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
         }
         break;
 
-      case msrClef::kPercussionClef:
+      case kPercussionClef:
         fLilypondCodeOstream << "\"percussion\"";
         break;
-      case msrClef::kJianpuClef:
+      case kJianpuClef:
         fLilypondCodeOstream << "\"%{jianpuClef???%}\"";
         break;
     } // switch
@@ -11462,13 +11462,13 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
             dynamic_cast<msrNote*>(&(*element))
         ) {
           // generate things before the note
-          generateCodeBeforeNote (note);
+          generateCodeRightBeforeNote (note);
 
           // generate the note itself
           generateCodeForNote (note);
 
           // generate things after the note
-          generateCodeAfterNote (note);
+          generateCodeRightAfterNote (note);
 
           // generate the note beams if any,
           // unless the note is chord member
@@ -12411,7 +12411,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 
   // generate things before the note
-  generateCodeBeforeNote (elt);
+  generateCodeRightBeforeNote (elt);
 
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
@@ -12423,7 +12423,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   generateCodeForNote (elt);
 
   // generate things after the note
-  generateCodeAfterNote (elt);
+  generateCodeRightAfterNote (elt);
 
   if (
     gLilypondOah->fInputLineNumbers
@@ -13551,7 +13551,7 @@ void lpsr2LilypondTranslator::generateCodeForOctaveShift (
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
+void lpsr2LilypondTranslator::generateCodeAHeadOfChordContents (
   S_msrChord chord)
 {
   // generate the chord codas if any
@@ -13583,7 +13583,11 @@ void lpsr2LilypondTranslator::generateCodeBeforeChordContents (
         endl;
     } // for
   }
+}
 
+void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
+  S_msrChord chord)
+{
   // print the chord's grace notes before if any,
   // but not ??? JMI
   S_msrGraceNotesGroup
@@ -13876,13 +13880,13 @@ void lpsr2LilypondTranslator::generateCodeForChordContents (
         note = (*i);
 
       // print things before the note
-      generateCodeBeforeNote (note);
+      generateCodeRightBeforeNote (note);
 
       // print the note itself
       generateCodeForNote (note);
 
       // print things after the note
-      generateCodeAfterNote (note);
+      generateCodeRightAfterNote (note);
 
       if (++i == iEnd) break;
       fLilypondCodeOstream <<
@@ -13891,7 +13895,7 @@ void lpsr2LilypondTranslator::generateCodeForChordContents (
   }
 }
 
-void lpsr2LilypondTranslator::generateCodeAfterChordContents (
+void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
   S_msrChord chord)
 {
   // generate the end of the chord
@@ -14464,11 +14468,11 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (
 
 void lpsr2LilypondTranslator::generateChordInGraceNotesGroup (S_msrChord chord)
 {
-  generateCodeBeforeChordContents (chord);
+  generateCodeRightBeforeChordContents (chord);
 
   generateCodeForChordContents (chord);
 
-  generateCodeAfterChordContents (chord);
+  generateCodeRightAfterChordContents (chord);
 }
 
 //________________________________________________________________________
@@ -14499,7 +14503,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
 
   fOnGoingChord = true;
 
-  generateCodeBeforeChordContents (elt);
+  generateCodeAHeadOfChordContents (elt);
+
+  generateCodeRightBeforeChordContents (elt);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
@@ -14527,7 +14533,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   }
 #endif
 
-  generateCodeAfterChordContents (elt);
+  generateCodeRightAfterChordContents (elt);
 
   // if the preceding item is a chord, the first note of the chord
   // is used as the reference point for the octave placement

@@ -11,6 +11,7 @@
 */
 
 #include <iomanip>      // setw, setprecision, ...
+#include <regex>
 
 #include "version.h"
 #include "utilities.h"
@@ -132,7 +133,7 @@ void msrDalSegnoAtom::handleValue (
     stringstream s;
 
     s <<
-      "Strong \"" << theString << "\" occurs more that once" <<
+      "Dal segno value \"" << theString << "\" occurs more that once" <<
       "in a '--dal-segno' option";
 
     oahError (s.str ());
@@ -335,6 +336,377 @@ void msrDalSegnoAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_msrDalSegnoAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrReplaceClefAtom msrReplaceClefAtom::create (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<msrClefKind, msrClefKind>&
+                      clefKindClefKindMapVariable)
+{
+  msrReplaceClefAtom* o = new
+    msrReplaceClefAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      clefKindClefKindMapVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrReplaceClefAtom::msrReplaceClefAtom (
+  string              shortName,
+  string              longName,
+  string              description,
+  string              valueSpecification,
+  string              variableName,
+  map<msrClefKind, msrClefKind>&
+                      clefKindClefKindMapVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fClefKindClefKindMapVariable (
+      clefKindClefKindMapVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+msrReplaceClefAtom::~msrReplaceClefAtom ()
+{}
+
+S_oahValuedAtom msrReplaceClefAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrReplaceClefAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void msrReplaceClefAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msrReplaceClefAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the replace clef specification
+  // decipher it to extract the old and new clef names
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> theString = \"" << theString << "\", " <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "(.*)"
+    "="
+    "(.*)");
+//    "[[:space:]]*(.*)[[:space:]]*" JMI
+//    "="
+//    "[[:space:]]*(.*)[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for part transpose string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize == 3) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os << endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-marTransposePart argument '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    originalClefhName    = sm [1],
+    destinationClefhName = sm [2];
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> originalClefhName = \"" << originalClefhName << "\", " <<
+      "--> destinationClefhName = \"" << destinationClefhName << "\"" <<
+      endl;
+  }
+#endif
+
+  // is originalClefhName in the replace clef map?
+  msrClefKind
+    originalClefKind =
+       clefKindFromString (originalClefhName);
+
+  map<msrClefKind, msrClefKind>::iterator
+    it =
+      fClefKindClefKindMapVariable.find (originalClefKind);
+
+  if (it != fClefKindClefKindMapVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Replace clef value \"" << theString << "\" occurs more that once" <<
+      "in a '--dal-segno' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    msrClefKind
+      destinationClefKind =
+         clefKindFromString (destinationClefhName);
+
+    fClefKindClefKindMapVariable [originalClefKind] = destinationClefKind;
+  }
+}
+
+void msrReplaceClefAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrReplaceClefAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrReplaceClefAtom>*
+    p =
+      dynamic_cast<visitor<S_msrReplaceClefAtom>*> (v)) {
+        S_msrReplaceClefAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msrReplaceClefAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrReplaceClefAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrReplaceClefAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrReplaceClefAtom>*
+    p =
+      dynamic_cast<visitor<S_msrReplaceClefAtom>*> (v)) {
+        S_msrReplaceClefAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msrReplaceClefAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrReplaceClefAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrReplaceClefAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msrReplaceClefAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fClefKindClefKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<msrClefKind, msrClefKind>::const_iterator
+      iBegin = fClefKindClefKindMapVariable.begin (),
+      iEnd   = fClefKindClefKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string msrReplaceClefAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fClefKindClefKindMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<msrClefKind, msrClefKind>::const_iterator
+      iBegin = fClefKindClefKindMapVariable.begin (),
+      iEnd   = fClefKindClefKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void msrReplaceClefAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "msrReplaceClefAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "clefKindClefKindMapVariable" << " : " <<
+    endl;
+
+  if (! fClefKindClefKindMapVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<msrClefKind, msrClefKind>::const_iterator
+      iBegin = fClefKindClefKindMapVariable.begin (),
+      iEnd   = fClefKindClefKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        clefKindAsString ((*i).first) <<
+        " --> " <<
+        clefKindAsString ((*i).second);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void msrReplaceClefAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fClefKindClefKindMapVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<msrClefKind, msrClefKind>::const_iterator
+      iBegin = fClefKindClefKindMapVariable.begin (),
+      iEnd   = fClefKindClefKindMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        clefKindAsString ((*i).first) <<
+        "\" --> " <<
+        clefKindAsString ((*i).second) <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrReplaceClefAtom& elt)
 {
   elt->print (os);
   return os;
@@ -583,6 +955,33 @@ R"()",
         this);
 
   appendSubGroupToGroup (subGroup);
+
+  // replace clef
+
+  subGroup->
+    appendAtomToSubGroup (
+      msrReplaceClefAtom::create (
+        "mrc", "msr-replace-clef",
+        replaceSubstringInString (
+          replaceSubstringInString (
+R"(Raplace clef ORIGINAL_CLEF by NEW_CLEF.
+REPLACE_CLEF_SPEC can be:
+'ORIGINAL_CLEF = NEW_CLEF'
+or
+"ORIGINAL_CLEF = NEW_CLEF"
+The single or double quotes are used to allow spaces in the clef names
+and around the '=' sign, otherwise they can be dispensed with.
+The NUMBER clefs available are:
+CLEFS_NAMES.
+There can be several occurrences of this option.)",
+            "NUMBER",
+            to_string (gClefKindsMap.size ())),
+          "CLEFS_NAMES",
+          gIndenter.indentMultiLineString (
+            existingClefKindsNames (K_NAMES_LIST_MAX_LENGTH))),
+        "REPLACE_CLEF_SPEC",
+        "replaceClefMapVariable",
+        fReplaceClefMapVariable));
 
   // the 'ir' prefix
 

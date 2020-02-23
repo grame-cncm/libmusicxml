@@ -18,7 +18,7 @@
 #include "oahBasicTypes.h"
 
 
-//#include "exports.h"
+//#include "msrBasicTypes.h"
 
 
 namespace MusicXML2
@@ -113,6 +113,96 @@ class msrDalSegnoAtom : public oahValuedAtom
 };
 typedef SMARTP<msrDalSegnoAtom> S_msrDalSegnoAtom;
 EXP ostream& operator<< (ostream& os, const S_msrDalSegnoAtom& elt);
+
+//______________________________________________________________________________
+class msrReplaceClefAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrReplaceClefAtom> create (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<msrClefKind, msrClefKind>&
+                          clefKindClefKindMapVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrReplaceClefAtom (
+      string              shortName,
+      string              longName,
+      string              description,
+      string              valueSpecification,
+      string              variableName,
+      map<msrClefKind, msrClefKind>&
+                          clefKindClefKindMapVariable);
+
+    virtual ~msrReplaceClefAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<msrClefKind, msrClefKind>&
+                          getClefKindClefKindMapVariable ()
+                              { return fClefKindClefKindMapVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<msrClefKind, msrClefKind>&
+                          fClefKindClefKindMapVariable;
+};
+typedef SMARTP<msrReplaceClefAtom> S_msrReplaceClefAtom;
+EXP ostream& operator<< (ostream& os, const S_msrReplaceClefAtom& elt);
 
 //______________________________________________________________________________
 class mxmlTreeOah : public oahGroup
@@ -236,6 +326,9 @@ class mxmlTreeOah : public oahGroup
 
     // clefs, keys, times
     // --------------------------------------
+
+    map<msrClefKind, msrClefKind>
+                          fReplaceClefMapVariable;
 
     bool                  fIgnoreRedundantClefs;
     bool                  fIgnoreRedundantKeys;

@@ -25,31 +25,9 @@ namespace MusicXML2
 class msrClef;
 typedef SMARTP<msrClef> S_msrClef;
 
-//______________________________________________________________________________
 class msrClef : public msrMeasureElement
 {
   public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrClefKind {
-      k_NoClef,
-      kTrebleClef,
-      kSopranoClef, kMezzoSopranoClef, kAltoClef, kTenorClef, kBaritoneClef,
-      kBassClef,
-      kTrebleLine1Clef,
-      kTrebleMinus15Clef, kTrebleMinus8Clef,
-      kTreblePlus8Clef, kTreblePlus15Clef,
-      kBassMinus15Clef, kBassMinus8Clef,
-      kBassPlus8Clef, kBassPlus15Clef,
-      kVarbaritoneClef,
-      kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
-      kPercussionClef,
-      kJianpuClef};
-
-    static string clefKindAsString (
-      msrClefKind clefKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -100,9 +78,6 @@ class msrClef : public msrMeasureElement
 
     // services
     // ------------------------------------------------------
-
-    static msrClefKind    clefKindFromString (
-                            string theString);
 
   public:
 

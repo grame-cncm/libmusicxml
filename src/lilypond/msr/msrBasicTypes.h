@@ -14,6 +14,7 @@
 #define ___msrBasicTypes___
 
 #include <vector>
+#include <list>
 #include <map>
 
 #include "smartpointer.h"
@@ -275,6 +276,40 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
   msrSemiTonesPitchKind semiTonesPitch1,
   msrSemiTonesPitchKind semiTonesPitch2);
 
+// clefs
+//______________________________________________________________________________
+
+//______________________________________________________________________________
+// data types
+
+enum msrClefKind {
+  k_NoClef,
+  kTrebleClef,
+  kSopranoClef, kMezzoSopranoClef, kAltoClef, kTenorClef, kBaritoneClef, kBassClef,
+  kTrebleLine1Clef,
+  kTrebleMinus15Clef, kTrebleMinus8Clef, kTreblePlus8Clef, kTreblePlus15Clef,
+  kBassMinus15Clef, kBassMinus8Clef, kBassPlus8Clef, kBassPlus15Clef,
+  kVarbaritoneClef,
+  kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
+  kPercussionClef,
+  kJianpuClef };
+
+string clefKindAsString (
+  msrClefKind clefKind);
+
+msrClefKind clefKindFromString (string theString);
+
+string existingClefKinds (int namesListMaxLength);
+string existingClefKindsNames (int namesListMaxLength);
+
+extern map<string, msrClefKind>
+  gClefKindsMap;
+
+extern list<string>
+  gClefKindsNamesList;
+
+void initializeClefKinds ();
+
 // harmonies
 //______________________________________________________________________________
 enum msrHarmonyKind {
@@ -346,8 +381,8 @@ const int K_HARMONY_NO_INVERSION = -1;
 extern map<string, msrHarmonyKind>
   gHarmonyKindsMap;
 
-//extern list<string>
-//  gHarmonyKindsNamesList;
+extern list<string>
+  gHarmonyKindsNamesList;
 
 void initializeHarmonyKinds ();
 

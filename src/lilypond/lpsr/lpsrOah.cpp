@@ -1098,7 +1098,7 @@ void lpsrDalSegnoAtom::handleValue (
     stringstream s;
 
     s <<
-      "Strong \"" << theString << "\" occurs more that once" <<
+      "Dal segno \"" << theString << "\" occurs more that once" <<
       "in a '--dal-segno' option";
 
     oahError (s.str ());
@@ -1405,7 +1405,7 @@ void lpsrDalSegnoAlFineAtom::handleValue (
     stringstream s;
 
     s <<
-      "Strong \"" << theString << "\" occurs more that once" <<
+      "Dal segno \"" << theString << "\" occurs more that once" <<
       "in a '--dal-segno-al-fine' option";
 
     oahError (s.str ());
@@ -1713,7 +1713,7 @@ void lpsrDalSegnoAlCodaAtom::handleValue (
     stringstream s;
 
     s <<
-      "Strong \"" << theString << "\" occurs more that once" <<
+      "Dal segno al coda value \"" << theString << "\" occurs more that once" <<
       "in a '--dal-segno' option";
 
     oahError (s.str ());

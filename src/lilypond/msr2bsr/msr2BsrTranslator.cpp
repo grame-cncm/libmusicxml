@@ -874,66 +874,66 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
           kClefModifiedTrebleForLeftHandPartKind };
           */
 
-    msrClef::msrClefKind mClefKind = elt->getClefKind ();
+    msrClefKind mClefKind = elt->getClefKind ();
 
     switch (mClefKind) {
-      case msrClef::k_NoClef:
+      case k_NoClef:
         bClefKind = bsrClef::kClefKindNone;
         break;
-      case msrClef::kTrebleClef:
+      case kTrebleClef:
         bClefKind = bsrClef::kClefKindGTreble;
         break;
-      case msrClef::kSopranoClef:
+      case kSopranoClef:
         bClefKind = bsrClef::kClefKindNone;
         break;
-      case msrClef::kMezzoSopranoClef:
+      case kMezzoSopranoClef:
         break;
-      case msrClef::kAltoClef:
+      case kAltoClef:
         bClefKind = bsrClef::kClefKindNone;
         break;
-      case msrClef::kTenorClef:
+      case kTenorClef:
         bClefKind = bsrClef::kClefKindCTenor;
         break;
-      case msrClef::kBaritoneClef:
+      case kBaritoneClef:
         bClefKind = bsrClef::kClefKindCBaritone;
         break;
-      case msrClef::kBassClef:
+      case kBassClef:
         bClefKind = bsrClef::kClefKindFBass;
         break;
-      case msrClef::kTrebleLine1Clef:
+      case kTrebleLine1Clef:
         bClefKind = bsrClef::kClefKindGSoprano;
         break;
-      case msrClef::kTrebleMinus15Clef:
+      case kTrebleMinus15Clef:
         break;
-      case msrClef::kTrebleMinus8Clef:
+      case kTrebleMinus8Clef:
         bClefKind = bsrClef::kClefKindGOttavaBassa; // JMI permute???
         break;
-      case msrClef::kTreblePlus8Clef:
+      case kTreblePlus8Clef:
         bClefKind = bsrClef::kClefKindGOttavaAlta; // JMI permute???
         break;
-      case msrClef::kTreblePlus15Clef:
+      case kTreblePlus15Clef:
         break;
-      case msrClef::kBassMinus15Clef:
+      case kBassMinus15Clef:
         break;
-      case msrClef::kBassMinus8Clef:
+      case kBassMinus8Clef:
         break;
-      case msrClef::kBassPlus8Clef:
+      case kBassPlus8Clef:
         break;
-      case msrClef::kBassPlus15Clef:
+      case kBassPlus15Clef:
         break;
-      case msrClef::kVarbaritoneClef:
+      case kVarbaritoneClef:
         break;
-      case msrClef::kTablature4Clef:
+      case kTablature4Clef:
         break;
-      case msrClef::kTablature5Clef:
+      case kTablature5Clef:
         break;
-      case msrClef::kTablature6Clef:
+      case kTablature6Clef:
         break;
-      case msrClef::kTablature7Clef:
+      case kTablature7Clef:
         break;
-      case msrClef::kPercussionClef:
+      case kPercussionClef:
         break;
-      case msrClef::kJianpuClef:
+      case kJianpuClef:
         break;
     } // switch
 
@@ -942,7 +942,7 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
 
       s <<
         "MSR clef kind '" <<
-        msrClef::clefKindAsString (mClefKind) <<
+        clefKindAsString (mClefKind) <<
         "' is not supported in Braille music";
 
       notSupportedMessage (

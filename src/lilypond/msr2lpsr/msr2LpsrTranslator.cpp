@@ -4287,7 +4287,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
   if (originalVoiceFirstNonGraceNote) {
     if (noteNotesGroupIsAttachedTo == originalVoiceFirstNonGraceNote) {
-      // bug 34 in LilyPond should be worked around by creating
+      // issue #34 in LilyPond should be worked around by creating
       // skip grace notes in the other voices of the part
 
       // create the skip grace notes group
