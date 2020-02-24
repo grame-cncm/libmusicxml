@@ -316,10 +316,7 @@ class msrChord : public msrTupletElement
                               }
 
     // dal segnos
-    void                  appendDalSegnoToChord (S_msrDalSegno dalSegno)
-                              {
-                                fChordDalSegnos.push_back (dalSegno);
-                              }
+    void                  appendDalSegnoToChord (S_msrDalSegno dalSegno);
 
     // codas
     void                  appendCodaToChord (S_msrCoda coda)

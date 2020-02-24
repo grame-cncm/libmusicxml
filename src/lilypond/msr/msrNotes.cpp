@@ -1414,6 +1414,19 @@ void msrNote::setNotePositionInMeasure (
           positionInMeasure);
     } // for
   }
+
+  // are there dal segnos attached to this note?
+  if (fNoteDalSegnos.size ()) {
+    list<S_msrDalSegno>::const_iterator i;
+    for (
+      i=fNoteDalSegnos.begin (); i!=fNoteDalSegnos.end (); i++
+    ) {
+      // set the dal segno position in measure
+      (*i)->
+        setDalSegnoPositionInMeasure (
+          positionInMeasure);
+    } // for
+  }
 }
 
 void msrNote::setNoteOccupiesAFullMeasure ()
@@ -2427,6 +2440,18 @@ void msrNote::appendSegnoToNote (S_msrSegno segno)
 
 void msrNote::appendDalSegnoToNote (S_msrDalSegno dalSegno)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos) {
+    gLogOstream <<
+      "Appending dal segno " <<
+      dalSegno->asShortString () <<
+      " to note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   fNoteDalSegnos.push_back (dalSegno);
 }
 

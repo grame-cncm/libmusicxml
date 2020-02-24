@@ -201,6 +201,9 @@ class msrDalSegno : public msrMeasureElement
     int                   getStaffNumber () const
                               { return fStaffNumber; }
 
+    void                  setDalSegnoPositionInMeasure (
+                            rational positionInMeasure);
+
   public:
 
     // services

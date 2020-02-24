@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <iomanip>      // setw, setprecision, ...
 
 #include "msrSegnosAndCodas.h"
 
@@ -158,6 +159,26 @@ msrDalSegno::msrDalSegno (
 msrDalSegno::~msrDalSegno ()
 {}
 
+void msrDalSegno::setDalSegnoPositionInMeasure (
+  rational positionInMeasure)
+{
+  // set the dal segno position in measure
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Setting dal segno position in measure of " << asString () <<
+      " to '" <<
+      positionInMeasure <<
+      endl;
+  }
+#endif
+
+  msrMeasureElement::setMeasureElementPositionInMeasure (
+    positionInMeasure,
+    "setDalSegnoPositionInMeasure()");
+}
+
 void msrDalSegno::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
@@ -233,11 +254,13 @@ string msrDalSegno::asString () const
   stringstream s;
 
   s <<
-    "DalSegno" <<
+    "[DalSegno" <<
     ", dalSegnoKind: " << dalSegnoKindAsString (fDalSegnoKind) <<
     ", dalSegnoString: \"" << fDalSegnoString << "\"" <<
     ", staffNumber: " << fStaffNumber <<
-    ", line " << fInputLineNumber;
+    ", positionInMeasure: " << fMeasureElementPositionInMeasure <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }
@@ -245,8 +268,29 @@ string msrDalSegno::asString () const
 void msrDalSegno::print (ostream& os) const
 {
   os <<
-    asString () <<
+    "DalSegno" <<
     endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 17;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "dalSegnoKind" << " : " << dalSegnoKindAsString (fDalSegnoKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "dalSegnoString" << " : \"" << fDalSegnoString << "\"" <<
+    "staffNumber" << " : " << fStaffNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
+    endl <<
+    setw (fieldWidth) <<
+    "line" << " : " << fInputLineNumber <<
+    endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrDalSegno& elt)
@@ -336,6 +380,7 @@ string msrHiddenMeasureAndBarline::asString () const
 
   s <<
     "HiddenMeasureAndBarline" <<
+    ", positionInMeasure: " << fMeasureElementPositionInMeasure <<
     ", line " << fInputLineNumber;
 
   return s.str ();

@@ -697,7 +697,7 @@ class msrNote : public msrTupletElement
                             msrAlphaRGBColor noteColor)
                               { fNoteColor = noteColor; }
 
-    msrAlphaRGBColor              getNoteColor () const
+    msrAlphaRGBColor      getNoteColor () const
                               { return fNoteColor; }
 
     // services

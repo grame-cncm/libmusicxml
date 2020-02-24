@@ -198,6 +198,19 @@ void msrChord::setChordMembersPositionInMeasure (
       if (++i == iEnd) break;
     } // for
   }
+
+  // are there dal segnos attached to this chord?
+  if (fChordDalSegnos.size ()) {
+    list<S_msrDalSegno>::const_iterator i;
+    for (
+      i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); i++
+    ) {
+      // set the dal segno position in measure
+      (*i)->
+        setDalSegnoPositionInMeasure (
+          positionInMeasure);
+    } // for
+  }
 }
 
 void msrChord::addFirstNoteToChord (
@@ -289,6 +302,22 @@ S_msrNote msrChord::fetchChordFirstNonGraceNote () const
   }
 
   return result;
+}
+
+void msrChord::appendDalSegnoToChord (S_msrDalSegno dalSegno)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos) {
+    gLogOstream <<
+      "Appending dal segno " <<
+      dalSegno->asShortString () <<
+      " to chord " <<
+      asShortString () <<
+      endl;
+  }
+#endif
+
+  fChordDalSegnos.push_back (dalSegno);
 }
 
 void msrChord::appendArticulationToChord (S_msrArticulation art)

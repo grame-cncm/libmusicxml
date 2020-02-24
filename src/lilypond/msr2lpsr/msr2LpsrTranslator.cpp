@@ -261,7 +261,7 @@ void msr2LpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
   if (fPartHiddenMeasureAndBarlineDescrList.size ()) {
     gIndenter++;
 
-    const int fieldWidth = 21;
+    const int fieldWidth = 19;
 
     list<S_msrHiddenMeasureAndBarlineDescr>::const_iterator
       iBegin = fPartHiddenMeasureAndBarlineDescrList.begin (),
@@ -289,8 +289,6 @@ void msr2LpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
         setw (fieldWidth) <<
         "dalSegno" << " : " <<
         dalSegno <<
-        ", positionInMeasure: " <<
-        dalSegno->getMeasureElementPositionInMeasure () <<
         endl;
       if (++i == iEnd) break;
  // JMI     fLogOutputStream << endl;
@@ -5533,12 +5531,12 @@ void msr2LpsrTranslator::visitStart (S_msrDalSegno& elt)
       inputLineNumber,
        elt));
 
-/* JMI BLARK
+//* JMI BLARK
   fCurrentPartClone->
     insertHiddenMeasureAndBarlineInPartClone (
       inputLineNumber,
       elt->getMeasureElementPositionInMeasure ());
-      */
+     // */
 }
 
 void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
