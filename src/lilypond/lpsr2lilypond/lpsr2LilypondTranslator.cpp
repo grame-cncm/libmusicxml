@@ -14818,6 +14818,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrHiddenMeasureAndBarline& elt)
       endl;
   }
 #endif
+
+  fLilypondCodeOstream <<
+    "\\HiddenMeasureAndBarLine " <<
+    "\\time " <<
+    "4/4 ";
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)

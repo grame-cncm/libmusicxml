@@ -1541,6 +1541,41 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
   gIndenter--;
 }
 
+void msrStaff::insertHiddenMeasureAndBarlineInStaffClone (
+  int      inputLineNumber,
+  rational positionInMeasure)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Inserting hidden measure and barline at position " <<
+      positionInMeasure <<
+      "' in staff clone \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUpLink->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // propagate it to all voices
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++
+  ) {
+    (*i).second-> // JMI msrAssert???
+      insertHiddenMeasureAndBarlineInVoiceClone (
+        inputLineNumber,
+        positionInMeasure);
+  } // for
+
+  gIndenter--;
+}
+
 /* JMI
 void msrStaff::nestContentsIntoNewRepeatInStaff (
   int inputLineNumber)

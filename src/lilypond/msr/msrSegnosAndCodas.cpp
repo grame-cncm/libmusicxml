@@ -17,6 +17,11 @@
 
 #include "msrOah.h"
 
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
+
 
 using namespace std;
 
@@ -254,6 +259,15 @@ ostream& operator<< (ostream& os, const S_msrDalSegno& elt)
 S_msrHiddenMeasureAndBarline msrHiddenMeasureAndBarline::create (
   int inputLineNumber)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Creating hiddenMeasureAndBarline" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   msrHiddenMeasureAndBarline* o =
     new msrHiddenMeasureAndBarline (
       inputLineNumber);

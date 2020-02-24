@@ -434,7 +434,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 }
 
 S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
-  S_msrSegment containingSegment)
+  S_msrSegment containingSegment,
+  string       measureNumber)
 {
   S_msrVoice
     containingSegmentVoiceUpLink =
@@ -465,15 +466,16 @@ S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
     measureCopy =
       msrMeasure::create (
         fInputLineNumber,
-        fMeasureElementMeasureNumber,
+        measureNumber,
         containingSegment);
 
-  // set measureCopy's ordinal number
+  // set measureCopy's ordinal number JMI ???
   measureCopy->
     setMeasureOrdinalNumberInVoice (
       containingSegmentVoiceUpLink->
         incrementVoiceCurrentMeasureOrdinalNumber ());
 
+/* JMI
   // lengthes
   measureCopy->fFullMeasureWholeNotesDuration =
     fFullMeasureWholeNotesDuration;
@@ -492,6 +494,7 @@ S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
   // measure 'first in segment' kind
   measureCopy->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
+*/
 
   // elements
 
@@ -599,10 +602,6 @@ S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
     }
 #endif
   }
-
-  // upLinks
-
-  // fMeasureSegmentUpLink JMI ???
 
   return measureCopy;
 }
@@ -744,10 +743,8 @@ void msrMeasure::insertElementInMeasureBeforeIterator (
     gLogOstream <<
       "Inserting element " <<
       elem->asShortString () <<
-      /* JMI ???
-      " before element " <<
+      " before iterator " <<
       (*iter)->asShortString () <<
-      */
       " in measure " <<
       asShortString () <<
       " in voice \"" <<
@@ -919,6 +916,126 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       "appendElementAtTheEndOfMeasure() 2");
   }
 #endif
+}
+
+void msrMeasure::insertElementAsPositionInMeasure (
+  int                 inputLineNumber,
+  rational            positionInMeasure,
+  S_msrMeasureElement elem)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Inserting element " <<
+      elem->asShortString () <<
+      " at position " <<
+      positionInMeasure <<
+      " in measure " <<
+      asShortString () <<
+      " in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()
+          ->getVoiceName () <<
+      "\", currentMeasureWholeNotesDuration = " <<
+      fCurrentMeasureWholeNotesDuration <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  int
+    measureElementsListSize =
+      fMeasureElementsList.size ();
+
+  if (measureElementsListSize) {
+    list<S_msrMeasureElement>::const_iterator
+      iBegin = fMeasureElementsList.begin (),
+      iEnd   = fMeasureElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrMeasureElement
+        currentElement = (*i);
+
+      rational currentPositionInMeasure =
+        currentElement->
+          getMeasureElementPositionInMeasure ();
+
+      if (positionInMeasure == currentPositionInMeasure) {
+        // insert elem in the measure elements list before (*i)
+        fMeasureElementsList.insert (
+          i, elem);
+      }
+      else if (positionInMeasure >= currentPositionInMeasure) {
+        stringstream s;
+
+        s <<
+          "cannot insert element " <<
+          elem->asShortString () <<
+          " at position " <<
+          positionInMeasure <<
+          " in measure " <<
+          asShortString () <<
+          " in voice \"" <<
+          fMeasureSegmentUpLink->
+            getSegmentVoiceUpLink ()
+              ->getVoiceName () <<
+          "\", currentMeasureWholeNotesDuration = " <<
+          fCurrentMeasureWholeNotesDuration <<
+          " since there's no element at this exact position " <<
+          ", line " << inputLineNumber;
+
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+      if (++i == iEnd) break;
+    } // for
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "cannot insert element " <<
+      elem->asShortString () <<
+      " at position " <<
+      positionInMeasure <<
+      " in measure " <<
+      asShortString () <<
+      " in voice \"" <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()
+          ->getVoiceName () <<
+      "\", currentMeasureWholeNotesDuration = " <<
+      fCurrentMeasureWholeNotesDuration <<
+      " since it is empty" <<
+      ", line " << inputLineNumber;
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // set elem's measure number
+  elem->
+    setMeasureElementMeasureNumber (
+      fMeasureElementMeasureNumber);
+
+  // set elem's position in measure
+  elem->
+    setMeasureElementPositionInMeasure (
+      positionInMeasure,
+      "insertElementAsPositionInMeasure()");
+
+  // account for elem's duration in current measure whole notes
+  incrementCurrentMeasureWholeNotesDuration (
+    inputLineNumber,
+    elem->getMeasureElementSoundingWholeNotes ());
 }
 
 void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
@@ -1248,6 +1365,42 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 
   // append time to the measure elements list
   appendElementToMeasure (time);
+}
+
+void msrMeasure::insertHiddenMeasureAndBarlineInMeasureClone (
+  int      inputLineNumber,
+  rational positionInMeasure)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Inserting hidden measure and barline at position " <<
+      positionInMeasure <<
+      "' in measure clone \"" <<
+      this->asShortString () <<
+      "\" in segment clone '" <<
+      fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
+// JMI      "' in voice \"" <<
+//      voiceUpLink->getVoiceName () <<
+//      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create a hidden measure and barline
+  S_msrHiddenMeasureAndBarline
+    hiddenMeasureAndBarline =
+      msrHiddenMeasureAndBarline::create (
+        inputLineNumber);
+
+/* JMI BLARK
+  // insert it in the measure elements list
+  insertElementAsPositionInMeasure (
+    inputLineNumber,
+    positionInMeasure,
+    hiddenMeasureAndBarline);
+    */
 }
 
 void msrMeasure::setFullMeasureWholeNotesDurationFromTime (

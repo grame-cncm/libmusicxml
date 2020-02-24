@@ -79,6 +79,8 @@ struct mxmlPartGroupDescr : public smartable
     int                   getStopPosition () const
                               { return fStopPosition; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -90,6 +92,8 @@ struct mxmlPartGroupDescr : public smartable
                                 fPartGroup->
                                   getPartGroupCombinedName ();
                               }
+
+  public:
 
     // print
     // ------------------------------------------------------

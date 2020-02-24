@@ -575,6 +575,39 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
   gIndenter--;
 }
 
+void msrSegment::insertHiddenMeasureAndBarlineInSegmentClone (
+  int      inputLineNumber,
+  rational positionInMeasure)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Inserting hidden measure and barline at position " <<
+      positionInMeasure <<
+      "to segment clone " << asString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUpLink->getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // sanity check
+  assertSegmentMeasuresListIsNotEmpty (
+    inputLineNumber);
+
+  // append time to segments's current measure
+  fSegmentMeasuresList.back ()->
+    insertHiddenMeasureAndBarlineInMeasureClone (
+      inputLineNumber,
+      positionInMeasure);
+
+  gIndenter--;
+}
+
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
 #ifdef TRACE_OAH

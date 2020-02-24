@@ -300,6 +300,12 @@ class msrVoice : public msrElement
     void                  appendTimeToVoice (S_msrTime time);
     void                  appendTimeToVoiceClone (S_msrTime time);
 
+    // dal segno
+
+    void                  insertHiddenMeasureAndBarlineInVoiceClone (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
+
     // notes
 
     S_msrNote             fetchVoiceFirstNonGraceNote () const;

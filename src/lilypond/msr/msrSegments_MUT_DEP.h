@@ -118,6 +118,12 @@ class msrSegment : public msrVoiceElement
     void                  appendTimeToSegment (S_msrTime time);
     void                  appendTimeToSegmentClone (S_msrTime time);
 
+    // dal segno
+
+    void                  insertHiddenMeasureAndBarlineInSegmentClone (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
+
     // transpose
 
     void                  appendTransposeToSegment (

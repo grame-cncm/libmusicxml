@@ -35,6 +35,63 @@ using namespace std;
 namespace MusicXML2
 {
 
+//______________________________________________________________________________
+S_msrHiddenMeasureAndBarlineDescr msrHiddenMeasureAndBarlineDescr::create (
+  int           inputLineNumber,
+  S_msrDalSegno dalSegno)
+{
+  msrHiddenMeasureAndBarlineDescr* o = new
+    msrHiddenMeasureAndBarlineDescr (
+      inputLineNumber,
+      dalSegno);
+  assert(o!=0);
+  return o;
+}
+
+msrHiddenMeasureAndBarlineDescr::msrHiddenMeasureAndBarlineDescr (
+  int           inputLineNumber,
+  S_msrDalSegno dalSegno)
+{
+  fInputLineNumber = inputLineNumber;
+  fDalSegno        = dalSegno;
+}
+
+msrHiddenMeasureAndBarlineDescr::~msrHiddenMeasureAndBarlineDescr ()
+{}
+
+string msrHiddenMeasureAndBarlineDescr::hiddenMeasureAndBarlineDescrAsString () const
+{
+  stringstream s;
+
+  s <<
+    "hiddenMeasureAndBarlineDescr" <<
+    ", inputLineNumber: " << fInputLineNumber <<
+    ", dalSegno: " << fDalSegno->asString ();
+
+  return s.str ();
+}
+
+void msrHiddenMeasureAndBarlineDescr::print (ostream& os) const
+{
+  const int fieldWidth = 14;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "inputLineNumber" << " : " <<
+    fInputLineNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "dalSegno" << " : " <<
+    fDalSegno->asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarlineDescr& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (
   indentedOstream& ios,
@@ -192,6 +249,59 @@ void msr2LpsrTranslator::displayCurrentOnGoingValues ()
     endl;
 
   gIndenter--;
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
+{
+  fLogOutputStream <<
+    "fPartHiddenMeasureAndBarlineDescrList:" <<
+    endl;
+
+  if (fPartHiddenMeasureAndBarlineDescrList.size ()) {
+    gIndenter++;
+
+    const int fieldWidth = 21;
+
+    list<S_msrHiddenMeasureAndBarlineDescr>::const_iterator
+      iBegin = fPartHiddenMeasureAndBarlineDescrList.begin (),
+      iEnd   = fPartHiddenMeasureAndBarlineDescrList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_msrHiddenMeasureAndBarlineDescr
+        hiddenMeasureAndBarlineDescr = (*i);
+
+      // sanity check
+      msrAssert (
+        hiddenMeasureAndBarlineDescr != nullptr,
+        "hiddenMeasureAndBarlineDescr is null");
+
+      S_msrDalSegno
+        dalSegno =
+          hiddenMeasureAndBarlineDescr->getDalSegno ();
+
+      fLogOutputStream << left <<
+        setw (fieldWidth) <<
+        "inputLineNumber" << " : " <<
+        hiddenMeasureAndBarlineDescr->getInputLineNumber () <<
+        endl <<
+        setw (fieldWidth) <<
+        "dalSegno" << " : " <<
+        dalSegno <<
+        ", positionInMeasure: " <<
+        dalSegno->getMeasureElementPositionInMeasure () <<
+        endl;
+      if (++i == iEnd) break;
+ // JMI     fLogOutputStream << endl;
+    } // for
+ //   fLogOutputStream << endl;
+
+    gIndenter--;
+  }
+  else {
+    fLogOutputStream << "empty" << endl;
+  }
 }
 
 //________________________________________________________________________
@@ -1366,11 +1476,18 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
     fCurrentPartClone->
       setPartInstrumentAbbreviation (
         partAbbreviation);
-
-    fCurrentPartClone->
-      finalizePartClone (
-        inputLineNumber);
   }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    displayPartHiddenMeasureAndBarlineDescrList ();
+  }
+#endif
+
+  // finalize the current part clone
+  fCurrentPartClone->
+    finalizePartClone (
+      inputLineNumber);
 
   if (fCurrentSkipGraceNotesGroup) {
     // add it ahead of the other voices in the part if needed
@@ -5355,11 +5472,14 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
 
 void msr2LpsrTranslator::visitStart (S_msrDalSegno& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrDalSegno" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -5383,13 +5503,42 @@ void msr2LpsrTranslator::visitStart (S_msrDalSegno& elt)
 
     msrInternalError (
       gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
 
+  // this score needs hiddenMeasureAndBarline
   fLpsrScore->
     setHiddenMeasureAndBarlineIsNeeded ();
+
+/* JMI
+  // create a hidden measure and barline
+  S_msrHiddenMeasureAndBarline
+    hiddenMeasureAndBarline =
+      msrHiddenMeasureAndBarline::create (
+        inputLineNumber);
+
+  // create a hidden measure and barline descr
+  S_msrHiddenMeasureAndBarlineDescr
+    hiddenMeasureAndBarlineDescr =
+      msrHiddenMeasureAndBarlineDescr::create (
+        inputLineNumber,
+        positionInMeasure);
+*/
+
+  // register it in the hidden measure and barline descr list
+  fPartHiddenMeasureAndBarlineDescrList.push_back (
+    msrHiddenMeasureAndBarlineDescr::create (
+      inputLineNumber,
+       elt));
+
+/* JMI BLARK
+  fCurrentPartClone->
+    insertHiddenMeasureAndBarlineInPartClone (
+      inputLineNumber,
+      elt->getMeasureElementPositionInMeasure ());
+      */
 }
 
 void msr2LpsrTranslator::visitStart (S_msrCoda& elt)

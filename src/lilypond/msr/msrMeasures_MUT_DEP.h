@@ -80,7 +80,8 @@ class msrMeasure : public msrElement
       S_msrSegment containingSegment);
 
     SMARTP<msrMeasure> createMeasureCopyWithNotesOnly (
-      S_msrSegment containingSegment);
+      S_msrSegment containingSegment,
+      string       measureNumber);
 
   protected:
 
@@ -297,6 +298,12 @@ class msrMeasure : public msrElement
                             S_msrTime time);
 
     void                  appendTimeToMeasureClone (S_msrTime time);
+
+    // dal segno
+
+    void                  insertHiddenMeasureAndBarlineInMeasureClone (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
 
     // transpose
 
@@ -725,6 +732,11 @@ class msrMeasure : public msrElement
                             S_msrMeasureElement                 elem);
 
     void                  appendElementAtTheEndOfMeasure (
+                            S_msrMeasureElement elem);
+
+    void                  insertElementAsPositionInMeasure (
+                            int                 inputLineNumber,
+                            rational            positionInMeasure,
                             S_msrMeasureElement elem);
 
     void                  printMeasurePendingMeasureElementsList ();

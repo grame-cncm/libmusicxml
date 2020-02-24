@@ -1611,6 +1611,32 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time) // superflous ??? JMI
   gIndenter--;
 }
 
+void msrVoice::insertHiddenMeasureAndBarlineInVoiceClone (
+  int      inputLineNumber,
+  rational positionInMeasure)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Inserting hidden measure and barline at position " <<
+      positionInMeasure <<
+      "' to voice clone \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // append time to the last segment
+  fVoiceLastSegment->
+    insertHiddenMeasureAndBarlineInSegmentClone (
+      inputLineNumber,
+      positionInMeasure);
+
+  gIndenter--;
+}
+
 S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
 {
   S_msrNote result;

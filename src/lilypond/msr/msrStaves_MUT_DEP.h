@@ -200,6 +200,12 @@ class msrStaff : public msrElement
     void                  appendTimeToStaff (S_msrTime time);
     void                  appendTimeToStaffClone (S_msrTime time);
 
+    // dal segno
+
+    void                  insertHiddenMeasureAndBarlineInStaffClone (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
+
     // transpose
 
     void                  appendTransposeToStaff (

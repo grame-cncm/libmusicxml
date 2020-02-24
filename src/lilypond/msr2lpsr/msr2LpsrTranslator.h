@@ -23,6 +23,69 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
+struct msrHiddenMeasureAndBarlineDescr : public smartable
+{
+/*
+ * positions represent the order in which the parts appear in <part-list />
+*/
+
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrHiddenMeasureAndBarlineDescr> create (
+      int           inputLineNumber,
+      S_msrDalSegno dalSegno);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHiddenMeasureAndBarlineDescr (
+      int           inputLineNumber,
+      S_msrDalSegno dalSegno);
+
+    virtual ~msrHiddenMeasureAndBarlineDescr ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getInputLineNumber () const
+                              { return fInputLineNumber; }
+
+    S_msrDalSegno         getDalSegno () const
+                              { return fDalSegno; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    string                hiddenMeasureAndBarlineDescrAsString () const;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    int                   fInputLineNumber;
+    S_msrDalSegno         fDalSegno;
+};
+typedef SMARTP<msrHiddenMeasureAndBarlineDescr> S_msrHiddenMeasureAndBarlineDescr;
+EXP ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarlineDescr& elt);
+
+//________________________________________________________________________
 class msr2LpsrTranslator :
 
   public visitor<S_msrScore>,
@@ -570,6 +633,14 @@ class msr2LpsrTranslator :
     S_msrVoice                fCurrentVoiceClone;
     S_msrVoice                fCurrentVoiceOriginal;
     map<S_msrNote, S_msrNote> fVoiceNotesMap; // JMI
+
+    // dal segnos
+    // ------------------------------------------------------
+
+    list<S_msrHiddenMeasureAndBarlineDescr>
+                              fPartHiddenMeasureAndBarlineDescrList;
+
+    void                      displayPartHiddenMeasureAndBarlineDescrList ();
 
 
     // harmonies

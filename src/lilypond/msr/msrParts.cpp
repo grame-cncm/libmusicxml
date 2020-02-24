@@ -719,6 +719,41 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
   gIndenter--;
 }
 
+void msrPart::insertHiddenMeasureAndBarlineInPartClone (
+  int      inputLineNumber,
+  rational positionInMeasure)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Inserting hidden measure and barline at position " <<
+      positionInMeasure <<
+      "' in part clone " << getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // propagate it to all staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++
+  ) {
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
+      insertHiddenMeasureAndBarlineInStaffClone (
+        inputLineNumber,
+        positionInMeasure);
+  } // for
+
+  gIndenter--;
+}
+
 void msrPart::appendTransposeToPart (
   S_msrTranspose transpose)
 {

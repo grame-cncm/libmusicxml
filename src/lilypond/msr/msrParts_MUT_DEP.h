@@ -267,6 +267,12 @@ class msrPart : public msrPartGroupElement
     void                  appendTimeToPart (S_msrTime time);
     void                  appendTimeToPartClone (S_msrTime time);
 
+    // dal segno
+
+    void                  insertHiddenMeasureAndBarlineInPartClone (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
+
     // transpose
 
     void                  appendTransposeToPart (
