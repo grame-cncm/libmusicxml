@@ -373,6 +373,8 @@ class traceOah : public oahGroup
     bool                  fTraceRehearsals;
     // segnos
     bool                  fTraceSegnos;
+    // dal segnos
+    bool                  fTraceDalSegnos;
     // codas
     bool                  fTraceCodas;
     // eyeglases

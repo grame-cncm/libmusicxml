@@ -642,6 +642,8 @@ class msr2LpsrTranslator :
 
     void                      displayPartHiddenMeasureAndBarlineDescrList ();
 
+    void                      handlePartHiddenMeasureAndBarlineDescrList ();
+
 
     // harmonies
     // ------------------------------------------------------

@@ -2898,7 +2898,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
               fCurrentDirectionStaffNumber);
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceWords || gTraceOah->fTraceSegnos) {
+        if (gTraceOah->fTraceWords || gTraceOah->fTraceDalSegnos) {
           fLogOutputStream <<
             "Converting words '" <<
             wordsValue <<
@@ -14965,7 +14965,7 @@ void mxmlTree2MsrTranslator::copyNoteDalSegnosToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceSegnos) {
+    if (gTraceOah->fTraceDalSegnos) {
       fLogOutputStream <<
         "Copying dal degno '" <<
         (*i)->asShortString () <<
@@ -16076,7 +16076,7 @@ void mxmlTree2MsrTranslator::attachPendingDalSegnosToNote (
  // attach the pending dal segno if any to the note
   if (fPendingDalSegnosList.size ()) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceSegnos) {
+    if (gTraceOah->fTraceDalSegnos) {
       fLogOutputStream <<
         "Attaching pending dal segno to note " <<
         note->asString () <<
@@ -16103,7 +16103,7 @@ void mxmlTree2MsrTranslator::attachPendingDalSegnosToChord (
  // attach the pending dal segno if any to the chord
   if (fPendingDalSegnosList.size ()) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceSegnos) {
+    if (gTraceOah->fTraceDalSegnos) {
       fLogOutputStream <<
         "Attaching pending dal segno to chord " <<
         chord->asString () <<

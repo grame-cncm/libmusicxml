@@ -290,15 +290,50 @@ void msr2LpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
         "dalSegno" << " : " <<
         dalSegno <<
         endl;
+
       if (++i == iEnd) break;
- // JMI     fLogOutputStream << endl;
     } // for
- //   fLogOutputStream << endl;
 
     gIndenter--;
   }
   else {
     fLogOutputStream << "empty" << endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
+{
+  fLogOutputStream <<
+    "fPartHiddenMeasureAndBarlineDescrList:" <<
+    endl;
+
+  if (fPartHiddenMeasureAndBarlineDescrList.size ()) {
+    list<S_msrHiddenMeasureAndBarlineDescr>::const_iterator
+      iBegin = fPartHiddenMeasureAndBarlineDescrList.begin (),
+      iEnd   = fPartHiddenMeasureAndBarlineDescrList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_msrHiddenMeasureAndBarlineDescr
+        hiddenMeasureAndBarlineDescr = (*i);
+
+      // sanity check
+      msrAssert (
+        hiddenMeasureAndBarlineDescr != nullptr,
+        "hiddenMeasureAndBarlineDescr is null");
+
+      S_msrDalSegno
+        dalSegno =
+          hiddenMeasureAndBarlineDescr->getDalSegno ();
+
+      fCurrentPartClone->
+        insertHiddenMeasureAndBarlineInPartClone (
+          hiddenMeasureAndBarlineDescr->getInputLineNumber (),
+          dalSegno->getMeasureElementPositionInMeasure ());
+
+      if (++i == iEnd) break;
+    } // for
   }
 }
 
@@ -1476,17 +1511,21 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
         partAbbreviation);
   }
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
-    displayPartHiddenMeasureAndBarlineDescrList ();
-  }
-#endif
-
   // finalize the current part clone
   fCurrentPartClone->
     finalizePartClone (
       inputLineNumber);
 
+  // handle the hidden measure and barline elements
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceDalSegnos || gTraceOah->fTracePositionsInMeasures) {
+    displayPartHiddenMeasureAndBarlineDescrList ();
+  }
+#endif
+
+  // JMI handlePartHiddenMeasureAndBarlineDescrList ();
+
+  // handle skip grace notes if needed
   if (fCurrentSkipGraceNotesGroup) {
     // add it ahead of the other voices in the part if needed
     fCurrentPartClone->

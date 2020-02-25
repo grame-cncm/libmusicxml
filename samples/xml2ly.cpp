@@ -40,6 +40,8 @@
 
 #include "lpsr2LilypondInterface.h"
 
+#include "msr2MxmltreeInterface.h"
+
 
 using namespace std;
 
@@ -209,8 +211,8 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
 
 //_______________________________________________________________________________
 void displayMsrScore_OptionalPass (
-  S_msrScore   mScore,
-  S_msrOah msrOpts)
+  S_msrScore mScore,
+  S_msrOah   msrOpts)
 {
   // display the MSR
   displayMSRPopulatedScore (
@@ -288,9 +290,9 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
 
 //_______________________________________________________________________________
 void displayLpsrScore_OptionalPass (
-  S_lpsrScore   lpScore,
-  S_msrOah  msrOpts,
-  S_lpsrOah lpsrOpts)
+  S_lpsrScore lpScore,
+  S_msrOah    msrOpts,
+  S_lpsrOah   lpsrOpts)
 {
   // display it
   displayLpsrScore (
@@ -319,7 +321,7 @@ void displayLpsrScore_OptionalPass (
 
 //_______________________________________________________________________________
 void convertLpsrScoreToLilypondCode_Pass4 (
-  string     outputFileName,
+  string      outputFileName,
   S_lpsrScore lpScore)
 {
   int outputFileNameSize = outputFileName.size ();
@@ -362,7 +364,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
       // create an indented output stream for the LilyPond code
       // to be written to outFileStream
       indentedOstream
-        brailleCodeFileOutputStream (
+        lilypondCodeFileOutputStream (
           outFileStream,
           gIndenter);
 
@@ -372,7 +374,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         gMsrOah,
         gLpsrOah,
         gLogOstream,
-        brailleCodeFileOutputStream);
+        lilypondCodeFileOutputStream);
     }
 
     else {
@@ -434,9 +436,76 @@ void convertLpsrScoreToLilypondCode_Pass4 (
 }
 
 //_______________________________________________________________________________
-void convertMusicXMLToLilypond (
-  string     inputSourceName,
+void convertMsrScoreToMusicXMLScore_Loop (
+  S_msrScore mScore,
   string     outputFileName)
+{
+  string mxmlOutputFileName = outputFileName + ".xml";
+
+  // open output file if need be
+  // ------------------------------------------------------
+
+  ofstream outFileStream;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    gLogOstream <<
+      "Opening file '" << outputFileName << "' for writing" <<
+      endl;
+  }
+#endif
+
+  outFileStream.open (
+    outputFileName.c_str(),
+    ofstream::out);
+
+  if (! outFileStream.is_open ()) {
+    gLogOstream <<
+      "Could not open LilyPond output file \"" <<
+      outputFileName <<
+      "\" for writing, exiting" <<
+      endl;
+
+    exit (9);
+  }
+
+  // create an indented output stream for the LilyPond code
+  // to be written to outFileStream
+  indentedOstream
+    musicXMLCodeFileOutputStream (
+      outFileStream,
+      gIndenter);
+
+  // convert the MSR score to an mxmltree
+  Sxmlelement
+    mxmltree =
+      buildMxmltreeFromMsrScore (
+        mScore,
+        gMsrOah,
+        gLogOstream);
+
+	SXMLFile f = TXMLFile::create ();
+	f->set (new TXMLDecl ("1.0", "UTF-8", TXMLDecl::kNo));
+	f->set (new TDocType ("score-partwise"));
+	f->set (mxmltree);
+	f->print (outFileStream);
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    gLogOstream <<
+      endl <<
+      "Closing file '" << outputFileName << "'" <<
+      endl;
+  }
+#endif
+
+  outFileStream.close ();
+}
+
+//_______________________________________________________________________________
+void convertMusicXMLToLilypond (
+  string inputSourceName,
+  string outputFileName)
 {
   // create the mxmxTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
@@ -544,6 +613,14 @@ void convertMusicXMLToLilypond (
   convertLpsrScoreToLilypondCode_Pass4 (
     outputFileName,
     lpScore);
+
+  // create MusicXML back from the MSR if requested
+  // ------------------------------------------------------
+  if (gMxmlTreeOah->fLoopToMusicXML) {
+    convertMsrScoreToMusicXMLScore_Loop (
+      mScore,
+      outputFileName);
+  }
 }
 
 //_______________________________________________________________________________

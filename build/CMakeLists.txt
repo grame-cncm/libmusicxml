@@ -96,7 +96,7 @@ set (SAMPLEDIR ${ROOT}/samples)
 set (SRCFOLDERS  factory files elements guido lib operations parser visitors interface)
 
 if (LILY OR BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/msr2mxmltree lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr interface/lilypond/msr2mxmltree)
 endif()
 
 if (LILY)

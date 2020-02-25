@@ -2441,13 +2441,12 @@ void msrNote::appendSegnoToNote (S_msrSegno segno)
 void msrNote::appendDalSegnoToNote (S_msrDalSegno dalSegno)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegnos) {
+  if (gTraceOah->fTraceDalSegnos) {
     gLogOstream <<
       "Appending dal segno " <<
       dalSegno->asShortString () <<
-      " to note '" <<
+      " to note " <<
       asShortString () <<
-      "'" <<
       endl;
   }
 #endif

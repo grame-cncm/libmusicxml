@@ -724,7 +724,7 @@ void msrPart::insertHiddenMeasureAndBarlineInPartClone (
   rational positionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegnos || gTraceOah->fTracePositionsInMeasures) {
+  if (gTraceOah->fTraceDalSegnos || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Inserting hidden measure and barline at position " <<
       positionInMeasure <<

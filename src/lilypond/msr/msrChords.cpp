@@ -307,7 +307,7 @@ S_msrNote msrChord::fetchChordFirstNonGraceNote () const
 void msrChord::appendDalSegnoToChord (S_msrDalSegno dalSegno)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegnos) {
+  if (gTraceOah->fTraceDalSegnos) {
     gLogOstream <<
       "Appending dal segno " <<
       dalSegno->asShortString () <<

@@ -182,6 +182,25 @@ R"(Segnos)",
     addBooleanAtom (
       traceSegnosAtom);
 
+  // dal segnos
+
+  fTraceDalSegnos = boolOptionsInitialValue;
+
+  S_oahTwoBooleansAtom
+    traceDalSegnosAtom =
+      oahTwoBooleansAtom::create (
+        "tdalsegnos", "trace-dal-segnos",
+R"(Dal segnos)",
+        "traceDalSegnos",
+        fTraceDalSegnos,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceDalSegnosAtom);
+  aboveStaffMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceDalSegnosAtom);
+
   // codas
 
   fTraceCodas = boolOptionsInitialValue;
@@ -2475,6 +2494,9 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   // segnos
   clone->fTraceSegnos = true;
 
+  // dal segnos
+  clone->fTraceDalSegnos = true;
+
   // codas
   clone->fTraceCodas = true;
 
@@ -2700,6 +2722,9 @@ void traceOah::setAllGeneralTraceOah (
 
   // segnos
   fTraceSegnos = boolOptionsInitialValue;
+
+  // dal segnos
+  fTraceDalSegnos = boolOptionsInitialValue;
 
   // codas
   fTraceCodas = boolOptionsInitialValue;
@@ -3200,6 +3225,11 @@ void traceOah::printAtomOptionsValues (
     booleanAsString (fTraceSegnos) <<
     endl <<
 
+    // dal segnos
+    setw (valueFieldWidth) << "traceDalSegnos" << " : " <<
+    booleanAsString (fTraceDalSegnos) <<
+    endl <<
+
     // codas
     setw (valueFieldWidth) << "traceCodas" << " : " <<
     booleanAsString (fTraceCodas) <<
@@ -3636,6 +3666,11 @@ void traceOah::printTraceOahValues (int fieldWidth)
     // segnos
     setw (fieldWidth) << "traceSegnos" << " : " <<
     booleanAsString (fTraceSegnos) <<
+    endl <<
+
+    // dal segnos
+    setw (fieldWidth) << "ftraceDalSegnos" << " : " <<
+    booleanAsString (fTraceDalSegnos) <<
     endl <<
 
     // codas
