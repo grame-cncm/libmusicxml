@@ -2376,15 +2376,15 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
                 s << "position=" << "\"below\"";
                 tag->add (guidoparam::create(s.str(), false));
                 
-                // XML reports distance from top of staff, Guido needs from bottom in Inverted mode. This is offset 8
-                xml2guidovisitor::addPosY(nv.fFermata, tag, 8, 1.0);
-            }else{
-                float noteDistanceFromTopStaff = getNoteDistanceFromStaffTop(nv);
-                // Do not infer fermata position if note is above top of the staff. Let guido do it
-                if (noteDistanceFromTopStaff < 2) {
-                    xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
-                }
+                // We don't add dY since GuidoLib resolves collisions between articulations.
             }
+//            else{
+//                float noteDistanceFromTopStaff = getNoteDistanceFromStaffTop(nv);
+//                // Do not infer fermata position if note is above top of the staff. Let guido do it
+//                if (noteDistanceFromTopStaff < 2) {
+//                    xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
+//                }
+//            }
             push(tag);
             return 1;
         }
