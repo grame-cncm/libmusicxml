@@ -1238,7 +1238,7 @@ R"()",
       oahBooleanAtom::create (
         "loop", "loop-to-musicxml",
 R"(Close the loop, generating a MusicXML file from the MSR.
-The file name receives a '_loop' suffix. Currently under development.)",
+The file name receives a '_LOOP.xml' suffix. Currently under development.)",
         "loopToMusicXML",
         fLoopToMusicXML);
   loopOptionsBooleanAtom->

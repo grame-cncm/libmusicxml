@@ -34,6 +34,8 @@
 #include "msrOah.h"
 #include "lilypondOah.h"
 
+#include "mxmlTree.h"
+
 
 using namespace std;
 
@@ -56,53 +58,16 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
     fVisitedMsrScore->
       createScoreNewbornClone ();
 
-  // create the current mxmltree
-  fMxmltree =
-	  factory::instance().create(k_score_partwise);
+  // create the current score part-wise element
+  fMxmltree = createScorePartWiseElement ();
 
-/* JMI
-	SXMLFile f = TXMLFile::create();
-	f->set( new TXMLDecl("1.0", "UTF-8", TXMLDecl::kNo));
-	f->set( new TDocType("score-partwise"));
-	f->set( randomMusic(count) );
-	f->print(cout);
-*/
+  // create the part list element
+  fPartListElement = createElement (k_part_list, "");
+
+  // append it to the mxmlTree
+  fMxmltree->push (fPartListElement);
 
 /*
-
-//------------------------------------------------------------------------
-static Sxmlattribute newAttribute(const string& name, const string& value)
-{
-	Sxmlattribute attribute = xmlattribute::create();
-	attribute->setName(name);
-	attribute->setValue(value);
-	return attribute;
-}
-
-//------------------------------------------------------------------------
-static Sxmlattribute newAttributeI(const string& name, int value)
-{
-	Sxmlattribute attribute = xmlattribute::create();
-	attribute->setName(name);
-	attribute->setValue(value);
-	return attribute;
-}
-
-//------------------------------------------------------------------------
-static Sxmlelement newElement(int type, const string& value)
-{
-	Sxmlelement elt = factory::instance().create(type);
-	elt->setValue (value);
-	return elt;
-}
-
-//------------------------------------------------------------------------
-static Sxmlelement newElementI(int type, int value)
-{
-	Sxmlelement elt = factory::instance().create(type);
-	elt->setValue (value);
-	return elt;
-}
 
 //------------------------------------------------------------------------
 static Sxmlelement makeAttributes() {
@@ -746,6 +711,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
         currentPartGroup);
   }
 }
+*/
 
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
@@ -754,6 +720,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
     elt->getInputLineNumber ();
 
   string
+    partID =
+      elt->getPartID (),
     partCombinedName =
       elt->getPartCombinedName ();
 
@@ -779,7 +747,25 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
   gIndenter++;
 
-  // create a part clone
+  // create a part element
+  fCurrentPartElement = createElement (k_part, "");
+
+  // set its "id" attribute
+	fCurrentPartElement->add (createAttribute ("id", partID));
+
+  // append it to the mxmltree
+  fMxmltree->push (fCurrentPartElement);
+
+  // create a score part element
+  Sxmlelement scorePartElement = createElement (k_score_part, "");
+
+  // set it's "id" attribute
+  scorePartElement->add (createAttribute ("id", partID));
+
+  // append it to the part list wkwnwbr
+  fPartListElement->push (scorePartElement);
+
+/*
   fCurrentPartClone =
     elt->createPartNewbornClone (
       fPartGroupsStack.top ());
@@ -799,6 +785,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
   fPartGroupsStack.top ()->
     appendPartToPartGroup (fCurrentPartClone);
+    */
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -818,52 +805,11 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
   }
 #endif
 
-  string
-    partInstrumentAbbreviation =
-      fCurrentPartClone->
-        getPartInstrumentAbbreviation ();
-
-  // populate part instrument short name if empty and possible
-  if (partInstrumentAbbreviation.size () == 0) {
-    string
-      partAbbreviation =
-        elt->getPartAbbreviation ();
-
-    fCurrentPartClone->
-      setPartInstrumentAbbreviation (
-        partAbbreviation);
-  }
-
-  // finalize the current part clone
-  fCurrentPartClone->
-    finalizePartClone (
-      inputLineNumber);
-
-  // handle the hidden measure and barline elements
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceDalSegnos || gTraceOah->fTracePositionsInMeasures) {
-    displayPartHiddenMeasureAndBarlineDescrList ();
-  }
-#endif
-
-  // JMI handlePartHiddenMeasureAndBarlineDescrList ();
-
-  // handle skip grace notes if needed
-  if (fCurrentSkipGraceNotesGroup) {
-    // add it ahead of the other voices in the part if needed
-    fCurrentPartClone->
-      addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
-        fCurrentVoiceClone,
-        fCurrentSkipGraceNotesGroup);
-
-    // forget about this skip grace notes group
-    fCurrentSkipGraceNotesGroup = nullptr;
-  }
-
-  // forget about the current part block
-  fCurrentPartBlock = nullptr;
+  // forget about the current part element
+  fCurrentPartElement = nullptr;
 }
 
+/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
@@ -1634,7 +1580,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrFiguredBass& elt)
 
   fCurrentFiguredBassClone = nullptr;
 }
-
+*/
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 {
@@ -1675,90 +1621,14 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
-  // create a clone of the measure
-  fCurrentMeasureClone =
-    elt->
-      createMeasureNewbornClone (
-        fCurrentSegmentClone);
-/ * JMI
-  // is this a full measures rest?
-  if (elt->getMeasureIsAFullMeasureRest ()) {
-    // yes
+  // create a measure element
+  fCurrentMeasureElement = createElement (k_measure, "");
 
-    // should we compress full measures rests?
-    if (gLilypondOah->fCompressFullMeasureRests) {
-      // yes
+  // set its "number" attribute
+	fCurrentMeasureElement->add (createAttribute ("number", measureNumber));
 
-      if (! fCurrentRestMeasure) {
-        // this is the first full measure rest in the sequence
-
-        // create a rest measures  containing fCurrentMeasureClone
-        fCurrentRestMeasures =
-          msrRestMeasures::create (
-            inputLineNumber,
-            fCurrentMeasureClone,
-            fCurrentVoiceClone);
-
-/ * JMI
-        // append the current rest measures to the current voice clone
-        fCurrentVoiceClone->
-          appendRestMeasuresToVoice (
-            inputLineNumber,
-            fCurrentRestMeasures);
-            * /
-      }
-
-      else {
-        // this is a subsequent full measure rest, merely append it
-        fCurrentRestMeasures->
-          appendMeasureCloneToRestMeasures (
-            fCurrentMeasureClone);
-      }
-
-      fCurrentRestMeasure = fCurrentMeasureClone;
-    }
-
-    else {
-      // no
-
-      // append current measure clone to the current voice clone
-      fCurrentVoiceClone->
-        appendMeasureCloneToVoiceClone (
-          inputLineNumber,
-          fCurrentMeasureClone);
-    }
-  }
-
-  else {
-    // no
-
-    // append current measure clone to the current voice clone
-    fCurrentVoiceClone->
-      appendMeasureCloneToVoiceClone (
-        inputLineNumber,
-        fCurrentMeasureClone);
-  }
-  * /
-
-  // append current measure clone to the current voice clone
-  fCurrentVoiceClone->
-    appendMeasureCloneToVoiceClone (
-      inputLineNumber,
-      fCurrentMeasureClone);
-
-  // JMI superflous???
-  fCurrentPartClone->
-    setPartCurrentMeasureNumber (
-      measureNumber);
-
-  // should the last bar check's measure purist number be set?
-  if (fLastBarCheck) {
-    fLastBarCheck->
-      setNextBarPuristNumber (
-        measurePuristNumber);
-
-    fLastBarCheck = nullptr;
-  }
+  // append it to the current part element
+  fCurrentPartElement->push (fCurrentMeasureElement);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
@@ -1792,154 +1662,10 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
   }
 #endif
 
-  fCurrentMeasureClone->
-    finalizeMeasureClone (
-      inputLineNumber,
-      elt, // original measure
-      fCurrentVoiceClone);
-
-  bool doCreateABarCheck = false;
-
-  switch (elt->getMeasureKind ()) {
-    case msrMeasure::kMeasureKindUnknown:
-      {
-        stringstream s;
-
-        s <<
-          "measure '" << measureNumber <<
-          "' in voice \"" <<
-          elt->
-            fetchMeasureVoiceUpLink ()->
-              getVoiceName () <<
-          "\" is of unknown kind in msr2MxmltreeTranslator";
-
-      // JMI  msrInternalError (
-        msrInternalWarning (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-  //        __FILE__, __LINE__,
-          s.str ());
-      }
-      break;
-
-    case msrMeasure::kMeasureKindRegular:
-      doCreateABarCheck = true;
-      break;
-
-    case msrMeasure::kMeasureKindAnacrusis:
-      doCreateABarCheck = true;
-      break;
-
-    case msrMeasure::kMeasureKindIncompleteStandalone:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
-      // generate a bar check if relevant
-      switch (elt-> getMeasureEndRegularKind ()) {
-        case msrMeasure::kMeasureEndRegularKindUnknown:
-          break;
-        case msrMeasure::kMeasureEndRegularKindYes:
-          doCreateABarCheck = true;
-          break;
-        case msrMeasure::kMeasureEndRegularKindNo:
-          break;
-      } // switch
-      break;
-
-    case msrMeasure::kMeasureKindOvercomplete:
-      doCreateABarCheck = true;
-      break;
-
-    case msrMeasure::kMeasureKindCadenza:
-      doCreateABarCheck = true;
-      break;
-
-    case msrMeasure::kMeasureKindMusicallyEmpty:
-      // JMI
-      break;
-  } // switch
-
-  // is this a full measures rest?
-  if (elt->getMeasureIsAFullMeasureRest ()) {
-    // yes JMI
-  }
-
-  else {
-    // no
-
-    // should we compress full measures rests?
-    if (gLilypondOah->fCompressFullMeasureRests) {
-      // yes
-
-      if (fCurrentRestMeasures) {
-        // append the current rest measures to the current voice clone
-        fCurrentVoiceClone->
-          appendRestMeasuresToVoice (
-            inputLineNumber,
-            fCurrentRestMeasures);
-
-        // forget about the current rest measure
-        fCurrentRestMeasure = nullptr;
-
-        // forget about the current rest measures
-        fCurrentRestMeasures = nullptr;
-      }
-
-      else {
-        stringstream s;
-
-        s <<
-          "fCurrentRestMeasures is null upon full measure rest end" <<
-          measureNumber <<
-          "', measurePuristNumber = '" <<
-          measurePuristNumber <<
-          "', line " << inputLineNumber;
-
-/ * JMI ???
-        msrInternalError (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-          * /
-      }
-    }
-  }
-
-  if (doCreateABarCheck) {
-    // create a bar check
-    int voiceCurrentMeasurePuristNumber =
-      fCurrentVoiceClone->
-        getVoiceCurrentMeasurePuristNumber ();
-
-    fLastBarCheck =
-      msrBarCheck::createWithNextBarPuristNumber (
-        inputLineNumber,
-        nextMeasureNumber,
-        voiceCurrentMeasurePuristNumber);
-
-    // append it to the current voice clone
-    fCurrentVoiceClone->
-      appendBarCheckToVoice (fLastBarCheck);
-
-    // create a bar number check
-    // should NOT be done in cadenza, SEE TO IT JMI
-    S_msrBarNumberCheck
-      barNumberCheck_ =
-        msrBarNumberCheck::create (
-          inputLineNumber,
-          nextMeasureNumber,
-          voiceCurrentMeasurePuristNumber);
-
-    // append it to the current voice clone
-    fCurrentVoiceClone->
-      appendBarNumberCheckToVoice (barNumberCheck_);
-  }
+  // forget about the current measure element
+  fCurrentMeasureElement = nullptr;
 }
-
+/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrStanza& elt)
 {
@@ -3806,7 +3532,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   }
   * /
 }
-
+*/
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 {
@@ -3821,109 +3547,17 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   }
 #endif
 
-  // create the note clone
-  S_msrNote
-    noteClone =
-      elt->createNoteNewbornClone (
-        fCurrentPartClone);
+  // create a note element
+  Sxmlelement noteElement = createElement (k_note, "");
 
-  // register clone in this tranlastors' voice notes map
-  fVoiceNotesMap [elt] = noteClone; // JMI XXL
-
-  // don't register grace notes as the current note clone,
-  // but as the current grace note clone instead
-/ * JMI
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes) {
-          fLogOutputStream <<
-            "The first note of voice clone GFFF '" <<
-            fCurrentVoiceClone->getVoiceName () <<
-            "' is '";
-
-          if (fFirstNoteCloneInVoice) {
-            fLogOutputStream <<
-              fFirstNoteCloneInVoice->asShortString () const;
-          }
-          else {
-            fLogOutputStream <<
-              "none";
-          }
-          fLogOutputStream <<
-             "'" <<
-            endl;
-        }
-#endif
-* /
-
-  switch (elt->getNoteKind ()) {
-    case msrNote::kGraceNote:
-    case msrNote::kGraceChordMemberNote:
-    case msrNote::kGraceTupletMemberNote:
-      fCurrentGraceNoteClone = noteClone;
-      break;
-
-    default:
-      fCurrentNonGraceNoteClone = noteClone;
-
-      if (! fFirstNoteCloneInVoice) {
-        fFirstNoteCloneInVoice =
-          fCurrentNonGraceNoteClone;
-
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes) {
-          fLogOutputStream <<
-            "The first note of voice clone RJIRWR '" <<
-            fCurrentVoiceClone->getVoiceName () <<
-            "' is '" <<
-            fFirstNoteCloneInVoice->asShortString () <<
-             "'" <<
-            endl;
-        }
-#endif
-      }
-
-      fOnGoingNonGraceNote = true;
-  } // switch
-
-/ * JMI
-  // can we optimize graceNotesGroup into afterGraceNotesGroup?
-  if (
-    elt->getNoteIsFollowedByGraceNotesGroup ()
-      &&
-    elt->getNoteTrillOrnament ()) {
-    // yes, create the after grace notes
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotesGroup) {
-      fLogOutputStream <<
-        "Optimizing grace notes on trilled note '" <<
-        elt->asShortString () <<
-        "' as after grace notes " <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    fPendingAfterGraceNotesGroup =
-      msrAfterGraceNotesGroup::create (
-        inputLineNumber,
-        fCurrentNonGraceNoteClone,
-        false, // aftergracenoteIsSlashed, may be updated later
-        fCurrentVoiceClone);
-
-    // register current afterGraceNotesGroup element
-    fCurrentAfterGraceNotesGroupElement =
-      fCurrentNonGraceNoteClone;
-  }
-* /
+  // append it to the current measure element
+  fCurrentMeasureElement->push (noteElement);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-
-  msrNote::msrNoteKind
-    noteKind = elt->getNoteKind ();
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
@@ -3934,410 +3568,8 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 #endif
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesDetails) {
-    fLogOutputStream <<
-      "FAA fCurrentNonGraceNoteClone = " <<
-      endl;
-    if (fCurrentNonGraceNoteClone) {
-      fLogOutputStream <<
-        fCurrentNonGraceNoteClone;
-    }
-    else {
-      fLogOutputStream <<
-        "nullptr" <<
-        endl;
-    }
-
-    fLogOutputStream <<
-      "FAA fCurrentGraceNoteClone = " <<
-      endl;
-    if (fCurrentGraceNoteClone) {
-      fLogOutputStream <<
-        fCurrentGraceNoteClone;
-    }
-    else {
-      fLogOutputStream <<
-        "nullptr" <<
-        endl;
-    }
-  }
-#endif
-
-  switch (noteKind) {
-
-    case msrNote::k_NoNoteKind:
-      break;
-
-    case msrNote::kRestNote:
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
-        fLogOutputStream <<
-          "Appending rest note clone '" <<
-          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-      }
-#endif
-
-      fCurrentVoiceClone->
-        appendNoteToVoiceClone (
-          fCurrentNonGraceNoteClone);
-      break;
-
-    case msrNote::kSkipNote: // JMI
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
-        fLogOutputStream <<
-          "Appending skip note clone '" <<
-          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-      }
-#endif
-
-      fCurrentVoiceClone->
-        appendNoteToVoiceClone (
-          fCurrentNonGraceNoteClone);
-      break;
-
-    case msrNote::kUnpitchedNote:
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
-        fLogOutputStream <<
-          "Appending unpitched note clone '" <<
-          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-      }
-#endif
-
-      fCurrentVoiceClone->
-        appendNoteToVoiceClone (
-          fCurrentNonGraceNoteClone);
-      break;
-
-    case msrNote::kRegularNote:
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
-        fLogOutputStream <<
-          "Appending regular note clone '" <<
-          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-      }
-#endif
-
-      fCurrentVoiceClone->
-        appendNoteToVoiceClone (
-          fCurrentNonGraceNoteClone);
-      break;
-
-    case msrNote::kDoubleTremoloMemberNote:
-      if (fOnGoingDoubleTremolo) {
-
-        if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceNotes) {
-            fLogOutputStream <<
-              "Setting note '" <<
-              fCurrentNonGraceNoteClone->asString () <<
-              "', line " << fCurrentNonGraceNoteClone->getInputLineNumber () <<
-              ", as double tremolo first element" <<
-              " in voice \"" <<
-              fCurrentVoiceClone->getVoiceName () <<
-              "\"" <<
-              endl;
-          }
-#endif
-
-          fCurrentDoubleTremoloClone->
-            setDoubleTremoloNoteFirstElement (
-              fCurrentNonGraceNoteClone);
-        }
-
-        else if (fCurrentNonGraceNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceNotes) {
-            fLogOutputStream <<
-              "Setting note '" <<
-              fCurrentNonGraceNoteClone->asString () <<
-              "', line " << fCurrentNonGraceNoteClone->getInputLineNumber () <<
-              ", as double tremolo second element" <<
-              " in voice \"" <<
-              fCurrentVoiceClone->getVoiceName () <<
-              "\"" <<
-              endl;
-          }
-#endif
-
-          fCurrentDoubleTremoloClone->
-            setDoubleTremoloNoteSecondElement (
-              fCurrentNonGraceNoteClone);
-        }
-
-        else {
-          stringstream s;
-
-          s <<
-            "note '" << fCurrentNonGraceNoteClone->asShortString () <<
-            "' belongs to a double tremolo, but is not marked as such";
-
-          msrInternalError (
-            gOahOah->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
-      }
-
-      else {
-        stringstream s;
-
-        s <<
-          "double tremolo note '" << fCurrentNonGraceNoteClone->asShortString () <<
-          "' found outside of a double tremolo";
-
-        msrInternalError (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
-      break;
-
-    case msrNote::kGraceNote:
-    / * JMI
-      fLogOutputStream <<
-        "fOnGoingGraceNotesGroup = " <<
-        booleanAsString (
-          fOnGoingGraceNotesGroup) <<
-        endl;
-        * /
-
-      if (! fOnGoingGraceNotesGroup) {
-        stringstream s;
-
-        s <<
-          "grace note '" << fCurrentNonGraceNoteClone->asShortString () <<
-          "' found outside of grace notes";
-
-        msrInternalError (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
-      else {
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes) {
-          fLogOutputStream <<
-            "Appending grace note '" <<
-            fCurrentGraceNoteClone->asShortString () <<
-            "' to the grace notes group'" <<
-            fCurrentGraceNotesGroupClone->asShortString () <<
-            "' in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-#endif
-
-        fCurrentGraceNotesGroupClone->
-          appendNoteToGraceNotesGroup (
-            fCurrentGraceNoteClone);
-      }
-
-    / * JMI ???
-      if (fCurrentGraceNotesGroupClone) {
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes) {
-          fLogOutputStream <<
-            "Appending note '" <<
-            fCurrentNonGraceNoteClone->asShortString () <<
-            "' to the grace notes in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-#endif
-
-        fCurrentGraceNotesClone->
-          appendNoteToGraceNotes (
-            fCurrentNonGraceNoteClone);
-      }
-
-      else if (fPendingAfterGraceNotes) {
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes) {
-          fLogOutputStream <<
-            "Appending note '" <<
-            fCurrentNonGraceNoteClone->asShortString () <<
-            "' to the after grace notes in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-#endif
-
-        fPendingAfterGraceNotes->
-          appendNoteToAfterGraceNotesContents (
-            fCurrentNonGraceNoteClone);
-      }
-
-      else {
-        stringstream s;
-
-        s <<
-          "both fCurrentGraceNoteGroupsClone and fPendingAfterGraceNoteGroup are null," <<
-          endl <<
-          "cannot handle grace note'" <<
-          elt->asString () <<
-          "'";
-
-        msrInternalError (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
-      * /
-      break;
-
-    case msrNote::kChordMemberNote:
-      if (fOnGoingChord) {
-        fCurrentChordClone->
-          addAnotherNoteToChord (
-            fCurrentNonGraceNoteClone,
-            fCurrentVoiceClone);
-      }
-
-      else {
-        stringstream s;
-
-        s <<
-          "msr2MxmltreeTranslator:::visitEnd (S_msrNote& elt): chord member note " <<
-          elt->asString () <<
-          " appears outside of a chord";
-
-        msrInternalError (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-        }
-      break;
-
-    case msrNote::kGraceChordMemberNote:
-      if (fOnGoingChord) {
-        fCurrentChordClone->
-          addAnotherNoteToChord (
-            fCurrentGraceNoteClone,
-            fCurrentVoiceClone);
-      }
-
-      else {
-        stringstream s;
-
-        s <<
-          "msr2MxmltreeTranslator:::visitEnd (S_msrNote& elt): chord member note " <<
-          elt->asString () <<
-          " appears outside of a chord";
-
-        msrInternalError (
-          gOahOah->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-        }
-      break;
-
-    case msrNote::kTupletMemberNote:
-    case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletMemberUnpitchedNote:
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
-        fLogOutputStream <<
-          "Appending note clone '" <<
-          fCurrentNonGraceNoteClone->asShortString () << "'' to voice clone " <<
-          fCurrentVoiceClone->getVoiceName () <<
-          endl;
-      }
-#endif
-
-      fTupletClonesStack.top ()->
-        addNoteToTuplet (
-          fCurrentNonGraceNoteClone,
-          fCurrentVoiceClone);
-      break;
-  } // switch
-
-  // handle editorial accidentals
-  switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
-    case msrNote::kNoteEditorialAccidentalYes:
-      fMxmltree->
-        // this score needs the 'editorial accidental' Scheme function
-        setEditorialAccidentalSchemeFunctionIsNeeded ();
-      break;
-    case msrNote::kNoteEditorialAccidentalNo:
-      break;
-  } // switch
-
-  // handle cautionary accidentals
-  switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
-    case msrNote::kNoteCautionaryAccidentalYes:
-      break;
-    case msrNote::kNoteCautionaryAccidentalNo:
-      break;
-  } // switch
-
-/ * JMI
-  // handle melisma
-  msrSyllable::msrSyllableExtendKind
-    noteSyllableExtendKind =
-      elt->getNoteSyllableExtendKind ();
-
-  switch (noteSyllableExtendKind) {
-    case msrSyllable::kStandaloneSyllableExtend:
-      {
-        / * JMI ???
-        // create melisma start command
-        S_lpsrMelismaCommand
-          melismaCommand =
-            lpsrMelismaCommand::create (
-              inputLineNumber,
-              lpsrMelismaCommand::kMelismaStart);
-
-        // append it to current voice clone
-        fCurrentVoiceClone->
-          appendOtherElementToVoice (melismaCommand);
-
-        // append
-        * /
-
-        fOnGoingSyllableExtend = true;
-      }
-      break;
-    case msrSyllable::kStartSyllableExtend:
-      break;
-    case msrSyllable::kContinueSyllableExtend:
-      break;
-    case msrSyllable::kStopSyllableExtend:
-      break;
-    case msrSyllable::k_NoSyllableExtend:
-      break;
-  } // switch
-* /
-
-  switch (noteKind) {
-    case msrNote::kGraceNote:
-    case msrNote::kGraceChordMemberNote:
-    case msrNote::kGraceTupletMemberNote:
-      break;
-
-    default:
-      fOnGoingNonGraceNote = false;
-  } // switch
 }
-
+/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrOctaveShift& elt)
 {

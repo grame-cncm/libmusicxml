@@ -275,10 +275,10 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrPartGroup& elt);
     virtual void visitEnd   (S_msrPartGroup& elt);
-
+*/
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
-
+/*
     virtual void visitStart (S_msrStaffTuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
     virtual void visitEnd   (S_msrStaffDetails& elt);
@@ -333,10 +333,10 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrFiguredBass& elt);
     virtual void visitEnd   (S_msrFiguredBass& elt);
     virtual void visitStart (S_msrFigure& elt);
-
+*/
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
-
+/*
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 
@@ -388,10 +388,10 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrGraceNotesGroup& elt);
     virtual void visitEnd   (S_msrGraceNotesGroup& elt);
-
+*/
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
-
+/*
     virtual void visitStart (S_msrOctaveShift& elt);
     virtual void visitEnd   (S_msrOctaveShift& elt);
 
@@ -532,8 +532,10 @@ class msr2MxmltreeTranslator :
 
     // parts
     // ------------------------------------------------------
-    S_msrPart                 fCurrentPartClone;
-    S_lpsrPartBlock           fCurrentPartBlock;
+
+    Sxmlelement               fPartListElement;
+
+    Sxmlelement               fCurrentPartElement;
 
 
     // staff details
@@ -585,7 +587,8 @@ class msr2MxmltreeTranslator :
 
     // measures
     // ------------------------------------------------------
-    S_msrMeasure              fCurrentMeasureClone;
+    Sxmlelement               fCurrentMeasureElement;
+    Sxmlelement               fCurrentMeasureAttributesElement;
 
     // full measure rests compression
     S_msrMeasure              fCurrentRestMeasure;

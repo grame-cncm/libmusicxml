@@ -42,6 +42,8 @@
 
 #include "msr2MxmltreeInterface.h"
 
+#include "mxmlTree.h"
+
 
 using namespace std;
 
@@ -440,8 +442,6 @@ void convertMsrScoreToMusicXMLScore_Loop (
   S_msrScore mScore,
   string     outputFileName)
 {
-  string mxmlOutputFileName = outputFileName + ".xml";
-
   // open output file if need be
   // ------------------------------------------------------
 
@@ -484,11 +484,14 @@ void convertMsrScoreToMusicXMLScore_Loop (
         gMsrOah,
         gLogOstream);
 
-	SXMLFile f = TXMLFile::create ();
-	f->set (new TXMLDecl ("1.0", "UTF-8", TXMLDecl::kNo));
-	f->set (new TDocType ("score-partwise"));
-	f->set (mxmltree);
-	f->print (outFileStream);
+  // create the MusicXML data
+	SXMLFile xmlFile = createXMLFile ();
+
+	// insert the mxmlTree into it
+  xmlFile->set (mxmltree);
+
+	// write the MusicXML data to the output file stream
+	xmlFile->print (outFileStream);
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePasses) {
@@ -619,7 +622,10 @@ void convertMusicXMLToLilypond (
   if (gMxmlTreeOah->fLoopToMusicXML) {
     convertMsrScoreToMusicXMLScore_Loop (
       mScore,
-      outputFileName);
+      replaceSubstringInString (
+        outputFileName,
+        ".ly",
+        "_LOOP.xml"));
   }
 }
 
