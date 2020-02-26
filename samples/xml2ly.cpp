@@ -492,6 +492,7 @@ void convertMsrScoreToMusicXMLScore_Loop (
 
 	// write the MusicXML data to the output file stream
 	xmlFile->print (outFileStream);
+	outFileStream << endl;
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePasses) {

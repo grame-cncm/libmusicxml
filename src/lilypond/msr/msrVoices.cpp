@@ -340,6 +340,18 @@ void msrVoice::appendSegmentToVoiceClone ( //JMI VIRER???
   }
 }
 
+void msrVoice::setVoiceShortestNoteDuration (
+  rational duration)
+{
+  fVoiceShortestNoteDuration = duration;
+}
+
+void msrVoice::setVoiceShortestNoteTupletFactor (
+  rational noteTupletFactor)
+{
+  fVoiceShortestNoteTupletFactor = noteTupletFactor;
+}
+
 void msrVoice::initializeVoice (
   msrVoiceCreateInitialLastSegmentKind
     voiceCreateInitialLastSegmentKind)
@@ -1760,9 +1772,15 @@ void msrVoice::registerShortestNoteIfRelevant (S_msrNote note)
 
   if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
     fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+    /* JMI
+    fVoiceShortestNoteTupletFactor =
+      note->
+        getfVoiceShortestNoteTupletFactor ();
+        */
   }
-  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
-    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) { // JMI
+//    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
   }
 }
 
@@ -9130,6 +9148,21 @@ void msrVoice::finalizeVoice (
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
+  }
+
+  // set part shortest note duration if relevant
+  S_msrPart
+    voicePart =
+      fetchVoicePartUpLink ();
+
+  rational
+    partShortestNoteDuration =
+      voicePart->
+        getPartShortestNoteDuration ();
+
+  if (fVoiceShortestNoteDuration < partShortestNoteDuration) {
+      voicePart->
+        setPartShortestNoteDuration (fVoiceShortestNoteDuration);
   }
 
   // is this voice totally empty? this should be rare...

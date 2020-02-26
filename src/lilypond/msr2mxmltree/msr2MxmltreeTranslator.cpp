@@ -722,6 +722,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   string
     partID =
       elt->getPartID (),
+    partName =
+      elt->getPartName (),
     partCombinedName =
       elt->getPartCombinedName ();
 
@@ -749,43 +751,44 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
   // create a part element
   fCurrentPartElement = createElement (k_part, "");
-
   // set its "id" attribute
 	fCurrentPartElement->add (createAttribute ("id", partID));
-
   // append it to the mxmltree
   fMxmltree->push (fCurrentPartElement);
 
   // create a score part element
   Sxmlelement scorePartElement = createElement (k_score_part, "");
-
   // set it's "id" attribute
   scorePartElement->add (createAttribute ("id", partID));
-
-  // append it to the part list wkwnwbr
+  // append it to the part list element
   fPartListElement->push (scorePartElement);
 
-/*
-  fCurrentPartClone =
-    elt->createPartNewbornClone (
-      fPartGroupsStack.top ());
+  // create a part name element
+  Sxmlelement partNameElement = createElement (k_part_name, partName);
+  // append it to the score part element
+  scorePartElement->push (partNameElement);
 
-  // add it to the partGroup clone
+  // set divisions
+  rational
+    partShortestNoteDuration =
+      elt->getPartShortestNoteDuration (),
+    partShortestNoteTupletFactor =
+      elt->getPartShortestNoteTupletFactor ();
+
+  fDivisionsPerQuarterNote =
+    rational (1, 4)
+      /
+    partShortestNoteDuration;
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceParts) {
     fLogOutputStream <<
-      "Adding part clone " <<
-      fCurrentPartClone->getPartCombinedName () <<
-      " to part group clone \"" <<
-      fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-      "\"" <<
+      "-->  partShortestNoteDuration: " << partShortestNoteDuration <<
+      "-->  partShortestNoteTupletFactor: " << partShortestNoteTupletFactor <<
+      "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
       endl;
   }
 #endif
-
-  fPartGroupsStack.top ()->
-    appendPartToPartGroup (fCurrentPartClone);
-    */
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -1621,12 +1624,18 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
+  // create a comment
+  stringstream s;
+  s <<
+    " ===== " << "FOO" << " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+  // append it to the current part element
+  fCurrentPartElement->push (comment);
+
   // create a measure element
   fCurrentMeasureElement = createElement (k_measure, "");
-
   // set its "number" attribute
 	fCurrentMeasureElement->add (createAttribute ("number", measureNumber));
-
   // append it to the current part element
   fCurrentPartElement->push (fCurrentMeasureElement);
 }
@@ -3553,6 +3562,14 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   // append it to the current measure element
   fCurrentMeasureElement->push (noteElement);
 }
+
+/*
+#include "musicxmlfactory.h"
+
+void sortvisitor::visitStart( S_note& elt )
+	{ std::sort (elt->elements().begin(), elt->elements().end(), xmlorder(gNoteOrder, elt)); }
+
+*/
 
 void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
 {

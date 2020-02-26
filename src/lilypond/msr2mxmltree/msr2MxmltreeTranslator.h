@@ -493,6 +493,10 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fMxmltree;
 
 
+    // divisions
+    // ------------------------------------------------------
+    int                       fDivisionsPerQuarterNote;
+
     // its header
     // ------------------------------------------------------
     S_lpsrHeader              fCurrentLpsrScoreHeader;

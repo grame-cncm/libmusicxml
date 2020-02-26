@@ -218,6 +218,22 @@ class msrPart : public msrPartGroupElement
     rational              getPartCurrentPositionInMeasure () const
                               { return fPartCurrentPositionInMeasure; }
 
+    // voice shortest note
+
+    void                  setPartShortestNoteDuration (
+                            rational duration)
+                              { fPartShortestNoteDuration = duration; }
+
+    rational              getPartShortestNoteDuration () const
+                              { return fPartShortestNoteDuration; }
+
+    void                  setPartShortestNoteTupletFactor (
+                            rational noteTupletFactor)
+                              { fPartShortestNoteTupletFactor = noteTupletFactor; }
+
+    rational              getPartShortestNoteTupletFactor () const
+                              { return fPartShortestNoteTupletFactor; }
+
   public:
 
     // public services
@@ -515,6 +531,14 @@ class msrPart : public msrPartGroupElement
     S_msrKey              fPartCurrentKey;
 
     S_msrTime             fPartCurrentTime;
+
+    // part shortest note
+
+    // fPartShortestNoteDuration and fPartShortestNoteTupletFactor
+    // are used to compute a number of divisions per quarter note
+    // if needed, such as when generating MusicXML from MSR
+    rational              fPartShortestNoteDuration;
+    rational              fPartShortestNoteTupletFactor;
 
     // transpose
 

@@ -176,8 +176,14 @@ class msrVoice : public msrElement
 
     // voice shortest note
 
+    void                  setVoiceShortestNoteDuration (
+                            rational duration);
+
     rational              getVoiceShortestNoteDuration () const
                               { return fVoiceShortestNoteDuration; }
+
+    void                  setVoiceShortestNoteTupletFactor (
+                            rational noteTupletFactor);
 
     rational              getVoiceShortestNoteTupletFactor () const
                               { return fVoiceShortestNoteTupletFactor; }
@@ -1009,12 +1015,13 @@ class msrVoice : public msrElement
 
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
-    rational              fVoiceShortestNoteDuration;
+
+    // part shortest note
 
     // fVoiceShortestNoteDuration and fVoiceShortestNoteTupletFactor
     // are used to compute a number of divisions per quarter note
     // if needed, such as when generating MusicXML from MSR
-    rational              fVoiceShorftestNoteDuration;
+    rational              fVoiceShortestNoteDuration;
     rational              fVoiceShortestNoteTupletFactor;
 
     // repeats

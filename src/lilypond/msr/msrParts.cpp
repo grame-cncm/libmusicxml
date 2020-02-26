@@ -109,6 +109,10 @@ void msrPart::initializePart ()
   // current position in measure
   fPartCurrentPositionInMeasure = rational (0,0);
 
+  // part shortest note duration
+  fPartShortestNoteDuration     = rational (INT_MAX, 1);
+  fPartShortestNoteTupletFactor = rational (1, 1);
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceParts) {
     gLogOstream <<
@@ -2197,7 +2201,7 @@ void msrPart::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const int fieldWidth = 28;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2334,6 +2338,14 @@ void msrPart::print (ostream& os) const
     os << endl;
   }
 #endif
+
+  os << left <<
+    setw (fieldWidth) << "partShortestNoteDuration" << " : " <<
+    fPartShortestNoteDuration <<
+    endl <<
+    setw (fieldWidth) << "partShortestNoteTupletFactor" << " : " <<
+    fPartShortestNoteTupletFactor <<
+    endl;
 
   // print the part harmonies staff if any
   os << left <<
