@@ -768,7 +768,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   // create a comment
   stringstream s;
   s <<
-    " ===== " << "PART" << "\"" << partID << "\"" << " ===== ";
+    " ==================== " << "PART" << " \"" << partID << "\"" << " ==================== ";
   Sxmlelement comment = createElement (kComment, s.str ());
   // append it to the mxmltree
   fMxmltree->push (comment);
@@ -874,7 +874,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   // create a comment
   stringstream s;
   s <<
-    " ===== " << "MEASURE" << " ===== ";
+    " ------------------------- " << "MEASURE" << " ------------------------- ";
   Sxmlelement comment = createElement (kComment, s.str ());
   // append it to the current part element
   fCurrentPartElement->push (comment);
@@ -931,6 +931,109 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
 
   // forget about the current measure element
   fCurrentMeasureElement = nullptr;
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrClef" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  switch (elt->getClefKind ()) {
+    case k_NoClef:
+      break;
+    case kTrebleClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        fCurrentPartAttributes->push (clefElement);
+      }
+      break;
+    case kSopranoClef:
+      break;
+    case kMezzoSopranoClef:
+      break;
+    case kAltoClef:
+      break;
+    case kTenorClef:
+      break;
+    case kBaritoneClef:
+      break;
+    case kBassClef:
+      break;
+    case kTrebleLine1Clef:
+      break;
+    case kTrebleMinus15Clef:
+      break;
+    case kTrebleMinus8Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        fCurrentPartAttributes->push (clefElement);
+      }
+      break;
+    case kTreblePlus8Clef:
+      break;
+    case kTreblePlus15Clef:
+      break;
+    case kBassMinus15Clef:
+      break;
+    case kBassMinus8Clef:
+      break;
+    case kBassPlus8Clef:
+      break;
+    case kBassPlus15Clef:
+      break;
+    case kVarbaritoneClef:
+      break;
+
+    case kTablature4Clef:
+    case kTablature5Clef:
+    case kTablature6Clef:
+    case kTablature7Clef:
+      break;
+
+    case kPercussionClef:
+      break;
+    case kJianpuClef:
+      break;
+  } // switch
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrClef& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrClef" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
 }
 
 //________________________________________________________________________
@@ -2237,34 +2340,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSyllable& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSyllable" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrClef" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  fCurrentVoiceClone->
-    appendClefToVoice (elt);
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrClef& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrClef" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

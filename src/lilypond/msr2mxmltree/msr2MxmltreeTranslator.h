@@ -296,10 +296,10 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrSyllable& elt);
     virtual void visitEnd   (S_msrSyllable& elt);
+*/
 
     virtual void visitStart (S_msrClef& elt);
     virtual void visitEnd   (S_msrClef& elt);
-*/
     virtual void visitStart (S_msrKey& elt);
     virtual void visitEnd   (S_msrKey& elt);
 /*
