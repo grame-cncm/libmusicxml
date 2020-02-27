@@ -12,7 +12,8 @@
 
 #include <sstream>
 #include <climits>      // INT_MIN, INT_MAX
-#include <algorithm>    // for_each
+#include <iomanip>      // setw, setprecision, ...
+//#include <algorithm>    // for_each
 
 #include "conversions.h"
 
@@ -767,7 +768,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   // create a comment
   stringstream s;
   s <<
-    " ===== " << "PART" << " ===== ";
+    " ===== " << "PART" << "\"" << partID << "\"" << " ===== ";
   Sxmlelement comment = createElement (kComment, s.str ());
   // append it to the mxmltree
   fMxmltree->push (comment);
@@ -779,32 +780,31 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   // append it to the mxmltree
   fMxmltree->push (fCurrentPartElement);
 
-  // compute the divisions per quarter note
-  rational
-    partShortestNoteDuration =
-      elt->getPartShortestNoteDuration (),
-    partShortestNoteTupletFactor =
-      elt->getPartShortestNoteTupletFactor ();
+  // get the part shortest note's duration and tuplet factor
+  fPartShortestNoteDuration =
+    elt->getPartShortestNoteDuration (),
+  fPartShortestNoteTupletFactor =
+    elt->getPartShortestNoteTupletFactor ();
 
+  // compute the divisions per quarter note
   fDivisionsPerQuarterNote =
     rational (1, 4)
       /
-    partShortestNoteDuration;
+    fPartShortestNoteDuration;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceParts) {
+  if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "-->  partShortestNoteDuration: " << partShortestNoteDuration <<
-      "-->  partShortestNoteTupletFactor: " << partShortestNoteTupletFactor <<
+      "-->  partShortestNoteDuration: " << fPartShortestNoteDuration <<
+      "-->  partShortestNoteTupletFactor: " << fPartShortestNoteTupletFactor <<
       "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
       endl;
   }
 #endif
 
   // create a divisions element
-  Sxmlelement
-    fCurrentDivisionsElement =
-      createIntegerElement (k_divisions, fDivisionsPerQuarterNote);
+  fCurrentDivisionsElement =
+    createIntegerElement (k_divisions, fDivisionsPerQuarterNote);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -934,6 +934,54 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrKey" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  switch (elt->getKeyKind ()) {
+    case msrKey::kTraditionalKind:
+      {
+        Sxmlelement keyElement = createElement (k_key, "");
+
+        keyElement->push (
+          createElement (
+            k_fifths,
+            "4"));
+        keyElement->push (
+          createElement (
+            k_mode,
+            "major"));
+
+        fCurrentPartAttributes->push (keyElement);
+      }
+      break;
+    case msrKey::kHumdrumScotKind:
+      {
+      }
+      break;
+  } // switch
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrKey& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrKey" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 {
   int inputLineNumber =
@@ -954,15 +1002,23 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   msrQuarterTonesPitchKind
     noteQuarterTonesPitchKind = elt->getNoteQuarterTonesPitchKind ();
 
-  msrDiatonicPitchKind
-    noteDiatonicPitchKind =
-      diatonicPitchKindFromQuarterTonesPitchKind (
-        inputLineNumber,
-        noteQuarterTonesPitchKind);
+  msrDiatonicPitchKind noteDiatonicPitchKind;
+  msrAlterationKind    noteAlterationKind;
+
+  fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
+    inputLineNumber,
+    noteQuarterTonesPitchKind,
+    noteDiatonicPitchKind,
+    noteAlterationKind);
 
   int
     noteOctave     = elt->getNoteOctave (),
     noteDotsNumber = elt->getNoteDotsNumber ();
+
+  float
+    noteMusicXMLAlter =
+      msrMusicXMLAlterFromAlterationKind (
+        noteAlterationKind);
 
   rational
     noteSoundingWholeNotes =
@@ -973,6 +1029,18 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   msrDurationKind
     noteGraphicDurationKind =
       elt->getNoteGraphicDurationKind ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "-->  noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
+      "-->  noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
+      "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
+      "-->  noteDiatonicPitchKind: " << msrDiatonicPitchKindAsString (noteDiatonicPitchKind) <<
+      "-->  noteGraphicDurationKind: " << msrDurationKindAsType (noteGraphicDurationKind) <<
+      endl;
+  }
+#endif
 
   // create a note element
   Sxmlelement noteElement = createElement (k_note, "");
@@ -986,6 +1054,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
       break;
 
     case msrNote::kRestNote:
+      noteElement->push (createElement (k_rest, ""));
       break;
 
     case msrNote::kSkipNote:
@@ -996,12 +1065,23 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 
     case msrNote::kRegularNote:
       {
+        // create the pitch element
         Sxmlelement pitchElement = createElement (k_pitch, "");
 
         pitchElement->push (
           createElement (
             k_step,
             msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
+
+        if (noteMusicXMLAlter != 0.0) {
+          stringstream s;
+          s << setprecision (2) << noteMusicXMLAlter;
+          pitchElement->push (
+            createElement (
+              k_alter,
+              s.str ()));
+        }
+
         pitchElement->push (
           createIntegerElement (
             k_octave,
@@ -1036,7 +1116,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   // create the duration attribute
   rational
     durationAsRational =
-      noteSoundingWholeNotes / fDivisionsPerQuarterNote;
+      noteSoundingWholeNotes / fPartShortestNoteDuration;
   durationAsRational.rationalise ();
 
 #ifdef TRACE_OAH
@@ -1065,7 +1145,26 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   noteElement->push (
     createIntegerElement (
       k_duration,
-      durationAsRational.getNumerator () * 4));
+      durationAsRational.getNumerator ()));
+
+  // create the voice attribute if relevant
+  S_msrVoice
+    noteVoice =
+      elt->
+        getNoteMeasureUpLink ()->
+          getMeasureSegmentUpLink ()->
+            getSegmentVoiceUpLink ();
+  int
+    voiceNumber =
+      noteVoice->
+        getVoiceNumber ();
+
+  if (voiceNumber != 1) {
+    noteElement->push (
+      createIntegerElement (
+        k_voice,
+        voiceNumber));
+  }
 
   // create the type attribute
   noteElement->push (
@@ -1073,8 +1172,12 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
       k_type,
       msrDurationKindAsType (noteGraphicDurationKind)));
 
-
-
+  // create the dots attributes if relevant
+  for (int i = 0; i < noteDotsNumber; i++) {
+    noteElement->push (
+      createElement (
+        k_dot, ""));
+  } // for
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
@@ -1088,6 +1191,73 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
       "--> End visiting msrNote " <<
       elt->asString () <<
       ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
+{
+#ifdef TRACE_OAH
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+#endif
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrBarline" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  switch (elt->getBarlineStyleKind ()) {
+    case msrBarline::kBarlineStyleNone:
+      break;
+    case msrBarline::kBarlineStyleRegular:
+      break;
+    case msrBarline::kBarlineStyleDotted:
+      break;
+    case msrBarline::kBarlineStyleDashed:
+      break;
+    case msrBarline::kBarlineStyleHeavy:
+      break;
+    case msrBarline::kBarlineStyleLightLight:
+      break;
+    case msrBarline::kBarlineStyleLightHeavy:
+      {
+        Sxmlelement barlineElement = createElement (k_barline, "");
+
+        barlineElement->add (createAttribute ("location", "right"));
+
+        barlineElement->push (
+          createElement (
+            k_bar_style,
+            "light-heavy"));
+
+        fCurrentMeasureElement->push (barlineElement);
+      }
+      break;
+    case msrBarline::kBarlineStyleHeavyLight:
+      break;
+    case msrBarline::kBarlineStyleHeavyHeavy:
+      break;
+    case msrBarline::kBarlineStyleTick:
+      break;
+    case msrBarline::kBarlineStyleShort:
+      break;
+  } // switch
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrBarline& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrBarline" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 #endif
@@ -2095,34 +2265,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrClef& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrClef" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrKey" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  fCurrentVoiceClone->
-    appendKeyToVoice (elt);
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrKey& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrKey" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4955,84 +5097,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   fCurrentVoiceClone->
     handleMeasuresRepeatReplicasEndInVoiceClone (
       inputLineNumber);
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
-{
-#ifdef TRACE_OAH
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-#endif
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrBarline" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarlines) {
-    fLogOutputStream <<
-      "Handling '" <<
-      msrBarline::barlineCategoryKindAsString (
-        elt->getBarlineCategory ()) <<
-      "' in voice \"" <<
-      fCurrentVoiceClone->getVoiceName () << "\"" <<
-      endl;
-  }
-#endif
-
-  switch (elt->getBarlineStyleKind ()) {
-    case msrBarline::kBarlineStyleNone:
-      break;
-    case msrBarline::kBarlineStyleRegular:
-      break;
-    case msrBarline::kBarlineStyleDotted:
-      break;
-    case msrBarline::kBarlineStyleDashed:
-      break;
-    case msrBarline::kBarlineStyleHeavy:
-      break;
-    case msrBarline::kBarlineStyleLightLight:
-      break;
-    case msrBarline::kBarlineStyleLightHeavy:
-      break;
-    case msrBarline::kBarlineStyleHeavyLight:
-      break;
-    case msrBarline::kBarlineStyleHeavyHeavy:
-      break;
-    case msrBarline::kBarlineStyleTick:
-      break;
-    case msrBarline::kBarlineStyleShort:
-      fMxmltree->
-        // this score needs the 'custom short barline' Scheme function
-        setCustomShortBarlineSchemeFunctionIsNeeded ();
-      break;
-      / * JMI
-    case msrBarline::kBarlineStyleNone:
-      break;
-      * /
-  } // switch
-
-  // append the barline to the current voice clone
-  fCurrentVoiceClone->
-    appendBarlineToVoice (elt);
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrBarline& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrBarline" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
 }
 
 //________________________________________________________________________

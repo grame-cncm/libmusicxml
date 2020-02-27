@@ -299,10 +299,10 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrClef& elt);
     virtual void visitEnd   (S_msrClef& elt);
-
+*/
     virtual void visitStart (S_msrKey& elt);
     virtual void visitEnd   (S_msrKey& elt);
-
+/*
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
 
@@ -419,10 +419,10 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrLigature& elt);
     virtual void visitEnd   (S_msrLigature& elt);
-
+*/
     virtual void visitStart (S_msrBarline& elt);
     virtual void visitEnd   (S_msrBarline& elt);
-
+/*
     virtual void visitStart (S_msrSegno& elt);
     virtual void visitStart (S_msrDalSegno& elt);
     virtual void visitStart (S_msrCoda& elt);
@@ -498,6 +498,9 @@ class msr2MxmltreeTranslator :
 
     // divisions
     // ------------------------------------------------------
+    rational                  fPartShortestNoteDuration;
+    rational                  fPartShortestNoteTupletFactor;
+
     int                       fDivisionsPerQuarterNote;
     Sxmlelement               fCurrentDivisionsElement;
 

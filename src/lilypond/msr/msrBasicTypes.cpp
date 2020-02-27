@@ -621,10 +621,10 @@ string msrDurationKindAsType (msrDurationKind durationKind)
       result = "64th";
       break;
     case k32nd:
-      result = "32th";
+      result = "32nd";
       break;
     case k16th:
-      result = "16nd";
+      result = "16th";
       break;
     case kEighth:
       result = "8th";
@@ -11294,6 +11294,8 @@ string msrQuarterTonesPitchesLanguageKindAsString (
   return result;
 }
 
+// alterations
+//______________________________________________________________________________
 msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   float alter)
 {
@@ -11356,8 +11358,54 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   return result;
 }
 
-// alterations
-//______________________________________________________________________________
+float msrMusicXMLAlterFromAlterationKind (
+  msrAlterationKind alterationKind)
+{
+  float result;
+
+  switch (alterationKind) {
+    case k_NoAlteration:
+      result = -111.0;
+      break;
+
+    case kTripleFlat:
+      result = -3;
+      break;
+    case kDoubleFlat:
+      result = -2;
+      break;
+    case kSesquiFlat:
+      result = -1.5;
+      break;
+    case kFlat:
+      result = -1;
+      break;
+    case kSemiFlat:
+      result = -0.5;
+      break;
+    case kNatural:
+      result = 0;
+      break;
+    case kSemiSharp:
+      result = +0.5;
+      break;
+    case kSharp:
+      result = 1;
+      break;
+    case kSesquiSharp:
+      result = +1.5;
+      break;
+    case kDoubleSharp:
+      result = +2;
+      break;
+    case kTripleSharp:
+      result = +3;
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrAlterationKindAsString (
   msrAlterationKind alterationKind)
 {
@@ -11738,6 +11786,23 @@ void setDiatonicPitchAndAlterationKind (
 
       break;
   } // switch
+}
+
+void fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  msrDiatonicPitchKind&    diatonicPitchKind,
+  msrAlterationKind&       alterationKind)
+{
+  diatonicPitchKind =
+    diatonicPitchKindFromQuarterTonesPitchKind (
+      inputLineNumber,
+      quarterTonesPitchKind);
+
+  alterationKind  =
+    alterationKindFromQuarterTonesPitchKind (
+      inputLineNumber,
+      quarterTonesPitchKind);
 }
 
 msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
@@ -12269,6 +12334,161 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case k_NoQuarterTonesPitch_QTP:
       {
         result = k_NoDiatonicPitch;
+
+        /* JMI
+        stringstream s;
+
+        s <<
+          "cannot get the diatonic pitch of a k_NoQuarterTonesPitch_QTP"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+          */
+      }
+  } // switch
+
+  return result;
+}
+
+msrAlterationKind alterationKindFromQuarterTonesPitchKind (
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind)
+{
+  msrAlterationKind result = k_NoAlteration;
+
+  switch (quarterTonesPitchKind) {
+    case kA_TripleFlat_QTP:
+    case kB_TripleFlat_QTP:
+    case kC_TripleFlat_QTP:
+    case kD_TripleFlat_QTP:
+    case kE_TripleFlat_QTP:
+    case kF_TripleFlat_QTP:
+    case kG_TripleFlat_QTP:
+      result = kTripleFlat;
+      break;
+
+    case kA_DoubleFlat_QTP:
+    case kB_DoubleFlat_QTP:
+    case kC_DoubleFlat_QTP:
+    case kD_DoubleFlat_QTP:
+    case kE_DoubleFlat_QTP:
+    case kF_DoubleFlat_QTP:
+    case kG_DoubleFlat_QTP:
+      result = kDoubleFlat;
+      break;
+
+    case kA_SesquiFlat_QTP:
+    case kB_SesquiFlat_QTP:
+    case kC_SesquiFlat_QTP:
+    case kD_SesquiFlat_QTP:
+    case kE_SesquiFlat_QTP:
+    case kF_SesquiFlat_QTP:
+    case kG_SesquiFlat_QTP:
+      result = kSesquiFlat;
+      break;
+
+    case kA_Flat_QTP:
+    case kB_Flat_QTP:
+    case kC_Flat_QTP:
+    case kD_Flat_QTP:
+    case kE_Flat_QTP:
+    case kF_Flat_QTP:
+    case kG_Flat_QTP:
+      result = kFlat;
+      break;
+
+    case kA_SemiFlat_QTP:
+    case kB_SemiFlat_QTP:
+    case kC_SemiFlat_QTP:
+    case kD_SemiFlat_QTP:
+    case kE_SemiFlat_QTP:
+    case kF_SemiFlat_QTP:
+    case kG_SemiFlat_QTP:
+      result = kSemiFlat;
+      break;
+
+    case kA_Natural_QTP:
+    case kB_Natural_QTP:
+    case kC_Natural_QTP:
+    case kD_Natural_QTP:
+    case kE_Natural_QTP:
+    case kF_Natural_QTP:
+    case kG_Natural_QTP:
+      result = kNatural;
+      break;
+
+    case kA_SemiSharp_QTP:
+    case kB_SemiSharp_QTP:
+    case kC_SemiSharp_QTP:
+    case kD_SemiSharp_QTP:
+    case kE_SemiSharp_QTP:
+    case kF_SemiSharp_QTP:
+    case kG_SemiSharp_QTP:
+      result = kSemiSharp;
+      break;
+
+    case kA_Sharp_QTP:
+    case kB_Sharp_QTP:
+    case kC_Sharp_QTP:
+    case kD_Sharp_QTP:
+    case kE_Sharp_QTP:
+    case kF_Sharp_QTP:
+    case kG_Sharp_QTP:
+      result = kSharp;
+      break;
+
+    case kA_SesquiSharp_QTP:
+    case kB_SesquiSharp_QTP:
+    case kC_SesquiSharp_QTP:
+    case kD_SesquiSharp_QTP:
+    case kE_SesquiSharp_QTP:
+    case kF_SesquiSharp_QTP:
+    case kG_SesquiSharp_QTP:
+      result = kSesquiSharp;
+      break;
+
+    case kA_DoubleSharp_QTP:
+    case kB_DoubleSharp_QTP:
+    case kC_DoubleSharp_QTP:
+    case kD_DoubleSharp_QTP:
+    case kE_DoubleSharp_QTP:
+    case kF_DoubleSharp_QTP:
+    case kG_DoubleSharp_QTP:
+      result = kDoubleSharp;
+      break;
+
+    case kA_TripleSharp_QTP:
+    case kB_TripleSharp_QTP:
+    case kC_TripleSharp_QTP:
+    case kD_TripleSharp_QTP:
+    case kE_TripleSharp_QTP:
+    case kF_TripleSharp_QTP:
+    case kG_TripleSharp_QTP:
+      result = kTripleSharp;
+      break;
+
+    case k_Rest_QTP:
+      {
+        stringstream s;
+
+        s <<
+          "cannot get the alteration kind of a rest"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+    case k_NoQuarterTonesPitch_QTP:
+      {
+        result = k_NoAlteration;
 
         /* JMI
         stringstream s;

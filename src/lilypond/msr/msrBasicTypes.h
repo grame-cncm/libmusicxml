@@ -72,6 +72,9 @@ enum msrAlterationKind {
 msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   float alter);
 
+float msrMusicXMLAlterFromAlterationKind (
+  msrAlterationKind alterationKind);
+
 string msrAlterationKindAsString (
   msrAlterationKind alterationKind);
 
@@ -174,7 +177,8 @@ enum msrQuarterTonesPitchKind {
   kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP,
   kG_TripleSharp_QTP };
 
-void setDiatonicPitchKindAndAlterationKind (
+void fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
+  int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind,
   msrDiatonicPitchKind&    diatonicPitchKind,
   msrAlterationKind&       alterationKind);
@@ -185,6 +189,10 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
   msrAlterationKind    alterationKind);
 
 msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind);
+
+msrAlterationKind alterationKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
