@@ -9160,6 +9160,18 @@ void msrVoice::finalizeVoice (
       voicePart->
         getPartShortestNoteDuration ();
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVoices) {
+    gLogOstream <<
+      "Finalizing voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", fVoiceShortestNoteDuration: " << fVoiceShortestNoteDuration <<
+      ", partShortestNoteDuration: " << partShortestNoteDuration <<
+      endl;
+  }
+#endif
+
   if (fVoiceShortestNoteDuration < partShortestNoteDuration) {
       voicePart->
         setPartShortestNoteDuration (fVoiceShortestNoteDuration);

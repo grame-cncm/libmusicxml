@@ -836,12 +836,10 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 #endif
 */
 
-/* JMI
   // finalize the current part
   fCurrentPart->
     finalizePart (
       inputLineNumber);
-*/
 
   // is this part name in the parts omit IDs set?
   if (gMsrOah->fPartsOmitIDSet.size ()) {

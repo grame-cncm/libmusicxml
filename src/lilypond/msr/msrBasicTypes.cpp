@@ -596,6 +596,62 @@ msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
   return result;
 }
 
+string msrDurationKindAsType (msrDurationKind durationKind)
+{
+  string result;
+
+  switch (durationKind) {
+    case k_NoDuration:
+      result = "noDuration";
+      break;
+
+    case k1024th:
+      result = "1024th";
+      break;
+    case k512th:
+      result = "512th";
+      break;
+    case k256th:
+      result = "256th";
+      break;
+    case k128th:
+      result = "128th";
+      break;
+    case k64th:
+      result = "64th";
+      break;
+    case k32nd:
+      result = "32th";
+      break;
+    case k16th:
+      result = "16nd";
+      break;
+    case kEighth:
+      result = "8th";
+      break;
+    case kQuarter:
+      result = "quarter";
+      break;
+    case kHalf:
+      result = "half";
+      break;
+    case kWhole:
+      result = "whole";
+      break;
+    case kBreve:
+      result = "breve";
+      break;
+    case kLong:
+      result = "long";
+      break;
+    case kMaxima:
+      result = "maxima";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrDurationKindAsString (msrDurationKind durationKind)
 {
   string result;

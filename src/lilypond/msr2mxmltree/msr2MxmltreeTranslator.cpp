@@ -36,6 +36,8 @@
 
 #include "mxmlTree.h"
 
+//#include "msrBasicTypes.h"
+
 
 using namespace std;
 
@@ -749,13 +751,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
   gIndenter++;
 
-  // create a part element
-  fCurrentPartElement = createElement (k_part, "");
-  // set its "id" attribute
-	fCurrentPartElement->add (createAttribute ("id", partID));
-  // append it to the mxmltree
-  fMxmltree->push (fCurrentPartElement);
-
   // create a score part element
   Sxmlelement scorePartElement = createElement (k_score_part, "");
   // set it's "id" attribute
@@ -768,7 +763,23 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   // append it to the score part element
   scorePartElement->push (partNameElement);
 
-  // set divisions
+
+  // create a comment
+  stringstream s;
+  s <<
+    " ===== " << "PART" << " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+  // append it to the mxmltree
+  fMxmltree->push (comment);
+
+  // create a part element
+  fCurrentPartElement = createElement (k_part, "");
+  // set its "id" attribute
+	fCurrentPartElement->add (createAttribute ("id", partID));
+  // append it to the mxmltree
+  fMxmltree->push (fCurrentPartElement);
+
+  // compute the divisions per quarter note
   rational
     partShortestNoteDuration =
       elt->getPartShortestNoteDuration (),
@@ -789,6 +800,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
       endl;
   }
 #endif
+
+  // create a divisions element
+  Sxmlelement
+    fCurrentDivisionsElement =
+      createIntegerElement (k_divisions, fDivisionsPerQuarterNote);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -810,7 +826,281 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
 
   // forget about the current part element
   fCurrentPartElement = nullptr;
+
+  // forget about the current attributes element
+  fCurrentPartAttributes = nullptr;
 }
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
+{
+  int
+    inputLineNumber =
+      elt->getInputLineNumber ();
+
+  string
+    measureNumber =
+      elt->getMeasureElementMeasureNumber ();
+
+  int
+    measurePuristNumber =
+      elt->getMeasurePuristNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrMeasure '" <<
+      measureNumber <<
+      "', measurePuristNumber = '" <<
+      measurePuristNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
+    fLogOutputStream <<
+      endl <<
+      "<!--=== measure '" << measureNumber <<
+      "', voice \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber << " ===-->" <<
+      endl;
+  }
+#endif
+
+  // create a comment
+  stringstream s;
+  s <<
+    " ===== " << "MEASURE" << " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+  // append it to the current part element
+  fCurrentPartElement->push (comment);
+
+  // create a measure element
+  fCurrentMeasureElement = createElement (k_measure, "");
+  // set its "number" attribute
+	fCurrentMeasureElement->add (createAttribute ("number", measureNumber));
+  // append it to the current part element
+  fCurrentPartElement->push (fCurrentMeasureElement);
+
+  // is there a divisions element to be appended?
+  if (fCurrentDivisionsElement) {
+    // create an attributes element
+    fCurrentPartAttributes = createElement (k_attributes, "");
+    // append the attributes element the current measure element
+    fCurrentMeasureElement->push (fCurrentPartAttributes);
+
+   // append the divisions element to the attributes element
+    fCurrentPartAttributes->push (fCurrentDivisionsElement);
+  }
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  string
+    measureNumber =
+      elt->getMeasureElementMeasureNumber ();
+
+  string
+    nextMeasureNumber =
+      elt->getNextMeasureNumber ();
+
+  int
+    measurePuristNumber =
+      elt->getMeasurePuristNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrMeasure '" <<
+      measureNumber <<
+      "', nextMeasureNumber = '" <<
+      nextMeasureNumber <<
+      "', measurePuristNumber = '" <<
+      measurePuristNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // forget about the current measure element
+  fCurrentMeasureElement = nullptr;
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrNote '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // grab the note's informations
+  msrQuarterTonesPitchKind
+    noteQuarterTonesPitchKind = elt->getNoteQuarterTonesPitchKind ();
+
+  msrDiatonicPitchKind
+    noteDiatonicPitchKind =
+      diatonicPitchKindFromQuarterTonesPitchKind (
+        inputLineNumber,
+        noteQuarterTonesPitchKind);
+
+  int
+    noteOctave     = elt->getNoteOctave (),
+    noteDotsNumber = elt->getNoteDotsNumber ();
+
+  rational
+    noteSoundingWholeNotes =
+      elt->getMeasureElementSoundingWholeNotes (),
+    noteDisplayWholeNotes =
+      elt->getNoteDisplayWholeNotes ();
+
+  msrDurationKind
+    noteGraphicDurationKind =
+      elt->getNoteGraphicDurationKind ();
+
+  // create a note element
+  Sxmlelement noteElement = createElement (k_note, "");
+
+  // append it to the current measure element
+  fCurrentMeasureElement->push (noteElement);
+
+  // create the step and pitch attributes
+  switch (elt->getNoteKind ()) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+      break;
+
+    case msrNote::kSkipNote:
+      break;
+
+    case msrNote::kUnpitchedNote:
+      break;
+
+    case msrNote::kRegularNote:
+      {
+        Sxmlelement pitchElement = createElement (k_pitch, "");
+
+        pitchElement->push (
+          createElement (
+            k_step,
+            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
+        pitchElement->push (
+          createIntegerElement (
+            k_octave,
+            noteOctave));
+
+        noteElement->push (pitchElement);
+      }
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+
+    case msrNote::kGraceNote:
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kChordMemberNote:
+      break;
+
+    case msrNote::kTupletMemberNote:
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      break;
+  } // switch
+
+  // create the duration attribute
+  rational
+    durationAsRational =
+      noteSoundingWholeNotes / fDivisionsPerQuarterNote;
+  durationAsRational.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> durationAsRational: " <<
+      durationAsRational <<
+      endl;
+  }
+#endif
+
+  if (durationAsRational.getDenominator () != 1) {
+    stringstream s;
+
+    s <<
+      "durationAsRational '" << durationAsRational <<
+      "' is no integer number";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  noteElement->push (
+    createIntegerElement (
+      k_duration,
+      durationAsRational.getNumerator () * 4));
+
+  // create the type attribute
+  noteElement->push (
+    createElement (
+      k_type,
+      msrDurationKindAsType (noteGraphicDurationKind)));
+
+
+
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrNote " <<
+      elt->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+}
+
+
+/*
+#include "musicxmlfactory.h"
+
+void sortvisitor::visitStart( S_note& elt )
+	{ std::sort (elt->elements().begin(), elt->elements().end(), xmlorder(gNoteOrder, elt)); }
+
+*/
 
 /*
 //________________________________________________________________________
@@ -1584,96 +1874,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrFiguredBass& elt)
   fCurrentFiguredBassClone = nullptr;
 }
 */
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
-{
-  int
-    inputLineNumber =
-      elt->getInputLineNumber ();
 
-  string
-    measureNumber =
-      elt->getMeasureElementMeasureNumber ();
-
-  int
-    measurePuristNumber =
-      elt->getMeasurePuristNumber ();
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrMeasure '" <<
-      measureNumber <<
-      "', measurePuristNumber = '" <<
-      measurePuristNumber <<
-      "', line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
-    fLogOutputStream <<
-      endl <<
-      "<!--=== measure '" << measureNumber <<
-      "', voice \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber << " ===-->" <<
-      endl;
-  }
-#endif
-
-  // create a comment
-  stringstream s;
-  s <<
-    " ===== " << "FOO" << " ===== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
-  // append it to the current part element
-  fCurrentPartElement->push (comment);
-
-  // create a measure element
-  fCurrentMeasureElement = createElement (k_measure, "");
-  // set its "number" attribute
-	fCurrentMeasureElement->add (createAttribute ("number", measureNumber));
-  // append it to the current part element
-  fCurrentPartElement->push (fCurrentMeasureElement);
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-  string
-    measureNumber =
-      elt->getMeasureElementMeasureNumber ();
-
-  string
-    nextMeasureNumber =
-      elt->getNextMeasureNumber ();
-
-  int
-    measurePuristNumber =
-      elt->getMeasurePuristNumber ();
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrMeasure '" <<
-      measureNumber <<
-      "', nextMeasureNumber = '" <<
-      nextMeasureNumber <<
-      "', measurePuristNumber = '" <<
-      measurePuristNumber <<
-      "', line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // forget about the current measure element
-  fCurrentMeasureElement = nullptr;
-}
 /*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrStanza& elt)
@@ -3542,50 +3743,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   * /
 }
 */
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrNote '" <<
-      elt->asString () <<
-      "'" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
 
-  // create a note element
-  Sxmlelement noteElement = createElement (k_note, "");
-
-  // append it to the current measure element
-  fCurrentMeasureElement->push (noteElement);
-}
-
-/*
-#include "musicxmlfactory.h"
-
-void sortvisitor::visitStart( S_note& elt )
-	{ std::sort (elt->elements().begin(), elt->elements().end(), xmlorder(gNoteOrder, elt)); }
-
-*/
-
-void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrNote " <<
-      elt->asString () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-}
 /*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrOctaveShift& elt)

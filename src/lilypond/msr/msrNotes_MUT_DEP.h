@@ -876,7 +876,6 @@ class msrNote : public msrTupletElement
                           fNoteQuarterTonesPitchKind;
 
     // whole notes
-//    rational              fNoteSoundingWholeNotes;
     rational              fNoteDisplayWholeNotes;
 
     int                   fNoteDotsNumber;

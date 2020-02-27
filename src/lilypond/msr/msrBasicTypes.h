@@ -447,6 +447,8 @@ rational msrDurationKindAsWholeNotes (
 
 msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
 
+string msrDurationKindAsType (msrDurationKind durationKind);
+
 string msrDurationKindAsString (msrDurationKind durationKind);
 
 // whole notes

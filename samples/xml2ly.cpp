@@ -461,7 +461,7 @@ void convertMsrScoreToMusicXMLScore_Loop (
 
   if (! outFileStream.is_open ()) {
     gLogOstream <<
-      "Could not open LilyPond output file \"" <<
+      "Could not open MusicXML output file \"" <<
       outputFileName <<
       "\" for writing, exiting" <<
       endl;

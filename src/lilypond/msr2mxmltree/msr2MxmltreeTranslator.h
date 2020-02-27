@@ -493,9 +493,13 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fMxmltree;
 
 
+    // the part attributes element
+    Sxmlelement               fCurrentPartAttributes;
+
     // divisions
     // ------------------------------------------------------
     int                       fDivisionsPerQuarterNote;
+    Sxmlelement               fCurrentDivisionsElement;
 
     // its header
     // ------------------------------------------------------

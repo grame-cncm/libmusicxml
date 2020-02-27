@@ -10,6 +10,7 @@
   research@grame.fr
 */
 
+#include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
 
 #include "msrMutualDependencies.h"
