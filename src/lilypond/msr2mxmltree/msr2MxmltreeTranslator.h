@@ -320,10 +320,10 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
-
+*/
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
-
+/*
     virtual void visitStart (S_msrHarmony& elt);
     virtual void visitEnd   (S_msrHarmony& elt);
     virtual void visitStart (S_msrHarmonyDegree& elt);
@@ -495,6 +495,18 @@ class msr2MxmltreeTranslator :
 
     // the part attributes element
     Sxmlelement               fCurrentPartAttributes;
+
+    // the part direction element
+    Sxmlelement               fCurrentPartDirection;
+
+    void                      handleAttributesSubElement (
+                                Sxmlelement elem);
+
+    void                      handleDirectionSubElement (
+                                Sxmlelement elem);
+
+    void                      handleMeasureLevelElement (
+                                Sxmlelement elem);
 
     // divisions
     // ------------------------------------------------------

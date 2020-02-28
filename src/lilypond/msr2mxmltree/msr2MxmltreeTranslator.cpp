@@ -46,6 +46,46 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator::handleAttributesSubElement (
+  Sxmlelement elem)
+{
+  if (! fCurrentPartAttributes) {
+    // create an attributes element
+    fCurrentPartAttributes = createElement (k_attributes, "");
+    // append the attributes element to the current measure element
+    fCurrentMeasureElement->push (fCurrentPartAttributes);
+  }
+
+  // append elem to the current attributes element
+  fCurrentPartAttributes->push (elem);
+}
+
+void msr2MxmltreeTranslator::handleDirectionSubElement (
+  Sxmlelement elem)
+{
+  if (! fCurrentPartDirection) {
+    // create a direction element
+    fCurrentPartDirection = createElement (k_attributes, "");
+    // append the direction element to the current measure element
+    fCurrentMeasureElement->push (fCurrentPartDirection);
+  }
+
+  // append elem to the current direction element
+  fCurrentPartDirection->push (elem);
+}
+
+void msr2MxmltreeTranslator::handleMeasureLevelElement (
+  Sxmlelement elem)
+{
+  // append the attributes element the current measure element
+  fCurrentMeasureElement->push (elem);
+
+  // forget about the current attributes and direction elements
+  fCurrentPartAttributes = nullptr;
+  fCurrentPartDirection  = nullptr;
+}
+
+//________________________________________________________________________
 msr2MxmltreeTranslator::msr2MxmltreeTranslator (
   indentedOstream& ios,
   S_msrScore       mScore)
@@ -770,6 +810,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   s <<
     " ==================== " << "PART" << " \"" << partID << "\"" << " ==================== ";
   Sxmlelement comment = createElement (kComment, s.str ());
+
   // append it to the mxmltree
   fMxmltree->push (comment);
 
@@ -832,6 +873,45 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrSegment& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrSegment '" <<
+      elt->getSegmentAbsoluteNumber () << "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // create a comment
+  stringstream s;
+  s <<
+    " ========================= " << "SEGMENT" << " ========================= ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current part element
+  fCurrentPartElement->push (comment);
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrSegment '" <<
+      elt->getSegmentAbsoluteNumber () << "'" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 {
   int
@@ -874,8 +954,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   // create a comment
   stringstream s;
   s <<
-    " ------------------------- " << "MEASURE" << " ------------------------- ";
+    " ========================= " << "MEASURE" << " ========================= ";
   Sxmlelement comment = createElement (kComment, s.str ());
+
   // append it to the current part element
   fCurrentPartElement->push (comment);
 
@@ -888,13 +969,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 
   // is there a divisions element to be appended?
   if (fCurrentDivisionsElement) {
-    // create an attributes element
-    fCurrentPartAttributes = createElement (k_attributes, "");
-    // append the attributes element the current measure element
-    fCurrentMeasureElement->push (fCurrentPartAttributes);
-
-   // append the divisions element to the attributes element
-    fCurrentPartAttributes->push (fCurrentDivisionsElement);
+    // append the divisions element to the attributes element
+    handleAttributesSubElement (fCurrentDivisionsElement);
   }
 }
 
@@ -945,6 +1021,29 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
   }
 #endif
 
+/*
+      switch (fCurrentClefOctaveChange) {
+        case -2:
+          clefKind = kTrebleMinus15Clef;
+          break;
+        case -1:
+          clefKind = kTrebleMinus8Clef;
+          break;
+        case 0:
+          clefKind = kTrebleClef;
+          break;
+        case +1:
+          clefKind = kTreblePlus8Clef;
+          break;
+        case +2:
+          clefKind = kTreblePlus15Clef;
+          break;
+        default:
+          {
+            // should not occur
+          }
+      } // switch
+*/
   switch (elt->getClefKind ()) {
     case k_NoClef:
       break;
@@ -961,7 +1060,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
             k_line,
             2));
 
-        fCurrentPartAttributes->push (clefElement);
+        handleAttributesSubElement (clefElement);
       }
       break;
     case kSopranoClef:
@@ -992,8 +1091,12 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
           createIntegerElement (
             k_line,
             2));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
+            -1));
 
-        fCurrentPartAttributes->push (clefElement);
+        handleAttributesSubElement (clefElement);
       }
       break;
     case kTreblePlus8Clef:
@@ -1062,7 +1165,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
             k_mode,
             "major"));
 
-        fCurrentPartAttributes->push (keyElement);
+        handleAttributesSubElement (keyElement);
       }
       break;
     case msrKey::kHumdrumScotKind:
@@ -1149,7 +1252,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   Sxmlelement noteElement = createElement (k_note, "");
 
   // append it to the current measure element
-  fCurrentMeasureElement->push (noteElement);
+  handleMeasureLevelElement (noteElement);
 
   // create the step and pitch attributes
   switch (elt->getNoteKind ()) {
@@ -1340,7 +1443,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
             k_bar_style,
             "light-heavy"));
 
-        fCurrentMeasureElement->push (barlineElement);
+        handleMeasureLevelElement (barlineElement);
       }
       break;
     case msrBarline::kBarlineStyleHeavyLight:
@@ -1831,54 +1934,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrVoiceStaffChange& elt)
   fCurrentVoiceClone->
     appendVoiceStaffChangeToVoice (
       voiceStaffChangeClone);
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrSegment& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrSegment '" <<
-      elt->getSegmentAbsoluteNumber () << "'" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  // create a clone of the segment
-  fCurrentSegmentClone =
-    elt->createSegmentNewbornClone (
-      fCurrentVoiceClone);
-
-  // set it as the new voice last segment
-  fCurrentVoiceClone->
-    setVoiceLastSegmentInVoiceClone (
-      fCurrentSegmentClone);
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrSegment '" <<
-      elt->getSegmentAbsoluteNumber () << "'" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  fCurrentVoiceClone->
-    handleSegmentCloneEndInVoiceClone (
-      inputLineNumber,
-      fCurrentSegmentClone);
-
-  // forget current segment clone
-  fCurrentSegmentClone = nullptr;
 }
 
 //________________________________________________________________________
