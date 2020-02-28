@@ -9649,6 +9649,7 @@ void msrVoice::print (ostream& os) const
     setw (fieldWidth) << "voiceCurrentTime" << " : ";
   if (fVoiceCurrentTime) {
     os <<
+      endl <<
       fVoiceCurrentTime;
   }
   else {

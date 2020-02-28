@@ -302,9 +302,9 @@ class msr2MxmltreeTranslator :
     virtual void visitEnd   (S_msrClef& elt);
     virtual void visitStart (S_msrKey& elt);
     virtual void visitEnd   (S_msrKey& elt);
-/*
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
+/*
 
     virtual void visitStart (S_msrTranspose& elt);
     virtual void visitEnd   (S_msrTranspose& elt);
@@ -493,19 +493,44 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fMxmltree;
 
 
+    // work
+    // ------------------------------------------------------
+
+    Sxmlelement               fScoreWorkElement;
+
+    void                      handleWorkSubElement (
+                                Sxmlelement elem);
+
+    // part list
+    // ------------------------------------------------------
+
+    Sxmlelement               fPartListElement;
+
+    // identification
+    // ------------------------------------------------------
+
+    Sxmlelement               fScoreIdentificationElement;
+    bool                      fOnGoingIdentification;
+
+    Sxmlelement               fScoreIdentificationEncodingElement;
+
+    void                      handleIdentificationSubElement (
+                                Sxmlelement elem);
+    void                      handleIdentificationEncodingSubElement (
+                                Sxmlelement elem);
+
     // the part attributes element
+    // ------------------------------------------------------
     Sxmlelement               fCurrentPartAttributes;
 
+     void                     handleAttributesSubElement (
+                                Sxmlelement elem);
+
     // the part direction element
+    // ------------------------------------------------------
     Sxmlelement               fCurrentPartDirection;
 
-    void                      handleAttributesSubElement (
-                                Sxmlelement elem);
-
     void                      handleDirectionSubElement (
-                                Sxmlelement elem);
-
-    void                      handleMeasureLevelElement (
                                 Sxmlelement elem);
 
     // divisions
@@ -528,11 +553,11 @@ class msr2MxmltreeTranslator :
 
     // identification
     // ------------------------------------------------------
-    bool                      fOnGoingIdentification;
-    S_msrIdentification       fCurrentIdentification;
 
+    void                      handleMeasureLevelElement (
+                                Sxmlelement elem);
 
-    // header
+   // header
     // ------------------------------------------------------
     bool                      fWorkNumberKnown;
     bool                      fWorkTitleKnown;
@@ -553,13 +578,10 @@ class msr2MxmltreeTranslator :
     // the current partGroup is the top of the stack
     stack<S_msrPartGroup>     fPartGroupsStack;
 
-    // parts
+    // current part
     // ------------------------------------------------------
 
-    Sxmlelement               fPartListElement;
-
     Sxmlelement               fCurrentPartElement;
-
 
     // staff details
     // ------------------------------------------------------

@@ -35,17 +35,72 @@
 #include "msrOah.h"
 #include "lilypondOah.h"
 
-#include "mxmlTree.h"
+#include "version.h"
 
-//#include "msrBasicTypes.h"
+#include "mxmlTree.h"
 
 
 using namespace std;
 
 namespace MusicXML2
 {
+/* ctree.h:
+		typedef std::vector<treePtr>		branchs;	///< the node sub elements container type
+		typedef typename branchs::iterator	literator;	///< the current level iterator type
+		typedef treeIterator<treePtr>		iterator;	///< the top -> bottom iterator type
+
+		static treePtr new_tree() { ctree<T>* o = new ctree<T>; assert(o!=0); return o; }
+
+		branchs& elements()						{ return fElements; }
+		const branchs& elements() const			{ return fElements; }
+		virtual void push (const treePtr& t)	{ fElements.push_back(t); }
+*/
+
+/*
+#include "musicxmlfactory.h"
+
+void sortvisitor::visitStart( S_note& elt )
+	{ std::sort (elt->elements().begin(), elt->elements().end(), xmlorder(gNoteOrder, elt)); }
+*/
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator::handleWorkSubElement (
+  Sxmlelement elem)
+{
+  if (! fScoreWorkElement) {
+    // create an work element
+    fScoreWorkElement = createElement (k_work, "");
+    // append it to the mxmltree
+    fMxmltree->push (fScoreWorkElement);
+  }
+}
+
+void msr2MxmltreeTranslator::handleIdentificationSubElement (
+  Sxmlelement elem)
+{
+  if (! fScoreIdentificationElement) {
+    // create an identification element
+    fScoreIdentificationElement = createElement (k_identification, "");
+    // append it to the mxmltree
+    fMxmltree->push (fScoreIdentificationElement);
+  }
+
+  fScoreIdentificationElement->push (elem);
+}
+
+void msr2MxmltreeTranslator::handleIdentificationEncodingSubElement (
+  Sxmlelement elem)
+{
+  if (! fScoreIdentificationEncodingElement) {
+    // create an encoding element
+    fScoreIdentificationEncodingElement = createElement (k_identification, "");
+    // append it to the identification element, creating the latter if necessary
+    handleIdentificationSubElement (fScoreIdentificationEncodingElement);
+  }
+
+  fScoreIdentificationEncodingElement->push (elem);
+}
+
 void msr2MxmltreeTranslator::handleAttributesSubElement (
   Sxmlelement elem)
 {
@@ -103,12 +158,6 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
 
   // create the current score part-wise element
   fMxmltree = createScorePartWiseElement ();
-
-  // create the part list element
-  fPartListElement = createElement (k_part_list, "");
-
-  // append it to the mxmlTree
-  fMxmltree->push (fPartListElement);
 
 /*
 
@@ -290,6 +339,32 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
       endl;
   }
 #endif
+
+  // create a software element
+  Sxmlelement
+    softwareElement =
+      createElement (
+        k_software,
+        gOahOah->fHandlerExecutableName + " " + currentVersionNumber ());
+
+  // append it to the identification encoding
+  handleIdentificationEncodingSubElement (softwareElement);
+
+  // create an encoding date element
+  Sxmlelement
+    encodingDateElement =
+      createElement (
+        k_encoding_date,
+        gGeneralOah->fTranslationDate);
+
+  // append it to the identification encoding
+  handleIdentificationEncodingSubElement (encodingDateElement);
+
+  // create the part list element
+  fPartListElement = createElement (k_part_list, "");
+
+  // append it to the mxmlTree
+  fMxmltree->push (fPartListElement);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
@@ -1188,6 +1263,275 @@ void msr2MxmltreeTranslator::visitEnd (S_msrKey& elt)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrTime" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+/*
+  if       (timeSymbol == "common") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
+  }
+  else  if (timeSymbol == "cut") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCut;
+  }
+  else  if (timeSymbol == "note") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolNote;
+  }
+  else  if (timeSymbol == "dotted-note") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolDottedNote;
+  }
+  else  if (timeSymbol == "single-number") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
+  }
+
+
+  // handle the time
+  if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
+    // senza misura time
+
+    fVoiceIsCurrentlySenzaMisura = true;
+  }
+
+  else {
+    // con misura time
+
+    int timesItemsNumber =
+      timeItemsVector.size ();
+
+    if (timesItemsNumber) {
+      // should there be a single number?
+      switch (timeSymbolKind) {
+        case msrTime::kTimeSymbolCommon:
+          break;
+        case msrTime::kTimeSymbolCut:
+          break;
+        case msrTime::kTimeSymbolNote:
+          break;
+        case msrTime::kTimeSymbolDottedNote:
+          break;
+        case msrTime::kTimeSymbolSingleNumber:
+          fLilypondCodeOstream <<
+            "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
+            endl;
+          break;
+        case msrTime::kTimeSymbolSenzaMisura:
+          break;
+        case msrTime::kTimeSymbolNone:
+          break;
+      } // switch
+
+      if (! elt->getTimeIsCompound ()) {
+        // simple time
+        // \time "3/4" for 3/4
+        // or senza misura
+
+        S_msrTimeItem
+          timeItem =
+            timeItemsVector [0]; // the only element;
+
+        // fetch the time item beat numbers vector
+        const vector<int>&
+          beatsNumbersVector =
+            timeItem->
+              getTimeBeatsNumbersVector ();
+
+        // should the time be numeric?
+        if (
+          timeSymbolKind == msrTime::kTimeSymbolNone
+            ||
+          gLilypondOah->fNumericalTime) {
+          fLilypondCodeOstream <<
+            "\\numericTimeSignature ";
+        }
+
+        fLilypondCodeOstream <<
+          "\\time " <<
+          beatsNumbersVector [0] << // the only element
+          "/" <<
+          timeItem->getTimeBeatValue () <<
+          endl;
+      }
+
+      else {
+        // compound time
+        // \compoundMeter #'(3 2 8) for 3+2/8
+        // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
+        // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+
+        fLilypondCodeOstream <<
+          "\\compoundMeter #`(";
+
+        // handle all the time items in the vector
+        for (int i = 0; i < timesItemsNumber; i++) {
+          S_msrTimeItem
+            timeItem =
+              timeItemsVector [i];
+
+          // fetch the time item beat numbers vector
+          const vector<int>&
+            beatsNumbersVector =
+              timeItem->
+                getTimeBeatsNumbersVector ();
+
+          int beatsNumbersNumber =
+            beatsNumbersVector.size ();
+
+          // first generate the opening parenthesis
+          fLilypondCodeOstream <<
+            "(";
+
+          // then generate all beats numbers in the vector
+          for (int j = 0; j < beatsNumbersNumber; j++) {
+            fLilypondCodeOstream <<
+              beatsNumbersVector [j] <<
+              ' ';
+          } // for
+
+          // then generate the beat type
+          fLilypondCodeOstream <<
+            timeItem->getTimeBeatValue ();
+
+          // and finally generate the closing parenthesis
+          fLilypondCodeOstream <<
+            ")";
+
+          if (i != timesItemsNumber - 1) {
+            fLilypondCodeOstream <<
+              ' ';
+          }
+        } // for
+
+      fLilypondCodeOstream <<
+        ")" <<
+        endl;
+      }
+    }
+
+    else {
+      // there are no time items
+      if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          elt->getInputLineNumber (),
+          __FILE__, __LINE__,
+          "time items vector is empty");
+      }
+    }
+  }
+*/
+
+  switch (elt->getTimeSymbolKind ()) {
+    case msrTime::kTimeSymbolCommon:
+      {
+        Sxmlelement timeElement = createElement (k_time, "");
+
+        timeElement->add (createAttribute ("symbol", "common"));
+
+        timeElement->push (
+          createIntegerElement (
+            k_beats,
+            4));
+        timeElement->push (
+          createIntegerElement (
+            k_beat_type,
+            4));
+
+        handleAttributesSubElement (timeElement);
+      }
+      break;
+    case msrTime::kTimeSymbolCut:
+       {
+        Sxmlelement timeElement = createElement (k_time, "");
+
+        timeElement->add (createAttribute ("symbol", "cut"));
+
+        timeElement->push (
+          createIntegerElement (
+            k_beats,
+            2));
+        timeElement->push (
+          createIntegerElement (
+            k_beat_type,
+            2));
+
+        handleAttributesSubElement (timeElement);
+      }
+     break;
+    case msrTime::kTimeSymbolNote:
+      break;
+    case msrTime::kTimeSymbolDottedNote:
+      break;
+    case msrTime::kTimeSymbolSingleNumber:
+      break;
+    case msrTime::kTimeSymbolSenzaMisura:
+      break;
+    case msrTime::kTimeSymbolNone:
+      {
+        const vector<S_msrTimeItem>&
+          timeItemsVector =
+            elt->getTimeItemsVector ();
+
+        if (! elt->getTimeIsCompound ()) {
+          // simple time
+          // \time "3/4" for 3/4
+          // or senza misura
+
+          S_msrTimeItem
+            timeItem =
+              timeItemsVector [0]; // the only element;
+
+          // fetch the time item beat numbers vector
+          const vector<int>&
+            beatsNumbersVector =
+              timeItem->
+                getTimeBeatsNumbersVector ();
+
+          Sxmlelement timeElement = createElement (k_time, "");
+
+          timeElement->push (
+            createIntegerElement (
+              k_beats,
+              beatsNumbersVector [0])); // the only element
+          timeElement->push (
+            createIntegerElement (
+              k_beat_type,
+              timeItem->getTimeBeatValue ()));
+
+          handleAttributesSubElement (timeElement);
+        }
+
+        else {
+          // compound time
+          // \compoundMeter #'(3 2 8) for 3+2/8
+          // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
+          // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+
+        }
+      }
+      break;
+  } // switch
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrTime& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrTime" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 {
   int inputLineNumber =
@@ -1469,14 +1813,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrBarline& elt)
 #endif
 }
 
-
-/*
-#include "musicxmlfactory.h"
-
-void sortvisitor::visitStart( S_note& elt )
-	{ std::sort (elt->elements().begin(), elt->elements().end(), xmlorder(gNoteOrder, elt)); }
-
-*/
 
 /*
 //________________________________________________________________________
@@ -2395,35 +2731,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSyllable& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSyllable" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrTime" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  // append time to voice clone
-  fCurrentVoiceClone->
-    appendTimeToVoice (elt);
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrTime& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrTime" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

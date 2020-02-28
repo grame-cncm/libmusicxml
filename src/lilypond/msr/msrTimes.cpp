@@ -589,9 +589,10 @@ string msrTime::asString () const
     ", timeSymbolKind: " <<
     timeSymbolKindAsString (fTimeSymbolKind) <<
     ", timeIsCompound: " <<
-    booleanAsString (
-      fTimeIsCompound) <<
-    ", " <<
+    booleanAsString (fTimeIsCompound) <<
+    ", fTimeItemsVector.size(): " <<
+    singularOrPlural (
+      fTimeItemsVector.size (), "item", "items") <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
     ", line " << fInputLineNumber;
@@ -653,16 +654,29 @@ void msrTime::print (ostream& os) const
 {
   os <<
     "Time" <<
-    ", timeSymbolKind: " <<
+    ", line"  << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 23;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "timeSymbolKind" << " : " <<
     timeSymbolKindAsString (fTimeSymbolKind) <<
-    ", compound: " <<
-    booleanAsString (
-      fTimeIsCompound) <<
-    ", " <<
+    endl <<
+    setw (fieldWidth) <<
+    "timeIsCompound" << " : " <<
+    booleanAsString (fTimeIsCompound) <<
+    endl <<
+    setw (fieldWidth) <<
+    "timeItemsVector.size()" << " : " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
-    ", line " << fInputLineNumber <<
-    ":";
+    endl <<
+    setw (fieldWidth) <<
+    "fTimeItemsVector" << " : ";
 
   if (fTimeItemsVector.size ()) {
     os << endl;
@@ -688,7 +702,9 @@ void msrTime::print (ostream& os) const
       " none" <<
       endl;
   }
-}
+
+  gIndenter--;
+  }
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)
 {

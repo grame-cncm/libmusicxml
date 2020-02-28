@@ -3450,6 +3450,7 @@ string msrNote::asString () const
       s <<
         " (" <<
         noteDisplayPitchKindAsString () <<
+        ", " <<
         noteSoundingWholeNotesAsMsrString () <<
         ", octave" " "<< noteDisplayOctaveAsString () <<
         ")" <<
