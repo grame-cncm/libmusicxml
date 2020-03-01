@@ -70,8 +70,8 @@ static void catchsigs()
     sa.sa_sigaction = _sigaction;
     sa.sa_flags     = SA_SIGINFO;
 
-    // JMI sigaction (SIGSEGV, &sa, NULL);
-    // JMI sigaction (SIGILL, &sa, NULL);
+    sigaction (SIGSEGV, &sa, NULL);
+    sigaction (SIGILL, &sa, NULL);
     sigaction (SIGFPE, &sa, NULL);
 }
 

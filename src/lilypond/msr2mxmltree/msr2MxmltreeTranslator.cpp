@@ -134,6 +134,17 @@ void msr2MxmltreeTranslator::handleIdentificationEncodingSubElement (
   fScoreIdentificationEncodingElement->push (elem);
 }
 
+void msr2MxmltreeTranslator::handleDefaultsSubElement (
+  Sxmlelement elem)
+{
+  if (! fScoreDefaultsElement) {
+    // create an defaults element
+    fScoreDefaultsElement = createElement (k_defaults, "");
+  }
+
+  fScoreDefaultsElement->push (elem);
+}
+
 void msr2MxmltreeTranslator::handleAttributesSubElement (
   Sxmlelement elem)
 {
@@ -347,11 +358,30 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
   // append the initial creation comment to the score part wise element
   fScorePartWiseElement->push (fInitialCreationComment);
 
-  // append the score work element to the score part wise element
-  fScorePartWiseElement->push (fScoreWorkElement);
+  // append the score work element if any to the score part wise element
+  if (fScoreWorkElement) {
+    fScorePartWiseElement->push (fScoreWorkElement);
+  }
 
-  // append the identification element to the score part wise element
-  fScorePartWiseElement->push (fScoreIdentificationElement);
+  // append the score movement number element if any to the score part wise element
+  if (fScoreMovementNumberElement) {
+    fScorePartWiseElement->push (fScoreMovementNumberElement);
+  }
+
+  // append the score movement title element if any to the score part wise element
+  if (fScoreMovementTitleElement) {
+    fScorePartWiseElement->push (fScoreMovementTitleElement);
+  }
+
+  // append the score identification element if any to the score part wise element
+  if (fScoreIdentificationElement) {
+    fScorePartWiseElement->push (fScoreIdentificationElement);
+  }
+
+  // append the score defaults element if any to the score part wise element
+  if (fScoreDefaultsElement) {
+    fScorePartWiseElement->push (fScoreDefaultsElement);
+  }
 
   // append the part list element to the score part wise element
   fScorePartWiseElement->push (fScorePartListElement);

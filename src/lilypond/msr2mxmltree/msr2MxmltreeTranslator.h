@@ -507,10 +507,17 @@ class msr2MxmltreeTranslator :
     void                      handleWorkSubElement (
                                 Sxmlelement elem);
 
-    // part list
+    // movement number
     // ------------------------------------------------------
 
-    Sxmlelement               fScorePartListElement;
+    Sxmlelement               fScoreMovementNumberElement;
+
+
+    // movement title
+    // ------------------------------------------------------
+
+    Sxmlelement               fScoreMovementTitleElement;
+
 
     // identification
     // ------------------------------------------------------
@@ -524,11 +531,32 @@ class msr2MxmltreeTranslator :
     void                      handleIdentificationEncodingSubElement (
                                 Sxmlelement elem);
 
+    // defaults
+    // ------------------------------------------------------
+
+    Sxmlelement               fScoreDefaultsElement;
+
+    void                      handleDefaultsSubElement (
+                                Sxmlelement elem);
+
+
+    // credits
+    // ------------------------------------------------------
+
+    Sxmlelement               fScoreCreditElement;
+
+
+    // part list
+    // ------------------------------------------------------
+
+    Sxmlelement               fScorePartListElement;
+
+
     // the part attributes element
     // ------------------------------------------------------
     Sxmlelement               fCurrentPartAttributes;
 
-     void                     handleAttributesSubElement (
+    void                      handleAttributesSubElement (
                                 Sxmlelement elem);
 
     // the part direction element
@@ -562,11 +590,6 @@ class msr2MxmltreeTranslator :
     bool                      fWorkTitleKnown;
     bool                      fMovementNumberKnown;
     bool                      fMovementTitleKnown;
-
-
-    // credits
-    // ------------------------------------------------------
-    S_msrCredit               fCurrentCredit;
 
 
     // part groups
