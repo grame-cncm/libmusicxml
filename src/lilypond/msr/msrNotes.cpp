@@ -417,33 +417,6 @@ void msrNote::setNoteKind (msrNoteKind noteKind)
   fNoteKind = noteKind;
 }
 
-void msrNote::setNoteSoundingWholeNotes (
-  rational wholeNotes)
-{
-// JMI  fNoteSoundingWholeNotes = wholeNotes;
-  fMeasureElementSoundingWholeNotes = wholeNotes;
-
-  // is wholeNotes the shortest one in this voice?
-/* JMI
-  if (fNoteSoundingWholeNotes < fVoiceShortestNoteDuration) {
-    fVoiceShortestNoteDuration = fNoteSoundingWholeNotes;
-  }
-  */
-}
-
-void msrNote::setNoteDisplayWholeNotes (
-  rational wholeNotes)
-{
-  fNoteDisplayWholeNotes = wholeNotes;
-
-/* JMI
-  // is wholeNotes the shortest one in this voice?
-  if (fNoteDisplayWholeNotes < fVoiceShortestNoteDuration) {
-    fVoiceShortestNoteDuration = fNoteDisplayWholeNotes;
-  }
-  */
-}
-
 S_msrNote msrNote::createNoteNewbornClone (
   S_msrPart containingPart)
 {
@@ -1644,6 +1617,123 @@ string msrNote::noteAccidentalKindAsString (
       break;
     case msrNote::kNoteAccidentalKoron:
       result = "noteAccidentalKoron";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrNote::noteAccidentalKindAsMusicXMLString (
+  msrNoteAccidentalKind noteAccidentalKind)
+{
+  string result;
+
+  switch (noteAccidentalKind) {
+    case msrNote::kNoteAccidentalNone:
+      break;
+
+    case msrNote::kNoteAccidentalSharp:
+      result = "sharp";
+      break;
+    case msrNote::kNoteAccidentalNatural:
+      result = "natural";
+      break;
+    case msrNote::kNoteAccidentalFlat:
+      result = "flat";
+      break;
+    case msrNote::kNoteAccidentalDoubleSharp:
+      result = "double-sharp";
+      break;
+    case msrNote::kNoteAccidentalSharpSharp:
+      result = "sharp-sharp";
+      break;
+    case msrNote::kNoteAccidentalFlatFlat:
+      result = "flat-flat";
+      break;
+    case msrNote::kNoteAccidentalNaturalSharp:
+      result = "natural-sharp";
+      break;
+    case msrNote::kNoteAccidentalNaturalFlat:
+      result = "natural-flat";
+      break;
+    case msrNote::kNoteAccidentalQuarterFlat:
+      result = "quarter-flat";
+      break;
+    case msrNote::kNoteAccidentalQuarterSharp:
+      result = "quarter-sharp";
+      break;
+    case msrNote::kNoteAccidentalThreeQuartersFlat:
+      result = "three-quarters-flat";
+      break;
+    case msrNote::kNoteAccidentalThreeQuartersSharp:
+      result = "three-quarters-sharp";
+      break;
+
+    case msrNote::kNoteAccidentalSharpDown:
+      result = "sharp-down";
+      break;
+    case msrNote::kNoteAccidentalSharpUp:
+      result = "sharp-up";
+      break;
+    case msrNote::kNoteAccidentalNaturalDown:
+      result = "natural-down";
+      break;
+    case msrNote::kNoteAccidentalNaturalUp:
+      result = "natural-up";
+      break;
+    case msrNote::kNoteAccidentalFlatDown:
+      result = "flat-down";
+      break;
+    case msrNote::kNoteAccidentalFlatUp:
+      result = "flat-up";
+      break;
+    case msrNote::kNoteAccidentalTripleSharp:
+      result = "triple-sharp";
+      break;
+    case msrNote::kNoteAccidentalTripleFlat:
+      result = "triple-flat";
+      break;
+    case msrNote::kNoteAccidentalSlashQuarterSharp:
+      result = "slash-quarter-sharp";
+      break;
+    case msrNote::kNoteAccidentalSlashSharp:
+      result = "slash-sharp";
+      break;
+    case msrNote::kNoteAccidentalSlashFlat:
+      result = "slash-flat";
+      break;
+    case msrNote::kNoteAccidentaldoubleSlashFlat:
+      result = "double-slash-flat";
+      break;
+    case msrNote::kNoteAccidentalSharp_1:
+      result = "sharp-1";
+      break;
+    case msrNote::kNoteAccidentalSharp_2:
+      result = "sharp-2";
+      break;
+    case msrNote::kNoteAccidentalSharp_3:
+      result = "sharp-3";
+      break;
+    case msrNote::kNoteAccidentalSharp_5:
+      result = "sharp-5";
+      break;
+    case msrNote::kNoteAccidentalFlat_1:
+      result = "flat-1";
+      break;
+    case msrNote::kNoteAccidentalFlat_2:
+      result = "flat-2";
+      break;
+    case msrNote::kNoteAccidentalFlat_3:
+      result = "flat-3";
+      break;
+    case msrNote::kNoteAccidentalFlat_4:
+      result = "flat-4";
+      break;
+    case msrNote::kNoteAccidentalSori:
+      result = "sori";
+      break;
+    case msrNote::kNoteAccidentalKoron:
+      result = "koron";
       break;
   } // switch
 

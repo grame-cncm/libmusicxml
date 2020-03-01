@@ -16,7 +16,7 @@
 #include <map>
 #include <vector>
 
-#include "lpsr.h"
+#include "msr.h"
 
 
 namespace MusicXML2
@@ -193,7 +193,7 @@ class msr2MxmltreeTranslator :
 
   // chords
 
-  public visitor<S_msrChord>,
+  // public visitor<S_msrChord>,
 
   // tuplets
 
@@ -254,18 +254,18 @@ class msr2MxmltreeTranslator :
 
     void buildMxmltreeFromMsrScore ();
 
-    Sxmlelement getMxmltree () const
-        { return fMxmltree; }
+    Sxmlelement getScorePartWiseElement () const
+        { return fScorePartWiseElement; }
 
   protected:
 
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
-/*
     virtual void visitStart (S_msrIdentification& elt);
     virtual void visitEnd   (S_msrIdentification& elt);
 
+/*
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
@@ -314,10 +314,10 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrWords& elt);
     virtual void visitEnd   (S_msrWords& elt);
-
+*/
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
-
+/*
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
 */
@@ -336,6 +336,7 @@ class msr2MxmltreeTranslator :
 */
     virtual void visitStart (S_msrMeasure& elt);
     virtual void visitEnd   (S_msrMeasure& elt);
+
 /*
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
@@ -490,7 +491,12 @@ class msr2MxmltreeTranslator :
 
     // the mxmltree we're building
     // ------------------------------------------------------
-    Sxmlelement               fMxmltree;
+    Sxmlelement               fScorePartWiseElement;
+
+
+    // the initial creation comment
+    // ------------------------------------------------------
+    Sxmlelement               fInitialCreationComment;
 
 
     // work
@@ -504,13 +510,12 @@ class msr2MxmltreeTranslator :
     // part list
     // ------------------------------------------------------
 
-    Sxmlelement               fPartListElement;
+    Sxmlelement               fScorePartListElement;
 
     // identification
     // ------------------------------------------------------
 
     Sxmlelement               fScoreIdentificationElement;
-    bool                      fOnGoingIdentification;
 
     Sxmlelement               fScoreIdentificationEncodingElement;
 
@@ -528,10 +533,11 @@ class msr2MxmltreeTranslator :
 
     // the part direction element
     // ------------------------------------------------------
-    Sxmlelement               fCurrentPartDirection;
+// JMI    Sxmlelement               fCurrentPartDirection;
 
     void                      handleDirectionSubElement (
-                                Sxmlelement elem);
+                                Sxmlelement      elem,
+                                msrPlacementKind placementKind);
 
     // divisions
     // ------------------------------------------------------
@@ -543,22 +549,15 @@ class msr2MxmltreeTranslator :
 
     // its header
     // ------------------------------------------------------
-    S_lpsrHeader              fCurrentLpsrScoreHeader;
 
 
     // score
     // ------------------------------------------------------
-    S_msrScore                fCurrentMsrScoreClone;
 
-
-    // identification
-    // ------------------------------------------------------
-
-    void                      handleMeasureLevelElement (
-                                Sxmlelement elem);
 
    // header
     // ------------------------------------------------------
+    /*
     bool                      fWorkNumberKnown;
     bool                      fWorkTitleKnown;
     bool                      fMovementNumberKnown;
@@ -577,12 +576,16 @@ class msr2MxmltreeTranslator :
     // partGroup's can be nested, hence this stack
     // the current partGroup is the top of the stack
     stack<S_msrPartGroup>     fPartGroupsStack;
+*/
 
     // current part
     // ------------------------------------------------------
 
     Sxmlelement               fCurrentPartElement;
 
+    list<Sxmlelement>         fPendingPartElementsList;
+
+/*
     // staff details
     // ------------------------------------------------------
 
@@ -628,13 +631,19 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
     // the current segment clone is the one at the top of the stack
     S_msrSegment              fCurrentSegmentClone;
-
+*/
 
     // measures
     // ------------------------------------------------------
     Sxmlelement               fCurrentMeasureElement;
     Sxmlelement               fCurrentMeasureAttributesElement;
 
+    // measures
+    // ------------------------------------------------------
+
+    void                      handleMeasureLevelElement (
+                                Sxmlelement elem);
+/*
     // full measure rests compression
     S_msrMeasure              fCurrentRestMeasure;
     S_msrRestMeasures         fCurrentRestMeasures;
@@ -642,10 +651,11 @@ class msr2MxmltreeTranslator :
     // bar checks
     // ------------------------------------------------------
     S_msrBarCheck             fLastBarCheck;
-
+*/
 
     // notes
     // ------------------------------------------------------
+    /*
     bool                      fOnGoingNonGraceNote;
 
     // fCurrentNonGraceNoteClone is not used for grace notes,
@@ -657,8 +667,22 @@ class msr2MxmltreeTranslator :
     S_msrNote                 fFirstNoteCloneInVoice;
 
     S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
+*/
 
+    void                      createNoteDirections (S_msrNote note);
+    void                      createNoteNotations (S_msrNote note);
+    void                      createNoteElement (S_msrNote note);
 
+    Sxmlelement               fCurrentNoteElement;
+
+    Sxmlelement               fCurrentNoteNotationsElement;
+
+    void                      handleNoteNotationsSubElement (
+                                Sxmlelement      noteElement,
+                                Sxmlelement      elem,
+                                msrPlacementKind placementKind);
+
+/*
     // glissandos
     // ------------------------------------------------------
 
@@ -692,7 +716,6 @@ class msr2MxmltreeTranslator :
     // chords
     // ------------------------------------------------------
     bool                      fOnGoingChord;
-    S_msrChord                fCurrentChordClone;
 
 
     // tuplets
@@ -717,6 +740,7 @@ class msr2MxmltreeTranslator :
     // current ongoing values display
     // ------------------------------------------------------
     void                      displayCurrentOnGoingValues ();
+*/
 };
 
 

@@ -84,7 +84,7 @@ lpsrScore::lpsrScore (
 
       s <<
         endl <<
-        "% on " << gGeneralOah->fTranslationDate <<
+        "% on " << gGeneralOah->fTranslationDateFull <<
         endl;
 
       fInputSourceNameComment =

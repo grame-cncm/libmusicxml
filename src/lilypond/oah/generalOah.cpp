@@ -176,7 +176,10 @@ void generalOah::initializeGeneralOah (
     translationTimeinfo = localtime (&translationRawtime);
 
     strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
-    fTranslationDate = buffer;
+    fTranslationDateFull = buffer;
+
+    strftime (buffer, 80, "%Y-%m-%d", translationTimeinfo);
+    fTranslationDateYYYYMMDD = buffer;
   }
 
   // warning and error handling
@@ -335,7 +338,7 @@ void generalOah::printGeneralOahValues (int fieldWidth)
 
   gLogOstream << left <<
     setw (fieldWidth) << "translationDate" << " : " <<
-    fTranslationDate <<
+    fTranslationDateFull <<
     endl;
 
   gIndenter--;

@@ -58,6 +58,9 @@ class msrNote : public msrTupletElement
     static string noteAccidentalKindAsString (
       msrNoteAccidentalKind noteAccidentalKind);
 
+    static string noteAccidentalKindAsMusicXMLString (
+      msrNoteAccidentalKind noteAccidentalKind);
+
     enum msrNoteEditorialAccidentalKind {
       kNoteEditorialAccidentalYes, kNoteEditorialAccidentalNo };
 
@@ -285,10 +288,7 @@ class msrNote : public msrTupletElement
     void                  setNoteHeadFilledKind (
                             msrNoteHeadFilledKind
                               noteHeadFilledKind)
-                              {
-                                fNoteHeadFilledKind =
-                                  noteHeadFilledKind;
-                              }
+                              { fNoteHeadFilledKind = noteHeadFilledKind; }
 
     msrNoteHeadFilledKind getNoteHeadFilledKind () const
                               { return fNoteHeadFilledKind; }
@@ -297,8 +297,7 @@ class msrNote : public msrTupletElement
                             msrNoteHeadParenthesesKind
                               noteHeadParenthesesKind)
                               {
-                                fNoteHeadParenthesesKind =
-                                  noteHeadParenthesesKind;
+                                fNoteHeadParenthesesKind = noteHeadParenthesesKind;
                               }
 
     msrNoteHeadParenthesesKind
@@ -310,17 +309,10 @@ class msrNote : public msrTupletElement
     void                  setNoteAccidentalKind (
                             msrNoteAccidentalKind
                               noteAccidentalKind)
-                              {
-                                fNoteAccidentalKind =
-                                  noteAccidentalKind;
-                              }
+                              { fNoteAccidentalKind = noteAccidentalKind; }
 
-    msrNoteAccidentalKind
-                          getNoteAccidentalKind ()
-                              {
-                                return
-                                  fNoteAccidentalKind;
-                              }
+    msrNoteAccidentalKind getNoteAccidentalKind ()
+                              { return fNoteAccidentalKind; }
 
     void                  setNoteEditorialAccidentalKind (
                             msrNoteEditorialAccidentalKind
@@ -332,10 +324,7 @@ class msrNote : public msrTupletElement
 
     msrNoteEditorialAccidentalKind
                           getNoteEditorialAccidentalKind ()
-                              {
-                                return
-                                  fNoteEditorialAccidentalKind;
-                              }
+                              { return fNoteEditorialAccidentalKind; }
 
     void                  setNoteCautionaryAccidentalKind (
                             msrNoteCautionaryAccidentalKind
@@ -347,33 +336,26 @@ class msrNote : public msrTupletElement
 
     msrNoteCautionaryAccidentalKind
                           getNoteCautionaryAccidentalKind ()
-                              {
-                                return
-                                  fNoteCautionaryAccidentalKind;
-                              }
+                              { return fNoteCautionaryAccidentalKind; }
 
     // note whole notes
 
     void                  setNoteSoundingWholeNotes (
-                            rational wholeNotes);
+                            rational wholeNotes)
+                              { fMeasureElementSoundingWholeNotes = wholeNotes; }
 
     rational              getNoteSoundingWholeNotes ()
-                              {
-                                return
-                                  fMeasureElementSoundingWholeNotes; // JMI fNoteSoundingWholeNotes
-                              }
+                              { return fMeasureElementSoundingWholeNotes; }
 
     // note display
 
     msrQuarterTonesPitchKind
                           getNoteQuarterTonesDisplayPitchKind () const
-                              {
-                                return
-                                  fNoteQuarterTonesDisplayPitchKind;
-                              }
+                              { return fNoteQuarterTonesDisplayPitchKind; }
 
     void                  setNoteDisplayWholeNotes (
-                            rational wholeNotes);
+                            rational wholeNotes)
+                              { fNoteDisplayWholeNotes = wholeNotes; }
 
     rational              getNoteDisplayWholeNotes ()
                               { return fNoteDisplayWholeNotes; }

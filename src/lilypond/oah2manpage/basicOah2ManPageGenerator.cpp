@@ -63,7 +63,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
     gOahOah->fHandlerExecutableName <<
     currentVersionNumber () <<
     " on " <<
-    gGeneralOah->fTranslationDate <<
+    gGeneralOah->fTranslationDateFull <<
     endl;
 
   // the man page header
@@ -73,7 +73,7 @@ void basicOah2ManPageGenerator::visitStart (S_oahHandler& elt)
     " \"" <<
     "1" << // JMI section ???
     "\" \"" <<
-    gGeneralOah->fTranslationDate <<
+    gGeneralOah->fTranslationDateFull <<
     "\" " <<
     gOahOah->fHandlerExecutableName <<
     " \"" <<

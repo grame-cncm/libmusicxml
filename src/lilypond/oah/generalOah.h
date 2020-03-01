@@ -115,7 +115,8 @@ class generalOah : public oahGroup
     // translation date
     // --------------------------------------
 
-    string                fTranslationDate;
+    string                fTranslationDateFull;
+    string                fTranslationDateYYYYMMDD;
 
     // warning and error handling
     // --------------------------------------

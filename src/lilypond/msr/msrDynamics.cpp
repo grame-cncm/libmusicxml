@@ -133,6 +133,7 @@ string msrDynamics::dynamicsKindAsString (
       break;
     case msrDynamics::k_NoDynamics:
       result = "k_NoDynamics???";
+      break;
   } // switch
 
   return result;

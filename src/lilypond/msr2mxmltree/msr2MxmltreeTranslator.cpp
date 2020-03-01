@@ -11,7 +11,7 @@
 */
 
 #include <sstream>
-#include <climits>      // INT_MIN, INT_MAX
+//#include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
 //#include <algorithm>    // for_each
 
@@ -44,23 +44,57 @@ using namespace std;
 
 namespace MusicXML2
 {
-/* ctree.h:
-		typedef std::vector<treePtr>		branchs;	///< the node sub elements container type
-		typedef typename branchs::iterator	literator;	///< the current level iterator type
-		typedef treeIterator<treePtr>		iterator;	///< the top -> bottom iterator type
+/* JMI
+//________________________________________________________________________
+// a comparison class to sort elements
+class musicXMLOrder
+{
+	public:
 
-		static treePtr new_tree() { ctree<T>* o = new ctree<T>; assert(o!=0); return o; }
+    // constructors/destructor
+    // ------------------------------------------------------
 
-		branchs& elements()						{ return fElements; }
-		const branchs& elements() const			{ return fElements; }
-		virtual void push (const treePtr& t)	{ fElements.push_back(t); }
-*/
+    musicXMLOrder (
+      map<int,int>& order, Sxmlelement container);
 
-/*
-#include "musicxmlfactory.h"
+		virtual	~musicXMLOrder ();
 
-void sortvisitor::visitStart( S_note& elt )
-	{ std::sort (elt->elements().begin(), elt->elements().end(), xmlorder(gNoteOrder, elt)); }
+	public:
+
+    // services
+    // ------------------------------------------------------
+
+		bool	                operator()	(Sxmlelement a, Sxmlelement b);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+	  map<int,int>&	        fOrder;
+	  Sxmlelement		        fContainer;
+};
+
+musicXMLOrder::musicXMLOrder (
+  map<int,int>& order, Sxmlelement container)
+  : fOrder (order)
+{
+  fContainer = container;
+}
+
+musicXMLOrder::~musicXMLOrder ()
+{}
+
+bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
+{
+	int aIndex = fOrder [a->getType ()];
+	int bIndex = fOrder [b->getType ()];
+
+	if (aIndex == 0) return false; // wrong a element: reject to end of list
+	if (bIndex == 0) return true;	 // wrong b element: reject to end of list
+
+	return aIndex < bIndex;
+}
 */
 
 //________________________________________________________________________
@@ -68,11 +102,11 @@ void msr2MxmltreeTranslator::handleWorkSubElement (
   Sxmlelement elem)
 {
   if (! fScoreWorkElement) {
-    // create an work element
+    // create a work element
     fScoreWorkElement = createElement (k_work, "");
-    // append it to the mxmltree
-    fMxmltree->push (fScoreWorkElement);
   }
+
+  fScoreWorkElement->push (elem);
 }
 
 void msr2MxmltreeTranslator::handleIdentificationSubElement (
@@ -81,8 +115,6 @@ void msr2MxmltreeTranslator::handleIdentificationSubElement (
   if (! fScoreIdentificationElement) {
     // create an identification element
     fScoreIdentificationElement = createElement (k_identification, "");
-    // append it to the mxmltree
-    fMxmltree->push (fScoreIdentificationElement);
   }
 
   fScoreIdentificationElement->push (elem);
@@ -93,8 +125,9 @@ void msr2MxmltreeTranslator::handleIdentificationEncodingSubElement (
 {
   if (! fScoreIdentificationEncodingElement) {
     // create an encoding element
-    fScoreIdentificationEncodingElement = createElement (k_identification, "");
-    // append it to the identification element, creating the latter if necessary
+    fScoreIdentificationEncodingElement = createElement (k_encoding, "");
+
+    // append it to the identification element
     handleIdentificationSubElement (fScoreIdentificationEncodingElement);
   }
 
@@ -107,6 +140,7 @@ void msr2MxmltreeTranslator::handleAttributesSubElement (
   if (! fCurrentPartAttributes) {
     // create an attributes element
     fCurrentPartAttributes = createElement (k_attributes, "");
+
     // append the attributes element to the current measure element
     fCurrentMeasureElement->push (fCurrentPartAttributes);
   }
@@ -116,17 +150,41 @@ void msr2MxmltreeTranslator::handleAttributesSubElement (
 }
 
 void msr2MxmltreeTranslator::handleDirectionSubElement (
-  Sxmlelement elem)
+  Sxmlelement      elem,
+  msrPlacementKind placementKind)
 {
-  if (! fCurrentPartDirection) {
-    // create a direction element
-    fCurrentPartDirection = createElement (k_attributes, "");
-    // append the direction element to the current measure element
-    fCurrentMeasureElement->push (fCurrentPartDirection);
+  string placementString;
+
+  switch (placementKind) {
+    case msrPlacementKind::kPlacementNone:
+      break;
+    case msrPlacementKind::kPlacementAbove:
+      placementString = "above";
+      break;
+    case msrPlacementKind::kPlacementBelow:
+      placementString = "below";
+      break;
+  } // switch
+
+  // create a direction element
+  Sxmlelement directionElement = createElement (k_direction, "");
+
+  if (placementString.size ()) {
+    // set it's "placement" attribute
+    directionElement->add (createAttribute ("placement", placementString));
   }
 
-  // append elem to the current direction element
-  fCurrentPartDirection->push (elem);
+  // append it to the current measure element
+  fCurrentMeasureElement->push (directionElement);
+
+  // create a direction type element
+  Sxmlelement directionTypeElement = createElement (k_direction_type, "");
+
+  // append it to the current direction element
+  directionElement->push (directionTypeElement);
+
+  // append elem to the direction type element
+  directionTypeElement->push (elem);
 }
 
 void msr2MxmltreeTranslator::handleMeasureLevelElement (
@@ -135,9 +193,25 @@ void msr2MxmltreeTranslator::handleMeasureLevelElement (
   // append the attributes element the current measure element
   fCurrentMeasureElement->push (elem);
 
-  // forget about the current attributes and direction elements
+  // forget about the current attributes element
   fCurrentPartAttributes = nullptr;
-  fCurrentPartDirection  = nullptr;
+}
+
+void msr2MxmltreeTranslator::handleNoteNotationsSubElement (
+  Sxmlelement      noteElement,
+  Sxmlelement      elem,
+  msrPlacementKind placementKind)
+{
+  if (! fCurrentNoteNotationsElement) {
+    // create an notations element
+    fCurrentNoteNotationsElement = createElement (k_notations, "");
+
+    // append it to noteElement
+    noteElement->push (fCurrentNoteNotationsElement);
+  }
+
+  // append elem to the note notations element
+  fCurrentNoteNotationsElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -149,82 +223,10 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
   // the MSR score we're visiting
   fVisitedMsrScore = mScore;
 
-  // create an empty clone of fVisitedMsrScore for use by the Mxmltree score
-  // not sharing the visitiged MSR score allows cleaner data handling
-  // and optimisations of the Mxmltree data
-  fCurrentMsrScoreClone =
-    fVisitedMsrScore->
-      createScoreNewbornClone ();
-
   // create the current score part-wise element
-  fMxmltree = createScorePartWiseElement ();
+  fScorePartWiseElement = createScorePartWiseElement ();
 
 /*
-
-//------------------------------------------------------------------------
-static Sxmlelement makeAttributes() {
-	Sxmlelement attributes = factory::instance().create(k_attributes);
-	attributes->push (newElementI(k_divisions, kDivision));
-
-	Sxmlelement time = factory::instance().create(k_time);
-	time->push (newElement(k_beats, "4"));
-	time->push (newElement(k_beat_type, "4"));
-	attributes->push (time);
-
-	Sxmlelement clef = factory::instance().create(k_clef);
-	clef->push (newElement(k_sign, "G"));
-	clef->push (newElement(k_line, "2"));
-	attributes->push (clef);
-
-	return attributes;
-}
-
-
-
-static Sxmlelement makeIdentification() {
-	Sxmlelement id = factory::instance().create(k_identification);
-	Sxmlelement encoding = factory::instance().create(k_encoding);
-
-	Sxmlelement creator = newElement(k_creator, "Georg Chance");
-	creator->add(newAttribute("type", "Composer"));
-	id->push (creator);
-
-	encoding->push (newElement(k_software, "MusicXML Library v2"));
-	id->push (encoding);
-	return id;
-}
-
-static Sxmlelement makePartList() {
-	Sxmlelement partlist = factory::instance().create(k_part_list);
-	Sxmlelement scorepart = factory::instance().create(k_score_part);
-	scorepart->add (newAttribute("id", kPartID));
-	scorepart->push (newElement(k_part_name, "Part name"));
-	Sxmlelement scoreinstr = factory::instance().create(k_score_instrument);
-	scoreinstr->add (newAttribute("id", "I1"));
-	scoreinstr->push (newElement(k_instrument_name, "Any instr."));
-	scorepart->push (scoreinstr);
-	partlist->push(scorepart);
-	return partlist;
-}
-
-Sxmlelement makePart(int count) {
-	Sxmlelement part = factory::instance().create(k_part);
-	part->add (newAttribute("id", kPartID));
-	for (int i=1; i<=count; i++)			// and 'count' times
-		part->push (makemeasure(i));			// adds a new measure to the part
-	return part;
-}
-
-
-	score->push (newElement(k_movement_title, "Random Music"));
-	score->push (makeIdentification());
-	score->push (makePartList());
-	score->push(makePart(measuresCount));			// adds a part to the score
-*/
-
-  // identification
-  fOnGoingIdentification = false;
-
   // header
   fWorkNumberKnown       = false;
   fWorkTitleKnown        = false;
@@ -251,14 +253,12 @@ Sxmlelement makePart(int count) {
   // grace notes
   fOnGoingGraceNotesGroup = false;
 
-  // chords
-  fOnGoingChord = false;
-
   // stanzas
   fOnGoingStanza = false;
 
   // syllables
   fOnGoingSyllableExtend = false;
+  */
 };
 
 msr2MxmltreeTranslator::~msr2MxmltreeTranslator ()
@@ -277,55 +277,6 @@ void msr2MxmltreeTranslator::buildMxmltreeFromMsrScore ()
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::displayCurrentOnGoingValues ()
-{
-  fLogOutputStream <<
-    "Ongoing value:" <<
-    endl;
-
-  gIndenter++;
-
-  const int fieldWidth = 25;
-
-  fLogOutputStream <<
-    setw (fieldWidth) <<
-    "fOnGoingIdentification" << ": " << booleanAsString (fOnGoingIdentification) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingStaff" << ": " << booleanAsString (fOnGoingStaff) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingHarmonyVoice" << ": " << booleanAsString (fOnGoingHarmonyVoice) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingHarmony" << ": " << booleanAsString (fOnGoingHarmony) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingFiguredBassVoice" << ": " << booleanAsString (fOnGoingFiguredBassVoice) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingNonGraceNote" << ": " << booleanAsString (fOnGoingNonGraceNote) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingDoubleTremolo" << ": " << booleanAsString (fOnGoingDoubleTremolo) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingGraceNotesGroup" << ": " << booleanAsString (fOnGoingGraceNotesGroup) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingChord" << ": " << booleanAsString (fOnGoingChord) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingStanza" << ": " << booleanAsString (fOnGoingStanza) <<
-    endl<<
-    setw (fieldWidth) <<
-    "fOnGoingSyllableExtend" << ": " << booleanAsString (fOnGoingSyllableExtend) <<
-    endl;
-
-  gIndenter--;
-}
-
-//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
 {
   int inputLineNumber =
@@ -340,12 +291,27 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
   }
 #endif
 
+  // create the initial creation comment
+  stringstream s;
+  s <<
+    " ===== " <<
+    "Created on " <<
+    gGeneralOah->fTranslationDateFull <<
+    " from " <<
+    gOahOah->fInputSourceName <<
+    " ===== ";
+
+  fInitialCreationComment = createElement (kComment, s.str ());
+
   // create a software element
   Sxmlelement
     softwareElement =
       createElement (
         k_software,
-        gOahOah->fHandlerExecutableName + " " + currentVersionNumber ());
+        gOahOah->fHandlerExecutableName
+          + " "
+          + currentVersionNumber () +
+          ", https://github.com/dfober/libmusicxml/tree/lilypond");
 
   // append it to the identification encoding
   handleIdentificationEncodingSubElement (softwareElement);
@@ -355,16 +321,13 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
     encodingDateElement =
       createElement (
         k_encoding_date,
-        gGeneralOah->fTranslationDate);
+        gGeneralOah->fTranslationDateYYYYMMDD);
 
   // append it to the identification encoding
   handleIdentificationEncodingSubElement (encodingDateElement);
 
   // create the part list element
-  fPartListElement = createElement (k_part_list, "");
-
-  // append it to the mxmlTree
-  fMxmltree->push (fPartListElement);
+  fScorePartListElement = createElement (k_part_list, "");
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
@@ -381,158 +344,41 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
   }
 #endif
 
-/*
-  if (fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      workTitle =
-        fCurrentIdentification->
-          getWorkTitle ()->
-            getVariableValue (),
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ()->
-            getVariableValue ();
+  // append the initial creation comment to the score part wise element
+  fScorePartWiseElement->push (fInitialCreationComment);
 
-    if (
-      workTitle.size () == 0
-        &&
-      movementTitle.size () > 0
-    ) {
-      // use the movement title as the work title
-      fCurrentIdentification->
-        setWorkTitle (
-          inputLineNumber, movementTitle);
+  // append the score work element to the score part wise element
+  fScorePartWiseElement->push (fScoreWorkElement);
 
-      fCurrentLpsrScoreHeader->
-        setWorkTitle (
-          inputLineNumber,
-          movementTitle,
-          kFontStyleNone,
-          kFontWeightNone);
+  // append the identification element to the score part wise element
+  fScorePartWiseElement->push (fScoreIdentificationElement);
 
-      // forget the movement title
-      fCurrentIdentification->
-        setMovementTitle (
-          inputLineNumber, "");
+  // append the part list element to the score part wise element
+  fScorePartWiseElement->push (fScorePartListElement);
 
-      fCurrentLpsrScoreHeader->
-        setMovementTitle (
-          inputLineNumber,
-          "",
-          kFontStyleNone,
-          kFontWeightNone);
-    }
-  }
+  // append the pending parts elements to the score part wise element
+  list<Sxmlelement>::const_iterator i;
 
-  else if (! fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ()->
-            getVariableValue ();
+  for (i=fPendingPartElementsList.begin (); i!=fPendingPartElementsList.end (); i++) {
+    Sxmlelement partElement = (*i);
 
-    // use the movement title as the work title
-    fCurrentIdentification->
-      setWorkTitle (
-        inputLineNumber, movementTitle);
+    // create a part comment
+    stringstream s;
+    s <<
+      " ============================ " <<
+      "PART" <<
+      " \"" << partElement->getAttributeValue ("id") << "\"" <<
+      " ============================= ";
+    Sxmlelement partComment = createElement (kComment, s.str ());
 
-    fCurrentLpsrScoreHeader->
-      setWorkTitle (
-        inputLineNumber,
-        movementTitle,
-        kFontStyleNone,
-        kFontWeightNone);
+    // append it to the score part wise element
+    fScorePartWiseElement->push (partComment);
 
-    // forget the movement title
-    fCurrentIdentification->
-      setMovementTitle (
-        inputLineNumber, "");
-
-    fCurrentLpsrScoreHeader->
-      setMovementTitle (
-        inputLineNumber,
-        "",
-        kFontStyleNone,
-        kFontWeightNone);
-  }
-
-  if (fWorkNumberKnown && fMovementNumberKnown) {
-    string
-      workNumber =
-        fCurrentIdentification->
-          getWorkNumber ()->
-            getVariableValue (),
-      movementNumber =
-        fCurrentIdentification->
-          getMovementNumber ()->
-            getVariableValue ();
-
-    if (
-      workNumber.size () == 0
-        &&
-      movementNumber.size () > 0
-    ) {
-      // use the movement number as the work number
-      fCurrentIdentification->
-        setWorkNumber (
-          inputLineNumber, movementNumber);
-
-      fCurrentLpsrScoreHeader->
-        setWorkNumber (
-          inputLineNumber,
-          movementNumber,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      // forget the movement number
-      fCurrentIdentification->
-        setMovementNumber (
-          inputLineNumber, "");
-
-      fCurrentLpsrScoreHeader->
-        setMovementNumber (
-          inputLineNumber,
-          "",
-          kFontStyleNone,
-          kFontWeightNone);
-    }
-  }
-
-  else if (! fWorkNumberKnown && fMovementNumberKnown) {
-    string
-      movementNumber =
-        fCurrentIdentification->
-          getMovementNumber ()->
-            getVariableValue ();
-
-    // use the movement number as the work number
-    fCurrentIdentification->
-      setWorkNumber (
-        inputLineNumber, movementNumber);
-
-    fCurrentLpsrScoreHeader->
-      setWorkNumber (
-        inputLineNumber,
-        movementNumber,
-        kFontStyleNone,
-        kFontWeightNone);
-
-    // forget the movement number
-    fCurrentIdentification->
-      setMovementNumber (
-        inputLineNumber, "");
-
-    fCurrentLpsrScoreHeader->
-      setMovementNumber (
-        inputLineNumber,
-        "",
-        kFontStyleNone,
-        kFontWeightNone);
-  }
-  */
+    // append the part element to the score part wise element
+    fScorePartWiseElement->push (partElement);
+  } // for
 }
 
-/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
 {
@@ -545,22 +391,30 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
   }
 #endif
 
-  gIndenter++;
+  // work title
+  S_msrVarValAssoc
+    workTitle = elt->getWorkTitle ();
 
-  fCurrentIdentification =
-    fMxmltree->
-      getMsrScore ()->
-        getIdentification ();
+  if (workTitle) {
+  /* JMI
+    msrVarValAssoc::msrVarValAssocKind
+      varValAssocKind =
+        workTitle->getVarValAssocKind ();
+        */
+    string
+      variableValue =
+        workTitle->getVariableValue ();
 
-  fOnGoingIdentification = true;
+    // create the work title element
+    Sxmlelement workTitleElement = createElement (k_work_title, variableValue);
+
+    // append it to the score part wise element
+    handleWorkSubElement (workTitleElement);
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
 {
-  fOnGoingIdentification = false;
-
-  gIndenter--;
-
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -571,6 +425,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
 #endif
 }
 
+/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
 {
@@ -598,7 +453,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
   // get LPSR score paper
   S_lpsrPaper
     paper =
-      fMxmltree->getScorePaper ();
+      fScorePartWiseElement->getScorePaper ();
 
   // sanity check
   msrAssert (
@@ -625,14 +480,14 @@ void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
   }
 
   // set score global staff size Scheme variable
-  fMxmltree->
+  fScorePartWiseElement->
     setScoreGlobalStaffSizeSchemeVariable (
       globalStaffSize);
 
   // get LPSR score block layout
   S_lpsrLayout
     scoreBlockLayout =
-      fMxmltree->getScoreLayout ();
+      fScorePartWiseElement->getScoreLayout ();
 
   // create the score block layout staff-size Scheme assoc
   stringstream s;
@@ -681,7 +536,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
   fCurrentCredit = elt;
 
   // set elt as credit of the MSR score part of the LPSR score
-  fMxmltree->
+  fScorePartWiseElement->
     getMsrScore ()->
       appendCreditToScore (fCurrentCredit);
 }
@@ -747,7 +602,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
         fPartGroupsStack.size ()
           ? fPartGroupsStack.top ()
           : nullptr,
-        fMxmltree->getMsrScore ());
+        fScorePartWiseElement->getMsrScore ());
 
   // push it onto this visitors's stack,
   // making it the current partGroup block
@@ -871,30 +726,23 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   Sxmlelement scorePartElement = createElement (k_score_part, "");
   // set it's "id" attribute
   scorePartElement->add (createAttribute ("id", partID));
+
   // append it to the part list element
-  fPartListElement->push (scorePartElement);
+  fScorePartListElement->push (scorePartElement);
 
   // create a part name element
   Sxmlelement partNameElement = createElement (k_part_name, partName);
+
   // append it to the score part element
   scorePartElement->push (partNameElement);
-
-
-  // create a comment
-  stringstream s;
-  s <<
-    " ==================== " << "PART" << " \"" << partID << "\"" << " ==================== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
-
-  // append it to the mxmltree
-  fMxmltree->push (comment);
 
   // create a part element
   fCurrentPartElement = createElement (k_part, "");
   // set its "id" attribute
 	fCurrentPartElement->add (createAttribute ("id", partID));
-  // append it to the mxmltree
-  fMxmltree->push (fCurrentPartElement);
+
+  // append it to the pending part elements list
+  fPendingPartElementsList.push_back (fCurrentPartElement);
 
   // get the part shortest note's duration and tuplet factor
   fPartShortestNoteDuration =
@@ -903,6 +751,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
     elt->getPartShortestNoteTupletFactor ();
 
   // compute the divisions per quarter note
+  if (fPartShortestNoteDuration > rational (1, 4)) {
+    // the shortest duration should be a quarter note at most
+    fPartShortestNoteDuration = rational (1, 4);
+  }
+
   fDivisionsPerQuarterNote =
     rational (1, 4)
       /
@@ -920,7 +773,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
   // create a divisions element
   fCurrentDivisionsElement =
-    createIntegerElement (k_divisions, fDivisionsPerQuarterNote);
+    createIntegerElement (
+      k_divisions,
+      fDivisionsPerQuarterNote);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -939,6 +794,9 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
       endl;
   }
 #endif
+
+  // forget about the current divisions element
+  fCurrentDivisionsElement = nullptr;
 
   // forget about the current part element
   fCurrentPartElement = nullptr;
@@ -963,7 +821,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrSegment& elt)
   // create a comment
   stringstream s;
   s <<
-    " ========================= " << "SEGMENT" << " ========================= ";
+    " ==================== " <<
+    "Segment " <<
+    elt->getSegmentAbsoluteNumber () <<
+    " START" <<
+    " ==================== ";
   Sxmlelement comment = createElement (kComment, s.str ());
 
   // append it to the current part element
@@ -984,6 +846,19 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
       endl;
   }
 #endif
+
+  // create a comment
+  stringstream s;
+  s <<
+    " ==================== " <<
+    "Segment " <<
+    elt->getSegmentAbsoluteNumber () <<
+    " END" <<
+    " ==================== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current part element
+  fCurrentPartElement->push (comment);
 }
 
 //________________________________________________________________________
@@ -1018,8 +893,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<
-      "', voice \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
+//      "', voice \"" <<
+//      fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber << " ===-->" <<
       endl;
@@ -1029,7 +904,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   // create a comment
   stringstream s;
   s <<
-    " ========================= " << "MEASURE" << " ========================= ";
+    " ===== " <<
+    "MEASURE " <<
+    "ordinal number: " << elt->getMeasureOrdinalNumberInVoice () <<
+    " ===== ";
   Sxmlelement comment = createElement (kComment, s.str ());
 
   // append it to the current part element
@@ -1217,11 +1095,14 @@ void msr2MxmltreeTranslator::visitEnd (S_msrClef& elt)
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrKey" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -1229,22 +1110,138 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
   switch (elt->getKeyKind ()) {
     case msrKey::kTraditionalKind:
       {
+        // create the key element
         Sxmlelement keyElement = createElement (k_key, "");
 
-        keyElement->push (
-          createElement (
-            k_fifths,
-            "4"));
-        keyElement->push (
-          createElement (
-            k_mode,
-            "major"));
+        // compute the number of fifths
+        int fifthsNumber = -1;
 
-        handleAttributesSubElement (keyElement);
+        msrQuarterTonesPitchKind
+          keyTonicQuarterTonesPitchKind =
+            elt->getKeyTonicQuarterTonesPitchKind ();
+
+        switch (keyTonicQuarterTonesPitchKind) {
+          case k_NoQuarterTonesPitch_QTP:
+          case k_Rest_QTP:
+            // should not occur
+            break;
+
+          case kC_Natural_QTP:
+            fifthsNumber = 0;
+            break;
+          case kG_Natural_QTP:
+            fifthsNumber = 1;
+            break;
+          case kD_Natural_QTP:
+            fifthsNumber = 2;
+            break;
+          case kA_Natural_QTP:
+            fifthsNumber = 3;
+            break;
+          case kE_Natural_QTP:
+            fifthsNumber = 4;
+            break;
+          case kB_Natural_QTP:
+            fifthsNumber = 5;
+            break;
+          case kF_Sharp_QTP:
+            fifthsNumber = 6;
+            break;
+          case kC_Sharp_QTP:
+            fifthsNumber = 7;
+            break;
+
+          case kG_Sharp_QTP: // JMI
+            fifthsNumber = 8;
+            break;
+          case kD_Sharp_QTP:
+            fifthsNumber = 9;
+            break;
+          case kA_Sharp_QTP:
+            fifthsNumber = 10;
+            break;
+          case kE_Sharp_QTP:
+            fifthsNumber = 11;
+            break;
+
+          case kF_Natural_QTP:
+            fifthsNumber = -1;
+            break;
+          case kB_Flat_QTP:
+            fifthsNumber = -2;
+            break;
+          case kE_Flat_QTP:
+            fifthsNumber = -3;
+            break;
+          case kA_Flat_QTP:
+            fifthsNumber = -4;
+            break;
+          case kD_Flat_QTP:
+            fifthsNumber = -5;
+            break;
+          case kG_Flat_QTP:
+            fifthsNumber = -6;
+            break;
+          case kC_Flat_QTP:
+            fifthsNumber = -7;
+            break;
+
+          case kF_Flat_QTP: // JMI
+            fifthsNumber = -8;
+            break;
+          case kB_DoubleFlat_QTP:
+            fifthsNumber = -9;
+            break;
+          case kE_DoubleFlat_QTP:
+            fifthsNumber = -10;
+            break;
+          case kA_DoubleFlat_QTP:
+            fifthsNumber = -11;
+            break;
+
+          default:
+            // should not occur
+            break;
+        } // switch
+
+        if (fifthsNumber >= 0) {
+          // populate the key element
+          keyElement->push (
+            createIntegerElement (
+              k_fifths,
+              fifthsNumber));
+
+          keyElement->push (
+            createElement (
+              k_mode,
+              msrKey::keyModeKindAsString (elt->getKeyModeKind ())));
+
+          // append it to the attributes element
+          handleAttributesSubElement (keyElement);
+        }
+
+        else {
+          stringstream s;
+
+          s <<
+            "keyTonicQuarterTonesPitchKind '" <<
+            msrQuarterTonesPitchKindAsString (
+              gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+              keyTonicQuarterTonesPitchKind) <<
+            "' cannot be handled";
+
+          msrInternalError (
+            gOahOah->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
       }
       break;
+
     case msrKey::kHumdrumScotKind:
       {
+        // JMI
       }
       break;
   } // switch
@@ -1532,7 +1529,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
+void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -1540,17 +1537,633 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrNote '" <<
-      elt->asString () <<
-      "'" <<
+      "--> Start visiting msrTempo" <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
+/*
+  const list<S_msrWords>&
+    tempoWordsList =
+      elt->getTempoWordsList ();
+
+ int tempoWordsListSize = tempoWordsList.size ();
+*/
+
+  msrDottedDuration tempoBeatUnit  = elt->getTempoBeatUnit ();
+  string            tempoPerMinute = elt->getTempoPerMinute ();
+
+  msrTempo::msrTempoParenthesizedKind
+    tempoParenthesizedKind =
+      elt->getTempoParenthesizedKind ();
+
+  msrPlacementKind
+    tempoPlacementKind =
+      elt->getTempoPlacementKind ();
+
+  switch (elt->getTempoKind ()) {
+    case msrTempo::k_NoTempoKind:
+      break;
+
+    case msrTempo::kTempoBeatUnitsWordsOnly:
+      {
+    /*
+        fLilypondCodeOstream <<
+          "\\tempo ";
+
+        if (tempoWordsListSize) {
+          list<S_msrWords>::const_iterator
+            iBegin = tempoWordsList.begin (),
+            iEnd   = tempoWordsList.end (),
+            i      = iBegin;
+
+          for ( ; ; ) {
+            S_msrWords words = (*i);
+
+            fLilypondCodeOstream <<
+              "\"" << words->getWordsContents () << "\"";
+
+            if (++i == iEnd) break;
+
+            fLilypondCodeOstream <<
+              ' ';
+          } // for
+
+          fLilypondCodeOstream <<
+            endl;
+        }
+        */
+        }
+      break;
+
+    case msrTempo::kTempoBeatUnitsPerMinute:
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          {
+          // create the metronome element
+          Sxmlelement metronomeElement = createElement (k_metronome, "");
+
+          // set its "parentheses" attribute
+          metronomeElement->add (createAttribute ("parentheses", "yes"));
+
+          // append the beat unit element to the metronome elements
+          msrDurationKind
+            durationKind =
+              tempoBeatUnit.getDurationKind ();
+              /* JMI
+          int
+            dotsNumber =
+              tempoBeatUnit.getDotsNumber ();
+              */
+
+          metronomeElement-> push (
+            createElement (
+              k_beat_unit,
+              msrDurationKindAsMusicXMLType (durationKind)));
+
+          // append the per minute element to the metronome elements
+          metronomeElement-> push (createElement (k_per_minute, tempoPerMinute));
+
+          // append the dynamics element to the current measure element
+          handleDirectionSubElement (
+            metronomeElement,
+            tempoPlacementKind);
+
+  /*
+          if (tempoWordsListSize) {
+            list<S_msrWords>::const_iterator
+              iBegin = tempoWordsList.begin (),
+              iEnd   = tempoWordsList.end (),
+              i      = iBegin;
+
+            for ( ; ; ) {
+              S_msrWords words = (*i);
+
+              fLilypondCodeOstream <<
+                "\"" << words->getWordsContents () << "\"";
+
+              if (++i == iEnd) break;
+
+              fLilypondCodeOstream <<
+                ' ';
+            } // for
+          }
+          */
+        }
+        break;
+
+      case msrTempo::kTempoParenthesizedNo:
+        {
+          // create the metronome element
+          Sxmlelement metronomeElement = createElement (k_metronome, "");
+
+          // append the beat unit element to the metronome elements
+          msrDurationKind
+            durationKind =
+              tempoBeatUnit.getDurationKind ();
+              /*
+          int
+            dotsNumber =
+              tempoBeatUnit.getDotsNumber ();
+              */
+
+          metronomeElement-> push (
+            createElement (
+              k_beat_unit,
+              msrDurationKindAsMusicXMLType (durationKind)));
+
+          // append the per minute element to the metronome elements
+          metronomeElement-> push (createElement (k_per_minute, tempoPerMinute));
+
+          // append the metronome element to the current measure element
+          handleDirectionSubElement (
+            metronomeElement,
+            tempoPlacementKind);
+
+  /*
+          if (tempoWordsListSize) {
+            list<S_msrWords>::const_iterator
+              iBegin = tempoWordsList.begin (),
+              iEnd   = tempoWordsList.end (),
+              i      = iBegin;
+
+            for ( ; ; ) {
+              S_msrWords words = (*i);
+
+              fLilypondCodeOstream <<
+                "\"" << words->getWordsContents () << "\"";
+
+              if (++i == iEnd) break;
+
+              fLilypondCodeOstream <<
+                ' ';
+            } // for
+          }
+          */
+        }
+          break;
+        } // switch
+      break;
+
+    case msrTempo::kTempoBeatUnitsEquivalence:
+      {
+    /*
+      fLilypondCodeOstream <<
+        "\\tempo ";
+
+      if (tempoWordsListSize) {
+        list<S_msrWords>::const_iterator
+          iBegin = tempoWordsList.begin (),
+          iEnd   = tempoWordsList.end (),
+          i      = iBegin;
+
+        for ( ; ; ) {
+          S_msrWords words = (*i);
+
+          fLilypondCodeOstream <<
+            "\"" << words->getWordsContents () << "\"";
+
+          if (++i == iEnd) break;
+
+          fLilypondCodeOstream <<
+            ' ';
+        } // for
+      }
+
+      fLilypondCodeOstream <<
+        ' ' <<
+        "\\markup {" <<
+        endl;
+
+      gIndenter++;
+
+      fLilypondCodeOstream <<
+        "\\concat {" <<
+        endl;
+
+      gIndenter++;
+
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          fLilypondCodeOstream <<
+            "(" <<
+            endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
+
+      gIndenter++;
+
+      if (gLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note {";
+      }
+      else {
+        fLilypondCodeOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note #\"";
+      }
+
+      fLilypondCodeOstream <<
+        dottedDurationAsLilypondStringWithoutBackSlash (
+          inputLineNumber,
+          tempoBeatUnit);
+
+      if (gLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeOstream <<
+          "} #UP";
+      }
+      else {
+        fLilypondCodeOstream <<
+          "\" #UP";
+      }
+
+      fLilypondCodeOstream <<
+        endl <<
+        "\" = \"" <<
+        endl;
+
+      fLilypondCodeOstream <<
+        "(";
+      if (gLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note {";
+      }
+      else {
+        fLilypondCodeOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note #\"";
+      }
+
+      fLilypondCodeOstream <<
+        dottedDurationAsLilypondStringWithoutBackSlash (
+          inputLineNumber,
+          elt->getTempoEquivalentBeatUnit ());
+
+      if (gLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeOstream <<
+          "} #UP";
+      }
+      else {
+        fLilypondCodeOstream <<
+          "\" #UP";
+      }
+
+      fLilypondCodeOstream << endl;
+
+      gIndenter--;
+
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          fLilypondCodeOstream <<
+            ")" <<
+            endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
+
+      gIndenter--;
+
+      fLilypondCodeOstream <<
+        "}" <<
+        endl;
+
+      gIndenter--;
+
+      fLilypondCodeOstream <<
+        "}" <<
+        endl;
+        */
+        }
+      break;
+
+    case msrTempo::kTempoNotesRelationShip:
+      {
+    /*
+      fLilypondCodeOstream <<
+        "\\tempoRelationship #\"";
+
+      if (tempoWordsListSize) {
+        list<S_msrWords>::const_iterator
+          iBegin = tempoWordsList.begin (),
+          iEnd   = tempoWordsList.end (),
+          i      = iBegin;
+
+        for ( ; ; ) {
+          S_msrWords words = (*i);
+
+          fLilypondCodeOstream <<
+     // JMI       "\"" <<
+            words->getWordsContents (); // JMI <<
+      // JMI      "\"";
+
+          if (++i == iEnd) break;
+
+          fLilypondCodeOstream <<
+            ' ';
+        } // for
+      }
+
+      fLilypondCodeOstream <<
+        "\"";
+
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          fLilypondCodeOstream <<
+            " ##t";
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          fLilypondCodeOstream <<
+            " ##f";
+          break;
+      } // switch
+
+      fLilypondCodeOstream << endl;
+      */
+      }
+      break;
+  } // switch
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrTempo& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrTempo" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: createNoteDirections (S_msrNote note)
+{
+  // append the wedges elements if any
+  const list<S_msrWedge>&
+    noteWedges =
+      note->getNoteWedges () ;
+
+  if (noteWedges.size ()) {
+    list<S_msrWedge>::const_iterator i;
+
+    for (i=noteWedges.begin (); i!=noteWedges.end (); i++) {
+      S_msrWedge wedge = (*i);
+
+      msrWedge::msrWedgeKind wedgeKind = wedge->getWedgeKind ();
+
+      string typeString;
+
+      switch (wedgeKind) {
+        case msrWedge::kWedgeKindNone:
+          // should not occur
+          break;
+        case msrWedge::kWedgeCrescendo:
+          typeString = "crescendo";
+          break;
+        case msrWedge::kWedgeDecrescendo:
+          typeString = "diminuendo";
+          break;
+        case msrWedge::kWedgeStop:
+          typeString = "stop";
+          break;
+      } // switch
+
+      // create the wedge element
+      Sxmlelement wedgeElement = createElement (k_wedge, "");
+
+      // set its "type" attribute
+      wedgeElement->add (createAttribute ("type", typeString));
+
+      // append the wedge element to the current measure element
+      handleDirectionSubElement (
+        wedgeElement,
+        wedge->getWedgePlacementKind ());
+    } // for
+  }
+
+  // append the dynamics elements if any
+  const list<S_msrDynamics>&
+    noteDynamics =
+      note->getNoteDynamics () ;
+
+  if (noteDynamics.size ()) {
+    list<S_msrDynamics>::const_iterator i;
+
+    for (i=noteDynamics.begin (); i!=noteDynamics.end (); i++) {
+      S_msrDynamics dynamics = (*i);
+
+      // create the dynamics element
+      Sxmlelement dynamicsElement = createElement (k_dynamics, "");
+
+      // create the dynamics specific sub-element
+      int subElementID = -1;
+
+      switch (dynamics->getDynamicsKind ()) {
+        case msrDynamics::kF:
+          subElementID = k_f;
+          break;
+        case msrDynamics::kFF:
+          subElementID = k_ff;
+          break;
+        case msrDynamics::kFFF:
+          subElementID = k_fff;
+          break;
+        case msrDynamics::kFFFF:
+          subElementID = k_ffff;
+          break;
+        case msrDynamics::kFFFFF:
+          subElementID = k_fffff;
+          break;
+        case msrDynamics::kFFFFFF:
+          subElementID = k_ffffff;
+          break;
+
+        case msrDynamics::kP:
+          subElementID = k_p;
+          break;
+        case msrDynamics::kPP:
+          subElementID = k_pp;
+          break;
+        case msrDynamics::kPPP:
+          subElementID = k_ppp;
+          break;
+        case msrDynamics::kPPPP:
+          subElementID = k_pppp;
+          break;
+        case msrDynamics::kPPPPP:
+          subElementID = k_ppppp;
+          break;
+        case msrDynamics::kPPPPPP:
+          subElementID = k_pppppp;
+          break;
+
+        case msrDynamics::kMF:
+          subElementID = k_mf;
+          break;
+        case msrDynamics::kMP:
+          subElementID = k_mp;
+          break;
+        case msrDynamics::kFP:
+          subElementID = k_fp;
+          break;
+        case msrDynamics::kFZ:
+          subElementID = k_fz;
+          break;
+        case msrDynamics::kRF:
+          subElementID = k_rf;
+          break;
+        case msrDynamics::kSF:
+          subElementID = k_sf;
+          break;
+
+        case msrDynamics::kRFZ:
+          subElementID = k_rfz;
+          break;
+        case msrDynamics::kSFZ:
+          subElementID = k_sfz;
+          break;
+        case msrDynamics::kSFP:
+          subElementID = k_sfp;
+          break;
+        case msrDynamics::kSFPP:
+          subElementID = k_sfpp;
+          break;
+        case msrDynamics::kSFFZ:
+          subElementID = k_sffz;
+          break;
+        case msrDynamics::k_NoDynamics:
+          ; // should not occur
+          break;
+      } // switch
+
+      Sxmlelement dynamicsSpecificSubElement = createElement (subElementID, "");
+
+      // append the dynamics specific sub-element to the dynamics elements
+      dynamicsElement-> push (dynamicsSpecificSubElement);
+
+      // append the dynamics element to the current measure element
+      handleDirectionSubElement (
+        dynamicsElement,
+        dynamics->getDynamicsPlacementKind ());
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: createNoteNotations (S_msrNote note)
+{
+  // append the articulation elements if any
+  const list<S_msrArticulation>&
+    noteArticulations =
+      note->getNoteArticulations () ;
+
+  if (noteArticulations.size ()) {
+    list<S_msrArticulation>::const_iterator i;
+
+    for (i=noteArticulations.begin (); i!=noteArticulations.end (); i++) {
+      S_msrArticulation articulation = (*i);
+
+      msrArticulation::msrArticulationKind
+        articulationKind =
+          articulation->getArticulationKind ();
+
+      int articulationType;
+
+/* JMI
+	((accent | strong-accent | staccato | tenuto |
+	  detached-legato | staccatissimo | spiccato |
+	  scoop | plop | doit | falloff | breath-mark |
+	  caesura | stress | unstress | soft-accent |
+	  other-articulation)*)>
+	  */
+
+      switch (articulationKind) {
+        case msrArticulation::kAccent:
+          articulationType = k_accent;
+          break;
+        case msrArticulation::kBreathMark:
+          articulationType = k_breath_mark;
+          break;
+        case msrArticulation::kCaesura:
+          articulationType = k_caesura;
+          break;
+        case msrArticulation::kSpiccato:
+          articulationType = k_spiccato;
+          break;
+        case msrArticulation::kStaccato:
+          articulationType = k_staccato;
+          break;
+        case msrArticulation::kStaccatissimo:
+          articulationType = k_staccatissimo;
+          break;
+        case msrArticulation::kStress:
+          articulationType = k_stress;
+          break;
+        case msrArticulation::kUnstress:
+          articulationType = k_unstress;
+          break;
+        case msrArticulation::kDetachedLegato:
+          articulationType = k_detached_legato;
+          break;
+        case msrArticulation::kStrongAccent:
+          articulationType = k_strong_accent;
+          break;
+        case msrArticulation::kTenuto:
+          articulationType = k_tenuto;
+          break;
+        case msrArticulation::kFermata:
+          articulationType = k_fermata;
+          break;
+        case msrArticulation::kArpeggiato:
+          articulationType = k_arpeggiate;
+          break;
+        case msrArticulation::kNonArpeggiato:
+          articulationType = k_non_arpeggiate;
+          break;
+        case msrArticulation::kDoit:
+          articulationType = k_doit;
+          break;
+        case msrArticulation::kFalloff:
+          articulationType = k_falloff;
+          break;
+        case msrArticulation::kPlop:
+          articulationType = k_plop;
+          break;
+        case msrArticulation::kScoop:
+          articulationType = k_scoop;
+          break;
+      } // switch
+
+      // create the note articulations element
+      Sxmlelement noteArticulationsElement = createElement (k_articulations, "");
+
+      // create the articulation element
+      Sxmlelement articulationElement = createElement (articulationType, "");
+
+      // append it to the note articulations element
+      noteArticulationsElement->push (articulationElement);
+
+      // append the note articulations element to the current note element
+      handleNoteNotationsSubElement (
+        fCurrentNoteElement,
+        noteArticulationsElement,
+        articulation->getArticulationPlacementKind ());
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
   // grab the note's informations
   msrQuarterTonesPitchKind
-    noteQuarterTonesPitchKind = elt->getNoteQuarterTonesPitchKind ();
+    noteQuarterTonesPitchKind = note->getNoteQuarterTonesPitchKind ();
 
   msrDiatonicPitchKind noteDiatonicPitchKind;
   msrAlterationKind    noteAlterationKind;
@@ -1562,8 +2175,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
     noteAlterationKind);
 
   int
-    noteOctave     = elt->getNoteOctave (),
-    noteDotsNumber = elt->getNoteDotsNumber ();
+    noteOctave     = note->getNoteOctave (),
+    noteDotsNumber = note->getNoteDotsNumber ();
 
   float
     noteMusicXMLAlter =
@@ -1572,13 +2185,13 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 
   rational
     noteSoundingWholeNotes =
-      elt->getMeasureElementSoundingWholeNotes (),
+      note->getMeasureElementSoundingWholeNotes (),
     noteDisplayWholeNotes =
-      elt->getNoteDisplayWholeNotes ();
+      note->getNoteDisplayWholeNotes ();
 
   msrDurationKind
     noteGraphicDurationKind =
-      elt->getNoteGraphicDurationKind ();
+      note->getNoteGraphicDurationKind ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
@@ -1586,25 +2199,34 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
       "-->  noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
       "-->  noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
       "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
-      "-->  noteDiatonicPitchKind: " << msrDiatonicPitchKindAsString (noteDiatonicPitchKind) <<
-      "-->  noteGraphicDurationKind: " << msrDurationKindAsType (noteGraphicDurationKind) <<
+      "-->  noteDiatonicPitchKind: " <<
+      msrDiatonicPitchKindAsString (noteDiatonicPitchKind) <<
+      "-->  noteGraphicDurationKind: " <<
+      msrDurationKindAsMusicXMLType (noteGraphicDurationKind) <<
       endl;
   }
 #endif
 
   // create a note element
-  Sxmlelement noteElement = createElement (k_note, "");
+  fCurrentNoteElement = createElement (k_note, "");
 
-  // append it to the current measure element
-  handleMeasureLevelElement (noteElement);
+  // append the note element to the current measure element
+  handleMeasureLevelElement (fCurrentNoteElement);
+
+/*
+  if (! note->getNoteIsAChordsFirstMemberNote ()) {
+    // append the chord element
+//    fCurrentNoteElement->push (createElement (k_chord, ""));
+  }
+  */
 
   // create the step and pitch attributes
-  switch (elt->getNoteKind ()) {
+  switch (note->getNoteKind ()) {
     case msrNote::k_NoNoteKind:
       break;
 
     case msrNote::kRestNote:
-      noteElement->push (createElement (k_rest, ""));
+      fCurrentNoteElement->push (createElement (k_rest, ""));
       break;
 
     case msrNote::kSkipNote:
@@ -1618,12 +2240,14 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
         // create the pitch element
         Sxmlelement pitchElement = createElement (k_pitch, "");
 
+        // append the step element
         pitchElement->push (
           createElement (
             k_step,
             msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
 
         if (noteMusicXMLAlter != 0.0) {
+          // append the alter element
           stringstream s;
           s << setprecision (2) << noteMusicXMLAlter;
           pitchElement->push (
@@ -1632,12 +2256,13 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
               s.str ()));
         }
 
+        // append the octave element
         pitchElement->push (
           createIntegerElement (
             k_octave,
             noteOctave));
 
-        noteElement->push (pitchElement);
+        fCurrentNoteElement->push (pitchElement);
       }
       break;
 
@@ -1651,6 +2276,41 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
       break;
 
     case msrNote::kChordMemberNote:
+      {
+      /*
+        if (! note->getNoteIsAChordsFirstMemberNote ()) {
+          // append the chord element
+    //      fCurrentNoteElement->push (createElement (k_chord, ""));
+        }
+        */
+
+        // create the pitch element
+        Sxmlelement pitchElement = createElement (k_pitch, "");
+
+        // append the step element
+        pitchElement->push (
+          createElement (
+            k_step,
+            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
+
+        if (noteMusicXMLAlter != 0.0) {
+          // append the alter element
+          stringstream s;
+          s << setprecision (2) << noteMusicXMLAlter;
+          pitchElement->push (
+            createElement (
+              k_alter,
+              s.str ()));
+        }
+
+        // append the octave element
+        pitchElement->push (
+          createIntegerElement (
+            k_octave,
+            noteOctave));
+
+        fCurrentNoteElement->push (pitchElement);
+      }
       break;
 
     case msrNote::kTupletMemberNote:
@@ -1687,20 +2347,20 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 
     msrInternalError (
       gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
+      note->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
   }
 
-  noteElement->push (
+  fCurrentNoteElement->push (
     createIntegerElement (
       k_duration,
       durationAsRational.getNumerator ()));
 
-  // create the voice attribute if relevant
+  // append the voice attribute if relevant
   S_msrVoice
     noteVoice =
-      elt->
+      note->
         getNoteMeasureUpLink ()->
           getMeasureSegmentUpLink ()->
             getSegmentVoiceUpLink ();
@@ -1710,24 +2370,67 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
         getVoiceNumber ();
 
   if (voiceNumber != 1) {
-    noteElement->push (
+    fCurrentNoteElement->push (
       createIntegerElement (
         k_voice,
         voiceNumber));
   }
 
-  // create the type attribute
-  noteElement->push (
+  // append the type attribute
+  fCurrentNoteElement->push (
     createElement (
       k_type,
-      msrDurationKindAsType (noteGraphicDurationKind)));
+      msrDurationKindAsMusicXMLType (noteGraphicDurationKind)));
 
-  // create the dots attributes if relevant
+  // append the dots attributes if relevant
   for (int i = 0; i < noteDotsNumber; i++) {
-    noteElement->push (
+    fCurrentNoteElement->push (
       createElement (
         k_dot, ""));
   } // for
+
+  // append the accidental if any
+  msrNote::msrNoteAccidentalKind
+    noteAccidentalKind =
+      note->getNoteAccidentalKind ();
+
+  string
+    accidentalString =
+      msrNote::noteAccidentalKindAsMusicXMLString (
+        noteAccidentalKind);
+
+  if (accidentalString.size ()) {
+    fCurrentNoteElement->push (
+      createElement (
+        k_accidental,
+        accidentalString));
+  }
+
+  // append the articulations if any
+  createNoteNotations (note);
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrNote '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+  // create the note directions
+  createNoteDirections (elt);
+
+  // create the note element
+  createNoteElement (elt);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
@@ -2047,175 +2750,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrVoice& elt)
   }
 #endif
 
-  fCurrentVoiceOriginal = elt;
-
-  gIndenter++;
-
-  switch (elt->getVoiceKind ()) {
-
-    case msrVoice::kVoiceRegular:
-      // create a voice clone
-      fCurrentVoiceClone =
-        elt->createVoiceNewbornClone (
-          fCurrentStaffClone);
-
-      // add it to the staff clone
-      fCurrentStaffClone->
-        registerVoiceInStaffClone (
-          inputLineNumber,
-          fCurrentVoiceClone);
-
-      // append the voice clone to the LPSR score elements list
-      fMxmltree ->
-        appendVoiceToScoreElementsList (fCurrentVoiceClone);
-
-      // append a use of the voice to the current staff block
-      fCurrentStaffBlock->
-        appendVoiceUseToStaffBlock (
-          fCurrentVoiceClone);
-      break;
-
-    case msrVoice::kVoiceHarmony:
-      {
-        // create a voice clone
-        fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
-
-        // add it to the staff clone
-        fCurrentStaffClone->
-          registerVoiceInStaffClone (
-            inputLineNumber,
-            fCurrentVoiceClone);
-
-        if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
-          ) {
-          // append the voice clone to the LPSR score elements list
-          fMxmltree ->
-            appendVoiceToScoreElementsList (
-              fCurrentVoiceClone);
-
-          // create a ChordNames context
-          string voiceName =
-            elt->getVoiceName ();
-
-          string partCombinedName =
-            elt->fetchVoicePartUpLink ()->
-              getPartCombinedName ();
-
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Creating a ChordNames context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-
-          S_lpsrChordNamesContext
-            chordNamesContext =
-              lpsrChordNamesContext::create (
-                inputLineNumber,
-                lpsrContext::kExistingContextYes,
-                voiceName,
-// JMI                elt->getHarmonyVoiceRegularVoiceBackwardLink ());
-                elt);
-
-          // append it to the current part block
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Appending the ChordNames context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-
-          fCurrentPartBlock->
-            appendChordNamesContextToPartBlock (
-              inputLineNumber,
-              chordNamesContext);
-
-          fOnGoingHarmonyVoice = true;
-        }
-      }
-      break;
-
-    case msrVoice::kVoiceFiguredBass:
-      {
-        // create a voice clone
-        fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
-
-        // add it to the staff clone
-        fCurrentStaffClone->
-          registerVoiceInStaffClone (
-            inputLineNumber,
-            fCurrentVoiceClone);
-
-        // register it as the part figured bass voice
-        fCurrentPartClone->
-          setPartFiguredBassVoice (fCurrentVoiceClone);
-
-        if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
-          ) {
-          // append the voice clone to the LPSR score elements list
-          fMxmltree ->
-            appendVoiceToScoreElementsList (
-              fCurrentVoiceClone);
-
-          // create a FiguredBass context
-          string voiceName =
-            elt->getVoiceName ();
-
-          string partCombinedName =
-            elt->fetchVoicePartUpLink ()->
-              getPartCombinedName ();
-
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Creating a FiguredBass context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-
-          S_lpsrFiguredBassContext
-            figuredBassContext =
-              lpsrFiguredBassContext::create (
-                inputLineNumber,
-                lpsrContext::kExistingContextYes,
-                voiceName,
-                elt-> getVoiceStaffUpLink ());
-
-          // append it to the current part block
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Appending the FiguredBass context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-
-          fCurrentPartBlock->
-            appendFiguredBassContextToPartBlock (
-              figuredBassContext);
-
-          fOnGoingFiguredBassVoice = true;
-        }
-      }
-      break;
-  } // switch
-
-  // clear the voice notes map
-  fVoiceNotesMap.clear ();
-
-  fFirstNoteCloneInVoice = nullptr;
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrVoice& elt)
@@ -2281,7 +2815,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrHarmony& elt)
       "--> Start visiting msrHarmony '" <<
       elt->asString () <<
       ", fOnGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
-      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
       ", fOnGoingHarmony: " << booleanAsString (fOnGoingHarmony) <<
       "', line " << elt->getInputLineNumber () <<
@@ -2303,12 +2836,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrHarmony& elt)
 
     // don't append the harmony to the part harmony,
     // this has been done in pass2b // JMI ???
-  }
-
-  else if (fOnGoingChord) {
-    // register the harmony in the current chord clone
-    fCurrentChordClone->
-      appendHarmonyToChord (fCurrentHarmonyClone); // JMI
   }
 
   else if (fOnGoingHarmonyVoice) {
@@ -2370,7 +2897,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrHarmonyDegree& elt)
       "--> Start visiting S_msrHarmonyDegree '" <<
       elt->asString () <<
       ", fOnGoingNonGraceNote: " << booleanAsString (fOnGoingNonGraceNote) <<
-      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingHarmonyVoice: " << booleanAsString (fOnGoingHarmonyVoice) <<
       ", fOnGoingHarmony: " << booleanAsString (fOnGoingHarmony) <<
       "', line " << elt->getInputLineNumber () <<
@@ -2466,14 +2992,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrFiguredBass& elt)
     // this will be done below
   }
 
-  / * JMI
-  else if (fOnGoingChord) {
-    // register the figured bass in the current chord clone
-    fCurrentChordClone->
-      setChordFiguredBass (fCurrentFiguredBassClone); // JMI
-  }
-  * /
-
   else if (fOnGoingFiguredBassVoice) { // JMI
     / *
     // register the figured bass in the part clone figured bass
@@ -2562,7 +3080,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStanza& elt)
         fCurrentVoiceClone);
 
     // append the stanza clone to the LPSR score elements list
-    fMxmltree ->
+    fScorePartWiseElement ->
       appendStanzaToScoreElementsList (
         fCurrentStanzaClone);
 
@@ -2801,84 +3319,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrTempo" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  switch (elt->getTempoKind ()) {
-    case msrTempo::k_NoTempoKind:
-      break;
-
-    case msrTempo::kTempoBeatUnitsWordsOnly:
-      break;
-
-    case msrTempo::kTempoBeatUnitsPerMinute:
-      break;
-
-    case msrTempo::kTempoBeatUnitsEquivalence:
-      break;
-
-    case msrTempo::kTempoNotesRelationShip:
-      fMxmltree->
-        // this score needs the 'tempo relationship' Scheme function
-        setTempoRelationshipSchemeFunctionIsNeeded ();
-      break;
-  } // switch
-
-  if (gLpsrOah->fConvertTemposToRehearsalMarks) {
-    // create a rehearsal mark containing elt's words
-
-    S_msrRehearsal
-      rehearsal =
-        msrRehearsal::create (
-          elt->getInputLineNumber (),
-          msrRehearsal::kNone,
-          elt->tempoWordsListAsString (" "), //JMI ???
-          elt->getTempoPlacementKind ());
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceTempos) {
-      fLogOutputStream <<
-        "Converting tempos '" <<
-        elt->asShortString () <<
-        "' to rehearsal mark '" <<
-        rehearsal->asShortString () <<
-        "'" <<
-        endl;
-    }
-#endif
-
-    // append the rehearsal to the current voice clone
-    fCurrentVoiceClone->
-      appendRehearsalToVoice (rehearsal);
-  }
-
-  else {
-    fCurrentVoiceClone->
-      appendTempoToVoice (elt);
-  }
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrTempo& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrTempo" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrRehearsal& elt)
 {
 #ifdef TRACE_OAH
@@ -2907,53 +3347,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRehearsal& elt)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrArticulation& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrArticulation" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  if (fOnGoingNonGraceNote) {
-    fCurrentNonGraceNoteClone->
-      appendArticulationToNote (elt);
-  }
-  else if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendArticulationToChord (elt);
-  }
-  else {
-    stringstream s;
-
-    s <<
-      "articulation '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
-
-    msrInternalError (
-      gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
-      __FILE__, __LINE__,
-      s.str ());
-  }
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrArticulation& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrArticulation" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrFermata& elt)
 {
 #ifdef TRACE_OAH
@@ -2970,10 +3363,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrFermata& elt)
   if (fOnGoingNonGraceNote) {
     fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt);
-  }
-  else if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendArticulationToChord (elt);
   }
   else {
     stringstream s;
@@ -3007,10 +3396,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrArpeggiato& elt)
   if (fOnGoingNonGraceNote) {
     fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
-  }
-  else if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendArticulationToChord (elt);
   }
   else {
     stringstream s;
@@ -3103,7 +3488,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnical& elt)
     case msrTechnical::kArrow:
       break;
     case msrTechnical::kDoubleTongue:
-      fMxmltree->
+      fScorePartWiseElement->
         // this score needs the 'tongue' Scheme function
         setTongueSchemeFunctionIsNeeded ();
       break;
@@ -3130,7 +3515,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnical& elt)
     case msrTechnical::kToe:
       break;
     case msrTechnical::kTripleTongue:
-      fMxmltree->
+      fScorePartWiseElement->
         // this score needs the 'tongue' Scheme function
         setTongueSchemeFunctionIsNeeded ();
       break;
@@ -3283,7 +3668,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithString& elt)
     case msrTechnicalWithString::kHammerOn:
     case msrTechnicalWithString::kPullOff:
       // this score needs the 'after' Scheme function
-      fMxmltree->
+      fScorePartWiseElement->
         setAfterSchemeFunctionIsNeeded ();
       break;
     default:
@@ -3444,7 +3829,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrGlissando& elt)
   }
 
   if (elt->getGlissandoTextValue ().size ()) {
-    fMxmltree->
+    fScorePartWiseElement->
       // this score needs the 'glissandoWithText' Scheme functions
       addGlissandoWithTextSchemeFunctionsToScore ();
   }
@@ -3639,7 +4024,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDynamics& elt)
 
     if (! knownToLilyPondNatively) {
       // this score needs the 'dynamics' Scheme function
-      fMxmltree->
+      fScorePartWiseElement->
         setDynamicsSchemeFunctionIsNeeded ();
     }
   }
@@ -3710,7 +4095,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOtherDynamics& elt)
       s.str ());
   }
 
-  fMxmltree->
+  fScorePartWiseElement->
     // this score needs the 'otherDynamic' Scheme function
     setOtherDynamicSchemeFunctionIsNeeded ();
 }
@@ -4388,7 +4773,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrAccordionRegistration& elt)
     appendAccordionRegistrationToVoice (elt);
 
   // the generated code needs modules scm and accreg
-  fMxmltree->
+  fScorePartWiseElement->
     setScmAndAccregSchemeModulesAreNeeded ();
 }
 
@@ -4621,7 +5006,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
     case msrTuplet::kTupletLineShapeStraight:
       break;
     case msrTuplet::kTupletLineShapeCurved:
-      fMxmltree->
+      fScorePartWiseElement->
         // this score needs the 'tuplets curved brackets' Scheme function
         setTupletsCurvedBracketsSchemeFunctionIsNeeded ();
       break;
@@ -4907,7 +5292,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDamp& elt)
   fCurrentNonGraceNoteClone->
     appendDampToNote (elt);
 
-  fMxmltree->
+  fScorePartWiseElement->
     // this score needs the 'custom short barline' Scheme function
     setDampMarkupIsNeeded ();
 }
@@ -4926,7 +5311,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDampAll& elt)
   fCurrentNonGraceNoteClone->
     appendDampAllToNote (elt);
 
-  fMxmltree->
+  fScorePartWiseElement->
     // this score needs the 'custom short barline' Scheme function
     setDampAllMarkupIsNeeded ();
 }
@@ -5892,3 +6277,53 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMidiTempo& elt)
 */
 
 } // namespace
+
+
+/*
+//________________________________________________________________________
+void msr2MxmltreeTranslator::displayCurrentOnGoingValues ()
+{
+  fLogOutputStream <<
+    "Ongoing value:" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 25;
+
+  fLogOutputStream <<
+    setw (fieldWidth) <<
+    "fOnGoingStaff" << ": " << booleanAsString (fOnGoingStaff) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingHarmonyVoice" << ": " << booleanAsString (fOnGoingHarmonyVoice) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingHarmony" << ": " << booleanAsString (fOnGoingHarmony) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingFiguredBassVoice" << ": " << booleanAsString (fOnGoingFiguredBassVoice) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingNonGraceNote" << ": " << booleanAsString (fOnGoingNonGraceNote) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingDoubleTremolo" << ": " << booleanAsString (fOnGoingDoubleTremolo) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingGraceNotesGroup" << ": " << booleanAsString (fOnGoingGraceNotesGroup) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingChord" << ": " << booleanAsString (fOnGoingChord) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingStanza" << ": " << booleanAsString (fOnGoingStanza) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingSyllableExtend" << ": " << booleanAsString (fOnGoingSyllableExtend) <<
+    endl;
+
+  gIndenter--;
+}
+
+*/

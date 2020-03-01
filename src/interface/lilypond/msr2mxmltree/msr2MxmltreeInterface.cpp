@@ -86,7 +86,7 @@ Sxmlelement buildMxmltreeFromMsrScore (
   // get the mxmltree
   Sxmlelement
     mxmlTree =
-      translator.getMxmltree ();
+      translator.getScorePartWiseElement ();
 
   // return it
   return mxmlTree;

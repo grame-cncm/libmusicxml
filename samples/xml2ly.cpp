@@ -63,13 +63,16 @@ static void catchsigs()
 {
 	struct sigaction sa;
 
-    memset(&sa, 0, sizeof(struct sigaction));
-    sigemptyset(&sa.sa_mask);
+    memset (&sa, 0, sizeof(struct sigaction));
+
+    sigemptyset (&sa.sa_mask);
+
     sa.sa_sigaction = _sigaction;
-    sa.sa_flags   = SA_SIGINFO;
-    sigaction(SIGSEGV, &sa, NULL);
-    sigaction(SIGILL, &sa, NULL);
-    sigaction(SIGFPE, &sa, NULL);
+    sa.sa_flags     = SA_SIGINFO;
+
+    // JMI sigaction (SIGSEGV, &sa, NULL);
+    // JMI sigaction (SIGILL, &sa, NULL);
+    sigaction (SIGFPE, &sa, NULL);
 }
 
 #else
@@ -704,7 +707,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << gGeneralOah->fTranslationDate <<
+      "Time is " << gGeneralOah->fTranslationDateFull <<
       endl;
 
     gLogOstream <<

@@ -596,7 +596,7 @@ msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
   return result;
 }
 
-string msrDurationKindAsType (msrDurationKind durationKind)
+string msrDurationKindAsMusicXMLType (msrDurationKind durationKind)
 {
   string result;
 
@@ -627,7 +627,7 @@ string msrDurationKindAsType (msrDurationKind durationKind)
       result = "16th";
       break;
     case kEighth:
-      result = "8th";
+      result = "eighth";
       break;
     case kQuarter:
       result = "quarter";

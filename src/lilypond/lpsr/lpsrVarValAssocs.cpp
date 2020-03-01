@@ -378,7 +378,7 @@ void lpsrVarValAssoc::print (ostream& os) const
     endl <<
 
     setw (fieldWidth) <<
-   "back slash kind" << " : " <<
+   "backSlashKind" << " : " <<
     backSlashKindAsString (
       fBackSlashKind) <<
     endl <<

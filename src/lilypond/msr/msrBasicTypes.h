@@ -455,7 +455,7 @@ rational msrDurationKindAsWholeNotes (
 
 msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
 
-string msrDurationKindAsType (msrDurationKind durationKind);
+string msrDurationKindAsMusicXMLType (msrDurationKind durationKind);
 
 string msrDurationKindAsString (msrDurationKind durationKind);
 

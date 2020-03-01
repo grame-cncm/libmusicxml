@@ -172,11 +172,11 @@ void msrVarValAssoc::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "variable kind" << " : " <<
+    "varValAssocKind" << " : " <<
     varValAssocKindAsString () <<
     endl <<
     setw (fieldWidth) <<
-    "variable value" << " : " <<
+    "variableValue" << " : " <<
     "\"" << variableValue << "\"" <<
     endl;
 

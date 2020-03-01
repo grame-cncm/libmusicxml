@@ -732,7 +732,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << gGeneralOah->fTranslationDate <<
+      "Time is " << gGeneralOah->fTranslationDateFull <<
       endl;
 
     gLogOstream <<
