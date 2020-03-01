@@ -1931,6 +1931,15 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTempo& elt)
 //________________________________________________________________________
 void msr2MxmltreeTranslator:: createNoteDirections (S_msrNote note)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> createNoteDirections, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
   // append the wedges elements if any
   const list<S_msrWedge>&
     noteWedges =
@@ -2085,6 +2094,15 @@ void msr2MxmltreeTranslator:: createNoteDirections (S_msrNote note)
 //________________________________________________________________________
 void msr2MxmltreeTranslator:: createNoteNotations (S_msrNote note)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> createNoteNotations, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
   // append the articulation elements if any
   const list<S_msrArticulation>&
     noteArticulations =
@@ -2100,7 +2118,7 @@ void msr2MxmltreeTranslator:: createNoteNotations (S_msrNote note)
         articulationKind =
           articulation->getArticulationKind ();
 
-      int articulationType;
+      int articulationType = kComment; // JMI
 
 /* JMI
 	((accent | strong-accent | staccato | tenuto |
@@ -2111,6 +2129,10 @@ void msr2MxmltreeTranslator:: createNoteNotations (S_msrNote note)
 	  */
 
       switch (articulationKind) {
+        case msrArticulation::k_NoArticulation:
+          // JMI ???
+          break;
+
         case msrArticulation::kAccent:
           articulationType = k_accent;
           break;
@@ -2188,10 +2210,24 @@ void msr2MxmltreeTranslator:: createNoteNotations (S_msrNote note)
 //________________________________________________________________________
 void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> createNoteElement, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
   int inputLineNumber =
     note->getInputLineNumber ();
 
   // grab the note's informations
+
+  msrNote::msrNoteKind
+    noteKind =
+      note->getNoteKind ();
+
   msrQuarterTonesPitchKind
     noteQuarterTonesPitchKind = note->getNoteQuarterTonesPitchKind ();
 
@@ -2226,6 +2262,9 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
+      "-->  noteKind: " << msrNote::noteKindAsString (noteKind) <<
+      "-->  noteOctave: " << noteOctave <<
+      "-->  noteDotsNumber: " << noteDotsNumber <<
       "-->  noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
       "-->  noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
       "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
@@ -2243,15 +2282,8 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
   // append the note element to the current measure element
   handleMeasureLevelElement (fCurrentNoteElement);
 
-/*
-  if (! note->getNoteIsAChordsFirstMemberNote ()) {
-    // append the chord element
-//    fCurrentNoteElement->push (createElement (k_chord, ""));
-  }
-  */
-
   // create the step and pitch attributes
-  switch (note->getNoteKind ()) {
+  switch (noteKind) {
     case msrNote::k_NoNoteKind:
       break;
 
@@ -2307,12 +2339,10 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
 
     case msrNote::kChordMemberNote:
       {
-      /*
         if (! note->getNoteIsAChordsFirstMemberNote ()) {
           // append the chord element
-    //      fCurrentNoteElement->push (createElement (k_chord, ""));
+          fCurrentNoteElement->push (createElement (k_chord, ""));
         }
-        */
 
         // create the pitch element
         Sxmlelement pitchElement = createElement (k_pitch, "");
@@ -2387,6 +2417,11 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
       k_duration,
       durationAsRational.getNumerator ()));
 
+  fLogOutputStream <<
+    endl <<
+    note <<
+    endl;
+
   // append the voice attribute if relevant
   S_msrVoice
     noteVoice =
@@ -2394,12 +2429,18 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
         getNoteMeasureUpLink ()->
           getMeasureSegmentUpLink ()->
             getSegmentVoiceUpLink ();
+
+  // sanity check
+  msrAssert (
+    noteVoice != nullptr,
+    "noteVoice is null");
+
   int
     voiceNumber =
       noteVoice->
         getVoiceNumber ();
 
-  if (voiceNumber != 1) {
+  if (true || voiceNumber != 1) {
     fCurrentNoteElement->push (
       createIntegerElement (
         k_voice,
@@ -2477,6 +2518,9 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 #endif
+
+  // forget about the note element
+  fCurrentNoteElement = nullptr;
 }
 
 //________________________________________________________________________

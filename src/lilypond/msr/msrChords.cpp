@@ -236,6 +236,12 @@ void msrChord::addFirstNoteToChord (
   note->
     setNoteChordUpLink (this);
 
+/* JMI too early
+  // register note's measure upLink
+  note->
+    setNoteMeasureUpLink (fChordMeasureUpLink);
+*/
+
   // mark note as belonging to a chord
   note->setNoteBelongsToAChord ();
 
@@ -629,7 +635,6 @@ void msrChord::appendBeamToChord (S_msrBeam beam)
   fChordBeams.push_back (beam);
 }
 
-/* JMI ???
 void msrChord::finalizeChord (
   int inputLineNumber)
 {
@@ -651,9 +656,9 @@ void msrChord::finalizeChord (
 
   // we can now set the position in measures for all the chord members
   setChordMembersPositionInMeasure (
+    fChordMeasureUpLink,
     fMeasureElementPositionInMeasure);
 }
-*/
 
 void msrChord::acceptIn (basevisitor* v)
 {

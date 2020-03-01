@@ -369,6 +369,9 @@ class msrChord : public msrTupletElement
                             int actualNotes, int normalNotes);
 */
 
+    void                  finalizeChord (
+                            int inputLineNumber);
+
   public:
 
     // visitors

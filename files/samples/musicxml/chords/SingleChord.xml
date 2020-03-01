@@ -51,7 +51,7 @@
         </notations>
       </note>
       <note>
-        <!--chord /-->
+        <chord />
         <pitch>
           <step>G</step>
           <octave>5</octave>

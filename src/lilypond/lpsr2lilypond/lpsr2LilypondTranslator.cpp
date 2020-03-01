@@ -2292,6 +2292,9 @@ void lpsr2LilypondTranslator::generateNoteArticulation (
 
   // generate note articulation preamble if any
   switch (articulation->getArticulationKind ()) {
+    case msrArticulation::k_NoArticulation:
+       break;
+
     case msrArticulation::kAccent:
        break;
     case msrArticulation::kBreathMark:
@@ -2368,6 +2371,10 @@ void lpsr2LilypondTranslator::generateNoteArticulation (
 
   // generate note articulation itself
   switch (articulation->getArticulationKind ()) {
+    case msrArticulation::k_NoArticulation:
+      fLilypondCodeOstream << ">";
+      break;
+
     case msrArticulation::kAccent:
       fLilypondCodeOstream << ">";
       break;
@@ -2512,6 +2519,9 @@ void lpsr2LilypondTranslator::generateChordArticulation (
   } // switch
 
   switch (articulation->getArticulationKind ()) {
+    case msrArticulation::k_NoArticulation:
+      break;
+
     case msrArticulation::kAccent:
       fLilypondCodeOstream << ">";
       break;

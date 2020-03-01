@@ -58,6 +58,10 @@ string msrArticulation::articulationKindAsString (
   string result;
 
   switch (articulationKind) {
+    case msrArticulation::k_NoArticulation:
+      result = "noArticulation";
+      break;
+
     case msrArticulation::kAccent:
       result = "accent";
       break;

@@ -18,31 +18,33 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class msrArticulation : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
     enum msrArticulationKind {
-        kAccent, kBreathMark, kCaesura, 
-        kSpiccato,
-        kStaccato, kStaccatissimo,
-        kStress, kUnstress,
-        kDetachedLegato,
-        kStrongAccent, kTenuto,
-        kFermata, // barline ??? JMI
-        kArpeggiato, kNonArpeggiato,
-        kDoit, kFalloff, kPlop, kScoop};
+      k_NoArticulation,
+
+      kAccent, kBreathMark, kCaesura,
+      kSpiccato,
+      kStaccato, kStaccatissimo,
+      kStress, kUnstress,
+      kDetachedLegato,
+      kStrongAccent, kTenuto,
+      kFermata, // barline ??? JMI
+      kArpeggiato, kNonArpeggiato,
+      kDoit, kFalloff, kPlop, kScoop};
 
     static string articulationKindAsString (
       msrArticulationKind articulationKind);
-            
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -60,9 +62,9 @@ class msrArticulation : public msrElement
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
       msrPlacementKind    articulationPlacementKind);
-      
+
     virtual ~msrArticulation ();
-  
+
   public:
 
     // set and get
@@ -70,10 +72,10 @@ class msrArticulation : public msrElement
 
     msrArticulationKind   getArticulationKind () const
                               { return fArticulationKind; }
-        
+
     msrPlacementKind      getArticulationPlacementKind () const
                               { return fArticulationPlacementKind; }
-                        
+
     // services
     // ------------------------------------------------------
 
@@ -114,7 +116,7 @@ EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 class msrFermata : public msrArticulation
 {
   public:
-          
+
     // data types
     // ------------------------------------------------------
 
@@ -148,9 +150,9 @@ class msrFermata : public msrArticulation
       int                inputLineNumber,
       msrFermataKind     fermataKind,
       msrFermataTypeKind fermataTypeKind);
-      
+
     virtual ~msrFermata ();
-  
+
   public:
 
     // set and get
@@ -158,10 +160,10 @@ class msrFermata : public msrArticulation
 
     msrFermataKind        getFermataKind () const
                               { return fFermataKind; }
-        
+
     msrFermataTypeKind    getFermataTypeKind () const
                               { return fFermataTypeKind; }
-        
+
     // services
     // ------------------------------------------------------
 
@@ -190,7 +192,7 @@ class msrFermata : public msrArticulation
     // ------------------------------------------------------
 
     msrFermataKind        fFermataKind;
-    
+
     msrFermataTypeKind    fFermataTypeKind;
 };
 typedef SMARTP<msrFermata> S_msrFermata;
@@ -200,7 +202,7 @@ EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
 class msrArpeggiato : public msrArticulation
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -220,9 +222,9 @@ class msrArpeggiato : public msrArticulation
       msrPlacementKind arpeggiatoPlacementKind,
       msrDirectionKind arpeggiatoDirectionKind,
       int              arpeggiatoNumber);
-      
+
     virtual ~msrArpeggiato ();
-  
+
   public:
 
     // set and get
@@ -230,10 +232,10 @@ class msrArpeggiato : public msrArticulation
 
     msrDirectionKind      getArpeggiatoDirectionKind () const
                               { return fArpeggiatoDirectionKind; }
-        
+
     int                   getArpeggiatoNumber () const
                               { return fArpeggiatoNumber; }
-        
+
     // services
     // ------------------------------------------------------
 
@@ -272,7 +274,7 @@ EXP ostream& operator<< (ostream& os, const S_msrArpeggiato& elt);
 class msrNonArpeggiato : public msrArticulation
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -282,7 +284,7 @@ class msrNonArpeggiato : public msrArticulation
 
     static string nonArpeggiatoTypeKindAsString (
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -302,9 +304,9 @@ class msrNonArpeggiato : public msrArticulation
       msrPlacementKind         nonArpeggiatoPlacementKind,
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
       int                      nonArpeggiatoNumber);
-      
+
     virtual ~msrNonArpeggiato ();
-  
+
   public:
 
     // set and get
@@ -313,10 +315,10 @@ class msrNonArpeggiato : public msrArticulation
     msrNonArpeggiatoTypeKind
                           getNonArpeggiatoTypeKind () const
                               { return fNonArpeggiatoTypeKind; }
-        
+
     int                   getNonArpeggiatoNumber () const
                               { return fNonArpeggiatoNumber; }
-        
+
     // services
     // ------------------------------------------------------
 
@@ -343,7 +345,7 @@ class msrNonArpeggiato : public msrArticulation
 
     // fields
     // ------------------------------------------------------
-                          
+
     msrNonArpeggiatoTypeKind
                           fNonArpeggiatoTypeKind;
 

@@ -11361,11 +11361,10 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
 float msrMusicXMLAlterFromAlterationKind (
   msrAlterationKind alterationKind)
 {
-  float result;
+  float result = -111.0;;
 
   switch (alterationKind) {
     case k_NoAlteration:
-      result = -111.0;
       break;
 
     case kTripleFlat:

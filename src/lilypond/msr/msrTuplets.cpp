@@ -267,6 +267,10 @@ void msrTuplet::addNoteToTuplet (
   note->
     setNoteTupletUpLink (this);
 
+  // register note's measure upLink // JMI ???
+  note->
+    setNoteMeasureUpLink (fTupletMeasureUpLink);
+
   // account for note duration in tuplet duration
   fMeasureElementSoundingWholeNotes +=
     note->getNoteSoundingWholeNotes ();

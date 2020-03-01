@@ -389,8 +389,6 @@ void msrNote::initializeNote ()
 
   fNoteIsAChordsFirstMemberNote = false;
 
-  fNoteIsAChordsFirstMemberNote = false;
-
   fNoteIsFirstNoteInADoubleTremolo  = false;
   fNoteIsSecondNoteInADoubleTremolo = false;
 
@@ -3816,87 +3814,76 @@ void msrNote::print (ostream& os) const
     os << fMeasureElementPositionInMeasure;
   }
   */
-  os << fMeasureElementPositionInMeasure;
-  os << endl;
+  os <<
+    fMeasureElementPositionInMeasure <<
+    endl;
 
   // print note measure uplink
-  if (fNoteMeasureUpLink || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteMeasureUpLink" << " : ";
+  os <<
+    setw (fieldWidth) <<
+    "noteMeasureUpLink" << " : ";
 
-    if (fNoteMeasureUpLink) {
-      os << endl;
-
-      gIndenter++;
-
-      os <<
-        fNoteMeasureUpLink->asShortString () <<
-        endl;
-
-      gIndenter--;
-    }
-    else {
-      os <<
-        "none";
-    }
-
+  if (fNoteMeasureUpLink) {
     os << endl;
+
+    gIndenter++;
+
+    os <<
+      fNoteMeasureUpLink->asShortString () <<
+      endl;
+
+    gIndenter--;
   }
+  else {
+    os <<
+      "none";
+  }
+  os << endl;
 
   // print note chord uplink
-  if (fNoteChordUpLink || gMsrOah->fDisplayMsrDetails) {
+  os <<
+    setw (fieldWidth) <<
+    "noteChordUpLink" << " : ";
+
+  if (fNoteChordUpLink) {
     os <<
-      setw (fieldWidth) <<
-      "noteChordUpLink" << " : ";
-
-    if (fNoteChordUpLink) {
-      os <<
-        fNoteChordUpLink->asShortString ();
-    }
-    else {
-      os <<
-        " : " << "none";
-    }
-
-    os << endl;
+      fNoteChordUpLink->asShortString ();
   }
+  else {
+    os <<
+      " : " << "none";
+  }
+  os << endl;
 
   // print note grace notes group uplink
-  if (fNoteGraceNotesGroupUpLink || gMsrOah->fDisplayMsrDetails) {
+  os <<
+    setw (fieldWidth) <<
+    "noteGraceNoteGroupUpLink" << " : ";
+
+  if (fNoteGraceNotesGroupUpLink) {
     os <<
-      setw (fieldWidth) <<
-      "noteGraceNoteGroupUpLink" << " : ";
-
-    if (fNoteGraceNotesGroupUpLink) {
-      os <<
-        fNoteGraceNotesGroupUpLink->asShortString ();
-    }
-    else {
-      os <<
-        " : " << "none";
-    }
-
-    os << endl;
+      fNoteGraceNotesGroupUpLink->asShortString ();
   }
+  else {
+    os <<
+      " : " << "none";
+  }
+  os << endl;
 
   // print note tuplet uplink
-  if (fNoteTupletUpLink || gMsrOah->fDisplayMsrDetails) {
+  os <<
+    setw (fieldWidth) <<
+    "noteTupletUpLink" << " : ";
+
+  if (fNoteTupletUpLink) {
     os <<
-      setw (fieldWidth) <<
-      "noteTupletUpLink" << " : ";
-
-    if (fNoteTupletUpLink) {
-      os <<
-        fNoteTupletUpLink->asShortString ();
-    }
-    else {
-      os <<
-        " : " << "none";
-    }
-
-    os << endl;
+      fNoteTupletUpLink->asShortString ();
   }
+  else {
+    os <<
+      " : " << "none";
+  }
+  os << endl;
 
   // print sounding and displayed whole notes
   switch (fNoteKind) {
@@ -4069,7 +4056,7 @@ void msrNote::print (ostream& os) const
 
   stringstream s;
 
-  if (fNoteIsStemless || gMsrOah->fDisplayMsrDetails) {
+// JMI  if (fNoteIsStemless || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteIsStemless" <<
@@ -4077,9 +4064,19 @@ void msrNote::print (ostream& os) const
       booleanAsString (
         fNoteIsStemless) <<
       endl;
-  }
+// JMI  }
 
-  if (fNoteIsFirstNoteInADoubleTremolo || gMsrOah->fDisplayMsrDetails) {
+ // JMI if (fNoteIsAChordsFirstMemberNote || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteIsAChordsFirstMemberNote" <<
+      " : " <<
+      booleanAsString (
+        fNoteIsAChordsFirstMemberNote) <<
+      endl;
+ // JMI }
+
+ // JMI if (fNoteIsFirstNoteInADoubleTremolo || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteIsFirstNoteInADoubleTremolo" <<
@@ -4087,8 +4084,8 @@ void msrNote::print (ostream& os) const
       booleanAsString (
         fNoteIsFirstNoteInADoubleTremolo) <<
       endl;
-  }
-  if (fNoteIsSecondNoteInADoubleTremolo || gMsrOah->fDisplayMsrDetails) {
+// JMI  }
+ // JMI if (fNoteIsSecondNoteInADoubleTremolo || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteIsSecondNoteInADoubleTremolo" <<
@@ -4096,7 +4093,7 @@ void msrNote::print (ostream& os) const
       booleanAsString (
         fNoteIsSecondNoteInADoubleTremolo) <<
       endl;
-  }
+// JMI  }
 
   if (fNoteTrillOrnament || gMsrOah->fDisplayMsrDetails) {
     os <<

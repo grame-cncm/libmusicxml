@@ -1875,6 +1875,10 @@ class mxmlTree2MsrTranslator :
 
     void                      printVoicesCurrentChordMap ();
  */
+
+    void                      finalizeCurrentChord (
+                                int inputLineNumber);
+
     void                      printCurrentChord ();
 
     // tuplets handling

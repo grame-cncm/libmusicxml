@@ -457,7 +457,6 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
   fCurrentNoteBelongsToAChord = false;
 
-
   // note lyrics
 
 // JMI  fCurrentNoteSyllableExtendKind = kSyllableExtendNone;
@@ -6421,6 +6420,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
     // forget about this grace notes group
     fPendingGraceNotesGroup = nullptr;
+  }
+
+  // is there an on going chord to be finalized?
+  if (fOnGoingChord) {
+    // finalize the current chord
+    finalizeCurrentChord (
+      inputLineNumber);
+
+    fOnGoingChord = false;
   }
 
   if (fCurrentATupletStopIsPending) {
@@ -14225,6 +14233,42 @@ void mxmlTree2MsrTranslator::printVoicesCurrentChordMap ()
 */
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::finalizeCurrentChord (
+  int inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords) {
+    fLogOutputStream <<
+      "Finalizing current chord START:" <<
+      endl <<
+      fCurrentChord <<
+      endl <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fCurrentChord->
+    finalizeChord (
+      inputLineNumber);
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords) {
+    fLogOutputStream <<
+      "Finalizing current chord END: " <<
+      endl <<
+      fCurrentChord <<
+      endl <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // forget about the current chord
+  fCurrentChord = nullptr;
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::printCurrentChord ()
 {
   fLogOutputStream <<
@@ -17966,27 +18010,33 @@ void mxmlTree2MsrTranslator::handleNote (
       newNote);
   }
 
-  // handling voices current chord map if needed
+  // finalizing current chord if relevant
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords) {
+    fLogOutputStream <<
+      "--> fCurrentNoteBelongsToAChord: " <<
+      booleanAsString (fCurrentNoteBelongsToAChord) <<
+      "--> fOnGoingChord: " <<
+      booleanAsString (fOnGoingChord) <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingChord) {
       // newNote is the first note after the chord in the current voice
 
-/* JMI
       // finalize the current chord
-      fCurrentChord->
-        finalizeChord (
-          inputLineNumber);
-*/
-
-      // forget about the current chord
-      fCurrentChord = nullptr;
+      finalizeCurrentChord (
+        inputLineNumber);
 
       fOnGoingChord = false;
     }
 
     if (fCurrentDoubleTremolo) {
       // forget about a double tremolo containing a chord
-    // JMI XXL BOFS  fCurrentDoubleTremolo = 0;
+    // JMI XXL BOFS  fCurrentDoubleTremolo = nullptr;
     }
   }
 
