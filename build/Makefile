@@ -5,7 +5,7 @@
 .PHONY : msys win32 win64 linux android
 
 PDIR   ?= libdir
-VERSION = 3.18
+VERSION = 3.19
 
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
@@ -173,7 +173,9 @@ cmake : $(PDIR)
 # building the library for Android
 #===============================================================
 android :
-	ndk-build -C android -j 4
+	ndk-build -C android -j 6
+	cp android/libs/armeabi-v7a/libmusicxml2.so android/libmusicxml2.armeabi-v7a.so
+	cp android/libs/x86/libmusicxml2.so android/libmusicxml2.x86.so
 
 #===============================================================
 # src code formatting
