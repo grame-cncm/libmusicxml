@@ -2345,8 +2345,13 @@ void msrPart::print (ostream& os) const
     fPartShortestNoteDuration <<
     endl <<
     setw (fieldWidth) << "partShortestNoteTupletFactor" << " : " <<
+    endl;
+
+  gIndenter++;
+  os <<
     fPartShortestNoteTupletFactor <<
     endl;
+  gIndenter--;
 
   // print the part harmonies staff if any
   os << left <<

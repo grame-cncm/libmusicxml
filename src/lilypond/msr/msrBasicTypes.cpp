@@ -1289,16 +1289,22 @@ string msrTupletFactor::asString () const
   stringstream s;
 
   s <<
-    "'" <<
-    "tupletActualNotes: " << fTupletActualNotes <<
+    "[TupletFactor" <<
+    ", tupletActualNotes: " << fTupletActualNotes <<
     ", tupletNormalNotes: " << fTupletNormalNotes <<
-    "'";
+    "]";
 
   return s.str ();
 }
 
 void msrTupletFactor::print (ostream& os) const
 {
+  os <<
+    "TupletFactor" <<
+    endl;
+
+  gIndenter++;
+
   const int fieldWidth = 11;
 
   os << left <<
@@ -1308,6 +1314,8 @@ void msrTupletFactor::print (ostream& os) const
     setw (fieldWidth) <<
     "tupletNormalNotes" << " : " << fTupletNormalNotes <<
     endl;
+
+  gIndenter--;
 };
 
 ostream& operator<< (ostream& os, const msrTupletFactor& elt)

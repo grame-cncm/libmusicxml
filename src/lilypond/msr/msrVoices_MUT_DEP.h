@@ -183,9 +183,10 @@ class msrVoice : public msrElement
                               { return fVoiceShortestNoteDuration; }
 
     void                  setVoiceShortestNoteTupletFactor (
-                            rational noteTupletFactor);
+                            msrTupletFactor noteTupletFactor);
 
-    rational              getVoiceShortestNoteTupletFactor () const
+    const msrTupletFactor&
+                          getVoiceShortestNoteTupletFactor () const
                               { return fVoiceShortestNoteTupletFactor; }
 
     // counters
@@ -316,7 +317,7 @@ class msrVoice : public msrElement
 
     S_msrNote             fetchVoiceFirstNonGraceNote () const;
 
-    void                  registerShortestNoteIfRelevant (S_msrNote note);
+    void                  registerShortestNoteInVoiceIfRelevant (S_msrNote note);
 
     void                  registerNoteAsVoiceLastAppendedNote (S_msrNote note);
 
@@ -1022,7 +1023,7 @@ class msrVoice : public msrElement
     // are used to compute a number of divisions per quarter note
     // if needed, such as when generating MusicXML from MSR
     rational              fVoiceShortestNoteDuration;
-    rational              fVoiceShortestNoteTupletFactor;
+    msrTupletFactor       fVoiceShortestNoteTupletFactor;
 
     // repeats
 

@@ -570,7 +570,7 @@ class msr2MxmltreeTranslator :
     // divisions
     // ------------------------------------------------------
     rational                  fPartShortestNoteDuration;
-    rational                  fPartShortestNoteTupletFactor;
+    msrTupletFactor           fPartShortestNoteTupletFactor;
 
     int                       fDivisionsPerQuarterNote;
     Sxmlelement               fCurrentDivisionsElement;

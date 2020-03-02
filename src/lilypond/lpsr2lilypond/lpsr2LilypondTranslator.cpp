@@ -10670,11 +10670,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempoTuplet& elt)
   }
 #endif
 
+  const msrTupletFactor&
+    tempoTupletFactor =
+      elt->getTempoTupletFactor ();
+
   fLilypondCodeOstream <<
     "\\tuplet " <<
-    elt->getTempoTupletActualNotes () <<
+    tempoTupletFactor.getTupletActualNotes () <<
     "/" <<
-    elt->getTempoTupletNormalNotes () << " { ";
+    tempoTupletFactor.getTupletNormalNotes () << " { ";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTempoTuplet& elt)

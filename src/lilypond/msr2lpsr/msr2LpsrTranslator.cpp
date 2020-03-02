@@ -4985,7 +4985,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 #endif
 
       fTupletClonesStack.top ()->
-        addNoteToTuplet (
+        appendNoteToTuplet (
           fCurrentNonGraceNoteClone,
           fCurrentVoiceClone);
       break;
@@ -5257,7 +5257,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
   if (fTupletClonesStack.size ()) {
     // a chord in a tuplet is handled as part of the tuplet JMI
     fTupletClonesStack.top ()->
-      addChordToTuplet (
+      appendChordToTuplet (
         fCurrentChordClone);
   }
 

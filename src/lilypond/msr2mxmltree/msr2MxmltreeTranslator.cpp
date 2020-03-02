@@ -795,7 +795,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "-->  partShortestNoteDuration: " << fPartShortestNoteDuration <<
-      "-->  partShortestNoteTupletFactor: " << fPartShortestNoteTupletFactor <<
+      "-->  partShortestNoteTupletFactor: " << fPartShortestNoteTupletFactor.asString () <<
       "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
       endl;
   }
@@ -2481,6 +2481,16 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
   createNoteNotations (note);
 }
 
+/*
+<!ELEMENT note
+	(((grace, ((%full-note;, (tie, tie?)?) | (cue, %full-note;))) |
+	  (cue, %full-note;, duration) |
+	  (%full-note;, duration, (tie, tie?)?)),
+	 instrument?, %editorial-voice;, type?, dot*,
+	 accidental?, time-modification?, stem?, notehead?,
+	 notehead-text?, staff?, beam*, notations*, lyric*, play?)>
+*/
+
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 {
@@ -2521,6 +2531,9 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
 
   // forget about the note element
   fCurrentNoteElement = nullptr;
+
+  // forget about the note notations element
+  fCurrentNoteNotationsElement = nullptr;
 }
 
 //________________________________________________________________________
@@ -4981,7 +4994,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
   if (fTupletClonesStack.size ()) {
     // a chord in a tuplet is handled as part of the tuplet JMI
     fTupletClonesStack.top ()->
-      addChordToTuplet (
+      appendChordToTuplet (
         fCurrentChordClone);
   }
 

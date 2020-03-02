@@ -1121,7 +1121,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 #endif
 
       fTupletClonesStack.top ()->
-        addNoteToTuplet (
+        appendNoteToTuplet (
           fCurrentNonGraceNoteClone,
           fMasterVoice);
       break;
@@ -1153,7 +1153,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrChord& elt)
   if (fTupletClonesStack.size ()) {
     // a chord in a tuplet is handled as part of the tuplet JMI
     fTupletClonesStack.top ()->
-      addChordToTuplet (
+      appendChordToTuplet (
         fCurrentChordClone);
   }
 

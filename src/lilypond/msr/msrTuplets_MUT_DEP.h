@@ -150,11 +150,11 @@ class msrTuplet : public msrTupletElement
     // services
     // ------------------------------------------------------
 
-    void                  addNoteToTuplet (
+    void                  appendNoteToTuplet (
                             S_msrNote  note,
                             S_msrVoice voice);
 
-    void                  addChordToTuplet (S_msrChord chord);
+    void                  appendChordToTuplet (S_msrChord chord);
 
     void                  addTupletToTuplet (S_msrTuplet tuplet);
 
@@ -172,8 +172,8 @@ class msrTuplet : public msrTupletElement
     void                  unapplySoundingFactorToTupletMembers (
                             const msrTupletFactor& containingTupletFactor);
 
-/* JMI
     // finalization
+    /* JMI
     void                  finalizeTuplet (
                             int inputLineNumber);
 */
@@ -221,7 +221,7 @@ class msrTuplet : public msrTupletElement
 
     msrTupletShowTypeKind fTupletShowTypeKind;
 
-    // factor
+    // tuplet factor
     msrTupletFactor       fTupletFactor;
 
     // member notes

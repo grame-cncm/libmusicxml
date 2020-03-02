@@ -242,7 +242,7 @@ string msrTuplet::tupletShowTypeKindAsString (
   return result;
 }
 
-void msrTuplet::addNoteToTuplet (
+void msrTuplet::appendNoteToTuplet (
   S_msrNote  note,
   S_msrVoice voice)
 {
@@ -280,6 +280,14 @@ void msrTuplet::addNoteToTuplet (
     note->getNoteDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
 
+  // register note's tuplet factor
+  note->
+    setNoteTupletFactor (fTupletFactor);
+
+  // is this note the shortest one in this voice?
+  voice->
+    registerShortestNoteInVoiceIfRelevant (note);
+
   // fetch voice last measure
   S_msrMeasure
     voiceLastMeasure =
@@ -292,7 +300,7 @@ void msrTuplet::addNoteToTuplet (
       note);
 }
 
-void msrTuplet::addChordToTuplet (S_msrChord chord)
+void msrTuplet::appendChordToTuplet (S_msrChord chord)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTuplets) {

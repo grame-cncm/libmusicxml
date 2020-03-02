@@ -3692,8 +3692,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
           fCurrentTempoTupletNumber,
           fCurrentTempoTupletBracketKind,
           fCurrentTempoTupletShowNumberKind,
-          fCurrentMetronomeNoteActualNotes,
-          fCurrentMetronomeNoteNormalNotes,
+          msrTupletFactor (
+            fCurrentMetronomeNoteActualNotes,
+            fCurrentMetronomeNoteNormalNotes),
           fCurrentMetronomeNoteWholeNotesFromMetronomeType);
 
       // register the metronome tuplet
@@ -15303,13 +15304,13 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 
   // add note as first note of the stack top tuplet
   tuplet->
-    addNoteToTuplet (
+    appendNoteToTuplet (
       firstNote,
       currentVoice);
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceTuplets) {
-    // only after addNoteToTuplet() has set the note's tuplet upLink
+    // only after appendNoteToTuplet() has set the note's tuplet upLink
     fLogOutputStream <<
       "Adding first note " <<
       firstNote->
@@ -15431,7 +15432,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
   }
 #endif
 
-  tuplet->addNoteToTuplet (lastNote);
+  tuplet->appendNoteToTuplet (lastNote);
 */
 
   // pop from the tuplets stack
@@ -19771,7 +19772,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
           // add note to tuplet
           currentTuplet->
-            addNoteToTuplet (
+            appendNoteToTuplet (
               note,
               currentVoice);
 
@@ -19866,7 +19867,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // add note to tuplet
               currentTuplet->
-                addNoteToTuplet (
+                appendNoteToTuplet (
                   note,
                   currentVoice);
 
@@ -19971,7 +19972,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // add note to tuplet
               currentTuplet->
-                addNoteToTuplet (
+                appendNoteToTuplet (
                   note,
                   currentVoice);
 
@@ -20210,7 +20211,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 #endif
 
     currentTuplet->
-      addChordToTuplet (fCurrentChord);
+      appendChordToTuplet (fCurrentChord);
 
     if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
       // no duration has been found,

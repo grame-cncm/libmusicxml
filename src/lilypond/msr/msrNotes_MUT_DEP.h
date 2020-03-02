@@ -368,6 +368,18 @@ class msrNote : public msrTupletElement
     msrDurationKind       getNoteGraphicDurationKind () const
                               { return fNoteGraphicDurationKind; }
 
+    // tuplet factor
+
+    void                  setNoteTupletFactor (
+                            const msrTupletFactor& tupletFactor)
+                              { fNoteTupletFactor = tupletFactor; }
+
+    const msrTupletFactor&
+                          getNoteTupletFactor () const
+                              { return fNoteTupletFactor; }
+
+    // octaves
+
     int                   getNoteOctave () const
                               { return fNoteOctave; }
 
@@ -863,6 +875,8 @@ class msrNote : public msrTupletElement
     int                   fNoteDotsNumber;
 
     msrDurationKind       fNoteGraphicDurationKind;
+
+    msrTupletFactor       fNoteTupletFactor;
 
     int                   fNoteOctave;
 

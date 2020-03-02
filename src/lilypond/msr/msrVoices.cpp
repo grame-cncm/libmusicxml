@@ -347,7 +347,7 @@ void msrVoice::setVoiceShortestNoteDuration (
 }
 
 void msrVoice::setVoiceShortestNoteTupletFactor (
-  rational noteTupletFactor)
+  msrTupletFactor noteTupletFactor)
 {
   fVoiceShortestNoteTupletFactor = noteTupletFactor;
 }
@@ -1761,7 +1761,7 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
   return result;
 }
 
-void msrVoice::registerShortestNoteIfRelevant (S_msrNote note)
+void msrVoice::registerShortestNoteInVoiceIfRelevant (S_msrNote note)
 {
   // is note the shortest one in this voice?
   rational
@@ -1771,12 +1771,20 @@ void msrVoice::registerShortestNoteIfRelevant (S_msrNote note)
       note->getNoteDisplayWholeNotes (); // JMI
 
   if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    // set the voice shortest note duration
     fVoiceShortestNoteDuration = noteSoundingWholeNotes;
-    /* JMI
-    fVoiceShortestNoteTupletFactor =
-      note->
-        getfVoiceShortestNoteTupletFactor ();
-        */
+
+    // set the voice shortest note tuplet factor;
+    fVoiceShortestNoteTupletFactor = note->getNoteTupletFactor ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceNotes) {
+      gLogOstream <<
+        "The new shortest note in voice \"" << getVoiceName () << "\"" <<
+        " becomes " << note->asString () <<
+        endl;
+    }
+#endif
   }
 
   if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) { // JMI
@@ -2410,7 +2418,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // is this note the shortest one in this voice?
   this->
-    registerShortestNoteIfRelevant (note);
+    registerShortestNoteInVoiceIfRelevant (note);
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
@@ -2503,7 +2511,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
 
   // is this note the shortest one in this voice?
   this->
-    registerShortestNoteIfRelevant (note);
+    registerShortestNoteInVoiceIfRelevant (note);
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
@@ -2625,7 +2633,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 
       // is chordFirstNote the shortest one in this voice?
       this->
-        registerShortestNoteIfRelevant (chordFirstNote);
+        registerShortestNoteInVoiceIfRelevant (chordFirstNote);
     }
 
     {
@@ -2634,9 +2642,11 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
         chordLastNote =
           chordNotesVector [chordNotesVectorSize - 1];
 
+/* JMI
       // is chordLastNote the shortest one in this voice?
       this->
-        registerShortestNoteIfRelevant (chordLastNote);
+        registerShortestNoteInVoiceIfRelevant (chordLastNote);
+*/
 
       // register chordLastNote as the last appended one into this voice
       fVoiceLastAppendedNote = chordLastNote;
@@ -9173,8 +9183,13 @@ void msrVoice::finalizeVoice (
 #endif
 
   if (fVoiceShortestNoteDuration < partShortestNoteDuration) {
-      voicePart->
-        setPartShortestNoteDuration (fVoiceShortestNoteDuration);
+    // set the voice part shortest note duration
+    voicePart->
+      setPartShortestNoteDuration (fVoiceShortestNoteDuration);
+
+    // set the voice part shortest note tuplet factor
+    voicePart->
+      setPartShortestNoteTupletFactor (fVoiceShortestNoteTupletFactor);
   }
 
   // is this voice totally empty? this should be rare...
@@ -9690,8 +9705,13 @@ void msrVoice::print (ostream& os) const
     fVoiceShortestNoteDuration <<
     endl <<
     setw (fieldWidth) << "voiceShortestNoteTupletFactor" << " : " <<
+    endl;
+
+  gIndenter++;
+  os <<
     fVoiceShortestNoteTupletFactor <<
     endl;
+  gIndenter--;
 
   os << left <<
     setw (fieldWidth) << "voiceHasBeenFinalized" << " : " <<

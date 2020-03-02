@@ -143,6 +143,8 @@ msrNote::msrNote (
 
   fNoteGraphicDurationKind = noteGraphicDurationKind;
 
+  fNoteTupletFactor = rational (1, 1);
+
   fNoteOctave = noteOctave;
 
   fNoteQuarterTonesDisplayPitchKind = noteQuarterTonesDisplayPitchKind;
@@ -263,6 +265,13 @@ void msrNote::initializeNote ()
       else {
         gLogOstream << "none";
       }
+
+    gLogOstream <<
+      left <<
+        setw (fieldWidth) <<
+        "fNoteTupletFactor" << " = " <<
+        fNoteTupletFactor <<
+        endl;
 
     gLogOstream <<
       endl <<
@@ -2003,7 +2012,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
       asShortString () <<
-      ", factor is '" <<
+      ", tuplet factor is '" <<
       actualNotes << "/" << normalNotes <<
       "', line " << fInputLineNumber <<
       endl;
@@ -3194,6 +3203,10 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kSkipNote:
@@ -3205,6 +3218,10 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kUnpitchedNote:
@@ -3217,6 +3234,10 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kRegularNote:
@@ -3231,6 +3252,10 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -3256,7 +3281,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
-        s << "."; // JMI
+        s << ".";
       } // for
       break;
 
@@ -3284,6 +3309,10 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kTupletMemberNote:
@@ -3304,6 +3333,13 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
     case msrNote::kGraceTupletMemberNote:
@@ -3324,6 +3360,13 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
     case msrNote::kTupletMemberUnpitchedNote:
@@ -3335,6 +3378,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
   } // switch
 
@@ -3357,6 +3403,10 @@ string msrNote::asShortString () const
         "noNoteKind" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kRestNote:
@@ -3364,6 +3414,10 @@ string msrNote::asShortString () const
         "RestNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kSkipNote:
@@ -3371,6 +3425,10 @@ string msrNote::asShortString () const
         "SkipNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kUnpitchedNote:
@@ -3378,6 +3436,10 @@ string msrNote::asShortString () const
         "UnpitchedNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kRegularNote:
@@ -3386,6 +3448,10 @@ string msrNote::asShortString () const
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -3394,6 +3460,10 @@ string msrNote::asShortString () const
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kGraceNote:
@@ -3404,7 +3474,7 @@ string msrNote::asShortString () const
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
-        s << "."; // JMI
+        s << ".";
       } // for
       break;
 
@@ -3426,6 +3496,10 @@ string msrNote::asShortString () const
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kTupletMemberNote:
@@ -3451,7 +3525,15 @@ string msrNote::asShortString () const
         s <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
+
     case msrNote::kGraceTupletMemberNote:
       s <<
         "GraceTupletMemberNote" <<
@@ -3475,6 +3557,13 @@ string msrNote::asShortString () const
         s <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
     case msrNote::kTupletMemberUnpitchedNote:
@@ -3493,6 +3582,13 @@ string msrNote::asShortString () const
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ());
             */
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
   } // switch
 
@@ -3549,12 +3645,20 @@ string msrNote::asString () const
         " displayed" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kSkipNote:
       s <<
         "skipNote:" <<
         noteSoundingWholeNotesAsMsrString ();
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kUnpitchedNote:
@@ -3562,6 +3666,10 @@ string msrNote::asString () const
         "unpitchedNote"<<
         " " <<
         noteSoundingWholeNotesAsMsrString ();
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kRegularNote:
@@ -3576,6 +3684,10 @@ string msrNote::asString () const
         */
         noteSoundingWholeNotesAsMsrString () <<
         "', [octave " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -3611,6 +3723,9 @@ string msrNote::asString () const
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
       } // for
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
     case msrNote::kChordMemberNote:
@@ -3626,8 +3741,9 @@ string msrNote::asString () const
       s <<
         "tupletMemberNote '"<<
         notePitchAsString () <<
+        "' " <<
         fMeasureElementSoundingWholeNotes <<
-        "' sounding, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
 /* JMI
@@ -3638,6 +3754,10 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
 
       if (! fNoteIsARest) {
         s <<
@@ -3662,10 +3782,17 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
 
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+
       if (! fNoteIsARest) {
         s <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
 
     case msrNote::kTupletMemberUnpitchedNote:
@@ -3684,6 +3811,13 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+
+      s <<
+        ", noteTupletFactor " << fNoteTupletFactor;
       break;
   } // switch
 
@@ -3941,6 +4075,16 @@ void msrNote::print (ostream& os) const
             "*** unknown yet ***";
         }
         os << endl;
+
+      os <<
+        setw (fieldWidth) <<
+        "noteTupletFactor" << " : " <<
+        endl;
+
+      gIndenter++;
+        os <<
+          fNoteTupletFactor;
+      gIndenter--;
       break;
     } // switch
 
@@ -4257,40 +4401,38 @@ void msrNote::print (ostream& os) const
     case msrNote::kTupletMemberNote:
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletMemberUnpitchedNote:
-      {
-        /* JMI
-        os << left <<
-          setw (fieldWidth) <<
-          "noteTupletNoteGraphicDurationAsMsrString" << " : \"" <<
-          fNoteTupletNoteGraphicDurationAsMsrString <<
-          "\"" <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteTupletNoteSoundingWholeNotesAsMsrString" << " : ";
-            */
+      /* JMI
+      os << left <<
+        setw (fieldWidth) <<
+        "noteTupletNoteGraphicDurationAsMsrString" << " : \"" <<
+        fNoteTupletNoteGraphicDurationAsMsrString <<
+        "\"" <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteTupletNoteSoundingWholeNotesAsMsrString" << " : ";
+          */
 
-        if (fNoteTupletUpLink) {
-          os <<
-            "\"" <<
-            wholeNotesAsMsrString (
-              fInputLineNumber,
-              getNoteTupletUpLink ()->
-                getTupletSoundingWholeNotes ()) <<
-            "\"";
-        }
-        else {
-          os <<
-            "*** unknown yet ***";
-        }
-        os << endl;
-
+      if (fNoteTupletUpLink) {
         os <<
-          setw (fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " : \"" <<
-          noteGraphicDurationAsMsrString () <<
           "\"" <<
-          endl;
+          wholeNotesAsMsrString (
+            fInputLineNumber,
+            getNoteTupletUpLink ()->
+              getTupletSoundingWholeNotes ()) <<
+          "\"";
       }
+      else {
+        os <<
+          "*** unknown yet ***";
+      }
+      os << endl;
+
+      os <<
+        setw (fieldWidth) <<
+        "noteGraphicDurationAsMsrString" << " : \"" <<
+        noteGraphicDurationAsMsrString () <<
+        "\"" <<
+        endl;
       break;
   } // switch
 

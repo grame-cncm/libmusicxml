@@ -136,8 +136,7 @@ class msrTempoTuplet : public msrElement
       int                          tempoTupletNumber,
       msrTempoTupletBracketKind    tempoTupletBracketKind,
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-      int                          tempoTupletActualNotes,
-      int                          tempoTupletNormalNotes,
+      msrTupletFactor              tempoTupletFactor,
       rational                     memberNotesDisplayWholeNotes);
 
   protected:
@@ -150,8 +149,7 @@ class msrTempoTuplet : public msrElement
       int                          tempoTupletNumber,
       msrTempoTupletBracketKind    tempoTupletBracketKind,
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-      int                          tempoTupletActualNotes,
-      int                          tempoTupletNormalNotes,
+      msrTupletFactor              tempoTupletFactor,
       rational                     memberNotesDisplayWholeNotes);
 
     virtual ~msrTempoTuplet ();
@@ -171,10 +169,9 @@ class msrTempoTuplet : public msrElement
                           getTempoTupletShowNumberKind () const
                               { return fTempoTupletShowNumberKind; }
 
-    int                   getTempoTupletActualNotes () const
-                              { return fTempoTupletActualNotes; }
-    int                   getTempoTupletNormalNotes () const
-                              { return fTempoTupletNormalNotes; }
+    const msrTupletFactor&
+                          getTempoTupletFactor () const
+                              { return fTempoTupletFactor; }
 
     rational              getMemberNotesDisplayWholeNotes () const
                               { return fMemberNotesDisplayWholeNotes; }
@@ -240,8 +237,7 @@ class msrTempoTuplet : public msrElement
     msrTempoTupletShowNumberKind
                           fTempoTupletShowNumberKind;
 
-    int                   fTempoTupletActualNotes;
-    int                   fTempoTupletNormalNotes;
+    msrTupletFactor       fTempoTupletFactor;
 
     rational              fMemberNotesDisplayWholeNotes;
 

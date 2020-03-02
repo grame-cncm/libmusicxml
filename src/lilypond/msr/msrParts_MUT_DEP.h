@@ -228,10 +228,11 @@ class msrPart : public msrPartGroupElement
                               { return fPartShortestNoteDuration; }
 
     void                  setPartShortestNoteTupletFactor (
-                            rational noteTupletFactor)
+                            const msrTupletFactor& noteTupletFactor)
                               { fPartShortestNoteTupletFactor = noteTupletFactor; }
 
-    rational              getPartShortestNoteTupletFactor () const
+    const msrTupletFactor&
+                          getPartShortestNoteTupletFactor () const
                               { return fPartShortestNoteTupletFactor; }
 
   public:
@@ -538,7 +539,7 @@ class msrPart : public msrPartGroupElement
     // are used to compute a number of divisions per quarter note
     // if needed, such as when generating MusicXML from MSR
     rational              fPartShortestNoteDuration;
-    rational              fPartShortestNoteTupletFactor;
+    msrTupletFactor       fPartShortestNoteTupletFactor;
 
     // transpose
 

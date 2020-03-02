@@ -198,8 +198,7 @@ S_msrTempoTuplet msrTempoTuplet::create (
   int                          tempoTupletNumber,
   msrTempoTupletBracketKind    tempoTupletBracketKind,
   msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-  int                          tempoTupletActualNotes,
-  int                          tempoTupletNormalNotes,
+  msrTupletFactor              tempoTupletFactor,
   rational                     memberNotesDisplayWholeNotes)
 {
   msrTempoTuplet* o =
@@ -208,8 +207,7 @@ S_msrTempoTuplet msrTempoTuplet::create (
       tempoTupletNumber,
       tempoTupletBracketKind,
       tempoTupletShowNumberKind,
-      tempoTupletActualNotes,
-      tempoTupletNormalNotes,
+      tempoTupletFactor,
       memberNotesDisplayWholeNotes);
   assert(o!=0);
   return o;
@@ -220,8 +218,7 @@ msrTempoTuplet::msrTempoTuplet (
   int                          tempoTupletNumber,
   msrTempoTupletBracketKind    tempoTupletBracketKind,
   msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-  int                          tempoTupletActualNotes,
-  int                          tempoTupletNormalNotes,
+  msrTupletFactor              tempoTupletFactor,
   rational                     memberNotesDisplayWholeNotes)
     : msrElement (inputLineNumber)
 {
@@ -230,8 +227,7 @@ msrTempoTuplet::msrTempoTuplet (
   fTempoTupletBracketKind    = tempoTupletBracketKind;
   fTempoTupletShowNumberKind = tempoTupletShowNumberKind;
 
-  fTempoTupletActualNotes = tempoTupletActualNotes;
-  fTempoTupletNormalNotes = tempoTupletNormalNotes;
+  fTempoTupletFactor = tempoTupletFactor;
 
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
 
@@ -464,10 +460,8 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
     gIndenter++;
 
     gLogOstream <<
-      "% fTempoTupletActualNotes = " <<
-      fTempoTupletActualNotes <<
-      ", fTempoTupletNormalNotes = " <<
-      fTempoTupletNormalNotes <<
+      "% fTempoTupletFactor = " <<
+      fTempoTupletFactor <<
       endl <<
       endl;
 
@@ -489,10 +483,8 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
     gIndenter++;
 
     gLogOstream <<
-      "% fTempoTupletActualNotes = " <<
-      fTempoTupletActualNotes <<
-      ", fTempoTupletNormalNotes = " <<
-      fTempoTupletNormalNotes <<
+      "% fTempoTupletFactor = " <<
+      fTempoTupletFactor <<
       endl <<
       "% containingTempoTupletActualNotes = " <<
       containingTempoTupletActualNotes <<
@@ -505,10 +497,8 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
   }
 #endif
 
-  fTempoTupletActualNotes /=
+  fTempoTupletFactor /= // JMI ???
     containingTempoTupletActualNotes;
-  fTempoTupletNormalNotes /=
-    containingTempoTupletNormalNotes;
 }
 */
 
@@ -574,7 +564,7 @@ string msrTempoTuplet::asString () const
 
   s <<
     "TempoTuplet " <<
-    fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
+    fTempoTupletFactor <<
     " " << fTempoTupletDisplayWholeNotes << " display whole notes" <<
     ":";
 
@@ -627,7 +617,7 @@ string msrTempoTuplet::asString () const
 
   s <<
     "TempoTuplet " <<
-    fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
+    fTempoTupletFactor <<
     " " << fTempoTupletSoundingWholeNotes << " sound whole notes" <<
     " measure '"<<
     fTempoTupletMeasureNumber <<
@@ -693,7 +683,7 @@ void msrTempoTuplet::print (ostream& os) const
 {
   os <<
     "TempoTuplet " <<
-    fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
+    fTempoTupletFactor <<
     ", " <<
     singularOrPlural (
       fTempoTupletElements.size (), "element", "elements") <<
