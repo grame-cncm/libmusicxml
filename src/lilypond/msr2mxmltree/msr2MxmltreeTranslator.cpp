@@ -786,20 +786,72 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
     fPartShortestNoteDuration = rational (1, 4);
   }
 
+  rational
+    partShortestNoteTupletFactorAsRational =
+      fPartShortestNoteTupletFactor.asRational ();
+
+  rational
+    divisionsPerQuarterNoteNonTuplet =
+      rational (1, 4)
+       /
+      fPartShortestNoteDuration;
+  divisionsPerQuarterNoteNonTuplet.rationalise ();
+
+  rational
+    rationalDivisionsPerQuarterNote =
+    /* JMI
+      divisionsPerQuarterNoteNonTuplet
+        *
+      partShortestNoteTupletFactorAsRational;
+    */
+      divisionsPerQuarterNoteNonTuplet.getNumerator ()
+        *
+      divisionsPerQuarterNoteNonTuplet.getDenominator ();
+  rationalDivisionsPerQuarterNote.rationalise ();
+
+  // compute divisions per quarter note
   fDivisionsPerQuarterNote =
-    rational (1, 4)
-      /
-    fPartShortestNoteDuration;
+    rationalDivisionsPerQuarterNote.getNumerator ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "-->  partShortestNoteDuration: " << fPartShortestNoteDuration <<
-      "-->  partShortestNoteTupletFactor: " << fPartShortestNoteTupletFactor.asString () <<
-      "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
+      "-->  partShortestNoteDuration: " <<
+      fPartShortestNoteDuration <<
+      endl <<
+      "-->  divisionsPerQuarterNoteNonTuplet: " <<
+      divisionsPerQuarterNoteNonTuplet <<
+      endl <<
+      /* JMI
+      "-->  partShortestNoteTupletFactor: " <<
+      fPartShortestNoteTupletFactor.asString () <<
+      endl <<
+      */
+      "-->  partShortestNoteTupletFactorAsRational: " <<
+      partShortestNoteTupletFactorAsRational <<
+      endl <<
+      "-->  rationalDivisionsPerQuarterNote: " <<
+      rationalDivisionsPerQuarterNote <<
+      endl <<
+      "-->  fDivisionsPerQuarterNote: " <<
+      fDivisionsPerQuarterNote <<
       endl;
   }
 #endif
+
+  if (rationalDivisionsPerQuarterNote.getDenominator () != 1) {
+    stringstream s;
+
+    s <<
+      "rationalDivisionsPerQuarterNote '" << rationalDivisionsPerQuarterNote <<
+      "' is no integer number";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 
   // create a divisions element
   fCurrentDivisionsElement =
@@ -2298,33 +2350,41 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
       break;
 
     case msrNote::kRegularNote:
+    case msrNote::kChordMemberNote:
+    case msrNote::kTupletMemberNote:
       {
-        // create the pitch element
-        Sxmlelement pitchElement = createElement (k_pitch, "");
-
-        // append the step element
-        pitchElement->push (
-          createElement (
-            k_step,
-            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
-
-        if (noteMusicXMLAlter != 0.0) {
-          // append the alter element
-          stringstream s;
-          s << setprecision (2) << noteMusicXMLAlter;
-          pitchElement->push (
-            createElement (
-              k_alter,
-              s.str ()));
+        if (note->getNoteIsARest ()) {
+          fCurrentNoteElement->push (createElement (k_rest, ""));
         }
 
-        // append the octave element
-        pitchElement->push (
-          createIntegerElement (
-            k_octave,
-            noteOctave));
+        else {
+          // create the pitch element
+          Sxmlelement pitchElement = createElement (k_pitch, "");
 
-        fCurrentNoteElement->push (pitchElement);
+          // append the step element
+          pitchElement->push (
+            createElement (
+              k_step,
+              msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
+
+          if (noteMusicXMLAlter != 0.0) {
+            // append the alter element
+            stringstream s;
+            s << setprecision (2) << noteMusicXMLAlter;
+            pitchElement->push (
+              createElement (
+                k_alter,
+                s.str ()));
+          }
+
+          // append the octave element
+          pitchElement->push (
+            createIntegerElement (
+              k_octave,
+              noteOctave));
+
+          fCurrentNoteElement->push (pitchElement);
+        }
       }
       break;
 
@@ -2337,45 +2397,6 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
     case msrNote::kGraceChordMemberNote:
       break;
 
-    case msrNote::kChordMemberNote:
-      {
-        if (! note->getNoteIsAChordsFirstMemberNote ()) {
-          // append the chord element
-          fCurrentNoteElement->push (createElement (k_chord, ""));
-        }
-
-        // create the pitch element
-        Sxmlelement pitchElement = createElement (k_pitch, "");
-
-        // append the step element
-        pitchElement->push (
-          createElement (
-            k_step,
-            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
-
-        if (noteMusicXMLAlter != 0.0) {
-          // append the alter element
-          stringstream s;
-          s << setprecision (2) << noteMusicXMLAlter;
-          pitchElement->push (
-            createElement (
-              k_alter,
-              s.str ()));
-        }
-
-        // append the octave element
-        pitchElement->push (
-          createIntegerElement (
-            k_octave,
-            noteOctave));
-
-        fCurrentNoteElement->push (pitchElement);
-      }
-      break;
-
-    case msrNote::kTupletMemberNote:
-      break;
-
     case msrNote::kGraceTupletMemberNote:
       break;
 
@@ -2386,7 +2407,11 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
   // create the duration attribute
   rational
     durationAsRational =
-      noteSoundingWholeNotes / fPartShortestNoteDuration;
+      noteSoundingWholeNotes
+        /
+      fPartShortestNoteDuration
+        *
+      fDivisionsPerQuarterNote;
   durationAsRational.rationalise ();
 
 #ifdef TRACE_OAH
@@ -2417,30 +2442,91 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
       k_duration,
       durationAsRational.getNumerator ()));
 
-  fLogOutputStream <<
-    endl <<
-    note <<
-    endl;
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      endl <<
+      "--> note: " <<
+      note <<
+      endl;
+  }
+#endif
 
   // append the voice attribute if relevant
-  S_msrVoice
-    noteVoice =
-      note->
-        getNoteMeasureUpLink ()->
-          getMeasureSegmentUpLink ()->
-            getSegmentVoiceUpLink ();
+  S_msrVoice noteVoice;
+
+  switch (noteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+      fCurrentNoteElement->push (createElement (k_rest, ""));
+      break;
+
+    case msrNote::kSkipNote:
+      break;
+
+    case msrNote::kUnpitchedNote:
+      break;
+
+    case msrNote::kRegularNote:
+      noteVoice =
+        note->
+          getNoteMeasureUpLink ()->
+            getMeasureSegmentUpLink ()->
+              getSegmentVoiceUpLink ();
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+
+    case msrNote::kGraceNote:
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kChordMemberNote:
+      break;
+
+    case msrNote::kTupletMemberNote:
+      noteVoice =
+        note->
+          getNoteTupletUpLink ()->
+            getTupletMeasureUpLink ()->
+              getMeasureSegmentUpLink ()->
+                getSegmentVoiceUpLink ();
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      break;
+  } // switch
 
   // sanity check
   msrAssert (
     noteVoice != nullptr,
     "noteVoice is null");
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      endl <<
+      "--> noteVoice: " <<
+      noteVoice <<
+      endl;
+  }
+#endif
+
+  // append the voice attribute if relevant
   int
     voiceNumber =
       noteVoice->
         getVoiceNumber ();
 
-  if (true || voiceNumber != 1) {
+  if (voiceNumber != 1) { // options ? JMI
     fCurrentNoteElement->push (
       createIntegerElement (
         k_voice,
@@ -2452,6 +2538,61 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
     createElement (
       k_type,
       msrDurationKindAsMusicXMLType (noteGraphicDurationKind)));
+
+  // append the time-modification attribute if relevant
+  switch (noteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+      break;
+
+    case msrNote::kSkipNote:
+      break;
+
+    case msrNote::kUnpitchedNote:
+      break;
+
+    case msrNote::kRegularNote:
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+
+    case msrNote::kGraceNote:
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kChordMemberNote:
+      break;
+
+    case msrNote::kTupletMemberNote:
+      {
+        Sxmlelement
+          timeModificationElement = createElement (k_time_modification, "");
+
+        timeModificationElement->push (
+          createIntegerElement (
+            k_actual_notes,
+            note->getNoteTupletFactor ().getTupletActualNotes ()));
+        timeModificationElement->push (
+          createIntegerElement (
+            k_normal_notes,
+            note->getNoteTupletFactor ().getTupletNormalNotes ()));
+
+        fCurrentNoteElement->push (timeModificationElement);
+      }
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      break;
+  } // switch
+
 
   // append the dots attributes if relevant
   for (int i = 0; i < noteDotsNumber; i++) {

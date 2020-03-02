@@ -340,18 +340,6 @@ void msrVoice::appendSegmentToVoiceClone ( //JMI VIRER???
   }
 }
 
-void msrVoice::setVoiceShortestNoteDuration (
-  rational duration)
-{
-  fVoiceShortestNoteDuration = duration;
-}
-
-void msrVoice::setVoiceShortestNoteTupletFactor (
-  msrTupletFactor noteTupletFactor)
-{
-  fVoiceShortestNoteTupletFactor = noteTupletFactor;
-}
-
 void msrVoice::initializeVoice (
   msrVoiceCreateInitialLastSegmentKind
     voiceCreateInitialLastSegmentKind)

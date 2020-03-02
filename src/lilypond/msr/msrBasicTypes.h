@@ -1099,6 +1099,8 @@ class msrTupletFactor
     int                   getTupletNormalNotes () const
                               { return fTupletNormalNotes; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
