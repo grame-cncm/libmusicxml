@@ -843,7 +843,9 @@ class lpsrOah : public oahGroup
     int                   fSystemCount; // null if not specified
 
     bool                  fRaggedBottom;
+    bool                  fRaggedLast;
     bool                  fRaggedLastBottom;
+    bool                  fRaggedRight;
 
     bool                  fTagline;
 

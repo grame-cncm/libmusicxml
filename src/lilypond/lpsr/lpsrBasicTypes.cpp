@@ -731,76 +731,43 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gLpsrScoreOutputKindsMap.size ()) {
-    map<string, lpsrScoreOutputKind>::const_iterator
-      iBegin = gLpsrScoreOutputKindsMap.begin (),
-      iEnd   = gLpsrScoreOutputKindsMap.end (),
-      i      = iBegin;
+  int
+    lpsrScoreOutputKindsMapSize =
+      gLpsrScoreOutputKindsMap.size ();
 
+  if (lpsrScoreOutputKindsMapSize) {
+    int
+      nextToLast =
+        lpsrScoreOutputKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, lpsrScoreOutputKind>::const_iterator i =
+        gLpsrScoreOutputKindsMap.begin ();
+      i != gLpsrScoreOutputKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
 
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= namesListMaxLength) {
-        s << "\n";
-        cumulatedLength = 0;
- //       break;
-      }
-
-      s << theString;
-
-      if (++i == iEnd) break;
-
-      if (next (i) == iEnd) {
-        s << " and ";
-      }
-      else {
-        s << ", ";
-      }
-    } // for
-
-  /* JMI BUG IN MAP ITERATORS...???
-{
-    list<string> lpsrScoreOutputKindsList;
-    for (
-      map<string, lpsrScoreOutputKind>::const_iterator i = gLpsrScoreOutputKindsMap.begin ();
-      i != gLpsrScoreOutputKindsMap.end ();
-      ++i
-    ) {
-      lpsrScoreOutputKindsList.push_back ((*i).first);
-    } // for
-
-    list<string>::const_iterator
-      iBegin = lpsrScoreOutputKindsList.begin (),
-      iEnd   = lpsrScoreOutputKindsList.end (),
-      i      = iBegin;
-
-    int cumulatedLength = 0;
-
-    for ( ; ; ) {
-      string theString = (*i);
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
-        break;
       }
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != lpsrScoreOutputKindsMapSize) {
         s << ", ";
       }
     } // for
-}
-*/
   }
 
   return s.str ();
@@ -850,31 +817,40 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gLpsrOctaveEntryKindsMap.size ()) {
-    map<string, lpsrOctaveEntryKind>::const_iterator
-      iBegin = gLpsrOctaveEntryKindsMap.begin (),
-      iEnd   = gLpsrOctaveEntryKindsMap.end (),
-      i      = iBegin;
+  int
+    lpsrOctaveEntryKindsMapSize =
+      gLpsrOctaveEntryKindsMap.size ();
 
+  if (lpsrOctaveEntryKindsMapSize) {
+    int
+      nextToLast =
+        lpsrOctaveEntryKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, lpsrOctaveEntryKind>::const_iterator i =
+        gLpsrOctaveEntryKindsMap.begin ();
+      i != gLpsrOctaveEntryKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
-        break;
       }
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != lpsrOctaveEntryKindsMapSize) {
         s << ", ";
       }
     } // for
@@ -1048,32 +1024,40 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gLpsrAccidentalStyleKindsMap.size ()) {
-    map<string, lpsrAccidentalStyleKind>::const_iterator
-      iBegin = gLpsrAccidentalStyleKindsMap.begin (),
-      iEnd   = gLpsrAccidentalStyleKindsMap.end (),
-      i      = iBegin;
+  int
+    accidentalStyleKindsMapSize =
+      gLpsrAccidentalStyleKindsMap.size ();
 
+  if (accidentalStyleKindsMapSize) {
+    int
+      nextToLast =
+        accidentalStyleKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, lpsrAccidentalStyleKind>::const_iterator i =
+        gLpsrAccidentalStyleKindsMap.begin ();
+      i != gLpsrAccidentalStyleKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
-        break;
       }
 
       s << theString;
 
-      if (++i == iEnd) break;
-
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != accidentalStyleKindsMapSize) {
         s << ", ";
       }
     } // for
@@ -1127,15 +1111,24 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gLpsrChordsLanguageKindsMap.size ()) {
-    map<string, lpsrChordsLanguageKind>::const_iterator
-      iBegin = gLpsrChordsLanguageKindsMap.begin (),
-      iEnd   = gLpsrChordsLanguageKindsMap.end (),
-      i      = iBegin;
+  int
+    lpsrChordsLanguageKindsMapSize =
+      gLpsrChordsLanguageKindsMap.size ();
 
+  if (lpsrChordsLanguageKindsMapSize) {
+    int
+      nextToLast =
+        lpsrChordsLanguageKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, lpsrChordsLanguageKind>::const_iterator i =
+        gLpsrChordsLanguageKindsMap.begin ();
+      i != gLpsrChordsLanguageKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
@@ -1147,10 +1140,10 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
 
       s << theString;
 
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != lpsrChordsLanguageKindsMapSize) {
         s << ", ";
       }
     } // for
@@ -1365,15 +1358,24 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gLpsrLyricsDurationsKindsMap.size ()) {
-    map<string, lpsrLyricsDurationsKind>::const_iterator
-      iBegin = gLpsrLyricsDurationsKindsMap.begin (),
-      iEnd   = gLpsrLyricsDurationsKindsMap.end (),
-      i      = iBegin;
+  int
+    lpsrLyricsDurationsKindsMapSize =
+      gLpsrLyricsDurationsKindsMap.size ();
 
+  if (lpsrLyricsDurationsKindsMapSize) {
+    int
+      nextToLast =
+        lpsrLyricsDurationsKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, lpsrLyricsDurationsKind>::const_iterator i =
+        gLpsrLyricsDurationsKindsMap.begin ();
+      i != gLpsrLyricsDurationsKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
@@ -1385,11 +1387,10 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != lpsrLyricsDurationsKindsMapSize) {
         s << ", ";
       }
     } // for

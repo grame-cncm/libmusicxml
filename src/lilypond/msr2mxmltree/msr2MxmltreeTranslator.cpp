@@ -2406,17 +2406,66 @@ void msr2MxmltreeTranslator:: createNoteElement (S_msrNote note)
 
   // create the duration attribute
   rational
-    durationAsRational =
-      noteSoundingWholeNotes
-        /
-      fPartShortestNoteDuration
-        *
-      fDivisionsPerQuarterNote;
+    durationNonTupletAsRational =
+        noteSoundingWholeNotes
+          /
+        fPartShortestNoteDuration
+          *
+        fDivisionsPerQuarterNote;
+  durationNonTupletAsRational.rationalise ();
+
+  rational durationAsRational;
+
+  switch (noteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+      fCurrentNoteElement->push (createElement (k_rest, ""));
+      break;
+
+    case msrNote::kSkipNote:
+      break;
+
+    case msrNote::kUnpitchedNote:
+      break;
+
+    case msrNote::kRegularNote:
+    case msrNote::kChordMemberNote:
+      durationAsRational =
+        durationNonTupletAsRational;
+      break;
+
+    case msrNote::kTupletMemberNote:
+      durationAsRational =
+        durationNonTupletAsRational
+          /
+        note->getNoteTupletFactor ().asRational ();
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+
+    case msrNote::kGraceNote:
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      break;
+  } // switch
+
   durationAsRational.rationalise ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
+      "--> durationNonTupletAsRational: " <<
+      durationNonTupletAsRational <<
       "--> durationAsRational: " <<
       durationAsRational <<
       endl;

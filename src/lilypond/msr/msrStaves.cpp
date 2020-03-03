@@ -1858,8 +1858,9 @@ void msrStaff::createRestMeasuresInStaff (
 }
 
 void msrStaff::addRestMeasuresToStaff (
-  int inputLineNumber,
-  int restMeasuresMeasuresNumber)
+  int    inputLineNumber,
+  string previousMeasureNumber,
+  int    restMeasuresNumber)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRestMeasures) {
@@ -1870,7 +1871,7 @@ void msrStaff::addRestMeasuresToStaff (
       fStaffPartUpLink->getPartCombinedName () <<
       ", " <<
       singularOrPlural (
-        restMeasuresMeasuresNumber, "measure", "measures") <<
+        restMeasuresNumber, "measure", "measures") <<
       endl;
   }
 #endif
@@ -1885,7 +1886,8 @@ void msrStaff::addRestMeasuresToStaff (
     (*i).second->
       addRestMeasuresToVoice (
         inputLineNumber,
-        restMeasuresMeasuresNumber);
+        previousMeasureNumber,
+        restMeasuresNumber);
   } // for
 }
 

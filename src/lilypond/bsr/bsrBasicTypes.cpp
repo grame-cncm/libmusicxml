@@ -247,32 +247,38 @@ string existingBsrBrailleOutputKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gBsrBrailleOutputKindsMap.size ()) {
-    map<string, bsrBrailleOutputKind>::const_iterator
-      iBegin = gBsrBrailleOutputKindsMap.begin (),
-      iEnd   = gBsrBrailleOutputKindsMap.end (),
-      i      = iBegin;
+  int
+    accidentalStyleKindsMapSize =
+      gLpsrAccidentalStyleKindsMap.size ();
 
+  if (accidentalStyleKindsMapSize) {
+    int
+      nextToLast =
+        accidentalStyleKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, lpsrAccidentalStyleKind>::const_iterator i =
+        gLpsrAccidentalStyleKindsMap.begin ();
+      i != gLpsrAccidentalStyleKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
-        break;
       }
 
       s << theString;
 
-      if (++i == iEnd) break;
-
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != accidentalStyleKindsMapSize) {
         s << ", ";
       }
     } // for
@@ -322,32 +328,38 @@ string existingBsrTextsLanguageKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gBsrTextsLanguageKindsMap.size ()) {
-    map<string, bsrTextsLanguageKind>::const_iterator
-      iBegin = gBsrTextsLanguageKindsMap.begin (),
-      iEnd   = gBsrTextsLanguageKindsMap.end (),
-      i      = iBegin;
+  int
+    accidentalStyleKindsMapSize =
+      gLpsrAccidentalStyleKindsMap.size ();
 
+  if (accidentalStyleKindsMapSize) {
+    int
+      nextToLast =
+        accidentalStyleKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, lpsrAccidentalStyleKind>::const_iterator i =
+        gLpsrAccidentalStyleKindsMap.begin ();
+      i != gLpsrAccidentalStyleKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
-        break;
       }
 
       s << theString;
 
-      if (++i == iEnd) break;
-
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != accidentalStyleKindsMapSize) {
         s << ", ";
       }
     } // for

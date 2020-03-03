@@ -6484,10 +6484,11 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
         fCurrentPart->
           addRestMeasuresToPart (
             inputLineNumber,
+            fCurrentMeasureNumber,
             measuresToAdd);
       }
       else {
-        // fRemainingRestMeasuresMeasuresNumber
+        // fRemainingRestMeasuresMeasuresNumber JMI ???
       }
  //   }
   }

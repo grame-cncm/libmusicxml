@@ -349,8 +349,9 @@ class msrPart : public msrPartGroupElement
                             int inputLineNumber);
 
     void                  addRestMeasuresToPart (
-                            int inputLineNumber,
-                            int restMeasuresNumber);
+                            int    inputLineNumber,
+                            string previousMeasureNumber,
+                            int    restMeasuresNumber);
 
     void                  appendRestMeasuresCloneToPart (
                             int               inputLineNumber,

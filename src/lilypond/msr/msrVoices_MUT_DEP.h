@@ -629,8 +629,9 @@ class msrVoice : public msrElement
                             S_msrRestMeasures restMeasures);
 
     void                  addRestMeasuresToVoice (
-                            int inputLineNumber,
-                            int restMeasuresNumber);
+                            int    inputLineNumber,
+                            string previousMeasureNumber,
+                            int    restMeasuresNumber);
 
     void                  appendPendingRestMeasuresToVoice (
                             int inputLineNumber);

@@ -1148,8 +1148,9 @@ void msrPart::createRestMeasuresInPart (
 }
 
 void msrPart::addRestMeasuresToPart (
-  int inputLineNumber,
-  int multipleRestMeasuresMeasuresNumber)
+  int    inputLineNumber,
+  string previousMeasureNumber,
+  int    restMeasuresNumber)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRestMeasures) {
@@ -1158,7 +1159,7 @@ void msrPart::addRestMeasuresToPart (
       getPartCombinedName () <<
       ", " <<
       singularOrPlural (
-        multipleRestMeasuresMeasuresNumber, "measure", "measures") <<
+        restMeasuresNumber, "measure", "measures") <<
       endl;
   }
 #endif
@@ -1174,7 +1175,8 @@ void msrPart::addRestMeasuresToPart (
     (*i).second->
       addRestMeasuresToStaff (
         inputLineNumber,
-        multipleRestMeasuresMeasuresNumber);
+        previousMeasureNumber,
+        restMeasuresNumber);
   } // for
 }
 

@@ -325,8 +325,9 @@ class msrStaff : public msrElement
                             int inputLineNumber);
 
     void                  addRestMeasuresToStaff (
-                            int inputLineNumber,
-                            int restMeasuresNumber);
+                            int    inputLineNumber,
+                            string previousMeasureNumber,
+                            int    restMeasuresNumber);
 
     void                  appendRestMeasuresCloneToStaff (
                             int               inputLineNumber,

@@ -6380,8 +6380,9 @@ void msrVoice::createRestMeasuresInVoice (
 }
 
 void msrVoice::addRestMeasuresToVoice (
-  int inputLineNumber,
-  int restMeasuresNumber)
+  int    inputLineNumber,
+  string previousMeasureNumber,
+  int    restMeasuresNumber)
 {
   // create a rest measures
 #ifdef TRACE_OAH

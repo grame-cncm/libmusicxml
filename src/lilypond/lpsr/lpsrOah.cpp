@@ -2111,7 +2111,7 @@ The default is 'DEFAULT_VALUE'.)",
             replaceSubstringInString (
 R"(Use OUTPUT_KIND to create the LPSR blocks,
 as well as in the generated LilyPond code.
-The NUMBER LilyPond output kinds available are:
+The NUMBER LilyPond score output kinds available are:
   OUTPUT_KINDS.
 '-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
 Otherwise, one file will be generated for each score and/or part.
@@ -2329,6 +2329,19 @@ LilyPond's default value is '##t'.)",
         "raggedBottom",
         fRaggedBottom));
 
+  // ragged last
+
+  fRaggedLast = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "ragged-last", "",
+R"(Set the LilyPond 'ragged-last' paper variable to '##f' in the LilyPond code.
+LilyPond's default value is '##t'.)",
+        "raggedLast",
+        fRaggedLast));
+
   // ragged last bottom
 
   fRaggedLastBottom = boolOptionsInitialValue;
@@ -2341,6 +2354,19 @@ R"(Set the LilyPond 'ragged-last-bottom' paper variable to '##f' in the LilyPond
 LilyPond's default value is '##t'.)",
         "raggedLastBottom",
         fRaggedLastBottom));
+
+  // ragged right
+
+  fRaggedRight = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "ragged-right", "",
+R"(Set the LilyPond 'ragged-right' paper variable to '##f' in the LilyPond code.
+LilyPond's default value is '##t'.)",
+        "raggedRight",
+        fRaggedRight));
 
 /* LPSR or LilyPond option?"
   // tagline
@@ -2621,7 +2647,7 @@ R"()",
             replaceSubstringInString (
 R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
+The NUMBER LPSR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",
@@ -2654,7 +2680,7 @@ The default is 'DEFAULT_VALUE'.)",
             replaceSubstringInString (
 R"(Use LANGUAGE to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
+The NUMBER LPSR chords pitches languages available are:
 CHORDS_LANGUAGES.
 'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
 The default is 'DEFAULT_VALUE'.)",
@@ -2874,8 +2900,12 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
 
   clone->fRaggedBottom =
     fRaggedBottom;
+  clone->fRaggedLast =
+    fRaggedLast;
   clone->fRaggedLastBottom =
     fRaggedLastBottom;
+  clone->fRaggedRight =
+    fRaggedRight;
 
   clone->fTagline =
     fTagline;
@@ -3193,6 +3223,12 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "raggedLastBottom" << " : " <<
     booleanAsString (fRaggedLastBottom) <<
+    endl <<
+    setw (fieldWidth) << "raggedLast" << " : " <<
+    booleanAsString (fRaggedLast) <<
+    endl <<
+    setw (fieldWidth) << "raggedRight" << " : " <<
+    booleanAsString (fRaggedRight) <<
     endl <<
 
     setw (fieldWidth) << "tagline" << " : " <<

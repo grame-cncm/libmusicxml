@@ -9374,25 +9374,46 @@ void initializeClefKinds ()
   gClefKindsMap ["jianpu"] = kJianpuClef;
 }
 
-string existingClefKinds ()
+string existingClefKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gClefKindsMap.size ()) {
-    map<string, msrClefKind>::const_iterator
-      iBegin = gClefKindsMap.begin (),
-      iEnd   = gClefKindsMap.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first;
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
-        s << " and ";
-      }
-      else {
-        s << ", ";
+  int
+    clefKindsMapSize =
+      gClefKindsMap.size ();
+
+  if (clefKindsMapSize) {
+    int
+      nextToLast =
+        clefKindsMapSize - 1;
+
+    int count = 0;
+    int cumulatedLength = 0;
+
+    for (
+      map<string, msrClefKind>::const_iterator i =
+        gClefKindsMap.begin ();
+      i != gClefKindsMap.end ();
+      i++
+    ) {
+      string theString = (*i).first;
+
+      count++;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= namesListMaxLength) {
+        s << "\n";
+        cumulatedLength = 0;
       }
 
+      s << theString;
+
+      if (count == nextToLast) {
+        s << " and ";
+      }
+      else if (count != clefKindsMapSize) {
+        s << ", ";
+      }
     } // for
   }
 
@@ -9403,16 +9424,27 @@ string existingClefKindsNames (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gClefKindsNamesList.size ()) {
-    list<string>::const_iterator
-      iBegin = gClefKindsNamesList.begin (),
-      iEnd   = gClefKindsNamesList.end (),
-      i      = iBegin;
+  int
+    clefKindsNamesMapSize =
+      gClefKindsNamesList.size ();
 
+  if (clefKindsNamesMapSize) {
+    int
+      nextToLast =
+        clefKindsNamesMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      list<string>::const_iterator i =
+        gClefKindsNamesList.begin ();
+      i != gClefKindsNamesList.end ();
+      i++
+    ) {
       string theString = (*i);
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -9422,14 +9454,12 @@ string existingClefKindsNames (int namesListMaxLength)
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != clefKindsNamesMapSize) {
         s << ", ";
       }
-
     } // for
   }
 
@@ -10092,25 +10122,46 @@ void initializeHarmonyKinds ()
   gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
 }
 
-string existingHarmonyKinds ()
+string existingHarmonyKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gHarmonyKindsMap.size ()) {
-    map<string, msrHarmonyKind>::const_iterator
-      iBegin = gHarmonyKindsMap.begin (),
-      iEnd   = gHarmonyKindsMap.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      s << (*i).first;
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
-        s << " and ";
-      }
-      else {
-        s << ", ";
+  int
+    harmonyKindsMapSize =
+      gHarmonyKindsMap.size ();
+
+  if (harmonyKindsMapSize) {
+    int
+      nextToLast =
+        harmonyKindsMapSize - 1;
+
+    int count = 0;
+    int cumulatedLength = 0;
+
+    for (
+      map<string, msrHarmonyKind>::const_iterator i =
+        gHarmonyKindsMap.begin ();
+      i != gHarmonyKindsMap.end ();
+      i++
+    ) {
+      string theString = (*i).first;
+
+      count++;
+
+      cumulatedLength += theString.size ();
+      if (cumulatedLength >= namesListMaxLength) {
+        s << "\n";
+        cumulatedLength = 0;
       }
 
+      s << theString;
+
+      if (count == nextToLast) {
+        s << " and ";
+      }
+      else if (count != harmonyKindsMapSize) {
+        s << ", ";
+      }
     } // for
   }
 
@@ -10121,16 +10172,27 @@ string existingHarmonyKindsNames (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gHarmonyKindsNamesList.size ()) {
-    list<string>::const_iterator
-      iBegin = gHarmonyKindsNamesList.begin (),
-      iEnd   = gHarmonyKindsNamesList.end (),
-      i      = iBegin;
+  int
+    harmonyKindsNamesListSize =
+      gHarmonyKindsNamesList.size ();
 
+  if (harmonyKindsNamesListSize) {
+    int
+      nextToLast =
+        harmonyKindsNamesListSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      list<string>::const_iterator i =
+        gHarmonyKindsNamesList.begin ();
+      i != gHarmonyKindsNamesList.end ();
+      i++
+    ) {
       string theString = (*i);
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -10140,14 +10202,12 @@ string existingHarmonyKindsNames (int namesListMaxLength)
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != harmonyKindsNamesListSize) {
         s << ", ";
       }
-
     } // for
   }
 
@@ -13619,16 +13679,27 @@ string existingMsrLengthUnitKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gMsrLengthUnitKindsMap.size ()) {
-    map<string, msrLengthUnitKind>::const_iterator
-      iBegin = gMsrLengthUnitKindsMap.begin (),
-      iEnd   = gMsrLengthUnitKindsMap.end (),
-      i      = iBegin;
+  int
+    msrLengthUnitKindsMapSize =
+      gMsrLengthUnitKindsMap.size ();
 
+  if (msrLengthUnitKindsMapSize) {
+    int
+      nextToLast =
+        msrLengthUnitKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, msrLengthUnitKind>::const_iterator i =
+        gMsrLengthUnitKindsMap.begin ();
+      i != gMsrLengthUnitKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -13638,11 +13709,10 @@ string existingMsrLengthUnitKinds (int namesListMaxLength)
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != msrLengthUnitKindsMapSize) {
         s << ", ";
       }
     } // for
@@ -13803,16 +13873,27 @@ string existingMsrMarginTypeKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gMsrMarginTypeKindsMap.size ()) {
-    map<string, msrMarginTypeKind>::const_iterator
-      iBegin = gMsrMarginTypeKindsMap.begin (),
-      iEnd   = gMsrMarginTypeKindsMap.end (),
-      i      = iBegin;
+  int
+    msrMarginTypeKindsMapSize =
+      gMsrMarginTypeKindsMap.size ();
 
+  if (msrMarginTypeKindsMapSize) {
+    int
+      nextToLast =
+        msrMarginTypeKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, msrMarginTypeKind>::const_iterator i =
+        gMsrMarginTypeKindsMap.begin ();
+      i != gMsrMarginTypeKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -13822,11 +13903,10 @@ string existingMsrMarginTypeKinds (int namesListMaxLength)
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != msrMarginTypeKindsMapSize) {
         s << ", ";
       }
     } // for

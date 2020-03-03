@@ -1791,7 +1791,7 @@ R"()",
           replaceSubstringInString (
             replaceSubstringInString (
 R"(Use LANGUAGE to display note pitches in the MSR logs and text views.
-The NUMBER LilyPond pitches languages available are:
+The NUMBER MSR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               "NUMBER",

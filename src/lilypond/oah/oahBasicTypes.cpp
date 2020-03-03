@@ -2956,31 +2956,40 @@ string existingOahOptionalValuesStyleKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  if (gOahOptionalValuesStyleKindsMap.size ()) {
-    map<string, oahOptionalValuesStyleKind>::const_iterator
-      iBegin = gOahOptionalValuesStyleKindsMap.begin (),
-      iEnd   = gOahOptionalValuesStyleKindsMap.end (),
-      i      = iBegin;
+  int
+    optionalValuesStyleKindsMapSize =
+      gOahOptionalValuesStyleKindsMap.size ();
 
+  if (optionalValuesStyleKindsMapSize) {
+    int
+      nextToLast =
+        optionalValuesStyleKindsMapSize - 1;
+
+    int count = 0;
     int cumulatedLength = 0;
 
-    for ( ; ; ) {
+    for (
+      map<string, oahOptionalValuesStyleKind>::const_iterator i =
+        gOahOptionalValuesStyleKindsMap.begin ();
+      i != gOahOptionalValuesStyleKindsMap.end ();
+      i++
+    ) {
       string theString = (*i).first;
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
         s << "\n";
         cumulatedLength = 0;
-        break;
       }
 
       s << theString;
 
-      if (++i == iEnd) break;
-      if (next (i) == iEnd) {
+      if (count == nextToLast) {
         s << " and ";
       }
-      else {
+      else if (count != optionalValuesStyleKindsMapSize) {
         s << ", ";
       }
     } // for

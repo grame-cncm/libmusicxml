@@ -27,6 +27,52 @@ using namespace std;
 namespace MusicXML2
 {
 
+/*
+cautionPath =
+#'(
+  (moveto 0.25 0)
+  (rlineto 0.75 0)
+  (rlineto -1.0 -1.5)
+  (rlineto 1.25 0)
+
+  (moveto 0.75 1.5)
+  (rlineto 1.75 -3.5)
+  (rlineto -4.0 0)
+
+  (closepath))
+caution =
+\markup {
+  \path #0.2 #cautionPath
+}
+
+goAheadRightArrowPath =
+#'(
+ ;; (moveto 0.25 0)
+  (lineto 5.0 0)
+
+  (moveto 5.0 0.0)
+  (lineto 4.0 1.125)
+
+  (moveto 5.0 0.0)
+  (lineto 4.0 -1.125)
+
+  (closepath))
+goAheadRightArrow =
+\markup {
+  \path #0.2 #goAheadRightArrowPath
+}
+
+customBreathe = {
+  \once\override BreathingSign.outside-staff-priority = 1
+  \once\override BreathingSign.stencil = #ly:text-interface::print
+  \once\override BreathingSign.text = ","
+  \once\override BreathingSign.font-size = 7
+  \once\override BreathingSign.font-series= #'bold
+  \breathe
+}
+
+*/
+
 //______________________________________________________________________________
 S_lpsrScore lpsrScore::create (
   int        inputLineNumber,
