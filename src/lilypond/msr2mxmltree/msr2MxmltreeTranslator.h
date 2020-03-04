@@ -504,7 +504,7 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreWorkElement;
 
-    void                      handleWorkSubElement (
+    void                      appendWorkSubElement (
                                 Sxmlelement elem);
 
     // movement number
@@ -526,9 +526,9 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreIdentificationEncodingElement;
 
-    void                      handleIdentificationSubElement (
+    void                      appendIdentificationSubElement (
                                 Sxmlelement elem);
-    void                      handleIdentificationEncodingSubElement (
+    void                      appendIdentificationEncodingSubElement (
                                 Sxmlelement elem);
 
     // defaults
@@ -536,7 +536,7 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreDefaultsElement;
 
-    void                      handleDefaultsSubElement (
+    void                      appendDefaultsSubElement (
                                 Sxmlelement elem);
 
 
@@ -556,14 +556,14 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
     Sxmlelement               fCurrentPartAttributes;
 
-    void                      handleAttributesSubElement (
+    void                      appendAttributesSubElement (
                                 Sxmlelement elem);
 
     // the part direction element
     // ------------------------------------------------------
 // JMI    Sxmlelement               fCurrentPartDirection;
 
-    void                      handleDirectionSubElement (
+    void                      appendDirectionSubElement (
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 
@@ -664,7 +664,7 @@ class msr2MxmltreeTranslator :
     // measures
     // ------------------------------------------------------
 
-    void                      handleMeasureLevelElement (
+    void                      appendMeasureSubElement (
                                 Sxmlelement elem);
 /*
     // full measure rests compression
@@ -692,15 +692,25 @@ class msr2MxmltreeTranslator :
     S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
 */
 
-    void                      createNoteDirections (S_msrNote note);
-    void                      createNoteNotations (S_msrNote note);
-    void                      createNoteElement (S_msrNote note);
+    void                      appendNoteDirectionsSubElements (S_msrNote note);
+    void                      appendNoteNotations (S_msrNote note);
+
+    void                      appendTheNoteStepAndPitchOrRestSubElement (
+                                S_msrNote note);
+    void                      appendTheNoteVoiceSubElementIfRelevant (
+                                S_msrNote note);
+    void                      appendTheNoteDurationSubElementIfRelevant (
+                                S_msrNote note);
+    void                      appendTheNoteTimeModificationSubElementIfRelevant (
+                                S_msrNote note);
+
+    void                      appendMesureNoteSubElement (S_msrNote note);
 
     Sxmlelement               fCurrentNoteElement;
 
     Sxmlelement               fCurrentNoteNotationsElement;
 
-    void                      handleNoteNotationsSubElement (
+    void                      appendNoteNotationsSubElement (
                                 Sxmlelement      noteElement,
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
