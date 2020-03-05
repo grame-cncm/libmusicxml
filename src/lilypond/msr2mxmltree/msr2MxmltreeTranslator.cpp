@@ -214,10 +214,13 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
   fOnGoingHarmony = false;
 
   // repeats
+*/
 
   // notes
-  fOnGoingNonGraceNote = false;
+  fCurrentNoteElementAwaitsGraceNotes = false;
+  fPendingNoteElement = nullptr;
 
+/*
   // double tremolos
   fOnGoingDoubleTremolo = false;
 
@@ -358,6 +361,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
       " ============================ " <<
       "PART" <<
       " \"" << partElement->getAttributeValue ("id") << "\"" <<
+      ", line " << inputLineNumber <<
       " ============================= ";
     Sxmlelement partComment = createElement (kComment, s.str ());
 
@@ -850,23 +854,27 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrSegment& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber () ;
+
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // create a comment
+  // create a start comment
   stringstream s;
   s <<
     " ==================== " <<
     "Segment " <<
     elt->getSegmentAbsoluteNumber () <<
     " START" <<
+      ", line " << inputLineNumber <<
     " ==================== ";
   Sxmlelement comment = createElement (kComment, s.str ());
 
@@ -889,13 +897,14 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
   }
 #endif
 
-  // create a comment
+  // create an end comment
   stringstream s;
   s <<
     " ==================== " <<
     "Segment " <<
     elt->getSegmentAbsoluteNumber () <<
     " END" <<
+      ", line " << inputLineNumber <<
     " ==================== ";
   Sxmlelement comment = createElement (kComment, s.str ());
 
@@ -943,12 +952,13 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
-  // create a comment
+  // create a measure comment
   stringstream s;
   s <<
     " ===== " <<
     "MEASURE " <<
     "ordinal number: " << elt->getMeasureOrdinalNumberInVoice () <<
+    ", line " << inputLineNumber <<
     " ===== ";
   Sxmlelement comment = createElement (kComment, s.str ());
 
@@ -2220,7 +2230,7 @@ void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::appendTheNoteStepAndPitchOrRestSubElement (
+void msr2MxmltreeTranslator::appendTheNoteBasicSubElements (
   S_msrNote note)
 {
   int inputLineNumber =
@@ -2229,7 +2239,7 @@ void msr2MxmltreeTranslator::appendTheNoteStepAndPitchOrRestSubElement (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendTheNoteStepAndPitchOrRestSubElement(), note = " <<
+      "--> appendTheNoteBasicSubElements(), note = " <<
       note->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
@@ -2272,7 +2282,27 @@ void msr2MxmltreeTranslator::appendTheNoteStepAndPitchOrRestSubElement (
   }
 #endif
 
-  // append the step and pitch or rest attributes
+  // append the chord sub element if relevant
+  switch (noteKind) {
+    case msrNote::kChordMemberNote:
+      if (! note->getNoteIsAChordsFirstMemberNote ()) {
+        fCurrentNoteElement->push (createElement (k_chord, ""));
+      }
+      break;
+    default:
+      ;
+  } // switch
+
+  // append the grace sub element if relevant
+  switch (noteKind) {
+    case msrNote::kGraceNote:
+      fCurrentNoteElement->push (createElement (k_grace, ""));
+      break;
+    default:
+      ;
+  } // switch
+
+  // append the step and pitch or rest sub elements
   switch (noteKind) {
     case msrNote::k_NoNoteKind:
       break;
@@ -2331,12 +2361,6 @@ void msr2MxmltreeTranslator::appendTheNoteStepAndPitchOrRestSubElement (
 
     case msrNote::kGraceNote:
       {
-        // create the grace element
-        Sxmlelement graceElement = createElement (k_grace, "");
-
-        // append the pitch element to the current note
-        fCurrentNoteElement->push (graceElement);
-
         // create the pitch element
         Sxmlelement pitchElement = createElement (k_pitch, "");
 
@@ -2562,6 +2586,8 @@ void msr2MxmltreeTranslator::appendTheNoteVoiceSubElementIfRelevant (
       break;
 
     case msrNote::kRegularNote:
+    case msrNote::kChordMemberNote:
+    case msrNote::kTupletMemberNote:
       noteVoice =
         note->
           getNoteMeasureUpLink ()->
@@ -2575,24 +2601,17 @@ void msr2MxmltreeTranslator::appendTheNoteVoiceSubElementIfRelevant (
     case msrNote::kGraceNote:
       noteVoice =
         note->
-          getNoteMeasureUpLink ()->
-            getMeasureSegmentUpLink ()->
-              getSegmentVoiceUpLink ();
+          getNoteGraceNotesGroupUpLink ()->
+            getGraceNotesGroupVoiceUpLink ();
+            /* JMI
+            getGraceNotesGroupNoteUpLink ()->
+            getNoteMeasureUpLink ()->
+              getMeasureSegmentUpLink ()->
+                getSegmentVoiceUpLink ();
+                */
       break;
 
     case msrNote::kGraceChordMemberNote:
-      break;
-
-    case msrNote::kChordMemberNote:
-      break;
-
-    case msrNote::kTupletMemberNote:
-      noteVoice =
-        note->
-          getNoteTupletUpLink ()->
-            getTupletMeasureUpLink ()->
-              getMeasureSegmentUpLink ()->
-                getSegmentVoiceUpLink ();
       break;
 
     case msrNote::kGraceTupletMemberNote:
@@ -2726,11 +2745,8 @@ void msr2MxmltreeTranslator::appendMesureNoteSubElement (S_msrNote note)
   // create a note element
   fCurrentNoteElement = createElement (k_note, "");
 
-  // append the note element to the current measure element
-  appendMeasureSubElement (fCurrentNoteElement);
-
-  // append the step and pitch or rest attributes
-  appendTheNoteStepAndPitchOrRestSubElement (note);
+  // append the note basic sub elements
+  appendTheNoteBasicSubElements (note);
 
   // append the duration attribute if relevant
   appendTheNoteDurationSubElementIfRelevant (note);
@@ -2790,6 +2806,98 @@ void msr2MxmltreeTranslator::appendMesureNoteSubElement (S_msrNote note)
 
   // append the articulations if any
   appendNoteNotations (note);
+
+  // append the note element to the current measure element right now,
+  // unless it contains a grace notes group
+  S_msrGraceNotesGroup
+    noteGraceNotesGroupBefore =
+      note->getNoteGraceNotesGroupBefore (),
+    noteGraceNotesGroupAfter =
+      note->getNoteGraceNotesGroupAfter ();
+
+  if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
+    appendMeasureSubElement (fCurrentNoteElement);
+  }
+  else {
+    fCurrentNoteElementAwaitsGraceNotes = true;
+    fPendingNoteElement = fCurrentNoteElement;
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber () ;
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrGraceNotesGroup" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create a start comment
+  stringstream s;
+  s <<
+    " ==================== " <<
+    "Grace notes group " <<
+    inputLineNumber <<
+    " START" <<
+      ", line " << inputLineNumber <<
+    " ==================== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current measure element
+  fCurrentMeasureElement->push (comment);
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber () ;
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrGraceNotesGroup" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create an end comment
+  stringstream s;
+  s <<
+    " ==================== " <<
+    "Grace notes group " <<
+    inputLineNumber <<
+    " END" <<
+      ", line " << inputLineNumber <<
+    " ==================== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current measure element
+  fCurrentMeasureElement->push (comment);
+
+  // append the note element to the current measure element only now,
+  // if it contains a grace notes group
+  /*
+  S_msrGraceNotesGroup
+    noteGraceNotesGroupBefore =
+      note->getNoteGraceNotesGroupBefore (),
+    noteGraceNotesGroupAfter =
+      note->getNoteGraceNotesGroupAfter ();
+*/
+  if (fCurrentNoteElementAwaitsGraceNotes) {
+    appendMeasureSubElement (fPendingNoteElement);
+
+    // forget about these after the pending grace notes
+    fCurrentNoteElementAwaitsGraceNotes = false;
+    fPendingNoteElement = nullptr;
+  }
 }
 
 /*
@@ -4871,239 +4979,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrWedge& elt)
 #endif
 }
 
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber () ;
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrGraceNotesGroup" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  bool doCreateAGraceNoteClone = true; // JMI
-
-  if (doCreateAGraceNoteClone) {
-    // create a clone of this graceNotesGroup
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotes) {
-      fLogOutputStream <<
-        "Creating a clone of grace notes group '" <<
-        elt->asShortString () <<
-        "' and attaching it to clone note '" <<
-        fCurrentNonGraceNoteClone->asShortString () <<
-        "'" <<
-        endl;
-      }
-#endif
-
-    fCurrentGraceNotesGroupClone =
-      elt->
-        createGraceNotesGroupNewbornClone (
-          fCurrentVoiceClone);
-
-    // attach it to the current note clone
-    // if (fOnGoingNonGraceNote) { JMI
-   // { // JMI
-
-    switch (elt->getGraceNotesGroupKind ()) {
-      case msrGraceNotesGroup::kGraceNotesGroupBefore:
-        fCurrentNonGraceNoteClone->
-          setNoteGraceNotesGroupBefore (
-            fCurrentGraceNotesGroupClone);
-        break;
-      case msrGraceNotesGroup::kGraceNotesGroupAfter:
-        fCurrentNonGraceNoteClone->
-          setNoteGraceNotesGroupAfter (
-            fCurrentGraceNotesGroupClone);
-        break;
-    } // switch
-  //  }
-  }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes) {
-    fLogOutputStream <<
-      "+++++++++++++++++++++++++ 1" <<
-      endl <<
-      "fCurrentNonGraceNoteClone:";
-
-    if (fCurrentNonGraceNoteClone) {
-      fLogOutputStream <<
-        fCurrentNonGraceNoteClone;
-    }
-    else {
-      fLogOutputStream <<
-        "nullptr";
-    }
-    fLogOutputStream << endl;
-  }
-#endif
-
-  // get the note this grace notes group is attached to
-  S_msrNote
-    noteNotesGroupIsAttachedTo =
-      elt->
-        getGraceNotesGroupNoteUpLink ();
-
-  if (! noteNotesGroupIsAttachedTo) {
-    stringstream s;
-
-    s <<
-      "grace notes group '" << elt->asShortString () <<
-      "' has an empty note upLink";
-
-    msrInternalError (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  fOnGoingGraceNotesGroup = true;
-
-  // is noteNotesGroupIsAttachedTo the first one in its voice?
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes) {
-    fLogOutputStream <<
-      "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "' is '";
-
-    if (noteNotesGroupIsAttachedTo) {
-      fLogOutputStream <<
-        noteNotesGroupIsAttachedTo->asShortString ();
-    }
-    else {
-      fLogOutputStream <<
-        "none";
-    }
-    fLogOutputStream <<
-       "'" <<
-      endl;
-  }
-#endif
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes) {
-    fLogOutputStream <<
-      "The first note of voice clone KLJWLPOEF '" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "' is '";
-
-    if (fFirstNoteCloneInVoice) {
-      fLogOutputStream <<
-        fFirstNoteCloneInVoice->asShortString ();
-    }
-    else {
-      fLogOutputStream <<
-        "none";
-    }
-    fLogOutputStream <<
-       "'" <<
-      endl;
-  }
-#endif
-
-  // fetch the original voice first non grace note
-  S_msrNote
-    originalVoiceFirstNonGraceNote =
-      fCurrentVoiceOriginal->
-        fetchVoiceFirstNonGraceNote ();
-
-  if (originalVoiceFirstNonGraceNote) {
-    if (noteNotesGroupIsAttachedTo == originalVoiceFirstNonGraceNote) {
-      // issue #34 in LilyPond should be worked around by creating
-      // skip grace notes in the other voices of the part
-
-      // create the skip grace notes group
-#ifdef TRACE_OAH
-        if (gTraceOah->fTraceGraceNotes) {
-          fLogOutputStream <<
-            "Creating a skip clone of grace notes group '" <<
-            elt->asShortString () <<
-            "' to work around LilyPond issue #34" <<
-            endl;
-        }
-#endif
-
-      fCurrentSkipGraceNotesGroup =
-        elt->
-          createSkipGraceNotesGroupClone (
-            fCurrentVoiceClone);
-    }
-  }
-
-  // addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded() will
-  // append the same skip grace notes to the ofhter voices if needed
-  // in visitEnd (S_msrPart&)
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrGraceNotesGroup" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotes) {
-    fLogOutputStream <<
-      "+++++++++++++++++++++++++ 2" <<
-      endl <<
-      "fCurrentNonGraceNoteClone:";
-
-    if (fCurrentNonGraceNoteClone) {
-      fLogOutputStream <<
-        fCurrentNonGraceNoteClone;
-    }
-    else {
-      fLogOutputStream <<
-        "nullptr";
-    }
-    fLogOutputStream << endl;
-  }
-#endif
-
-  // forget about these grace notes
-  fCurrentGraceNotesGroupClone = nullptr;
-
-  fOnGoingGraceNotesGroup = false;
-
-/ * JMI
-  if (fPendingAfterGraceNotesGroup) {
-    // remove the current afterGraceNotesGroup note clone
-    // from the current voice clone
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotesGroup) {
-      fLogOutputStream <<
-        "Removing the after grace notes element from the current voice clone" <<
-        endl;
-    }
-#endif
-
-    fCurrentVoiceClone->
-      removeElementFromVoice (
-        inputLineNumber,
-        fCurrentAfterGraceNotesGroupElement);
-
-    // forget about the current after grace notes element
-    fCurrentAfterGraceNotesGroupElement = nullptr;
-
-    // forget about these after the pending grace notes
-    fPendingAfterGraceNotesGroup = nullptr;
-  }
-  * /
-}
 */
 
 /*

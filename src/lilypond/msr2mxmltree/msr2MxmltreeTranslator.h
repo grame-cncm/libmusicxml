@@ -386,10 +386,11 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
+*/
 
     virtual void visitStart (S_msrGraceNotesGroup& elt);
     virtual void visitEnd   (S_msrGraceNotesGroup& elt);
-*/
+
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
 /*
@@ -695,8 +696,9 @@ class msr2MxmltreeTranslator :
     void                      appendNoteDirectionsSubElements (S_msrNote note);
     void                      appendNoteNotations (S_msrNote note);
 
-    void                      appendTheNoteStepAndPitchOrRestSubElement (
+    void                      appendTheNoteBasicSubElements (
                                 S_msrNote note);
+
     void                      appendTheNoteVoiceSubElementIfRelevant (
                                 S_msrNote note);
     void                      appendTheNoteDurationSubElementIfRelevant (
@@ -707,6 +709,9 @@ class msr2MxmltreeTranslator :
     void                      appendMesureNoteSubElement (S_msrNote note);
 
     Sxmlelement               fCurrentNoteElement;
+
+    bool                      fCurrentNoteElementAwaitsGraceNotes;
+    Sxmlelement               fPendingNoteElement;
 
     Sxmlelement               fCurrentNoteNotationsElement;
 
