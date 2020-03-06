@@ -13763,10 +13763,10 @@ void msrLength::convertToLengthUnit (
           case kInchUnit:
             break;
           case kCentimeterUnit:
-            fLengthValue /= 2.54;
+            fLengthValue /= 2.54f;
             break;
           case kMillimeterUnit:
-            fLengthValue /= 25.4;
+            fLengthValue /= 25.4f;
             break;
         } // switch
         break;
@@ -13774,7 +13774,7 @@ void msrLength::convertToLengthUnit (
       case kCentimeterUnit:
         switch (fLengthUnitKind) {
           case kInchUnit:
-            fLengthValue *= 2.54;
+            fLengthValue *= 2.54f;
             break;
           case kCentimeterUnit:
             break;
@@ -13787,7 +13787,7 @@ void msrLength::convertToLengthUnit (
       case kMillimeterUnit:
         switch (fLengthUnitKind) {
           case kInchUnit:
-            fLengthValue *= 25.4;
+            fLengthValue *= 25.4f;
             break;
           case kCentimeterUnit:
             fLengthValue *= 10;
