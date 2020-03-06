@@ -39,6 +39,7 @@
 
 #include "smartpointer.h"
 #include "basevisitor.h"
+#include "exports.h"
 
 
 namespace MusicXML2
@@ -353,7 +354,7 @@ std::string replicateString (
   int    times);
 
 //______________________________________________________________________________
-std::string replaceSubstringInString (
+EXP std::string replaceSubstringInString (
   std::string str,
   std::string subString,
   std::string ersatz);
