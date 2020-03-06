@@ -6345,6 +6345,28 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   }
 #endif
 
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentStaffNumberToInsertInto,
+        fCurrentMusicXMLVoiceNumber);
+
+  // fetch note to attach to
+  S_msrNote
+    noteToAttachTo =
+    /*
+    // JMI might prove not precise enough???
+//      fVoicesLastMetNoteMap [currentVoice];
+      fVoicesLastMetNoteMap [
+        make_pair (
+          fCurrentStaffNumberToInsertInto,
+          fCurrentMusicXMLVoiceNumber)
+        ];
+    */
+      voice->getVoiceLastAppendedNote (); // ??? JMI
+
   // is there a pending grace notes group?
   if (fPendingGraceNotesGroup) {
 #ifdef TRACE_OAH
@@ -6365,30 +6387,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
     // attach these grace notes group as an after grace notes group
     // to the last note found in its voice
-
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fetchVoiceFromCurrentPart (
-          inputLineNumber,
-          fCurrentStaffNumberToInsertInto,
-          fCurrentMusicXMLVoiceNumber);
-
-    // fetch note to attach to
-    S_msrNote
-      noteToAttachTo =
-      /* JMI
-      // JMI might prove not precise enough???
-  //      fVoicesLastMetNoteMap [currentVoice];
-        fVoicesLastMetNoteMap [
-          make_pair (
-            fCurrentStaffNumberToInsertInto,
-            fCurrentMusicXMLVoiceNumber)
-          ];
-      */
-        voice->
-          getVoiceLastAppendedNote (); // ??? JMI
-
 
     if (! noteToAttachTo) {
       stringstream s;
@@ -6442,6 +6440,9 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
     fCurrentATupletStopIsPending = false;
   }
+
+  // attach the spanners if any to the note
+  attachCurrentSpannersToNote (noteToAttachTo);
 
   // finalize current measure in the part,
   // to add skips if necessary and set measure kind

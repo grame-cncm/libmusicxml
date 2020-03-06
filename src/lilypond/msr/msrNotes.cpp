@@ -2077,7 +2077,7 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceSpanners) {
     gLogOstream <<
-      "Adding spanner '" <<
+      "Appending spanner '" <<
       spanner->spannerKindAsString () <<
       "' to note '" <<
       asString () <<
@@ -2208,9 +2208,11 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
       fNoteTrillOrnament = ornament;
       break;
 
+/* JMI
     case msrOrnament::kOrnamentDashes:
       fNoteDashesOrnament = ornament;
       break;
+*/
 
     case msrOrnament::kOrnamentDelayedTurn:
       fNoteDelayedTurnOrnament = ornament;

@@ -12,7 +12,7 @@ class msrOrnament : public msrElement
     // ------------------------------------------------------
 
     enum msrOrnamentKind {
-        kOrnamentTrill, kOrnamentDashes,
+        kOrnamentTrill, // JMI kOrnamentDashes,
         kOrnamentTurn, kOrnamentInvertedTurn, kOrnamentDelayedTurn,
         kOrnamentDelayedInvertedTurn, kOrnamentVerticalTurn,
         kOrnamentMordent, kOrnamentInvertedMordent,

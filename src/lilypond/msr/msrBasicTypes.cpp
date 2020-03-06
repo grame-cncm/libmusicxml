@@ -14696,6 +14696,9 @@ string msrSpannerTypeKindAsString (
   string result;
 
   switch (spannerTypeKind) {
+    case k_NoSpannerType:
+      result = "noSpannerType";
+      break;
     case kSpannerTypeStart:
       result = "spannerTypeStart";
       break;
@@ -14704,9 +14707,6 @@ string msrSpannerTypeKindAsString (
       break;
     case kSpannerTypeContinue:
       result = "spannerTypeContinue";
-      break;
-    case k_NoSpannerType:
-      result = "noSpannerType";
       break;
   } // switch
 

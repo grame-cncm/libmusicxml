@@ -564,7 +564,7 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
 // JMI    Sxmlelement               fCurrentPartDirection;
 
-    void                      appendDirectionSubElement (
+    void                      appendMeasureDirectionSubElement (
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 
@@ -694,7 +694,17 @@ class msr2MxmltreeTranslator :
 */
 
     void                      appendNoteDirectionsSubElements (S_msrNote note);
+    void                      appendNoteWedges (S_msrNote note);
+    void                      appendNoteDynamics (S_msrNote note);
+
     void                      appendNoteNotations (S_msrNote note);
+    void                      appendNoteOrnaments (S_msrNote note);
+    void                      appendNoteArticulations (S_msrNote note);
+
+    void                      appendNoteSpannersBeforeNoteElement (
+                                S_msrNote note);
+    void                      appendNoteSpannersAfterNoteElement (
+                                S_msrNote note);
 
     void                      appendTheNoteBasicSubElements (
                                 S_msrNote note);
@@ -716,7 +726,12 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fCurrentNoteNotationsElement;
 
     void                      appendNoteNotationsSubElement (
-                                Sxmlelement      noteElement,
+                                Sxmlelement      elem,
+                                msrPlacementKind placementKind);
+
+    Sxmlelement               fCurrentNoteNotationsOrnamentsElement;
+
+    void                      appendNoteNotationsOrnamentsSubElement (
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 
@@ -779,6 +794,12 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
     void                      displayCurrentOnGoingValues ();
 */
+
+    string                    msrPlacementKindAsMusicXMLString (
+                                msrPlacementKind placementKind);
+
+    string                    msrSpannerTypeKindAsMusicXMLString (
+                                msrSpannerTypeKind spannerTypeKind);
 };
 
 

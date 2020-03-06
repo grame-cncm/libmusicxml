@@ -2812,12 +2812,14 @@ void lpsr2LilypondTranslator::generateOrnament (
       }
       break;
 
+/* JMI
     case msrOrnament::kOrnamentDashes:
       if (! ornamentNoteUpLink->getNoteWavyLineSpannerStart ()) {
         fLilypondCodeOstream <<
           "%{\\dashes%} ";
       }
       break;
+*/
 
     case msrOrnament::kOrnamentTurn:
       fLilypondCodeOstream <<
@@ -2989,6 +2991,8 @@ void lpsr2LilypondTranslator::generateCodeForSpannerBeforeNote (
           fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
+          fLilypondCodeOstream <<
+            "\\stopTextSpan ";
           break;
         case kSpannerTypeContinue:
           break;
@@ -3055,8 +3059,6 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
           fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
-          fLilypondCodeOstream <<
-            "\\stopTextSpan ";
           fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:

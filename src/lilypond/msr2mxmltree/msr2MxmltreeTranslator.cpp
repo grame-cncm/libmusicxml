@@ -45,6 +45,51 @@ using namespace std;
 namespace MusicXML2
 {
 //________________________________________________________________________
+string msr2MxmltreeTranslator::msrPlacementKindAsMusicXMLString (
+  msrPlacementKind placementKind)
+{
+  string result;
+
+  switch (placementKind) {
+    case msrPlacementKind::kPlacementNone:
+      result = "";
+      break;
+    case msrPlacementKind::kPlacementAbove:
+      result = "above";
+      break;
+    case msrPlacementKind::kPlacementBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+string msr2MxmltreeTranslator::msrSpannerTypeKindAsMusicXMLString (
+  msrSpannerTypeKind spannerTypeKind)
+{
+  string result;
+
+  switch (spannerTypeKind) {
+    case k_NoSpannerType:
+      // should not occur
+      break;
+    case kSpannerTypeStart:
+      result = "start";
+      break;
+    case kSpannerTypeStop:
+      result = "stop";
+      break;
+    case kSpannerTypeContinue:
+      result = "continue";
+      break;
+  } // switch
+
+  return result;
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator::appendWorkSubElement (
   Sxmlelement elem)
 {
@@ -56,6 +101,7 @@ void msr2MxmltreeTranslator::appendWorkSubElement (
   fScoreWorkElement->push (elem);
 }
 
+//________________________________________________________________________
 void msr2MxmltreeTranslator::appendIdentificationSubElement (
   Sxmlelement elem)
 {
@@ -81,6 +127,7 @@ void msr2MxmltreeTranslator::appendIdentificationEncodingSubElement (
   fScoreIdentificationEncodingElement->push (elem);
 }
 
+//________________________________________________________________________
 void msr2MxmltreeTranslator::appendDefaultsSubElement (
   Sxmlelement elem)
 {
@@ -92,6 +139,7 @@ void msr2MxmltreeTranslator::appendDefaultsSubElement (
   fScoreDefaultsElement->push (elem);
 }
 
+//________________________________________________________________________
 void msr2MxmltreeTranslator::appendAttributesSubElement (
   Sxmlelement elem)
 {
@@ -107,32 +155,24 @@ void msr2MxmltreeTranslator::appendAttributesSubElement (
   fCurrentPartAttributes->push (elem);
 }
 
-void msr2MxmltreeTranslator::appendDirectionSubElement (
+//________________________________________________________________________
+void msr2MxmltreeTranslator::appendMeasureDirectionSubElement (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  string placementString;
-
-  switch (placementKind) {
-    case msrPlacementKind::kPlacementNone:
-      break;
-    case msrPlacementKind::kPlacementAbove:
-      placementString = "above";
-      break;
-    case msrPlacementKind::kPlacementBelow:
-      placementString = "below";
-      break;
-  } // switch
-
   // create a direction element
   Sxmlelement directionElement = createElement (k_direction, "");
 
+  // set it's "placement" attribute if relevant
+  string
+    placementString =
+      msrPlacementKindAsMusicXMLString (placementKind);
+
   if (placementString.size ()) {
-    // set it's "placement" attribute
-    directionElement->add (createAttribute ("placement", placementString));
+    directionElement->add (createAttribute ("placement",  placementString));
   }
 
-  // append it to the current measure element
+  // append the direction element to the current measure element
   fCurrentMeasureElement->push (directionElement);
 
   // create a direction type element
@@ -145,6 +185,7 @@ void msr2MxmltreeTranslator::appendDirectionSubElement (
   directionTypeElement->push (elem);
 }
 
+//________________________________________________________________________
 void msr2MxmltreeTranslator::appendMeasureSubElement (
   Sxmlelement elem)
 {
@@ -168,8 +209,8 @@ void msr2MxmltreeTranslator::appendMeasureSubElement (
   fCurrentPartAttributes = nullptr;
 }
 
+//________________________________________________________________________
 void msr2MxmltreeTranslator::appendNoteNotationsSubElement (
-  Sxmlelement      noteElement,
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
@@ -177,12 +218,48 @@ void msr2MxmltreeTranslator::appendNoteNotationsSubElement (
     // create an notations element
     fCurrentNoteNotationsElement = createElement (k_notations, "");
 
-    // append it to noteElement
-    noteElement->push (fCurrentNoteNotationsElement);
+    // append it to fCurrentNoteElement
+    fCurrentNoteElement->push (fCurrentNoteNotationsElement);
+  }
+
+  // set elem's "placement" attribute if relevant
+  string
+    placementString =
+      msrPlacementKindAsMusicXMLString (placementKind);
+
+  if (placementString.size ()) {
+    elem->add (createAttribute ("placement", placementString));
   }
 
   // append elem to the note notations element
   fCurrentNoteNotationsElement->push (elem);
+}
+
+void msr2MxmltreeTranslator::appendNoteNotationsOrnamentsSubElement (
+  Sxmlelement      elem,
+  msrPlacementKind placementKind)
+{
+  if (! fCurrentNoteNotationsOrnamentsElement) {
+    // create an notations element
+    fCurrentNoteNotationsOrnamentsElement = createElement (k_ornaments, "");
+
+    // append it to fCurrentNoteNotationsElement
+    appendNoteNotationsSubElement (
+      fCurrentNoteNotationsOrnamentsElement,
+      placementKind);
+  }
+
+  // set elem's "placement" attribute if relevant
+  string
+    placementString =
+      msrPlacementKindAsMusicXMLString (placementKind);
+
+  if (placementString.size ()) {
+    elem->add (createAttribute ("placement", placementString));
+  }
+
+  // append elem to the note notations ornaments element
+  fCurrentNoteNotationsOrnamentsElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -1678,7 +1755,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
           metronomeElement-> push (createElement (k_per_minute, tempoPerMinute));
 
           // append the dynamics element to the current measure element
-          appendDirectionSubElement (
+          appendMeasureDirectionSubElement (
             metronomeElement,
             tempoPlacementKind);
 
@@ -1729,7 +1806,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
           metronomeElement-> push (createElement (k_per_minute, tempoPerMinute));
 
           // append the metronome element to the current measure element
-          appendDirectionSubElement (
+          appendMeasureDirectionSubElement (
             metronomeElement,
             tempoPlacementKind);
 
@@ -1951,18 +2028,17 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator:: appendNoteDirectionsSubElements (S_msrNote note)
+void msr2MxmltreeTranslator:: appendNoteWedges (S_msrNote note)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendNoteDirectionsSubElements, note = " <<
+      "--> appendNoteWedges, note = " <<
       note->asShortString () <<
       endl;
   }
 #endif
 
-  // append the wedges elements if any
   const list<S_msrWedge>&
     noteWedges =
       note->getNoteWedges () ;
@@ -1999,13 +2075,25 @@ void msr2MxmltreeTranslator:: appendNoteDirectionsSubElements (S_msrNote note)
       wedgeElement->add (createAttribute ("type", typeString));
 
       // append the wedge element to the current measure element
-      appendDirectionSubElement (
+      appendMeasureDirectionSubElement (
         wedgeElement,
         wedge->getWedgePlacementKind ());
     } // for
   }
+}
 
-  // append the dynamics elements if any
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteDynamics (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteDynamics, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
   const list<S_msrDynamics>&
     noteDynamics =
       note->getNoteDynamics () ;
@@ -2106,7 +2194,7 @@ void msr2MxmltreeTranslator:: appendNoteDirectionsSubElements (S_msrNote note)
       dynamicsElement-> push (dynamicsSpecificSubElement);
 
       // append the dynamics element to the current measure element
-      appendDirectionSubElement (
+      appendMeasureDirectionSubElement (
         dynamicsElement,
         dynamics->getDynamicsPlacementKind ());
     } // for
@@ -2114,12 +2202,150 @@ void msr2MxmltreeTranslator:: appendNoteDirectionsSubElements (S_msrNote note)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
+void msr2MxmltreeTranslator:: appendNoteDirectionsSubElements (S_msrNote note)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendNoteNotations, note = " <<
+      "--> appendNoteDirectionsSubElements, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/*
+<!ELEMENT direction-type (rehearsal+ | segno+ | coda+ |
+	(words | symbol)+ | wedge | dynamics+ | dashes |
+	bracket | pedal | metronome | octave-shift | harp-pedals |
+	damp | damp-all | eyeglasses | string-mute |
+	scordatura | image | principal-voice | percussion+ |
+	accordion-registration | staff-divide | other-direction)>
+<!ATTLIST direction-type
+    %optional-unique-id;
+>
+*/
+
+  // append the wedges elements if any
+  appendNoteWedges (note);
+
+  // append the dynamics elements if any
+  appendNoteDynamics (note);
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteOrnaments, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/* JMI
+<!ELEMENT ornaments
+	(((trill-mark
+	| turn | delayed-turn | inverted-turn |
+	   delayed-inverted-turn | vertical-turn |
+	   inverted-vertical-turn | shake | wavy-line |
+	   mordent | inverted-mordent | schleifer | tremolo |
+	   haydn | other-ornament), accidental-mark*)*)>
+<!ATTLIST ornaments
+    %optional-unique-id;
+>
+<!ELEMENT trill-mark EMPTY>
+<!ATTLIST trill-mark
+    %print-style;
+    %placement;
+    %trill-sound;
+>
+	  */
+
+  // append the ornament elements if any
+  const list<S_msrOrnament>&
+    noteOrnaments =
+      note->getNoteOrnaments () ;
+
+  if (noteOrnaments.size ()) {
+    list<S_msrOrnament>::const_iterator i;
+
+    for (i=noteOrnaments.begin (); i!=noteOrnaments.end (); i++) {
+      S_msrOrnament ornament = (*i);
+
+      msrOrnament::msrOrnamentKind
+        ornamentKind =
+          ornament->getOrnamentKind ();
+
+      int ornamentType = kComment; // JMI
+
+      switch (ornamentKind) {
+      /* JMI
+        case msrOrnament::k_NoOrnament:
+          // JMI ???
+          break;
+*/
+
+        case msrOrnament::kOrnamentTrill:
+          ornamentType = k_trill_mark;
+          break;
+        case msrOrnament::kOrnamentTurn:
+          ornamentType = k_turn;
+          break;
+        case msrOrnament::kOrnamentInvertedTurn:
+          ornamentType = k_inverted_turn;
+          break;
+        case msrOrnament::kOrnamentDelayedTurn:
+          ornamentType = k_delayed_turn;
+          break;
+        case msrOrnament::kOrnamentDelayedInvertedTurn:
+          ornamentType = k_delayed_inverted_turn;
+          break;
+        case msrOrnament::kOrnamentVerticalTurn:
+          ornamentType = k_vertical_turn;
+          break;
+        case msrOrnament::kOrnamentMordent:
+          ornamentType = k_mordent;
+          break;
+        case msrOrnament::kOrnamentInvertedMordent:
+          ornamentType = k_inverted_mordent;
+          break;
+        case msrOrnament::kOrnamentSchleifer:
+          ornamentType = k_schleifer;
+          break;
+        case msrOrnament::kOrnamentShake:
+          ornamentType = k_shake;
+          break;
+        case msrOrnament::kOrnamentAccidentalMark:
+          ornamentType = k_accidental_mark;
+          break;
+      } // switch
+
+      // create the note ornaments element
+      Sxmlelement noteOrnamentsElement = createElement (k_ornaments, "");
+
+      // create the ornament element
+      Sxmlelement ornamentElement = createElement (ornamentType, "");
+
+      // append it to the note ornaments element
+      noteOrnamentsElement->push (ornamentElement);
+
+      // append the note ornaments element to the current note element
+      appendNoteNotationsSubElement (
+        noteOrnamentsElement,
+        ornament->getOrnamentPlacementKind ());
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteArticulations (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteArticulations, note = " <<
       note->asShortString () <<
       endl;
   }
@@ -2222,11 +2448,262 @@ void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
 
       // append the note articulations element to the current note element
       appendNoteNotationsSubElement (
-        fCurrentNoteElement,
         noteArticulationsElement,
         articulation->getArticulationPlacementKind ());
     } // for
   }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteSpannersBeforeNoteElement, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+  // append the spanner elements if any
+  const list<S_msrSpanner>&
+    noteSpanners =
+      note->getNoteSpanners () ;
+
+  if (noteSpanners.size ()) {
+    list<S_msrSpanner>::const_iterator i;
+
+    for (i=noteSpanners.begin (); i!=noteSpanners.end (); i++) {
+      S_msrSpanner spanner = (*i);
+
+      msrSpannerTypeKind
+        spannerTypeKind =
+          spanner->getSpannerTypeKind ();
+
+      // should we handle this spanner at all?
+      bool doHandleSpanner = true;
+
+      switch (spannerTypeKind) {
+        case kSpannerTypeStart:
+          break;
+        case kSpannerTypeStop:
+          doHandleSpanner = false;;
+          break;
+        case kSpannerTypeContinue:
+          break;
+        case k_NoSpannerType:
+          // should not occur
+          break;
+      } // switch
+
+      if (doHandleSpanner) {
+        msrSpanner::msrSpannerKind
+          spannerKind =
+            spanner->getSpannerKind ();
+
+        int spannerType = kComment; // JMI
+
+        Sxmlelement containingElement;
+
+        switch (spannerKind) {
+          case msrSpanner::kSpannerDashes:
+            // dashes go into the measure direction element
+            spannerType = k_dashes;
+            break;
+          case msrSpanner::kSpannerWavyLine:
+            // wavy lines go into the note notations ornaments
+            spannerType = k_wavy_line;
+            break;
+        } // switch
+
+        // create the note spanners element
+        Sxmlelement noteSpannersElement = createElement (k_ornaments, "");
+
+        // create the spanner element
+        Sxmlelement spannerElement = createElement (spannerType, "");
+
+        // set spannerElement's "number" attribute if relevant
+        int
+          spannerNumber =
+            spanner->getSpannerNumber ();
+
+  //      if (spannerNumber > 1) { JMI
+          spannerElement->add (createIntegerAttribute ("number", spannerNumber));
+  //      }
+
+        // set spannerElement's "type" attribute if relevant
+        string
+          typeString =
+            msrSpannerTypeKindAsMusicXMLString (spannerTypeKind);
+
+        if (typeString.size ()) {
+          spannerElement->add (createAttribute ("type", typeString));
+        }
+
+        // append spannerElement to the note spanners element
+        noteSpannersElement->push (spannerElement);
+
+        switch (spannerKind) {
+          case msrSpanner::kSpannerDashes:
+            // dashes go into the measure direction element
+            appendMeasureDirectionSubElement (
+              spannerElement,
+              spanner->getSpannerPlacementKind ());
+            break;
+          case msrSpanner::kSpannerWavyLine:
+            // wavy lines go into the note notations ornaments
+            appendNoteNotationsOrnamentsSubElement (
+              noteSpannersElement,
+              spanner->getSpannerPlacementKind ());
+              break;
+        } // switch
+      }
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteSpannersAfterNoteElement (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteSpannersBeforeNoteElement, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+  // append the spanner elements if any
+  const list<S_msrSpanner>&
+    noteSpanners =
+      note->getNoteSpanners () ;
+
+  if (noteSpanners.size ()) {
+    list<S_msrSpanner>::const_iterator i;
+
+    for (i=noteSpanners.begin (); i!=noteSpanners.end (); i++) {
+      S_msrSpanner spanner = (*i);
+
+      msrSpannerTypeKind
+        spannerTypeKind =
+          spanner->getSpannerTypeKind ();
+
+      // should we handle this spanner at all?
+      bool doHandleSpanner = true;
+
+      switch (spannerTypeKind) {
+        case kSpannerTypeStart:
+          doHandleSpanner = false;;
+          break;
+        case kSpannerTypeStop:
+          break;
+        case kSpannerTypeContinue:
+          break;
+        case k_NoSpannerType:
+          // should not occur
+          break;
+      } // switch
+
+      if (doHandleSpanner) {
+        msrSpanner::msrSpannerKind
+          spannerKind =
+            spanner->getSpannerKind ();
+
+        int spannerType = kComment; // JMI
+
+        Sxmlelement containingElement;
+
+        switch (spannerKind) {
+          case msrSpanner::kSpannerDashes:
+            // dashes go into the measure direction element
+            spannerType = k_dashes;
+            break;
+          case msrSpanner::kSpannerWavyLine:
+            // wavy lines go into the note notations ornaments
+            spannerType = k_wavy_line;
+            break;
+        } // switch
+
+        // create the note spanners element
+        Sxmlelement noteSpannersElement = createElement (k_ornaments, "");
+
+        // create the spanner element
+        Sxmlelement spannerElement = createElement (spannerType, "");
+
+        // set spannerElement's "number" attribute if relevant
+        int
+          spannerNumber =
+            spanner->getSpannerNumber ();
+
+  //      if (spannerNumber > 1) { JMI
+          spannerElement->add (createIntegerAttribute ("number", spannerNumber));
+  //      }
+
+        // set spannerElement's "type" attribute if relevant
+        string
+          typeString =
+            msrSpannerTypeKindAsMusicXMLString (spannerTypeKind);
+
+        if (typeString.size ()) {
+          spannerElement->add (createAttribute ("type", typeString));
+        }
+
+        // append spannerElement to the note spanners element
+        noteSpannersElement->push (spannerElement);
+
+        switch (spannerKind) {
+          case msrSpanner::kSpannerDashes:
+            // dashes go into the measure direction element
+            appendMeasureDirectionSubElement (
+              spannerElement,
+              spanner->getSpannerPlacementKind ());
+            break;
+          case msrSpanner::kSpannerWavyLine:
+            // wavy lines go into the note notations ornaments
+            appendNoteNotationsOrnamentsSubElement (
+              noteSpannersElement,
+              spanner->getSpannerPlacementKind ());
+              break;
+        } // switch
+      }
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteNotations, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/*
+<!ELEMENT notations
+	(%editorial;,
+	 (tied | slur | tuplet | glissando | slide |
+	  ornaments | technical | articulations | dynamics |
+	  fermata | arpeggiate | non-arpeggiate |
+	  accidental-mark | other-notation)*)>
+<!ATTLIST notations
+    %print-object;
+    %optional-unique-id;
+>
+*/
+
+  // append the ornaments elements if any
+  appendNoteOrnaments (note);
+
+  // append the articulation elements if any
+  appendNoteArticulations (note);
 }
 
 //________________________________________________________________________
@@ -2807,6 +3284,12 @@ void msr2MxmltreeTranslator::appendMesureNoteSubElement (S_msrNote note)
   // append the articulations if any
   appendNoteNotations (note);
 
+  // append the 'before spanner' elements if any
+  appendNoteSpannersBeforeNoteElement (note);
+
+  // append the 'after spanner' elements if any
+  appendNoteSpannersAfterNoteElement (note);
+
   // append the note element to the current measure element right now,
   // unless it contains a grace notes group
   S_msrGraceNotesGroup
@@ -2926,10 +3409,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 #endif
-  // append the note directions
+  // append the note directions to the note element
   appendNoteDirectionsSubElements (elt);
 
-  // append the note element
+  // append the note element to the measure element
   appendMesureNoteSubElement (elt);
 }
 
@@ -2952,7 +3435,8 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
   fCurrentNoteElement = nullptr;
 
   // forget about the note notations element
-  fCurrentNoteNotationsElement = nullptr;
+  fCurrentNoteNotationsElement          = nullptr;
+  fCurrentNoteNotationsOrnamentsElement = nullptr;
 }
 
 //________________________________________________________________________

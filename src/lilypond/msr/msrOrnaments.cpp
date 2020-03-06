@@ -57,9 +57,11 @@ string msrOrnament::ornamentKindAsString () const
     case msrOrnament::kOrnamentTrill:
       result = "ornamentTrill";
       break;
+      /* JMI
     case msrOrnament::kOrnamentDashes:
       result = "ornamentDashes";
       break;
+      */
     case msrOrnament::kOrnamentTurn:
       result = "ornamentTurn";
       break;
