@@ -2982,6 +2982,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerBeforeNote (
   S_msrSpanner spanner)
 {
   switch (spanner->getSpannerKind ()) {
+
     case msrSpanner::kSpannerDashes:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
@@ -2991,8 +2992,8 @@ void lpsr2LilypondTranslator::generateCodeForSpannerBeforeNote (
           fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
-          fLilypondCodeOstream <<
-            "\\stopTextSpan ";
+//          fLilypondCodeOstream <<
+//            "\\stopTextSpan ";
           break;
         case kSpannerTypeContinue:
           break;
@@ -3051,6 +3052,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
   S_msrSpanner spanner)
 {
   switch (spanner->getSpannerKind ()) {
+
     case msrSpanner::kSpannerDashes:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
@@ -3059,6 +3061,8 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
           fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
+          fLilypondCodeOstream <<
+            "\\stopTextSpan ";
           fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:
@@ -11652,6 +11656,94 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesGroup& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::generateBeforeNoteSpannersIfAny (
+  S_msrNote note)
+{
+  const list<S_msrSpanner>&
+    noteSpanners =
+      note->getNoteSpanners ();
+
+  if (noteSpanners.size ()) {
+    list<S_msrSpanner>::const_iterator i;
+    for (
+      i=noteSpanners.begin ();
+      i!=noteSpanners.end ();
+      i++
+    ) {
+      S_msrSpanner
+        spanner = (*i);
+
+      bool doGenerateSpannerCode = true;
+
+      switch (spanner->getSpannerKind ()) {
+        case msrSpanner::kSpannerDashes:
+          break;
+        case msrSpanner::kSpannerWavyLine:
+          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
+            // don't generate anything, the trill will display the wavy line
+            doGenerateSpannerCode = false;
+          }
+          break;
+      } // switch
+
+      if (doGenerateSpannerCode) {
+        switch (spanner->getSpannerKind ()) {
+          case msrSpanner::kSpannerDashes:
+          case msrSpanner::kSpannerWavyLine:
+            break;
+        } // switch
+
+        generateCodeForSpannerBeforeNote (spanner);
+      }
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generateAfterNoteSpannersIfAny (
+  S_msrNote note)
+{
+  const list<S_msrSpanner>&
+    noteSpanners =
+      note->getNoteSpanners ();
+
+  if (noteSpanners.size ()) {
+    list<S_msrSpanner>::const_iterator i;
+    for (
+      i=noteSpanners.begin ();
+      i!=noteSpanners.end ();
+      i++
+    ) {
+      S_msrSpanner
+        spanner = (*i);
+
+      bool doGenerateSpannerCode = true;
+
+      switch (spanner->getSpannerKind ()) {
+        case msrSpanner::kSpannerDashes:
+          break;
+        case msrSpanner::kSpannerWavyLine:
+          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
+            // don't generate anything, the trill will display the wavy line
+            doGenerateSpannerCode = false;
+          }
+          break;
+      } // switch
+
+      if (doGenerateSpannerCode) {
+        switch (spanner->getSpannerKind ()) {
+          case msrSpanner::kSpannerDashes:
+          case msrSpanner::kSpannerWavyLine:
+            break;
+        } // switch
+
+        generateCodeForSpannerAfterNote (spanner);
+      }
+    } // for
+  }
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 {
 #ifdef TRACE_OAH
@@ -12276,45 +12368,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // for
   }
 
-  // print the note spanners if any
-  const list<S_msrSpanner>&
-    noteSpanners =
-      elt->getNoteSpanners ();
-
-  if (noteSpanners.size ()) {
-    list<S_msrSpanner>::const_iterator i;
-    for (
-      i=noteSpanners.begin ();
-      i!=noteSpanners.end ();
-      i++
-    ) {
-      S_msrSpanner
-        spanner = (*i);
-
-      bool doGenerateSpannerCode = true;
-
-      switch (spanner->getSpannerKind ()) {
-        case msrSpanner::kSpannerDashes:
-          break;
-        case msrSpanner::kSpannerWavyLine:
-          if (spanner->getSpannerNoteUpLink ()->getNoteTrillOrnament ()) {
-            // don't generate anything, the trill will display the wavy line
-            doGenerateSpannerCode = false;
-          }
-          break;
-      } // switch
-
-      if (doGenerateSpannerCode) {
-        switch (spanner->getSpannerKind ()) {
-          case msrSpanner::kSpannerDashes:
-          case msrSpanner::kSpannerWavyLine:
-            break;
-        } // switch
-
-        generateCodeForSpannerBeforeNote (spanner);
-      }
-    } // for
-  }
+  // print the 'before note' spanners if any
+//  generateBeforeNoteSpannersIfAny (elt);
 
   // should the note be parenthesized?
   msrNote::msrNoteHeadParenthesesKind
@@ -12427,11 +12482,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 
   // generate things before the note
+  generateBeforeNoteSpannersIfAny (elt);
   generateCodeRightBeforeNote (elt);
 
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
-  // print the note itself as a LilyPond string
+  // generate the note itself as a LilyPond string
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
@@ -12440,6 +12496,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 
   // generate things after the note
   generateCodeRightAfterNote (elt);
+  generateAfterNoteSpannersIfAny (elt);
 
   if (
     gLilypondOah->fInputLineNumbers
@@ -13893,16 +13950,16 @@ void lpsr2LilypondTranslator::generateCodeForChordContents (
       i      = iBegin;
     for ( ; ; ) {
       S_msrNote
-        note = (*i);
+        chordNote = (*i);
 
-      // print things before the note
-      generateCodeRightBeforeNote (note);
+      // print things before the chordNote
+      generateCodeRightBeforeNote (chordNote);
 
-      // print the note itself
-      generateCodeForNote (note);
+      // print the chordNote itself
+      generateCodeForNote (chordNote);
 
-      // print things after the note
-      generateCodeRightAfterNote (note);
+      // print things after the chordNote
+      generateCodeRightAfterNote (chordNote);
 
       if (++i == iEnd) break;
       fLilypondCodeOstream <<

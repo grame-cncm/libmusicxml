@@ -665,7 +665,11 @@ class msr2MxmltreeTranslator :
     // measures
     // ------------------------------------------------------
 
-    void                      appendMeasureSubElement (
+    void                      appendMeasureNoteSubElement (
+                                S_msrNote   note,
+                                Sxmlelement elem);
+
+    void                      appendMeasureOtherSubElement (
                                 Sxmlelement elem);
 /*
     // full measure rests compression
@@ -721,6 +725,7 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fCurrentNoteElement;
 
     bool                      fCurrentNoteElementAwaitsGraceNotes;
+    S_msrNote                 fPendingNoteAwaitingGraceNotes;
     Sxmlelement               fPendingNoteElement;
 
     Sxmlelement               fCurrentNoteNotationsElement;

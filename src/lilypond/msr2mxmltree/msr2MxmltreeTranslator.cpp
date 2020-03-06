@@ -186,7 +186,8 @@ void msr2MxmltreeTranslator::appendMeasureDirectionSubElement (
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::appendMeasureSubElement (
+void msr2MxmltreeTranslator::appendMeasureNoteSubElement (
+  S_msrNote   note,
   Sxmlelement elem)
 {
   int inputLineNumber =
@@ -195,7 +196,36 @@ void msr2MxmltreeTranslator::appendMeasureSubElement (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendMeasureSubElement(), elem = " <<
+      "--> appendMeasureOtherSubElement(), elem = " <<
+// JMI      elem <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // append the 'before spanner' elements if any
+  appendNoteSpannersBeforeNoteElement (note);
+
+  // append elem to the current measure element
+  fCurrentMeasureElement->push (elem);
+
+  // append the 'after spanner' elements if any
+  appendNoteSpannersAfterNoteElement (note);
+
+  // forget about the current attributes element
+// JMI  fCurrentPartAttributes = nullptr;
+}
+
+void msr2MxmltreeTranslator::appendMeasureOtherSubElement (
+  Sxmlelement elem)
+{
+  int inputLineNumber =
+    elem->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendMeasureOtherSubElement(), elem = " <<
 // JMI      elem <<
       ", line " << inputLineNumber <<
       endl;
@@ -206,7 +236,7 @@ void msr2MxmltreeTranslator::appendMeasureSubElement (
   fCurrentMeasureElement->push (elem);
 
   // forget about the current attributes element
-  fCurrentPartAttributes = nullptr;
+  fCurrentPartAttributes = nullptr; // JMI
 }
 
 //________________________________________________________________________
@@ -295,6 +325,7 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
 
   // notes
   fCurrentNoteElementAwaitsGraceNotes = false;
+  fPendingNoteAwaitingGraceNotes = nullptr;
   fPendingNoteElement = nullptr;
 
 /*
@@ -2571,7 +2602,7 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNoteElement (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendNoteSpannersBeforeNoteElement, note = " <<
+      "--> appendNoteSpannersAfterNoteElement, note = " <<
       note->asShortString () <<
       endl;
   }
@@ -3284,12 +3315,6 @@ void msr2MxmltreeTranslator::appendMesureNoteSubElement (S_msrNote note)
   // append the articulations if any
   appendNoteNotations (note);
 
-  // append the 'before spanner' elements if any
-  appendNoteSpannersBeforeNoteElement (note);
-
-  // append the 'after spanner' elements if any
-  appendNoteSpannersAfterNoteElement (note);
-
   // append the note element to the current measure element right now,
   // unless it contains a grace notes group
   S_msrGraceNotesGroup
@@ -3299,10 +3324,13 @@ void msr2MxmltreeTranslator::appendMesureNoteSubElement (S_msrNote note)
       note->getNoteGraceNotesGroupAfter ();
 
   if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
-    appendMeasureSubElement (fCurrentNoteElement);
+    appendMeasureNoteSubElement (
+      note,
+      fCurrentNoteElement);
   }
   else {
     fCurrentNoteElementAwaitsGraceNotes = true;
+    fPendingNoteAwaitingGraceNotes = note;
     fPendingNoteElement = fCurrentNoteElement;
   }
 }
@@ -3375,10 +3403,13 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
       note->getNoteGraceNotesGroupAfter ();
 */
   if (fCurrentNoteElementAwaitsGraceNotes) {
-    appendMeasureSubElement (fPendingNoteElement);
+    appendMeasureNoteSubElement (
+      fPendingNoteAwaitingGraceNotes,
+      fPendingNoteElement);
 
     // forget about these after the pending grace notes
     fCurrentNoteElementAwaitsGraceNotes = false;
+    fPendingNoteAwaitingGraceNotes = nullptr;
     fPendingNoteElement = nullptr;
   }
 }
@@ -3480,7 +3511,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
             k_bar_style,
             "light-heavy"));
 
-        appendMeasureSubElement (barlineElement);
+        appendMeasureOtherSubElement (barlineElement);
       }
       break;
     case msrBarline::kBarlineStyleHeavyLight:

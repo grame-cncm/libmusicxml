@@ -814,9 +814,13 @@ class lpsr2LilypondTranslator :
 
     msrPlacementKind      fCurrentSpannerPlacementKind;
 
+    void                  generateBeforeNoteSpannersIfAny (
+                            S_msrNote note);
+    void                  generateAfterNoteSpannersIfAny (
+                            S_msrNote note);
+
     void                  generateCodeForSpannerBeforeNote (
                             S_msrSpanner spanner);
-
     void                  generateCodeForSpannerAfterNote (
                             S_msrSpanner spanner);
 
