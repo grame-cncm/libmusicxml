@@ -885,6 +885,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   fDivisionsPerQuarterNote =
     rationalDivisionsPerQuarterNote.getNumerator ();
 
+  // a divisions element has to be append for this part
+  fPartDivisionsElementHasBeenAppended = false;
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
@@ -924,12 +927,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
       __FILE__, __LINE__,
       s.str ());
   }
-
-  // create a divisions element
-  fCurrentDivisionsElement =
-    createIntegerElement (
-      k_divisions,
-      fDivisionsPerQuarterNote);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -948,9 +945,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
       endl;
   }
 #endif
-
-  // forget about the current divisions element
-  fCurrentDivisionsElement = nullptr;
 
   // forget about the current part element
   fCurrentPartElement = nullptr;
@@ -1081,9 +1075,14 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   fCurrentPartElement->push (fCurrentMeasureElement);
 
   // is there a divisions element to be appended?
-  if (fCurrentDivisionsElement) {
-    // append the divisions element to the attributes element
-    appendAttributesSubElement (fCurrentDivisionsElement);
+  if (! fPartDivisionsElementHasBeenAppended) {
+    // append a divisions element to the attributes element
+    appendAttributesSubElement (
+      createIntegerElement (
+        k_divisions,
+        fDivisionsPerQuarterNote));
+
+    fPartDivisionsElementHasBeenAppended = true;
   }
 }
 

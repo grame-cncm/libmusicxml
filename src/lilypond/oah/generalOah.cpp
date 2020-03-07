@@ -104,6 +104,11 @@ R"(Don't show errors in the log.)",
 
   fDontAbortOnErrors = boolOptionsInitialValue;
 
+/*
+std::string test = "abc def abc def";
+test = std::regex_replace(test, std::regex("def"), "klm");
+*/
+
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
