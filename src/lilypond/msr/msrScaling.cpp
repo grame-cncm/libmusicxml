@@ -98,7 +98,7 @@ float msrScaling::fetchGlobalStaffSize () const
   }
   else {
     // global-staff-size has not been chosen by the user
-    const float defaultTenthsToMillimetersRatio = 0.175;
+    const float defaultTenthsToMillimetersRatio = 0.175f;
 
     float millimetersOverTenths =
       fMillimeters / fTenths;

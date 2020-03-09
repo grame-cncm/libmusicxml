@@ -490,7 +490,8 @@ void convertMsrScoreToMusicXMLScore_Loop (
         gLogOstream);
 
   // create the MusicXML data
-// JMI	SXMLFile xmlFile = createXMLFile ();
+	SXMLFile xmlFile = createXMLFile ();
+/*
 	SXMLFile xmlFile = TXMLFile::create ();
 
   TXMLDecl * xmlDecl = new TXMLDecl ("1.0", "UTF-8", TXMLDecl::kNo);
@@ -498,6 +499,7 @@ void convertMsrScoreToMusicXMLScore_Loop (
 
 	TDocType * docType = new TDocType ("score-partwise");
 	xmlFile->set (docType);
+	*/
 
 	// insert the mxmlTree into it
   xmlFile->set (mxmltree);

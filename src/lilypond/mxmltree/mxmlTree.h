@@ -19,6 +19,7 @@
 #include "factory.h"
 #include "xml.h"
 #include "xmlfile.h"
+#include "exports.h"
 
 
 using namespace std;
@@ -37,7 +38,7 @@ Sxmlattribute createAttribute (const string& name, const string& value);
 Sxmlattribute createIntegerAttribute (const string& name, int value);
 
 //------------------------------------------------------------------------
-// JMISXMLFile createXMLFile ();
+EXP SXMLFile createXMLFile ();
 
 //------------------------------------------------------------------------
 Sxmlelement createScorePartWiseElement ();

@@ -39,6 +39,7 @@
 
 #include "smartpointer.h"
 #include "basevisitor.h"
+#include "exports.h"
 
 
 namespace MusicXML2
@@ -350,7 +351,7 @@ struct stringSpaceReplacer
 //______________________________________________________________________________
 std::string replicateString (
   std::string str,
-  int    times);
+  int         times);
 
 //______________________________________________________________________________
 std::string int2EnglishWord (int n);

@@ -295,7 +295,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // technicals handling
   fOnGoingTechnical = false;
-  fBendAlterValue = -39.3;
+  fBendAlterValue = -39.3f;
 
   // ornaments handling
 
