@@ -11,6 +11,7 @@
 */
 
 #include <climits>      // INT_MIN, INT_MAX
+
 #include <regex>
 
 #include "messagesHandling.h"
@@ -1470,12 +1471,12 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
 
             s <<
               endl <<
-              replaceSubstringInString (
+              regex_replace (
 R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
   either you found a bug in the EXECUTABLE translator,
   or this MusicXML data is the first-ever real-world case
   of a score exhibiting overlapping part groups.)",
-              "EXECUTABLE",
+              regex ("EXECUTABLE"),
               gOahOah->fHandlerExecutableName);
 
             msrMusicXMLError (

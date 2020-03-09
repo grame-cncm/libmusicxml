@@ -353,12 +353,6 @@ std::string replicateString (
   int    times);
 
 //______________________________________________________________________________
-std::string replaceSubstringInString (
-  std::string str,
-  std::string subString,
-  std::string ersatz);
-
-//______________________________________________________________________________
 std::string int2EnglishWord (int n);
 
 //______________________________________________________________________________

@@ -61,10 +61,10 @@ void oahOah2ManPageGenerator::visitStart (S_oahOptionalValuesStyleKindAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 

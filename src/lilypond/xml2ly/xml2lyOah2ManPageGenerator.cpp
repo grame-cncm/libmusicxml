@@ -125,10 +125,10 @@ void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyVersionOahAtom& elt)
 /*
   fOah2ManPageOutputStream <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     elt->fetchNamesBetweenParentheses () <<
     endl <<
@@ -170,10 +170,10 @@ void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyAboutOahAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -215,10 +215,10 @@ void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyContactOahAtom& elt)
     endl <<
 // JMI    "\\fB\\-" <<
     ".IT Fl e" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 

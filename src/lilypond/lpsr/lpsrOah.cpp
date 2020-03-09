@@ -13,6 +13,7 @@
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 #include <string>
+
 #include <regex>
 
 #include "utilities.h"
@@ -2085,10 +2086,10 @@ R"()",
     appendAtomToSubGroup (
       oahStringAtom::create (
         "lpv", "lilypond-version",
-        replaceSubstringInString (
+        regex_replace (
 R"(Set the LilyPond '\version' to STRING in the LilyPond code.
 The default is 'DEFAULT_VALUE'.)",
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           lilyPondVersionDefaultValue),
         "STRING",
         "lilyPondVersion",
@@ -2106,9 +2107,9 @@ The default is 'DEFAULT_VALUE'.)",
     appendAtomToSubGroup (
       lpsrScoreOutputKindAtom::create (
         "lpsok", "lpsr-score-output-kind",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Use OUTPUT_KIND to create the LPSR blocks,
 as well as in the generated LilyPond code.
 The NUMBER LilyPond score output kinds available are:
@@ -2116,11 +2117,11 @@ The NUMBER LilyPond score output kinds available are:
 '-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
 Otherwise, one file will be generated for each score and/or part.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gLpsrScoreOutputKindsMap.size ())),
-            "OUTPUT_KINDS",
+            regex ("OUTPUT_KINDS"),
             existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           lpsrScoreOutputKindAsString (
             lpsrScoreOutputKindDefaultValue)),
         "OUTPUT_KIND",
@@ -2152,11 +2153,11 @@ R"()",
     appendAtomToSubGroup (
       oahFloatAtom::create (
         "gss", "global-staff-size",
-        replaceSubstringInString (
+        regex_replace (
 R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
 FLOAT should be a floating point or integer number.
 The default is 'DEFAULT_VALUE'.)",
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           to_string (fStaffGlobalSizeDefaultValue)),
         "FLOAT",
         "globalStaffSize",
@@ -2186,21 +2187,21 @@ R"()",
     appendAtomToSubGroup (
       oahLengthUnitKindAtom::create (
         "length-unit", "",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Set the LilyPond length variables unit to UNIT in the forthcoming options.
 The NUMBER LilyPond length variables units available are:
 LENTGTH_UNITS.
 This option should precede options that set paper size and indents
 if they don't specify a unit.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gMsrLengthUnitKindsMap.size ())),
-            "LENTGTH_UNITS",
+            regex ("LENTGTH_UNITS"),
             gIndenter.indentMultiLineString (
               existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH))),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           msrLengthUnitKindAsString (
             fLengthUnitKindDefaultValue)),
         "UNIT",
@@ -2568,20 +2569,20 @@ R"(Convert words elements STRING to an MSR 'dal segno al coda' element.)",
 
 /* JMI
 
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
 The NUMBER LilyPond pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-            "PITCHES_LANGUAGES",
+            regex ("PITCHES_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
@@ -2642,20 +2643,20 @@ R"()",
     appendAtomToSubGroup (
       lpsrPitchesLanguageAtom::create (
         "lppl", "lpsr-pitches-language",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
 The NUMBER LPSR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-            "PITCHES_LANGUAGES",
+            regex ("PITCHES_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
@@ -2675,21 +2676,21 @@ The default is 'DEFAULT_VALUE'.)",
     appendAtomToSubGroup (
       lpsrChordsLanguageAtom::create (
         "lpcl", "lpsr-chords-language",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Use LANGUAGE to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
 The NUMBER LPSR chords pitches languages available are:
 CHORDS_LANGUAGES.
 'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gLpsrChordsLanguageKindsMap.size ())),
-            "CHORDS_LANGUAGES",
+            regex ("CHORDS_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingLpsrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           lpsrChordsLanguageKindAsString (
             lpsrChordsLanguageKindDefaultValue)),
         "LANGUAGE",

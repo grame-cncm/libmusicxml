@@ -2166,13 +2166,13 @@ R"(Use absolute octave entry in the generated LilyPond code.)",
     appendAtomToSubGroup (
       lilypondRelativeOctaveEntryAtom::create (
         "rel", "relative",
-        replaceSubstringInString (
+        regex_replace (
 R"(Use relative octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
 PITCH_AND_OCTAVE is made of a diatonic pitch and an optional sequence of commas or single quotes.
 It should be placed between double quotes if it contains single quotes, such as:
   -rel "c''".
 The default is to use LilyPond's implicit reference 'DEFAULT_VALUE'.)",
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           msrSemiTonesPitchAndOctaveAsLilypondString (
             gLpsrOah->fLpsrQuarterTonesPitchesLanguageKind,
             fSemiTonesPitchAndOctaveDefaultValue)),
@@ -2283,17 +2283,17 @@ to prevent LilyPond from using open strings.)",
     appendAtomToSubGroup (
       lilypondAccidentalStyleKindAtom::create (
         "as", "accidental-style", // JMI
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
+          regex_replace (
+            regex_replace (
+              regex_replace (
 R"(The NUMBER LilyPond accidental styles available are:
 ACCIDENTAL_STYLES.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gLpsrAccidentalStyleKindsMap.size ())),
-            "ACCIDENTAL_STYLES",
+            regex ("ACCIDENTAL_STYLES"),
             existingLpsrAccidentalStyleKinds (K_NAMES_LIST_MAX_LENGTH)),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           lpsrAccidentalStyleKindAsString (
             lpsrAccidentalStyleKindDefaultValue)),
         "STYLE",
@@ -2320,11 +2320,11 @@ R"(Compress full measure rests instead of generating successive empty measures.)
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "iln", "input-line-numbers",
-        replaceSubstringInString (
+        regex_replace (
 R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
-          "EXECUTABLE",
+          regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "inputLineNumbers",
         fInputLineNumbers));
@@ -2337,11 +2337,11 @@ This is useful when debugging EXECUTABLE.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "omn", "original-measure-numbers",
-        replaceSubstringInString (
+        regex_replace (
 R"(Generate after each end of measure a comment containing
 its original MusicXML measure number.
 This is useful for adding line breaks and page breaks, and when debugging EXECUTABLE.)",
-          "EXECUTABLE",
+          regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "originalMeasureNumbers",
         fOriginalMeasureNumbers));
@@ -2354,11 +2354,11 @@ This is useful for adding line breaks and page breaks, and when debugging EXECUT
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "pim", "positions-in-measures",
-        replaceSubstringInString (
+        regex_replace (
 R"(Generate after each note and barline a comment containing
 its position in the measure.
 This is useful when debugging EXECUTABLE.)",
-          "EXECUTABLE",
+          regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "positionsInMeasures",
         fPositionsInMeasures));
@@ -2747,11 +2747,11 @@ R"()",
     appendAtomToSubGroup (
       oahRationalAtom::create (
         "dof", "delayed-ornaments-fraction",
-        replaceSubstringInString (
+        regex_replace (
 R"(Place the delayed turn/reverseturn at the given fraction
 between the ornemented note and the next one.
 The default is 'DEFAULT_VALUE'.)",
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           delayedOrnamentsFractionDefaultValue),
         "NUM/DENOM",
         "delayedOrnamentsFraction",
@@ -2819,11 +2819,11 @@ R"###(  <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"}
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "jchd", "jazz-chords-display",
-        replaceSubstringInString (
+        regex_replace (
 R"(Display the chords using LilyPond's chordNameExceptions
 and a set of standard specifications to display them, i.e.:
 LILYPOND_CODE)",
-          "LILYPOND_CODE",
+          regex ("LILYPOND_CODE"),
           fJazzChordsDisplayLilypondcode),
         "jazzChordsDisplay",
         fJazzChordsDisplay));
@@ -2855,19 +2855,19 @@ R"()",
     appendAtomToSubGroup (
       lilypondLyricsDurationsKindAtom::create (
         "ld", "lyrics-durations", // JMI
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
+          regex_replace (
+            regex_replace (
+              regex_replace (
 R"(The NUMBER LilyPond lyrics durations STYLEs available are:
 LYRICS_DURATIONS_KINDS.
 Using 'implicit' prevents the creation of lyrics attached to rests by LilyPond,
 use 'explicit' in such cases.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gLpsrLyricsDurationsKindsMap.size ())),
-            "LYRICS_DURATIONS_KINDS",
+            regex ("LYRICS_DURATIONS_KINDS"),
             existingLpsrLyricsDurationsKinds (K_NAMES_LIST_MAX_LENGTH)),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           lpsrLyricsDurationsKindAsString (
             lpsrLyricsDurationsKindDefaultValue)),
         "STYLE",
@@ -3114,8 +3114,8 @@ R"()",
     appendAtomToSubGroup (
       oahMidiTempoAtom::create (
         "mtempo", "midi-tempo",
-        replaceSubstringInString (
-          replaceSubstringInString (
+        regex_replace (
+          regex_replace (
 R"(Generate a '\tempo' command in the \midi block.
 MIDI_TEMPO_SPEC can be:
 'DURATION = PER_SECOND'
@@ -3128,9 +3128,9 @@ Using double quotes allows for shell variables substitutions, as in:
 PER_SECOND=66
 EXECUTABLE -midiTempo "8. ${PER_SECOND}" .
 The default is 'DEFAULT_VALUE'.)",
-            "EXECUTABLE",
+            regex ("EXECUTABLE"),
             gOahOah->fHandlerExecutableName),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           midiTempoDefaultValue),
         "MIDI_TEMPO_SPEC",
         "midiTempo",

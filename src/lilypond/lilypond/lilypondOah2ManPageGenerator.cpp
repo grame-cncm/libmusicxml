@@ -61,10 +61,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondScoreOutputKindAtom& el
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -105,10 +105,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAbsoluteOctaveEntryAtom
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -149,10 +149,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondRelativeOctaveEntryAtom
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -193,10 +193,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondFixedOctaveEntryAtom& e
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -237,10 +237,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondAccidentalStyleKindAtom
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -281,10 +281,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondChordsDisplayAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -325,10 +325,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_lilypondLyricsDurationsKindAtom
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -369,10 +369,10 @@ void lilypondOah2ManPageGenerator::visitStart (S_oahMidiTempoAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 

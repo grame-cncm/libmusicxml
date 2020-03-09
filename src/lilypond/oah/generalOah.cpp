@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
@@ -104,19 +106,14 @@ R"(Don't show errors in the log.)",
 
   fDontAbortOnErrors = boolOptionsInitialValue;
 
-/*
-std::string test = "abc def abc def";
-test = std::regex_replace(test, std::regex("def"), "klm");
-*/
-
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "daoe", "dont-abort-on-errors",
-        replaceSubstringInString (
+        regex_replace (
 R"(Do not abort execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
-          "EXECUTABLE",
+          regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "dontAbortOnErrors",
         fDontAbortOnErrors));
@@ -129,11 +126,11 @@ This may be useful when debugging EXECUTABLE.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dscp", "display-source-code-position",
-        replaceSubstringInString (
+        regex_replace (
 R"(Display the source code file name and line number
 in warning and error messages.
 This is useful when debugging EXECUTABLE.)",
-          "EXECUTABLE",
+          regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "displaySourceCodePosition",
         fDisplaySourceCodePosition));

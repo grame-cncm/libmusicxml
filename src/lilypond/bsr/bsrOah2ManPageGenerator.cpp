@@ -14,6 +14,8 @@
 #include <cmath>
 #include <string>
 
+#include <regex>
+
 #include "bsrOah2ManPageGenerator.h"
 
 #include "setTraceOahIfDesired.h"
@@ -61,10 +63,10 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrFacSimileKindAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -104,10 +106,10 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrTextsLanguageAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 

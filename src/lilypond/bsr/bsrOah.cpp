@@ -13,6 +13,8 @@
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "utilities.h"
 
 #include "setTraceOahIfDesired.h"
@@ -543,19 +545,19 @@ R"()",
     appendAtomToSubGroup (
       bsrTextsLanguageAtom::create (
         "btl", "bsr-texts-language",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
 as well as in the generated braille music.
 The NUMBER texts languages available are:
 TEXT_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gBsrTextsLanguageKindsMap.size ())),
-            "TEXT_LANGUAGES",
+            regex ("TEXT_LANGUAGES"),
             existingBsrTextsLanguageKinds (K_NAMES_LIST_MAX_LENGTH)),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           bsrTextsLanguageKindAsString (
             bsrTextsLanguageKindDefaultValue)),
         "LANGUAGE",

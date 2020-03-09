@@ -1787,19 +1787,19 @@ R"()",
     appendAtomToSubGroup (
       msrPitchesLanguageAtom::create (
         "mplang", "msr-pitches-language",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Use LANGUAGE to display note pitches in the MSR logs and text views.
 The NUMBER MSR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-            "PITCHES_LANGUAGES",
+            regex ("PITCHES_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
@@ -1826,7 +1826,7 @@ R"()",
     appendAtomToSubGroup (
       msrRenamePartAtom::create (
         "mrp", "msr-rename-part",
-        replaceSubstringInString (
+        regex_replace (
 R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after displaying
 the names in the score or a summary of the latter in a first run with options
 '-dmnames, -display-msr-names' or 'dmsum, -display-msr-summary'.
@@ -1840,7 +1840,7 @@ Using double quotes allows for shell variables substitutions, as in:
 DESSUS="Cor anglais"
 EXECUTABLE -msr-rename-part "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
-         "EXECUTABLE",
+         regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "PART_RENAME_SPEC",
         "partsRenamingMap",

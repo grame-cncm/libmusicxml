@@ -14,6 +14,8 @@
 #include <cmath>
 #include <string>
 
+#include <regex>
+
 #include "basicOah2ManPageGenerator.h"
 
 #include "setTraceOahIfDesired.h"
@@ -172,10 +174,10 @@ void basicOah2ManPageGenerator::visitStart (S_oahGroup& elt)
     elt->getGroupHeader () <<
     endl <<
     "(\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR): " <<
     endl;
 }
@@ -214,10 +216,10 @@ void basicOah2ManPageGenerator::visitStart (S_oahSubGroup& elt)
     ".BL -tag -width indent" <<
     endl <<
     "(\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR): " <<
     endl;
 */
@@ -423,10 +425,10 @@ void basicOah2ManPageGenerator::visitStart (S_oahBooleanAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -470,10 +472,10 @@ void basicOah2ManPageGenerator::visitStart (S_oahTwoBooleansAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -517,10 +519,10 @@ void basicOah2ManPageGenerator::visitStart (S_oahThreeBooleansAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 

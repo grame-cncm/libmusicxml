@@ -37,7 +37,7 @@ Sxmlattribute createAttribute (const string& name, const string& value);
 Sxmlattribute createIntegerAttribute (const string& name, int value);
 
 //------------------------------------------------------------------------
-SXMLFile createXMLFile ();
+// JMISXMLFile createXMLFile ();
 
 //------------------------------------------------------------------------
 Sxmlelement createScorePartWiseElement ();

@@ -61,10 +61,10 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -105,10 +105,10 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrPitchesLanguageAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -149,10 +149,10 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrChordsLanguageAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -193,10 +193,10 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrTransposeAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 

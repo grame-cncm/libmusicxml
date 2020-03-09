@@ -1010,6 +1010,17 @@ void msrTuplet::print (ostream& os) const
   }
 
   os <<
+    "TupletMeasureUpLink: ";
+  if (fTupletMeasureUpLink) {
+    os <<
+      fTupletMeasureUpLink->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os <<
     "TupletTupletUpLink: ";
   if (fTupletTupletUpLink) {
     os <<
@@ -1131,6 +1142,17 @@ void msrTuplet::printShort (indentedOstream& os)
 
   // JMI  os << endl;
   }
+
+  os <<
+    "TupletMeasureUpLink: ";
+  if (fTupletMeasureUpLink) {
+    os <<
+      fTupletMeasureUpLink->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
 
   os <<
     "TupletTupletUpLink: ";

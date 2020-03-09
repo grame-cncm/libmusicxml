@@ -406,6 +406,7 @@ string replicateString (
 }
 
 //______________________________________________________________________________
+/* JMI
 string replaceSubstringInString (
   std::string str,
   std::string subString,
@@ -421,6 +422,7 @@ string replaceSubstringInString (
 
   return result;
 }
+*/
 
 //______________________________________________________________________________
 string int2EnglishWord (int n)

@@ -1217,8 +1217,8 @@ void extraOah::initializeExtraShowAllChordsContentsOptions (
       oahSubGroup::create (
         "Chords contents",
         "hecc", "help-extra-chords-contents",
-//          replaceSubstringInString (
-//            "HARMONY_KINDS",
+//          regex_replace (
+//            regex ("HARMONY_KINDS"),
 //            existingHarmonyKindsNames ()
 //    HARMONY_KINDS.
 R"()",
@@ -1256,7 +1256,7 @@ R"()",
     appendAtomToSubGroup (
       extraShowChordDetailsAtom::create (
         "scd", "show-chord-details",
-        replaceSubstringInString (
+        regex_replace (
 R"(Write the details of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
 CHORD_SPEC can be:
@@ -1266,7 +1266,7 @@ or
 Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 EXECUTABLE -show-chord-details "bes ${HARMONY}")",
-         "EXECUTABLE",
+         regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",
@@ -1291,7 +1291,7 @@ R"()",
     appendAtomToSubGroup (
       extraShowChordAnalysisAtom::create (
         "sca", "show-chord-analysis", // -sca "c dommin9 0"
-        replaceSubstringInString (
+        regex_replace (
 R"(Write an analysis of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
 CHORD_SPEC can be:
@@ -1302,7 +1302,7 @@ Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 INVERSION=2
 EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
-          "EXECUTABLE",
+          regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
         "CHORD_SPEC",
         "diatonic (semitones) pitch",

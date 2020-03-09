@@ -10,6 +10,8 @@
 #include <iomanip>      // setw()), set::precision(), ...
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
+#include <regex>
+
 #ifndef WIN32
 #include <signal.h>
 #endif
@@ -488,7 +490,14 @@ void convertMsrScoreToMusicXMLScore_Pass3 (
         gLogOstream);
 
   // create the MusicXML data
-	SXMLFile xmlFile = createXMLFile ();
+// JMI	SXMLFile xmlFile = createXMLFile ();
+	SXMLFile xmlFile = TXMLFile::create ();
+
+  TXMLDecl * xmlDecl = new TXMLDecl ("1.0", "UTF-8", TXMLDecl::kNo);
+	xmlFile->set (xmlDecl);
+
+	TDocType * docType = new TDocType ("score-partwise");
+	xmlFile->set (docType);
 
 	// insert the mxmlTree into it
   xmlFile->set (mxmltree);
@@ -592,9 +601,9 @@ void convertMusicXMLBackToMusicXML (
   // ------------------------------------------------------
   convertMsrScoreToMusicXMLScore_Pass3 (
     mScore,
-    replaceSubstringInString (
+    regex_replace (
       outputFileName,
-      ".ly",
+      regex (".ly"),
       "_LOOP.xml"));
   }
 }

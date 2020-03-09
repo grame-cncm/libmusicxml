@@ -806,9 +806,9 @@ R"()",
     appendAtomToSubGroup (
       brailleOutputKindAtom::create (
         "bok", "braille-output-kind",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
+        regex_replace (
+          regex_replace (
+            regex_replace (
 R"(Use OUTPUT_KIND to write the generated braille music to the output.
 The NUMBER output kinds available are:
 BRAILLE_OUTPUT_KINDS.
@@ -816,11 +816,11 @@ BRAILLE_OUTPUT_KINDS.
 as a line of cells followed by a line of text showing the contents
 for debug purposes.
 The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gBsrBrailleOutputKindsMap.size ())),
-            "BRAILLE_OUTPUT_KINDS",
+            regex ("BRAILLE_OUTPUT_KINDS"),
             existingBsrBrailleOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           bsrBrailleOutputKindAsString (
             bsrBrailleOutputKindDefaultValue)),
         "OUTPUT_KIND",
@@ -1395,11 +1395,11 @@ to prevent Braille from using open strings.)",
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "niln", "note-input-line-numbers",
-          replaceSubstringInString (
+          regex_replace (
 R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
-            "EXECUTABLE",
+            regex ("EXECUTABLE"),
             gOahOah->fHandlerExecutableName),
           "noteInputLineNumbers",
           fInputLineNumbers));

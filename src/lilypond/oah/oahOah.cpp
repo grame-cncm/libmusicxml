@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
@@ -339,10 +341,10 @@ R"(Display a help summary and exit.)"));
     optionNameHelpAtom =
       oahOptionNameHelpAtom::create (
         "onh", "option-name-help",
-        replaceSubstringInString (
+        regex_replace (
 R"(Print help about OPTION_NAME.
 OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           defaultOptionName),
         "OPTION_NAME",
         "optionName",
@@ -404,9 +406,9 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "soaa", "show-options-and-arguments",
-        replaceSubstringInString (
+        regex_replace (
 R"(Print the options and arguments to EXECUTABLE.)",
-          "EXECUTABLE",
+          regex ("EXECUTABLE"),
           fHandlerExecutableName),
         "showOptionsAndArguments",
         fShowOptionsAndArguments));
@@ -429,9 +431,9 @@ R"(Print the options and arguments to EXECUTABLE.)",
     appendAtomToSubGroup (
       oahOptionalValuesStyleKindAtom::create (
         "ovs", "optional-values-style",
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
+          regex_replace (
+            regex_replace (
+              regex_replace (
 R"(The NUMBER OAH optional values STYLEs available are:
 OPTIONAL_VALUES_STYLES.
 The default is 'DEFAULT_VALUE'.
@@ -443,11 +445,11 @@ InOAH style:
   - the option name followed by another option or that is the last one
     in the command line uses the default value;
   - otherwise, the following argument supplies the option value.)",
-              "NUMBER",
+              regex ("NUMBER"),
               to_string (gOahOptionalValuesStyleKindsMap.size ())),
-            "OPTIONAL_VALUES_STYLES",
+            regex ("OPTIONAL_VALUES_STYLES"),
             existingOahOptionalValuesStyleKinds (K_NAMES_LIST_MAX_LENGTH)),
-          "DEFAULT_VALUE",
+          regex ("DEFAULT_VALUE"),
           oahOptionalValuesStyleKindAsString (
             oahOptionalValuesStyleKindDefaultValue)),
         "STYLE",

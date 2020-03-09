@@ -14,6 +14,8 @@
 #include <cmath>
 #include <string>
 
+#include <regex>
+
 #include "brailleOah2ManPageGenerator.h"
 
 #include "setTraceOahIfDesired.h"
@@ -61,10 +63,10 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleOutputKindAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -104,10 +106,10 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleUTFKindAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -147,10 +149,10 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleByteOrderingKindAtom& elt
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), regex ("-"), "\\-") <<
     "\\fR, " <<
     endl <<
 

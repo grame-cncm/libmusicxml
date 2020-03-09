@@ -61,10 +61,10 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsStructuresAtom& 
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -105,10 +105,10 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsContentsAtom& el
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -149,10 +149,10 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordDetailsAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 
@@ -193,10 +193,10 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordAnalysisAtom& elt)
     ".HP" <<
     endl <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getShortName (), "-", "\\-") <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
     "\\fR, " <<
     "\\fB\\-" <<
-    replaceSubstringInString (elt->getLongName (), "-", "\\-") <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
     "\\fR, " <<
     endl <<
 

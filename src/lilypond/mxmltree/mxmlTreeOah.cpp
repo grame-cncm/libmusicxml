@@ -11,6 +11,7 @@
 */
 
 #include <iomanip>      // setw, setprecision, ...
+
 #include <regex>
 
 #include "version.h"
@@ -960,8 +961,8 @@ R"()",
     appendAtomToSubGroup (
       msrReplaceClefAtom::create (
         "mrc", "msr-replace-clef",
-        replaceSubstringInString (
-          replaceSubstringInString (
+        regex_replace (
+          regex_replace (
 R"(Raplace clef ORIGINAL_CLEF by NEW_CLEF.
 REPLACE_CLEF_SPEC can be:
 'ORIGINAL_CLEF = NEW_CLEF'
@@ -972,9 +973,9 @@ and around the '=' sign, otherwise they can be dispensed with.
 The NUMBER clefs available are:
 CLEFS_NAMES.
 There can be several occurrences of this option.)",
-            "NUMBER",
+            regex ("NUMBER"),
             to_string (gClefKindsMap.size ())),
-          "CLEFS_NAMES",
+          regex ("CLEFS_NAMES"),
           gIndenter.indentMultiLineString (
             existingClefKindsNames (K_NAMES_LIST_MAX_LENGTH))),
         "REPLACE_CLEF_SPEC",
