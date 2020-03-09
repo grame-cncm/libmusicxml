@@ -574,8 +574,9 @@ class msr2MxmltreeTranslator :
     msrTupletFactor           fPartShortestNoteTupletFactor;
 
     int                       fDivisionsPerQuarterNote;
+    int                       fDivisionsMultiplyingFactor;
 
-    bool                      fPartDivisionsElementHasBeenAppended;
+    bool                      fPartDivisionsElementHasToBeAppended;
 
     // its header
     // ------------------------------------------------------
@@ -740,7 +741,7 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fCurrentNoteNotationsOrnamentsElement;
 
-    void                      appendNotationsOrnamentsSubElementToNote (
+    void                      appendSubElementToNoteNotationsOrnaments (
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 

@@ -265,7 +265,7 @@ void msr2MxmltreeTranslator::appendSubElementToNoteNotations (
   fCurrentNoteNotationsElement->push (elem);
 }
 
-void msr2MxmltreeTranslator::appendNotationsOrnamentsSubElementToNote (
+void msr2MxmltreeTranslator::appendSubElementToNoteNotationsOrnaments (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
@@ -846,9 +846,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   // append it to the pending part elements list
   fPendingPartElementsList.push_back (fCurrentPartElement);
 
-  // get the part shortest note's duration and tuplet factor
+  // get the part shortest note's duration
   fPartShortestNoteDuration =
-    elt->getPartShortestNoteDuration (),
+    elt->getPartShortestNoteDuration ();
+    /*
   fPartShortestNoteTupletFactor =
     elt->getPartShortestNoteTupletFactor ();
 
@@ -857,36 +858,53 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
     // the shortest duration should be a quarter note at most
     fPartShortestNoteDuration = rational (1, 4);
   }
+*/
 
+/*
   rational
     partShortestNoteTupletFactorAsRational =
       fPartShortestNoteTupletFactor.asRational ();
+*/
 
   rational
-    divisionsPerQuarterNoteNonTuplet =
+    divisionsPerQuarterNoteAsRational =
       rational (1, 4)
        /
       fPartShortestNoteDuration;
-  divisionsPerQuarterNoteNonTuplet.rationalise ();
+  divisionsPerQuarterNoteAsRational.rationalise ();
 
+    /* JMI
   rational
     rationalDivisionsPerQuarterNote =
-    /* JMI
-      divisionsPerQuarterNoteNonTuplet
+      divisionsPerQuarterNoteAsRational
         *
       partShortestNoteTupletFactorAsRational;
-    */
-      divisionsPerQuarterNoteNonTuplet.getNumerator ()
+      divisionsPerQuarterNoteAsRational.getNumerator ()
         *
-      divisionsPerQuarterNoteNonTuplet.getDenominator ();
+      divisionsPerQuarterNoteAsRational.getDenominator ();
   rationalDivisionsPerQuarterNote.rationalise ();
+    */
 
-  // compute divisions per quarter note
+  // compute divisions per quarter note and multiplying factor
   fDivisionsPerQuarterNote =
-    rationalDivisionsPerQuarterNote.getNumerator ();
+    divisionsPerQuarterNoteAsRational.getNumerator ();
+  fDivisionsMultiplyingFactor =
+    divisionsPerQuarterNoteAsRational.getDenominator ();
 
-  // a divisions element has to be append for this part
-  fPartDivisionsElementHasBeenAppended = false;
+  if (fDivisionsMultiplyingFactor != 1) {
+    stringstream s;
+
+    s <<
+      "divisionsPerQuarterNoteAsRational '" << divisionsPerQuarterNoteAsRational <<
+      "' is no integer number";
+
+// JMI    msrInternalError (
+    msrInternalWarning (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+//      __FILE__, __LINE__,
+      s.str ());
+  }
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
@@ -894,39 +912,31 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
       "-->  partShortestNoteDuration: " <<
       fPartShortestNoteDuration <<
       endl <<
-      "-->  divisionsPerQuarterNoteNonTuplet: " <<
-      divisionsPerQuarterNoteNonTuplet <<
+      "-->  divisionsPerQuarterNoteAsRational: " <<
+      divisionsPerQuarterNoteAsRational <<
       endl <<
       /* JMI
       "-->  partShortestNoteTupletFactor: " <<
       fPartShortestNoteTupletFactor.asString () <<
       endl <<
-      */
       "-->  partShortestNoteTupletFactorAsRational: " <<
       partShortestNoteTupletFactorAsRational <<
       endl <<
-      "-->  rationalDivisionsPerQuarterNote: " <<
-      rationalDivisionsPerQuarterNote <<
+      */
+      "-->  divisionsPerQuarterNoteAsRational: " <<
+      divisionsPerQuarterNoteAsRational <<
       endl <<
       "-->  fDivisionsPerQuarterNote: " <<
       fDivisionsPerQuarterNote <<
+      endl <<
+      "-->  fDivisionsMultiplyingFactor: " <<
+      fDivisionsMultiplyingFactor <<
       endl;
   }
 #endif
 
-  if (rationalDivisionsPerQuarterNote.getDenominator () != 1) {
-    stringstream s;
-
-    s <<
-      "rationalDivisionsPerQuarterNote '" << rationalDivisionsPerQuarterNote <<
-      "' is no integer number";
-
-    msrInternalError (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
+  // a divisions element has to be appended for this part
+  fPartDivisionsElementHasToBeAppended = true;
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -1075,14 +1085,14 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   fCurrentPartElement->push (fCurrentMeasureElement);
 
   // is there a divisions element to be appended?
-  if (! fPartDivisionsElementHasBeenAppended) {
+  if (fPartDivisionsElementHasToBeAppended) {
     // append a divisions element to the attributes element
     appendSubElementToAttributes (
       createIntegerElement (
         k_divisions,
         fDivisionsPerQuarterNote));
 
-    fPartDivisionsElementHasBeenAppended = true;
+    fPartDivisionsElementHasToBeAppended = false;
   }
 }
 
@@ -2352,18 +2362,15 @@ void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
           break;
       } // switch
 
-      // create the note ornaments element
-      Sxmlelement noteOrnamentsElement = createElement (k_ornaments, "");
-
       // create the ornament element
       Sxmlelement ornamentElement = createElement (ornamentType, "");
 
       // append it to the note ornaments element
-      noteOrnamentsElement->push (ornamentElement);
+ // JMI     noteOrnamentsElement->push (ornamentElement);
 
       // append the note ornaments element to the current note element
-      appendSubElementToNoteNotations (
-        noteOrnamentsElement,
+      appendSubElementToNoteNotationsOrnaments (
+        ornamentElement,
         ornament->getOrnamentPlacementKind ());
     } // for
   }
@@ -2477,7 +2484,7 @@ void msr2MxmltreeTranslator:: appendNoteArticulations (S_msrNote note)
       noteArticulationsElement->push (articulationElement);
 
       // append the note articulations element to the current note element
-      appendSubElementToNoteNotations (
+      appendSubElementToNoteNotationsOrnaments (
         noteArticulationsElement,
         articulation->getArticulationPlacementKind ());
     } // for
@@ -2548,9 +2555,6 @@ void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
             break;
         } // switch
 
-        // create the note spanners element
-        Sxmlelement noteSpannersElement = createElement (k_ornaments, "");
-
         // create the spanner element
         Sxmlelement spannerElement = createElement (spannerType, "");
 
@@ -2572,9 +2576,6 @@ void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
           spannerElement->add (createAttribute ("type", typeString));
         }
 
-        // append spannerElement to the note spanners element
-        noteSpannersElement->push (spannerElement);
-
         switch (spannerKind) {
           case msrSpanner::kSpannerDashes:
             // dashes go into the measure direction element
@@ -2584,8 +2585,8 @@ void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
             break;
           case msrSpanner::kSpannerWavyLine:
             // wavy lines go into the note notations ornaments
-            appendNotationsOrnamentsSubElementToNote (
-              noteSpannersElement,
+            appendSubElementToNoteNotationsOrnaments (
+              spannerElement,
               spanner->getSpannerPlacementKind ());
               break;
         } // switch
@@ -2658,9 +2659,6 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNoteElement (
             break;
         } // switch
 
-        // create the note spanners element
-        Sxmlelement noteSpannersElement = createElement (k_ornaments, "");
-
         // create the spanner element
         Sxmlelement spannerElement = createElement (spannerType, "");
 
@@ -2682,9 +2680,6 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNoteElement (
           spannerElement->add (createAttribute ("type", typeString));
         }
 
-        // append spannerElement to the note spanners element
-        noteSpannersElement->push (spannerElement);
-
         switch (spannerKind) {
           case msrSpanner::kSpannerDashes:
             // dashes go into the measure direction element
@@ -2694,8 +2689,8 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNoteElement (
             break;
           case msrSpanner::kSpannerWavyLine:
             // wavy lines go into the note notations ornaments
-            appendNotationsOrnamentsSubElementToNote (
-              noteSpannersElement,
+            appendSubElementToNoteNotationsOrnaments (
+              spannerElement,
               spanner->getSpannerPlacementKind ());
               break;
         } // switch
@@ -2943,8 +2938,9 @@ void msr2MxmltreeTranslator::appendDurationSubElementToNoteIfRelevant (
       "-->  noteKind: " << msrNote::noteKindAsString (noteKind) <<
       "-->  noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
       "-->  noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
-      "-->  noteTupletFactor: " << note->getNoteTupletFactor ().asRational () <<
+//      "-->  noteTupletFactor: " << note->getNoteTupletFactor ().asRational () <<
       "-->  fDivisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
+      "-->  fDivisionsMultiplyingFactor: " << fDivisionsMultiplyingFactor <<
       "-->  line " << inputLineNumber <<
       endl;
   }
@@ -2954,7 +2950,9 @@ void msr2MxmltreeTranslator::appendDurationSubElementToNoteIfRelevant (
     soundingDurationAsRational =
       noteSoundingWholeNotes
         /
-      fPartShortestNoteDuration;
+      fPartShortestNoteDuration
+        *
+      fDivisionsMultiplyingFactor;
   soundingDurationAsRational.rationalise ();
 
   bool doAppendDurationSubElement = false;
