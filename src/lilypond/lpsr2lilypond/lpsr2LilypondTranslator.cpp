@@ -2949,157 +2949,118 @@ void lpsr2LilypondTranslator::generateOrnament (
 string result; // JMI
       switch (ornament->getOrnamentAccidentalMark ()) {
         case kAccidentalNone:
-          result = "accidentalNone";
+          fLilypondCodeOstream << "\\markup { \\accidentalNone } ";
           break;
 
         case kAccidentalSharp:
-          result = "accidentalSharp";
+          fLilypondCodeOstream << "\\markup { \\aSharp } ";
           break;
         case kAccidentalNatural:
-          result = "accidentalNatural";
+          fLilypondCodeOstream << "\\markup { \\aNatural } ";
           break;
         case kAccidentalFlat:
-          result = "accidentalFlat";
+          fLilypondCodeOstream << "\\markup { \\aFlat } ";
           break;
         case kAccidentalDoubleSharp:
-          result = "accidentalDoubleSharp";
+          fLilypondCodeOstream << "\\markup { \\doublesharp } ";
+          fLilypondCodeOstream << "\\markup { \\doubleflat } ";
           break;
         case kAccidentalSharpSharp:
-          result = "accidentalSharpSharp";
+          fLilypondCodeOstream << "\\markup { \\aSharpSharp } ";
           break;
         case kAccidentalFlatFlat:
-          result = "accidentalFlatFlat";
+          fLilypondCodeOstream << "\\markup { \\aFlatFlat } ";
           break;
         case kAccidentalNaturalSharp:
-          result = "accidentalNaturalSharp";
+          fLilypondCodeOstream << "\\markup { \\aNaturalSharp } ";
           break;
         case kAccidentalNaturalFlat:
-          result = "accidentalNaturalFlat";
+          fLilypondCodeOstream << "\\markup { \\aNaturalFlat } ";
           break;
         case kAccidentalQuarterFlat:
-          result = "accidentalQuarterFlat";
+          fLilypondCodeOstream << "\\markup { \\aQuarterFlat } ";
           break;
         case kAccidentalQuarterSharp:
-          result = "accidentalQuarterSharp";
+          fLilypondCodeOstream << "\\markup { \\aQuarterSharp } ";
           break;
         case kAccidentalThreeQuartersFlat:
-          result = "accidentalThreeQuartersFlat";
+          fLilypondCodeOstream << "\\markup { \\aThreeQuartersFlat } ";
           break;
         case kAccidentalThreeQuartersSharp:
-          result = "accidentalThreeQuartersSharp";
+          fLilypondCodeOstream << "\\markup { \\aThreeQuartersSharp } ";
           break;
 
         case kAccidentalSharpDown:
-          result = "accidentalSharpDown";
+          fLilypondCodeOstream << "\\markup { \\aSharpDown } ";
           break;
         case kAccidentalSharpUp:
-          result = "accidentalSharpUp";
+          fLilypondCodeOstream << "\\markup { \\aSharpUp } ";
           break;
         case kAccidentalNaturalDown:
-          result = "accidentalNaturalDown";
+          fLilypondCodeOstream << "\\markup { \\aNaturalDown } ";
           break;
         case kAccidentalNaturalUp:
-          result = "accidentalNaturalUp";
+          fLilypondCodeOstream << "\\markup { \\aNaturalUp } ";
           break;
         case kAccidentalFlatDown:
-          result = "accidentalFlatDown";
+          fLilypondCodeOstream << "\\markup { \\aFlatDown } ";
           break;
         case kAccidentalFlatUp:
-          result = "accidentalFlatUp";
+          fLilypondCodeOstream << "\\markup { \\aFlatUp } ";
           break;
         case kAccidentalTripleSharp:
-          result = "accidentalTripleSharp";
+          fLilypondCodeOstream << "\\markup { \\aTripleSharp } ";
           break;
         case kAccidentalTripleFlat:
-          result = "accidentalTripleFlat";
+          fLilypondCodeOstream << "\\markup { \\aTripleFlat } ";
           break;
         case kAccidentalSlashQuarterSharp:
-          result = "accidentalSlashQuarterSharp";
+          fLilypondCodeOstream << "\\markup { \\aSlashQuarterSharp } ";
           break;
         case kAccidentalSlashSharp:
-          result = "accidentalSlashSharp";
+          fLilypondCodeOstream << "\\markup { \\aSlashSharp } ";
           break;
         case kAccidentalSlashFlat:
-          result = "accidentalSlashFlat";
+          fLilypondCodeOstream << "\\markup { \\aSlashFlat } ";
           break;
         case kAccidentalDoubleSlashFlat:
-          result = "accidentaldoubleSlashFlat";
+          fLilypondCodeOstream << "\\markup { \\adoubleSlashFlat } ";
           break;
         case kAccidentalSharp_1:
-          result = "accidentalSharp_1";
+          fLilypondCodeOstream << "\\markup { \\aSharp_1 } ";
           break;
         case kAccidentalSharp_2:
-          result = "accidentalSharp_2";
+          fLilypondCodeOstream << "\\markup { \\aSharp_2 } ";
           break;
         case kAccidentalSharp_3:
-          result = "accidentalSharp_3";
+          fLilypondCodeOstream << "\\markup { \\aSharp_3 } ";
           break;
         case kAccidentalSharp_5:
-          result = "accidentalSharp_5";
+          fLilypondCodeOstream << "\\markup { \\aSharp_5 } ";
           break;
         case kAccidentalFlat_1:
-          result = "accidentalFlat_1";
+          fLilypondCodeOstream << "\\markup { \\aFlat_1 } ";
           break;
         case kAccidentalFlat_2:
-          result = "accidentalFlat_2";
+          fLilypondCodeOstream << "\\markup { \\aFlat_2 } ";
           break;
         case kAccidentalFlat_3:
-          result = "accidentalFlat_3";
+          fLilypondCodeOstream << "\\markup { \\aFlat_3 } ";
           break;
         case kAccidentalFlat_4:
-          result = "accidentalFlat_4";
+          fLilypondCodeOstream << "\\markup { \\aFlat_4 } ";
           break;
         case kAccidentalSori:
-          result = "accidentalSori";
+          fLilypondCodeOstream << "\\markup { \\aSori } ";
           break;
         case kAccidentalKoron:
-          result = "accidentalKoron";
+          fLilypondCodeOstream << "\\markup { \\aKoron } ";
           break;
 
         case kAccidentalOther:
-          result = "accidentalOther";
+          fLilypondCodeOstream << "\\markup { \\aOther } ";
           break;
       } // switch
-
-
-/*
-        case kTripleFlat:
-          fLilypondCodeOstream << "\\markup { \\tripleflat } ";
-          break;
-        case kDoubleFlat:
-          fLilypondCodeOstream << "\\markup { \\doubleflat } ";
-          break;
-        case kSesquiFlat:
-          fLilypondCodeOstream << "\\markup { \\sesquiflat } ";
-          break;
-        case kFlat:
-          fLilypondCodeOstream << "\\markup { \\flat } ";
-          break;
-        case kSemiFlat:
-          fLilypondCodeOstream << "\\markup { \\semiflat } ";
-          break;
-        case kNatural:
-          fLilypondCodeOstream << "\\markup { \\natural } ";
-          break;
-        case kSemiSharp:
-          fLilypondCodeOstream << "\\markup { \\semisharp } ";
-          break;
-        case kSharp:
-          fLilypondCodeOstream << "\\markup { \\sharp } ";
-          break;
-        case kSesquiSharp:
-          fLilypondCodeOstream << "\\markup { \\sesquisharp } ";
-          break;
-        case kDoubleSharp:
-          fLilypondCodeOstream << "\\markup { \\doublesharp } ";
-          break;
-        case kTripleSharp:
-          fLilypondCodeOstream << "\\markup { \\triplesharp } ";
-          break;
-        case k_NoAlteration:
-          break;
-      } // switch
-      */
       break;
   } // switch
 }

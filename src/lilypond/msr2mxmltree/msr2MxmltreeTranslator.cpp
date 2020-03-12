@@ -298,8 +298,6 @@ void msr2MxmltreeTranslator::appendSubElementToNoteNotationsArticulations (
   msrPlacementKind placementKind)
 {
   if (! fCurrentNoteNotationsElement) {
-    // create an notations element
-    fCurrentNoteNotationsElement = createElement (k_notations, "");
     // create the note articulations element
     fCurrentNoteNotationsArticulationsElement = createElement (k_articulations, "");
 
@@ -318,7 +316,7 @@ void msr2MxmltreeTranslator::appendSubElementToNoteNotationsArticulations (
     elem->add (createAttribute ("placement", placementString));
   }
 
-  // append elem to the note notations element
+  // append elem to the note notations articulations element
   fCurrentNoteNotationsArticulationsElement->push (elem);
 }
 
@@ -2877,9 +2875,43 @@ void msr2MxmltreeTranslator:: appendNoteArticulations (S_msrNote note)
       Sxmlelement articulationElement = createElement (articulationType, "");
 
       // append it to the current note notations articulations element
-      appendSubElementToNoteNotationsArticulations (
-        articulationElement,
-        articulation->getArticulationPlacementKind ());
+      switch (articulationKind) {
+        case msrArticulation::k_NoArticulation:
+          // JMI ???
+          break;
+
+        case msrArticulation::kAccent:
+        case msrArticulation::kBreathMark:
+        case msrArticulation::kCaesura:
+        case msrArticulation::kSpiccato:
+        case msrArticulation::kStaccato:
+        case msrArticulation::kStaccatissimo:
+        case msrArticulation::kStress:
+        case msrArticulation::kUnstress:
+        case msrArticulation::kDetachedLegato:
+        case msrArticulation::kStrongAccent:
+        case msrArticulation::kTenuto:
+        case msrArticulation::kDoit:
+        case msrArticulation::kFalloff:
+        case msrArticulation::kPlop:
+        case msrArticulation::kScoop:
+
+        case msrArticulation::kFermata:
+          appendSubElementToNoteNotations (
+            articulationElement,
+            articulation->getArticulationPlacementKind ());
+          break;
+
+        case msrArticulation::kArpeggiato:
+        case msrArticulation::kNonArpeggiato:
+          appendSubElementToNoteNotationsArticulations (
+            articulationElement,
+            articulation->getArticulationPlacementKind ());
+          break;
+      } // switch
+
+        /*
+        */
     } // for
   }
 }
