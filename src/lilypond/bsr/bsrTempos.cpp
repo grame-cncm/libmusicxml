@@ -201,7 +201,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
                 dotsNumber,
                 bsrNote::kNoteOctaveNone,
                 bsrNote::kNoteOctaveIsNeededNo,
-                bsrNote::kNoteAccidentalNone);
+                bsrNote::kAccidentalNone);
 
           // append its cells to result
           result->

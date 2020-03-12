@@ -43,7 +43,7 @@ msrOrnament::msrOrnament (
 
   fOrnamentPlacementKind = ornamentPlacementKind;
 
-  fOrnamentAccidentalMark = k_NoAlteration;
+  fOrnamentAccidentalMark = kAccidentalNone;
 }
 
 msrOrnament::~msrOrnament ()
@@ -106,48 +106,9 @@ string msrOrnament::ornamentPlacementKindAsString () const
 
 string msrOrnament::ornamentAccidentalMarkAsString () const
 {
-  string result;
-
-  switch (fOrnamentAccidentalMark) {
-    case kTripleFlat:
-      result = "tripleFlat";
-      break;
-    case kDoubleFlat:
-      result = "doubleFlat";
-      break;
-    case kSesquiFlat:
-      result = "sesquiFlat";
-      break;
-    case kFlat:
-      result = "flat";
-      break;
-    case kSemiFlat:
-      result = "semiFlat";
-      break;
-    case kNatural:
-      result = "natural";
-      break;
-    case kSemiSharp:
-      result = "semiSharp";
-      break;
-    case kSharp:
-      result = "sharp";
-      break;
-    case kSesquiSharp:
-      result = "sesquiSharp";
-      break;
-    case kDoubleSharp:
-      result = "doubleSharp";
-      break;
-    case kTripleSharp:
-      result = "tripleSharp";
-      break;
-    case k_NoAlteration:
-      result = "noAlteration";
-      break;
-  } // switch
-
-  return result;
+  return
+    accidentalKindAsString (
+      fOrnamentAccidentalMark);
 }
 
 void msrOrnament::acceptIn (basevisitor* v)

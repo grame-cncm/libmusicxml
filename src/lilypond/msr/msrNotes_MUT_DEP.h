@@ -32,47 +32,6 @@ class msrNote : public msrTupletElement
     static string noteKindAsString (
       msrNoteKind noteKind);
 
-    enum msrNoteAccidentalKind {
-      kNoteAccidentalNone,
-
-      kNoteAccidentalSharp, kNoteAccidentalNatural,
-      kNoteAccidentalFlat, kNoteAccidentalDoubleSharp,
-      kNoteAccidentalSharpSharp,
-      kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
-      kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat,
-      kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat,
-      kNoteAccidentalThreeQuartersSharp,
-
-      kNoteAccidentalSharpDown, kNoteAccidentalSharpUp,
-      kNoteAccidentalNaturalDown, kNoteAccidentalNaturalUp,
-      kNoteAccidentalFlatDown, kNoteAccidentalFlatUp,
-      kNoteAccidentalTripleSharp, kNoteAccidentalTripleFlat,
-      kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp,
-      kNoteAccidentalSlashFlat,kNoteAccidentaldoubleSlashFlat,
-      kNoteAccidentalSharp_1, kNoteAccidentalSharp_2,
-      kNoteAccidentalSharp_3,  kNoteAccidentalSharp_5,
-      kNoteAccidentalFlat_1, kNoteAccidentalFlat_2,
-      kNoteAccidentalFlat_3, kNoteAccidentalFlat_4,
-      kNoteAccidentalSori, kNoteAccidentalKoron };
-
-    static string noteAccidentalKindAsString (
-      msrNoteAccidentalKind noteAccidentalKind);
-
-    static string noteAccidentalKindAsMusicXMLString (
-      msrNoteAccidentalKind noteAccidentalKind);
-
-    enum msrNoteEditorialAccidentalKind {
-      kNoteEditorialAccidentalYes, kNoteEditorialAccidentalNo };
-
-    static string noteEditorialAccidentalKindAsString (
-      msrNoteEditorialAccidentalKind noteEditorialAccidentalKind);
-
-    enum msrNoteCautionaryAccidentalKind {
-      kNoteCautionaryAccidentalYes, kNoteCautionaryAccidentalNo };
-
-    static string noteCautionaryAccidentalKindAsString (
-      msrNoteCautionaryAccidentalKind noteCautionaryAccidentalKind);
-
     enum msrNoteHeadKind {
       kNoteHeadSlash,
       kNoteHeadTriangle, kNoteHeadDiamond, kNoteHeadSquare,
@@ -307,34 +266,35 @@ class msrNote : public msrTupletElement
     // accidentals
 
     void                  setNoteAccidentalKind (
-                            msrNoteAccidentalKind
-                              noteAccidentalKind)
-                              { fNoteAccidentalKind = noteAccidentalKind; }
+                            msrAccidentalKind accidentalKind)
+                              { fNoteAccidentalKind = accidentalKind; }
 
-    msrNoteAccidentalKind getNoteAccidentalKind ()
+    msrAccidentalKind     getNoteAccidentalKind ()
                               { return fNoteAccidentalKind; }
 
+    // editorial accidentals
+
     void                  setNoteEditorialAccidentalKind (
-                            msrNoteEditorialAccidentalKind
-                              noteEditorialAccidentalKind)
+                            msrEditorialAccidentalKind editorialAccidentalKind)
                               {
                                 fNoteEditorialAccidentalKind =
-                                  noteEditorialAccidentalKind;
+                                  editorialAccidentalKind;
                               }
 
-    msrNoteEditorialAccidentalKind
+    msrEditorialAccidentalKind
                           getNoteEditorialAccidentalKind ()
                               { return fNoteEditorialAccidentalKind; }
 
+    // cautionary accidentals
+
     void                  setNoteCautionaryAccidentalKind (
-                            msrNoteCautionaryAccidentalKind
-                              noteCautionaryAccidentalKind)
+                            msrCautionaryAccidentalKind cautionaryAccidentalKind)
                               {
                                 fNoteCautionaryAccidentalKind =
-                                  noteCautionaryAccidentalKind;
+                                  cautionaryAccidentalKind;
                               }
 
-    msrNoteCautionaryAccidentalKind
+    msrCautionaryAccidentalKind
                           getNoteCautionaryAccidentalKind ()
                               { return fNoteCautionaryAccidentalKind; }
 
@@ -908,11 +868,11 @@ class msrNote : public msrTupletElement
     // accidentals
     // ------------------------------------------------------
 
-    msrNoteAccidentalKind fNoteAccidentalKind;
+    msrAccidentalKind     fNoteAccidentalKind;
 
-    msrNoteEditorialAccidentalKind
+    msrEditorialAccidentalKind
                           fNoteEditorialAccidentalKind;
-    msrNoteCautionaryAccidentalKind
+    msrCautionaryAccidentalKind
                           fNoteCautionaryAccidentalKind;
 
     // staff and voice context

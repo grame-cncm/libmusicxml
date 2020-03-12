@@ -4993,20 +4993,20 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
   // handle editorial accidentals
   switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
-    case msrNote::kNoteEditorialAccidentalYes:
+    case kEditorialAccidentalYes:
       fLpsrScore->
         // this score needs the 'editorial accidental' Scheme function
         setEditorialAccidentalSchemeFunctionIsNeeded ();
       break;
-    case msrNote::kNoteEditorialAccidentalNo:
+    case kEditorialAccidentalNo:
       break;
   } // switch
 
   // handle cautionary accidentals
   switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
-    case msrNote::kNoteCautionaryAccidentalYes:
+    case kCautionaryAccidentalYes:
       break;
-    case msrNote::kNoteCautionaryAccidentalNo:
+    case kCautionaryAccidentalNo:
       break;
   } // switch
 

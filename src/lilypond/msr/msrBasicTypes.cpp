@@ -11521,6 +11521,291 @@ string msrAlterationKindAsString (
   return result;
 }
 
+// accidentals
+//______________________________________________________________________________
+string accidentalKindAsString (
+  msrAccidentalKind accidentalKind)
+{
+  string result;
+
+  switch (accidentalKind) {
+    case kAccidentalNone:
+      result = "accidentalNone";
+      break;
+
+    case kAccidentalSharp:
+      result = "accidentalSharp";
+      break;
+    case kAccidentalNatural:
+      result = "accidentalNatural";
+      break;
+    case kAccidentalFlat:
+      result = "accidentalFlat";
+      break;
+    case kAccidentalDoubleSharp:
+      result = "accidentalDoubleSharp";
+      break;
+    case kAccidentalSharpSharp:
+      result = "accidentalSharpSharp";
+      break;
+    case kAccidentalFlatFlat:
+      result = "accidentalFlatFlat";
+      break;
+    case kAccidentalNaturalSharp:
+      result = "accidentalNaturalSharp";
+      break;
+    case kAccidentalNaturalFlat:
+      result = "accidentalNaturalFlat";
+      break;
+    case kAccidentalQuarterFlat:
+      result = "accidentalQuarterFlat";
+      break;
+    case kAccidentalQuarterSharp:
+      result = "accidentalQuarterSharp";
+      break;
+    case kAccidentalThreeQuartersFlat:
+      result = "accidentalThreeQuartersFlat";
+      break;
+    case kAccidentalThreeQuartersSharp:
+      result = "accidentalThreeQuartersSharp";
+      break;
+
+    case kAccidentalSharpDown:
+      result = "accidentalSharpDown";
+      break;
+    case kAccidentalSharpUp:
+      result = "accidentalSharpUp";
+      break;
+    case kAccidentalNaturalDown:
+      result = "accidentalNaturalDown";
+      break;
+    case kAccidentalNaturalUp:
+      result = "accidentalNaturalUp";
+      break;
+    case kAccidentalFlatDown:
+      result = "accidentalFlatDown";
+      break;
+    case kAccidentalFlatUp:
+      result = "accidentalFlatUp";
+      break;
+    case kAccidentalTripleSharp:
+      result = "accidentalTripleSharp";
+      break;
+    case kAccidentalTripleFlat:
+      result = "accidentalTripleFlat";
+      break;
+    case kAccidentalSlashQuarterSharp:
+      result = "accidentalSlashQuarterSharp";
+      break;
+    case kAccidentalSlashSharp:
+      result = "accidentalSlashSharp";
+      break;
+    case kAccidentalSlashFlat:
+      result = "accidentalSlashFlat";
+      break;
+    case kAccidentalDoubleSlashFlat:
+      result = "accidentaldoubleSlashFlat";
+      break;
+    case kAccidentalSharp_1:
+      result = "accidentalSharp_1";
+      break;
+    case kAccidentalSharp_2:
+      result = "accidentalSharp_2";
+      break;
+    case kAccidentalSharp_3:
+      result = "accidentalSharp_3";
+      break;
+    case kAccidentalSharp_5:
+      result = "accidentalSharp_5";
+      break;
+    case kAccidentalFlat_1:
+      result = "accidentalFlat_1";
+      break;
+    case kAccidentalFlat_2:
+      result = "accidentalFlat_2";
+      break;
+    case kAccidentalFlat_3:
+      result = "accidentalFlat_3";
+      break;
+    case kAccidentalFlat_4:
+      result = "accidentalFlat_4";
+      break;
+    case kAccidentalSori:
+      result = "accidentalSori";
+      break;
+    case kAccidentalKoron:
+      result = "accidentalKoron";
+      break;
+
+    case kAccidentalOther:
+      result = "accidentalOther";
+      break;
+  } // switch
+
+  return result;
+}
+
+string accidentalKindAsMusicXMLString (
+  msrAccidentalKind accidentalKind)
+{
+  string result;
+
+  switch (accidentalKind) {
+    case kAccidentalNone:
+      break;
+
+    case kAccidentalSharp:
+      result = "sharp";
+      break;
+    case kAccidentalNatural:
+      result = "natural";
+      break;
+    case kAccidentalFlat:
+      result = "flat";
+      break;
+    case kAccidentalDoubleSharp:
+      result = "double-sharp";
+      break;
+    case kAccidentalSharpSharp:
+      result = "sharp-sharp";
+      break;
+    case kAccidentalFlatFlat:
+      result = "flat-flat";
+      break;
+    case kAccidentalNaturalSharp:
+      result = "natural-sharp";
+      break;
+    case kAccidentalNaturalFlat:
+      result = "natural-flat";
+      break;
+    case kAccidentalQuarterFlat:
+      result = "quarter-flat";
+      break;
+    case kAccidentalQuarterSharp:
+      result = "quarter-sharp";
+      break;
+    case kAccidentalThreeQuartersFlat:
+      result = "three-quarters-flat";
+      break;
+    case kAccidentalThreeQuartersSharp:
+      result = "three-quarters-sharp";
+      break;
+
+    case kAccidentalSharpDown:
+      result = "sharp-down";
+      break;
+    case kAccidentalSharpUp:
+      result = "sharp-up";
+      break;
+    case kAccidentalNaturalDown:
+      result = "natural-down";
+      break;
+    case kAccidentalNaturalUp:
+      result = "natural-up";
+      break;
+    case kAccidentalFlatDown:
+      result = "flat-down";
+      break;
+    case kAccidentalFlatUp:
+      result = "flat-up";
+      break;
+    case kAccidentalTripleSharp:
+      result = "triple-sharp";
+      break;
+    case kAccidentalTripleFlat:
+      result = "triple-flat";
+      break;
+    case kAccidentalSlashQuarterSharp:
+      result = "slash-quarter-sharp";
+      break;
+    case kAccidentalSlashSharp:
+      result = "slash-sharp";
+      break;
+    case kAccidentalSlashFlat:
+      result = "slash-flat";
+      break;
+    case kAccidentalDoubleSlashFlat:
+      result = "double-slash-flat";
+      break;
+    case kAccidentalSharp_1:
+      result = "sharp-1";
+      break;
+    case kAccidentalSharp_2:
+      result = "sharp-2";
+      break;
+    case kAccidentalSharp_3:
+      result = "sharp-3";
+      break;
+    case kAccidentalSharp_5:
+      result = "sharp-5";
+      break;
+    case kAccidentalFlat_1:
+      result = "flat-1";
+      break;
+    case kAccidentalFlat_2:
+      result = "flat-2";
+      break;
+    case kAccidentalFlat_3:
+      result = "flat-3";
+      break;
+    case kAccidentalFlat_4:
+      result = "flat-4";
+      break;
+    case kAccidentalSori:
+      result = "sori";
+      break;
+    case kAccidentalKoron:
+      result = "koron";
+      break;
+
+    case kAccidentalOther:
+      result = "other";
+      break;
+  } // switch
+
+  return result;
+}
+
+// editorial accidentals
+//______________________________________________________________________________
+
+string editorialAccidentalKindAsString (
+  msrEditorialAccidentalKind noteEditorialAccidentalKind)
+{
+  string result;
+
+  switch (noteEditorialAccidentalKind) {
+    case kEditorialAccidentalYes:
+      result = "noteEditorialAccidentalYes";
+      break;
+    case kEditorialAccidentalNo:
+      result = "noteEditorialAccidentalNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+// cautionary accidentals
+//______________________________________________________________________________
+
+string cautionaryAccidentalKindAsString (
+  msrCautionaryAccidentalKind noteCautionaryAccidentalKind)
+{
+  string result;
+
+  switch (noteCautionaryAccidentalKind) {
+    case kCautionaryAccidentalYes:
+      result = "noteCautionaryAccidentalYes";
+      break;
+    case kCautionaryAccidentalNo:
+      result = "noteCautionaryAccidentalNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 //______________________________________________________________________________
 void setDiatonicPitchAndAlterationKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind,

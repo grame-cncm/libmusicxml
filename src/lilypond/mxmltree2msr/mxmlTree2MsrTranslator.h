@@ -1532,12 +1532,11 @@ class mxmlTree2MsrTranslator :
                               fCurrentNoteHeadParenthesesKind;
 
     // accidentals
-    msrNote::msrNoteAccidentalKind
-                              fCurrentNoteAccidentalKind;
-    msrNote::msrNoteEditorialAccidentalKind
-                              fCurrentNoteEditorialAccidentalKind;
-    msrNote::msrNoteCautionaryAccidentalKind
-                              fCurrentNoteCautionaryAccidentalKind;
+    msrAccidentalKind         fCurrentAccidentalKind;
+    msrEditorialAccidentalKind
+                              fCurrentEditorialAccidentalKind;
+    msrCautionaryAccidentalKind
+                              fCurrentCautionaryAccidentalKind;
 
     // note color
     string                    fCurrentNoteRGB;

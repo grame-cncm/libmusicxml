@@ -78,6 +78,57 @@ float msrMusicXMLAlterFromAlterationKind (
 string msrAlterationKindAsString (
   msrAlterationKind alterationKind);
 
+// accidentals
+//______________________________________________________________________________
+enum msrAccidentalKind {
+  kAccidentalNone,
+
+  kAccidentalSharp, kAccidentalNatural,
+  kAccidentalFlat, kAccidentalDoubleSharp,
+  kAccidentalSharpSharp,
+  kAccidentalFlatFlat, kAccidentalNaturalSharp,
+  kAccidentalNaturalFlat, kAccidentalQuarterFlat,
+  kAccidentalQuarterSharp,kAccidentalThreeQuartersFlat,
+  kAccidentalThreeQuartersSharp,
+
+  kAccidentalSharpDown, kAccidentalSharpUp,
+  kAccidentalNaturalDown, kAccidentalNaturalUp,
+  kAccidentalFlatDown, kAccidentalFlatUp,
+  kAccidentalTripleSharp, kAccidentalTripleFlat,
+  kAccidentalSlashQuarterSharp, kAccidentalSlashSharp,
+  kAccidentalSlashFlat,kAccidentalDoubleSlashFlat,
+  kAccidentalSharp_1, kAccidentalSharp_2,
+  kAccidentalSharp_3,  kAccidentalSharp_5,
+  kAccidentalFlat_1, kAccidentalFlat_2,
+  kAccidentalFlat_3, kAccidentalFlat_4,
+  kAccidentalSori, kAccidentalKoron,
+
+  kAccidentalOther};
+
+string accidentalKindAsString (
+  msrAccidentalKind accidentalKind);
+
+string accidentalKindAsMusicXMLString (
+  msrAccidentalKind accidentalKind);
+
+// editorial accidentals
+//______________________________________________________________________________
+
+enum msrEditorialAccidentalKind {
+  kEditorialAccidentalYes, kEditorialAccidentalNo };
+
+string editorialAccidentalKindAsString (
+  msrEditorialAccidentalKind noteEditorialAccidentalKind);
+
+// cautionary accidentals
+//______________________________________________________________________________
+
+enum msrCautionaryAccidentalKind {
+  kCautionaryAccidentalYes, kCautionaryAccidentalNo };
+
+string cautionaryAccidentalKindAsString (
+  msrCautionaryAccidentalKind noteCautionaryAccidentalKind);
+
 // semi tones pitches
 //______________________________________________________________________________
 enum msrSemiTonesPitchKind {

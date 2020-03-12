@@ -68,14 +68,14 @@ class msrOrnament : public msrElement
                               { return fOrnamentPlacementKind; }
 
     void                  setOrnamentAccidentalMarkKind (
-                            msrAlterationKind
+                            msrAccidentalKind
                               ornamentAccidentalMark)
                               {
                                 fOrnamentAccidentalMark =
                                   ornamentAccidentalMark;
                               }
 
-    msrAlterationKind     getOrnamentAccidentalMark () const
+    msrAccidentalKind getOrnamentAccidentalMark () const
                               { return fOrnamentAccidentalMark; }
 
     // services
@@ -115,7 +115,7 @@ class msrOrnament : public msrElement
 
     msrPlacementKind      fOrnamentPlacementKind;
 
-    msrAlterationKind     fOrnamentAccidentalMark;
+    msrAccidentalKind fOrnamentAccidentalMark;
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);

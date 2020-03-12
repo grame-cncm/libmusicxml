@@ -163,7 +163,7 @@
       </barline>
     </measure>
 
-    <!-- Articulations: 
+    <!-- Articulations:
             accent | strong-accent | staccato | tenuto |
             detached-legato | staccatissimo | spiccato |
             scoop | plop | doit | falloff | breath-mark |
@@ -368,11 +368,11 @@
 
     <!-- Ornaments:
          trill-mark | turn | delayed-turn | inverted-turn |
-         shake | wavy-line | mordent | inverted-mordent | 
-         schleifer | tremolo | other-ornament), 
-         accidental-mark 
-         
-         Test cases for various tremolo options are in a separate 
+         shake | wavy-line | mordent | inverted-mordent |
+         schleifer | tremolo | other-ornament),
+         accidental-mark
+
+         Test cases for various tremolo options are in a separate
          unit test file
          -->
     <measure number="7">
@@ -526,9 +526,9 @@
         <duration>1</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <notations>
+        <!--notations>
           <ornaments><tremolo/></ornaments>
-        </notations>
+        </notations-->
         <lyric number="1"><text>trem.</text></lyric>
       </note>
     </measure>
@@ -891,7 +891,7 @@
         <voice>1</voice>
         <type>quarter</type>
         <notations>
-          <technical><fret/></technical>
+          <technical><fret>1</fret></technical>
         </notations>
         <lyric number="1"><text>empty fret</text></lyric>
       </note>
@@ -915,7 +915,7 @@
         <voice>1</voice>
         <type>quarter</type>
         <notations>
-          <technical><string/></technical>
+          <technical><string>1</string></technical>
         </notations>
         <lyric number="1"><text>empty str.</text></lyric>
       </note>
@@ -1129,7 +1129,7 @@
         <bar-style>light-light</bar-style>
       </barline>
     </measure>
-    
+
     <!-- Dynamics, attached to notes by putting them inside <notations> tags -->
     <measure number="22">
       <note>
@@ -1181,7 +1181,7 @@
         <lyric number="1"><text>Oth.dyn.</text></lyric>
       </note>
     </measure>
-    
+
     <!-- General tests: multiple notations, directions, etc. -->
     <measure number="23">
       <note>

@@ -32,7 +32,7 @@ S_bsrNote bsrNote::create (
   int                   noteDotsNumber,
   bsrNoteOctaveKind     noteOctaveKind,
   bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
-  bsrNoteAccidentalKind noteAccidentalKind)
+  bsrAccidentalKind accidentalKind)
 {
   bsrNote* o =
     new bsrNote (
@@ -41,7 +41,7 @@ S_bsrNote bsrNote::create (
       noteDotsNumber,
       noteOctaveKind,
       noteOctaveIsNeeded,
-      noteAccidentalKind);
+      accidentalKind);
   assert (o!=0);
   return o;
 }
@@ -52,7 +52,7 @@ bsrNote::bsrNote (
   int                   noteDotsNumber,
   bsrNoteOctaveKind     noteOctaveKind,
   bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
-  bsrNoteAccidentalKind noteAccidentalKind)
+  bsrAccidentalKind accidentalKind)
     : bsrLineElement (inputLineNumber)
 {
   fNoteValueKind  = noteValueKind;
@@ -63,7 +63,7 @@ bsrNote::bsrNote (
   fNoteOctaveKind = noteOctaveKind;
   fNoteOctaveIsNeeded = noteOctaveIsNeeded;
 
-  fNoteAccidentalKind = noteAccidentalKind;
+  fAccidentalKind = accidentalKind;
 }
 
 bsrNote::~bsrNote ()
@@ -723,52 +723,52 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList () const
       fNoteOctaveKind);
 }
 
-S_bsrCellsList bsrNote::noteAccidentalKindAsCellsList (
+S_bsrCellsList bsrNote::accidentalKindAsCellsList (
   int                   inputLineNumber,
-  bsrNoteAccidentalKind noteAccidentalKind)
+  bsrAccidentalKind accidentalKind)
 {
   S_bsrCellsList
     result =
       bsrCellsList::create (inputLineNumber);
 
-  switch (noteAccidentalKind) {
-    case bsrNote::kNoteAccidentalNone:
+  switch (accidentalKind) {
+    case bsrNote::kAccidentalNone:
       break;
 
-    case bsrNote::kNoteAccidentalSharp:
+    case bsrNote::kAccidentalSharp:
       result->appendCellKindToCellsList (kCellSharp);
       break;
-    case bsrNote::kNoteAccidentalNatural:
+    case bsrNote::kAccidentalNatural:
       result->appendCellKindToCellsList (kCellNatural);
       break;
-    case bsrNote::kNoteAccidentalFlat:
+    case bsrNote::kAccidentalFlat:
       result->appendCellKindToCellsList (kCellFlat);
       break;
 
-    case bsrNote::kNoteAccidentalDoubleFlat:
+    case bsrNote::kAccidentalDoubleFlat:
       result->appendCellKindToCellsList (kCellFlat);
       result->appendCellKindToCellsList (kCellFlat);
       break;
-    case bsrNote::kNoteAccidentalDoubleSharp:
+    case bsrNote::kAccidentalDoubleSharp:
       result->appendCellKindToCellsList (kCellSharp);
       result->appendCellKindToCellsList (kCellSharp);
       break;
 
-    case bsrNote::kNoteAccidentalQuarterSharp:
+    case bsrNote::kAccidentalQuarterSharp:
       result->appendCellKindToCellsList (kDots4);
       result->appendCellKindToCellsList (kCellSharp);
       break;
-    case bsrNote::kNoteAccidentalQuarterFlat:
+    case bsrNote::kAccidentalQuarterFlat:
       result->appendCellKindToCellsList (kDots4);
       result->appendCellKindToCellsList (kCellFlat);
       break;
 
-    case bsrNote::kNoteAccidentalThreeQuarterSharp:
+    case bsrNote::kAccidentalThreeQuarterSharp:
       result->appendCellKindToCellsList (kDots456);
       result->appendCellKindToCellsList (kCellSharp);
       break;
 
-    case bsrNote::kNoteAccidentalThreeQuarterFlat:
+    case bsrNote::kAccidentalThreeQuarterFlat:
       result->appendCellKindToCellsList (kDots456);
       result->appendCellKindToCellsList (kCellFlat);
       break;
@@ -777,12 +777,12 @@ S_bsrCellsList bsrNote::noteAccidentalKindAsCellsList (
   return result;
 }
 
-S_bsrCellsList bsrNote::noteAccidentalKindAsCellsList () const
+S_bsrCellsList bsrNote::accidentalKindAsCellsList () const
 {
   return
-    noteAccidentalKindAsCellsList (
+    accidentalKindAsCellsList (
       fInputLineNumber,
-      fNoteAccidentalKind);
+      fAccidentalKind);
 }
 
 S_bsrCellsList bsrNote::buildCellsList () const
@@ -799,7 +799,7 @@ S_bsrCellsList bsrNote::buildCellsList () const
 
   // append note accidental if any
   result->appendCellsListToCellsList (
-    noteAccidentalKindAsCellsList ());
+    accidentalKindAsCellsList ());
 
   // append note octave if needed
   switch (fNoteOctaveIsNeeded) {
@@ -1163,91 +1163,91 @@ string bsrNote::noteOctaveIsNeededAsString (
   return result;
 }
 
-string bsrNote::noteAccidentalKindAsString (
-  bsrNoteAccidentalKind noteAccidentalKind)
+string bsrNote::accidentalKindAsString (
+  bsrAccidentalKind accidentalKind)
 {
   string result;
 
-  switch (noteAccidentalKind) {
-    case bsrNote::kNoteAccidentalNone:
-      result = "noteAccidentalNone";
+  switch (accidentalKind) {
+    case bsrNote::kAccidentalNone:
+      result = "accidentalNone";
       break;
 
-    case bsrNote::kNoteAccidentalSharp:
-      result = "noteAccidentalSharp";
+    case bsrNote::kAccidentalSharp:
+      result = "accidentalSharp";
       break;
-    case bsrNote::kNoteAccidentalNatural:
-      result = "noteAccidentalNatural";
+    case bsrNote::kAccidentalNatural:
+      result = "accidentalNatural";
       break;
-    case bsrNote::kNoteAccidentalFlat:
-      result = "noteAccidentalFlat";
-      break;
-
-    case bsrNote::kNoteAccidentalDoubleFlat:
-      result = "noteAccidentalDoubleFlat";
-      break;
-    case bsrNote::kNoteAccidentalDoubleSharp:
-      result = "noteAccidentalDoubleSharp";
+    case bsrNote::kAccidentalFlat:
+      result = "accidentalFlat";
       break;
 
-    case bsrNote::kNoteAccidentalQuarterSharp:
-      result = "noteAccidentalQuarterSharp";
+    case bsrNote::kAccidentalDoubleFlat:
+      result = "accidentalDoubleFlat";
       break;
-    case bsrNote::kNoteAccidentalQuarterFlat:
-      result = "noteAccidentalQuarterFlat";
-      break;
-
-    case bsrNote::kNoteAccidentalThreeQuarterSharp:
-      result = "noteAccidentalThreeQuarterSharp";
+    case bsrNote::kAccidentalDoubleSharp:
+      result = "accidentalDoubleSharp";
       break;
 
-    case bsrNote::kNoteAccidentalThreeQuarterFlat:
-      result = "noteAccidentalThreeQuarterFlat";
+    case bsrNote::kAccidentalQuarterSharp:
+      result = "accidentalQuarterSharp";
+      break;
+    case bsrNote::kAccidentalQuarterFlat:
+      result = "accidentalQuarterFlat";
+      break;
+
+    case bsrNote::kAccidentalThreeQuarterSharp:
+      result = "accidentalThreeQuarterSharp";
+      break;
+
+    case bsrNote::kAccidentalThreeQuarterFlat:
+      result = "accidentalThreeQuarterFlat";
       break;
   } // switch
 
   return result;
 }
 
-string bsrNote::noteAccidentalKindAsDebugString (
-  bsrNoteAccidentalKind noteAccidentalKind)
+string bsrNote::accidentalKindAsDebugString (
+  bsrAccidentalKind accidentalKind)
 {
   string result;
 
-  switch (noteAccidentalKind) {
-    case bsrNote::kNoteAccidentalNone:
+  switch (accidentalKind) {
+    case bsrNote::kAccidentalNone:
       result = "";
       break;
 
-    case bsrNote::kNoteAccidentalSharp:
+    case bsrNote::kAccidentalSharp:
       result = "#";
       break;
-    case bsrNote::kNoteAccidentalNatural:
+    case bsrNote::kAccidentalNatural:
       result = "_";
       break;
-    case bsrNote::kNoteAccidentalFlat:
+    case bsrNote::kAccidentalFlat:
       result = "b";
       break;
 
-    case bsrNote::kNoteAccidentalDoubleFlat:
+    case bsrNote::kAccidentalDoubleFlat:
       result = "bb";
       break;
-    case bsrNote::kNoteAccidentalDoubleSharp:
+    case bsrNote::kAccidentalDoubleSharp:
       result = "##";
       break;
 
-    case bsrNote::kNoteAccidentalQuarterSharp:
+    case bsrNote::kAccidentalQuarterSharp:
       result = "q#";
       break;
-    case bsrNote::kNoteAccidentalQuarterFlat:
+    case bsrNote::kAccidentalQuarterFlat:
       result = "qb";
       break;
 
-    case bsrNote::kNoteAccidentalThreeQuarterSharp:
+    case bsrNote::kAccidentalThreeQuarterSharp:
       result = "3q#";
       break;
 
-    case bsrNote::kNoteAccidentalThreeQuarterFlat:
+    case bsrNote::kAccidentalThreeQuarterFlat:
       result = "3qb";
       break;
   } // switch
@@ -1270,8 +1270,8 @@ string bsrNote::asString () const
     booleanAsString (fNoteValueSizeIsNeeded) <<
     ", noteOctaveIsNeeded: " <<
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
-    ", noteAccidentalKindAsString: " <<
-    noteAccidentalKindAsString (fNoteAccidentalKind) <<
+    ", accidentalKindAsString: " <<
+    accidentalKindAsString (fAccidentalKind) <<
     ", cellsList (): " <<
     buildCellsList ()->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -1295,8 +1295,8 @@ string bsrNote::asShortString () const // finalize this JMI
     booleanAsString (fNoteValueSizeIsNeeded) <<
     ", noteOctaveIsNeeded: " <<
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
-    ", noteAccidentalKindAsString: " <<
-    noteAccidentalKindAsString (fNoteAccidentalKind) <<
+    ", accidentalKindAsString: " <<
+    accidentalKindAsString (fAccidentalKind) <<
     ", cellsList (): " <<
     buildCellsList ()->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -1320,7 +1320,7 @@ string bsrNote::asDebugString () const
 
   s <<
     noteValueKindAsDebugString (fNoteValueKind) <<
-    noteAccidentalKindAsDebugString (fNoteAccidentalKind);
+    accidentalKindAsDebugString (fAccidentalKind);
 
   for (int i = 1; i <= fNoteDotsNumber; i++) {
     s << ".";
@@ -1361,8 +1361,8 @@ void bsrNote::print (ostream& os) const
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     endl <<
     setw (fieldWidth) <<
-    "noteAccidentalKind" << " : " <<
-    noteAccidentalKindAsString (fNoteAccidentalKind) <<
+    "accidentalKind" << " : " <<
+    accidentalKindAsString (fAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
     "cellsList" << " : " <<

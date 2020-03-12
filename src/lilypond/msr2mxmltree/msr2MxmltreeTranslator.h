@@ -144,7 +144,7 @@ class msr2MxmltreeTranslator :
 
   // spanners
 
-  public visitor<S_msrSpanner>,
+//  public visitor<S_msrSpanner>,
 
   // glissandos
 
@@ -702,14 +702,12 @@ class msr2MxmltreeTranslator :
     S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
 */
 
+    // directions
     void                      appendSubElementsToNoteDirections (S_msrNote note);
     void                      appendNoteWedges (S_msrNote note);
     void                      appendNoteDynamics (S_msrNote note);
 
-    void                      appendNoteNotations (S_msrNote note);
-    void                      appendNoteOrnaments (S_msrNote note);
-    void                      appendNoteArticulations (S_msrNote note);
-
+    // spanners
     void                      appendNoteSpannersBeforeNoteElement (
                                 S_msrNote note);
     void                      appendNoteSpannersAfterNoteElement (
@@ -718,30 +716,65 @@ class msr2MxmltreeTranslator :
     void                      appendBasicSubElementsToNote (
                                 S_msrNote note);
 
+    // voice
     void                      appendVoiceSubElementToNoteIfRelevant (
                                 S_msrNote note);
+
+    // duration
     void                      appendDurationSubElementToNoteIfRelevant (
                                 S_msrNote note);
+
+    // tuplets
     void                      appendTimeModificationSubElementToNoteIfRelevant (
                                 S_msrNote note);
 
+    // measures
     void                      appendNoteSubElementToMesure (S_msrNote note);
 
+
+    // notes
     Sxmlelement               fCurrentNoteElement;
 
     bool                      fCurrentNoteElementAwaitsGraceNotes;
     S_msrNote                 fPendingNoteAwaitingGraceNotes;
     Sxmlelement               fPendingNoteElement;
 
+    // note notations
     Sxmlelement               fCurrentNoteNotationsElement;
+
+    void                      appendNoteNotations (S_msrNote note);
 
     void                      appendSubElementToNoteNotations (
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 
+    // note notations ornaments
     Sxmlelement               fCurrentNoteNotationsOrnamentsElement;
 
+    void                      appendNoteOrnaments (S_msrNote note);
+
     void                      appendSubElementToNoteNotationsOrnaments (
+                                Sxmlelement      elem,
+                                msrPlacementKind placementKind);
+
+    // note notations articulations
+    Sxmlelement               fCurrentNoteNotationsArticulationsElement;
+
+    void                      appendNoteArticulations (S_msrNote note);
+
+    void                      appendSubElementToNoteNotationsArticulations (
+                                Sxmlelement      elem,
+                                msrPlacementKind placementKind);
+
+    // note notations technicals
+    void                      appendNoteTechnicals (S_msrNote note);
+    void                      appendNoteTechnicalWithIntegers (S_msrNote note);
+    void                      appendNoteTechnicalWithFloats (S_msrNote note);
+    void                      appendNoteTechnicalWithStrings (S_msrNote note);
+
+    Sxmlelement               fCurrentNoteNotationsTechnicalsElement;
+
+    void                      appendSubElementToNoteNotationsTechnicals (
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 

@@ -155,22 +155,22 @@ class bsrNote : public bsrLineElement
     static string noteOctaveIsNeededAsString (
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
 
-    enum bsrNoteAccidentalKind {
-      kNoteAccidentalNone,
-      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat,
-      kNoteAccidentalDoubleFlat, kNoteAccidentalDoubleSharp,
-      kNoteAccidentalQuarterSharp, kNoteAccidentalQuarterFlat,
-      kNoteAccidentalThreeQuarterSharp, kNoteAccidentalThreeQuarterFlat };
+    enum bsrAccidentalKind {
+      kAccidentalNone,
+      kAccidentalSharp, kAccidentalNatural, kAccidentalFlat,
+      kAccidentalDoubleFlat, kAccidentalDoubleSharp,
+      kAccidentalQuarterSharp, kAccidentalQuarterFlat,
+      kAccidentalThreeQuarterSharp, kAccidentalThreeQuarterFlat };
 
-    static string noteAccidentalKindAsString (
-      bsrNoteAccidentalKind noteAccidentalKind);
+    static string accidentalKindAsString (
+      bsrAccidentalKind accidentalKind);
 
-    static string noteAccidentalKindAsDebugString (
-      bsrNoteAccidentalKind noteAccidentalKind);
+    static string accidentalKindAsDebugString (
+      bsrAccidentalKind accidentalKind);
 
-    static S_bsrCellsList noteAccidentalKindAsCellsList (
+    static S_bsrCellsList accidentalKindAsCellsList (
       int                   inputLineNumber,
-      bsrNoteAccidentalKind noteAccidentalKind);
+      bsrAccidentalKind accidentalKind);
 
     // creation
     // ------------------------------------------------------
@@ -181,7 +181,7 @@ class bsrNote : public bsrLineElement
       int                   noteDotsNumber,
       bsrNoteOctaveKind     noteOctaveKind,
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
-      bsrNoteAccidentalKind noteAccidentalKind);
+      bsrAccidentalKind accidentalKind);
 
   protected:
 
@@ -194,7 +194,7 @@ class bsrNote : public bsrLineElement
       int                   noteDotsNumber,
       bsrNoteOctaveKind     noteOctaveKind,
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
-      bsrNoteAccidentalKind noteAccidentalKind);
+      bsrAccidentalKind accidentalKind);
 
     virtual ~bsrNote ();
 
@@ -222,8 +222,8 @@ class bsrNote : public bsrLineElement
     bsrNoteOctaveIsNeeded getNoteOctaveIsNeeded () const
                               { return fNoteOctaveIsNeeded; }
 
-    bsrNoteAccidentalKind getNoteAccidentalKind () const
-                              { return fNoteAccidentalKind; }
+    bsrAccidentalKind getAccidentalKind () const
+                              { return fAccidentalKind; }
 
    public:
 
@@ -246,7 +246,7 @@ class bsrNote : public bsrLineElement
 
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
 
-    S_bsrCellsList        noteAccidentalKindAsCellsList () const;
+    S_bsrCellsList        accidentalKindAsCellsList () const;
 
     S_bsrCellsList        buildCellsList () const;
 
@@ -287,7 +287,7 @@ class bsrNote : public bsrLineElement
     bsrNoteOctaveKind     fNoteOctaveKind;
     bsrNoteOctaveIsNeeded fNoteOctaveIsNeeded;
 
-    bsrNoteAccidentalKind fNoteAccidentalKind;
+    bsrAccidentalKind fAccidentalKind;
 };
 typedef SMARTP<bsrNote> S_bsrNote;
 EXP ostream& operator<< (ostream& os, const S_bsrNote& elt);

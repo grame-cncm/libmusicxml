@@ -1856,8 +1856,8 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
         inputLineNumber,
         noteQuarterTonesPitchKind);
 
-  msrNote::msrNoteAccidentalKind
-    mNoteAccidentalKind =
+  msrAccidentalKind
+    mAccidentalKind =
       note->getNoteAccidentalKind ();
 
   int noteDotsNumber = note->getNoteDotsNumber ();
@@ -2398,95 +2398,98 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
   fCurrentNoteOctaveKind = noteOctaveKind;
 
   // is there an accidental attached to the note?
-  bsrNote::bsrNoteAccidentalKind
-    bNoteAccidentalKind =
-      bsrNote::kNoteAccidentalNone;
+  bsrNote::bsrAccidentalKind
+    bAccidentalKind =
+      bsrNote::kAccidentalNone;
 
-  switch (mNoteAccidentalKind) {
-    case msrNote::kNoteAccidentalNone:
-      break;
-
-    case msrNote::kNoteAccidentalSharp:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalSharp;
-      break;
-    case msrNote::kNoteAccidentalNatural:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalNatural;
-      break;
-    case msrNote::kNoteAccidentalFlat:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalFlat;
+  switch (mAccidentalKind) {
+    case kAccidentalNone:
       break;
 
-    case msrNote::kNoteAccidentalDoubleSharp:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalDoubleSharp;
+    case kAccidentalSharp:
+      bAccidentalKind = bsrNote::kAccidentalSharp;
       break;
-    case msrNote::kNoteAccidentalSharpSharp:
+    case kAccidentalNatural:
+      bAccidentalKind = bsrNote::kAccidentalNatural;
       break;
-
-    case msrNote::kNoteAccidentalFlatFlat:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalDoubleFlat;
-      break;
-    case msrNote::kNoteAccidentalNaturalSharp:
-      break;
-    case msrNote::kNoteAccidentalNaturalFlat:
+    case kAccidentalFlat:
+      bAccidentalKind = bsrNote::kAccidentalFlat;
       break;
 
-    case msrNote::kNoteAccidentalQuarterFlat:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalDoubleFlat;
+    case kAccidentalDoubleSharp:
+      bAccidentalKind = bsrNote::kAccidentalDoubleSharp;
       break;
-    case msrNote::kNoteAccidentalQuarterSharp:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalQuarterSharp;
-      break;
-
-    case msrNote::kNoteAccidentalThreeQuartersFlat:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalThreeQuarterFlat;
-      break;
-    case msrNote::kNoteAccidentalThreeQuartersSharp:
-      bNoteAccidentalKind = bsrNote::kNoteAccidentalThreeQuarterSharp;
+    case kAccidentalSharpSharp:
       break;
 
-    case msrNote::kNoteAccidentalSharpDown:
+    case kAccidentalFlatFlat:
+      bAccidentalKind = bsrNote::kAccidentalDoubleFlat;
       break;
-    case msrNote::kNoteAccidentalSharpUp:
+    case kAccidentalNaturalSharp:
       break;
-    case msrNote::kNoteAccidentalNaturalDown:
+    case kAccidentalNaturalFlat:
       break;
-    case msrNote::kNoteAccidentalNaturalUp:
+
+    case kAccidentalQuarterFlat:
+      bAccidentalKind = bsrNote::kAccidentalDoubleFlat;
       break;
-    case msrNote::kNoteAccidentalFlatDown:
+    case kAccidentalQuarterSharp:
+      bAccidentalKind = bsrNote::kAccidentalQuarterSharp;
       break;
-    case msrNote::kNoteAccidentalFlatUp:
+
+    case kAccidentalThreeQuartersFlat:
+      bAccidentalKind = bsrNote::kAccidentalThreeQuarterFlat;
       break;
-    case msrNote::kNoteAccidentalTripleSharp:
+    case kAccidentalThreeQuartersSharp:
+      bAccidentalKind = bsrNote::kAccidentalThreeQuarterSharp;
       break;
-    case msrNote::kNoteAccidentalTripleFlat:
+
+    case kAccidentalSharpDown:
       break;
-    case msrNote::kNoteAccidentalSlashQuarterSharp:
+    case kAccidentalSharpUp:
       break;
-    case msrNote::kNoteAccidentalSlashSharp:
+    case kAccidentalNaturalDown:
       break;
-    case msrNote::kNoteAccidentalSlashFlat:
+    case kAccidentalNaturalUp:
       break;
-    case msrNote::kNoteAccidentaldoubleSlashFlat:
+    case kAccidentalFlatDown:
       break;
-    case msrNote::kNoteAccidentalSharp_1:
+    case kAccidentalFlatUp:
       break;
-    case msrNote::kNoteAccidentalSharp_2:
+    case kAccidentalTripleSharp:
       break;
-    case msrNote::kNoteAccidentalSharp_3:
+    case kAccidentalTripleFlat:
       break;
-    case msrNote::kNoteAccidentalSharp_5:
+    case kAccidentalSlashQuarterSharp:
       break;
-    case msrNote::kNoteAccidentalFlat_1:
+    case kAccidentalSlashSharp:
       break;
-    case msrNote::kNoteAccidentalFlat_2:
+    case kAccidentalSlashFlat:
       break;
-    case msrNote::kNoteAccidentalFlat_3:
+    case kAccidentalDoubleSlashFlat:
       break;
-    case msrNote::kNoteAccidentalFlat_4:
+    case kAccidentalSharp_1:
       break;
-    case msrNote::kNoteAccidentalSori:
+    case kAccidentalSharp_2:
       break;
-    case msrNote::kNoteAccidentalKoron:
+    case kAccidentalSharp_3:
+      break;
+    case kAccidentalSharp_5:
+      break;
+    case kAccidentalFlat_1:
+      break;
+    case kAccidentalFlat_2:
+      break;
+    case kAccidentalFlat_3:
+      break;
+    case kAccidentalFlat_4:
+      break;
+    case kAccidentalSori:
+      break;
+    case kAccidentalKoron:
+
+      break;
+    case kAccidentalOther:
       break;
   } // switch
 
@@ -2498,7 +2501,7 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
       noteDotsNumber,
       noteOctaveKind,
       noteOctaveIsNeeded,
-      bNoteAccidentalKind);
+      bAccidentalKind);
 
   // append it to the current measure
   fCurrentMeasure->
@@ -5098,21 +5101,21 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
   } // switch
 
   // handle editorial accidentals
-  switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
-    case msrNote::kNoteEditorialAccidentalYes:
+  switch (fCurrentNonGraceNoteClone->getEditorialAccidentalKind ()) {
+    case msrNote::kEditorialAccidentalYes:
       fBsrScore->
         // this score needs the 'editorial accidental' Scheme function
         setEditorialAccidentalSchemeFunctionIsNeeded ();
       break;
-    case msrNote::kNoteEditorialAccidentalNo:
+    case msrNote::kEditorialAccidentalNo:
       break;
   } // switch
 
   // handle cautionary accidentals
-  switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
-    case msrNote::kNoteCautionaryAccidentalYes:
+  switch (fCurrentNonGraceNoteClone->getCautionaryAccidentalKind ()) {
+    case msrNote::kCautionaryAccidentalYes:
       break;
-    case msrNote::kNoteCautionaryAccidentalNo:
+    case msrNote::kCautionaryAccidentalNo:
       break;
   } // switch
 

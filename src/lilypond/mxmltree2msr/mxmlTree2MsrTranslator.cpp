@@ -416,14 +416,14 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
   // accidentals
 
-  fCurrentNoteAccidentalKind =
-    msrNote::kNoteAccidentalNone; // default value
+  fCurrentAccidentalKind =
+    kAccidentalNone; // default value
 
-  fCurrentNoteEditorialAccidentalKind =
-    msrNote::kNoteEditorialAccidentalNo; // default value
+  fCurrentEditorialAccidentalKind =
+    kEditorialAccidentalNo; // default value
 
-  fCurrentNoteCautionaryAccidentalKind =
-    msrNote::kNoteCautionaryAccidentalNo; // default value
+  fCurrentCautionaryAccidentalKind =
+    kCautionaryAccidentalNo; // default value
 
   // current note staff number
   fCurrentMusicXMLStaffNumber = 1; // default value, it may be absent
@@ -8299,77 +8299,77 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
   {
     string accidentalValue = elt->getValue ();
 
-    fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNone;
+    fCurrentAccidentalKind = kAccidentalNone;
 
     if      (accidentalValue == "sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp;
+      fCurrentAccidentalKind = kAccidentalSharp;
     else if (accidentalValue == "natural")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNatural;
+      fCurrentAccidentalKind = kAccidentalNatural;
     else if (accidentalValue == "flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat;
+      fCurrentAccidentalKind = kAccidentalFlat;
     else if (accidentalValue == "double-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalDoubleSharp;
+      fCurrentAccidentalKind = kAccidentalDoubleSharp;
     else if (accidentalValue == "sharp-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharpSharp;
+      fCurrentAccidentalKind = kAccidentalSharpSharp;
     else if (accidentalValue == "flat-flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlatFlat;
+      fCurrentAccidentalKind = kAccidentalFlatFlat;
     else if (accidentalValue == "natural-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalSharp;
+      fCurrentAccidentalKind = kAccidentalNaturalSharp;
     else if (accidentalValue == "natural-flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalFlat;
+      fCurrentAccidentalKind = kAccidentalNaturalFlat;
     else if (accidentalValue == "quarter-flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalQuarterFlat;
+      fCurrentAccidentalKind = kAccidentalQuarterFlat;
     else if (accidentalValue == "quarter-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalQuarterSharp;
+      fCurrentAccidentalKind = kAccidentalQuarterSharp;
     else if (accidentalValue == "three-quarters-flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalThreeQuartersFlat;
+      fCurrentAccidentalKind = kAccidentalThreeQuartersFlat;
     else if (accidentalValue == "three-quarters-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalThreeQuartersSharp;
+      fCurrentAccidentalKind = kAccidentalThreeQuartersSharp;
 
     else if (accidentalValue == "sharp-down")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharpDown;
+      fCurrentAccidentalKind = kAccidentalSharpDown;
     else if (accidentalValue == "sharp-up")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharpUp;
+      fCurrentAccidentalKind = kAccidentalSharpUp;
     else if (accidentalValue == "natural-down")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalDown;
+      fCurrentAccidentalKind = kAccidentalNaturalDown;
     else if (accidentalValue == "natural-up")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalUp;
+      fCurrentAccidentalKind = kAccidentalNaturalUp;
     else if (accidentalValue == "flat-down")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlatDown;
+      fCurrentAccidentalKind = kAccidentalFlatDown;
     else if (accidentalValue == "flat-up")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlatUp;
+      fCurrentAccidentalKind = kAccidentalFlatUp;
     else if (accidentalValue == "triple-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalTripleSharp;
+      fCurrentAccidentalKind = kAccidentalTripleSharp;
     else if (accidentalValue == "triple-flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalTripleFlat;
+      fCurrentAccidentalKind = kAccidentalTripleFlat;
     else if (accidentalValue == "slash-quarter-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSlashQuarterSharp;
+      fCurrentAccidentalKind = kAccidentalSlashQuarterSharp;
     else if (accidentalValue == "slash-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSlashSharp;
+      fCurrentAccidentalKind = kAccidentalSlashSharp;
     else if (accidentalValue == "slash-flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSlashFlat;
+      fCurrentAccidentalKind = kAccidentalSlashFlat;
     else if (accidentalValue == "double-slash-flat")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentaldoubleSlashFlat;
+      fCurrentAccidentalKind = kAccidentalDoubleSlashFlat;
     else if (accidentalValue == "sharp-1")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_1;
+      fCurrentAccidentalKind = kAccidentalSharp_1;
     else if (accidentalValue == "sharp-2")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_2;
+      fCurrentAccidentalKind = kAccidentalSharp_2;
     else if (accidentalValue == "sharp-3")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_3;
+      fCurrentAccidentalKind = kAccidentalSharp_3;
     else if (accidentalValue == "sharp-5")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_5;
+      fCurrentAccidentalKind = kAccidentalSharp_5;
     else if (accidentalValue == "flat-1")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_1;
+      fCurrentAccidentalKind = kAccidentalFlat_1;
     else if (accidentalValue == "flat-2")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_2;
+      fCurrentAccidentalKind = kAccidentalFlat_2;
     else if (accidentalValue == "flat-3")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_3;
+      fCurrentAccidentalKind = kAccidentalFlat_3;
     else if (accidentalValue == "flat-4")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_4;
+      fCurrentAccidentalKind = kAccidentalFlat_4;
     else if (accidentalValue == "sori")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSori;
+      fCurrentAccidentalKind = kAccidentalSori;
     else if (accidentalValue == "koron")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalKoron;
+      fCurrentAccidentalKind = kAccidentalKoron;
     else {
       if (accidentalValue.size ()) {
         stringstream s;
@@ -8392,15 +8392,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
   {
     string editorialAccidental = elt->getAttributeValue ("editorial");
 
-    fCurrentNoteEditorialAccidentalKind =
-      msrNote::kNoteEditorialAccidentalNo; // default value
+    fCurrentEditorialAccidentalKind =
+      kEditorialAccidentalNo; // default value
 
     if      (editorialAccidental == "yes")
-      fCurrentNoteEditorialAccidentalKind =
-        msrNote::kNoteEditorialAccidentalYes;
+      fCurrentEditorialAccidentalKind =
+        kEditorialAccidentalYes;
     else if (editorialAccidental == "no")
-      fCurrentNoteEditorialAccidentalKind =
-        msrNote::kNoteEditorialAccidentalNo;
+      fCurrentEditorialAccidentalKind =
+        kEditorialAccidentalNo;
     else {
       if (editorialAccidental.size ()) {
         stringstream s;
@@ -8423,15 +8423,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
   {
     string cautionaryAccidental = elt->getAttributeValue ("cautionary");
 
-    fCurrentNoteCautionaryAccidentalKind =
-      msrNote::kNoteCautionaryAccidentalNo; // default value
+    fCurrentCautionaryAccidentalKind =
+      kCautionaryAccidentalNo; // default value
 
     if      (cautionaryAccidental == "yes")
-      fCurrentNoteCautionaryAccidentalKind =
-        msrNote::kNoteCautionaryAccidentalYes;
+      fCurrentCautionaryAccidentalKind =
+        kCautionaryAccidentalYes;
     else if (cautionaryAccidental == "no")
-      fCurrentNoteCautionaryAccidentalKind =
-        msrNote::kNoteCautionaryAccidentalNo;
+      fCurrentCautionaryAccidentalKind =
+        kCautionaryAccidentalNo;
     else {
       if (cautionaryAccidental.size ()) {
         stringstream s;
@@ -11675,36 +11675,161 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
 
   string accidentalMark = elt->getValue ();
 
-  msrAlterationKind
+/*
+<!--
+	Actual notated accidentals. Valid values include: sharp,
+	natural, flat, double-sharp, sharp-sharp, flat-flat,
+	natural-sharp, natural-flat, quarter-flat, quarter-sharp,
+	three-quarters-flat, three-quarters-sharp, sharp-down,
+	sharp-up, natural-down, natural-up, flat-down, flat-up,
+	double-sharp-down, double-sharp-up, flat-flat-down,
+	flat-flat-up, arrow-down, arrow-up, triple-sharp,
+	triple-flat, slash-quarter-sharp, slash-sharp, slash-flat,
+	double-slash-flat, sharp-1, sharp-2, sharp-3, sharp-5,
+	flat-1, flat-2, flat-3, flat-4, sori, koron, and other.
+
+	The quarter- and three-quarters- accidentals are
+	Tartini-style quarter-tone accidentals. The -down and -up
+	accidentals are quarter-tone accidentals that include
+	arrows pointing down or up. The slash- accidentals
+	are used in Turkish classical music. The numbered
+	sharp and flat accidentals are superscripted versions
+	of the accidental signs, used in Turkish folk music.
+	The sori and koron accidentals are microtonal sharp and
+	flat accidentals used in Iranian and Persian music. The
+	other accidental covers accidentals other than those listed
+	here. It is usually used in combination with the smufl
+	attribute to specify a particular SMuFL accidental. The
+	smufl attribute may be used with any accidental value to
+	help specify the appearance of symbols that share the same
+	MusicXML semantics. The attribute value is a SMuFL canonical
+	glyph name that starts with acc.
+
+	Editorial and cautionary indications are indicated
+	by attributes. Values for these attributes are "no" if not
+	present. Specific graphic display such as parentheses,
+	brackets, and size are controlled by the level-display
+	entity defined in the common.mod file.
+-->
+<!ELEMENT accidental (#PCDATA)>
+<!ATTLIST accidental
+    cautionary %yes-no; #IMPLIED
+    editorial %yes-no; #IMPLIED
+    %level-display;
+    %print-style;
+    %smufl;
+>
+
+*/
+
+  msrAccidentalKind
     currentOrnamentAccidentalMark =
-      k_NoAlteration;
+      kAccidentalNone;
 
-  if      (accidentalMark == "double-flat")
-    currentOrnamentAccidentalMark = kDoubleFlat;
-
-  else if (accidentalMark == "three-quarters-flat")
-    currentOrnamentAccidentalMark = kSesquiFlat;
-
-  else if (accidentalMark == "flat")
-    currentOrnamentAccidentalMark = kFlat;
-
-  else if (accidentalMark == "quarter-flat")
-    currentOrnamentAccidentalMark = kSemiFlat;
+  if (accidentalMark      == "sharp")
+    currentOrnamentAccidentalMark = kAccidentalSharp;
 
   else if (accidentalMark == "natural")
-    currentOrnamentAccidentalMark = kNatural;
+    currentOrnamentAccidentalMark = kAccidentalNatural;
 
-  else if (accidentalMark == "quarter-sharp")
-    currentOrnamentAccidentalMark = kSemiSharp;
-
-  else if (accidentalMark == "sharp")
-    currentOrnamentAccidentalMark = kSharp;
-
-  else if (accidentalMark == "three-quarters-sharp")
-    currentOrnamentAccidentalMark = kSesquiSharp;
+  else if (accidentalMark == "flat")
+    currentOrnamentAccidentalMark = kAccidentalFlat;
 
   else if (accidentalMark == "double-sharp")
-    currentOrnamentAccidentalMark = kDoubleSharp;
+    currentOrnamentAccidentalMark = kAccidentalDoubleSharp;
+
+  else if (accidentalMark == "sharp-sharp")
+    currentOrnamentAccidentalMark = kAccidentalSharpSharp;
+
+  else if (accidentalMark == "flat-flat")
+    currentOrnamentAccidentalMark = kAccidentalFlatFlat;
+
+  else if (accidentalMark == "natural-sharp")
+    currentOrnamentAccidentalMark = kAccidentalNaturalSharp;
+
+  else if (accidentalMark == "natural-flat")
+    currentOrnamentAccidentalMark = kAccidentalQuarterFlat;
+
+  else if (accidentalMark == "quarter-flat")
+    currentOrnamentAccidentalMark = kAccidentalNaturalFlat;
+
+  else if (accidentalMark == "quarter-sharp")
+    currentOrnamentAccidentalMark = kAccidentalQuarterSharp;
+
+  else if (accidentalMark == "three-quarters-flat")
+    currentOrnamentAccidentalMark = kAccidentalThreeQuartersFlat;
+
+  else if (accidentalMark == "three-quarters-sharp")
+    currentOrnamentAccidentalMark = kAccidentalThreeQuartersSharp;
+
+  else if (accidentalMark == "sharp-down")
+    currentOrnamentAccidentalMark = kAccidentalSharpDown;
+
+  else if (accidentalMark == "sharp-up")
+    currentOrnamentAccidentalMark = kAccidentalSharpUp;
+
+  else if (accidentalMark == "natural-down")
+    currentOrnamentAccidentalMark = kAccidentalNaturalDown;
+
+  else if (accidentalMark == "natural-up")
+    currentOrnamentAccidentalMark = kAccidentalNaturalUp;
+
+  else if (accidentalMark == "flat-down")
+    currentOrnamentAccidentalMark = kAccidentalFlatDown;
+
+  else if (accidentalMark == "flat-up")
+    currentOrnamentAccidentalMark = kAccidentalFlatUp;
+
+  else if (accidentalMark == "triple-sharp")
+    currentOrnamentAccidentalMark = kAccidentalTripleSharp;
+
+  else if (accidentalMark == "triple-flat")
+    currentOrnamentAccidentalMark = kAccidentalTripleFlat;
+
+  else if (accidentalMark == "slash-quarter-sharp")
+    currentOrnamentAccidentalMark = kAccidentalSlashQuarterSharp;
+
+  else if (accidentalMark == "slash-sharp")
+    currentOrnamentAccidentalMark = kAccidentalSlashSharp;
+
+  else if (accidentalMark == "slash-flat")
+    currentOrnamentAccidentalMark = kAccidentalSlashFlat;
+
+  else if (accidentalMark == "double-slash-flat")
+    currentOrnamentAccidentalMark = kAccidentalDoubleSlashFlat;
+
+  else if (accidentalMark == "sharp-1")
+    currentOrnamentAccidentalMark = kAccidentalSharp_1;
+
+  else if (accidentalMark == "sharp-2")
+    currentOrnamentAccidentalMark = kAccidentalSharp_2;
+
+  else if (accidentalMark == "sharp-3")
+    currentOrnamentAccidentalMark = kAccidentalSharp_3;
+
+  else if (accidentalMark == "sharp-5")
+    currentOrnamentAccidentalMark = kAccidentalSharp_3;
+
+  else if (accidentalMark == "flat-1")
+    currentOrnamentAccidentalMark = kAccidentalFlat_1;
+
+  else if (accidentalMark == "flat-2")
+    currentOrnamentAccidentalMark = kAccidentalFlat_2;
+
+  else if (accidentalMark == "flat-3")
+    currentOrnamentAccidentalMark = kAccidentalFlat_3;
+
+  else if (accidentalMark == "flat-4")
+    currentOrnamentAccidentalMark = kAccidentalFlat_4;
+
+  else if (accidentalMark == "sori")
+    currentOrnamentAccidentalMark = kAccidentalSori;
+
+  else if (accidentalMark == "koron")
+    currentOrnamentAccidentalMark = kAccidentalKoron;
+
+  else if (accidentalMark == "other")
+    currentOrnamentAccidentalMark = kAccidentalOther;
 
   else if (accidentalMark.size ()) {
     stringstream s;
@@ -17728,15 +17853,15 @@ void mxmlTree2MsrTranslator::populateNote (
   // set note accidentals
   newNote->
     setNoteAccidentalKind (
-      fCurrentNoteAccidentalKind);
+      fCurrentAccidentalKind);
 
   newNote->
     setNoteEditorialAccidentalKind (
-      fCurrentNoteEditorialAccidentalKind);
+      fCurrentEditorialAccidentalKind);
 
   newNote->
     setNoteCautionaryAccidentalKind (
-      fCurrentNoteCautionaryAccidentalKind);
+      fCurrentCautionaryAccidentalKind);
 
   // check <duration/> and <type/> consistency if relevant
   if (

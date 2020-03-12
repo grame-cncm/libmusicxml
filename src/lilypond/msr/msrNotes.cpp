@@ -183,13 +183,13 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
 
   fNoteAccidentalKind =
-    msrNote::kNoteAccidentalNone; // default value
+    kAccidentalNone; // default value
 
   fNoteEditorialAccidentalKind =
-    msrNote::kNoteEditorialAccidentalNo; // default value
+    kEditorialAccidentalNo; // default value
 
   fNoteCautionaryAccidentalKind =
-    msrNote::kNoteCautionaryAccidentalNo; // default value
+    kCautionaryAccidentalNo; // default value
 
   // note context
   // ------------------------------------------------------
@@ -335,19 +335,19 @@ void msrNote::initializeNote ()
       left <<
         setw (fieldWidth) <<
         "fNoteAccidentalKind" << " = " <<
-        noteAccidentalKindAsString (
+        accidentalKindAsString (
           fNoteAccidentalKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
         "fNoteEditorialAccidentalKind" << " = " <<
-        noteEditorialAccidentalKindAsString (
+        editorialAccidentalKindAsString (
           fNoteEditorialAccidentalKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
         "fNoteCautionaryAccidentalKind" << " = " <<
-        noteCautionaryAccidentalKindAsString (
+        cautionaryAccidentalKindAsString (
           fNoteCautionaryAccidentalKind) <<
         endl <<
 
@@ -1504,277 +1504,6 @@ string msrNote::noteKindAsString (
 
     case msrNote::kTupletMemberUnpitchedNote:
       result = "tupletMemberUnpitchedNote";
-      break;
-  } // switch
-
-  return result;
-}
-
-// accidentals
-//______________________________________________________________________________
-string msrNote::noteAccidentalKindAsString (
-  msrNoteAccidentalKind noteAccidentalKind)
-{
-  string result;
-
-  switch (noteAccidentalKind) {
-    case msrNote::kNoteAccidentalNone:
-      result = "noteAccidentalNone";
-      break;
-
-    case msrNote::kNoteAccidentalSharp:
-      result = "noteAccidentalSharp";
-      break;
-    case msrNote::kNoteAccidentalNatural:
-      result = "noteAccidentalNatural";
-      break;
-    case msrNote::kNoteAccidentalFlat:
-      result = "noteAccidentalFlat";
-      break;
-    case msrNote::kNoteAccidentalDoubleSharp:
-      result = "noteAccidentalDoubleSharp";
-      break;
-    case msrNote::kNoteAccidentalSharpSharp:
-      result = "noteAccidentalSharpSharp";
-      break;
-    case msrNote::kNoteAccidentalFlatFlat:
-      result = "noteAccidentalFlatFlat";
-      break;
-    case msrNote::kNoteAccidentalNaturalSharp:
-      result = "noteAccidentalNaturalSharp";
-      break;
-    case msrNote::kNoteAccidentalNaturalFlat:
-      result = "noteAccidentalNaturalFlat";
-      break;
-    case msrNote::kNoteAccidentalQuarterFlat:
-      result = "noteAccidentalQuarterFlat";
-      break;
-    case msrNote::kNoteAccidentalQuarterSharp:
-      result = "noteAccidentalQuarterSharp";
-      break;
-    case msrNote::kNoteAccidentalThreeQuartersFlat:
-      result = "noteAccidentalThreeQuartersFlat";
-      break;
-    case msrNote::kNoteAccidentalThreeQuartersSharp:
-      result = "noteAccidentalThreeQuartersSharp";
-      break;
-
-    case msrNote::kNoteAccidentalSharpDown:
-      result = "noteAccidentalSharpDown";
-      break;
-    case msrNote::kNoteAccidentalSharpUp:
-      result = "noteAccidentalSharpUp";
-      break;
-    case msrNote::kNoteAccidentalNaturalDown:
-      result = "noteAccidentalNaturalDown";
-      break;
-    case msrNote::kNoteAccidentalNaturalUp:
-      result = "noteAccidentalNaturalUp";
-      break;
-    case msrNote::kNoteAccidentalFlatDown:
-      result = "noteAccidentalFlatDown";
-      break;
-    case msrNote::kNoteAccidentalFlatUp:
-      result = "noteAccidentalFlatUp";
-      break;
-    case msrNote::kNoteAccidentalTripleSharp:
-      result = "noteAccidentalTripleSharp";
-      break;
-    case msrNote::kNoteAccidentalTripleFlat:
-      result = "noteAccidentalTripleFlat";
-      break;
-    case msrNote::kNoteAccidentalSlashQuarterSharp:
-      result = "noteAccidentalSlashQuarterSharp";
-      break;
-    case msrNote::kNoteAccidentalSlashSharp:
-      result = "noteAccidentalSlashSharp";
-      break;
-    case msrNote::kNoteAccidentalSlashFlat:
-      result = "noteAccidentalSlashFlat";
-      break;
-    case msrNote::kNoteAccidentaldoubleSlashFlat:
-      result = "noteAccidentaldoubleSlashFlat";
-      break;
-    case msrNote::kNoteAccidentalSharp_1:
-      result = "noteAccidentalSharp_1";
-      break;
-    case msrNote::kNoteAccidentalSharp_2:
-      result = "noteAccidentalSharp_2";
-      break;
-    case msrNote::kNoteAccidentalSharp_3:
-      result = "noteAccidentalSharp_3";
-      break;
-    case msrNote::kNoteAccidentalSharp_5:
-      result = "noteAccidentalSharp_5";
-      break;
-    case msrNote::kNoteAccidentalFlat_1:
-      result = "noteAccidentalFlat_1";
-      break;
-    case msrNote::kNoteAccidentalFlat_2:
-      result = "noteAccidentalFlat_2";
-      break;
-    case msrNote::kNoteAccidentalFlat_3:
-      result = "noteAccidentalFlat_3";
-      break;
-    case msrNote::kNoteAccidentalFlat_4:
-      result = "noteAccidentalFlat_4";
-      break;
-    case msrNote::kNoteAccidentalSori:
-      result = "noteAccidentalSori";
-      break;
-    case msrNote::kNoteAccidentalKoron:
-      result = "noteAccidentalKoron";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrNote::noteAccidentalKindAsMusicXMLString (
-  msrNoteAccidentalKind noteAccidentalKind)
-{
-  string result;
-
-  switch (noteAccidentalKind) {
-    case msrNote::kNoteAccidentalNone:
-      break;
-
-    case msrNote::kNoteAccidentalSharp:
-      result = "sharp";
-      break;
-    case msrNote::kNoteAccidentalNatural:
-      result = "natural";
-      break;
-    case msrNote::kNoteAccidentalFlat:
-      result = "flat";
-      break;
-    case msrNote::kNoteAccidentalDoubleSharp:
-      result = "double-sharp";
-      break;
-    case msrNote::kNoteAccidentalSharpSharp:
-      result = "sharp-sharp";
-      break;
-    case msrNote::kNoteAccidentalFlatFlat:
-      result = "flat-flat";
-      break;
-    case msrNote::kNoteAccidentalNaturalSharp:
-      result = "natural-sharp";
-      break;
-    case msrNote::kNoteAccidentalNaturalFlat:
-      result = "natural-flat";
-      break;
-    case msrNote::kNoteAccidentalQuarterFlat:
-      result = "quarter-flat";
-      break;
-    case msrNote::kNoteAccidentalQuarterSharp:
-      result = "quarter-sharp";
-      break;
-    case msrNote::kNoteAccidentalThreeQuartersFlat:
-      result = "three-quarters-flat";
-      break;
-    case msrNote::kNoteAccidentalThreeQuartersSharp:
-      result = "three-quarters-sharp";
-      break;
-
-    case msrNote::kNoteAccidentalSharpDown:
-      result = "sharp-down";
-      break;
-    case msrNote::kNoteAccidentalSharpUp:
-      result = "sharp-up";
-      break;
-    case msrNote::kNoteAccidentalNaturalDown:
-      result = "natural-down";
-      break;
-    case msrNote::kNoteAccidentalNaturalUp:
-      result = "natural-up";
-      break;
-    case msrNote::kNoteAccidentalFlatDown:
-      result = "flat-down";
-      break;
-    case msrNote::kNoteAccidentalFlatUp:
-      result = "flat-up";
-      break;
-    case msrNote::kNoteAccidentalTripleSharp:
-      result = "triple-sharp";
-      break;
-    case msrNote::kNoteAccidentalTripleFlat:
-      result = "triple-flat";
-      break;
-    case msrNote::kNoteAccidentalSlashQuarterSharp:
-      result = "slash-quarter-sharp";
-      break;
-    case msrNote::kNoteAccidentalSlashSharp:
-      result = "slash-sharp";
-      break;
-    case msrNote::kNoteAccidentalSlashFlat:
-      result = "slash-flat";
-      break;
-    case msrNote::kNoteAccidentaldoubleSlashFlat:
-      result = "double-slash-flat";
-      break;
-    case msrNote::kNoteAccidentalSharp_1:
-      result = "sharp-1";
-      break;
-    case msrNote::kNoteAccidentalSharp_2:
-      result = "sharp-2";
-      break;
-    case msrNote::kNoteAccidentalSharp_3:
-      result = "sharp-3";
-      break;
-    case msrNote::kNoteAccidentalSharp_5:
-      result = "sharp-5";
-      break;
-    case msrNote::kNoteAccidentalFlat_1:
-      result = "flat-1";
-      break;
-    case msrNote::kNoteAccidentalFlat_2:
-      result = "flat-2";
-      break;
-    case msrNote::kNoteAccidentalFlat_3:
-      result = "flat-3";
-      break;
-    case msrNote::kNoteAccidentalFlat_4:
-      result = "flat-4";
-      break;
-    case msrNote::kNoteAccidentalSori:
-      result = "sori";
-      break;
-    case msrNote::kNoteAccidentalKoron:
-      result = "koron";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrNote::noteEditorialAccidentalKindAsString (
-  msrNoteEditorialAccidentalKind noteEditorialAccidentalKind)
-{
-  string result;
-
-  switch (noteEditorialAccidentalKind) {
-    case msrNote::kNoteEditorialAccidentalYes:
-      result = "noteEditorialAccidentalYes";
-      break;
-    case msrNote::kNoteEditorialAccidentalNo:
-      result = "noteEditorialAccidentalNo";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrNote::noteCautionaryAccidentalKindAsString (
-  msrNoteCautionaryAccidentalKind noteCautionaryAccidentalKind)
-{
-  string result;
-
-  switch (noteCautionaryAccidentalKind) {
-    case msrNote::kNoteCautionaryAccidentalYes:
-      result = "noteCautionaryAccidentalYes";
-      break;
-    case msrNote::kNoteCautionaryAccidentalNo:
-      result = "noteCautionaryAccidentalNo";
       break;
   } // switch
 
@@ -4163,19 +3892,19 @@ void msrNote::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "noteAccidentalKind" << " : " <<
-    noteAccidentalKindAsString (
+    accidentalKindAsString (
       fNoteAccidentalKind) <<
     endl;
 
   os << left <<
     setw (fieldWidth) <<
     "noteEditorialAccidentalKind" << " : " <<
-    noteEditorialAccidentalKindAsString (
+    editorialAccidentalKindAsString (
       fNoteEditorialAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
     "noteCautionaryAccidentalKind" << " : " <<
-    noteCautionaryAccidentalKindAsString (
+    cautionaryAccidentalKindAsString (
       fNoteCautionaryAccidentalKind) <<
     endl;
 

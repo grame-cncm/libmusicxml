@@ -248,24 +248,26 @@ string existingBsrBrailleOutputKinds (int namesListMaxLength)
   stringstream s;
 
   int
-    accidentalStyleKindsMapSize =
-      gLpsrAccidentalStyleKindsMap.size ();
+    brailleOutputKindsMapSize =
+      gBsrBrailleOutputKindsMap.size ();
 
-  if (accidentalStyleKindsMapSize) {
+  if (brailleOutputKindsMapSize) {
     int
       nextToLast =
-        accidentalStyleKindsMapSize - 1;
+        brailleOutputKindsMapSize - 1;
 
     int count = 0;
     int cumulatedLength = 0;
 
     for (
-      map<string, lpsrAccidentalStyleKind>::const_iterator i =
-        gLpsrAccidentalStyleKindsMap.begin ();
-      i != gLpsrAccidentalStyleKindsMap.end ();
+      map<string, bsrBrailleOutputKind>::const_iterator i =
+        gBsrBrailleOutputKindsMap.begin ();
+      i != gBsrBrailleOutputKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -278,7 +280,7 @@ string existingBsrBrailleOutputKinds (int namesListMaxLength)
       if (count == nextToLast) {
         s << " and ";
       }
-      else if (count != accidentalStyleKindsMapSize) {
+      else if (count != brailleOutputKindsMapSize) {
         s << ", ";
       }
     } // for
@@ -329,24 +331,26 @@ string existingBsrTextsLanguageKinds (int namesListMaxLength)
   stringstream s;
 
   int
-    accidentalStyleKindsMapSize =
-      gLpsrAccidentalStyleKindsMap.size ();
+    textsLanguageKindsMapSize =
+      gBsrTextsLanguageKindsMap.size ();
 
-  if (accidentalStyleKindsMapSize) {
+  if (textsLanguageKindsMapSize) {
     int
       nextToLast =
-        accidentalStyleKindsMapSize - 1;
+        textsLanguageKindsMapSize - 1;
 
     int count = 0;
     int cumulatedLength = 0;
 
     for (
-      map<string, lpsrAccidentalStyleKind>::const_iterator i =
-        gLpsrAccidentalStyleKindsMap.begin ();
-      i != gLpsrAccidentalStyleKindsMap.end ();
+      map<string, bsrTextsLanguageKind>::const_iterator i =
+        gBsrTextsLanguageKindsMap.begin ();
+      i != gBsrTextsLanguageKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
+
+      count++;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -359,7 +363,7 @@ string existingBsrTextsLanguageKinds (int namesListMaxLength)
       if (count == nextToLast) {
         s << " and ";
       }
-      else if (count != accidentalStyleKindsMapSize) {
+      else if (count != textsLanguageKindsMapSize) {
         s << ", ";
       }
     } // for

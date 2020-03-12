@@ -276,7 +276,7 @@ void msr2MxmltreeTranslator::appendSubElementToNoteNotationsOrnaments (
     // append it to fCurrentNoteNotationsElement
     appendSubElementToNoteNotations (
       fCurrentNoteNotationsOrnamentsElement,
-      placementKind);
+      kPlacementNone); // no placement for '<ornaments />'
   }
 
   // set elem's "placement" attribute if relevant
@@ -290,6 +290,64 @@ void msr2MxmltreeTranslator::appendSubElementToNoteNotationsOrnaments (
 
   // append elem to the note notations ornaments element
   fCurrentNoteNotationsOrnamentsElement->push (elem);
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::appendSubElementToNoteNotationsArticulations (
+  Sxmlelement      elem,
+  msrPlacementKind placementKind)
+{
+  if (! fCurrentNoteNotationsElement) {
+    // create an notations element
+    fCurrentNoteNotationsElement = createElement (k_notations, "");
+    // create the note articulations element
+    fCurrentNoteNotationsArticulationsElement = createElement (k_articulations, "");
+
+    // append it to fCurrentNoteNotationsElement
+    appendSubElementToNoteNotations (
+      fCurrentNoteNotationsArticulationsElement,
+      placementKind);
+  }
+
+  // set elem's "placement" attribute if relevant
+  string
+    placementString =
+      msrPlacementKindAsMusicXMLString (placementKind);
+
+  if (placementString.size ()) {
+    elem->add (createAttribute ("placement", placementString));
+  }
+
+  // append elem to the note notations element
+  fCurrentNoteNotationsArticulationsElement->push (elem);
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::appendSubElementToNoteNotationsTechnicals (
+  Sxmlelement      elem,
+  msrPlacementKind placementKind)
+{
+  if (! fCurrentNoteNotationsTechnicalsElement) {
+    // create an notations element
+    fCurrentNoteNotationsTechnicalsElement = createElement (k_technical, "");
+
+    // append it to fCurrentNoteNotationsElement
+    appendSubElementToNoteNotations (
+      fCurrentNoteNotationsTechnicalsElement,
+      placementKind);
+  }
+
+  // set elem's "placement" attribute if relevant
+  string
+    placementString =
+      msrPlacementKindAsMusicXMLString (placementKind);
+
+  if (placementString.size ()) {
+    elem->add (createAttribute ("placement", placementString));
+  }
+
+  // append elem to the note notations technicals element
+  fCurrentNoteNotationsTechnicalsElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -2318,15 +2376,9 @@ void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
         ornamentKind =
           ornament->getOrnamentKind ();
 
-      int ornamentType = kComment; // JMI
+      int ornamentType = kComment;
 
       switch (ornamentKind) {
-      /* JMI
-        case msrOrnament::k_NoOrnament:
-          // JMI ???
-          break;
-*/
-
         case msrOrnament::kOrnamentTrill:
           ornamentType = k_trill_mark;
           break;
@@ -2363,15 +2415,362 @@ void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
       } // switch
 
       // create the ornament element
-      Sxmlelement ornamentElement = createElement (ornamentType, "");
-
-      // append it to the note ornaments element
- // JMI     noteOrnamentsElement->push (ornamentElement);
 
       // append the note ornaments element to the current note element
-      appendSubElementToNoteNotationsOrnaments (
-        ornamentElement,
-        ornament->getOrnamentPlacementKind ());
+      switch (ornamentKind) {
+        case msrOrnament::kOrnamentAccidentalMark:
+          {
+            Sxmlelement ornamentElement =
+              createElement (
+                ornamentType,
+                accidentalKindAsMusicXMLString (
+                  ornament->getOrnamentAccidentalMark ()));
+
+            appendSubElementToNoteNotations (
+              ornamentElement,
+              ornament->getOrnamentPlacementKind ());
+          }
+          break;
+
+        default:
+          {
+            Sxmlelement ornamentElement =
+              createElement (
+                ornamentType,
+                "");
+
+            appendSubElementToNoteNotationsOrnaments (
+              ornamentElement,
+              ornament->getOrnamentPlacementKind ());
+          }
+      } // switch
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteTechnicals (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteTechnicals, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/* JMI
+<!ELEMENT technical
+	((up-bow | down-bow | harmonic | open-string |
+	  thumb-position | fingering | pluck | double-tongue |
+	  triple-tongue | stopped | snap-pizzicato | fret |
+	  string | hammer-on | pull-off | bend | tap | heel |
+	  toe | fingernails | hole | arrow | handbell |
+	  brass-bend | flip | smear | open | half-muted |
+	  harmon-mute | golpe | other-technical)*)>
+<!ATTLIST technical
+    %optional-unique-id;
+
+	  */
+
+  // append the technical elements if any
+  const list<S_msrTechnical>&
+    noteTechnicals =
+      note->getNoteTechnicals () ;
+
+  if (noteTechnicals.size ()) {
+    list<S_msrTechnical>::const_iterator i;
+
+    for (i=noteTechnicals.begin (); i!=noteTechnicals.end (); i++) {
+      S_msrTechnical
+        technical = (*i);
+
+      msrTechnical::msrTechnicalKind
+        technicalKind =
+          technical->getTechnicalKind ();
+
+      int technicalType = kComment; // JMI
+
+      switch (technicalKind) {
+        case msrTechnical::kArrow:
+          technicalType = k_arrow;
+          break;
+        case msrTechnical::kDoubleTongue:
+          technicalType = k_double_tongue;
+          break;
+        case msrTechnical::kDownBow:
+          technicalType = k_down_bow;
+          break;
+        case msrTechnical::kFingernails:
+          technicalType = k_fingernails;
+          break;
+        case msrTechnical::kHarmonic:
+          technicalType = k_harmonic;
+          break;
+        case msrTechnical::kHeel:
+          technicalType = k_heel;
+          break;
+        case msrTechnical::kHole:
+          technicalType = k_hole;
+          break;
+        case msrTechnical::kOpenString:
+          technicalType = k_open_string;
+          break;
+        case msrTechnical::kSnapPizzicato:
+          technicalType = k_snap_pizzicato;
+          break;
+        case msrTechnical::kStopped:
+          technicalType = k_stopped;
+          break;
+        case msrTechnical::kTap:
+          technicalType = k_tap;
+          break;
+        case msrTechnical::kThumbPosition:
+          technicalType = k_thumb_position;
+          break;
+        case msrTechnical::kToe:
+          technicalType = k_toe;
+          break;
+        case msrTechnical::kTripleTongue:
+          technicalType = k_triple_tongue;
+          break;
+        case msrTechnical::kUpBow:
+          technicalType = k_up_bow;
+          break;
+      } // switch
+
+      // create the technical element
+      Sxmlelement technicalElement = createElement (technicalType, "");
+
+      // append the note technicals element to the current note element
+      appendSubElementToNoteNotationsTechnicals (
+        technicalElement,
+        technical->getTechnicalPlacementKind ());
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteTechnicalWithIntegers (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteTechnicalWithIntegers, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/* JMI
+<!ELEMENT technical
+	((up-bow | down-bow | harmonic | open-string |
+	  thumb-position | fingering | pluck | double-tongue |
+	  triple-tongue | stopped | snap-pizzicato | fret |
+	  string | hammer-on | pull-off | bend | tap | heel |
+	  toe | fingernails | hole | arrow | handbell |
+	  brass-bend | flip | smear | open | half-muted |
+	  harmon-mute | golpe | other-technical)*)>
+<!ATTLIST technical
+    %optional-unique-id;
+
+	  */
+
+  // append the technicalWithInteger elements if any
+  const list<S_msrTechnicalWithInteger>&
+    noteTechnicalWithIntegers =
+      note->getNoteTechnicalWithIntegers () ;
+
+  if (noteTechnicalWithIntegers.size ()) {
+    list<S_msrTechnicalWithInteger>::const_iterator i;
+
+    for (i=noteTechnicalWithIntegers.begin (); i!=noteTechnicalWithIntegers.end (); i++) {
+      S_msrTechnicalWithInteger
+        technicalWithInteger = (*i);
+
+      msrTechnicalWithInteger::msrTechnicalWithIntegerKind
+        technicalWithIntegerKind =
+          technicalWithInteger->getTechnicalWithIntegerKind ();
+
+      int technicalWithIntegerType = kComment; // JMI
+
+      switch (technicalWithIntegerKind) {
+        case msrTechnicalWithInteger::kFingering:
+          technicalWithIntegerType = k_fingering;
+          break;
+        case msrTechnicalWithInteger::kFret:
+          technicalWithIntegerType = k_fret;
+          break;
+        case msrTechnicalWithInteger::kString:
+          technicalWithIntegerType = k_string;
+          break;
+      } // switch
+
+      // create the technicalWithInteger element
+      int technicalWithIntegerValue =
+        technicalWithInteger->getTechnicalWithIntegerValue ();
+
+      Sxmlelement technicalWithIntegerElement =
+        technicalWithIntegerValue > 0
+          ? createIntegerElement (
+              technicalWithIntegerType,
+              technicalWithIntegerValue)
+          : createElement (
+              technicalWithIntegerType,
+              "");
+
+      // append the note technicalWithIntegers element to the current note element
+      appendSubElementToNoteNotationsTechnicals (
+        technicalWithIntegerElement,
+        technicalWithInteger->getTechnicalWithIntegerPlacementKind ());
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteTechnicalWithFloats (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteTechnicalWithFloats, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/* JMI
+<!ELEMENT technical
+	((up-bow | down-bow | harmonic | open-string |
+	  thumb-position | fingering | pluck | double-tongue |
+	  triple-tongue | stopped | snap-pizzicato | fret |
+	  string | hammer-on | pull-off | bend | tap | heel |
+	  toe | fingernails | hole | arrow | handbell |
+	  brass-bend | flip | smear | open | half-muted |
+	  harmon-mute | golpe | other-technical)*)>
+<!ATTLIST technical
+    %optional-unique-id;
+
+	  */
+
+  // append the technicalWithFloat elements if any
+  const list<S_msrTechnicalWithFloat>&
+    noteTechnicalWithFloats =
+      note->getNoteTechnicalWithFloats () ;
+
+  if (noteTechnicalWithFloats.size ()) {
+    list<S_msrTechnicalWithFloat>::const_iterator i;
+
+    for (i=noteTechnicalWithFloats.begin (); i!=noteTechnicalWithFloats.end (); i++) {
+      S_msrTechnicalWithFloat
+        technicalWithFloat = (*i);
+
+      msrTechnicalWithFloat::msrTechnicalWithFloatKind
+        technicalWithFloatKind =
+          technicalWithFloat->getTechnicalWithFloatKind ();
+
+      int technicalWithFloatType = kComment; // JMI
+
+      switch (technicalWithFloatKind) {
+        case msrTechnicalWithFloat::kBend:
+          technicalWithFloatType = k_bend;
+          break;
+      } // switch
+
+      // create the technicalWithFloat element
+      stringstream s;
+
+      s << technicalWithFloat->getTechnicalWithFloatValue ();
+
+      Sxmlelement technicalWithFloatElement =
+        createElement (
+          technicalWithFloatType,
+          s.str ());
+
+      // append the note technicalWithFloats element to the current note element
+      appendSubElementToNoteNotationsTechnicals (
+        technicalWithFloatElement,
+        technicalWithFloat->getTechnicalWithFloatPlacementKind ());
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteTechnicalWithStrings (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteTechnicalWithStrings, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/* JMI
+<!ELEMENT technical
+	((up-bow | down-bow | harmonic | open-string |
+	  thumb-position | fingering | pluck | double-tongue |
+	  triple-tongue | stopped | snap-pizzicato | fret |
+	  string | hammer-on | pull-off | bend | tap | heel |
+	  toe | fingernails | hole | arrow | handbell |
+	  brass-bend | flip | smear | open | half-muted |
+	  harmon-mute | golpe | other-technical)*)>
+<!ATTLIST technical
+    %optional-unique-id;
+
+	  */
+
+  // append the technicalWithString elements if any
+  const list<S_msrTechnicalWithString>&
+    noteTechnicalWithStrings =
+      note->getNoteTechnicalWithStrings () ;
+
+  if (noteTechnicalWithStrings.size ()) {
+    list<S_msrTechnicalWithString>::const_iterator i;
+
+    for (i=noteTechnicalWithStrings.begin (); i!=noteTechnicalWithStrings.end (); i++) {
+      S_msrTechnicalWithString
+        technicalWithString = (*i);
+
+      msrTechnicalWithString::msrTechnicalWithStringKind
+        technicalWithStringKind =
+          technicalWithString->getTechnicalWithStringKind ();
+
+      int technicalWithStringType = kComment; // JMI
+
+      switch (technicalWithStringKind) {
+        case msrTechnicalWithString::kHammerOn:
+          technicalWithStringType = k_hammer_on;
+          break;
+        case msrTechnicalWithString::kHandbell:
+          technicalWithStringType = k_handbell;
+          break;
+        case msrTechnicalWithString::kOtherTechnical:
+          technicalWithStringType = k_other_technical;
+          break;
+        case msrTechnicalWithString::kPluck:
+          technicalWithStringType = k_pluck;
+          break;
+        case msrTechnicalWithString::kPullOff:
+          technicalWithStringType = k_pull_off;
+          break;
+      } // switch
+
+      // create the technicalWithString element
+      Sxmlelement technicalWithStringElement =
+        createElement (
+          technicalWithStringType,
+          technicalWithString->getTechnicalWithStringValue ());
+
+      // append the note technicalWithStrings element to the current note element
+      appendSubElementToNoteNotationsTechnicals (
+        technicalWithStringElement,
+        technicalWithString->getTechnicalWithStringPlacementKind ());
     } // for
   }
 }
@@ -2474,18 +2873,12 @@ void msr2MxmltreeTranslator:: appendNoteArticulations (S_msrNote note)
           break;
       } // switch
 
-      // create the note articulations element
-      Sxmlelement noteArticulationsElement = createElement (k_articulations, "");
-
       // create the articulation element
       Sxmlelement articulationElement = createElement (articulationType, "");
 
-      // append it to the note articulations element
-      noteArticulationsElement->push (articulationElement);
-
-      // append the note articulations element to the current note element
-      appendSubElementToNoteNotationsOrnaments (
-        noteArticulationsElement,
+      // append it to the current note notations articulations element
+      appendSubElementToNoteNotationsArticulations (
+        articulationElement,
         articulation->getArticulationPlacementKind ());
     } // for
   }
@@ -2563,9 +2956,9 @@ void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
           spannerNumber =
             spanner->getSpannerNumber ();
 
-  //      if (spannerNumber > 1) { JMI
+        if (spannerNumber > 0) {
           spannerElement->add (createIntegerAttribute ("number", spannerNumber));
-  //      }
+        }
 
         // set spannerElement's "type" attribute if relevant
         string
@@ -2667,9 +3060,9 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNoteElement (
           spannerNumber =
             spanner->getSpannerNumber ();
 
-  //      if (spannerNumber > 1) { JMI
+        if (spannerNumber > 1) {
           spannerElement->add (createIntegerAttribute ("number", spannerNumber));
-  //      }
+        }
 
         // set spannerElement's "type" attribute if relevant
         string
@@ -2729,6 +3122,12 @@ void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
 
   // append the articulation elements if any
   appendNoteArticulations (note);
+
+  // append the technical elements if any
+  appendNoteTechnicals (note);
+  appendNoteTechnicalWithIntegers (note);
+  appendNoteTechnicalWithFloats (note);
+  appendNoteTechnicalWithStrings (note);
 }
 
 //________________________________________________________________________
@@ -3290,14 +3689,14 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMesureIfRelevant (
   } // for
 
   // append the accidental if any
-  msrNote::msrNoteAccidentalKind
-    noteAccidentalKind =
+  msrAccidentalKind
+    accidentalKind =
       note->getNoteAccidentalKind ();
 
   string
     accidentalString =
-      msrNote::noteAccidentalKindAsMusicXMLString (
-        noteAccidentalKind);
+      accidentalKindAsMusicXMLString (
+        accidentalKind);
 
   if (accidentalString.size ()) {
     fCurrentNoteElement->push (
@@ -3460,8 +3859,10 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
   fCurrentNoteElement = nullptr;
 
   // forget about the note notations element
-  fCurrentNoteNotationsElement          = nullptr;
-  fCurrentNoteNotationsOrnamentsElement = nullptr;
+  fCurrentNoteNotationsElement              = nullptr;
+  fCurrentNoteNotationsOrnamentsElement     = nullptr;
+  fCurrentNoteNotationsArticulationsElement = nullptr;
+  fCurrentNoteNotationsTechnicalsElement    = nullptr;
 }
 
 //________________________________________________________________________
@@ -4744,65 +5145,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrOrnament& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrOrnament" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrSpanner& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrSpanner" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  switch (elt->getSpannerTypeKind ()) {
-    case kSpannerTypeStart:
-      break;
-    case kSpannerTypeStop:
-      break;
-    case kSpannerTypeContinue:
-      break;
-    case k_NoSpannerType:
-      break;
-  } // switch
-
-  if (fOnGoingNonGraceNote) {
-    fCurrentNonGraceNoteClone->
-      appendSpannerToNote (elt);
-  }
-
-  else if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendSpannerToChord (elt);
-  }
-  else {
-    stringstream s;
-
-    s <<
-      "spanner '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
-
-    msrInternalError (
-      gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
-      __FILE__, __LINE__,
-      s.str ());
-  }
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrSpanner& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrSpanner" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

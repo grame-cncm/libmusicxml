@@ -744,11 +744,11 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
   // should an editorial accidental be generated?
   switch (note->getNoteEditorialAccidentalKind ()) {
-    case msrNote::kNoteEditorialAccidentalYes:
+    case kEditorialAccidentalYes:
       s <<
         "\\editorialAccidental ";
       break;
-    case msrNote::kNoteEditorialAccidentalNo:
+    case kEditorialAccidentalNo:
       break;
   } // switch
 
@@ -885,7 +885,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
   // should an accidental be generated? JMI this can be fine tuned with cautionary
   switch (note->getNoteAccidentalKind ()) {
-    case msrNote::kNoteAccidentalNone:
+    case kAccidentalNone:
       break;
     default:
       s <<
@@ -893,13 +893,23 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       break;
   } // switch
 
-  // should a cautionary accidental be generated?
-  switch (note->getNoteCautionaryAccidentalKind ()) {
-    case msrNote::kNoteCautionaryAccidentalYes:
+  // should an editorial accidental be generated?
+  switch (note->getNoteEditorialAccidentalKind ()) {
+    case kEditorialAccidentalYes:
       s <<
         "?";
       break;
-    case msrNote::kNoteCautionaryAccidentalNo:
+    case kEditorialAccidentalNo:
+      break;
+  } // switch
+
+  // should a cautionary accidental be generated?
+  switch (note->getNoteCautionaryAccidentalKind ()) {
+    case kCautionaryAccidentalYes:
+      s <<
+        "?";
+      break;
+    case kCautionaryAccidentalNo:
       break;
   } // switch
 
@@ -2936,7 +2946,123 @@ void lpsr2LilypondTranslator::generateOrnament (
           break;
       } // switch
 
+string result; // JMI
       switch (ornament->getOrnamentAccidentalMark ()) {
+        case kAccidentalNone:
+          result = "accidentalNone";
+          break;
+
+        case kAccidentalSharp:
+          result = "accidentalSharp";
+          break;
+        case kAccidentalNatural:
+          result = "accidentalNatural";
+          break;
+        case kAccidentalFlat:
+          result = "accidentalFlat";
+          break;
+        case kAccidentalDoubleSharp:
+          result = "accidentalDoubleSharp";
+          break;
+        case kAccidentalSharpSharp:
+          result = "accidentalSharpSharp";
+          break;
+        case kAccidentalFlatFlat:
+          result = "accidentalFlatFlat";
+          break;
+        case kAccidentalNaturalSharp:
+          result = "accidentalNaturalSharp";
+          break;
+        case kAccidentalNaturalFlat:
+          result = "accidentalNaturalFlat";
+          break;
+        case kAccidentalQuarterFlat:
+          result = "accidentalQuarterFlat";
+          break;
+        case kAccidentalQuarterSharp:
+          result = "accidentalQuarterSharp";
+          break;
+        case kAccidentalThreeQuartersFlat:
+          result = "accidentalThreeQuartersFlat";
+          break;
+        case kAccidentalThreeQuartersSharp:
+          result = "accidentalThreeQuartersSharp";
+          break;
+
+        case kAccidentalSharpDown:
+          result = "accidentalSharpDown";
+          break;
+        case kAccidentalSharpUp:
+          result = "accidentalSharpUp";
+          break;
+        case kAccidentalNaturalDown:
+          result = "accidentalNaturalDown";
+          break;
+        case kAccidentalNaturalUp:
+          result = "accidentalNaturalUp";
+          break;
+        case kAccidentalFlatDown:
+          result = "accidentalFlatDown";
+          break;
+        case kAccidentalFlatUp:
+          result = "accidentalFlatUp";
+          break;
+        case kAccidentalTripleSharp:
+          result = "accidentalTripleSharp";
+          break;
+        case kAccidentalTripleFlat:
+          result = "accidentalTripleFlat";
+          break;
+        case kAccidentalSlashQuarterSharp:
+          result = "accidentalSlashQuarterSharp";
+          break;
+        case kAccidentalSlashSharp:
+          result = "accidentalSlashSharp";
+          break;
+        case kAccidentalSlashFlat:
+          result = "accidentalSlashFlat";
+          break;
+        case kAccidentalDoubleSlashFlat:
+          result = "accidentaldoubleSlashFlat";
+          break;
+        case kAccidentalSharp_1:
+          result = "accidentalSharp_1";
+          break;
+        case kAccidentalSharp_2:
+          result = "accidentalSharp_2";
+          break;
+        case kAccidentalSharp_3:
+          result = "accidentalSharp_3";
+          break;
+        case kAccidentalSharp_5:
+          result = "accidentalSharp_5";
+          break;
+        case kAccidentalFlat_1:
+          result = "accidentalFlat_1";
+          break;
+        case kAccidentalFlat_2:
+          result = "accidentalFlat_2";
+          break;
+        case kAccidentalFlat_3:
+          result = "accidentalFlat_3";
+          break;
+        case kAccidentalFlat_4:
+          result = "accidentalFlat_4";
+          break;
+        case kAccidentalSori:
+          result = "accidentalSori";
+          break;
+        case kAccidentalKoron:
+          result = "accidentalKoron";
+          break;
+
+        case kAccidentalOther:
+          result = "accidentalOther";
+          break;
+      } // switch
+
+
+/*
         case kTripleFlat:
           fLilypondCodeOstream << "\\markup { \\tripleflat } ";
           break;
@@ -2973,6 +3099,7 @@ void lpsr2LilypondTranslator::generateOrnament (
         case k_NoAlteration:
           break;
       } // switch
+      */
       break;
   } // switch
 }
