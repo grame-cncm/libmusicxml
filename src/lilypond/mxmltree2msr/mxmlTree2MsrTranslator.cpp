@@ -4712,7 +4712,6 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
     fCurrentTieKind = msrTie::kTieStop;
   }
   else {
-
     // inner tied notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs
     if (! fOnGoingSlur) {

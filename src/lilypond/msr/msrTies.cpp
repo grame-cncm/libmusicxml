@@ -98,17 +98,18 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
   stringstream s;
 
   switch (tieKind) {
-    case kTieStart:
+    case msrTie::kTieNone:
+      s << "tieNone";
+      break;
+    case msrTie::kTieStart:
       s << "tieStart";
       break;
-    case kTieContinue:
+    case msrTie::kTieContinue:
       s << "tieContinue";
       break;
-    case kTieStop:
+    case msrTie::kTieStop:
       s << "tieStop";
       break;
-    case kTieNone:
-      s << "tieNone";
   } // switch
 
   return s.str ();

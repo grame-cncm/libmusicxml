@@ -226,7 +226,12 @@ void msr2MxmltreeTranslator::appendOtherSubElementToMeasure (
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendOtherSubElementToMeasure(), elem = " <<
-// JMI      elem <<
+      endl;
+
+    elem->print (fLogOutputStream);
+
+    fLogOutputStream <<
+      endl <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1242,20 +1247,132 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
       }
       break;
     case kSopranoClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kMezzoSopranoClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kAltoClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kTenorClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kBaritoneClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kBassClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kTrebleLine1Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kTrebleMinus15Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kTrebleMinus8Clef:
       {
@@ -1278,29 +1395,213 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
       }
       break;
     case kTreblePlus8Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kTreblePlus15Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kBassMinus15Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kBassMinus8Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kBassPlus8Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kBassPlus15Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
     case kVarbaritoneClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
 
     case kTablature4Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
     case kTablature5Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
+      break;
     case kTablature6Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
     case kTablature7Clef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
 
     case kPercussionClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
+
     case kJianpuClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "G"));
+        clefElement->push (
+          createIntegerElement (
+            k_line,
+            2));
+
+        appendSubElementToAttributes (clefElement);
+      }
       break;
   } // switch
 }
@@ -2917,6 +3218,55 @@ void msr2MxmltreeTranslator:: appendNoteArticulations (S_msrNote note)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteTieIfAny (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteTechnicalWithStrings, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+  // append the tie element if any
+  S_msrTie noteTie = note->getNoteTie ();
+
+  if (noteTie) {
+    // create the tied element
+    Sxmlelement tiedElement = createElement (k_tied, "");
+
+    // set its type if any
+    string typeString;
+
+    switch (noteTie->getTieKind ()) {
+      case msrTie::kTieNone:
+        break;
+      case msrTie::kTieStart:
+        typeString = "start";
+        break;
+      case msrTie::kTieContinue:
+        typeString = "continue";
+        break;
+      case msrTie::kTieStop:
+        typeString = "stop";
+        break;
+    } // switch
+
+    if (typeString.size ()) {
+      tiedElement->add (
+        createAttribute ("type", typeString));
+    }
+
+    // append it to the current note notations element
+    appendSubElementToNoteNotations (
+      tiedElement,
+      kPlacementNone); // no placement for '<tied />'
+  }
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
   S_msrNote note)
 {
@@ -3160,6 +3510,9 @@ void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
   appendNoteTechnicalWithIntegers (note);
   appendNoteTechnicalWithFloats (note);
   appendNoteTechnicalWithStrings (note);
+
+  // append the tie element if any
+  appendNoteTieIfAny (note);
 }
 
 //________________________________________________________________________
@@ -3914,42 +4267,81 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
   }
 #endif
 
+  string barLStyleString;
+
   switch (elt->getBarlineStyleKind ()) {
     case msrBarline::kBarlineStyleNone:
       break;
     case msrBarline::kBarlineStyleRegular:
+      barLStyleString = "regular";
       break;
     case msrBarline::kBarlineStyleDotted:
+      barLStyleString = "dotted";
       break;
     case msrBarline::kBarlineStyleDashed:
+      barLStyleString = "dashed";
       break;
     case msrBarline::kBarlineStyleHeavy:
+      barLStyleString = "heavy";
       break;
     case msrBarline::kBarlineStyleLightLight:
+      barLStyleString = "light-light";
       break;
     case msrBarline::kBarlineStyleLightHeavy:
-      {
-        Sxmlelement barlineElement = createElement (k_barline, "");
-
-        barlineElement->add (createAttribute ("location", "right"));
-
-        barlineElement->push (
-          createElement (
-            k_bar_style,
-            "light-heavy"));
-
-        appendOtherSubElementToMeasure (barlineElement);
-      }
+      barLStyleString = "light-heavy";
       break;
     case msrBarline::kBarlineStyleHeavyLight:
+      barLStyleString = "heavy-light";
       break;
     case msrBarline::kBarlineStyleHeavyHeavy:
+      barLStyleString = "heavy-heavy";
       break;
     case msrBarline::kBarlineStyleTick:
+      barLStyleString = "tick";
       break;
     case msrBarline::kBarlineStyleShort:
+      barLStyleString = "short";
       break;
   } // switch
+
+  if (barLStyleString.size ()) {
+    // create the bar style element
+    Sxmlelement barStyleElement = createElement (k_bar_style, barLStyleString);
+
+    // create the barline element
+    Sxmlelement barlineElement = createElement (k_barline, "");
+
+    // set its location attribute if any
+    msrBarline::msrBarlineLocationKind
+      barlineLocationKind =
+        elt->getLocationKind ();
+
+    string barLineLocationString;
+
+    switch (barlineLocationKind) {
+      case msrBarline::kBarlineLocationNone:
+        break;
+      case msrBarline::kBarlineLocationLeft:
+        barLineLocationString = "left";
+        break;
+      case msrBarline::kBarlineLocationMiddle:
+        barLineLocationString = "middle";
+        break;
+      case msrBarline::kBarlineLocationRight:
+        barLineLocationString = "right";
+        break;
+    } // switch
+
+    if (barLineLocationString.size ()) {
+      barlineElement->add (createAttribute ("location", barLineLocationString));
+    }
+
+    // append the barline element to the barline element
+    barlineElement->push (barStyleElement);
+
+    // append the barline element to the measure element
+    appendOtherSubElementToMeasure (barlineElement);
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrBarline& elt)

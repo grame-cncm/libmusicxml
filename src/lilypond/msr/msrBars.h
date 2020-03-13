@@ -301,7 +301,7 @@ class msrBarline : public msrMeasureElement
     // ------------------------------------------------------
 
     msrBarlineLocationKind
-                          getLocation () const // JMI
+                          getLocationKind () const
                               { return fLocationKind; }
 
     msrBarlineStyleKind   getBarlineStyleKind () const

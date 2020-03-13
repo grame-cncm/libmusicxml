@@ -778,6 +778,11 @@ class msr2MxmltreeTranslator :
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 
+    // note ties
+    void                      appendNoteTieIfAny (S_msrNote note);
+
+    // slurs
+
 /*
     // glissandos
     // ------------------------------------------------------

@@ -43,7 +43,6 @@
         <duration>2</duration>
         <voice>1</voice>
         <type>half</type>
-        <tie type="start" />
         <notations>
           <tied type="start" />
         </notations>
@@ -56,7 +55,6 @@
         <duration>2</duration>
         <voice>1</voice>
         <type>half</type>
-        <tie type="stop" />
         <notations>
           <tied type="stop" />
         </notations>
@@ -74,7 +72,53 @@
         <bar-style>light-light</bar-style>
       </barline>
     </measure>
-    <measure number="2" />
+    <measure number="2">
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>half</type>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <notations>
+          <tied type="start" />
+        </notations>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>half</type>
+      </note>
+      <barline location="right">
+        <bar-style>light-light</bar-style>
+      </barline>
+    </measure>
     <measure number="3">
       <note>
         <pitch>
@@ -93,7 +137,6 @@
         <duration>2</duration>
         <voice>1</voice>
         <type>half</type>
-        <tie type="start" />
         <notations>
           <tied type="start" />
         </notations>
@@ -106,7 +149,6 @@
         <duration>2</duration>
         <voice>1</voice>
         <type>half</type>
-        <tie type="stop" />
         <notations>
           <tied type="stop" />
         </notations>
@@ -124,8 +166,7 @@
         <bar-style>light-light</bar-style>
       </barline>
     </measure>
-    <measure number="4" />
-    <measure number="5">
+    <measure number="4">
       <note>
         <pitch>
           <step>A</step>
@@ -143,7 +184,6 @@
         <duration>2</duration>
         <voice>1</voice>
         <type>half</type>
-        <tie type="start" />
         <notations>
           <tied type="start" />
         </notations>
@@ -156,7 +196,6 @@
         <duration>2</duration>
         <voice>1</voice>
         <type>half</type>
-        <tie type="stop" />
         <notations>
           <tied type="stop" />
         </notations>
@@ -174,57 +213,5 @@
         <bar-style>light-light</bar-style>
       </barline>
     </measure>
-    <measure number="6" />
-    <measure number="7">
-      <note>
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>half</type>
-      </note>
-      <note>
-        <pitch>
-          <step>B</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>half</type>
-        <tie type="start" />
-        <notations>
-          <tied type="start" />
-        </notations>
-      </note>
-      <note>
-        <pitch>
-          <step>B</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>half</type>
-        <tie type="stop" />
-        <notations>
-          <tied type="stop" />
-        </notations>
-      </note>
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>half</type>
-      </note>
-      <barline location="right">
-        <bar-style>light-light</bar-style>
-      </barline>
-    </measure>
-    <measure number="8" />
-    <measure number="9" />
   </part>
 </score-partwise>
