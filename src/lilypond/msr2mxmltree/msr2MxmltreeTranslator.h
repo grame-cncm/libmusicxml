@@ -739,10 +739,16 @@ class msr2MxmltreeTranslator :
     S_msrNote                 fPendingNoteAwaitingGraceNotes;
     Sxmlelement               fPendingNoteElement;
 
+    // stems
+    void                      appendStemToNote (S_msrNote note);
+
+    // beams
+    void                      appendBeamsToNote (S_msrNote note);
+
     // note notations
     Sxmlelement               fCurrentNoteNotationsElement;
 
-    void                      appendNoteNotations (S_msrNote note);
+    void                      appendNoteNotationsToNote (S_msrNote note);
 
     void                      appendSubElementToNoteNotations (
                                 Sxmlelement      elem,
@@ -782,6 +788,7 @@ class msr2MxmltreeTranslator :
     void                      appendNoteTieIfAny (S_msrNote note);
 
     // slurs
+    void                      appendNoteSlursIfAny (S_msrNote note);
 
 /*
     // glissandos

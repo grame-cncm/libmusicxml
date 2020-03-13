@@ -197,7 +197,7 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMeasure (
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteSubElementToMeasure(), elem = " <<
-// JMI      elem <<
+      ", elem: " << xmlelementAsString (elem) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -225,13 +225,8 @@ void msr2MxmltreeTranslator::appendOtherSubElementToMeasure (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendOtherSubElementToMeasure(), elem = " <<
-      endl;
-
-    elem->print (fLogOutputStream);
-
-    fLogOutputStream <<
-      endl <<
+      "--> appendOtherSubElementToMeasure()" <<
+      ", elem: " << xmlelementAsString (elem) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1204,31 +1199,16 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
   }
 #endif
 
-/*
-      switch (fCurrentClefOctaveChange) {
-        case -2:
-          clefKind = kTrebleMinus15Clef;
-          break;
-        case -1:
-          clefKind = kTrebleMinus8Clef;
-          break;
-        case 0:
-          clefKind = kTrebleClef;
-          break;
-        case +1:
-          clefKind = kTreblePlus8Clef;
-          break;
-        case +2:
-          clefKind = kTreblePlus15Clef;
-          break;
-        default:
-          {
-            // should not occur
-          }
-      } // switch
-*/
   switch (elt->getClefKind ()) {
     case k_NoClef:
+      {
+        Sxmlelement clefElement = createElement (k_clef, "");
+
+        clefElement->push (
+          createElement (
+            k_sign,
+            "none"));
+      }
       break;
     case kTrebleClef:
       {
@@ -1333,11 +1313,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "F"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            4));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1353,7 +1333,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            1));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1370,6 +1350,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
           createIntegerElement (
             k_line,
             2));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
+            -2));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1406,6 +1390,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
           createIntegerElement (
             k_line,
             2));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
+            1));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1422,6 +1410,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
           createIntegerElement (
             k_line,
             2));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
+            2));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1433,11 +1425,15 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "F"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            4));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
+            -2));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1449,11 +1445,15 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "F"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            4));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
+            -1));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1465,11 +1465,15 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "F"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            4));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
+            1));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1481,10 +1485,14 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "F"));
         clefElement->push (
           createIntegerElement (
             k_line,
+            4));
+        clefElement->push (
+          createIntegerElement (
+            k_clef_octave_change,
             2));
 
         appendSubElementToAttributes (clefElement);
@@ -1497,11 +1505,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "F"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            3));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1514,11 +1522,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "tab"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            4));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1529,11 +1537,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "tab"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            5));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1545,11 +1553,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "tab"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            6));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1560,11 +1568,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
+            "tab"));
         clefElement->push (
           createIntegerElement (
             k_line,
-            2));
+            7));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1577,11 +1585,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
+            "percussion"));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1594,11 +1598,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
         clefElement->push (
           createElement (
             k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
+            "jianpu"));
 
         appendSubElementToAttributes (clefElement);
       }
@@ -1640,7 +1640,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
         Sxmlelement keyElement = createElement (k_key, "");
 
         // compute the number of fifths
-        int fifthsNumber = -1;
+        const int K_NO_FIFTHS_NUMBER = -99;
+        int       fifthsNumber = K_NO_FIFTHS_NUMBER;
 
         msrQuarterTonesPitchKind
           keyTonicQuarterTonesPitchKind =
@@ -1730,7 +1731,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
             break;
         } // switch
 
-        if (fifthsNumber >= 0) {
+        if (fifthsNumber != K_NO_FIFTHS_NUMBER) {
           // populate the key element
           keyElement->push (
             createIntegerElement (
@@ -1750,11 +1751,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
           stringstream s;
 
           s <<
-            "keyTonicQuarterTonesPitchKind '" <<
-            msrQuarterTonesPitchKindAsString (
-              gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
-              keyTonicQuarterTonesPitchKind) <<
-            "' cannot be appendd";
+            "key fifthsNumber not specified for key '" <<
+            elt->asShortString ();
 
           msrInternalError (
             gOahOah->fInputSourceName,
@@ -3267,6 +3265,80 @@ void msr2MxmltreeTranslator:: appendNoteTieIfAny (
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteSlursIfAny (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteSlursIfAny, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+  // append the slur elements if any
+  const list<S_msrSlur>&
+    noteSlurs =
+      note->getNoteSlurs () ;
+
+  if (noteSlurs.size ()) {
+    list<S_msrSlur>::const_iterator i;
+
+    for (i=noteSlurs.begin (); i!=noteSlurs.end (); i++) {
+      S_msrSlur
+        slur = (*i);
+
+      msrSlur::msrSlurTypeKind
+        slurTypeKind =
+          slur->getSlurTypeKind ();
+
+      // create the slur element
+      Sxmlelement slurElement = createElement (k_slur, "");
+
+      // create the slur number attribute
+      int slurNumber = slur->getSlurNumber ();
+
+      if (slurNumber > 0) {
+        slurElement->add (createIntegerAttribute ("number", slurNumber));
+      }
+
+      // create the slur type attribute
+      string slurTypeString;
+
+      switch (slurTypeKind) {
+        case msrSlur::k_NoSlur:
+          break;
+        case msrSlur::kRegularSlurStart:
+          slurTypeString = "start";
+          break;
+        case msrSlur::kPhrasingSlurStart:
+          slurTypeString = "start";
+          break;
+        case msrSlur::kSlurContinue:
+          slurTypeString = "slurContinue";
+          break;
+        case msrSlur::kRegularSlurStop:
+          slurTypeString = "stop";
+          break;
+        case msrSlur::kPhrasingSlurStop:
+          slurTypeString = "stop";
+          break;
+      } // switch
+
+      if (slurTypeString.size ()) {
+        slurElement->add (createAttribute ("type", slurTypeString));
+      }
+
+      // append the slur element to the current note note notations element
+      appendSubElementToNoteNotations (
+        slurElement,
+        kPlacementNone); // no placement for '<slur />'
+    } // for
+  }
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
   S_msrNote note)
 {
@@ -3475,12 +3547,116 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNoteElement (
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
+void msr2MxmltreeTranslator:: appendStemToNote (S_msrNote note)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendNoteNotations, note = " <<
+      "--> appendStemToNote, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+  S_msrStem stem = note->getNoteStem ();
+
+  if (stem) {
+    msrStem::msrStemKind
+      stemKind = stem->getStemKind ();
+
+    string stemString;
+
+    switch (stemKind) {
+      case msrStem::kStemNone:
+        stemString = "none";
+        break;
+      case msrStem::kStemUp:
+        stemString = "up";
+        break;
+      case msrStem::kStemDown:
+        stemString = "down";
+        break;
+      case msrStem::kStemDouble:
+        stemString = "double";
+        break;
+    } // switch
+
+    // append a slur element to the current note element
+    fCurrentNoteElement->push (
+      createElement (
+        k_stem,
+        stemString));
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendBeamsToNote (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendBeamsToNote, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+  // append the beam elements if any
+  const list<S_msrBeam>&
+    noteBeams =
+      note->getNoteBeams () ;
+
+  if (noteBeams.size ()) {
+    list<S_msrBeam>::const_iterator i;
+
+    for (i=noteBeams.begin (); i!=noteBeams.end (); i++) {
+      S_msrBeam beam = (*i);
+
+      msrBeam::msrBeamKind
+        beamKind =
+          beam->getBeamKind ();
+
+      // create a beam element
+      string beamString;
+
+      switch (beamKind) {
+        case msrBeam::k_NoBeam:
+          break;
+        case msrBeam::kBeginBeam:
+          beamString = "begin";
+          break;
+        case msrBeam::kContinueBeam:
+          beamString = "continue";
+          break;
+        case msrBeam::kEndBeam:
+          beamString = "end";
+          break;
+        case msrBeam::kForwardHookBeam:
+          beamString = "forward hook";
+          break;
+        case msrBeam::kBackwardHookBeam:
+          beamString = "backward hook";
+          break;
+      } // switch
+
+      Sxmlelement beamElement = createElement (k_beam, beamString);
+
+      // set its number attribute
+      beamElement->add (createIntegerAttribute ("number", beam->getBeamNumber ()));
+
+      // append the beam element to the current note element
+      fCurrentNoteElement->push (beamElement);
+    } // for
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteNotationsToNote, note = " <<
       note->asShortString () <<
       endl;
   }
@@ -3513,6 +3689,8 @@ void msr2MxmltreeTranslator:: appendNoteNotations (S_msrNote note)
 
   // append the tie element if any
   appendNoteTieIfAny (note);
+  // append the slur elements if any
+  appendNoteSlursIfAny (note);
 }
 
 //________________________________________________________________________
@@ -4090,8 +4268,14 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMesureIfRelevant (
         accidentalString));
   }
 
+  // append the stem if any
+  appendStemToNote (note);
+
+  // append the beams if any
+  appendBeamsToNote (note);
+
   // append the articulations if any
-  appendNoteNotations (note);
+  appendNoteNotationsToNote (note);
 
   // append the note element to the current measure element right now,
   // unless it contains a grace notes group
@@ -4851,7 +5035,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFiguredBass& elt)
 
     s <<
       "figured bass '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5055,7 +5239,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSyllable& elt)
 
     s <<
       "syllable '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5209,7 +5393,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFermata& elt)
 
     s <<
       "fermata '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5242,7 +5426,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrArpeggiato& elt)
 
     s <<
       "arpeggiato '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5279,7 +5463,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNonArpeggiato& elt)
 
     s <<
       "nonArpeggiato '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5314,7 +5498,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnical& elt)
 
     s <<
       "technical '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5401,7 +5585,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 
     s <<
       "technicalWithInteger '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5448,7 +5632,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithFloat& elt)
 
     s <<
       "technicalWithFloat '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5495,7 +5679,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithString& elt)
 
     s <<
       "technicalWithString '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5553,7 +5737,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOrnament& elt)
 
     s <<
       "ornament '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5600,7 +5784,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrGlissando& elt)
 
     s <<
       "glissando '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5653,7 +5837,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSlide& elt)
 
     s <<
       "slide '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5700,7 +5884,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSingleTremolo& elt)
 
     s <<
       "singleTremolo '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5820,7 +6004,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDynamics& elt)
 
     s <<
       "dynamics '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5867,7 +6051,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOtherDynamics& elt)
 
     s <<
       "otherDynamics '" << elt->asShortString () <<
-      "' is out of context, cannot be appendd";
+      "' is out of context, cannot be append";
 
     msrInternalError (
       gOahOah->fInputSourceName,

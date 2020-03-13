@@ -28,6 +28,9 @@ namespace MusicXML2
 {
 
 //------------------------------------------------------------------------
+string xmlelementAsString (Sxmlelement elem);
+
+//------------------------------------------------------------------------
 Sxmlelement createElement (int type, const string& value);
 
 Sxmlelement createIntegerElement (int type, int value);

@@ -99,16 +99,16 @@ string msrStem::stemKindAsString (
   string result;
 
   switch (stemKind) {
-    case kStemNone:
+    case msrStem::kStemNone:
       result = "stemNone";
       break;
-    case kStemUp:
+    case msrStem::kStemUp:
       result = "stemUp";
       break;
-    case kStemDown:
+    case msrStem::kStemDown:
       result = "stemDown";
       break;
-    case kStemDouble:
+    case msrStem::kStemDouble:
       result = "stemDouble";
       break;
   } // switch

@@ -27,6 +27,25 @@ using namespace std;
 namespace MusicXML2
 {
 
+//________________________________________________________________________
+string xmlelementAsString (Sxmlelement elem)
+{
+  int                 elemType = elem->getType ();
+  const std::string&  elemName = elem->getName ();
+  const std::vector<Sxmlattribute>&
+                      elemAttributes = elem->attributes();
+
+  stringstream s;
+
+  s <<
+    "xmlelement " <<
+    ", elemType: " << elemType <<
+    ", elemName: " << elemName <<
+    ", elemAttributes.size ():" << elemAttributes.size ();
+
+  return s.str ();
+}
+
 //------------------------------------------------------------------------
 Sxmlelement createElement (int type, const string& value)
 {

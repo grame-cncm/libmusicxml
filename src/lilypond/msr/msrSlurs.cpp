@@ -106,6 +106,9 @@ string msrSlur::slurTypeKindAsString (
   stringstream s;
 
   switch (slurTypeKind) {
+    case msrSlur::k_NoSlur:
+      s << "Slur" << slurTypeKind << "???";
+      break;
     case msrSlur::kRegularSlurStart:
       s << "regularSlurStart";
       break;
@@ -121,8 +124,6 @@ string msrSlur::slurTypeKindAsString (
     case msrSlur::kPhrasingSlurStop:
       s << "phrasingSlurStop";
       break;
-    case msrSlur::k_NoSlur:
-      s << "Slur" << slurTypeKind << "???";
   } // switch
 
   return s.str ();

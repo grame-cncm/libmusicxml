@@ -12,7 +12,9 @@
     </encoding>
   </identification>
   <part-list>
-    <score-part id="P1" />
+    <score-part id="P1">
+      <part-name />
+    </score-part>
   </part-list>
   <part id="P1">
     <measure number="1">
@@ -37,8 +39,8 @@
           <octave>3</octave>
         </pitch>
         <duration>2</duration>
-        <type>quarter</type>
         <voice>1</voice>
+        <type>quarter</type>
       </note>
       <note>
         <pitch>
@@ -47,10 +49,10 @@
           <octave>3</octave>
         </pitch>
         <duration>1</duration>
-        <type>eighth</type>
-        <voice>1</voice>
-        <accidental>flat</accidental>
         <tie type="start" />
+        <voice>1</voice>
+        <type>eighth</type>
+        <accidental>flat</accidental>
         <notations>
           <tied type="start" />
         </notations>
@@ -62,10 +64,10 @@
           <octave>3</octave>
         </pitch>
         <duration>1</duration>
-        <type>eighth</type>
-        <voice>1</voice>
-        <accidental>flat</accidental>
         <tie type="stop" />
+        <voice>1</voice>
+        <type>eighth</type>
+        <accidental>flat</accidental>
         <notations>
           <tied type="stop" />
           <slur number="1" type="start" />
@@ -77,8 +79,8 @@
           <octave>4</octave>
         </pitch>
         <duration>1</duration>
-        <type>eighth</type>
         <voice>1</voice>
+        <type>eighth</type>
       </note>
       <note>
         <pitch>
@@ -86,8 +88,8 @@
           <octave>3</octave>
         </pitch>
         <duration>1</duration>
-        <type>eighth</type>
         <voice>1</voice>
+        <type>eighth</type>
         <notations>
           <slur number="1" type="stop" />
         </notations>
