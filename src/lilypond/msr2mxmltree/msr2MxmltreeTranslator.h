@@ -270,14 +270,15 @@ class msr2MxmltreeTranslator :
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
+*/
 
   // parts & part groups
 
     virtual void visitStart (S_msrPartGroup& elt);
     virtual void visitEnd   (S_msrPartGroup& elt);
-*/
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
+
 /*
     virtual void visitStart (S_msrStaffTuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
@@ -469,10 +470,10 @@ class msr2MxmltreeTranslator :
     virtual void visitEnd   (S_msrVarValAssoc& elt);
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
-
+*/
     virtual void visitStart (S_msrScaling& elt);
     virtual void visitEnd   (S_msrScaling& elt);
-
+/*
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);
 
@@ -593,6 +594,7 @@ class msr2MxmltreeTranslator :
     bool                      fWorkTitleKnown;
     bool                      fMovementNumberKnown;
     bool                      fMovementTitleKnown;
+*/
 
 
     // part groups
@@ -602,7 +604,6 @@ class msr2MxmltreeTranslator :
     // partGroup's can be nested, hence this stack
     // the current partGroup is the top of the stack
     stack<S_msrPartGroup>     fPartGroupsStack;
-*/
 
     // current part
     // ------------------------------------------------------

@@ -39,6 +39,8 @@ S_msrPartGroup msrPartGroup::create (
   string                   partGroupAbbreviation,
   msrPartGroupSymbolKind   partGroupSymbolKind,
   int                      partGroupSymbolDefaultX,
+  msrPartGroupImplicitKind partGroupImplicitKind,
+  msrPartGroupTypeKind     partGroupTypeKind,
   msrPartGroupBarlineKind  partGroupBarlineKind,
   S_msrPartGroup           partGroupPartGroupUpLink,
   S_msrScore               partGroupScoreUpLink)
@@ -55,6 +57,7 @@ S_msrPartGroup msrPartGroup::create (
       partGroupSymbolKind,
       partGroupSymbolDefaultX,
       msrPartGroup::kPartGroupImplicitNo,
+      partGroupTypeKind,
       partGroupBarlineKind,
       partGroupPartGroupUpLink,
       partGroupScoreUpLink);
@@ -84,6 +87,7 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
       msrPartGroup::kPartGroupSymbolNone, // partGroupSymbolKind
       0,                                  // partGroupSymbolDefaultX,
       msrPartGroup::kPartGroupImplicitYes,
+      msrPartGroup::kPartGroupTypeNone,
       partGroupBarlineKind,
       0,                                  // partGroupPartGroupUpLink,
                                           // will be set below
@@ -91,7 +95,7 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
   assert(o!=0);
 
   // the implicit part group it the top-most one:
-  // set its group upLink points to itself
+  // set its group upLink to point to itself
   o->fPartGroupPartGroupUpLink = o;
 
   return o;
@@ -108,6 +112,7 @@ msrPartGroup::msrPartGroup (
   msrPartGroupSymbolKind   partGroupSymbolKind,
   int                      partGroupSymbolDefaultX,
   msrPartGroupImplicitKind partGroupImplicitKind,
+  msrPartGroupTypeKind     partGroupTypeKind,
   msrPartGroupBarlineKind  partGroupBarlineKind,
   S_msrPartGroup           partGroupPartGroupUpLink,
   S_msrScore               partGroupScoreUpLink)
@@ -156,6 +161,8 @@ msrPartGroup::msrPartGroup (
   fPartGroupSymbolDefaultX  = partGroupSymbolDefaultX;
 
   fPartGroupImplicitKind    = partGroupImplicitKind;
+
+  fPartGroupTypeKind        = partGroupTypeKind;
 
   fPartGroupBarlineKind     = partGroupBarlineKind;
 
@@ -216,12 +223,11 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
         fPartGroupAbbreviation,
         fPartGroupSymbolKind,
         fPartGroupSymbolDefaultX,
+        fPartGroupImplicitKind,
+        fPartGroupTypeKind,
         fPartGroupBarlineKind,
         partGroupClone,
         scoreClone);
-
-  newbornClone->fPartGroupImplicitKind =
-    fPartGroupImplicitKind;
 
   newbornClone->fPartGroupInstrumentName =
     fPartGroupInstrumentName;
@@ -985,6 +991,13 @@ void msrPartGroup::print (ostream& os) const
     "partGroupImplicit" << " : " <<
     partGroupImplicitKindAsString (
       fPartGroupImplicitKind) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "partGroupTypeKind" << " : " <<
+    partGroupTypeKindAsString (
+      fPartGroupTypeKind) <<
     endl;
 
   os << left <<

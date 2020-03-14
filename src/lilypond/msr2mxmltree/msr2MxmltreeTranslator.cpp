@@ -132,7 +132,7 @@ void msr2MxmltreeTranslator::appendSubElementToScoreDefaults (
   Sxmlelement elem)
 {
   if (! fScoreDefaultsElement) {
-    // create an defaults element
+    // create a defaults element
     fScoreDefaultsElement = createElement (k_defaults, "");
   }
 
@@ -577,7 +577,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
 #endif
 }
 
-/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
 {
@@ -592,71 +591,39 @@ void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
 
   gIndenter++;
 
-  // create a scaling clone
-  S_msrScaling
-    geometryClone =
-      elt->createMsrScalingNewbornClone ();
+  float
+    millimeters = elt->getMillimeters (),
+    tenths      = elt->getTenths ();
 
-  // register it in current MSR score clone
-  fCurrentMsrScoreClone-> // JMI BLARK ???
-    setScaling (
-      geometryClone);
+  // create a scaling element
+  Sxmlelement scalingElement = createElement (k_scaling, "");
 
-  // get LPSR score paper
-  S_lpsrPaper
-    paper =
-      fScorePartWiseElement->getScorePaper ();
+  // append a millimeters sub-element to it
+  {
+    stringstream s;
 
-  // sanity check
-  msrAssert (
-    paper != nullptr,
-    "paper is null");
+    s << millimeters;
 
-  // populate LPSR score global staff size
-  float globalStaffSize = 0.0;
-
-  if (
-    gLpsrOah->fGlobalStaffSize
-      !=
-    gLpsrOah->fStaffGlobalSizeDefaultValue
-  ) {
-    // the LPSR option value takes precedence
-    globalStaffSize =
-      gLpsrOah->fGlobalStaffSize;
+    scalingElement->push (
+      createElement (
+        k_millimeters,
+        s.str ()));
   }
 
-  else {
-    // fetch LPSR score global staff size
-    globalStaffSize =
-      elt->fetchGlobalStaffSize ();
+  // append a tenths sub-element to it
+  {
+    stringstream s;
+
+    s << tenths;
+
+    scalingElement->push (
+      createElement (
+        k_tenths,
+        s.str ()));
   }
 
-  // set score global staff size Scheme variable
-  fScorePartWiseElement->
-    setScoreGlobalStaffSizeSchemeVariable (
-      globalStaffSize);
-
-  // get LPSR score block layout
-  S_lpsrLayout
-    scoreBlockLayout =
-      fScorePartWiseElement->getScoreLayout ();
-
-  // create the score block layout staff-size Scheme assoc
-  stringstream s;
-  s << globalStaffSize;
-  S_lpsrSchemeVariable
-    assoc =
-      lpsrSchemeVariable::create (
-        K_NO_INPUT_LINE_NUMBER, // JMI
-        lpsrSchemeVariable::kCommentedYes,
-        "layout-set-staff-size",
-        s.str (),
-        "Uncomment and adapt next line as needed (default is 20)",
-        lpsrSchemeVariable::kEndlOnce);
-
-  // populate score block layout
-  scoreBlockLayout->
-    addSchemeVariable (assoc);
+  // append the scaling element to the score defaults elements
+  appendSubElementToScoreDefaults (scalingElement);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrScaling& elt)
@@ -673,6 +640,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScaling& elt)
 #endif
 }
 
+/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
 {
@@ -731,112 +699,165 @@ void msr2MxmltreeTranslator::visitEnd (S_msrCreditWords& elt)
   }
 #endif
 }
-
+*/
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPartGroup " <<
       elt->getPartGroupCombinedName () <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // create a partGroup clone
-  // current partGroup clone, i.e. the top of the stack,
-  // is the upLink of the new one if it exists
-  S_msrPartGroup
-    partGroupClone =
-      elt->createPartGroupNewbornClone (
-        fPartGroupsStack.size ()
-          ? fPartGroupsStack.top ()
-          : nullptr,
-        fScorePartWiseElement->getMsrScore ());
+  switch (elt->getPartGroupImplicitKind ()) {
+    case msrPartGroup::kPartGroupImplicitYes:
+      // this is an MSR concept, ignore this part group
+      break;
 
-  // push it onto this visitors's stack,
-  // making it the current partGroup block
-#ifdef TRACE_OAH
-  if (gTraceOah->fTracePartGroups) {
-    fLogOutputStream <<
-      "Pushing part group clone " <<
-      partGroupClone->getPartGroupCombinedName () <<
-      " onto stack" <<
-      endl;
-  }
-#endif
+    case msrPartGroup::kPartGroupImplicitNo:
+      {
+        // create a start comment
+        stringstream s;
+        s <<
+          " ==================== " <<
+          "Part-group " <<
+          elt->getPartGroupAbsoluteNumber () <<
+          " START" <<
+            ", line " << inputLineNumber <<
+          " ==================== ";
+        Sxmlelement comment = createElement (kComment, s.str ());
 
-  fPartGroupsStack.push (
-    partGroupClone);
+        // append it to the current part list element
+        fScorePartListElement->push (comment);
 
-/ * JMI
-  // add it to the MSR score clone
-  fCurrentMsrScoreClone->
-    addPartGroupToScore (fCurrentPartGroupClone);
-* /
+        // create a part group element
+        Sxmlelement scorePartGroupElement = createElement (k_part_group, "");
+
+        // set it's "number" attribute
+        scorePartGroupElement->add (
+          createIntegerAttribute (
+            "number", elt->getPartGroupNumber ()));
+
+        // set it's "type" attribute
+        string partGroupTypeString;
+
+        switch (elt->getPartGroupTypeKind ()) {
+          case msrPartGroup::kPartGroupTypeNone:
+            break;
+          case msrPartGroup::kPartGroupTypeStart:
+            partGroupTypeString = "start";
+            break;
+          case msrPartGroup::kPartGroupTypeStop:
+            partGroupTypeString = "stop";
+            break;
+        } // switch
+
+        scorePartGroupElement->add (createAttribute ("type", partGroupTypeString));
+
+        // create a group symbol element to the part group element
+        string groupSymbolString;
+
+        switch (elt->getPartGroupSymbolKind ()) {
+          case msrPartGroup::kPartGroupSymbolNone:
+            break;
+          case msrPartGroup::kPartGroupSymbolBrace:
+            groupSymbolString = "brace";
+            break;
+          case msrPartGroup::kPartGroupSymbolBracket:
+            groupSymbolString = "bracket";
+            break;
+          case msrPartGroup::kPartGroupSymbolLine:
+            groupSymbolString = "line";
+            break;
+          case msrPartGroup::kPartGroupSymbolSquare:
+            groupSymbolString = "square";
+            break;
+        } // switch
+
+        Sxmlelement groupSymbolElement =
+          createElement (
+            k_group_symbol,
+            groupSymbolString);
+
+        // set its default X attribute
+        groupSymbolElement->add (
+          createIntegerAttribute (
+            "default-x",
+            elt->getPartGroupSymbolDefaultX ()));
+
+        // append it to the part group element
+        scorePartGroupElement->push (groupSymbolElement);
+
+        // append a group barline element to the part group element
+        string groupBarlineString;
+
+        switch (elt->getPartGroupBarlineKind ()) {
+          case msrPartGroup::kPartGroupBarlineYes:
+            groupBarlineString = "yes";
+            break;
+          case msrPartGroup::kPartGroupBarlineNo:
+            groupBarlineString = "no";
+            break;
+        } // switch
+
+        scorePartGroupElement->push (
+          createElement (
+            k_group_barline,
+            groupBarlineString));
+
+        // append the part group element to the part list element
+        fScorePartListElement->push (scorePartGroupElement);
+      }
+      break;
+  } // switch
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPartGroup " <<
       elt->getPartGroupCombinedName () <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  S_msrPartGroup
-    currentPartGroup =
-      fPartGroupsStack.top ();
+  switch (elt->getPartGroupImplicitKind ()) {
+    case msrPartGroup::kPartGroupImplicitYes:
+      // this is an MSR concept, ignore this part group
+      break;
 
-  if (fPartGroupsStack.size () == 1) {
-    // add the current partgroup clone to the MSR score clone
-    // if it is the top-level one, i.e it's alone in the stack
+    case msrPartGroup::kPartGroupImplicitNo:
+      {
+        // create an end comment
+        stringstream s;
+        s <<
+          " ==================== " <<
+          "Part-group " <<
+          elt->getPartGroupAbsoluteNumber () <<
+          " END" <<
+            ", line " << inputLineNumber <<
+          " ==================== ";
+        Sxmlelement comment = createElement (kComment, s.str ());
 
-#ifdef TRACE_OAH
-    if (gTraceOah->fTracePartGroups) {
-      fLogOutputStream <<
-        "Adding part group clone " <<
-        currentPartGroup->getPartGroupCombinedName () <<
-        " to MSR score" <<
-        endl;
-    }
-#endif
-
-    fCurrentMsrScoreClone->
-      addPartGroupToScore (currentPartGroup);
-
-    fPartGroupsStack.pop ();
-  }
-
-  else {
-
-    // pop current partGroup from this visitors's stack
-#ifdef TRACE_OAH
-    if (gTraceOah->fTracePartGroups) {
-      fLogOutputStream <<
-        "Popping part group clone " <<
-        fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-        " from stack" <<
-        endl;
-    }
-#endif
-
-    fPartGroupsStack.pop ();
-
-    // append the current part group to the one one level higher,
-    // i.e. the new current part group
-    fPartGroupsStack.top ()->
-      appendSubPartGroupToPartGroup (
-        currentPartGroup);
-  }
+        // append it to the current part list element
+        fScorePartListElement->push (comment);
+      }
+      break;
+  } // switch
 }
-*/
 
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)

@@ -53,7 +53,7 @@ class msrPartGroup : public msrPartGroupElement
     // data types
     // ------------------------------------------------------
 
-    enum msrPartGroupImplicitKind {
+    enum msrPartGroupImplicitKind { // an MSR concept, not present in MusicXML
         kPartGroupImplicitYes, kPartGroupImplicitNo};
 
     static string partGroupImplicitKindAsString (
@@ -93,6 +93,8 @@ class msrPartGroup : public msrPartGroupElement
       string                   partGroupAbbreviation,
       msrPartGroupSymbolKind   partGroupSymbolKind,
       int                      partGroupSymbolDefaultX,
+      msrPartGroupImplicitKind partGroupImplicitKind,
+      msrPartGroupTypeKind     partGroupTypeKind,
       msrPartGroupBarlineKind  partGroupBarlineKind,
       S_msrPartGroup           partGroupPartGroupUpLink,
       S_msrScore               partGroupScoreUpLink);
@@ -108,7 +110,7 @@ class msrPartGroup : public msrPartGroupElement
       S_msrScore               partGroupScoreUpLink);
 
     SMARTP<msrPartGroup> createPartGroupNewbornClone (
-      S_msrPartGroup partGroupClone, // the upLink for embeddeed part groups
+      S_msrPartGroup partGroupClone, // the upLink for nested part groups
       S_msrScore     scoreClone);
 
   protected:
@@ -127,6 +129,7 @@ class msrPartGroup : public msrPartGroupElement
       msrPartGroupSymbolKind   partGroupSymbolKind,
       int                      partGroupSymbolDefaultX,
       msrPartGroupImplicitKind partGroupImplicitKind,
+      msrPartGroupTypeKind     partGroupTypeKind,
       msrPartGroupBarlineKind  partGroupBarlineKind,
       S_msrPartGroup           partGroupPartGroupUpLink,
       S_msrScore               partGroupScoreUpLink);
@@ -180,6 +183,8 @@ class msrPartGroup : public msrPartGroupElement
     string                getPartGroupAbbreviation () const
                               { return fPartGroupAbbreviation; }
 
+    // symbol
+
     msrPartGroupSymbolKind
                           getPartGroupSymbolKind () const
                               { return fPartGroupSymbolKind; }
@@ -187,18 +192,31 @@ class msrPartGroup : public msrPartGroupElement
     int                   getPartGroupSymbolDefaultX () const
                               { return fPartGroupSymbolDefaultX; }
 
+    // implicit
+
     msrPartGroupImplicitKind
                           getPartGroupImplicitKind () const
                               { return fPartGroupImplicitKind; }
+
+    // type
+
+    msrPartGroupTypeKind  getPartGroupTypeKind () const
+                              { return fPartGroupTypeKind; }
+
+    // barline
 
     msrPartGroupBarlineKind
                           getPartGroupBarlineKind () const
                               { return fPartGroupBarlineKind; }
 
+    // instrument name
+
     void                  setPartGroupInstrumentName (string name);
 
     string                getPartGroupInstrumentName () const
                               { return fPartGroupInstrumentName; }
+
+    // elements
 
     const list<S_msrPartGroupElement>&
                           getPartGroupElements () const
@@ -306,6 +324,10 @@ class msrPartGroup : public msrPartGroupElement
 
     msrPartGroupImplicitKind
                           fPartGroupImplicitKind;
+
+    // type
+
+    msrPartGroupTypeKind  fPartGroupTypeKind;
 
     // bar line
 

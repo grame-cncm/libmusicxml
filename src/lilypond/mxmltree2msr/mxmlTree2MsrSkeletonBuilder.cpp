@@ -1002,6 +1002,8 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
         fCurrentPartGroupAbbreviation,
         fCurrentPartGroupSymbolKind,
         fCurrentPartGroupSymbolDefaultX,
+        msrPartGroup::kPartGroupImplicitNo,
+        fCurrentPartGroupTypeKind,
         fCurrentPartGroupBarlineKind,
         0, // partGroupPartGroupUpLink will be set upon 'stop'
         fMsrScore);
@@ -3155,7 +3157,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   string printObject = elt->getAttributeValue ("print-object"); // JMI
 
   // handle part group type
+
   switch (fCurrentPartGroupTypeKind) {
+    case msrPartGroup::kPartGroupTypeNone:
+      // should not occur
+      break;
 
     case msrPartGroup::kPartGroupTypeStart:
       fCurrentPartGroupName = "";
@@ -3168,10 +3174,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
       break;
 
     case msrPartGroup::kPartGroupTypeStop:
-      break;
-
-    case msrPartGroup::kPartGroupTypeNone:
-      // should not occur
       break;
   } // switch
 }
