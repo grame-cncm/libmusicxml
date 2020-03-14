@@ -505,7 +505,7 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreWorkElement;
 
-    void                      appendSubElementToWork (
+    void                      appendSubElementToScoreWork (
                                 Sxmlelement elem);
 
     // movement number
@@ -527,9 +527,9 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreIdentificationEncodingElement;
 
-    void                      appendSubElementToIdentification (
+    void                      appendSubElementToScoreIdentification (
                                 Sxmlelement elem);
-    void                      appendSubElementToIdentificationEncoding (
+    void                      appendSubElementToScoreIdentificationEncoding (
                                 Sxmlelement elem);
 
     // defaults
@@ -537,7 +537,7 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreDefaultsElement;
 
-    void                      appendSubElementToDefaults (
+    void                      appendSubElementToScoreDefaults (
                                 Sxmlelement elem);
 
 
@@ -555,9 +555,9 @@ class msr2MxmltreeTranslator :
 
     // the part attributes element
     // ------------------------------------------------------
-    Sxmlelement               fCurrentPartAttributes;
+    Sxmlelement               fCurrentPartMeasureAttributes;
 
-    void                      appendSubElementToAttributes (
+    void                      appendSubElementToPartMeasureAttributes (
                                 Sxmlelement elem);
 
     // the part direction element
@@ -661,7 +661,7 @@ class msr2MxmltreeTranslator :
 
     // measures
     // ------------------------------------------------------
-    Sxmlelement               fCurrentMeasureElement;
+    Sxmlelement               fCurrenPartMeasureElement;
     Sxmlelement               fCurrentMeasureAttributesElement;
 
     // measures
