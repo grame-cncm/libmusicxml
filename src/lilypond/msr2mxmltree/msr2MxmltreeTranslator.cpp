@@ -726,12 +726,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
         // create a start comment
         stringstream s;
         s <<
-          " ==================== " <<
-          "Part-group " <<
-          elt->getPartGroupAbsoluteNumber () <<
+          " ========== " <<
+          elt->getPartGroupCombinedName () <<
           " START" <<
             ", line " << inputLineNumber <<
-          " ==================== ";
+          " ========== ";
         Sxmlelement comment = createElement (kComment, s.str ());
 
         // append it to the current part list element
@@ -761,7 +760,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
 
         scorePartGroupElement->add (createAttribute ("type", partGroupTypeString));
 
-        // create a group symbol element to the part group element
+        // create a group symbol element to the part group element if relevant
         string groupSymbolString;
 
         switch (elt->getPartGroupSymbolKind ()) {
@@ -781,19 +780,27 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
             break;
         } // switch
 
-        Sxmlelement groupSymbolElement =
-          createElement (
-            k_group_symbol,
-            groupSymbolString);
+        if (groupSymbolString.size ()) {
+          Sxmlelement groupSymbolElement =
+            createElement (
+              k_group_symbol,
+              groupSymbolString);
 
-        // set its default X attribute
-        groupSymbolElement->add (
-          createIntegerAttribute (
-            "default-x",
-            elt->getPartGroupSymbolDefaultX ()));
+          // set its default X attribute if relevant
+          int
+            partGroupSymbolDefaultX  =
+              elt->getPartGroupSymbolDefaultX ();
 
-        // append it to the part group element
-        scorePartGroupElement->push (groupSymbolElement);
+          if (partGroupSymbolDefaultX != INT_MIN) { // JMI superfluous???
+            groupSymbolElement->add (
+              createIntegerAttribute (
+                "default-x",
+                partGroupSymbolDefaultX));
+          }
+
+          // append it to the part group element
+          scorePartGroupElement->push (groupSymbolElement);
+        }
 
         // append a group barline element to the part group element
         string groupBarlineString;
@@ -844,12 +851,11 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
         // create an end comment
         stringstream s;
         s <<
-          " ==================== " <<
-          "Part-group " <<
-          elt->getPartGroupAbsoluteNumber () <<
+          " ========== " <<
+          elt->getPartGroupCombinedName () <<
           " END" <<
             ", line " << inputLineNumber <<
-          " ==================== ";
+          " ========== ";
         Sxmlelement comment = createElement (kComment, s.str ());
 
         // append it to the current part list element
@@ -870,6 +876,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
       elt->getPartID (),
     partName =
       elt->getPartName (),
+    partAbbreviation =
+      elt->getPartAbbreviation (),
     partCombinedName =
       elt->getPartCombinedName ();
 
@@ -903,11 +911,18 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   // append it to the part list element
   fScorePartListElement->push (scorePartElement);
 
-  // create a part name element
-  Sxmlelement partNameElement = createElement (k_part_name, partName);
+  // append a part name element to the score part element
+  scorePartElement->push (
+    createElement (
+      k_part_name,
+      partName));
 
-  // append it to the score part element
-  scorePartElement->push (partNameElement);
+  if (partAbbreviation.size ()) {
+    scorePartElement->push (
+      createElement (
+        k_part_abbreviation,
+        partAbbreviation));
+  }
 
   // create a part element
   fCurrentPartElement = createElement (k_part, "");
