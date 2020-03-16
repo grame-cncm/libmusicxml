@@ -603,7 +603,7 @@ class msr2MxmltreeTranslator :
 
     // partGroup's can be nested, hence this stack
     // the current partGroup is the top of the stack
-    stack<S_msrPartGroup>     fPartGroupsStack;
+    stack<Sxmlelement>        fPartGroupElementsStack;
 
     // current part
     // ------------------------------------------------------

@@ -1003,7 +1003,6 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
         fCurrentPartGroupSymbolKind,
         fCurrentPartGroupSymbolDefaultX,
         msrPartGroup::kPartGroupImplicitNo,
-        fCurrentPartGroupTypeKind,
         fCurrentPartGroupBarlineKind,
         0, // partGroupPartGroupUpLink will be set upon 'stop'
         fMsrScore);

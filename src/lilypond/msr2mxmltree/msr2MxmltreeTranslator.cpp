@@ -745,20 +745,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
             "number", elt->getPartGroupNumber ()));
 
         // set it's "type" attribute
-        string partGroupTypeString;
-
-        switch (elt->getPartGroupTypeKind ()) {
-          case msrPartGroup::kPartGroupTypeNone:
-            break;
-          case msrPartGroup::kPartGroupTypeStart:
-            partGroupTypeString = "start";
-            break;
-          case msrPartGroup::kPartGroupTypeStop:
-            partGroupTypeString = "stop";
-            break;
-        } // switch
-
-        scorePartGroupElement->add (createAttribute ("type", partGroupTypeString));
+        scorePartGroupElement->add (createAttribute ("type", "start"));
 
         // create a group symbol element to the part group element if relevant
         string groupSymbolString;
@@ -802,6 +789,17 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
           scorePartGroupElement->push (groupSymbolElement);
         }
 
+        // append a group name element to the part group element
+        string
+          groupName = elt->getPartGroupName ();
+
+        if (groupName.size ()) {
+          scorePartGroupElement->push (
+            createElement (
+              k_group_name,
+              groupName));
+        }
+
         // append a group barline element to the part group element
         string groupBarlineString;
 
@@ -821,6 +819,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
 
         // append the part group element to the part list element
         fScorePartListElement->push (scorePartGroupElement);
+
+        // push the part group element onto the stack
+        fPartGroupElementsStack.push (scorePartGroupElement);
       }
       break;
   } // switch
@@ -860,6 +861,28 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
 
         // append it to the current part list element
         fScorePartListElement->push (comment);
+
+        // fetch the top-most part group element on the stack
+        Sxmlelement
+          partGroupElementsStackTop =
+            fPartGroupElementsStack.top ();
+
+        // create a part group element
+        Sxmlelement scorePartGroupElement = createElement (k_part_group, "");
+
+        // set it's "number" attribute
+        scorePartGroupElement->add (
+          createIntegerAttribute (
+            "number", elt->getPartGroupNumber ()));
+
+        // set it's "type" attribute
+        scorePartGroupElement->add (createAttribute ("type", "stop"));
+
+        // append the part group element to the part list element
+        fScorePartListElement->push (scorePartGroupElement);
+
+        // pop the part group element from the stack
+        fPartGroupElementsStack.pop ();
       }
       break;
   } // switch
@@ -982,7 +1005,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
     s <<
       "divisionsPerQuarterNoteAsRational '" << divisionsPerQuarterNoteAsRational <<
-      "' is no integer number";
+      "' is no integer number" <<
+      ", line " << inputLineNumber;
 
 // JMI    msrInternalError (
     msrInternalWarning (
@@ -3997,7 +4021,8 @@ void msr2MxmltreeTranslator::appendDurationSubElementToNoteIfRelevant (
 
       s <<
         "soundingDurationAsRational '" << soundingDurationAsRational <<
-        "' is no integer number";
+        "' is no integer number" <<
+        ", line " << inputLineNumber;
 
       msrInternalError (
         gOahOah->fInputSourceName,

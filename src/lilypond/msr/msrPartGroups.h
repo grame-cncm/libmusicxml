@@ -94,7 +94,6 @@ class msrPartGroup : public msrPartGroupElement
       msrPartGroupSymbolKind   partGroupSymbolKind,
       int                      partGroupSymbolDefaultX,
       msrPartGroupImplicitKind partGroupImplicitKind,
-      msrPartGroupTypeKind     partGroupTypeKind,
       msrPartGroupBarlineKind  partGroupBarlineKind,
       S_msrPartGroup           partGroupPartGroupUpLink,
       S_msrScore               partGroupScoreUpLink);
@@ -129,7 +128,6 @@ class msrPartGroup : public msrPartGroupElement
       msrPartGroupSymbolKind   partGroupSymbolKind,
       int                      partGroupSymbolDefaultX,
       msrPartGroupImplicitKind partGroupImplicitKind,
-      msrPartGroupTypeKind     partGroupTypeKind,
       msrPartGroupBarlineKind  partGroupBarlineKind,
       S_msrPartGroup           partGroupPartGroupUpLink,
       S_msrScore               partGroupScoreUpLink);
@@ -200,8 +198,6 @@ class msrPartGroup : public msrPartGroupElement
 
     // type
 
-    msrPartGroupTypeKind  getPartGroupTypeKind () const
-                              { return fPartGroupTypeKind; }
 
     // barline
 
@@ -327,7 +323,6 @@ class msrPartGroup : public msrPartGroupElement
 
     // type
 
-    msrPartGroupTypeKind  fPartGroupTypeKind;
 
     // bar line
 
