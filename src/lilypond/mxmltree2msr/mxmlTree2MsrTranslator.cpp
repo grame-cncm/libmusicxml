@@ -2786,6 +2786,36 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
     }
   }
 
+
+/* JMI
+  // justify
+  string wordsFontJustifyString = elt->getAttributeValue ("justify");
+
+  msrJustifyKind fontJustifyKind = kJustifyNone; // default value
+
+  if      (wordsFontJustifyString == "left")
+    fontJustifyKind = kFontStyleNormal;
+  else if (wordsFontJustifyString == "center")
+    fontJustifyKind = KFontStyleItalic;
+  else if (wordsFontJustifyString == "right")
+    fontJustifyKind = KFontStyleItalic;
+  else {
+    if (wordsFontJustifyString.size ()) {
+      stringstream s;
+
+      s <<
+        "justify value " << wordsFontJustifyString <<
+        " should be 'normal' or 'italic'";
+
+      msrMusicXMLError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+  */
+
   // font size
   string wordsFontSizeString = elt->getAttributeValue ("font-size");
 

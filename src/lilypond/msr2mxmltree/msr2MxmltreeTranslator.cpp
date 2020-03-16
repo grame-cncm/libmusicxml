@@ -504,13 +504,26 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     fScorePartWiseElement->push (fScoreDefaultsElement);
   }
 
+  // append the score credits element if any to the score part wise element
+  for (
+    list<Sxmlelement>::const_iterator i = fPendingScoreCreditElementsList.begin ();
+    i!=fPendingScoreCreditElementsList.end ();
+    i++
+  ) {
+    Sxmlelement creditElement = (*i);
+
+    fScorePartWiseElement->push (creditElement);
+  } // for
+
   // append the part list element to the score part wise element
   fScorePartWiseElement->push (fScorePartListElement);
 
   // append the pending parts elements to the score part wise element
-  list<Sxmlelement>::const_iterator i;
-
-  for (i=fPendingPartElementsList.begin (); i!=fPendingPartElementsList.end (); i++) {
+  for (
+    list<Sxmlelement>::const_iterator i = fPendingPartElementsList.begin ();
+    i!=fPendingPartElementsList.end ();
+    i++
+  ) {
     Sxmlelement partElement = (*i);
 
     // create a part comment
@@ -571,6 +584,109 @@ void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrIdentification" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrVarValAssoc& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrVarValAssoc" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  msrVarValAssoc::msrVarValAssocKind
+    varValAssocKind =
+      elt->getVarValAssocKind ();
+
+  string variableValueAux = elt->getVariableValue ();
+  string variableValue;
+
+  // escape quotes if any
+  for_each (
+    variableValueAux.begin (),
+    variableValueAux.end (),
+    stringQuoteEscaper (variableValue));
+
+  switch (varValAssocKind) {
+    case msrVarValAssoc::kWorkNumber:
+      break;
+
+    case msrVarValAssoc::kWorkTitle:
+      break;
+
+    case msrVarValAssoc::kMovementNumber:
+      break;
+
+    case msrVarValAssoc::kMovementTitle:
+      break;
+
+    case msrVarValAssoc::kEncodingDate:
+      break;
+
+    case msrVarValAssoc::kScoreInstrument:
+      break;
+
+    case msrVarValAssoc::kMiscellaneousField:
+      {
+        // create a miscellaneous field element
+        Sxmlelement
+          miscellaneousFieldElement =
+            createElement (
+              k_miscellaneous_field,
+              variableValue);
+
+        // set its name attribute
+        miscellaneousFieldElement->add (
+          createAttribute ("name", "description")); // ??? JMI sometines "comment"
+
+        // create a miscellaneous element
+        Sxmlelement
+          miscellaneousElement =
+            createElement (k_miscellaneous, "");
+
+        // append the miscellaneous field element to it
+        miscellaneousElement->push (miscellaneousFieldElement);
+
+        // append the miscellaneous field element to the score identification element
+        appendSubElementToScoreIdentification (miscellaneousElement);
+      }
+      break;
+
+    default:
+      {
+      stringstream s;
+
+      s <<
+        "### msrVarValAssoc kind '" <<
+        msrVarValAssoc::varValAssocKindAsString (
+          varValAssocKind) <<
+        "' is not handled";
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        s.str ());
+      }
+  } // switch
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrVarValAssoc& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrVarValAssoc" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -640,7 +756,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScaling& elt)
 #endif
 }
 
-/*
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
 {
@@ -653,12 +768,15 @@ void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
   }
 #endif
 
-  fCurrentCredit = elt;
+  // create a credit element
+  fCurrentScoreCreditElement = createElement (k_credit, "");
 
-  // set elt as credit of the MSR score part of the LPSR score
-  fScorePartWiseElement->
-    getMsrScore ()->
-      appendCreditToScore (fCurrentCredit);
+  // set its page attribute
+  fCurrentScoreCreditElement->add (
+    createIntegerAttribute ("page", elt->getCreditPageNumber ()));
+
+  // append the credit element to the credit elements pending list
+  fPendingScoreCreditElementsList.push_back (fCurrentScoreCreditElement);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrCredit& elt)
@@ -672,7 +790,8 @@ void msr2MxmltreeTranslator::visitEnd (S_msrCredit& elt)
   }
 #endif
 
-  fCurrentCredit = nullptr;
+  // forget about the current credit element
+  fCurrentScoreCreditElement = nullptr;
 }
 
 void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
@@ -686,6 +805,139 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
   }
 #endif
 
+  // create a credit words element
+  Sxmlelement
+    creditWordsElement =
+      createElement (
+        k_credit_words,
+        elt->getCreditWordsContents ());
+
+  // set its font family attribute
+  string
+    creditWordsFontFamilyString =
+      elt->getCreditWordsFontFamily ();
+
+  if (creditWordsFontFamilyString.size ()) {
+    creditWordsElement->add (
+      createAttribute (
+        "font-family",
+        creditWordsFontFamilyString));
+  }
+
+  // set its font size attribute
+  float
+    creditWordsFontSize = elt->getCreditWordsFontSize ();
+  stringstream s;
+  s << setprecision (2) << creditWordsFontSize;
+  creditWordsElement->add (createAttribute ("font-size", s.str ()));
+
+  // set its font weight attribute
+  string fontWeightString;
+
+  switch (elt->getCreditWordsFontWeightKind ()) {
+    case kFontWeightNone:
+      break;
+    case kFontWeightNormal:
+      fontWeightString = "normal";
+      break;
+    case kFontWeightBold:
+      fontWeightString = "bold";
+      break;
+    } // switch
+
+  if (fontWeightString.size ()) {
+    creditWordsElement->add (createAttribute ("font-weight", fontWeightString));
+  }
+
+  // set its font style attribute
+  string fontStyleString;
+
+  switch (elt->getCreditWordsFontStyleKind ()) {
+    case kFontStyleNone:
+      break;
+    case kFontStyleNormal:
+      fontStyleString = "normal";
+      break;
+    case KFontStyleItalic:
+      fontStyleString = "italic";
+      break;
+    } // switch
+
+  if (fontStyleString.size ()) {
+    creditWordsElement->add (createAttribute ("font-style", fontStyleString));
+  }
+
+  // set its justify attribute
+  string justifyString;
+
+  switch (elt->getCreditWordsJustifyKind ()) {
+    case kJustifyNone:
+      break;
+    case kJustifyLeft:
+      justifyString = "left";
+      break;
+    case kJustifyCenter:
+      justifyString = "center";
+      break;
+    case kJustifyRight:
+      justifyString = "right";
+      break;
+    } // switch
+
+  if (justifyString.size ()) {
+    creditWordsElement->add (createAttribute ("justify", justifyString));
+  }
+
+  // set its halign attribute
+  string horizontalAlignmentString;
+
+  switch (elt->getCreditWordsHorizontalAlignmentKind ()) {
+    case kHorizontalAlignmentNone:
+      break;
+    case kHorizontalAlignmentLeft:
+      horizontalAlignmentString = "left";
+      break;
+    case kHorizontalAlignmentCenter:
+      horizontalAlignmentString = "center";
+      break;
+    case kHorizontalAlignmentRight:
+      horizontalAlignmentString = "right";
+      break;
+    } // switch
+
+  if (horizontalAlignmentString.size ()) {
+    creditWordsElement->add (createAttribute ("halign", horizontalAlignmentString));
+  }
+
+  // set its valign attribute
+  string verticalAlignmentString;
+
+  switch (elt->getCreditWordsVerticalAlignmentKind ()) {
+    case kVerticalAlignmentNone:
+      break;
+    case kVerticalAlignmentTop:
+      verticalAlignmentString = "top";
+      break;
+    case kVerticalAlignmentMiddle:
+      verticalAlignmentString = "middle";
+      break;
+    case kVerticalAlignmentBottom:
+      verticalAlignmentString = "bottom";
+      break;
+    } // switch
+
+  if (verticalAlignmentString.size ()) {
+    creditWordsElement->add (createAttribute ("valign", verticalAlignmentString));
+  }
+
+  // set its xml:lang attribute
+  creditWordsElement->add (
+    createAttribute (
+      "xml:lang",
+      msrXMLLangKindAsString (elt->getCreditWordsXMLLang ())));
+
+  // append it to the current credit element
+  fCurrentScoreCreditElement->push (creditWordsElement);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrCreditWords& elt)
@@ -699,7 +951,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrCreditWords& elt)
   }
 #endif
 }
-*/
+
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
 {
@@ -867,6 +1119,24 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
           partGroupElementsStackTop =
             fPartGroupElementsStack.top ();
 
+/* JMI ???
+        // sanity check
+        if (elt != partGroupElementsStackTop) {
+          s <<
+            "elt " <<
+            xmlelementAsString (elt) <<
+            " and partGroupElementsStackTop " <<
+            xmlelementAsString (partGroupElementsStackTop) <<
+            " are different" <<
+            ", line " << inputLineNumber;
+
+          msrInternalError (
+            gOahOah->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+*/
         // create a part group element
         Sxmlelement scorePartGroupElement = createElement (k_part_group, "");
 
@@ -7741,163 +8011,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   fCurrentVoiceClone->
     handleMeasuresRepeatReplicasEndInVoiceClone (
       inputLineNumber);
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrVarValAssoc& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrVarValAssoc" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  msrVarValAssoc::msrVarValAssocKind
-    varValAssocKind =
-      elt->getVarValAssocKind ();
-  string variableValueAux = elt->getVariableValue ();
-  string variableValue;
-
-  // escape quotes if any
-  for_each (
-    variableValueAux.begin (),
-    variableValueAux.end (),
-    stringQuoteEscaper (variableValue));
-
-  switch (varValAssocKind) {
-    case msrVarValAssoc::kWorkNumber:
-      fCurrentIdentification->
-        setWorkNumber (
-          inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setWorkNumber (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fWorkNumberKnown = true;
-      break;
-
-    case msrVarValAssoc::kWorkTitle:
-      fCurrentIdentification->
-        setWorkTitle (
-          inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setWorkTitle (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fWorkTitleKnown = true;
-      break;
-
-    case msrVarValAssoc::kMovementNumber:
-      fCurrentIdentification->
-        setMovementNumber (
-          inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setMovementNumber (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fMovementNumberKnown = true;
-      break;
-
-    case msrVarValAssoc::kMovementTitle:
-      fCurrentIdentification->
-        setMovementTitle (
-          inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setMovementTitle (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fMovementTitleKnown = true;
-      break;
-
-    case msrVarValAssoc::kEncodingDate:
-      fCurrentIdentification->
-        setEncodingDate (
-          inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setEncodingDate (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-      break;
-
-    case msrVarValAssoc::kScoreInstrument:
-      fCurrentIdentification->
-        setScoreInstrument (
-          inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setScoreInstrument (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-      break;
-
-    case msrVarValAssoc::kMiscellaneousField:
-      fCurrentIdentification->
-        setMiscellaneousField (
-          inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setMiscellaneousField (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-      break;
-
-    default:
-      {
-      stringstream s;
-
-      s <<
-        "### msrVarValAssoc kind '" <<
-        msrVarValAssoc::varValAssocKindAsString (
-          varValAssocKind) <<
-        "' is not handled";
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-      }
-  } // switch
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrVarValAssoc& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrVarValAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
 }
 
 //________________________________________________________________________

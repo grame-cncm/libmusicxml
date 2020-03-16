@@ -265,12 +265,10 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrIdentification& elt);
     virtual void visitEnd   (S_msrIdentification& elt);
 
-/*
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
-*/
 
   // parts & part groups
 
@@ -465,9 +463,10 @@ class msr2MxmltreeTranslator :
     virtual void visitEnd   (S_msrRestMeasures& elt);
     virtual void visitStart (S_msrRestMeasuresContents& elt);
     virtual void visitEnd   (S_msrRestMeasuresContents& elt);
-
+*/
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
+/*
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 */
@@ -545,8 +544,9 @@ class msr2MxmltreeTranslator :
     // credits
     // ------------------------------------------------------
 
-    Sxmlelement               fScoreCreditElement;
+    Sxmlelement               fCurrentScoreCreditElement;
 
+    list<Sxmlelement>         fPendingScoreCreditElementsList;
 
     // part list
     // ------------------------------------------------------
