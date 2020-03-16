@@ -11,7 +11,7 @@
 */
 
 #include <sstream>
-//#include <climits>      // INT_MIN, INT_MAX
+#include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
 //#include <algorithm>    // for_each
 
