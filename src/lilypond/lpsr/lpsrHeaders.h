@@ -49,6 +49,7 @@ class lpsrHeader : public lpsrElement
 
     // MusicXML informations
 
+    // work number
     void                  setWorkNumber (
                             int               inputLineNumber,
                             string            val,
@@ -58,6 +59,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValAssoc     getWorkNumber () const
                               { return fWorkNumber; }
 
+    // work title
     void                  setWorkTitle (
                             int               inputLineNumber,
                             string            val,
@@ -67,6 +69,17 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValAssoc     getWorkTitle () const
                               { return fWorkTitle; }
 
+    // opus
+    void                  setOpus (
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
+
+    S_lpsrVarValAssoc     getOpus () const
+                              { return fOpus; }
+
+    // movement number
     void                  setMovementNumber (
                             int               inputLineNumber,
                             string            val,
@@ -76,6 +89,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValAssoc     getMovementNumber () const
                               { return fMovementNumber; }
 
+    // movement title
     void                  setMovementTitle (
                             int               inputLineNumber,
                             string            val,
@@ -85,6 +99,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValAssoc     getMovementTitle () const
                               { return fMovementTitle; }
 
+    // encoding date
     void                  setEncodingDate (
                             int               inputLineNumber,
                             string            val,
@@ -94,15 +109,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValAssoc     getEncodingDate () const
                               { return fEncodingDate; }
 
-    void                  setScoreInstrument (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    S_lpsrVarValAssoc     getScoreInstrument () const
-                              { return fScoreInstrument; }
-
+    // miscellaneous field
     void                  setMiscellaneousField (
                             int               inputLineNumber,
                             string            val,
@@ -112,56 +119,17 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValAssoc     getMiscellaneousField () const
                               { return fMiscellaneousField; }
 
-    void                  setComposers (
+    // score instrument
+    void                  setScoreInstrument (
                             int               inputLineNumber,
                             string            val,
                             msrFontStyleKind  fontStyleKind,
                             msrFontWeightKind fontWeightKind);
 
-    S_lpsrVarValsListAssoc
-                          getComposers () const
-                              { return fComposers; }
+    S_lpsrVarValAssoc     getScoreInstrument () const
+                              { return fScoreInstrument; }
 
-    void                  setArrangers (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    S_lpsrVarValsListAssoc
-                          getArrangers () const
-                              { return fArrangers; }
-
-    void                  setLyricists (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    S_lpsrVarValsListAssoc
-                          getLyricists () const
-                              { return fLyricists; }
-
-    void                  setPoets (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    S_lpsrVarValsListAssoc
-                          getPoets () const
-                              { return fPoets; }
-
-    void                  setTranslators (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    S_lpsrVarValsListAssoc
-                          getTranslators () const
-                              { return fTranslators; }
-
+    // rights
     void                  setRights (
                             int               inputLineNumber,
                             string            val,
@@ -172,6 +140,73 @@ class lpsrHeader : public lpsrElement
                           getRights () const
                               { return fRights; }
 
+    // composers
+    void                  setComposers (
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
+
+    S_lpsrVarValsListAssoc
+                          getComposers () const
+                              { return fComposers; }
+
+    // arrangers
+    void                  setArrangers (
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
+
+    S_lpsrVarValsListAssoc
+                          getArrangers () const
+                              { return fArrangers; }
+
+     // lyricists
+   void                  setLyricists (
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
+
+    S_lpsrVarValsListAssoc
+                          getLyricists () const
+                              { return fLyricists; }
+
+    // poets
+    void                  setPoets (
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
+
+    S_lpsrVarValsListAssoc
+                          getPoets () const
+                              { return fPoets; }
+
+    // translators
+    void                  setTranslators (
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
+
+    S_lpsrVarValsListAssoc
+                          getTranslators () const
+                              { return fTranslators; }
+
+    // artists
+    void                  setArtists (
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
+
+    S_lpsrVarValsListAssoc
+                          getArtists () const
+                              { return fArtists; }
+
+    // softwares
     void                  setSoftwares (
                             int               inputLineNumber,
                             string            val,
@@ -352,6 +387,8 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     fWorkNumber;
     S_lpsrVarValAssoc     fWorkTitle;
+    S_lpsrVarValAssoc     fOpus;
+
     S_lpsrVarValAssoc     fMovementNumber;
     S_lpsrVarValAssoc     fMovementTitle;
 

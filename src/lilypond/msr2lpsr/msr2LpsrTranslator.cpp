@@ -154,6 +154,8 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // header
   fWorkNumberKnown       = false;
   fWorkTitleKnown        = false;
+  fOpusKnown             = false;
+
   fMovementNumberKnown   = false;
   fMovementTitleKnown    = false;
 
@@ -742,6 +744,8 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       endl;
   }
 #endif
+
+// fOpusKnown ???  JMI
 
   if (fWorkTitleKnown && fMovementTitleKnown) {
     string
@@ -6437,6 +6441,21 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
           kFontWeightNone);
 
       fWorkTitleKnown = true;
+      break;
+
+    case msrVarValAssoc::kOpus:
+      fCurrentIdentification->
+        setOpus (
+          inputLineNumber, variableValue);
+
+      fCurrentLpsrScoreHeader->
+        setOpus (
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
+
+      fOpusKnown = true;
       break;
 
     case msrVarValAssoc::kMovementNumber:

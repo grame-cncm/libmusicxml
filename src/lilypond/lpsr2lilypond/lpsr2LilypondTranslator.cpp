@@ -4269,6 +4269,9 @@ string lpsr2LilypondTranslator::lpsrVarValAssocKindAsLilypondString (
     case lpsrVarValAssoc::kMusicXMLWorkTitle:
       result = "title";
       break;
+    case lpsrVarValAssoc::kMusicXMLOpus:
+      result = "opus";
+      break;
     case lpsrVarValAssoc::kMusicXMLMovementNumber:
       result = "movementNumber";
       break;

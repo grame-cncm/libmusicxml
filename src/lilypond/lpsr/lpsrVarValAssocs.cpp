@@ -170,6 +170,9 @@ string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
     case lpsrVarValAssoc::kMusicXMLWorkTitle:
       result = "workTitle";
       break;
+    case lpsrVarValAssoc::kMusicXMLOpus:
+      result = "opus";
+      break;
     case lpsrVarValAssoc::kMusicXMLMovementNumber:
       result = "movementNumber";
       break;

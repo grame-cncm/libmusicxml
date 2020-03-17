@@ -45,7 +45,7 @@ class lpsrVarValAssoc : public lpsrElement
 
       // MusicXML informations
 
-      kMusicXMLWorkNumber, kMusicXMLWorkTitle,
+      kMusicXMLWorkNumber, kMusicXMLWorkTitle, kMusicXMLOpus,
       kMusicXMLMovementNumber, kMusicXMLMovementTitle,
       kMusicXMLEncodingDate,
       kMusicXMLScoreInstrument,

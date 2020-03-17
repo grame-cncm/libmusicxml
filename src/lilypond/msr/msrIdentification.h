@@ -49,104 +49,141 @@ class msrIdentification : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // work number
     void                  setWorkNumber (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValAssoc      getWorkNumber () const
+                              { return fWorkNumber; }
+
+    // work title
     void                  setWorkTitle (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValAssoc      getWorkTitle () const
+                              { return fWorkTitle; }
+
+    // opus
+    void                  setOpus (
+                            int    inputLineNumber,
+                            string val);
+
+    S_msrVarValAssoc      getOpus () const
+                              { return fOpus; }
+
+    // movement number
     void                  setMovementNumber (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValAssoc      getMovementNumber () const
+                              { return fMovementNumber; }
+
+    // movement title
     void                  setMovementTitle (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValAssoc      getMovementTitle () const
+                              { return fMovementTitle; }
+
+    // encoding date
     void                  setEncodingDate (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValAssoc      getEncodingDate () const
+                              { return fEncodingDate; }
+
+    // miscellaneous field
     void                  setMiscellaneousField (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValAssoc      getMiscellaneousField () const
+                              { return fMiscellaneousField; }
+
+    // score instrument
     void                  setScoreInstrument (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValAssoc      getScoreInstrument () const
+                              { return fScoreInstrument; }
+
+    // rights
     S_msrVarValsListAssoc getRights () const
                               { return fRights; }
 
-    S_msrVarValAssoc      getWorkNumber () const
-                              { return fWorkNumber; }
-
-    S_msrVarValAssoc      getWorkTitle () const
-                              { return fWorkTitle; }
-
-    S_msrVarValAssoc      getMovementNumber () const
-                              { return fMovementNumber; }
-
-    S_msrVarValAssoc      getMovementTitle () const
-                              { return fMovementTitle; }
-
+    // composers
     S_msrVarValsListAssoc getComposers () const
                               { return fComposers; }
 
+    // arrangers
     S_msrVarValsListAssoc getArrangers () const
                               { return fArrangers; }
 
+    // lyricists
     S_msrVarValsListAssoc getLyricists () const
                               { return fLyricists; }
 
+    // poets
     S_msrVarValsListAssoc getPoets () const
                               { return fPoets; }
 
+    // translators
     S_msrVarValsListAssoc getTranslators () const
                               { return fTranslators; }
 
+    // artists
+    S_msrVarValsListAssoc getArtists () const
+                              { return fArtists; }
+
+    // softwares
     S_msrVarValsListAssoc getSoftwares () const
                               { return fSoftwares; }
-
-    S_msrVarValAssoc      getEncodingDate () const
-                              { return fEncodingDate; }
-
-    S_msrVarValAssoc      getScoreInstrumentAssoc () const
-                              { return fScoreInstrumentAssoc; }
 
     // services
     // ------------------------------------------------------
 
+    // rights
     void                  addRights (
                             int    inputLineNumber,
                             string value);
 
+    // composers
     void                  addComposer (
                             int    inputLineNumber,
                             string value);
 
+    // arrangers
     void                  addArranger (
                             int    inputLineNumber,
                             string value);
 
+    // lyricists
     void                  addLyricist (
                             int    inputLineNumber,
                             string value);
 
+    // poets
     void                  addPoet (
                             int    inputLineNumber,
                             string value);
 
+    // translators
     void                  addTranslator (
                             int    inputLineNumber,
                             string value);
 
+    // artists
     void                  addArtist (
                             int    inputLineNumber,
                             string value);
 
+    // softwares
     void                  addSoftware (
                             int    inputLineNumber,
                             string value);
@@ -177,6 +214,7 @@ class msrIdentification : public msrElement
 
     S_msrVarValAssoc      fWorkNumber;
     S_msrVarValAssoc      fWorkTitle;
+    S_msrVarValAssoc      fOpus;
 
     S_msrVarValAssoc      fMovementNumber;
     S_msrVarValAssoc      fMovementTitle;
@@ -192,7 +230,9 @@ class msrIdentification : public msrElement
 
     S_msrVarValAssoc      fEncodingDate;
 
-    S_msrVarValAssoc      fScoreInstrumentAssoc;
+    S_msrVarValAssoc      fMiscellaneousField;
+
+    S_msrVarValAssoc      fScoreInstrument;
 };
 typedef SMARTP<msrIdentification> S_msrIdentification;
 EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);

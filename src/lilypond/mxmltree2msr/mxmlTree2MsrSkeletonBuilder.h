@@ -130,6 +130,7 @@ class mxmlTree2MsrSkeletonBuilder :
 
   public visitor<S_work_number>,
   public visitor<S_work_title>,
+  public visitor<S_opus>,
   public visitor<S_movement_number>,
   public visitor<S_movement_title>,
 
@@ -325,6 +326,7 @@ class mxmlTree2MsrSkeletonBuilder :
 
     virtual void visitStart ( S_work_number& elt);
     virtual void visitStart ( S_work_title& elt);
+    virtual void visitStart ( S_opus& elt);
     virtual void visitStart ( S_movement_number& elt);
     virtual void visitStart ( S_movement_title& elt);
 

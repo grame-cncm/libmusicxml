@@ -495,11 +495,6 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fScorePartWiseElement;
 
 
-    // the initial creation comment
-    // ------------------------------------------------------
-    Sxmlelement               fInitialCreationComment;
-
-
     // work
     // ------------------------------------------------------
 
@@ -507,6 +502,7 @@ class msr2MxmltreeTranslator :
 
     void                      appendSubElementToScoreWork (
                                 Sxmlelement elem);
+
 
     // movement number
     // ------------------------------------------------------

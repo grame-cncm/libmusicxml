@@ -132,6 +132,9 @@ string msrVarValAssoc::varValAssocKindAsString (
     case msrVarValAssoc::kWorkTitle:
       result = "workTitle";
       break;
+    case msrVarValAssoc::kOpus:
+      result = "opus";
+      break;
     case msrVarValAssoc::kMovementNumber:
       result = "movementNumber";
       break;

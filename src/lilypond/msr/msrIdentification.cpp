@@ -52,7 +52,7 @@ msrIdentification::~msrIdentification ()
 void msrIdentification::setWorkNumber (
   int    inputLineNumber,
   string val)
-  {
+{
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
@@ -65,12 +65,12 @@ void msrIdentification::setWorkNumber (
     msrVarValAssoc::create (
       inputLineNumber,
       msrVarValAssoc::kWorkNumber, val);
-  }
+}
 
 void msrIdentification::setWorkTitle (
   int    inputLineNumber,
   string val)
-  {
+{
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
@@ -83,12 +83,30 @@ void msrIdentification::setWorkTitle (
     msrVarValAssoc::create (
       inputLineNumber,
       msrVarValAssoc::kWorkTitle, val);
+}
+
+void msrIdentification::setOpus (
+  int    inputLineNumber,
+  string val)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
+      "Setting opus to \"" << val << "\"" <<
+      endl;
   }
+#endif
+
+  fOpus =
+    msrVarValAssoc::create (
+      inputLineNumber,
+      msrVarValAssoc::kOpus, val);
+}
 
 void msrIdentification::setMovementNumber (
   int    inputLineNumber,
   string val)
-  {
+{
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
@@ -101,7 +119,7 @@ void msrIdentification::setMovementNumber (
     msrVarValAssoc::create (
       inputLineNumber,
       msrVarValAssoc::kMovementNumber, val);
-  }
+}
 
 void msrIdentification::setMovementTitle (
   int    inputLineNumber,
@@ -139,6 +157,24 @@ void msrIdentification::setEncodingDate (
       msrVarValAssoc::kEncodingDate, val);
 }
 
+void msrIdentification::setMiscellaneousField (
+  int    inputLineNumber,
+  string val)
+{
+ #ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
+      "Setting miscellaneousField to \"" << val << "\"" <<
+      endl;
+  }
+#endif
+
+ fMiscellaneousField =
+    msrVarValAssoc::create (
+      inputLineNumber,
+      msrVarValAssoc::kMiscellaneousField, val);
+}
+
 void msrIdentification::setScoreInstrument (
   int    inputLineNumber,
   string val)
@@ -151,28 +187,10 @@ void msrIdentification::setScoreInstrument (
   }
 #endif
 
- fScoreInstrumentAssoc =
+ fScoreInstrument =
     msrVarValAssoc::create (
       inputLineNumber,
       msrVarValAssoc::kScoreInstrument, val);
-}
-
-void msrIdentification::setMiscellaneousField (
-  int    inputLineNumber,
-  string val)
-{
- #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
-    gLogOstream <<
-      "Setting workTitle to \"" << val << "\"" <<
-      endl;
-  }
-#endif
-
- fEncodingDate =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kMiscellaneousField, val);
 }
 
 void msrIdentification::addRights (
@@ -417,6 +435,12 @@ void msrIdentification::browseData (basevisitor* v)
     browser.browse (*fWorkTitle);
   }
 
+  if (fOpus) {
+    // browse fOpus
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fOpus);
+  }
+
   if (fMovementNumber) {
     // browse fMovementNumber
     msrBrowser<msrVarValAssoc> browser (v);
@@ -477,10 +501,16 @@ void msrIdentification::browseData (basevisitor* v)
     browser.browse (*fEncodingDate);
   }
 
-  if (fScoreInstrumentAssoc) {
+  if (fMiscellaneousField) {
+    // browse miscellaneous field
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fMiscellaneousField);
+  }
+
+  if (fScoreInstrument) {
     // browse score instrument
     msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fScoreInstrumentAssoc);
+    browser.browse (*fScoreInstrument);
   }
 }
 
@@ -584,6 +614,14 @@ void msrIdentification::print (ostream& os) const
   if (fEncodingDate) {
     os <<
       fEncodingDate <<
+      endl;
+
+    emptyIdentification = false;
+  }
+
+  if (fMiscellaneousField) {
+    os <<
+      fMiscellaneousField <<
       endl;
 
     emptyIdentification = false;

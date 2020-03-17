@@ -575,6 +575,7 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     bool                      fWorkNumberKnown;
     bool                      fWorkTitleKnown;
+    bool                      fOpusKnown;
     bool                      fMovementNumberKnown;
     bool                      fMovementTitleKnown;
 

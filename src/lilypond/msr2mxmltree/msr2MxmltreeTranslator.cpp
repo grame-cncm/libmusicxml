@@ -354,25 +354,6 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
   // create the current score part-wise element
   fScorePartWiseElement = createScorePartWiseElement ();
 
-/*
-  // header
-  fWorkNumberKnown       = false;
-  fWorkTitleKnown        = false;
-  fMovementNumberKnown   = false;
-  fMovementTitleKnown    = false;
-
-  // staves
-  fOnGoingStaff = false;
-
-  // voices
-  fOnGoingHarmonyVoice     = false;
-  fOnGoingFiguredBassVoice = false;
-
-  fOnGoingHarmony = false;
-
-  // repeats
-*/
-
   // notes
   fCurrentNoteElementAwaitsGraceNotes = false;
   fPendingNoteAwaitingGraceNotes = nullptr;
@@ -433,7 +414,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
     gOahOah->fInputSourceName <<
     " ===== ";
 
-  fInitialCreationComment = createElement (kComment, s.str ());
+  // append the initial creation comment to the score part wise element
+  fScorePartWiseElement->push (createElement (kComment, s.str ()));
 
   // create a software element
   Sxmlelement
@@ -475,9 +457,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
       endl;
   }
 #endif
-
-  // append the initial creation comment to the score part wise element
-  fScorePartWiseElement->push (fInitialCreationComment);
 
   // append the score work element if any to the score part wise element
   if (fScoreWorkElement) {
@@ -561,20 +540,151 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
     workTitle = elt->getWorkTitle ();
 
   if (workTitle) {
-  /* JMI
-    msrVarValAssoc::msrVarValAssocKind
-      varValAssocKind =
-        workTitle->getVarValAssocKind ();
-        */
     string
       variableValue =
         workTitle->getVariableValue ();
 
     // create the work title element
-    Sxmlelement workTitleElement = createElement (k_work_title, variableValue);
+    Sxmlelement
+      workTitleElement =
+        createElement (
+          k_work_title,
+          variableValue);
 
     // append it to the score part wise element
-    appendSubElementToScoreWork (workTitleElement);
+    fScorePartWiseElement->push (workTitleElement);
+  }
+
+  // work number
+  S_msrVarValAssoc
+    workNumber = elt->getWorkNumber ();
+
+  if (workNumber) {
+    string
+      variableValue =
+        workNumber->getVariableValue ();
+
+    // create the work number element
+    Sxmlelement
+      workNumberElement =
+        createElement (
+          k_work_number,
+          variableValue);
+
+    // append it to the score part wise element
+    fScorePartWiseElement->push (workNumberElement);
+  }
+
+  // opus
+  S_msrVarValAssoc
+    opus = elt->getOpus ();
+
+  if (opus) {
+    string
+      variableValue =
+        opus->getVariableValue ();
+
+    // create the opus element
+    Sxmlelement
+      opusElement =
+        createElement (
+          k_opus,
+          variableValue);
+
+    // append it to the score part wise element
+    fScorePartWiseElement->push (opusElement);
+  }
+
+  // movement number
+  S_msrVarValAssoc
+    movementNumber = elt->getMovementNumber ();
+
+  if (movementNumber) {
+    string
+      variableValue =
+        movementNumber->getVariableValue ();
+
+    // create the movement number element
+    Sxmlelement
+      movementNumberElement =
+        createElement (
+          k_movement_number,
+          variableValue);
+
+    // append it to the score part wise element
+    fScorePartWiseElement->push (movementNumberElement);
+  }
+
+  // movement title
+  S_msrVarValAssoc
+    movementTitle = elt->getMovementTitle ();
+
+  if (movementTitle) {
+    string
+      variableValue =
+        movementTitle->getVariableValue ();
+
+    // create the movement title element
+    Sxmlelement
+      movementTitleElement =
+        createElement (
+          k_movement_title,
+          variableValue);
+
+    // append it to the score part wise element
+    fScorePartWiseElement->push (movementTitleElement);
+  }
+
+  // miscellaneous field
+  S_msrVarValAssoc
+    miscellaneousField = elt->getMiscellaneousField ();
+
+  if (miscellaneousField) {
+    string
+      variableValue =
+        miscellaneousField->getVariableValue ();
+
+    // create the miscellaneous field element
+    Sxmlelement
+      miscellaneousFieldElement =
+        createElement (
+          k_miscellaneous_field,
+          variableValue);
+
+    // set its name attribute
+    miscellaneousFieldElement->add (
+      createAttribute ("name", "description")); // ??? JMI sometines "comment"
+
+    // create a miscellaneous element
+    Sxmlelement
+      miscellaneousElement =
+        createElement (k_miscellaneous, "");
+
+    // append the miscellaneous field element to it
+    miscellaneousElement->push (miscellaneousFieldElement);
+
+    // append the miscellaneous field element to the score identification element
+    appendSubElementToScoreIdentification (miscellaneousElement);
+  }
+
+  // score instrument
+  S_msrVarValAssoc
+    scoreInstrument = elt->getScoreInstrument ();
+
+  if (scoreInstrument) {
+    string
+      variableValue =
+        scoreInstrument->getVariableValue ();
+
+    // create the score instrument element
+    Sxmlelement
+      scoreInstrumentElement =
+        createElement (
+          k_score_instrument,
+          variableValue);
+
+    // append it to the score part wise element
+    fScorePartWiseElement->push (scoreInstrumentElement);
   }
 }
 
@@ -625,6 +735,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrVarValAssoc& elt)
     case msrVarValAssoc::kWorkTitle:
       break;
 
+    case msrVarValAssoc::kOpus:
+      break;
+
     case msrVarValAssoc::kMovementNumber:
       break;
 
@@ -639,6 +752,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrVarValAssoc& elt)
 
     case msrVarValAssoc::kMiscellaneousField:
       {
+      /* JMI
         // create a miscellaneous field element
         Sxmlelement
           miscellaneousFieldElement =
@@ -660,6 +774,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrVarValAssoc& elt)
 
         // append the miscellaneous field element to the score identification element
         appendSubElementToScoreIdentification (miscellaneousElement);
+        */
       }
       break;
 
@@ -2990,7 +3105,7 @@ void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
         ornamentKind =
           ornament->getOrnamentKind ();
 
-      int ornamentType = kComment;
+      int ornamentType = kComment; // JMI
 
       switch (ornamentKind) {
         case msrOrnament::kOrnamentTrill:

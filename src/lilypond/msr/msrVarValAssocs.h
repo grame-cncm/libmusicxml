@@ -32,7 +32,7 @@ class msrVarValAssoc : public msrElement
     // ------------------------------------------------------
 
     enum msrVarValAssocKind {
-      kWorkNumber, kWorkTitle,
+      kWorkNumber, kWorkTitle, kOpus,
       kMovementNumber, kMovementTitle,
       kEncodingDate,
       kScoreInstrument,

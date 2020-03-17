@@ -6442,6 +6442,18 @@ void msr2BsrTranslator::visitStart (S_msrVarValAssoc& elt)
       fWorkTitleKnown = true;
       break;
 
+    case msrVarValAssoc::kOpus:
+      fCurrentIdentification->
+        setOpus (
+          inputLineNumber, variableValue);
+
+      fBsrScoreHeader->
+        setWorkTitle (
+          inputLineNumber, variableValue);
+
+      fWorkTitleKnown = true;
+      break;
+
     case msrVarValAssoc::kMovementNumber:
       fCurrentIdentification->
         setMovementNumber (

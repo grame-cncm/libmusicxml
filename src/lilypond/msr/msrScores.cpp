@@ -234,7 +234,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   return result;
 }
 
-void msrScore::fetchIdentificationFromCreditsIfAny (
+void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
   int inputLineNumber)
 {
   if (

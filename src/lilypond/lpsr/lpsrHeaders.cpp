@@ -387,6 +387,28 @@ void lpsrHeader::setWorkTitle (
       lpsrVarValAssoc::kEndlNone);
   }
 
+void lpsrHeader::setOpus (
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
+  {
+  fOpus =
+    lpsrVarValAssoc::create (
+      inputLineNumber,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
+      lpsrVarValAssoc::kMusicXMLOpus,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
+      val,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      fontStyleKind,
+      fontWeightKind,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kEndlNone);
+  }
+
 void lpsrHeader::setMovementNumber (
   int               inputLineNumber,
   string            val,
@@ -729,6 +751,15 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     }
   }
 
+  if (fOpus) {
+    int length =
+      fOpus->
+        lilyPondVarValAssocKindAsString ().size ();
+    if (length > result) {
+      result = length;
+    }
+  }
+
   if (fMovementNumber) {
     int length =
       fMovementNumber->
@@ -1027,6 +1058,12 @@ void lpsrHeader::browseData (basevisitor* v)
     browser.browse (*fWorkTitle);
   }
 
+  if (fOpus) {
+    // browse fOpus
+    msrBrowser<lpsrVarValAssoc> browser (v);
+    browser.browse (*fOpus);
+  }
+
   if (fMovementNumber) {
     // browse fMovementNumber
     msrBrowser<lpsrVarValAssoc> browser (v);
@@ -1160,6 +1197,23 @@ void lpsrHeader::print (ostream& os) const
 
     os <<
       fWorkTitle <<
+      endl;
+
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fOpus) {
+    os << left <<
+      setw (fieldWidth) <<
+      fOpus->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+
+    os <<
+      fOpus <<
       endl;
 
     gIndenter--;

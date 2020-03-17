@@ -1781,10 +1781,12 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_partwise& elt)
     setScoreNumberOfMeasures (
       fScoreNumberOfMeasures);
 
+/* JMI ??? THROW AWAY ???
   // fetch the identification from the credits if any
   fMsrScore ->
     fetchIdentificationFromCreditsIfAny (
       inputLineNumber);
+      */
 }
 
 //______________________________________________________________________________
@@ -1824,6 +1826,26 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_work_title& elt )
     setWorkTitle (
       inputLineNumber,
       workTitle);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_opus& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_opus" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  string opus = elt->getValue ();
+
+  fMsrScore->getIdentification () ->
+    setOpus (
+      inputLineNumber,
+      opus);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_number& elt )
