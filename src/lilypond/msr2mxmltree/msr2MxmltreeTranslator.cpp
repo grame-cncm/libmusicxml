@@ -44,7 +44,36 @@ using namespace std;
 
 namespace MusicXML2
 {
-//________________________________________________________________________
+//______________________________________________________________________________
+string msr2MxmltreeTranslator::msrLengthAsTenths (
+  S_msrLength length)
+{
+  float lengthValue = length->getLengthValue ();
+
+  // convert lengthValue to millimeters
+  switch (length->getLengthUnitKind ()) {
+    case kInchUnit:
+      lengthValue *= 25.4;
+      break;
+    case kCentimeterUnit:
+      lengthValue *= 10;
+      break;
+    case kMillimeterUnit:
+      break;
+  } // switch
+
+  // compute the number of tenths
+  float tenths = lengthValue / fMillimeters * fTenths;
+
+  // compute result
+  stringstream s;
+
+  s << tenths;
+
+  return s.str ();
+}
+
+//______________________________________________________________________________
 string msr2MxmltreeTranslator::msrPlacementKindAsMusicXMLString (
   msrPlacementKind placementKind)
 {
@@ -119,9 +148,6 @@ void msr2MxmltreeTranslator::appendSubElementToScoreIdentificationEncoding (
   if (! fScoreIdentificationEncodingElement) {
     // create an encoding element
     fScoreIdentificationEncodingElement = createElement (k_encoding, "");
-
-    // append it to the identification element
-    appendSubElementToScoreIdentification (fScoreIdentificationEncodingElement);
   }
 
   fScoreIdentificationEncodingElement->push (elem);
@@ -137,6 +163,28 @@ void msr2MxmltreeTranslator::appendSubElementToScoreDefaults (
   }
 
   fScoreDefaultsElement->push (elem);
+}
+
+void msr2MxmltreeTranslator::appendSubElementToScoreDefaultsPageLayout (
+  Sxmlelement elem)
+{
+  if (! fScoreDefaultsPageLayoutElement) {
+    // create a page layout element
+    fScoreDefaultsPageLayoutElement = createElement (k_page_layout, "");
+  }
+
+  fScoreDefaultsPageLayoutElement->push (elem);
+}
+
+void msr2MxmltreeTranslator::appendSubElementToScoreDefaultsSystemLayout (
+  Sxmlelement elem)
+{
+  if (! fScoreDefaultsSystemLayoutElement) {
+    // create a system layout element
+    fScoreDefaultsSystemLayoutElement = createElement (k_system_layout, "");
+  }
+
+  fScoreDefaultsSystemLayoutElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -363,9 +411,6 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
   // double tremolos
   fOnGoingDoubleTremolo = false;
 
-  // grace notes
-  fOnGoingGraceNotesGroup = false;
-
   // stanzas
   fOnGoingStanza = false;
 
@@ -476,6 +521,21 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
   // append the score identification element if any to the score part wise element
   if (fScoreIdentificationElement) {
     fScorePartWiseElement->push (fScoreIdentificationElement);
+  }
+
+  if (fScoreDefaultsScalingElement) {
+    // append the scaling element to the score defaults elements
+    appendSubElementToScoreDefaults (fScoreDefaultsScalingElement);
+  }
+
+  if (fScoreDefaultsPageLayoutElement) {
+    // append the page layout element to the score defaults elements
+    appendSubElementToScoreDefaults (fScoreDefaultsPageLayoutElement);
+  }
+
+  if (fScoreDefaultsSystemLayoutElement) {
+    // append the sysem layout element to the score defaults elements
+    appendSubElementToScoreDefaults (fScoreDefaultsSystemLayoutElement);
   }
 
   // append the score defaults element if any to the score part wise element
@@ -656,15 +716,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
       createAttribute ("name", "description")); // ??? JMI sometines "comment"
 
     // create a miscellaneous element
-    Sxmlelement
-      miscellaneousElement =
-        createElement (k_miscellaneous, "");
+    fIdentificationMiscellaneousElement = createElement (k_miscellaneous, "");
 
     // append the miscellaneous field element to it
-    miscellaneousElement->push (miscellaneousFieldElement);
-
-    // append the miscellaneous field element to the score identification element
-    appendSubElementToScoreIdentification (miscellaneousElement);
+    fIdentificationMiscellaneousElement->push (miscellaneousFieldElement);
   }
 
   // score instrument
@@ -686,6 +741,309 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
     // append it to the score part wise element
     fScorePartWiseElement->push (scoreInstrumentElement);
   }
+
+/*
+<!--
+	Identification contains basic metadata about the score.
+	It includes the information in MuseData headers that
+	may apply at a score-wide, movement-wide, or part-wide
+	level. The creator, rights, source, and relation elements
+	are based on Dublin Core.
+-->
+<!ELEMENT identification (creator*, rights*, encoding?,
+	source?, relation*, miscellaneous?)>
+
+<!--
+	The creator element is borrowed from Dublin Core. It is
+	used for the creators of the score. The type attribute is
+	used to distinguish different creative contributions. Thus,
+	there can be multiple creators within an identification.
+	Standard type values are composer, lyricist, and arranger.
+	Other type values may be used for different types of
+	creative roles. The type attribute should usually be used
+	even if there is just a single creator element. The MusicXML
+	format does not use the creator / contributor distinction
+	from Dublin Core.
+-->
+<!ELEMENT creator (#PCDATA)>
+<!ATTLIST creator
+    type CDATA #IMPLIED
+>
+
+<!--
+	Rights is borrowed from Dublin Core. It contains
+	copyright and other intellectual property notices.
+	Words, music, and derivatives can have different types,
+	so multiple rights tags with different type attributes
+	are supported. Standard type values are music, words,
+	and arrangement, but other types may be used. The
+	type attribute is only needed when there are multiple
+	rights elements.
+-->
+<!ELEMENT rights (#PCDATA)>
+<!ATTLIST rights
+    type CDATA #IMPLIED
+>
+
+
+
+<!--
+	Encoding contains information about who did the digital
+	encoding, when, with what software, and in what aspects.
+	Standard type values for the encoder element are music,
+	words, and arrangement, but other types may be used. The
+	type attribute is only needed when there are multiple
+	encoder elements.
+
+	The supports element indicates if the encoding supports
+	a particular MusicXML element. This is recommended for
+	elements like beam, stem, and accidental, where the
+	absence of an element is ambiguous if you do not know
+	if the encoding supports that element. For Version 2.0,
+	the supports element is expanded to allow programs to
+	indicate support for particular attributes or particular
+	values. This lets applications communicate, for example,
+	that all system and/or page breaks are contained in the
+	MusicXML file.
+-->
+<!ELEMENT encoding ((encoding-date | encoder | software |
+	encoding-description | supports)*)>
+<!ELEMENT encoding-date %yyyy-mm-dd;>
+<!ELEMENT encoder (#PCDATA)>
+<!ATTLIST encoder
+    type CDATA #IMPLIED
+>
+<!ELEMENT software (#PCDATA)>
+<!ELEMENT encoding-description (#PCDATA)>
+<!ELEMENT supports EMPTY>
+<!ATTLIST supports
+    type %yes-no; #REQUIRED
+    element CDATA #REQUIRED
+    attribute CDATA #IMPLIED
+    value CDATA #IMPLIED
+>
+
+<!--
+	The source for the music that is encoded. This is similar
+	to the Dublin Core source element.
+-->
+<!ELEMENT source (#PCDATA)>
+
+<!--
+	A related resource for the music that is encoded. This is
+	similar to the Dublin Core relation element. Standard type
+	values are music, words, and arrangement, but other
+	types may be used.
+-->
+<!ELEMENT relation (#PCDATA)>
+<!ATTLIST relation
+    type CDATA #IMPLIED
+>
+
+<!--
+	If a program has other metadata not yet supported in the
+	MusicXML format, it can go in the miscellaneous area.
+-->
+<!ELEMENT miscellaneous (miscellaneous-field*)>
+<!ELEMENT miscellaneous-field (#PCDATA)>
+<!ATTLIST miscellaneous-field
+    name CDATA #REQUIRED
+>
+*/
+
+  // composers
+  S_msrVarValsListAssoc
+    composers = elt->getComposers ();
+
+  if (composers) {
+    const list<string>&
+      variableValuesList =
+        composers->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a creator element
+      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+
+      // set its type attribute
+      creatorElement->add (createAttribute ("type", "composer"));
+
+      // append it to the composers elements list
+      fComposersElementsList.push_back (creatorElement);
+    } // for
+  }
+
+  // arrangers
+  S_msrVarValsListAssoc
+    arrangers = elt->getArrangers ();
+
+  if (arrangers) {
+    const list<string>&
+      variableValuesList =
+        arrangers->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a creator element
+      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+
+      // set its type attribute
+      creatorElement->add (createAttribute ("type", "arranger"));
+
+      // append it to the composers elements list
+      fComposersElementsList.push_back (creatorElement);
+    } // for
+  }
+
+  // lyricists
+  S_msrVarValsListAssoc
+    lyricists = elt->getLyricists ();
+
+  if (lyricists) {
+    const list<string>&
+      variableValuesList =
+        lyricists->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a creator element
+      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+
+      // set its type attribute
+      creatorElement->add (createAttribute ("type", "lyricist"));
+
+      // append it to the composers elements list
+      fComposersElementsList.push_back (creatorElement);
+    } // for
+  }
+
+  // poets
+  S_msrVarValsListAssoc
+    poets = elt->getPoets ();
+
+  if (poets) {
+    const list<string>&
+      variableValuesList =
+        poets->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a creator element
+      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+
+      // set its type attribute
+      creatorElement->add (createAttribute ("type", "poet"));
+
+      // append it to the composers elements list
+      fComposersElementsList.push_back (creatorElement);
+    } // for
+  }
+
+  // translators
+  S_msrVarValsListAssoc
+    translators = elt->getTranslators ();
+
+  if (translators) {
+    const list<string>&
+      variableValuesList =
+        translators->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a creator element
+      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+
+      // set its type attribute
+      creatorElement->add (createAttribute ("type", "translator"));
+
+      // append it to the composers elements list
+      fComposersElementsList.push_back (creatorElement);
+    } // for
+  }
+
+  // artists
+  S_msrVarValsListAssoc
+    artists = elt->getArtists ();
+
+  if (artists) {
+    const list<string>&
+      variableValuesList =
+        artists->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a creator element
+      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+
+      // set its type attribute
+      creatorElement->add (createAttribute ("type", "artist"));
+
+      // append it to the composers elements list
+      fComposersElementsList.push_back (creatorElement);
+    } // for
+  }
+
+  // softwares
+  S_msrVarValsListAssoc
+    softwares = elt->getSoftwares ();
+
+  if (softwares) {
+    const list<string>&
+      variableValuesList =
+        softwares->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a software element to the softwares elements list
+      fSoftwaresElementsList.push_back (
+        createElement (
+        k_software,
+        variableValue));
+    } // for
+  }
+
+  // rights
+  S_msrVarValsListAssoc
+    rights = elt->getRights ();
+
+  if (rights) {
+    const list<string>&
+      variableValuesList =
+        rights->getVariableValuesList ();
+
+    list<string>::const_iterator i;
+
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      string variableValue = (*i);
+
+      // append a rights element to the rights elements list
+      fRightsElementsList.push_back (
+        createElement (
+        k_rights,
+        variableValue));
+    } // for
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
@@ -698,114 +1056,40 @@ void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
       endl;
   }
 #endif
-}
 
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrVarValAssoc& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
+  if (fRightsElementsList.size ()) {
+    // append the rights elements to the score identification element
+    list<Sxmlelement>::const_iterator i;
 
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrVarValAssoc" <<
-      ", line " << inputLineNumber <<
-      endl;
+    for (i=fRightsElementsList.begin (); i!=fRightsElementsList.end (); i++) {
+      Sxmlelement rightsElement = (*i);
+
+      appendSubElementToScoreIdentification (rightsElement);
+    } // for
   }
-#endif
 
-  msrVarValAssoc::msrVarValAssocKind
-    varValAssocKind =
-      elt->getVarValAssocKind ();
+  if (fScoreIdentificationEncodingElement) {
+    if (fSoftwaresElementsList.size ()) {
+      // append the software elements to the score identification  encoding element
+      for (
+        list<Sxmlelement>::const_iterator i = fSoftwaresElementsList.begin ();
+        i!=fSoftwaresElementsList.end ();
+        i++
+      ) {
+        Sxmlelement softwareElement = (*i);
 
-  string variableValueAux = elt->getVariableValue ();
-  string variableValue;
+        appendSubElementToScoreIdentificationEncoding (softwareElement);
+      } // for
+    }
 
-  // escape quotes if any
-  for_each (
-    variableValueAux.begin (),
-    variableValueAux.end (),
-    stringQuoteEscaper (variableValue));
-
-  switch (varValAssocKind) {
-    case msrVarValAssoc::kWorkNumber:
-      break;
-
-    case msrVarValAssoc::kWorkTitle:
-      break;
-
-    case msrVarValAssoc::kOpus:
-      break;
-
-    case msrVarValAssoc::kMovementNumber:
-      break;
-
-    case msrVarValAssoc::kMovementTitle:
-      break;
-
-    case msrVarValAssoc::kEncodingDate:
-      break;
-
-    case msrVarValAssoc::kScoreInstrument:
-      break;
-
-    case msrVarValAssoc::kMiscellaneousField:
-      {
-      /* JMI
-        // create a miscellaneous field element
-        Sxmlelement
-          miscellaneousFieldElement =
-            createElement (
-              k_miscellaneous_field,
-              variableValue);
-
-        // set its name attribute
-        miscellaneousFieldElement->add (
-          createAttribute ("name", "description")); // ??? JMI sometines "comment"
-
-        // create a miscellaneous element
-        Sxmlelement
-          miscellaneousElement =
-            createElement (k_miscellaneous, "");
-
-        // append the miscellaneous field element to it
-        miscellaneousElement->push (miscellaneousFieldElement);
-
-        // append the miscellaneous field element to the score identification element
-        appendSubElementToScoreIdentification (miscellaneousElement);
-        */
-      }
-      break;
-
-    default:
-      {
-      stringstream s;
-
-      s <<
-        "### msrVarValAssoc kind '" <<
-        msrVarValAssoc::varValAssocKindAsString (
-          varValAssocKind) <<
-        "' is not handled";
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-      }
-  } // switch
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrVarValAssoc& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrVarValAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
+    // append the score identification element to the score identification
+    appendSubElementToScoreIdentification (fScoreIdentificationEncodingElement);
   }
-#endif
+
+  if (fIdentificationMiscellaneousElement) {
+    // append the miscellaneous element to the score identification element
+    appendSubElementToScoreIdentification (fIdentificationMiscellaneousElement);
+  }
 }
 
 //________________________________________________________________________
@@ -822,20 +1106,20 @@ void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
 
   gIndenter++;
 
-  float
-    millimeters = elt->getMillimeters (),
-    tenths      = elt->getTenths ();
+  // get the values
+  fMillimeters = elt->getMillimeters ();
+  fTenths      = elt->getTenths ();
 
   // create a scaling element
-  Sxmlelement scalingElement = createElement (k_scaling, "");
+  fScoreDefaultsScalingElement = createElement (k_scaling, "");
 
   // append a millimeters sub-element to it
   {
     stringstream s;
 
-    s << millimeters;
+    s << fMillimeters;
 
-    scalingElement->push (
+    fScoreDefaultsScalingElement->push (
       createElement (
         k_millimeters,
         s.str ()));
@@ -845,16 +1129,13 @@ void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
   {
     stringstream s;
 
-    s << tenths;
+    s << fTenths;
 
-    scalingElement->push (
+    fScoreDefaultsScalingElement->push (
       createElement (
         k_tenths,
         s.str ()));
   }
-
-  // append the scaling element to the score defaults elements
-  appendSubElementToScoreDefaults (scalingElement);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrScaling& elt)
@@ -865,6 +1146,88 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScaling& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrScaling" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrPageLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrPageLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // page size
+  S_msrLength pageHeight = elt->getPageHeight ();
+
+  if (pageHeight) {
+    // append a page height element to the defaults page layout element
+    appendSubElementToScoreDefaultsPageLayout (
+      createElement (
+        k_page_height,
+        msrLengthAsTenths (pageHeight)));
+  }
+
+  S_msrLength pageWidth = elt->getPageWidth ();
+
+  if (pageWidth) {
+    // append a page width element to the defaults page layout element
+    appendSubElementToScoreDefaultsPageLayout (
+      createElement (
+        k_page_width,
+        msrLengthAsTenths (pageWidth)));
+  }
+
+  // margins
+  S_msrMargin leftMargin = elt->getLeftMargin ();
+  S_msrMargin rightMargin = elt->getRightMargin ();
+  S_msrMargin topMargin = elt->getTopMargin ();
+  S_msrMargin bottomMargin = elt->getBottomMargin ();
+
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrPageLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrPageLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrSystemLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrSystemLayout& elt)
+{
+  gIndenter--;
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrSystemLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -5579,7 +5942,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStanza& elt)
         fCurrentVoiceClone);
 
     // append the stanza clone to the LPSR score elements list
-    fScorePartWiseElement ->
+    fScorePartWiseElement->
       appendStanzaToScoreElementsList (
         fCurrentStanzaClone);
 
@@ -7093,194 +7456,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrBeam& elt)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrChord" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  fCurrentChordClone =
-    elt->createChordNewbornClone (
-      fCurrentPartClone);
-
-  if (fTupletClonesStack.size ()) {
-    // a chord in a tuplet is handled as part of the tuplet JMI
-    fTupletClonesStack.top ()->
-      appendChordToTuplet (
-        fCurrentChordClone);
-  }
-
-  else if (fOnGoingDoubleTremolo) {
-    if (elt->getChordIsFirstChordInADoubleTremolo ()) {
-      // replace double tremolo's first element by chord
-      fCurrentDoubleTremoloClone->
-        setDoubleTremoloChordFirstElement (
-          elt);
-    }
-
-    else if (elt->getChordIsSecondChordInADoubleTremolo ()) {
-      // replace double tremolo's second element by chord
-      fCurrentDoubleTremoloClone->
-        setDoubleTremoloChordSecondElement (
-          elt);
-    }
-
-    else {
-      stringstream s;
-
-      s <<
-        "chord '" << elt->asString () <<
-        "' belongs to a double tremolo, but is not marked as such";
-
-      msrInternalError (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
-
-  else if (fCurrentGraceNotesGroupClone) {
-    // append the chord to the grace notes
-    fCurrentGraceNotesGroupClone->
-      appendChordToGraceNotesGroup (
-        fCurrentChordClone);
-  }
-
-  else {
-    // appending the chord to the voice clone at once
-    fCurrentVoiceClone->
-      appendChordToVoice (
-        fCurrentChordClone);
-  }
-
-  fOnGoingChord = true;
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrChord" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  fOnGoingChord = false;
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrTuplet" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  // create the tuplet clone
-  S_msrTuplet
-    tupletClone =
-      elt->createTupletNewbornClone ();
-
-  // register it in this visitor
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets) {
-    fLogOutputStream <<
-      "++> pushing tuplet '" <<
-      tupletClone->asString () <<
-      "' to tuplets stack" <<
-      endl;
-  }
-#endif
-
-  fTupletClonesStack.push (tupletClone);
-
-  switch (elt->getTupletLineShapeKind ()) {
-    case msrTuplet::kTupletLineShapeStraight:
-      break;
-    case msrTuplet::kTupletLineShapeCurved:
-      fScorePartWiseElement->
-        // this score needs the 'tuplets curved brackets' Scheme function
-        setTupletsCurvedBracketsSchemeFunctionIsNeeded ();
-      break;
-  } // switch
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrTuplet" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets) {
-    fLogOutputStream <<
-      "Popping tuplet '" <<
-      elt->asString () <<
-      "' from tuplets stack" <<
-      endl;
-  }
-#endif
-
-  fTupletClonesStack.pop ();
-
-  if (fTupletClonesStack.size ()) {
-    // tuplet is a nested tuplet
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceTuplets) {
-      fLogOutputStream <<
-        "Adding nested tuplet '" <<
-      elt->asString () <<
-        "' to stack top tuplet '" <<
-      fTupletClonesStack.top ()->asString () <<
-      "'" <<
-      endl;
-    }
-#endif
-
-    fTupletClonesStack.top ()->
-      addTupletToTupletClone (elt);
-  }
-
-  else {
-    // tuplet is a top level tuplet
-
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceTuplets) {
-      fLogOutputStream <<
-        "Adding top level tuplet '" <<
-      elt->asString () <<
-      "' to voice" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      endl;
-    }
-#endif
-
-    fCurrentVoiceClone->
-      appendTupletToVoice (elt);
-  }
-}
-
-//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrTie& elt)
 {
 #ifdef TRACE_OAH
@@ -8126,178 +8301,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   fCurrentVoiceClone->
     handleMeasuresRepeatReplicasEndInVoiceClone (
       inputLineNumber);
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrVarValsListAssoc& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrVarValsListAssoc" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  msrVarValsListAssoc::msrVarValsListAssocKind
-    varValsListAssocKind =
-      elt->getVarValsListAssocKind ();
-
-  const list<string>&
-    variableValuesList =
-      elt->getVariableValuesList ();
-
-  switch (varValsListAssocKind) {
-    case msrVarValsListAssoc::kRights:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addRights (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kComposer:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addComposer (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kArranger:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addArranger (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kLyricist:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addLyricist (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kPoet:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addPoet (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kTranslator:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addTranslator (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kArtist:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addArtist (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kSoftware:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addSoftware (
-            inputLineNumber, (*i));
-      } // for
-      break;
-/ * JMI
-    default:
-      {
-      stringstream s;
-
-      s <<
-        "### msrVarValsListAssoc kind '" <<
-        msrVarValsListAssoc::varValsListAssocKindAsString (
-          varValsListAssocKind) <<
-        "' is not handled";
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-      }
-      * /
-  } // switch
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrVarValsListAssoc& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrVarValsListAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrPageLayout& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrPageLayout" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-}
-
-void msr2MxmltreeTranslator::visitEnd (S_msrPageLayout& elt)
-{
-  gIndenter--;
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrPageLayout" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
 }
 
 //________________________________________________________________________

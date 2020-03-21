@@ -34,11 +34,6 @@ class msr2MxmltreeTranslator :
   public visitor<S_msrCredit>,
   public visitor<S_msrCreditWords>,
 
-  // variable-value associations
-
-  public visitor<S_msrVarValAssoc>,
-  public visitor<S_msrVarValsListAssoc>,
-
   // scaling
 
   public visitor<S_msrScaling>,
@@ -46,6 +41,7 @@ class msr2MxmltreeTranslator :
   // layout
 
   public visitor<S_msrPageLayout>,
+  public visitor<S_msrSystemLayout>,
 
   // parts & part groups
 
@@ -190,14 +186,6 @@ class msr2MxmltreeTranslator :
   public visitor<S_msrHarpPedalsTuning>,
 
   public visitor<S_msrStem>,
-
-  // chords
-
-  // public visitor<S_msrChord>,
-
-  // tuplets
-
-  public visitor<S_msrTuplet>,
 
   // ties, slurs, brackets & beams
 
@@ -406,12 +394,6 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrBeam& elt);
     virtual void visitEnd   (S_msrBeam& elt);
 
-    virtual void visitStart (S_msrChord& elt);
-    virtual void visitEnd   (S_msrChord& elt);
-
-    virtual void visitStart (S_msrTuplet& elt);
-    virtual void visitEnd   (S_msrTuplet& elt);
-
     virtual void visitStart (S_msrTie& elt);
     virtual void visitEnd   (S_msrTie& elt);
 
@@ -464,18 +446,16 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrRestMeasuresContents& elt);
     virtual void visitEnd   (S_msrRestMeasuresContents& elt);
 */
-    virtual void visitStart (S_msrVarValAssoc& elt);
-    virtual void visitEnd   (S_msrVarValAssoc& elt);
-/*
-    virtual void visitStart (S_msrVarValsListAssoc& elt);
-    virtual void visitEnd   (S_msrVarValsListAssoc& elt);
-*/
     virtual void visitStart (S_msrScaling& elt);
     virtual void visitEnd   (S_msrScaling& elt);
-/*
+
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);
 
+    virtual void visitStart (S_msrSystemLayout& elt);
+    virtual void visitEnd   (S_msrSystemLayout& elt);
+
+/*
     virtual void visitStart (S_msrMidiTempo& elt);
     virtual void visitEnd   (S_msrMidiTempo& elt);
 */
@@ -493,6 +473,14 @@ class msr2MxmltreeTranslator :
     // the mxmltree we're building
     // ------------------------------------------------------
     Sxmlelement               fScorePartWiseElement;
+
+
+    // scaling
+    // ------------------------------------------------------
+    float                     fMillimeters;
+    float                     fTenths;
+
+    Sxmlelement               fScoreDefaultsScalingElement;
 
 
     // work
@@ -521,10 +509,58 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreIdentificationElement;
 
+/*
+<!ELEMENT identification (creator*, rights*, encoding?,
+	source?, relation*, miscellaneous?)>
+*/
+
+    // identification creator
+    list<Sxmlelement>         fComposersElementsList;
+    list<Sxmlelement>         fLyricistsElementsList;
+    list<Sxmlelement>         fArrangersElementsList;
+
+    list<Sxmlelement>         fPoetsElementsList;
+    list<Sxmlelement>         fTranslatorsElementsList;
+    list<Sxmlelement>         fArtistsElementsList;
+
+    list<Sxmlelement>         fSoftwaresElementsList;
+
+    // identification rights
+    list<Sxmlelement>         fRightsElementsList;
+
+
+    // identification encoding
     Sxmlelement               fScoreIdentificationEncodingElement;
+
+/* JMI to be handled
+<!ELEMENT encoding ((encoding-date | encoder |
+	encoding-description | supports)*)>
+<!ELEMENT encoding-date %yyyy-mm-dd;>
+<!ELEMENT encoder (#PCDATA)>
+<!ATTLIST encoder
+    type CDATA #IMPLIED
+>
+<!ELEMENT encoding-description (#PCDATA)>
+<!ELEMENT supports EMPTY>
+<!ATTLIST supports
+    type %yes-no; #REQUIRED
+    element CDATA #REQUIRED
+    attribute CDATA #IMPLIED
+    value CDATA #IMPLIED
+*/
+
+    // identification source
+    Sxmlelement               fScoreIdentificationSourceElement;
+
+    // identification relation
+    Sxmlelement               fScoreIdentificationRelationElement;
+
+    // identification miscellaneous
+    Sxmlelement               fIdentificationMiscellaneousElement;
 
     void                      appendSubElementToScoreIdentification (
                                 Sxmlelement elem);
+
     void                      appendSubElementToScoreIdentificationEncoding (
                                 Sxmlelement elem);
 
@@ -533,7 +569,15 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreDefaultsElement;
 
+    Sxmlelement               fScoreDefaultsPageLayoutElement;
+    Sxmlelement               fScoreDefaultsSystemLayoutElement;
+
     void                      appendSubElementToScoreDefaults (
+                                Sxmlelement elem);
+
+    void                      appendSubElementToScoreDefaultsPageLayout (
+                                Sxmlelement elem);
+    void                      appendSubElementToScoreDefaultsSystemLayout (
                                 Sxmlelement elem);
 
 
@@ -809,9 +853,6 @@ class msr2MxmltreeTranslator :
 
     // grace notes
     // ------------------------------------------------------
-    S_msrGraceNotesGroup      fCurrentGraceNotesGroupClone;
-    S_msrNote                 fCurrentGraceNoteClone;
-    bool                      fOnGoingGraceNotesGroup;
 
     // afterGraceNotes optimisation
     S_msrAfterGraceNotesGroup fPendingAfterGraceNotesGroup;
@@ -821,13 +862,6 @@ class msr2MxmltreeTranslator :
     // chords
     // ------------------------------------------------------
     bool                      fOnGoingChord;
-
-
-    // tuplets
-    // ------------------------------------------------------
-//    S_msrTuplet             fCurrentTupletClone;
- //   bool                      fOnGoingTuplet;
-    stack<S_msrTuplet>        fTupletClonesStack;
 
 
     // stanzas
@@ -846,6 +880,9 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
     void                      displayCurrentOnGoingValues ();
 */
+
+    string                    msrLengthAsTenths (
+                                S_msrLength length);
 
     string                    msrPlacementKindAsMusicXMLString (
                                 msrPlacementKind placementKind);

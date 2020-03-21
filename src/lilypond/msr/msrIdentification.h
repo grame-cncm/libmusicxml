@@ -148,11 +148,6 @@ class msrIdentification : public msrElement
     // services
     // ------------------------------------------------------
 
-    // rights
-    void                  addRights (
-                            int    inputLineNumber,
-                            string value);
-
     // composers
     void                  addComposer (
                             int    inputLineNumber,
@@ -183,6 +178,11 @@ class msrIdentification : public msrElement
                             int    inputLineNumber,
                             string value);
 
+    // rights
+    void                  addRights (
+                            int    inputLineNumber,
+                            string value);
+
     // softwares
     void                  addSoftware (
                             int    inputLineNumber,
@@ -210,8 +210,33 @@ class msrIdentification : public msrElement
     // fields
     // ------------------------------------------------------
 
+    // identification creator
+    S_msrVarValsListAssoc fComposers;
+    S_msrVarValsListAssoc fLyricists;
+    S_msrVarValsListAssoc fArrangers;
+
+    S_msrVarValsListAssoc fPoets;
+    S_msrVarValsListAssoc fTranslators;
+    S_msrVarValsListAssoc fArtists;
+
+    S_msrVarValsListAssoc fSoftwares;
+
+    // identification rights
     S_msrVarValsListAssoc fRights;
 
+    // identification encoding
+    S_msrVarValAssoc      fEncodingDate;
+
+    // identification source
+    S_msrVarValsListAssoc fSource;
+
+    // identification relation
+    S_msrVarValsListAssoc fRelation;
+
+    // identification miscellaneous
+    S_msrVarValAssoc      fMiscellaneousField;
+
+    // identification work
     S_msrVarValAssoc      fWorkNumber;
     S_msrVarValAssoc      fWorkTitle;
     S_msrVarValAssoc      fOpus;
@@ -219,19 +244,7 @@ class msrIdentification : public msrElement
     S_msrVarValAssoc      fMovementNumber;
     S_msrVarValAssoc      fMovementTitle;
 
-    S_msrVarValsListAssoc fComposers;
-    S_msrVarValsListAssoc fArrangers;
-    S_msrVarValsListAssoc fLyricists;
-    S_msrVarValsListAssoc fPoets;
-    S_msrVarValsListAssoc fTranslators;
-    S_msrVarValsListAssoc fArtists;
-
-    S_msrVarValsListAssoc fSoftwares;
-
-    S_msrVarValAssoc      fEncodingDate;
-
-    S_msrVarValAssoc      fMiscellaneousField;
-
+    // score instrument
     S_msrVarValAssoc      fScoreInstrument;
 };
 typedef SMARTP<msrIdentification> S_msrIdentification;
