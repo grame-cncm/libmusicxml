@@ -51,10 +51,11 @@ msrScaling::msrScaling (
 {
   fMillimeters = -1;
   fTenths      = -1;
-
+/*
   fPageLayout =
     msrPageLayout::create (
       inputLineNumber);
+      */
 }
 
 msrScaling::~msrScaling ()
@@ -72,8 +73,8 @@ S_msrScaling msrScaling::createMsrScalingNewbornClone ()
   newbornClone->fTenths =
     fTenths;
 
-  newbornClone->fPageLayout =
-    fPageLayout;
+//  newbornClone->fPageLayout =
+//    fPageLayout;
 
   return newbornClone;
 }
@@ -235,12 +236,13 @@ void msrScaling::browseData (basevisitor* v)
       endl;
   }
 #endif
-
+/*
   // browse the page layout
   if (fPageLayout) {
     msrBrowser<msrPageLayout> browser (v);
     browser.browse (*fPageLayout);
   }
+  */
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
@@ -271,7 +273,7 @@ void msrScaling::print (ostream& os) const
     "tenths" << " : " <<
     setprecision (2) << fTenths <<
     endl;
-
+/*
   // page layout
   os << left <<
     setw (fieldWidth) <<
@@ -284,7 +286,7 @@ void msrScaling::print (ostream& os) const
       os << "none";
     }
   os << endl;
-
+*/
   gIndenter--;
 }
 

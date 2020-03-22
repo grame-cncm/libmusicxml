@@ -78,31 +78,35 @@ class msrPageLayout : public msrElement
     S_msrLength           getPageWidth () const
                               { return fPageWidth; }
 
-    // margins
-    void                  setLeftMargin (S_msrMargin val)
-                              { fLeftMargin = val; }
-    S_msrMargin           getLeftMargin () const
-                              { return fLeftMargin; }
+    // margins groups
+    void                  setOddMarginsGroup (S_msrMarginsGroup val)
+                              { fOddMarginsGroup = val; }
+    S_msrMarginsGroup     getOddMarginsGroup () const
+                              { return fOddMarginsGroup; }
 
-    void                  setRightMargin (S_msrMargin val)
-                              { fRightMargin = val; }
-    S_msrMargin           getRightMargin () const
-                              { return fRightMargin; }
+    void                  setEvenMarginsGroup (S_msrMarginsGroup val)
+                              { fEvenMarginsGroup = val; }
+    S_msrMarginsGroup     getEvenMarginsGroup () const
+                              { return fEvenMarginsGroup; }
 
-    void                  setTopMargin (S_msrMargin val)
-                              { fTopMargin = val; }
-    S_msrMargin           getTopMargin () const
-                              { return fTopMargin; }
-
-    void                  setBottomMargin (S_msrMargin val)
-                              { fBottomMargin = val; }
-    S_msrMargin           getBottomMargin () const
-                              { return fBottomMargin; }
+    void                  setBothMarginsGroup (S_msrMarginsGroup val)
+                              { fBothMarginsGroup = val; }
+    S_msrMarginsGroup     getBothMarginsGroup () const
+                              { return fBothMarginsGroup; }
 
   public:
 
     // services
     // ------------------------------------------------------
+
+    // LilyPond knows inner/outer margins and binding offset,
+    // but no odd, even nor both margins settings,
+    // so we need methods to obtain a single margin from
+    // fOddMarginsGroup, fEvenMarginsGroup and fBothMarginsGroup
+    S_msrMargin           getSingleLeftMargin ();
+    S_msrMargin           getSingleRightMargin ();
+    S_msrMargin           getSingleTopMargin ();
+    S_msrMargin           getSingleBottomMargin ();
 
   public:
 
@@ -130,11 +134,10 @@ class msrPageLayout : public msrElement
     S_msrLength           fPageHeight;
     S_msrLength           fPageWidth;
 
-    // margins
-    S_msrMargin           fLeftMargin;
-    S_msrMargin           fRightMargin;
-    S_msrMargin           fTopMargin;
-    S_msrMargin           fBottomMargin;
+    // margins groups
+    S_msrMarginsGroup     fOddMarginsGroup;
+    S_msrMarginsGroup     fEvenMarginsGroup;
+    S_msrMarginsGroup     fBothMarginsGroup;
 };
 typedef SMARTP<msrPageLayout> S_msrPageLayout;
 EXP ostream& operator<< (ostream& os, const S_msrPageLayout& elt);

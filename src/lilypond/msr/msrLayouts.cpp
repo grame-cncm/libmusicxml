@@ -43,6 +43,78 @@ msrPageLayout::msrPageLayout (
 msrPageLayout::~msrPageLayout ()
 {}
 
+S_msrMargin msrPageLayout::getSingleLeftMargin ()
+{
+  // heuristic, could be refined with suitable options JMI
+  S_msrMargin result;
+
+  if (fBothMarginsGroup) {
+    result = fBothMarginsGroup->getLeftMargin ();
+  }
+  else if (fOddMarginsGroup) {
+    result = fOddMarginsGroup->getLeftMargin ();
+  }
+  else if (fEvenMarginsGroup) {
+    result = fEvenMarginsGroup->getLeftMargin ();
+  }
+
+  return result;
+}
+
+S_msrMargin msrPageLayout::getSingleRightMargin ()
+{
+  // heuristic, could be refined with suitable options JMI
+  S_msrMargin result;
+
+  if (fBothMarginsGroup) {
+    result = fBothMarginsGroup->getRightMargin ();
+  }
+  else if (fOddMarginsGroup) {
+    result = fOddMarginsGroup->getRightMargin ();
+  }
+  else if (fEvenMarginsGroup) {
+    result = fEvenMarginsGroup->getRightMargin ();
+  }
+
+  return result;
+}
+
+S_msrMargin msrPageLayout::getSingleTopMargin ()
+{
+  // heuristic, could be refined with suitable options JMI
+  S_msrMargin result;
+
+  if (fBothMarginsGroup) {
+    result = fBothMarginsGroup->getTopMargin ();
+  }
+  else if (fOddMarginsGroup) {
+    result = fOddMarginsGroup->getTopMargin ();
+  }
+  else if (fEvenMarginsGroup) {
+    result = fEvenMarginsGroup->getTopMargin ();
+  }
+
+  return result;
+}
+
+S_msrMargin msrPageLayout::getSingleBottomMargin ()
+{
+  // heuristic, could be refined with suitable options JMI
+  S_msrMargin result;
+
+  if (fBothMarginsGroup) {
+    result = fBothMarginsGroup->getBottomMargin ();
+  }
+  else if (fOddMarginsGroup) {
+    result = fOddMarginsGroup->getBottomMargin ();
+  }
+  else if (fEvenMarginsGroup) {
+    result = fEvenMarginsGroup->getBottomMargin ();
+  }
+
+  return result;
+}
+
 void msrPageLayout::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
@@ -89,15 +161,7 @@ void msrPageLayout::acceptOut (basevisitor* v)
 
 void msrPageLayout::browseData (basevisitor* v)
 {
-/* JMI ???
-  int n1 = fVarValAssocs.size ();
-
-  for (int i = 0; i < n1; i++ ) {
-    // browse the stanza
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fVarValAssocs [i]);
-  } // for
-  */
+  // JMI ???
 }
 
 void msrPageLayout::print (ostream& os) const
@@ -131,6 +195,125 @@ void msrPageLayout::print (ostream& os) const
     }
   os << endl;
 
+  // margins groups
+  os << left <<
+    setw (fieldWidth) <<
+    "oddMarginsGroup" << " : ";
+    if (fOddMarginsGroup) {
+      os << fOddMarginsGroup;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "evenMarginsGroup" << " : ";
+    if (fEvenMarginsGroup) {
+      os << fEvenMarginsGroup;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "bothMarginsGroup" << " : ";
+    if (fBothMarginsGroup) {
+      os << fBothMarginsGroup;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrPageLayout& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrSystemLayout msrSystemLayout::create (
+  int inputLineNumber)
+{
+  msrSystemLayout* o =
+    new msrSystemLayout (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrSystemLayout::msrSystemLayout (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{}
+
+msrSystemLayout::~msrSystemLayout ()
+{}
+
+void msrSystemLayout::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrSystemLayout::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrSystemLayout>*
+    p =
+      dynamic_cast<visitor<S_msrSystemLayout>*> (v)) {
+        S_msrSystemLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrSystemLayout::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrSystemLayout::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrSystemLayout::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrSystemLayout>*
+    p =
+      dynamic_cast<visitor<S_msrSystemLayout>*> (v)) {
+        S_msrSystemLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrSystemLayout::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrSystemLayout::browseData (basevisitor* v)
+{
+  // JMI ???
+}
+
+void msrSystemLayout::print (ostream& os) const
+{
+  os << "SystemLayout" << endl;
+
+  const int fieldWidth = 13;
+
+  gIndenter++;
+
   // margins
   os << left <<
     setw (fieldWidth) <<
@@ -154,11 +337,12 @@ void msrPageLayout::print (ostream& os) const
     }
   os << endl;
 
+  // distances
   os << left <<
     setw (fieldWidth) <<
-    "topMargin" << " : ";
-    if (fTopMargin) {
-      os << fTopMargin;
+    "systemDistance" << " : ";
+    if (fSystemDistance) {
+      os << fSystemDistance;
     }
     else {
       os << "none";
@@ -167,32 +351,19 @@ void msrPageLayout::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "bottomMargin" << " : ";
-    if (fBottomMargin) {
-      os << fBottomMargin;
+    "topSystemDistance" << " : ";
+    if (fTopSystemDistance) {
+      os << fTopSystemDistance;
     }
     else {
       os << "none";
     }
   os << endl;
-
-    /* JMI
-  int n1 = fVarValAssocs.size ();
-
-  for (int i = 0; i < n1; i++ ) {
-    os << fVarValAssocs [i];
-  } // for
-
-  int n2 = fMsrSchemeVarValAssocs.size ();
-  for (int i = 0; i < n2; i++ ) {
-    os << fMsrSchemeVarValAssocs[i];
-  } // for
-  */
 
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrPageLayout& elt)
+ostream& operator<< (ostream& os, const S_msrSystemLayout& elt)
 {
   elt->print (os);
   return os;

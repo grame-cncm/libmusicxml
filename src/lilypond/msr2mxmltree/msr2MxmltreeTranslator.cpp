@@ -1186,10 +1186,13 @@ void msr2MxmltreeTranslator::visitStart (S_msrPageLayout& elt)
   }
 
   // margins
-  S_msrMargin leftMargin = elt->getLeftMargin ();
-  S_msrMargin rightMargin = elt->getRightMargin ();
-  S_msrMargin topMargin = elt->getTopMargin ();
-  S_msrMargin bottomMargin = elt->getBottomMargin ();
+  S_msrMargin leftMargin = elt->getSingleLeftMargin ();
+
+  S_msrMargin rightMargin = elt->getSingleRightMargin ();
+
+  S_msrMargin topMargin = elt->getSingleTopMargin ();
+
+  S_msrMargin bottomMargin = elt->getSingleBottomMargin ();
 
 }
 

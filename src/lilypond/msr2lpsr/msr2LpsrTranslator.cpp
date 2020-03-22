@@ -394,6 +394,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceGeometry) {
+  /*
     // get the paper width
     S_msrLength
       paperWidth =
@@ -406,7 +407,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
         "setPaperIndentsIfNeeded()" << // JMI ???
         endl;
     }
-
+*/
     gIndenter++;
 
     const int fieldWidth = 40;
@@ -443,7 +444,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       "charactersPerCemtimeter" << " : " <<
       charactersPerCemtimeter <<
       endl;
-
+/*
     fLogOutputStream << left <<
       setw (fieldWidth) <<
       "paperWidth" << " : ";
@@ -454,7 +455,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       fLogOutputStream << "none";
     }
     fLogOutputStream << endl;
-
+*/
     gIndenter--;
   }
 #endif

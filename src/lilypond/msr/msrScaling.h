@@ -61,12 +61,13 @@ class msrScaling : public msrElement
                               { fTenths = val; }
     float                 getTenths () const
                               { return float(fTenths); }
-
+/* JMI
     // page layout
     void                  setPageLayout (S_msrPageLayout val)
                               { fPageLayout = val; }
     S_msrPageLayout       getPageLayout () const
                               { return fPageLayout; }
+*/
 
   public:
 
@@ -103,7 +104,7 @@ class msrScaling : public msrElement
     int                   fTenths;
 
     // page layout
-    S_msrPageLayout       fPageLayout;
+//    S_msrPageLayout       fPageLayout;
 };
 typedef SMARTP<msrScaling> S_msrScaling;
 EXP ostream& operator<< (ostream& os, const S_msrScaling& elt);

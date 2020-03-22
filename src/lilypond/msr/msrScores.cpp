@@ -628,13 +628,15 @@ void msrScore::print (ostream& os) const
   // print the scaling if any
   if (fScaling) {
     os <<
-      fScaling;
+      fScaling <<
+      endl;
   }
 
   // print the page layout if any
   if (fPageLayout) {
     os <<
-      fPageLayout;
+      fPageLayout <<
+      endl;
   }
 
   // print the credits if any

@@ -482,12 +482,26 @@ class mxmlTree2MsrSkeletonBuilder :
     float                     fCurrentMillimeters;
     int                       fCurrentTenths;
 
-    bool                      fOnGoingPageLayout;
+
+    // page layout handling
+    // ------------------------------------------------------
 
     bool                      fOnGoingPageMargins;
-    msrMarginTypeKind         fCurrentMarginTypeKind;
+
+    msrMarginTypeKind         fCurrentPageMarginsTypeKind;
+
+    S_msrPageLayout           fCurrentPageLayout;
+
+    bool                      fOnGoingPageLayout;
+    S_msrMarginsGroup         fCurrentPageLayoutMarginsGroup;
+
+
+    // system layout handling
+    // ------------------------------------------------------
 
     bool                      fOnGoingSystemLayout;
+
+    S_msrSystemLayout         fCurrentSystemLayout;
 
     bool                      fOnGoingSystemMargins;
 

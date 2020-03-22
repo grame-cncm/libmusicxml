@@ -14231,12 +14231,12 @@ string msrMargin::asString () const
   stringstream s;
 
   s <<
-    "'" <<
+    "[Margin, " <<
     setprecision (4) <<
     fMarginLength.asString () <<
     " " <<
     msrMarginTypeKindAsString (fMarginTypeKind) <<
-    "'";
+    "]";
 
   return s.str ();
 }
@@ -14248,6 +14248,223 @@ void msrMargin::print (ostream& os) const
 };
 
 ostream& operator<< (ostream& os, const S_msrMargin& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+// margins groups
+//______________________________________________________________________________
+S_msrMarginsGroup msrMarginsGroup::create (
+  msrMarginTypeKind marginTypeKind)
+{
+  msrMarginsGroup * o =
+    new msrMarginsGroup (
+      marginTypeKind);
+  assert(o!=0);
+
+  return o;
+}
+
+msrMarginsGroup::msrMarginsGroup (
+  msrMarginTypeKind marginTypeKind)
+{
+  fMarginsGroupTypeKind = marginTypeKind;
+}
+
+msrMarginsGroup::~msrMarginsGroup ()
+{}
+
+void msrMarginsGroup::setLeftMargin (
+  int         inputLineNumber,
+  S_msrMargin val)
+{
+  msrMarginTypeKind
+    marginTypeKind =
+      val->getMarginTypeKind ();
+
+  if (marginTypeKind != fMarginsGroupTypeKind) {
+    stringstream s;
+
+    s <<
+      "setting a " <<
+      msrMarginTypeKindAsString (marginTypeKind) <<
+      " left margin in a " <<
+      msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
+      " margins group";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fLeftMargin = val;
+}
+
+void msrMarginsGroup::setRightMargin (
+  int         inputLineNumber,
+  S_msrMargin val)
+{
+  msrMarginTypeKind
+    marginTypeKind =
+      val->getMarginTypeKind ();
+
+  if (marginTypeKind != fMarginsGroupTypeKind) {
+    stringstream s;
+
+    s <<
+      "setting a " <<
+      msrMarginTypeKindAsString (marginTypeKind) <<
+      " right margin in a " <<
+      msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
+      " margins group";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fRightMargin = val;
+}
+
+void msrMarginsGroup::setTopMargin (
+  int         inputLineNumber,
+  S_msrMargin val)
+{
+  msrMarginTypeKind
+    marginTypeKind =
+      val->getMarginTypeKind ();
+
+  if (marginTypeKind != fMarginsGroupTypeKind) {
+    stringstream s;
+
+    s <<
+      "setting a " <<
+      msrMarginTypeKindAsString (marginTypeKind) <<
+      " top margin in a " <<
+      msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
+      " margins group";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fTopMargin = val;
+}
+
+void msrMarginsGroup::setBottomMargin (
+  int         inputLineNumber,
+  S_msrMargin val)
+{
+  msrMarginTypeKind
+    marginTypeKind =
+      val->getMarginTypeKind ();
+
+  if (marginTypeKind != fMarginsGroupTypeKind) {
+    stringstream s;
+
+    s <<
+      "setting a " <<
+      msrMarginTypeKindAsString (marginTypeKind) <<
+      " bottom margin in a " <<
+      msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
+      " margins group";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fBottomMargin = val;
+}
+
+string msrMarginsGroup::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[MarginsGroup, " <<
+    msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
+    ", leftMargin: " << fLeftMargin->asString () <<
+    ", rightMargin: " << fRightMargin->asString () <<
+    ", topMargin: " << fTopMargin->asString () <<
+    ", bottomMargin: " << fBottomMargin->asString () <<
+    "]";
+
+  return s.str ();
+}
+
+void msrMarginsGroup::print (ostream& os) const
+{
+
+  os <<
+    "MarginsGroup" <<
+    ", marginsGroupTypeKind " <<
+    msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
+    endl;
+
+  const int fieldWidth = 13;
+
+  gIndenter++;
+
+  // margins
+  os << left <<
+    setw (fieldWidth) <<
+    "leftMargin" << " : ";
+    if (fLeftMargin) {
+      os << fLeftMargin;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "rightMargin" << " : ";
+    if (fRightMargin) {
+      os << fRightMargin;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "topMargin" << " : ";
+    if (fTopMargin) {
+      os << fTopMargin;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "bottomMargin" << " : ";
+    if (fBottomMargin) {
+      os << fBottomMargin;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  gIndenter--;
+};
+
+ostream& operator<< (ostream& os, const S_msrMarginsGroup& elt)
 {
   elt->print (os);
   return os;

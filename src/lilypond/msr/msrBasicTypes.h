@@ -872,6 +872,100 @@ class msrMargin : public smartable
 typedef SMARTP<msrMargin> S_msrMargin;
 EXP ostream& operator<< (ostream& os, const S_msrMargin& elt);
 
+// margins groups
+//______________________________________________________________________________
+
+class msrMarginsGroup : public smartable
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrMarginsGroup> create (
+      msrMarginTypeKind marginTypeKind);
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMarginsGroup (
+      msrMarginTypeKind marginTypeKind);
+
+    msrMarginsGroup ();
+
+    virtual ~msrMarginsGroup ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // margins type
+    msrMarginTypeKind     getMarginsGroupTypeKind () const
+                              { return fMarginsGroupTypeKind; }
+
+    // margins
+    void                  setLeftMargin (
+                            int         inputLineNumber,
+                            S_msrMargin val);
+
+    S_msrMargin           getLeftMargin () const
+                              { return fLeftMargin; }
+
+    void                  setRightMargin (
+                            int         inputLineNumber,
+                            S_msrMargin val);
+
+    S_msrMargin           getRightMargin () const
+                              { return fRightMargin; }
+
+    void                  setTopMargin (
+                            int         inputLineNumber,
+                            S_msrMargin val);
+
+    S_msrMargin           getTopMargin () const
+                              { return fTopMargin; }
+
+    void                  setBottomMargin (
+                            int         inputLineNumber,
+                            S_msrMargin val);
+
+    S_msrMargin           getBottomMargin () const
+                              { return fBottomMargin; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // margins type
+    msrMarginTypeKind     fMarginsGroupTypeKind;
+
+    // margins
+    S_msrMargin           fLeftMargin;
+    S_msrMargin           fRightMargin;
+    S_msrMargin           fTopMargin;
+    S_msrMargin           fBottomMargin;
+};
+typedef SMARTP<msrMarginsGroup> S_msrMarginsGroup;
+EXP ostream& operator<< (ostream& os, const S_msrMarginsGroup& elt);
+
 // fonts
 //______________________________________________________________________________
 class msrFontSize : public smartable

@@ -5167,7 +5167,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     // left margin
     S_msrMargin
       leftMargin =
-        pageLayout->getLeftMargin ();
+        pageLayout->getSingleLeftMargin ();
 
     if (! leftMargin) {
       fLilypondCodeOstream << "%";
@@ -5178,7 +5178,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     if (leftMargin) {
       fLilypondCodeOstream <<
         setprecision (3) << leftMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (leftMargin->getMarginLength ().getLengthUnitKind ());
+        lengthUnitAsLilypondString (
+          leftMargin->getMarginLength ().getLengthUnitKind ());
     }
     else {
       fLilypondCodeOstream <<
@@ -5190,7 +5191,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     // right margin
     S_msrMargin
       rightMargin =
-        pageLayout->getRightMargin ();
+        pageLayout->getSingleRightMargin ();
 
     if (! rightMargin) {
       fLilypondCodeOstream << "%";
@@ -5201,7 +5202,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     if (rightMargin) {
       fLilypondCodeOstream <<
         setprecision (3) << rightMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (rightMargin->getMarginLength ().getLengthUnitKind ());
+        lengthUnitAsLilypondString (
+          rightMargin->getMarginLength ().getLengthUnitKind ());
     }
     else {
       fLilypondCodeOstream <<
@@ -5213,7 +5215,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     // top margin
     S_msrMargin
       topMargin =
-        pageLayout->getTopMargin ();
+        pageLayout->getSingleTopMargin ();
 
     if (! rightMargin) {
       fLilypondCodeOstream << "%";
@@ -5224,7 +5226,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     if (topMargin) {
       fLilypondCodeOstream <<
         setprecision (3) << topMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (topMargin->getMarginLength ().getLengthUnitKind ());
+        lengthUnitAsLilypondString (
+          topMargin->getMarginLength ().getLengthUnitKind ());
     }
     else {
       fLilypondCodeOstream <<
@@ -5236,7 +5239,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     // bottom margin
     S_msrMargin
       bottomMargin =
-        pageLayout->getBottomMargin ();
+        pageLayout->getSingleBottomMargin ();
 
     if (! rightMargin) {
       fLilypondCodeOstream << "%";
@@ -5247,7 +5250,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     if (bottomMargin) {
       fLilypondCodeOstream <<
         setprecision (3) << bottomMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (bottomMargin->getMarginLength ().getLengthUnitKind ());
+        lengthUnitAsLilypondString (
+          bottomMargin->getMarginLength ().getLengthUnitKind ());
     }
     else {
       fLilypondCodeOstream <<
