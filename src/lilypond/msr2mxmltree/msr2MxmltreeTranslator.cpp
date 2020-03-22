@@ -453,7 +453,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
   stringstream s;
   s <<
     " ===== " <<
-    "Created on " <<
+    "Created by " <<
+    gOahOah->fHandlerExecutableName <<
+    " " <<
+    currentVersionNumber () <<
+    " on " <<
     gGeneralOah->fTranslationDateFull <<
     " from " <<
     gOahOah->fInputSourceName <<

@@ -2368,35 +2368,39 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
 }
 
 //______________________________________________________________________________
-/* JMI
-        <system-layout>
-          <system-margins>
-            <left-margin>21.00</left-margin>
-            <right-margin>0.00</right-margin>
-            </system-margins>
-          <top-system-distance>170.00</top-system-distance>
-        </system-layout>
-*/
-
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_layout& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_layout" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
+
+  // create a system layout
+  fCurrentSystemLayout =
+    msrSystemLayout::create (
+      inputLineNumber);
 
   fOnGoingSystemLayout = true;
 }
 void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_system_layout& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_system_layout" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
+
+  // forget about the current system layout
+  fCurrentSystemLayout = nullptr;
 
   fOnGoingSystemLayout = false;
 }
@@ -2407,16 +2411,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-/*
-        <system-layout>
-          <system-margins>
-            <left-margin>0.00</left-margin>
-            <right-margin>-0.00</right-margin>
-            </system-margins>
-          <top-system-distance>170.00</top-system-distance>
-          </system-layout>
-*/
-
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_margins" <<
@@ -2424,13 +2418,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
       endl;
   }
 
-  if (fOnGoingSystemLayout) {
-    // create a system layout
-    fCurrentSystemLayout =
-      msrSystemLayout::create (
-        inputLineNumber);
-  }
-  else {
+  if (! fOnGoingSystemLayout) {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
@@ -2461,9 +2449,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_system_margins& elt )
       "<system-margins /> is out of context");
   }
 
-  // forget about the current system layout
-  fCurrentSystemLayout = nullptr;
-
   fOnGoingSystemMargins = false;
 }
 
@@ -2485,6 +2470,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
           kMillimeterUnit,
           systemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
   }
+
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -2512,6 +2498,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
           kMillimeterUnit,
           topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
   }
+
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -2693,22 +2680,27 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
       "<page-margins /> is out of context");
   }
 
+  // create a margins group
+  fCurrentPageLayoutMarginsGroup =
+    msrMarginsGroup::create (
+      fCurrentPageMarginsTypeKind);
+
   // create a margins group if not yet done
   switch (fCurrentPageMarginsTypeKind) {
     case kOddMargin:
-      fCurrentPageLayoutMarginsGroup =
-        fCurrentPageLayout->
-          getOddMarginsGroup ();
+      fCurrentPageLayout->
+        setOddMarginsGroup (
+          fCurrentPageLayoutMarginsGroup);
       break;
     case kEvenMargin:
-      fCurrentPageLayoutMarginsGroup =
-        fCurrentPageLayout->
-          getEvenMarginsGroup ();
+      fCurrentPageLayout->
+        setEvenMarginsGroup (
+          fCurrentPageLayoutMarginsGroup);
       break;
     case kBothMargins: // default value
-      fCurrentPageLayoutMarginsGroup =
-        fCurrentPageLayout->
-          getBothMarginsGroup ();
+      fCurrentPageLayout->
+        setBothMarginsGroup (
+          fCurrentPageLayoutMarginsGroup);
       break;
   } // switch
 
@@ -2742,9 +2734,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
       endl;
   }
 
-  if (fOnGoingPageMargins) {
-    float leftMargin = (float)(*elt);
+  float leftMargin = (float)(*elt);
 
+  if (fOnGoingPageMargins) {
     fCurrentPageLayoutMarginsGroup->
       setLeftMargin (
         inputLineNumber,
@@ -2754,21 +2746,17 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
             kMillimeterUnit,
             leftMargin * fCurrentMillimeters / fCurrentTenths)));
   }
-  else if (fOnGoingSystemMargins) {
 
-/* JMI
-    float leftMargin = (float)(*elt);
-    fMsrScore->
-  //    getScaling ()->
-        getPageLayout ()->
-          setLeftMargin (
-            msrMargin::create (
-              fCurrentPageMarginsTypeKind,
-              msrLength (
-                kMillimeterUnit,
-                leftMargin * fCurrentMillimeters / fCurrentTenths)));
-                */
+  else if (fOnGoingSystemMargins) {
+    fCurrentSystemLayout->
+      setLeftMargin (
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            leftMargin * fCurrentMillimeters / fCurrentTenths)));
   }
+
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -2790,9 +2778,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
      endl;
   }
 
-  if (fOnGoingPageMargins) {
-    float rightMargin = (float)(*elt);
+  float rightMargin = (float)(*elt);
 
+  if (fOnGoingPageMargins) {
     fCurrentPageLayoutMarginsGroup->
       setRightMargin (
         inputLineNumber,
@@ -2802,21 +2790,17 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
             kMillimeterUnit,
             rightMargin * fCurrentMillimeters / fCurrentTenths)));
   }
-  else if (fOnGoingSystemMargins) {
 
-/* JMI
-    float rightMargin = (float)(*elt);
-    fMsrScore->
-  //    getScaling ()->
-        getPageLayout ()->
-          setRightMargin (
-            msrMargin::create (
-              fCurrentPageMarginsTypeKind,
-              msrLength (
-                kMillimeterUnit,
-                rightMargin * fCurrentMillimeters / fCurrentTenths)));
-                */
+  else if (fOnGoingSystemMargins) {
+    fCurrentSystemLayout->
+      setRightMargin (
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            rightMargin * fCurrentMillimeters / fCurrentTenths)));
   }
+
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -2850,6 +2834,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
             kMillimeterUnit,
             topMargin * fCurrentMillimeters / fCurrentTenths)));
   }
+
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -2883,6 +2868,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
             kMillimeterUnit,
             bottomMargin * fCurrentMillimeters / fCurrentTenths)));
   }
+
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,

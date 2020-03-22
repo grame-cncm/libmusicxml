@@ -505,7 +505,6 @@ class mxmlTree2MsrSkeletonBuilder :
 
     bool                      fOnGoingSystemMargins;
 
-
     // credits handling
     // ------------------------------------------------------
 
