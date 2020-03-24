@@ -569,16 +569,34 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreDefaultsElement;
 
+    // page layout
     Sxmlelement               fScoreDefaultsPageLayoutElement;
-    Sxmlelement               fScoreDefaultsSystemLayoutElement;
 
     void                      appendSubElementToScoreDefaults (
                                 Sxmlelement elem);
 
     void                      appendSubElementToScoreDefaultsPageLayout (
                                 Sxmlelement elem);
+
+    void                      appendPageMarginsElementToScoreDefaultsPageLayout (
+                                S_msrMarginsGroup marginsGroup);
+
+    void                      populatePageMarginsElement (
+                                Sxmlelement       elem,
+                                S_msrMarginsGroup marginsGroup);
+
+    // system layout
+    Sxmlelement               fScoreDefaultsSystemLayoutElement;
+
     void                      appendSubElementToScoreDefaultsSystemLayout (
                                 Sxmlelement elem);
+
+    void                      appendSystemMarginsElementToScoreDefaultsSystemLayout (
+                                S_msrSystemLayout systemLayout);
+
+    void                      populateSystemMarginsElement (
+                                Sxmlelement       elem,
+                                S_msrSystemLayout systemLayout);
 
 
     // credits
@@ -882,6 +900,8 @@ class msr2MxmltreeTranslator :
 */
 
     string                    msrLengthAsTenths (
+                                msrLength length);
+    string                    S_msrLengthAsTenths (
                                 S_msrLength length);
 
     string                    msrPlacementKindAsMusicXMLString (

@@ -18,6 +18,9 @@
 
 #include "msrOah.h"
 
+#include "messagesHandling.h"
+#include "oahOah.h"
+
 
 using namespace std;
 
@@ -42,6 +45,70 @@ msrPageLayout::msrPageLayout (
 
 msrPageLayout::~msrPageLayout ()
 {}
+
+void msrPageLayout::setOddMarginsGroup (
+  int               inputLineNumber,
+  S_msrMarginsGroup val)
+{
+  if (fBothMarginsGroup) {
+    stringstream s;
+
+    s <<
+      "setting an odd margins group when there is already a both margins group in " <<
+      this->asString ();
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fOddMarginsGroup = val;
+}
+
+void msrPageLayout::setEvenMarginsGroup (
+  int               inputLineNumber,
+  S_msrMarginsGroup val)
+{
+  if (fBothMarginsGroup) {
+    stringstream s;
+
+    s <<
+      "setting an even margins group when there is already a both margins group in " <<
+      this->asString ();
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fEvenMarginsGroup = val;
+}
+
+void msrPageLayout::setBothMarginsGroup (
+  int               inputLineNumber,
+  S_msrMarginsGroup val)
+{
+  if (fOddMarginsGroup || fEvenMarginsGroup) {
+    stringstream s;
+
+    s <<
+      "setting a both margins group when there is already an odd or even margins group in " <<
+      this->asString ();
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fBothMarginsGroup = val;
+}
+
 
 S_msrMargin msrPageLayout::getSingleLeftMargin ()
 {
@@ -203,9 +270,8 @@ void msrPageLayout::print (ostream& os) const
       os << fOddMarginsGroup;
     }
     else {
-      os << "none";
+      os << "none" << endl;
     }
-  os << endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -214,9 +280,8 @@ void msrPageLayout::print (ostream& os) const
       os << fEvenMarginsGroup;
     }
     else {
-      os << "none";
+      os << "none" << endl;
     }
-  os << endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -225,9 +290,8 @@ void msrPageLayout::print (ostream& os) const
       os << fBothMarginsGroup;
     }
     else {
-      os << "none";
+      os << "none" << endl;
     }
-  os << endl;
 
   gIndenter--;
 }

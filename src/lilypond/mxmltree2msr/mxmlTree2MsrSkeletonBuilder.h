@@ -166,18 +166,6 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_tenths>,
   public visitor<S_scaling>,
 
-  // print
-  // ------------------------------------------------------
-
-  public visitor<S_system_layout>,
-  public visitor<S_system_margins>,
-  public visitor<S_system_distance>,
-  public visitor<S_top_system_distance>,
-
-  public visitor<S_system_dividers>,
-  public visitor<S_left_divider>,
-  public visitor<S_right_divider>,
-
   // layout
   // ------------------------------------------------------
 
@@ -185,10 +173,23 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_page_height>,
   public visitor<S_page_width>,
   public visitor<S_page_margins>,
+
   public visitor<S_left_margin>,
   public visitor<S_right_margin>,
   public visitor<S_top_margin>,
   public visitor<S_bottom_margin>,
+
+  public visitor<S_system_layout>,
+  public visitor<S_system_margins>,
+  public visitor<S_system_distance>,
+  public visitor<S_top_system_distance>,
+
+  // system dividers
+  // ------------------------------------------------------
+
+  public visitor<S_system_dividers>,
+  public visitor<S_left_divider>,
+  public visitor<S_right_divider>,
 
   // credits
   // ------------------------------------------------------
@@ -241,6 +242,11 @@ class mxmlTree2MsrSkeletonBuilder :
   // ------------------------------------------------------
 
   public visitor<S_measure>,
+
+  // print
+  // ------------------------------------------------------
+
+  public visitor<S_print>,
 
   // notes
   // ------------------------------------------------------
@@ -344,11 +350,26 @@ class mxmlTree2MsrSkeletonBuilder :
     // scaling
     // ------------------------------------------------------
 
-    // scaling, margins, layout, divider JMI
-
     virtual void visitStart ( S_millimeters& elt);
     virtual void visitStart ( S_tenths& elt);
     virtual void visitEnd   ( S_scaling& elt);
+
+    // layout
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_page_layout& elt);
+    virtual void visitEnd   ( S_page_layout& elt);
+
+    virtual void visitStart ( S_page_height& elt);
+    virtual void visitStart ( S_page_width& elt);
+
+    virtual void visitStart ( S_page_margins& elt);
+    virtual void visitEnd   ( S_page_margins& elt);
+
+    virtual void visitStart ( S_left_margin& elt);
+    virtual void visitStart ( S_right_margin& elt);
+    virtual void visitStart ( S_top_margin& elt);
+    virtual void visitStart ( S_bottom_margin& elt);
 
     virtual void visitStart ( S_system_layout& elt);
     virtual void visitEnd   ( S_system_layout& elt);
@@ -358,28 +379,12 @@ class mxmlTree2MsrSkeletonBuilder :
     virtual void visitStart ( S_system_distance& elt);
     virtual void visitStart ( S_top_system_distance& elt);
 
+    // system dividers
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_system_dividers& elt);
     virtual void visitStart ( S_left_divider& elt);
     virtual void visitStart ( S_right_divider& elt);
-
-    // print
-    // ------------------------------------------------------
-
- // JMI   bool                      fOnGoingPrint;
-
-    // layout
-    // ------------------------------------------------------
-
-    virtual void visitStart ( S_page_layout& elt);
-    virtual void visitEnd   ( S_page_layout& elt);
-    virtual void visitStart ( S_page_height& elt);
-    virtual void visitStart ( S_page_width& elt);
-    virtual void visitStart ( S_page_margins& elt);
-    virtual void visitEnd   ( S_page_margins& elt);
-    virtual void visitStart ( S_left_margin& elt);
-    virtual void visitStart ( S_right_margin& elt);
-    virtual void visitStart ( S_top_margin& elt);
-    virtual void visitStart ( S_bottom_margin& elt);
 
     // credits
     // ------------------------------------------------------
@@ -442,6 +447,12 @@ class mxmlTree2MsrSkeletonBuilder :
 
     virtual void visitStart ( S_measure& elt);
     virtual void visitEnd   ( S_measure& elt);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_print& elt);
+    virtual void visitEnd   ( S_print& elt);
 
     // notes
     // ------------------------------------------------------
@@ -692,7 +703,13 @@ class mxmlTree2MsrSkeletonBuilder :
     int                       fScoreNumberOfMeasures;
     int                       fPartNumberOfMeasures;
 
-    // notes handling
+
+    // print
+    // ------------------------------------------------------
+
+    bool                      fOnGoingPrint;
+
+
     // ------------------------------------------------------
 
     bool                      fOnGoingNote;

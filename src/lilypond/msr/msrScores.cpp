@@ -63,6 +63,11 @@ msrScore::msrScore (
     msrPageLayout::create (
       inputLineNumber);
 
+  // create the system layout
+  fSystemLayout =
+    msrSystemLayout::create (
+      inputLineNumber);
+
   // number of measures
   fScoreNumberOfMeasures = -1;
 
@@ -535,6 +540,12 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fPageLayout);
   }
 
+  if (fSystemLayout) {
+    // browse system layout
+    msrBrowser<msrSystemLayout> browser (v);
+    browser.browse (*fSystemLayout);
+  }
+
   for (
     list<S_msrCredit>::const_iterator i = fCreditsList.begin ();
     i != fCreditsList.end ();
@@ -636,6 +647,13 @@ void msrScore::print (ostream& os) const
   if (fPageLayout) {
     os <<
       fPageLayout <<
+      endl;
+  }
+
+  // print the system layout if any
+  if (fSystemLayout) {
+    os <<
+      fSystemLayout <<
       endl;
   }
 

@@ -14408,7 +14408,7 @@ void msrMarginsGroup::print (ostream& os) const
 
   os <<
     "MarginsGroup" <<
-    ", marginsGroupTypeKind " <<
+    ", marginsGroupTypeKind: " <<
     msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
     endl;
 

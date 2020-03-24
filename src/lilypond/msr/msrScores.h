@@ -65,9 +65,11 @@ class msrScore : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // identification
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
 
+    // scaling
     void                  setScaling (
                             S_msrScaling scaling)
                               { fScaling = scaling; }
@@ -75,6 +77,7 @@ class msrScore : public msrElement
     S_msrScaling          getScaling () const
                               { return fScaling; }
 
+    // page layout
     void                  setPageLayout (
                             S_msrPageLayout pageLayout)
                               { fPageLayout = pageLayout; }
@@ -82,11 +85,21 @@ class msrScore : public msrElement
     S_msrPageLayout       getPageLayout () const
                               { return fPageLayout; }
 
+    // system layout
+    void                  setSystemLayout (
+                            S_msrSystemLayout systemLayout)
+                              { fSystemLayout = systemLayout; }
+
+    S_msrSystemLayout     getSystemLayout () const
+                              { return fSystemLayout; }
+
+    // part groups
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
                               { return fPartGroupsList; }
 
 //* JMI
+    // master voice
     void                  setScoreMasterVoice (
                             S_msrVoice masterVoice);
 
@@ -101,10 +114,12 @@ class msrScore : public msrElement
                               { return fScoreMasterVoice; }
 */
 
+    // credits
     const list<S_msrCredit>&
                           getCreditsList () const
                               { return fCreditsList; }
 
+    // measures
     void                  setScoreNumberOfMeasures (
                             int scoreNumberOfMeasures)
                               {
@@ -126,7 +141,6 @@ class msrScore : public msrElement
                               { return fStaffContainsRestMeasures; }
 
     // part group names max length
-
     void                  setScorePartGroupNamesMaxLength (int value)
                               { fScorePartGroupNamesMaxLength = value; }
 
@@ -134,7 +148,6 @@ class msrScore : public msrElement
                               { return fScorePartGroupNamesMaxLength; }
 
     // part names max length
-
     void                  setScorePartNamesMaxLength (int value)
                               { fScorePartNamesMaxLength = value; }
 
@@ -142,7 +155,6 @@ class msrScore : public msrElement
                               { return fScorePartNamesMaxLength; }
 
     // instrument names max lengthes
-
     void                  setScoreInstrumentNamesMaxLength (int value)
                               { fScoreInstrumentNamesMaxLength = value; }
 
@@ -156,7 +168,6 @@ class msrScore : public msrElement
                               { return fScoreInstrumentAbbreviationsMaxLength; }
 
     // inhibiting browsing
-
     void                  setInhibitMeasuresRepeatReplicasBrowsing ()
                               {
                                 fInhibitMeasuresRepeatReplicasBrowsing =
@@ -234,14 +245,21 @@ class msrScore : public msrElement
     // fields
     // ------------------------------------------------------
 
+    // identification
     S_msrIdentification   fIdentification;
 
+    // scaling
     S_msrScaling          fScaling;
 
+    // layout
     S_msrPageLayout       fPageLayout;
 
+    S_msrSystemLayout     fSystemLayout;
+
+    // credits
     list<S_msrCredit>     fCreditsList;
 
+    // part groups
     set<S_msrPartGroup>   fScorePartGroupsSet;
 
     list<S_msrPartGroup>  fPartGroupsList;

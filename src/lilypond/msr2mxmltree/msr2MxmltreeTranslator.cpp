@@ -46,12 +46,12 @@ namespace MusicXML2
 {
 //______________________________________________________________________________
 string msr2MxmltreeTranslator::msrLengthAsTenths (
-  S_msrLength length)
+  msrLength length)
 {
-  float lengthValue = length->getLengthValue ();
+  float lengthValue = length.getLengthValue ();
 
   // convert lengthValue to millimeters
-  switch (length->getLengthUnitKind ()) {
+  switch (length.getLengthUnitKind ()) {
     case kInchUnit:
       lengthValue *= 25.4;
       break;
@@ -71,6 +71,157 @@ string msr2MxmltreeTranslator::msrLengthAsTenths (
   s << tenths;
 
   return s.str ();
+}
+
+string msr2MxmltreeTranslator::S_msrLengthAsTenths (
+  S_msrLength length)
+{
+  return msrLengthAsTenths (* length);
+}
+
+//______________________________________________________________________________
+void msr2MxmltreeTranslator::populatePageMarginsElement (
+  Sxmlelement       elem,
+  S_msrMarginsGroup marginsGroup)
+{
+  // left margin
+  S_msrMargin leftMargin = marginsGroup->getLeftMargin ();
+
+  if (leftMargin) {
+    // append a left margin element to the page margins element
+    msrLength
+      leftMarginLength =
+        leftMargin->getMarginLength ();
+
+    elem->push (
+      createElement (
+        k_left_margin,
+        msrLengthAsTenths (leftMarginLength)));
+  }
+
+  // right margin
+  S_msrMargin rightMargin = marginsGroup->getRightMargin ();
+
+  if (rightMargin) {
+    // append a right margin element to the page margins element
+    msrLength
+      rightMarginLength =
+        rightMargin->getMarginLength ();
+
+    elem->push (
+      createElement (
+        k_right_margin,
+        msrLengthAsTenths (rightMarginLength)));
+  }
+
+  // top margin
+  S_msrMargin topMargin = marginsGroup->getTopMargin ();
+
+  if (topMargin) {
+    // append a top margin element to the page margins element
+    msrLength
+      topMarginLength =
+        topMargin->getMarginLength ();
+
+    elem->push (
+      createElement (
+        k_top_margin,
+        msrLengthAsTenths (topMarginLength)));
+  }
+
+  // bottom margin
+  S_msrMargin bottomMargin = marginsGroup->getBottomMargin ();
+
+  if (bottomMargin) {
+    // append a bottom margin element to the page margins element
+    msrLength
+      bottomMarginLength =
+        bottomMargin->getMarginLength ();
+
+    elem->push (
+      createElement (
+        k_bottom_margin,
+        msrLengthAsTenths (bottomMarginLength)));
+  }
+}
+
+void msr2MxmltreeTranslator::appendPageMarginsElementToScoreDefaultsPageLayout (
+  S_msrMarginsGroup marginsGroup)
+{
+  // create a page margins element
+  Sxmlelement
+    pageMarginsElement =
+      createElement (k_page_margins, "");
+
+  // set its type element
+  pageMarginsElement->add (
+    createAttribute (
+      "type",
+      msrMarginTypeKindAsString (
+        marginsGroup->getMarginsGroupTypeKind ())));
+
+  // populate it
+  populatePageMarginsElement (
+    pageMarginsElement,
+    marginsGroup);
+
+  // append it to the defaults page layout element
+  appendSubElementToScoreDefaultsPageLayout (
+    pageMarginsElement);
+}
+
+//______________________________________________________________________________
+void msr2MxmltreeTranslator::populateSystemMarginsElement (
+  Sxmlelement       elem,
+  S_msrSystemLayout systemLayout)
+{
+  // left margin
+  S_msrMargin leftMargin = systemLayout->getLeftMargin ();
+
+  if (leftMargin) {
+    // append a left margin element to the page margins element
+    msrLength
+      leftMarginLength =
+        leftMargin->getMarginLength ();
+
+    elem->push (
+      createElement (
+        k_left_margin,
+        msrLengthAsTenths (leftMarginLength)));
+  }
+
+  // right margin
+  S_msrMargin rightMargin = systemLayout->getRightMargin ();
+
+  if (rightMargin) {
+    // append a right margin element to the page margins element
+    msrLength
+      rightMarginLength =
+        rightMargin->getMarginLength ();
+
+    elem->push (
+      createElement (
+        k_right_margin,
+        msrLengthAsTenths (rightMarginLength)));
+  }
+}
+
+void msr2MxmltreeTranslator::appendSystemMarginsElementToScoreDefaultsSystemLayout (
+  S_msrSystemLayout systemLayout)
+{
+  // create a system margins element
+  Sxmlelement
+    systemMarginsElement =
+      createElement (k_system_margins, "");
+
+  // populate it
+  populateSystemMarginsElement (
+    systemMarginsElement,
+    systemLayout);
+
+  // append it to the defaults system layout element
+  appendSubElementToScoreDefaultsSystemLayout (
+    systemMarginsElement);
 }
 
 //______________________________________________________________________________
@@ -538,7 +689,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
   }
 
   if (fScoreDefaultsSystemLayoutElement) {
-    // append the sysem layout element to the score defaults elements
+    // append the system layout element to the score defaults elements
     appendSubElementToScoreDefaults (fScoreDefaultsSystemLayoutElement);
   }
 
@@ -1176,7 +1327,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPageLayout& elt)
     appendSubElementToScoreDefaultsPageLayout (
       createElement (
         k_page_height,
-        msrLengthAsTenths (pageHeight)));
+        S_msrLengthAsTenths (pageHeight)));
   }
 
   S_msrLength pageWidth = elt->getPageWidth ();
@@ -1186,18 +1337,33 @@ void msr2MxmltreeTranslator::visitStart (S_msrPageLayout& elt)
     appendSubElementToScoreDefaultsPageLayout (
       createElement (
         k_page_width,
-        msrLengthAsTenths (pageWidth)));
+        S_msrLengthAsTenths (pageWidth)));
   }
 
   // margins
-  S_msrMargin leftMargin = elt->getSingleLeftMargin ();
+  S_msrMarginsGroup oddMarginsGroup = elt->getOddMarginsGroup ();
 
-  S_msrMargin rightMargin = elt->getSingleRightMargin ();
+  if (oddMarginsGroup) {
+    // append an odd page margins element to the defaults page layout element
+    appendPageMarginsElementToScoreDefaultsPageLayout (
+      oddMarginsGroup);
+  }
 
-  S_msrMargin topMargin = elt->getSingleTopMargin ();
+  S_msrMarginsGroup evenMarginsGroup = elt->getEvenMarginsGroup ();
 
-  S_msrMargin bottomMargin = elt->getSingleBottomMargin ();
+  if (evenMarginsGroup) {
+    // append an even page margins element to the defaults page layout element
+    appendPageMarginsElementToScoreDefaultsPageLayout (
+      evenMarginsGroup);
+  }
 
+  S_msrMarginsGroup bothMarginsGroup = elt->getBothMarginsGroup ();
+
+  if (bothMarginsGroup) {
+    // append a both page margins element to the defaults page layout element
+    appendPageMarginsElementToScoreDefaultsPageLayout (
+      bothMarginsGroup);
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPageLayout& elt)
@@ -1224,13 +1390,59 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
   }
 #endif
 
-  gIndenter++;
+  appendSystemMarginsElementToScoreDefaultsSystemLayout (elt);
+/*
+  // margins
+  S_msrMargin leftMargin = elt->getLeftMargin ();
+
+  if (leftMargin) {
+    // append a left margin element to the defaults system layout element
+    msrLength
+      leftMarginLength =
+        leftMargin->getMarginLength ();
+
+    appendSystemMarginsElementToScoreDefaultsSystemLayout (
+      createElement (
+        k_left_margin,
+        msrLengthAsTenths (leftMarginLength)));
+  }
+
+  S_msrMargin rightMargin = elt->getRightMargin ();
+
+  if (rightMargin) {
+    msrLength
+      rightMarginLength =
+        rightMargin->getMarginLength ();
+
+    // append a page width element to the defaults page layout element
+    appendSystemMarginsElementToScoreDefaultsSystemLayout (
+      createElement (
+        k_right_margin,
+        msrLengthAsTenths (rightMarginLength)));
+  }
+  */
+/*
+  // distances
+  S_msrLength systemDistance = elt->getSystemDistance ();
+
+  if (systemDistance) {
+    // append an odd page margins element to the defaults system layout element
+    appendSystemMarginsElementToScoreDefaultsSystemLayout (
+      systemDistance);
+  }
+
+  S_msrLength topSystemDistance = elt->getTopSystemDistance ();
+
+  if (topSystemDistance) {
+    // append an even page margins element to the defaults system layout element
+    appendSystemMarginsElementToScoreDefaultsSystemLayout (
+      topSystemDistance);
+  }
+  */
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrSystemLayout& elt)
 {
-  gIndenter--;
-
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<

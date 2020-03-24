@@ -2380,10 +2380,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_layout& elt )
       endl;
   }
 
-  // create a system layout
+  // get the system layout
   fCurrentSystemLayout =
-    msrSystemLayout::create (
-      inputLineNumber);
+    fMsrScore->
+      getSystemLayout ();
 
   fOnGoingSystemLayout = true;
 }
@@ -2555,17 +2555,27 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_divider& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_layout& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_layout" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  // get the page layout
-  fCurrentPageLayout =
-    fMsrScore->
-      getPageLayout ();
+  if (fOnGoingPrint) { // JMI
+    fCurrentPageLayout =
+      msrPageLayout::create (
+        inputLineNumber);
+  }
+  else {
+    // get the page layout
+    fCurrentPageLayout =
+      fMsrScore->
+        getPageLayout ();
+  }
 
   fOnGoingPageLayout = true;
 }
@@ -2638,10 +2648,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_margins" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -2667,7 +2680,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
 
       msrMusicXMLError (
         gOahOah->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -2675,7 +2688,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "<page-margins /> is out of context");
   }
@@ -2690,16 +2703,19 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_margins& elt )
     case kOddMargin:
       fCurrentPageLayout->
         setOddMarginsGroup (
+          inputLineNumber,
           fCurrentPageLayoutMarginsGroup);
       break;
     case kEvenMargin:
       fCurrentPageLayout->
         setEvenMarginsGroup (
+          inputLineNumber,
           fCurrentPageLayoutMarginsGroup);
       break;
     case kBothMargins: // default value
       fCurrentPageLayout->
         setBothMarginsGroup (
+          inputLineNumber,
           fCurrentPageLayoutMarginsGroup);
       break;
   } // switch
@@ -4039,6 +4055,34 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_measure& elt)
   }
 
   gIndenter--;
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart (S_print& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_print" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fOnGoingPrint = true;
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd (S_print& elt)
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_print" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fOnGoingPrint = false;
 }
 
 //______________________________________________________________________________
