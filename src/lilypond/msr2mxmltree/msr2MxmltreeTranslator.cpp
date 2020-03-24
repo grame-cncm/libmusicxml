@@ -1391,54 +1391,27 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
 #endif
 
   appendSystemMarginsElementToScoreDefaultsSystemLayout (elt);
-/*
-  // margins
-  S_msrMargin leftMargin = elt->getLeftMargin ();
 
-  if (leftMargin) {
-    // append a left margin element to the defaults system layout element
-    msrLength
-      leftMarginLength =
-        leftMargin->getMarginLength ();
-
-    appendSystemMarginsElementToScoreDefaultsSystemLayout (
-      createElement (
-        k_left_margin,
-        msrLengthAsTenths (leftMarginLength)));
-  }
-
-  S_msrMargin rightMargin = elt->getRightMargin ();
-
-  if (rightMargin) {
-    msrLength
-      rightMarginLength =
-        rightMargin->getMarginLength ();
-
-    // append a page width element to the defaults page layout element
-    appendSystemMarginsElementToScoreDefaultsSystemLayout (
-      createElement (
-        k_right_margin,
-        msrLengthAsTenths (rightMarginLength)));
-  }
-  */
-/*
   // distances
   S_msrLength systemDistance = elt->getSystemDistance ();
 
   if (systemDistance) {
-    // append an odd page margins element to the defaults system layout element
-    appendSystemMarginsElementToScoreDefaultsSystemLayout (
-      systemDistance);
+    // append a system distance element to the score defaults system layout element
+    appendSubElementToScoreDefaultsSystemLayout (
+      createElement (
+        k_system_distance,
+        S_msrLengthAsTenths (systemDistance)));
   }
 
   S_msrLength topSystemDistance = elt->getTopSystemDistance ();
 
   if (topSystemDistance) {
-    // append an even page margins element to the defaults system layout element
-    appendSystemMarginsElementToScoreDefaultsSystemLayout (
-      topSystemDistance);
+    // append a top system distance element to the score defaults system layout element
+    appendSubElementToScoreDefaultsSystemLayout (
+      createElement (
+        k_top_system_distance,
+        S_msrLengthAsTenths (topSystemDistance)));
   }
-  */
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrSystemLayout& elt)
@@ -3437,6 +3410,129 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrChord" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create a chord start comment
+  stringstream s;
+  s <<
+    " ===== " <<
+    "Chord start " <<
+    ", chordSoundingWholeNotes: " <<
+    elt->getChordSoundingWholeNotes () <<
+    ", " <<
+    elt->getChordNotesVector ().size () <<
+    " elements" <<
+    ", line " << inputLineNumber <<
+    " ===== ";
+  fPendingChordStartComment = createElement (kComment, s.str ());
+
+  // append it to the current part element
+// JMI  fCurrentPartElement->push (fPendingChordStartComment);
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrChord" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // create a chord end comment
+  stringstream s;
+  s <<
+    " ===== " <<
+    "Chord end " <<
+    ", chordSoundingWholeNotes: " <<
+    elt->getChordSoundingWholeNotes () <<
+    ", " <<
+    elt->getChordNotesVector ().size () <<
+    " elements" <<
+    ", line " << inputLineNumber <<
+    " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current part element
+  fCurrentPartElement->push (comment);
+
+  // forget about the pending chord start comment
+  fPendingChordStartComment = nullptr;
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrTuplet" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create a tuplet start comment
+  stringstream s;
+  s <<
+    " ===== " <<
+    "Tuplet start " <<
+    ", line " << inputLineNumber <<
+    " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current part element
+  fCurrentPartElement->push (comment);
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrTuplet" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // create a tuplet end comment
+  stringstream s;
+  s <<
+    " ===== " <<
+    "Tuplet end " <<
+    ", line " << inputLineNumber <<
+    " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current part element
+  fCurrentPartElement->push (comment);
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator:: appendNoteWedges (S_msrNote note)
 {
 #ifdef TRACE_OAH
@@ -5220,6 +5316,44 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMesureIfRelevant (
 
   int inputLineNumber =
     note->getInputLineNumber ();
+
+  switch (note->getNoteKind ()) {
+    case msrNote::k_NoNoteKind:
+      break;
+    case msrNote::kRestNote:
+      break;
+    case msrNote::kSkipNote:
+      break;
+    case msrNote::kUnpitchedNote:
+      break;
+    case msrNote::kRegularNote:
+      break;
+
+    case msrNote::kChordMemberNote:
+      if (note->getNoteIsAChordsFirstMemberNote ()) {
+        if (fPendingChordStartComment) {
+          // append the pending chord start comment to the current part element
+          fCurrentPartElement->push (fPendingChordStartComment);
+        }
+      }
+      break;
+
+    case msrNote::kTupletMemberNote:
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+    case msrNote::kGraceNote:
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      break;
+  } // switch
 
   // create a note element
   fCurrentNoteElement = createElement (k_note, "");

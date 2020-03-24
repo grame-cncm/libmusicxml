@@ -90,11 +90,21 @@ class msr2MxmltreeTranslator :
 
   public visitor<S_msrWords>,
 
-  // tempo
+  // tempos
 
   public visitor<S_msrTempo>,
 
+  // segments
+
   public visitor<S_msrSegment>,
+
+  // chords
+
+  public visitor<S_msrChord>,
+
+  // tuplets
+
+  public visitor<S_msrTuplet>,
 
   // rehearsal
 
@@ -302,14 +312,25 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrWords& elt);
     virtual void visitEnd   (S_msrWords& elt);
 */
+    // tempos
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
 /*
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
 */
+    // segments
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
+
+    // chords
+    virtual void visitStart (S_msrChord& elt);
+    virtual void visitEnd   (S_msrChord& elt);
+
+    // tuplets
+    virtual void visitStart (S_msrTuplet& elt);
+    virtual void visitEnd   (S_msrTuplet& elt);
+
 /*
     virtual void visitStart (S_msrHarmony& elt);
     virtual void visitEnd   (S_msrHarmony& elt);
@@ -790,7 +811,6 @@ class msr2MxmltreeTranslator :
     // measures
     void                      appendNoteSubElementToMesure (S_msrNote note);
 
-
     // notes
     Sxmlelement               fCurrentNoteElement;
 
@@ -875,13 +895,13 @@ class msr2MxmltreeTranslator :
     // afterGraceNotes optimisation
     S_msrAfterGraceNotesGroup fPendingAfterGraceNotesGroup;
     S_msrElement              fCurrentAfterGraceNotesGroupElement;
-
+*/
 
     // chords
     // ------------------------------------------------------
-    bool                      fOnGoingChord;
+    Sxmlelement               fPendingChordStartComment;
 
-
+/*
     // stanzas
     // ------------------------------------------------------
     S_msrStanza               fCurrentStanzaClone;

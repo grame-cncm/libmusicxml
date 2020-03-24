@@ -467,9 +467,11 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrBeam& elt);
     virtual void visitEnd   (S_msrBeam& elt);
 
+    // chords
     virtual void visitStart (S_msrChord& elt);
     virtual void visitEnd   (S_msrChord& elt);
 
+    // tuplets
     virtual void visitStart (S_msrTuplet& elt);
     virtual void visitEnd   (S_msrTuplet& elt);
 

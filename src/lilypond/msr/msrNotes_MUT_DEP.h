@@ -604,9 +604,7 @@ class msrNote : public msrTupletElement
                               { return fNoteIsStemless; }
 
     void                  setNoteIsAChordsFirstMemberNote ()
-                              {
-                                fNoteIsAChordsFirstMemberNote = true;
-                              }
+                              { fNoteIsAChordsFirstMemberNote = true; }
 
     bool                  getNoteIsAChordsFirstMemberNote () const
                               { return fNoteIsAChordsFirstMemberNote; }
