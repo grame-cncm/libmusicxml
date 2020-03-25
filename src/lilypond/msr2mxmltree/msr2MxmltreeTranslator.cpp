@@ -3497,6 +3497,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
   s <<
     " ===== " <<
     "Tuplet start " <<
+    ", tupletFactor: " <<
+    elt->getTupletFactor ().asRational () <<
+    ", tupletElementsList: " <<
+    elt->getTupletElementsList ().size () << " elements" <<
     ", line " << inputLineNumber <<
     " ===== ";
   Sxmlelement comment = createElement (kComment, s.str ());
@@ -3524,6 +3528,10 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
   s <<
     " ===== " <<
     "Tuplet end " <<
+    ", tupletFactor: " <<
+    elt->getTupletFactor ().asRational () <<
+    ", tupletElementsList: " <<
+    elt->getTupletElementsList ().size () << " elements" <<
     ", line " << inputLineNumber <<
     " ===== ";
   Sxmlelement comment = createElement (kComment, s.str ());
@@ -3821,9 +3829,7 @@ void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
           break;
       } // switch
 
-      // create the ornament element
-
-      // append the note ornaments element to the current note element
+      // append the note ornament element to the current note element
       switch (ornamentKind) {
         case msrOrnament::kOrnamentAccidentalMark:
           {
@@ -4804,6 +4810,168 @@ void msr2MxmltreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteLyricsToNote, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/*
+<!ELEMENT lyric
+	((((syllabic?, text),
+	   (elision?, syllabic?, text)*, extend?) |
+	   extend | laughing | humming),
+	  end-line?, end-paragraph?, %editorial;)>
+<!ATTLIST lyric
+    number NMTOKEN #IMPLIED
+    name CDATA #IMPLIED
+    %justify;
+    %position;
+    %placement;
+    %color;
+    %print-object;
+>
+*/
+
+  // append the lyric elements if any
+  const list<S_msrSyllable>&
+    noteSyllables =
+      note->getNoteSyllables () ;
+
+  if (noteSyllables.size ()) {
+    list<S_msrSyllable>::const_iterator i;
+
+    for (i=noteSyllables.begin (); i!=noteSyllables.end (); i++) {
+      S_msrSyllable syllable = (*i);
+
+      // create and append a lyric element if relevant
+      bool   doCreateALyricElement = false;
+      string syllabicString;
+
+      switch ( syllable->getSyllableKind ()) {
+        case msrSyllable::kSyllableNone:
+          // should not occur
+          break;
+
+        case msrSyllable::kSyllableSingle:
+          doCreateALyricElement = true;
+          syllabicString = "single";
+          break;
+
+        case msrSyllable::kSyllableBegin:
+          doCreateALyricElement = true;
+          syllabicString = "begin";
+          break;
+        case msrSyllable::kSyllableMiddle:
+          doCreateALyricElement = true;
+          syllabicString = "middle";
+          break;
+        case msrSyllable::kSyllableEnd:
+          doCreateALyricElement = true;
+          syllabicString = "end";
+          break;
+
+        case msrSyllable::kSyllableOnRestNote:
+          break;
+
+        case msrSyllable::kSyllableSkipRestNote:
+          break;
+        case msrSyllable::kSyllableSkipNonRestNote:
+          break;
+
+        case msrSyllable::kSyllableMeasureEnd:
+          break;
+
+        case msrSyllable::kSyllableLineBreak:
+          break;
+        case msrSyllable::kSyllablePageBreak:
+          break;
+      } // switch
+
+      if (doCreateALyricElement) {
+        // create the lyric element
+        Sxmlelement lyricElement = createElement (k_lyric, "");
+
+        // set its number attribute
+        lyricElement->add (
+          createAttribute (
+            "number",
+            syllable->getSyllableStanzaNumber ()));
+
+        // append a syllabic element to the lyric element if relevant
+        if (syllabicString.size ()) {
+          lyricElement->push (
+            createElement (k_syllabic, syllabicString));
+        }
+
+        // append a text elements to the lyric element if relevant
+        const list<string>&
+          syllableTextsList =
+            syllable->getSyllableTextsList ();
+
+        for (
+          list<string>::const_iterator i = syllableTextsList.begin ();
+          i!=syllableTextsList.end ();
+          i++
+        ) {
+          string text = (*i);
+
+          lyricElement->push (
+            createElement (k_text, text));
+        } // for
+
+        // append the extend element to the lyric element if relevant
+        string extendTypeString;
+        bool   doCreateAnExtendElement = true;
+
+        switch (syllable->getSyllableExtendKind ()) {
+          case msrSyllable::kSyllableExtendNone:
+          doCreateAnExtendElement = false;
+            break;
+          case msrSyllable::kSyllableExtendEmpty:
+            break;
+          case msrSyllable::kSyllableExtendSingle:
+            extendTypeString = "single";
+            break;
+          case msrSyllable::kSyllableExtendStart:
+            extendTypeString = "start";
+            break;
+          case msrSyllable::kSyllableExtendContinue:
+            extendTypeString = "continue";
+            break;
+          case msrSyllable::kSyllableExtendStop:
+            extendTypeString = "stop";
+            break;
+        } // switch
+
+        if (doCreateAnExtendElement) {
+          // create an extend element
+          Sxmlelement extendElement = createElement (k_extend, "");
+
+          if (extendTypeString.size ()) {
+            // set its type attribute
+            extendElement->add (createAttribute ("type", extendTypeString));
+          }
+
+          // append the extend element to the lyric element
+          lyricElement->push (extendElement);
+        }
+
+        // append a syllabic element to the lyric element if relevant
+
+        // append the lyric element to the current note element
+        fCurrentNoteElement->push (lyricElement);
+      }
+    } // for
+  }
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator::appendBasicSubElementsToNote (
   S_msrNote note)
 {
@@ -5467,6 +5635,9 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMesureIfRelevant (
 
   // append the articulations if any
   appendNoteNotationsToNote (note);
+
+  // append the lyrics if any
+  appendNoteLyricsToNote (note);
 
   // append the note element to the current measure element right now,
   // unless it contains a grace notes group

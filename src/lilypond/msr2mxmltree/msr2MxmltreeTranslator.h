@@ -833,6 +833,9 @@ class msr2MxmltreeTranslator :
                                 Sxmlelement      elem,
                                 msrPlacementKind placementKind);
 
+    // lyrics
+    void                      appendNoteLyricsToNote (S_msrNote note);
+
     // note notations ornaments
     Sxmlelement               fCurrentNoteNotationsOrnamentsElement;
 

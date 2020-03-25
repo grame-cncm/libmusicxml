@@ -5819,10 +5819,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
     elt->getAttributeValue ("type");
 
   // extend
-
   if (fOnGoingLyric) {
     fCurrentSyllableExtendKind =
-      msrSyllable::kSyllableExtendSingle; // default value
+      msrSyllable::kSyllableExtendEmpty; // default value
 
     if      (extendType == "start") {
       fCurrentSyllableExtendKind =
@@ -6154,6 +6153,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
           inputLineNumber,
           fCurrentSyllableKind,
           fCurrentSyllableExtendKind,
+          fCurrentStanzaNumber,
           fCurrentNoteSoundingWholeNotesFromDuration,
           msrTupletFactor (
             fCurrentNoteActualNotes,
@@ -17292,6 +17292,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
                       inputLineNumber,
                       msrSyllable::kSyllableSkipRest,
                       msrSyllable::kSyllableExtendNone, // fCurrentSyllableExtendKind, // JMI
+                      fCurrentStanzaNumber,
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
 
@@ -17406,6 +17407,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
                       inputLineNumber,
                       msrSyllable::kSyllableSkipRest,
                       msrSyllable::kSyllableExtendNone, // fCurrentSyllableExtendKind, // JMI
+                      fCurrentStanzaNumber,
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
 
@@ -19254,6 +19256,9 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       case msrSyllable::kSyllableExtendNone:
   //      doCreateASkipSyllable = true; // JMI
         break;
+      case msrSyllable::kSyllableExtendEmpty:
+  //      doCreateASkipSyllable = true; // JMI
+        break;
       case msrSyllable::kSyllableExtendSingle:
         break;
       case msrSyllable::kSyllableExtendStart:
@@ -19296,6 +19301,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
                 inputLineNumber,
                 syllableKind,
                 fCurrentSyllableExtendKind,
+                fCurrentStanzaNumber,
                 fCurrentNoteSoundingWholeNotesFromDuration,
                 msrTupletFactor (
                   fCurrentNoteActualNotes,
@@ -19322,6 +19328,8 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
   // take care of ongoing extends
   switch (fCurrentSyllableExtendKind) {
     case msrSyllable::kSyllableExtendNone:
+      break;
+    case msrSyllable::kSyllableExtendEmpty: // JMI ???
       break;
     case msrSyllable::kSyllableExtendSingle:
       fOnGoingSyllableExtend = true;

@@ -9196,6 +9196,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 #endif
           break;
 
+        case msrSyllable::kSyllableExtendEmpty:
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceLyrics) {
+            fLilypondCodeOstream <<
+              "%{ syllableExtendEmpty %} ";
+          }
+#endif
+          break;
+
         case msrSyllable::kSyllableExtendSingle:
           switch (gLilypondOah->fLyricsDurationsKind) {
             case kLyricsDurationsImplicit:

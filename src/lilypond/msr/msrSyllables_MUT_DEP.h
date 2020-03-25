@@ -29,6 +29,7 @@ class msrSyllable : public msrMeasureElement
 
     enum msrSyllableExtendKind {
       kSyllableExtendNone,
+      kSyllableExtendEmpty,
       kSyllableExtendSingle,
       kSyllableExtendStart, kSyllableExtendContinue, kSyllableExtendStop };
 
@@ -43,6 +44,7 @@ class msrSyllable : public msrMeasureElement
       int                   inputLineNumber,
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
+      string                syllableStanzaNumber,
       rational              syllableWholeNotes,
       msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUpLink);
@@ -51,6 +53,7 @@ class msrSyllable : public msrMeasureElement
       int                   inputLineNumber,
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
+      string                syllableStanzaNumber,
       rational              syllableWholeNotes,
       msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUpLink,
@@ -71,6 +74,7 @@ class msrSyllable : public msrMeasureElement
       int                   inputLineNumber,
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
+      string                syllableStanzaNumber,
       rational              syllableWholeNotes,
       msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUpLink);
@@ -79,6 +83,7 @@ class msrSyllable : public msrMeasureElement
       int                   inputLineNumber,
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
+      string                syllableStanzaNumber,
       rational              syllableWholeNotes,
       msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUpLink,
@@ -98,15 +103,21 @@ class msrSyllable : public msrMeasureElement
     S_msrStanza           getSyllableStanzaUpLink () const
                               { return fSyllableStanzaUpLink; }
 
-    // syllable kind and contents
+    // syllable kind
     msrSyllableKind       getSyllableKind () const
                               { return fSyllableKind; }
 
+    // texts list
     const list<string>&   getSyllableTextsList ()
                               { return fSyllableTextsList; }
 
+    // extend kind
     msrSyllableExtendKind getSyllableExtendKind () const
                               { return fSyllableExtendKind; }
+
+    // stanza number
+    string                getSyllableStanzaNumber () const
+                              { return fSyllableStanzaNumber; }
 
     // syllable whole notes
     rational              getSyllableWholeNotes () const
@@ -177,10 +188,17 @@ class msrSyllable : public msrMeasureElement
     S_msrNote             fSyllableNoteUpLink;
     S_msrStanza           fSyllableStanzaUpLink;
 
-    // syllable kind and contents
+    // syllable kind
     msrSyllableKind       fSyllableKind;
+
+    // texts list
     list<string>          fSyllableTextsList;
+
+    // extend kind
     msrSyllableExtendKind fSyllableExtendKind;
+
+    // stanza number, may contain non-digits
+    string                fSyllableStanzaNumber;
 
     // syllable whole notes
     rational              fSyllableWholeNotes;

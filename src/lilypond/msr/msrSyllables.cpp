@@ -30,6 +30,7 @@ S_msrSyllable msrSyllable::create (
   int                   inputLineNumber,
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
+  string                syllableStanzaNumber,
   rational              syllableWholeNotes,
   msrTupletFactor       syllableTupletFactor,
   S_msrStanza           syllableStanzaUpLink)
@@ -39,6 +40,7 @@ S_msrSyllable msrSyllable::create (
       inputLineNumber,
       syllableKind,
       syllableExtendKind,
+      syllableStanzaNumber,
       syllableWholeNotes,
       syllableTupletFactor,
       syllableStanzaUpLink);
@@ -51,6 +53,7 @@ S_msrSyllable msrSyllable::createWithNextMeasurePuristNumber (
   int                   inputLineNumber,
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
+  string                syllableStanzaNumber,
   rational              syllableWholeNotes,
   msrTupletFactor       syllableTupletFactor,
   S_msrStanza           syllableStanzaUpLink,
@@ -61,6 +64,7 @@ S_msrSyllable msrSyllable::createWithNextMeasurePuristNumber (
       inputLineNumber,
       syllableKind,
       syllableExtendKind,
+      syllableStanzaNumber,
       syllableWholeNotes,
       syllableTupletFactor,
       syllableStanzaUpLink,
@@ -74,6 +78,7 @@ msrSyllable::msrSyllable (
   int                   inputLineNumber,
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
+  string                syllableStanzaNumber,
   rational              syllableWholeNotes,
   msrTupletFactor       syllableTupletFactor,
   S_msrStanza           syllableStanzaUpLink)
@@ -91,6 +96,8 @@ msrSyllable::msrSyllable (
   fSyllableKind = syllableKind;
 
   fSyllableExtendKind = syllableExtendKind;
+
+  fSyllableStanzaNumber = syllableStanzaNumber;
 
   // fSyllableNoteUpLink will be set
   // by appendSyllableToNoteAndSetItsNoteUpLink () later
@@ -120,6 +127,7 @@ msrSyllable::msrSyllable (
   int                   inputLineNumber,
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
+  string                syllableStanzaNumber,
   rational              syllableWholeNotes,
   msrTupletFactor       syllableTupletFactor,
   S_msrStanza           syllableStanzaUpLink,
@@ -128,6 +136,7 @@ msrSyllable::msrSyllable (
         inputLineNumber,
         syllableKind,
         syllableExtendKind,
+        syllableStanzaNumber,
         syllableWholeNotes,
         syllableTupletFactor,
         syllableStanzaUpLink)
@@ -193,6 +202,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fInputLineNumber,
         fSyllableKind,
         fSyllableExtendKind,
+        fSyllableStanzaNumber,
         fSyllableWholeNotes,
         fSyllableTupletFactor,
         fSyllableStanzaUpLink);
@@ -241,6 +251,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fInputLineNumber,
         fSyllableKind,
         fSyllableExtendKind,
+        fSyllableStanzaNumber,
         fSyllableWholeNotes,
         fSyllableTupletFactor,
         fSyllableStanzaUpLink);
@@ -487,6 +498,9 @@ string msrSyllable::syllableExtendKindAsString (
     case msrSyllable::kSyllableExtendNone:
       result = "syllableExtendNone";
       break;
+    case msrSyllable::kSyllableExtendEmpty:
+      result = "syllableExtendEmpty";
+      break;
     case msrSyllable::kSyllableExtendSingle:
       result = "syllableExtendSingle";
       break;
@@ -574,6 +588,7 @@ string msrSyllable::asString () const
     syllableKindAsString () <<
     "', syllableExtendKind: " <<
       syllableExtendKindAsString (fSyllableExtendKind) <<
+    ", syllableStanzaNumber: \"" << fSyllableStanzaNumber << "\"" <<
     ", syllableWholeNotes: " << fSyllableWholeNotes <<
     ", syllableTupletFactor: " << fSyllableTupletFactor <<
     ", syllableNextMeasurePuristNumber: " << fSyllableNextMeasurePuristNumber <<
@@ -649,6 +664,12 @@ void msrSyllable::print (ostream& os) const
     "syllableExtendKind" << " : " <<
     syllableExtendKindAsString (
       fSyllableExtendKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "syllableStanzaNumber" << " : \"" <<
+    fSyllableStanzaNumber <<
+    "\"" <<
     endl <<
 
     setw (fieldWidth) <<

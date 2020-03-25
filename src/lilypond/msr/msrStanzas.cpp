@@ -272,6 +272,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllableSkipRestNote,
         msrSyllable::kSyllableExtendNone,
+        fStanzaNumber,
         wholeNotes,
         msrTupletFactor (),
         this);
@@ -309,6 +310,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllableSkipRestNote,
         msrSyllable::kSyllableExtendNone,
+        fStanzaNumber,
         wholeNotes,
         msrTupletFactor (),
         this);
@@ -344,6 +346,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllableMeasureEnd,
         msrSyllable::kSyllableExtendNone,
+        fStanzaNumber,
         0, // wholeNotes
         msrTupletFactor (),
         this);
@@ -388,6 +391,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
         inputLineNumber,
         syllableKind,
         msrSyllable::kSyllableExtendNone,
+        fStanzaNumber,
         wholeNotes,
         msrTupletFactor (),
         this);
@@ -425,6 +429,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllableLineBreak,
         msrSyllable::kSyllableExtendNone,
+        fStanzaNumber,
         0, // whole notes
         msrTupletFactor (),
         this,
@@ -463,6 +468,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllablePageBreak,
         msrSyllable::kSyllableExtendNone,
+        fStanzaNumber,
         0, // whole notes
         msrTupletFactor (),
         this,

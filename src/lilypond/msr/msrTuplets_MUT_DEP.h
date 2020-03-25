@@ -108,9 +108,11 @@ class msrTuplet : public msrTupletElement
                             rational     positionInMeasure);
                               // returns the position after the tuplet JMI ???
 
+    // number
     int                   getTupletNumber () const
                               { return fTupletNumber; }
 
+    // appearance
     msrTupletBracketKind  getTupletBracketKind () const
                               { return fTupletBracketKind; }
 
@@ -125,21 +127,23 @@ class msrTuplet : public msrTupletElement
     msrTupletShowTypeKind getTupletShowTypeKind () const
                               { return fTupletShowTypeKind; }
 
+    // tuplet factor
     const msrTupletFactor&
                           getTupletFactor ()
                               { return fTupletFactor; }
 
+    // member notes durations
     rational              getMemberNotesSoundingWholeNotes () const
                               { return fMemberNotesSoundingWholeNotes; }
     rational              getMemberNotesDisplayWholeNotes () const
                               { return fMemberNotesDisplayWholeNotes; }
 
-/* JMI
+    // elements
     const list<S_msrTupletElement>&
                           getTupletElementsList () const
                               { return fTupletElementsList; }
-                              */
 
+    // tuplet durations
     rational              getTupletSoundingWholeNotes () const
                     // JMI          { return fTupletSoundingWholeNotes; }
                               { return fMeasureElementSoundingWholeNotes; }
@@ -208,6 +212,7 @@ class msrTuplet : public msrTupletElement
     S_msrMeasure          fTupletMeasureUpLink;
     S_msrTuplet           fTupletTupletUpLink;
 
+    // number
     int                   fTupletNumber;
 
     // appearance
@@ -224,7 +229,7 @@ class msrTuplet : public msrTupletElement
     // tuplet factor
     msrTupletFactor       fTupletFactor;
 
-    // member notes
+    // member notes durations
     rational              fMemberNotesSoundingWholeNotes;
     rational              fMemberNotesDisplayWholeNotes;
 
@@ -232,6 +237,7 @@ class msrTuplet : public msrTupletElement
     // display whole notes
     rational              fTupletDisplayWholeNotes;
 
+    // elements
     list<S_msrTupletElement>
                           fTupletElementsList;
 };
