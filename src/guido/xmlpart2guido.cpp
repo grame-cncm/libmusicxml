@@ -46,6 +46,7 @@ namespace MusicXML2
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fShouldStopOctava = false;
     }
     
     //______________________________________________________________________________
@@ -65,6 +66,7 @@ namespace MusicXML2
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fShouldStopOctava = false;
     }
     
     //______________________________________________________________________________
@@ -81,6 +83,7 @@ namespace MusicXML2
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fShouldStopOctava = false;
         start (seq);
     }
     
@@ -374,7 +377,11 @@ namespace MusicXML2
     {
         // !IMPORTANT: Avoid using default-x since it is measured from the beginning of the measure for S_direction!
         
-        if (fSkipDirection) return;
+        if (fSkipDirection) {
+            // set back to false for next elements!
+            fSkipDirection = false;
+            return;
+        }
         
         /// Skip already visited Direction in case of grace notes (GUID-153)
         if ((!fDirectionEraserStack.empty())) {
@@ -876,7 +883,9 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
     //______________________________________________________________________________
     void xmlpart2guido::visitStart( S_octave_shift& elt)
     {
-        if (fSkipDirection) return;
+        if (fSkipDirection) {
+            return;
+        }
         
         const string& type = elt->getAttributeValue("type");
         int size = elt->getAttributeIntValue("size", 0);
@@ -890,14 +899,28 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         if (type == "up")
             size = -size;
         else if (type == "stop")
-            size = 0;
-        else if (type != "down") return;
+        {
+            // in MusicXML, octava stop appears BEFORE the note it should be applied upon! We therefore keep this for the next note visit
+            fShouldStopOctava = true;
+            return;
+        }
         
         Sguidoelement tag = guidotag::create("oct");
         if (tag) {
             tag->add (guidoparam::create(size, false));
             add (tag);
         }
+    }
+
+    void xmlpart2guido::checkOctavaEnd() {
+        if (!fShouldStopOctava) {
+            return;
+        }
+        Sguidoelement tag = guidotag::create("oct");
+        tag->add (guidoparam::create(0, false));
+        add(tag);
+        
+        fShouldStopOctava = false;
     }
     
     //______________________________________________________________________________
@@ -1933,6 +1956,13 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             push(tag);
             n++;
         }
+        if (note.fStaccatissimo) {
+            tag = guidotag::create("stacc");
+            tag->add (guidoparam::create("type=\"heavy\"", false));
+            if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fStaccatissimo, tag);
+            push(tag);
+            n++;
+        }
         if (note.fTenuto) {
             tag = guidotag::create("ten");
             if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fTenuto, tag);
@@ -1965,6 +1995,8 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
         add(tag);
     }
+    
+    checkOctavaEnd();
         
 }
     
@@ -2519,7 +2551,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                 if (i==0) {
                     s << ", text=\"" << fingeringText;
                 }else {
-                    s << ", " << fingeringText;
+                    s << "," << fingeringText;
                 }
                 
                 if (i+1 == fingerings.size()) {
