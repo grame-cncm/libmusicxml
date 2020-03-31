@@ -184,6 +184,9 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_system_distance>,
   public visitor<S_top_system_distance>,
 
+  public visitor<S_staff_layout>,
+  public visitor<S_staff_distance>,
+
   // system dividers
   // ------------------------------------------------------
 
@@ -379,6 +382,10 @@ class mxmlTree2MsrSkeletonBuilder :
     virtual void visitStart ( S_system_distance& elt);
     virtual void visitStart ( S_top_system_distance& elt);
 
+    virtual void visitStart ( S_staff_layout& elt);
+    virtual void visitEnd   ( S_staff_layout& elt);
+    virtual void visitStart ( S_staff_distance& elt);
+
     // system dividers
     // ------------------------------------------------------
 
@@ -515,6 +522,13 @@ class mxmlTree2MsrSkeletonBuilder :
     S_msrSystemLayout         fCurrentSystemLayout;
 
     bool                      fOnGoingSystemMargins;
+
+    // staff layout handling
+    // ------------------------------------------------------
+
+    bool                      fOnGoingStaffLayout;
+
+    S_msrStaffLayout          fCurrentStaffLayout;
 
     // credits handling
     // ------------------------------------------------------

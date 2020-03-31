@@ -2387,6 +2387,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_layout& elt )
 
   fOnGoingSystemLayout = true;
 }
+
 void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_system_layout& elt )
 {
   int inputLineNumber =
@@ -2891,6 +2892,80 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
       inputLineNumber,
       __FILE__, __LINE__,
       "<bottom-margin /> is out of context");
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_staff_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_staff_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // get the staff layout
+  fCurrentStaffLayout =
+    msrStaffLayout::create (
+      inputLineNumber); //JMI
+  /*
+    fMsrScore->
+      getStaffLayout ();
+*/
+
+  fOnGoingStaffLayout = true;
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_staff_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_staff_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // forget about the current staff layout
+  fCurrentStaffLayout = nullptr;
+
+  fOnGoingStaffLayout = false;
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_staff_distance& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_staff_distance" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingStaffLayout) {
+    float staffDistanceTenths = (float)(*elt);
+
+    fCurrentStaffLayout->
+      setStaffDistance (
+        msrLength::create (
+          kMillimeterUnit,
+          staffDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<staff-distance /> is out of context");
   }
 }
 

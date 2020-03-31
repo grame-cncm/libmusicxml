@@ -1265,31 +1265,33 @@ void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
   fMillimeters = elt->getMillimeters ();
   fTenths      = elt->getTenths ();
 
-  // create a scaling element
-  fScoreDefaultsScalingElement = createElement (k_scaling, "");
+  if (fMillimeters > 0) {
+    // create a scaling element
+    fScoreDefaultsScalingElement = createElement (k_scaling, "");
 
-  // append a millimeters sub-element to it
-  {
-    stringstream s;
+    // append a millimeters sub-element to it
+    {
+      stringstream s;
 
-    s << fMillimeters;
+      s << fMillimeters;
 
-    fScoreDefaultsScalingElement->push (
-      createElement (
-        k_millimeters,
-        s.str ()));
-  }
+      fScoreDefaultsScalingElement->push (
+        createElement (
+          k_millimeters,
+          s.str ()));
+    }
 
-  // append a tenths sub-element to it
-  {
-    stringstream s;
+    // append a tenths sub-element to it
+    {
+      stringstream s;
 
-    s << fTenths;
+      s << fTenths;
 
-    fScoreDefaultsScalingElement->push (
-      createElement (
-        k_tenths,
-        s.str ()));
+      fScoreDefaultsScalingElement->push (
+        createElement (
+          k_tenths,
+          s.str ()));
+    }
   }
 }
 
@@ -1390,7 +1392,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
   }
 #endif
 
-  appendSystemMarginsElementToScoreDefaultsSystemLayout (elt);
+// JMI  appendSystemMarginsElementToScoreDefaultsSystemLayout (elt);
 
   // distances
   S_msrLength systemDistance = elt->getSystemDistance ();
@@ -2960,6 +2962,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
             4));
       }
       break;
+
     case msrTime::kTimeSymbolCut:
        {
         timeElement->add (createAttribute ("symbol", "cut"));
@@ -2974,14 +2977,19 @@ void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
             2));
       }
      break;
+
     case msrTime::kTimeSymbolNote:
       break;
+
     case msrTime::kTimeSymbolDottedNote:
       break;
+
     case msrTime::kTimeSymbolSingleNumber:
       break;
+
     case msrTime::kTimeSymbolSenzaMisura:
       break;
+
     case msrTime::kTimeSymbolNone:
       {
         const vector<S_msrTimeItem>&
@@ -3439,7 +3447,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
   fPendingChordStartComment = createElement (kComment, s.str ());
 
   // append it to the current part element
-// JMI  fCurrentPartElement->push (fPendingChordStartComment);
+  fCurrenPartMeasureElement->push (fPendingChordStartComment);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
@@ -3471,7 +3479,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
   Sxmlelement comment = createElement (kComment, s.str ());
 
   // append it to the current part element
-  fCurrentPartElement->push (comment);
+  fCurrenPartMeasureElement->push (comment);
 
   // forget about the pending chord start comment
   fPendingChordStartComment = nullptr;
@@ -3506,7 +3514,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
   Sxmlelement comment = createElement (kComment, s.str ());
 
   // append it to the current part element
-  fCurrentPartElement->push (comment);
+  fCurrenPartMeasureElement->push (comment);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
@@ -3537,7 +3545,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
   Sxmlelement comment = createElement (kComment, s.str ());
 
   // append it to the current part element
-  fCurrentPartElement->push (comment);
+  fCurrenPartMeasureElement->push (comment);
 }
 
 //________________________________________________________________________
@@ -5499,7 +5507,7 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMesureIfRelevant (
 
     case msrNote::kChordMemberNote:
       if (note->getNoteIsAChordsFirstMemberNote ()) {
-        if (fPendingChordStartComment) {
+        if (false && fPendingChordStartComment) { // JMI
           // append the pending chord start comment to the current part element
           fCurrentPartElement->push (fPendingChordStartComment);
         }
@@ -5553,11 +5561,17 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMesureIfRelevant (
       break;
 
     case msrNote::kRegularNote:
+      break;
+
     case msrNote::kChordMemberNote:
-    case msrNote::kTupletMemberNote:
+    /* JMI
       if (note->getNoteIsARest ()) {
         doGenerateTypeSubElement = false;
       }
+      */
+      break;
+
+    case msrNote::kTupletMemberNote:
       break;
 
     case msrNote::kDoubleTremoloMemberNote:

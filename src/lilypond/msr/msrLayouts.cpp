@@ -433,5 +433,102 @@ ostream& operator<< (ostream& os, const S_msrSystemLayout& elt)
   return os;
 }
 
+//______________________________________________________________________________
+S_msrStaffLayout msrStaffLayout::create (
+  int inputLineNumber)
+{
+  msrStaffLayout* o =
+    new msrStaffLayout (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrStaffLayout::msrStaffLayout (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{}
+
+msrStaffLayout::~msrStaffLayout ()
+{}
+
+void msrStaffLayout::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrStaffLayout::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrStaffLayout>*
+    p =
+      dynamic_cast<visitor<S_msrStaffLayout>*> (v)) {
+        S_msrStaffLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrStaffLayout::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrStaffLayout::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrStaffLayout::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrStaffLayout>*
+    p =
+      dynamic_cast<visitor<S_msrStaffLayout>*> (v)) {
+        S_msrStaffLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrStaffLayout::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrStaffLayout::browseData (basevisitor* v)
+{
+  // JMI ???
+}
+
+void msrStaffLayout::print (ostream& os) const
+{
+  os << "SystemLayout" << endl;
+
+  const int fieldWidth = 13;
+
+  gIndenter++;
+
+  // staff number
+  os << left <<
+    setw (fieldWidth) <<
+    "staffNumber" << " : " << fStaffNumber <<
+    endl;
+
+  // staff distance
+  os << left <<
+    setw (fieldWidth) <<
+    "staffDistance" << " : " << fStaffDistance <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrStaffLayout& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 
 }
