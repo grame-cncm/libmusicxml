@@ -35,50 +35,6 @@ msrTupletElement::~msrTupletElement ()
 {}
 
 /* JMI
-void msrTupletElement::acceptIn (basevisitor* v)
-{
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% ==> msrTupletElement::acceptIn ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrTupletElement>*
-    p =
-      dynamic_cast<visitor<S_msrTupletElement>*> (v)) {
-        S_msrTupletElement elem = this;
-
-        if (gMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
-            "% ==> Launching msrTupletElement::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrTupletElement::acceptOut (basevisitor* v)
-{
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% ==> msrTupletElement::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrTupletElement>*
-    p =
-      dynamic_cast<visitor<S_msrTupletElement>*> (v)) {
-        S_msrTupletElement elem = this;
-
-        if (gMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
-            "% ==> Launching msrTupletElement::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
 string msrTupletElement::asString () const
 {
   // this is overriden all in actual elements

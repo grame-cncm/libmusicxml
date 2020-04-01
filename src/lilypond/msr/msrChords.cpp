@@ -1730,6 +1730,23 @@ void msrChord::print (ostream& os) const
     endl;
 
   gIndenter--;
+
+  os <<
+    "chordTupletUpLink" << " : ";
+  if (fChordTupletUpLink) {
+    os <<
+      fChordTupletUpLink->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "positionInTuplet" << " : " <<
+    fPositionInTuplet <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrChord& elt)

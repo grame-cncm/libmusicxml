@@ -261,7 +261,12 @@ void msrTuplet::appendNoteToTuplet (
   }
 #endif
 
+  // append note to elements list
   fTupletElementsList.push_back (note);
+
+  // set note's position in tuplet
+  note->setPositionInTuplet (
+    fTupletElementsList.size ());
 
   // register note's tuplet upLink
   note->
@@ -313,7 +318,16 @@ void msrTuplet::appendChordToTuplet (S_msrChord chord)
   }
 #endif
 
+  // append chord to elements list
   fTupletElementsList.push_back (chord);
+
+  // set chord's position in tuplet
+  chord->setPositionInTuplet (
+    fTupletElementsList.size ());
+
+  // set chord's position in tuplet
+  chord->setPositionInTuplet (
+    fTupletElementsList.size ());
 
   // DO NOT account for the chord duration,
   // since its first note has been accounted for already
@@ -356,8 +370,12 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
       this->getTupletNormalNotes ();
   */
 
-  // register tuplet in elements list
+  // append tuplet to elements list
   fTupletElementsList.push_back (tuplet);
+
+  // set tuplet's position in tuplet
+  tuplet->setPositionInTuplet (
+    fTupletElementsList.size ());
 
   // account for tuplet duration
   fMeasureElementSoundingWholeNotes +=
@@ -385,8 +403,12 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   // dont' unapply containing tuplet factor,
   // this has been done when building the MSR from MusicXML
 
-  // register tuplet in elements list
+  // append tuplet to elements list
   fTupletElementsList.push_back (tuplet);
+
+  // set tuplet's position in tuplet
+  tuplet->setPositionInTuplet (
+    fTupletElementsList.size ());
 
   // account for tuplet duration
   fMeasureElementSoundingWholeNotes +=
@@ -1009,8 +1031,9 @@ void msrTuplet::print (ostream& os) const
   // JMI  os << endl;
   }
 
-  os <<
-    "TupletMeasureUpLink: ";
+  os << left <<
+    setw (fieldWidth) <<
+    "tupletMeasureUpLink" << " : ";
   if (fTupletMeasureUpLink) {
     os <<
       fTupletMeasureUpLink->asShortString ();
@@ -1020,8 +1043,9 @@ void msrTuplet::print (ostream& os) const
   }
   os << endl;
 
-  os <<
-    "TupletTupletUpLink: ";
+  os << left <<
+    setw (fieldWidth) <<
+    "tupletTupletUpLink" << " : ";
   if (fTupletTupletUpLink) {
     os <<
       fTupletTupletUpLink->asShortString ();
@@ -1030,6 +1054,12 @@ void msrTuplet::print (ostream& os) const
     os << "none";
   }
   os << endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "positionInTuplet" << " : " <<
+    fPositionInTuplet <<
+    endl;
 }
 
 void msrTuplet::printShort (indentedOstream& os)
@@ -1120,8 +1150,9 @@ void msrTuplet::printShort (indentedOstream& os)
   gIndenter--;
 
   if (fTupletElementsList.size ()) {
-    os <<
-      "TupletElements:" <<
+  os << left <<
+    setw (fieldWidth) <<
+      "tupletElements" << " :" <<
       endl;
 
     gIndenter++;
@@ -1143,8 +1174,9 @@ void msrTuplet::printShort (indentedOstream& os)
   // JMI  os << endl;
   }
 
-  os <<
-    "TupletMeasureUpLink: ";
+  os << left <<
+    setw (fieldWidth) <<
+    "tupletMeasureUpLink" << " : ";
   if (fTupletMeasureUpLink) {
     os <<
       fTupletMeasureUpLink->asShortString ();
@@ -1154,8 +1186,9 @@ void msrTuplet::printShort (indentedOstream& os)
   }
   os << endl;
 
-  os <<
-    "TupletTupletUpLink: ";
+  os << left <<
+    setw (fieldWidth) <<
+    "tupletTupletUpLink" << " : ";
   if (fTupletTupletUpLink) {
     os <<
       fTupletTupletUpLink->asShortString ();

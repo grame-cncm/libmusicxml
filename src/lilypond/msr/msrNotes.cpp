@@ -4160,6 +4160,12 @@ void msrNote::print (ostream& os) const
 
       os <<
         setw (fieldWidth) <<
+        "positionInTuplet" << " : " <<
+        fPositionInTuplet <<
+        endl;
+
+      os <<
+        setw (fieldWidth) <<
         "noteGraphicDurationAsMsrString" << " : \"" <<
         noteGraphicDurationAsMsrString () <<
         "\"" <<

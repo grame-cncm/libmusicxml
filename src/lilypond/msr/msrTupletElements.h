@@ -42,33 +42,25 @@ class msrTupletElement : public msrMeasureElement
 
   public:
 
-/* JMI
     // set and get
     // ------------------------------------------------------
 
-    void                  setTupletNumber (
-                            string positionInTuplet)
-                              {
-                                fTupletNumber =
-                                  positionInTuplet;
-                              }
-
-    string                getTupletNumber ()
-                              { return fTupletNumber; }
-
     void                  setPositionInTuplet (
-                            rational positionInTuplet)
+                            int positionInTuplet)
                               {
                                 fPositionInTuplet =
                                   positionInTuplet;
                               }
 
-    rational              getPositionInTuplet ()
+    int                   getPositionInTuplet ()
                               { return fPositionInTuplet; }
+
+  public:
 
     // services
     // ------------------------------------------------------
 
+/* JMI
   public:
 
     // visitors
@@ -90,15 +82,14 @@ class msrTupletElement : public msrMeasureElement
     virtual void          print (ostream& os) const;
 
     virtual void          printSummary (ostream& os) {}
+    */
 
   protected:
 
     // fields
     // ------------------------------------------------------
 
-    string                fTupletNumber;
-    rational              fPositionInTuplet;
-    */
+    int                   fPositionInTuplet;
 };
 typedef SMARTP<msrTupletElement> S_msrTupletElement;
 EXP ostream& operator<< (ostream& os, const S_msrTupletElement& elt);

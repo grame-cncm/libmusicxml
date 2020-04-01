@@ -240,6 +240,14 @@ class msrChord : public msrTupletElement
     S_msrMeasure          getChordMeasureUpLink () const
                             { return fChordMeasureUpLink; }
 
+    // tuplet upLink
+    void                  setChordTupletUpLink (
+                            const S_msrTuplet& tuplet)
+                              { fChordTupletUpLink = tuplet; }
+
+    S_msrTuplet           getChordTupletUpLink () const
+                            { return fChordTupletUpLink; }
+
     // positions in measures
     void                  setChordMembersPositionInMeasure (
                             S_msrMeasure measure,
@@ -403,6 +411,9 @@ class msrChord : public msrTupletElement
 
     // measure upLink
     S_msrMeasure          fChordMeasureUpLink;
+
+    // tuplet uplink
+    S_msrTuplet           fChordTupletUpLink;
 
     // sounding divisions
 // JMI    rational              fChordSoundingWholeNotes;

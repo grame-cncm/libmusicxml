@@ -86,14 +86,6 @@ class msrTuplet : public msrTupletElement
     // set and get
     // ------------------------------------------------------
 
-    // tuplet uplink
-    void                  setTupletTupletUpLink (
-                            const S_msrTuplet& tuplet)
-                              { fTupletTupletUpLink = tuplet; }
-
-    S_msrTuplet           getTupletTupletUpLink () const
-                              { return fTupletTupletUpLink; }
-
     // measure upLink
     void                  setTupletMeasureUpLink (
                             const S_msrMeasure& measure)
@@ -101,6 +93,14 @@ class msrTuplet : public msrTupletElement
 
     S_msrMeasure          getTupletMeasureUpLink () const
                               { return fTupletMeasureUpLink; }
+
+    // tuplet uplink
+    void                  setTupletTupletUpLink (
+                            const S_msrTuplet& tuplet)
+                              { fTupletTupletUpLink = tuplet; }
+
+    S_msrTuplet           getTupletTupletUpLink () const
+                              { return fTupletTupletUpLink; }
 
     // positions in measures
     rational              setTupletMembersPositionInMeasure (
@@ -208,8 +208,10 @@ class msrTuplet : public msrTupletElement
     // fields
     // ------------------------------------------------------
 
-    // upLink
+    // measure upLink
     S_msrMeasure          fTupletMeasureUpLink;
+
+    // tuplet uplink
     S_msrTuplet           fTupletTupletUpLink;
 
     // number
