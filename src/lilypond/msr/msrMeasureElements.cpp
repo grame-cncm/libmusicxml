@@ -36,7 +36,7 @@ msrMeasureElement::msrMeasureElement (
 {
   fMeasureElementMeasureNumber      = K_NO_MEASURE_NUMBER;
   fMeasureElementPositionInMeasure  = K_NO_POSITION_MEASURE_NUMBER;
-  fMeasureElementSoundingWholeNotes = rational (0, 1); // JMI K_NO_WHOLE_NOTES ???
+  fMeasureElementSoundingWholeNotes = rational (0, 1);
 }
 
 msrMeasureElement::~msrMeasureElement ()

@@ -808,6 +808,8 @@ class msr2MxmltreeTranslator :
     void                      appendTimeModificationSubElementToNoteIfRelevant (
                                 S_msrNote note);
 
+    void                      appendNoteTupletIfRelevant (S_msrNote note);
+
     // measures
     void                      appendNoteSubElementToMesure (S_msrNote note);
 

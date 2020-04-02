@@ -162,9 +162,9 @@ class mxmlTree2MsrSkeletonBuilder :
   // scaling
   // ------------------------------------------------------
 
+  public visitor<S_scaling>,
   public visitor<S_millimeters>,
   public visitor<S_tenths>,
-  public visitor<S_scaling>,
 
   // layout
   // ------------------------------------------------------
@@ -353,9 +353,9 @@ class mxmlTree2MsrSkeletonBuilder :
     // scaling
     // ------------------------------------------------------
 
+    virtual void visitEnd   ( S_scaling& elt);
     virtual void visitStart ( S_millimeters& elt);
     virtual void visitStart ( S_tenths& elt);
-    virtual void visitEnd   ( S_scaling& elt);
 
     // layout
     // ------------------------------------------------------

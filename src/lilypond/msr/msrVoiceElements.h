@@ -20,6 +20,11 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+/*
+  Various elements can found in voices,
+  hence class msrVoiceElement
+*/
+
 class msrVoiceElement : public msrElement
 {
   public:
@@ -37,65 +42,10 @@ class msrVoiceElement : public msrElement
 
     virtual ~msrVoiceElement ();
 
-  public:
-
-/* JMI
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setVoiceNumber (
-                            string positionInVoice)
-                              {
-                                fVoiceNumber =
-                                  positionInVoice;
-                              }
-
-    string                getVoiceNumber ()
-                              { return fVoiceNumber; }
-
-    void                  setPositionInVoice (
-                            rational positionInVoice)
-                              {
-                                fPositionInVoice =
-                                  positionInVoice;
-                              }
-
-    rational              getPositionInVoice ()
-                              { return fPositionInVoice; }
-
-    // services
-    // ------------------------------------------------------
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v) = 0;
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual std::string   asShortString () const;
-    virtual std::string   asString () const;
-
-    virtual void          print (ostream& os) const;
-
-    virtual void          printSummary (ostream& os) {}
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-    string                fVoiceNumber;
-    rational              fPositionInVoice;
-    */
+  /*
+    The voice uplink is declared in the sub-classes,
+    to allow for separate *.h files, C++ constraint
+  */
 };
 typedef SMARTP<msrVoiceElement> S_msrVoiceElement;
 EXP ostream& operator<< (ostream& os, const S_msrVoiceElement& elt);

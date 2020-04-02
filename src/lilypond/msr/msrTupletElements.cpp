@@ -27,31 +27,11 @@ msrTupletElement::msrTupletElement (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-// fTupletNumber = "???";
-//  fPositionInTuplet = rational (INT_MIN, 1);
+  fPositionInTuplet = -1;
 }
 
 msrTupletElement::~msrTupletElement ()
 {}
-
-/* JMI
-string msrTupletElement::asString () const
-{
-  // this is overriden all in actual elements
-  return "??? msrTupletElement::asString () ???";
-}
-
-string msrTupletElement::asShortString () const
-{
-  // this can be overriden in actual elements
-  return asString () const;
-}
-
-void msrTupletElement::print (ostream& os)
-{
-  os << asString () << endl;
-}
-*/
 
 ostream& operator<< (ostream& os, const S_msrTupletElement& elt)
 {

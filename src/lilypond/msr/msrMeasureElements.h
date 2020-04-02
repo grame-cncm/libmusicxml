@@ -20,6 +20,11 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+/*
+  Various elements can found in measures,
+  hence class msrMeasureElement
+*/
+
 class msrMeasureElement : public msrElement
 {
   public:
@@ -107,6 +112,11 @@ class msrMeasureElement : public msrElement
 
     // fields
     // ------------------------------------------------------
+
+    /*
+      The measure uplink is declared in the sub-classes,
+      to allow for separate *.h files, C++ constraint
+    */
 
     string                fMeasureElementMeasureNumber;
 

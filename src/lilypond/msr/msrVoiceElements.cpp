@@ -25,78 +25,10 @@ namespace MusicXML2
 msrVoiceElement::msrVoiceElement (
   int inputLineNumber)
     : msrElement (inputLineNumber)
-{
-  /* JMI
-  fVoiceNumber = "???";
-  fPositionInVoice = rational (INT_MIN, 1);
-  */
-}
+{}
 
 msrVoiceElement::~msrVoiceElement ()
 {}
-
-/* JMI
-void msrVoiceElement::acceptIn (basevisitor* v)
-{
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% ==> msrVoiceElement::acceptIn ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrVoiceElement>*
-    p =
-      dynamic_cast<visitor<S_msrVoiceElement>*> (v)) {
-        S_msrVoiceElement elem = this;
-
-        if (gMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
-            "% ==> Launching msrVoiceElement::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrVoiceElement::acceptOut (basevisitor* v)
-{
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% ==> msrVoiceElement::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrVoiceElement>*
-    p =
-      dynamic_cast<visitor<S_msrVoiceElement>*> (v)) {
-        S_msrVoiceElement elem = this;
-
-        if (gMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
-            "% ==> Launching msrVoiceElement::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-string msrVoiceElement::asString () const
-{
-  // this is overriden all in actual elements
-  return "??? msrVoiceElement::asString () ???";
-}
-
-string msrVoiceElement::asShortString () const
-{
-  // this can be overriden in actual elements
-  return asString () const;
-}
-
-void msrVoiceElement::print (ostream& os) const
-{
-  os << asString () << endl;
-}
-*/
 
 ostream& operator<< (ostream& os, const S_msrVoiceElement& elt)
 {

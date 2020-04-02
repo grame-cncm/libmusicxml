@@ -5165,100 +5165,152 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   // margins
   {
     // left margin
-    S_msrMargin
-      leftMargin =
-        pageLayout->getSingleLeftMargin ();
+    bool   commentOutLeftMargin = false;
+    float  leftMarginValue = 0.0; // JMI
+    string leftMarginUnitString =
+             lengthUnitAsLilypondString (defaultLengthUnit);
 
-    if (! leftMargin) {
+    if (pageLayout) {
+      S_msrMargin
+        leftMargin =
+          pageLayout->getSingleLeftMargin ();
+
+      if (leftMargin) {
+        leftMarginValue =
+          leftMargin->getMarginLength ().getLengthValue ();
+
+        leftMarginUnitString =
+          lengthUnitAsLilypondString (
+            leftMargin->getMarginLength ().getLengthUnitKind ());
+      }
+      else {
+        commentOutLeftMargin = true;
+      }
+    }
+    else {
+      commentOutLeftMargin = true;
+    }
+
+    if (commentOutLeftMargin) {
       fLilypondCodeOstream << "%";
     }
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
-      "left-margin" << " = ";
-    if (leftMargin) {
-      fLilypondCodeOstream <<
-        setprecision (3) << leftMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (
-          leftMargin->getMarginLength ().getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
+      "left-margin" << " = " <<
+      setprecision (3) << leftMarginValue <<
+      leftMarginUnitString <<
+      endl;
 
     // right margin
-    S_msrMargin
-      rightMargin =
-        pageLayout->getSingleRightMargin ();
+    bool   commentOutRightMargin = false;
+    float  rightMarginValue = 0.0; // JMI
+    string rightMarginUnitString =
+             lengthUnitAsLilypondString (defaultLengthUnit);
 
-    if (! rightMargin) {
+    if (pageLayout) {
+      S_msrMargin
+        rightMargin =
+          pageLayout->getSingleRightMargin ();
+
+      if (rightMargin) {
+        rightMarginValue =
+          rightMargin->getMarginLength ().getLengthValue ();
+
+        rightMarginUnitString =
+          lengthUnitAsLilypondString (
+            rightMargin->getMarginLength ().getLengthUnitKind ());
+      }
+      else {
+        commentOutRightMargin = true;
+      }
+    }
+    else {
+      commentOutRightMargin = true;
+    }
+
+    if (commentOutRightMargin) {
       fLilypondCodeOstream << "%";
     }
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
-      "right-margin" << " = ";
-    if (rightMargin) {
-      fLilypondCodeOstream <<
-        setprecision (3) << rightMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (
-          rightMargin->getMarginLength ().getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
+      "right-margin" << " = " <<
+      setprecision (3) << rightMarginValue <<
+      rightMarginUnitString <<
+      endl;
 
     // top margin
-    S_msrMargin
-      topMargin =
-        pageLayout->getSingleTopMargin ();
+    bool   commentOutTopMargin = false;
+    float  topMarginValue = 0.0; // JMI
+    string topMarginUnitString =
+             lengthUnitAsLilypondString (defaultLengthUnit);
 
-    if (! rightMargin) {
+    if (pageLayout) {
+      S_msrMargin
+        topMargin =
+          pageLayout->getSingleTopMargin ();
+
+      if (topMargin) {
+        topMarginValue =
+          topMargin->getMarginLength ().getLengthValue ();
+
+        topMarginUnitString =
+          lengthUnitAsLilypondString (
+            topMargin->getMarginLength ().getLengthUnitKind ());
+      }
+      else {
+        commentOutTopMargin = true;
+      }
+    }
+    else {
+      commentOutTopMargin = true;
+    }
+
+    if (commentOutTopMargin) {
       fLilypondCodeOstream << "%";
     }
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
-      "top-margin" << " = ";
-    if (topMargin) {
-      fLilypondCodeOstream <<
-        setprecision (3) << topMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (
-          topMargin->getMarginLength ().getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
+      "top-margin" << " = " <<
+      setprecision (3) << topMarginValue <<
+      topMarginUnitString <<
+      endl;
 
     // bottom margin
-    S_msrMargin
-      bottomMargin =
-        pageLayout->getSingleBottomMargin ();
+    bool   commentOutBottomMargin = false;
+    float  bottomMarginValue = 0.0; // JMI
+    string bottomMarginUnitString =
+             lengthUnitAsLilypondString (defaultLengthUnit);
 
-    if (! rightMargin) {
+    if (pageLayout) {
+      S_msrMargin
+        bottomMargin =
+          pageLayout->getSingleBottomMargin ();
+
+      if (bottomMargin) {
+        bottomMarginValue =
+          bottomMargin->getMarginLength ().getLengthValue ();
+
+        bottomMarginUnitString =
+          lengthUnitAsLilypondString (
+            bottomMargin->getMarginLength ().getLengthUnitKind ());
+      }
+      else {
+        commentOutBottomMargin = true;
+      }
+    }
+    else {
+      commentOutBottomMargin = true;
+    }
+
+    if (commentOutBottomMargin) {
       fLilypondCodeOstream << "%";
     }
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
-      "bottom-margin" << " = ";
-    if (bottomMargin) {
-      fLilypondCodeOstream <<
-        setprecision (3) << bottomMargin->getMarginLength ().getLengthValue () <<
-        lengthUnitAsLilypondString (
-          bottomMargin->getMarginLength ().getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
+      "bottom-margin" << " = " <<
+      setprecision (3) << bottomMarginValue <<
+      bottomMarginUnitString <<
+      endl;
   }
 
   // separator

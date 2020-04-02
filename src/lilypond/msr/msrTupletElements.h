@@ -13,16 +13,17 @@
 #ifndef ___msrTupletElements___
 #define ___msrTupletElements___
 
-#include "msrSegnosAndCodas.h"
-
+#include "msrMeasureElements.h"
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
 /*
-  Tuplet elements, i.e. notes, chords and tuplets, can also be found in measures, hence:
+  Notes, chords and tuplets can be found in tuplets,
+  hence class msrTupletElement
 */
+
 class msrTupletElement : public msrMeasureElement
 {
   public:
@@ -47,47 +48,17 @@ class msrTupletElement : public msrMeasureElement
 
     void                  setPositionInTuplet (
                             int positionInTuplet)
-                              {
-                                fPositionInTuplet =
-                                  positionInTuplet;
-                              }
+                              { fPositionInTuplet = positionInTuplet; }
 
     int                   getPositionInTuplet ()
                               { return fPositionInTuplet; }
 
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-/* JMI
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v) = 0;
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual std::string   asShortString () const;
-    virtual std::string   asString () const;
-
-    virtual void          print (ostream& os) const;
-
-    virtual void          printSummary (ostream& os) {}
-    */
-
   protected:
 
-    // fields
-    // ------------------------------------------------------
+    /*
+      The tuplet uplink is declared in the sub-classes,
+      to allow for separate *.h files, C++ constraint
+    */
 
     int                   fPositionInTuplet;
 };

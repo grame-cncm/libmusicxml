@@ -48,6 +48,7 @@ lpsrPaper::lpsrPaper (
   S_msrPageLayout pageLayout)
     : lpsrElement (inputLineNumber)
 {
+/* JMI
   // sanity checks
   msrAssert (
     scaling != nullptr,
@@ -55,6 +56,7 @@ lpsrPaper::lpsrPaper (
   msrAssert (
     pageLayout != nullptr,
     "pageLayout is null");
+*/
 
   fScaling = scaling;
   fPageLayout = pageLayout;

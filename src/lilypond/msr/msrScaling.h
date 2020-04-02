@@ -32,7 +32,9 @@ class msrScaling : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrScaling> create (
-      int inputLineNumber);
+      int   inputLineNumber,
+      float millimeters,
+      float tenths);
 
     SMARTP<msrScaling> createMsrScalingNewbornClone ();
 
@@ -42,7 +44,9 @@ class msrScaling : public msrElement
     // ------------------------------------------------------
 
     msrScaling (
-      int inputLineNumber);
+      int   inputLineNumber,
+      float millimeters,
+      float tenths);
 
     virtual ~msrScaling ();
 
@@ -52,22 +56,15 @@ class msrScaling : public msrElement
     // ------------------------------------------------------
 
     // relative to absolute lengths conversion
-    void                  setMillimeters (float val)
-                              { fMillimeters = val; }
+ // JMI   void                  setMillimeters (float val)
+//                              { fMillimeters = val; }
     float                 getMillimeters () const
                               { return fMillimeters; }
 
-    void                  setTenths (int val)
-                              { fTenths = val; }
+// JMI   void                  setTenths (int val)
+//                              { fTenths = val; }
     float                 getTenths () const
                               { return float(fTenths); }
-/* JMI
-    // page layout
-    void                  setPageLayout (S_msrPageLayout val)
-                              { fPageLayout = val; }
-    S_msrPageLayout       getPageLayout () const
-                              { return fPageLayout; }
-*/
 
   public:
 
@@ -102,9 +99,6 @@ class msrScaling : public msrElement
     // relative to absolute lengths conversion
     float                 fMillimeters;
     int                   fTenths;
-
-    // page layout
-//    S_msrPageLayout       fPageLayout;
 };
 typedef SMARTP<msrScaling> S_msrScaling;
 EXP ostream& operator<< (ostream& os, const S_msrScaling& elt);

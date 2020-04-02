@@ -750,26 +750,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
   }
 #endif
 
-  // work title
-  S_msrVarValAssoc
-    workTitle = elt->getWorkTitle ();
-
-  if (workTitle) {
-    string
-      variableValue =
-        workTitle->getVariableValue ();
-
-    // create the work title element
-    Sxmlelement
-      workTitleElement =
-        createElement (
-          k_work_title,
-          variableValue);
-
-    // append it to the score part wise element
-    fScorePartWiseElement->push (workTitleElement);
-  }
-
   // work number
   S_msrVarValAssoc
     workNumber = elt->getWorkNumber ();
@@ -787,7 +767,27 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
           variableValue);
 
     // append it to the score part wise element
-    fScorePartWiseElement->push (workNumberElement);
+    appendSubElementToScoreWork (workNumberElement);
+  }
+
+  // work title
+  S_msrVarValAssoc
+    workTitle = elt->getWorkTitle ();
+
+  if (workTitle) {
+    string
+      variableValue =
+        workTitle->getVariableValue ();
+
+    // create the work title element
+    Sxmlelement
+      workTitleElement =
+        createElement (
+          k_work_title,
+          variableValue);
+
+    // append it to the score work element
+    appendSubElementToScoreWork (workTitleElement);
   }
 
   // opus
@@ -807,7 +807,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
           variableValue);
 
     // append it to the score part wise element
-    fScorePartWiseElement->push (opusElement);
+    appendSubElementToScoreWork (opusElement);
   }
 
   // movement number
@@ -3507,7 +3507,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
     "Tuplet start " <<
     ", tupletFactor: " <<
     elt->getTupletFactor ().asRational () <<
-    ", tupletElementsList: " <<
+    ", " <<
     elt->getTupletElementsList ().size () << " elements" <<
     ", line " << inputLineNumber <<
     " ===== ";
@@ -4463,6 +4463,92 @@ void msr2MxmltreeTranslator:: appendNoteSlursIfAny (
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator:: appendNoteTupletIfRelevant (
+  S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendNoteSlursIfAny, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+  switch (note->getNoteKind ()) {
+    case msrNote::k_NoNoteKind:
+    case msrNote::kRestNote:
+    case msrNote::kSkipNote:
+    case msrNote::kUnpitchedNote:
+    case msrNote::kRegularNote:
+    case msrNote::kChordMemberNote:
+      break;
+
+    case msrNote::kTupletMemberNote:
+      {
+        // get the note's tuplet uplink
+        S_msrTuplet
+          noteTupletUpLink =
+            note->getNoteTupletUpLink ();
+
+        // get the note's position in tuplet
+        int notePositionInTuplet =
+          note->getPositionInTuplet ();
+
+        // compute the type string if relevant
+        string typeString;
+
+        if (notePositionInTuplet == 1) {
+          typeString = "start";
+        }
+        else if (
+          notePositionInTuplet
+            ==
+          noteTupletUpLink->getTupletElementsList ().size ()
+        ) {
+          typeString = "stop";
+        }
+
+        if (typeString.size ()) {
+          // create a tuplet element
+          Sxmlelement tupletElement = createElement (k_tuplet, "");
+
+          // set its number attribute
+          tupletElement->add (
+            createIntegerAttribute (
+              "number",
+              noteTupletUpLink->getTupletNumber ()));
+
+          // set its type attribute
+          tupletElement->add (
+            createAttribute (
+              "type",
+              typeString));
+
+          // append it to the current note notations elements
+          appendSubElementToNoteNotations (
+            tupletElement,
+            kPlacementNone);
+        }
+      }
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+    case msrNote::kGraceNote:
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      break;
+  } // switch
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNoteElement (
   S_msrNote note)
 {
@@ -4813,8 +4899,12 @@ void msr2MxmltreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
 
   // append the tie element if any
   appendNoteTieIfAny (note);
+
   // append the slur elements if any
   appendNoteSlursIfAny (note);
+
+  // append the tuplet elements if relevant
+  appendNoteTupletIfRelevant (note);
 }
 
 //________________________________________________________________________

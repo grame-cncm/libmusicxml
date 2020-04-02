@@ -53,6 +53,7 @@ msrScore::msrScore (
     msrIdentification::create (
       inputLineNumber);
 
+/* JMI
   // create the scaling
   fScaling =
     msrScaling::create (
@@ -67,6 +68,7 @@ msrScore::msrScore (
   fSystemLayout =
     msrSystemLayout::create (
       inputLineNumber);
+*/
 
   // number of measures
   fScoreNumberOfMeasures = -1;

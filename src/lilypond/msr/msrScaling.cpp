@@ -36,26 +36,27 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrScaling msrScaling::create (
-  int inputLineNumber)
+  int   inputLineNumber,
+  float millimeters,
+  float tenths)
 {
   msrScaling* o =
     new msrScaling (
-      inputLineNumber);
+      inputLineNumber,
+      millimeters,
+      tenths);
   assert(o!=0);
   return o;
 }
 
 msrScaling::msrScaling (
-  int inputLineNumber)
+  int   inputLineNumber,
+  float millimeters,
+  float tenths)
     : msrElement (inputLineNumber)
 {
-  fMillimeters = -1;
-  fTenths      = -1;
-/*
-  fPageLayout =
-    msrPageLayout::create (
-      inputLineNumber);
-      */
+  fMillimeters = millimeters;
+  fTenths      = tenths;
 }
 
 msrScaling::~msrScaling ()
@@ -66,15 +67,9 @@ S_msrScaling msrScaling::createMsrScalingNewbornClone ()
   S_msrScaling
     newbornClone =
       msrScaling::create (
-        fInputLineNumber);
-
-  newbornClone->fMillimeters =
-    fMillimeters;
-  newbornClone->fTenths =
-    fTenths;
-
-//  newbornClone->fPageLayout =
-//    fPageLayout;
+        fInputLineNumber,
+        fMillimeters,
+        fTenths);
 
   return newbornClone;
 }
@@ -228,30 +223,7 @@ void msrScaling::acceptOut (basevisitor* v)
 }
 
 void msrScaling::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% ==> msrScaling::browseData ()" <<
-      endl;
-  }
-#endif
-/*
-  // browse the page layout
-  if (fPageLayout) {
-    msrBrowser<msrPageLayout> browser (v);
-    browser.browse (*fPageLayout);
-  }
-  */
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% <== msrScaling::browseData ()" <<
-      endl;
-  }
-#endif
-}
+{}
 
 void msrScaling::print (ostream& os) const
 {
@@ -273,20 +245,7 @@ void msrScaling::print (ostream& os) const
     "tenths" << " : " <<
     setprecision (2) << fTenths <<
     endl;
-/*
-  // page layout
-  os << left <<
-    setw (fieldWidth) <<
-    "pageLayout" << " : ";
-    if (fPageLayout) {
-      os <<
-        fPageLayout;
-    }
-    else {
-      os << "none";
-    }
-  os << endl;
-*/
+
   gIndenter--;
 }
 

@@ -2324,10 +2324,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
   }
 
   fCurrentMillimeters = (float)(*elt);
-
-  fMsrScore->
-    getScaling ()->
-      setMillimeters (fCurrentMillimeters);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
@@ -2340,20 +2336,27 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
   }
 
   fCurrentTenths = (int)(*elt);
-
-  fMsrScore->
-    getScaling ()->
-      setTenths (fCurrentTenths);
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_scaling" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
+
+  // create a scaling
+  S_msrScaling
+    scaling =
+      msrScaling::create (
+        inputLineNumber,
+        fCurrentMillimeters,
+        fCurrentTenths);
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceGeometry) {
@@ -2365,6 +2368,10 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
       endl;
   }
 #endif
+
+  // set the MSR score's scaling
+  fMsrScore->
+    setScaling (scaling);
 }
 
 //______________________________________________________________________________

@@ -26,76 +26,10 @@ namespace MusicXML2
 msrPartGroupElement::msrPartGroupElement (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
-{
-//  fPartGroupNumber = "???";
-//  fPositionInPartGroup = rational (INT_MIN, 1);
-}
+{}
 
 msrPartGroupElement::~msrPartGroupElement ()
 {}
-
-/* JMI
-void msrPartGroupElement::acceptIn (basevisitor* v)
-{
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% ==> msrPartGroupElement::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrPartGroupElement>*
-    p =
-      dynamic_cast<visitor<S_msrPartGroupElement>*> (v)) {
-        S_msrPartGroupElement elem = this;
-        
-        if (gMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
-            "% ==> Launching msrPartGroupElement::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrPartGroupElement::acceptOut (basevisitor* v)
-{
-  if (gMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
-      "% ==> msrPartGroupElement::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrPartGroupElement>*
-    p =
-      dynamic_cast<visitor<S_msrPartGroupElement>*> (v)) {
-        S_msrPartGroupElement elem = this;
-      
-        if (gMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
-            "% ==> Launching msrPartGroupElement::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-string msrPartGroupElement::asString () const
-{
-  // this is overriden all in actual elements
-  return "??? msrPartGroupElement::asString () ???";
-}
-
-string msrPartGroupElement::asShortString () const
-{
-  // this can be overriden in actual elements
-  return asString () const;
-}
-
-void msrPartGroupElement::print (ostream& os)
-{
-  os << asString () << endl;
-}
-*/
 
 ostream& operator<< (ostream& os, const S_msrPartGroupElement& elt)
 {

@@ -16,13 +16,15 @@
 #include "msrSegnosAndCodas.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 /*
-  PartGroup elements, i.e. notes, chords and tuplets, can also be found in measures, hence:
+  Parts and part groups can be found in part groups,
+  hence class msrPartGroupElement
 */
+
 class msrPartGroupElement : public msrMeasureElement
 {
   public:
@@ -40,65 +42,10 @@ class msrPartGroupElement : public msrMeasureElement
 
     virtual ~msrPartGroupElement ();
 
-  public:
-
-/* JMI
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setPartGroupNumber (
-                            string positionInPartGroup)
-                              {
-                                fPartGroupNumber =
-                                  positionInPartGroup;
-                              }
-                      
-    string                getPartGroupNumber ()
-                              { return fPartGroupNumber; }
-
-    void                  setPositionInPartGroup (
-                            rational positionInPartGroup)
-                              {
-                                fPositionInPartGroup =
-                                  positionInPartGroup;
-                              }
-                      
-    rational              getPositionInPartGroup ()
-                              { return fPositionInPartGroup; }
-
-    // services
-    // ------------------------------------------------------
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v) = 0;
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual std::string   asShortString () const;
-    virtual std::string   asString () const;    
-
-    virtual void          print (ostream& os) const;
-
-    virtual void          printSummary (ostream& os) {}
-    
-  protected:
-     
-    // fields
-    // ------------------------------------------------------
-
-    string                fPartGroupNumber;
-    rational              fPositionInPartGroup;
-    */
+  /*
+    The part group uplink is declared in the sub-classes,
+    to allow for separate *.h files, C++ constraint
+  */
 };
 typedef SMARTP<msrPartGroupElement> S_msrPartGroupElement;
 EXP ostream& operator<< (ostream& os, const S_msrPartGroupElement& elt);
