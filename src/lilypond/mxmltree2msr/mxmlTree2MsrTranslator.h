@@ -23,14 +23,52 @@ namespace MusicXML2
 class mxmlTree2MsrTranslator :
 
   // score partwise
+  // ------------------------------------------------------
 
   public visitor<S_score_partwise>,
 
+  // scaling
+  // ------------------------------------------------------
+
+  public visitor<S_scaling>,
+  public visitor<S_millimeters>,
+  public visitor<S_tenths>,
+
+  // layout
+  // ------------------------------------------------------
+
+  public visitor<S_page_layout>,
+  public visitor<S_page_height>,
+  public visitor<S_page_width>,
+  public visitor<S_page_margins>,
+
+  public visitor<S_left_margin>,
+  public visitor<S_right_margin>,
+  public visitor<S_top_margin>,
+  public visitor<S_bottom_margin>,
+
+  public visitor<S_system_layout>,
+  public visitor<S_system_margins>,
+  public visitor<S_system_distance>,
+  public visitor<S_top_system_distance>,
+
+  public visitor<S_staff_layout>,
+  public visitor<S_staff_distance>,
+
+  // system dividers
+  // ------------------------------------------------------
+
+  public visitor<S_system_dividers>,
+  public visitor<S_left_divider>,
+  public visitor<S_right_divider>,
+
   // parts
+  // ------------------------------------------------------
 
   public visitor<S_part>,
 
   // ???
+  // ------------------------------------------------------
 
   public visitor<S_attributes>,
 
@@ -40,6 +78,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_staff>,
 
   // staff details
+  // ------------------------------------------------------
 
   public visitor<S_staff_details>,
   public visitor<S_staff_type>,
@@ -52,15 +91,18 @@ class mxmlTree2MsrTranslator :
   public visitor<S_staff_size>,
 
   // ???
+  // ------------------------------------------------------
 
   public visitor<S_voice>,
 
   // backup & forward
+  // ------------------------------------------------------
 
   public visitor<S_backup>,
   public visitor<S_forward>,
 
   // clefs
+  // ------------------------------------------------------
 
   public visitor<S_clef>,
   public visitor<S_sign>,
@@ -68,6 +110,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_clef_octave_change>,
 
   // keys
+  // ------------------------------------------------------
 
   public visitor<S_key>,
   public visitor<S_cancel>,
@@ -78,6 +121,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_key_octave>,
 
   // times
+  // ------------------------------------------------------
 
   public visitor<S_time>,
   public visitor<S_beats>,
@@ -88,10 +132,12 @@ class mxmlTree2MsrTranslator :
   public visitor<S_time_relation>,
 
   // ???
+  // ------------------------------------------------------
 
   public visitor<S_instruments>,
 
   // transpose
+  // ------------------------------------------------------
 
   public visitor<S_transpose>,
   public visitor<S_diatonic>,
@@ -100,6 +146,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_double>,
 
   // directions
+  // ------------------------------------------------------
 
   public visitor<S_direction>,
   public visitor<S_direction_type>,
@@ -113,6 +160,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_accord>,
 
   // tempo
+  // ------------------------------------------------------
 
   public visitor<S_metronome>,
   public visitor<S_beat_unit>,
@@ -127,6 +175,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_normal_dot>,
 
   // ties, slurs, brackets & beams
+  // ------------------------------------------------------
 
   public visitor<S_tied>,
   public visitor<S_slur>,
@@ -134,6 +183,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_beam>,
 
   // lyrics
+  // ------------------------------------------------------
 
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
@@ -142,6 +192,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_extend>,
 
   // harmonies
+  // ------------------------------------------------------
 
   public visitor<S_degree>,
   public visitor<S_degree_value>,
@@ -167,6 +218,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_barre>,
 
   // figured bass
+  // ------------------------------------------------------
 
   public visitor<S_figured_bass>,
   public visitor<S_figure>,
@@ -175,13 +227,14 @@ class mxmlTree2MsrTranslator :
   public visitor<S_suffix>,
 
   // measures
+  // ------------------------------------------------------
 
   public visitor<S_measure>,
   public visitor<S_print>,
-  public visitor<S_system_layout>,
   public visitor<S_measure_numbering>,
 
   // ???
+  // ------------------------------------------------------
 
   public visitor<S_barline>,
   public visitor<S_segno>,
@@ -193,6 +246,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_ending>,
 
   // notes
+  // ------------------------------------------------------
 
   public visitor<S_note>,
   public visitor<S_step>,
@@ -211,12 +265,14 @@ class mxmlTree2MsrTranslator :
   public visitor<S_stem>,
 
   // note heads
+  // ------------------------------------------------------
 
   public visitor<S_type>,
   public visitor<S_notehead>,
   public visitor<S_accidental>,
 
   // repeats
+  // ------------------------------------------------------
 
   public visitor<S_measure_style>,
   public visitor<S_beat_repeat>,
@@ -227,6 +283,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_slash_dot>,
 
   // articulations
+  // ------------------------------------------------------
 
   public visitor<S_articulations>,
   public visitor<S_accent>,
@@ -249,6 +306,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_scoop>,
 
   // technicals
+  // ------------------------------------------------------
 
   public visitor<S_technical>,
   public visitor<S_arrow>,
@@ -278,6 +336,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_up_bow>,
 
   // ornaments
+  // ------------------------------------------------------
 
   public visitor<S_ornaments>,
   public visitor<S_trill_mark>,
@@ -295,10 +354,12 @@ class mxmlTree2MsrTranslator :
   public visitor<S_accidental_mark>,
 
   // tremolos
+  // ------------------------------------------------------
 
   public visitor<S_tremolo>,
 
   // dynamics
+  // ------------------------------------------------------
 
   public visitor<S_f>,
   public visitor<S_ff>,
@@ -333,18 +394,22 @@ class mxmlTree2MsrTranslator :
   public visitor<S_wedge>,
 
   // cue notes
+  // ------------------------------------------------------
 
   public visitor<S_cue>,
 
   // grace notes
+  // ------------------------------------------------------
 
   public visitor<S_grace>,
 
   // chords
+  // ------------------------------------------------------
 
   public visitor<S_chord>,
 
   // times
+  // ------------------------------------------------------
 
   public visitor<S_time_modification>,
   public visitor<S_actual_notes>,
@@ -352,6 +417,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_normal_type>,
 
   // tuplets
+  // ------------------------------------------------------
 
   public visitor<S_tuplet>,
   public visitor<S_tuplet_actual>,
@@ -361,18 +427,22 @@ class mxmlTree2MsrTranslator :
   public visitor<S_tuplet_dot>,
 
   // glissandos
+  // ------------------------------------------------------
 
   public visitor<S_glissando>,
 
   // slides
+  // ------------------------------------------------------
 
   public visitor<S_slide>,
 
   // rehearsals
+  // ------------------------------------------------------
 
   public visitor<S_rehearsal>,
 
   // accordion registration
+  // ------------------------------------------------------
 
   public visitor<S_accordion_registration>,
   public visitor<S_accordion_high>,
@@ -380,6 +450,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_accordion_low>,
 
   // harp pedals tuning
+  // ------------------------------------------------------
 
   public visitor<S_harp_pedals>,
   public visitor<S_pedal_tuning>,
@@ -390,10 +461,12 @@ class mxmlTree2MsrTranslator :
   public visitor<S_damp_all>,
 
   // sound
+  // ------------------------------------------------------
 
   public visitor<S_sound>,
 
   // midi
+  // ------------------------------------------------------
 
   public visitor<S_instrument_sound>,
   public visitor<S_virtual_instrument>,
@@ -431,6 +504,49 @@ class mxmlTree2MsrTranslator :
         const Sxmlelement& mxmlTree);
 
   protected:
+
+    // scaling
+    // ------------------------------------------------------
+
+    virtual void visitEnd   ( S_scaling& elt);
+    virtual void visitStart ( S_millimeters& elt);
+    virtual void visitStart ( S_tenths& elt);
+
+    // layout
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_page_layout& elt);
+    virtual void visitEnd   ( S_page_layout& elt);
+
+    virtual void visitStart ( S_page_height& elt);
+    virtual void visitStart ( S_page_width& elt);
+
+    virtual void visitStart ( S_page_margins& elt);
+    virtual void visitEnd   ( S_page_margins& elt);
+
+    virtual void visitStart ( S_left_margin& elt);
+    virtual void visitStart ( S_right_margin& elt);
+    virtual void visitStart ( S_top_margin& elt);
+    virtual void visitStart ( S_bottom_margin& elt);
+
+    virtual void visitStart ( S_system_layout& elt);
+    virtual void visitEnd   ( S_system_layout& elt);
+
+    virtual void visitStart ( S_system_margins& elt);
+    virtual void visitEnd   ( S_system_margins& elt);
+    virtual void visitStart ( S_system_distance& elt);
+    virtual void visitStart ( S_top_system_distance& elt);
+
+    virtual void visitStart ( S_staff_layout& elt);
+    virtual void visitEnd   ( S_staff_layout& elt);
+    virtual void visitStart ( S_staff_distance& elt);
+
+    // system dividers
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_system_dividers& elt);
+    virtual void visitStart ( S_left_divider& elt);
+    virtual void visitStart ( S_right_divider& elt);
 
     // parts
     // ------------------------------------------------------
@@ -648,7 +764,6 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_print& elt);
     virtual void visitEnd   ( S_print& elt);
 
-    virtual void visitStart ( S_system_layout& elt);
     virtual void visitStart ( S_measure_numbering& elt);
 
     virtual void visitStart ( S_barline& elt);
@@ -917,10 +1032,49 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentDivisionsPerQuarterNote;
     S_msrDivisions            fCurrentDivisions;
 
-    // print
+    // scaling handling
+    // ------------------------------------------------------
+
+    float                     fCurrentMillimeters;
+    int                       fCurrentTenths;
+
+
+    // page layout handling
+    // ------------------------------------------------------
+
+    bool                      fOnGoingPageMargins;
+
+    msrMarginTypeKind         fCurrentPageMarginsTypeKind;
+
+    S_msrPageLayout           fCurrentPageLayout;
+
+    bool                      fOnGoingPageLayout;
+    S_msrMarginsGroup         fCurrentPageLayoutMarginsGroup;
+
+
+    // system layout handling
+    // ------------------------------------------------------
+
+    bool                      fOnGoingSystemLayout;
+
+    S_msrSystemLayout         fCurrentSystemLayout;
+
+    bool                      fOnGoingSystemMargins;
+
+    // staff layout handling
+    // ------------------------------------------------------
+
+    bool                      fOnGoingStaffLayout;
+
+    S_msrStaffLayout          fCurrentStaffLayout;
+
+    // print ???
     // ------------------------------------------------------
 
     string                    fCurrentDisplayText;
+
+    S_msrPrintLayout          fCurrentPrintLayout;
+
     bool                      fOnGoingPrint;
 
     // part handling

@@ -66,6 +66,37 @@ All of them imply '-tpasses, -trace-passes'.)",
 traceOah::~traceOah ()
 {}
 
+void traceOah::initializePrintLayoutsTraceOah (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Print layouts",
+        "hpl", "help-print-layouts",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // print layouts
+
+  fTracePrintLayouts = boolOptionsInitialValue;
+
+  S_oahTwoBooleansAtom
+    tracePrintLayoutsAtom =
+      oahTwoBooleansAtom::create (
+        "tpl", "trace-print-layouts",
+R"(Print layouts)",
+        "tracePrintLayouts",
+        fTracePrintLayouts,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      tracePrintLayoutsAtom);
+}
+
 void traceOah::initializeTranspositionsTraceOah (
   bool boolOptionsInitialValue)
 {
@@ -2218,6 +2249,10 @@ void traceOah::initializeTraceOah (
 
   // score to voices
   initializeScoreToVoicesTraceOah (
+    boolOptionsInitialValue);
+
+  // print layouts
+  initializePrintLayoutsTraceOah (
     boolOptionsInitialValue);
 
   // segments and measures

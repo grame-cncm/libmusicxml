@@ -1244,6 +1244,26 @@ void msrMeasure::setMeasureKind (
   fMeasureKind = measureKind;
 }
 
+void msrMeasure::appendPrintLayoutToMeasure (
+  S_msrPrintLayout printLayout)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceClefs) {
+    gLogOstream <<
+      "Appending print layout " << printLayout->asString () <<
+      " to measure " <<
+      this->asShortString () <<
+      ", in voice \"" <<
+      fetchMeasureVoiceUpLink ()->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // append it to the measure elements list
+  appendElementToMeasure (printLayout);
+}
+
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
 #ifdef TRACE_OAH

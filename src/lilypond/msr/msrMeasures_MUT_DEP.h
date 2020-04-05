@@ -282,6 +282,11 @@ class msrMeasure : public msrElement
 
     bool                  measureIsARestMeasure () const;
 
+    // print layout
+
+    void                  appendPrintLayoutToMeasure (
+                            S_msrPrintLayout printLayout);
+
     // clefs
 
     void                  appendClefToMeasure (S_msrClef clef);

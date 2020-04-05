@@ -50,6 +50,9 @@ class traceOah : public oahGroup
     void                  initializeOptionsTraceAndDisplayOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializePrintLayoutsTraceOah (
+                            bool boolOptionsInitialValue);
+
     void                  initializeRepeatsToSlashesTraceOah (
                             bool boolOptionsInitialValue);
 
@@ -201,6 +204,11 @@ class traceOah : public oahGroup
     bool                  fTraceVoices;
     bool                  fTraceVoicesDetails;
 
+
+    // print layouts
+    // --------------------------------------
+
+    bool                  fTracePrintLayouts;
 
     // segments and measures
     // --------------------------------------

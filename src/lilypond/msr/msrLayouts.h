@@ -14,6 +14,7 @@
 #define ___msrLayout___
 
 #include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
@@ -126,6 +127,8 @@ class msrPageLayout : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
@@ -213,6 +216,8 @@ class msrSystemLayout : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
@@ -299,15 +304,15 @@ class msrSystemDividers : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setPrintLeftDivider (bool val)
-                              { fPrintLeftDivider = val; }
-    bool                  getPrintLeftDivider () const
-                              { return fPrintLeftDivider; }
+    void                  setLeftDivider (bool val)
+                              { fLeftDivider = val; }
+    bool                  getLeftDivider () const
+                              { return fLeftDivider; }
 
-    void                  setPrintRightDivider (bool val)
-                              { fPrintRightDivider = val; }
-    bool                  getPrintRightDivider () const
-                              { return fPrintRightDivider; }
+    void                  setRightDivider (bool val)
+                              { fRightDivider = val; }
+    bool                  getRightDivider () const
+                              { return fRightDivider; }
 
   public:
 
@@ -329,6 +334,8 @@ class msrSystemDividers : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
@@ -336,9 +343,8 @@ class msrSystemDividers : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // staff number
-    bool                  fPrintLeftDivider;
-    bool                  fPrintRightDivider;
+    bool                  fLeftDivider;
+    bool                  fRightDivider;
 };
 typedef SMARTP<msrSystemDividers> S_msrSystemDividers;
 EXP ostream& operator<< (ostream& os, const S_msrSystemDividers& elt);
@@ -419,6 +425,8 @@ class msrStaffLayout : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
@@ -497,6 +505,8 @@ class msrMeasureLayout : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
@@ -509,6 +519,86 @@ class msrMeasureLayout : public msrElement
 };
 typedef SMARTP<msrMeasureLayout> S_msrMeasureLayout;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureLayout& elt);
+
+//______________________________________________________________________________
+class msrPrintLayout : public msrMeasureElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrPrintLayout> create (
+      int inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrPrintLayout (
+      int inputLineNumber);
+
+    virtual ~msrPrintLayout ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setPageLayout (S_msrPageLayout pageLayout)
+                              { fPageLayout = pageLayout; }
+
+    S_msrPageLayout       getPageLayout () const
+                              { return fPageLayout; }
+
+    void                  setSystemLayout (S_msrSystemLayout systemLayout)
+                              { fSystemLayout = systemLayout; }
+
+    S_msrSystemLayout     getSystemLayout () const
+                              { return fSystemLayout; }
+
+    void                  setSystemDividers (S_msrSystemDividers systemDividers)
+                              { fSystemDividers = systemDividers; }
+
+    S_msrSystemDividers   getSystemDividers () const
+                              { return fSystemDividers; }
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_msrPageLayout       fPageLayout;
+
+    S_msrSystemLayout     fSystemLayout;
+
+    S_msrSystemDividers   fSystemDividers;
+};
+typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
+EXP ostream& operator<< (ostream& os, const S_msrPrintLayout& elt);
 
 
 } // namespace MusicXML2

@@ -368,10 +368,64 @@ void msrSegment::setNextMeasureNumberInSegment (
   gIndenter--;
 }
 
+void msrSegment::appendPrintLayoutToSegment (
+  S_msrPrintLayout printLayout)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePrintLayouts) {
+    gLogOstream <<
+      "Appending print layout '" << printLayout->asString () <<
+      "' to segment " << asString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUpLink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  // sanity check
+  if (fSegmentMeasuresList.size () == 0) {
+    stringstream s;
+
+    s <<
+      "SegmentMeasuresList is empty"  <<
+      " in segment '" <<
+      fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
+      "' in voice \"" <<
+      fSegmentVoiceUpLink->getVoiceName () <<
+      "\"";
+
+    gLogOstream <<
+      "SegmentVoiceUpLink:" <<
+      endl;
+    gIndenter++;
+    gLogOstream <<
+      fSegmentVoiceUpLink <<
+      endl;
+    gIndenter--;
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      printLayout->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // register print layout in segments's current measure
+  fSegmentMeasuresList.back ()->
+    appendPrintLayoutToMeasure (printLayout);
+
+  gIndenter--;
+}
+
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceClefs) {
+  if (gTraceOah->fTracePrintLayouts) {
     gLogOstream <<
       "Appending clef '" << clef->asString () <<
       "' to segment " << asString () <<
@@ -409,7 +463,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
     msrInternalError (
       gOahOah->fInputSourceName,
-      clef->getInputLineNumber (),
+       clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
   }

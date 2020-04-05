@@ -159,41 +159,6 @@ class mxmlTree2MsrSkeletonBuilder :
   public visitor<S_miscellaneous>,
   public visitor<S_miscellaneous_field>,
 
-  // scaling
-  // ------------------------------------------------------
-
-  public visitor<S_scaling>,
-  public visitor<S_millimeters>,
-  public visitor<S_tenths>,
-
-  // layout
-  // ------------------------------------------------------
-
-  public visitor<S_page_layout>,
-  public visitor<S_page_height>,
-  public visitor<S_page_width>,
-  public visitor<S_page_margins>,
-
-  public visitor<S_left_margin>,
-  public visitor<S_right_margin>,
-  public visitor<S_top_margin>,
-  public visitor<S_bottom_margin>,
-
-  public visitor<S_system_layout>,
-  public visitor<S_system_margins>,
-  public visitor<S_system_distance>,
-  public visitor<S_top_system_distance>,
-
-  public visitor<S_staff_layout>,
-  public visitor<S_staff_distance>,
-
-  // system dividers
-  // ------------------------------------------------------
-
-  public visitor<S_system_dividers>,
-  public visitor<S_left_divider>,
-  public visitor<S_right_divider>,
-
   // credits
   // ------------------------------------------------------
 
@@ -346,52 +311,8 @@ class mxmlTree2MsrSkeletonBuilder :
     virtual void visitEnd   ( S_miscellaneous& elt);
     virtual void visitStart ( S_miscellaneous_field& elt);
 
-    // rights
+    // rights JMI
     // ------------------------------------------------------
-
-
-    // scaling
-    // ------------------------------------------------------
-
-    virtual void visitEnd   ( S_scaling& elt);
-    virtual void visitStart ( S_millimeters& elt);
-    virtual void visitStart ( S_tenths& elt);
-
-    // layout
-    // ------------------------------------------------------
-
-    virtual void visitStart ( S_page_layout& elt);
-    virtual void visitEnd   ( S_page_layout& elt);
-
-    virtual void visitStart ( S_page_height& elt);
-    virtual void visitStart ( S_page_width& elt);
-
-    virtual void visitStart ( S_page_margins& elt);
-    virtual void visitEnd   ( S_page_margins& elt);
-
-    virtual void visitStart ( S_left_margin& elt);
-    virtual void visitStart ( S_right_margin& elt);
-    virtual void visitStart ( S_top_margin& elt);
-    virtual void visitStart ( S_bottom_margin& elt);
-
-    virtual void visitStart ( S_system_layout& elt);
-    virtual void visitEnd   ( S_system_layout& elt);
-
-    virtual void visitStart ( S_system_margins& elt);
-    virtual void visitEnd   ( S_system_margins& elt);
-    virtual void visitStart ( S_system_distance& elt);
-    virtual void visitStart ( S_top_system_distance& elt);
-
-    virtual void visitStart ( S_staff_layout& elt);
-    virtual void visitEnd   ( S_staff_layout& elt);
-    virtual void visitStart ( S_staff_distance& elt);
-
-    // system dividers
-    // ------------------------------------------------------
-
-    virtual void visitStart ( S_system_dividers& elt);
-    virtual void visitStart ( S_left_divider& elt);
-    virtual void visitStart ( S_right_divider& elt);
 
     // credits
     // ------------------------------------------------------
@@ -493,42 +414,6 @@ class mxmlTree2MsrSkeletonBuilder :
 
     S_msrScore                fMsrScore;
 
-
-    // scaling handling
-    // ------------------------------------------------------
-
-    float                     fCurrentMillimeters;
-    int                       fCurrentTenths;
-
-
-    // page layout handling
-    // ------------------------------------------------------
-
-    bool                      fOnGoingPageMargins;
-
-    msrMarginTypeKind         fCurrentPageMarginsTypeKind;
-
-    S_msrPageLayout           fCurrentPageLayout;
-
-    bool                      fOnGoingPageLayout;
-    S_msrMarginsGroup         fCurrentPageLayoutMarginsGroup;
-
-
-    // system layout handling
-    // ------------------------------------------------------
-
-    bool                      fOnGoingSystemLayout;
-
-    S_msrSystemLayout         fCurrentSystemLayout;
-
-    bool                      fOnGoingSystemMargins;
-
-    // staff layout handling
-    // ------------------------------------------------------
-
-    bool                      fOnGoingStaffLayout;
-
-    S_msrStaffLayout          fCurrentStaffLayout;
 
     // credits handling
     // ------------------------------------------------------

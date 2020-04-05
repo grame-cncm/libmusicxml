@@ -19,6 +19,12 @@
 #include "msrOah.h"
 
 #include "messagesHandling.h"
+
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
+
 #include "oahOah.h"
 
 
@@ -227,8 +233,18 @@ void msrPageLayout::acceptOut (basevisitor* v)
 }
 
 void msrPageLayout::browseData (basevisitor* v)
+{}
+
+string msrPageLayout::asString () const
 {
-  // JMI ???
+  stringstream s;
+
+  s <<
+    "[PageLayout" <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
 }
 
 void msrPageLayout::print (ostream& os) const
@@ -366,8 +382,18 @@ void msrSystemLayout::acceptOut (basevisitor* v)
 }
 
 void msrSystemLayout::browseData (basevisitor* v)
+{}
+
+string msrSystemLayout::asString () const
 {
-  // JMI ???
+  stringstream s;
+
+  s <<
+    "[SystemLayout" <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
 }
 
 void msrSystemLayout::print (ostream& os) const
@@ -428,6 +454,112 @@ void msrSystemLayout::print (ostream& os) const
 }
 
 ostream& operator<< (ostream& os, const S_msrSystemLayout& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrSystemDividers msrSystemDividers::create (
+  int inputLineNumber)
+{
+  msrSystemDividers* o =
+    new msrSystemDividers (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrSystemDividers::msrSystemDividers (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+  fLeftDivider  = false;
+  fRightDivider = false;
+}
+
+msrSystemDividers::~msrSystemDividers ()
+{}
+
+void msrSystemDividers::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrSystemDividers::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrSystemDividers>*
+    p =
+      dynamic_cast<visitor<S_msrSystemDividers>*> (v)) {
+        S_msrSystemDividers elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrSystemDividers::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrSystemDividers::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrSystemDividers::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrSystemDividers>*
+    p =
+      dynamic_cast<visitor<S_msrSystemDividers>*> (v)) {
+        S_msrSystemDividers elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrSystemDividers::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrSystemDividers::browseData (basevisitor* v)
+{}
+
+string msrSystemDividers::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[SystemDividers" <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrSystemDividers::print (ostream& os) const
+{
+  os << "SystemDividers" << endl;
+
+  const int fieldWidth = 13;
+
+  gIndenter++;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "leftDivider" << " : " << booleanAsString (fLeftDivider) <<
+    endl <<
+    setw (fieldWidth) <<
+    "rightDivider" << " : " << booleanAsString (fRightDivider) <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSystemDividers& elt)
 {
   elt->print (os);
   return os;
@@ -497,15 +629,25 @@ void msrStaffLayout::acceptOut (basevisitor* v)
 }
 
 void msrStaffLayout::browseData (basevisitor* v)
+{}
+
+string msrStaffLayout::asString () const
 {
-  // JMI ???
+  stringstream s;
+
+  s <<
+    "[StaffLayout" <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
 }
 
 void msrStaffLayout::print (ostream& os) const
 {
   os << "SystemLayout" << endl;
 
-  const int fieldWidth = 13;
+  const int fieldWidth = 14;
 
   gIndenter++;
 
@@ -525,6 +667,163 @@ void msrStaffLayout::print (ostream& os) const
 }
 
 ostream& operator<< (ostream& os, const S_msrStaffLayout& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrPrintLayout msrPrintLayout::create (
+  int inputLineNumber)
+{
+  msrPrintLayout* o =
+    new msrPrintLayout (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrPrintLayout::msrPrintLayout (
+  int inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceMeasures) {
+    gLogOstream <<
+      "Creating a print layout " <<
+      endl;
+  }
+#endif
+}
+
+msrPrintLayout::~msrPrintLayout ()
+{}
+
+void msrPrintLayout::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrPrintLayout::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrPrintLayout>*
+    p =
+      dynamic_cast<visitor<S_msrPrintLayout>*> (v)) {
+        S_msrPrintLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrPrintLayout::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrPrintLayout::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrPrintLayout::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrPrintLayout>*
+    p =
+      dynamic_cast<visitor<S_msrPrintLayout>*> (v)) {
+        S_msrPrintLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrPrintLayout::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrPrintLayout::browseData (basevisitor* v)
+{
+  if (fPageLayout) {
+    // browse the page layout
+    msrBrowser<msrPageLayout> browser (v);
+    browser.browse (*fPageLayout);
+  }
+
+  if (fSystemLayout) {
+    // browse the system layout
+    msrBrowser<msrSystemLayout> browser (v);
+    browser.browse (*fSystemLayout);
+  }
+
+  if (fSystemDividers) {
+    // browse the system dividers
+    msrBrowser<msrSystemDividers> browser (v);
+    browser.browse (*fSystemDividers);
+  }
+}
+
+string msrPrintLayout::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[PrintLayout" <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrPrintLayout::print (ostream& os) const
+{
+  os <<
+    "Print layout" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 15;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageLayout" << " : ";
+    if (fPageLayout) {
+      os << fPageLayout;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "systemLayout" << " : ";
+    if (fSystemLayout) {
+      os << fSystemLayout;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "systemDividers" << " : ";
+    if (fSystemDividers) {
+      os << fSystemDividers;
+    }
+    else {
+      os << "none";
+    }
+  os << endl;
+
+  gIndenter++;
+}
+
+ostream& operator<< (ostream& os, const S_msrPrintLayout& elt)
 {
   elt->print (os);
   return os;

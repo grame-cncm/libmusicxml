@@ -1392,7 +1392,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
   }
 #endif
 
-// JMI  appendSystemMarginsElementToScoreDefaultsSystemLayout (elt);
+  // margins
+  appendSystemMarginsElementToScoreDefaultsSystemLayout (elt);
 
   // distances
   S_msrLength systemDistance = elt->getSystemDistance ();

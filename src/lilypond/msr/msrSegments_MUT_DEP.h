@@ -72,6 +72,11 @@ class msrSegment : public msrVoiceElement
 
     S_msrPart             fetchSegmentPartUpLink () const;
 
+    // print layout MusicXML specific??? JMI
+
+     void                 appendPrintLayoutToSegment (
+                            S_msrPrintLayout printLayout);
+
     // backup and padding
 
     void                  padUpToPositionInMeasureInSegment (

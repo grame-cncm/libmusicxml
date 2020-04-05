@@ -1503,6 +1503,25 @@ void msrVoice::setVoiceCurrentTime (S_msrTime time)
   fVoiceCurrentTime = time;
 };
 
+void msrVoice::appendPrintLayoutToVoice (S_msrPrintLayout printLayout)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePrintLayouts) {
+    gLogOstream <<
+      "Appending print layout '" << printLayout->asString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  fVoiceLastSegment->
+    appendPrintLayoutToSegment (printLayout);
+
+  gIndenter--;
+}
+
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
 #ifdef TRACE_OAH

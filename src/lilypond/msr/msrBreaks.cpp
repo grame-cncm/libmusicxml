@@ -59,17 +59,6 @@ msrLineBreak::msrLineBreak (
 msrLineBreak::~msrLineBreak ()
 {}
 
-string msrLineBreak::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Line break" <<
-    ", nextBarNumber = \"" << fNextBarNumber << "\"";
-
-  return s.str ();
-}
-
 void msrLineBreak::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
@@ -117,6 +106,17 @@ void msrLineBreak::acceptOut (basevisitor* v)
 void msrLineBreak::browseData (basevisitor* v)
 {}
 
+string msrLineBreak::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Line break" <<
+    ", nextBarNumber = \"" << fNextBarNumber << "\"";
+
+  return s.str ();
+}
+
 void msrLineBreak::print (ostream& os) const
 {
   os <<
@@ -156,16 +156,6 @@ msrPageBreak::msrPageBreak (
 
 msrPageBreak::~msrPageBreak ()
 {}
-
-string msrPageBreak::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Page break";
-
-  return s.str ();
-}
 
 void msrPageBreak::acceptIn (basevisitor* v)
 {
@@ -213,6 +203,16 @@ void msrPageBreak::acceptOut (basevisitor* v)
 
 void msrPageBreak::browseData (basevisitor* v)
 {}
+
+string msrPageBreak::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Page break";
+
+  return s.str ();
+}
 
 void msrPageBreak::print (ostream& os) const
 {

@@ -276,6 +276,10 @@ class msrVoice : public msrElement
     void                  changeVoiceIdentity ( // after a deep copy
                             int voiceNumber);
 
+    // print layout MusicXML specific??? JMI
+     void                 appendPrintLayoutToVoice (
+                            S_msrPrintLayout printLayout);
+
     // measures
 
     S_msrMeasure          createMeasureAndAppendItToVoice (

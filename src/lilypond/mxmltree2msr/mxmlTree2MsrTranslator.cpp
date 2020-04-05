@@ -56,10 +56,23 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // divisions
   fCurrentDivisionsPerQuarterNote = 1;
 
-  // part handling
+  // scaling handling
+  fCurrentMillimeters = -1;
+  fCurrentTenths      = -1;
+
+  fOnGoingSystemMargins = false;
+
+  // page layout
+  fOnGoingPageLayout = false;
+
+  fOnGoingPageMargins = false;
+  fCurrentPageMarginsTypeKind = kBothMargins; // default value
+
+  fOnGoingSystemLayout = false;
+
+  // part handling JMI
 
   // print
-
   fCurrentDisplayText = "";
   fOnGoingPrint = false;
 
@@ -671,6 +684,711 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
 #endif
 
   return voice;
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_millimeters& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_millimeters" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentMillimeters = (float)(*elt);
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_tenths& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_tenths" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentTenths = (int)(*elt);
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_scaling& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_scaling" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create a scaling
+  S_msrScaling
+    scaling =
+      msrScaling::create (
+        inputLineNumber,
+        fCurrentMillimeters,
+        fCurrentTenths);
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGeometry) {
+    fLogOutputStream <<
+      "There are " << fCurrentTenths <<
+      " tenths for " <<  fCurrentMillimeters <<
+      " millimeters, hence the global staff size is " <<
+      fMsrScore->getScaling ()->fetchGlobalStaffSize () <<
+      endl;
+  }
+#endif
+
+  // set the MSR score's scaling
+  fMsrScore->
+    setScaling (scaling);
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create the system layout
+  fCurrentSystemLayout =
+    msrSystemLayout::create (
+      inputLineNumber);
+
+  fOnGoingSystemLayout = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_system_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_system_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingPrint) {
+    // set the current print layout's system layout
+    fCurrentPrintLayout->
+      setSystemLayout (
+        fCurrentSystemLayout);
+
+    // append it to the current part
+ //   fCurrentPart->
+// JMI      appendPrintLayoutToPart (printLayout);
+  }
+/*
+  // register clef in part or staff
+  if (fCurrentClefStaffNumber == 0) {
+    fCurrentPart->
+      appendClefToPart (clef);
+  }
+  else {
+    S_msrStaff
+      staff =
+        fetchStaffFromCurrentPart (
+          inputLineNumber,
+          fCurrentClefStaffNumber);
+
+    staff->
+      appendClefToStaff (clef);
+  }
+*/
+
+  else {
+    // set the MSR score system layout
+    fMsrScore->
+      setSystemLayout (fCurrentSystemLayout);
+  }
+
+  // forget about the current system layout
+  fCurrentSystemLayout = nullptr;
+
+  fOnGoingSystemLayout = false;
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_system_margins& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_margins" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (! fOnGoingSystemLayout) {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<system-margins /> is out of context");
+  }
+
+  fOnGoingSystemMargins = true;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_system_distance& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_distance" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingSystemLayout) {
+    float systemDistanceTenths = (float)(*elt);
+
+    fCurrentSystemLayout->
+      setSystemDistance (
+        msrLength::create (
+          kMillimeterUnit,
+          systemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<system-distance /> is out of context");
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_top_system_distance" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingSystemLayout) {
+    float topSystemDistanceTenths = (float)(*elt);
+
+    fCurrentSystemLayout->
+      setTopSystemDistance (
+        msrLength::create (
+          kMillimeterUnit,
+          topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<top-system-distance /> is out of context");
+  }
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_system_margins& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_system_margins" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (! fOnGoingSystemLayout) {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<system-margins /> is out of context");
+  }
+
+  fOnGoingSystemMargins = false;
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_system_dividers& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_dividers" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+    stringstream s;
+
+    s <<
+      "<system-dividers /> is not supported yet by " <<
+      gOahOah->fHandlerExecutableName;
+
+/* JMI
+    msrMusicXMLWarning (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+     s.str ());
+     */
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_left_divider& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_left_divider" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_right_divider& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_right_divider" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_page_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create a page layout
+  fCurrentPageLayout =
+    msrPageLayout::create (
+      inputLineNumber);
+
+  fOnGoingPageLayout = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_page_layout& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_page_layout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingPrint) {
+    // JMI
+  }
+  else {
+    // set the score page layout
+    fMsrScore->
+      setPageLayout (fCurrentPageLayout);
+  }
+
+  fOnGoingPageLayout = false;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_page_height& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_height" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    float pageHeight = (float)(*elt);
+
+    fCurrentPageLayout->
+      setPageHeight (
+        msrLength::create (
+          kMillimeterUnit,
+          pageHeight * fCurrentMillimeters / fCurrentTenths));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<page-height /> is out of context");
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_page_width& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_width" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    float pageWidth = (float)(*elt);
+
+    fCurrentPageLayout->
+      setPageWidth (
+        msrLength::create (
+          kMillimeterUnit,
+          pageWidth * fCurrentMillimeters / fCurrentTenths));
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<page-width /> is out of context");
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_page_margins& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_margins" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    string pageMarginsType =
+      elt->getAttributeValue ("type");
+
+    fCurrentPageMarginsTypeKind = kBothMargins; // default value
+
+    if      (pageMarginsType == "odd")
+      fCurrentPageMarginsTypeKind = kOddMargin;
+    else if (pageMarginsType == "even")
+      fCurrentPageMarginsTypeKind = kEvenMargin;
+    else if (pageMarginsType == "both")
+      fCurrentPageMarginsTypeKind = kBothMargins;
+    else if (pageMarginsType. size ()) {
+      stringstream s;
+
+      s <<
+        "unknown page margins type \"" <<
+        pageMarginsType <<
+        "\"";
+
+      msrMusicXMLError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<page-margins /> is out of context");
+  }
+
+  // create a margins group
+  fCurrentPageLayoutMarginsGroup =
+    msrMarginsGroup::create (
+      fCurrentPageMarginsTypeKind);
+
+  // create a margins group if not yet done
+  switch (fCurrentPageMarginsTypeKind) {
+    case kOddMargin:
+      fCurrentPageLayout->
+        setOddMarginsGroup (
+          inputLineNumber,
+          fCurrentPageLayoutMarginsGroup);
+      break;
+    case kEvenMargin:
+      fCurrentPageLayout->
+        setEvenMarginsGroup (
+          inputLineNumber,
+          fCurrentPageLayoutMarginsGroup);
+      break;
+    case kBothMargins: // default value
+      fCurrentPageLayout->
+        setBothMarginsGroup (
+          inputLineNumber,
+          fCurrentPageLayoutMarginsGroup);
+      break;
+  } // switch
+
+  fOnGoingPageMargins = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_page_margins& elt )
+{
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_page_margins" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  // forget about the current page layout margins group
+  fCurrentPageLayoutMarginsGroup = nullptr;
+
+  fOnGoingPageMargins = false;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_left_margin& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  float leftMargin = (float)(*elt);
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_left_margin" <<
+      ", " << leftMargin << " tenths" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  msrLength
+    leftMarginLength (
+      kMillimeterUnit,
+      leftMargin * fCurrentMillimeters / fCurrentTenths);
+
+  if (fOnGoingPageMargins) {
+    fCurrentPageLayoutMarginsGroup->
+      setLeftMargin (
+        inputLineNumber,
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          leftMarginLength));
+  }
+
+  else if (fOnGoingSystemMargins) {
+    fCurrentSystemLayout->
+      setLeftMargin (
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            leftMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<left-margin /> is out of context");
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_right_margin& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  float rightMargin = (float)(*elt);
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_right_margin" <<
+      ", " << rightMargin << " tenths" <<
+       ", line " << inputLineNumber <<
+     endl;
+  }
+
+  msrLength
+    rightMarginLength (
+      kMillimeterUnit,
+      rightMargin * fCurrentMillimeters / fCurrentTenths);
+
+  if (fOnGoingPageMargins) {
+    fCurrentPageLayoutMarginsGroup->
+      setRightMargin (
+        inputLineNumber,
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          rightMarginLength));
+  }
+
+  else if (fOnGoingSystemMargins) {
+    fCurrentSystemLayout->
+      setRightMargin (
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            rightMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<right-margin /> is out of context");
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_top_margin& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  float topMargin = (float)(*elt);
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_top_margin" <<
+      ", " << topMargin << " tenths" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingPageMargins) {
+    fCurrentPageLayoutMarginsGroup->
+      setTopMargin (
+        inputLineNumber,
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            topMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<top-margin /> is out of context");
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_bottom_margin& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  float bottomMargin = (float)(*elt);
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_bottom_margin" <<
+      ", " << bottomMargin << " tenths" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingPageMargins) {
+    fCurrentPageLayoutMarginsGroup->
+      setBottomMargin (
+        inputLineNumber,
+        msrMargin::create (
+          fCurrentPageMarginsTypeKind,
+          msrLength (
+            kMillimeterUnit,
+            bottomMargin * fCurrentMillimeters / fCurrentTenths)));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<bottom-margin /> is out of context");
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_staff_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_staff_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create a staff layout
+  fCurrentStaffLayout =
+    msrStaffLayout::create (
+      inputLineNumber);
+
+  fOnGoingStaffLayout = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_staff_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_staff_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // forget about the current staff layout
+  fCurrentStaffLayout = nullptr;
+
+  fOnGoingStaffLayout = false;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_staff_distance& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_staff_distance" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingStaffLayout) {
+    float staffDistanceTenths = (float)(*elt);
+
+    fCurrentStaffLayout->
+      setStaffDistance (
+        msrLength::create (
+          kMillimeterUnit,
+          staffDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<staff-distance /> is out of context");
+  }
 }
 
 //________________________________________________________________________
@@ -1363,10 +2081,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
         clefKind);
 
   // register clef in part or staff
-  if (fCurrentClefStaffNumber == 0)
+  if (fCurrentClefStaffNumber == 0) {
     fCurrentPart->
       appendClefToPart (clef);
-
+  }
   else {
     S_msrStaff
       staff =
@@ -6763,6 +7481,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   // print
 
   fCurrentDisplayText = "";
+
+  // create a print layout
+  fCurrentPrintLayout =
+    msrPrintLayout::create (
+      inputLineNumber);
+
   fOnGoingPrint = true;
 }
 
@@ -6780,47 +7504,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_print& elt )
   }
 #endif
 
+  // append the current print layout to voice 1 in staff 1 of the current part
+  // it's not worth using specific 'layout voices' for such part-level stuff
+  S_msrVoice
+    voiceOneInStaffOne =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        1,
+        1);
+
+  voiceOneInStaffOne->
+    appendPrintLayoutToVoice (fCurrentPrintLayout);
+
+  // forget about the current print layout
+  fCurrentPrintLayout = nullptr;
+
   fOnGoingPrint = false;
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
-{
-#ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_system_layout" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-/* JMI
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-  string measureNumberingString = elt->getValue ();
-
-  if      (measureNumberingString == "none") {
- //   fCurrentBarlineStyleKind =
- //     msrBarline::kRegularStyle;
-  }
-  else if (measureNumberingString == "measure") {
-//    fCurrentBarlineStyleKind =
- //     msrBarline::kDottedStyle;
-  }
-  else if (measureNumberingString == "system") {
- //   fCurrentBarlineStyleKind =
- //     msrBarline::kDashedStyle;
-  }
-  else {
-    msrMusicXMLError (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      "measure-numbering \"" + measureNumberingString + "\" is unknown");
-  }
-*/
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt )
@@ -7471,7 +8170,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
     case msrBarline::kBarlineLocationLeft:
       if (
-        fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
+        fCurrentBarlineEndingTypeKind
+          ==
+        msrBarline::kBarlineEndingTypeStart
       ) {
         // ending start, don't know yet whether it's hooked or hookless
         // ------------------------------------------------------
@@ -7495,7 +8196,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       }
 
       else if (
-        fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward
+        fCurrentBarlineRepeatDirectionKind
+          ==
+        msrBarline::kBarlineRepeatDirectionForward
       ) {
         // repeat start
         // ------------------------------------------------------
@@ -7541,7 +8244,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         }
 
         else if (
-          fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
+          fCurrentBarlineRepeatDirectionKind
+            ==
+          msrBarline::kBarlineRepeatDirectionBackward
         ) {
           // repeat end
           // ------------------------------------------------------
