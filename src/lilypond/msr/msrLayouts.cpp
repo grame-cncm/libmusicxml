@@ -645,7 +645,7 @@ string msrStaffLayout::asString () const
 
 void msrStaffLayout::print (ostream& os) const
 {
-  os << "SystemLayout" << endl;
+  os << "StaffLayout" << endl;
 
   const int fieldWidth = 14;
 
@@ -688,7 +688,7 @@ msrPrintLayout::msrPrintLayout (
     : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTracePrintLayouts) {
     gLogOstream <<
       "Creating a print layout " <<
       endl;
@@ -779,7 +779,7 @@ string msrPrintLayout::asString () const
 void msrPrintLayout::print (ostream& os) const
 {
   os <<
-    "Print layout" <<
+    "PrintLayout" <<
     ", line " << fInputLineNumber <<
     endl;
 

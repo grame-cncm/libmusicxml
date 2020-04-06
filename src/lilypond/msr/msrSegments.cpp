@@ -425,7 +425,7 @@ void msrSegment::appendPrintLayoutToSegment (
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePrintLayouts) {
+  if (gTraceOah->fTraceClefs) {
     gLogOstream <<
       "Appending clef '" << clef->asString () <<
       "' to segment " << asString () <<

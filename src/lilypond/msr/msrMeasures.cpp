@@ -1248,7 +1248,7 @@ void msrMeasure::appendPrintLayoutToMeasure (
   S_msrPrintLayout printLayout)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceClefs) {
+  if (gTraceOah->fTracePrintLayouts) {
     gLogOstream <<
       "Appending print layout " << printLayout->asString () <<
       " to measure " <<
@@ -1261,7 +1261,7 @@ void msrMeasure::appendPrintLayoutToMeasure (
 #endif
 
   // append it to the measure elements list
-  appendElementToMeasure (printLayout);
+  prependOtherElementToMeasure (printLayout); // JMI BLARK
 }
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)

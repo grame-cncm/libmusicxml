@@ -128,6 +128,10 @@ class msr2MxmltreeTranslator :
 
   public visitor<S_msrMeasure>,
 
+  // print layouts
+
+  public visitor<S_msrPrintLayout>,
+
   // articulations
 
   public visitor<S_msrArticulation>,
@@ -268,7 +272,7 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
 
-  // parts & part groups
+    // parts & part groups
 
     virtual void visitStart (S_msrPartGroup& elt);
     virtual void visitEnd   (S_msrPartGroup& elt);
@@ -323,6 +327,14 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
 
+    // measures
+    virtual void visitStart (S_msrMeasure& elt);
+    virtual void visitEnd   (S_msrMeasure& elt);
+
+    // print layouts
+    virtual void visitStart (S_msrPrintLayout& elt);
+    virtual void visitEnd   (S_msrPrintLayout& elt);
+
     // chords
     virtual void visitStart (S_msrChord& elt);
     virtual void visitEnd   (S_msrChord& elt);
@@ -342,8 +354,6 @@ class msr2MxmltreeTranslator :
     virtual void visitEnd   (S_msrFiguredBass& elt);
     virtual void visitStart (S_msrFigure& elt);
 */
-    virtual void visitStart (S_msrMeasure& elt);
-    virtual void visitEnd   (S_msrMeasure& elt);
 
 /*
     virtual void visitStart (S_msrArticulation& elt);
@@ -633,13 +643,6 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fScorePartListElement;
 
 
-    // the part attributes element
-    // ------------------------------------------------------
-    Sxmlelement               fCurrentPartMeasureAttributes;
-
-    void                      appendSubElementToPartMeasureAttributes (
-                                Sxmlelement elem);
-
     // the part direction element
     // ------------------------------------------------------
 // JMI    Sxmlelement               fCurrentPartDirection;
@@ -741,11 +744,7 @@ class msr2MxmltreeTranslator :
 
     // measures
     // ------------------------------------------------------
-    Sxmlelement               fCurrenPartMeasureElement;
-    Sxmlelement               fCurrentMeasureAttributesElement;
-
-    // measures
-    // ------------------------------------------------------
+    Sxmlelement               fCurrentMeasureElement;
 
     void                      appendNoteSubElementToMesureIfRelevant (
                                 S_msrNote note);
@@ -756,6 +755,14 @@ class msr2MxmltreeTranslator :
 
     void                      appendOtherSubElementToMeasure (
                                 Sxmlelement elem);
+
+    // the measure attributes element
+    // ------------------------------------------------------
+    Sxmlelement               fCurrentMeasureAttributesElement;
+
+    void                      appendSubElementToMeasureAttributes (
+                                Sxmlelement elem);
+
 /*
     // full measure rests compression
     S_msrMeasure              fCurrentRestMeasure;
@@ -781,6 +788,13 @@ class msr2MxmltreeTranslator :
 
     S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
 */
+
+    // print layouts
+    // ------------------------------------------------------
+
+    Sxmlelement               fCurrentPrintElement;
+
+    bool                      fOnGoingPrintElement;
 
     // directions
     void                      appendSubElementsToNoteDirections (S_msrNote note);
@@ -810,11 +824,10 @@ class msr2MxmltreeTranslator :
 
     void                      appendNoteTupletIfRelevant (S_msrNote note);
 
-    // measures
-    void                      appendNoteSubElementToMesure (S_msrNote note);
-
     // notes
     Sxmlelement               fCurrentNoteElement;
+
+    void                      appendNoteSubElementToMesure (S_msrNote note);
 
     bool                      fCurrentNoteElementAwaitsGraceNotes;
     S_msrNote                 fPendingNoteAwaitingGraceNotes;

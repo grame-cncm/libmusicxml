@@ -785,33 +785,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_system_layout& elt )
     fCurrentPrintLayout->
       setSystemLayout (
         fCurrentSystemLayout);
-
-    // append it to the current part
- //   fCurrentPart->
-// JMI      appendPrintLayoutToPart (printLayout);
   }
-/*
-  // register clef in part or staff
-  if (fCurrentClefStaffNumber == 0) {
-    fCurrentPart->
-      appendClefToPart (clef);
-  }
-  else {
-    S_msrStaff
-      staff =
-        fetchStaffFromCurrentPart (
-          inputLineNumber,
-          fCurrentClefStaffNumber);
-
-    staff->
-      appendClefToStaff (clef);
-  }
-*/
-
   else {
     // set the MSR score system layout
     fMsrScore->
-      setSystemLayout (fCurrentSystemLayout);
+      setSystemLayout (
+        fCurrentSystemLayout);
   }
 
   // forget about the current system layout
@@ -7514,7 +7493,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_print& elt )
         1);
 
   voiceOneInStaffOne->
-    appendPrintLayoutToVoice (fCurrentPrintLayout);
+    appendPrintLayoutToVoice (
+      fCurrentPrintLayout);
 
   // forget about the current print layout
   fCurrentPrintLayout = nullptr;
