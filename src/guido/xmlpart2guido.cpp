@@ -303,7 +303,6 @@ namespace MusicXML2
                 float HalfSpaceDistance = ((float)(xmlStaffDistance) / 10) * 2 ;   // 80 is ~default Guido staff distance
                 stringstream s;
                 s << "distance="<< HalfSpaceDistance;
-                cerr<<"StaffDistance measure= "<<fMeasNum<<"->"<<HalfSpaceDistance<< " xml="<<xmlStaffDistance<<endl;
                 tag2->add (guidoparam::create(s.str().c_str(), false));
                 add (tag2);
             }
@@ -472,7 +471,11 @@ namespace MusicXML2
                         case k_words:
                         {
                             /// GUID-147: Detect Tempo Markups using specific substrings such as "Andante" etc.
-                            generateTempo = checkTempoMarkup(element->getValue());
+                            // Candidate for tempo Markup: default-y>10 and font-weight="bold"
+                            if ( (element->getAttributeValue("font-weight")=="bold")
+                                && (element->getAttributeIntValue("default-y", 0)>10)) {
+                                generateTempo = true;
+                            }
                             
                             if (generateTempo) {
                                 tempoWording = element->getValue();
@@ -547,7 +550,8 @@ namespace MusicXML2
                                 tag->add (guidoparam::create(wordParameters.str(), false));
                                 
                                 // FIXME: XML x-pos is from beginning of measure, whereas nested Text in Guido from the notehead
-                                //xml2guidovisitor::addPosX(element, tag, 0);
+                                // Seems like we can add relative-x which is relative to its hanging position
+                                xml2guidovisitor::addRelativeX(element, tag, 0);
                                 
                                 // apply inherited Y-position
                                 if (commonDy != 0.0) {
@@ -2976,28 +2980,28 @@ float xmlpart2guido::getNoteDistanceFromStaffTop(const notevisitor& nv) {
 
 }
 
-bool checkTempoMarkup(std::string input) {
-    std::vector<std::string> tempoMarkings = {
-        // Italian terms
-        "andant", "adagi", "a tempo", "agitato", "allegr",
-        "moderato", "largo", "larghetto", "lent", "scherz", "vivace", "vivacissimo", "marcia",
-        // French terms
-        "au mouvement", "grave", "modéré", "vif",
-        // German terms
-        "langsam", "lebhaft", "kräftig", "mässig", "massig", "rasch", "schnell", "bewegt"
-        };
-    
-    // convert input to lowercase
-    std::string victim = input;
-    std::transform(input.begin(), input.end(), victim.begin(), [](unsigned char c){ return std::tolower(c); });
-    
-    vector<string>::const_iterator it_found = find_if(tempoMarkings.begin(), tempoMarkings.end(), [&victim](string s) -> bool {
-        return (victim.find(s) != string::npos);
-    });
-    
-    if (it_found != tempoMarkings.end()) {
-        return true;
-    }else {
-        return false;
-    }
-}
+//bool checkTempoMarkup(std::string input) {
+//    std::vector<std::string> tempoMarkings = {
+//        // Italian terms
+//        "andant", "adagi", "a tempo", "agitato", "allegr",
+//        "moderato", "largo", "larghetto", "lent", "scherz", "vivace", "vivacissimo", "marcia",
+//        // French terms
+//        "au mouvement", "grave", "modéré", "vif",
+//        // German terms
+//        "langsam", "lebhaft", "kräftig", "mässig", "massig", "rasch", "schnell", "bewegt"
+//        };
+//    
+//    // convert input to lowercase
+//    std::string victim = input;
+//    std::transform(input.begin(), input.end(), victim.begin(), [](unsigned char c){ return std::tolower(c); });
+//    
+//    vector<string>::const_iterator it_found = find_if(tempoMarkings.begin(), tempoMarkings.end(), [&victim](string s) -> bool {
+//        return (victim.find(s) != string::npos);
+//    });
+//    
+//    if (it_found != tempoMarkings.end()) {
+//        return true;
+//    }else {
+//        return false;
+//    }
+//}
