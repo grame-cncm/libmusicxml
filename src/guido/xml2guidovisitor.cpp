@@ -171,10 +171,10 @@ namespace MusicXML2
         defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
         
         // Convert to HS
-        /// Guido's default staff-distance seems to be 10HS or 50 tenths
+        /// Guido's default staff-distance seems to be 8 or 80 tenths
         if (defaultStaffDistance > 0) {
-            float xmlDistance = defaultStaffDistance - 50.0;
-            float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+            float xmlDistance = defaultStaffDistance - 80.0;
+            float HalfSpaceDistance = (xmlDistance / 10) * 2 ; // (pos/10)*2
             if (HalfSpaceDistance < 0.0) {
                 defaultGuidoStaffDistance = HalfSpaceDistance;
             }else
@@ -245,37 +245,42 @@ namespace MusicXML2
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
             int stafflines = elt->getIntValue(k_staff_lines, 0);
-            
-            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance||ps.fStaffDistances.size())
+            if (stafflines>0)
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
-                if (previousStaffHasLyrics)
-                {
-                    tag2->add (guidoparam::create("dy=-5", false));
-                }else if (ps.fStaffDistances.size()> size_t(targetStaff-1)) {
-                    
-                    if (ps.fStaffDistances[targetStaff-1] > 0) {
-                        float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;
-                        float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
-                    
-                        stringstream s;
-                        s << "dy="<< HalfSpaceDistance;
-                        tag2->add (guidoparam::create(s.str().c_str(), false));
-                    }
-                }else if (defaultGuidoStaffDistance) {
-                    stringstream s;
-                    s << "dy="<< defaultGuidoStaffDistance;
-                    tag2->add (guidoparam::create(s.str().c_str(), false));
-                }
-                
-                if (stafflines>0)
-                {
-                    stringstream staffstyle;
-                    staffstyle << "style=\"" << stafflines<<"-line\"";
-                    tag2->add (guidoparam::create(staffstyle.str(),false));
-                }
+                stringstream staffstyle;
+                staffstyle << "style=\"" << stafflines<<"-line\"";
+                tag2->add (guidoparam::create(staffstyle.str(),false));
                 add (tag2);
             }
+            
+//            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance||ps.fStaffDistances.size())
+//            {
+//                Sguidoelement tag2 = guidotag::create("staffFormat");
+//                if (previousStaffHasLyrics)
+//                {
+//                    tag2->add (guidoparam::create("dy=-5", false));
+//                    add (tag2);
+//                }else if (ps.fStaffDistances.size()> size_t(targetStaff-1)) {
+//                    
+//                    if (ps.fStaffDistances[targetStaff-1] > 0) {
+//                        float xmlDistance = ps.fStaffDistances[targetStaff-1] - 80.0;
+//                        float HalfSpaceDistance = (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+//                    
+//                        stringstream s;
+//                        s << "distance="<< HalfSpaceDistance;
+//                        cerr<<"StaffDistance "<<HalfSpaceDistance<< " xml="<<xmlDistance<<endl;
+//                        tag2->add (guidoparam::create(s.str().c_str(), false));
+//                        add (tag2);
+//                    }
+//                }else if (defaultGuidoStaffDistance) {
+//                    stringstream s;
+//                    s << "distance="<< defaultGuidoStaffDistance;
+//                    cerr<<"defaultGuidoStaffDistance "<<defaultGuidoStaffDistance<<endl;
+//                    tag2->add (guidoparam::create(s.str().c_str(), false));
+//                    add (tag2);
+//                }
+//            }
             ////
             
             flushHeader (fHeader);

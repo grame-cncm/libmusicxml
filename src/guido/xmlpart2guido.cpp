@@ -27,6 +27,8 @@
 
 using namespace std;
 
+bool checkTempoMarkup(std::string input);
+
 namespace MusicXML2
 {
     
@@ -290,6 +292,24 @@ namespace MusicXML2
             Sguidoelement elt = guidoelement ::create(comment);
             add (elt);
         }
+        
+        // Take care of staff-distance
+        auto sLayout = elt->find(k_staff_layout);
+        while (sLayout != elt->end() )
+        {
+            if (sLayout->getAttributeIntValue("number", 0) == fTargetStaff) {
+                int xmlStaffDistance = sLayout->getIntValue(k_staff_distance, 0);
+                Sguidoelement tag2 = guidotag::create("staffFormat");
+                float HalfSpaceDistance = ((float)(xmlStaffDistance) / 10) * 2 ;   // 80 is ~default Guido staff distance
+                stringstream s;
+                s << "distance="<< HalfSpaceDistance;
+                cerr<<"StaffDistance measure= "<<fMeasNum<<"->"<<HalfSpaceDistance<< " xml="<<xmlStaffDistance<<endl;
+                tag2->add (guidoparam::create(s.str().c_str(), false));
+                add (tag2);
+            }
+            
+            sLayout = elt->find(k_staff_layout, sLayout++);
+        }
     }
     
     //______________________________________________________________________________
@@ -451,6 +471,9 @@ namespace MusicXML2
                     switch (elementType) {
                         case k_words:
                         {
+                            /// GUID-147: Detect Tempo Markups using specific substrings such as "Andante" etc.
+                            generateTempo = checkTempoMarkup(element->getValue());
+                            
                             if (generateTempo) {
                                 tempoWording = element->getValue();
                             }
@@ -2951,4 +2974,30 @@ float xmlpart2guido::getNoteDistanceFromStaffTop(const notevisitor& nv) {
     return noteDistanceFromStaffTop;
 }
 
+}
+
+bool checkTempoMarkup(std::string input) {
+    std::vector<std::string> tempoMarkings = {
+        // Italian terms
+        "andant", "adagi", "a tempo", "agitato", "allegr",
+        "moderato", "largo", "larghetto", "lent", "scherz", "vivace", "vivacissimo", "marcia",
+        // French terms
+        "au mouvement", "grave", "modéré", "vif",
+        // German terms
+        "langsam", "lebhaft", "kräftig", "mässig", "massig", "rasch", "schnell", "bewegt"
+        };
+    
+    // convert input to lowercase
+    std::string victim = input;
+    std::transform(input.begin(), input.end(), victim.begin(), [](unsigned char c){ return std::tolower(c); });
+    
+    vector<string>::const_iterator it_found = find_if(tempoMarkings.begin(), tempoMarkings.end(), [&victim](string s) -> bool {
+        return (victim.find(s) != string::npos);
+    });
+    
+    if (it_found != tempoMarkings.end()) {
+        return true;
+    }else {
+        return false;
+    }
 }
