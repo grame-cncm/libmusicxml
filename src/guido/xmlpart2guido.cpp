@@ -471,9 +471,10 @@ namespace MusicXML2
                         case k_words:
                         {
                             /// GUID-147: Detect Tempo Markups using specific substrings such as "Andante" etc.
-                            // Candidate for tempo Markup: default-y>10 and font-weight="bold"
+                            // Candidate for tempo Markup: default-y>10 and font-weight="bold" and font-size > 12.0
                             if ( (element->getAttributeValue("font-weight")=="bold")
-                                && (element->getAttributeIntValue("default-y", 0)>10)) {
+                                && (element->getAttributeIntValue("default-y", 0)>10)
+                                && (element->getAttributeFloatValue("font-size", 0.0) >= 12.0) ) {
                                 generateTempo = true;
                             }
                             
