@@ -2431,6 +2431,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
       msrCreditWords::create (
         inputLineNumber,
         creditWordsContents,
+        creditWordsDefaultX,
+        creditWordsDefaultY,
         creditWordsFontFamily,
         creditWordsFontSize,
         creditWordsFontWeightKind,

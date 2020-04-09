@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -32,6 +32,8 @@ class msrCreditWords : public msrElement
     static SMARTP<msrCreditWords> create (
       int                        inputLineNumber,
       string                     creditWordsContents,
+      float                      creditWordsDefaultX,
+      float                      creditWordsDefaultY,
       string                     creditWordsFontFamily,
       float                      creditWordsFontSize,
       msrFontWeightKind          creditWordsFontWeightKind,
@@ -49,6 +51,8 @@ class msrCreditWords : public msrElement
     msrCreditWords (
       int                        inputLineNumber,
       string                     creditWordsContents,
+      float                      creditWordsDefaultX,
+      float                      creditWordsDefaultY,
       string                     creditWordsFontFamily,
       float                      creditWordsFontSize,
       msrFontWeightKind          creditWordsFontWeightKind,
@@ -57,15 +61,21 @@ class msrCreditWords : public msrElement
       msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
       msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
       msrXMLLangKind             creditWordsXMLLang);
-      
+
     virtual ~msrCreditWords ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
     string                getCreditWordsContents () const
                               { return fCreditWordsContents; }
+
+    float                 getCreditWordsDefaultX () const
+                              { return fCreditWordsDefaultX; }
+
+    float                 getCreditWordsDefaultY () const
+                              { return fCreditWordsDefaultY; }
 
     string                getCreditWordsFontFamily () const
                               { return fCreditWordsFontFamily; }
@@ -124,6 +134,9 @@ class msrCreditWords : public msrElement
 
     string                fCreditWordsContents;
 
+    float                 fCreditWordsDefaultX;
+    float                 fCreditWordsDefaultY;
+
     string                fCreditWordsFontFamily;
     float                 fCreditWordsFontSize;
     msrFontWeightKind     fCreditWordsFontWeightKind;
@@ -158,9 +171,9 @@ class msrCredit : public msrElement
     msrCredit (
       int inputLineNumber,
       int creditPageNumber);
-      
+
     virtual ~msrCredit ();
-  
+
   public:
 
     // set and get
@@ -204,7 +217,7 @@ class msrCredit : public msrElement
     // ------------------------------------------------------
 
     int                   fCreditPageNumber;
-    
+
     vector<S_msrCreditWords>
                           fCreditWordsList;
 };

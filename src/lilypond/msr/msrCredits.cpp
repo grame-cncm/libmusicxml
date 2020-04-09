@@ -28,6 +28,8 @@ namespace MusicXML2
 S_msrCreditWords msrCreditWords::create (
   int                        inputLineNumber,
   string                     creditWordsContents,
+  float                      creditWordsDefaultX,
+  float                      creditWordsDefaultY,
   string                     creditWordsFontFamily,
   float                      creditWordsFontSize,
   msrFontWeightKind          creditWordsFontWeightKind,
@@ -41,6 +43,8 @@ S_msrCreditWords msrCreditWords::create (
     new msrCreditWords (
       inputLineNumber,
       creditWordsContents,
+      creditWordsDefaultX,
+      creditWordsDefaultY,
       creditWordsFontFamily,
       creditWordsFontSize,
       creditWordsFontWeightKind,
@@ -56,6 +60,8 @@ S_msrCreditWords msrCreditWords::create (
 msrCreditWords::msrCreditWords (
   int                        inputLineNumber,
   string                     creditWordsContents,
+  float                      creditWordsDefaultX,
+  float                      creditWordsDefaultY,
   string                     creditWordsFontFamily,
   float                      creditWordsFontSize,
   msrFontWeightKind          creditWordsFontWeightKind,
@@ -67,6 +73,9 @@ msrCreditWords::msrCreditWords (
     : msrElement (inputLineNumber)
 {
   fCreditWordsContents   = creditWordsContents;
+
+  fCreditWordsDefaultX = creditWordsDefaultX;
+  fCreditWordsDefaultY = creditWordsDefaultY;
 
   fCreditWordsFontFamily              = creditWordsFontFamily;
   fCreditWordsFontSize                = creditWordsFontSize;
@@ -147,6 +156,16 @@ void msrCreditWords::print (ostream& os) const
     fCreditWordsContents <<
     "\"" <<
     endl <<
+
+    setw (fieldWidth) <<
+    "creditWordsDefaultX" << " : " <<
+    fCreditWordsDefaultX <<
+    endl <<
+    setw (fieldWidth) <<
+    "creditWordsDefaultY" << " : " <<
+    fCreditWordsDefaultY <<
+    endl <<
+
     setw (fieldWidth) <<
     "creditWordsFontFamily" << " : \"" <<
     fCreditWordsFontFamily <<
@@ -165,10 +184,12 @@ void msrCreditWords::print (ostream& os) const
     "creditWordsFontStyleKind" << " : " <<
     msrFontStyleKindAsString (fCreditWordsFontStyleKind) <<
     endl <<
+
     setw (fieldWidth) <<
     "creditWordsJustifyKind" << " : " <<
     msrJustifyKindAsString (fCreditWordsJustifyKind) <<
     endl <<
+
     setw (fieldWidth) <<
     "creditWordsHorizontalAlignmentKind" << " : " <<
     msrHorizontalAlignmentKindAsString (
@@ -179,6 +200,7 @@ void msrCreditWords::print (ostream& os) const
     msrVerticalAlignmentKindAsString (
       fCreditWordsVerticalAlignmentKind) <<
     endl <<
+
     setw (fieldWidth) <<
     "creditWordsXMLLang" << " : \"" <<
     fCreditWordsXMLLang <<

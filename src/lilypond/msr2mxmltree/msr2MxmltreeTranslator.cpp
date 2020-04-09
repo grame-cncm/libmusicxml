@@ -1501,6 +1501,26 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
         k_credit_words,
         elt->getCreditWordsContents ());
 
+  // set its default-x attribute
+  float
+    creditWordsDefaultX =
+      elt->getCreditWordsDefaultX ();
+  if (creditWordsDefaultX > 0.0) {
+    stringstream s;
+    s << setprecision (8) << creditWordsDefaultX;
+    creditWordsElement->add (createAttribute ("default-x", s.str ()));
+  }
+
+  // set its default-y attribute
+  float
+    creditWordsDefaultY =
+      elt->getCreditWordsDefaultY ();
+  if (creditWordsDefaultY > 0.0) {
+    stringstream s;
+    s << setprecision (8) << creditWordsDefaultY;
+    creditWordsElement->add (createAttribute ("default-y", s.str ()));
+  }
+
   // set its font family attribute
   string
     creditWordsFontFamilyString =
@@ -1515,7 +1535,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
 
   // set its font size attribute
   float
-    creditWordsFontSize = elt->getCreditWordsFontSize ();
+    creditWordsFontSize =
+      elt->getCreditWordsFontSize ();
   stringstream s;
   s << setprecision (2) << creditWordsFontSize;
   creditWordsElement->add (createAttribute ("font-size", s.str ()));
