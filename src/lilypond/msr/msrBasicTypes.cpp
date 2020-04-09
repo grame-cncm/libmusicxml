@@ -14387,6 +14387,51 @@ void msrMarginsGroup::setBottomMargin (
   fBottomMargin = val;
 }
 
+/* JMI
+void msrMarginsGroup::acceptIn (basevisitor* v) {
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrMarginsGroup::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrMarginsGroup>*
+    p =
+      dynamic_cast<visitor<S_msrMarginsGroup>*> (v)) {
+        S_msrMarginsGroup elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrMarginsGroup::visitStart ()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrMarginsGroup::acceptOut (basevisitor* v) {
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrMarginsGroup::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrMarginsGroup>*
+    p =
+      dynamic_cast<visitor<S_msrMarginsGroup>*> (v)) {
+        S_msrMarginsGroup elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrMarginsGroup::visitEnd ()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrMarginsGroup::browseData (basevisitor* v)
+{}
+*/
+
 string msrMarginsGroup::asString () const
 {
   stringstream s;

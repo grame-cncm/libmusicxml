@@ -619,9 +619,6 @@ class msr2MxmltreeTranslator :
     // system layout
     Sxmlelement               fScoreDefaultsSystemLayoutElement;
 
-    void                      appendSubElementToScoreDefaultsSystemLayout (
-                                Sxmlelement elem);
-
     void                      appendSystemMarginsElementToScoreDefaultsSystemLayout (
                                 S_msrSystemLayout systemLayout);
 

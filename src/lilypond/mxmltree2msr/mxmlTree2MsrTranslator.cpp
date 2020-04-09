@@ -7356,15 +7356,81 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
 #endif
 
 /* JMI
-  const int staffSpacing =
-    elt->getAttributeIntValue ("staff-spacing", 0); // JMI
+	The print element contains general printing parameters,
+	including the layout elements defined in the layout.mod
+	file. The part-name-display and part-abbreviation-display
+	elements used in the score.mod file may also be used here
+	to change how a part name or abbreviation is displayed over
+	the course of a piece. They take effect when the current
+	measure or a succeeding measure starts a new system.
+
+	The new-system and new-page attributes indicate whether
+	to force a system or page break, or to force the current
+	music onto the same system or page as the preceding music.
+	Normally this is the first music data within a measure.
+	If used in multi-part music, they should be placed in the
+	same positions within each part, or the results are
+	undefined. The page-number attribute sets the number of a
+	new page; it is ignored if new-page is not "yes". Version
+	2.0 adds a blank-page attribute. This is a positive integer
+	value that specifies the number of blank pages to insert
+	before the current measure. It is ignored if new-page is
+	not "yes". These blank pages have no music, but may have
+	text or images specified by the credit element. This is
+	used to allow a combination of pages that are all text,
+	or all text and images, together with pages of music.
+
+Staff spacing between multiple staves is measured in
+	tenths of staff lines (e.g. 100 = 10 staff lines). This is
+	deprecated as of Version 1.1; the staff-layout element
+	should be used instead. If both are present, the
+	staff-layout values take priority.
+
+	Layout elements in a print statement only apply to the
+	current page, system, staff, or measure. Music that
+	follows continues to take the default values from the
+	layout included in the defaults element.
+
+<!ELEMENT print (page-layout?, system-layout?, staff-layout*,
+    measure-layout?, measure-numbering?, part-name-display?,
+    part-abbreviation-display?)>
+<!ATTLIST print
+    staff-spacing %tenths; #IMPLIED
+    new-system %yes-no; #IMPLIED
+    new-page %yes-no; #IMPLIED
+    blank-page NMTOKEN #IMPLIED
+    page-number CDATA #IMPLIED
+    %optional-unique-id;
+>
+
   */
+
+  // create a print layout
+  fCurrentPrintLayout =
+    msrPrintLayout::create (
+      inputLineNumber);
+
+  // handle 'staff-spacing' if present
+
+  const string staffSpacing =
+    elt->getAttributeValue ("staff-spacing");
+
+  if (staffSpacing.size ()) {
+    stringstream s;
+
+    s << staffSpacing;
+    float value;
+    s >> value;
+
+    fCurrentPrintLayout->setStaffSpacing (value);
+  }
 
   // handle 'new-system' if present
 
   const string newSystem = elt->getAttributeValue ("new-system");
 
   if (newSystem.size ()) {
+    fCurrentPrintLayout->setNewSystem ();
 
     if (newSystem == "yes") {
       // create a line break
@@ -7410,6 +7476,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   const string newPage = elt->getAttributeValue ("new-page");
 
   if (newPage.size ()) {
+    fCurrentPrintLayout->setNewPage ();
 
     if (newPage == "yes") { // JMI
       // create a page break
@@ -7451,20 +7518,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
 
   // handle 'blank-page' if present
 
-  const string blankPage = elt->getAttributeValue ("blank-page"); // JMI
+  const int blankPage = elt->getAttributeIntValue ("blank-page", 0);
+
+  if (blankPage > 0) {
+    fCurrentPrintLayout->setBlankPage (blankPage);
+  }
 
   // handle 'page-number' if present
 
-  const string pageNumber = elt->getAttributeValue ("page-number"); // JMI
+  const int pageNumber = elt->getAttributeIntValue ("page-number", 0);
 
-  // print
+  if (pageNumber > 0) {
+    fCurrentPrintLayout->setPageNumber (pageNumber);
+  }
 
   fCurrentDisplayText = "";
-
-  // create a print layout
-  fCurrentPrintLayout =
-    msrPrintLayout::create (
-      inputLineNumber);
 
   fOnGoingPrint = true;
 }

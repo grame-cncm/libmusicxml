@@ -2351,6 +2351,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
   string creditWordsContents =
     elt->getValue ();
 
+  // position
+  float creditWordsDefaultX=
+    elt->getAttributeFloatValue ("default-x", 0.0);
+  float creditWordsDefaultY=
+    elt->getAttributeFloatValue ("default-y", 0.0);
+
   // font family
   string creditWordsFontFamily =
     elt->getAttributeValue ("font-family");

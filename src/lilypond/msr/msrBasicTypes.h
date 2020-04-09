@@ -563,6 +563,8 @@ class msrDottedDuration
     rational              dottedDurationAsWholeNotes (
                             int inputLineNumber) const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -942,6 +944,18 @@ class msrMarginsGroup : public smartable
 
   public:
 
+/* JMI
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+*/
+
+  public:
+
     // print
     // ------------------------------------------------------
 
@@ -1263,6 +1277,8 @@ class msrTupletFactor
                                   fTupletNormalNotes);
                             }
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1371,6 +1387,8 @@ class msrChordInterval : public smartable
     string                asString () const;
     string                asShortString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1465,6 +1483,8 @@ class msrChordStructure : public smartable
 
     static void           printAllChordsStructures (ostream& os);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 /* JMI
@@ -1547,6 +1567,8 @@ class msrChordContents : public smartable
     static void           printAllChordsContents (
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind);
+
+  public:
 
     // visitors
     // ------------------------------------------------------

@@ -315,17 +315,6 @@ void msr2MxmltreeTranslator::appendSubElementToScoreDefaultsPageLayout (
   fScoreDefaultsPageLayoutElement->push (elem);
 }
 
-void msr2MxmltreeTranslator::appendSubElementToScoreDefaultsSystemLayout (
-  Sxmlelement elem)
-{
-  if (! fScoreDefaultsSystemLayoutElement) {
-    // create a system layout element
-    fScoreDefaultsSystemLayoutElement = createElement (k_system_layout, "");
-  }
-
-  fScoreDefaultsSystemLayoutElement->push (elem);
-}
-
 //________________________________________________________________________
 void msr2MxmltreeTranslator::appendSubElementToMeasureAttributes (
   Sxmlelement elem)
@@ -1383,8 +1372,21 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
   }
 #endif
 
-  // margins
-//  appendSystemMarginsElementToScoreDefaultsSystemLayout (elt); JMI
+  // create a system layout element
+  Sxmlelement
+    systemLayoutElement =
+      createElement (k_system_layout, "");
+
+  if (fOnGoingPrintElement) {
+    // append it to the current print element
+    fCurrentPrintElement->push (
+      systemLayoutElement);
+  }
+  else {
+    // don't append it at onece to the score defaults element
+    fScoreDefaultsSystemLayoutElement = systemLayoutElement;
+  }
+
   // create a system margins element
   Sxmlelement
     systemMarginsElement =
@@ -1395,15 +1397,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
     systemMarginsElement,
     elt);
 
-  if (fOnGoingPrintElement) {
-    // append it to the current print element
-    fCurrentPrintElement->push (systemMarginsElement);
-  }
-  else {
-    // append it to the defaults system layout element
-    appendSubElementToScoreDefaultsSystemLayout (
-      systemMarginsElement);
-  }
+  // append it to the system layout element
+  systemLayoutElement->push (
+    systemMarginsElement);
 
   // distances
   S_msrLength systemDistance = elt->getSystemDistance ();
@@ -1416,15 +1412,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
           k_system_distance,
           S_msrLengthAsTenths (systemDistance));
 
-    if (fOnGoingPrintElement) {
-      // append it to the current print element
-      fCurrentPrintElement->push (systemDistanceElement);
-    }
-    else {
-      // append it to the score defaults system layout element
-      appendSubElementToScoreDefaultsSystemLayout (
-        systemDistanceElement);
-    }
+  // append it to the system layout element
+  systemLayoutElement->push (
+    systemDistanceElement);
   }
 
   S_msrLength topSystemDistance = elt->getTopSystemDistance ();
@@ -1437,15 +1427,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
           k_top_system_distance,
           S_msrLengthAsTenths (topSystemDistance));
 
-    if (fOnGoingPrintElement) {
-      // append it to the current print element
-      fCurrentPrintElement->push (topSystemDistanceElement);
-    }
-    else {
-      // append it to the score defaults system layout element
-      appendSubElementToScoreDefaultsSystemLayout (
-        topSystemDistanceElement);
-    }
+  // append it to the system layout element
+  systemLayoutElement->push (
+    topSystemDistanceElement);
   }
 }
 
@@ -2219,9 +2203,8 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
 {
-  int
-    inputLineNumber =
-      elt->getInputLineNumber ();
+  int inputLineNumber =
+    elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
@@ -2259,8 +2242,37 @@ void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
   // create a print element
   fCurrentPrintElement = createElement (k_print, "");
 
-// JMI  // set its "number" attribute
-//	fCurrentPrintElement->add (createAttribute ("number", measureNumber));
+  // populate it
+  float staffSpacing = elt->getStaffSpacing ();
+  if (staffSpacing > 0) {
+    stringstream s;
+    s << staffSpacing;
+  	fCurrentPrintElement->add (createAttribute ("staff-spacing", s.str ()));
+  }
+
+  bool newSystem = elt->getNewSystem ();
+  if (newSystem) {
+  	fCurrentPrintElement->add (createAttribute ("new-system", "yes"));
+  }
+
+  bool newPage = elt->getNewPage ();
+  if (newPage) {
+  	fCurrentPrintElement->add (createAttribute ("new-page", "yes"));
+  }
+
+  int blankPage = elt->getBlankPage ();
+  if (blankPage > 0) {
+    stringstream s;
+    s << blankPage;
+  	fCurrentPrintElement->add (createAttribute ("blank-page", s.str ()));
+  }
+
+  int pageNumber = elt->getPageNumber ();
+  if (pageNumber > 0) {
+    stringstream s;
+    s << pageNumber;
+  	fCurrentPrintElement->add (createAttribute ("page-number", s.str ()));
+  }
 
   // append it to the current measure element
   fCurrentMeasureElement->push (fCurrentPrintElement);
@@ -2283,7 +2295,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPrintLayout& elt)
 #endif
 
   // forget about the current print layout element
-  fCurrentPrintElement = nullptr;
+//  fCurrentPrintElement = nullptr;
 
   fOnGoingPrintElement = false;
 }

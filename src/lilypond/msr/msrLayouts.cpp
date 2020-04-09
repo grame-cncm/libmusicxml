@@ -233,7 +233,27 @@ void msrPageLayout::acceptOut (basevisitor* v)
 }
 
 void msrPageLayout::browseData (basevisitor* v)
-{}
+{
+/* JMI
+  if (fOddMarginsGroup) {
+    // browse the odd margins group
+    msrBrowser<msrMarginsGroup> browser (v);
+    browser.browse (*fOddMarginsGroup);
+  }
+
+  if (fEvenMarginsGroup) {
+    // browse the even margins group
+    msrBrowser<msrMarginsGroup> browser (v);
+    browser.browse (*fEvenMarginsGroup);
+  }
+
+  if (fBothMarginsGroup) {
+    // browse the both margins group
+    msrBrowser<msrMarginsGroup> browser (v);
+    browser.browse (*fBothMarginsGroup);
+  }
+  */
+}
 
 string msrPageLayout::asString () const
 {
@@ -382,7 +402,17 @@ void msrSystemLayout::acceptOut (basevisitor* v)
 }
 
 void msrSystemLayout::browseData (basevisitor* v)
-{}
+{
+/* JMI
+    // margins
+    S_msrMargin           fLeftMargin;
+    S_msrMargin           fRightMargin;
+
+    // distances
+    S_msrLength           fSystemDistance;
+    S_msrLength           fTopSystemDistance;
+    */
+}
 
 string msrSystemLayout::asString () const
 {
@@ -400,7 +430,7 @@ void msrSystemLayout::print (ostream& os) const
 {
   os << "SystemLayout" << endl;
 
-  const int fieldWidth = 13;
+  const int fieldWidth = 18;
 
   gIndenter++;
 
@@ -694,6 +724,15 @@ msrPrintLayout::msrPrintLayout (
       endl;
   }
 #endif
+
+  fStaffSpacing = -1;
+
+  fNewSystem = false;
+  fNewPage   = false;
+
+  fBlankPage = -1;
+
+  fPageNumber = 0;
 }
 
 msrPrintLayout::~msrPrintLayout ()
@@ -785,7 +824,7 @@ void msrPrintLayout::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 15;
+  const int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -794,9 +833,8 @@ void msrPrintLayout::print (ostream& os) const
       os << fPageLayout;
     }
     else {
-      os << "none";
+      os << "none" << endl;
     }
-  os << endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -805,9 +843,8 @@ void msrPrintLayout::print (ostream& os) const
       os << fSystemLayout;
     }
     else {
-      os << "none";
+      os << "none" << endl;
     }
-  os << endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -816,11 +853,34 @@ void msrPrintLayout::print (ostream& os) const
       os << fSystemDividers;
     }
     else {
-      os << "none";
+      os << "none" << endl;
     }
-  os << endl;
 
-  gIndenter++;
+  os << left <<
+    setw (fieldWidth) <<
+    "staffSpacing" << " : " << fStaffSpacing <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "newSystem" << " : " << booleanAsString (fNewSystem) <<
+    endl;
+  os << left <<
+    setw (fieldWidth) <<
+    "newPage" << " : " << booleanAsString (fNewPage) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "blankPage" << " : " << fBlankPage <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageNumber" << " : " << fPageNumber <<
+    endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrPrintLayout& elt)

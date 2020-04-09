@@ -564,6 +564,36 @@ class msrPrintLayout : public msrMeasureElement
     S_msrSystemDividers   getSystemDividers () const
                               { return fSystemDividers; }
 
+    void                  setStaffSpacing (float val)
+                              { fStaffSpacing = val; }
+
+    float                 getStaffSpacing () const
+                              { return fStaffSpacing; }
+
+    void                  setNewSystem ()
+                              { fNewSystem = true; }
+
+    float                 getNewSystem () const
+                              { return fNewSystem; }
+
+    void                  setNewPage ()
+                              { fNewPage = true; }
+
+    float                 getNewPage () const
+                              { return fNewPage; }
+
+    void                  setBlankPage (int val)
+                              { fBlankPage = val; }
+
+    float                 getBlankPage () const
+                              { return fBlankPage; }
+
+    void                  setPageNumber (int val)
+                              { fPageNumber = val; }
+
+    int                   getPageNumber () const
+                              { return fPageNumber; }
+
     // services
     // ------------------------------------------------------
 
@@ -595,7 +625,16 @@ class msrPrintLayout : public msrMeasureElement
 
     S_msrSystemLayout     fSystemLayout;
 
-    S_msrSystemDividers   fSystemDividers;
+    S_msrSystemDividers   fSystemDividers; // JMI ???
+
+    float                 fStaffSpacing;
+
+    bool                  fNewSystem;
+    bool                  fNewPage;
+
+    int                   fBlankPage;
+
+    int                   fPageNumber;
 };
 typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
 EXP ostream& operator<< (ostream& os, const S_msrPrintLayout& elt);
