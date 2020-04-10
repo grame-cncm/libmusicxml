@@ -86,6 +86,7 @@ void notevisitor::reset ()
     fBowDown = (void*)0;
     fHarmonic = (void*)0;
     fSnapPizzicato = (void*)0;
+    fStaccatissimo = (void*)0;
 }
 
 //________________________________________________________________________

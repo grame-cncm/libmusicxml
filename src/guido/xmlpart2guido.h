@@ -77,7 +77,7 @@ class EXP xmlpart2guido :
 	bool fGenerateComments, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum, fLyricsManualSpacing;
 
 	// internal parsing state
-    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fBeamGrouping, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress;
+    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fBeamGrouping, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress, fShouldStopOctava;
     
     int fTextTagOpen;
     int fTupletOpen;    // Number of opened Tuplets
@@ -153,6 +153,7 @@ class EXP xmlpart2guido :
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
+    void checkOctavaEnd();
 	void newNote		 ( const notevisitor& nv, rational posInMeasure, const std::vector<Sxmlelement>& fingerings);
     void newChord   (const deque<notevisitor>& nvs, rational posInMeasure);
     

@@ -82,7 +82,8 @@ class EXP notevisitor :
     public visitor<S_up_bow>,
     public visitor<S_down_bow>,
     public visitor<S_harmonic>,
-    public visitor<S_snap_pizzicato>
+    public visitor<S_snap_pizzicato>,
+    public visitor<S_staccatissimo>
 {
  public:
 		S_stem			fStem;
@@ -106,6 +107,7 @@ class EXP notevisitor :
         std::string fCautionary;
         S_harmonic fHarmonic;
         S_snap_pizzicato fSnapPizzicato;
+        S_staccatissimo fStaccatissimo;
         S_up_bow fBowUp;
         S_down_bow fBowDown;
 
@@ -231,6 +233,7 @@ class EXP notevisitor :
         virtual void visitStart( S_up_bow& elt)  {fBowUp = elt;}
         virtual void visitStart( S_harmonic& elt)  {fHarmonic = elt;}
         virtual void visitStart( S_snap_pizzicato& elt)  {fSnapPizzicato = elt;}
+        virtual void visitStart( S_staccatissimo& elt)  {fStaccatissimo = elt;}
 
 	private:
 		bool	fGrace, fCue, fChord;
