@@ -27,6 +27,8 @@
 
 using namespace std;
 
+bool checkTempoMarkup(std::string input);
+
 namespace MusicXML2
 {
     
@@ -46,6 +48,7 @@ namespace MusicXML2
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fShouldStopOctava = false;
     }
     
     //______________________________________________________________________________
@@ -65,6 +68,7 @@ namespace MusicXML2
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fShouldStopOctava = false;
     }
     
     //______________________________________________________________________________
@@ -81,6 +85,7 @@ namespace MusicXML2
         fIgnoreWedgeWithOffset = false;
         fTupletOpen = 0;
         fTremoloInProgress = false;
+        fShouldStopOctava = false;
         start (seq);
     }
     
@@ -287,6 +292,23 @@ namespace MusicXML2
             Sguidoelement elt = guidoelement ::create(comment);
             add (elt);
         }
+        
+        // Take care of staff-distance
+        auto sLayout = elt->find(k_staff_layout);
+        while (sLayout != elt->end() )
+        {
+            if (sLayout->getAttributeIntValue("number", 0) == fTargetStaff) {
+                int xmlStaffDistance = sLayout->getIntValue(k_staff_distance, 0);
+                Sguidoelement tag2 = guidotag::create("staffFormat");
+                float HalfSpaceDistance = ((float)(xmlStaffDistance) / 10) * 2 ;   // 80 is ~default Guido staff distance
+                stringstream s;
+                s << "distance="<< HalfSpaceDistance;
+                tag2->add (guidoparam::create(s.str().c_str(), false));
+                add (tag2);
+            }
+            
+            sLayout = elt->find(k_staff_layout, sLayout++);
+        }
     }
     
     //______________________________________________________________________________
@@ -374,7 +396,11 @@ namespace MusicXML2
     {
         // !IMPORTANT: Avoid using default-x since it is measured from the beginning of the measure for S_direction!
         
-        if (fSkipDirection) return;
+        if (fSkipDirection) {
+            // set back to false for next elements!
+            fSkipDirection = false;
+            return;
+        }
         
         /// Skip already visited Direction in case of grace notes (GUID-153)
         if ((!fDirectionEraserStack.empty())) {
@@ -444,6 +470,14 @@ namespace MusicXML2
                     switch (elementType) {
                         case k_words:
                         {
+                            /// GUID-147: Detect Tempo Markups using specific substrings such as "Andante" etc.
+                            // Candidate for tempo Markup: default-y>10 and font-weight="bold" and font-size > 12.0
+                            if ( (element->getAttributeValue("font-weight")=="bold")
+                                && (element->getAttributeIntValue("default-y", 0)>10)
+                                && (element->getAttributeFloatValue("font-size", 0.0) >= 12.0) ) {
+                                generateTempo = true;
+                            }
+                            
                             if (generateTempo) {
                                 tempoWording = element->getValue();
                             }
@@ -517,7 +551,8 @@ namespace MusicXML2
                                 tag->add (guidoparam::create(wordParameters.str(), false));
                                 
                                 // FIXME: XML x-pos is from beginning of measure, whereas nested Text in Guido from the notehead
-                                //xml2guidovisitor::addPosX(element, tag, 0);
+                                // Seems like we can add relative-x which is relative to its hanging position
+                                xml2guidovisitor::addRelativeX(element, tag, 0);
                                 
                                 // apply inherited Y-position
                                 if (commonDy != 0.0) {
@@ -876,7 +911,9 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
     //______________________________________________________________________________
     void xmlpart2guido::visitStart( S_octave_shift& elt)
     {
-        if (fSkipDirection) return;
+        if (fSkipDirection) {
+            return;
+        }
         
         const string& type = elt->getAttributeValue("type");
         int size = elt->getAttributeIntValue("size", 0);
@@ -890,14 +927,28 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         if (type == "up")
             size = -size;
         else if (type == "stop")
-            size = 0;
-        else if (type != "down") return;
+        {
+            // in MusicXML, octava stop appears BEFORE the note it should be applied upon! We therefore keep this for the next note visit
+            fShouldStopOctava = true;
+            return;
+        }
         
         Sguidoelement tag = guidotag::create("oct");
         if (tag) {
             tag->add (guidoparam::create(size, false));
             add (tag);
         }
+    }
+
+    void xmlpart2guido::checkOctavaEnd() {
+        if (!fShouldStopOctava) {
+            return;
+        }
+        Sguidoelement tag = guidotag::create("oct");
+        tag->add (guidoparam::create(0, false));
+        add(tag);
+        
+        fShouldStopOctava = false;
     }
     
     //______________________________________________________________________________
@@ -1933,6 +1984,13 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             push(tag);
             n++;
         }
+        if (note.fStaccatissimo) {
+            tag = guidotag::create("stacc");
+            tag->add (guidoparam::create("type=\"heavy\"", false));
+            if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fStaccatissimo, tag);
+            push(tag);
+            n++;
+        }
         if (note.fTenuto) {
             tag = guidotag::create("ten");
             if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fTenuto, tag);
@@ -1965,6 +2023,8 @@ void xmlpart2guido::checkPostArticulation ( const notevisitor& note )
         xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
         add(tag);
     }
+    
+    checkOctavaEnd();
         
 }
     
@@ -2519,7 +2579,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                 if (i==0) {
                     s << ", text=\"" << fingeringText;
                 }else {
-                    s << ", " << fingeringText;
+                    s << "," << fingeringText;
                 }
                 
                 if (i+1 == fingerings.size()) {
@@ -2920,3 +2980,29 @@ float xmlpart2guido::getNoteDistanceFromStaffTop(const notevisitor& nv) {
 }
 
 }
+
+//bool checkTempoMarkup(std::string input) {
+//    std::vector<std::string> tempoMarkings = {
+//        // Italian terms
+//        "andant", "adagi", "a tempo", "agitato", "allegr",
+//        "moderato", "largo", "larghetto", "lent", "scherz", "vivace", "vivacissimo", "marcia",
+//        // French terms
+//        "au mouvement", "grave", "modéré", "vif",
+//        // German terms
+//        "langsam", "lebhaft", "kräftig", "mässig", "massig", "rasch", "schnell", "bewegt"
+//        };
+//    
+//    // convert input to lowercase
+//    std::string victim = input;
+//    std::transform(input.begin(), input.end(), victim.begin(), [](unsigned char c){ return std::tolower(c); });
+//    
+//    vector<string>::const_iterator it_found = find_if(tempoMarkings.begin(), tempoMarkings.end(), [&victim](string s) -> bool {
+//        return (victim.find(s) != string::npos);
+//    });
+//    
+//    if (it_found != tempoMarkings.end()) {
+//        return true;
+//    }else {
+//        return false;
+//    }
+//}

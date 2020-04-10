@@ -171,10 +171,10 @@ namespace MusicXML2
         defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
         
         // Convert to HS
-        /// Guido's default staff-distance seems to be 10HS or 50 tenths
+        /// Guido's default staff-distance seems to be 8 or 80 tenths
         if (defaultStaffDistance > 0) {
-            float xmlDistance = defaultStaffDistance - 50.0;
-            float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+            float xmlDistance = defaultStaffDistance;
+            float HalfSpaceDistance = (xmlDistance / 10) * 2 ; // (pos/10)*2
             if (HalfSpaceDistance < 0.0) {
                 defaultGuidoStaffDistance = HalfSpaceDistance;
             }else
@@ -245,36 +245,24 @@ namespace MusicXML2
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
             int stafflines = elt->getIntValue(k_staff_lines, 0);
-            
-            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance||ps.fStaffDistances.size())
+            if (stafflines||defaultGuidoStaffDistance)
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
-                if (previousStaffHasLyrics)
-                {
-                    tag2->add (guidoparam::create("dy=-5", false));
-                }else if (ps.fStaffDistances.size()> size_t(targetStaff-1)) {
-                    
-                    if (ps.fStaffDistances[targetStaff-1] > 0) {
-                        float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;
-                        float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
-                    
-                        stringstream s;
-                        s << "dy="<< HalfSpaceDistance;
-                        tag2->add (guidoparam::create(s.str().c_str(), false));
-                    }
-                }else if (defaultGuidoStaffDistance) {
+                if (defaultGuidoStaffDistance) {
                     stringstream s;
-                    s << "dy="<< defaultGuidoStaffDistance;
+                    s << "distance="<< defaultGuidoStaffDistance;
+                    cerr<<"defaultGuidoStaffDistance "<<defaultGuidoStaffDistance<<endl;
                     tag2->add (guidoparam::create(s.str().c_str(), false));
                 }
-                
                 if (stafflines>0)
                 {
+                    Sguidoelement tag2 = guidotag::create("staffFormat");
                     stringstream staffstyle;
                     staffstyle << "style=\"" << stafflines<<"-line\"";
                     tag2->add (guidoparam::create(staffstyle.str(),false));
                 }
                 add (tag2);
+                // TODO: It seems like in MusicXML the default Staff Distance is reapplied to every new system (?) in case of staff distance change in the middle of a score.
             }
             ////
             
@@ -419,6 +407,17 @@ namespace MusicXML2
             tag->add (guidoparam::create(s.str(), false));
         }
     }
+
+void xml2guidovisitor::addRelativeX(Sxmlelement elt, Sguidoelement& tag, float xoffset){
+    float posx = elt->getAttributeFloatValue("relative-x", 0);
+    posx = (posx / 10) * 2;   // convert to half spaces
+    posx += xoffset;
+    
+    stringstream s;
+    s << "dx=" << posx << "hs";
+    tag->add (guidoparam::create(s.str(), false));
+    
+}
     
     void xml2guidovisitor::addPlacement	( Sxmlelement elt, Sguidoelement& tag)
     {
