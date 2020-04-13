@@ -3347,27 +3347,32 @@ void mxmlTree2MsrTranslator::visitStart ( S_sound& elt )
   }
 #endif
 
-  if (! fOnGoingDirection) {
-    msrMusicXMLError (
-      gOahOah->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      "<sound /> is out of context");
+  if (fOnGoingDirection) {
+    // tempo
+    string tempoString = elt->getAttributeValue ("tempo");
+
+    if (tempoString.size ()) {
+      fCurrentMetronomeTempo =
+        msrTempo::create (
+          inputLineNumber,
+          msrDottedDuration (
+            kQuarter, // JMI could be different?
+            0),       // JMI could be different?
+          tempoString,
+          msrTempo::kTempoParenthesizedNo,
+          kPlacementBelow);
+    }
   }
 
-  // tempo
-  string tempoString = elt->getAttributeValue ("tempo");
+  else {
+    // measure-level <sound /> markup
 
-  if (tempoString.size ()) {
-    fCurrentMetronomeTempo =
-      msrTempo::create (
-        inputLineNumber,
-        msrDottedDuration (
-          kQuarter, // JMI could be different?
-          0),       // JMI could be different?
-        tempoString,
-        msrTempo::kTempoParenthesizedNo,
-        kPlacementBelow);
+    // dynamics
+    string dynamicsString = elt->getAttributeValue ("dynamics");
+
+    if (dynamicsString.size ()) {
+      // JMI
+    }
   }
 }
 
