@@ -204,7 +204,7 @@ void msrWords::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "wordsContents" << " = \"" << fWordsContents << "\"" <<
+    "wordsContents" << " : \"" << fWordsContents << "\"" <<
     endl <<
 
     setw (fieldWidth) <<

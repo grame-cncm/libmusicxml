@@ -3208,18 +3208,51 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
   fOnGoingDirection = false;
 }
 
+//________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_direction_type& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_direction_type" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (! fOnGoingDirection) {
+    stringstream s;
+
+    s <<
+      "<direction-type /> " <<
+      fCurrentMusicXMLStaffNumber <<
+      " is out of context";
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fOnGoingDirectionType = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd (S_direction_type& elt)
+{
+#ifdef TRACE_OAH
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_direction_type" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 #endif
 
-  fOnGoingDirectionType = true; // JMI
+  fOnGoingDirectionType = false;
 }
 
 //________________________________________________________________________
@@ -3297,6 +3330,57 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
     fCurrentHarmonyWholeNotesOffset =
       offsetWholeNotesFromDuration;
   }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_sound& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_sound" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (! fOnGoingDirection) {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "<sound /> is out of context");
+  }
+
+  // tempo
+  string tempoString = elt->getAttributeValue ("tempo");
+
+  if (tempoString.size ()) {
+    fCurrentMetronomeTempo =
+      msrTempo::create (
+        inputLineNumber,
+        msrDottedDuration (
+          kQuarter, // JMI could be different?
+          0),       // JMI could be different?
+        tempoString,
+        msrTempo::kTempoParenthesizedNo,
+        kPlacementBelow);
+  }
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_sound& elt )
+{
+#ifdef TRACE_OAH
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_sound" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
 }
 
 //________________________________________________________________________
@@ -3812,20 +3896,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
       appendAccordionRegistrationToPart (
         accordionRegistration);
   }
-}
-
-void mxmlTree2MsrTranslator::visitEnd (S_direction_type& elt)
-{
-#ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_direction_type" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  fOnGoingDirectionType = false;
 }
 
 //________________________________________________________________________
@@ -4737,7 +4807,10 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
   else {
     stringstream s;
 
-    s << "staff " << fCurrentMusicXMLStaffNumber << " is out of context";
+    s <<
+      "<staff /> " <<
+      fCurrentMusicXMLStaffNumber <<
+      " is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -5006,7 +5079,10 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
   else {
     stringstream s;
 
-    s << "tuning step " << tuningStep << " is out of context";
+    s <<
+      "<tuning-step /> " <<
+      tuningStep <<
+      " is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -5041,7 +5117,10 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
   else {
     stringstream s;
 
-    s << "tuning octave " << tuningOctave << " is out of context";
+    s <<
+      "<tuning-octave /> " <<
+      tuningOctave <<
+      " is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -5095,7 +5174,10 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
   else {
     stringstream s;
 
-    s << "tuning alter " << tuningAlter << " is out of context";
+    s <<
+      "<tuning-alter /> " <<
+      tuningAlter <<
+      " is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -5226,7 +5308,10 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
   else {
     stringstream s;
 
-    s << "voice " << fCurrentMusicXMLVoiceNumber << " is out of context";
+    s <<
+      "<voice /> " <<
+      fCurrentMusicXMLVoiceNumber <<
+      " is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -7762,7 +7847,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
   else {
     stringstream s;
 
-    s << "segno is out of context";
+    s << "<segno /> is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -7805,7 +7890,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
   else {
     stringstream s;
 
-    s << "coda is out of context";
+    s << "<coda /> is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -7843,7 +7928,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
   else {
     stringstream s;
 
-    s << "eyeGlasses is out of context";
+    s << "<eyeGlasses /> is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -7971,7 +8056,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
   else {
     stringstream s;
 
-    s << "pedal " << pedal->asShortString () << " is out of context";
+    s << "<pedal /> " << pedal->asShortString () << " is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -8812,7 +8897,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   else {
     stringstream s;
 
-    s << "duration " << duration << " is out of context";
+    s << "<duration /> " << duration << " is out of context";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -10697,7 +10782,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
     stringstream s;
 
     s <<
-      "fingering \"" << fingeringValue <<
+      "<fingering /> \"" << fingeringValue <<
       "\" is out of context";
 
     msrMusicXMLError (
@@ -10790,7 +10875,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
     stringstream s;
 
     s <<
-      "fret \"" << fretValue <<
+      "<fret /> \"" << fretValue <<
       "\" is out of context";
 
     msrMusicXMLError (
@@ -11336,7 +11421,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
     stringstream s;
 
     s <<
-      "string \"" << stringValue <<
+      "<string /> \"" << stringValue <<
       "\" is out of context";
 
     msrMusicXMLError (
@@ -13989,7 +14074,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     stringstream s;
 
     s <<
-      "actual notes \"" << actualNotes <<
+      "<actual-notes /> \"" << actualNotes <<
       "\" is out of context";
 
     msrMusicXMLError (
@@ -14056,7 +14141,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     stringstream s;
 
     s <<
-      "normal notes \"" << normalNotes <<
+      "<normal-notes /> \"" << normalNotes <<
       "\" is out of context";
 
     msrMusicXMLError (
@@ -14127,7 +14212,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
     stringstream s;
 
     s <<
-      "normal type \"" << normalTypeString <<
+      "<normal-type /> \"" << normalTypeString <<
       "\" is out of context";
 
     msrMusicXMLError (
@@ -14483,7 +14568,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "found a tuplet number out of context");
+      "<tuplet-number /> out of context");
   }
 
   // color JMI
@@ -14526,7 +14611,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "found a tuplet number out of context");
+      "<tuplet-type /> out of context");
   }
 
   // color JMI
@@ -14566,7 +14651,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "found a tuplet dot out of context");
+      "<tuplet-dot /> out of context");
   }
 
   // color JMI
@@ -22538,7 +22623,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
   if (! fOnGoingHarmony) {
     stringstream s;
 
-    s << "frame is out of context, not handled";
+    s << "<frame /> out of context, not handled";
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
@@ -23597,31 +23682,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)
 
   // forget about this scordatura
   fCurrentScordatura = nullptr;
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_sound& elt )
-{
-#ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_sound" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-void mxmlTree2MsrTranslator::visitEnd ( S_sound& elt )
-{
-#ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_sound" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
 }
 
 //______________________________________________________________________________
