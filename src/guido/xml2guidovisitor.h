@@ -102,8 +102,7 @@ class EXP xml2guidovisitor :
     
     int  fPartNum;  // 0 (default) to parse all score-parts. 1 for "P1" only, etc.
     
-    int defaultStaffDistance;   // xml staff-distance value in defaults
-    int defaultGuidoStaffDistance;  // the above converted to Guido value
+    static int defaultStaffDistance;   // xml staff-distance value in defaults
     
     /// multimap containing <staff-num, measureNum, position, clef type>
     //std::multimap<int, std::pair< rational, string > > staffClefMap;
@@ -122,6 +121,9 @@ class EXP xml2guidovisitor :
 		// this is to control exact positionning of elements when information is present
 		// ie converts relative-x/-y into dx/dy attributes
 		void generatePositions (bool state)		{ fGeneratePositions = state; }
+    
+    /// Shared default derived from MusicXML
+    static int defaultGuidoStaffDistance;  // the above converted to Guido value
 
     static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset);
 	static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset);
