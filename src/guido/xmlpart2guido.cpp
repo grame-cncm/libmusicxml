@@ -293,6 +293,22 @@ namespace MusicXML2
             add (elt);
         }
         
+        // Take care of StaffOn StaffOff
+        // REMOVED: StaffOn / StaffOff in GuidoLib does not behave well in presence of multi-staff Parts
+//        auto sStaffDetails = elt->find(k_staff_details);
+//        if (sStaffDetails != elt->end()) {
+//            if (sStaffDetails->getAttributeIntValue("number", 0) == fTargetStaff) {
+//                std::string print = sStaffDetails->getAttributeValue("print-object");
+//                if (print=="no") {
+//                    Sguidoelement tag = guidotag::create("staffOff");
+//                    add(tag);
+//                }else if (print=="yes") {
+//                    Sguidoelement tag = guidotag::create("staffOn");
+//                    add(tag);
+//                }
+//            }
+//        }
+        
         // Take care of staff-distance
         auto sLayout = elt->find(k_staff_layout);
         while (sLayout != elt->end() )
@@ -300,7 +316,10 @@ namespace MusicXML2
             if (sLayout->getAttributeIntValue("number", 0) == fTargetStaff) {
                 int xmlStaffDistance = sLayout->getIntValue(k_staff_distance, 0);
                 Sguidoelement tag2 = guidotag::create("staffFormat");
-                float HalfSpaceDistance = ((float)(xmlStaffDistance) / 10) * 2 ;   // 80 is ~default Guido staff distance
+                float HalfSpaceDistance = ((float)(xmlStaffDistance) / 10) * 2 ;
+                if (HalfSpaceDistance < xml2guidovisitor::defaultGuidoStaffDistance) {
+                    HalfSpaceDistance = xml2guidovisitor::defaultGuidoStaffDistance;
+                }
                 stringstream s;
                 s << "distance="<< HalfSpaceDistance;
                 tag2->add (guidoparam::create(s.str().c_str(), false));
