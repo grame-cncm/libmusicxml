@@ -53,23 +53,6 @@ msrScore::msrScore (
     msrIdentification::create (
       inputLineNumber);
 
-/* JMI
-  // create the scaling
-  fScaling =
-    msrScaling::create (
-      inputLineNumber);
-
-  // create the page layout
-  fPageLayout =
-    msrPageLayout::create (
-      inputLineNumber);
-
-  // create the system layout
-  fSystemLayout =
-    msrSystemLayout::create (
-      inputLineNumber);
-*/
-
   // number of measures
   fScoreNumberOfMeasures = -1;
 
@@ -548,6 +531,12 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fSystemLayout);
   }
 
+  if (fStaffLayout) {
+    // browse staff layout
+    msrBrowser<msrStaffLayout> browser (v);
+    browser.browse (*fStaffLayout);
+  }
+
   for (
     list<S_msrCredit>::const_iterator i = fCreditsList.begin ();
     i != fCreditsList.end ();
@@ -656,6 +645,13 @@ void msrScore::print (ostream& os) const
   if (fSystemLayout) {
     os <<
       fSystemLayout <<
+      endl;
+  }
+
+  // print the staff layout if any
+  if (fStaffLayout) {
+    os <<
+      fStaffLayout <<
       endl;
   }
 

@@ -376,7 +376,8 @@ class msrStaffLayout : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaffLayout> create (
-      int inputLineNumber);
+      int inputLineNumber,
+      int staffNumber);
 
   protected:
 
@@ -384,7 +385,8 @@ class msrStaffLayout : public msrElement
     // ------------------------------------------------------
 
     msrStaffLayout (
-      int inputLineNumber);
+      int inputLineNumber,
+      int staffNumber);
 
     virtual ~msrStaffLayout ();
 
@@ -558,6 +560,138 @@ class msrPrintLayout : public msrMeasureElement
     S_msrSystemLayout     getSystemLayout () const
                               { return fSystemLayout; }
 
+    const list<S_msrStaffLayout>&
+                          getfStaffLayoutsList () const
+                              { return fStaffLayoutsList; }
+
+    void                  setSystemDividers (S_msrSystemDividers systemDividers)
+                              { fSystemDividers = systemDividers; }
+
+    S_msrSystemDividers   getSystemDividers () const
+                              { return fSystemDividers; }
+
+    void                  setStaffSpacing (float val)
+                              { fStaffSpacing = val; }
+
+    float                 getStaffSpacing () const
+                              { return fStaffSpacing; }
+
+    void                  setNewSystem ()
+                              { fNewSystem = true; }
+
+    float                 getNewSystem () const
+                              { return fNewSystem; }
+
+    void                  setNewPage ()
+                              { fNewPage = true; }
+
+    float                 getNewPage () const
+                              { return fNewPage; }
+
+    void                  setBlankPage (int val)
+                              { fBlankPage = val; }
+
+    float                 getBlankPage () const
+                              { return fBlankPage; }
+
+    void                  setPageNumber (int val)
+                              { fPageNumber = val; }
+
+    int                   getPageNumber () const
+                              { return fPageNumber; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendStaffLayout (
+                            S_msrStaffLayout staffLayout)
+                              {
+                                fStaffLayoutsList.push_back (staffLayout);
+                              }
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_msrPageLayout       fPageLayout;
+
+    S_msrSystemLayout     fSystemLayout;
+
+    list<S_msrStaffLayout>
+                          fStaffLayoutsList;
+
+    S_msrSystemDividers   fSystemDividers; // JMI ???
+
+    float                 fStaffSpacing;
+
+    bool                  fNewSystem;
+    bool                  fNewPage;
+
+    int                   fBlankPage;
+
+    int                   fPageNumber;
+};
+typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
+EXP ostream& operator<< (ostream& os, const S_msrPrintLayout& elt);
+
+//______________________________________________________________________________
+class msrAppearance : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrAppearance> create (
+      int inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrAppearance (
+      int inputLineNumber);
+
+    virtual ~msrAppearance ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setPageLayout (S_msrPageLayout pageLayout)
+                              { fPageLayout = pageLayout; }
+
+    S_msrPageLayout       getPageLayout () const
+                              { return fPageLayout; }
+
+    void                  setSystemLayout (S_msrSystemLayout systemLayout)
+                              { fSystemLayout = systemLayout; }
+
+    S_msrSystemLayout     getSystemLayout () const
+                              { return fSystemLayout; }
+
     void                  setSystemDividers (S_msrSystemDividers systemDividers)
                               { fSystemDividers = systemDividers; }
 
@@ -636,8 +770,8 @@ class msrPrintLayout : public msrMeasureElement
 
     int                   fPageNumber;
 };
-typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
-EXP ostream& operator<< (ostream& os, const S_msrPrintLayout& elt);
+typedef SMARTP<msrAppearance> S_msrAppearance;
+EXP ostream& operator<< (ostream& os, const S_msrAppearance& elt);
 
 
 } // namespace MusicXML2

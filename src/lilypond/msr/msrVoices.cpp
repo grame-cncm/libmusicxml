@@ -9717,8 +9717,7 @@ void msrVoice::print (ostream& os) const
 
   gIndenter++;
   os <<
-    fVoiceShortestNoteTupletFactor <<
-    endl;
+    fVoiceShortestNoteTupletFactor;
   gIndenter--;
 
   os << left <<

@@ -153,7 +153,7 @@ void msr2MxmltreeTranslator::appendPageMarginsElementToScoreDefaultsPageLayout (
     pageMarginsElement =
       createElement (k_page_margins, "");
 
-  // set its type element
+  // set its "type" element
   pageMarginsElement->add (
     createAttribute (
       "type",
@@ -673,6 +673,17 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     appendSubElementToScoreDefaults (fScoreDefaultsSystemLayoutElement);
   }
 
+  // append the staff layout elements if any to the score defaults elements
+  for (
+    list<Sxmlelement>::const_iterator i = fScoreDefaultsStaffLayoutElementsList.begin ();
+    i!=fScoreDefaultsStaffLayoutElementsList.end ();
+    i++
+  ) {
+    Sxmlelement staffLayoutElement = (*i);
+
+    appendSubElementToScoreDefaults (staffLayoutElement);
+  } // for
+
   // append the score defaults element if any to the score part wise element
   if (fScoreDefaultsElement) {
     fScorePartWiseElement->push (fScoreDefaultsElement);
@@ -846,7 +857,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
           k_miscellaneous_field,
           variableValue);
 
-    // set its name attribute
+    // set its "name" attribute
     miscellaneousFieldElement->add (
       createAttribute ("name", "description")); // ??? JMI sometines "comment"
 
@@ -1003,7 +1014,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
       // append a creator element
       Sxmlelement creatorElement = createElement (k_creator, variableValue);
 
-      // set its type attribute
+      // set its "type" attribute
       creatorElement->add (createAttribute ("type", "composer"));
 
       // append it to the composers elements list
@@ -1028,7 +1039,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
       // append a creator element
       Sxmlelement creatorElement = createElement (k_creator, variableValue);
 
-      // set its type attribute
+      // set its "type" attribute
       creatorElement->add (createAttribute ("type", "arranger"));
 
       // append it to the composers elements list
@@ -1053,7 +1064,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
       // append a creator element
       Sxmlelement creatorElement = createElement (k_creator, variableValue);
 
-      // set its type attribute
+      // set its "type" attribute
       creatorElement->add (createAttribute ("type", "lyricist"));
 
       // append it to the composers elements list
@@ -1078,7 +1089,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
       // append a creator element
       Sxmlelement creatorElement = createElement (k_creator, variableValue);
 
-      // set its type attribute
+      // set its "type" attribute
       creatorElement->add (createAttribute ("type", "poet"));
 
       // append it to the composers elements list
@@ -1103,7 +1114,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
       // append a creator element
       Sxmlelement creatorElement = createElement (k_creator, variableValue);
 
-      // set its type attribute
+      // set its "type" attribute
       creatorElement->add (createAttribute ("type", "translator"));
 
       // append it to the composers elements list
@@ -1128,7 +1139,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
       // append a creator element
       Sxmlelement creatorElement = createElement (k_creator, variableValue);
 
-      // set its type attribute
+      // set its "type" attribute
       creatorElement->add (createAttribute ("type", "artist"));
 
       // append it to the composers elements list
@@ -1383,7 +1394,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
       systemLayoutElement);
   }
   else {
-    // don't append it at onece to the score defaults element
+    // don't append it at once to the score defaults element
     fScoreDefaultsSystemLayoutElement = systemLayoutElement;
   }
 
@@ -1446,6 +1457,127 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSystemLayout& elt)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrStaffLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrStaffLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // number
+  int staffNumber = elt->getStaffNumber ();
+
+  // create a staff layout element
+  Sxmlelement
+    staffLayoutElement =
+      createElement (k_staff_layout, "");
+
+  // set its "number" attribute if relevant
+  // (it is 0 inside the <defaults /> element)
+  if (staffNumber > 0) {
+    staffLayoutElement->add (createIntegerAttribute ("number", staffNumber));
+  }
+
+  // distance
+  S_msrLength staffDistance = elt->getStaffDistance ();
+
+  if (staffDistance) {
+    // create a staff distance element
+    Sxmlelement
+      staffDistanceElement =
+        createElement (
+          k_staff_distance,
+          S_msrLengthAsTenths (staffDistance));
+
+    // append it to the staff layout element
+    staffLayoutElement->push (
+      staffDistanceElement);
+  }
+
+  if (fOnGoingPrintElement) {
+    // append it to the current print element
+    fCurrentPrintElement->push (
+      staffLayoutElement);
+  }
+  else {
+    // don't append it at once to the score defaults element
+    fScoreDefaultsStaffLayoutElementsList.push_back (staffLayoutElement);
+  }
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrStaffLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrStaffLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrMeasureLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrMeasureLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  if (fOnGoingPrintElement) {
+    // create a measure layout element
+    Sxmlelement
+      measureLayoutElement =
+        createElement (k_measure_layout, "");
+
+    // append it to the current print element
+    fCurrentPrintElement->push (
+      measureLayoutElement);
+
+    // distance
+    S_msrLength measureDistance = elt->getMeasureDistance ();
+
+    if (measureDistance) {
+      // create a measure distance element
+      Sxmlelement
+        measureDistanceElement =
+          createElement (
+            k_measure_distance,
+            S_msrLengthAsTenths (measureDistance));
+
+      // append it to the measure layout element
+      measureLayoutElement->push (
+        measureDistanceElement);
+    }
+  }
+
+  else {
+    // JMI
+  }
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrMeasureLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrMeasureLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
 {
 #ifdef TRACE_OAH
@@ -1460,7 +1592,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
   // create a credit element
   fCurrentScoreCreditElement = createElement (k_credit, "");
 
-  // set its page attribute
+  // set its "page" attribute
   fCurrentScoreCreditElement->add (
     createIntegerAttribute ("page", elt->getCreditPageNumber ()));
 
@@ -1501,7 +1633,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
         k_credit_words,
         elt->getCreditWordsContents ());
 
-  // set its default-x attribute
+  // set its "default-x" attribute
   float
     creditWordsDefaultX =
       elt->getCreditWordsDefaultX ();
@@ -1511,7 +1643,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
     creditWordsElement->add (createAttribute ("default-x", s.str ()));
   }
 
-  // set its default-y attribute
+  // set its "default-y" attribute
   float
     creditWordsDefaultY =
       elt->getCreditWordsDefaultY ();
@@ -1521,7 +1653,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
     creditWordsElement->add (createAttribute ("default-y", s.str ()));
   }
 
-  // set its font family attribute
+  // set its "font-family" attribute
   string
     creditWordsFontFamilyString =
       elt->getCreditWordsFontFamily ();
@@ -1533,7 +1665,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
         creditWordsFontFamilyString));
   }
 
-  // set its font size attribute
+  // set its "font-size" attribute
   float
     creditWordsFontSize =
       elt->getCreditWordsFontSize ();
@@ -1541,7 +1673,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
   s << setprecision (2) << creditWordsFontSize;
   creditWordsElement->add (createAttribute ("font-size", s.str ()));
 
-  // set its font weight attribute
+  // set its "font-weight" attribute
   string fontWeightString;
 
   switch (elt->getCreditWordsFontWeightKind ()) {
@@ -1559,7 +1691,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
     creditWordsElement->add (createAttribute ("font-weight", fontWeightString));
   }
 
-  // set its font style attribute
+  // set its "font-style" attribute
   string fontStyleString;
 
   switch (elt->getCreditWordsFontStyleKind ()) {
@@ -1577,7 +1709,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
     creditWordsElement->add (createAttribute ("font-style", fontStyleString));
   }
 
-  // set its justify attribute
+  // set its "justify" attribute
   string justifyString;
 
   switch (elt->getCreditWordsJustifyKind ()) {
@@ -1598,7 +1730,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
     creditWordsElement->add (createAttribute ("justify", justifyString));
   }
 
-  // set its halign attribute
+  // set its "halign" attribute
   string horizontalAlignmentString;
 
   switch (elt->getCreditWordsHorizontalAlignmentKind ()) {
@@ -1619,7 +1751,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
     creditWordsElement->add (createAttribute ("halign", horizontalAlignmentString));
   }
 
-  // set its valign attribute
+  // set its "valign" attribute
   string verticalAlignmentString;
 
   switch (elt->getCreditWordsVerticalAlignmentKind ()) {
@@ -1640,7 +1772,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
     creditWordsElement->add (createAttribute ("valign", verticalAlignmentString));
   }
 
-  // set its xml:lang attribute
+  // set its "xml:lang" attribute
   creditWordsElement->add (
     createAttribute (
       "xml:lang",
@@ -1735,7 +1867,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
               k_group_symbol,
               groupSymbolString);
 
-          // set its default X attribute if relevant
+          // set its "default-x" attribute if relevant
           int
             partGroupSymbolDefaultX  =
               elt->getPartGroupSymbolDefaultX ();
@@ -2297,6 +2429,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
 
   // append it to the current measure element
   fCurrentMeasureElement->push (fCurrentPrintElement);
+  // prepend it to the current measure element,
+  // since it must be the first one in the measure
+//  fCurrentMeasureElement->push (fCurrentPrintElement);
 
   fOnGoingPrintElement = true;
 }
@@ -4497,7 +4632,7 @@ void msr2MxmltreeTranslator:: appendNoteTieIfAny (
     // create the tied element
     Sxmlelement tiedElement = createElement (k_tied, "");
 
-    // set its type if any
+    // set its "type" attribute if any
     string typeString;
 
     switch (noteTie->getTieKind ()) {
@@ -4651,13 +4786,13 @@ void msr2MxmltreeTranslator:: appendNoteTupletIfRelevant (
           // create a tuplet element
           Sxmlelement tupletElement = createElement (k_tuplet, "");
 
-          // set its number attribute
+          // set its "number" attribute
           tupletElement->add (
             createIntegerAttribute (
               "number",
               noteTupletUpLink->getTupletNumber ()));
 
-          // set its type attribute
+          // set its "type" attribute
           tupletElement->add (
             createAttribute (
               "type",
@@ -4989,7 +5124,7 @@ void msr2MxmltreeTranslator::appendBeamsToNote (S_msrNote note)
 
       Sxmlelement beamElement = createElement (k_beam, beamString);
 
-      // set its number attribute
+      // set its "number" attribute
       beamElement->add (createIntegerAttribute ("number", beam->getBeamNumber ()));
 
       // append the beam element to the current note element
@@ -5133,7 +5268,7 @@ void msr2MxmltreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
         // create the lyric element
         Sxmlelement lyricElement = createElement (k_lyric, "");
 
-        // set its number attribute
+        // set its "number" attribute
         lyricElement->add (
           createAttribute (
             "number",
@@ -5190,7 +5325,7 @@ void msr2MxmltreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
           Sxmlelement extendElement = createElement (k_extend, "");
 
           if (extendTypeString.size ()) {
-            // set its type attribute
+            // set its "type" attribute
             extendElement->add (createAttribute ("type", extendTypeString));
           }
 
@@ -5552,6 +5687,7 @@ void msr2MxmltreeTranslator::appendVoiceSubElementToNoteIfRelevant (
       break;
 
     case msrNote::kSkipNote:
+      // nothing is to be generated for skips
       break;
 
     case msrNote::kUnpitchedNote:
@@ -5602,31 +5738,41 @@ void msr2MxmltreeTranslator::appendVoiceSubElementToNoteIfRelevant (
   } // switch
 
   // sanity check
+  /* JMI ???
   msrAssert (
     noteVoice != nullptr,
     "noteVoice is null");
+*/
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       endl <<
-      "--> noteVoice: " <<
-      noteVoice <<
-      endl;
+      "--> noteVoice: ";
+    if (noteVoice) {
+      fLogOutputStream <<
+        noteVoice;
+    }
+    else {
+      fLogOutputStream <<
+        "none";
+    }
   }
 #endif
 
   // append the voice attribute if relevant
-  int
-    voiceNumber =
-      noteVoice->
-        getVoiceNumber ();
+  if (noteVoice) {
+    int
+      voiceNumber =
+        noteVoice->
+          getVoiceNumber ();
 
-  if (voiceNumber != 1) { // options ? JMI
-    fCurrentNoteElement->push (
-      createIntegerElement (
-        k_voice,
-        voiceNumber));
+    if (voiceNumber != 1) { // options ? JMI
+      fCurrentNoteElement->push (
+        createIntegerElement (
+          k_voice,
+          voiceNumber));
+    }
   }
 }
 
@@ -6099,7 +6245,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
     // create the barline element
     Sxmlelement barlineElement = createElement (k_barline, "");
 
-    // set its location attribute if any
+    // set its "location" attribute if any
     msrBarline::msrBarlineLocationKind
       barlineLocationKind =
         elt->getLocationKind ();

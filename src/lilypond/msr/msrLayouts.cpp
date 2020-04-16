@@ -597,19 +597,24 @@ ostream& operator<< (ostream& os, const S_msrSystemDividers& elt)
 
 //______________________________________________________________________________
 S_msrStaffLayout msrStaffLayout::create (
-  int inputLineNumber)
+  int inputLineNumber,
+  int staffNumber)
 {
   msrStaffLayout* o =
     new msrStaffLayout (
-      inputLineNumber);
+      inputLineNumber,
+      staffNumber);
   assert(o!=0);
   return o;
 }
 
 msrStaffLayout::msrStaffLayout (
-  int inputLineNumber)
+  int inputLineNumber,
+  int staffNumber)
     : msrElement (inputLineNumber)
-{}
+{
+  fStaffNumber = staffNumber;
+}
 
 msrStaffLayout::~msrStaffLayout ()
 {}
@@ -667,6 +672,7 @@ string msrStaffLayout::asString () const
 
   s <<
     "[StaffLayout" <<
+    ", staffDistance: " << fStaffDistance <<
     ", line " << fInputLineNumber <<
     "]";
 
@@ -697,6 +703,108 @@ void msrStaffLayout::print (ostream& os) const
 }
 
 ostream& operator<< (ostream& os, const S_msrStaffLayout& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrMeasureLayout msrMeasureLayout::create (
+  int inputLineNumber)
+{
+  msrMeasureLayout* o =
+    new msrMeasureLayout (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrMeasureLayout::msrMeasureLayout (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{}
+
+msrMeasureLayout::~msrMeasureLayout ()
+{}
+
+void msrMeasureLayout::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrMeasureLayout::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrMeasureLayout>*
+    p =
+      dynamic_cast<visitor<S_msrMeasureLayout>*> (v)) {
+        S_msrMeasureLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrMeasureLayout::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrMeasureLayout::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrMeasureLayout::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrMeasureLayout>*
+    p =
+      dynamic_cast<visitor<S_msrMeasureLayout>*> (v)) {
+        S_msrMeasureLayout elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrMeasureLayout::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrMeasureLayout::browseData (basevisitor* v)
+{}
+
+string msrMeasureLayout::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[MeasureLayout" <<
+    ", measureDistance: " << fMeasureDistance <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrMeasureLayout::print (ostream& os) const
+{
+  os << "MeasureLayout" << endl;
+
+  const int fieldWidth = 14;
+
+  gIndenter++;
+
+  // measure distance
+  os << left <<
+    setw (fieldWidth) <<
+    "measureDistance" << " : " << fMeasureDistance <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrMeasureLayout& elt)
 {
   elt->print (os);
   return os;
@@ -796,6 +904,16 @@ void msrPrintLayout::browseData (basevisitor* v)
     browser.browse (*fSystemLayout);
   }
 
+  for (
+    list<S_msrStaffLayout>::const_iterator i = fStaffLayoutsList.begin ();
+    i != fStaffLayoutsList.end ();
+    i++
+  ) {
+    // browse staff layout
+    msrBrowser<msrStaffLayout> browser (v);
+    browser.browse (*(*i));
+  } // for
+
   if (fSystemDividers) {
     // browse the system dividers
     msrBrowser<msrSystemDividers> browser (v);
@@ -816,6 +934,220 @@ string msrPrintLayout::asString () const
 }
 
 void msrPrintLayout::print (ostream& os) const
+{
+  os <<
+    "PrintLayout" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 18;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageLayout" << " : ";
+    if (fPageLayout) {
+      os << fPageLayout;
+    }
+    else {
+      os << "none" << endl;
+    }
+
+  os << left <<
+    setw (fieldWidth) <<
+    "systemLayout" << " : ";
+    if (fSystemLayout) {
+      os << fSystemLayout;
+    }
+    else {
+      os << "none" << endl;
+    }
+
+  int
+    staffLayoutsListSize =
+      fStaffLayoutsList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "staffLayoutsList" << " : " <<
+    singularOrPlural (
+      staffLayoutsListSize, "element", "elements") <<
+    endl;
+
+  if (staffLayoutsListSize) {
+    gIndenter++;
+
+    list<S_msrStaffLayout>::const_iterator
+      iBegin = fStaffLayoutsList.begin (),
+      iEnd   = fStaffLayoutsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  os << left <<
+    setw (fieldWidth) <<
+    "systemDividers" << " : ";
+    if (fSystemDividers) {
+      os << fSystemDividers;
+    }
+    else {
+      os << "none" << endl;
+    }
+
+  os << left <<
+    setw (fieldWidth) <<
+    "staffSpacing" << " : " << fStaffSpacing <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "newSystem" << " : " << booleanAsString (fNewSystem) <<
+    endl;
+  os << left <<
+    setw (fieldWidth) <<
+    "newPage" << " : " << booleanAsString (fNewPage) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "blankPage" << " : " << fBlankPage <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageNumber" << " : " << fPageNumber <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrPrintLayout& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrAppearance msrAppearance::create (
+  int inputLineNumber)
+{
+  msrAppearance* o =
+    new msrAppearance (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrAppearance::msrAppearance (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePrintLayouts) {
+    gLogOstream <<
+      "Creating a print layout " <<
+      endl;
+  }
+#endif
+
+  fStaffSpacing = -1;
+
+  fNewSystem = false;
+  fNewPage   = false;
+
+  fBlankPage = -1;
+
+  fPageNumber = 0;
+}
+
+msrAppearance::~msrAppearance ()
+{}
+
+void msrAppearance::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrAppearance::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrAppearance>*
+    p =
+      dynamic_cast<visitor<S_msrAppearance>*> (v)) {
+        S_msrAppearance elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrAppearance::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrAppearance::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrAppearance::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrAppearance>*
+    p =
+      dynamic_cast<visitor<S_msrAppearance>*> (v)) {
+        S_msrAppearance elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrAppearance::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrAppearance::browseData (basevisitor* v)
+{
+  if (fPageLayout) {
+    // browse the page layout
+    msrBrowser<msrPageLayout> browser (v);
+    browser.browse (*fPageLayout);
+  }
+
+  if (fSystemLayout) {
+    // browse the system layout
+    msrBrowser<msrSystemLayout> browser (v);
+    browser.browse (*fSystemLayout);
+  }
+
+  if (fSystemDividers) {
+    // browse the system dividers
+    msrBrowser<msrSystemDividers> browser (v);
+    browser.browse (*fSystemDividers);
+  }
+}
+
+string msrAppearance::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[PrintLayout" <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrAppearance::print (ostream& os) const
 {
   os <<
     "PrintLayout" <<
@@ -883,7 +1215,7 @@ void msrPrintLayout::print (ostream& os) const
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrPrintLayout& elt)
+ostream& operator<< (ostream& os, const S_msrAppearance& elt)
 {
   elt->print (os);
   return os;

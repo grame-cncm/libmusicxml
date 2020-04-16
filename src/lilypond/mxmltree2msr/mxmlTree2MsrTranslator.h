@@ -55,6 +55,14 @@ class mxmlTree2MsrTranslator :
   public visitor<S_staff_layout>,
   public visitor<S_staff_distance>,
 
+  public visitor<S_measure_layout>,
+  public visitor<S_measure_distance>,
+
+  // appearance
+  // ------------------------------------------------------
+
+  public visitor<S_appearance>,
+
   // system dividers
   // ------------------------------------------------------
 
@@ -540,6 +548,16 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_staff_layout& elt);
     virtual void visitEnd   ( S_staff_layout& elt);
     virtual void visitStart ( S_staff_distance& elt);
+
+    virtual void visitStart ( S_measure_layout& elt);
+    virtual void visitEnd   ( S_measure_layout& elt);
+    virtual void visitStart ( S_measure_distance& elt);
+
+    // appearance
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_appearance& elt);
+    virtual void visitEnd   ( S_appearance& elt);
 
     // system dividers
     // ------------------------------------------------------
@@ -1067,6 +1085,20 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingStaffLayout;
 
     S_msrStaffLayout          fCurrentStaffLayout;
+
+    // appearance handling
+    // ------------------------------------------------------
+
+    bool                      fOnGoingAppearance;
+
+    S_msrAppearance           fCurrentAppearance;
+
+    // measure layout handling
+    // ------------------------------------------------------
+
+    bool                      fOnGoingMeasureLayout;
+
+    S_msrMeasureLayout        fCurrentMeasureLayout;
 
     // print ???
     // ------------------------------------------------------

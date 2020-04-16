@@ -68,7 +68,11 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingPageMargins = false;
   fCurrentPageMarginsTypeKind = kBothMargins; // default value
 
+  // system layout
   fOnGoingSystemLayout = false;
+
+  // staff layout
+  fOnGoingStaffLayout = false;
 
   // part handling JMI
 
@@ -1313,10 +1317,35 @@ void mxmlTree2MsrTranslator::visitStart ( S_staff_layout& elt )
       endl;
   }
 
+/*
+From DalSegno.xml: JMI there is no <staff-distance /> ...
+				<staff-layout>
+					<?DoletSibelius JustifyAllStaves=false?>
+					<?DoletSibelius ExtraSpacesAbove=3?>
+				</staff-layout>
+*/
+
+  // number
+  int staffNumber = elt->getAttributeIntValue ("number", 0);
+
   // create a staff layout
   fCurrentStaffLayout =
     msrStaffLayout::create (
-      inputLineNumber);
+      inputLineNumber,
+      staffNumber);
+
+  if (fOnGoingPrint) {
+    // append it to the current print layout
+    fCurrentPrintLayout->
+      appendStaffLayout (
+        fCurrentStaffLayout);
+  }
+  else {
+    // set the MSR score staff layout
+    fMsrScore->
+      setStaffLayout (
+        fCurrentStaffLayout);
+  }
 
   fOnGoingStaffLayout = true;
 }
@@ -1368,6 +1397,174 @@ void mxmlTree2MsrTranslator::visitStart ( S_staff_distance& elt )
       __FILE__, __LINE__,
       "<staff-distance /> is out of context");
   }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_measure_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_measure_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create a measure layout
+  fCurrentMeasureLayout =
+    msrMeasureLayout::create (
+      inputLineNumber);
+
+  fOnGoingMeasureLayout = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_measure_layout& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_measure_layout" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // forget about the current measure layout
+  fCurrentMeasureLayout = nullptr;
+
+  fOnGoingMeasureLayout = false;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_measure_distance& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_measure_distance" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingMeasureLayout) {
+    float measureDistanceTenths = (float)(*elt);
+
+    fCurrentMeasureLayout->
+      setMeasureDistance (
+        msrLength::create (
+          kMillimeterUnit,
+          measureDistanceTenths * fCurrentMillimeters / fCurrentTenths));
+  }
+
+  else {
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "<measure-distance /> is out of context");
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_appearance& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_appearance" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+/*
+<!--
+	The appearance element controls general graphical
+	settings for the music's final form appearance on a
+	printed page of display. This includes support
+	for line widths, definitions for note sizes, and standard
+	distances between notation elements, plus an extension
+	element for other aspects of appearance.
+
+	The line-width element indicates the width of a line type
+	in tenths. The type attribute defines what type of line is
+	being defined. Values include beam, bracket, dashes,
+	enclosure, ending, extend, heavy barline, leger,
+	light barline, octave shift, pedal, slur middle, slur tip,
+	staff, stem, tie middle, tie tip, tuplet bracket, and
+	wedge. The text content is expressed in tenths.
+
+	The note-size element indicates the percentage of the
+	regular note size to use for notes with a cue and large
+	size as defined in the type element. The grace type is
+	used for notes of cue size that that include a grace
+	element. The cue type is used for all other notes with
+	cue size, whether defined explicitly or implicitly via a
+	cue element. The large type is used for notes of large
+	size. The text content represent the numeric percentage.
+	A value of 100 would be identical to the size of a regular
+	note as defined by the music font.
+
+	The distance element represents standard distances between
+	notation elements in tenths. The type attribute defines what
+	type of distance is being defined. Values include hyphen
+	(for hyphens in lyrics) and beam.
+
+	The other-appearance element is used to define any
+	graphical settings not yet in the current version of the
+	MusicXML format. This allows extended representation,
+	though without application interoperability.
+-->
+<!ELEMENT appearance
+	(line-width*, note-size*, distance*,
+	 other-appearance*)>
+<!ELEMENT line-width %layout-tenths;>
+<!ATTLIST line-width
+    type CDATA #REQUIRED
+>
+<!ELEMENT note-size (#PCDATA)>
+<!ATTLIST note-size
+    type (cue | grace | large) #REQUIRED
+>
+<!ELEMENT distance %layout-tenths;>
+<!ATTLIST distance
+    type CDATA #REQUIRED
+>
+<!ELEMENT other-appearance (#PCDATA)>
+<!ATTLIST other-appearance
+    type CDATA #REQUIRED
+>
+*/
+
+  // create a staff layout
+  fCurrentAppearance =
+    msrAppearance::create (
+      inputLineNumber);
+
+  fOnGoingAppearance = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_appearance& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_appearance" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // forget about the current staff layout
+  fCurrentAppearance = nullptr;
+
+  fOnGoingAppearance = false;
 }
 
 //________________________________________________________________________
@@ -3347,6 +3544,118 @@ void mxmlTree2MsrTranslator::visitStart ( S_sound& elt )
   }
 #endif
 
+/*
+From direction.mod:
+
+<!--
+	The sound element contains general playback parameters.
+	They can stand alone within a part/measure, or be a
+	component element within a direction.
+
+	Tempo is expressed in quarter notes per minute. If 0,
+	the sound-generating program should prompt the user at the
+	time of compiling a sound (MIDI) file.
+
+	Dynamics (or MIDI velocity) are expressed as a percentage
+	of the default forte value (90 for MIDI 1.0).
+
+	Dacapo indicates to go back to the beginning of the
+	movement. When used it always has the value "yes".
+
+	Segno and dalsegno are used for backwards jumps to a
+	segno sign; coda and tocoda are used for forward jumps
+	to a coda sign. If there are multiple jumps, the value
+	of these parameters can be used to name and distinguish
+	them. If segno or coda is used, the divisions attribute
+	can also be used to indicate the number of divisions
+	per quarter note. Otherwise sound and MIDI generating
+	programs may have to recompute this.
+
+	By default, a dalsegno or dacapo attribute indicates that
+	the jump should occur the first time through, while a
+	tocoda attribute indicates the jump should occur the second
+	time through. The time that jumps occur can be changed by
+	using the time-only attribute.
+
+	Forward-repeat is used when a forward repeat sign is
+	implied, and usually follows a bar line. When used it
+	always has the value of "yes".
+
+	The fine attribute follows the final note or rest in a
+	movement with a da capo or dal segno direction. If numeric,
+	the value represents the actual duration of the final note or
+	rest, which can be ambiguous in written notation and
+	different among parts and voices. The value may also be
+	"yes" to indicate no change to the final duration.
+
+	If the sound element applies only particular times through a
+	repeat, the time-only attribute indicates which times to apply
+	the sound element. The value is a comma-separated list of
+	positive integers arranged in ascending order, indicating
+	which times through the repeated section that the element
+	applies.
+
+	Pizzicato in a sound element effects all following notes.
+	Yes indicates pizzicato, no indicates arco.
+
+	The pan and elevation attributes are deprecated in
+	Version 2.0. The pan and elevation elements in
+	the midi-instrument element should be used instead.
+	The meaning of the pan and elevation attributes is
+	the same as for the pan and elevation elements. If
+	both are present, the mid-instrument elements take
+	priority.
+
+	The damper-pedal, soft-pedal, and sostenuto-pedal
+	attributes effect playback of the three common piano
+	pedals and their MIDI controller equivalents. The yes
+	value indicates the pedal is depressed; no indicates
+	the pedal is released. A numeric value from 0 to 100
+	may also be used for half pedaling. This value is the
+	percentage that the pedal is depressed. A value of 0 is
+	equivalent to no, and a value of 100 is equivalent to yes.
+
+	MIDI devices, MIDI instruments, and playback techniques are
+	changed using the midi-device, midi-instrument, and play
+	elements defined in the common.mod file. When there are
+	multiple instances of these elements, they should be grouped
+	together by instrument using the id attribute values.
+
+	The offset element is used to indicate that the sound takes
+	place offset from the current score position. If the sound
+	element is a child of a direction element, the sound offset
+	element overrides the direction offset element if both
+	elements are present. Note that the offset reflects the
+	intended musical position for the change in sound. It
+	should not be used to compensate for latency issues in
+	particular hardware configurations.
+-->
+
+
+<!ELEMENT sound ((midi-device?, midi-instrument?, play?)*,
+	offset?)>
+<!ATTLIST sound
+    tempo CDATA #IMPLIED
+    dynamics CDATA #IMPLIED
+    dacapo %yes-no; #IMPLIED
+    segno CDATA #IMPLIED
+    dalsegno CDATA #IMPLIED
+    coda CDATA #IMPLIED
+    tocoda CDATA #IMPLIED
+    divisions CDATA #IMPLIED
+    forward-repeat %yes-no; #IMPLIED
+    fine CDATA #IMPLIED
+    %time-only;
+    pizzicato %yes-no; #IMPLIED
+    pan CDATA #IMPLIED
+    elevation CDATA #IMPLIED
+    damper-pedal %yes-no-number; #IMPLIED
+    soft-pedal %yes-no-number; #IMPLIED
+    sostenuto-pedal %yes-no-number; #IMPLIED
+    %optional-unique-id;
+>
+*/
+
   if (fOnGoingDirection) {
     // tempo
     string tempoString = elt->getAttributeValue ("tempo");
@@ -3356,7 +3665,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_sound& elt )
         msrTempo::create (
           inputLineNumber,
           msrDottedDuration (
-            kQuarter, // JMI could be different?
+            kQuarter,
             0),       // JMI could be different?
           tempoString,
           msrTempo::kTempoParenthesizedNo,

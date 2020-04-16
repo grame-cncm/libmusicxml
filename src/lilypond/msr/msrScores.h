@@ -93,6 +93,15 @@ class msrScore : public msrElement
     S_msrSystemLayout     getSystemLayout () const
                               { return fSystemLayout; }
 
+    // staff layout
+
+    void                  setStaffLayout (
+                            S_msrStaffLayout staffLayout)
+                              { fStaffLayout = staffLayout; }
+
+    S_msrStaffLayout     getStaffLayout () const
+                              { return fStaffLayout; }
+
     // part groups
     const list<S_msrPartGroup>&
                           getPartGroupsList () const
@@ -255,6 +264,8 @@ class msrScore : public msrElement
     S_msrPageLayout       fPageLayout;
 
     S_msrSystemLayout     fSystemLayout;
+
+    S_msrStaffLayout      fStaffLayout;
 
     // credits
     list<S_msrCredit>     fCreditsList;

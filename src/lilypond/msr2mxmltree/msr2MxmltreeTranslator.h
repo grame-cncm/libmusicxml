@@ -42,6 +42,8 @@ class msr2MxmltreeTranslator :
 
   public visitor<S_msrPageLayout>,
   public visitor<S_msrSystemLayout>,
+  public visitor<S_msrStaffLayout>,
+  public visitor<S_msrMeasureLayout>,
 
   // parts & part groups
 
@@ -486,6 +488,12 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrSystemLayout& elt);
     virtual void visitEnd   (S_msrSystemLayout& elt);
 
+    virtual void visitStart (S_msrStaffLayout& elt);
+    virtual void visitEnd   (S_msrStaffLayout& elt);
+
+    virtual void visitStart (S_msrMeasureLayout& elt);
+    virtual void visitEnd   (S_msrMeasureLayout& elt);
+
 /*
     virtual void visitStart (S_msrMidiTempo& elt);
     virtual void visitEnd   (S_msrMidiTempo& elt);
@@ -600,6 +608,9 @@ class msr2MxmltreeTranslator :
 
     Sxmlelement               fScoreDefaultsElement;
 
+    // layout
+    // ------------------------------------------------------
+
     // page layout
     Sxmlelement               fScoreDefaultsPageLayoutElement;
 
@@ -626,6 +637,8 @@ class msr2MxmltreeTranslator :
                                 Sxmlelement       elem,
                                 S_msrSystemLayout systemLayout);
 
+    // staff layouts
+    list<Sxmlelement>         fScoreDefaultsStaffLayoutElementsList;
 
     // credits
     // ------------------------------------------------------
