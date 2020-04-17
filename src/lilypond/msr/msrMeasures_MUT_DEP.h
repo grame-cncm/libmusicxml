@@ -287,6 +287,9 @@ class msrMeasure : public msrElement
     void                  appendPrintLayoutToMeasure (
                             S_msrPrintLayout printLayout);
 
+    S_msrPrintLayout      getMeasurePrintLayout () const
+                              { return fMeasurePrintLayout; }
+
     // clefs
 
     void                  appendClefToMeasure (S_msrClef clef);
@@ -613,15 +616,21 @@ class msrMeasure : public msrElement
 
     // purist measure number, forcing anacruses to start at '0' if it's not the case
     // and not shared among repeats components
+
     int                   fMeasurePuristNumber;
 
     // debug number, unique for every msrMeasure instance
+
     static int            gMeasureDebugNumber;
     int                   fMeasureDebugNumber;
 
     // first measure in voice?
 
     bool                  fMeasureFirstInVoice;
+
+    // measure print layout, MusicXML specific
+
+    S_msrPrintLayout      fMeasurePrintLayout;
 
     // measure longest note
 

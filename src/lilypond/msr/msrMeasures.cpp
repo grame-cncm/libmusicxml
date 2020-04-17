@@ -1261,7 +1261,10 @@ void msrMeasure::appendPrintLayoutToMeasure (
 #endif
 
   // append it to the measure elements list
-  prependOtherElementToMeasure (printLayout); // JMI BLARK
+  prependOtherElementToMeasure (printLayout);
+
+  // register it for MusicXML generation from MSR
+  fMeasurePrintLayout = printLayout;
 }
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)

@@ -321,6 +321,17 @@ void msr2MxmltreeTranslator::appendSubElementToMeasureAttributes (
 {
   if (! fCurrentMeasureAttributesElement) {
     // create an attributes element
+    // create a print comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Attributes " <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the current measure element
+    fCurrentMeasureElement->push (comment);
+
     fCurrentMeasureAttributesElement = createElement (k_attributes, "");
 
     // append the attributes element to the current measure element
@@ -336,6 +347,17 @@ void msr2MxmltreeTranslator::appendSubElementToMeasureDirection (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
+  // create a direction comment
+  stringstream s;
+  s <<
+    " ===== " <<
+    "Direction" <<
+    " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the current measure element
+  fCurrentMeasureElement->push (comment);
+
   // create a direction element
   Sxmlelement directionElement = createElement (k_direction, "");
 
@@ -655,6 +677,17 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score identification element if any to the score part wise element
   if (fScoreIdentificationElement) {
+    // create an identification comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Identification" <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the score partwise element
+    fScorePartWiseElement->push (comment);
+
     fScorePartWiseElement->push (fScoreIdentificationElement);
   }
 
@@ -675,7 +708,8 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the staff layout elements if any to the score defaults elements
   for (
-    list<Sxmlelement>::const_iterator i = fScoreDefaultsStaffLayoutElementsList.begin ();
+    list<Sxmlelement>::const_iterator i =
+      fScoreDefaultsStaffLayoutElementsList.begin ();
     i!=fScoreDefaultsStaffLayoutElementsList.end ();
     i++
   ) {
@@ -686,26 +720,67 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score defaults element if any to the score part wise element
   if (fScoreDefaultsElement) {
+    // create an defaults comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Defaults" <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the score partwise element
+    fScorePartWiseElement->push (comment);
+
     fScorePartWiseElement->push (fScoreDefaultsElement);
   }
 
   // append the score credits element if any to the score part wise element
-  for (
-    list<Sxmlelement>::const_iterator i = fPendingScoreCreditElementsList.begin ();
-    i!=fPendingScoreCreditElementsList.end ();
-    i++
-  ) {
-    Sxmlelement creditElement = (*i);
+  int pendingScoreCreditElementsListSize =
+    fPendingScoreCreditElementsList.size ();
 
-    fScorePartWiseElement->push (creditElement);
-  } // for
+  if (pendingScoreCreditElementsListSize) {
+    // create an credits comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      singularOrPlural (
+        pendingScoreCreditElementsListSize, "Credit", "Credits") <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the score partwise element
+    fScorePartWiseElement->push (comment);
+
+    for (
+      list<Sxmlelement>::const_iterator i =
+        fPendingScoreCreditElementsList.begin ();
+      i!=fPendingScoreCreditElementsList.end ();
+      i++
+    ) {
+      Sxmlelement creditElement = (*i);
+
+      fScorePartWiseElement->push (creditElement);
+    } // for
+  }
+
+  // create an part-list comment
+  stringstream s;
+  s <<
+    " ===== " <<
+    "PART-LIST" <<
+    " ===== ";
+  Sxmlelement comment = createElement (kComment, s.str ());
+
+  // append it to the score partwise element
+  fScorePartWiseElement->push (comment);
 
   // append the part list element to the score part wise element
   fScorePartWiseElement->push (fScorePartListElement);
 
   // append the pending parts elements to the score part wise element
   for (
-    list<Sxmlelement>::const_iterator i = fPendingPartElementsList.begin ();
+    list<Sxmlelement>::const_iterator i =
+      fPendingPartElementsList.begin ();
     i!=fPendingPartElementsList.end ();
     i++
   ) {
@@ -2283,7 +2358,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
-  // create a measure comment
+  // create a measure comment element
   stringstream s;
   s <<
     " ===== " <<
@@ -2302,6 +2377,32 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 	fCurrentMeasureElement->add (createAttribute ("number", measureNumber));
   // append it to the current part element
   fCurrentPartElement->push (fCurrentMeasureElement);
+
+  // is there a print element to be appended?
+  S_msrPrintLayout
+    measurePrintLayout =
+      elt->getMeasurePrintLayout ();
+
+  if (measurePrintLayout) {
+    // create a print comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Print" <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the current measure element
+    fCurrentMeasureElement->push (comment);
+
+    // create a print element
+    fCurrentPrintElement = createElement (k_print, "");
+
+    // append it to the current measure element at once,
+    // since is must be the first one in the measure
+    fCurrentMeasureElement->push (fCurrentPrintElement);
+  }
 
   // is there a divisions element to be appended?
   if (fPartDivisionsElementHasToBeAppended) {
@@ -2380,22 +2481,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
   }
 #endif
 
-  // create a print comment
-  stringstream s;
-  s <<
-    " ===== " <<
-    "PrintLayout " <<
-    ", line " << inputLineNumber <<
-    " ===== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  // don't create a print element,
+  // this has already been done in visitStart (S_msrMeasure&)
 
-  // append it to the current measure element
-  fCurrentMeasureElement->push (comment);
-
-  // create a print element
-  fCurrentPrintElement = createElement (k_print, "");
-
-  // populate it
+  // populate the current print element
   float staffSpacing = elt->getStaffSpacing ();
   if (staffSpacing > 0) {
     stringstream s;
@@ -2427,12 +2516,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
   	fCurrentPrintElement->add (createAttribute ("page-number", s.str ()));
   }
 
-  // append it to the current measure element
-  fCurrentMeasureElement->push (fCurrentPrintElement);
-  // prepend it to the current measure element,
-  // since it must be the first one in the measure
-//  fCurrentMeasureElement->push (fCurrentPrintElement);
-
   fOnGoingPrintElement = true;
 }
 
@@ -2451,7 +2534,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPrintLayout& elt)
 #endif
 
   // forget about the current print layout element
-//  fCurrentPrintElement = nullptr;
+  fCurrentPrintElement = nullptr;
 
   fOnGoingPrintElement = false;
 }

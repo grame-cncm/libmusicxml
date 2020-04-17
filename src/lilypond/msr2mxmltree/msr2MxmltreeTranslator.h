@@ -640,6 +640,9 @@ class msr2MxmltreeTranslator :
     // staff layouts
     list<Sxmlelement>         fScoreDefaultsStaffLayoutElementsList;
 
+    // measure print layout
+    Sxmlelement               fCurrentMeasurePrintLayoutElement;
+
     // credits
     // ------------------------------------------------------
 
@@ -679,19 +682,12 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
 
 
-   // header
+    // header
     // ------------------------------------------------------
-    /*
-    bool                      fWorkNumberKnown;
-    bool                      fWorkTitleKnown;
-    bool                      fMovementNumberKnown;
-    bool                      fMovementTitleKnown;
-*/
 
 
     // part groups
     // ------------------------------------------------------
-  //  S_msrPartGroup            fCurrentPartGroupClone; JMI
 
     // partGroup's can be nested, hence this stack
     // the current partGroup is the top of the stack
@@ -708,22 +704,11 @@ class msr2MxmltreeTranslator :
     // staff details
     // ------------------------------------------------------
 
-    S_msrStaffTuning          fCurrentStaffTuningClone;
-
-
     // staves
     // ------------------------------------------------------
-    S_msrStaff                fCurrentStaffClone;
-    S_lpsrStaffBlock          fCurrentStaffBlock;
-    // prevent clef, key and time from being handled twice
-    bool                      fOnGoingStaff;
-
 
     // voices
     // ------------------------------------------------------
-    S_msrVoice                fCurrentVoiceClone;
-    S_msrVoice                fCurrentVoiceOriginal;
-    map<S_msrNote, S_msrNote> fVoiceNotesMap; // JMI
 
     // dal segnos
     // ------------------------------------------------------
@@ -732,24 +717,12 @@ class msr2MxmltreeTranslator :
 
     // harmonies
     // ------------------------------------------------------
-    bool                      fOnGoingHarmonyVoice;
-
-    bool                      fOnGoingHarmony;
-    S_msrHarmony              fCurrentHarmonyClone;
-
-    list<S_msrHarmony>        fPendingHarmoniesList;
-
 
     // figured bass
     // ------------------------------------------------------
-    bool                      fOnGoingFiguredBassVoice;
-    S_msrFiguredBass          fCurrentFiguredBassClone;
-
 
     // segments
     // ------------------------------------------------------
-    // the current segment clone is the one at the top of the stack
-    S_msrSegment              fCurrentSegmentClone;
 */
 
     // measures
@@ -780,23 +753,11 @@ class msr2MxmltreeTranslator :
 
     // bar checks
     // ------------------------------------------------------
-    S_msrBarCheck             fLastBarCheck;
 */
 
     // notes
     // ------------------------------------------------------
     /*
-    bool                      fOnGoingNonGraceNote;
-
-    // fCurrentNonGraceNoteClone is not used for grace notes,
-    // which are visited while the note they're attached to
-    // is being visited too
-    S_msrNote                 fCurrentNonGraceNoteClone;
-
-    // to help workaround LilyPond issue #34
-    S_msrNote                 fFirstNoteCloneInVoice;
-
-    S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
 */
 
     // print layouts
@@ -807,11 +768,13 @@ class msr2MxmltreeTranslator :
     bool                      fOnGoingPrintElement;
 
     // directions
+    // ------------------------------------------------------
     void                      appendSubElementsToNoteDirections (S_msrNote note);
     void                      appendNoteWedges (S_msrNote note);
     void                      appendNoteDynamics (S_msrNote note);
 
     // spanners
+    // ------------------------------------------------------
     void                      appendNoteSpannersBeforeNoteElement (
                                 S_msrNote note);
     void                      appendNoteSpannersAfterNoteElement (
@@ -821,20 +784,24 @@ class msr2MxmltreeTranslator :
                                 S_msrNote note);
 
     // voice
+    // ------------------------------------------------------
     void                      appendVoiceSubElementToNoteIfRelevant (
                                 S_msrNote note);
 
     // duration
+    // ------------------------------------------------------
     void                      appendDurationSubElementToNoteIfRelevant (
                                 S_msrNote note);
 
     // tuplets
+    // ------------------------------------------------------
     void                      appendTimeModificationSubElementToNoteIfRelevant (
                                 S_msrNote note);
 
     void                      appendNoteTupletIfRelevant (S_msrNote note);
 
     // notes
+    // ------------------------------------------------------
     Sxmlelement               fCurrentNoteElement;
 
     void                      appendNoteSubElementToMesure (S_msrNote note);
@@ -844,12 +811,15 @@ class msr2MxmltreeTranslator :
     Sxmlelement               fPendingNoteElement;
 
     // stems
+    // ------------------------------------------------------
     void                      appendStemToNote (S_msrNote note);
 
     // beams
+    // ------------------------------------------------------
     void                      appendBeamsToNote (S_msrNote note);
 
     // note notations
+    // ------------------------------------------------------
     Sxmlelement               fCurrentNoteNotationsElement;
 
     void                      appendNoteNotationsToNote (S_msrNote note);
@@ -859,9 +829,11 @@ class msr2MxmltreeTranslator :
                                 msrPlacementKind placementKind);
 
     // lyrics
+    // ------------------------------------------------------
     void                      appendNoteLyricsToNote (S_msrNote note);
 
     // note notations ornaments
+    // ------------------------------------------------------
     Sxmlelement               fCurrentNoteNotationsOrnamentsElement;
 
     void                      appendNoteOrnaments (S_msrNote note);
@@ -871,6 +843,7 @@ class msr2MxmltreeTranslator :
                                 msrPlacementKind placementKind);
 
     // note notations articulations
+    // ------------------------------------------------------
     Sxmlelement               fCurrentNoteNotationsArticulationsElement;
 
     void                      appendNoteArticulations (S_msrNote note);
@@ -880,6 +853,8 @@ class msr2MxmltreeTranslator :
                                 msrPlacementKind placementKind);
 
     // note notations technicals
+    // ------------------------------------------------------
+
     void                      appendNoteTechnicals (S_msrNote note);
     void                      appendNoteTechnicalWithIntegers (S_msrNote note);
     void                      appendNoteTechnicalWithFloats (S_msrNote note);
@@ -892,9 +867,13 @@ class msr2MxmltreeTranslator :
                                 msrPlacementKind placementKind);
 
     // note ties
+    // ------------------------------------------------------
+
     void                      appendNoteTieIfAny (S_msrNote note);
 
-    // slurs
+    //note slurs
+    // ------------------------------------------------------
+
     void                      appendNoteSlursIfAny (S_msrNote note);
 
 /*
@@ -908,13 +887,10 @@ class msr2MxmltreeTranslator :
 
     // double tremolos
     // ------------------------------------------------------
-    S_msrDoubleTremolo        fCurrentDoubleTremoloClone;
-    bool                      fOnGoingDoubleTremolo;
 
 
     // stems
     // ------------------------------------------------------
-    S_msrStem                 fCurrentStem;
 
 
     // grace notes
@@ -932,14 +908,10 @@ class msr2MxmltreeTranslator :
 /*
     // stanzas
     // ------------------------------------------------------
-    S_msrStanza               fCurrentStanzaClone;
-    bool                      fOnGoingStanza;
 
 
     // syllables
     // ------------------------------------------------------
-    S_msrSyllable             fCurrentSyllableClone;
-    bool                      fOnGoingSyllableExtend;
 
 
     // current ongoing values display
