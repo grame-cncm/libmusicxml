@@ -661,9 +661,18 @@ class msr2MxmltreeTranslator :
     // measure print layout
     Sxmlelement               fCurrentMeasurePrintLayoutElement;
 
+    // appearance
     // ------------------------------------------------------
 
     Sxmlelement               fScoreDefaultsAppearanceElement;
+
+  void                        populateAppearanceLineWidths (
+                                Sxmlelement                 appearanceElement,
+                                const list<S_msrLineWidth>& lineWidthsList);
+
+  void                        populateAppearanceNoteSizes (
+                                Sxmlelement                appearanceElement,
+                                const list<S_msrNoteSize>& noteSizesList);
 
     // credits
     // ------------------------------------------------------

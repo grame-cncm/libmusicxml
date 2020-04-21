@@ -35,6 +35,8 @@ Sxmlelement createElement (int type, const string& value);
 
 Sxmlelement createIntegerElement (int type, int value);
 
+Sxmlelement createFloatElement (int type, float value);
+
 //------------------------------------------------------------------------
 Sxmlattribute createAttribute (const string& name, const string& value);
 

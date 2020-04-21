@@ -1658,29 +1658,10 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasureLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
+void msr2MxmltreeTranslator::populateAppearanceLineWidths (
+  Sxmlelement                 appearanceElement,
+  const list<S_msrLineWidth>& lineWidthsList)
 {
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrAppearance" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  // create an appearance element
-  fScoreDefaultsAppearanceElement =
-    createElement (k_appearance, "");
-
-  // don't append it to the score defaults element yet,
-  // this will be done in visitEnd (S_msrScore&)
-
-  // append the line width elements if any to the score defaults elements
-  const list<S_msrLineWidth>&
-    lineWidthsList =
-      elt->getLineWidthsList ();
-
   for (
     list<S_msrLineWidth>::const_iterator i =
       lineWidthsList.begin ();
@@ -1775,12 +1756,101 @@ void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
     lineWidthElement->add (createAttribute ("type", lineWidthTypeString));
 
     // append the line width element to the appearance element
-    fScoreDefaultsAppearanceElement->push (
+    appearanceElement->push (
       lineWidthElement);
   } // for
+}
 
-  if (lineWidthsList.size ()) {
+void msr2MxmltreeTranslator::populateAppearanceNoteSizes (
+  Sxmlelement                appearanceElement,
+  const list<S_msrNoteSize>& noteSizesList)
+{
+  for (
+    list<S_msrNoteSize>::const_iterator i =
+      noteSizesList.begin ();
+    i!=noteSizesList.end ();
+    i++
+  ) {
+    S_msrNoteSize noteSize = (*i);
+
+    // get line width type
+    msrNoteSize::msrNoteSizeTypeKind
+      noteSizeTypeKind =
+        noteSize->getNoteSizeTypeKind ();
+
+    // get line width value
+    float
+      noteSizeValue =
+        noteSize->getNoteSizeValue ();
+
+    // create a line width element
+    Sxmlelement
+      noteSizeElement =
+        createFloatElement (
+          k_note_size,
+          noteSizeValue);
+
+    // set its "type" attribute
+    string noteSizeTypeString;
+
+    switch (noteSizeTypeKind) {
+      case msrNoteSize::k_NoNoteSizeTypeKind:
+        noteSizeTypeString = "k_NoNoteSizeTypeKind";
+        break;
+      case msrNoteSize::kCueNoteSize:
+        noteSizeTypeString = "cue";
+        break;
+      case msrNoteSize::kGraceNoteSize:
+        noteSizeTypeString = "grace";
+        break;
+      case msrNoteSize::kLargeNoteSize:
+        noteSizeTypeString = "large";
+        break;
+    } // switch
+
+    noteSizeElement->add (createAttribute ("type", noteSizeTypeString));
+
+    // append the line width element to the appearance element
+    appearanceElement->push (
+      noteSizeElement);
+  } // for
+}
+
+void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrAppearance" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
   }
+#endif
+
+  // create an appearance element
+  fScoreDefaultsAppearanceElement =
+    createElement (k_appearance, "");
+
+  // don't append it to the score defaults element yet,
+  // this will be done in visitEnd (S_msrScore&)
+
+  // append the line width elements if any to the score defaults elements
+  const list<S_msrLineWidth>&
+    lineWidthsList =
+      elt->getLineWidthsList ();
+
+  populateAppearanceLineWidths (
+    fScoreDefaultsAppearanceElement,
+    lineWidthsList);
+
+  // append the note size elements if any to the score defaults elements
+  const list<S_msrNoteSize>&
+    noteSizesList =
+      elt->getNoteSizesList ();
+
+  populateAppearanceNoteSizes (
+    fScoreDefaultsAppearanceElement,
+    noteSizesList);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrAppearance& elt)

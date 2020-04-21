@@ -65,6 +65,15 @@ Sxmlelement createIntegerElement (int type, int value)
 	return result;
 }
 
+Sxmlelement createFloatElement (int type, float value)
+{
+	Sxmlelement result = factory::instance().create(type);
+
+	result->setValue (value);
+
+	return result;
+}
+
 //------------------------------------------------------------------------
 Sxmlattribute createAttribute (const string& name, const string& value)
 {
