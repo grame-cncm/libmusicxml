@@ -86,6 +86,16 @@ Sxmlattribute createIntegerAttribute (const string& name, int value)
 	return result;
 }
 
+Sxmlattribute createFloatAttribute (const string& name, float value)
+{
+	Sxmlattribute result = xmlattribute::create();
+
+	result->setName(name);
+	result->setValue(value);
+
+	return result;
+}
+
 //------------------------------------------------------------------------
 SXMLFile createXMLFile ()
 {

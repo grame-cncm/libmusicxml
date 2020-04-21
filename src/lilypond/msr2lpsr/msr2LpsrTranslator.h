@@ -333,7 +333,7 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
 
-  // parts & part groups
+    // parts & part groups
 
     virtual void visitStart (S_msrPartGroup& elt);
     virtual void visitEnd   (S_msrPartGroup& elt);

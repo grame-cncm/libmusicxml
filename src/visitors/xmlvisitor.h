@@ -20,7 +20,7 @@
 #include "visitor.h"
 #include "xml.h"
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -31,7 +31,7 @@ namespace MusicXML2
 */
 class xmlendl {
 	private:
-		int fIndent;
+		int fIndent; // BLARKJMI
 	public:
 				 xmlendl() : fIndent(0) {}
 		virtual ~xmlendl() {}
@@ -46,13 +46,13 @@ class xmlendl {
 std::ostream& operator<< (std::ostream& os, const xmlendl& eol);
 
 //______________________________________________________________________________
-class xmlvisitor : 
+class xmlvisitor :
 	public visitor<S_comment>,
 	public visitor<S_processing_instruction>,
 	public visitor<Sxmlelement>
 {
 	std::ostream&	fOut;
-	xmlendl			fendl;
+	xmlendl			  fendl; // BLARKJMI
 
     public:
 				 xmlvisitor(std::ostream& stream) : fOut(stream) {}

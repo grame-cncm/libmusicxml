@@ -20,7 +20,7 @@
 
 #include "msrIdentification.h"
 #include "msrScaling.h"
-#include "msrLayouts.h"
+#include "msrMusicXMLSpecifics.h"
 #include "msrCredits.h"
 
 
@@ -99,8 +99,17 @@ class msrScore : public msrElement
                             S_msrStaffLayout staffLayout)
                               { fStaffLayout = staffLayout; }
 
-    S_msrStaffLayout     getStaffLayout () const
+    S_msrStaffLayout      getStaffLayout () const
                               { return fStaffLayout; }
+
+    // appearance
+
+    void                  setAppearance (
+                            S_msrAppearance appearance)
+                              { fAppearance = appearance; }
+
+    S_msrAppearance       getAppearance () const
+                              { return fAppearance; }
 
     // part groups
     const list<S_msrPartGroup>&
@@ -266,6 +275,9 @@ class msrScore : public msrElement
     S_msrSystemLayout     fSystemLayout;
 
     S_msrStaffLayout      fStaffLayout;
+
+    // appearance
+    S_msrAppearance       fAppearance;
 
     // credits
     list<S_msrCredit>     fCreditsList;

@@ -93,7 +93,7 @@ Sxmlelement buildMxmltreeFromMsrScore (
 }
 
 //_______________________________________________________________________________
-void displayMxmltreeScore (
+void displayMxmltreeScore ( // unused JMI
   const Sxmlelement mxmlTree,
   S_msrOah          msrOpts,
   indentedOstream&  logOstream)

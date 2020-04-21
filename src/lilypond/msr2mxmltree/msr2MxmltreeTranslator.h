@@ -45,6 +45,10 @@ class msr2MxmltreeTranslator :
   public visitor<S_msrStaffLayout>,
   public visitor<S_msrMeasureLayout>,
 
+  // appearance
+
+  public visitor<S_msrAppearance>,
+
   // parts & part groups
 
   public visitor<S_msrPartGroup>,
@@ -266,8 +270,12 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
+    // identification
+
     virtual void visitStart (S_msrIdentification& elt);
     virtual void visitEnd   (S_msrIdentification& elt);
+
+    // credits
 
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
@@ -479,8 +487,13 @@ class msr2MxmltreeTranslator :
     virtual void visitStart (S_msrRestMeasuresContents& elt);
     virtual void visitEnd   (S_msrRestMeasuresContents& elt);
 */
+
+    // scaling
+
     virtual void visitStart (S_msrScaling& elt);
     virtual void visitEnd   (S_msrScaling& elt);
+
+    // layout
 
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);
@@ -493,6 +506,11 @@ class msr2MxmltreeTranslator :
 
     virtual void visitStart (S_msrMeasureLayout& elt);
     virtual void visitEnd   (S_msrMeasureLayout& elt);
+
+    // appearance
+
+    virtual void visitStart (S_msrAppearance& elt);
+    virtual void visitEnd   (S_msrAppearance& elt);
 
 /*
     virtual void visitStart (S_msrMidiTempo& elt);
@@ -642,6 +660,10 @@ class msr2MxmltreeTranslator :
 
     // measure print layout
     Sxmlelement               fCurrentMeasurePrintLayoutElement;
+
+    // ------------------------------------------------------
+
+    Sxmlelement               fScoreDefaultsAppearanceElement;
 
     // credits
     // ------------------------------------------------------

@@ -1541,10 +1541,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_appearance& elt )
 >
 */
 
-  // create a staff layout
+  // create an appearance
   fCurrentAppearance =
     msrAppearance::create (
       inputLineNumber);
+
+  // set the MSR score appearance
+  fMsrScore->
+    setAppearance (
+      fCurrentAppearance);
 
   fOnGoingAppearance = true;
 }
@@ -1561,10 +1566,312 @@ void mxmlTree2MsrTranslator::visitEnd ( S_appearance& elt )
       endl;
   }
 
-  // forget about the current staff layout
+  // forget about the current appearance
   fCurrentAppearance = nullptr;
 
   fOnGoingAppearance = false;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_line_width& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_line_width" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingAppearance) {
+    // value
+    float lineWidthTenths = (float)(*elt);
+
+    // type
+    string lineWidthTypeString = elt->getAttributeValue ("type");
+
+    if (lineWidthTypeString.size ()) {
+      msrLineWidth::msrLineWidthTypeKind
+        lineWidthTypeKind =
+          msrLineWidth::k_NoLineWidthTypeKind;
+
+      if      (lineWidthTypeString == "beam")
+        lineWidthTypeKind = msrLineWidth::kBeamLineWidth;
+      else if (lineWidthTypeString == "bracket")
+        lineWidthTypeKind = msrLineWidth::kBracketLineWidth;
+      else if (lineWidthTypeString == "dashes")
+        lineWidthTypeKind = msrLineWidth::kDashesLineWidth;
+      else if (lineWidthTypeString == "enclosure")
+        lineWidthTypeKind = msrLineWidth::kEnclosureLineWidth;
+      else if (lineWidthTypeString == "ending")
+        lineWidthTypeKind = msrLineWidth::kEndingLineWidth;
+      else if (lineWidthTypeString == "extend")
+        lineWidthTypeKind = msrLineWidth::kExtendLineWidth;
+      else if (lineWidthTypeString == "heavy barline")
+        lineWidthTypeKind = msrLineWidth::kHeavyBarLineLineWidth;
+      else if (lineWidthTypeString == "leger")
+        lineWidthTypeKind = msrLineWidth::kLegerLineWidth;
+      else if (lineWidthTypeString == "light barline")
+        lineWidthTypeKind = msrLineWidth::kLightBarLineLineWidthLineWidth;
+      else if (lineWidthTypeString == "octave shift")
+        lineWidthTypeKind = msrLineWidth::kOctaveShiftLineWidth;
+      else if (lineWidthTypeString == "pedal")
+        lineWidthTypeKind = msrLineWidth::kPedalLineWidth;
+      else if (lineWidthTypeString == "slur middle")
+        lineWidthTypeKind = msrLineWidth::kSlurMiddleLineWidth;
+      else if (lineWidthTypeString == "slur tip")
+        lineWidthTypeKind = msrLineWidth::kSlurTipLineWidth;
+      else if (lineWidthTypeString == "staff")
+        lineWidthTypeKind = msrLineWidth::kStaffLineWidth;
+      else if (lineWidthTypeString == "stem")
+        lineWidthTypeKind = msrLineWidth::kStemLineWidthLineWidth;
+      else if (lineWidthTypeString == "tie middle")
+        lineWidthTypeKind = msrLineWidth::kTieMiddleLineWidth;
+      else if (lineWidthTypeString == "tie tip")
+        lineWidthTypeKind = msrLineWidth::kTieTipLineWidth;
+      else if (lineWidthTypeString == "tuplet bracket")
+        lineWidthTypeKind = msrLineWidth::kTupletBracketLineWidth;
+      else if (lineWidthTypeString == "wedge")
+        lineWidthTypeKind = msrLineWidth::kWedgeLineWidth;
+
+      else {
+        stringstream s;
+
+        s <<
+          "<line-width /> type \"" <<
+          lineWidthTypeString <<
+          "\" is unknown";
+
+        msrMusicXMLError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+      // create a line width
+      S_msrLineWidth
+        lineWidth =
+          msrLineWidth::create (
+            inputLineNumber,
+            lineWidthTypeKind,
+            msrLength::create (
+              kMillimeterUnit,
+              lineWidthTenths * fCurrentMillimeters / fCurrentTenths));
+
+      // append it to the current appearance
+      fCurrentAppearance->
+        appendLineWidth (lineWidth);
+    }
+    else {
+      stringstream s;
+
+      s <<
+        "<line-width /> type \"" <<
+        lineWidthTypeString <<
+        "\" is missing";
+
+      msrMusicXMLError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "<line-width /> " <<
+      " is out of context";
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_note_size& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_note_size" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingAppearance) {
+    // value
+    float noteSizePercentage = (float)(*elt);
+
+    // type
+    string noteSizeTypeString = elt->getAttributeValue ("type");
+
+    if (noteSizeTypeString.size ()) {
+      msrNoteSize::msrNoteSizeTypeKind
+        noteSizeTypeKind =
+          msrNoteSize::k_NoNoteSizeTypeKind;
+
+      if      (noteSizeTypeString == "cue")
+        noteSizeTypeKind = msrNoteSize::kCueNoteSize;
+      else if (noteSizeTypeString == "grace")
+        noteSizeTypeKind = msrNoteSize::kGraceNoteSize;
+      else if (noteSizeTypeString == "large")
+        noteSizeTypeKind = msrNoteSize::kLargeNoteSize;
+
+      else {
+        stringstream s;
+
+        s <<
+          "<note-size /> type \"" <<
+          noteSizeTypeString <<
+          "\" is unknown";
+
+        msrMusicXMLError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+      // create a line width
+      S_msrNoteSize
+        noteSize =
+          msrNoteSize::create (
+            inputLineNumber,
+            noteSizeTypeKind,
+            noteSizePercentage);
+
+      // append it to the current appearance
+      fCurrentAppearance->
+        appendNoteSize (noteSize);
+    }
+    else {
+      stringstream s;
+
+      s <<
+        "<note-size /> type \"" <<
+        noteSizePercentage <<
+        "\" is missing";
+
+      msrMusicXMLError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "<note-size /> " <<
+      " is out of context";
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_distance& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_distance" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingAppearance) {
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "<distance /> " <<
+      fCurrentMusicXMLStaffNumber <<
+      " is out of context";
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_glyph& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_glyph" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingAppearance) {
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "<glyph /> " <<
+      fCurrentMusicXMLStaffNumber <<
+      " is out of context";
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_other_appearance& elt )
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_other_appearance" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fOnGoingAppearance) {
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "<other-appearance /> " <<
+      fCurrentMusicXMLStaffNumber <<
+      " is out of context";
+
+    msrMusicXMLError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 //________________________________________________________________________

@@ -706,6 +706,11 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     appendSubElementToScoreDefaults (fScoreDefaultsSystemLayoutElement);
   }
 
+  if (fScoreDefaultsAppearanceElement) {
+    // append the appearance element to the score defaults elements
+    appendSubElementToScoreDefaults (fScoreDefaultsAppearanceElement);
+  }
+
   // append the staff layout elements if any to the score defaults elements
   for (
     list<Sxmlelement>::const_iterator i =
@@ -1646,6 +1651,144 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasureLayout& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasureLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrAppearance" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // create an appearance element
+  fScoreDefaultsAppearanceElement =
+    createElement (k_appearance, "");
+
+  // don't append it to the score defaults element yet,
+  // this will be done in visitEnd (S_msrScore&)
+
+  // append the line width elements if any to the score defaults elements
+  const list<S_msrLineWidth>&
+    lineWidthsList =
+      elt->getLineWidthsList ();
+
+  for (
+    list<S_msrLineWidth>::const_iterator i =
+      lineWidthsList.begin ();
+    i!=lineWidthsList.end ();
+    i++
+  ) {
+    S_msrLineWidth lineWidth = (*i);
+
+    // get line width type
+    msrLineWidth::msrLineWidthTypeKind
+      lineWidthTypeKind =
+        lineWidth->getLineWidthTypeKind ();
+
+    // get line width value
+    S_msrLength
+      lineWidthValue =
+        lineWidth->getLineWidthValue ();
+
+    // create a line width element
+    Sxmlelement
+      lineWidthElement =
+        createElement (
+          k_line_width,
+          S_msrLengthAsTenths (lineWidthValue));
+
+    // set its "type" attribute
+    string lineWidthTypeString;
+
+    switch (lineWidthTypeKind) {
+      case msrLineWidth::k_NoLineWidthTypeKind:
+        lineWidthTypeString = "k_NoLineWidthTypeKind";
+        break;
+      case msrLineWidth::kBeamLineWidth:
+        lineWidthTypeString = "beam";
+        break;
+      case msrLineWidth::kBracketLineWidth:
+        lineWidthTypeString = "bracket";
+        break;
+      case msrLineWidth::kDashesLineWidth:
+        lineWidthTypeString = "dashes";
+        break;
+      case msrLineWidth::kEnclosureLineWidth:
+        lineWidthTypeString = "enclosure";
+        break;
+      case msrLineWidth::kEndingLineWidth:
+        lineWidthTypeString = "ending";
+        break;
+      case msrLineWidth::kExtendLineWidth:
+        lineWidthTypeString = "extend";
+        break;
+      case msrLineWidth::kHeavyBarLineLineWidth:
+        lineWidthTypeString = "heavyBarLine";
+        break;
+      case msrLineWidth::kLegerLineWidth:
+        lineWidthTypeString = "leger";
+        break;
+      case msrLineWidth::kLightBarLineLineWidthLineWidth:
+        lineWidthTypeString = "lightBarLineLineWidth";
+        break;
+      case msrLineWidth::kOctaveShiftLineWidth:
+        lineWidthTypeString = "octaveShift";
+        break;
+      case msrLineWidth::kPedalLineWidth:
+        lineWidthTypeString = "pedal";
+        break;
+      case msrLineWidth::kSlurMiddleLineWidth:
+        lineWidthTypeString = "slurMiddle";
+        break;
+      case msrLineWidth::kSlurTipLineWidth:
+        lineWidthTypeString = "slurTip";
+        break;
+      case msrLineWidth::kStaffLineWidth:
+        lineWidthTypeString = "staff";
+        break;
+      case msrLineWidth::kStemLineWidthLineWidth:
+        lineWidthTypeString = "stemLineWidth";
+        break;
+      case msrLineWidth::kTieMiddleLineWidth:
+        lineWidthTypeString = "tieMiddle";
+        break;
+      case msrLineWidth::kTieTipLineWidth:
+        lineWidthTypeString = "tieTip";
+        break;
+      case msrLineWidth::kTupletBracketLineWidth:
+        lineWidthTypeString = "tupletBracket";
+        break;
+      case msrLineWidth::kWedgeLineWidth:
+        lineWidthTypeString = "wedge";
+        break;
+    } // switch
+
+    lineWidthElement->add (createAttribute ("type", lineWidthTypeString));
+
+    // append the line width element to the appearance element
+    fScoreDefaultsAppearanceElement->push (
+      lineWidthElement);
+  } // for
+
+  if (lineWidthsList.size ()) {
+  }
+}
+
+void msr2MxmltreeTranslator::visitEnd (S_msrAppearance& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrAppearance" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

@@ -30,7 +30,7 @@
 
 #include "msrIdentification.h"
 
-#include "msrLayouts.h" // JMI ???
+#include "msrMusicXMLSpecifics.h"
 #include "msrScaling.h"
 
 #include "msrCredits.h"

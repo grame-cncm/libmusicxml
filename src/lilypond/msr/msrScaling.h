@@ -17,7 +17,7 @@
 
 #include "msrBasicTypes.h"
 
-#include "msrLayouts.h"
+#include "msrMusicXMLSpecifics.h"
 
 
 namespace MusicXML2

@@ -62,6 +62,11 @@ class mxmlTree2MsrTranslator :
   // ------------------------------------------------------
 
   public visitor<S_appearance>,
+  public visitor<S_line_width>,
+  public visitor<S_note_size>,
+  public visitor<S_distance>,
+  public visitor<S_glyph>,
+  public visitor<S_other_appearance>,
 
   // system dividers
   // ------------------------------------------------------
@@ -558,6 +563,11 @@ class mxmlTree2MsrTranslator :
 
     virtual void visitStart ( S_appearance& elt);
     virtual void visitEnd   ( S_appearance& elt);
+    virtual void visitStart ( S_line_width& elt);
+    virtual void visitStart ( S_note_size& elt);
+    virtual void visitStart ( S_distance& elt);
+    virtual void visitStart ( S_glyph& elt);
+    virtual void visitStart ( S_other_appearance& elt);
 
     // system dividers
     // ------------------------------------------------------

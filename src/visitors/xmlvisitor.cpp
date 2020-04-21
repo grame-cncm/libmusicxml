@@ -15,7 +15,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -26,32 +26,32 @@ ostream& operator<< (ostream& os, const xmlendl& endl)
 }
 
 //______________________________________________________________________________
-void xmlendl::print(std::ostream& os) const { 
+void xmlendl::print(std::ostream& os) const {
 	int i = fIndent;
     os << std::endl;
-    while (i-- > 0)  os << "    ";
+    while (i-- > 0)  os << "  "; // BLARKJMI
 }
 
 //______________________________________________________________________________
-void xmlvisitor::visitStart ( S_comment& elt ) 
+void xmlvisitor::visitStart ( S_comment& elt )
 {
 	fOut <<  fendl << "<!--" << elt->getValue() << "-->";
 }
 
 //______________________________________________________________________________
-void xmlvisitor::visitStart ( S_processing_instruction& elt ) 
+void xmlvisitor::visitStart ( S_processing_instruction& elt )
 {
 	fOut <<  fendl << "<?" << elt->getValue() << "?>";
 }
 
 //______________________________________________________________________________
-void xmlvisitor::visitStart ( Sxmlelement& elt ) 
+void xmlvisitor::visitStart ( Sxmlelement& elt )
 {
 	fOut <<  fendl << "<" << elt->getName();
 	// print the element attributes first
-	vector<Sxmlattribute>::const_iterator attr; 
+	vector<Sxmlattribute>::const_iterator attr;
 	for (attr = elt->attributes().begin(); attr != elt->attributes().end(); attr++)
-		fOut << " " << (*attr)->getName() << "=\"" << (*attr)->getValue() << "\"";				
+		fOut << " " << (*attr)->getName() << "=\"" << (*attr)->getValue() << "\"";
 	if (elt->empty()) {
 		fOut << "/>";	// element is empty, we can direclty close it
 	}
@@ -65,7 +65,7 @@ void xmlvisitor::visitStart ( Sxmlelement& elt )
 }
 
 //______________________________________________________________________________
-void xmlvisitor::visitEnd ( Sxmlelement& elt ) 
+void xmlvisitor::visitEnd ( Sxmlelement& elt )
 {
 	if (!elt->empty()) {
 		if (elt->size()) {

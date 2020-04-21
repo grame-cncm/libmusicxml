@@ -537,6 +537,12 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*fStaffLayout);
   }
 
+  if (fAppearance) {
+    // browse appearance
+    msrBrowser<msrAppearance> browser (v);
+    browser.browse (*fAppearance);
+  }
+
   for (
     list<S_msrCredit>::const_iterator i = fCreditsList.begin ();
     i != fCreditsList.end ();
@@ -652,6 +658,13 @@ void msrScore::print (ostream& os) const
   if (fStaffLayout) {
     os <<
       fStaffLayout <<
+      endl;
+  }
+
+  // print the appearance if any
+  if (fAppearance) {
+    os <<
+      fAppearance <<
       endl;
   }
 

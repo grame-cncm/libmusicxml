@@ -40,6 +40,8 @@ Sxmlattribute createAttribute (const string& name, const string& value);
 
 Sxmlattribute createIntegerAttribute (const string& name, int value);
 
+Sxmlattribute createFloatAttribute (const string& name, float value);
+
 //------------------------------------------------------------------------
 EXP SXMLFile createXMLFile ();
 
