@@ -51,6 +51,9 @@
       <line-width type="tuplet bracket">1.2457</line-width>
       <note-size type="grace">60</note-size>
       <note-size type="cue">60</note-size>
+      <distance type="hyphen">60</distance>
+      <distance type="beam">8</distance>
+      <glyph type="percussion-clef">unpitchedPercussionClef1</glyph>
     </appearance>
     <music-font font-family="Maestro" font-size="20.5"/>
     <word-font font-family="Times New Roman" font-size="10.25"/>

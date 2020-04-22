@@ -674,6 +674,19 @@ class msr2MxmltreeTranslator :
                                 Sxmlelement                appearanceElement,
                                 const list<S_msrNoteSize>& noteSizesList);
 
+  void                        populateAppearanceDistances (
+                                Sxmlelement                appearanceElement,
+                                const list<S_msrDistance>& distancesList);
+
+  void                        populateAppearanceGlyphs (
+                                Sxmlelement             appearanceElement,
+                                const list<S_msrGlyph>& glyphsList);
+
+  void                        populateAppearanceOtherAppearances (
+                                Sxmlelement       appearanceElement,
+                                const list<S_msrOtherAppearance>&
+                                                  otherAppearancesList);
+
     // credits
     // ------------------------------------------------------
 

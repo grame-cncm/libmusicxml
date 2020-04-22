@@ -1515,6 +1515,37 @@ void mxmlTree2MsrTranslator::visitStart ( S_appearance& elt )
 	type of distance is being defined. Values include hyphen
 	(for hyphens in lyrics) and beam.
 
+	The glyph element represents what SMuFL glyph should be used
+	for different variations of symbols that are semantically
+	identical. The type attribute specifies what type of glyph
+	is being defined. The element value specifies what
+	SMuFL glyph to use, including recommended stylistic
+	alternates.
+
+	Glyph type attribute values include quarter-rest,
+	g-clef-ottava-bassa, c-clef, f-clef, percussion-clef,
+	octave-shift-up-8, octave-shift-down-8,
+	octave-shift-continue-8, octave-shift-down-15,
+	octave-shift-up-15, octave-shift-continue-15,
+	octave-shift-down-22, octave-shift-up-22, and
+	octave-shift-continue-22. A quarter-rest type specifies the
+	glyph to use when a note has a rest element and a type value
+	of quarter. The c-clef, f-clef, and percussion-clef types
+	specify the glyph to use when a clef sign element value is C,
+	F, or percussion respectively. The g-clef-ottava-bassa type
+	specifies the glyph to use when a clef sign element value is
+	G and the clef-octave-change element value is -1. The
+	octave-shift types specify the glyph to use when an
+	octave-shift type attribute value is up, down, or continue
+	and the octave-shift size attribute value is 8, 15, or 22.
+
+	The SMuFL glyph name should match the type. For instance,
+	a type of quarter-rest would use values restQuarter,
+	restQuarterOld, or restQuarterZ. A type of g-clef-ottava-bassa
+	would use values gClef8vb, gClef8vbOld, or gClef8vbCClef. A
+	type of octave-shift-up-8 would use values ottava, ottavaBassa,
+	ottavaBassaBa, ottavaBassaVb, or octaveBassa.
+
 	The other-appearance element is used to define any
 	graphical settings not yet in the current version of the
 	MusicXML format. This allows extended representation,
@@ -1681,17 +1712,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_line_width& elt )
   }
 
   else {
-    stringstream s;
-
-    s <<
-      "<line-width /> " <<
-      " is out of context";
-
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      s.str ());
+      "<line-width /> is out of context");
   }
 }
 
@@ -1741,7 +1766,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note_size& elt )
           s.str ());
       }
 
-      // create a line width
+      // create a note size
       S_msrNoteSize
         noteSize =
           msrNoteSize::create (
@@ -1770,17 +1795,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_note_size& elt )
   }
 
   else {
-    stringstream s;
-
-    s <<
-      "<note-size /> " <<
-      " is out of context";
-
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      s.str ());
+      "<note-size /> is out of context");
   }
 }
 
@@ -1797,20 +1816,72 @@ void mxmlTree2MsrTranslator::visitStart ( S_distance& elt )
   }
 
   if (fOnGoingAppearance) {
+    // value
+    float distanceTenths = (float)(*elt);
+
+    // type
+    string distanceTypeString = elt->getAttributeValue ("type");
+
+    if (distanceTypeString.size ()) {
+      msrDistance::msrDistanceTypeKind
+        distanceTypeKind =
+          msrDistance::k_NoDistanceTypeKind;
+
+      if      (distanceTypeString == "hyphen")
+        distanceTypeKind = msrDistance::kHyphenDistance;
+      else if (distanceTypeString == "beam")
+        distanceTypeKind = msrDistance::kBeamDistance;
+
+      else {
+        stringstream s;
+
+        s <<
+          "<distance /> type \"" <<
+          distanceTypeString <<
+          "\" is unknown";
+
+        msrMusicXMLError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+      // create a distance
+      S_msrDistance
+        distance =
+          msrDistance::create (
+            inputLineNumber,
+            distanceTypeKind,
+            msrLength::create (
+              kMillimeterUnit,
+              distanceTenths * fCurrentMillimeters / fCurrentTenths));
+
+      // append it to the current appearance
+      fCurrentAppearance->
+        appendDistance (distance);
+    }
+    else {
+      stringstream s;
+
+      s <<
+        "<distance /> type \"" <<
+        distanceTypeString <<
+        "\" is missing";
+
+      msrMusicXMLError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
   }
   else {
-    stringstream s;
-
-    s <<
-      "<distance /> " <<
-      fCurrentMusicXMLStaffNumber <<
-      " is out of context";
-
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      s.str ());
+      "<distance /> is out of context");
   }
 }
 
@@ -1827,20 +1898,94 @@ void mxmlTree2MsrTranslator::visitStart ( S_glyph& elt )
   }
 
   if (fOnGoingAppearance) {
+    // value
+    string glyphValue = elt->getValue ();
+
+    // type
+    string glyphTypeString = elt->getAttributeValue ("type");
+
+    if (glyphTypeString.size ()) {
+      msrGlyph::msrGlyphTypeKind
+        glyphTypeKind =
+          msrGlyph::k_NoGlyphTypeKind;
+
+      if      (glyphTypeString == "quarter-rest")
+        glyphTypeKind = msrGlyph::kQuarterRestGlyph;
+      else if (glyphTypeString == "g-clef-ottava-bassa")
+        glyphTypeKind = msrGlyph::kGClefOttavaBassaGlyph;
+      else if (glyphTypeString == "c-clef")
+        glyphTypeKind = msrGlyph::kCClefGlyph;
+      else if (glyphTypeString == "f-clef")
+        glyphTypeKind = msrGlyph::kFClefGlyph;
+      else if (glyphTypeString == "percussion-clef")
+        glyphTypeKind = msrGlyph::kPercussionClefGlyph;
+      else if (glyphTypeString == "octave-shift-up-8")
+        glyphTypeKind = msrGlyph::kOctaveShiftUp8Glyph;
+      else if (glyphTypeString == "octave-shift-down-8")
+        glyphTypeKind = msrGlyph::kOctaveShiftDown8Glyph;
+      else if (glyphTypeString == "octave-shift-continue-8")
+        glyphTypeKind = msrGlyph::kOctaveShiftContinue8Glyph;
+      else if (glyphTypeString == "octave-shift-down-15")
+        glyphTypeKind = msrGlyph::kOctaveShiftDown15Glyph;
+      else if (glyphTypeString == "octave-shift-up-15")
+        glyphTypeKind = msrGlyph::kOctaveShiftUp15Glyph;
+      else if (glyphTypeString == "octave-shift-continue-15")
+        glyphTypeKind = msrGlyph::kOctaveShiftContinue15Glyph;
+      else if (glyphTypeString == "octave-shift-down-22")
+        glyphTypeKind = msrGlyph::kOctaveShiftDown22Glyph;
+      else if (glyphTypeString == "octave-shift-up-22")
+        glyphTypeKind = msrGlyph::kOctaveShiftUp22Glyph;
+      else if (glyphTypeString == "octave-shift-continue-22")
+        glyphTypeKind = msrGlyph::kOctaveShiftContinue22Glyph;
+
+      else {
+        stringstream s;
+
+        s <<
+          "<glyph /> type \"" <<
+          glyphTypeString <<
+          "\" is unknown";
+
+        msrMusicXMLError (
+          gOahOah->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+      // create a glyph
+      S_msrGlyph
+        glyph =
+          msrGlyph::create (
+            inputLineNumber,
+            glyphTypeKind,
+            glyphValue);
+
+      // append it to the current appearance
+      fCurrentAppearance->
+        appendGlyph (glyph);
+    }
+    else {
+      stringstream s;
+
+      s <<
+        "<glyph /> type \"" <<
+        glyphTypeString <<
+        "\" is missing";
+
+      msrMusicXMLError (
+        gOahOah->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
   }
   else {
-    stringstream s;
-
-    s <<
-      "<glyph /> " <<
-      fCurrentMusicXMLStaffNumber <<
-      " is out of context";
-
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      s.str ());
+      "<glyph /> is out of context");
   }
 }
 
@@ -1857,20 +2002,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_appearance& elt )
   }
 
   if (fOnGoingAppearance) {
+    // what can we find in such a markup??? JMI
   }
   else {
-    stringstream s;
-
-    s <<
-      "<other-appearance /> " <<
-      fCurrentMusicXMLStaffNumber <<
-      " is out of context";
-
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      s.str ());
+      "<other-appearance /> is out of context");
   }
 }
 
@@ -3728,18 +3867,11 @@ void mxmlTree2MsrTranslator::visitStart (S_direction_type& elt)
 #endif
 
   if (! fOnGoingDirection) {
-    stringstream s;
-
-    s <<
-      "<direction-type /> " <<
-      fCurrentMusicXMLStaffNumber <<
-      " is out of context";
-
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      s.str ());
+      "<direction-type /> is out of context");
   }
 
   fOnGoingDirectionType = true;

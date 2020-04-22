@@ -1339,13 +1339,13 @@ string msrNoteSize::noteSizeTypeKindAsString (
       result = "k_NoLineWidthTypeKind";
       break;
     case msrNoteSize::kCueNoteSize:
-      result = "kCueNoteSize";
+      result = "CueNoteSize";
       break;
     case msrNoteSize::kGraceNoteSize:
-      result = "kGraceNoteSize";
+      result = "GraceNoteSize";
       break;
     case msrNoteSize::kLargeNoteSize:
-      result = "kLargeNoteSize";
+      result = "LargeNoteSize";
       break;
   } // switch
 
@@ -1392,6 +1392,483 @@ void msrNoteSize::print (ostream& os) const
 }
 
 ostream& operator<< (ostream& os, const S_msrNoteSize& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrDistance msrDistance::create (
+  int                 inputLineNumber,
+  msrDistanceTypeKind distanceTypeKind,
+  S_msrLength         distanceValue)
+{
+  msrDistance* o =
+    new msrDistance (
+      inputLineNumber,
+      distanceTypeKind,
+      distanceValue);
+  assert(o!=0);
+  return o;
+}
+
+msrDistance::msrDistance (
+  int                 inputLineNumber,
+  msrDistanceTypeKind distanceTypeKind,
+  S_msrLength         distanceValue)
+    : msrElement (inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePrintLayouts) {
+    gLogOstream <<
+      "Creating a print layout " <<
+      endl;
+  }
+#endif
+
+  fDistanceTypeKind = distanceTypeKind;
+  fDistanceValue    = distanceValue;
+}
+
+msrDistance::~msrDistance ()
+{}
+
+void msrDistance::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrDistance::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrDistance>*
+    p =
+      dynamic_cast<visitor<S_msrDistance>*> (v)) {
+        S_msrDistance elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrDistance::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrDistance::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrDistance::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrDistance>*
+    p =
+      dynamic_cast<visitor<S_msrDistance>*> (v)) {
+        S_msrDistance elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrDistance::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrDistance::browseData (basevisitor* v)
+{}
+
+string msrDistance::distanceTypeKindAsString (
+  msrDistanceTypeKind distanceTypeKind)
+{
+  string result;
+
+  switch (distanceTypeKind) {
+    case msrDistance::k_NoDistanceTypeKind:
+      result = "k_NoDistanceTypeKind";
+      break;
+    case msrDistance::kHyphenDistance:
+      result = "HyphenDistance";
+      break;
+    case msrDistance::kBeamDistance:
+      result = "BeamDistance";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrDistance::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[Distance" <<
+    ", distanceTypeKind: " <<
+    distanceTypeKindAsString (fDistanceTypeKind) <<
+    ", distanceValue: " << fDistanceValue <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrDistance::print (ostream& os) const
+{
+  os <<
+    "Distance" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 18;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "distanceTypeKind" << " : " <<
+    distanceTypeKindAsString (fDistanceTypeKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "distanceValue" <<  " : " << fDistanceValue <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrDistance& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrGlyph msrGlyph::create (
+  int              inputLineNumber,
+  msrGlyphTypeKind glyphTypeKind,
+  string           glyphValue)
+{
+  msrGlyph* o =
+    new msrGlyph (
+      inputLineNumber,
+      glyphTypeKind,
+      glyphValue);
+  assert(o!=0);
+  return o;
+}
+
+msrGlyph::msrGlyph (
+  int              inputLineNumber,
+  msrGlyphTypeKind glyphTypeKind,
+  string           glyphValue)
+    : msrElement (inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePrintLayouts) {
+    gLogOstream <<
+      "Creating a print layout " <<
+      endl;
+  }
+#endif
+
+  fGlyphTypeKind = glyphTypeKind;
+  fGlyphValue    = glyphValue;
+}
+
+msrGlyph::~msrGlyph ()
+{}
+
+void msrGlyph::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrGlyph::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrGlyph>*
+    p =
+      dynamic_cast<visitor<S_msrGlyph>*> (v)) {
+        S_msrGlyph elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrGlyph::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrGlyph::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrGlyph::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrGlyph>*
+    p =
+      dynamic_cast<visitor<S_msrGlyph>*> (v)) {
+        S_msrGlyph elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrGlyph::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrGlyph::browseData (basevisitor* v)
+{}
+
+string msrGlyph::glyphTypeKindAsString (
+  msrGlyphTypeKind glyphTypeKind)
+{
+  string result;
+
+  switch (glyphTypeKind) {
+    case msrGlyph::k_NoGlyphTypeKind:
+      result = "k_NoGlyphTypeKind";
+      break;
+    case msrGlyph::kQuarterRestGlyph:
+      result = "kQuarterRestGlyph";
+      break;
+    case msrGlyph::kGClefOttavaBassaGlyph:
+      result = "kGClefOttavaBassaGlyph";
+      break;
+    case msrGlyph::kCClefGlyph:
+      result = "kCClefGlyph";
+      break;
+    case msrGlyph::kFClefGlyph:
+      result = "kFClefGlyph";
+      break;
+    case msrGlyph::kPercussionClefGlyph:
+      result = "kPercussionClefGlyph";
+      break;
+    case msrGlyph::kOctaveShiftUp8Glyph:
+      result = "kOctaveShiftUp8Glyph";
+      break;
+    case msrGlyph::kOctaveShiftDown8Glyph:
+      result = "kOctaveShiftDown8Glyph";
+      break;
+    case msrGlyph::kOctaveShiftContinue8Glyph:
+      result = "kOctaveShiftContinue8Glyph";
+      break;
+    case msrGlyph::kOctaveShiftDown15Glyph:
+      result = "kOctaveShiftDown15Glyph";
+      break;
+    case msrGlyph::kOctaveShiftUp15Glyph:
+      result = "kOctaveShiftUp15Glyph";
+      break;
+    case msrGlyph::kOctaveShiftContinue15Glyph:
+      result = "kOctaveShiftContinue15Glyph";
+      break;
+    case msrGlyph::kOctaveShiftDown22Glyph:
+      result = "kOctaveShiftDown22Glyph";
+      break;
+    case msrGlyph::kOctaveShiftUp22Glyph:
+      result = "kOctaveShiftUp22Glyph";
+      break;
+    case msrGlyph::kOctaveShiftContinue22Glyph:
+      result = "kOctaveShiftContinue22Glyph";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrGlyph::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[Glyph" <<
+    ", glyphTypeKind: " <<
+    glyphTypeKindAsString (fGlyphTypeKind) <<
+     ", glyphValue: " <<
+    fGlyphValue <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrGlyph::print (ostream& os) const
+{
+  os <<
+    "Glyph" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 18;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "glyphTypeKind" << " : " <<
+    glyphTypeKindAsString (fGlyphTypeKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "glyphValue" <<  " : \"" <<
+    fGlyphValue <<
+    "\"" <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrGlyph& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrOtherAppearance msrOtherAppearance::create (
+  int                        inputLineNumber,
+  msrOtherAppearanceTypeKind otherAppearanceTypeKind,
+  string                     otherAppearanceValue)
+{
+  msrOtherAppearance* o =
+    new msrOtherAppearance (
+      inputLineNumber,
+      otherAppearanceTypeKind,
+      otherAppearanceValue);
+  assert(o!=0);
+  return o;
+}
+
+msrOtherAppearance::msrOtherAppearance (
+  int                        inputLineNumber,
+  msrOtherAppearanceTypeKind otherAppearanceTypeKind,
+  string                     otherAppearanceValue)
+    : msrElement (inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePrintLayouts) {
+    gLogOstream <<
+      "Creating a print layout " <<
+      endl;
+  }
+#endif
+
+  fOtherAppearanceTypeKind = otherAppearanceTypeKind;
+  fOtherAppearanceValue    = otherAppearanceValue;
+}
+
+msrOtherAppearance::~msrOtherAppearance ()
+{}
+
+void msrOtherAppearance::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrOtherAppearance::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrOtherAppearance>*
+    p =
+      dynamic_cast<visitor<S_msrOtherAppearance>*> (v)) {
+        S_msrOtherAppearance elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrOtherAppearance::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrOtherAppearance::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrOtherAppearance::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrOtherAppearance>*
+    p =
+      dynamic_cast<visitor<S_msrOtherAppearance>*> (v)) {
+        S_msrOtherAppearance elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrOtherAppearance::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrOtherAppearance::browseData (basevisitor* v)
+{}
+
+string msrOtherAppearance::otherAppearanceTypeKindAsString (
+  msrOtherAppearanceTypeKind otherAppearanceTypeKind)
+{
+  string result;
+
+  switch (otherAppearanceTypeKind) {
+    case msrOtherAppearance::k_NoOtherAppearanceTypeKind:
+      result = "k_NoOtherAppearanceTypeKind";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrOtherAppearance::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[OtherAppearance" <<
+    ", otherAppearanceTypeKind: " <<
+    otherAppearanceTypeKindAsString (fOtherAppearanceTypeKind) <<
+    ", otherAppearanceValue: " << fOtherAppearanceValue <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrOtherAppearance::print (ostream& os) const
+{
+  os <<
+    "OtherAppearance" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 18;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "otherAppearanceTypeKind" << " : " <<
+    otherAppearanceTypeKindAsString (fOtherAppearanceTypeKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "otherAppearanceValue" <<  " : " << fOtherAppearanceValue <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrOtherAppearance& elt)
 {
   elt->print (os);
   return os;
@@ -1577,6 +2054,90 @@ void msrAppearance::print (ostream& os) const
     list<S_msrNoteSize>::const_iterator
       iBegin = fNoteSizesList.begin (),
       iEnd   = fNoteSizesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  // distances
+  int
+    distancesListSize =
+      fDistancesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "distancesList" << " : " <<
+    singularOrPlural (
+      distancesListSize, "element", "elements") <<
+    endl;
+
+  if (distancesListSize) {
+    gIndenter++;
+
+    list<S_msrDistance>::const_iterator
+      iBegin = fDistancesList.begin (),
+      iEnd   = fDistancesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  // glyphs
+  int
+    glyphsListSize =
+      fGlyphsList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "glyphsList" << " : " <<
+    singularOrPlural (
+      glyphsListSize, "element", "elements") <<
+    endl;
+
+  if (glyphsListSize) {
+    gIndenter++;
+
+    list<S_msrGlyph>::const_iterator
+      iBegin = fGlyphsList.begin (),
+      iEnd   = fGlyphsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  // other appearances
+  int
+    otherAppearancesListSize =
+      fOtherAppearancesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "otherAppearancesList" << " : " <<
+    singularOrPlural (
+      otherAppearancesListSize, "element", "elements") <<
+    endl;
+
+  if (otherAppearancesListSize) {
+    gIndenter++;
+
+    list<S_msrOtherAppearance>::const_iterator
+      iBegin = fOtherAppearancesList.begin (),
+      iEnd   = fOtherAppearancesList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);

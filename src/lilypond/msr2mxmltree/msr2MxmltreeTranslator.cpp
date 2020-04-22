@@ -1816,6 +1816,195 @@ void msr2MxmltreeTranslator::populateAppearanceNoteSizes (
   } // for
 }
 
+void msr2MxmltreeTranslator::populateAppearanceDistances (
+  Sxmlelement                appearanceElement,
+  const list<S_msrDistance>& distancesList)
+{
+  for (
+    list<S_msrDistance>::const_iterator i =
+      distancesList.begin ();
+    i!=distancesList.end ();
+    i++
+  ) {
+    S_msrDistance distance = (*i);
+
+    // get line width type
+    msrDistance::msrDistanceTypeKind
+      distanceTypeKind =
+        distance->getDistanceTypeKind ();
+
+    // get line width value
+    S_msrLength
+      distanceValue =
+        distance->getDistanceValue ();
+
+    // create a line width element
+    Sxmlelement
+      distanceElement =
+        createElement (
+          k_note_size,
+          S_msrLengthAsTenths (distanceValue));
+
+    // set its "type" attribute
+    string distanceTypeString;
+
+    switch (distanceTypeKind) {
+      case msrDistance::k_NoDistanceTypeKind:
+        distanceTypeString = "k_NoDistanceTypeKind";
+        break;
+      case msrDistance::kHyphenDistance:
+        distanceTypeString = "hyphen";
+        break;
+      case msrDistance::kBeamDistance:
+        distanceTypeString = "beam";
+        break;
+    } // switch
+
+    distanceElement->add (createAttribute ("type", distanceTypeString));
+
+    // append the line width element to the appearance element
+    appearanceElement->push (
+      distanceElement);
+  } // for
+}
+
+void msr2MxmltreeTranslator::populateAppearanceGlyphs (
+  Sxmlelement             appearanceElement,
+  const list<S_msrGlyph>& glyphsList)
+{
+  for (
+    list<S_msrGlyph>::const_iterator i =
+      glyphsList.begin ();
+    i!=glyphsList.end ();
+    i++
+  ) {
+    S_msrGlyph glyph = (*i);
+
+    // get line width type
+    msrGlyph::msrGlyphTypeKind
+      glyphTypeKind =
+        glyph->getGlyphTypeKind ();
+
+    // get line width value
+    string
+      glyphValue =
+        glyph->getGlyphValue ();
+
+    // create a line width element
+    Sxmlelement
+      glyphElement =
+        createElement (
+          k_glyph,
+          glyphValue);
+
+    // set its "type" attribute
+    string glyphTypeString;
+
+    switch (glyphTypeKind) {
+      case msrGlyph::k_NoGlyphTypeKind:
+        glyphTypeString = "k_NoGlyphTypeKind";
+        break;
+      case msrGlyph::kQuarterRestGlyph:
+        glyphTypeString = "quarter-rest";
+        break;
+      case msrGlyph::kGClefOttavaBassaGlyph:
+        glyphTypeString = "g-clef-ottava-bassa";
+        break;
+      case msrGlyph::kCClefGlyph:
+        glyphTypeString = "c-clef";
+        break;
+      case msrGlyph::kFClefGlyph:
+        glyphTypeString = "f-clef";
+        break;
+      case msrGlyph::kPercussionClefGlyph:
+        glyphTypeString = "percussion-clef";
+        break;
+      case msrGlyph::kOctaveShiftUp8Glyph:
+        glyphTypeString = "octave-shift-up-8";
+        break;
+      case msrGlyph::kOctaveShiftDown8Glyph:
+        glyphTypeString = "octave-shift-down-8";
+        break;
+      case msrGlyph::kOctaveShiftContinue8Glyph:
+        glyphTypeString = "octave-shift-continue-8";
+        break;
+      case msrGlyph::kOctaveShiftDown15Glyph:
+        glyphTypeString = "octave-shift-down-15";
+        break;
+      case msrGlyph::kOctaveShiftUp15Glyph:
+        glyphTypeString = "octave-shift-up-15";
+        break;
+      case msrGlyph::kOctaveShiftContinue15Glyph:
+        glyphTypeString = "octave-shift-continue-15";
+        break;
+      case msrGlyph::kOctaveShiftDown22Glyph:
+        glyphTypeString = "octave-shift-down-22";
+        break;
+      case msrGlyph::kOctaveShiftUp22Glyph:
+        glyphTypeString = "octave-shift-up-22";
+        break;
+      case msrGlyph::kOctaveShiftContinue22Glyph:
+        glyphTypeString = "octave-shift-continue-22";
+        break;
+    } // switch
+
+    glyphElement->add (createAttribute ("type", glyphTypeString));
+
+    // append the line width element to the appearance element
+    appearanceElement->push (
+      glyphElement);
+  } // for
+}
+
+void msr2MxmltreeTranslator::populateAppearanceOtherAppearances (
+  Sxmlelement       appearanceElement,
+  const list<S_msrOtherAppearance>&
+                    otherAppearancesList)
+{
+  for (
+    list<S_msrOtherAppearance>::const_iterator i =
+      otherAppearancesList.begin ();
+    i!=otherAppearancesList.end ();
+    i++
+  ) {
+    S_msrOtherAppearance otherAppearance = (*i);
+
+    // get line width type
+    msrOtherAppearance::msrOtherAppearanceTypeKind
+      otherAppearanceTypeKind =
+        otherAppearance->getOtherAppearanceTypeKind ();
+
+    // get line width value
+    string
+      otherAppearanceValue =
+        otherAppearance->getOtherAppearanceValue ();
+
+    // create a line width element
+    Sxmlelement
+      otherAppearanceElement =
+        createElement (
+          k_note_size,
+          otherAppearanceValue);
+
+    // set its "type" attribute
+    string otherAppearanceTypeString;
+
+    switch (otherAppearanceTypeKind) {
+      case msrOtherAppearance::k_NoOtherAppearanceTypeKind:
+        otherAppearanceTypeString = "k_NoOtherAppearanceTypeKind";
+        break;
+    } // switch
+
+    otherAppearanceElement->add (createAttribute (
+      "type",
+      otherAppearanceTypeString));
+
+    // append the line width element to the appearance element
+    appearanceElement->push (
+      otherAppearanceElement);
+  } // for
+}
+
 void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
 {
 #ifdef TRACE_OAH
@@ -1851,6 +2040,33 @@ void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
   populateAppearanceNoteSizes (
     fScoreDefaultsAppearanceElement,
     noteSizesList);
+
+  // append the distance elements if any to the score defaults elements
+  const list<S_msrDistance>&
+    distancesList =
+      elt->getDistancesList ();
+
+  populateAppearanceDistances (
+    fScoreDefaultsAppearanceElement,
+    distancesList);
+
+  // append the glyph elements if any to the score defaults elements
+  const list<S_msrGlyph>&
+    glyphsList =
+      elt->getGlyphsList ();
+
+  populateAppearanceGlyphs (
+    fScoreDefaultsAppearanceElement,
+    glyphsList);
+
+  // append the other appearance elements if any to the score defaults elements
+  const list<S_msrOtherAppearance>&
+    otherAppearancesList =
+      elt->getOtherAppearancesList ();
+
+  populateAppearanceOtherAppearances (
+    fScoreDefaultsAppearanceElement,
+    otherAppearancesList);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrAppearance& elt)

@@ -875,11 +875,11 @@ class msrDistance : public msrElement
     // ------------------------------------------------------
 
     enum msrDistanceTypeKind {
-      k_DistanceTypeKind,
+      k_NoDistanceTypeKind,
       kHyphenDistance, kBeamDistance };
 
-    static string DistanceTypeKindAsString (
-      msrDistanceTypeKind DistanceTypeKind);
+    static string distanceTypeKindAsString (
+      msrDistanceTypeKind distanceTypeKind);
 
   public:
 
@@ -889,14 +889,14 @@ class msrDistance : public msrElement
     static SMARTP<msrDistance> create (
       int                 inputLineNumber,
       msrDistanceTypeKind distanceTypeKind,
-      float               distanceValue);
+      S_msrLength         distanceValue);
 
   protected:
 
     msrDistance (
       int                  inputLineNumber,
-      msrDistanceTypeKind  DistanceTypeKind,
-      float                DistanceValue);
+      msrDistanceTypeKind  distanceTypeKind,
+      S_msrLength          distanceValue);
 
     virtual ~msrDistance ();
 
@@ -908,7 +908,7 @@ class msrDistance : public msrElement
     msrDistanceTypeKind   getDistanceTypeKind () const
                               { return fDistanceTypeKind; }
 
-    float                 getDistanceValue () const
+    S_msrLength           getDistanceValue () const
                               { return fDistanceValue; }
 
   public:
@@ -936,7 +936,7 @@ class msrDistance : public msrElement
     // ------------------------------------------------------
 
     msrDistanceTypeKind   fDistanceTypeKind;
-    float                 fDistanceValue;
+    S_msrLength           fDistanceValue;
 };
 typedef SMARTP<msrDistance> S_msrDistance;
 EXP ostream& operator<< (ostream& os, const S_msrDistance& elt);
@@ -950,18 +950,18 @@ class msrGlyph : public msrElement
     // ------------------------------------------------------
 
     enum msrGlyphTypeKind {
-      k_GlyphTypeKind,
+      k_NoGlyphTypeKind,
       kQuarterRestGlyph,
       kGClefOttavaBassaGlyph,
       kCClefGlyph, kFClefGlyph,
-      kPercussionCefGlyph,
+      kPercussionClefGlyph,
       kOctaveShiftUp8Glyph, kOctaveShiftDown8Glyph,
       kOctaveShiftContinue8Glyph, kOctaveShiftDown15Glyph,
       kOctaveShiftUp15Glyph, kOctaveShiftContinue15Glyph,
       kOctaveShiftDown22Glyph, kOctaveShiftUp22Glyph,
-      kOctaveShiftContinue22Glyph, };
+      kOctaveShiftContinue22Glyph };
 
-    static string GlyphTypeKindAsString (
+    static string glyphTypeKindAsString (
       msrGlyphTypeKind GlyphTypeKind);
 
   public:
@@ -970,16 +970,16 @@ class msrGlyph : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrGlyph> create (
-      int               inputLineNumberGlyph,
-      msrGlyphTypeKind  glyphTypeKind,
-      float             glyphValue);
+      int              inputLineNumber,
+      msrGlyphTypeKind glyphTypeKind,
+      string           glyphValue);
 
   protected:
 
     msrGlyph (
-      int               inputLineNumber,
-      msrGlyphTypeKind  glyphTypeKind,
-      float             glyphValue);
+      int              inputLineNumber,
+      msrGlyphTypeKind glyphTypeKind,
+      string           glyphValue);
 
     virtual ~msrGlyph ();
 
@@ -991,7 +991,7 @@ class msrGlyph : public msrElement
     msrGlyphTypeKind      getGlyphTypeKind () const
                               { return fGlyphTypeKind; }
 
-    float                 getGlyphValue () const
+    string                getGlyphValue () const
                               { return fGlyphValue; }
 
   public:
@@ -1019,7 +1019,7 @@ class msrGlyph : public msrElement
     // ------------------------------------------------------
 
     msrGlyphTypeKind      fGlyphTypeKind;
-    float                 fGlyphValue;
+    string                fGlyphValue;
 };
 typedef SMARTP<msrGlyph> S_msrGlyph;
 EXP ostream& operator<< (ostream& os, const S_msrGlyph& elt);
@@ -1033,7 +1033,7 @@ class msrOtherAppearance : public msrElement
     // ------------------------------------------------------
 
     enum msrOtherAppearanceTypeKind { // JMI which values???
-      k_OtherAppearanceTypeKind };
+      k_NoOtherAppearanceTypeKind };
 
     static string otherAppearanceTypeKindAsString (
       msrOtherAppearanceTypeKind otherAppearanceTypeKind);
@@ -1046,14 +1046,14 @@ class msrOtherAppearance : public msrElement
     static SMARTP<msrOtherAppearance> create (
       int                        inputLineNumber,
       msrOtherAppearanceTypeKind otherAppearanceTypeKind,
-      float                      otherAppearanceValue);
+      string                     otherAppearanceValue);
 
   protected:
 
     msrOtherAppearance (
       int                        inputLineNumber,
       msrOtherAppearanceTypeKind otherAppearanceTypeKind,
-      float                      otherAppearanceValue);
+      string                     otherAppearanceValue);
 
     virtual ~msrOtherAppearance ();
 
@@ -1066,7 +1066,7 @@ class msrOtherAppearance : public msrElement
                           getOtherAppearanceTypeKind () const
                               { return fOtherAppearanceTypeKind; }
 
-    float                 getOtherAppearanceValue () const
+    string                getOtherAppearanceValue () const
                               { return fOtherAppearanceValue; }
 
   public:
@@ -1095,7 +1095,7 @@ class msrOtherAppearance : public msrElement
 
     msrOtherAppearanceTypeKind
                           fOtherAppearanceTypeKind;
-    float                 fOtherAppearanceValue;
+    string                fOtherAppearanceValue;
 };
 typedef SMARTP<msrOtherAppearance> S_msrOtherAppearance;
 EXP ostream& operator<< (ostream& os, const S_msrOtherAppearance& elt);
