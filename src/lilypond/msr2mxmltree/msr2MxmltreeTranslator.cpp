@@ -6548,6 +6548,30 @@ void msr2MxmltreeTranslator::appendNoteSubElementToMesureIfRelevant (
       note->getNoteGraceNotesGroupAfter ();
 
   if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
+    // create a note comment
+    S_msrVoice
+      noteVoice =
+        note->
+          getNoteMeasureUpLink ()->
+            getMeasureSegmentUpLink ()->
+              getSegmentVoiceUpLink ();
+
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Note" <<
+      ", staff: " << noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
+      ", voice: " << noteVoice->getVoiceNumber () <<
+      ", position: " << note->getMeasureElementPositionInMeasure () <<
+      ", sounding: " << note->getNoteSoundingWholeNotes () <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the current measure element
+    appendOtherSubElementToMeasure (comment);
+
+    // append the note to the current measure element
     appendNoteSubElementToMeasure (
       note,
       fCurrentNoteElement);
