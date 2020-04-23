@@ -19,7 +19,7 @@
 #include "singleton.h"
 #include "xml.h"
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /*!
@@ -35,8 +35,10 @@ class EXP factory : public singleton<factory>{
 				 factory();
 		virtual ~factory() {}
 
-		Sxmlelement create(const std::string& elt) const;	
-		Sxmlelement create(int type) const;	
+		Sxmlelement create(const std::string& elt) const;
+		Sxmlelement create(int type) const;
+
+	  const std::map<int, const char*>& getType2Name() const { return fType2Name; }
 };
 
 }

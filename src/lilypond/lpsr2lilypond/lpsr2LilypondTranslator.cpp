@@ -10391,10 +10391,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     case msrPlacementKind::kPlacementNone:
       break;
     case msrPlacementKind::kPlacementAbove:
+      // by default, so nothing to do
       break;
     case msrPlacementKind::kPlacementBelow:
       fLilypondCodeOstream <<
-        "\\once\\override Score.MetronomeMark.direction = #DOWN";
+        "\\once\\override Score.MetronomeMark.direction = #DOWN" <<
+        endl;
       break;
     } // switch
 
