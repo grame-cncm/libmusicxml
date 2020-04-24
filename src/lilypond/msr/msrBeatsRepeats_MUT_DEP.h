@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrBeatsRepeats_MUT_DEP___
+#define ___msrBeatsRepeats_MUT_DEP___
+
 //______________________________________________________________________________
 class msrBeatsRepeatPattern : public msrElement
 {
@@ -340,3 +343,5 @@ class msrBeatsRepeat : public msrVoiceElement
 typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrBeatsRepeat& elt);
 
+
+#endif

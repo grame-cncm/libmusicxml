@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrHarmonies_MUT_DEP___
+#define ___msrHarmonies_MUT_DEP___
+
 //______________________________________________________________________________
 class msrHarmonyDegree : public msrElement
 {
@@ -339,3 +342,5 @@ class msrHarmony : public msrMeasureElement
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 
+
+#endif

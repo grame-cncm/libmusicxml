@@ -1347,6 +1347,81 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
   return o;
 }
 
+//________________________________________________________________________
+S_msrVoice msrNote::fetchNoteVoice () const
+{
+  S_msrVoice result;
+
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+    case msrNote::kSkipNote:
+      result =
+        fNoteMeasureUpLink->
+          getMeasureSegmentUpLink ()->
+            getSegmentVoiceUpLink ();
+      break;
+
+    case msrNote::kUnpitchedNote:
+      break;
+
+    case msrNote::kRegularNote:
+    case msrNote::kChordMemberNote:
+      result =
+        fNoteMeasureUpLink->
+          getMeasureSegmentUpLink ()->
+            getSegmentVoiceUpLink ();
+      break;
+
+    case msrNote::kTupletMemberNote:
+      result =
+        fNoteTupletUpLink->
+          getTupletMeasureUpLink ()->
+            getMeasureSegmentUpLink ()->
+              getSegmentVoiceUpLink ();
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+
+    case msrNote::kGraceNote:
+      result =
+        fNoteGraceNotesGroupUpLink->
+            getGraceNotesGroupVoiceUpLink ();
+            /* JMI
+            getGraceNotesGroupNoteUpLink ()->
+            getNoteMeasureUpLink ()->
+              getMeasureSegmentUpLink ()->
+                getSegmentVoiceUpLink ();
+                */
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      break;
+  } // switch
+
+  // sanity check
+  msrAssert (
+    result != nullptr,
+    "result is null");
+
+  return result;
+}
+
+S_msrStaff msrNote::fetchNoteStaff () const
+{
+  return fetchNoteVoice ()->getVoiceStaffUpLink ();
+}
+
+//________________________________________________________________________
 void msrNote::setNotePositionInMeasure (
   rational positionInMeasure)
 {

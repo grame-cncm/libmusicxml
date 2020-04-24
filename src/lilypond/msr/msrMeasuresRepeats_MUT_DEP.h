@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrMeasuresRepeats_MUT_DEP___
+#define ___msrMeasuresRepeats_MUT_DEP___
+
 //______________________________________________________________________________
 /* JMI
 class msrMeasuresRepeatElement : public msrElement
@@ -451,3 +454,5 @@ class msrMeasuresRepeat : public msrVoiceElement
 typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt);
 
+
+#endif

@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrSyllables_MUT_DEP___
+#define ___msrSyllables_MUT_DEP___
+
 //______________________________________________________________________________
 class msrSyllable : public msrMeasureElement
 {
@@ -213,3 +216,5 @@ class msrSyllable : public msrMeasureElement
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
 
+
+#endif

@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrSpanners_MUT_DEP___
+#define ___msrSpanners_MUT_DEP___
+
 //______________________________________________________________________________
 // pre-declaration for two-way sideLinks
 class msrSpanner;
@@ -131,3 +134,5 @@ class msrSpanner : public msrElement
 typedef SMARTP<msrSpanner> S_msrSpanner;
 EXP ostream& operator<< (ostream& os, const S_msrSpanner& elt);
 
+
+#endif

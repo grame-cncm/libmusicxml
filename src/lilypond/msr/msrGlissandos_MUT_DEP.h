@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrGlissandos_MUT_DEP___
+#define ___msrGlissandos_MUT_DEP___
+
 //______________________________________________________________________________
 class msrGlissando : public msrElement
 {
@@ -112,3 +115,5 @@ class msrGlissando : public msrElement
 typedef SMARTP<msrGlissando> S_msrGlissando;
 EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
 
+
+#endif

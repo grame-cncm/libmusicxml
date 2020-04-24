@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrRepeatCodas_MUT_DEP___
+#define ___msrRepeatCodas_MUT_DEP___
+
 //______________________________________________________________________________
 class msrRepeatCoda : public msrElement
 {
@@ -85,3 +88,5 @@ class msrRepeatCoda : public msrElement
 typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
 
+
+#endif

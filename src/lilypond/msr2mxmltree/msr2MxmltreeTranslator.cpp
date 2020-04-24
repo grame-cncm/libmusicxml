@@ -4529,6 +4529,81 @@ void msr2MxmltreeTranslator:: appendNoteDynamics (S_msrNote note)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendABackupOrForwardIfNeeded, note = " <<
+      note->asShortString () <<
+      endl;
+  }
+#endif
+
+/*
+  A <backup /> is needed when a note is in another voice as the previous one.
+  A <forward /> is needed when a note follows a skip in the same voice.
+*/
+
+  if (fPreviousMSRNote) {
+    int
+      noteStaffNumber =
+        note->fetchNoteStaff ()->getStaffNumber (),
+      noteVoiceNumber =
+        note->fetchNoteVoice ()->getVoiceNumber (),
+      previousMSRNoteStaffNumber =
+        fPreviousMSRNoteStaff->getStaffNumber (),
+      previousMSRNoteVoiceNumber =
+        fPreviousMSRNoteVoice->getVoiceNumber ();
+
+    if (noteStaffNumber == previousMSRNoteStaffNumber) {
+      if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
+        // is a <foward /> element needed?
+      }
+      else {
+        // fetch the backup duration divisions
+        int durationDivisions =
+          1;
+
+        // create a backup comment
+        S_msrVoice
+          noteVoice =
+            note->fetchNoteVoice ();
+
+        stringstream s;
+        s <<
+          " ===== " <<
+          "Backup" <<
+          ", duration: " << durationDivisions <<
+          ", line " << note->getInputLineNumber () <<
+          " ===== ";
+        Sxmlelement comment = createElement (kComment, s.str ());
+
+        // append it to the current measure element
+        appendOtherToMeasure (comment);
+
+        // create a <backup /> element
+        Sxmlelement backupElement = createElement (k_backup, "");
+
+        // append a duration element to it
+        backupElement->push (
+          createIntegerElement (k_duration, durationDivisions));
+
+        // append it to the current measure element
+        appendOtherToMeasure (backupElement);
+      }
+    }
+    else {
+      // there is a staff change
+      if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
+      }
+      else {
+      }
+    }
+  }
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator:: populateNoteDirections (S_msrNote note)
 {
 #ifdef TRACE_OAH
@@ -6200,82 +6275,10 @@ void msr2MxmltreeTranslator::appendVoiceToNoteIfRelevant (
   }
 #endif
 
-  msrNote::msrNoteKind
-    noteKind =
-      note->getNoteKind ();
-
-  // compute the note voice
-  S_msrVoice noteVoice;
-
-  switch (noteKind) {
-    case msrNote::k_NoNoteKind:
-      break;
-
-    case msrNote::kRestNote:
-      noteVoice =
-        note->
-          getNoteMeasureUpLink ()->
-            getMeasureSegmentUpLink ()->
-              getSegmentVoiceUpLink ();
-      break;
-
-    case msrNote::kSkipNote:
-      // nothing is to be generated for skips
-      break;
-
-    case msrNote::kUnpitchedNote:
-      break;
-
-    case msrNote::kRegularNote:
-    case msrNote::kChordMemberNote:
-      noteVoice =
-        note->
-          getNoteMeasureUpLink ()->
-            getMeasureSegmentUpLink ()->
-              getSegmentVoiceUpLink ();
-      break;
-
-    case msrNote::kTupletMemberNote:
-      noteVoice =
-        note->
-          getNoteTupletUpLink ()->
-            getTupletMeasureUpLink ()->
-              getMeasureSegmentUpLink ()->
-                getSegmentVoiceUpLink ();
-      break;
-
-    case msrNote::kDoubleTremoloMemberNote:
-      break;
-
-    case msrNote::kGraceNote:
-      noteVoice =
-        note->
-          getNoteGraceNotesGroupUpLink ()->
-            getGraceNotesGroupVoiceUpLink ();
-            /* JMI
-            getGraceNotesGroupNoteUpLink ()->
-            getNoteMeasureUpLink ()->
-              getMeasureSegmentUpLink ()->
-                getSegmentVoiceUpLink ();
-                */
-      break;
-
-    case msrNote::kGraceChordMemberNote:
-      break;
-
-    case msrNote::kGraceTupletMemberNote:
-      break;
-
-    case msrNote::kTupletMemberUnpitchedNote:
-      break;
-  } // switch
-
-  // sanity check
-  /* JMI ???
-  msrAssert (
-    noteVoice != nullptr,
-    "noteVoice is null");
-*/
+  // fetch the note voice
+  S_msrVoice
+    noteVoice =
+      note->fetchNoteVoice ();
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
@@ -6400,12 +6403,16 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
   int inputLineNumber =
     note->getInputLineNumber ();
 
+  // should a note sub-element be generated?
+  bool doGenerateNote = true;
+
   switch (note->getNoteKind ()) {
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kRestNote:
       break;
     case msrNote::kSkipNote:
+      doGenerateNote = false;
       break;
     case msrNote::kUnpitchedNote:
       break;
@@ -6438,169 +6445,168 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
       break;
   } // switch
 
-  // create a note element
-  fCurrentNote = createElement (k_note, "");
+  if (doGenerateNote) {
+    // create a note element
+    fCurrentNote = createElement (k_note, "");
 
-  // append the note basic sub-elements
-  appendBasicsToNote (note);
+    // append the note basic sub-elements
+    appendBasicsToNote (note);
 
-  // append the duration sub-element if relevant
-  appendDurationToNoteIfRelevant (note);
+    // append the duration sub-element if relevant
+    appendDurationToNoteIfRelevant (note);
 
-  // append the voice sub-element if relevant
-  appendVoiceToNoteIfRelevant (note);
+    // append the voice sub-element if relevant
+    appendVoiceToNoteIfRelevant (note);
 
-  // append the type sub-element if relevant
-  bool doGenerateType = true;
+    // append the type sub-element if relevant
+    bool doGenerateType = true;
 
-  switch (note->getNoteKind ()) {
-    case msrNote::k_NoNoteKind:
-      break;
+    switch (note->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        break;
 
-    case msrNote::kRestNote:
-      doGenerateType = false;
-      break;
-
-    case msrNote::kSkipNote:
-      break;
-
-    case msrNote::kUnpitchedNote:
-      break;
-
-    case msrNote::kRegularNote:
-      break;
-
-    case msrNote::kChordMemberNote:
-    /* JMI
-      if (note->getNoteIsARest ()) {
+      case msrNote::kRestNote:
         doGenerateType = false;
-      }
-      */
-      break;
+        break;
 
-    case msrNote::kTupletMemberNote:
-      break;
+      case msrNote::kSkipNote:
+        break;
 
-    case msrNote::kDoubleTremoloMemberNote:
-      break;
+      case msrNote::kUnpitchedNote:
+        break;
 
-    case msrNote::kGraceNote:
-      break;
+      case msrNote::kRegularNote:
+        break;
 
-    case msrNote::kGraceChordMemberNote:
-      break;
+      case msrNote::kChordMemberNote:
+      /* JMI
+        if (note->getNoteIsARest ()) {
+          doGenerateType = false;
+        }
+        */
+        break;
 
-    case msrNote::kGraceTupletMemberNote:
-      break;
+      case msrNote::kTupletMemberNote:
+        break;
 
-    case msrNote::kTupletMemberUnpitchedNote:
-      break;
-  } // switch
+      case msrNote::kDoubleTremoloMemberNote:
+        break;
 
-  if (doGenerateType) {
-    msrDurationKind
-      noteGraphicDurationKind =
-        note->getNoteGraphicDurationKind ();
+      case msrNote::kGraceNote:
+        break;
 
-    fCurrentNote->push (
-      createElement (
-        k_type,
-        msrDurationKindAsMusicXMLType (noteGraphicDurationKind)));
-  }
+      case msrNote::kGraceChordMemberNote:
+        break;
 
-  // append the time-modification sub-element if relevant
-  appendTimeModificationToNoteIfRelevant (note);
+      case msrNote::kGraceTupletMemberNote:
+        break;
 
-  // append the dots sub-element if relevant
-  int
-    noteDotsNumber =
-      note->getNoteDotsNumber ();
+      case msrNote::kTupletMemberUnpitchedNote:
+        break;
+    } // switch
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes) {
-    fLogOutputStream <<
-      "-->  noteDotsNumber: " << noteDotsNumber <<
-      "--> line " << inputLineNumber <<
-      endl;
-  }
-#endif
+    if (doGenerateType) {
+      msrDurationKind
+        noteGraphicDurationKind =
+          note->getNoteGraphicDurationKind ();
 
-  for (int i = 0; i < noteDotsNumber; i++) {
-    fCurrentNote->push (
-      createElement (
-        k_dot, ""));
-  } // for
+      fCurrentNote->push (
+        createElement (
+          k_type,
+          msrDurationKindAsMusicXMLType (noteGraphicDurationKind)));
+    }
 
-  // append the accidental if any
-  msrAccidentalKind
-    accidentalKind =
-      note->getNoteAccidentalKind ();
+    // append the time-modification sub-element if relevant
+    appendTimeModificationToNoteIfRelevant (note);
 
-  string
-    accidentalString =
-      accidentalKindAsMusicXMLString (
-        accidentalKind);
+    // append the dots sub-element if relevant
+    int
+      noteDotsNumber =
+        note->getNoteDotsNumber ();
 
-  if (accidentalString.size ()) {
-    fCurrentNote->push (
-      createElement (
-        k_accidental,
-        accidentalString));
-  }
+  #ifdef TRACE_OAH
+    if (gTraceOah->fTraceNotes) {
+      fLogOutputStream <<
+        "-->  noteDotsNumber: " << noteDotsNumber <<
+        "--> line " << inputLineNumber <<
+        endl;
+    }
+  #endif
 
-  // append the stem if any
-  appendStemToNote (note);
+    for (int i = 0; i < noteDotsNumber; i++) {
+      fCurrentNote->push (
+        createElement (
+          k_dot, ""));
+    } // for
 
-  // append the beams if any
-  appendBeamsToNote (note);
+    // append the accidental if any
+    msrAccidentalKind
+      accidentalKind =
+        note->getNoteAccidentalKind ();
 
-  // append the articulations if any
-  appendNoteNotationsToNote (note);
+    string
+      accidentalString =
+        accidentalKindAsMusicXMLString (
+          accidentalKind);
 
-  // append the lyrics if any
-  appendNoteLyricsToNote (note);
+    if (accidentalString.size ()) {
+      fCurrentNote->push (
+        createElement (
+          k_accidental,
+          accidentalString));
+    }
 
-  // append the note element to the current measure element right now,
-  // unless it contains a grace notes group
-  S_msrGraceNotesGroup
-    noteGraceNotesGroupBefore =
-      note->getNoteGraceNotesGroupBefore (),
-    noteGraceNotesGroupAfter =
-      note->getNoteGraceNotesGroupAfter ();
+    // append the stem if any
+    appendStemToNote (note);
 
-  if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
-    // create a note comment
-    S_msrVoice
-      noteVoice =
-        note->
-          getNoteMeasureUpLink ()->
-            getMeasureSegmentUpLink ()->
-              getSegmentVoiceUpLink ();
+    // append the beams if any
+    appendBeamsToNote (note);
 
-    stringstream s;
-    s <<
-      " ===== " <<
-      "Note" <<
-      ", staff: " << noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
-      ", voice: " << noteVoice->getVoiceNumber () <<
-      ", position: " << note->getMeasureElementPositionInMeasure () <<
-      ", sounding: " << note->getNoteSoundingWholeNotes () <<
-      ", line " << inputLineNumber <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    // append the articulations if any
+    appendNoteNotationsToNote (note);
 
-    // append it to the current measure element
-    appendOtherToMeasure (comment);
+    // append the lyrics if any
+    appendNoteLyricsToNote (note);
 
-    // append the note to the current measure element
-    appendNoteToMeasure (
-      note,
-      fCurrentNote);
-  }
-  else {
-    fCurrentNoteAwaitsGraceNotes = true;
-    fPendingNoteAwaitingGraceNotes = note;
-    fPendingNoteElement = fCurrentNote;
+    // append the note element to the current measure element right now,
+    // unless it contains a grace notes group
+    S_msrGraceNotesGroup
+      noteGraceNotesGroupBefore =
+        note->getNoteGraceNotesGroupBefore (),
+      noteGraceNotesGroupAfter =
+        note->getNoteGraceNotesGroupAfter ();
+
+    if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
+      // create a note comment
+      S_msrVoice
+        noteVoice =
+          note->fetchNoteVoice ();
+
+      stringstream s;
+      s <<
+        " ===== " <<
+        "Note" <<
+        ", staff: " << noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
+        ", voice: " << noteVoice->getVoiceNumber () <<
+        ", position: " << note->getMeasureElementPositionInMeasure () <<
+        ", sounding: " << note->getNoteSoundingWholeNotes () <<
+        ", line " << inputLineNumber <<
+        " ===== ";
+      Sxmlelement comment = createElement (kComment, s.str ());
+
+      // append it to the current measure element
+      appendOtherToMeasure (comment);
+
+      // append the note to the current measure element
+      appendNoteToMeasure (
+        note,
+        fCurrentNote);
+    }
+    else {
+      fCurrentNoteAwaitsGraceNotes = true;
+      fPendingNoteAwaitingGraceNotes = note;
+      fPendingNoteElement = fCurrentNote;
+    }
   }
 }
 
@@ -6709,6 +6715,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 #endif
+
+  // append a backup or forward sub-element if needed
+  appendABackupOrForwardIfNeeded (elt);
+
   // append the note directions to the note element
   populateNoteDirections (elt);
 
@@ -6730,6 +6740,11 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 #endif
+
+  // remember this note and its voice and staff
+  fPreviousMSRNote      = elt;
+  fPreviousMSRNoteVoice = fPreviousMSRNote->fetchNoteVoice ();
+  fPreviousMSRNoteStaff = fPreviousMSRNoteVoice->getVoiceStaffUpLink ();
 
   // forget about the note element
   fCurrentNote = nullptr;

@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrNotes_MUT_DEP___
+#define ___msrNotes_MUT_DEP___
+
 //______________________________________________________________________________
 class msrNote : public msrTupletElement
 {
@@ -655,6 +658,10 @@ class msrNote : public msrTupletElement
     // services
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrVoice            fetchNoteVoice () const;
+    S_msrStaff            fetchNoteStaff () const;
+
     bool                  noteIsAPitchedRest () const;
 
     string                asShortStringWithRawWholeNotes () const;
@@ -1093,3 +1100,5 @@ class msrNote : public msrTupletElement
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
+
+#endif

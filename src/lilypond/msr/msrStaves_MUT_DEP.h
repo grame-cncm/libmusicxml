@@ -3,6 +3,13 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrStaves_MUT_DEP___
+#define ___msrStaves_MUT_DEP___
+
+//______________________________________________________________________________
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
+
 //______________________________________________________________________________
 class msrVoiceStaffChange : public msrMeasureElement
 {
@@ -536,3 +543,6 @@ class msrStaff : public msrElement
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
+
+
+#endif

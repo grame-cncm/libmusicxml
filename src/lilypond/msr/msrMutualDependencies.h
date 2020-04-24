@@ -99,6 +99,29 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 // PRE-declarations for class mutual dependencies
+class msrScore;
+typedef SMARTP<msrScore> S_msrScore;
+
+class msrPartGroup;
+typedef SMARTP<msrPartGroup> S_msrPartGroup;
+
+class msrPart;
+typedef SMARTP<msrPart> S_msrPart;
+
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrSegment;
+typedef SMARTP<msrSegment> S_msrSegment;
+
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrVoiceStaffChange;
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
@@ -132,21 +155,6 @@ typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat;
 
 class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
-
-class msrMeasure;
-typedef SMARTP<msrMeasure> S_msrMeasure;
-
-class msrSegment;
-typedef SMARTP<msrSegment> S_msrSegment;
-
-class msrVoice;
-typedef SMARTP<msrVoice> S_msrVoice;
-
-class msrVoiceStaffChange;
-typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
-
-class msrPart;
-typedef SMARTP<msrPart> S_msrPart;
 
 class msrStanza;
 typedef SMARTP<msrStanza> S_msrStanza;
@@ -196,25 +204,9 @@ typedef SMARTP<msrStanza> S_msrStanza;
 
 #include "msrRepeatCodas_MUT_DEP.h"
 
-//______________________________________________________________________________
-// PRE-declarations for class mutual dependencies
-class msrStaff;
-typedef SMARTP<msrStaff> S_msrStaff;
-
-
 #include "msrVoices_MUT_DEP.h"
 
 #include "msrStaves_MUT_DEP.h"
-
-
-//______________________________________________________________________________
-// PRE-declarations for class mutual dependencies
-class msrPartGroup;
-typedef SMARTP<msrPartGroup> S_msrPartGroup;
-
-class msrScore;
-typedef SMARTP<msrScore> S_msrScore;
-
 
 #include "msrParts_MUT_DEP.h"
 

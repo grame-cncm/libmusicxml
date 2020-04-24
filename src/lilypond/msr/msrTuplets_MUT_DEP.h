@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrTuplets_MUT_DEP___
+#define ___msrTuplets_MUT_DEP___
+
 //______________________________________________________________________________
 class msrTuplet : public msrTupletElement
 {
@@ -246,3 +249,5 @@ class msrTuplet : public msrTupletElement
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 
+
+#endif

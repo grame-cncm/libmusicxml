@@ -812,6 +812,10 @@ class msr2MxmltreeTranslator :
 
     bool                      fOnGoingPrintLayout;
 
+    // backup and forward
+
+    void                      appendABackupOrForwardIfNeeded (S_msrNote note);
+
     // directions
     // ------------------------------------------------------
     void                      populateNoteDirections (S_msrNote note);
@@ -848,6 +852,10 @@ class msr2MxmltreeTranslator :
     // notes
     // ------------------------------------------------------
     Sxmlelement               fCurrentNote;
+
+    S_msrNote                 fPreviousMSRNote;
+    S_msrVoice                fPreviousMSRNoteVoice;
+    S_msrStaff                fPreviousMSRNoteStaff;
 
     void                      appendNoteToMesure (S_msrNote note);
 
