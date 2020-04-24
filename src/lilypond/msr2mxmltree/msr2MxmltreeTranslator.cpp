@@ -4558,8 +4558,58 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
 
     if (noteStaffNumber == previousMSRNoteStaffNumber) {
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
-        // is a <foward /> element needed?
+        // is a <forward /> element needed?
+        if (true) {
+        /*
+      <forward>
+        <duration>16</duration>
+        <voice>1</voice>
+        <staff>1</staff>
+      </forward>
+        */
+        // fetch the forward duration divisions
+        int durationDivisions =
+          1;
+
+        // create a forward comment
+        S_msrVoice
+          noteVoice =
+            note->fetchNoteVoice ();
+
+        stringstream s;
+        s <<
+          " ===== " <<
+          "Forward" <<
+          ", duration: " << durationDivisions <<
+          ", in staff: " << previousMSRNoteStaffNumber <<
+          ", in voice: " << previousMSRNoteVoiceNumber <<
+          ", line " << note->getInputLineNumber () <<
+          " ===== ";
+        Sxmlelement comment = createElement (kComment, s.str ());
+
+        // append it to the current measure element
+        appendOtherToMeasure (comment);
+
+        // create a forward element
+        Sxmlelement forwardElement = createElement (k_forward, "");
+
+        // append a duration sub-element to it
+        forwardElement->push (
+          createIntegerElement (k_duration, durationDivisions));
+
+        // append a voice sub-element to it
+        forwardElement->push (
+          createIntegerElement (k_voice, noteVoiceNumber));
+
+        // append a staff sub-element to it
+        forwardElement->push (
+          createIntegerElement (k_staff, noteStaffNumber));
+
+        // append it to the current measure element
+        appendOtherToMeasure (forwardElement);
+        }
       }
+
       else {
         // fetch the backup duration divisions
         int durationDivisions =
@@ -4575,6 +4625,8 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
           " ===== " <<
           "Backup" <<
           ", duration: " << durationDivisions <<
+          ", from staff: " << previousMSRNoteStaffNumber <<
+          ", to staff: " << noteStaffNumber <<
           ", line " << note->getInputLineNumber () <<
           " ===== ";
         Sxmlelement comment = createElement (kComment, s.str ());
@@ -4582,10 +4634,10 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
         // append it to the current measure element
         appendOtherToMeasure (comment);
 
-        // create a <backup /> element
+        // create a backup element
         Sxmlelement backupElement = createElement (k_backup, "");
 
-        // append a duration element to it
+        // append a duration sub-element to it
         backupElement->push (
           createIntegerElement (k_duration, durationDivisions));
 
