@@ -715,6 +715,10 @@ class msr2MxmltreeTranslator :
     int                       fDivisionsPerQuarterNote;
     int                       fDivisionsMultiplyingFactor;
 
+    int                       wholeNotesAsDivisions (
+                                int      inputLineNumber,
+                                rational wholeNotes);
+
     bool                      fPartDivisionsElementHasToBeAppended;
 
     // its header
@@ -856,6 +860,9 @@ class msr2MxmltreeTranslator :
     S_msrNote                 fPreviousMSRNote;
     S_msrVoice                fPreviousMSRNoteVoice;
     S_msrStaff                fPreviousMSRNoteStaff;
+
+    // forward handling
+    rational                  fForwardDuration;
 
     void                      appendNoteToMesure (S_msrNote note);
 

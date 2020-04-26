@@ -44,6 +44,56 @@ using namespace std;
 
 namespace MusicXML2
 {
+//________________________________________________________________________
+msr2MxmltreeTranslator::msr2MxmltreeTranslator (
+  indentedOstream& ios,
+  S_msrScore       mScore)
+    : fLogOutputStream (ios)
+{
+  // the MSR score we're visiting
+  fVisitedMsrScore = mScore;
+
+  // create the current score part-wise element
+  fScorePartWiseElement = createScorePartWiseElement ();
+
+  // print layouts
+  fOnGoingPrintLayout = false;
+
+  // notes
+  fCurrentNoteAwaitsGraceNotes = false;
+  fPendingNoteAwaitingGraceNotes = nullptr;
+  fPendingNoteElement = nullptr;
+
+  // forward handling
+  fForwardDuration = rational (0, 1);
+
+/*
+  // double tremolos
+  fOnGoingDoubleTremolo = false;
+
+  // stanzas
+  fOnGoingStanza = false;
+
+  // syllables
+  fOnGoingSyllableExtend = false;
+  */
+};
+
+msr2MxmltreeTranslator::~msr2MxmltreeTranslator ()
+{}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::buildMxmltreeFromMsrScore ()
+{
+  if (fVisitedMsrScore) {
+    // create a msrScore browser
+    msrBrowser<msrScore> browser (this);
+
+    // browse the visited score with the browser
+    browser.browse (*fVisitedMsrScore);
+  }
+}
+
 //______________________________________________________________________________
 string msr2MxmltreeTranslator::msrLengthAsTenths (
   msrLength length)
@@ -539,53 +589,6 @@ void msr2MxmltreeTranslator::appendToNoteNotationsTechnicals (
 
   // append elem to the note notations technicals element
   fCurrentNoteNotationsTechnicals->push (elem);
-}
-
-//________________________________________________________________________
-msr2MxmltreeTranslator::msr2MxmltreeTranslator (
-  indentedOstream& ios,
-  S_msrScore       mScore)
-    : fLogOutputStream (ios)
-{
-  // the MSR score we're visiting
-  fVisitedMsrScore = mScore;
-
-  // create the current score part-wise element
-  fScorePartWiseElement = createScorePartWiseElement ();
-
-  // print layouts
-  fOnGoingPrintLayout = false;
-
-  // notes
-  fCurrentNoteAwaitsGraceNotes = false;
-  fPendingNoteAwaitingGraceNotes = nullptr;
-  fPendingNoteElement = nullptr;
-
-/*
-  // double tremolos
-  fOnGoingDoubleTremolo = false;
-
-  // stanzas
-  fOnGoingStanza = false;
-
-  // syllables
-  fOnGoingSyllableExtend = false;
-  */
-};
-
-msr2MxmltreeTranslator::~msr2MxmltreeTranslator ()
-{}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::buildMxmltreeFromMsrScore ()
-{
-  if (fVisitedMsrScore) {
-    // create a msrScore browser
-    msrBrowser<msrScore> browser (this);
-
-    // browse the visited score with the browser
-    browser.browse (*fVisitedMsrScore);
-  }
 }
 
 //________________________________________________________________________
@@ -2506,6 +2509,47 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
 }
 
 //________________________________________________________________________
+int msr2MxmltreeTranslator::wholeNotesAsDivisions (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  rational
+    durationAsRational =
+      wholeNotes
+        /
+      fPartShortestNoteDuration
+        *
+      fDivisionsMultiplyingFactor;
+  durationAsRational.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> durationAsRational: " <<
+      durationAsRational <<
+      "--> line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (durationAsRational.getDenominator () != 1) {
+    stringstream s;
+
+    s <<
+      "durationAsRational '" << durationAsRational <<
+      "' is no integer number" <<
+      ", line " << inputLineNumber;
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return durationAsRational.getNumerator ();
+}
+
 void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 {
   int inputLineNumber =
@@ -2864,6 +2908,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 
     fPartDivisionsElementHasToBeAppended = false;
   }
+
+  // forward handling
+  fForwardDuration = rational (0, 1);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
@@ -4545,6 +4592,9 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
   A <forward /> is needed when a note follows a skip in the same voice.
 */
 
+  int inputLineNumber =
+     note->getInputLineNumber ();
+
   if (fPreviousMSRNote) {
     int
       noteStaffNumber =
@@ -4559,7 +4609,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
     if (noteStaffNumber == previousMSRNoteStaffNumber) {
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
         // is a <forward /> element needed?
-        if (true) {
+        if (fForwardDuration.getNumerator () != 0) {
         /*
       <forward>
         <duration>16</duration>
@@ -4569,7 +4619,9 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
         */
         // fetch the forward duration divisions
         int durationDivisions =
-          1;
+          wholeNotesAsDivisions (
+            inputLineNumber,
+            fForwardDuration);
 
         // create a forward comment
         S_msrVoice
@@ -4583,7 +4635,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
           ", duration: " << durationDivisions <<
           ", in staff: " << previousMSRNoteStaffNumber <<
           ", in voice: " << previousMSRNoteVoiceNumber <<
-          ", line " << note->getInputLineNumber () <<
+          ", line " << inputLineNumber <<
           " ===== ";
         Sxmlelement comment = createElement (kComment, s.str ());
 
@@ -4627,7 +4679,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
           ", duration: " << durationDivisions <<
           ", from staff: " << previousMSRNoteStaffNumber <<
           ", to staff: " << noteStaffNumber <<
-          ", line " << note->getInputLineNumber () <<
+          ", line " << inputLineNumber <<
           " ===== ";
         Sxmlelement comment = createElement (kComment, s.str ());
 
@@ -6037,7 +6089,7 @@ void msr2MxmltreeTranslator::appendBasicsToNote (
     noteAlterationKind);
 
   int
-    noteOctave     = note->getNoteOctave ();
+    noteOctave = note->getNoteOctave ();
 
   float
     noteMusicXMLAlter =
@@ -6266,8 +6318,6 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
   } // switch
 
   if (doAppendDuration) {
-    soundingDurationAsRational.rationalise ();
-
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceNotes) {
       fLogOutputStream <<
@@ -6288,7 +6338,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
 
       msrInternalError (
         gOahOah->fInputSourceName,
-        note->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -6465,6 +6515,8 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
       break;
     case msrNote::kSkipNote:
       doGenerateNote = false;
+      // cumulating the skip notes durations for <forward /> elements generation
+      fForwardDuration += note->getNoteSoundingWholeNotes ();
       break;
     case msrNote::kUnpitchedNote:
       break;
