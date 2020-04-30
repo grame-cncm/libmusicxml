@@ -158,7 +158,7 @@ class xml2lyOah : public oahGroup
     // output file
     // --------------------------------------
 
-    string                fOutputFileName;
+    string                fLilyPondOutputFileName;
     bool                  fAutoOutputFileName;
 };
 typedef SMARTP<xml2lyOah> S_xml2lyOah;

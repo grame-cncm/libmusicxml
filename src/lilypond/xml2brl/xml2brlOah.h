@@ -166,7 +166,7 @@ class xml2brlOah : public oahGroup
     // output file
     // --------------------------------------
 
-    string                fOutputFileName;
+    string                fBrailleMusicOutputFileName;
     bool                  fAutoOutputFile;
 };
 typedef SMARTP<xml2brlOah> S_xml2brlOah;

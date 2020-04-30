@@ -692,7 +692,7 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2brlOah->fOutputFileName;
+      gXml2brlOah->fBrailleMusicOutputFileName;
 
   int
     outputFileNameSize =

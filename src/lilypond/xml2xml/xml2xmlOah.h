@@ -158,7 +158,7 @@ class xml2xmlOah : public oahGroup
     // output file
     // --------------------------------------
 
-    string                fOutputFileName;
+    string                fMusicXMLOutputFileName;
     bool                  fAutoOutputFileName;
 };
 typedef SMARTP<xml2xmlOah> S_xml2xmlOah;

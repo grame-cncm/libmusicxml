@@ -678,7 +678,7 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2lyOah->fOutputFileName;
+      gXml2lyOah->fLilyPondOutputFileName;
 
   int
     outputFileNameSize =

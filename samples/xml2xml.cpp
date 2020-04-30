@@ -643,7 +643,7 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2xmlOah->fOutputFileName;
+      gXml2xmlOah->fMusicXMLOutputFileName;
 
   int
     outputFileNameSize =

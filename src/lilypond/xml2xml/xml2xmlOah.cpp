@@ -326,14 +326,14 @@ void xml2xmlOahHandler::checkOptionsAndArguments ()
     }
 
     // keep potentialOutputFileName
-    gXml2xmlOah->fOutputFileName = potentialOutputFileName;
+    gXml2xmlOah->fMusicXMLOutputFileName = potentialOutputFileName;
   }
 
   // check auto output file option usage
   // ------------------------------------------------------
 
   if (gXml2xmlOah->fAutoOutputFileName) {
-    if (gXml2xmlOah->fOutputFileName.size ()) {
+    if (gXml2xmlOah->fMusicXMLOutputFileName.size ()) {
       stringstream s;
 
       s <<
@@ -356,7 +356,7 @@ void xml2xmlOahHandler::checkOptionsAndArguments ()
     }
 
     else {
-      gXml2xmlOah->fOutputFileName =
+      gXml2xmlOah->fMusicXMLOutputFileName =
         potentialOutputFileName;
     }
   }
@@ -658,8 +658,8 @@ R"()",
           "o", "output-file-name",
 R"(Write MusicXML code to file FILENAME instead of standard output.)",
           "FILENAME",
-          "outputFileName",
-          fOutputFileName));
+          "musicXMLOutputFileName",
+          fMusicXMLOutputFileName));
 
     // auto output filename
 
@@ -700,7 +700,7 @@ void xml2xmlOah::printXml2xmlOahValues (int fieldWidth)
 
   gLogOstream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
+    fMusicXMLOutputFileName <<
     "\"" <<
     endl;
 

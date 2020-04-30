@@ -335,7 +335,7 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
   // ------------------------------------------------------
 
   if (gXml2lyOah->fAutoOutputFileName) {
-    if (gXml2lyOah->fOutputFileName.size ()) {
+    if (gXml2lyOah->fLilyPondOutputFileName.size ()) {
       stringstream s;
 
       s <<
@@ -358,7 +358,7 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
     }
 
     else {
-      gXml2lyOah->fOutputFileName =
+      gXml2lyOah->fLilyPondOutputFileName =
         potentialOutputFileName;
     }
   }
@@ -468,11 +468,6 @@ void xml2lyOah::browseData (basevisitor* v)
 #endif
 
   oahGroup::browseData (v);
-
-  /*
-    string                fOutputFileName;
-    bool                  fAutoOutputFileName;
-  */
 }
 
 //______________________________________________________________________________
@@ -668,8 +663,8 @@ R"()",
           "o", "output-file-name",
 R"(Write LilyPond code to file FILENAME instead of standard output.)",
           "FILENAME",
-          "outputFileName",
-          fOutputFileName));
+          "lilyPondOutputFileName",
+          fLilyPondOutputFileName));
 
     // auto output filename
 
@@ -708,8 +703,8 @@ void xml2lyOah::printXml2lyOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
+    setw (fieldWidth) << "lilyPondOutputFileName" << " : \"" <<
+    fLilyPondOutputFileName <<
     "\"" <<
     endl;
 

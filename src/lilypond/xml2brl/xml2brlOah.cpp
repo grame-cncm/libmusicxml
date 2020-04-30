@@ -380,7 +380,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
   // ------------------------------------------------------
 
   if (gXml2brlOah->fAutoOutputFile) {
-    if (gXml2brlOah->fOutputFileName.size ()) {
+    if (gXml2brlOah->fBrailleMusicOutputFileName.size ()) {
       stringstream s;
 
       s <<
@@ -403,7 +403,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
     }
 
     else {
-      gXml2brlOah->fOutputFileName =
+      gXml2brlOah->fBrailleMusicOutputFileName =
         potentialOutputFileName;
     }
   }
@@ -721,7 +721,7 @@ R"()",
 R"(Write Braille music to file FILENAME instead of standard output.)",
           "FILENAME",
           "outputFileName",
-          fOutputFileName));
+          fBrailleMusicOutputFileName));
 
     // auto output filename
 
@@ -805,11 +805,6 @@ void xml2brlOah::browseData (basevisitor* v)
 #endif
 
   oahGroup::browseData (v);
-
-  /*
-    string                fOutputFileName;
-    bool                  fAutoOutputFileName;
-  */
 }
 
 //______________________________________________________________________________
@@ -831,8 +826,8 @@ void xml2brlOah::printXml2brlOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
+    setw (fieldWidth) << "brailleMusicOutputFileName" << " : \"" <<
+    fBrailleMusicOutputFileName <<
     "\"" <<
     endl;
 
