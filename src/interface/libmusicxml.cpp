@@ -29,6 +29,10 @@ EXP const char* musicxml2lilypondVersionStr() { return versions::xml2lilypondVer
 EXP float   	musicxml2brailleVersion()     { return versions::xml2brailleVersion(); }
 EXP const char* musicxml2brailleVersionStr()  { return versions::xml2brailleVersionStr(); }
 
+EXP float   	musicxml2musicxmlVersion()      { return versions::xml2brailleVersion(); }
+EXP const char* musicxml2musicxmlVersionStr()   { return versions::xml2brailleVersionStr(); }
+
+
 //------------------------------------------------------------------------
 EXP TFactory factoryOpen  ()            { return new musicxmlfactory(); }
 EXP void  factoryClose (TFactory f)       { delete f; }
