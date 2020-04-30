@@ -65,8 +65,6 @@ help :
 	@echo "the platform targets is automatically evaluated by the default target."	
 	@echo 	
 	@echo "Misc:"
-	@echo "   universal switch to universal binaries (MacOS)"	
-	@echo "   native 	switch universal binaries off (MacOS)"	
 	@echo "   cmake     re-generates the cmake project"	
 	@echo "   format    source code formatting using clang-format"	
 	@echo "   install   install library, tools and headers"	
@@ -82,7 +80,6 @@ help :
 	@echo 
 	@echo "CMake options:"
 	@echo "   FMWK 		[MacOS only] Generates a framework on MacOS. Default is on"
-	@echo "   UNIVERSAL [MacOS only] Generates universal binaries. Default is off"
 	@echo "   GDB 		Activates ggdb3 option. Default is off"
 	@echo "   LILY 		Include lilypond part. Default is on"
 	@echo "NOTE:  CMake options can be passed using CMAKEOPT, e.g."	
@@ -107,12 +104,6 @@ macos : $(PDIR)/libmusicxml2.xcodeproj
 
 $(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
 	cd $(PDIR) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
-
-universal: $(PDIR)
-	cd $(PDIR) && cmake .. -DUNIVERSAL=on -Wno-dev
-
-native: $(PDIR)
-	cd $(PDIR) && cmake .. -DUNIVERSAL=off -Wno-dev
 
 
 #===============================================================

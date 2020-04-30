@@ -1,6 +1,6 @@
 /*
   MusicXML Library
-  Copyright (C) Grame 2006-2013
+  Copyright (C) Grame 2006-2020
 
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,8 +10,7 @@
   research@grame.fr
 */
 
-#ifndef __libmusicxml__
-#define __libmusicxml__
+#pragma once
 
 #ifdef MSVC
 # pragma warning (disable : 4786)
@@ -569,5 +568,3 @@ EXP void    factoryFreeAttribute  (TFactory f, TAttribute attr);
 #endif
 
 }
-
-#endif
