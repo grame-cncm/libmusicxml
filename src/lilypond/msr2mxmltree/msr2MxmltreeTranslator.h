@@ -862,7 +862,7 @@ class msr2MxmltreeTranslator :
     S_msrStaff                fPreviousMSRNoteStaff;
 
     // forward handling
-    rational                  fForwardDuration;
+    rational                  fCumulatedSkipDurations;
 
     void                      appendNoteToMesure (S_msrNote note);
 

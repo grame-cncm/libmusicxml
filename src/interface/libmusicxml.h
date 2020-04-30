@@ -23,7 +23,7 @@
 
 #include "exports.h"
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 enum xmlErr { kNoErr, kInvalidFile, kUnsupported };
 
@@ -56,7 +56,7 @@ EXP const char*   musicxmllibVersionStr();
 \addtogroup Converting MusicXML to Guido Music Notation format
 
 The library includes a high level API to convert from the MusicXML format to the
-Guido Music Notation (GMN) format. For more information about this format, 
+Guido Music Notation (GMN) format. For more information about this format,
 see  http://guidolib.sourceforge.net
 @{
 */
@@ -95,8 +95,19 @@ EXP float       musicxml2brailleVersion();
 EXP const char*   musicxml2brailleVersionStr();
 
 /*!
+  \brief Gives the Braille converter version number.
+  \return a version number as a float value
+*/
+EXP float       musicxml2musicxmlVersion();
+/*!
+  \brief Gives the LilyPond converter version as a string.
+  \return a string
+*/
+EXP const char*   musicxml2musicxmlVersionStr();
+
+/*!
   \brief Converts a MusicXML representation to the Guido format.
-  \param file a file name 
+  \param file a file name
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
@@ -105,7 +116,7 @@ EXP xmlErr      musicxmlfile2guido  (const char *file, bool generateBars, std::o
 
 /*!
   \brief Converts a MusicXML representation to the Guido format.
-  \param fd a file descriptor 
+  \param fd a file descriptor
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
@@ -123,9 +134,9 @@ EXP xmlErr      musicxmlstring2guido(const char *buff, bool generateBars, std::o
 
 /*!
  \brief Converts a MusicXML representation to the Guido format ONLY on asked Part number ID
- 
+
  Courtesy of Antescofo
- 
+
  \param buff a string containing MusicXML code
  \param generateBars a boolean to force barlines generation
  \param out the output stream
@@ -140,7 +151,7 @@ EXP xmlErr      musicxmlstring2guidoOnPart(const char * buffer, bool generateBar
 \addtogroup Converting MusicXML to Antescofo Music Notation format
 
 The library includes a high level API to convert from the MusicXML format to the
-Antescofo Score Notation format. For more information about this format, 
+Antescofo Score Notation format. For more information about this format,
 see  http://repmus.ircam.fr/antescofo
 @{
 */
@@ -157,7 +168,7 @@ EXP const char*   musicxml2antescofoVersionStr();
 
 /*!
   \brief Converts a MusicXML representation to the Antescofo format.
-  \param file a file name 
+  \param file a file name
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
@@ -166,7 +177,7 @@ EXP xmlErr      musicxmlfile2antescofo  (const char *file, bool generateBars, st
 
 /*!
   \brief Converts a MusicXML representation to the Antescofo format.
-  \param fd a file descriptor 
+  \param fd a file descriptor
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
@@ -190,8 +201,8 @@ EXP xmlErr      musicxmlstring2antescofo(const char *buff, bool generateBars, st
 
   The MusicXMl factory API.
 
-  The factory provides a high level API to build a MusicXML tree but gives also a low 
-  level access to the music representation. The idea is to make simple scores easy to build 
+  The factory provides a high level API to build a MusicXML tree but gives also a low
+  level access to the music representation. The idea is to make simple scores easy to build
   while complex scores accessible with a godd knowledge of the MusicXML format.
   The main feature of the factory is the automatic sort of the representation according to the dtd.
   Actually, only a small subset of the containers is not handled due to forms like (A, B)*
@@ -204,9 +215,9 @@ EXP xmlErr      musicxmlstring2antescofo(const char *buff, bool generateBars, st
     - ornaments
     - time
 
-  <b>Note:</b> for many elements (e.g. the measure element) the dtd do not impose an order. 
-  They have a form like ( A | B | C )* and thus any order is legal and the corresponding elements 
-  are not sorted. However, the elements semantic may require a given order, 
+  <b>Note:</b> for many elements (e.g. the measure element) the dtd do not impose an order.
+  They have a form like ( A | B | C )* and thus any order is legal and the corresponding elements
+  are not sorted. However, the elements semantic may require a given order,
   for example, the division attribute may be expected before a first duration element is encountered.
   It's the encoding application responsibility to build the elements with the appropriate order.
   These elements are:
@@ -230,25 +241,25 @@ EXP xmlErr      musicxmlstring2antescofo(const char *buff, bool generateBars, st
     - part
 
   <b>Note concerning the memory management: </b>
-  all the elements or attributes allocated using the factory API (functions that return a TElement 
+  all the elements or attributes allocated using the factory API (functions that return a TElement
   or a TAttribute) should be released using factoryFreeElement or factoryFreeAttribute unless they are
-  added to the other elements (factoryAddElement or factoryAddAttribute) or to the music description 
+  added to the other elements (factoryAddElement or factoryAddAttribute) or to the music description
   (factoryAddPartlist)
 
   <b>Overview of the format and API</b>
 
-  A MusicXML partwise score structure is basically made of a header containing various information 
+  A MusicXML partwise score structure is basically made of a header containing various information
   and a require parts list, followed by a list of parts, including measures, made of various 'music data'.
   <pre>
     'partwise score'  := 'opt. header' 'part-list' 'part'  ...  'part'
     'part'            := 'measure' ... 'measure'
     'measure'         := 'music-data' ... 'music-data'
   </pre>
-  The factory API reflects this structure: 
+  The factory API reflects this structure:
   - it provides functions to create the header information: factoryHeader(), factoryCreator(), factoryRights(), factoryEncoding()
   - it provides functions to describe the parts list: factoryScorepart(), factoryAddPart() (with a score-part element as argument), factoryAddGroup()
-  - it provides high level functions to create measures, notes, rests and chords: factoryMeasureA(), factoryMeasureB(), factoryNote(), factoryRest(), factoryChord() 
-  - it provides high level functions to add "compound" attributes to notes like tuplet specification (factoryTuplet()), ties (factoryTie()) 
+  - it provides high level functions to create measures, notes, rests and chords: factoryMeasureA(), factoryMeasureB(), factoryNote(), factoryRest(), factoryChord()
+  - it provides high level functions to add "compound" attributes to notes like tuplet specification (factoryTuplet()), ties (factoryTie())
     or to create "compound" elements (factoryDynamic(), factoryBarline())
   - the remaining functions are low level function to create elements, attributes and hierarchy of elements
 @{
@@ -313,14 +324,14 @@ EXP void    factoryRights (TFactory f, const char* r, const char* type);
 EXP void    factoryEncoding (TFactory f, const char* software);
 
 /*!
-  \brief Adds a part. 
+  \brief Adds a part.
   \param f the MusicXML factory
   \param part actually a 'score-part' or a 'part' element. Pushed to the adequate location, depending on the element type.
 */
 EXP void    factoryAddPart (TFactory f, TElement part);
 
 /*!
-  \brief Adds parts grouped in a 'part-group'. 
+  \brief Adds parts grouped in a 'part-group'.
   \param f the MusicXML factory
   \param number the group number
   \param name the group name
@@ -332,7 +343,7 @@ EXP void    factoryAddPart (TFactory f, TElement part);
 EXP void    factoryAddGroup (TFactory f, int number, const char* name, const char* abbrev, bool groupbarline, TElement* parts);
 
 /*!
-  \brief Adds an element to another element. 
+  \brief Adds an element to another element.
   \param f the MusicXML factory
   \param elt a container element.
   \param subelt the element added to the container element.
@@ -341,7 +352,7 @@ EXP void    factoryAddGroup (TFactory f, int number, const char* name, const cha
 EXP void    factoryAddElement (TFactory f, TElement elt, TElement subelt);
 
 /*!
-  \brief Adds a set of elements to another element. 
+  \brief Adds a set of elements to another element.
   \param f the MusicXML factory
   \param elt the destination container.
   \param subelts a null terminated array of elements.
@@ -350,7 +361,7 @@ EXP void    factoryAddElement (TFactory f, TElement elt, TElement subelt);
 EXP void    factoryAddElements  (TFactory f, TElement elt, TElement* subelts);
 
 /*!
-  \brief Adds an attribute to an element. 
+  \brief Adds an attribute to an element.
   \param f the MusicXML factory
   \param elt an element.
   \param attr the attribute to be added.
@@ -408,8 +419,8 @@ EXP TElement  factoryNote   (TFactory f, const char* step, float alter, int octa
   \brief Creates a dynamics element containing a dynamic \c type.
   \param f the MusicXML factory
   \param type the dynamic type
-  \param placement optional placement dynamics attribute. Should be in "above" or "below". 
-   A null value prevents the attribute creation. 
+  \param placement optional placement dynamics attribute. Should be in "above" or "below".
+   A null value prevents the attribute creation.
 */
 EXP TElement  factoryDynamic  (TFactory f, int type, const char* placement);
 
@@ -417,9 +428,9 @@ EXP TElement  factoryDynamic  (TFactory f, int type, const char* placement);
   \brief Creates a barline element with the corresponding sub-elements.
   \param f the MusicXML factory
   \param location the barline location attribute. A null value prevents the attribute creation.
-  \param barstyle optional optional bar-style element. Should be in regular, dotted, dashed, heavy, light-light, 
-  light-heavy, heavy-light, heavy-heavy, tick (a short stroke through the top line), short (a partial barline 
-  between the 2nd and 4th lines), and none. A null value prevents the barstyle creation. 
+  \param barstyle optional optional bar-style element. Should be in regular, dotted, dashed, heavy, light-light,
+  light-heavy, heavy-light, heavy-heavy, tick (a short stroke through the top line), short (a partial barline
+  between the 2nd and 4th lines), and none. A null value prevents the barstyle creation.
   \param repeat optional repeat element with the corresponding required direction attribute. Should be
   in backward or forward. A null value prevents the repeat creation.
 */
@@ -431,7 +442,7 @@ EXP TElement  factoryBarline  (TFactory f, const char* location, const char* bar
   \param actual the actual notes count
   \param normal the normal notes count
   \param notes a null terminated list of notes.
-  \note: factoryTuplet creates the corresponding time-modification element for each note and 
+  \note: factoryTuplet creates the corresponding time-modification element for each note and
   the tuplet elements for the first and last notes of the list.
 */
 EXP void    factoryTuplet (TFactory f, int actual, int normal, TElement * notes);
@@ -473,8 +484,8 @@ EXP TElement  factoryRest   (TFactory f, int duration, const char* type);
   \brief Makes a chord from the gievn notes.
   \param f the MusicXML factory
   \param notes a null terminated list of notes.
-  Actually, chords are denoted by a 'chord' element included to the note element, indicating that the note is 
-  an additional chord tone with the preceding note. For convenience, all the chord notes should be given to 
+  Actually, chords are denoted by a 'chord' element included to the note element, indicating that the note is
+  an additional chord tone with the preceding note. For convenience, all the chord notes should be given to
   the function but the first one is skipped when adding the 'chord' element.
 */
 EXP void    factoryChord  (TFactory f, TElement * notes);

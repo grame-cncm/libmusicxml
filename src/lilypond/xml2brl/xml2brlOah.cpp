@@ -298,7 +298,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
 
   if (gOahOah->fInputSourceName != "-") {
     // determine potential output file name,
-    // may be set differently by '--ofn, --outputFileName' option
+    // may be set differently by '--o, --outputFileName' option
     potentialOutputFileName =
       baseName (
         gOahOah->fInputSourceName);

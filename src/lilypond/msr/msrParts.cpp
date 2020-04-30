@@ -2174,7 +2174,7 @@ void msrPart::printPartMeasuresWholeNotesDurationsVector (
     for (int i = 0; i < fPartNumberOfMeasures; ++i) {
       int j = i + 1;
       os << left <<
-        "ord. " << setw (3) << right <<
+        "ordinal number " << setw (3) << right <<
         j << " : " <<
         setw (4) <<
         fPartMeasuresWholeNotesDurationsVector [ i ].toString ();

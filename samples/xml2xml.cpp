@@ -31,7 +31,7 @@
 #include "msrOah.h"
 #include "lpsrOah.h"
 
-#include "xml2lyOah.h"
+#include "xml2xmlOah.h"
 
 #include "musicXML2MxmlTreeInterface.h"
 
@@ -83,7 +83,7 @@ static void catchsigs()	{}
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-  S_xml2lyOahHandler handler,
+  S_xml2xmlOahHandler handler,
   int                argc,
   char*              argv [],
   indentedOstream&   logIndentedOutputStream)
@@ -126,7 +126,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
       stringstream s;
 
       s <<
-        "compressed MusicXML files are not handled by xml2ly currently, exiting";
+        "compressed MusicXML files are not handled by xml2xml currently, exiting";
 
       msrMusicXMLError (
         inputSourceName,
@@ -607,7 +607,6 @@ void convertMusicXMLBackToMusicXML (
       outputFileName,
       regex (".ly"),
       "_LOOP.xml"));
-  }
 }
 
 //_______________________________________________________________________________
@@ -621,9 +620,9 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2lyOahHandler
+  S_xml2xmlOahHandler
     handler =
-      xml2lyOahHandler::create (
+      xml2xmlOahHandler::create (
         argv [0],
         gOutputOstream);
 
@@ -644,7 +643,7 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2lyOah->fOutputFileName;
+      gXml2xmlOah->fOutputFileName;
 
   int
     outputFileNameSize =

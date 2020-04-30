@@ -65,7 +65,7 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
   fPendingNoteElement = nullptr;
 
   // forward handling
-  fForwardDuration = rational (0, 1);
+  fCumulatedSkipDurations = rational (0, 1);
 
 /*
   // double tremolos
@@ -2909,8 +2909,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
     fPartDivisionsElementHasToBeAppended = false;
   }
 
+  // there's no previous MSR note yet in this measure
+  fPreviousMSRNote = nullptr;
+
   // forward handling
-  fForwardDuration = rational (0, 1);
+  fCumulatedSkipDurations = rational (0, 1);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
@@ -4578,22 +4581,26 @@ void msr2MxmltreeTranslator:: appendNoteDynamics (S_msrNote note)
 //________________________________________________________________________
 void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
 {
+  int inputLineNumber =
+     note->getInputLineNumber ();
+
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes) {
+  if (gMxmlTreeOah->fTraceBackup || gMxmlTreeOah->fTraceForward) {
     fLogOutputStream <<
       "--> appendABackupOrForwardIfNeeded, note = " <<
       note->asShortString () <<
+      ", fCumulatedSkipDurations: " << fCumulatedSkipDurations <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
 /*
   A <backup /> is needed when a note is in another voice as the previous one.
-  A <forward /> is needed when a note follows a skip in the same voice.
+  A <forward /> is needed when a note follows one or more skip(s) in the same voice.
+  Consecutive skips are not created by mxmlTree2msr from MusicXML data,
+  but this may happen if the  MSR API is used freely
 */
-
-  int inputLineNumber =
-     note->getInputLineNumber ();
 
   if (fPreviousMSRNote) {
     int
@@ -4608,64 +4615,106 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
 
     if (noteStaffNumber == previousMSRNoteStaffNumber) {
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
+        // same staff, same voice
+
         // is a <forward /> element needed?
-        if (fForwardDuration.getNumerator () != 0) {
-        /*
-      <forward>
-        <duration>16</duration>
-        <voice>1</voice>
-        <staff>1</staff>
-      </forward>
-        */
-        // fetch the forward duration divisions
-        int durationDivisions =
-          wholeNotesAsDivisions (
-            inputLineNumber,
-            fForwardDuration);
+        if (fCumulatedSkipDurations.getNumerator () != 0) {
+          /*
+            <forward>
+              <duration>16</duration>
+              <voice>1</voice>
+              <staff>1</staff>
+            </forward>
+          */
 
-        // create a forward comment
-        S_msrVoice
-          noteVoice =
-            note->fetchNoteVoice ();
+          // fetch the forward duration divisions
+          int
+            forwardDurationDivisions =
+              wholeNotesAsDivisions (
+                inputLineNumber,
+                fCumulatedSkipDurations);
 
-        stringstream s;
-        s <<
-          " ===== " <<
-          "Forward" <<
-          ", duration: " << durationDivisions <<
-          ", in staff: " << previousMSRNoteStaffNumber <<
-          ", in voice: " << previousMSRNoteVoiceNumber <<
-          ", line " << inputLineNumber <<
-          " ===== ";
-        Sxmlelement comment = createElement (kComment, s.str ());
+#ifdef TRACE_OAH
+          if (gMxmlTreeOah->fTraceForward) {
+            fLogOutputStream <<
+              "Creating a forward element, note = " <<
+              note->asShortString () <<
+              ", forwardDurationDivisions: " << forwardDurationDivisions <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+#endif
 
-        // append it to the current measure element
-        appendOtherToMeasure (comment);
+          // create a forward comment
+          S_msrVoice
+            noteVoice =
+              note->fetchNoteVoice ();
 
-        // create a forward element
-        Sxmlelement forwardElement = createElement (k_forward, "");
+          stringstream s;
+          s <<
+            " ===== " <<
+            "Forward" <<
+            ", forwardDurationDivisions: " << forwardDurationDivisions <<
+            ", in staff: " << previousMSRNoteStaffNumber <<
+            ", in voice: " << previousMSRNoteVoiceNumber <<
+            ", line " << inputLineNumber <<
+            " ===== ";
+          Sxmlelement comment = createElement (kComment, s.str ());
 
-        // append a duration sub-element to it
-        forwardElement->push (
-          createIntegerElement (k_duration, durationDivisions));
+          // append it to the current measure element
+          appendOtherToMeasure (comment);
 
-        // append a voice sub-element to it
-        forwardElement->push (
-          createIntegerElement (k_voice, noteVoiceNumber));
+          // create a forward element
+          Sxmlelement forwardElement = createElement (k_forward, "");
 
-        // append a staff sub-element to it
-        forwardElement->push (
-          createIntegerElement (k_staff, noteStaffNumber));
+          // append a duration sub-element to it
+          forwardElement->push (
+            createIntegerElement (k_duration, forwardDurationDivisions));
 
-        // append it to the current measure element
-        appendOtherToMeasure (forwardElement);
+          // append a voice sub-element to it
+          forwardElement->push (
+            createIntegerElement (k_voice, noteVoiceNumber));
+
+          // append a staff sub-element to it
+          forwardElement->push (
+            createIntegerElement (k_staff, noteStaffNumber));
+
+          // append it to the current measure element
+          appendOtherToMeasure (forwardElement);
+
+          // reset the cumulated skip durations
+          fCumulatedSkipDurations = rational (0, 1);
         }
       }
 
       else {
+        // same staff, different voice
+
         // fetch the backup duration divisions
-        int durationDivisions =
-          1;
+        rational
+          backupDuration =
+            fPreviousMSRNote->getMeasureElementPositionInMeasure ()
+              +
+            fPreviousMSRNote->getNoteSoundingWholeNotes ()
+              -
+            fPreviousMSRNote->getMeasureElementPositionInMeasure ();
+
+        int
+          backupDurationDivisions =
+            wholeNotesAsDivisions (
+              inputLineNumber,
+              backupDuration);
+
+#ifdef TRACE_OAH
+          if (gMxmlTreeOah->fTraceBackup) {
+            fLogOutputStream <<
+              "Creating a backup element, note = " <<
+              note->asShortString () <<
+              ", backupDurationDivisions: " << backupDurationDivisions <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+#endif
 
         // create a backup comment
         S_msrVoice
@@ -4676,7 +4725,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
         s <<
           " ===== " <<
           "Backup" <<
-          ", duration: " << durationDivisions <<
+          ", backupDurationDivisions: " << backupDurationDivisions <<
           ", from staff: " << previousMSRNoteStaffNumber <<
           ", to staff: " << noteStaffNumber <<
           ", line " << inputLineNumber <<
@@ -4691,17 +4740,20 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
 
         // append a duration sub-element to it
         backupElement->push (
-          createIntegerElement (k_duration, durationDivisions));
+          createIntegerElement (k_duration, backupDurationDivisions));
 
         // append it to the current measure element
         appendOtherToMeasure (backupElement);
       }
     }
+
     else {
       // there is a staff change
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
+        // JMI
       }
       else {
+        // JMI
       }
     }
   }
@@ -6516,7 +6568,8 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
     case msrNote::kSkipNote:
       doGenerateNote = false;
       // cumulating the skip notes durations for <forward /> elements generation
-      fForwardDuration += note->getNoteSoundingWholeNotes ();
+      fCumulatedSkipDurations +=
+        note->getNoteSoundingWholeNotes ();
       break;
     case msrNote::kUnpitchedNote:
       break;
