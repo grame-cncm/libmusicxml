@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+       "lib": [ "es2015", "dom" ],
+       "module": "system",
+        "target": "es5",
+        "noImplicitAny": true,
+        "outDir": "build",
+        "out": "../../docs/lxmlconverter.js",
+        "sourceMap": false,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "allowJs": false
+    }
+}
