@@ -18,4 +18,5 @@ interface libMusicXMLAdapter {
     musicxml2guidoVersionStr(): string;
 
 	string2guido (xml: string, generateBars: boolean): 	string;
+	xmlStringTranspose (xml: string, interval: number): string;
 }
