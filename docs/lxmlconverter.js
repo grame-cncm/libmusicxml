@@ -154,6 +154,7 @@ var XMLConverter = /** @class */ (function () {
         div.addEventListener("drop", function (e) { _this.drop(e); }, true);
         $("input[name='output'").change(function (event) { _this.changeMode($("input[name='output']:checked").val()); });
         $("#gmnbars").change(function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
+        $("#transpose").change(function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
         $("#guidotry").click(function (event) { _this.tryGuido(); });
         $("#save").click(function (event) { _this.save(); });
         this.changeMode($("input[name='output']:checked").val());
@@ -182,6 +183,12 @@ var XMLConverter = /** @class */ (function () {
             case kBrailleMode: return ".brl";
         }
         return "";
+    };
+    XMLConverter.prototype.getTranspose = function () {
+        var trsp = $("#transpose").val();
+        if (trsp.length)
+            return parseInt(trsp);
+        return 0;
     };
     XMLConverter.prototype.cversion = function () {
         switch (this.fMode) {
@@ -229,6 +236,9 @@ var XMLConverter = /** @class */ (function () {
         var code = "";
         switch (this.fMode) {
             case kGuidoMode:
+                var transpose = this.getTranspose();
+                if (transpose)
+                    script = this.fXmlEngine.xmlStringTranspose(script, transpose);
                 code = this.fXmlEngine.string2guido(script, $("#gmnbars").is(":checked"));
                 this.changeGuidoTryStatus();
                 break;

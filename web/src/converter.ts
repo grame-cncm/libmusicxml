@@ -71,6 +71,7 @@ class XMLConverter {
 
 		$("input[name='output'").change ( (event) => { this.changeMode(<string>$("input[name='output']:checked").val()); } );
 		$("#gmnbars").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
+		$("#transpose").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
 		$("#guidotry").click			( (event) => { this.tryGuido(); } );
 		$("#save").click				( (event) => { this.save(); } );
 
@@ -103,6 +104,12 @@ class XMLConverter {
 			case kBrailleMode: return ".brl";
 		}
 		return "";
+	}
+
+	getTranspose () : number {
+		let trsp = <string>$("#transpose").val();
+		if (trsp.length) return parseInt(trsp);
+		return 0;
 	}
 
 	cversion () : string		{ 
@@ -148,6 +155,8 @@ class XMLConverter {
 		let code = "";
 		switch (this.fMode) {
 			case kGuidoMode:
+				let transpose = this.getTranspose();
+				if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
 				code = this.fXmlEngine.string2guido(script, $("#gmnbars").is(":checked"));
 				this.changeGuidoTryStatus();
 				break;
