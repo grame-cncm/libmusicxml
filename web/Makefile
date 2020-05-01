@@ -22,8 +22,8 @@ LXMLNODE := node_modules/@grame/libmusicxml
 
 all:
 	$(MAKE) tslibs
-	$(MAKE) ts
 	$(MAKE) libs
+	$(MAKE) ts
 	$(MAKE) css
 	$(MAKE) readme
 #	git checkout $(DIST)/CNAME
@@ -52,7 +52,7 @@ ts : $(TSLIB) $(DIST)/lxmlconverter.js
 $(DIST)/lxmlconverter.js : $(TSFILES)
 	cd $(TSFOLDER) && tsc
 
-tslibs:
+tslibs: $(TSLIB)
 	cp $(LXMLNODE)/libmusicxml.ts $(TSLIB)
 	cp $(LXMLNODE)/libmusicxml.d.ts $(TSLIB)
 
