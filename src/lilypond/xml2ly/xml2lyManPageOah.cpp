@@ -12,6 +12,7 @@
 
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
+#include <regex>
 
 #include "utilities.h"
 
@@ -276,7 +277,10 @@ R"(Write the contents of the OAH data to standard error.)",
     appendAtomToSubGroup (
       xml2lyManPageGenerateAtom::create (
         "gmp", "generate-man-page",
-R"(Write man page data to standard output.)",
+        regex_replace (
+R"(Write man page data for EXECUTABLE to standard output.)",
+          regex ("EXECUTABLE"),
+          gOahOah->fHandlerExecutableName),
         fOahVisitor));
 }
 

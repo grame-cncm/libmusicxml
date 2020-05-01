@@ -17,9 +17,9 @@
   #include "traceOah.h"
 #endif
 
-#include "messagesHandling.h"
-
 #include "oahOah.h"
+
+#include "messagesHandling.h"
 
 #include "oahElements.h"
 

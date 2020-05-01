@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___optionsElements___
-#define ___optionsElements___
+#ifndef ___oahElements___
+#define ___oahElements___
 
 using namespace std;
 
@@ -254,14 +254,16 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void set (basevisitor* v) { fVisitor = v; }
 
     virtual void browse (T& t) {
+/* JMI
 #ifdef TRACE_OAH
-  //    if (gOahOah->fTraceOahVisitors) {
+      if (gOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> browse()" <<
           endl;
-  //    }
+      }
 #endif
+*/
 
       enter (t);
 
@@ -275,26 +277,30 @@ template <typename T> class oahBrowser : public browser <T>
     basevisitor*  fVisitor;
 
     virtual void enter (T& t) {
+/* JMI
 #ifdef TRACE_OAH
-  //    if (gOahOah->fTraceOahVisitors) {
+      if (gOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> enter()" <<
           endl;
-  //    }
+      }
 #endif
+*/
 
       t.acceptIn  (fVisitor);
     }
     virtual void leave (T& t) {
+/* JMI
 #ifdef TRACE_OAH
-  //    if (gOahOah->fTraceOahVisitors) {
+      if (gOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> leave()" <<
           endl;
-  //    }
+      }
 #endif
+*/
 
       t.acceptOut (fVisitor);
     }

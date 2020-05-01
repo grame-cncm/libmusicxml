@@ -268,29 +268,29 @@ class mxmlTreeOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMusicXMLTraceOah (
+    void                  initializeMxmlTreeTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMusicXMLHeaderOptions (
+    void                  initializeMxmlTreeHeaderOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMusicXMLClefsKeysTimesOptions (
+    void                  initializeMxmlTreeClefsKeysTimesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMusicXMMeasuresOptions (
+    void                  initializeMxmlTreeMeasuresOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMusicXMLWordsOptions (
+    void                  initializeMxmlTreeWordsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMusicXMLDynamicsAndWedgesOptions (
+    void                  initializeMxmlTreeDynamicsAndWedgesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMusicXMLCombinedOptionsOptions (
+    void                  initializeMxmlTreeCombinedOptionsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMusicXMLLoopOptions (
+    void                  initializeMxmlTreeLoopOptions (
                             bool boolOptionsInitialValue);
 
   public:

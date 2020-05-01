@@ -757,7 +757,7 @@ mxmlTreeOah::~mxmlTreeOah ()
 {}
 
 #ifdef TRACE_OAH
-void mxmlTreeOah::initializeMusicXMLTraceOah (
+void mxmlTreeOah::initializeMxmlTreeTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -900,7 +900,7 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 }
 #endif
 
-void mxmlTreeOah::initializeMusicXMLHeaderOptions (
+void mxmlTreeOah::initializeMxmlTreeHeaderOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -941,7 +941,7 @@ This is useful because LilyPond doesn't feature a 'lyricist' variable.)",
         fUseLyricistsAsPoets));
 }
 
-void mxmlTreeOah::initializeMusicXMLClefsKeysTimesOptions (
+void mxmlTreeOah::initializeMxmlTreeClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1071,7 +1071,7 @@ R"(Ignore times that are the same as the current one.)",
       fIgnoreRedundantTimesAtom);
 }
 
-void mxmlTreeOah::initializeMusicXMMeasuresOptions (
+void mxmlTreeOah::initializeMxmlTreeMeasuresOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1105,7 +1105,7 @@ This option can be used any number of times.)###",
         fAddEmptyMeasuresStringToIntMap));
 }
 
-void mxmlTreeOah::initializeMusicXMLWordsOptions (
+void mxmlTreeOah::initializeMxmlTreeWordsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1130,7 +1130,7 @@ R"(Convert words elements STRING to an MSR 'dal segno' element'.)",
         fConvertWordsToDalSegno));
 }
 
-void mxmlTreeOah::initializeMusicXMLDynamicsAndWedgesOptions (
+void mxmlTreeOah::initializeMxmlTreeDynamicsAndWedgesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1169,7 +1169,7 @@ R"(Ignore wedges placement and set it to 'below'.)",
         fAllWedgesBelow));
 }
 
-void mxmlTreeOah::initializeMusicXMLCombinedOptionsOptions (
+void mxmlTreeOah::initializeMxmlTreeCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1216,7 +1216,7 @@ R"(Useful settings for MusicXML data exported from Cubase.)",
       fIgnoreRedundantTimesAtom);
 }
 
-void mxmlTreeOah::initializeMusicXMLLoopOptions (
+void mxmlTreeOah::initializeMxmlTreeLoopOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1256,44 +1256,44 @@ void mxmlTreeOah::initializeMxmlTreeOah (
 #ifdef TRACE_OAH
   // trace
   // --------------------------------------
-  initializeMusicXMLTraceOah (
+  initializeMxmlTreeTraceOah (
     boolOptionsInitialValue);
 #endif
 
   // header
   // --------------------------------------
-  initializeMusicXMLHeaderOptions (
+  initializeMxmlTreeHeaderOptions (
     boolOptionsInitialValue);
 
   // clefs, keys, times
   // --------------------------------------
-  initializeMusicXMLClefsKeysTimesOptions (
+  initializeMxmlTreeClefsKeysTimesOptions (
     boolOptionsInitialValue);
 
   // measures
   // --------------------------------------
-  initializeMusicXMMeasuresOptions (
+  initializeMxmlTreeMeasuresOptions (
     boolOptionsInitialValue);
 
   // words
   // --------------------------------------
-  initializeMusicXMLWordsOptions (
+  initializeMxmlTreeWordsOptions (
     boolOptionsInitialValue);
 
   // dynamics and wedges
   // --------------------------------------
-  initializeMusicXMLDynamicsAndWedgesOptions (
+  initializeMxmlTreeDynamicsAndWedgesOptions (
     boolOptionsInitialValue);
 
   // combined options
   // --------------------------------------
-  initializeMusicXMLCombinedOptionsOptions (
+  initializeMxmlTreeCombinedOptionsOptions (
     boolOptionsInitialValue);
 
   // loop to do JMI
   // --------------------------------------
 
-  initializeMusicXMLLoopOptions (
+  initializeMxmlTreeLoopOptions (
     boolOptionsInitialValue);
 }
 
