@@ -1,0 +1,17 @@
+
+/* @media only print { */
+	.header 	{ display: none; }
+	.gmn 		{ display: none; }
+	.rsize 		{ display: none; }
+	.svg 		{ display: block; border: 0px}
+	.footer 	{ display: none; }
+
+	.noprint	{ display: none;  }
+	.well		{ border: 0px;  }
+	.page	 	{ border: 0px; }
+	.tab-content{ border: 0px; }
+	.tab-pane	{ border: 0px; }
+
+	html, body 		{ margin: 0px; }
+	.grid-container {  display: block; border: 0px; }
+/* } */
