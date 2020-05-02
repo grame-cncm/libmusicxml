@@ -9,6 +9,6 @@
         "sourceMap": false,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
-        "allowJs": false
+        "allowJs": true
     }
 }
