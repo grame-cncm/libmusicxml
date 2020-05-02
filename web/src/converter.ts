@@ -168,8 +168,9 @@ class XMLConverter {
 				code = "not yet available";
 				break;
 		}
-		$("#code").text(code);
+		if (code.length)
+			$("#code").text(code);
+		else
+			$("#lognav").click();
 	} 
 }
-
-

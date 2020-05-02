@@ -250,16 +250,19 @@ var XMLConverter = /** @class */ (function () {
                 code = "not yet available";
                 break;
         }
-        $("#code").text(code);
+        if (code.length)
+            $("#code").text(code);
+        else
+            $("#lognav").click();
     };
     return XMLConverter;
 }());
 function mylog(text, level) {
     var dest = document.getElementById("logs");
     if (level == 1)
-        text = '<span style="color: orange">' + text + '</span>';
+        text = '<span class="warning">' + text + '</span>';
     else if (level == 2)
-        text = '<span style="color: red">' + text + '</span>';
+        text = '<span class="error">' + text + '</span>';
     dest.innerHTML += text + "\n";
 }
 var oldcons = console;
