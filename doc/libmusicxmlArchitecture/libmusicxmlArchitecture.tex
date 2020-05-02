@@ -747,7 +747,7 @@ The formats supported by \lib\ are:
 \lily\ & a text containg commands such as {\tt $\backslash$header}, {\tt $\backslash$override} and {\tt $\backslash$transpose};
 \tabularnewline
 
-Jianpu \lily\ & a text containg \lily\ commands and the use of \lilyJianpu\ (\url {https://github.com/nybbs2003/lilypond-Jianpu/jianpu10a.ly}) to obtain a Jianpu (numbered) score instead of the default western notation. \lilyJianpu\ should be accessible to LilyPond for it to produce the score.
+Jianpu \lily\ & a text containg \lily\ commands and the use of \lilyJianpu\ (\url {https://github.com/nybbs2003/lilypond-Jianpu/jianpu10a.ly}) to obtain a Jianpu (numbered) score instead of the default western notation. \lilyJianpu\ should be accessible to LilyPond for it to produce the score;
 \tabularnewline
 
 \braille\ & a text containg 6-dot cells, as described in \url {http://www.brailleauthority.org/music/Music_Braille_Code_2015.pdf};
@@ -822,7 +822,7 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \def \contentsWidth{0.7\textwidth}
 \def \arraystretch{1.3}
 %
-\begin{tabular}[t]{lp{\contentsWidth}}
+\begin{tabular}[t]{cp{\contentsWidth}}
 {Passes} & {Description} \tabularnewline[0.5ex]
 \hline\\[-3.0ex]
 %
@@ -874,10 +874,10 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \texttt{15} & converts an MSR representation into an xmlelement tree -- ongoing work;
 \tabularnewline
 
-\texttt{16} & converts an meielement tree into MSR data -- in design phase;
+\texttt{\textcolor{gray}{16}} & converts an meielement tree into MSR data -- in design phase;
 \tabularnewline
 
-\texttt{17} & converts MSR data into an meielement tree -- in design phase.
+\texttt{\textcolor{gray}{17}} & converts MSR data into an meielement tree -- in design phase.
 \tabularnewline
 
 \end{tabular}
@@ -895,7 +895,31 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 
 \def \tab {~~~}
 
-The converters provided by \lib\ are in the form of functions. Executable command-line applications are also supplied:
+The converters provided by \lib\ are in the form of functions. Executable command-line applications are also supplied. They are shown in the table below, in which the ones under development are dimmed:
+%\begin{adjustwidth}{-0.5cm}{-0.5cm}
+\begin{center}
+\footnotesize
+\def \contentsWidth{0.6\textwidth}
+\def \arraystretch{1.3}
+%
+\begin{tabular}[t]{l|cccccc}
+ & \multicolumn{6}{c}{Output format} \tabularnewline
+{Input format} & \mxml & \guido & \lily & {Jianpu \lily} & \braille & \mei \tabularnewline[0.5ex] 
+\hline\\[-3.0ex]
+%
+\mxml\ & \xmlToXml & \xmlToGuido & \xmlToLy & \xmlToLy\ {\tt -jianpu} & \xmlToBrl & \textcolor{gray}{\xmlToMei}
+\tabularnewline
+
+\mei\ & \textcolor{gray}{\meiToXml} & \textcolor{gray}{\meiToGuido} & \textcolor{gray}{\meiToLy} & \textcolor{gray}{\meiToLy\ {\tt -jianpu}} & \textcolor{gray}{\meiToBrl} & \textcolor{gray}{\meiToMei}
+\tabularnewline
+
+%\midi\ &  &  &  &  &  &
+%\tabularnewline
+
+\end{tabular}
+\end{center}
+
+The executables available or under development in \lib\ are:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -930,40 +954,25 @@ The {\tt -loop} option is supplied to create \mxml\ data back from the \mxml\ da
 \tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 9 $\Rightarrow$ 11 $\Rightarrow$ 12
 \tabularnewline
 
-\end{tabular}
-\end{center}
 
 
-%\newpage
 
-
-New converters involving \mei\ will be available as as soon as passes 15 and 16, converting MEI element trees into MSR and back, are added to \lib. This will add the following converters to \lib:
-%\begin{adjustwidth}{-0.5cm}{-0.5cm}
-\begin{center}
-\footnotesize
-\def \contentsWidth{0.7\textwidth}
-\def \arraystretch{1.3}
-%
-\begin{tabular}[t]{lp{\contentsWidth}}
-{Converter} & {Description} \tabularnewline[0.5ex]
-\hline\\[-3.0ex]
-%
-\meiToGuido & converts \mei\ data to Guido code, using passes:
+\textcolor{gray}{\meiToGuido} & converts \mei\ data to Guido code, using passes:
 
 \tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 15 $\Rightarrow$ 3
 \tabularnewline
 
-\meiToXml & converts \mei\ data to Guido code, using passes:
+\textcolor{gray}{\meiToXml} & converts \mei\ data to Guido code, using passes:
 
 \tab\ 13 $\Rightarrow$ 15 $\Rightarrow$ 12 $\Rightarrow$ 2
 \tabularnewline
 
-\meiToMei & converts \mei\ data to MSR and back:
+\textcolor{gray}{\meiToMei} & converts \mei\ data to MSR and back:
 
 \tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 17 $\Rightarrow$ 14
 \tabularnewline
 
-\meiToLy & performs the 4 hops from \mei\ to \lily\ to translate the former into the latter, using these passes:
+\textcolor{gray}{\meiToLy} & performs the 4 hops from \mei\ to \lily\ to translate the former into the latter, using these passes:
 
 \tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 6 $\Rightarrow$ 8
 
@@ -972,10 +981,16 @@ The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in whic
 The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data, as is done by \meiToMei;
 \tabularnewline
 
-\meiToBrl & performs the 5 hops from \mei\ to \braille\ to translate the former into the latter (draft):
+\textcolor{gray}{\meiToBrl} & performs the 5 hops from \mei\ to \braille\ to translate the former into the latter (draft):
 
 \tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 9 $\Rightarrow$ 11  $\Rightarrow$ 12
 \tabularnewline
+
+\textcolor{gray}{\xmlToMei} & performs the 4 hops from \mxml\ to \mei\ to translate the former into the latter:
+
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 17 $\Rightarrow$ 14
+\tabularnewline
+
 
 \end{tabular}
 \end{center}
