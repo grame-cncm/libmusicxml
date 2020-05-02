@@ -7,7 +7,7 @@ CSSDIR  := $(DIST)/css
 TSFOLDER := src
 TSLIB	 := $(TSFOLDER)/lib
 LXMLTS  := libmusicxml.ts libmusicxml.d.ts
-TSFILES := $(wildcard src/*.ts) $(LXMLTS:%=$(TSLIB)/%)
+TSFILES := $(wildcard src/*.ts) $(wildcard src/*.js) $(LXMLTS:%=$(TSLIB)/%)
 
 CSS    := css/lxmlweb.css
 

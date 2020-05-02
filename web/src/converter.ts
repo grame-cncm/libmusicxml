@@ -73,7 +73,8 @@ class XMLConverter {
 		$("#gmnbars").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
 		$("#transpose").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
 		$("#guidotry").click			( (event) => { this.tryGuido(); } );
-		$("#save").click				( (event) => { this.save(); } );
+		$("#guidotry").click			( (event) => { this.tryGuido(); } );
+		$("#clearlog").click			( (event) => { $("#logs").html(""); } );
 
 		this.changeMode(<string>$("input[name='output']:checked").val());
 		let logs = document.getElementById ("logs");
