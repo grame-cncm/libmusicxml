@@ -89,6 +89,16 @@ html, body {
 	padding-right: 20px;
 }
 
+.warning {
+	font-weight: bold;
+	font-size: 105%;
+}
+.error {
+	font-weight: bold;
+	font-size: 105%;
+	color: red;
+}
+
 @media only screen and (max-width: 900px) {
 	html, body {
 		padding : 0px;

@@ -2,8 +2,8 @@
 
 function mylog(text, level) {
 	let dest = document.getElementById("logs");
-	if (level==1) 		text = '<span style="color: orange">'+text+'</span>';
-	else if (level==2) 	text = '<span style="color: red">'+text+'</span>';
+	if (level==1) 		text = '<span class="warning">'+text+'</span>';
+	else if (level==2) 	text = '<span class="error">'+text+'</span>';
 	dest.innerHTML += text + "\n";
 }
 
