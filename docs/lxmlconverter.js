@@ -156,7 +156,8 @@ var XMLConverter = /** @class */ (function () {
         $("#gmnbars").change(function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
         $("#transpose").change(function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
         $("#guidotry").click(function (event) { _this.tryGuido(); });
-        $("#save").click(function (event) { _this.save(); });
+        $("#guidotry").click(function (event) { _this.tryGuido(); });
+        $("#clearlog").click(function (event) { $("#logs").html(""); });
         this.changeMode($("input[name='output']:checked").val());
         var logs = document.getElementById("logs");
         // $("#log-font").click		( () => { logs.style.fontFamily = <string>$("#log-font").val(); });
@@ -253,6 +254,31 @@ var XMLConverter = /** @class */ (function () {
     };
     return XMLConverter;
 }());
+function mylog(text, level) {
+    var dest = document.getElementById("logs");
+    if (level == 1)
+        text = '<span style="color: orange">' + text + '</span>';
+    else if (level == 2)
+        text = '<span style="color: red">' + text + '</span>';
+    dest.innerHTML += text + "\n";
+}
+var oldcons = console;
+var console = (function (oldCons) {
+    return {
+        log: function (text) {
+            oldCons.log(text);
+            mylog(text, 0);
+        },
+        warn: function (text) {
+            oldCons.warn(text);
+            mylog(text, 1);
+        },
+        error: function (text) {
+            oldCons.error(text);
+            mylog(text, 2);
+        }
+    };
+}(window.console));
 ///<reference path="lib/libmusicxml.ts"/>
 ///<reference path="converter.ts"/>
 //------------------------------------------------------------------------

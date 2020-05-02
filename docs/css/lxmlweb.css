@@ -50,7 +50,7 @@ html, body {
 
 #codepane    	{ height: 100%; }
 #code    		{ height: 98%; }
-#logs    		{ height: 100%; }
+#logs    		{ height: 100%; font-size: 90%;}
 #logpane    	{ height: 98%; }
 #guidotry		{ }
 .tab-content    { height: calc(100% - 25px); }
@@ -70,12 +70,18 @@ html, body {
 	color: lightgrey;
 	text-align: center;
 }
+.clearbtn {
+	position: absolute;
+	top: calc(100% - 130px); 
+	/* color: rgb(83, 82, 82);  */
+	font-size: 95%;
+}
 .filename {
 	position: absolute;
-	top: 91%; 
-	/* top: calc(100% - 80px);  */
+	top: calc(100% - 90px); 
 	color: rgb(83, 82, 82); 
 	font-size: 95%;
+	padding-left: 15px;
 }
 .options-table > td {
 	padding-top: 10px;
@@ -107,9 +113,11 @@ html, body {
 	  grid-gap: 5px;
 	  padding: 5px;
 	}
+	.clearbtn {
+		position: relative;
+	}
 	.filename {
 		position: relative;
-		color: rgb(83, 82, 82); 
 		font-size: 100%;
 	}
 }
