@@ -11,10 +11,45 @@
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
 
-	<title>LibMusicXML Tools</title>
+	<title>libMusicXML</title>
 </head>
 
-<body>
+<body id="page-top">
+
+<div class="modal fade" id="about">
+    <div class="modal-dialog">
+    
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h2 class="modal-title">libMusicXML version <span id=version></span> </h2>
+		  </div>
+		  <div class="modal-body">
+			<div class="aboutdesc">
+			<p><a href="https://www.musicxml.com/" target=_blank>MusicXML</a> is a music interchange format designed for music notation, analysis, retrieval, and performance applications. The MusicXML format has been initialy developped by Recordare. It is open for use by anyone under a royalty-free license.</p>
+			<p>libMusicXml is a portable library designed close to the MusicXML format and intended to facilitate <a href="https://www.musicxml.com/" target=_blank>MusicXML</a> support.
+			It's an open source project hosted on <a href="https://github.com/grame-cncm/libmusicxml" target=_blank>github</a> that includes notably high level tools for conversion to other music notation formats like <a href="https://guidodoc.grame.fr" target=_blank>Guido Music Notation</a> format, <a href="https://lilypond.org/" target=_blank>Lilypond</a> and <a href="https://en.wikipedia.org/wiki/Braille_music" target=_blank>Braille Music Notation</a>.
+			</p>
+			</div>
+			<hr>
+			<h3>Current converters version: </h3>
+			<table class="vtable">
+				<tr><td>Guido converter:</td><td><span id=guidoversion></span></td>
+				<tr><td>Lilypond converter:</td><td><span id=lilyversion></span></td>
+				<tr><td>Braille converter:</td><td><span id=brailleversion></span></td>
+				<!-- <li>Lilypond converter: <span id=lilyversion></span></li>
+				<li>Braille converter: <span id=brailleversion></span></li> -->
+			</table>
+			<hr>
+			<p class >The libMusicXML project is developped by <a href="https://www.grame.fr/" target=_blank>Grame-CNCM</a> since 2004</p>
+			<br />
+			<a href="https://www.grame.fr/" target=_blank><img class="img-centered" src="imgs/grame.png" width=120px></a>
+		 </div>
+		</div>
+		
+	  </div>
+</div>
 
 <div class="grid-container" id="container">
   <div class="header">
@@ -23,16 +58,17 @@
 	  <div class="container-fluid">
 		<div class="navbar-header">
 		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="sr-only">Toggle navigation</span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>                        
 		  </button>
-		  <a class="navbar-brand" href="#">LibMusicXML Tools</a>
+		  <a class="navbar-brand" href="#page-top">libMusicXML Tools</a>
 		</div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-			<li><a href="#" id="save">Save</a></li>
-			<li><a href="#">About</a></li>
+			<li><a class="page-scroll" href="#" id="save">Save</a></li>
+			<li><a class="page-scroll" href="#" data-toggle="modal" data-target="#about">About</a></li>
 			</ul>
 	  	</div>
 	  </div>
@@ -111,7 +147,7 @@
   </div>
 
 	<div class="footer">
-	<a href="https://libmusicxml.grame.fr" target=_blank>LibMusicXML Project</a> - Copyright 2020 &copy; 
+	<a href="https://libmusicxml.grame.fr" target=_blank>libMusicXML Project</a> - Copyright 2020 &copy; 
 	<a href="https://www.grame.fr" target=_blank>Grame-CNCM</a>
 	</div>
 </div>

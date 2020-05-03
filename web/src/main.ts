@@ -8,7 +8,9 @@ function xmlversion (lxml: libmusicxml) : void {
 	console.log( "LibMusicXML version " + lxml.libVersionStr());
 	$("#lxmlversion").html (lxml.libVersionStr());
 	console.log( "MusicXML to GMN converter version " + lxml.musicxml2guidoVersionStr());
+	$("#version").html (lxml.libVersionStr());
 	$("#xml2guidoversion").html (lxml.musicxml2guidoVersionStr());
+	$("#guidoversion").html (lxml.musicxml2guidoVersionStr());
 }
 
 const lxml = new libmusicxml();
