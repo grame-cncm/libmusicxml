@@ -971,7 +971,7 @@ class lilypondOah : public oahGroup
 
     bool                  fXml2lyInfos;
 
-    bool                  fComments;
+    bool                  fLilyPondComments;
 
     bool                  fGlobal;
 

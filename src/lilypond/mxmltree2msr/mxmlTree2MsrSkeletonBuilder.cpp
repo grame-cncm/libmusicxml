@@ -27,6 +27,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
+#include "msr2LpsrOah.h"
 
 #include "mxmlTree2MsrSkeletonBuilder.h"
 
@@ -3572,7 +3573,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 
   // are there harmonies attached to the current note?
   if (fThereAreHarmoniesToBeAttachedToCurrentNote) {
-    if (gMsrOah->fOmitHarmonies) {
+    if (gMsr2LpsrOah->fOmitHarmonies) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceHarmonies) {
         fLogOutputStream <<
@@ -3606,7 +3607,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 
   // are there figured bass attached to the current note?
   if (fThereAreFiguredBassToBeAttachedToCurrentNote) {
-    if (gMsrOah->fOmitFiguredBasses) {
+    if (gMsr2LpsrOah->fOmitFiguredBasses) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceFiguredBasses) {
         fLogOutputStream <<
@@ -3777,7 +3778,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
   }
 #endif
 
-  if (! gMsrOah->fOmitLyrics) {
+  if (! gMsr2LpsrOah->fOmitLyrics) {
     // create current voice if need be
     S_msrVoice
       currentVoice =

@@ -21,6 +21,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
+#include "msr2LpsrOah.h"
 
 
 using namespace std;
@@ -353,7 +354,7 @@ void msrVoice::initializeVoice (
 
   // compute voice number
   int voiceNumber =
-    gMsrOah->
+    gMsr2LpsrOah->
       fCreateVoicesStaffRelativeNumbers // JMI use it
         ? fRegularVoiceStaffSequentialNumber
         : fVoiceNumber;

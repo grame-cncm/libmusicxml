@@ -2933,16 +2933,18 @@ R"(Generate initial comments showing the compilation date and lilypond.)",
 
   // comments
 
-  fComments = boolOptionsInitialValue;
+  fLilyPondComments = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "com", "comments",
+        "lpcom", "lilypond-comments",
 R"(Generate comments showing the structure of the score
 such as '% part P_POne (P1).)",
-        "comments",
-        fComments));
+        "LilyPondComments",
+        fLilyPondComments));
+
+  // global
 
   fGlobal = boolOptionsInitialValue;
 
@@ -3447,8 +3449,8 @@ S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
   clone->fXml2lyInfos =
     fXml2lyInfos;
 
-  clone->fComments =
-    fComments;
+  clone->fLilyPondComments =
+    fLilyPondComments;
 
   clone->fGlobal =
     fGlobal;
@@ -4111,8 +4113,8 @@ void lilypondOah::printAtomOptionsValues (
       booleanAsString (fXml2lyInfos) <<
       endl <<
 
-    setw (valueFieldWidth) << "comments" << " : " <<
-      booleanAsString (fComments) <<
+    setw (valueFieldWidth) << "LilyPondComments" << " : " <<
+      booleanAsString (fLilyPondComments) <<
       endl <<
 
     setw (valueFieldWidth) << "global" << " : " <<
@@ -4616,8 +4618,8 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
       booleanAsString (fXml2lyInfos) <<
       endl <<
 
-    setw (fieldWidth) << "comments" << " : " <<
-      booleanAsString (fComments) <<
+    setw (fieldWidth) << "LilyPondComments" << " : " <<
+      booleanAsString (fLilyPondComments) <<
       endl <<
 
     setw (fieldWidth) << "global" << " : " <<

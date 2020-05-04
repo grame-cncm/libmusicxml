@@ -28,8 +28,7 @@
 
 #include "generalOah.h"
 #include "mxmlTreeOah.h"
-#include "msrOah.h"
-#include "lpsrOah.h"
+#include "msr2LpsrOah.h"
 
 #include "xml2xmlOah.h"
 
@@ -541,7 +540,7 @@ void convertMusicXMLBackToMusicXML (
       convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree);
 
-  if (gMsrOah->fExit2a) {
+  if (gMsr2LpsrOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -556,7 +555,7 @@ void convertMusicXMLBackToMusicXML (
     mxmlTree,
     mScore);
 
-  if (gMsrOah->fExit2b) {
+  if (gMsr2LpsrOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<

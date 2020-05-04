@@ -22,6 +22,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
+#include "msr2LpsrOah.h"
 
 using namespace std;
 
@@ -89,9 +90,9 @@ void msrPart::initializePart ()
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
-      gMsrOah->fPartsRenamingMap.find (fPartID);
+      gMsr2LpsrOah->fPartsRenamingMap.find (fPartID);
 
-  if (it != gMsrOah->fPartsRenamingMap.end ()) {
+  if (it != gMsr2LpsrOah->fPartsRenamingMap.end ()) {
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
   }
@@ -318,9 +319,9 @@ void msrPart::setPartMsrName (string partMsrName)
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
-      gMsrOah->fPartsRenamingMap.find (fPartMsrName);
+      gMsr2LpsrOah->fPartsRenamingMap.find (fPartMsrName);
 
-  if (it != gMsrOah->fPartsRenamingMap.end ()) {
+  if (it != gMsr2LpsrOah->fPartsRenamingMap.end ()) {
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
 

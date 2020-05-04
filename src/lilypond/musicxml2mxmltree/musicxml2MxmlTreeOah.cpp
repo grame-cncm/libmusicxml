@@ -25,7 +25,7 @@
 #include "messagesHandling.h"
 
 #include "generalOah.h"
-#include "mxmlTreeOah.h"
+#include "musicxml2MxmlTreeOah.h"
 
 
 using namespace std;
@@ -35,25 +35,25 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_mxmlTreeOah gMxmlTreeOah;
-S_mxmlTreeOah gMxmlTreeOahUserChoices;
-S_mxmlTreeOah gMxmlTreeOahWithDetailedTrace;
+S_musicxml2MxmlTreeOah gMusicxml2MxmlTreeOah;
+S_musicxml2MxmlTreeOah gMusicxml2MxmlTreeOahUserChoices;
+S_musicxml2MxmlTreeOah gMusicxml2MxmlTreeOahWithDetailedTrace;
 
-S_mxmlTreeOah mxmlTreeOah::create (
+S_musicxml2MxmlTreeOah musicxml2MxmlTreeOah::create (
   S_oahHandler handlerUpLink)
 {
-  mxmlTreeOah* o = new mxmlTreeOah(
+  musicxml2MxmlTreeOah* o = new musicxml2MxmlTreeOah(
     handlerUpLink);
   assert(o!=0);
   return o;
 }
 
-mxmlTreeOah::mxmlTreeOah (
+musicxml2MxmlTreeOah::musicxml2MxmlTreeOah (
   S_oahHandler handlerUpLink)
   : oahGroup (
-    "MxmlTree",
-    "hmxmlttr", "help-xmlelement-tree",
-R"(These options control the way xmlelement tree is handled.)",
+    "Mxmltree2Msr",
+    "hmxmlt2msr", "help-mxmltree-to-msr",
+R"(These options control the way xmlelement tree is translated to MSR.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {
@@ -72,21 +72,21 @@ R"(These options control the way xmlelement tree is handled.)",
   }
 
   // initialize it
-  initializeMxmlTreeOah (false);
+  initializeMusicxml2MxmlTree (false);
 }
 
-mxmlTreeOah::~mxmlTreeOah ()
+musicxml2MxmlTreeOah::~musicxml2MxmlTreeOah ()
 {}
 
 #ifdef TRACE_OAH
-void mxmlTreeOah::initializeMxmlTreeTraceOah (
+void musicxml2MxmlTreeOah::initializeMxmlTreeTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
         "Trace",
-        "hmxmltt", "help-mxmltree-trace",
+        "hmxmlt2mxmlgree", "help-mxml-to-mxmltree-trace",
 R"()",
         kElementVisibilityAlways,
         this);
@@ -117,13 +117,12 @@ R"()",
     longTracePrefix != nullptr,
     "longTracePrefix is null");
 
-/* not used as of may 2020 JMI
   // the 'MusicXML' multiplex booleans atom
 
   S_oahMultiplexBooleansAtom
     musicXMLMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
-        "Trace SHORT_NAME/LONG_NAME mxmlTree handling.",
+        "Trace SHORT_NAME/LONG_NAME when converting MusicXML data to an xmlelement tree.",
         "SHORT_NAME",
         "LONG_NAME",
         shortTracePrefix,
@@ -132,9 +131,8 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       musicXMLMultiplexBooleansAtom);
-*/
 
-  // visitors
+  // MusicXML tree visiting
 
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
@@ -148,7 +146,7 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 }
 #endif
 
-void mxmlTreeOah::initializeMxmlTreeOah (
+void musicxml2MxmlTreeOah::initializeMusicxml2MxmlTree (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
@@ -159,11 +157,11 @@ void mxmlTreeOah::initializeMxmlTreeOah (
 #endif
 }
 
-S_mxmlTreeOah mxmlTreeOah::createCloneWithDetailedTrace ()
+S_musicxml2MxmlTreeOah musicxml2MxmlTreeOah::createCloneWithDetailedTrace ()
 {
-  S_mxmlTreeOah
+  S_musicxml2MxmlTreeOah
     clone =
-      mxmlTreeOah::create (0);
+      musicxml2MxmlTreeOah::create (0);
       // 0 not to have it inserted twice in the option handler
 
   // set the options handler upLink
@@ -182,7 +180,7 @@ S_mxmlTreeOah mxmlTreeOah::createCloneWithDetailedTrace ()
 }
 
 //______________________________________________________________________________
-void mxmlTreeOah::setAllMxmlTreeTraceOah (
+void musicxml2MxmlTreeOah::setAllMusicXMLTraceOah (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
@@ -192,37 +190,37 @@ void mxmlTreeOah::setAllMxmlTreeTraceOah (
 }
 
 //______________________________________________________________________________
-void mxmlTreeOah::enforceQuietness ()
+void musicxml2MxmlTreeOah::enforceQuietness ()
 {
   fTraceMusicXMLTreeVisitors = false;
 }
 
 //______________________________________________________________________________
-void mxmlTreeOah::checkOptionsConsistency ()
+void musicxml2MxmlTreeOah::checkOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void mxmlTreeOah::acceptIn (basevisitor* v)
+void musicxml2MxmlTreeOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> mxmlTreeOah::acceptIn ()" <<
+      ".\\\" ==> musicxml2MxmlTreeOah::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_mxmlTreeOah>*
+  if (visitor<S_musicxml2MxmlTreeOah>*
     p =
-      dynamic_cast<visitor<S_mxmlTreeOah>*> (v)) {
-        S_mxmlTreeOah elem = this;
+      dynamic_cast<visitor<S_musicxml2MxmlTreeOah>*> (v)) {
+        S_musicxml2MxmlTreeOah elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching mxmlTreeOah::visitStart ()" <<
+            ".\\\" ==> Launching musicxml2MxmlTreeOah::visitStart ()" <<
             endl;
         }
 #endif
@@ -230,25 +228,25 @@ void mxmlTreeOah::acceptIn (basevisitor* v)
   }
 }
 
-void mxmlTreeOah::acceptOut (basevisitor* v)
+void musicxml2MxmlTreeOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> mxmlTreeOah::acceptOut ()" <<
+      ".\\\" ==> musicxml2MxmlTreeOah::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_mxmlTreeOah>*
+  if (visitor<S_musicxml2MxmlTreeOah>*
     p =
-      dynamic_cast<visitor<S_mxmlTreeOah>*> (v)) {
-        S_mxmlTreeOah elem = this;
+      dynamic_cast<visitor<S_musicxml2MxmlTreeOah>*> (v)) {
+        S_musicxml2MxmlTreeOah elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching mxmlTreeOah::visitEnd ()" <<
+            ".\\\" ==> Launching musicxml2MxmlTreeOah::visitEnd ()" <<
             endl;
         }
 #endif
@@ -256,19 +254,19 @@ void mxmlTreeOah::acceptOut (basevisitor* v)
   }
 }
 
-void mxmlTreeOah::browseData (basevisitor* v)
+void musicxml2MxmlTreeOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> mxmlTreeOah::browseData ()" <<
+      ".\\\" ==> musicxml2MxmlTreeOah::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void mxmlTreeOah::printMxmlTreeOahValues (int fieldWidth)
+void musicxml2MxmlTreeOah::printMusicxml2MxmlTreeValues (int fieldWidth)
 {
   gLogOstream <<
     "The MusicXML options are:" <<
@@ -276,6 +274,7 @@ void mxmlTreeOah::printMxmlTreeOahValues (int fieldWidth)
 
   gIndenter++;
 
+#ifdef TRACE_OAH
   // trace
   // --------------------------------------
 
@@ -291,44 +290,45 @@ void mxmlTreeOah::printMxmlTreeOahValues (int fieldWidth)
     endl;
 
   gIndenter--;
+#endif
 
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_mxmlTreeOah& elt)
+ostream& operator<< (ostream& os, const S_musicxml2MxmlTreeOah& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeMxmlTreeOahHandling (
+void initializeMusicxml2MxmlTreeOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
-      "Initializing MusicXML options handling" <<
+      "Initializing Musicxml2Mxml options handling" <<
       endl;
   }
 #endif
 
-  // create the MusicXML options
+  // create the Musicxml2MxmlTree options
   // ------------------------------------------------------
 
-  gMxmlTreeOahUserChoices = mxmlTreeOah::create (
+  gMusicxml2MxmlTreeOahUserChoices = musicxml2MxmlTreeOah::create (
     handler);
-  assert(gMxmlTreeOahUserChoices != 0);
+  assert(gMusicxml2MxmlTreeOahUserChoices != 0);
 
-  gMxmlTreeOah =
-    gMxmlTreeOahUserChoices;
+  gMusicxml2MxmlTreeOah =
+    gMusicxml2MxmlTreeOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  gMxmlTreeOahWithDetailedTrace =
-    gMxmlTreeOah->
+  gMusicxml2MxmlTreeOahWithDetailedTrace =
+    gMusicxml2MxmlTreeOah->
       createCloneWithDetailedTrace ();
       */
 }

@@ -22,6 +22,7 @@
 #endif
 
 #include "mxmlTree2MsrOah.h"
+#include "msr2LpsrOah.h"
 #include "lilypondOah.h"
 
 #include "lpsr2LilypondTranslator.h"
@@ -4162,7 +4163,7 @@ string lpsr2LilypondTranslator::generateAColumnForMarkup (
     s <<
       " } ";
 
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       s <<
         "% " <<
         singularOrPlural (
@@ -5917,7 +5918,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusicBLock& elt)
       getParallelMusicBLockPartGroupBlocks ().size ();
 
   if (fNumberOfPartGroupBlocks) {
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream << left <<
         setw (commentFieldWidth) <<
         "<<" <<
@@ -5953,7 +5954,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
   if (fNumberOfPartGroupBlocks) {
     gIndenter--;
 
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream << left <<
         setw (commentFieldWidth) <<
         ">>" <<
@@ -6033,7 +6034,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       break;
 
     case msrPartGroup::kPartGroupImplicitNo:
-      if (gLilypondOah->fComments) {
+      if (gLilypondOah->fLilyPondComments) {
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth);
       }
@@ -6208,7 +6209,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           endl;
       }
 
-      if (gLilypondOah->fComments) {
+      if (gLilypondOah->fLilyPondComments) {
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) <<
           " <<" << "% part group " <<
@@ -6270,7 +6271,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
       break;
 
     case msrPartGroup::kPartGroupImplicitNo:
-      if (gLilypondOah->fComments) {
+      if (gLilypondOah->fLilyPondComments) {
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) << ">>" <<
           "% part group " <<
@@ -6329,7 +6330,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
         part->getPartInstrumentAbbreviation ();
         */
 
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream << left <<
         setw (commentFieldWidth) <<
         "\\new PianoStaff" <<
@@ -6404,7 +6405,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
 
  // JMI ???   gIndenter--;
 
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream << left <<
         setw (commentFieldWidth) << ">>" <<
         "% part " <<
@@ -6664,7 +6665,7 @@ R"(  \override LedgerLineSpanner.stencil = #MyLedgerLineSpannerPrint
     endl;
 
   // generate the comment if relevant
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
         setw (commentFieldWidth) <<
         "<<" <<
@@ -6699,7 +6700,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
 
   gIndenter--;
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) << ">>" <<
       "% staff " <<
@@ -6921,14 +6922,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     }
 #endif
 
-    if (gMsrOah->fPartsTranspositionMap.size ()) {
+    if (gMsr2LpsrOah->fPartsTranspositionMap.size ()) {
       // should we transpose fCurrentPart?
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
         it =
-          gMsrOah->fPartsTranspositionMap.find (
+          gMsr2LpsrOah->fPartsTranspositionMap.find (
             partName);
 
-      if (it != gMsrOah->fPartsTranspositionMap.end ()) {
+      if (it != gMsr2LpsrOah->fPartsTranspositionMap.end ()) {
         // partName is present in the map,
         // fetch the semitones pitch and octave
         S_msrSemiTonesPitchAndOctave
@@ -7015,7 +7016,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "\\with {" <<
       endl;
 
-    if (gMsrOah->fAddStanzasNumbers) {
+    if (gMsr2LpsrOah->fAddStanzasNumbers) {
       fLilypondCodeOstream <<
         gTab << "stanza = \"" <<
         stanza->getStanzaNumber () <<
@@ -8240,7 +8241,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
   }
 #endif
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "% start of segment " <<
@@ -8264,7 +8265,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
   }
 #endif
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     gIndenter--;
 
     fLilypondCodeOstream << left <<
@@ -8410,7 +8411,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 #endif
 
   // generate comment if relevant
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "% start of " <<
@@ -8473,7 +8474,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       "\\bar \"|\" "; // JMI ???
       */
 
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream <<
         " % kMeasureKindOvercomplete End";
     }
@@ -8614,7 +8615,7 @@ else
           "\\cadenzaOn" <<
           " \\omit Staff.TimeSignature";
 
-        if (gLilypondOah->fComments) {
+        if (gLilypondOah->fLilyPondComments) {
           fLilypondCodeOstream << " % kMeasureKindOvercomplete Start";
         }
 
@@ -8630,7 +8631,7 @@ else
           endl <<
           "\\cadenzaOn";
 
-        if (gLilypondOah->fComments) {
+        if (gLilypondOah->fLilyPondComments) {
           fLilypondCodeOstream << " % kMeasureKindCadenza Start";
         }
 
@@ -8811,7 +8812,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         break;
 
       case msrMeasure::kMeasureKindMusicallyEmpty:
-        if (gLilypondOah->fComments) {
+        if (gLilypondOah->fLilyPondComments) {
           fLilypondCodeOstream <<
             "%{ emptyMeasureKind" <<
             ", line " << inputLineNumber <<
@@ -8822,7 +8823,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         break;
     } // switch
 
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       gIndenter--;
 
       fLilypondCodeOstream << left <<
@@ -15624,7 +15625,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 // JMI    fRepeatDescrsStack.back ()->getRepeatEndingsNumber () <<
     " {";
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       s.str () << "% start of repeat";
@@ -15667,7 +15668,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
 
     gIndenter--;
 
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream << left <<
         setw (commentFieldWidth) <<
         "}" << "% end of repeat" <<
@@ -15735,7 +15736,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 
     // first repeat ending is in charge of
     // outputting the end of the repeat
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream <<
         setw (commentFieldWidth) << left <<
         "}" << "% end of repeat" <<
@@ -15752,7 +15753,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 
     // first repeat ending is in charge of
     // outputting the start of the alternative
-    if (gLilypondOah->fComments) {
+    if (gLilypondOah->fLilyPondComments) {
       fLilypondCodeOstream << left <<
         endl <<
         setw (commentFieldWidth) <<
@@ -15773,7 +15774,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
   // output the start of the ending
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
-      if (gLilypondOah->fComments) {
+      if (gLilypondOah->fLilyPondComments) {
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hooked ending" <<
@@ -15787,7 +15788,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       break;
 
     case msrRepeatEnding::kHooklessEnding:
-      if (gLilypondOah->fComments) {
+      if (gLilypondOah->fLilyPondComments) {
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hookless ending" <<
@@ -15846,7 +15847,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
-      if (gLilypondOah->fComments) {
+      if (gLilypondOah->fLilyPondComments) {
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hooked ending" <<
@@ -15860,7 +15861,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       break;
 
     case msrRepeatEnding::kHooklessEnding:
-      if (gLilypondOah->fComments)   {
+      if (gLilypondOah->fLilyPondComments)   {
         fLilypondCodeOstream << left <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hookless ending" <<
@@ -15895,7 +15896,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 
     // last repeat ending is in charge of
     // outputting the end of the alternative
-    if (gLilypondOah->fComments)   {
+    if (gLilypondOah->fLilyPondComments)   {
       fLilypondCodeOstream << left <<
         setw (commentFieldWidth) <<
         "}" << "% end of alternative" <<
@@ -16100,7 +16101,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "% start of measures repeat" <<
@@ -16142,7 +16143,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
     " }" <<
     endl;
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream <<
       setw (commentFieldWidth) << left <<
       "% end of measures repeat" <<
@@ -16195,7 +16196,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 #endif
 
   // output the start of the ending
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "{" << "% start of measures repeat replicas" <<
@@ -16242,7 +16243,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRestMeasures& elt)
   int restMeasuresNumber =
     elt->getRestMeasuresNumber ();
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "% start of rest measures" <<
@@ -16337,7 +16338,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
   fLilypondCodeOstream <<
     endl;
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     gIndenter--;
 
     fLilypondCodeOstream << left <<
@@ -16368,7 +16369,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRestMeasuresContents& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "% start of rest measures contents " <<
@@ -16399,7 +16400,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasuresContents& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gLilypondOah->fComments) {
+  if (gLilypondOah->fLilyPondComments) {
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "% end of rest measures contents " <<
