@@ -19,7 +19,6 @@
   #include "traceOah.h"
 #endif
 
-#include "mxmlTreeOah.h"
 #include "msrOah.h"
 
 
@@ -1485,8 +1484,6 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
 #ifdef TRACE_OAH
         if (
-          gMxmlTreeOah->fTraceDivisions
-            ||
           gTraceOah->fTraceTimes
             ||
           gTraceOah->fTraceMeasures) {
@@ -1522,8 +1519,6 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
 #ifdef TRACE_OAH
         if (
-          gMxmlTreeOah->fTraceDivisions
-            ||
           gTraceOah->fTraceTimes
             ||
           gTraceOah->fTraceMeasures
@@ -1551,8 +1546,6 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
 
 #ifdef TRACE_OAH
       if (
-        gMxmlTreeOah->fTraceDivisions
-          ||
         gTraceOah->fTraceTimes
           ||
         gTraceOah->fTraceMeasures
@@ -2516,8 +2509,6 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
       ||
     gTraceOah->fTracePositionsInMeasures
       ||
-    gMxmlTreeOah->fTraceBackup
-      ||
     gTraceOah->fTraceWholeNotes
   ) {
     this->print (gLogOstream);
@@ -2560,7 +2551,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
           measureVoice);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceMeasures || gMxmlTreeOah->fTraceDivisions) {
+    if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
         "Appending rest" << paddingNote->asString () <<
         " (missingDuration " << missingDuration <<
@@ -2659,8 +2650,6 @@ void msrMeasure::backupByWholeNotesStepLengthInMeasure ( // JMI USELESS ???
     gTraceOah->fTraceMeasures
       ||
     gTraceOah->fTracePositionsInMeasures
-      ||
-    gMxmlTreeOah->fTraceBackup
       ||
     gTraceOah->fTraceWholeNotes
   ) {

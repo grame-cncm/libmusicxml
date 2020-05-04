@@ -1941,7 +1941,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
         creatorValue);
 
     // should we use lyricists as poets?
-    if (gMxmlTreeOah->fUseLyricistsAsPoets) {
+    if (gMxmlTree2MsrOah->fUseLyricistsAsPoets) {
       fMsrScore->getIdentification () ->
         addPoet (
           inputLineNumber,
@@ -2159,7 +2159,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
       "<software /> contains 'Cubase'");
 
     // is the '-cubase' option set???
-    if (gMxmlTreeOah->fCubase) {
+    if (gMxmlTree2MsrOah->fCubase) {
       S_oahElement
         cubaseOption =
           gMxmlTreeOah->
@@ -2185,7 +2185,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
           setCombinedBooleanVariables (true);
       }
 
-      gMxmlTreeOah->fCubase = true;
+      gMxmlTree2MsrOah->fCubase = true;
     }
   }
 

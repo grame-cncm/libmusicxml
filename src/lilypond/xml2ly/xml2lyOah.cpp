@@ -23,7 +23,10 @@
 #include "oahOah.h"
 
 #include "generalOah.h"
+
+#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
+#include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
 #include "lpsrOah.h"
 #include "lilypondOah.h"
@@ -170,7 +173,13 @@ void xml2lyOahHandler::initializeXml2lyOptionsHandler (
   // initialize options handling, phase 2
   // ------------------------------------------------------
 
+  initializeMusicxmlOahHandling (
+    this);
+
   initializeMxmlTreeOahHandling (
+    this);
+
+  initializeMxmlTree2MsrOahHandling (
     this);
 
   initializeMsrOahHandling (
@@ -682,6 +691,44 @@ or adding '.ly' if none is present.)",
           "autoOutputFileName",
           fAutoOutputFileName));
   }
+
+  // loop back to MusicXML
+  initializeXml2lyLoopOptions (false);
+}
+
+void xml2lyOah::initializeXml2lyLoopOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Loop",
+        "hxml2lylo", "help-xml2ly-loopback-options",
+R"()",
+        kElementVisibilityAlways,
+        this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // '-loop' is hidden...
+
+  fLoopBackToMusicXML = boolOptionsInitialValue;
+
+  S_oahBooleanAtom
+    loopOptionsBooleanAtom =
+      oahBooleanAtom::create (
+        "loop", "loop-back-to-musicxml",
+R"(Close the loop, generating a MusicXML file from the MSR.
+The file name receives a '_LOOP.xml' suffix.
+This is equivalent to using xml2xml)",
+        "loopBackToMusicXML",
+        fLoopBackToMusicXML);
+  loopOptionsBooleanAtom->
+    setIsHidden ();
+
+  subGroup->
+    appendAtomToSubGroup (
+      loopOptionsBooleanAtom);
 }
 
 //______________________________________________________________________________
@@ -706,6 +753,22 @@ void xml2lyOah::printXml2lyOahValues (int fieldWidth)
     setw (fieldWidth) << "lilyPondOutputFileName" << " : \"" <<
     fLilyPondOutputFileName <<
     "\"" <<
+    endl;
+
+  gIndenter--;
+
+  // loop back to MusicXML
+  // --------------------------------------
+
+  gLogOstream <<
+    "Loop:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "loopToMusicXML" << " : " <<
+    booleanAsString (fLoopBackToMusicXML) <<
     endl;
 
   gIndenter--;

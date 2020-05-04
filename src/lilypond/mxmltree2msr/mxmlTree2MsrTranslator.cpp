@@ -30,7 +30,9 @@
   #include "traceOah.h"
 #endif
 
+#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
+#include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
 
 #include "mxmlTree2MsrTranslator.h"
@@ -2345,7 +2347,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_divisions& elt )
 
   // set current part's divisions per quarter note
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceDivisions) {
+  if (gMusicxmlOah->fTraceDivisions) {
     if (fCurrentDivisionsPerQuarterNote == 1) {
       fLogOutputStream <<
         "There is 1 division";
@@ -2688,9 +2690,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
   // is this clef sign in the replace clef map?
   map<msrClefKind, msrClefKind>::const_iterator
     it =
-      gMxmlTreeOah->fReplaceClefMapVariable.find (clefKind);
+      gMxmlTree2MsrOah->fReplaceClefMapVariable.find (clefKind);
 
-  if (it != gMxmlTreeOah->fReplaceClefMapVariable.end ()) {
+  if (it != gMxmlTree2MsrOah->fReplaceClefMapVariable.end ()) {
     // yes, replace the clef accordinglingly
     clefKind = (*it).second;
   }
@@ -4437,13 +4439,13 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
   if (! gMsrOah->fOmitWords) {
     bool wordsHasBeenHandled = false;
 
-    if (gMxmlTreeOah->fConvertWordsToDalSegno.size ()) {
+    if (gMxmlTree2MsrOah->fConvertWordsToDalSegno.size ()) {
       // is wordsValue in the string to dal segno kind map?
       map<string, msrDalSegno::msrDalSegnoKind>::iterator
         it =
-          gMxmlTreeOah->fConvertWordsToDalSegno.find (wordsValue);
+          gMxmlTree2MsrOah->fConvertWordsToDalSegno.find (wordsValue);
 
-      if (it != gMxmlTreeOah->fConvertWordsToDalSegno.end ()) {
+      if (it != gMxmlTree2MsrOah->fConvertWordsToDalSegno.end ()) {
         // yes, get dal segno kind
         msrDalSegno::msrDalSegnoKind
           dalSegnoKind =
@@ -6107,7 +6109,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceBackup) {
+  if (gMusicxmlOah->fTraceBackup) {
     fLogOutputStream <<
       "Backup by " << fCurrentBackupDivisions <<
       " divisions becomes pending" <<
@@ -6172,7 +6174,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceForward) {
+  if (gMusicxmlOah->fTraceForward) {
     fLogOutputStream <<
       "Handling 'forward <<< " << fCurrentBackupDivisions <<
       " divisions >>>" <<
@@ -6212,7 +6214,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 
   // compute the forward step length
 #ifdef TRACE_OAH
-    if (gMxmlTreeOah->fTraceForward) {
+    if (gMusicxmlOah->fTraceForward) {
       fLogOutputStream <<
         "--> current forward divisions: " <<
         fCurrentForwardDivisions <<
@@ -7080,7 +7082,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
   // color JMI ???
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllWedgesBelow) {
+  if (gMxmlTree2MsrOah->fAllWedgesBelow) {
     fCurrentDirectionPlacementKind = kPlacementBelow;
   }
 
@@ -7884,7 +7886,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
     if (it != gTraceOah->fTraceDetailedMeasureNumbersSet.end ()) {
       // yes, activate detailed trace for it
-      gMxmlTreeOah = gMxmlTreeOahWithDetailedTrace;
+      gMxmlTree2MsrOah = gMxmlTree2MsrOahWithDetailedTrace;
       gGeneralOah  = gGeneralOahWithDetailedTrace;
       gMsrOah      = gMsrOahWithDetailedTrace;
       gLpsrOah     = gLpsrOahWithDetailedTrace;
@@ -8015,15 +8017,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
       inputLineNumber);
 
   // should empty measures be added after this one?
-  if (gMxmlTreeOah->fAddEmptyMeasuresStringToIntMap.size ()) {
+  if (gMxmlTree2MsrOah->fAddEmptyMeasuresStringToIntMap.size ()) {
   //  if (! fOnGoingRestMeasures) { JMI
       // should we add empty measures after current measures?
       map<string,int>::const_iterator
         it =
-          gMxmlTreeOah->fAddEmptyMeasuresStringToIntMap.find (
+          gMxmlTree2MsrOah->fAddEmptyMeasuresStringToIntMap.find (
             fCurrentMeasureNumber);
 
-      if (it != gMxmlTreeOah->fAddEmptyMeasuresStringToIntMap.end ()) {
+      if (it != gMxmlTree2MsrOah->fAddEmptyMeasuresStringToIntMap.end ()) {
         // fCurrentMeasureNumber is present in the map,
         // fetch the number of empty measures to add
         stringstream s;
@@ -8067,7 +8069,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
 /* JMI
   // restore debug options in case they were set in visitStart()
-  gMxmlTreeOah = gMxmlTreeOahUserChoices;
+  gMxmlTree2MsrOah = gMxmlTree2MsrOahUserChoices;
   gGeneralOah  = gGeneralOahUserChoices;
   gMsrOah      = gMsrOahUserChoices;
   gLpsrOah     = gLpsrOahUserChoices;
@@ -13530,7 +13532,7 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13571,7 +13573,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13612,7 +13614,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13653,7 +13655,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13694,7 +13696,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13735,7 +13737,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13777,7 +13779,7 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13818,7 +13820,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13859,7 +13861,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13900,7 +13902,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13941,7 +13943,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -13982,7 +13984,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14025,7 +14027,7 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14066,7 +14068,7 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14108,7 +14110,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14149,7 +14151,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14191,7 +14193,7 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14233,7 +14235,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14275,7 +14277,7 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14317,7 +14319,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14359,7 +14361,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14401,7 +14403,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14441,7 +14443,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14485,7 +14487,7 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14610,7 +14612,7 @@ void mxmlTree2MsrTranslator::visitStart( S_soft_pedal& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -14647,7 +14649,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
         placementString);
 
   // should the placement be forced to 'below'?
-  if (gMxmlTreeOah->fAllDynamicsBelow) {
+  if (gMxmlTree2MsrOah->fAllDynamicsBelow) {
     placementKind = kPlacementBelow;
   }
 
@@ -19839,7 +19841,7 @@ void mxmlTree2MsrTranslator::handleBackup (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceBackup) {
+  if (gMusicxmlOah->fTraceBackup) {
     fLogOutputStream <<
       "Handling pending backup" <<
       ", fCurrentBackupDivisions: " <<

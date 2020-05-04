@@ -23,7 +23,7 @@
   #include "traceOah.h"
 #endif
 
-#include "mxmlTreeOah.h"
+#include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
 
 
@@ -230,7 +230,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
   if (
     ! fIdentification->getWorkTitle ()
       &&
-    gMxmlTreeOah->fUseFilenameAsWorkTitle
+    gMxmlTree2MsrOah->fUseFilenameAsWorkTitle
   ) {
     string
       inputSourceName =
@@ -393,7 +393,7 @@ void msrScore::setHeaderFromOptionsIfAny (
   int inputLineNumber)
 {
   // should we use lyricists as poets? JMI
-  if (gMxmlTreeOah->fUseLyricistsAsPoets) {
+  if (gMxmlTree2MsrOah->fUseLyricistsAsPoets) {
     S_msrVarValsListAssoc
       lyricists =
         fIdentification->getLyricists ();

@@ -103,7 +103,7 @@ elseif (MEI)
 endif()
 
 if (LILY OR BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/msr2mxmltree lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr interface/lilypond/msr2mxmltree lilypond/xml2xml)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/musicxml lilypond/musicxml2mxmltree lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/msr2mxmltree lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr interface/lilypond/msr2mxmltree lilypond/xml2xml)
 endif()
 
 if (LILY)

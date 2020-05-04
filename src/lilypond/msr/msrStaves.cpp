@@ -17,7 +17,7 @@
   #include "traceOah.h"
 #endif
 
-#include "mxmlTreeOah.h"
+#include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
 
 
@@ -1337,7 +1337,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
   if (fStaffCurrentClef) {
     if (
-      gMxmlTreeOah->fIgnoreRedundantClefs
+      gMxmlTree2MsrOah->fIgnoreRedundantClefs
         &&
       clef->isEqualTo (fStaffCurrentClef)
     ) {
@@ -1399,7 +1399,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
   if (fStaffCurrentKey) {
     if (
-      gMxmlTreeOah->fIgnoreRedundantKeys
+      gMxmlTree2MsrOah->fIgnoreRedundantKeys
         &&
       fStaffCurrentKey->isEqualTo (key)
     ) {
@@ -1464,7 +1464,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
   if (fStaffCurrentTime) {
     if (
-      gMxmlTreeOah->fIgnoreRedundantTimes
+      gMxmlTree2MsrOah->fIgnoreRedundantTimes
         &&
       fStaffCurrentTime->isEqualTo (time)
     ) {

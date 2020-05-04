@@ -23,8 +23,13 @@
 #include "oahOah.h"
 
 #include "generalOah.h"
+
+#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
+#include "msr2MxmltreeOah.h"
 #include "msrOah.h"
+#include "msr2MxmltreeOah.h"
+#include "mxmlTree2MsrOah.h"
 //#include "lpsrOah.h" // JMI only if pass5 msr2lpsr is run
 
 #include "version.h"
@@ -169,10 +174,19 @@ void xml2xmlOahHandler::initializeXml2xmlOptionsHandler (
   // initialize options handling, phase 2
   // ------------------------------------------------------
 
+  initializeMusicxmlOahHandling (
+    this);
+
   initializeMxmlTreeOahHandling (
     this);
 
+  initializeMxmlTree2MsrOahHandling (
+    this);
+
   initializeMsrOahHandling (
+    this);
+
+  initializeMsr2MxmltreeOahHandling (
     this);
 
 //  initializeLpsrOahHandling ( // JMI only if pass5 msr2lpsr is run

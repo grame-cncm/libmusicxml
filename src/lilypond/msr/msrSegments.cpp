@@ -17,7 +17,6 @@
   #include "traceOah.h"
 #endif
 
-#include "mxmlTreeOah.h"
 #include "msrOah.h"
 
 
@@ -1360,8 +1359,6 @@ void msrSegment::padUpToPositionInMeasureInSegment (
     gTraceOah->fTraceSegments
       ||
     gTraceOah->fTraceMeasures
-      ||
-    gMxmlTreeOah->fTraceBackup
   ) {
     gLogOstream <<
       "Padding up to current whole notes '" << wholeNotes <<
@@ -1432,8 +1429,6 @@ void msrSegment::backupByWholeNotesStepLengthInSegment (
     gTraceOah->fTraceSegments
       ||
     gTraceOah->fTraceMeasures
-      ||
-    gMxmlTreeOah->fTraceBackup
   ) {
     gLogOstream <<
       "Backup by a '" <<

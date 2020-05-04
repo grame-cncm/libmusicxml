@@ -634,7 +634,7 @@ void convertMusicXMLToLilypond (
 
   // create MusicXML back from the MSR if requested
   // ------------------------------------------------------
-  if (gMxmlTreeOah->fLoopToMusicXML) {
+  if (gXml2lyOah->fLoopBackToMusicXML) {
     convertMsrScoreToMusicXMLScore_Loop (
       mScore,
       regex_replace (

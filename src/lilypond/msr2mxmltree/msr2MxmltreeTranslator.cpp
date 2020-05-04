@@ -31,6 +31,7 @@
   #include "traceOah.h"
 #endif
 
+#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
 #include "lilypondOah.h"
@@ -4585,7 +4586,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
      note->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceBackup || gMxmlTreeOah->fTraceForward) {
+  if (gMusicxmlOah->fTraceBackup || gMusicxmlOah->fTraceForward) {
     fLogOutputStream <<
       "--> appendABackupOrForwardIfNeeded, note = " <<
       note->asShortString () <<
@@ -4635,7 +4636,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
                 fCumulatedSkipDurations);
 
 #ifdef TRACE_OAH
-          if (gMxmlTreeOah->fTraceForward) {
+          if (gMusicxmlOah->fTraceForward) {
             fLogOutputStream <<
               "Creating a forward element, note = " <<
               note->asShortString () <<
@@ -4706,7 +4707,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
               backupDuration);
 
 #ifdef TRACE_OAH
-          if (gMxmlTreeOah->fTraceBackup) {
+          if (gMusicxmlOah->fTraceBackup) {
             fLogOutputStream <<
               "Creating a backup element, note = " <<
               note->asShortString () <<

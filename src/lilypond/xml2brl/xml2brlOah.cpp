@@ -23,7 +23,10 @@
 #include "oahOah.h"
 
 #include "generalOah.h"
+
+#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
+#include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
 #include "bsrOah.h"
 #include "brailleOah.h"
@@ -155,7 +158,13 @@ void xml2brlOahHandler::initializeXml2brlOptionsHandler (
   // initialize options handling, phase 2
   // ------------------------------------------------------
 
+  initializeMusicxmlOahHandling (
+    this);
+
   initializeMxmlTreeOahHandling (
+    this);
+
+  initializeMxmlTree2MsrOahHandling (
     this);
 
   initializeMsrOahHandling (

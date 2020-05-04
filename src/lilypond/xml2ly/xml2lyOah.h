@@ -134,7 +134,8 @@ class xml2lyOah : public oahGroup
     // services
     // ------------------------------------------------------
 
-  public:
+    void                  initializeXml2lyLoopOptions (
+                            bool boolOptionsInitialValue);
 
     // visitors
     // ------------------------------------------------------
@@ -160,6 +161,10 @@ class xml2lyOah : public oahGroup
 
     string                fLilyPondOutputFileName;
     bool                  fAutoOutputFileName;
+
+    // loop back to MusicXML
+    // --------------------------------------
+    bool                  fLoopBackToMusicXML;
 };
 typedef SMARTP<xml2lyOah> S_xml2lyOah;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOah& elt);

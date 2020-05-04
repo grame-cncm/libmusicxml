@@ -56,7 +56,7 @@ This document shows the architecture of the \lib\ library, to be found at
 \section{Architecture}
 % -------------------------------------------------------------------------
 
-The picture at figure \ref {Architecture}, page \pageref {Architecture}, shows how \lib\ is structured. The light gray, dashed arrows indicate items not yet available. 
+The picture at figure \ref {Architecture}, page \pageref {Architecture}, shows how \lib\ is structured. The dimmed, dashed arrows indicate items not yet available. 
 The numbered arrows show the existing conversions between formats and representations.
 
 \begin{adjustwidth}{-1cm}{-1cm}
@@ -838,7 +838,7 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \texttt{4} & converts an xmlelement tree into and MSR representation. \mxml\ represents how a score is to be drawn, while MSR represents the musical contents with great detail. This pass actually consists in two sub-passes: the first one builds an MSR skeleton containing empty voices and stanzas, and the second one the fills this with all the rest;
 \tabularnewline
 
-\texttt{5} & converts an MSR representation into another one, built from scratch. This allows the new representation to be different than the original one, for example to change the score after is has been scanned and exported as \mxml\ data, or to add skip (invisible) notes to avoid the \lily\ issue \#34. For simplicity and efficiency reasons, this pass is not present as such, but 'melted' within passes 6 and 9;
+\texttt{5} & converts an MSR representation into another one, built from scratch. This allows the new representation to be different than the original one, for example to change the score after is has been scanned and exported as \mxml\ data, or to add skip (invisible) notes to avoid the \lily\ issue \#34. For simplicity and efficiency reasons, this pass is not present as such, but 'merges' within passes 6 and 9;
 \tabularnewline
 
 \texttt{6} & converts an MSR representation into an LPSR representation, which contains an MSR component build from the original MSR (pass 5). The BSR contains \lily-specific representations such as {\tt $\backslash$layout}, {\tt $\backslash$paper}, and {\tt $\backslash$score} blocks;
@@ -904,7 +904,7 @@ The converters provided by \lib\ are in the form of functions. Executable comman
 %
 \begin{tabular}[t]{l|cccccc}
  & \multicolumn{6}{c}{Output format} \tabularnewline
-{Input format} & \mxml & \guido & \lily & {Jianpu \lily} & \braille & \mei \tabularnewline[0.5ex] 
+\raisebox{1em}{Input format} & \mxml & \guido & \lily & {Jianpu \lily} & \braille & \mei \tabularnewline[0.5ex] 
 \hline\\[-3.0ex]
 %
 \mxml\ & \xmlToXml & \xmlToGuido & \xmlToLy & \xmlToLy\ {\tt -jianpu} & \xmlToBrl & \textcolor{gray}{\xmlToMei}

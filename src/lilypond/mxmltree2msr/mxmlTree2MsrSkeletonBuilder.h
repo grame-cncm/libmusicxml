@@ -13,6 +13,8 @@
 #ifndef ___mxmlTree2MsrSkeletonBuilder___
 #define ___mxmlTree2MsrSkeletonBuilder___
 
+#include "mxmlTree2MsrOah.h"
+
 
 namespace MusicXML2
 {

@@ -31,7 +31,7 @@
   #include "traceOah.h"
 #endif
 
-#include "mxmlTreeOah.h"
+#include "musicxmlOah.h"
 
 
 using namespace std;
@@ -474,7 +474,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceEncoding) {
+  if (gMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! xmlFile contents from file:" <<
@@ -493,7 +493,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceEncoding) {
+  if (gMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! xmlDecl contents from file:" <<
@@ -511,7 +511,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gMxmlTreeOah->fTraceEncoding) {
+  if (gMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! docType from file:" <<
@@ -627,7 +627,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   }
 
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceEncoding) {
+  if (gMusicxmlOah->fTraceEncoding) {
     logOstream <<
       "!!!!! xmlFile contents from stream:" <<
       endl;
@@ -640,7 +640,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceEncoding) {
+  if (gMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "xmlDecl contents:" <<
@@ -658,7 +658,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gMxmlTreeOah->fTraceEncoding) {
+  if (gMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! docType from stream:" <<

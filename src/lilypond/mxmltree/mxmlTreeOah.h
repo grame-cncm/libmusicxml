@@ -25,186 +25,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrDalSegnoAtom : public oahValuedAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<msrDalSegnoAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringDalSegnoKindMapVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrDalSegnoAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<string, msrDalSegno::msrDalSegnoKind>&
-                          stringDalSegnoKindMapVariable);
-
-    virtual ~msrDalSegnoAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    const map<string, msrDalSegno::msrDalSegnoKind>&
-                          getStringDalSegnoKindMapVariable ()
-                              { return fStringDalSegnoKindMapVariable; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
-
-    void                  print (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    map<string, msrDalSegno::msrDalSegnoKind>&
-                          fStringDalSegnoKindMapVariable;
-};
-typedef SMARTP<msrDalSegnoAtom> S_msrDalSegnoAtom;
-EXP ostream& operator<< (ostream& os, const S_msrDalSegnoAtom& elt);
-
-//______________________________________________________________________________
-class msrReplaceClefAtom : public oahValuedAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<msrReplaceClefAtom> create (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<msrClefKind, msrClefKind>&
-                          clefKindClefKindMapVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrReplaceClefAtom (
-      string              shortName,
-      string              longName,
-      string              description,
-      string              valueSpecification,
-      string              variableName,
-      map<msrClefKind, msrClefKind>&
-                          clefKindClefKindMapVariable);
-
-    virtual ~msrReplaceClefAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    const map<msrClefKind, msrClefKind>&
-                          getClefKindClefKindMapVariable ()
-                              { return fClefKindClefKindMapVariable; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
-
-    void                  print (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    map<msrClefKind, msrClefKind>&
-                          fClefKindClefKindMapVariable;
-};
-typedef SMARTP<msrReplaceClefAtom> S_msrReplaceClefAtom;
-EXP ostream& operator<< (ostream& os, const S_msrReplaceClefAtom& elt);
-
-//______________________________________________________________________________
 class mxmlTreeOah : public oahGroup
 {
   public:
@@ -254,7 +74,7 @@ class mxmlTreeOah : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    void                  setAllMusicXMLTraceOah (
+    void                  setAllMxmlTreeTraceOah (
                             bool boolOptionsInitialValue);
 
   public:
@@ -271,27 +91,6 @@ class mxmlTreeOah : public oahGroup
     void                  initializeMxmlTreeTraceOah (
                             bool boolOptionsInitialValue);
 #endif
-
-    void                  initializeMxmlTreeHeaderOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMxmlTreeClefsKeysTimesOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMxmlTreeMeasuresOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMxmlTreeWordsOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMxmlTreeDynamicsAndWedgesOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMxmlTreeCombinedOptionsOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMxmlTreeLoopOptions (
-                            bool boolOptionsInitialValue);
 
   public:
 
@@ -317,53 +116,6 @@ class mxmlTreeOah : public oahGroup
     // fields
     // ------------------------------------------------------
 
-    // header
-    // --------------------------------------
-
-    bool                  fUseFilenameAsWorkTitle;
-
-    bool                  fUseLyricistsAsPoets; // lyricist is unknown to LilyPond
-
-    // clefs, keys, times
-    // --------------------------------------
-
-    map<msrClefKind, msrClefKind>
-                          fReplaceClefMapVariable;
-
-    bool                  fIgnoreRedundantClefs;
-    bool                  fIgnoreRedundantKeys;
-    bool                  fIgnoreRedundantTimes;
-
-    S_oahBooleanAtom      fIgnoreRedundantClefsAtom;
-    S_oahBooleanAtom      fIgnoreRedundantKeysAtom;
-    S_oahBooleanAtom      fIgnoreRedundantTimesAtom;
-
-    // measures
-    // --------------------------------------
-
-    map<string,int>       fAddEmptyMeasuresStringToIntMap;
-
-    // words
-    // --------------------------------------
-
-    // convert words to dal segno
-    map<string, msrDalSegno::msrDalSegnoKind>
-                          fConvertWordsToDalSegno;
-
-    // dynamics and wedges
-    // --------------------------------------
-
-    bool                  fAllDynamicsBelow;
-    bool                  fAllWedgesBelow;
-
-    // combined options, cubase
-    // --------------------------------------
-
-    bool                  fCubase;
-
-    // loop to do JMI
-    // --------------------------------------
-    bool                  fLoopToMusicXML;
 
 #ifdef TRACE_OAH
     // specific trace JMI move to traceOah
@@ -371,18 +123,6 @@ class mxmlTreeOah : public oahGroup
 
     // visitors
     bool                  fTraceMusicXMLTreeVisitors;
-
-    // encoding
-    bool                  fTraceEncoding;
-
-    // divisions
-    bool                  fTraceDivisions;
-
-    // backup
-    bool                  fTraceBackup;
-
-    // forward
-    bool                  fTraceForward;
 #endif
 };
 typedef SMARTP<mxmlTreeOah> S_mxmlTreeOah;

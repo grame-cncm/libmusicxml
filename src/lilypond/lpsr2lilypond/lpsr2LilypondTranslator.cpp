@@ -21,7 +21,7 @@
   #include "traceOah.h"
 #endif
 
-#include "mxmlTreeOah.h"
+#include "mxmlTree2MsrOah.h"
 #include "lilypondOah.h"
 
 #include "lpsr2LilypondTranslator.h"
@@ -4912,7 +4912,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 
   {
     // title
-    if (gMxmlTreeOah->fUseFilenameAsWorkTitle) {
+    if (gMxmlTree2MsrOah->fUseFilenameAsWorkTitle) {
       fLilypondCodeOstream << left <<
         setw (fieldNameWidth) <<
         "title = \"" <<

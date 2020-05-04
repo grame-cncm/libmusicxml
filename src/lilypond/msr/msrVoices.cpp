@@ -2091,7 +2091,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
   rational backupTargetMeasureElementPositionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gMxmlTreeOah->fTraceBackup) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Backup by a '" <<
       backupTargetMeasureElementPositionInMeasure <<
