@@ -565,132 +565,6 @@ The default is 'DEFAULT_VALUE'.)",
         fBsrTextsLanguageKind));
 }
 
-void bsrOah::initializeBsrMiscellaneousOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Miscellaneous",
-        "hlpm", "help-miscellaneous",
-R"()",
-      kElementVisibilityAlways,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // braille music headings
-
-  fNoBrailleMusicHeadings = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "nmh", "no-music-headings",
-R"(Don't generate any music headings in the Braille code.)",
-        "noBrailleMusicHeadings",
-        fNoBrailleMusicHeadings));
-
-  // braille tempos
-
-  fNoTempos = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "nt", "no-tempos",
-R"(Don't generate any tempos in the Braille code.)",
-        "noTempos",
-        fNoTempos));
-
-  // braille page numbers
-
-  fNoPageNumbers = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "npn", "no-page-numbers",
-R"(Don't generate any page numbers in the Braille code.)",
-        "noBraillePageNumbers",
-        fNoPageNumbers));
-
-  // braille line numbers
-
-  fNoLineNumbers = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "nln", "no-line-numbers",
-R"(Don't generate any line numbers in the Braille code.)",
-        "noBrailleLineNumbers",
-        fNoLineNumbers));
-
-  // braille measure numbers
-
-  fNoMeasureNumbers = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "nmn", "no-measure-numbers",
-R"(Don't generate any measure numbers in the Braille code.)",
-        "noMeasureNumbers",
-        fNoMeasureNumbers));
-
-  // braille lyrics
-
-  fNoBrailleLyrics = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "nl", "no-lyrics",
-R"(Don't generate any lyrics in the Braille code.)",
-        "noBrailleLyrics",
-        fNoBrailleLyrics));
-
-  // braille compile date
-
-  fBrailleCompileDate = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "lpcd", "braille-compile-date",
-R"(Generate code to include the compilation date
-when Braille creates the score.)",
-        "brailleCompileDate",
-        fBrailleCompileDate));
-
-  // facsimile
-
-  fFacSimileKind = kFacSimileNo;
-
-  subGroup->
-    appendAtomToSubGroup (
-      bsrFacSimileKindAtom::create (
-        "fs", "facsimile",
-R"(Generate facsimile Braille nusic code.
-By default, non-facsimile code is generated.)",
-        "YES_OR_NO",
-        "facSimileKind",
-        fFacSimileKind));
-
-  // clefs
-
-  fIncludeClefs = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "clefs", "",
-R"(Include clefs in BSR. By default, they are not.)",
-        "includeClefs",
-        fIncludeClefs));
-}
-
 void bsrOah::initializeBsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
@@ -853,11 +727,6 @@ void bsrOah::initializeBsrOah (
   // languages
   // --------------------------------------
   initializeBsrLanguagesOptions (
-    boolOptionsInitialValue);
-
-  // miscellaneous
-  // --------------------------------------
-  initializeBsrMiscellaneousOptions (
     boolOptionsInitialValue);
 
   // exit after some passes
@@ -1044,52 +913,6 @@ void bsrOah::printBsrOahValues (int fieldWidth)
     setw (fieldWidth) << "exit3b" << " : " <<
     booleanAsString (fExit3b) <<
     endl;
-
-  gIndenter--;
-
-  // miscellaneous
-  // --------------------------------------
-
-  gLogOstream <<
-    "Miscellaneous:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "noBrailleMusicHeadings" << " : " <<
-      booleanAsString (fNoBrailleMusicHeadings) <<
-      endl <<
-
-    setw (fieldWidth) << "noTempos" << " : " <<
-      booleanAsString (fNoTempos) <<
-      endl <<
-
-    setw (fieldWidth) << "noBraillePageNumbers" << " : " <<
-      booleanAsString (fNoPageNumbers) <<
-      endl <<
-    setw (fieldWidth) << "noBrailleLineNumbers" << " : " <<
-      booleanAsString (fNoLineNumbers) <<
-      endl <<
-    setw (fieldWidth) << "noMeasureNumbers" << " : " <<
-      booleanAsString (fNoMeasureNumbers) <<
-      endl <<
-
-    setw (fieldWidth) << "noBrailleLyrics" << " : " <<
-      booleanAsString (fNoBrailleLyrics) <<
-      endl <<
-
-    setw (fieldWidth) << "brailleCompileDate" << " : " <<
-      booleanAsString (fBrailleCompileDate) <<
-      endl <<
-
-    setw (fieldWidth) << "facSimileKind" << " : " <<
-      booleanAsString (fFacSimileKind) <<
-      endl <<
-
-    setw (fieldWidth) << "includeClefs" << " : " <<
-      booleanAsString (fIncludeClefs) <<
-      endl;
 
   gIndenter--;
 

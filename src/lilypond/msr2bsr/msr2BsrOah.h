@@ -13,6 +13,8 @@
 #ifndef ___msr2BsrOah___
 #define ___msr2BsrOah___
 
+#include "bsrOah.h"
+
 #include "msrSegnosAndCodas.h"
 
 #include "oahBasicTypes.h"
@@ -85,29 +87,11 @@ class msr2BsrOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMusicXMLTraceOah (
+    void                  initializeMsr2BsrTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMusicXMLHeaderOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMusicXMLClefsKeysTimesOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMusicXMMeasuresOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMusicXMLWordsOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMusicXMLDynamicsAndWedgesOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMusicXMLCombinedOptionsOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMusicXMLLoopOptions (
+    void                  initializeMsr2BsrMiscellaneousOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -133,6 +117,26 @@ class msr2BsrOah : public oahGroup
 
     // fields
     // ------------------------------------------------------
+
+    // miscellaneous
+    // --------------------------------------
+
+    bool                  fNoBrailleMusicHeadings;
+
+    bool                  fNoTempos;
+
+    bool                  fNoPageNumbers;
+    bool                  fNoLineNumbers;
+    bool                  fNoMeasureNumbers;
+
+    bool                  fNoBrailleLyrics;
+
+    bool                  fBrailleCompileDate;
+
+    bsrFacSimileKind      fFacSimileKind;
+
+    bool                  fIncludeClefs;
+
 };
 typedef SMARTP<msr2BsrOah> S_msr2BsrOah;
 EXP ostream& operator<< (ostream& os, const S_msr2BsrOah& elt);

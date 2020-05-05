@@ -268,11 +268,6 @@ class bsrOah : public oahGroup
     void                  initializeBsrLanguagesOptions (
                             bool boolOptionsInitialValue);
 
-
-    void                  initializeBsrMiscellaneousOptions (
-                            bool boolOptionsInitialValue);
-
-
     void                  initializeBsrExitAfterSomePassesOptions (
                             bool boolOptionsInitialValue);
 
@@ -302,38 +297,19 @@ class bsrOah : public oahGroup
 
   public:
 
-    // display
+    // fileds
     // --------------------------------------
+
+    // display
 
     bool                  fDisplayBsr;
     bool                  fDisplayBsrDetails;
 
     // languages
-    // --------------------------------------
 
     bsrTextsLanguageKind  fBsrTextsLanguageKind;
 
-    // miscellaneous
-    // --------------------------------------
-
-    bool                  fNoBrailleMusicHeadings;
-
-    bool                  fNoTempos;
-
-    bool                  fNoPageNumbers;
-    bool                  fNoLineNumbers;
-    bool                  fNoMeasureNumbers;
-
-    bool                  fNoBrailleLyrics;
-
-    bool                  fBrailleCompileDate;
-
-    bsrFacSimileKind      fFacSimileKind;
-
-    bool                  fIncludeClefs;
-
     // exit after some passes
-    // --------------------------------------
 
     bool                  fExit3a;
     bool                  fExit3b;

@@ -23,6 +23,7 @@
 #endif
 
 #include "bsrOah.h"
+#include "msr2BsrOah.h"
 #include "brailleOah.h"
 
 
@@ -683,7 +684,7 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
     result =
       bsrCellsList::create (fInputLineNumber);
 
-  if (! gBsrOah->fNoLineNumbers) {
+  if (! gMsr2BsrOah->fNoLineNumbers) {
     // create the print line number
     S_bsrNumber
       printLineNumber =

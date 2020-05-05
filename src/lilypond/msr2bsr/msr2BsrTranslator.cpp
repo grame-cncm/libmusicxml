@@ -27,6 +27,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
+#include "msr2BsrOah.h"
 #include "bsr2BrailleOah.h"
 
 
@@ -866,7 +867,7 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
   }
 #endif
 
-  if (gBsrOah->fIncludeClefs) {
+  if (gMsr2BsrOah->fIncludeClefs) {
     bsrClef::bsrClefKind bClefKind = bsrClef::kClefKindNone;
 
   /* JMI
@@ -1659,7 +1660,7 @@ void msr2BsrTranslator::visitStart (S_msrTempo& elt)
   }
 #endif
 
-  if (! gBsrOah->fNoTempos) {
+  if (! gMsr2BsrOah->fNoTempos) {
     // create the BSR tempo
     S_bsrTempo
       tempo =

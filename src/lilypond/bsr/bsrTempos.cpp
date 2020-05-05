@@ -29,6 +29,7 @@
 #endif
 
 #include "bsrOah.h"
+#include "msr2BsrOah.h"
 
 
 using namespace std;
@@ -95,7 +96,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
       bsrCellsList::create (
         fInputLineNumber, kCellWordSign);
 
-  if (! gBsrOah->fNoTempos) {
+  if (! gMsr2BsrOah->fNoTempos) {
     switch (fMsrTempo->getTempoKind ()) {
       case msrTempo::k_NoTempoKind:
         break;
