@@ -2896,6 +2896,10 @@ class oahGroup : public oahElement
     string                getGroupHeader () const
                               { return fGroupHeader; }
 
+    const list<S_oahSubGroup>&
+                          getSubGroupsList () const
+                              { return fSubGroupsList; }
+
   public:
 
     // consistency check

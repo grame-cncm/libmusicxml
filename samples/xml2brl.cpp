@@ -27,7 +27,7 @@
 #include "generalOah.h"
 #include "mxmlTreeOah.h"
 #include "msr2LpsrOah.h"
-#include "brailleOah.h"
+#include "bsr2BrailleOah.h"
 
 #include "xml2brlOah.h"
 
@@ -306,7 +306,7 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
 {
   S_bsrScore bScore;
 
-  if (! gBrailleOah->fNoBrailleCode) {
+  if (! gBsr2BrailleOah->fNoBrailleCode) {
     bScore =
       buildBsrScoreFromMsrScore (
         mScore,
@@ -381,7 +381,7 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
 {
   S_bsrScore finalizedBsrScore;
 
-  if (! gBrailleOah->fNoBrailleCode) {
+  if (! gBsr2BrailleOah->fNoBrailleCode) {
     finalizedBsrScore =
       generateFinalizedBsrScoreFromBsrScore (
         bScore,
@@ -425,7 +425,7 @@ void convertBsrScoreToBrailleText_Pass4 (
 {
   int outputFileNameSize = outputFileName.size ();
 
-  if (! gBrailleOah->fNoBrailleCode) {
+  if (! gBsr2BrailleOah->fNoBrailleCode) {
     // open output file if need be
     // ------------------------------------------------------
 

@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrTempos_MUT_DEP___
+#define ___bsrTempos_MUT_DEP___
+
 //______________________________________________________________________________
 string tempoKindAsDebugString (
   msrTempo::msrTempoKind tempoKind);
@@ -99,3 +102,5 @@ class bsrTempo : public bsrLineElement
 typedef SMARTP<bsrTempo> S_bsrTempo;
 EXP ostream& operator<< (ostream& os, const S_bsrTempo& elt);
 
+
+#endif

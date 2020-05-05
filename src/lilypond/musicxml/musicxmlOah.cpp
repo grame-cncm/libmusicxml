@@ -53,7 +53,7 @@ musicxmlOah::musicxmlOah (
   : oahGroup (
     "MusicXML",
     "hmxml", "help-mxml",
-R"(These options control the way MusicXML is handled.)",
+R"(These options control the way MusicXML data is handled.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {

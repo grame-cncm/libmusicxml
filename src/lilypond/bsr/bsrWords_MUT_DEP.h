@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrWords_MUT_DEP___
+#define ___bsrWords_MUT_DEP___
+
 //______________________________________________________________________________
 // brailling characters and words
 S_bsrCellsList brailleCharacter (
@@ -85,3 +88,5 @@ class bsrWords : public bsrLineElement
 typedef SMARTP<bsrWords> S_bsrWords;
 EXP ostream& operator<< (ostream& os, const S_bsrWords& elt);
 
+
+#endif

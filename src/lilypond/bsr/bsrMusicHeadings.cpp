@@ -15,7 +15,7 @@
 #include "bsrMutualDependencies.h"
 
 #include "bsrOah.h"
-#include "brailleOah.h"
+#include "bsr2BrailleOah.h"
 
 
 using namespace std;
@@ -39,7 +39,7 @@ bsrMusicHeading::bsrMusicHeading (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gBrailleOah->fCellsPerLine)
+        gBsr2BrailleOah->fCellsPerLine)
 {}
 
 bsrMusicHeading::~bsrMusicHeading ()

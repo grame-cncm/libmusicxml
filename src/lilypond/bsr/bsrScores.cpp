@@ -17,7 +17,7 @@
 
 #include "bsrScores.h"
 
-#include "brailleOah.h"
+#include "bsr2BrailleOah.h"
 
 
 using namespace std;
@@ -48,8 +48,8 @@ bsrScore::bsrScore (
     bsrTranscriptionNotes::create (
       inputLineNumber);
 
-  fBrailleLineLength = gBrailleOah->fCellsPerLine;
-  fBraillePageLength = gBrailleOah->fLinesPerPage;
+  fBrailleLineLength = gBsr2BrailleOah->fCellsPerLine;
+  fBraillePageLength = gBsr2BrailleOah->fLinesPerPage;
 }
 
 bsrScore::~bsrScore ()

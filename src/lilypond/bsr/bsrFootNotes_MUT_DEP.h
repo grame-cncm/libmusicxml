@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrFootNotes_MUT_DEP___
+#define ___bsrFootNotes_MUT_DEP___
+
 //______________________________________________________________________________
 class bsrFootNotesElement : public bsrElement
 {
@@ -142,3 +145,5 @@ class bsrFootNotes : public bsrLine
 typedef SMARTP<bsrFootNotes> S_bsrFootNotes;
 EXP ostream& operator<< (ostream& os, const S_bsrFootNotes& elt);
 
+
+#endif

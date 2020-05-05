@@ -13,9 +13,9 @@
 #ifndef ___brailleOah2ManPageGenerator___
 #define ___brailleOah2ManPageGenerator___
 
-#include "brailleOah.h"
-
 #include "oah2ManPageGenerators.h"
+
+#include "bsr2BrailleOah.h"
 
 
 namespace MusicXML2

@@ -28,7 +28,9 @@
 #include "mxmlTreeOah.h"
 #include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
+#include "msr2BsrOah.h"
 #include "bsrOah.h"
+#include "bsr2BrailleOah.h"
 #include "brailleOah.h"
 
 #include "version.h"
@@ -170,7 +172,13 @@ void xml2brlOahHandler::initializeXml2brlOptionsHandler (
   initializeMsrOahHandling (
     this);
 
+  initializeMsr2BsrOahHandling (
+    this);
+
   initializeBsrOahHandling (
+    this);
+
+  initializeBsr2BrailleOahHandling (
     this);
 
   initializeBrailleOahHandling (
@@ -325,8 +333,8 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
     }
 
     // should encoding be used by the file name?
-    if (! gBrailleOah->fDontUseEncodingInFileName) {
-      switch (gBrailleOah->fBrailleOutputKind) {
+    if (! gBsr2BrailleOah->fDontUseEncodingInFileName) {
+      switch (gBsr2BrailleOah->fBrailleOutputKind) {
         case kBrailleOutputAscii:
           potentialOutputFileName += "_ASCII";
           break;
@@ -334,7 +342,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         case kBrailleOutputUTF8:
           potentialOutputFileName += "_UTF8";
             /* JMI
-          switch (gBrailleOah->fByteOrderingKind) {
+          switch (gBsr2BrailleOah->fByteOrderingKind) {
             case kByteOrderingNone:
               break;
             case kByteOrderingBigEndian:
@@ -354,7 +362,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
         case kBrailleOutputUTF16:
           potentialOutputFileName += "_UTF16";
             /* JMI
-          switch (gBrailleOah->fByteOrderingKind) {
+          switch (gBsr2BrailleOah->fByteOrderingKind) {
             case kByteOrderingNone:
               break;
 
@@ -372,7 +380,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
     }
 
     // append the file extension
-    switch (gBrailleOah->fBrailleOutputKind) {
+    switch (gBsr2BrailleOah->fBrailleOutputKind) {
       case kBrailleOutputAscii:
        potentialOutputFileName += ".brf";
         break;
@@ -449,6 +457,9 @@ void xml2brlOahHandler::enforceOahHandlerQuietness ()
     enforceQuietness ();
 
   gBrailleOah->
+    enforceQuietness ();
+
+  gBsr2BrailleOah->
     enforceQuietness ();
 
 #ifdef EXTRA_OAH

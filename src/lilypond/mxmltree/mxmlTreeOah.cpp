@@ -53,7 +53,7 @@ mxmlTreeOah::mxmlTreeOah (
   : oahGroup (
     "MxmlTree",
     "hmxmlttr", "help-xmlelement-tree",
-R"(These options control the way xmlelement tree is handled.)",
+R"(These options control the way xmlelement trees are handled.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {

@@ -30,6 +30,7 @@
 #include "msrOah.h"
 #include "msr2MxmltreeOah.h"
 #include "mxmlTree2MsrOah.h"
+#include "msr2LpsrOah.h" // JMI ???
 //#include "lpsrOah.h" // JMI only if pass5 msr2lpsr is run
 
 #include "version.h"
@@ -184,6 +185,9 @@ void xml2xmlOahHandler::initializeXml2xmlOptionsHandler (
     this);
 
   initializeMsrOahHandling (
+    this);
+
+  initializeMsr2LpsrOahHandling (
     this);
 
   initializeMsr2MxmltreeOahHandling (

@@ -52,7 +52,7 @@ msr2BsrOah::msr2BsrOah (
   : oahGroup (
     "Msr2Bsr",
     "hmsr2bsr", "help-msr-to-bsr",
-R"(These options control the way MSR is translated to BSR.)",
+R"(These options control the way MSR data is translated to BSR.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {

@@ -18,7 +18,7 @@
 #include "utilities.h"
 
 #include "bsrOah.h"
-#include "brailleOah.h"
+#include "bsr2BrailleOah.h"
 
 
 using namespace std;
@@ -159,7 +159,7 @@ bsrFootNotes::bsrFootNotes (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gBrailleOah->fCellsPerLine)
+        gBsr2BrailleOah->fCellsPerLine)
 {}
 
 bsrFootNotes::~bsrFootNotes ()

@@ -34,7 +34,7 @@
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
-#include "lilypondOah.h"
+#include "msr2MxmltreeOah.h"
 
 #include "version.h"
 
@@ -371,19 +371,21 @@ void msr2MxmltreeTranslator::appendToMeasureAttributes (
   Sxmlelement elem)
 {
   if (! fCurrentMeasureAttributes) {
+    if (gMsr2MxmltreeOah->fMusicXMLComments) {
+      // create a print comment
+      stringstream s;
+      s <<
+        " ===== " <<
+        "Attributes " <<
+        " ===== ";
+      Sxmlelement comment = createElement (kComment, s.str ());
+
+      // append it to the current measure element
+      // maybe not if it not in the first measure seen with the given number??? JMI
+      fCurrentMeasure->push (comment);
+    }
+
     // create an attributes element
-    // create a print comment
-    stringstream s;
-    s <<
-      " ===== " <<
-      "Attributes " <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
-
-    // append it to the current measure element
-    // maybe not if it not in the first measure seen with the given number??? JMI
-    fCurrentMeasure->push (comment);
-
     fCurrentMeasureAttributes = createElement (k_attributes, "");
 
     // append the attributes element to the current measure element
@@ -399,16 +401,18 @@ void msr2MxmltreeTranslator::appendToMeasureDirection (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  // create a direction comment
-  stringstream s;
-  s <<
-    " ===== " <<
-    "Direction" <<
-    " ===== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create a direction comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Direction" <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current measure element
-  fCurrentMeasure->push (comment);
+    // append it to the current measure element
+    fCurrentMeasure->push (comment);
+  }
 
   // create a direction element
   Sxmlelement directionElement = createElement (k_direction, "");
@@ -682,16 +686,18 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score identification element if any to the score part wise element
   if (fScoreIdentificationElement) {
-    // create an identification comment
-    stringstream s;
-    s <<
-      " ===== " <<
-      "Identification" <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    if (gMsr2MxmltreeOah->fMusicXMLComments) {
+      // create an identification comment
+      stringstream s;
+      s <<
+        " ===== " <<
+        "Identification" <<
+        " ===== ";
+      Sxmlelement comment = createElement (kComment, s.str ());
 
-    // append it to the score partwise element
-    fScorePartWiseElement->push (comment);
+      // append it to the score partwise element
+      fScorePartWiseElement->push (comment);
+    }
 
     fScorePartWiseElement->push (fScoreIdentificationElement);
   }
@@ -730,16 +736,18 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score defaults element if any to the score part wise element
   if (fScoreDefaultsElement) {
-    // create an defaults comment
-    stringstream s;
-    s <<
-      " ===== " <<
-      "Defaults" <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    if (gMsr2MxmltreeOah->fMusicXMLComments) {
+      // create an defaults comment
+      stringstream s;
+      s <<
+        " ===== " <<
+        "Defaults" <<
+        " ===== ";
+      Sxmlelement comment = createElement (kComment, s.str ());
 
-    // append it to the score partwise element
-    fScorePartWiseElement->push (comment);
+      // append it to the score partwise element
+      fScorePartWiseElement->push (comment);
+    }
 
     fScorePartWiseElement->push (fScoreDefaultsElement);
   }
@@ -749,17 +757,18 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     fPendingScoreCreditElementsList.size ();
 
   if (pendingScoreCreditElementsListSize) {
-    // create an credits comment
-    stringstream s;
-    s <<
-      " ===== " <<
-      singularOrPlural (
-        pendingScoreCreditElementsListSize, "Credit", "Credits") <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    if (gMsr2MxmltreeOah->fMusicXMLComments) {
+      stringstream s;
+      s <<
+        " ===== " <<
+        singularOrPlural (
+          pendingScoreCreditElementsListSize, "Credit", "Credits") <<
+        " ===== ";
+      Sxmlelement comment = createElement (kComment, s.str ());
 
-    // append it to the score partwise element
-    fScorePartWiseElement->push (comment);
+      // append it to the score partwise element
+      fScorePartWiseElement->push (comment);
+    }
 
     for (
       list<Sxmlelement>::const_iterator i =
@@ -773,16 +782,18 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     } // for
   }
 
-  // create an part-list comment
-  stringstream s;
-  s <<
-    " ===== " <<
-    "PART-LIST" <<
-    " ===== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create an part-list comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "PART-LIST" <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the score partwise element
-  fScorePartWiseElement->push (comment);
+    // append it to the score partwise element
+    fScorePartWiseElement->push (comment);
+  }
 
   // append the part list element to the score part wise element
   fScorePartWiseElement->push (fScorePartListElement);
@@ -796,18 +807,20 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
   ) {
     Sxmlelement partElement = (*i);
 
-    // create a part comment
-    stringstream s;
-    s <<
-      " ============================ " <<
-      "PART" <<
-      " \"" << partElement->getAttributeValue ("id") << "\"" <<
-      ", line " << inputLineNumber <<
-      " ============================= ";
-    Sxmlelement partComment = createElement (kComment, s.str ());
+    if (gMsr2MxmltreeOah->fMusicXMLComments) {
+      // create a part comment
+      stringstream s;
+      s <<
+        " ============================ " <<
+        "PART" <<
+        " \"" << partElement->getAttributeValue ("id") << "\"" <<
+        ", line " << inputLineNumber <<
+        " ============================= ";
+      Sxmlelement partComment = createElement (kComment, s.str ());
 
-    // append it to the score part wise element
-    fScorePartWiseElement->push (partComment);
+      // append it to the score part wise element
+      fScorePartWiseElement->push (partComment);
+    }
 
     // append the part element to the score part wise element
     fScorePartWiseElement->push (partElement);
@@ -2326,18 +2339,20 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
 
     case msrPartGroup::kPartGroupImplicitNo:
       {
-        // create a start comment
-        stringstream s;
-        s <<
-          " ========== " <<
-          elt->getPartGroupCombinedName () <<
-          " START" <<
-            ", line " << inputLineNumber <<
-          " ========== ";
-        Sxmlelement comment = createElement (kComment, s.str ());
+        if (gMsr2MxmltreeOah->fMusicXMLComments) {
+          // create a start comment
+          stringstream s;
+          s <<
+            " ========== " <<
+            elt->getPartGroupCombinedName () <<
+            " START" <<
+              ", line " << inputLineNumber <<
+            " ========== ";
+          Sxmlelement comment = createElement (kComment, s.str ());
 
-        // append it to the current part list element
-        fScorePartListElement->push (comment);
+          // append it to the current part list element
+          fScorePartListElement->push (comment);
+        }
 
         // create a part group element
         Sxmlelement scorePartGroupElement = createElement (k_part_group, "");
@@ -2452,18 +2467,20 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
 
     case msrPartGroup::kPartGroupImplicitNo:
       {
-        // create an end comment
-        stringstream s;
-        s <<
-          " ========== " <<
-          elt->getPartGroupCombinedName () <<
-          " END" <<
-            ", line " << inputLineNumber <<
-          " ========== ";
-        Sxmlelement comment = createElement (kComment, s.str ());
+        if (gMsr2MxmltreeOah->fMusicXMLComments) {
+          // create an end comment
+          stringstream s;
+          s <<
+            " ========== " <<
+            elt->getPartGroupCombinedName () <<
+            " END" <<
+              ", line " << inputLineNumber <<
+            " ========== ";
+          Sxmlelement comment = createElement (kComment, s.str ());
 
-        // append it to the current part list element
-        fScorePartListElement->push (comment);
+          // append it to the current part list element
+          fScorePartListElement->push (comment);
+        }
 
         // fetch the top-most part group element on the stack
         Sxmlelement
@@ -2751,19 +2768,21 @@ void msr2MxmltreeTranslator::visitStart (S_msrSegment& elt)
   }
 #endif
 
-  // create a start comment
-  stringstream s;
-  s <<
-    " ==================== " <<
-    "Segment " <<
-    elt->getSegmentAbsoluteNumber () <<
-    " START" <<
-      ", line " << inputLineNumber <<
-    " ==================== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create a start comment
+    stringstream s;
+    s <<
+      " ==================== " <<
+      "Segment " <<
+      elt->getSegmentAbsoluteNumber () <<
+      " START" <<
+        ", line " << inputLineNumber <<
+      " ==================== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current part element
-  fCurrentPart->push (comment);
+    // append it to the current part element
+    fCurrentPart->push (comment);
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
@@ -2781,19 +2800,21 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
   }
 #endif
 
-  // create an end comment
-  stringstream s;
-  s <<
-    " ==================== " <<
-    "Segment " <<
-    elt->getSegmentAbsoluteNumber () <<
-    " END" <<
-      ", line " << inputLineNumber <<
-    " ==================== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create an end comment
+    stringstream s;
+    s <<
+      " ==================== " <<
+      "Segment " <<
+      elt->getSegmentAbsoluteNumber () <<
+      " END" <<
+        ", line " << inputLineNumber <<
+      " ==================== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current part element
-  fCurrentPart->push (comment);
+    // append it to the current part element
+    fCurrentPart->push (comment);
+  }
 }
 
 //________________________________________________________________________
@@ -2846,20 +2867,22 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
     fCurrentMeasure = (*it).second;
   }
   else {
-    // no, create a measure comment element
+    // no
 
-    // create a comment
-    stringstream s;
-    s <<
-      " ===== " <<
-      "MEASURE " <<
-      "ordinal number: " << elt->getMeasureOrdinalNumberInVoice () <<
-      ", line " << inputLineNumber <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    if (gMsr2MxmltreeOah->fMusicXMLComments) {
+      // create a comment
+      stringstream s;
+      s <<
+        " ===== " <<
+        "MEASURE " <<
+        "ordinal number: " << elt->getMeasureOrdinalNumberInVoice () <<
+        ", line " << inputLineNumber <<
+        " ===== ";
+      Sxmlelement comment = createElement (kComment, s.str ());
 
-    // append it to the current part element
-    fCurrentPart->push (comment);
+      // append it to the current part element
+      fCurrentPart->push (comment);
+    }
 
     // create a measure element
     fCurrentMeasure = createElement (k_measure, "");
@@ -2879,17 +2902,19 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasurePrintLayout ();
 
   if (measurePrintLayout) {
-    // create a print comment
-    stringstream s;
-    s <<
-      " ===== " <<
-      "Print" <<
-      ", line " << inputLineNumber <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    if (gMsr2MxmltreeOah->fMusicXMLComments) {
+      // create a print comment
+      stringstream s;
+      s <<
+        " ===== " <<
+        "Print" <<
+        ", line " << inputLineNumber <<
+        " ===== ";
+      Sxmlelement comment = createElement (kComment, s.str ());
 
-    // append it to the current measure element
-    fCurrentMeasure->push (comment);
+      // append it to the current measure element
+      fCurrentMeasure->push (comment);
+    }
 
     // create a print element
     fCurrentPrint = createElement (k_print, "");
@@ -4289,19 +4314,21 @@ void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
   }
 #endif
 
-  // create a chord start comment
-  stringstream s;
-  s <<
-    " ===== " <<
-    "Chord start " <<
-    ", chordSoundingWholeNotes: " <<
-    elt->getChordSoundingWholeNotes () <<
-    ", " <<
-    elt->getChordNotesVector ().size () <<
-    " elements" <<
-    ", line " << inputLineNumber <<
-    " ===== ";
-  fPendingChordStartComment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create a chord start comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Chord start " <<
+      ", chordSoundingWholeNotes: " <<
+      elt->getChordSoundingWholeNotes () <<
+      ", " <<
+      elt->getChordNotesVector ().size () <<
+      " elements" <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    fPendingChordStartComment = createElement (kComment, s.str ());
+  }
 
   // append it to the current measure element
   fCurrentMeasure->push (fPendingChordStartComment);
@@ -4321,22 +4348,24 @@ void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
   }
 #endif
 
-  // create a chord end comment
-  stringstream s;
-  s <<
-    " ===== " <<
-    "Chord end " <<
-    ", chordSoundingWholeNotes: " <<
-    elt->getChordSoundingWholeNotes () <<
-    ", " <<
-    elt->getChordNotesVector ().size () <<
-    " elements" <<
-    ", line " << inputLineNumber <<
-    " ===== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create a chord end comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Chord end " <<
+      ", chordSoundingWholeNotes: " <<
+      elt->getChordSoundingWholeNotes () <<
+      ", " <<
+      elt->getChordNotesVector ().size () <<
+      " elements" <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current measure element
-  fCurrentMeasure->push (comment);
+    // append it to the current measure element
+    fCurrentMeasure->push (comment);
+  }
 
   // forget about the pending chord start comment
   fPendingChordStartComment = nullptr;
@@ -4357,21 +4386,23 @@ void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
   }
 #endif
 
-  // create a tuplet start comment
-  stringstream s;
-  s <<
-    " ===== " <<
-    "Tuplet start " <<
-    ", tupletFactor: " <<
-    elt->getTupletFactor ().asRational () <<
-    ", " <<
-    elt->getTupletElementsList ().size () << " elements" <<
-    ", line " << inputLineNumber <<
-    " ===== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create a tuplet start comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Tuplet start " <<
+      ", tupletFactor: " <<
+      elt->getTupletFactor ().asRational () <<
+      ", " <<
+      elt->getTupletElementsList ().size () << " elements" <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current measure element
-  fCurrentMeasure->push (comment);
+    // append it to the current measure element
+    fCurrentMeasure->push (comment);
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
@@ -4388,21 +4419,23 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
   }
 #endif
 
-  // create a tuplet end comment
-  stringstream s;
-  s <<
-    " ===== " <<
-    "Tuplet end " <<
-    ", tupletFactor: " <<
-    elt->getTupletFactor ().asRational () <<
-    ", tupletElementsList: " <<
-    elt->getTupletElementsList ().size () << " elements" <<
-    ", line " << inputLineNumber <<
-    " ===== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create a tuplet end comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Tuplet end " <<
+      ", tupletFactor: " <<
+      elt->getTupletFactor ().asRational () <<
+      ", tupletElementsList: " <<
+      elt->getTupletElementsList ().size () << " elements" <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current measure element
-  fCurrentMeasure->push (comment);
+    // append it to the current measure element
+    fCurrentMeasure->push (comment);
+  }
 }
 
 //________________________________________________________________________
@@ -4646,24 +4679,26 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
           }
 #endif
 
-          // create a forward comment
-          S_msrVoice
-            noteVoice =
-              note->fetchNoteVoice ();
+          if (gMsr2MxmltreeOah->fMusicXMLComments) {
+            // create a forward comment
+            S_msrVoice
+              noteVoice =
+                note->fetchNoteVoice ();
 
-          stringstream s;
-          s <<
-            " ===== " <<
-            "Forward" <<
-            ", forwardDurationDivisions: " << forwardDurationDivisions <<
-            ", in staff: " << previousMSRNoteStaffNumber <<
-            ", in voice: " << previousMSRNoteVoiceNumber <<
-            ", line " << inputLineNumber <<
-            " ===== ";
-          Sxmlelement comment = createElement (kComment, s.str ());
+            stringstream s;
+            s <<
+              " ===== " <<
+              "Forward" <<
+              ", forwardDurationDivisions: " << forwardDurationDivisions <<
+              ", in staff: " << previousMSRNoteStaffNumber <<
+              ", in voice: " << previousMSRNoteVoiceNumber <<
+              ", line " << inputLineNumber <<
+              " ===== ";
+            Sxmlelement comment = createElement (kComment, s.str ());
 
-          // append it to the current measure element
-          appendOtherToMeasure (comment);
+            // append it to the current measure element
+            appendOtherToMeasure (comment);
+          }
 
           // create a forward element
           Sxmlelement forwardElement = createElement (k_forward, "");
@@ -4717,24 +4752,25 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
           }
 #endif
 
-        // create a backup comment
-        S_msrVoice
-          noteVoice =
-            note->fetchNoteVoice ();
+        if (gMsr2MxmltreeOah->fMusicXMLComments) {
+          S_msrVoice
+            noteVoice =
+              note->fetchNoteVoice ();
 
-        stringstream s;
-        s <<
-          " ===== " <<
-          "Backup" <<
-          ", backupDurationDivisions: " << backupDurationDivisions <<
-          ", from staff: " << previousMSRNoteStaffNumber <<
-          ", to staff: " << noteStaffNumber <<
-          ", line " << inputLineNumber <<
-          " ===== ";
-        Sxmlelement comment = createElement (kComment, s.str ());
+          stringstream s;
+          s <<
+            " ===== " <<
+            "Backup" <<
+            ", backupDurationDivisions: " << backupDurationDivisions <<
+            ", from staff: " << previousMSRNoteStaffNumber <<
+            ", to staff: " << noteStaffNumber <<
+            ", line " << inputLineNumber <<
+            " ===== ";
+          Sxmlelement comment = createElement (kComment, s.str ());
 
-        // append it to the current measure element
-        appendOtherToMeasure (comment);
+          // append it to the current measure element
+          appendOtherToMeasure (comment);
+        }
 
         // create a backup element
         Sxmlelement backupElement = createElement (k_backup, "");
@@ -6735,25 +6771,27 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
         note->getNoteGraceNotesGroupAfter ();
 
     if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
-      // create a note comment
-      S_msrVoice
-        noteVoice =
-          note->fetchNoteVoice ();
+      if (gMsr2MxmltreeOah->fMusicXMLComments) {
+        // create a note comment
+        S_msrVoice
+          noteVoice =
+            note->fetchNoteVoice ();
 
-      stringstream s;
-      s <<
-        " ===== " <<
-        "Note" <<
-        ", staff: " << noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
-        ", voice: " << noteVoice->getVoiceNumber () <<
-        ", position: " << note->getMeasureElementPositionInMeasure () <<
-        ", sounding: " << note->getNoteSoundingWholeNotes () <<
-        ", line " << inputLineNumber <<
-        " ===== ";
-      Sxmlelement comment = createElement (kComment, s.str ());
+        stringstream s;
+        s <<
+          " ===== " <<
+          "Note" <<
+          ", staff: " << noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
+          ", voice: " << noteVoice->getVoiceNumber () <<
+          ", position: " << note->getMeasureElementPositionInMeasure () <<
+          ", sounding: " << note->getNoteSoundingWholeNotes () <<
+          ", line " << inputLineNumber <<
+          " ===== ";
+        Sxmlelement comment = createElement (kComment, s.str ());
 
-      // append it to the current measure element
-      appendOtherToMeasure (comment);
+        // append it to the current measure element
+        appendOtherToMeasure (comment);
+      }
 
       // append the note to the current measure element
       appendNoteToMeasure (
@@ -6783,19 +6821,21 @@ void msr2MxmltreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  // create a start comment
-  stringstream s;
-  s <<
-    " ==================== " <<
-    "Grace notes group " <<
-    inputLineNumber <<
-    " START" <<
-      ", line " << inputLineNumber <<
-    " ==================== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create a start comment
+    stringstream s;
+    s <<
+      " ==================== " <<
+      "Grace notes group " <<
+      inputLineNumber <<
+      " START" <<
+        ", line " << inputLineNumber <<
+      " ==================== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current measure element
-  fCurrentMeasure->push (comment);
+    // append it to the current measure element
+    fCurrentMeasure->push (comment);
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
@@ -6812,19 +6852,21 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  // create an end comment
-  stringstream s;
-  s <<
-    " ==================== " <<
-    "Grace notes group " <<
-    inputLineNumber <<
-    " END" <<
-      ", line " << inputLineNumber <<
-    " ==================== ";
-  Sxmlelement comment = createElement (kComment, s.str ());
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create an end comment
+    stringstream s;
+    s <<
+      " ==================== " <<
+      "Grace notes group " <<
+      inputLineNumber <<
+      " END" <<
+        ", line " << inputLineNumber <<
+      " ==================== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-  // append it to the current measure element
-  fCurrentMeasure->push (comment);
+    // append it to the current measure element
+    fCurrentMeasure->push (comment);
+  }
 
   // append the note element to the current measure element only now,
   // if it contains a grace notes group

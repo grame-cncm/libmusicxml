@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrPaginations_MUT_DEP___
+#define ___bsrPaginations_MUT_DEP___
+
 //______________________________________________________________________________
 class bsrPagination : public bsrLineElement
 {
@@ -85,3 +88,5 @@ class bsrPagination : public bsrLineElement
 typedef SMARTP<bsrPagination> S_bsrPagination;
 EXP ostream& operator<< (ostream& os, const S_bsrPagination& elt);
 
+
+#endif

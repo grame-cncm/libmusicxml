@@ -27,7 +27,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
-#include "brailleOah.h"
+#include "bsr2BrailleOah.h"
 
 
 using namespace std;
@@ -141,7 +141,7 @@ void msr2BsrTranslator::visitStart (S_msrPageBreak& elt)
     bsrPage::create (
       inputLineNumber,
       ++fCurrentPrintPageNumber,
-      gBrailleOah->fLinesPerPage);
+      gBsr2BrailleOah->fLinesPerPage);
 
   fBsrScore->
     appendPageToScore (fCurrentPage);
@@ -179,7 +179,7 @@ void msr2BsrTranslator::visitStart (S_msrLineBreak& elt)
     bsrLine::create (
       inputLineNumber,
       ++fCurrentPrintLineNumber,
-      gBrailleOah->fCellsPerLine);
+      gBsr2BrailleOah->fCellsPerLine);
 
   // append it to the current page
   fCurrentPage->
@@ -257,7 +257,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
     bsrPage::create (
       inputLineNumber,
       fCurrentPrintPageNumber,
-      gBrailleOah->fLinesPerPage);
+      gBsr2BrailleOah->fLinesPerPage);
 
     /* JMI
   // create a pagination
@@ -322,7 +322,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
     bsrLine::create (
       inputLineNumber,
       fCurrentPrintLineNumber,
-      gBrailleOah->fCellsPerLine);
+      gBsr2BrailleOah->fCellsPerLine);
 
   // append the fisrt line to the first page
   fCurrentPage->

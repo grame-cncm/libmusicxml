@@ -52,7 +52,7 @@ lpsr2LilyPondOah::lpsr2LilyPondOah (
   : oahGroup (
     "Lpsr2LilyPond",
     "hlpsr2ly", "help-lpsr-to-lilypond",
-R"(These options control the way LPSR is translated to LilyPond.)",
+R"(These options control the way LPSR data is translated to LilyPond.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {

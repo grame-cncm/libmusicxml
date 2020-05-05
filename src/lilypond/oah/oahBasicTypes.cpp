@@ -8474,9 +8474,7 @@ void oahSubGroup::printSubGroupAndAtomHelp (
       if (oahAtom == targetAtom) {
         // print the target atom's help
         // target options atom's help
-        (*i)->
-          printHelp (
-            os);
+        (*i)->printHelp (os);
       }
       if (++i == iEnd) break;
       if (oahAtom == targetAtom) {
@@ -9839,23 +9837,25 @@ void oahHandler::printHelp (ostream& os)
       iBegin = fHandlerGroupsList.begin (),
       iEnd   = fHandlerGroupsList.end (),
       i      = iBegin;
+
     for ( ; ; ) {
       S_oahGroup group = (*i);
 
-      // print the options group help
-//      group->printHelp (os);
+      // don't print help for empty groups,
+      // temporary may 2020 until more is known JMI
+      if (group->getSubGroupsList ().size ()) {
+        // print the options subgroups if relevant
+        switch (group->getElementVisibilityKind ()) {
+          case kElementVisibilityAlways:
+            group->printHelp (os);
+            break;
 
-      // print the options subgroups if relevant
-      switch (group->getElementVisibilityKind ()) {
-        case kElementVisibilityAlways:
-          group->printHelp (os);
-          break;
-
-        case kElementVisibilityHiddenByDefault:
-          group->printGroupHeader (os);
-          group->underlineGroupHeader(os);
-          break;
-      } // switch
+          case kElementVisibilityHiddenByDefault:
+            group->printGroupHeader (os);
+            group->underlineGroupHeader(os);
+            break;
+        } // switch
+      }
 
       if (++i == iEnd) break;
       os << endl;

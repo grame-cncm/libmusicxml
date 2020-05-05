@@ -18,7 +18,7 @@
 
 #include "mxmlTreeOah.h"
 #include "bsrOah.h"
-#include "brailleOah.h"
+#include "bsr2BrailleOah.h"
 
 
 using namespace std;
@@ -40,7 +40,7 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
 
-  switch (gBrailleOah->fBrailleOutputKind) {
+  switch (gBsr2BrailleOah->fBrailleOutputKind) {
     case kBrailleOutputAscii:
       fBrailleGenerator =
         bsrAsciiBrailleGenerator::create (
@@ -50,19 +50,19 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
     case kBrailleOutputUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
-          gBrailleOah->fByteOrderingKind,
+          gBsr2BrailleOah->fByteOrderingKind,
           brailleCodeOutputStream);
       break;
 
     case kBrailleOutputUTF8Debug:
       fBrailleGenerator =
         bsrUTF8DebugBrailleGenerator::create (
-          gBrailleOah->fByteOrderingKind,
+          gBsr2BrailleOah->fByteOrderingKind,
           brailleCodeOutputStream);
       break;
 
     case kBrailleOutputUTF16:
-      switch (gBrailleOah->fByteOrderingKind) {
+      switch (gBsr2BrailleOah->fByteOrderingKind) {
         case kByteOrderingNone:
           // JMI ???
           break;
@@ -70,7 +70,7 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
         case kByteOrderingBigEndian:
           fBrailleGenerator =
             bsrUTF16BigEndianBrailleGenerator::create (
-              gBrailleOah->fByteOrderingKind,
+              gBsr2BrailleOah->fByteOrderingKind,
               brailleCodeOutputStream);
           break;
 
@@ -78,30 +78,30 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
           break;
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (
-              gBrailleOah->fByteOrderingKind,
+              gBsr2BrailleOah->fByteOrderingKind,
               brailleCodeOutputStream);
       } // switch
       break;
   } // switch
 
 /* JMI
-  switch (gBrailleOah->fUTFKind) {
+  switch (gBsr2BrailleOah->fUTFKind) {
     case kUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
-          gBrailleOah->fByteOrderingKind,
+          gBsr2BrailleOah->fByteOrderingKind,
           brailleCodeOutputStream);
       break;
 
     case kUTF16:
-      switch (gBrailleOah->fByteOrderingKind) {
+      switch (gBsr2BrailleOah->fByteOrderingKind) {
         case kByteOrderingNone:
           break;
 
         case kByteOrderingBigEndian:
           fBrailleGenerator =
             bsrUTF16BigEndianBrailleGenerator::create (
-              gBrailleOah->fByteOrderingKind,
+              gBsr2BrailleOah->fByteOrderingKind,
               brailleCodeOutputStream);
           break;
 
@@ -109,7 +109,7 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
           break;
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (
-              gBrailleOah->fByteOrderingKind,
+              gBsr2BrailleOah->fByteOrderingKind,
               brailleCodeOutputStream);
       } // switch
       break;

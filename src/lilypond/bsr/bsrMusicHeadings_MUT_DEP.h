@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrMusicHeadings_MUT_DEP___
+#define ___bsrMusicHeadings_MUT_DEP___
+
 //______________________________________________________________________________
 class bsrMusicHeading : public bsrLine
 {
@@ -95,3 +98,5 @@ class bsrMusicHeading : public bsrLine
 typedef SMARTP<bsrMusicHeading> S_bsrMusicHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrMusicHeading& elt);
 
+
+#endif

@@ -3,6 +3,9 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrPageHeadings_MUT_DEP___
+#define ___bsrPageHeadings_MUT_DEP___
+
 //______________________________________________________________________________
 class bsrPageHeading : public bsrLine
 {
@@ -93,3 +96,5 @@ class bsrPageHeading : public bsrLine
 typedef SMARTP<bsrPageHeading> S_bsrPageHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrPageHeading& elt);
 
+
+#endif

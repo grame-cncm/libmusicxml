@@ -1362,7 +1362,7 @@ msr2LpsrOah::msr2LpsrOah (
   : oahGroup (
     "Msr2LPSR",
     "hmsr2lpsr", "help-msr-to-lpsr",
-R"(These options control the way MSR is translated to LPSR.)",
+R"(These options control the way MSR data is translated to LPSR.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {

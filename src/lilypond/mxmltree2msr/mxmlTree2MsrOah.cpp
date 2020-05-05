@@ -731,7 +731,7 @@ mxmlTree2MsrOah::mxmlTree2MsrOah (
   : oahGroup (
     "Mxmltree2Msr",
     "hmxmlt2msr", "help-mxmltree-to-msr",
-R"(These options control the way xmlelement tree is translated to MSR.)",
+R"(These options control the way xmlelement trees are translated to MSR.)",
     kElementVisibilityAlways,
     handlerUpLink)
 {

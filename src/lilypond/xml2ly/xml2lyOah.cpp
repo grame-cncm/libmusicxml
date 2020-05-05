@@ -28,7 +28,9 @@
 #include "mxmlTreeOah.h"
 #include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
+#include "msr2LpsrOah.h"
 #include "lpsrOah.h"
+#include "lpsr2LilypondOah.h"
 #include "lilypondOah.h"
 
 #include "version.h"
@@ -185,7 +187,13 @@ void xml2lyOahHandler::initializeXml2lyOptionsHandler (
   initializeMsrOahHandling (
     this);
 
+  initializeMsr2LpsrOahHandling (
+    this);
+
   initializeLpsrOahHandling (
+    this);
+
+  initializeLpsr2LilyPondOahHandling (
     this);
 
   initializeLilypondOahHandling (
