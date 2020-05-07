@@ -94,6 +94,9 @@ class msr2BsrOah : public oahGroup
     void                  initializeMsr2BsrMiscellaneousOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeMsr2BsrExitAfterSomePassesOptions (
+                            bool boolOptionsInitialValue);
+
   public:
 
     // visitors
@@ -137,6 +140,10 @@ class msr2BsrOah : public oahGroup
 
     bool                  fIncludeClefs;
 
+    // exit after some passes
+
+    bool                  fExit3a;
+    bool                  fExit3b;
 };
 typedef SMARTP<msr2BsrOah> S_msr2BsrOah;
 EXP ostream& operator<< (ostream& os, const S_msr2BsrOah& elt);

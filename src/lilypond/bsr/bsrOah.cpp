@@ -565,53 +565,6 @@ The default is 'DEFAULT_VALUE'.)",
         fBsrTextsLanguageKind));
 }
 
-void bsrOah::initializeBsrExitAfterSomePassesOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Exit after some passes",
-        "hbexit", "help-bsr-exit",
-R"()",
-      kElementVisibilityAlways,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // '-exit-3a' is hidden...
-
-  fExit3a = boolOptionsInitialValue;
-
-  S_oahBooleanAtom
-    exit2aOahBooleanAtom =
-      oahBooleanAtom::create (
-        "e3a", "exit-3a",
-R"(Exit after pass 3a, i.e. after conversion
-of the MSR to the first BSR score.)",
-        "exit3a",
-        fExit3a);
-
-  subGroup->
-    appendAtomToSubGroup (
-      exit2aOahBooleanAtom);
-
-  fExit3b = boolOptionsInitialValue;
-
-  S_oahBooleanAtom
-    exit2bOahBooleanAtom =
-      oahBooleanAtom::create (
-        "e3b", "exit-3b",
-R"(Exit after pass 3b, i.e. after conversion
-of the first BSR to the second BSR.)",
-        "exit3b",
-        fExit3b);
-
-  subGroup->
-    appendAtomToSubGroup (
-      exit2bOahBooleanAtom);
-}
-
 #ifdef TRACE_OAH
 void bsrOah::initializeBsrTraceOah (
   bool boolOptionsInitialValue)
@@ -727,11 +680,6 @@ void bsrOah::initializeBsrOah (
   // languages
   // --------------------------------------
   initializeBsrLanguagesOptions (
-    boolOptionsInitialValue);
-
-  // exit after some passes
-  // --------------------------------------
-  initializeBsrExitAfterSomePassesOptions (
     boolOptionsInitialValue);
 
 #ifdef TRACE_OAH
@@ -893,25 +841,6 @@ void bsrOah::printBsrOahValues (int fieldWidth)
 
     setw (fieldWidth) << "displayBsrDetails" << " : " <<
     booleanAsString (fDisplayBsrDetails) <<
-    endl;
-
-  gIndenter--;
-
-  // exit after some passes
-  // --------------------------------------
-
-  gLogOstream <<
-    "Exit after some passes:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "exit3a" << " : " <<
-    booleanAsString (fExit3a) <<
-    endl <<
-    setw (fieldWidth) << "exit3b" << " : " <<
-    booleanAsString (fExit3b) <<
     endl;
 
   gIndenter--;

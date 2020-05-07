@@ -44,6 +44,7 @@ lpsrOah2ManPageGenerator::lpsrOah2ManPageGenerator (
 lpsrOah2ManPageGenerator::~lpsrOah2ManPageGenerator ()
 {}
 
+/*
 //________________________________________________________________________
 void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
 {
@@ -56,7 +57,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
       endl;
   }
 #endif
-/*
+/ *
   fOah2ManPageOutputStream <<
     ".HP" <<
     endl <<
@@ -72,7 +73,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
     endl <<
     elt->getDescription () <<
     endl;
-    */
+    * /
 }
 
 void lpsrOah2ManPageGenerator::visitEnd (S_lpsrScoreOutputKindAtom& elt)
@@ -87,6 +88,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrScoreOutputKindAtom& elt)
   }
 #endif
 }
+*/
 
 //________________________________________________________________________
 void lpsrOah2ManPageGenerator::visitStart (S_lpsrPitchesLanguageAtom& elt)

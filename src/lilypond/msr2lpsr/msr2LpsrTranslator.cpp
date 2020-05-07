@@ -27,7 +27,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
-//#include "lilypondOah.h"
+#include "msr2LpsrOah.h"
 
 
 using namespace std;
@@ -125,7 +125,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
       fCurrentLpsrBookBlock);
 
   // create the current score block if relevant
-  switch (gLpsrOah->fScoreOutputKind) {
+  switch (gMsr2LpsrOah->fScoreOutputKind) {
     case kScoreOnly:
     case kScoreAndParts:
     case kPartsAndScore:
@@ -1279,7 +1279,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 #endif
 
     // append the current partgroup block to the current score block if relevant
-    switch (gLpsrOah->fScoreOutputKind) {
+    switch (gMsr2LpsrOah->fScoreOutputKind) {
       case kScoreOnly:
       case kScoreAndParts:
       case kPartsAndScore:
@@ -1318,7 +1318,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     } // switch
 
     // append the current partgroup block to the current bookpart block if relevant
-    switch (gLpsrOah->fScoreOutputKind) {
+    switch (gMsr2LpsrOah->fScoreOutputKind) {
       case kScoreOnly:
         break;
       case kScoreAndParts:
@@ -1459,7 +1459,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fCurrentPartBlock);
 
   // create a bookpart block if relevant
-  switch (gLpsrOah->fScoreOutputKind) {
+  switch (gMsr2LpsrOah->fScoreOutputKind) {
     case kScoreOnly:
       break;
     case kScoreAndParts:
@@ -1689,7 +1689,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
             fCurrentStaffBlock);
 
         // handle the current staff block
-        switch (gLpsrOah->fScoreOutputKind) {
+        switch (gMsr2LpsrOah->fScoreOutputKind) {
           case kScoreOnly: // default value
             break;
           case kScoreAndParts:

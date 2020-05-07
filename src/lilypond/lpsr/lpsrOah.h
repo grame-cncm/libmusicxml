@@ -22,93 +22,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrScoreOutputKindAtom : public oahValuedAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<lpsrScoreOutputKindAtom> create (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    lpsrScoreOutputKindAtom (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
-
-    virtual ~lpsrScoreOutputKindAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setLpsrScoreOutputKindVariable (
-                            lpsrScoreOutputKind value)
-                              { fLpsrScoreOutputKindVariable = value; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
-
-    void                  print (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    lpsrScoreOutputKind&  fLpsrScoreOutputKindVariable;
-};
-typedef SMARTP<lpsrScoreOutputKindAtom> S_lpsrScoreOutputKindAtom;
-EXP ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt);
-
-//______________________________________________________________________________
 class lpsrPitchesLanguageAtom : public oahValuedAtom
 {
   public:
@@ -734,7 +647,7 @@ class lpsrOah : public oahGroup
     void                  initializeLpsrDisplayOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLpsrScoreOutputOptions (
+    void                  initializeLpsrLilypondVersionOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrGlobalStaffSizeOptions (
@@ -807,11 +720,6 @@ class lpsrOah : public oahGroup
 
     string                fLilyPondVersion;
 
-    // score output kind
-    // --------------------------------------
-
-    lpsrScoreOutputKind   fScoreOutputKind;
-
     // global staff size
     // --------------------------------------
 
@@ -857,7 +765,7 @@ class lpsrOah : public oahGroup
     int                   fReplicateEmptyMeasureReplicas;
 
     // add empty measures
-    map<string,int>       fAddEmptyMeasuresStringToIntMap;
+// JMI    map<string,int>       fAddEmptyMeasuresStringToIntMap;
 
     // tempos
     // --------------------------------------

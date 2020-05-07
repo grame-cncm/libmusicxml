@@ -25,6 +25,93 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class msr2LpsrScoreOutputKindAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msr2LpsrScoreOutputKindAtom> create (
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msr2LpsrScoreOutputKindAtom (
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
+
+    virtual ~msr2LpsrScoreOutputKindAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setLpsrScoreOutputKindVariable (
+                            lpsrScoreOutputKind value)
+                              { fLpsrScoreOutputKindVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    lpsrScoreOutputKind&  fLpsrScoreOutputKindVariable;
+};
+typedef SMARTP<msr2LpsrScoreOutputKindAtom> S_msr2LpsrScoreOutputKindAtom;
+EXP ostream& operator<< (ostream& os, const S_msr2LpsrScoreOutputKindAtom& elt);
+
+//______________________________________________________________________________
 class msrRenamePartAtom : public oahValuedAtom
 {
   public:
@@ -445,7 +532,7 @@ class msr2LpsrOah : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    void                  setAllMusicXMLTraceOah (
+    void                  setAllMsr2LpsrTraceOah (
                             bool boolOptionsInitialValue);
 
   public:
@@ -459,35 +546,38 @@ class msr2LpsrOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMusicXMLTraceOah (
+    void                  initializeMsr2LpsrTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMsrPartsOptions (
+    void                  initializeMsr2LpsrScoreOutputOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrStavesOptions (
+    void                  initializeMsr2LpsrPartsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrVoicesOptions (
+    void                  initializeMsr2LpsrStavesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrRepeatsOptions (
+    void                  initializeMsr2LpsrVoicesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrNotesOptions (
+    void                  initializeMsr2LpsrRepeatsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrLyricsOptions (
+    void                  initializeMsr2LpsrNotesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrHarmoniesOptions (
+    void                  initializeMsr2LpsrLyricsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrFiguredBassOptions (
+    void                  initializeMsr2LpsrHarmoniesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsrExitAfterSomePassesOptions (
+    void                  initializeMsr2LpsrFiguredBassOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsr2LpsrExitAfterSomePassesOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -513,6 +603,11 @@ class msr2LpsrOah : public oahGroup
 
     // fields
     // ------------------------------------------------------
+
+    // score output kind
+    // --------------------------------------
+
+    lpsrScoreOutputKind   fScoreOutputKind;
 
     // parts
     // --------------------------------------

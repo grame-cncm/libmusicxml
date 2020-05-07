@@ -268,9 +268,6 @@ class bsrOah : public oahGroup
     void                  initializeBsrLanguagesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeBsrExitAfterSomePassesOptions (
-                            bool boolOptionsInitialValue);
-
 #ifdef TRACE_OAH
     void                  initializeBsrTraceOah (
                             bool boolOptionsInitialValue);
@@ -308,11 +305,6 @@ class bsrOah : public oahGroup
     // languages
 
     bsrTextsLanguageKind  fBsrTextsLanguageKind;
-
-    // exit after some passes
-
-    bool                  fExit3a;
-    bool                  fExit3b;
 
     // trace
     // --------------------------------------

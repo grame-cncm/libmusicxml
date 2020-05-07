@@ -36,6 +36,250 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+S_msr2LpsrScoreOutputKindAtom msr2LpsrScoreOutputKindAtom::create (
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  lpsrScoreOutputKind& lpsrScoreOutputKindVariable)
+{
+  msr2LpsrScoreOutputKindAtom* o = new
+    msr2LpsrScoreOutputKindAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      lpsrScoreOutputKindVariable);
+  assert(o!=0);
+  return o;
+}
+
+msr2LpsrScoreOutputKindAtom::msr2LpsrScoreOutputKindAtom (
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  lpsrScoreOutputKind& lpsrScoreOutputKindVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fLpsrScoreOutputKindVariable (
+      lpsrScoreOutputKindVariable)
+{}
+
+msr2LpsrScoreOutputKindAtom::~msr2LpsrScoreOutputKindAtom ()
+{}
+
+S_oahValuedAtom msr2LpsrScoreOutputKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msr2LpsrScoreOutputKindAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void msr2LpsrScoreOutputKindAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msr2LpsrScoreOutputKindAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the score output kind:
+  // is it in the score output kinds map?
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msr2LpsrScoreOutputKindAtom'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrScoreOutputKind>::const_iterator
+    it =
+      gLpsrScoreOutputKindsMap.find (
+        theString);
+
+  if (it == gLpsrScoreOutputKindsMap.end ()) {
+    // no, score output kind is unknown in the map
+
+    stringstream s;
+
+    s <<
+      "LPSR score output kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrScoreOutputKindsMap.size () <<
+      " known LPSR score output kinds are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    gIndenter--;
+
+    oahError (s.str ());
+  }
+
+  setLpsrScoreOutputKindVariable (
+    (*it).second);
+}
+
+void msr2LpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msr2LpsrScoreOutputKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msr2LpsrScoreOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_msr2LpsrScoreOutputKindAtom>*> (v)) {
+        S_msr2LpsrScoreOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msr2LpsrScoreOutputKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msr2LpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msr2LpsrScoreOutputKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msr2LpsrScoreOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_msr2LpsrScoreOutputKindAtom>*> (v)) {
+        S_msr2LpsrScoreOutputKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msr2LpsrScoreOutputKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msr2LpsrScoreOutputKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msr2LpsrScoreOutputKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msr2LpsrScoreOutputKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
+
+  return s.str ();
+}
+
+string msr2LpsrScoreOutputKindAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
+
+  return s.str ();
+}
+
+void msr2LpsrScoreOutputKindAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "msr2LpsrScoreOutputKindAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsLpsrScoreOutputKindVariable" << " : \"" <<
+    lpsrScoreOutputKindAsString (
+      fLpsrScoreOutputKindVariable) <<
+    "\"" <<
+    endl;
+}
+
+void msr2LpsrScoreOutputKindAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    lpsrScoreOutputKindAsString (
+      fLpsrScoreOutputKindVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msr2LpsrScoreOutputKindAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrRenamePartAtom msrRenamePartAtom::create (
   string               shortName,
   string               longName,
@@ -1388,12 +1632,60 @@ msr2LpsrOah::~msr2LpsrOah ()
 {}
 
 #ifdef TRACE_OAH
-void msr2LpsrOah::initializeMusicXMLTraceOah (
+void msr2LpsrOah::initializeMsr2LpsrTraceOah (
   bool boolOptionsInitialValue)
 {}
 #endif
 
-void msr2LpsrOah::initializeMsrPartsOptions (
+void msr2LpsrOah::initializeMsr2LpsrScoreOutputOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "LilyPond score output",
+        "hlpso", "help-lilypond-score-output",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // LPSR score output kind
+
+  const lpsrScoreOutputKind
+    lpsrScoreOutputKindDefaultValue =
+      kScoreOnly; // default value
+
+  fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      msr2LpsrScoreOutputKindAtom::create (
+        "m2lpsok", "msr2lpsr-score-output-kind",
+        regex_replace (
+          regex_replace (
+            regex_replace (
+R"(Use OUTPUT_KIND to create the LPSR blocks,
+as well as in the generated LilyPond code.
+The NUMBER LilyPond score output kinds available are:
+  OUTPUT_KINDS.
+'-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
+Otherwise, one file will be generated for each score and/or part.
+The default is 'DEFAULT_VALUE'.)",
+              regex ("NUMBER"),
+              to_string (gLpsrScoreOutputKindsMap.size ())),
+            regex ("OUTPUT_KINDS"),
+            existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
+          regex ("DEFAULT_VALUE"),
+          lpsrScoreOutputKindAsString (
+            lpsrScoreOutputKindDefaultValue)),
+        "OUTPUT_KIND",
+        "scoreOutputKind",
+        fScoreOutputKind));
+}
+
+void msr2LpsrOah::initializeMsr2LpsrPartsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1527,7 +1819,7 @@ This option is incompatible with '-mopn, -msr-omit-part-name'.)",
       fKeepPartNameAtom);
 }
 
-void msr2LpsrOah::initializeMsrStavesOptions (
+void msr2LpsrOah::initializeMsr2LpsrStavesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1554,7 +1846,7 @@ By default, drum staves are created in this case.)",
         fCreateSingleLineStavesAsRythmic));
 }
 
-void msr2LpsrOah::initializeMsrVoicesOptions (
+void msr2LpsrOah::initializeMsr2LpsrVoicesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1582,7 +1874,7 @@ which may be global to the score.)",
         fCreateVoicesStaffRelativeNumbers));
 }
 
-void msr2LpsrOah::initializeMsrRepeatsOptions (
+void msr2LpsrOah::initializeMsr2LpsrRepeatsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1610,7 +1902,7 @@ By default, no such barline is added.)",
         fCreateImplicitInitialRepeatBarline));
 }
 
-void msr2LpsrOah::initializeMsrNotesOptions (
+void msr2LpsrOah::initializeMsr2LpsrNotesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1938,7 +2230,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
       omitWedgesAtom);
 }
 
-void msr2LpsrOah::initializeMsrLyricsOptions (
+void msr2LpsrOah::initializeMsr2LpsrLyricsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1976,7 +2268,7 @@ R"(Don't create lyrics in the MSR.)",
         fOmitLyrics));
 }
 
-void msr2LpsrOah::initializeMsrHarmoniesOptions (
+void msr2LpsrOah::initializeMsr2LpsrHarmoniesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -2015,7 +2307,7 @@ R"(Don't create harmonies in the MSR.)",
         fOmitHarmonies));
 }
 
-void msr2LpsrOah::initializeMsrFiguredBassOptions (
+void msr2LpsrOah::initializeMsr2LpsrFiguredBassOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -2054,7 +2346,7 @@ R"(Don't create figured basses in the MSR.)",
         fOmitFiguredBasses));
 }
 
-void msr2LpsrOah::initializeMsrExitAfterSomePassesOptions (
+void msr2LpsrOah::initializeMsr2LpsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -2109,53 +2401,58 @@ void msr2LpsrOah::initializeMsr2LpsrOah (
 #ifdef TRACE_OAH
   // trace
   // --------------------------------------
-  initializeMusicXMLTraceOah (
+  initializeMsr2LpsrTraceOah (
     boolOptionsInitialValue);
 #endif
 
+  // score output kind
+  // --------------------------------------
+  initializeMsr2LpsrScoreOutputOptions (
+    boolOptionsInitialValue);
+
   // parts
   // --------------------------------------
-  initializeMsrPartsOptions (
+  initializeMsr2LpsrPartsOptions (
     boolOptionsInitialValue);
 
   // staves
   // --------------------------------------
-  initializeMsrStavesOptions (
+  initializeMsr2LpsrStavesOptions (
     boolOptionsInitialValue);
 
   // voices
   // --------------------------------------
-  initializeMsrVoicesOptions (
+  initializeMsr2LpsrVoicesOptions (
     boolOptionsInitialValue);
 
   // repeats
   // --------------------------------------
-  initializeMsrRepeatsOptions (
+  initializeMsr2LpsrRepeatsOptions (
     boolOptionsInitialValue);
 
   // notes
   // --------------------------------------
-  initializeMsrNotesOptions (
+  initializeMsr2LpsrNotesOptions (
     boolOptionsInitialValue);
 
   // lyrics
   // --------------------------------------
-  initializeMsrLyricsOptions (
+  initializeMsr2LpsrLyricsOptions (
     boolOptionsInitialValue);
 
   // harmonies
   // --------------------------------------
-  initializeMsrHarmoniesOptions (
+  initializeMsr2LpsrHarmoniesOptions (
     boolOptionsInitialValue);
 
   // figured bass
   // --------------------------------------
-  initializeMsrFiguredBassOptions (
+  initializeMsr2LpsrFiguredBassOptions (
     boolOptionsInitialValue);
 
   // exit after some passes
   // --------------------------------------
-  initializeMsrExitAfterSomePassesOptions (
+  initializeMsr2LpsrExitAfterSomePassesOptions (
     boolOptionsInitialValue);
 }
 
@@ -2169,6 +2466,12 @@ S_msr2LpsrOah msr2LpsrOah::createCloneWithDetailedTrace ()
   // set the options handler upLink
   clone->fHandlerUpLink =
     fHandlerUpLink;
+
+  // LilyPond output kind
+  // --------------------------------------
+
+  clone->fScoreOutputKind =
+    fScoreOutputKind;
 
   // parts
   // --------------------------------------
@@ -2281,7 +2584,7 @@ S_msr2LpsrOah msr2LpsrOah::createCloneWithDetailedTrace ()
 }
 
 //______________________________________________________________________________
-void msr2LpsrOah::setAllMusicXMLTraceOah (
+void msr2LpsrOah::setAllMsr2LpsrTraceOah (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
@@ -2408,6 +2711,22 @@ void msr2LpsrOah::printMsr2LpsrOahValues (int fieldWidth)
     endl;
 
   gIndenter++;
+
+  // LilyPond output kind
+  // --------------------------------------
+
+  gLogOstream <<
+    "LilyPond output kind:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "scoreOutputKind" << " : " <<
+    lpsrScoreOutputKindAsString (fScoreOutputKind) <<
+    endl;
+
+  gIndenter--;
 
   // parts
   // --------------------------------------

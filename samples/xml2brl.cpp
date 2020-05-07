@@ -26,7 +26,7 @@
 
 #include "generalOah.h"
 #include "mxmlTreeOah.h"
-#include "msr2LpsrOah.h"
+#include "msr2BsrOah.h"
 #include "bsr2BrailleOah.h"
 
 #include "xml2brlOah.h"
@@ -606,7 +606,7 @@ void convertMusicXMLToBraille (
       convertMsrScoreToBsrScore_Pass3a (
         mScore);
 
-  if (gBsrOah->fExit3a) {
+  if (gMsr2BsrOah->fExit3a) {
     gLogOstream <<
       endl <<
       "Existing after pass 3a as requested" <<
@@ -632,7 +632,7 @@ void convertMusicXMLToBraille (
       convertBsrScoreToFinalizedScore_Pass3b (
         firstBsrScore);
 
-  if (gBsrOah->fExit3b) {
+  if (gMsr2BsrOah->fExit3b) {
     gLogOstream <<
       endl <<
       "Existing after pass 3b as requested" <<

@@ -209,6 +209,53 @@ R"(Include clefs in BSR. By default, they are not.)",
         fIncludeClefs));
 }
 
+void msr2BsrOah::initializeMsr2BsrExitAfterSomePassesOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Exit after some passes",
+        "hbexit", "help-bsr-exit",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // '-exit-3a' is hidden...
+
+  fExit3a = boolOptionsInitialValue;
+
+  S_oahBooleanAtom
+    exit3aOahBooleanAtom =
+      oahBooleanAtom::create (
+        "e3a", "exit-3a",
+R"(Exit after pass 3a, i.e. after conversion
+of the MSR to the first BSR score.)",
+        "exit3a",
+        fExit3a);
+
+  subGroup->
+    appendAtomToSubGroup (
+      exit3aOahBooleanAtom);
+
+  fExit3b = boolOptionsInitialValue;
+
+  S_oahBooleanAtom
+    exit3bOahBooleanAtom =
+      oahBooleanAtom::create (
+        "e3b", "exit-3b",
+R"(Exit after pass 3b, i.e. after conversion
+of the first BSR to the second BSR.)",
+        "exit3b",
+        fExit3b);
+
+  subGroup->
+    appendAtomToSubGroup (
+      exit3bOahBooleanAtom);
+}
+
 void msr2BsrOah::initializeMsr2BsrOah (
   bool boolOptionsInitialValue)
 {
@@ -222,6 +269,11 @@ void msr2BsrOah::initializeMsr2BsrOah (
   // miscellaneous
   // --------------------------------------
   initializeMsr2BsrMiscellaneousOptions (
+    boolOptionsInitialValue);
+
+  // exit after some passes
+  // --------------------------------------
+  initializeMsr2BsrExitAfterSomePassesOptions (
     boolOptionsInitialValue);
 }
 
@@ -372,6 +424,25 @@ void msr2BsrOah::printMsr2BsrOahValues (int fieldWidth)
     setw (fieldWidth) << "includeClefs" << " : " <<
       booleanAsString (fIncludeClefs) <<
       endl;
+
+  gIndenter--;
+
+  // exit after some passes
+  // --------------------------------------
+
+  gLogOstream <<
+    "Exit after some passes:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "exit3a" << " : " <<
+    booleanAsString (fExit3a) <<
+    endl <<
+    setw (fieldWidth) << "exit3b" << " : " <<
+    booleanAsString (fExit3b) <<
+    endl;
 
   gIndenter--;
 

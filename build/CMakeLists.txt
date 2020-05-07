@@ -27,13 +27,13 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
-option ( XML 		  "Generates the musicxml library by default"	on )
-option ( MEI 		  "Generates the mei library"	    off )
-option ( FMWK 		  "Generates a framework on MacOS by default"	off )
-option ( GDB 		  "Activates ggdb3 option"	        off )
-option ( APPLEDEBUG   "Activates Apple debug option"	on )
-option ( LILY 		  "Include lilypond part"       	on )
-option ( BRL 		  "Include braille part"	        on )
+option ( XML 		      "Generates the musicxml library by default"	on )
+option ( MEI 		      "Generates the mei library"	                off )
+option ( FMWK 	  	  "Generates a framework on MacOS by default"	off )
+option ( GDB 		      "Activates ggdb3 option"	                  off )
+option ( APPLEDEBUG   "Activates Apple debug option"	            off )
+option ( LILY 		    "Include lilypond part"       	            on )
+option ( BRL 		      "Include braille part"	                    on )
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
@@ -93,22 +93,23 @@ endif()
 # set directories, src and headers.
 set (SRCDIR  ${ROOT}/src)
 set (SAMPLEDIR ${ROOT}/samples)
-set (SRCFOLDERS  factory files elements guido lib operations parser visitors interface)
+set (SRCFOLDERS factory files elements guido lib operations parser visitors interface)
 if (XML)
-	set (SRCFOLDERS  ${SRCFOLDERS} elements/xml)
+	set (SRCFOLDERS ${SRCFOLDERS} elements/xml)
     add_definitions(-DXML)
-elseif (MEI)
-	set (SRCFOLDERS  ${SRCFOLDERS} elements/mei)
-    add_definitions(-DMEI)
+endif()
+if (MEI)
+#	set (SRCFOLDERS ${SRCFOLDERS} elements/mei)
+#  add_definitions(-DMEI)
 endif()
 
-set (SRCFOLDERS ${SRCFOLDERS} lilypond/musicxml)
+#set (SRCFOLDERS ${SRCFOLDERS} )
 if (LILY OR BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/musicxml2mxmltree lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/msr2mxmltree lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr interface/lilypond/msr2mxmltree lilypond/xml2xml)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/musicxml lilypond/musicxml2mxmltree lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/msr2mxmltree lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr interface/lilypond/msr2mxmltree)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/msr2lpsr lilypond/lilypond lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/msr2lpsr lilypond/lilypond lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly lilypond/xml2xml)
 endif()
 
 if (BRL)
@@ -129,6 +130,15 @@ if (NOT LILY)
 	set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
 	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
 endif()
+
+if (LILY)
+	set(SRC ${SRC}  "${SRCDIR}/interface/lilypond/musicxml2lilypond.cpp)
+endif()
+
+if (BRL)
+	set(SRC ${SRC}  "${SRCDIR}/interface/lilypond/musicxml2braille.cpp)
+endif()
+
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
@@ -198,15 +208,29 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic RandomChords MusicAndHarmonies xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone xml2xml)
-set (TOOLS  xml2guido xmlread xmltranspose xmlversion xml2xml)
+set (SAMPLES xmlversion RandomMusic RandomChords MusicAndHarmonies xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
 if (LILY)
-	set (SAMPLES ${SAMPLES} xml2ly)
-	set (TOOLS  ${TOOLS} xml2ly)
+	set (SAMPLES ${SAMPLES} xml2xml xml2ly)
+	set (TOOLS   ${TOOLS}   xml2xml xml2ly)
 endif()
 if (BRL)
 	set (SAMPLES ${SAMPLES} xml2brl)
-	set (TOOLS  ${TOOLS} xml2brl)
+	set (TOOLS   ${TOOLS}   xml2brl)
+endif()
+if (MEI)
+#	set (SAMPLES ${SAMPLES} meiread) # mei2guido
+#	set (TOOLS   ${TOOLS}   meiread) # mei2guido
+endif()
+
+if (MEI AND LILY)
+	#set (SAMPLES ${SAMPLES} mei2ly)
+	#set (TOOLS   ${TOOLS}   mei2ly)
+endif()
+
+if (MEI AND BRL)
+	#set (SAMPLES ${SAMPLES} mei2brl)
+	#set (TOOLS   ${TOOLS}   mei2brl)
 endif()
 
 if (APPLE)

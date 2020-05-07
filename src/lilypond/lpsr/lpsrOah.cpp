@@ -33,250 +33,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_lpsrScoreOutputKindAtom lpsrScoreOutputKindAtom::create (
-  string               shortName,
-  string               longName,
-  string               description,
-  string               valueSpecification,
-  string               variableName,
-  lpsrScoreOutputKind& lpsrScoreOutputKindVariable)
-{
-  lpsrScoreOutputKindAtom* o = new
-    lpsrScoreOutputKindAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      lpsrScoreOutputKindVariable);
-  assert(o!=0);
-  return o;
-}
-
-lpsrScoreOutputKindAtom::lpsrScoreOutputKindAtom (
-  string               shortName,
-  string               longName,
-  string               description,
-  string               valueSpecification,
-  string               variableName,
-  lpsrScoreOutputKind& lpsrScoreOutputKindVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    fLpsrScoreOutputKindVariable (
-      lpsrScoreOutputKindVariable)
-{}
-
-lpsrScoreOutputKindAtom::~lpsrScoreOutputKindAtom ()
-{}
-
-S_oahValuedAtom lpsrScoreOutputKindAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrScoreOutputKindAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lpsrScoreOutputKindAtom::handleValue (
-  string   theString,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the score output kind:
-  // is it in the score output kinds map?
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'lpsrScoreOutputKindAtom'" <<
-      endl;
-  }
-#endif
-
-  map<string, lpsrScoreOutputKind>::const_iterator
-    it =
-      gLpsrScoreOutputKindsMap.find (
-        theString);
-
-  if (it == gLpsrScoreOutputKindsMap.end ()) {
-    // no, score output kind is unknown in the map
-
-    stringstream s;
-
-    s <<
-      "LPSR score output kind '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gLpsrScoreOutputKindsMap.size () <<
-      " known LPSR score output kinds are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH);
-
-    gIndenter--;
-
-    oahError (s.str ());
-  }
-
-  setLpsrScoreOutputKindVariable (
-    (*it).second);
-}
-
-void lpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lpsrScoreOutputKindAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_lpsrScoreOutputKindAtom>*
-    p =
-      dynamic_cast<visitor<S_lpsrScoreOutputKindAtom>*> (v)) {
-        S_lpsrScoreOutputKindAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lpsrScoreOutputKindAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void lpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lpsrScoreOutputKindAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_lpsrScoreOutputKindAtom>*
-    p =
-      dynamic_cast<visitor<S_lpsrScoreOutputKindAtom>*> (v)) {
-        S_lpsrScoreOutputKindAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lpsrScoreOutputKindAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrScoreOutputKindAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lpsrScoreOutputKindAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string lpsrScoreOutputKindAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
-
-  return s.str ();
-}
-
-string lpsrScoreOutputKindAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    lpsrScoreOutputKindAsString (fLpsrScoreOutputKindVariable);
-
-  return s.str ();
-}
-
-void lpsrScoreOutputKindAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "OptionsLpsrScoreOutputKindAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedAtomEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsLpsrScoreOutputKindVariable" << " : \"" <<
-    lpsrScoreOutputKindAsString (
-      fLpsrScoreOutputKindVariable) <<
-    "\"" <<
-    endl;
-}
-
-void lpsrScoreOutputKindAtom::printAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : \"" <<
-    lpsrScoreOutputKindAsString (
-      fLpsrScoreOutputKindVariable) <<
-    "\"" <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_lpsrScoreOutputKindAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
 S_lpsrPitchesLanguageAtom lpsrPitchesLanguageAtom::create (
   string             shortName,
   string             longName,
@@ -2062,14 +1818,14 @@ R"(Write the contents of the LPSR data to standard error.)",
         fDisplayLpsr));
 }
 
-void lpsrOah::initializeLpsrScoreOutputOptions (
+void lpsrOah::initializeLpsrLilypondVersionOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "LilyPond score output",
-        "hlpso", "help-lilypond-score-output",
+        "LilyPond version",
+        "hlpv", "help-lilypond-version",
 R"()",
       kElementVisibilityAlways,
       this);
@@ -2094,39 +1850,6 @@ The default is 'DEFAULT_VALUE'.)",
         "STRING",
         "lilyPondVersion",
         fLilyPondVersion));
-
-  // LPSR score output kind
-
-  const lpsrScoreOutputKind
-    lpsrScoreOutputKindDefaultValue =
-      kScoreOnly; // default value
-
-  fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      lpsrScoreOutputKindAtom::create (
-        "lpsok", "lpsr-score-output-kind",
-        regex_replace (
-          regex_replace (
-            regex_replace (
-R"(Use OUTPUT_KIND to create the LPSR blocks,
-as well as in the generated LilyPond code.
-The NUMBER LilyPond score output kinds available are:
-  OUTPUT_KINDS.
-'-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
-Otherwise, one file will be generated for each score and/or part.
-The default is 'DEFAULT_VALUE'.)",
-              regex ("NUMBER"),
-              to_string (gLpsrScoreOutputKindsMap.size ())),
-            regex ("OUTPUT_KINDS"),
-            existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
-          regex ("DEFAULT_VALUE"),
-          lpsrScoreOutputKindAsString (
-            lpsrScoreOutputKindDefaultValue)),
-        "OUTPUT_KIND",
-        "scoreOutputKind",
-        fScoreOutputKind));
 }
 
 void lpsrOah::initializeLpsrGlobalStaffSizeOptions (
@@ -2779,7 +2502,7 @@ void lpsrOah::initializeLpsrOah (
 
   // LilyPond score output
   // --------------------------------------
-  initializeLpsrScoreOutputOptions (
+  initializeLpsrLilypondVersionOptions (
     boolOptionsInitialValue);
 
   // global staff size
@@ -2866,12 +2589,6 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   clone->fLilyPondVersion =
     fLilyPondVersion;
 
-  // LilyPond output kind
-  // --------------------------------------
-
-  clone->fScoreOutputKind =
-    fScoreOutputKind;
-
   // global staff size
   // --------------------------------------
 
@@ -2924,8 +2641,8 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   clone->fReplicateEmptyMeasureReplicas =
     fReplicateEmptyMeasureReplicas;
 
-  clone->fAddEmptyMeasuresStringToIntMap =
-    fAddEmptyMeasuresStringToIntMap;
+//  clone->fAddEmptyMeasuresStringToIntMap =
+//    fAddEmptyMeasuresStringToIntMap;
 
   // tempos
   // --------------------------------------
@@ -3155,22 +2872,6 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
   gIndenter--;
 
-  // LilyPond output kind
-  // --------------------------------------
-
-  gLogOstream <<
-    "LilyPond output kind:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "scoreOutputKind" << " : " <<
-    lpsrScoreOutputKindAsString (fScoreOutputKind) <<
-    endl;
-
-  gIndenter--;
-
   // global staff size
   // --------------------------------------
 
@@ -3245,6 +2946,7 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
   gIndenter--;
 
+/* JMI
   // measures
   // --------------------------------------
 
@@ -3273,6 +2975,7 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gLogOstream << endl;
 
   gIndenter--;
+*/
 
   // tempos
   // --------------------------------------

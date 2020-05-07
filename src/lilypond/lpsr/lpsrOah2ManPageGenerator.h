@@ -24,7 +24,7 @@ namespace MusicXML2
 //________________________________________________________________________
 class lpsrOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
-  public visitor<S_lpsrScoreOutputKindAtom>,
+// JMI  public visitor<S_lpsrScoreOutputKindAtom>,
 
   public visitor<S_lpsrPitchesLanguageAtom>,
 
@@ -44,9 +44,10 @@ class lpsrOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   protected:
 
+/* JMI
     virtual void visitStart (S_lpsrScoreOutputKindAtom& elt);
     virtual void visitEnd   (S_lpsrScoreOutputKindAtom& elt);
-
+*/
     virtual void visitStart (S_lpsrPitchesLanguageAtom& elt);
     virtual void visitEnd   (S_lpsrPitchesLanguageAtom& elt);
 
