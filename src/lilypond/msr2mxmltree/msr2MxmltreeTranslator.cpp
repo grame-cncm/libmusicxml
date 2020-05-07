@@ -5566,8 +5566,9 @@ void msr2MxmltreeTranslator:: appendNoteTupletIfRelevant (
             note->getNoteTupletUpLink ();
 
         // get the note's position in tuplet
-        int notePositionInTuplet =
-          note->getPositionInTuplet ();
+        list<S_msrTupletElement>::size_type
+          notePositionInTuplet =
+            note->getPositionInTuplet ();
 
         // compute the type string if relevant
         string typeString;

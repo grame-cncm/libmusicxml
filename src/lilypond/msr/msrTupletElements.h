@@ -13,6 +13,8 @@
 #ifndef ___msrTupletElements___
 #define ___msrTupletElements___
 
+#include <list>
+
 #include "msrMeasureElements.h"
 
 namespace MusicXML2
@@ -23,6 +25,9 @@ namespace MusicXML2
   Notes, chords and tuplets can be found in tuplets,
   hence class msrTupletElement
 */
+
+class msrTupletElement;
+typedef SMARTP<msrTupletElement> S_msrTupletElement;
 
 class msrTupletElement : public msrMeasureElement
 {
@@ -50,7 +55,8 @@ class msrTupletElement : public msrMeasureElement
                             int positionInTuplet)
                               { fPositionInTuplet = positionInTuplet; }
 
-    int                   getPositionInTuplet ()
+    list<S_msrTupletElement>::size_type
+                          getPositionInTuplet ()
                               { return fPositionInTuplet; }
 
   protected:
@@ -60,7 +66,8 @@ class msrTupletElement : public msrMeasureElement
       to allow for separate *.h files, C++ constraint
     */
 
-    int                   fPositionInTuplet;
+    list<S_msrTupletElement>::size_type
+                          fPositionInTuplet;
 };
 typedef SMARTP<msrTupletElement> S_msrTupletElement;
 EXP ostream& operator<< (ostream& os, const S_msrTupletElement& elt);
