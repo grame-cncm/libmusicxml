@@ -176,7 +176,7 @@ var XMLConverter = /** @class */ (function () {
             // xhr.setRequestHeader('Content-Type', 'text/plain');
             // // xhr.onreadystatechange = handler;
             // xhr.send (gmn); 
-            $.post("http://localhost:8000", gmn, function (result) {
+            $.post("https://guidoeditor.grame.fr", gmn, function (result) {
                 console.log("post result: " + result);
             }, "text");
         }
