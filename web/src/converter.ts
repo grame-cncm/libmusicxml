@@ -96,7 +96,7 @@ console.log ("post to guidoeditor due to url size limit");
 			// // xhr.onreadystatechange = handler;
 			// xhr.send (gmn); 
 
-			$.post("http://localhost:8000", gmn, function(result: string){
+			$.post("https://guidoeditor.grame.fr", gmn, function(result: string){
 								console.log("post result: " + result );
 						}, "text");
  		}
