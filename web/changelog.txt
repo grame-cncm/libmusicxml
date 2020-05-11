@@ -1,7 +1,0 @@
-libmusicxml Web History
-
-
-----------------------------------------------------------------
-version 1.0
-- first version
-
