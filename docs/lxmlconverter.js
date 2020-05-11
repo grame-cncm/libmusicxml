@@ -169,16 +169,16 @@ var XMLConverter = /** @class */ (function () {
         if (gmn.length && (gmn.length < 2000))
             window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
         else {
-            console.log("post to guidoeditor due to url size limit");
+            alert("Sorry!\nThe content size exceeds the url size limit to be sent to the online editor.\n\nWe're looking for a solution...");
             // const xhr = new XMLHttpRequest();
             // xhr.open('POST', 'http://localhost:8000/');
             // xhr.setRequestHeader('Access-Control-Allow-Origin', 'true');
             // xhr.setRequestHeader('Content-Type', 'text/plain');
             // // xhr.onreadystatechange = handler;
             // xhr.send (gmn); 
-            $.post("https://guidoeditor.grame.fr", gmn, function (result) {
-                console.log("post result: " + result);
-            }, "text");
+            // $.post("https://guidoeditor.grame.fr", gmn, function(result: string){
+            // 					console.log("post result: " + result );
+            // 			}, "text");
         }
     };
     // tryGuido () {
