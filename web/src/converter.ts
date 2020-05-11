@@ -73,7 +73,6 @@ class XMLConverter {
 		$("#gmnbars").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
 		$("#transpose").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
 		$("#guidotry").click			( (event) => { this.tryGuido(); } );
-		$("#guidotry").click			( (event) => { this.tryGuido(); } );
 		$("#clearlog").click			( (event) => { $("#logs").html(""); } );
 
 		this.changeMode(<string>$("input[name='output']:checked").val());
@@ -86,9 +85,28 @@ class XMLConverter {
 
 	tryGuido () {
 		let gmn = $("#code").text();
-		if (gmn.length)
+		if (gmn.length && (gmn.length < 2000))
 			window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
+		else {
+console.log ("post to guidoeditor due to url size limit");
+			// const xhr = new XMLHttpRequest();
+			// xhr.open('POST', 'http://localhost:8000/');
+			// xhr.setRequestHeader('Access-Control-Allow-Origin', 'true');
+			// xhr.setRequestHeader('Content-Type', 'text/plain');
+			// // xhr.onreadystatechange = handler;
+			// xhr.send (gmn); 
+
+			$.post("http://localhost:8000", gmn, function(result: string){
+								console.log("post result: " + result );
+						}, "text");
+ 		}
 	}
+
+	// tryGuido () {
+	// 	let gmn = $("#code").text();
+	// 	if (gmn.length)
+	// 		window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
+	// }
 
 	save () : void {
 		if (this.fXmlContent.length) {
