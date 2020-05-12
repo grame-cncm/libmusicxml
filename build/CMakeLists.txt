@@ -27,13 +27,34 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
-option ( XML 		      "Generates the musicxml library by default"	on )
-option ( MEI 		      "Generates the mei library"	                off )
+option ( XML 		  "Generates the musicxml library by default"	on )
+option ( LILY         "Generates lilypond part"       	            on )
+option ( BRAILLE      "Generates braille part"	                    on )
+option ( ALL 		  "set XML, LILTY and BSR on"	                off )
 option ( FMWK 	  	  "Generates a framework on MacOS by default"	off )
-option ( GDB 		      "Activates ggdb3 option"	                  off )
+option ( GDB 		  "Activates ggdb3 option"	                    off )
 option ( APPLEDEBUG   "Activates Apple debug option"	            off )
-option ( LILY 		    "Include lilypond part"       	            on )
-option ( BRL 		      "Include braille part"	                    on )
+
+if (ALL)
+	set (XML on)
+	set (LILY on)
+	set (BRAILLE on)
+endif()
+
+if (LILY OR BRAILLE)
+	set (MSR on)
+endif()
+
+if (XML)
+	message (STATUS "Generates the musicxml library")
+endif()
+if (LILY)
+	message (STATUS "Generates the lilypond part")
+endif()
+if (BRAILLE)
+	message (STATUS "Generates the braille part")
+endif()
+
 
 #######################################
 get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
@@ -43,7 +64,6 @@ set (SCHEMA   ${ROOT}/dtds/${XMLVERSION})
 
 set (BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-
 
 #######################################
 set (CMAKE_CXX_STANDARD 11)
@@ -98,21 +118,16 @@ if (XML)
 	set (SRCFOLDERS ${SRCFOLDERS} elements/xml)
     add_definitions(-DXML)
 endif()
-if (MEI)
-#	set (SRCFOLDERS ${SRCFOLDERS} elements/mei)
-#  add_definitions(-DMEI)
-endif()
 
-#set (SRCFOLDERS ${SRCFOLDERS} )
-if (LILY OR BRL)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/oah lilypond/musicxml lilypond/musicxml2mxmltree lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/msr2mxmltree lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr interface/lilypond/msr2mxmltree)
+if (MSR)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond lilypond/lpsr lilypond/oah lilypond/musicxml lilypond/musicxml2mxmltree lilypond/mxmltree lilypond/mxmltree2msr lilypond/msr lilypond/msr2mxmltree lilypond/oah2manpage interface/lilypond/musicxml2mxmltree interface/lilypond/msr interface/lilypond/mxmltree2msr interface/lilypond/msr2mxmltree)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lilypond/lpsr lilypond/msr2lpsr lilypond/lilypond lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly lilypond/xml2xml)
+	set (SRCFOLDERS ${SRCFOLDERS} lilypond/msr2lpsr lilypond/lilypond lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly lilypond/xml2xml)
 endif()
 
-if (BRL)
+if (BRAILLE)
 	set (SRCFOLDERS ${SRCFOLDERS} lilypond/bsr lilypond/msr2bsr lilypond/braille lilypond/bsr2braille interface/lilypond/bsr interface/lilypond/msr2bsr interface/lilypond/bsr2braille lilypond/xml2brl)
 endif()
 
@@ -124,19 +139,13 @@ foreach(folder ${SRCFOLDERS})
   set(HEADERS ${HEADERS} "${SRCDIR}/${folder}/*.h")    # add header files
 endforeach()
 
-if (NOT LILY)
-	message (STATUS "Lilypond part is not included, use -DLILY=yes to change")
-	set(SRC ${SRC}  "${SRCDIR}/interface/libmusicxml.cpp" "${SRCDIR}/interface/musicxml2guido.cpp")
-	set(HEADERS $HEADERS "${SRCDIR}/interface/libmusicxml.h" "${SRCDIR}/interface/musicxml2guido.h")
-	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
-endif()
 
 if (LILY)
-	set(SRC ${SRC}  "${SRCDIR}/interface/lilypond/musicxml2lilypond.cpp)
+	set(SRC ${SRC}  "${SRCDIR}/interface/lilypond/musicxml2lilypond.cpp")
 endif()
 
-if (BRL)
-	set(SRC ${SRC}  "${SRCDIR}/interface/lilypond/musicxml2braille.cpp)
+if (BRAILLE)
+	set(SRC ${SRC}  "${SRCDIR}/interface/lilypond/musicxml2braille.cpp")
 endif()
 
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
@@ -214,24 +223,11 @@ if (LILY)
 	set (SAMPLES ${SAMPLES} xml2xml xml2ly)
 	set (TOOLS   ${TOOLS}   xml2xml xml2ly)
 endif()
-if (BRL)
+if (BRAILLE)
 	set (SAMPLES ${SAMPLES} xml2brl)
 	set (TOOLS   ${TOOLS}   xml2brl)
 endif()
-if (MEI)
-#	set (SAMPLES ${SAMPLES} meiread) # mei2guido
-#	set (TOOLS   ${TOOLS}   meiread) # mei2guido
-endif()
 
-if (MEI AND LILY)
-	#set (SAMPLES ${SAMPLES} mei2ly)
-	#set (TOOLS   ${TOOLS}   mei2ly)
-endif()
-
-if (MEI AND BRL)
-	#set (SAMPLES ${SAMPLES} mei2brl)
-	#set (TOOLS   ${TOOLS}   mei2brl)
-endif()
 
 if (APPLE)
   set (LINKTO ${staticlib})
