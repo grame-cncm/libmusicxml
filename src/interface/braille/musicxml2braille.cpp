@@ -112,7 +112,9 @@ EXP xmlErr musicxmlstring2braille (const char *buffer, const optionsVector& opti
 }
 
 //_______________________________________________________________________________
-EXP xmlErr convertMusicXMLToBraille (std::string inputSourceName, std::string outputFileName)
+EXP xmlErr convertMusicXMLToBraille (
+  std::string inputSourceName,
+  std::string outputFileName)
 {
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------

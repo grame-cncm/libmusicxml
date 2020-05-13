@@ -240,6 +240,9 @@ int main (int argc, char *argv[])
   if (convertMusicXMLBackToMusicXML (inputSourceName, outputFileName) != kNoErr) {
     return 1;
   }
+  convertMusicXMLBackToMusicXML (
+    inputSourceName,
+    outputFileName);
 */
 
   // display the input line numbers for which messages have been issued

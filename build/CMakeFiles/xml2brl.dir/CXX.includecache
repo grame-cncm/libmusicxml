@@ -321,6 +321,8 @@ iostream
 -
 string
 -
+vector
+-
 stdio.h
 -
 exports.h

@@ -112,6 +112,17 @@ package_source/fast: package_source
 
 .PHONY : package_source/fast
 
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	/opt/local/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
+
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -123,17 +134,6 @@ install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
 	/opt/local/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
-
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	/opt/local/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-
-.PHONY : package/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -177,6 +177,32 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named countnotes
+
+# Build rule for target.
+countnotes: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 countnotes
+.PHONY : countnotes
+
+# fast build rule for target.
+countnotes/fast:
+	$(MAKE) -f CMakeFiles/countnotes.dir/build.make CMakeFiles/countnotes.dir/build
+.PHONY : countnotes/fast
+
+#=============================================================================
+# Target rules for targets named xml2lyWithOptionsVector
+
+# Build rule for target.
+xml2lyWithOptionsVector: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 xml2lyWithOptionsVector
+.PHONY : xml2lyWithOptionsVector
+
+# fast build rule for target.
+xml2lyWithOptionsVector/fast:
+	$(MAKE) -f CMakeFiles/xml2lyWithOptionsVector.dir/build.make CMakeFiles/xml2lyWithOptionsVector.dir/build
+.PHONY : xml2lyWithOptionsVector/fast
 
 #=============================================================================
 # Target rules for targets named xml2brl
@@ -242,19 +268,6 @@ musicxml2: cmake_check_build_system
 musicxml2/fast:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/build
 .PHONY : musicxml2/fast
-
-#=============================================================================
-# Target rules for targets named countnotes
-
-# Build rule for target.
-countnotes: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 countnotes
-.PHONY : countnotes
-
-# fast build rule for target.
-countnotes/fast:
-	$(MAKE) -f CMakeFiles/countnotes.dir/build.make CMakeFiles/countnotes.dir/build
-.PHONY : countnotes/fast
 
 #=============================================================================
 # Target rules for targets named xml2guido
@@ -559,6 +572,21 @@ Users/menu/libmusicxml-git/samples/xml2ly.i:
 Users/menu/libmusicxml-git/samples/xml2ly.s:
 	$(MAKE) -f CMakeFiles/xml2ly.dir/build.make CMakeFiles/xml2ly.dir/Users/menu/libmusicxml-git/samples/xml2ly.s
 .PHONY : Users/menu/libmusicxml-git/samples/xml2ly.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.o:
+	$(MAKE) -f CMakeFiles/xml2lyWithOptionsVector.dir/build.make CMakeFiles/xml2lyWithOptionsVector.dir/Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.o
+.PHONY : Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.i:
+	$(MAKE) -f CMakeFiles/xml2lyWithOptionsVector.dir/build.make CMakeFiles/xml2lyWithOptionsVector.dir/Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.i
+.PHONY : Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.s:
+	$(MAKE) -f CMakeFiles/xml2lyWithOptionsVector.dir/build.make CMakeFiles/xml2lyWithOptionsVector.dir/Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.s
+.PHONY : Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/samples/xml2midi.o:
@@ -4525,14 +4553,15 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... package_source"
+	@echo "... package"
+	@echo "... countnotes"
+	@echo "... xml2lyWithOptionsVector"
 	@echo "... install/strip"
 	@echo "... xml2brl"
 	@echo "... xmltranspose"
 	@echo "... xmlread"
 	@echo "... xmlclone"
 	@echo "... musicxml2"
-	@echo "... package"
-	@echo "... countnotes"
 	@echo "... xml2guido"
 	@echo "... xmliter"
 	@echo "... xml2xml"
@@ -4574,6 +4603,9 @@ help:
 	@echo "... Users/menu/libmusicxml-git/samples/xml2ly.o"
 	@echo "... Users/menu/libmusicxml-git/samples/xml2ly.i"
 	@echo "... Users/menu/libmusicxml-git/samples/xml2ly.s"
+	@echo "... Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.o"
+	@echo "... Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.i"
+	@echo "... Users/menu/libmusicxml-git/samples/xml2lyWithOptionsVector.s"
 	@echo "... Users/menu/libmusicxml-git/samples/xml2midi.o"
 	@echo "... Users/menu/libmusicxml-git/samples/xml2midi.i"
 	@echo "... Users/menu/libmusicxml-git/samples/xml2midi.s"
