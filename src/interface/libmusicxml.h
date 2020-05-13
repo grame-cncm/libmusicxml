@@ -10,11 +10,9 @@
   research@grame.fr
 */
 
-#pragma once
+#ifndef __libmusicxml__
+#define __libmusicxml__
 
-#ifdef MSVC
-# pragma warning (disable : 4786)
-#endif
 
 #include <iostream>
 #include <string>
@@ -51,6 +49,17 @@ EXP float       musicxmllibVersion();
 EXP const char*   musicxmllibVersionStr();
 
 
+//_______________________________________________________________________________
+/*
+  A type to pass options and their values if any to the functions in the interfaces
+
+  In the pair, first is the name of the option, such as '-x',
+  and second is the value of the option
+*/
+
+typedef std::vector<std::pair<std::string, std::string> > optionsVector;
+
+//_______________________________________________________________________________
 /*!
 \addtogroup Converting MusicXML to Guido Music Notation format
 
@@ -70,39 +79,6 @@ EXP float       musicxml2guidoVersion();
   \return a string
 */
 EXP const char*   musicxml2guidoVersionStr();
-
-/*!
-  \brief Gives the LilyPond converter version number.
-  \return a version number as a float value
-*/
-EXP float       musicxml2lilypondVersion();
-/*!
-  \brief Gives the LilyPond converter version as a string.
-  \return a string
-*/
-EXP const char*   musicxml2lilypondVersionStr();
-
-/*!
-  \brief Gives the Braille converter version number.
-  \return a version number as a float value
-*/
-EXP float       musicxml2brailleVersion();
-/*!
-  \brief Gives the LilyPond converter version as a string.
-  \return a string
-*/
-EXP const char*   musicxml2brailleVersionStr();
-
-/*!
-  \brief Gives the Braille converter version number.
-  \return a version number as a float value
-*/
-EXP float       musicxml2musicxmlVersion();
-/*!
-  \brief Gives the LilyPond converter version as a string.
-  \return a string
-*/
-EXP const char*   musicxml2musicxmlVersionStr();
 
 /*!
   \brief Converts a MusicXML representation to the Guido format.
@@ -143,8 +119,150 @@ EXP xmlErr      musicxmlstring2guido(const char *buff, bool generateBars, std::o
  */
 EXP xmlErr      musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, int partFilter, std::ostream& out);
 
-/*! @} */
+//_______________________________________________________________________________
+/*!
+  \brief Gives the MusicXML converter version number.
+  \return a version number as a float value
+*/
+EXP float       musicxml2musicxmlVersion();
+/*!
+  \brief Gives the MusicXML converter version as a string.
+  \return a string
+*/
+EXP const char*   musicxml2musicxmlVersionStr();
 
+/*!
+  \brief Converts a MusicXML representation to the MusicXML format.
+  \param file a file name
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfile2musicxml  (const char *file, const optionsVector& options, std::ostream& out);
+
+/*!
+  \brief Converts a MusicXML representation to the MusicXML format.
+  \param fd a file descriptor
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfd2musicxml  (FILE* fd, const optionsVector& options, std::ostream& out);
+
+/*!
+  \brief Converts a MusicXML representation to the MusicXML format.
+  \param buff a string containing MusicXML code
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlstring2musicxml(const char *buff, const optionsVector& options, std::ostream& out);
+
+/*!
+  \brief Converts MusicXML data back to MusicXML data.
+  \param inputSourceName is the name of the file to be converted
+  \param outputFileName is the name of the file to be generated
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr       convertMusicXMLBackToMusicXML(std::string inputSourceName, std::string outputFileName);
+
+//_______________________________________________________________________________
+/*!
+  \brief Gives the LilyPond converter version number.
+  \return a version number as a float value
+*/
+EXP float       musicxml2lilypondVersion();
+/*!
+  \brief Gives the LilyPond converter version as a string.
+  \return a string
+*/
+EXP const char*   musicxml2lilypondVersionStr();
+
+/*!
+  \brief Converts a MusicXML representation to the LilyPond format.
+  \param file a file name
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfile2lilypond  (const char *file, const optionsVector& options, std::ostream& out);
+
+/*!
+  \brief Converts a MusicXML representation to the LilyPond format.
+  \param fd a file descriptor
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, const optionsVector& options, std::ostream& out);
+
+/*!
+  \brief Converts a MusicXML representation to the LilyPond format.
+  \param buff a string containing MusicXML code
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlstring2lilypond(const char *buff, const optionsVector& options, std::ostream& out);
+
+/*!
+  \brief Converts MusicXML data to the LilyPond format.
+  \param inputSourceName is the name of the file to be converted
+  \param outputFileName is the name of the file to be generated
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      convertMusicXMLToLilypond(std::string inputSourceName, std::string outputFileName);
+
+//_______________________________________________________________________________
+/*!
+  \brief Gives the Braille converter version number.
+  \return a version number as a float value
+*/
+EXP float       musicxml2brailleVersion();
+/*!
+  \brief Gives the Braille converter version as a string.
+  \return a string
+*/
+EXP const char*   musicxml2brailleVersionStr();
+
+/*!
+  \brief Converts a MusicXML representation to the Braille music format.
+  \param file a file name
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfile2braille(const char *file, const optionsVector& options, std::ostream&                out);
+
+/*!
+  \brief Converts a MusicXML representation to the Braille music format.
+  \param fd a file descriptor
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::ostream& out);
+
+/*!
+  \brief Converts a MusicXML representation to the Braille music format.
+  \param buff a string containing MusicXML code
+  \param generateBars a boolean to force barlines generation
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlstring2braille(const char *buffer, const optionsVector& options, std::ostream&           out);
+
+/*!
+  \brief Converts MusicXML data to the Braille music format.
+  \param inputSourceName is the name of the file to be converted
+  \param outputFileName is the name of the file to be generated
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      convertMusicXMLToBraille(std::string inputSourceName, std::string outputFileName);
+
+//_______________________________________________________________________________
+
+/*! @} */
 
 /*
 \addtogroup Converting MusicXML to Antescofo Music Notation format
@@ -193,6 +311,7 @@ EXP xmlErr      musicxmlfd2antescofo  (FILE* fd, bool generateBars, std::ostream
 EXP xmlErr      musicxmlstring2antescofo(const char *buff, bool generateBars, std::ostream& out);
 /*! @} */
 
+//_______________________________________________________________________________
 
 /*!
 \addtogroup Factory Building a MusicXML representations
@@ -248,7 +367,7 @@ EXP xmlErr      musicxmlstring2antescofo(const char *buff, bool generateBars, st
   <b>Overview of the format and API</b>
 
   A MusicXML partwise score structure is basically made of a header containing various information
-  and a require parts list, followed by a list of parts, including measures, made of various 'music data'.
+  and a required parts list, followed by a list of parts, including measures, made of various 'music data'.
   <pre>
     'partwise score'  := 'opt. header' 'part-list' 'part'  ...  'part'
     'part'            := 'measure' ... 'measure'
@@ -568,3 +687,6 @@ EXP void    factoryFreeAttribute  (TFactory f, TAttribute attr);
 #endif
 
 }
+
+
+#endif
