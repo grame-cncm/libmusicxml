@@ -34,6 +34,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/Users/menu/libmusicxml-git/src/musicxml/mxmltree"
   "/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr"
   "/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree"
+  "/Users/menu/libmusicxml-git/src/interface/musicxml"
   "/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree"
   "/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr"
   "/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree"

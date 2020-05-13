@@ -850,9 +850,22 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.cpp -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s
 
+CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o: CMakeFiles/musicxml2static.dir/flags.make
+CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o: /Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o -c /Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.cpp
+
+CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.cpp > CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i
+
+CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.cpp -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s
+
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o: /Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o -c /Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.i: cmake_force
@@ -865,7 +878,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o: /Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o -c /Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i: cmake_force
@@ -878,7 +891,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o: /Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o -c /Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i: cmake_force
@@ -891,7 +904,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml2guido.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml2guido.o: /Users/menu/libmusicxml-git/src/interface/musicxml2guido.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml2guido.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml2guido.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml2guido.o -c /Users/menu/libmusicxml-git/src/interface/musicxml2guido.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml2guido.i: cmake_force
@@ -904,7 +917,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/conversions.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/conversions.o: /Users/menu/libmusicxml-git/src/lib/conversions.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/conversions.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/conversions.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/conversions.o -c /Users/menu/libmusicxml-git/src/lib/conversions.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/conversions.i: cmake_force
@@ -917,7 +930,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/conversions.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/rational.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/rational.o: /Users/menu/libmusicxml-git/src/lib/rational.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/rational.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/rational.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/rational.o -c /Users/menu/libmusicxml-git/src/lib/rational.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/rational.i: cmake_force
@@ -930,7 +943,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lib/rational.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o: /Users/menu/libmusicxml-git/src/lilypond/lilypondOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o -c /Users/menu/libmusicxml-git/src/lilypond/lilypondOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.i: cmake_force
@@ -943,7 +956,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondO
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.i: cmake_force
@@ -956,7 +969,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondO
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.o: /Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.o -c /Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.i: cmake_force
@@ -969,7 +982,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lily
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.o: /Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.o -c /Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.i: cmake_force
@@ -982,7 +995,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr2lily
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o: /Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o -c /Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.i: cmake_force
@@ -995,7 +1008,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.o: /Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.o -c /Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.i: cmake_force
@@ -1008,7 +1021,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.o: /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.o -c /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.i: cmake_force
@@ -1021,7 +1034,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.o: /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.o -c /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah.i: cmake_force
@@ -1034,7 +1047,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOah2ManPageGenerator.i: cmake_force
@@ -1047,7 +1060,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.o: /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.o -c /Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.i: cmake_force
@@ -1060,7 +1073,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2ly/xm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.o: /Users/menu/libmusicxml-git/src/lpsr/lpsr.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsr.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.i: cmake_force
@@ -1073,7 +1086,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.s: cmake
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.i: cmake_force
@@ -1086,7 +1099,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumber
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.i: cmake_force
@@ -1099,7 +1112,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicType
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.i: cmake_force
@@ -1112,7 +1125,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlock
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrComments.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrComments.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.i: cmake_force
@@ -1125,7 +1138,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.i: cmake_force
@@ -1138,7 +1151,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.i: cmake_force
@@ -1151,7 +1164,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.i: cmake_force
@@ -1164,7 +1177,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.s
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.i: cmake_force
@@ -1177,7 +1190,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.s
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.i: cmake_force
@@ -1190,7 +1203,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.i: cmake_force
@@ -1203,7 +1216,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.i: cmake_force
@@ -1216,7 +1229,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPa
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.i: cmake_force
@@ -1229,7 +1242,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.i: cmake_force
@@ -1242,7 +1255,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelM
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.i: cmake_force
@@ -1255,7 +1268,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroup
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrParts.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_94) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrParts.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.i: cmake_force
@@ -1268,7 +1281,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_94) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_95) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.i: cmake_force
@@ -1281,7 +1294,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrScores.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_95) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_96) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrScores.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.i: cmake_force
@@ -1294,7 +1307,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_96) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_97) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.i: cmake_force
@@ -1307,7 +1320,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_97) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_98) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.i: cmake_force
@@ -1320,7 +1333,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAss
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_98) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_99) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.i: cmake_force
@@ -1333,7 +1346,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o: /Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_99) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_100) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o -c /Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.i: cmake_force
@@ -1346,7 +1359,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.o: /Users/menu/libmusicxml-git/src/msr/msr.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_100) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_101) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.o -c /Users/menu/libmusicxml-git/src/msr/msr.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.i: cmake_force
@@ -1359,7 +1372,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.s: cmake_f
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.o: /Users/menu/libmusicxml-git/src/msr/msr2Names.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_101) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_102) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.o -c /Users/menu/libmusicxml-git/src/msr/msr2Names.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.i: cmake_force
@@ -1372,7 +1385,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.o: /Users/menu/libmusicxml-git/src/msr/msr2Summary.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_102) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_103) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.o -c /Users/menu/libmusicxml-git/src/msr/msr2Summary.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.i: cmake_force
@@ -1385,7 +1398,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o: /Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_103) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_104) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o -c /Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.i: cmake_force
@@ -1398,7 +1411,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceN
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o: /Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_104) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_105) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o -c /Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.i: cmake_force
@@ -1411,7 +1424,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.o: /Users/menu/libmusicxml-git/src/msr/msrArticulations.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_105) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_106) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.o -c /Users/menu/libmusicxml-git/src/msr/msrArticulations.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.i: cmake_force
@@ -1424,7 +1437,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulatio
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.o: /Users/menu/libmusicxml-git/src/msr/msrBars.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_106) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_107) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.o -c /Users/menu/libmusicxml-git/src/msr/msrBars.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.i: cmake_force
@@ -1437,7 +1450,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.s: cma
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o: /Users/menu/libmusicxml-git/src/msr/msrBasicTypes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_107) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_108) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o -c /Users/menu/libmusicxml-git/src/msr/msrBasicTypes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.i: cmake_force
@@ -1450,7 +1463,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.o: /Users/menu/libmusicxml-git/src/msr/msrBeams.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_108) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_109) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.o -c /Users/menu/libmusicxml-git/src/msr/msrBeams.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.i: cmake_force
@@ -1463,7 +1476,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o: /Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_109) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_110) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o -c /Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.i: cmake_force
@@ -1476,7 +1489,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeat
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.o: /Users/menu/libmusicxml-git/src/msr/msrBreaks.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_110) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_111) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.o -c /Users/menu/libmusicxml-git/src/msr/msrBreaks.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.i: cmake_force
@@ -1489,7 +1502,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.o: /Users/menu/libmusicxml-git/src/msr/msrChords.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_111) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_112) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.o -c /Users/menu/libmusicxml-git/src/msr/msrChords.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.i: cmake_force
@@ -1502,7 +1515,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.o: /Users/menu/libmusicxml-git/src/msr/msrClefs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_112) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_113) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.o -c /Users/menu/libmusicxml-git/src/msr/msrClefs.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.i: cmake_force
@@ -1515,7 +1528,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.o: /Users/menu/libmusicxml-git/src/msr/msrCredits.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_113) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_114) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.o -c /Users/menu/libmusicxml-git/src/msr/msrCredits.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.i: cmake_force
@@ -1528,7 +1541,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.o: /Users/menu/libmusicxml-git/src/msr/msrDivisions.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_114) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_115) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.o -c /Users/menu/libmusicxml-git/src/msr/msrDivisions.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.i: cmake_force
@@ -1541,7 +1554,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.s
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o: /Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_115) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_116) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o -c /Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.i: cmake_force
@@ -1554,7 +1567,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremo
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.o: /Users/menu/libmusicxml-git/src/msr/msrDynamics.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_116) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_117) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.o -c /Users/menu/libmusicxml-git/src/msr/msrDynamics.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.i: cmake_force
@@ -1567,7 +1580,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.o: /Users/menu/libmusicxml-git/src/msr/msrElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_117) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_118) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.o -c /Users/menu/libmusicxml-git/src/msr/msrElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.i: cmake_force
@@ -1580,7 +1593,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o: /Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_118) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_119) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o -c /Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.i: cmake_force
@@ -1593,7 +1606,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBass
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.o: /Users/menu/libmusicxml-git/src/msr/msrGlissandos.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_119) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_120) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.o -c /Users/menu/libmusicxml-git/src/msr/msrGlissandos.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.i: cmake_force
@@ -1606,7 +1619,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o: /Users/menu/libmusicxml-git/src/msr/msrGraceNotes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_120) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_121) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o -c /Users/menu/libmusicxml-git/src/msr/msrGraceNotes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.i: cmake_force
@@ -1619,7 +1632,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.o: /Users/menu/libmusicxml-git/src/msr/msrHarmonies.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_121) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_122) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.o -c /Users/menu/libmusicxml-git/src/msr/msrHarmonies.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.i: cmake_force
@@ -1632,7 +1645,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.s
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.o: /Users/menu/libmusicxml-git/src/msr/msrIdentification.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_122) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_123) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.o -c /Users/menu/libmusicxml-git/src/msr/msrIdentification.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.i: cmake_force
@@ -1645,7 +1658,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentificat
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.o: /Users/menu/libmusicxml-git/src/msr/msrInstruments.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_123) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_124) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.o -c /Users/menu/libmusicxml-git/src/msr/msrInstruments.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.i: cmake_force
@@ -1658,7 +1671,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.o: /Users/menu/libmusicxml-git/src/msr/msrKeys.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_124) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_125) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.o -c /Users/menu/libmusicxml-git/src/msr/msrKeys.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.i: cmake_force
@@ -1671,7 +1684,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.s: cma
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.o: /Users/menu/libmusicxml-git/src/msr/msrLigatures.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_125) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_126) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.o -c /Users/menu/libmusicxml-git/src/msr/msrLigatures.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.i: cmake_force
@@ -1684,7 +1697,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.s
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o: /Users/menu/libmusicxml-git/src/msr/msrMeasureElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_126) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_127) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o -c /Users/menu/libmusicxml-git/src/msr/msrMeasureElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.i: cmake_force
@@ -1697,7 +1710,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElem
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.o: /Users/menu/libmusicxml-git/src/msr/msrMeasures.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_127) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_128) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.o -c /Users/menu/libmusicxml-git/src/msr/msrMeasures.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.i: cmake_force
@@ -1710,7 +1723,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o: /Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_128) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_129) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o -c /Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.i: cmake_force
@@ -1723,7 +1736,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRep
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.o: /Users/menu/libmusicxml-git/src/msr/msrMidi.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_129) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_130) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.o -c /Users/menu/libmusicxml-git/src/msr/msrMidi.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.i: cmake_force
@@ -1736,7 +1749,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.s: cma
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o: /Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_130) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_131) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o -c /Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.i: cmake_force
@@ -1749,7 +1762,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpe
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.o: /Users/menu/libmusicxml-git/src/msr/msrNotes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_131) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_132) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.o -c /Users/menu/libmusicxml-git/src/msr/msrNotes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.i: cmake_force
@@ -1762,7 +1775,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.o: /Users/menu/libmusicxml-git/src/msr/msrOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_132) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_133) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.o -c /Users/menu/libmusicxml-git/src/msr/msrOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.i: cmake_force
@@ -1775,7 +1788,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.s: cmak
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_133) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_134) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.i: cmake_force
@@ -1788,7 +1801,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPage
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.o: /Users/menu/libmusicxml-git/src/msr/msrOrnaments.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_134) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_135) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.o -c /Users/menu/libmusicxml-git/src/msr/msrOrnaments.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.i: cmake_force
@@ -1801,7 +1814,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.s
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o: /Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_135) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_136) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o -c /Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.i: cmake_force
@@ -1814,7 +1827,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupEl
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.o: /Users/menu/libmusicxml-git/src/msr/msrPartGroups.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_136) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_137) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.o -c /Users/menu/libmusicxml-git/src/msr/msrPartGroups.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.i: cmake_force
@@ -1827,7 +1840,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o: /Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_137) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_138) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o -c /Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.i: cmake_force
@@ -1840,7 +1853,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDi
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.o: /Users/menu/libmusicxml-git/src/msr/msrParts.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_138) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_139) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.o -c /Users/menu/libmusicxml-git/src/msr/msrParts.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.i: cmake_force
@@ -1853,7 +1866,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.o: /Users/menu/libmusicxml-git/src/msr/msrRehearsals.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_139) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_140) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.o -c /Users/menu/libmusicxml-git/src/msr/msrRehearsals.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.i: cmake_force
@@ -1866,7 +1879,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o: /Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_140) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_141) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o -c /Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.i: cmake_force
@@ -1879,7 +1892,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.o: /Users/menu/libmusicxml-git/src/msr/msrRepeats.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_141) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_142) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.o -c /Users/menu/libmusicxml-git/src/msr/msrRepeats.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.i: cmake_force
@@ -1892,7 +1905,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o: /Users/menu/libmusicxml-git/src/msr/msrRestMeasures.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_142) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_143) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o -c /Users/menu/libmusicxml-git/src/msr/msrRestMeasures.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.i: cmake_force
@@ -1905,7 +1918,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasure
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.o: /Users/menu/libmusicxml-git/src/msr/msrScaling.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_143) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_144) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.o -c /Users/menu/libmusicxml-git/src/msr/msrScaling.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.i: cmake_force
@@ -1918,7 +1931,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.o: /Users/menu/libmusicxml-git/src/msr/msrScores.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_144) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_145) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.o -c /Users/menu/libmusicxml-git/src/msr/msrScores.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.i: cmake_force
@@ -1931,7 +1944,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.o: /Users/menu/libmusicxml-git/src/msr/msrSegments.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_145) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_146) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.o -c /Users/menu/libmusicxml-git/src/msr/msrSegments.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.i: cmake_force
@@ -1944,7 +1957,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o: /Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_146) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_147) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o -c /Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.i: cmake_force
@@ -1957,7 +1970,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCo
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o: /Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_147) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_148) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o -c /Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.i: cmake_force
@@ -1970,7 +1983,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremo
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.o: /Users/menu/libmusicxml-git/src/msr/msrSlashes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_148) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_149) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.o -c /Users/menu/libmusicxml-git/src/msr/msrSlashes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.i: cmake_force
@@ -1983,7 +1996,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.o: /Users/menu/libmusicxml-git/src/msr/msrSlides.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_149) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_150) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.o -c /Users/menu/libmusicxml-git/src/msr/msrSlides.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.i: cmake_force
@@ -1996,7 +2009,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.o: /Users/menu/libmusicxml-git/src/msr/msrSlurs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_150) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_151) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.o -c /Users/menu/libmusicxml-git/src/msr/msrSlurs.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.i: cmake_force
@@ -2009,7 +2022,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.o: /Users/menu/libmusicxml-git/src/msr/msrSpanners.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_151) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_152) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.o -c /Users/menu/libmusicxml-git/src/msr/msrSpanners.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.i: cmake_force
@@ -2022,7 +2035,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.o: /Users/menu/libmusicxml-git/src/msr/msrStanzas.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_152) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_153) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.o -c /Users/menu/libmusicxml-git/src/msr/msrStanzas.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.i: cmake_force
@@ -2035,7 +2048,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.o: /Users/menu/libmusicxml-git/src/msr/msrStaves.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_153) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_154) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.o -c /Users/menu/libmusicxml-git/src/msr/msrStaves.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.i: cmake_force
@@ -2048,7 +2061,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o: /Users/menu/libmusicxml-git/src/msr/msrStavesDetails.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_154) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_155) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o -c /Users/menu/libmusicxml-git/src/msr/msrStavesDetails.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.i: cmake_force
@@ -2061,7 +2074,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetai
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.o: /Users/menu/libmusicxml-git/src/msr/msrStems.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_155) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_156) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.o -c /Users/menu/libmusicxml-git/src/msr/msrStems.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.i: cmake_force
@@ -2074,7 +2087,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.o: /Users/menu/libmusicxml-git/src/msr/msrSyllables.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_156) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_157) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.o -c /Users/menu/libmusicxml-git/src/msr/msrSyllables.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.i: cmake_force
@@ -2087,7 +2100,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.s
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.o: /Users/menu/libmusicxml-git/src/msr/msrTablatures.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_157) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_158) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.o -c /Users/menu/libmusicxml-git/src/msr/msrTablatures.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.i: cmake_force
@@ -2100,7 +2113,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.o: /Users/menu/libmusicxml-git/src/msr/msrTechnicals.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_158) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_159) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.o -c /Users/menu/libmusicxml-git/src/msr/msrTechnicals.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.i: cmake_force
@@ -2113,7 +2126,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.o: /Users/menu/libmusicxml-git/src/msr/msrTempos.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_159) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_160) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.o -c /Users/menu/libmusicxml-git/src/msr/msrTempos.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.i: cmake_force
@@ -2126,7 +2139,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.o: /Users/menu/libmusicxml-git/src/msr/msrTies.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_160) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_161) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.o -c /Users/menu/libmusicxml-git/src/msr/msrTies.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.i: cmake_force
@@ -2139,7 +2152,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.s: cma
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.o: /Users/menu/libmusicxml-git/src/msr/msrTimes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_161) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_162) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.o -c /Users/menu/libmusicxml-git/src/msr/msrTimes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.i: cmake_force
@@ -2152,7 +2165,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.o: /Users/menu/libmusicxml-git/src/msr/msrTranspositions.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_162) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_163) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.o -c /Users/menu/libmusicxml-git/src/msr/msrTranspositions.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.i: cmake_force
@@ -2165,7 +2178,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositi
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.o: /Users/menu/libmusicxml-git/src/msr/msrTupletElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_163) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_164) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.o -c /Users/menu/libmusicxml-git/src/msr/msrTupletElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.i: cmake_force
@@ -2178,7 +2191,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletEleme
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.o: /Users/menu/libmusicxml-git/src/msr/msrTuplets.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_164) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_165) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.o -c /Users/menu/libmusicxml-git/src/msr/msrTuplets.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.i: cmake_force
@@ -2191,7 +2204,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o: /Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_165) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_166) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o -c /Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.i: cmake_force
@@ -2204,7 +2217,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssoc
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o: /Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_166) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_167) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o -c /Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.i: cmake_force
@@ -2217,7 +2230,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2Maste
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o: /Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_167) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_168) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o -c /Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.i: cmake_force
@@ -2230,7 +2243,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2Maste
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o: /Users/menu/libmusicxml-git/src/msr/msrVoiceElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_168) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_169) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o -c /Users/menu/libmusicxml-git/src/msr/msrVoiceElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.i: cmake_force
@@ -2243,7 +2256,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElemen
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.o: /Users/menu/libmusicxml-git/src/msr/msrVoices.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_169) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_170) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.o -c /Users/menu/libmusicxml-git/src/msr/msrVoices.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.i: cmake_force
@@ -2256,7 +2269,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.s: c
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.o: /Users/menu/libmusicxml-git/src/msr/msrWords.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_170) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_171) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.o -c /Users/menu/libmusicxml-git/src/msr/msrWords.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.i: cmake_force
@@ -2269,7 +2282,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o: /Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_171) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_172) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o -c /Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.i: cmake_force
@@ -2282,7 +2295,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmlt
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o: /Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_172) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_173) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o -c /Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.i: cmake_force
@@ -2295,7 +2308,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmlt
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o: /Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_173) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_174) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o -c /Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.i: cmake_force
@@ -2308,7 +2321,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o: /Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_174) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_175) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o -c /Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.i: cmake_force
@@ -2321,7 +2334,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlO
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o: /Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_175) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_176) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o -c /Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.i: cmake_force
@@ -2334,7 +2347,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o: /Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_176) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_177) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o -c /Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.i: cmake_force
@@ -2347,7 +2360,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o: /Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_177) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_178) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o -c /Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.i: cmake_force
@@ -2360,7 +2373,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o: /Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_178) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_179) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o -c /Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i: cmake_force
@@ -2373,7 +2386,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o: /Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_179) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_180) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o -c /Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.i: cmake_force
@@ -2386,7 +2399,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o: /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_180) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_181) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o -c /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.i: cmake_force
@@ -2399,7 +2412,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/x
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o: /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_181) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_182) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o -c /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.i: cmake_force
@@ -2412,7 +2425,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/x
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_182) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_183) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.i: cmake_force
@@ -2425,7 +2438,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/x
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o: /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_183) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_184) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o -c /Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.i: cmake_force
@@ -2438,7 +2451,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/x
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_184) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_185) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.i: cmake_force
@@ -2451,7 +2464,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPa
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.o: /Users/menu/libmusicxml-git/src/oah/extraOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_185) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_186) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.o -c /Users/menu/libmusicxml-git/src/oah/extraOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.i: cmake_force
@@ -2464,7 +2477,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_186) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_187) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.i: cmake_force
@@ -2477,7 +2490,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPa
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.o: /Users/menu/libmusicxml-git/src/oah/generalOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_187) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_188) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.o -c /Users/menu/libmusicxml-git/src/oah/generalOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.i: cmake_force
@@ -2490,7 +2503,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o: /Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_188) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_189) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o -c /Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.i: cmake_force
@@ -2503,7 +2516,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGen
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o: /Users/menu/libmusicxml-git/src/oah/oahBasicTypes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_189) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_190) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o -c /Users/menu/libmusicxml-git/src/oah/oahBasicTypes.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.i: cmake_force
@@ -2516,7 +2529,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.o: /Users/menu/libmusicxml-git/src/oah/oahElements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_190) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_191) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.o -c /Users/menu/libmusicxml-git/src/oah/oahElements.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.i: cmake_force
@@ -2529,7 +2542,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.o: /Users/menu/libmusicxml-git/src/oah/oahOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_191) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_192) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.o -c /Users/menu/libmusicxml-git/src/oah/oahOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.i: cmake_force
@@ -2542,7 +2555,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.s: cmak
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o: /Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_192) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_193) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o -c /Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.i: cmake_force
@@ -2555,7 +2568,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPage
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.o: /Users/menu/libmusicxml-git/src/oah/oahVisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_193) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_194) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.o -c /Users/menu/libmusicxml-git/src/oah/oahVisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.i: cmake_force
@@ -2568,7 +2581,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.s: 
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.o: /Users/menu/libmusicxml-git/src/oah/traceOah.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_194) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_195) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.o -c /Users/menu/libmusicxml-git/src/oah/traceOah.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.i: cmake_force
@@ -2581,7 +2594,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.s: cm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/musicxmlquery.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/musicxmlquery.o: /Users/menu/libmusicxml-git/src/operations/musicxmlquery.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_195) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/musicxmlquery.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_196) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/musicxmlquery.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/musicxmlquery.o -c /Users/menu/libmusicxml-git/src/operations/musicxmlquery.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/musicxmlquery.i: cmake_force
@@ -2594,7 +2607,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/musicxm
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/transposition.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/transposition.o: /Users/menu/libmusicxml-git/src/operations/transposition.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_196) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/transposition.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_197) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/transposition.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/transposition.o -c /Users/menu/libmusicxml-git/src/operations/transposition.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/transposition.i: cmake_force
@@ -2607,7 +2620,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/operations/transpo
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.o: /Users/menu/libmusicxml-git/src/parser/xmlparse.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_197) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_198) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.o -c /Users/menu/libmusicxml-git/src/parser/xmlparse.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.i: cmake_force
@@ -2620,7 +2633,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.s:
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.o: /Users/menu/libmusicxml-git/src/utilities/messagesHandling.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_198) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_199) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.o -c /Users/menu/libmusicxml-git/src/utilities/messagesHandling.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.i: cmake_force
@@ -2633,7 +2646,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messages
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.o: /Users/menu/libmusicxml-git/src/utilities/utilities.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_199) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_200) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.o -c /Users/menu/libmusicxml-git/src/utilities/utilities.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.i: cmake_force
@@ -2646,7 +2659,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilitie
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.o: /Users/menu/libmusicxml-git/src/utilities/version.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_200) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_201) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.o -c /Users/menu/libmusicxml-git/src/utilities/version.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.i: cmake_force
@@ -2659,7 +2672,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clefvisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clefvisitor.o: /Users/menu/libmusicxml-git/src/visitors/clefvisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_201) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clefvisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_202) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clefvisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clefvisitor.o -c /Users/menu/libmusicxml-git/src/visitors/clefvisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clefvisitor.i: cmake_force
@@ -2672,7 +2685,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clefvisit
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clonevisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clonevisitor.o: /Users/menu/libmusicxml-git/src/visitors/clonevisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_202) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clonevisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_203) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clonevisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clonevisitor.o -c /Users/menu/libmusicxml-git/src/visitors/clonevisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clonevisitor.i: cmake_force
@@ -2685,7 +2698,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/clonevisi
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keysignvisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keysignvisitor.o: /Users/menu/libmusicxml-git/src/visitors/keysignvisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_203) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keysignvisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_204) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keysignvisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keysignvisitor.o -c /Users/menu/libmusicxml-git/src/visitors/keysignvisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keysignvisitor.i: cmake_force
@@ -2698,7 +2711,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keysignvi
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keyvisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keyvisitor.o: /Users/menu/libmusicxml-git/src/visitors/keyvisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_204) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keyvisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_205) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keyvisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keyvisitor.o -c /Users/menu/libmusicxml-git/src/visitors/keyvisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keyvisitor.i: cmake_force
@@ -2711,7 +2724,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/keyvisito
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/metronomevisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/metronomevisitor.o: /Users/menu/libmusicxml-git/src/visitors/metronomevisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_205) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/metronomevisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_206) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/metronomevisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/metronomevisitor.o -c /Users/menu/libmusicxml-git/src/visitors/metronomevisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/metronomevisitor.i: cmake_force
@@ -2724,7 +2737,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/metronome
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.o: /Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_206) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_207) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.o -c /Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/midicontextvisitor.i: cmake_force
@@ -2737,7 +2750,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/midiconte
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/notevisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/notevisitor.o: /Users/menu/libmusicxml-git/src/visitors/notevisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_207) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/notevisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_208) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/notevisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/notevisitor.o -c /Users/menu/libmusicxml-git/src/visitors/notevisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/notevisitor.i: cmake_force
@@ -2750,7 +2763,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/notevisit
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partlistvisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partlistvisitor.o: /Users/menu/libmusicxml-git/src/visitors/partlistvisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_208) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partlistvisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_209) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partlistvisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partlistvisitor.o -c /Users/menu/libmusicxml-git/src/visitors/partlistvisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partlistvisitor.i: cmake_force
@@ -2763,7 +2776,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partlistv
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partsummary.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partsummary.o: /Users/menu/libmusicxml-git/src/visitors/partsummary.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_209) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partsummary.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_210) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partsummary.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partsummary.o -c /Users/menu/libmusicxml-git/src/visitors/partsummary.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partsummary.i: cmake_force
@@ -2776,7 +2789,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/partsumma
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/timesignvisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/timesignvisitor.o: /Users/menu/libmusicxml-git/src/visitors/timesignvisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_210) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/timesignvisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_211) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/timesignvisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/timesignvisitor.o -c /Users/menu/libmusicxml-git/src/visitors/timesignvisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/timesignvisitor.i: cmake_force
@@ -2789,7 +2802,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/timesignv
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/transposevisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/transposevisitor.o: /Users/menu/libmusicxml-git/src/visitors/transposevisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_211) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/transposevisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_212) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/transposevisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/transposevisitor.o -c /Users/menu/libmusicxml-git/src/visitors/transposevisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/transposevisitor.i: cmake_force
@@ -2802,7 +2815,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/transpose
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.o: /Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_212) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_213) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.o -c /Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/unrolled_clonevisitor.i: cmake_force
@@ -2815,7 +2828,7 @@ CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/unrolled_
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/xmlvisitor.o: CMakeFiles/musicxml2static.dir/flags.make
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/xmlvisitor.o: /Users/menu/libmusicxml-git/src/visitors/xmlvisitor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_213) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/xmlvisitor.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_214) "Building CXX object CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/xmlvisitor.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/xmlvisitor.o -c /Users/menu/libmusicxml-git/src/visitors/xmlvisitor.cpp
 
 CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/xmlvisitor.i: cmake_force
@@ -2889,6 +2902,7 @@ musicxml2static_OBJECTS = \
 "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.o" \
 "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.o" \
 "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o" \
+"CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o" \
 "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o" \
 "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o" \
 "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o" \
@@ -3106,6 +3120,7 @@ lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/sr
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.o
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.o
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o
+lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o
@@ -3260,7 +3275,7 @@ lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/sr
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/visitors/xmlvisitor.o
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/build.make
 lib/libmusicxml2.a: CMakeFiles/musicxml2static.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_214) "Linking CXX static library lib/libmusicxml2.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/menu/libmusicxml-git/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_215) "Linking CXX static library lib/libmusicxml2.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/musicxml2static.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/musicxml2static.dir/link.txt --verbose=$(VERBOSE)
 

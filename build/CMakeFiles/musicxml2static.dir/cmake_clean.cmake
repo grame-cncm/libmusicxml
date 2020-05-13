@@ -60,6 +60,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.o"
   "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.o"
   "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o"
+  "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o"
   "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o"
   "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o"
   "CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o"

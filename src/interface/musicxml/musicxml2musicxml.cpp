@@ -15,10 +15,16 @@
 #endif
 
 #include <iostream>
+
 #include "libmusicxml.h"
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
+
+#include "libmusicxml.h"
+
+#include "msr.h"
+
 
 using namespace std;
 
@@ -33,7 +39,7 @@ static xmlErr xml2xml(SXMLFile& xmlfile, const optionsVector& options, ostream& 
 	if (st) {
 		if (st->getName() == "score-timewise") return kUnsupported;
 
-		xml2guidovisitor v(true, true, generateBars, partFilter);
+		xml2guidovisitor v(true, true, optionsVector, partFilter);
 		Sguidoelement gmn = v.convert(st);
 		if (file) {
 			out << "(*\n  gmn code converted from '" << file << "'"
@@ -52,24 +58,28 @@ static xmlErr xml2xml(SXMLFile& xmlfile, const optionsVector& options, ostream& 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfile2musicxml(const char *file, const optionsVector& options, ostream& out)
 {
+/*
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(file);
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, generateBars, 0, out, file);
+		return xml2musicxml(xmlfile, optionsVector, 0, out, file);
 	}
+	*/
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfd2musicxml(FILE * fd, const optionsVector& options, ostream& out)
 {
+/*
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(fd);
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, generateBars, 0, out, 0);
+		return xml2musicxml(xmlfile, optionsVector, 0, out, 0);
 	}
+	*/
 	return kInvalidFile;
 }
 
@@ -81,7 +91,7 @@ EXP xmlErr musicxmlstring2musicxml(const char * buffer, const optionsVector& opt
 	SXMLFile xmlfile;
 	xmlfile = r.readbuff(buffer);
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, generateBars, partFilter, out, 0);
+		return xml2musicxml(xmlfile, optionsVector, partFilter, out, 0);
 	}
 	*/
 	return kInvalidFile;
@@ -93,6 +103,7 @@ void convertMsrScoreToMusicXMLScore (
   string     outputFileName,
   string     passNumber)
 {
+/*
   // open output file if need be
   // ------------------------------------------------------
 
@@ -145,7 +156,7 @@ void convertMsrScoreToMusicXMLScore (
 
 	TDocType * docType = new TDocType ("score-partwise");
 	xmlFile->set (docType);
-*/
+* /
 
 	// insert the mxmlTree into it
   xmlFile->set (mxmltree);
@@ -164,6 +175,7 @@ void convertMsrScoreToMusicXMLScore (
 #endif
 
   outFileStream.close ();
+  */
 }
 
 //_______________________________________________________________________________
@@ -171,6 +183,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName)
 {
+/*
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
 
@@ -204,7 +217,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   populateMsrSkeletonFromMxmlTree (
     mxmlTree,
     mScore,
-    "Pass 2b);
+    "Pass 2b");
 
   if (gMsr2LpsrOah->fExit2b) {
     gLogOstream <<
@@ -259,6 +272,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       regex (".ly"),
       "_LOOP.xml"),
       "Pass 3");
+*/
 
   return kNoErr;
 }

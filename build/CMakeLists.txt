@@ -120,7 +120,7 @@ if (XML)
 endif()
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml msr musicxml/musicxml2mxmltree musicxml/mxmltree musicxml/mxmltree2msr musicxml/msr2mxmltree interface/musicxml/musicxml2mxmltree  interface/musicxml/mxmltree2msr interface/musicxml/msr2mxmltree musicxml/xml2xml)
+	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml msr musicxml/musicxml2mxmltree musicxml/mxmltree musicxml/mxmltree2msr musicxml/msr2mxmltree interface/musicxml interface/musicxml/musicxml2mxmltree  interface/musicxml/mxmltree2msr interface/musicxml/msr2mxmltree musicxml/xml2xml)
 endif()
 
 if (LILY)

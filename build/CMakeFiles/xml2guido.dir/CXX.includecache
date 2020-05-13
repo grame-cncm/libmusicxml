@@ -6,33 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/Users/menu/libmusicxml-git/samples/xml2guido.cpp
-iostream
--
-fstream
--
-string
--
-stdlib.h
--
-string.h
--
-signal.h
--
-libmusicxml.h
-/Users/menu/libmusicxml-git/samples/libmusicxml.h
-
-/Users/menu/libmusicxml-git/src/elements/exports.h
-
-/Users/menu/libmusicxml-git/src/interface/libmusicxml.h
-iostream
--
-string
--
-vector
--
-stdio.h
--
-exports.h
-/Users/menu/libmusicxml-git/src/interface/exports.h
-

@@ -6,25 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/Users/menu/libmusicxml-git/samples/xmlversion.cpp
-stdlib.h
--
-iostream
--
-libmusicxml.h
-/Users/menu/libmusicxml-git/samples/libmusicxml.h
-
-/Users/menu/libmusicxml-git/src/elements/exports.h
-
-/Users/menu/libmusicxml-git/src/interface/libmusicxml.h
-iostream
--
-string
--
-vector
--
-stdio.h
--
-exports.h
-/Users/menu/libmusicxml-git/src/interface/exports.h
-

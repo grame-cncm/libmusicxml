@@ -1807,6 +1807,24 @@ Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInter
 .PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s
 
 # target to build an object file
+Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s
+
+# target to build an object file
 Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
@@ -4813,6 +4831,9 @@ help:
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.i"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2musicxml.s"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.i"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.s"
